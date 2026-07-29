@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  themed,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
@@ -24,12 +31,37 @@ function getStyleProperty(element: Element, propertyName: string): string {
   return getComputedStyle(element).getPropertyValue(propertyName).trim();
 }
 
+describe("defaults", () => {
+  defaults(() => mount("calcite-field-set"), {
+    disabled: false,
+    layout: "vertical",
+    prefixAutoWidth: false,
+    scale: "m",
+    suffixAutoWidth: false,
+  });
+});
+
+describe("reflects", () => {
+  reflects(() => mount("calcite-field-set"), {
+    columns: 4,
+    disabled: true,
+    layout: "columns",
+    prefixAutoWidth: true,
+    scale: "s",
+    suffixAutoWidth: true,
+  });
+});
+
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-field-set"));
 });
 
 describe("renders", () => {
   renders(() => mount("calcite-field-set"), { display: "block" });
+});
+
+describe("slots", () => {
+  slots(() => mount("calcite-field-set"), ["legend"], true);
 });
 
 describe("structure", () => {
@@ -63,40 +95,22 @@ describe("layout", () => {
 });
 
 describe("propagation", () => {
-  it("propagates scale to slotted Input, Text Area, Label, and Inline Editable components", async () => {
+  it("propagates scale to slotted Input component", async () => {
     const { el } = await mount(
       <calcite-field-set scale="s">
         <calcite-input id="direct" />
-        <calcite-label>
-          Label
+        <div>
           <calcite-input id="nested" />
-        </calcite-label>
-        <calcite-text-area id="text-area" />
-        <calcite-inline-editable>
-          <calcite-input
-            label-text="Editable"
-            placeholder="Business District Tree Survey"
-            value="Business District Tree Survey"
-          />
-        </calcite-inline-editable>
+        </div>
+        <calcite-input id="trailing" />
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
     const inputs = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-input"));
-    const textAreas = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-text-area"));
-    const labels = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-label"));
-    const inlineEditableComponents = Array.from(
-      fieldSet.querySelectorAll<UpdatableElement>("calcite-inline-editable"),
-    );
 
-    await Promise.all(
-      [...inputs, ...textAreas, ...labels, ...inlineEditableComponents].map(waitForUpdate),
-    );
+    await Promise.all([...inputs].map(waitForUpdate));
 
     expect(inputs.map((input) => input.scale)).toEqual(["s", "s", "s"]);
-    expect(textAreas.map((textArea) => textArea.scale)).toEqual(["s"]);
-    expect(labels.map((label) => label.scale)).toEqual(["s"]);
-    expect(inlineEditableComponents.map((inlineEditable) => inlineEditable.scale)).toEqual(["s"]);
   });
 
   it("disables slotted inputs and restores their prior disabled state", async () => {
@@ -126,28 +140,46 @@ describe("propagation", () => {
   });
 });
 
-describe("styling", () => {
-  it("applies legend text color from the CSS custom property", async () => {
-    const { el } = await mount(
-      <calcite-field-set style="--calcite-field-set-legend-text-color: rgb(0, 0, 255);">
-        <div slot="legend">Legend text</div>
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const legend = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
+describe("theme", () => {
+  themed(
+    () =>
+      mount(
+        <calcite-field-set>
+          <div slot="legend">Legend text</div>
+          <calcite-input />
+        </calcite-field-set>,
+      ),
+    {
+      "--calcite-field-set-gap": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
+      "--calcite-field-set-input-gap": {
+        shadowSelector: `.${CSS.fieldWrapper}`,
+        targetProp: "gap",
+      },
+      "--calcite-field-set-legend-text-color": {
+        shadowSelector: `.${CSS.legend}`,
+        targetProp: "color",
+      },
+    },
+  );
 
-    expect(getComputedStyle(legend).color).toBe("rgb(0, 0, 255)");
-  });
-
-  it("applies spacing from the CSS custom property", async () => {
-    const { el } = await mount(<calcite-field-set style="--calcite-field-set-space: 40px;" />);
-    const fieldSet = el as unknown as FieldSetElement;
-    const fieldWrapper = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
-    const computedStyle = getComputedStyle(fieldWrapper);
-
-    expect(computedStyle.columnGap).toBe("40px");
-    expect(computedStyle.rowGap).toBe("40px");
-  });
+  themed(
+    () =>
+      mount(
+        <calcite-field-set columns={2} layout="columns">
+          <calcite-input />
+          <calcite-input />
+        </calcite-field-set>,
+      ),
+    {
+      "--calcite-field-set-column-gap": {
+        shadowSelector: `.${CSS.fieldWrapper}`,
+        targetProp: "columnGap",
+      },
+    },
+  );
 });
 
 describe("affix width coordination", () => {

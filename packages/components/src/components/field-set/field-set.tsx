@@ -91,48 +91,6 @@ export class FieldSet extends LitElement {
     );
   }
 
-  private get labels(): (HTMLElement & { scale?: Scale })[] {
-    return (
-      this.slottedElements.flatMap((element) => {
-        if (element.matches("calcite-label")) {
-          return [element];
-        }
-
-        return Array.from(
-          element.querySelectorAll<HTMLElement & { scale?: Scale }>("calcite-label"),
-        );
-      }) ?? []
-    );
-  }
-
-  private get textAreas(): (HTMLElement & { scale?: Scale })[] {
-    return (
-      this.slottedElements.flatMap((element) => {
-        if (element.matches("calcite-text-area")) {
-          return [element];
-        }
-
-        return Array.from(
-          element.querySelectorAll<HTMLElement & { scale?: Scale }>("calcite-text-area"),
-        );
-      }) ?? []
-    );
-  }
-
-  private get inlineEditableComponents(): (HTMLElement & { scale?: Scale })[] {
-    return (
-      this.slottedElements.flatMap((element) => {
-        if (element.matches("calcite-inline-editable")) {
-          return [element];
-        }
-
-        return Array.from(
-          element.querySelectorAll<HTMLElement & { scale?: Scale }>("calcite-inline-editable"),
-        );
-      }) ?? []
-    );
-  }
-
   private get slottedElements(): HTMLElement[] {
     const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>("slot:not([name])");
 
@@ -237,18 +195,6 @@ export class FieldSet extends LitElement {
   }
 
   private syncInputsScale(): void {
-    this.labels.forEach((label) => {
-      label.scale = this.scale;
-    });
-
-    this.inlineEditableComponents.forEach((inlineEditableComponent) => {
-      inlineEditableComponent.scale = this.scale;
-    });
-
-    this.textAreas.forEach((textArea) => {
-      textArea.scale = this.scale;
-    });
-
     this.inputs.forEach((input) => {
       input.scale = this.scale;
     });

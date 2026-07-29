@@ -86,9 +86,9 @@ export default {
 
 export const simple = (args: FieldSetStoryArgs): string => {
   const style = [
-    args.columnGap ? `--calcite-field-set-column-space: ${args.columnGap};` : "",
-    args.gap ? `--calcite-field-set-space: ${args.gap};` : "",
-    args.inputGap ? `--calcite-field-set-input-space: ${args.inputGap};` : "",
+    args.columnGap ? `--calcite-field-set-column-gap: ${args.columnGap};` : "",
+    args.gap ? `--calcite-field-set-gap: ${args.gap};` : "",
+    args.inputGap ? `--calcite-field-set-input-gap: ${args.inputGap};` : "",
     args.legendTextColor ? `--calcite-field-set-legend-text-color: ${args.legendTextColor};` : "",
   ]
     .filter(Boolean)

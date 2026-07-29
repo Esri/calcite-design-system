@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-field-set-column-space: When `layout` is `"columns"`, specifies the component's column gap.
+ * @prop --calcite-field-set-column-gap: When `layout` is `"columns"`, specifies the component's column gap.
  * @prop --calcite-field-set-columns: When `layout` is `"columns"`, specifies the component's number of columns.
- * @prop --calcite-field-set-input-space: Specifies the gap between the component's slotted elements.
+ * @prop --calcite-field-set-input-gap: Specifies the gap between the component's slotted elements.
  * @prop --calcite-field-set-legend-text-color: Specifies the legend text color.
- * @prop --calcite-field-set-space: Specifies the gap between the legend, input slot wrapper and notice slot.
+ * @prop --calcite-field-set-gap: Specifies the gap between the legend, input slot wrapper and notice slot.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -26,7 +26,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--calcite-field-set-space, var(--calcite-space-md));
+  gap: var(--calcite-field-set-gap, var(--calcite-space-md));
   padding: 0;
   border: 0;
   margin: 0;
@@ -56,24 +56,18 @@
   flex-direction: row;
 }
 
-.field-wrapper--columns {
-  display: grid;
-  place-content: stretch;
-  grid-template-columns: repeat(
-    var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 2)),
-    minmax(0, 1fr)
-  );
-  column-gap: var(--calcite-field-set-column-space, var(--calcite-field-set-input-space, var(--calcite-space-lg)));
-}
-
 :host([scale="s"]) {
   .legend {
     font-size: var(--calcite-font-size-sm);
     line-height: var(--calcite-font-line-height-fixed-base);
   }
 
-  .field-wrapper {
-    gap: var(--calcite-field-set-input-space, var(--calcite-space-sm));
+  .field-wrapper:not(.field-wrapper--columns) {
+    gap: var(--calcite-field-set-input-gap, var(--calcite-space-sm));
+  }
+
+  .field-wrapper.field-wrapper--columns {
+    row-gap: var(--calcite-field-set-input-gap, var(--calcite-space-sm));
   }
 }
 
@@ -83,8 +77,12 @@
     line-height: var(--calcite-font-line-height-fixed-base);
   }
 
-  .field-wrapper {
-    gap: var(--calcite-field-set-input-space, var(--calcite-space-md));
+  .field-wrapper:not(.field-wrapper--columns) {
+    gap: var(--calcite-field-set-input-gap, var(--calcite-space-md));
+  }
+
+  .field-wrapper.field-wrapper--columns {
+    row-gap: var(--calcite-field-set-input-gap, var(--calcite-space-md));
   }
 }
 
@@ -94,9 +92,23 @@
     line-height: var(--calcite-font-line-height-fixed-lg);
   }
 
-  .field-wrapper {
-    gap: var(--calcite-field-set-input-space, var(--calcite-space-lg));
+  .field-wrapper:not(.field-wrapper--columns) {
+    gap: var(--calcite-field-set-input-gap, var(--calcite-space-lg));
   }
+
+  .field-wrapper.field-wrapper--columns {
+    row-gap: var(--calcite-field-set-input-gap, var(--calcite-space-lg));
+  }
+}
+
+.field-wrapper.field-wrapper--columns {
+  display: grid;
+  place-content: stretch;
+  grid-template-columns: repeat(
+    var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 2)),
+    minmax(0, 1fr)
+  );
+  column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap, var(--calcite-space-lg)));
 }
 
 @for $i from 1 through 6 {
