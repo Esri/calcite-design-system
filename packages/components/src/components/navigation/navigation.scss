@@ -115,6 +115,14 @@ slot[name="content-end"]::slotted(*) {
   @apply flex flex-row items-center;
 }
 
+slot[name="content-start"]::slotted(calcite-action),
+slot[name="content-center"]::slotted(calcite-action),
+slot[name="content-end"]::slotted(calcite-action),
+slot[name="navigation-action"]::slotted(calcite-action) {
+  @apply flex-none;
+  min-inline-size: max-content;
+}
+
 slot[name="progress"],
 slot[name="progress"] calcite-progress {
   inset-block-start: 0;
@@ -150,6 +158,7 @@ slot[name="content-end"] ~ slot[name="user"] {
 }
 
 slot[name="navigation-action"] calcite-action {
-  @apply self-center;
+  @apply self-center flex-none;
+  min-inline-size: max-content;
   margin-inline-start: var(--calcite-internal-navigation-navigation-action-margin-inline);
 }
