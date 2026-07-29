@@ -1137,6 +1137,17 @@ describe("nested selection modes", () => {
       expect(rootListThreeTopItem).toHaveProperty("setSize", 1);
     };
 
+    const rootItemSetPropertiesSettled = (): boolean => {
+      return (
+        rootListOneTopItem.setPosition === 1 &&
+        rootListOneTopItem.setSize === 1 &&
+        rootListTwoTopItem.setPosition === 1 &&
+        rootListTwoTopItem.setSize === 1 &&
+        rootListThreeTopItem.setPosition === 1 &&
+        rootListThreeTopItem.setSize === 1
+      );
+    };
+
     const assertAllNestedProperties = (): void => {
       assertSelectionModes();
       assertRootItemSetProperties();
@@ -1173,17 +1184,18 @@ describe("nested selection modes", () => {
 
     const waitForNestedPropertiesToSettle = async (): Promise<void> => {
       await vi.waitUntil(async () => {
-        if (nestedPropertiesSettled()) {
+        if (nestedPropertiesSettled() && rootItemSetPropertiesSettled()) {
           return true;
         }
 
         await afterNextTask();
         await afterNextFrame();
-        return nestedPropertiesSettled();
+        return nestedPropertiesSettled() && rootItemSetPropertiesSettled();
       });
     };
 
     // Assert immediately after initial render.
+    await waitForNestedPropertiesToSettle();
     assertSelectionModes();
     assertRootItemSetProperties();
 
