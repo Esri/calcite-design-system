@@ -419,10 +419,6 @@ export class Autocomplete
     connectFloatingUI(this);
   }
 
-  async load(): Promise<void> {
-    this.getAllItems();
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange(this.disabled);

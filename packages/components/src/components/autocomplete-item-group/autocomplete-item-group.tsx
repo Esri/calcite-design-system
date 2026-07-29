@@ -87,11 +87,6 @@ export class AutocompleteItemGroup extends LitElement {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    this.updateItems();
-  }
-
   loaded(): void {
     this.updateItems();
   }
