@@ -141,6 +141,9 @@
     "@nx/nx-win32-x64-msvc": "21.6.11"
   },
   "overrides": {
+    "@unrs/resolver-binding-wasm32-wasi": {
+      "@napi-rs/wasm-runtime": "1.1.4"
+    },
     "stylelint-use-logical-spec": {
       "stylelint": "17.13.0"
     }
