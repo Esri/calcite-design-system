@@ -14,6 +14,7 @@ import { CSS } from "./resources";
 type UpdatableElement = HTMLElement & {
   disabled?: boolean;
   prefixAutoWidth?: boolean;
+  readOnly?: boolean;
   scale?: string;
   suffixAutoWidth?: boolean;
   updateComplete?: Promise<unknown>;
@@ -36,6 +37,7 @@ describe("defaults", () => {
     disabled: false,
     layout: "vertical",
     prefixAutoWidth: false,
+    readOnly: false,
     scale: "m",
     suffixAutoWidth: false,
   });
@@ -47,6 +49,7 @@ describe("reflects", () => {
     disabled: true,
     layout: "columns",
     prefixAutoWidth: true,
+    readOnly: true,
     scale: "s",
     suffixAutoWidth: true,
   });
@@ -57,7 +60,15 @@ describe("honors hidden attribute", () => {
 });
 
 describe("renders", () => {
-  renders(() => mount("calcite-field-set"), { display: "block" });
+  renders(
+    () =>
+      mount(
+        <calcite-field-set>
+          <calcite-input />
+        </calcite-field-set>,
+      ),
+    { display: "block" },
+  );
 });
 
 describe("slots", () => {
@@ -68,10 +79,26 @@ describe("structure", () => {
   it("renders a fieldset with a legend", async () => {
     const { el } = await mount<"calcite-field-set">(<calcite-field-set />);
     const container = el.shadowRoot.querySelector<HTMLElement>(".container")!;
-    const legend = el.shadowRoot.querySelector<HTMLElement>(".legend")!;
 
-    expect(legend.tagName).toBe("LEGEND");
+    expect(el.shadowRoot.querySelector(".legend")).toBeNull();
+    expect(container.hasAttribute("aria-labelledby")).toBe(false);
     expect(container.tagName).toBe("FIELDSET");
+  });
+
+  it("only includes aria-labelledby when the legend slot is populated", async () => {
+    const { el } = await mount<"calcite-field-set">(
+      <calcite-field-set>
+        <div slot="legend">Legend text</div>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const container = fieldSet.shadowRoot.querySelector<HTMLElement>(".container")!;
+    const legend = fieldSet.shadowRoot.querySelector<HTMLElement>(".legend")!;
+
+    await vi.waitFor(() => {
+      expect(legend.tagName).toBe("DIV");
+      expect(container.getAttribute("aria-labelledby")).toBe(legend.id);
+    });
   });
 });
 
@@ -137,6 +164,32 @@ describe("propagation", () => {
 
     expect(enabledInput.disabled).toBe(false);
     expect(disabledInput.disabled).toBe(true);
+  });
+
+  it("sets slotted inputs to read-only and restores their prior read-only state", async () => {
+    const { el } = await mount(
+      <calcite-field-set>
+        <calcite-input id="editable" />
+        <calcite-input id="read-only" readOnly />
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const editableInput = fieldSet.querySelector<UpdatableElement>("#editable")!;
+    const readOnlyInput = fieldSet.querySelector<UpdatableElement>("#read-only")!;
+
+    fieldSet.readOnly = true;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
+
+    expect(editableInput.readOnly).toBe(true);
+    expect(readOnlyInput.readOnly).toBe(true);
+
+    fieldSet.readOnly = false;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
+
+    expect(editableInput.readOnly).toBe(false);
+    expect(readOnlyInput.readOnly).toBe(true);
   });
 });
 

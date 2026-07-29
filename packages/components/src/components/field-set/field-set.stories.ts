@@ -7,6 +7,7 @@ type FieldSetStoryArgs = {
   inputGap?: string;
   gap?: string;
   columnGap?: string;
+  readOnly: boolean;
   scale: "s" | "m" | "l";
   layout: "vertical" | "horizontal" | "columns";
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -15,9 +16,17 @@ type FieldSetStoryArgs = {
 };
 
 const hiddenCustomSpacingArgTypes = Object.fromEntries(
-  ["columns", "disabled", "layout", "legendText", "legendTextColor", "prefixAutoWidth", "scale", "suffixAutoWidth"].map(
-    (key) => [key, { table: { disable: true }, control: false }],
-  ),
+  [
+    "columns",
+    "disabled",
+    "layout",
+    "legendText",
+    "legendTextColor",
+    "prefixAutoWidth",
+    "readOnly",
+    "scale",
+    "suffixAutoWidth",
+  ].map((key) => [key, { table: { disable: true }, control: false }]),
 ) as Partial<Record<keyof FieldSetStoryArgs, { table: { disable: true }; control: false }>>;
 
 export default {
@@ -29,6 +38,7 @@ export default {
     disabled: false,
     legendText: "Field Set legend",
     legendTextColor: "",
+    readOnly: false,
     scale: "m",
     layout: "vertical",
     columns: 2,
@@ -66,6 +76,10 @@ export default {
     legendTextColor: {
       control: { type: "text" },
     },
+    readOnly: {
+      name: "read-only",
+      control: { type: "boolean" },
+    },
     prefixAutoWidth: {
       control: { type: "boolean" },
     },
@@ -98,6 +112,7 @@ export const simple = (args: FieldSetStoryArgs): string => {
     <calcite-field-set
       ${args.layout === "columns" && args.columns ? `columns="${args.columns}"` : ""}
       ${args.disabled ? "disabled" : ""}
+      ${args.readOnly ? "read-only" : ""}
       layout="${args.layout}"
       scale="${args.scale}"
       ${style ? `style="${style}"` : ""}
@@ -114,7 +129,7 @@ export const simple = (args: FieldSetStoryArgs): string => {
       <calcite-input label-text="Label" placeholder="Placeholder" disabled></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
-      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder" value="Sample value"></calcite-input>
     </calcite-field-set>
   `;
 };
@@ -149,6 +164,10 @@ layouts.parameters = { controls: { disable: true } };
 export const disabled = (args: FieldSetStoryArgs): string => simple(args);
 disabled.args = { disabled: true };
 disabled.parameters = { controls: { disable: true } };
+
+export const readOnly = (args: FieldSetStoryArgs): string => simple(args);
+readOnly.args = { readOnly: true };
+readOnly.parameters = { controls: { disable: true } };
 
 export const customSpacing = (args: FieldSetStoryArgs): string => simple(args);
 customSpacing.args = { columnGap: "50px", inputGap: "40px", gap: "80px", layout: "columns" };

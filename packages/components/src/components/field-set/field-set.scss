@@ -40,7 +40,6 @@
   line-height: var(--calcite-font-line-height-fixed-base);
   color: var(--calcite-field-set-legend-text-color, var(--calcite-color-text-1));
   min-block-size: var(--calcite-space-3xl);
-  float: inline-start; // TODO: this is a hack; consider using <div> instead of <legend>
 }
 
 .field-wrapper {

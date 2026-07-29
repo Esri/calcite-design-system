@@ -1,8 +1,9 @@
 import type { PropertyValues } from "lit";
-import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
+import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
 import type { Input } from "../input/input";
 import type { Scale } from "../interfaces";
 import { getSlotAssignedElements, getStylePixelValue } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -25,59 +26,21 @@ declare global {
  * @slot legend - A slot for adding legend content.
  */
 export class FieldSet extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private inputDisabledState = new WeakMap<Input["el"], boolean>();
 
-  // #endregion
+  private inputReadOnlyState = new WeakMap<Input["el"], boolean>();
 
-  // #region Public Properties
+  private legendId = `calcite-field-set-legend-${guid()}`;
 
-  /** When `layout` is `"columns"`, specifies the number of columns. */
-  @property({ type: Number, reflect: true }) columns?: Columns;
-
-  /** When `true`, disables the slotted inputs. */
-  @property({ reflect: true }) disabled = false;
-
-  /** Specifies the component layout. */
-  @property({ reflect: true }) layout: Layout = "vertical";
-
-  /** When `true`, slotted input prefixes share the same width. */
-  @property({ reflect: true }) prefixAutoWidth = false;
-
-  /** Specifies the scale of the slotted inputs. */
-  @property({ reflect: true }) scale: Scale = "m";
-
-  /** When `true`, slotted input suffixes share the same width. */
-  @property({ reflect: true }) suffixAutoWidth = false;
-
-  // #endregion
-
-  // #region Lifecycle
-
-  override updated(changes: PropertyValues<this>): void {
-    if (changes.has("disabled")) {
-      this.syncInputsDisabledState(changes.get("disabled"));
-    }
-
-    if (changes.has("scale")) {
-      this.syncInputsScale();
-    }
-
-    if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
-      void this.syncInputsAffixWidths();
-    }
-  }
-
-  // #endregion
-
-  // #region Private Methods
+  private legendObserver: MutationObserver | undefined;
 
   private get inputs(): Input["el"][] {
     return (
@@ -97,8 +60,92 @@ export class FieldSet extends LitElement {
     return slot ? getSlotAssignedElements<HTMLElement>(slot) : [];
   }
 
+  //#endregion
+
+  //#region State Properties
+
+  @state() private hasLegend = false;
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** When `layout` is `"columns"`, specifies the number of columns. */
+  @property({ type: Number, reflect: true }) columns?: Columns;
+
+  /** When `true`, disables the slotted inputs. */
+  @property({ reflect: true }) disabled = false;
+
+  /** Specifies the component layout. */
+  @property({ reflect: true }) layout: Layout = "vertical";
+
+  /** When `true`, sets slotted inputs to read-only. */
+  @property({ reflect: true }) readOnly = false;
+
+  /** When `true`, slotted input prefixes share the same width. */
+  @property({ reflect: true }) prefixAutoWidth = false;
+
+  /** Specifies the scale of the slotted inputs. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** When `true`, slotted input suffixes share the same width. */
+  @property({ reflect: true }) suffixAutoWidth = false;
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+
+    this.syncHasLegend();
+
+    this.legendObserver = new MutationObserver(() => {
+      this.syncHasLegend();
+    });
+
+    this.legendObserver.observe(this.el, {
+      attributes: true,
+      attributeFilter: ["slot"],
+      childList: true,
+    });
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("disabled")) {
+      this.syncInputsDisabledState(changes.get("disabled"));
+    }
+
+    if (changes.has("scale")) {
+      this.syncInputsScale();
+    }
+
+    if (changes.has("readOnly")) {
+      this.syncInputsReadOnlyState(changes.get("readOnly"));
+    }
+
+    if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
+      void this.syncInputsAffixWidths();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    this.legendObserver?.disconnect();
+    this.legendObserver = undefined;
+
+    super.disconnectedCallback();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
   private getInputDisabledState(input: Input["el"]): boolean {
     return input.hasAttribute("disabled") || input.disabled;
+  }
+
+  private getInputReadOnlyState(input: Input["el"]): boolean {
+    return input.hasAttribute("read-only") || input.readOnly;
   }
 
   private async getInputAffixWidth(
@@ -146,6 +193,7 @@ export class FieldSet extends LitElement {
 
   private handleInputSlotChange(): void {
     this.syncInputsDisabledState();
+    this.syncInputsReadOnlyState();
     this.syncInputsScale();
     void this.syncInputsAffixWidths();
   }
@@ -200,16 +248,56 @@ export class FieldSet extends LitElement {
     });
   }
 
-  // #endregion
+  private syncInputsReadOnlyState(previousReadOnly = this.readOnly): void {
+    const wasReadOnly = previousReadOnly;
 
-  // #region Rendering
+    this.inputs?.forEach((input) => {
+      if (this.readOnly) {
+        if (!wasReadOnly || !this.inputReadOnlyState.has(input)) {
+          this.inputReadOnlyState.set(input, this.getInputReadOnlyState(input));
+        }
+
+        input.toggleAttribute("read-only", true);
+        input.readOnly = true;
+        return;
+      }
+
+      if (!wasReadOnly) {
+        this.inputReadOnlyState.set(input, this.getInputReadOnlyState(input));
+        return;
+      }
+
+      const inputReadOnly = this.inputReadOnlyState.get(input);
+      const nextReadOnly = inputReadOnly ?? this.getInputReadOnlyState(input);
+
+      input.toggleAttribute("read-only", nextReadOnly);
+      input.readOnly = nextReadOnly;
+      this.inputReadOnlyState.set(input, nextReadOnly);
+    });
+  }
+
+  private syncHasLegend(): void {
+    this.hasLegend = Array.from(this.el.children).some(
+      (element) => element.getAttribute("slot") === "legend",
+    );
+  }
+
+  //#endregion
+
+  //#region Rendering
 
   override render(): JsxNode {
     return (
-      <fieldset class={CSS.container} disabled={this.disabled}>
-        <legend class={CSS.legend}>
-          <slot name="legend" />
-        </legend>
+      <fieldset
+        aria-labelledby={this.hasLegend ? this.legendId : undefined}
+        class={CSS.container}
+        disabled={this.disabled}
+      >
+        {this.hasLegend ? (
+          <div class={CSS.legend} id={this.legendId}>
+            <slot name="legend" />
+          </div>
+        ) : null}
         <div
           class={{
             [CSS.fieldWrapper]: true,
@@ -224,5 +312,5 @@ export class FieldSet extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }
