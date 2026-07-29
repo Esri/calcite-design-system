@@ -1,12 +1,23 @@
 import { type PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import type { Dialog } from "../dialog/dialog";
 import type { Sheet } from "../sheet/sheet";
 import type { Alert } from "../alert/alert";
-import type { ShellPanel } from "../shell-panel/shell-panel";
+import type { ShellPanel, ShellPanelSizingData } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
+
+type ShellPanelWithSizingProvider = ShellPanel["el"] & {
+  shellSizingDataProvider?: (axis: "inline" | "block") => ShellPanelSizingData | null;
+};
+
+type Bounds = Pick<DOMRectReadOnly, "bottom" | "left" | "right" | "top">;
 
 const panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
 
@@ -38,6 +49,16 @@ export class Shell extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private panelBottomSlotRef = createRef<HTMLSlotElement>();
+
+  private panelEndSlotRef = createRef<HTMLSlotElement>();
+
+  private panelStartSlotRef = createRef<HTMLSlotElement>();
+
+  private panelTopSlotRef = createRef<HTMLSlotElement>();
 
   private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][]; resizable: boolean }> =
     {
@@ -187,12 +208,118 @@ export class Shell extends LitElement {
       });
   }
 
+  private configurePanels(
+    panels: ShellPanel["el"][],
+    layout: Extract<"horizontal" | "vertical", ShellPanel["layout"]>,
+    position: Extract<"start" | "end", ShellPanel["position"]>,
+  ): void {
+    panels.forEach((panel) => {
+      const sizingPanel = panel as ShellPanelWithSizingProvider;
+
+      panel.layout = layout;
+      panel.position = position;
+      sizingPanel.shellSizingDataProvider = (axis) => this.getShellPanelSizingData(panel, axis);
+    });
+  }
+
+  private getDefaultSlotMinSize(axis: "inline" | "block"): number {
+    return (
+      this.defaultSlotRef.value?.assignedElements({ flatten: true }).reduce((total, element) => {
+        const computedStyle = window.getComputedStyle(element);
+
+        return axis === "inline"
+          ? total +
+              getStylePixelValue(computedStyle.borderInlineStartWidth) +
+              getStylePixelValue(computedStyle.borderInlineEndWidth)
+          : total +
+              getStylePixelValue(computedStyle.borderBlockStartWidth) +
+              getStylePixelValue(computedStyle.borderBlockEndWidth);
+      }, 0) ?? 0
+    );
+  }
+
+  private getDefaultSlotBounds(): Bounds | null {
+    const defaultSlotElements =
+      this.defaultSlotRef.value?.assignedElements({ flatten: true }) ?? [];
+
+    if (!defaultSlotElements.length) {
+      return null;
+    }
+
+    return defaultSlotElements.reduce<Bounds | null>((bounds, element) => {
+      const rect = element.getBoundingClientRect();
+
+      return bounds
+        ? {
+            bottom: Math.max(bounds.bottom, rect.bottom),
+            left: Math.min(bounds.left, rect.left),
+            right: Math.max(bounds.right, rect.right),
+            top: Math.min(bounds.top, rect.top),
+          }
+        : {
+            bottom: rect.bottom,
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+          };
+    }, null);
+  }
+
+  private getShellPanelSizingData(
+    panel: ShellPanel["el"],
+    axis: "inline" | "block",
+  ): ShellPanelSizingData | null {
+    const panelLayoutContainer = panel.assignedSlot?.parentElement;
+
+    if (!panelLayoutContainer) {
+      return null;
+    }
+
+    const containerRect = panelLayoutContainer.getBoundingClientRect();
+    const defaultSlotRect = this.getDefaultSlotBounds();
+
+    if (!defaultSlotRect) {
+      return {
+        availableSize: axis === "inline" ? containerRect.width : containerRect.height,
+      };
+    }
+
+    const defaultSlotMinSize = this.getDefaultSlotMinSize(axis);
+    const isRTL = window.getComputedStyle(this).direction === "rtl";
+    let availableOccupiedSize: number;
+
+    if (axis === "inline") {
+      const isStart = panel.position === "start";
+      availableOccupiedSize = isRTL
+        ? isStart
+          ? containerRect.right - defaultSlotRect.left
+          : defaultSlotRect.right - containerRect.left
+        : isStart
+          ? defaultSlotRect.right - containerRect.left
+          : containerRect.right - defaultSlotRect.left;
+    } else {
+      availableOccupiedSize =
+        panel.position === "start"
+          ? defaultSlotRect.bottom - containerRect.top
+          : containerRect.bottom - defaultSlotRect.top;
+    }
+    const availableSize = Math.max(
+      Math.floor(availableOccupiedSize) - Math.ceil(defaultSlotMinSize),
+      0,
+    );
+
+    return {
+      availableSize,
+    };
+  }
+
   private handlePanelTopChange(event: Event): void {
     const panelElements = slotChangeGetAssignedElements(event).filter(
       (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
     );
 
     this.hasPanelTop = slotChangeHasAssignedElement(event);
+    this.configurePanels(panelElements, "horizontal", "start");
     panelElements.forEach((el) => {
       el.layout = "horizontal";
       el.position = "start";
@@ -206,6 +333,7 @@ export class Shell extends LitElement {
     );
 
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
+    this.configurePanels(panelElements, "horizontal", "end");
     panelElements.forEach((el) => {
       el.layout = "horizontal";
       el.position = "end";
@@ -218,6 +346,7 @@ export class Shell extends LitElement {
       (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
     );
 
+    this.configurePanels(panelElements, "vertical", "start");
     panelElements.forEach((el) => {
       el.layout = "vertical";
       el.position = "start";
@@ -230,6 +359,7 @@ export class Shell extends LitElement {
       (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
     );
 
+    this.configurePanels(panelElements, "vertical", "end");
     panelElements.forEach((el) => {
       el.layout = "vertical";
       el.position = "end";
@@ -315,7 +445,7 @@ export class Shell extends LitElement {
 
   private renderContent(): JsxNode {
     const { panelIsResizing } = this;
-    const defaultSlotNode: JsxNode = <slot key="default-slot" />;
+    const defaultSlotNode: JsxNode = <slot key="default-slot" ref={this.defaultSlotRef} />;
     const defaultSlotContainerNode = panelIsResizing ? (
       <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>
     ) : (
@@ -326,10 +456,16 @@ export class Shell extends LitElement {
         key="panel-bottom-slot"
         name={SLOTS.panelBottom}
         onSlotChange={this.handlePanelBottomChange}
+        ref={this.panelBottomSlotRef}
       />
     );
     const panelTopSlotNode: JsxNode = (
-      <slot key="panel-top-slot" name={SLOTS.panelTop} onSlotChange={this.handlePanelTopChange} />
+      <slot
+        key="panel-top-slot"
+        name={SLOTS.panelTop}
+        onSlotChange={this.handlePanelTopChange}
+        ref={this.panelTopSlotRef}
+      />
     );
 
     const contentContainerKey = "content-container";
@@ -379,9 +515,17 @@ export class Shell extends LitElement {
           [CSS.hasResizablePanelTop]: this.hasResizablePanelTop,
         }}
       >
-        <slot name={SLOTS.panelStart} onSlotChange={this.handlePanelStartChange} />
+        <slot
+          name={SLOTS.panelStart}
+          onSlotChange={this.handlePanelStartChange}
+          ref={this.panelStartSlotRef}
+        />
         {this.renderContent()}
-        <slot name={SLOTS.panelEnd} onSlotChange={this.handlePanelEndChange} />
+        <slot
+          name={SLOTS.panelEnd}
+          onSlotChange={this.handlePanelEndChange}
+          ref={this.panelEndSlotRef}
+        />
       </div>
     );
   }

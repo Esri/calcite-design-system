@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButton } from "./radio-button";
@@ -7,7 +7,7 @@ const { scale, status } = ATTRIBUTES;
 
 interface RadioButtonStoryArgs extends Pick<
   RadioButton,
-  "checked" | "disabled" | "focused" | "label" | "scale" | "status" | "validationMessage"
+  "checked" | "disabled" | "focused" | "label" | "labelText" | "required" | "scale" | "status" | "validationMessage"
 > {
   hidden: boolean;
 }
@@ -19,6 +19,8 @@ export default {
     disabled: false,
     hidden: false,
     focused: false,
+    labelText: "Label text",
+    required: false,
     scale: scale.defaultValue,
     label: "Radio Button",
     status: status.defaultValue,
@@ -37,20 +39,19 @@ export default {
 };
 
 export const simple = (args: RadioButtonStoryArgs): string => html`
-  <calcite-label layout="inline">
-    <calcite-radio-button
-      ${boolean("checked", args.checked)}
-      ${boolean("disabled", args.disabled)}
-      ${boolean("hidden", args.hidden)}
-      ${boolean("focused", args.focused)}
-      name="simple"
-      scale="${args.scale}"
-      status="${args.status}"
-      validation-message="${args.validationMessage}"
-      value="value"
-    ></calcite-radio-button>
-    ${args.label}
-  </calcite-label>
+  <calcite-radio-button
+    ${boolean("checked", args.checked)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
+    ${boolean("focused", args.focused)}
+    ${optionalAttribute("label-text", args.labelText)}
+    name="simple"
+    ${boolean("required", args.required)}
+    scale="${args.scale}"
+    status="${args.status}"
+    validation-message="${args.validationMessage}"
+    value="value"
+  ></calcite-radio-button>
 `;
 
 export const darkModeRTL = (): string => html`

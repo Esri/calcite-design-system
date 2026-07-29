@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.35...@esri/calcite-components@5.2.0-next.36) (2026-07-28)
+
+### Bug Fixes
+
+- **action-bar:** hide leading group border for action-start slot when wrapping ([#14879](https://github.com/Esri/calcite-design-system/issues/14879)), closes [#11000](https://github.com/Esri/calcite-design-system/issues/11000) [#14799](https://github.com/Esri/calcite-design-system/issues/14799)
+
+## [5.2.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.34...@esri/calcite-components@5.2.0-next.35) (2026-07-27)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.33...@esri/calcite-components@5.2.0-next.34) (2026-07-24)
+
+### Features
+
+- **slider:** add accessible label support ([#14845](https://github.com/Esri/calcite-design-system/issues/14845)), closes [#13529](https://github.com/Esri/calcite-design-system/issues/13529)
+
+## [5.2.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.32...@esri/calcite-components@5.2.0-next.33) (2026-07-24)
+
+### Features
+
+- **action-bar:** add `overflow-mode` property supporting collapse, wrap, and none ([#14799](https://github.com/Esri/calcite-design-system/issues/14799)), closes [#11000](https://github.com/Esri/calcite-design-system/issues/11000)
+
+## [5.2.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.31...@esri/calcite-components@5.2.0-next.32) (2026-07-24)
+
+### Bug Fixes
+
+- **shell-panel:** clamp resizable max size to account for action bars, sibling components, borders, float-all spacing ([#14787](https://github.com/Esri/calcite-design-system/issues/14787)), closes [#12009](https://github.com/Esri/calcite-design-system/issues/12009)
+
+## [5.2.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.30...@esri/calcite-components@5.2.0-next.31) (2026-07-24)
+
+### Bug Fixes
+
+- **action-bar:** support shadow-slotted actions and groups ([#14818](https://github.com/Esri/calcite-design-system/issues/14818)), closes [#14379](https://github.com/Esri/calcite-design-system/issues/14379) [#14379](https://github.com/Esri/calcite-design-system/issues/14379)
+- **date-picker:** clear date when value is unset ([#14796](https://github.com/Esri/calcite-design-system/issues/14796)), closes [#13607](https://github.com/Esri/calcite-design-system/issues/13607)
+
 ## [5.2.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.29...@esri/calcite-components@5.2.0-next.30) (2026-07-21)
 
 ### Bug Fixes

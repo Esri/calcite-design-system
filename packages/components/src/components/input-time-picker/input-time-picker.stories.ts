@@ -11,6 +11,7 @@ interface InputTimePickerStoryArgs extends Pick<
   | "clearable"
   | "disabled"
   | "hourFormat"
+  | "labelText"
   | "max"
   | "min"
   | "open"
@@ -35,6 +36,7 @@ export default {
     disabled: false,
     hidden: false,
     hourFormat: undefined,
+    labelText: "Label text",
     max: "",
     min: "",
     open: false,
@@ -78,6 +80,7 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
     hour-format="${args.hourFormat}"
+    ${optionalAttribute("label-text", args.labelText)}
     max="${args.max}"
     min="${args.min}"
     placeholder="${args.placeholder}"

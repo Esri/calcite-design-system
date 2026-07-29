@@ -28,7 +28,7 @@
           },
           "$type": "dimension",
           "$value": "{core.container-size.0}",
-          "$description": "Small handheld devices and mini-windows"
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-height-xxs-min`"
         },
         "max": {
           "attributes": {
@@ -36,7 +36,7 @@
           },
           "$type": "dimension",
           "$value": "{core.container-size.154}",
-          "$description": "Small handheld devices and mini-windows"
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-height-xxs-max`"
         }
       },
       "xs": {
@@ -150,7 +150,7 @@
           },
           "$type": "dimension",
           "$value": "{core.container-size.0}",
-          "$description": "Small handheld devices and mini-windows"
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-width-xxs-min`"
         },
         "max": {
           "attributes": {
@@ -158,7 +158,7 @@
           },
           "$type": "dimension",
           "$value": "{core.container-size.320}",
-          "$description": "Small handheld devices and mini-windows"
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-width-xxs-max`"
         }
       },
       "xs": {
