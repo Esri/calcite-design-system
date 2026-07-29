@@ -24,6 +24,7 @@ import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Autocomplete } from "./autocomplete";
+import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -392,7 +393,7 @@ describe("keyboard selection", () => {
     await expect.element(getSecondOption()).toBeInTheDocument();
     await expect.element(getSecondOption()).toHaveAttribute("aria-selected", "false");
 
-    const secondItem = el.children[1] as HTMLCalciteAutocompleteItemElement;
+    const secondItem = el.children[1] as AutocompleteItem["el"];
     secondItem.selected = true;
     await reRender();
 
@@ -414,7 +415,7 @@ describe("keyboard selection", () => {
     let secondOptionText = getSecondOption().element().textContent?.replace(/\s+/g, " ").trim();
     expect(secondOptionText).toContain("Item two");
 
-    const secondItem = el.children[1] as HTMLCalciteAutocompleteItemElement;
+    const secondItem = el.children[1] as AutocompleteItem["el"];
     secondItem.disabled = true;
     secondItem.description = "Updated description";
     secondItem.heading = "Updated heading";
