@@ -47,4 +47,5 @@
   border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();

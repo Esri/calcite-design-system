@@ -61,4 +61,5 @@
   @apply text-0h;
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();
