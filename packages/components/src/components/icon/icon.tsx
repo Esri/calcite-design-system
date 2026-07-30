@@ -52,11 +52,7 @@ export class Icon extends LitElement {
    *
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
-  @property({
-    reflect: true,
-    type: String,
-  })
-  icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, preloads the `icon` data. */
   @property({ reflect: true }) preload = false;
