@@ -16,7 +16,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--calcite-form-space, var(--calcite-space-md));
 }
 
 .divider {
@@ -30,7 +29,36 @@
 .button-container {
   display: flex;
   justify-content: flex-end;
-  gap: var(--calcite-space-sm);
+}
+
+:host([scale="s"]) {
+  .container {
+    gap: var(--calcite-form-space, var(--calcite-space-sm));
+  }
+
+  .button-container {
+    gap: var(--calcite-space-xs);
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    row-gap: var(--calcite-form-gap, var(--calcite-space-md));
+  }
+
+  .button-container {
+    gap: var(--calcite-space-sm);
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    row-gap: var(--calcite-form-gap, var(--calcite-space-lg));
+  }
+
+  .button-container {
+    gap: var(--calcite-space-md);
+  }
 }
 
 @include includes.base-component();

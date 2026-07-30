@@ -104,7 +104,7 @@
   display: grid;
   place-content: stretch;
   grid-template-columns: repeat(
-    var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 2)),
+    var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 1)),
     minmax(0, 1fr)
   );
   column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap, var(--calcite-space-lg)));

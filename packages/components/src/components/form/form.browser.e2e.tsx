@@ -4,6 +4,17 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { hidden, renders } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
+type ScaledElement = HTMLElement & {
+  disabled?: boolean;
+  readOnly?: boolean;
+  scale?: string;
+  updateComplete?: Promise<unknown>;
+};
+
+async function waitForUpdate(element: ScaledElement): Promise<void> {
+  await element.updateComplete;
+}
+
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-form"));
 });
@@ -87,5 +98,139 @@ describe("structure", () => {
       expect(fieldSets).toHaveLength(2);
       expect(buttons).toHaveLength(1);
     });
+  });
+
+  it("propagates scale to slotted field sets", async () => {
+    const { el } = await mount(
+      <calcite-form scale="s">
+        <calcite-field-set id="direct" />
+        <div>
+          <calcite-field-set id="nested" />
+        </div>
+      </calcite-form>,
+    );
+
+    const directFieldSet = el.querySelector<ScaledElement>("#direct")!;
+    const nestedFieldSet = el.querySelector<ScaledElement>("#nested")!;
+
+    await Promise.all([waitForUpdate(directFieldSet), waitForUpdate(nestedFieldSet)]);
+
+    expect(directFieldSet.scale).toBe("s");
+    expect(nestedFieldSet.scale).toBe("s");
+  });
+
+  it("propagates scale to a slotted notice", async () => {
+    const { el } = await mount(
+      <calcite-form scale="s">
+        <calcite-field-set />
+        <calcite-notice id="notice" slot="notice">
+          <div slot="message">Notice message</div>
+        </calcite-notice>
+      </calcite-form>,
+    );
+
+    const notice = el.querySelector<ScaledElement>("#notice")!;
+
+    await waitForUpdate(notice);
+
+    expect(notice.scale).toBe("s");
+  });
+
+  it("propagates scale to slotted buttons", async () => {
+    const { el } = await mount(
+      <calcite-form scale="s">
+        <calcite-field-set />
+        <calcite-button appearance="outline" id="cancel" slot="buttons">
+          Cancel
+        </calcite-button>
+        <calcite-button id="save" slot="buttons">
+          Save
+        </calcite-button>
+      </calcite-form>,
+    );
+
+    const cancelButton = el.querySelector<ScaledElement>("#cancel")!;
+    const saveButton = el.querySelector<ScaledElement>("#save")!;
+
+    await Promise.all([waitForUpdate(cancelButton), waitForUpdate(saveButton)]);
+
+    expect(cancelButton.scale).toBe("s");
+    expect(saveButton.scale).toBe("s");
+  });
+
+  it("disables slotted field sets and buttons and restores their prior disabled state", async () => {
+    const { el } = await mount(
+      <calcite-form>
+        <calcite-field-set id="enabled-field-set" />
+        <calcite-field-set disabled id="disabled-field-set" />
+        <calcite-button id="enabled-button" slot="buttons">
+          Save
+        </calcite-button>
+        <calcite-button disabled id="disabled-button" slot="buttons">
+          Cancel
+        </calcite-button>
+      </calcite-form>,
+    );
+
+    const form = el as HTMLElement & { disabled?: boolean; updateComplete?: Promise<unknown> };
+    const enabledFieldSet = el.querySelector<ScaledElement>("#enabled-field-set")!;
+    const disabledFieldSet = el.querySelector<ScaledElement>("#disabled-field-set")!;
+    const enabledButton = el.querySelector<ScaledElement>("#enabled-button")!;
+    const disabledButton = el.querySelector<ScaledElement>("#disabled-button")!;
+
+    form.disabled = true;
+    await waitForUpdate(form);
+    await Promise.all([
+      waitForUpdate(enabledFieldSet),
+      waitForUpdate(disabledFieldSet),
+      waitForUpdate(enabledButton),
+      waitForUpdate(disabledButton),
+    ]);
+
+    expect(enabledFieldSet.disabled).toBe(true);
+    expect(disabledFieldSet.disabled).toBe(true);
+    expect(enabledButton.disabled).toBe(true);
+    expect(disabledButton.disabled).toBe(true);
+
+    form.disabled = false;
+    await waitForUpdate(form);
+    await Promise.all([
+      waitForUpdate(enabledFieldSet),
+      waitForUpdate(disabledFieldSet),
+      waitForUpdate(enabledButton),
+      waitForUpdate(disabledButton),
+    ]);
+
+    expect(enabledFieldSet.disabled).toBe(false);
+    expect(disabledFieldSet.disabled).toBe(true);
+    expect(enabledButton.disabled).toBe(false);
+    expect(disabledButton.disabled).toBe(true);
+  });
+
+  it("sets slotted field sets to read-only and restores their prior read-only state", async () => {
+    const { el } = await mount(
+      <calcite-form>
+        <calcite-field-set id="editable-field-set" />
+        <calcite-field-set id="read-only-field-set" readOnly />
+      </calcite-form>,
+    );
+
+    const form = el as HTMLElement & { readOnly?: boolean; updateComplete?: Promise<unknown> };
+    const editableFieldSet = el.querySelector<ScaledElement>("#editable-field-set")!;
+    const readOnlyFieldSet = el.querySelector<ScaledElement>("#read-only-field-set")!;
+
+    form.readOnly = true;
+    await waitForUpdate(form);
+    await Promise.all([waitForUpdate(editableFieldSet), waitForUpdate(readOnlyFieldSet)]);
+
+    expect(editableFieldSet.readOnly).toBe(true);
+    expect(readOnlyFieldSet.readOnly).toBe(true);
+
+    form.readOnly = false;
+    await waitForUpdate(form);
+    await Promise.all([waitForUpdate(editableFieldSet), waitForUpdate(readOnlyFieldSet)]);
+
+    expect(editableFieldSet.readOnly).toBe(false);
+    expect(readOnlyFieldSet.readOnly).toBe(true);
   });
 });
