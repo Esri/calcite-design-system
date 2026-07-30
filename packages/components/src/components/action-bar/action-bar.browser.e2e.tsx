@@ -1320,12 +1320,8 @@ describe("slot-change action tracking", () => {
       </calcite-action-bar>,
     );
 
-    const defaultGroup = page
-      .getBySelector("calcite-action-group#default-group")
-      .element() as ActionGroup["el"];
-    const startGroup = page
-      .getBySelector("calcite-action-group#start-group[slot='actions-start']")
-      .element() as ActionGroup["el"];
+    const defaultGroup = page.getBySelector("calcite-action-group#default-group");
+    const startGroup = page.getBySelector("calcite-action-group#start-group[slot='actions-start']");
     const defaultTrigger = page.getBySelector(
       "calcite-action-group#default-group calcite-action[slot='trigger']",
     );
@@ -1337,11 +1333,11 @@ describe("slot-change action tracking", () => {
     await expect.element(startTrigger).toBeVisible();
 
     await defaultTrigger.click();
-    await expect.poll(() => defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", true);
 
     await startTrigger.click();
-    await expect.poll(() => startGroup.menuOpen).toBe(true);
-    await expect.poll(() => defaultGroup.menuOpen).toBe(false);
+    await expect.element(startGroup).toHaveProperty("menuOpen", true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", false);
   });
 
   it("closes default-slot group menu when a slotted actions-end group menu opens", async () => {
@@ -1358,12 +1354,8 @@ describe("slot-change action tracking", () => {
       </calcite-action-bar>,
     );
 
-    const defaultGroup = page
-      .getBySelector("calcite-action-group#default-group")
-      .element() as ActionGroup["el"];
-    const endGroup = page
-      .getBySelector("calcite-action-group#end-group[slot='actions-end']")
-      .element() as ActionGroup["el"];
+    const defaultGroup = page.getBySelector("calcite-action-group#default-group");
+    const endGroup = page.getBySelector("calcite-action-group#end-group[slot='actions-end']");
     const defaultTrigger = page.getBySelector(
       "calcite-action-group#default-group calcite-action[slot='trigger']",
     );
@@ -1375,11 +1367,11 @@ describe("slot-change action tracking", () => {
     await expect.element(endTrigger).toBeVisible();
 
     await defaultTrigger.click();
-    await expect.poll(() => defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", true);
 
     await endTrigger.click();
-    await expect.poll(() => endGroup.menuOpen).toBe(true);
-    await expect.poll(() => defaultGroup.menuOpen).toBe(false);
+    await expect.element(endGroup).toHaveProperty("menuOpen", true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", false);
   });
 
   it("closes other direct action-menus when one opens", async () => {
