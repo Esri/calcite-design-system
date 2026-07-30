@@ -85,7 +85,7 @@ export const config: ApiExtractorConfig = {
           const dragDescription = (component: string): string =>
             `When \`dragEnabled\` is \`true\` and multiple ${component} sorting is enabled with \`group\`, specifies the component's name for dragging between ${component}s.`;
 
-          const descriptionOverrides = {
+          const descriptionOverrides: Record<string, string> = {
             Avatar: `Specifies alternative text when \`thumbnail\` is defined, otherwise ${baseDescription.toLowerCase()}`,
             BlockGroup: `${baseDescription}\n\n${dragDescription("group")}`,
             List: `${baseDescription}\n\n${dragDescription("list")}`,
