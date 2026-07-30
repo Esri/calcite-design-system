@@ -160,7 +160,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** Specifies the component's description. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, the component is draggable. */

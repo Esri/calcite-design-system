@@ -318,7 +318,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

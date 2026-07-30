@@ -198,7 +198,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

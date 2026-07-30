@@ -388,8 +388,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -507,7 +506,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

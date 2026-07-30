@@ -135,8 +135,7 @@ export class Alert extends LitElement {
   > = "brand";
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

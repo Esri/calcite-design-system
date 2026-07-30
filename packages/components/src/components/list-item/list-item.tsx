@@ -172,7 +172,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property({ reflect: true }) interactionMode?: InteractionMode;
 
-  /** Specifies an accessible label for the component, displays above the `description`. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** @copyDoc */
