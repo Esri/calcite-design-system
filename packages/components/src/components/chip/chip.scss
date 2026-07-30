@@ -19,10 +19,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-action-height
 // --calcite-internal-action-min-height
-// --calcite-internal-action-padding-block
-// --calcite-internal-action-padding-inline
 // --calcite-internal-action-spacing
 // --calcite-internal-chip-background-color
 // --calcite-internal-chip-block-size
@@ -440,7 +437,7 @@
 }
 
 .image-container {
-  @apply inline-flex overflow-hidden flex-none;
+  @apply inline-flex overflow-hidden;
   align-items: center;
   justify-content: center;
   pointer-events: none;
@@ -451,7 +448,7 @@
 }
 
 .chip-icon {
-  @apply relative my-0 inline-flex ease-in-out flex-none;
+  @apply relative my-0 inline-flex ease-in-out;
   color: var(
     --calcite-chip-icon-color,
     var(--calcite-chip-text-color, var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor)))
@@ -460,7 +457,6 @@
 }
 
 .select-icon {
-  @apply flex-none;
   align-self: center;
   justify-content: center;
   align-items: center;
@@ -499,7 +495,6 @@
 }
 
 .close {
-  @apply flex-none;
   --calcite-action-background-color-hover: var(--calcite-internal-chip-close-background-color-hover);
   --calcite-action-background-color-press: var(--calcite-internal-chip-close-background-color-press);
   --calcite-action-corner-radius: var(--calcite-corner-radius-pill);
@@ -512,14 +507,8 @@
     var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color-hover))
   );
   --calcite-icon-color: var(--calcite-action-text-color);
-  --calcite-internal-action-height: var(--calcite-internal-close-size);
-  --calcite-internal-action-min-height: var(--calcite-internal-close-size);
-  --calcite-internal-action-padding-block: var(--calcite-spacing-none);
-  --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
+  --calcite-internal-action-min-height: unset;
   --calcite-internal-action-spacing: var(--calcite-internal-chip-close-padding);
-
-  block-size: var(--calcite-internal-close-size);
-  inline-size: var(--calcite-internal-close-size);
 }
 
 slot[name="image"]::slotted(*) {
