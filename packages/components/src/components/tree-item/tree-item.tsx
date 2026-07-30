@@ -88,7 +88,7 @@ export class TreeItem extends LitElement {
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.

@@ -210,7 +210,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   >;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
