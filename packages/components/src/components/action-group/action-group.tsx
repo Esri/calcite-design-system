@@ -12,7 +12,11 @@ import {
 import { queryAssignedElements } from "lit/decorators.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
-import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../controllers/useFloatingUi";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";

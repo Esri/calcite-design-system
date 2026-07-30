@@ -10,7 +10,7 @@ import { OpenCloseComponentWithEl, toggleOpenClose } from "../../utils/openClose
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
-import type { OverlayPositioning } from "../../utils/floating-ui";
+import type { OverlayPositioning } from "../../controllers/useFloatingUi";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";

@@ -11,7 +11,7 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import { MenuPlacement } from "../../utils/floating-ui";
+import { MenuPlacement } from "../../controllers/useFloatingUi";
 import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose } from "../../utils/openCloseComponent";

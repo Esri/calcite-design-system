@@ -11,7 +11,7 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { LogicalPlacement, OverlayPositioning } from "../../controllers/useFloatingUi";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";

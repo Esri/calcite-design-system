@@ -11,7 +11,11 @@ import {
 } from "@arcgis/lumina";
 import { getRoundRobinIndex } from "../../utils/array";
 import { toAriaBoolean } from "../../utils/aria";
-import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../controllers/useFloatingUi";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { Appearance, Scale } from "../interfaces";

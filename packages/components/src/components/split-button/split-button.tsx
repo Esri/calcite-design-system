@@ -7,7 +7,11 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../controllers/useFloatingUi";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconName } from "../icon/interfaces";

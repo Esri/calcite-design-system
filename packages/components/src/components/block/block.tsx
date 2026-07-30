@@ -10,7 +10,7 @@ import {
   FlipPlacement,
   LogicalPlacement,
   OverlayPositioning,
-} from "../../utils/floating-ui";
+} from "../../controllers/useFloatingUi";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";

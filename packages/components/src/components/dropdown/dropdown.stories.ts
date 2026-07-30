@@ -1,7 +1,7 @@
 import { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement } from "../../utils/floating-ui";
+import { defaultMenuPlacement } from "../../controllers/useFloatingUi";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dropdown } from "./dropdown";
 

@@ -20,7 +20,7 @@ import {
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
-import { defaultMenuPlacement } from "../../utils/floating-ui";
+import { defaultMenuPlacement } from "../../controllers/useFloatingUi";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Autocomplete } from "./autocomplete";

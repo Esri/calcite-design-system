@@ -22,18 +22,14 @@ import {
   inRange,
 } from "../../utils/date";
 import {
-  connectFloatingUI,
   defaultMenuPlacement,
-  disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
   FloatingCSS,
-  FloatingUIComponent,
-  hideFloatingUI,
   MenuPlacement,
   OverlayPositioning,
-  reposition,
-} from "../../utils/floating-ui";
+  useFloatingUi,
+} from "../../controllers/useFloatingUi";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
@@ -80,7 +76,7 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
+export class InputDatePicker extends LitElement implements LabelableComponent {
   //#region Static Members
 
   static formAssociated = true;
@@ -114,6 +110,16 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   private filteredFlipPlacements?: FlipPlacement[];
 
   floatingEl?: HTMLDivElement;
+
+  private floatingUi = useFloatingUi<this>(() => ({
+    direction: this.direction,
+    flipPlacements: this.filteredFlipPlacements,
+    floatingEl: this.floatingEl,
+    overlayPositioning: this.overlayPositioning,
+    placement: this.placement,
+    referenceEl: this.referenceEl,
+    type: "menu",
+  }))(this);
 
   private focusOnOpen = false;
 
@@ -350,21 +356,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
-
-    return reposition(
-      this,
-      {
-        direction: this.direction,
-        floatingEl,
-        referenceEl,
-        overlayPositioning,
-        placement,
-        flipPlacements: filteredFlipPlacements,
-        type: "menu",
-      },
-      delayed,
-    );
+    return this.floatingUi.reposition(delayed);
   }
 
   /**
@@ -418,7 +410,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     connectLabel(this);
     this.setFilteredPlacements();
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   async load(): Promise<void> {
@@ -496,12 +488,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   loaded(): void {
     this.localizeInputValues();
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectFloatingUI(this);
   }
 
   //#endregion
@@ -614,7 +605,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
 
-    requestAnimationFrame(() => connectFloatingUI(this));
+    requestAnimationFrame(() => this.floatingUi.connect());
   }
 
   private onInputWrapperPointerDown(): void {
@@ -668,7 +659,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
-    hideFloatingUI(this);
+    this.floatingUi.hide();
     this.focusTrap.deactivate();
     this.focusOnOpen = false;
     this.datePickerEl?.reset();
@@ -790,7 +781,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   private setStartWrapper(el: HTMLDivElement): void {

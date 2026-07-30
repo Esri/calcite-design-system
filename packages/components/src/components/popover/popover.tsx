@@ -4,19 +4,15 @@ import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
   defaultOffsetDistance,
-  connectFloatingUI,
-  disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
   FloatingCSS,
   FloatingLayout,
-  FloatingUIComponent,
-  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition,
-} from "../../utils/floating-ui";
+  useFloatingUi,
+} from "../../controllers/useFloatingUi";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
@@ -45,7 +41,7 @@ declare global {
 const manager = referenceElementManager({ click: true });
 
 /** @slot - A slot for adding custom content. */
-export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
+export class Popover extends LitElement implements ReferenceElementComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -65,6 +61,20 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   private filteredFlipPlacements?: FlipPlacement[];
 
   floatingEl?: HTMLDivElement;
+
+  private floatingUi = useFloatingUi<this>(() => ({
+    arrowEl: this.arrowEl,
+    direction: this.direction,
+    flipDisabled: this.flipDisabled,
+    flipPlacements: this.filteredFlipPlacements,
+    floatingEl: this.floatingEl,
+    offsetDistance: this.offsetDistance,
+    offsetSkidding: this.offsetSkidding,
+    overlayPositioning: this.overlayPositioning,
+    placement: this.placement,
+    referenceEl: this.referenceEl,
+    type: "popover",
+  }))(this);
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
@@ -212,34 +222,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const {
-      referenceEl,
-      placement,
-      overlayPositioning,
-      flipDisabled,
-      filteredFlipPlacements,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      floatingEl,
-    } = this;
-    return reposition(
-      this,
-      {
-        direction: this.direction,
-        floatingEl,
-        referenceEl,
-        overlayPositioning,
-        placement,
-        flipDisabled,
-        flipPlacements: filteredFlipPlacements,
-        offsetDistance,
-        offsetSkidding,
-        arrowEl,
-        type: "popover",
-      },
-      delayed,
-    );
+    return this.floatingUi.reposition(delayed);
   }
 
   /**
@@ -323,13 +306,12 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl")) {
-      connectFloatingUI(this);
+      this.floatingUi.connect();
     }
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectFloatingUI(this);
   }
 
   //#endregion
@@ -378,7 +360,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   onClose(): void {
     this.calcitePopoverClose.emit();
-    hideFloatingUI(this);
+    this.floatingUi.hide();
     this.focusTrap.deactivate();
     this.topLayer.hide();
   }

@@ -6,7 +6,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   defaultMenuPlacement,
-} from "../../utils/floating-ui";
+} from "../../controllers/useFloatingUi";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
 import { useSetFocus } from "../../controllers/useSetFocus";

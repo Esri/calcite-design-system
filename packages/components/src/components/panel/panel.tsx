@@ -25,7 +25,7 @@ import {
   FlipPlacement,
   LogicalPlacement,
   OverlayPositioning,
-} from "../../utils/floating-ui";
+} from "../../controllers/useFloatingUi";
 import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";

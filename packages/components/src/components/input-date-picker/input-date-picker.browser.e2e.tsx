@@ -20,7 +20,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-import { FloatingCSS } from "../../utils/floating-ui";
+import { FloatingCSS } from "../../controllers/useFloatingUi";
 import { afterNextTask } from "../../tests/utils/timing";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";

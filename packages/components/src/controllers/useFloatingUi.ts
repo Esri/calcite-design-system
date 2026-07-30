@@ -1,4 +1,6 @@
 import { isServer } from "lit";
+import { LitElement } from "@arcgis/lumina";
+import { makeGenericController } from "@arcgis/lumina/controllers";
 import {
   arrow,
   autoPlacement,
@@ -18,8 +20,8 @@ import {
 import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
-import { DEBOUNCE } from "./resources";
-import { Direction } from "./dom";
+import { Direction } from "../utils/dom";
+import { DEBOUNCE } from "../utils/resources";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
   if (!isServer) {
@@ -33,7 +35,7 @@ function roundByDPR(value: number): number {
   return Math.round(value * dpr) / dpr;
 }
 
-interface PositionFloatingUiOptions {
+export interface PositionFloatingUiOptions {
   /**
    * The associated arrow element used to point to the reference element, if applicable.
    */
@@ -98,7 +100,7 @@ interface PositionFloatingUiOptions {
 export const positionFloatingUI =
   /* we export arrow function to allow us to spy on it during testing */
   async (
-    component: FloatingUIComponent,
+    component: FloatingUIHost,
     {
       arrowEl,
       direction,
@@ -326,6 +328,11 @@ export interface FloatingUIComponent {
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 
+type FloatingUIHost = LitElement & {
+  floatingLayout?: FloatingLayout;
+  open: boolean;
+};
+
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
   animationActive: "calcite-floating-ui-anim--active",
@@ -416,59 +423,158 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
   return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
+export interface UseFloatingUi {
+  /**
+   * Sets up automatic positioning using the current reference and floating elements.
+   */
+  connect: () => Promise<void>;
+
+  /**
+   * Clears positioning styles when the floating element closes.
+   */
+  hide: () => void;
+
+  /**
+   * Updates the position of the floating element.
+   *
+   * @param delayed - When true, positions after the shared reposition delay.
+   */
+  reposition: (delayed?: boolean) => Promise<void>;
+}
+
+export type UseFloatingUiOptions = () => PositionFloatingUiOptions;
+
 /**
- * Convenience function to manage `reposition` calls for FloatingUIComponents that use `positionFloatingUI.
+ * Creates a controller for positioning floating content.
  *
- * Note: this is not needed for components that use `calcite-popover`.
- *
- * @param component - A floating-ui component.
- * @param options - Reposition parameters.
- * @param delayed - Reposition the component after a delay.
+ * Automatic positioning and pending delayed work are cleaned up when the host disconnects.
  */
-export async function reposition(
-  component: FloatingUIComponent,
-  options: PositionFloatingUiOptions,
-  delayed = false,
-): Promise<void> {
-  if (!component.open || !options.floatingEl || !options.referenceEl) {
-    return;
-  }
+export const useFloatingUi = <T extends FloatingUIHost>(
+  getOptions: UseFloatingUiOptions,
+): ReturnType<typeof makeGenericController<UseFloatingUi, T>> =>
+  makeGenericController<UseFloatingUi, T>((component, controller) => {
+    let autoUpdateCleanup: (() => void) | undefined;
+    let autoUpdatePending = false;
 
-  Object.assign(options.floatingEl.style, {
-    display: "block",
-    inset: "unset",
-    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
-    left: "0",
-    position: options.overlayPositioning ?? "absolute",
-    top: "0",
+    const debouncedReposition: DebouncedFunction<typeof positionFloatingUI> = debounce(
+      positionFloatingUI,
+      DEBOUNCE.reposition,
+      {
+        edges: ["leading", "trailing"],
+      },
+    );
+
+    const disconnect = (): void => {
+      autoUpdateCleanup?.();
+      autoUpdateCleanup = undefined;
+      autoUpdatePending = false;
+      // eslint-disable-next-line no-restricted-properties -- this controller manages cancel calls
+      debouncedReposition.cancel();
+    };
+
+    const hide = (): void => {
+      const { floatingEl } = getOptions();
+
+      if (!floatingEl) {
+        return;
+      }
+
+      Object.assign(floatingEl.style, {
+        display: "",
+        left: "",
+        pointerEvents: "",
+        position: "",
+        top: "",
+        transform: "",
+        visibility: "",
+      });
+    };
+
+    const reposition = async (delayed = false): Promise<void> => {
+      const options = getOptions();
+
+      if (!component.open || !options.floatingEl || !options.referenceEl) {
+        return;
+      }
+
+      Object.assign(options.floatingEl.style, {
+        display: "block",
+        inset: "unset",
+        // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+        left: "0",
+        position: options.overlayPositioning ?? "absolute",
+        top: "0",
+      });
+
+      if (!autoUpdatePending && !autoUpdateCleanup) {
+        return runAutoUpdate();
+      }
+
+      const positionFunction = delayed ? debouncedReposition : positionFloatingUI;
+
+      await positionFunction(component, options);
+    };
+
+    const runAutoUpdate = async (): Promise<void> => {
+      const { referenceEl, floatingEl } = getOptions();
+
+      if (!floatingEl?.isConnected || !referenceEl) {
+        return;
+      }
+
+      const effectiveAutoUpdate = !isServer
+        ? autoUpdate
+        : (_refEl: ReferenceElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
+            updateCallback();
+            return () => {
+              /* noop */
+            };
+          };
+
+      autoUpdatePending = true;
+
+      let repositionPromise: Promise<void>;
+
+      const cleanup = effectiveAutoUpdate(
+        referenceEl,
+        floatingEl,
+        // callback is invoked immediately
+        () => {
+          const promise = reposition();
+
+          if (!repositionPromise) {
+            repositionPromise = promise;
+          }
+        },
+      );
+
+      autoUpdatePending = false;
+      autoUpdateCleanup = cleanup;
+
+      return repositionPromise!;
+    };
+
+    const connect = async (): Promise<void> => {
+      const { floatingEl, referenceEl } = getOptions();
+
+      hide();
+      disconnect();
+
+      if (!floatingEl || !referenceEl || !component.open) {
+        return;
+      }
+
+      return runAutoUpdate();
+    };
+
+    controller.onDisconnected(disconnect);
+
+    return {
+      connect,
+      hide,
+      reposition,
+    };
   });
-
-  const trackedState = autoUpdatingComponentMap.get(component);
-
-  if (!trackedState) {
-    return runAutoUpdate(component);
-  }
-
-  const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
-
-  await positionFunction(component, options);
-}
-
-function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunction<typeof positionFloatingUI> {
-  let debounced = componentToDebouncedRepositionMap.get(component);
-
-  if (debounced) {
-    return debounced;
-  }
-
-  debounced = debounce(positionFloatingUI, DEBOUNCE.reposition, {
-    edges: ["leading", "trailing"],
-  });
-
-  componentToDebouncedRepositionMap.set(component, debounced);
-
-  return debounced;
-}
 
 const ARROW_CSS_TRANSFORM = {
   top: "",
@@ -476,123 +582,6 @@ const ARROW_CSS_TRANSFORM = {
   bottom: "rotate(180deg)",
   right: "rotate(90deg)",
 };
-
-type PendingFloatingUIState = {
-  state: "pending";
-};
-
-type ActiveFloatingUIState = {
-  state: "active";
-  cleanUp: () => void;
-};
-
-type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
-
-/**
- * Exported for testing purposes only
- *
- * @private
- */
-export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
-
-const componentToDebouncedRepositionMap = new WeakMap<
-  FloatingUIComponent,
-  DebouncedFunction<typeof positionFloatingUI>
->();
-
-async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
-  const { referenceEl, floatingEl } = component;
-
-  if (!floatingEl?.isConnected) {
-    return;
-  }
-
-  const effectiveAutoUpdate = !isServer
-    ? autoUpdate
-    : (_refEl: ReferenceElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
-        updateCallback();
-        return () => {
-          /* noop */
-        };
-      };
-
-  // we set initial state here to make it available for `reposition` calls
-  autoUpdatingComponentMap.set(component, { state: "pending" });
-
-  let repositionPromise: Promise<void>;
-
-  const cleanUp = effectiveAutoUpdate(
-    referenceEl!,
-    floatingEl,
-    // callback is invoked immediately
-    () => {
-      const promise = component.reposition();
-
-      if (!repositionPromise) {
-        repositionPromise = promise;
-      }
-    },
-  );
-
-  autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
-
-  return repositionPromise!;
-}
-
-/**
- * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
- */
-export function hideFloatingUI(component: FloatingUIComponent): void {
-  const { floatingEl } = component;
-
-  if (!floatingEl) {
-    return;
-  }
-
-  Object.assign(floatingEl.style, {
-    display: "",
-    left: "",
-    pointerEvents: "",
-    position: "",
-    top: "",
-    transform: "",
-    visibility: "",
-  });
-}
-
-/**
- * Helper to set up floating element interactions on connectedCallback.
- */
-export async function connectFloatingUI(component: FloatingUIComponent): Promise<void> {
-  const { floatingEl, referenceEl } = component;
-
-  hideFloatingUI(component);
-
-  disconnectFloatingUI(component);
-
-  if (!floatingEl || !referenceEl || !component.open) {
-    return;
-  }
-
-  return runAutoUpdate(component);
-}
-
-/**
- * Helper to tear down floating element interactions on disconnectedCallback.
- */
-export function disconnectFloatingUI(component: FloatingUIComponent): void {
-  const trackedState = autoUpdatingComponentMap.get(component);
-
-  if (trackedState?.state === "active") {
-    trackedState.cleanUp();
-  }
-
-  autoUpdatingComponentMap.delete(component);
-
-  // eslint-disable-next-line no-restricted-properties -- cancel is allowed outside of component contexts
-  componentToDebouncedRepositionMap.get(component)?.cancel();
-  componentToDebouncedRepositionMap.delete(component);
-}
 
 const visiblePointerSize = 4;
 

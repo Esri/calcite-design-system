@@ -1,5 +1,5 @@
 import { nil } from "@arcgis/toolkit/type";
-import { ReferenceElement } from "../../utils/floating-ui";
+import { ReferenceElement } from "../useFloatingUi";
 import { getShadowRootNode, isKeyboardTriggeredClick, isPrimaryPointerButton } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { toAriaBoolean } from "../../utils/aria";

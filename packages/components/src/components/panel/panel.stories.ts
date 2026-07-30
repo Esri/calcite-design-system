@@ -1,7 +1,7 @@
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../controllers/useFloatingUi";
 import { Panel } from "./panel";
 import { SLOTS } from "./resources";
 

@@ -12,19 +12,15 @@ import {
 import { useDirection } from "@arcgis/lumina/controllers";
 import { nextFrame } from "../../utils/dom";
 import {
-  connectFloatingUI,
   defaultMenuPlacement,
-  disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
   FloatingCSS,
-  FloatingUIComponent,
-  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition,
-} from "../../utils/floating-ui";
+  useFloatingUi,
+} from "../../controllers/useFloatingUi";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -57,7 +53,7 @@ const manager = referenceElementManager({ click: true, hover: true });
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
  * @slot trigger - [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
  */
-export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
+export class Dropdown extends LitElement implements ReferenceElementComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -80,6 +76,18 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private filteredFlipPlacements?: FlipPlacement[];
 
   floatingEl?: HTMLDivElement;
+
+  private floatingUi = useFloatingUi<this>(() => ({
+    direction: this.direction,
+    floatingEl: this.floatingEl,
+    referenceEl: this.referenceEl,
+    offsetDistance: this.offsetDistance,
+    offsetSkidding: this.offsetSkidding,
+    overlayPositioning: this.overlayPositioning,
+    placement: this.placement,
+    flipPlacements: this.filteredFlipPlacements,
+    type: "menu",
+  }))(this);
 
   private focusLastDropdownItem = false;
 
@@ -206,31 +214,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const {
-      filteredFlipPlacements,
-      floatingEl,
-      offsetDistance,
-      offsetSkidding,
-      overlayPositioning,
-      placement,
-      referenceEl,
-    } = this;
-
-    return reposition(
-      this,
-      {
-        direction: this.direction,
-        floatingEl,
-        referenceEl,
-        offsetDistance,
-        offsetSkidding,
-        overlayPositioning,
-        placement,
-        flipPlacements: filteredFlipPlacements,
-        type: "menu",
-      },
-      delayed,
-    );
+    return this.floatingUi.reposition(delayed);
   }
 
   /**
@@ -287,7 +271,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     this.updateItems();
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -332,19 +316,18 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl") && this.referenceElementType) {
-      connectFloatingUI(this);
+      this.floatingUi.connect();
     }
   }
 
   loaded(): void {
     this.updateSelectedItems();
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectFloatingUI(this);
   }
 
   //#endregion
@@ -524,7 +507,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   onClose(): void {
     this.calciteDropdownClose.emit();
-    hideFloatingUI(this);
+    this.floatingUi.hide();
     this.topLayer.hide();
   }
 
@@ -541,12 +524,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
     this.referenceEl = el;
 
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

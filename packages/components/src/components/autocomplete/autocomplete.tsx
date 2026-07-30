@@ -18,14 +18,11 @@ import {
   FlipPlacement,
   FloatingCSS,
   FloatingLayout,
-  FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  connectFloatingUI,
   defaultMenuPlacement,
-  disconnectFloatingUI,
-  reposition,
-} from "../../utils/floating-ui";
+  useFloatingUi,
+} from "../../controllers/useFloatingUi";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -65,10 +62,7 @@ declare global {
  * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Autocomplete
-  extends LitElement
-  implements FloatingUIComponent, LabelableComponent, TextualInputComponent
-{
+export class Autocomplete extends LitElement implements LabelableComponent, TextualInputComponent {
   //#region Static Members
 
   static formAssociated = true;
@@ -93,6 +87,16 @@ export class Autocomplete
   floatingEl?: HTMLDivElement;
 
   floatingLayout?: FloatingLayout;
+
+  private floatingUi = useFloatingUi<this>(() => ({
+    direction: this.direction,
+    flipPlacements: this.flipPlacements,
+    floatingEl: this.floatingEl,
+    overlayPositioning: this.overlayPositioning,
+    placement: this.placement,
+    referenceEl: this.referenceEl,
+    type: "menu",
+  }))(this);
 
   private formSupport = useForm<this>({
     inputType: "text",
@@ -324,21 +328,7 @@ export class Autocomplete
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning, flipPlacements } = this;
-
-    return reposition(
-      this,
-      {
-        direction: this.direction,
-        floatingEl,
-        referenceEl,
-        overlayPositioning,
-        placement,
-        flipPlacements,
-        type: "menu",
-      },
-      delayed,
-    );
+    return this.floatingUi.reposition(delayed);
   }
 
   /**
@@ -422,7 +412,7 @@ export class Autocomplete
     });
     connectLabel(this);
     this.getAllItemsDebounced();
-    connectFloatingUI(this);
+    this.floatingUi.connect();
     this.cancelable.add(this.getAllItemsDebounced);
   }
 
@@ -475,14 +465,13 @@ export class Autocomplete
   }
 
   loaded(): void {
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
-    disconnectFloatingUI(this);
   }
 
   //#endregion
@@ -626,7 +615,7 @@ export class Autocomplete
   private setReferenceEl(el: Input["el"]): void {
     updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -725,7 +714,7 @@ export class Autocomplete
 
   private setFloatingEl(el: HTMLDivElement | undefined): void {
     this.floatingEl = el;
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   //#endregion
