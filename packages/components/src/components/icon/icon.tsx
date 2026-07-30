@@ -56,7 +56,7 @@ export class Icon extends LitElement {
     reflect: true,
     type: String,
   })
-  icon: IconName | null = null;
+  icon?: IconName;
 
   /** When `true`, preloads the `icon` data. */
   @property({ reflect: true }) preload = false;
@@ -99,7 +99,7 @@ export class Icon extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("icon") && (this.hasUpdated || this.icon !== null)) ||
+      (changes.has("icon") && (this.hasUpdated || this.icon !== undefined)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
       this.loadIconPathData();
