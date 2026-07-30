@@ -32,7 +32,14 @@
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;
   flex-direction: column;
-  min-block-size: var(--calcite-loader-size);
+  block-size: calc(
+    var(--calcite-loader-size, var(--calcite-internal-loader-size)) +
+      var(--calcite-loader-spacing, theme("spacing.16")) * 2
+  );
+  min-block-size: calc(
+    var(--calcite-loader-size, var(--calcite-internal-loader-size)) +
+      var(--calcite-loader-spacing, theme("spacing.16")) * 2
+  );
   font-size: var(--calcite-loader-font-size);
   stroke-width: var(--calcite-internal-stroke-width);
   fill: none;

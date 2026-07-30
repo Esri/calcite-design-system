@@ -141,12 +141,20 @@
   @apply ms-3;
 }
 
+:host([layout="vertical"]) .text-container:has(+ .icon--end) {
+  @apply me-3;
+}
+
 :host([layout="vertical"]) .icon--end {
-  @apply ms-auto ps-3;
+  @apply ms-auto;
 }
 
 .icon--dropdown {
-  @apply ms-auto me-0 ps-2 relative;
+  @apply ms-auto me-0 relative;
+}
+
+.icon--breadcrumb ~ .icon--dropdown {
+  @apply ms-2;
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
@@ -154,7 +162,7 @@
 }
 
 :host([layout="vertical"]) .hover-href-icon {
-  @apply ps-2;
+  @apply ms-2;
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
@@ -166,15 +174,11 @@
 }
 
 .icon--breadcrumb {
-  @apply ps-2 me-0;
+  @apply ms-2 me-0;
 }
 
 :host([layout="vertical"]) .icon--breadcrumb {
   @apply ms-auto;
-}
-
-:host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
-  @apply ms-2;
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
@@ -221,7 +225,8 @@
   &.nested {
     @apply absolute;
     inset-block-start: -1px;
-    transform: translateX(calc(100% - 2px));
+    inset-inline-start: 100%;
+    transform: none;
   }
 }
 
@@ -264,7 +269,9 @@
 }
 
 .dropdown-menu-items.nested.calcite--rtl {
-  transform: translateX(calc(-100% + 2px));
+  inset-inline-start: auto;
+  inset-inline-end: 100%;
+  transform: none;
 }
 
 .dropdown--vertical.dropdown-menu-items.nested.calcite--rtl {

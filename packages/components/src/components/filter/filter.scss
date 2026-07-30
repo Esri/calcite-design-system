@@ -74,5 +74,5 @@ calcite-input {
   --calcite-input-actions-icon-color-press: var(--calcite-filter-input-actions-icon-color-press);
 }
 
-@include includes.base-component-sizing();
 @include includes.base-component();
+@include includes.base-component-sizing();
