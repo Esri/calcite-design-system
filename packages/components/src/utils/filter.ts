@@ -1,12 +1,12 @@
 import { escapeRegExp, forIn } from "es-toolkit/compat";
 
-export const filter = (data: Array<object>, value: string, filterProps?: string[]): Array<any> => {
+export const getFilteredIndexes = (data: Array<object>, value: string, filterProps?: string[]): number[] => {
   const escapedValue = escapeRegExp(value);
   const regex = new RegExp(escapedValue, "i");
   const matchAll = value === "";
 
   if (matchAll || data.length === 0) {
-    return data;
+    return data.map((_, index) => index);
   }
 
   const find = (input: object, RE: RegExp, fields?: string[]) => {
@@ -37,5 +37,19 @@ export const filter = (data: Array<object>, value: string, filterProps?: string[
     return found;
   };
 
-  return data.filter((item) => find(item, regex, filterProps));
+  const indexes: number[] = [];
+
+  data.forEach((item, index) => {
+    if (find(item, regex, filterProps)) {
+      indexes.push(index);
+    }
+  });
+
+  return indexes;
+};
+
+export const filter = (data: Array<object>, value: string, filterProps?: string[]): Array<any> => {
+  const indexes = getFilteredIndexes(data, value, filterProps);
+
+  return indexes.map((index) => data[index]);
 };

@@ -296,3 +296,82 @@ describe("filter method", () => {
     assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
   });
 });
+
+describe("worker filtering", () => {
+  it("emits calciteFilterStatusChange while filtering with a web worker", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-filter></calcite-filter>`);
+
+    await page.evaluate(() => {
+      (window as any).__nativeWorker = (window as any).Worker;
+
+      class MockWorker {
+        private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+        addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+          if (type === "message") {
+            this.messageListeners.push(listener);
+          }
+        }
+
+        postMessage(message: { requestId: number; data: Array<{ label?: string }>; value: string }): void {
+          const filterValue = message.value.toLowerCase();
+          const filteredIndexes = message.data
+            .map((item, index) => ({
+              index,
+              label: (item.label ?? "").toLowerCase(),
+            }))
+            .filter((item) => item.label.includes(filterValue))
+            .map((item) => item.index);
+
+          setTimeout(() => {
+            this.messageListeners.forEach((listener) =>
+              listener(
+                new MessageEvent("message", {
+                  data: {
+                    requestId: message.requestId,
+                    filteredIndexes,
+                  },
+                }),
+              ),
+            );
+          }, 50);
+        }
+
+        terminate(): void {
+          this.messageListeners.length = 0;
+        }
+      }
+
+      (window as any).Worker = MockWorker;
+
+      const filter = document.querySelector("calcite-filter") as Filter["el"];
+      filter.items = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+    });
+
+    try {
+      const filter = await page.find("calcite-filter");
+      const statusChangeSpy = await page.spyOnEvent("calciteFilterStatusChange");
+
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+      await filter.type("o");
+
+      await statusChangeSpy.next();
+      expect(await filter.getProperty("filtering")).toBe(true);
+
+      await statusChangeSpy.next();
+      expect(await filter.getProperty("filtering")).toBe(false);
+
+      expect(statusChangeSpy).toHaveReceivedEventTimes(2);
+    } finally {
+      await page.evaluate(() => {
+        (window as any).Worker = (window as any).__nativeWorker;
+        delete (window as any).__nativeWorker;
+      });
+    }
+  });
+});

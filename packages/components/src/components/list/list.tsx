@@ -13,7 +13,7 @@ import {
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
-import { ItemData } from "../list-item/interfaces";
+import { ItemData, SharedListFilterFields } from "../list-item/interfaces";
 import {
   expandedAncestors,
   isListItem,
@@ -40,6 +40,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
+import { isStructuredCloneable } from "../../utils/clone-safe";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
@@ -53,6 +54,10 @@ declare global {
 }
 
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
+
+type FilterItemData = SharedListFilterFields & {
+  itemIndex: number;
+};
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -102,6 +107,16 @@ export class List extends LitElement {
   private updateListItemsDebounced = debounce(this.updateListItems, DEBOUNCE.nextTick);
 
   private visibleItems: ListItem["el"][] = [];
+
+  private itemElementsByIndex: ListItem["el"][] = [];
+
+  private metadataCloneableCache = new WeakMap<object, boolean>();
+
+  private hasWarnedInvalidMetadata = false;
+
+  private filterDataRequestId = 0;
+
+  private skipNextFilterTextSync = false;
 
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willFilterEmit: boolean = false;
@@ -165,7 +180,7 @@ export class List extends LitElement {
 
   @state() assistiveText?: string;
 
-  @state() dataForFilter: ItemData[] = [];
+  @state() dataForFilter: FilterItemData[] = [];
 
   @state() hasFilterActionsEnd = false;
 
@@ -447,9 +462,17 @@ export class List extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterPredicate")) {
+    const filterTextChanged = changes.has("filterText");
+
+    if (
+      (filterTextChanged && !this.skipNextFilterTextSync) ||
+      changes.has("filterProps") ||
+      changes.has("filterPredicate")
+    ) {
       this.performFilter();
     }
+
+    this.skipNextFilterTextSync = false;
 
     if (
       (changes.has("filterEnabled") && (this.hasUpdated || this.filterEnabled !== false)) ||
@@ -542,7 +565,7 @@ export class List extends LitElement {
     this.listItems = items;
     if (this.filterEnabled && this.willPerformFilter) {
       this.willPerformFilter = false;
-      this.dataForFilter = this.getItemData();
+      this.dataForFilter = this.getFilterItemData();
 
       if (filterEl) {
         filterEl.items = this.dataForFilter;
@@ -902,16 +925,42 @@ export class List extends LitElement {
     }
 
     if (filterEl.filteredItems) {
-      this.filteredData = filterEl.filteredItems as ItemData[];
+      const filteredItemData = filterEl.filteredItems as FilterItemData[];
+      this.filteredData = filteredItemData.reduce<ItemData[]>((acc, dataItem) => {
+        const el = this.itemElementsByIndex[dataItem.itemIndex];
+
+        if (!el) {
+          return acc;
+        }
+
+        const { label, description, metadata, heading } = dataItem;
+
+        acc.push({
+          label,
+          description,
+          metadata,
+          heading,
+          el,
+        });
+
+        return acc;
+      }, []);
     }
 
     this.updateListItemsDebounced();
   }
 
   private async filterAndUpdateData(): Promise<void> {
+    const requestId = ++this.filterDataRequestId;
+
     // Keep in-progress user input as source-of-truth during rapid item updates.
     const filterValue = this.filterEl?.value ?? this.filterText;
     await this.filterEl?.filter(filterValue);
+
+    if (requestId !== this.filterDataRequestId) {
+      return;
+    }
+
     this.updateFilteredData();
   }
 
@@ -939,19 +988,55 @@ export class List extends LitElement {
   private handleFilterChange(event: CustomEvent): void {
     event.stopPropagation();
     const { value } = event.currentTarget as Filter["el"];
+    this.skipNextFilterTextSync = true;
     this.filterText = value;
     this.willFilterEmit = true;
     this.updateFilteredData();
   }
 
-  private getItemData(): ItemData[] {
-    return this.listItems.map((item) => ({
-      label: item.label,
-      description: item.description,
-      metadata: item.metadata,
-      heading: this.getGroupHeading(item),
-      el: item,
-    }));
+  private getFilterItemData(): FilterItemData[] {
+    this.itemElementsByIndex.length = 0;
+
+    return this.listItems.map((item, itemIndex) => {
+      this.itemElementsByIndex[itemIndex] = item;
+
+      return {
+        label: item.label,
+        description: item.description,
+        metadata: this.getFilterMetadata(item.metadata),
+        heading: this.getGroupHeading(item),
+        itemIndex,
+      };
+    });
+  }
+
+  private getFilterMetadata(
+    metadata: SharedListFilterFields["metadata"],
+  ): SharedListFilterFields["metadata"] {
+    if (!metadata) {
+      return metadata;
+    }
+
+    const cachedCloneable = this.metadataCloneableCache.get(metadata);
+    if (cachedCloneable !== undefined) {
+      return cachedCloneable ? metadata : undefined;
+    }
+
+    const isCloneable = isStructuredCloneable(metadata);
+    this.metadataCloneableCache.set(metadata, isCloneable);
+
+    if (isCloneable) {
+      return metadata;
+    }
+
+    if (!this.hasWarnedInvalidMetadata) {
+      this.hasWarnedInvalidMetadata = true;
+      console.warn(
+        "calcite-list-item metadata must be structured-clone-safe for worker filtering. Ignoring invalid metadata.",
+      );
+    }
+
+    return undefined;
   }
 
   private getGroupHeading(item: ListItem["el"]): string[] {

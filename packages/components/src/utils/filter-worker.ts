@@ -1,0 +1,96 @@
+type FilterWorkerRequest = {
+  requestId: number;
+  data: object[];
+  value: string;
+  filterProps?: string[];
+};
+
+export const DEFAULT_FILTER_WORKER_MIN_ITEMS = 100;
+
+type FilterWorkerResponse = {
+  requestId: number;
+  filteredIndexes: number[];
+};
+
+type PendingRequest = {
+  resolve: (filteredIndexes: number[] | null) => void;
+};
+
+let filterWorker: Worker | null = null;
+let currentRequestId = 0;
+const pendingRequests = new Map<number, PendingRequest>();
+
+function resolvePendingRequests(filteredIndexes: number[] | null): void {
+  pendingRequests.forEach(({ resolve }) => resolve(filteredIndexes));
+  pendingRequests.clear();
+}
+
+function initializeWorker(): Worker | null {
+  if (typeof Worker === "undefined") {
+    return null;
+  }
+
+  if (filterWorker) {
+    return filterWorker;
+  }
+
+  try {
+    filterWorker = new Worker(new URL("./filter.worker.ts", import.meta.url), { type: "module" });
+  } catch {
+    return null;
+  }
+
+  filterWorker.addEventListener("message", (event: MessageEvent<FilterWorkerResponse>) => {
+    const { requestId, filteredIndexes } = event.data;
+    const pendingRequest = pendingRequests.get(requestId);
+
+    if (!pendingRequest) {
+      return;
+    }
+
+    pendingRequest.resolve(filteredIndexes);
+    pendingRequests.delete(requestId);
+  });
+
+  filterWorker.addEventListener("error", () => {
+    resolvePendingRequests(null);
+    filterWorker?.terminate();
+    filterWorker = null;
+  });
+
+  return filterWorker;
+}
+
+export function filterInWorker(data: object[], value: string, filterProps?: string[]): Promise<number[] | null> {
+  const worker = initializeWorker();
+
+  if (!worker) {
+    return Promise.resolve(null);
+  }
+
+  const requestId = ++currentRequestId;
+
+  return new Promise<number[] | null>((resolve) => {
+    pendingRequests.set(requestId, { resolve });
+
+    try {
+      worker.postMessage({ requestId, data, value, filterProps } satisfies FilterWorkerRequest);
+    } catch {
+      pendingRequests.delete(requestId);
+      resolve(null);
+    }
+  });
+}
+
+export function shouldFilterInWorker(
+  items: object[] | undefined,
+  workerMinItems = DEFAULT_FILTER_WORKER_MIN_ITEMS,
+): items is object[] {
+  return !!items && items.length >= workerMinItems;
+}
+
+export function terminateFilterWorker(): void {
+  resolvePendingRequests(null);
+  filterWorker?.terminate();
+  filterWorker = null;
+}
