@@ -95,7 +95,6 @@ calcite-time-picker {
 
 .content-container {
   display: grid;
-  flex-grow: 1;
   .input-container,
   .placeholder {
     grid-column: 1;
@@ -160,11 +159,10 @@ calcite-time-picker {
     var(--calcite-input-time-picker-input-action-icon-color, var(--calcite-color-text-3))
   );
   align-items: center;
-  block-size: 100%;
   cursor: pointer;
   display: flex;
   justify-content: center;
-  margin-inline-end: calc(var(--calcite-internal-input-time-picker-toggle-inline-end-offset) * -1);
+  margin-inline: auto calc(var(--calcite-internal-input-time-picker-toggle-inline-end-offset) * -1);
   padding-inline: var(--calcite-internal-input-time-picker-toggle-spacing);
   padding-inline-start: var(--calcite-space-none);
 
