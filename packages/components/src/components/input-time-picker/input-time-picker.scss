@@ -159,6 +159,7 @@ calcite-time-picker {
     var(--calcite-input-time-picker-input-action-icon-color, var(--calcite-color-text-3))
   );
   align-items: center;
+  block-size: 100%;
   cursor: pointer;
   display: flex;
   justify-content: center;
