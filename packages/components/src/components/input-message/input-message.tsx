@@ -11,7 +11,7 @@ import {
 import { setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
-import { StatusIconDefaults } from "./interfaces";
+import { StatusIconDefaults } from "./resources";
 import { styles } from "./input-message.scss";
 import { CSS } from "./resources";
 
