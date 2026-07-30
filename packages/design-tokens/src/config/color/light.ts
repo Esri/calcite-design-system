@@ -7,7 +7,7 @@ import {
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types/extensions.d.ts";
 import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
-import { primitiveValueOutputReferences } from "../../build/utils/output-references.ts";
+import { primitiveValueOutputReferences, stylesheetOutputReferences } from "../../build/utils/output-references.ts";
 
 const config: Config = {
   source: ["src/tokens/semantic/color/light.json"],
@@ -29,7 +29,7 @@ const config: Config = {
         platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
-        outputReferences: primitiveValueOutputReferences,
+        outputReferences: stylesheetOutputReferences,
       },
     },
     css: {
@@ -47,7 +47,7 @@ const config: Config = {
         platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
-        outputReferences: primitiveValueOutputReferences,
+        outputReferences: stylesheetOutputReferences,
       },
     },
     es6: {

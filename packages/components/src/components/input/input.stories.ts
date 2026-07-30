@@ -22,6 +22,7 @@ type InputStoryArgs = Pick<
   | "disabled"
   | "icon"
   | "iconFlipRtl"
+  | "labelText"
   | "value"
   | "readOnly"
   | "required"
@@ -50,6 +51,7 @@ export default {
     disabled: false,
     icon: "",
     iconFlipRtl: false,
+    labelText: "Label text",
     value: "",
     readOnly: false,
     required: false,
@@ -118,6 +120,7 @@ export const simple = (args: InputStoryArgs): string => html`
       ${boolean("disabled", args.disabled)}
       ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("label-text", args.labelText)}
       value="${args.value}"
       ${boolean("read-only", args.readOnly)}
       ${boolean("required", args.required)}

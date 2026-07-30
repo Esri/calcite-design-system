@@ -112,219 +112,226 @@ describe("is focusable", () => {
   focusable(() => mount(`calcite-input-text`), {
     shadowFocusTargetSelector: "input",
   });
+});
 
-  describe("inline editable", () => {
-    it("clears value on first Escape when clearable is set", async () => {
-      const { el } = await mount<InputText>(
-        <calcite-input-text clearable inline-editable inline-editable-controls value="John Doe" />,
-      );
+describe("inline editable", () => {
+  it("clears value on first Escape when clearable is set", async () => {
+    const { el } = await mount<InputText>(
+      <calcite-input-text clearable inline-editable inline-editable-controls value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
 
-      const input = page.getBySelector("calcite-input-text input");
+    await userEvent.click(input);
 
-      await userEvent.click(input);
-      await expect
-        .element(page.getBySelector("calcite-input-text"))
-        .toHaveAttribute("editing-enabled");
+    await expect.element(el).toHaveAttribute("editing-enabled");
 
-      await userEvent.keyboard("{Escape}");
+    await userEvent.keyboard("{Escape}");
 
-      expect(el.value).toBe("");
-      expect(el.editingEnabled).toBe(true);
-    });
-
-    it("cancels editing on first Escape when clearable is not set", async () => {
-      const { el } = await mount<InputText>(
-        <calcite-input-text inline-editable inline-editable-controls value="John Doe" />,
-      );
-
-      const input = page.getBySelector("calcite-input-text input");
-
-      await userEvent.click(input);
-      await expect
-        .element(page.getBySelector("calcite-input-text"))
-        .toHaveAttribute("editing-enabled");
-
-      await userEvent.keyboard("X");
-      expect(el.value).toBe("John DoeX");
-
-      await userEvent.keyboard("{Escape}");
-
-      expect(el.value).toBe("John Doe");
-      expect(el.editingEnabled).toBe(false);
-    });
-
-    it("emits enable editing change when built-in inline editable is activated", async () => {
-      const { el } = await mount<InputText>(
-        <calcite-input-text inline-editable inline-editable-controls value="John Doe" />,
-      );
-      const enableEditingSpy = vi.fn();
-      el.addEventListener("calciteInputTextInlineEditableChange", enableEditingSpy);
-
-      const input = page.getBySelector("calcite-input-text input");
-      await userEvent.click(input);
-
-      expect(enableEditingSpy).toHaveBeenCalledTimes(1);
-      expect(el.editingEnabled).toBe(true);
-    });
-
-    it("emits confirm and keeps editing enabled when save is clicked without inlineEditableAfterConfirm", async () => {
-      const { el } = await mount<InputText>(
-        <calcite-input-text inline-editable inline-editable-controls value="John Doe" />,
-      );
-      const confirmSpy = vi.fn();
-      el.addEventListener("calciteInputTextInlineEditableConfirm", confirmSpy);
-
-      const input = page.getBySelector("calcite-input-text input");
-      await userEvent.click(input);
-      await userEvent.click(
-        page.getBySelector(`calcite-input-text .${InlineEditableControlsCSS.confirmChanges}`),
-      );
-
-      expect(confirmSpy).toHaveBeenCalledTimes(1);
-      expect(el.editingEnabled).toBe(true);
-    });
-
-    it("disables editing when inlineEditableAfterConfirm resolves successfully", async () => {
-      const { el } = await mount<InputText>(
-        <calcite-input-text inline-editable inline-editable-controls value="John Doe" />,
-      );
-      el.inlineEditableAfterConfirm = vi.fn().mockResolvedValue(undefined);
-
-      const input = page.getBySelector("calcite-input-text input");
-      await userEvent.click(input);
-      await userEvent.click(
-        page.getBySelector(`calcite-input-text .${InlineEditableControlsCSS.confirmChanges}`),
-      );
-
-      expect(el.inlineEditableAfterConfirm).toHaveBeenCalledTimes(1);
-      expect(el.editingEnabled).toBe(false);
-    });
-
-    it("saves changes on blur and disables editing when inline editable controls are off", async () => {
-      const { el } = await mount<InputText>(
-        <calcite-input-text inline-editable value="John Doe" />,
-      );
-
-      const input = page.getBySelector("calcite-input-text input");
-      await userEvent.click(input);
-
-      await expect
-        .element(page.getBySelector("calcite-input-text"))
-        .toHaveAttribute("editing-enabled");
-
-      await userEvent.keyboard("X");
-      await userEvent.tab();
-
-      expect(el.value).toBe("John DoeX");
-      expect(el.editingEnabled).toBe(false);
-    });
+    await expect.element(el).toHaveValue("");
+    await expect.element(el).toHaveProperty("editingEnabled", true);
   });
 
-  describe("clearable", () => {
-    it("renders clear button", async () => {
-      await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
+  it("cancels editing on first Escape when clearable is not set", async () => {
+    const { el } = await mount<InputText>(
+      <calcite-input-text inline-editable inline-editable-controls value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
 
-      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await userEvent.click(input);
 
-      await expect.element(clearButton).toBeInTheDocument();
-      await expect.element(clearButton).toHaveAttribute("title", "Clear value");
-    });
+    await expect.element(el).toHaveAttribute("editing-enabled");
 
-    it("does not render clear button when clearable is not requested", async () => {
-      await mount<InputText>(<calcite-input-text />);
+    await userEvent.keyboard("X");
 
-      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
-      await expect.element(clearButton).not.toBeInTheDocument();
-    });
+    await expect.element(el).toHaveValue("John DoeX");
 
-    it("does not render clear button when clearable is requested and value is not populated", async () => {
-      await mount<InputText>(<calcite-input-text clearable value="" />);
+    await userEvent.keyboard("{Escape}");
 
-      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
-      await expect.element(clearButton).not.toBeInTheDocument();
-    });
+    await expect.element(el).toHaveValue("John Doe");
+    await expect.element(el).toHaveProperty("editingEnabled", false);
+  });
 
-    it("clears value on clear button click", async () => {
-      const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
-      const input = page.getBySelector("calcite-input-text input");
-      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+  it("emits enable editing change when built-in inline editable is activated", async () => {
+    const enableEditingSpy = vi.fn();
+    const { el } = await mount<InputText>(
+      <calcite-input-text
+        inline-editable
+        inline-editable-controls
+        oncalciteInputTextInlineEditableChange={enableEditingSpy}
+        value="John Doe"
+      />,
+    );
+    const input = page.getByRole("textbox");
 
-      await userEvent.click(input);
-      await userEvent.click(clearButton);
+    await userEvent.click(input);
 
-      expect(el.value).toBe("");
-    });
+    expect(enableEditingSpy).toHaveBeenCalledTimes(1);
+    await expect.element(el).toHaveProperty("editingEnabled", true);
+  });
 
-    it("clears value on escape key press", async () => {
-      const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
-      const input = page.getBySelector("calcite-input-text input");
+  it("emits confirm and keeps editing enabled when save is clicked without inlineEditableAfterConfirm", async () => {
+    const confirmSpy = vi.fn();
+    const { el } = await mount<InputText>(
+      <calcite-input-text
+        inline-editable
+        inline-editable-controls
+        oncalciteInputTextInlineEditableConfirm={confirmSpy}
+        value="John Doe"
+      />,
+    );
+    const input = page.getByRole("textbox");
 
-      await userEvent.click(input);
-      await userEvent.keyboard("{Escape}");
+    await userEvent.click(input);
+    await userEvent.click(
+      page.getBySelector(`calcite-input-text .${InlineEditableControlsCSS.confirmChanges}`),
+    );
 
-      expect(el.value).toBe("");
-    });
+    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    await expect.element(el).toHaveProperty("editingEnabled", true);
+  });
 
-    it("receives event when clear button is clicked", async () => {
-      const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
-      const inputEventHandler = vi.fn();
-      el.addEventListener("calciteInputTextInput", inputEventHandler);
+  it("disables editing when inlineEditableAfterConfirm resolves successfully", async () => {
+    const afterConfirm = vi.fn().mockResolvedValue(undefined);
 
-      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    const { el } = await mount<InputText>(
+      <calcite-input-text
+        inline-editable
+        inline-editable-controls
+        inlineEditableAfterConfirm={afterConfirm}
+        value="John Doe"
+      />,
+    );
+    const input = page.getByRole("textbox");
 
-      await userEvent.click(clearButton);
+    await userEvent.click(input);
+    await userEvent.click(
+      page.getBySelector(`calcite-input-text .${InlineEditableControlsCSS.confirmChanges}`),
+    );
 
-      expect(el.value).toBe("");
-      expect(inputEventHandler).toHaveBeenCalledTimes(1);
-    });
+    expect(el.inlineEditableAfterConfirm).toHaveBeenCalledTimes(1);
+    await expect.element(el).toHaveProperty("editingEnabled", false);
+  });
 
-    it("receives event when input is cleared via escape key", async () => {
-      const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
-      const input = page.getBySelector("calcite-input-text input");
-      const inputEventHandler = vi.fn();
-      el.addEventListener("calciteInputTextInput", inputEventHandler);
+  it("saves changes on blur and disables editing when inline editable controls are off", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text inline-editable value="John Doe" />);
+    const input = page.getByRole("textbox");
 
-      await userEvent.click(input);
+    await userEvent.click(input);
 
-      expect(inputEventHandler).toHaveBeenCalledTimes(0);
+    await expect.element(el).toHaveAttribute("editing-enabled");
 
-      await userEvent.keyboard("{Escape}");
+    await userEvent.keyboard("X");
+    await userEvent.tab();
 
-      expect(el.value).toBe("");
-      expect(inputEventHandler).toHaveBeenCalledTimes(1);
-    });
+    await expect.element(el).toHaveValue("John DoeX");
+    await expect.element(el).toHaveProperty("editingEnabled", false);
+  });
+});
 
-    it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
-      const { el } = await mount<InputText>(<calcite-input-text value="John Doe" />);
-      const input = page.getBySelector("calcite-input-text input");
-      const inputEventHandler = vi.fn();
-      el.addEventListener("calciteInputTextInput", inputEventHandler);
+describe("clearable", () => {
+  it("renders clear button", async () => {
+    await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
 
-      await userEvent.click(input);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
-      expect(inputEventHandler).toHaveBeenCalledTimes(0);
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toHaveAttribute("title", "Clear value");
+  });
 
-      await userEvent.keyboard("{Escape}");
+  it("does not render clear button when clearable is not requested", async () => {
+    await mount<InputText>(<calcite-input-text />);
 
-      expect(el.value).toBe("John Doe");
-      expect(inputEventHandler).toHaveBeenCalledTimes(0);
-    });
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
 
-    it("disables clear button when input-text is disabled", async () => {
-      await mount<InputText>(<calcite-input-text clearable disabled value="John Doe" />);
-      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+  it("does not render clear button when clearable is requested and value is not populated", async () => {
+    await mount<InputText>(<calcite-input-text clearable value="" />);
 
-      await expect.element(clearButton).toBeInTheDocument();
-      await expect.element(clearButton).toBeDisabled();
-    });
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
 
-    it("disables clear button when input-text is readOnly", async () => {
-      await mount<InputText>(<calcite-input-text clearable readOnly value="John Doe" />);
-      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+  it("clears value on clear button click", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
+    const input = page.getByRole("textbox");
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
-      await expect.element(clearButton).toBeInTheDocument();
-      await expect.element(clearButton).toBeDisabled();
-    });
+    await userEvent.click(input);
+    await userEvent.click(clearButton);
+
+    await expect.element(el).toHaveValue("");
+  });
+
+  it("clears value on escape key press", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
+    const input = page.getByRole("textbox");
+
+    await userEvent.click(input);
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveValue("");
+  });
+
+  it("receives event when clear button is clicked", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputTextInput", inputEventHandler);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(clearButton);
+
+    await expect.element(el).toHaveValue("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("receives event when input is cleared via escape key", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
+    const input = page.getByRole("textbox");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputTextInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveValue("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text value="John Doe" />);
+    const input = page.getByRole("textbox");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputTextInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveValue("John Doe");
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+  });
+
+  it("disables clear button when input-text is disabled", async () => {
+    await mount<InputText>(<calcite-input-text clearable disabled value="John Doe" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
+  });
+
+  it("disables clear button when input-text is readOnly", async () => {
+    await mount<InputText>(<calcite-input-text clearable readOnly value="John Doe" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
   });
 });
 
@@ -544,7 +551,7 @@ describe("theme", () => {
           <calcite-input-text inline-editable inline-editable-controls value="Value" />,
         );
 
-        const input = page.getBySelector("calcite-input-text input");
+        const input = page.getByRole("textbox");
         await userEvent.click(input);
 
         return component;
