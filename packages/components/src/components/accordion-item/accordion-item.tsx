@@ -76,7 +76,7 @@ export class AccordionItem extends LitElement {
   @property() heading?: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
@@ -99,7 +99,7 @@ export class AccordionItem extends LitElement {
   @property() iconPosition!: Extract<"start" | "end", Position>;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.

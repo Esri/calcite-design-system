@@ -111,13 +111,13 @@ export class Block extends LitElement {
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;

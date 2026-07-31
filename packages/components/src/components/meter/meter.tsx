@@ -106,8 +106,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) high?: number;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.8...@esri/calcite-ui-icons@4.6.0-next.9) (2026-07-30)
+
+### Bug Fixes
+
+- publish, review map, show orientated imagery ([#14906](https://github.com/Esri/calcite-design-system/issues/14906))
+
 ## [4.6.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.7...@esri/calcite-ui-icons@4.6.0-next.8) (2026-07-27)
 
 ### Features
