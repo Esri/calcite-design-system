@@ -141,10 +141,6 @@
   @apply ms-3;
 }
 
-:host([layout="vertical"]) .text-container:has(+ .icon--end) {
-  @apply me-3;
-}
-
 :host([layout="vertical"]) .icon--end {
   @apply ms-auto ps-3;
   inline-size: theme("spacing.7");
