@@ -53,6 +53,7 @@ export default {
     columnGap: {
       name: "columnSpace",
       control: { type: "text" },
+      if: { arg: "layout", eq: "columns" },
     },
     gap: {
       name: "space",
@@ -69,6 +70,7 @@ export default {
     columns: {
       options: [1, 2, 3, 4, 5, 6],
       control: { type: "radio" },
+      if: { arg: "layout", eq: "columns" },
     },
     legendText: {
       control: { type: "text" },
