@@ -585,7 +585,7 @@ export class Block extends LitElement {
         class={{
           [CSS.header]: true,
           [CSS.headerHasContent]: headerHasContent,
-          [CSS.headerDraggable]: this.dragHandle && !this.dragDisabled,
+          [CSS.headerDraggable]: this.dragHandle,
         }}
         id={IDS.header}
       >
@@ -600,7 +600,7 @@ export class Block extends LitElement {
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle && !this.dragDisabled ? (
+        {this.dragHandle ? (
           <calcite-sort-handle
             addToItems={addToItems}
             disabled={dragDisabled}
@@ -691,7 +691,7 @@ export class Block extends LitElement {
             aria-labelledby={IDS.toggle}
             class={{
               [CSS.content]: true,
-              [CSS.hasSlottedContent]: this.hasContent,
+              [CSS.hasSlottedContent]: this.hasContent || loading,
             }}
             hidden={!expanded}
             id={IDS.content}
