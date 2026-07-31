@@ -266,7 +266,7 @@ export const nativeSubmitAndReset = (args: FormStoryArgs): string =>
   });
 nativeSubmitAndReset.args = { showButtons: true, showNotice: false };
 nativeSubmitAndReset.parameters = {
-  controls: { exclude: ["showButtons", "showNotice"] },
+  controls: { disable: true },
 };
 
 export const nativeValidation = (args: FormStoryArgs): string =>
@@ -280,7 +280,7 @@ export const nativeValidation = (args: FormStoryArgs): string =>
   });
 nativeValidation.args = { showButtons: true, showNotice: true };
 nativeValidation.parameters = {
-  controls: { exclude: ["showButtons", "showNotice"] },
+  controls: { disable: true },
 };
 
 export const nativeButtonTypes = (args: FormStoryArgs): string =>
@@ -293,5 +293,5 @@ export const nativeButtonTypes = (args: FormStoryArgs): string =>
   });
 nativeButtonTypes.args = { showButtons: true, showNotice: false };
 nativeButtonTypes.parameters = {
-  controls: { exclude: ["showButtons", "showNotice"] },
+  controls: { disable: true },
 };
