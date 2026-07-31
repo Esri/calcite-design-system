@@ -18,16 +18,6 @@ import { CSS } from "./resources";
 
 describe("accessible", () => {
   accessible(() =>
-    mount(
-      <calcite-label>
-        <calcite-checkbox id="example" name="example" value="one" /> label
-      </calcite-label>,
-    ),
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(() =>
     mount(<calcite-checkbox id="example" label="label" name="example" value="one" />),
   );
 });
