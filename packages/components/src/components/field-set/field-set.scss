@@ -14,7 +14,11 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-field-set-column-gap
 // --calcite-internal-field-set-columns
+// --calcite-internal-field-set-legend-font-size
+// --calcite-internal-field-set-legend-line-height
+// --calcite-internal-field-set-legend-min-block-size
 
 @use "../../styles/includes";
 
@@ -35,79 +39,68 @@
 .legend {
   display: flex;
   align-items: center;
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-internal-field-set-legend-font-size, var(--calcite-font-size));
   font-weight: var(--calcite-font-weight-bold);
-  line-height: var(--calcite-font-line-height-fixed-base);
+  line-height: var(--calcite-internal-field-set-legend-line-height, var(--calcite-font-line-height-fixed-base));
   color: var(--calcite-field-set-legend-text-color, var(--calcite-color-text-1));
-  min-block-size: var(--calcite-space-3xl);
+  min-block-size: var(--calcite-internal-field-set-legend-min-block-size);
 }
 
 .field-wrapper {
   display: flex;
   flex-wrap: wrap;
-}
+  gap: var(--calcite-field-set-input-gap, var(--calcite-space-md));
 
-.field-wrapper--vertical {
-  flex-direction: column;
-}
+  &--vertical {
+    flex-direction: column;
+  }
 
-.field-wrapper--horizontal {
-  flex-direction: row;
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--columns {
+    display: grid;
+    place-content: stretch;
+    column-gap: var(--calcite-internal-field-set-column-gap);
+    grid-template-columns: repeat(
+      var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 1)),
+      minmax(0, 1fr)
+    );
+  }
 }
 
 :host([scale="s"]) {
-  .legend {
-    font-size: var(--calcite-font-size-sm);
-    line-height: var(--calcite-font-line-height-fixed-base);
-  }
-
-  .field-wrapper:not(.field-wrapper--columns) {
-    gap: var(--calcite-field-set-input-gap, var(--calcite-space-sm));
-  }
-
-  .field-wrapper.field-wrapper--columns {
-    row-gap: var(--calcite-field-set-input-gap, var(--calcite-space-sm));
-  }
+  --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-xs);
+  --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
+  --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-sm);
+  --calcite-field-set-input-gap: var(--calcite-space-sm);
+  --calcite-internal-field-set-column-gap: var(
+    --calcite-field-set-column-gap,
+    var(--calcite-field-set-input-gap, var(--calcite-space-sm))
+  );
 }
 
 :host([scale="m"]) {
-  .legend {
-    font-size: var(--calcite-font-size);
-    line-height: var(--calcite-font-line-height-fixed-base);
-  }
-
-  .field-wrapper:not(.field-wrapper--columns) {
-    gap: var(--calcite-field-set-input-gap, var(--calcite-space-md));
-  }
-
-  .field-wrapper.field-wrapper--columns {
-    row-gap: var(--calcite-field-set-input-gap, var(--calcite-space-md));
-  }
+  --calcite-internal-field-set-legend-font-size: var(--calcite-font-size);
+  --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
+  --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-md);
+  --calcite-field-set-input-gap: var(--calcite-space-md);
+  --calcite-internal-field-set-column-gap: var(
+    --calcite-field-set-column-gap,
+    var(--calcite-field-set-input-gap, var(--calcite-space-md))
+  );
 }
 
 :host([scale="l"]) {
-  .legend {
-    font-size: var(--calcite-font-size-md);
-    line-height: var(--calcite-font-line-height-fixed-lg);
-  }
-
-  .field-wrapper:not(.field-wrapper--columns) {
-    gap: var(--calcite-field-set-input-gap, var(--calcite-space-lg));
-  }
-
-  .field-wrapper.field-wrapper--columns {
-    row-gap: var(--calcite-field-set-input-gap, var(--calcite-space-lg));
-  }
-}
-
-.field-wrapper.field-wrapper--columns {
-  display: grid;
-  place-content: stretch;
-  grid-template-columns: repeat(
-    var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 1)),
-    minmax(0, 1fr)
+  --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-md);
+  --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-lg);
+  --calcite-internal-field-set-legend-min-block-size: 2.5rem; // TODO: we don't have a variable for this; should we do math on two other (e.g., calc(var(--calcite-size-sm) + var(--calcite-size-sm))
+  --calcite-field-set-input-gap: var(--calcite-space-lg);
+  --calcite-internal-field-set-column-gap: var(
+    --calcite-field-set-column-gap,
+    var(--calcite-field-set-input-gap, var(--calcite-space-lg))
   );
-  column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap, var(--calcite-space-lg)));
 }
 
 @for $i from 1 through 6 {
@@ -118,7 +111,7 @@
 
 @include includes.disabled() {
   .legend {
-    @apply text-color-3;
+    color: var(--calcite-color-text-3);
   }
 }
 
