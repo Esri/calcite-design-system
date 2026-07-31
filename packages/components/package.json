@@ -35,7 +35,7 @@
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
     "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json",
-    "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet --webpack-stats-json",
+    "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet --webpack-stats-json && npm run util:postprocess-storybook-dependency-graph",
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
     "build:watch-dev": "npm run util:prep-build-reqs && vite --mode development",
@@ -66,6 +66,7 @@
     "util:copy-assets": "npm run util:copy-icons",
     "util:copy-icons": "cpy \"../ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",
     "util:generate-t9n-docs-json": "node support/generate-t9n-docs-json.ts",
+    "util:postprocess-storybook-dependency-graph": "node support/postprocess-storybook-dependency-graph.ts",
     "util:generate-supported-browsers-json": "node support/generate-supported-browsers-json.ts",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]",
     "util:prep-build-reqs": "npm run util:copy-assets",

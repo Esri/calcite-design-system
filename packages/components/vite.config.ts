@@ -1,4 +1,6 @@
 import { execSync } from "child_process";
+import { writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import stylelint from "stylelint";
@@ -69,7 +71,17 @@ export function createConfig({
       noExternal: nonEsmDependencies,
     },
 
-    plugins: [lumina, customBrowserModeCommandsPlugin()],
+    plugins: [
+      lumina,
+      customBrowserModeCommandsPlugin(),
+      {
+        name: "custom-element-dependencies",
+        buildEnd: async () => {
+          const outFile = resolve(import.meta.dirname, "build", "custom-element-dependencies.json");
+          await writeFile(outFile, JSON.stringify((lumina.context as any)._customElementDependencies));
+        },
+      },
+    ],
 
     css: {
       postcss: {

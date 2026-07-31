@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "declaration": false,
