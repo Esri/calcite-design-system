@@ -127,6 +127,15 @@
   }
 }
 
+:host([status="invalid"]:not([checked])) {
+  --calcite-radio-button-border-color: var(--calcite-color-status-danger);
+}
+:host([status="invalid"]:not([checked]):focus) {
+  .radio {
+    @apply focus-outset-danger;
+  }
+}
+
 @media (forced-colors: active) {
   :host([checked]),
   :host([checked][disabled]) {
@@ -141,5 +150,4 @@
 }
 
 @include includes.form-internal-label();
-@include includes.hidden-form-input();
 @include includes.base-component();

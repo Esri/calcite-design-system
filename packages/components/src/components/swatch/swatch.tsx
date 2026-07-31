@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -39,7 +38,7 @@ export class Swatch extends LitElement {
 
   //#region Private Properties
 
-  private internalColor: ColorInstance;
+  private internalColor?: ColorInstance;
 
   private containerRef = createRef<HTMLDivElement>();
 
@@ -60,9 +59,9 @@ export class Swatch extends LitElement {
   /**
    * Specifies the component's color
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+   * @see [MDN - CSS color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
    */
-  @property() color: string;
+  @property() color?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -76,14 +75,13 @@ export class Swatch extends LitElement {
   @property() interactive = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** @private */
-  @property() parentSwatchGroup: SwatchGroup["el"];
+  @property() parentSwatchGroup?: SwatchGroup["el"];
 
   /** Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -207,7 +205,7 @@ export class Swatch extends LitElement {
     if (this.selectionMode === "single") {
       this.calciteInternalSyncSelectedSwatches.emit();
     }
-    const selectedInParent = this.parentSwatchGroup.selectedItems.includes(this.el);
+    const selectedInParent = this.parentSwatchGroup?.selectedItems.includes(this.el);
 
     if (!selectedInParent && selected && this.selectionMode !== "multiple") {
       this.calciteInternalSwatchSelect.emit();
@@ -217,8 +215,8 @@ export class Swatch extends LitElement {
     }
   }
 
-  private handleColorChange(color: string | null): void {
-    this.internalColor = color ? Color(color) : null;
+  private handleColorChange(color: string | undefined): void {
+    this.internalColor = color ? Color(color) : undefined;
   }
 
   //#endregion

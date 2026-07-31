@@ -1,20 +1,24 @@
 import { BlockSection } from "../block-section/block-section";
-import { boolean } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { Block } from "./block";
 
-const { toggleDisplay, scale } = ATTRIBUTES;
+const { headingLevelWithNone, placement, toggleDisplay, scale } = ATTRIBUTES;
 
 interface BlockStoryArgs
-  extends Pick<
+  extends
+    Pick<
       Block,
       | "heading"
       | "description"
       | "expanded"
+      | "iconEnd"
+      | "iconStart"
       | "collapsible"
       | "loading"
       | "disabled"
@@ -41,7 +45,9 @@ export default {
     disabled: false,
     dragDisabled: false,
     sortHandleOpen: false,
-    headingLevel: 2,
+    headingLevel: "",
+    iconEnd: "",
+    iconStart: "",
     text: "Animals",
     sectionExpanded: true,
     toggleDisplay: toggleDisplay.defaultValue,
@@ -49,11 +55,20 @@ export default {
   },
   argTypes: {
     menuPlacement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     headingLevel: {
-      control: { type: "number", min: 1, max: 6, step: 1 },
+      options: headingLevelWithNone.values,
+      control: { type: "select" },
+    },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
     },
     toggleDisplay: {
       options: toggleDisplay.values,
@@ -70,14 +85,16 @@ export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
+    ${optionalAttribute("icon-start", args.iconStart)}
+    ${optionalAttribute("icon-end", args.iconEnd)}
     menu-placement="${args.menuPlacement}"
     ${boolean("expanded", args.expanded)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     ${boolean("drag-disabled", args.dragDisabled)}
-    ${boolean("sort-handle-open", args.dragDisabled)}
-    heading-level="${args.headingLevel}"
+    ${boolean("sort-handle-open", args.sortHandleOpen)}
+    ${optionalAttribute("heading-level", args.headingLevel)}
     scale="${args.scale}"
   >
     <calcite-block-section
@@ -93,7 +110,7 @@ export const simple = (args: BlockStoryArgs): string => html`
   </calcite-block>
 `;
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-block heading="heading" description="description" expanded collapsible disabled>
     <calcite-block-section text="Nature" expanded>
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
@@ -101,7 +118,7 @@ export const disabled_TestOnly = (): string => html`
   </calcite-block>
 `;
 
-export const paddingDisabled_TestOnly = (): string =>
+export const paddingDisabled = (): string =>
   html` <calcite-panel heading="Properties">
     <calcite-block
       heading="Example block heading"
@@ -114,7 +131,7 @@ export const paddingDisabled_TestOnly = (): string =>
     </calcite-block>
   </calcite-panel>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-block
     heading="Heading"
     description="description"
@@ -133,7 +150,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-block>
 `;
 
-export const contentCanTakeFullHeight_TestOnly = (): string =>
+export const contentCanTakeFullHeight = (): string =>
   html`<calcite-block expanded heading="Heading" description="description" style="height: 250px">
     <div style="background: red; height: 100%;">should take full width of the content area</div>
   </calcite-block>`;
@@ -146,7 +163,7 @@ export const alignment = (): string => html`
   <calcite-block heading="Heading" description="description"></calcite-block>
 `;
 
-export const contentSpacing_TestOnly = (): string => html`
+export const contentSpacing = (): string => html`
   <calcite-block heading="Block heading" expanded>
     <div>Some text that has padding built in</div>
   </calcite-block>
@@ -164,7 +181,7 @@ export const loading = (): string => html`
   <calcite-block heading="Invalid status" description="summary" status="invalid"> With invalid status </calcite-block>
 `;
 
-export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => html`
+export const longWrappingTextInBlockAndBlockSection = (): string => html`
   <calcite-panel style="width:250px">
     <calcite-block
       collapsible
@@ -206,7 +223,7 @@ export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => htm
   </calcite-panel>
 `;
 
-export const scrollingContainerSetup_TestOnly = (): string =>
+export const scrollingContainerSetup = (): string =>
   html`<style>
       calcite-block {
         height: 250px;
@@ -240,9 +257,9 @@ export const scrollingContainerSetup_TestOnly = (): string =>
       })();
     </script>`;
 
-scrollingContainerSetup_TestOnly.parameters = { chromatic: { delay: 500 } };
+scrollingContainerSetup.parameters = { chromatic: { delay: 500 } };
 
-export const toggleDisplayWithLongText_TestOnly = (): string =>
+export const toggleDisplayWithLongText = (): string =>
   html`<calcite-block expanded heading="Calcite block" style="width:150px">
     <calcite-block-section id="block-section" expanded text="Calcite block's super long text" toggle-display="switch">
       <calcite-notice open>
@@ -251,7 +268,7 @@ export const toggleDisplayWithLongText_TestOnly = (): string =>
     </calcite-block-section>
   </calcite-block>`;
 
-export const icons_TestOnly = (): string => html`
+export const icons = (): string => html`
   <calcite-block heading="Heading" description="summary" collapsible expanded>
     <calcite-block-section
       text="Planes, trains, and automobiles are some examples of modes of transportation"
@@ -388,5 +405,35 @@ export const emptyHeader = (): string => html`
       <div>Favorite vegetable</div>
       <calcite-icon icon="information" />
     </calcite-label>
+  </calcite-block>
+`;
+
+export const toggleDisplaySwitch = (): string => html`
+  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible> </calcite-block>
+`;
+
+const nestedBlockHTML = (slottedAsChildren = true): string => html`
+  <calcite-block
+    heading="Road network"
+    description="Highways, arterials, and local streets"
+    ${slottedAsChildren ? 'slot="children"' : ""}
+    collapsible
+    expanded
+  >
+    <calcite-block heading="County roads" description="County roads" slot="children"></calcite-block>
+    <calcite-block heading="Local Streets" description="Local streets" slot="children"></calcite-block>
+  </calcite-block>
+`;
+
+export const nestedBlockInChildrenSlot = (): string => html`
+  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
+    ${nestedBlockHTML()}
+  </calcite-block>
+  <calcite-block heading="Hydrology" description="Rivers, lakes, and watershed boundaries"></calcite-block>
+`;
+
+export const nestedBlockGroupInChildrenSlot = (): string => html`
+  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
+    <calcite-block-group slot="children"> ${nestedBlockHTML(false)} </calcite-block-group>
   </calcite-block>
 `;

@@ -1,16 +1,7 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  h,
-  method,
-  state,
-  JsxNode,
-  setAttribute,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -24,13 +15,17 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { Scale } from "../interfaces";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import { ARIA_DESCRIBED_BY, CSS, IDS } from "./resources";
-import TooltipManager from "./TooltipManager";
-import { getEffectiveReferenceElement } from "./utils";
+import {
+  ReferenceElementComponent,
+  ReferenceElementType,
+  useReferenceElement,
+} from "../../controllers/useReferenceElement";
+import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
+import { CSS } from "./resources";
 import { styles } from "./tooltip.scss";
 
 declare global {
@@ -39,10 +34,10 @@ declare global {
   }
 }
 
-const manager = new TooltipManager();
+const manager = referenceElementManager({ hover: true });
 
 /** @slot - A slot for adding text. */
-export class Tooltip extends LitElement implements FloatingUIComponent {
+export class Tooltip extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -51,11 +46,15 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   // #region Private Properties
 
-  private arrowRef = createRef<SVGSVGElement>();
+  private arrowEl?: SVGSVGElement;
 
-  floatingEl: HTMLDivElement;
+  private direction = useDirection();
 
-  private guid = IDS.host(guid());
+  floatingEl?: HTMLDivElement;
+
+  referenceElementType: ReferenceElementType = "hover";
+
+  referenceElementController = useReferenceElement({ manager })(this);
 
   transitionProp = "opacity" as const;
 
@@ -72,7 +71,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
-  @state() referenceEl: ReferenceElement;
+  @state() referenceEl?: ReferenceElement;
 
   // #endregion
 
@@ -82,11 +81,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) closeOnClick = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
-  @property() label: string;
+  @property() label?: string;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
@@ -99,35 +97,25 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   /** When `true`, the component is open. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
-  /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   */
-  @property() referenceElement: ReferenceElement | string;
+  /** When `true`, removes the caret pointer. */
+  @property({ reflect: true }) pointerDisabled = false;
+
+  /** @copyDoc */
+  @property() referenceElement: ReferenceElement | string | undefined;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
+   * @copyDoc
    *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -148,20 +136,21 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
-      arrowRef,
+      arrowEl,
       floatingEl,
     } = this;
 
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl: referenceEl,
         overlayPositioning,
         placement,
         offsetDistance,
         offsetSkidding,
-        arrowEl: arrowRef.value,
+        arrowEl,
         type: "tooltip",
       },
       delayed,
@@ -188,10 +177,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   // #region Lifecycle
 
-  override connectedCallback(): void {
-    this.setUpReferenceElement(true);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -212,23 +197,18 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
       this.openHandler();
     }
 
-    if (changes.has("referenceElement")) {
-      this.setUpReferenceElement();
-
-      if (!this.referenceElement && this.open) {
-        this.topLayer.hide();
-      }
+    if (changes.has("referenceElement") && !this.referenceElement && this.open) {
+      this.topLayer.hide();
     }
   }
 
-  loaded(): void {
-    if (this.referenceElement && !this.referenceEl) {
-      this.setUpReferenceElement();
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("referenceEl")) {
+      connectFloatingUI(this);
     }
   }
 
   override disconnectedCallback(): void {
-    this.removeReferences();
     disconnectFloatingUI(this);
   }
 
@@ -262,59 +242,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-
-    if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
-    }
   }
 
-  private setUpReferenceElement(warn = true): void {
-    this.removeReferences();
-    this.referenceEl = getEffectiveReferenceElement(this.el);
-    connectFloatingUI(this);
-
-    const { el, referenceElement, referenceEl } = this;
-    if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el,
-      });
-    }
-
-    this.addReferences();
-  }
-
-  private getId(): string {
-    return this.el.id || this.guid;
-  }
-
-  private addReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    const id = this.getId();
-
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_DESCRIBED_BY, id);
-    }
-
-    manager.registerElement(referenceEl, this.el);
-  }
-
-  private removeReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("removeAttribute" in referenceEl) {
-      referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
-    }
-
-    manager.unregisterElement(referenceEl);
+  private setArrowEl(el: SVGSVGElement | undefined): void {
+    this.arrowEl = el;
+    this.reposition(true);
   }
 
   // #endregion
@@ -322,17 +254,18 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   // #region Rendering
 
   override render(): JsxNode {
-    const { referenceEl, label, open, floatingLayout } = this;
+    const { referenceEl, label, open, pointerDisabled, floatingLayout } = this;
     const displayed = referenceEl && open;
     const hidden = !displayed;
+    const arrowNode = !pointerDisabled ? (
+      <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.setArrowEl} />
+    ) : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = label;
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "id", this.getId());
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tooltip";
 
@@ -345,7 +278,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
           }}
           ref={this.transitionRef}
         >
-          <FloatingArrow floatingLayout={floatingLayout} ref={this.arrowRef} />
+          {arrowNode}
           <div class={CSS.container}>
             <slot />
           </div>

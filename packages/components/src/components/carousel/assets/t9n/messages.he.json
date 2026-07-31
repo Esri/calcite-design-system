@@ -5,5 +5,5 @@
   "pause": "השהה",
   "carousel": "קרוסלה",
   "carouselItemProgress": "מחוון התקדמות עבור פריט קרוסלה",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "פריט {current} מתוך {total}"
 }

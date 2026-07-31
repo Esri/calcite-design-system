@@ -4,22 +4,16 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
-import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../types/extensions.d.ts";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.ts";
-import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.ts";
-import { primitiveValueOutputReferences } from "../build/utils/output-references.ts";
+import { isBreakpointExpand } from "../build/utils/token-types.ts";
+import { stylesheetOutputReferences } from "../build/utils/output-references.ts";
 
 const commonExpand = {
   typesMap: {
     ...sdTypes,
   },
-};
-
-const stylesheetOutputReferences: OutputReferences = (token, options) => {
-  // output specific token references to match test output
-  return !!(isCornerRadius(token) && token.path.includes("default")) || primitiveValueOutputReferences(token, options);
 };
 
 const config: Config = {
@@ -147,6 +141,7 @@ const config: Config = {
         ...transformers.platformTransforms.es6,
         transformers.TransformValueCorrectPropName,
         transformers.TransformValueMergeValues,
+        transformers.TransformValueEs6MergeBreakpoints,
       ],
       buildPath: "dist/es6/",
       prefix: "calcite",
@@ -201,12 +196,12 @@ const config: Config = {
         {
           destination: "breakpoints.js",
           format: sdFormats.javascriptEs6,
-          filter: filters.FilterBreakpointTokens,
+          filter: filters.FilterEs6BreakpointTokens,
         },
         {
           destination: "breakpoints.d.ts",
           format: sdFormats.typescriptEs6Declarations,
-          filter: filters.FilterBreakpointTokens,
+          filter: filters.FilterEs6BreakpointTokens,
         },
       ],
     },

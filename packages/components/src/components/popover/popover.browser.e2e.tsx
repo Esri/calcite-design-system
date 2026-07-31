@@ -1,7 +1,9 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
+import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   focusable,
@@ -10,11 +12,51 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  openClose,
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
+import { Popover } from "./popover";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("when open", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("with close button", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover closable label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -133,7 +175,7 @@ describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
-        mount(
+        mount<Popover>(
           <>
             <calcite-popover placement="auto" reference-element="ref">
               content
@@ -160,4 +202,135 @@ describe("top layer placement", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-popover"));
+});
+
+describe("auto-close", () => {
+  it("should autoClose popovers with a shared referenceElement", async () => {
+    await mount(
+      <div>
+        <p>
+          Some text
+          <button id="ref1">Button</button>
+        </p>
+        <p>
+          Some more text
+          <button id="ref2">Button</button>
+        </p>
+        <calcite-popover auto-close id="popover1" open reference-element="ref1">
+          Content 1
+        </calcite-popover>
+        <calcite-popover auto-close id="popover2" open reference-element="ref1">
+          Content 2
+        </calcite-popover>
+        <calcite-popover auto-close id="popover3" open reference-element="ref1">
+          Content 3
+        </calcite-popover>
+      </div>,
+    );
+
+    const popover1 = page
+      .getByText("Content 1")
+      .element()
+      ?.closest("calcite-popover") as Popover | null;
+    const popover2 = page
+      .getByText("Content 2")
+      .element()
+      ?.closest("calcite-popover") as Popover | null;
+    const popover3 = page
+      .getByText("Content 3")
+      .element()
+      ?.closest("calcite-popover") as Popover | null;
+    const [ref1, ref2] = page.getByRole("button", { name: "Button" }).all();
+
+    if (!popover1 || !popover2 || !popover3) {
+      throw new Error("Expected all popover elements to be present");
+    }
+
+    expect(popover1.open).toBe(true);
+    expect(popover2.open).toBe(true);
+    expect(popover3.open).toBe(true);
+
+    await userEvent.click(ref2);
+
+    expect(popover1.open).toBe(false);
+    expect(popover2.open).toBe(false);
+    expect(popover3.open).toBe(false);
+
+    await userEvent.click(ref1);
+
+    expect(popover1.open).toBe(true);
+    expect(popover2.open).toBe(true);
+    expect(popover3.open).toBe(true);
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) =>
+      mount(
+        <>
+          <calcite-popover placement="auto" reference-element="ref">
+            content
+          </calcite-popover>
+          <div id="ref">referenceElement</div>
+        </>,
+        mountOptions,
+      ),
+    );
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!">
+            Lorem Ipsum
+          </calcite-popover>,
+        ),
+      {
+        "--calcite-popover-background-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${FloatingCSS.arrow}`,
+            targetProp: "fill",
+          },
+        ],
+        "--calcite-popover-border-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.header}`,
+            targetProp: "borderBlockEndColor",
+          },
+          {
+            shadowSelector: `.${FloatingCSS.arrowStroke}`,
+            targetProp: "stroke",
+          },
+        ],
+        "--calcite-popover-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-popover-max-size-x": {
+          shadowSelector: `.${CSS.positionContainer}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-popover-text-color": [
+          {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.headerContainer}`,
+            targetProp: "color",
+          },
+        ],
+      },
+    );
+  });
 });

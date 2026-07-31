@@ -1,13 +1,54 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { it, expect, describe } from "vitest";
-import { commands, userEvent } from "vitest/browser";
-import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import { describe, expect, it } from "vitest";
+import { locators, page, userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
+import {
+  defaults,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
-import { SLOTS } from "./resources";
+import { Dir } from "../interfaces";
+import { CSS, SLOTS } from "./resources";
+import type { ShellPanel } from "./shell-panel";
+import type { Shell } from "../shell/shell";
+
+declare module "vitest/browser" {
+  interface LocatorSelectors {
+    getByCss: (css: string) => import("vitest/browser").Locator;
+  }
+}
+
+locators.extend({
+  getByCss(css: string) {
+    return `css=${css}`;
+  },
+});
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-shell-panel position="start" slot="panel-start">
+        <calcite-action-bar slot="action-bar">
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="save" text="Save" />
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-group>
+        </calcite-action-bar>
+        <p>Primary Content</p>
+      </calcite-shell-panel>,
+    ),
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -68,142 +109,793 @@ describe("translation support", () => {
 describe("shell-panel updateSize public method", () => {
   mockConsole();
 
-  describe("vertical panel", () => {
-    async function setupVerticalPanel(initialToken: number) {
-      const { el, component } = await mount<"calcite-shell">(
-        <calcite-shell>
-          <calcite-shell-panel resizable slot="panel-start">
-            <calcite-panel>Content</calcite-panel>
-          </calcite-shell-panel>
-        </calcite-shell>,
-      );
+  type PanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
+  type PanelLayout = ShellPanel["layout"];
+  type ResizeAxis = "inline" | "block";
+  type ComputedSizeProp = "inlineSize" | "blockSize";
+  type SizeCssProp = "--calcite-shell-panel-width" | "--calcite-shell-panel-height";
+  type RectDimensionProp = "width" | "height";
 
-      const panel = el.querySelector("calcite-shell-panel")!;
+  type TestCase = {
+    dir: Dir;
+    changeAfterMount?: "dir" | "slot" | "position";
+    slot: PanelSlot;
+    position: ShellPanel["position"];
+  };
 
-      const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
-      const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
+  /**
+   * Options representing supported use cases to test.
+   *
+   * Note: mismatched slot and position are not supported (e.g., slot=panel-start + position=end)
+   */
+  const testCases: TestCase[] = [
+    { dir: "ltr", slot: "panel-start", position: "start" },
+    { dir: "ltr", slot: "panel-end", position: "end" },
+    { dir: "rtl", slot: "panel-start", position: "start" },
+    { dir: "rtl", slot: "panel-end", position: "end" },
 
-      panel.style.setProperty("--calcite-shell-panel-width", `${initialToken}px`);
-      await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
+    { dir: "ltr", slot: "panel-start", position: "start", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-end", position: "end", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-start", position: "start", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-end", position: "end", changeAfterMount: "dir" },
 
-      return { panel, content, handle, component };
+    { dir: "ltr", slot: "panel-start", position: "start", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-end", position: "end", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-start", position: "start", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-end", position: "end", changeAfterMount: "slot" },
+
+    { dir: "ltr", slot: "panel-top", position: "start" },
+    { dir: "ltr", slot: "panel-bottom", position: "end" },
+    { dir: "rtl", slot: "panel-top", position: "start" },
+    { dir: "rtl", slot: "panel-bottom", position: "end" },
+
+    { dir: "ltr", slot: "panel-top", position: "start", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-bottom", position: "end", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-top", position: "start", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-bottom", position: "end", changeAfterMount: "dir" },
+
+    { dir: "ltr", slot: "panel-top", position: "start", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-bottom", position: "end", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-top", position: "start", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-bottom", position: "end", changeAfterMount: "slot" },
+  ];
+
+  function layoutFromPanelSlot(slot: PanelSlot): PanelLayout {
+    return slot === "panel-start" || slot === "panel-end" ? "vertical" : "horizontal";
+  }
+
+  function getCrossAxisResizeTestSlot(slot: PanelSlot): PanelSlot {
+    const layout = layoutFromPanelSlot(slot);
+
+    return layout === "horizontal"
+      ? slot === "panel-bottom"
+        ? "panel-end"
+        : "panel-start"
+      : slot === "panel-start"
+        ? "panel-top"
+        : "panel-bottom";
+  }
+
+  function getRectDimensionProp(layout: PanelLayout): RectDimensionProp {
+    return layout === "vertical" ? "width" : "height";
+  }
+
+  type SetupResult = Awaited<ReturnType<typeof setUpShellPanel>>;
+  type LayoutResetContext = Pick<
+    SetupResult,
+    "shell" | "content" | "afterConnectContentRect" | "panel"
+  > & {
+    slot: PanelSlot;
+  };
+  type MethodOverrideContext = Pick<
+    SetupResult,
+    | "axis"
+    | "baselineContentSize"
+    | "shell"
+    | "content"
+    | "overrideSize"
+    | "panel"
+    | "computedSizeProp"
+  >;
+
+  async function assertLayoutChangeResetsSize({
+    shell,
+    content,
+    afterConnectContentRect,
+    panel,
+    slot,
+  }: LayoutResetContext): Promise<void> {
+    const layout = layoutFromPanelSlot(slot);
+    panel.slot = getCrossAxisResizeTestSlot(slot);
+    await panel.manager.component.updateComplete;
+    await shell.manager.component.updateComplete;
+    const currentRect = content.getBoundingClientRect();
+    const rectDimensionProp = getRectDimensionProp(layout);
+
+    expect(currentRect[rectDimensionProp]).toBe(afterConnectContentRect[rectDimensionProp]);
+
+    panel.slot = slot;
+    await panel.manager.component.updateComplete;
+    await shell.manager.component.updateComplete;
+  }
+
+  async function assertMethodOverride({
+    axis,
+    baselineContentSize,
+    shell,
+    content,
+    overrideSize,
+    panel,
+    computedSizeProp,
+  }: MethodOverrideContext): Promise<void> {
+    await panel.updateSize({ [axis]: overrideSize });
+    await shell.manager.component.updateComplete;
+    expect(getComputedStyle(content)[computedSizeProp]).toBe(`${overrideSize}px`);
+
+    await panel.updateSize({ [axis]: null });
+    await shell.manager.component.updateComplete;
+    expect(getComputedStyle(content)[computedSizeProp]).toBe(`${baselineContentSize}px`);
+  }
+
+  async function setUpShellPanel({ dir, changeAfterMount, slot, position }: TestCase): Promise<{
+    axis: ResizeAxis;
+    panel: ShellPanel["el"];
+    content: HTMLElement;
+    handle: HTMLElement;
+    shell: Shell["el"];
+    computedSizeProp: ComputedSizeProp;
+    sizeCssProp: SizeCssProp;
+    afterConnectContentRect: DOMRect;
+    baselineContentSize: number;
+    overrideSize: number;
+  }> {
+    const layout = layoutFromPanelSlot(slot);
+    const axis: ResizeAxis = layout === "vertical" ? "inline" : "block";
+    const initialShellPanelSlot: PanelSlot =
+      changeAfterMount === "slot"
+        ? // we use cross-axis slot for additional coverage
+          getCrossAxisResizeTestSlot(slot)
+        : slot;
+    const initialPosition: ShellPanel["position"] =
+      changeAfterMount === "position" ? (position === "start" ? "end" : "start") : position;
+
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell dir={changeAfterMount === "dir" ? undefined : dir}>
+        <calcite-shell-panel position={initialPosition} resizable slot={initialShellPanelSlot}>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getByCssElement<ShellPanel["el"]>(el, ":scope > calcite-shell-panel");
+    const { content, handle } = getShellPanelElements(panel);
+    const sizeCssProp =
+      layout === "horizontal" ? "--calcite-shell-panel-height" : "--calcite-shell-panel-width";
+    const computedSizeProp: ComputedSizeProp = layout === "horizontal" ? "blockSize" : "inlineSize";
+    const afterConnectContentRect = content.getBoundingClientRect();
+
+    if (changeAfterMount === "dir") {
+      el.dir = dir;
+    } else if (changeAfterMount === "slot") {
+      panel.slot = slot;
+    } else if (changeAfterMount === "position") {
+      panel.position = position;
     }
 
-    it("should update vertical panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
-      const initialSize = 320;
-      const overrideSize = 400;
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
 
-      const { panel, content, handle, component } = await setupVerticalPanel(initialSize);
+    const baselineContentSize = parseFloat(getComputedStyle(content)[computedSizeProp]);
+    const overrideSize = Math.round(baselineContentSize + 10);
 
-      handle.focus();
-      await userEvent.keyboard("{ArrowRight}");
-      expect(getComputedStyle(content).inlineSize).not.toBe(initialSize);
+    return {
+      axis,
+      panel,
+      content,
+      handle,
+      shell: component,
+      computedSizeProp,
+      sizeCssProp,
+      afterConnectContentRect,
+      baselineContentSize,
+      overrideSize,
+    };
+  }
 
-      await panel.updateSize({ inline: overrideSize });
-      await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${overrideSize}px`);
+  function getUserInteraction({ dir, slot }: Pick<TestCase, "dir" | "slot">): {
+    keyboardKey: string;
+    mouseDelta: {
+      dx: number;
+      dy: number;
+    };
+  } {
+    const layout = layoutFromPanelSlot(slot);
+    const isVertical = layout === "vertical";
+    const isRtl = dir === "rtl";
+    const direction = isVertical
+      ? slot === "panel-start"
+        ? isRtl
+          ? "left"
+          : "right"
+        : isRtl
+          ? "right"
+          : "left"
+      : slot === "panel-bottom"
+        ? "up"
+        : "down";
 
-      await panel.updateSize({ inline: null });
-      await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${initialSize}px`);
+    const keyboardKey =
+      direction === "left"
+        ? "{ArrowLeft}"
+        : direction === "right"
+          ? "{ArrowRight}"
+          : direction === "up"
+            ? "{ArrowUp}"
+            : "{ArrowDown}";
+
+    const sign = direction === "left" || direction === "up" ? -1 : 1;
+    const deltaAmount = sign * 10;
+    const mouseDelta =
+      layout === "vertical" ? { dx: deltaAmount, dy: 0 } : { dx: 0, dy: deltaAmount };
+
+    return {
+      keyboardKey,
+      mouseDelta,
+    };
+  }
+
+  function getByCssElement<T extends Element>(element: Element, css: string): T {
+    return page.elementLocator(element).getByCss(css).element() as unknown as T;
+  }
+
+  function getShellPanelBySlot(shell: Shell["el"], slot: PanelSlot): ShellPanel["el"] {
+    return getByCssElement<ShellPanel["el"]>(shell, `:scope > calcite-shell-panel[slot="${slot}"]`);
+  }
+
+  function getShellPanelElements(panel: ShellPanel["el"]): {
+    actionBarContainer: HTMLElement;
+    content: HTMLElement;
+    handle: HTMLElement;
+  } {
+    const panelLocator = page.elementLocator(panel);
+
+    return {
+      actionBarContainer: panelLocator
+        .getByCss(`:scope > .${CSS.container} > .${CSS.actionBarContainer}`)
+        .element() as HTMLElement,
+      content: panelLocator
+        .getByCss(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
+        .element() as HTMLElement,
+      handle: panelLocator
+        .getByCss(
+          `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
+        )
+        .element() as HTMLElement,
+    };
+  }
+
+  async function dragPanelToMax({
+    component,
+    handle,
+    layout,
+    panel,
+    shellSize,
+  }: {
+    component: { updateComplete: Promise<unknown> };
+    handle: HTMLElement;
+    layout: PanelLayout;
+    panel: ShellPanel["el"];
+    shellSize: number;
+  }): Promise<void> {
+    const handleRect = handle.getBoundingClientRect();
+
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(
+      layout === "vertical" ? handleRect.left - shellSize : handleRect.left + handleRect.width / 2,
+      layout === "vertical" ? handleRect.top + handleRect.height / 2 : handleRect.top - shellSize,
+    );
+    await commands.mouseUp();
+
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+  }
+
+  it("accounts for action bar width when applying max width to vertical panels", async () => {
+    const shellWidth = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell style={`inline-size: ${shellWidth}px; block-size: 400px; position: relative;`}>
+        <calcite-shell-panel slot="panel-start">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Start content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          resizable
+          slot="panel-end"
+          style="--calcite-shell-panel-max-width: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot(el, "panel-end");
+    const { actionBarContainer, content, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
+
+    const occupiedWidth =
+      actionBarContainer.getBoundingClientRect().width + content.getBoundingClientRect().width;
+
+    expect(Math.ceil(occupiedWidth)).toBeLessThanOrEqual(shellWidth);
+  });
+
+  it("accounts for action bar width and float-all spacing when applying max width to vertical panels", async () => {
+    const shellWidth = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell style={`inline-size: ${shellWidth}px; block-size: 400px; position: relative;`}>
+        <calcite-shell-panel slot="panel-start">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Start content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          display-mode="float-all"
+          resizable
+          slot="panel-end"
+          style="--calcite-shell-panel-max-width: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot(el, "panel-end");
+    const { actionBarContainer, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
+
+    expect(Math.ceil(actionBarContainer.getBoundingClientRect().right)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().right),
+    );
+  });
+
+  it("accounts for action bar width and float spacing when applying max width to vertical panels", async () => {
+    const shellWidth = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell style={`inline-size: ${shellWidth}px; block-size: 400px; position: relative;`}>
+        <calcite-shell-panel slot="panel-start">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Start content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          display-mode="float"
+          resizable
+          slot="panel-end"
+          style="--calcite-shell-panel-max-width: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot(el, "panel-end");
+    const { actionBarContainer, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
+
+    expect(Math.ceil(actionBarContainer.getBoundingClientRect().right)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().right),
+    );
+  });
+
+  it("accounts for action bar height when applying max height to horizontal panels", async () => {
+    const shellHeight = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell
+        style={`inline-size: 700px; block-size: ${shellHeight}px; position: relative;`}
+      >
+        <calcite-shell-panel slot="panel-top">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Top content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          resizable
+          slot="panel-bottom"
+          style="--calcite-shell-panel-max-height: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot(el, "panel-bottom");
+    const siblingPanel = getShellPanelBySlot(el, "panel-top");
+    const centerPanel = getByCssElement<HTMLElement>(el, ":scope > calcite-panel:not([slot])");
+    const { actionBarContainer, content, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({
+      component,
+      handle,
+      layout: "horizontal",
+      panel,
+      shellSize: shellHeight,
     });
 
-    it("should update vertical panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
-      const initialSize = 320;
-      const overrideSize = 400;
+    const occupiedHeight =
+      actionBarContainer.getBoundingClientRect().height + content.getBoundingClientRect().height;
+    const centerPanelComputedStyle = getComputedStyle(centerPanel);
+    const centerPanelBorderHeight =
+      parseFloat(centerPanelComputedStyle.borderBlockStartWidth) +
+      parseFloat(centerPanelComputedStyle.borderBlockEndWidth);
+    const totalOccupiedHeight =
+      siblingPanel.getBoundingClientRect().height + occupiedHeight + centerPanelBorderHeight;
 
-      const { panel, content, handle, component } = await setupVerticalPanel(initialSize);
+    expect(Math.ceil(occupiedHeight)).toBeLessThanOrEqual(shellHeight);
+    expect(Math.ceil(totalOccupiedHeight)).toBeLessThanOrEqual(shellHeight);
+  });
 
-      await userEvent.click(handle);
-      const handleRect = handle.getBoundingClientRect();
-      await commands.mouseDown();
-      await commands.mouseMove(
-        handleRect.left + handleRect.width / 2,
-        handleRect.top + handleRect.height / 2,
+  it("accounts for action bar height and float-all spacing when applying max height to horizontal panels", async () => {
+    const shellHeight = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell
+        style={`inline-size: 700px; block-size: ${shellHeight}px; position: relative;`}
+      >
+        <calcite-shell-panel slot="panel-top">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Top content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          display-mode="float-all"
+          resizable
+          slot="panel-bottom"
+          style="--calcite-shell-panel-max-height: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot(el, "panel-bottom");
+    const { actionBarContainer, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({
+      component,
+      handle,
+      layout: "horizontal",
+      panel,
+      shellSize: shellHeight,
+    });
+
+    expect(Math.ceil(actionBarContainer.getBoundingClientRect().bottom)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().bottom),
+    );
+  });
+
+  it("accounts for action bar height and float spacing when applying max height to horizontal panels", async () => {
+    const shellHeight = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell
+        style={`inline-size: 700px; block-size: ${shellHeight}px; position: relative;`}
+      >
+        <calcite-shell-panel slot="panel-top">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Top content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          display-mode="float"
+          resizable
+          slot="panel-bottom"
+          style="--calcite-shell-panel-max-height: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot(el, "panel-bottom");
+    const { actionBarContainer, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({
+      component,
+      handle,
+      layout: "horizontal",
+      panel,
+      shellSize: shellHeight,
+    });
+
+    expect(Math.ceil(actionBarContainer.getBoundingClientRect().bottom)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().bottom),
+    );
+  });
+
+  it("applies touch-action:none to the resize handle to enable resizing on mobile/touch devices", async () => {
+    const { el } = await mount<"calcite-shell-panel">(
+      <calcite-shell-panel resizable>
+        <calcite-panel>Content</calcite-panel>
+      </calcite-shell-panel>,
+    );
+    const handle = page
+      .elementLocator(el)
+      .getByCss(
+        `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
+      )
+      .element() as HTMLElement;
+
+    expect(getComputedStyle(handle).touchAction).toBe("none");
+  });
+
+  testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
+    const layout = layoutFromPanelSlot(slot);
+    const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot });
+
+    const testLabel = `${layout} panel [dir=${dir}, changeAfterMount=${changeAfterMount ?? "none"}, slot=${slot}, position=${position}]`;
+
+    it(`default size → token resize → KEYBOARD resize → method resize → clear method override (${testLabel})`, async () => {
+      const {
+        axis,
+        panel,
+        content,
+        shell,
+        computedSizeProp,
+        sizeCssProp,
+        afterConnectContentRect,
+        baselineContentSize,
+        overrideSize,
+      } = await setUpShellPanel({
+        dir,
+        changeAfterMount,
+        slot,
+        position,
+      });
+
+      panel.style.setProperty(sizeCssProp, `${baselineContentSize}px`);
+      await shell.manager.component.updateComplete;
+
+      expect(getComputedStyle(content)).toHaveProperty(
+        computedSizeProp,
+        `${baselineContentSize}px`,
       );
+
+      await userEvent.keyboard(`{Tab}${keyboardKey}`);
+      const afterUserResize = parseFloat(getComputedStyle(content)[computedSizeProp]);
+      expect(afterUserResize).toBeGreaterThan(baselineContentSize);
+
+      if (changeAfterMount === "slot") {
+        await assertLayoutChangeResetsSize({
+          shell,
+          content,
+          afterConnectContentRect,
+          panel,
+          slot,
+        });
+      }
+
+      await assertMethodOverride({
+        axis,
+        baselineContentSize,
+        shell,
+        content,
+        overrideSize,
+        panel,
+        computedSizeProp,
+      });
+    });
+
+    it(`default size → token resize → MOUSE resize → method resize → clear method override (${testLabel})`, async () => {
+      const {
+        axis,
+        panel,
+        content,
+        handle,
+        shell,
+        computedSizeProp,
+        sizeCssProp,
+        afterConnectContentRect,
+        baselineContentSize,
+        overrideSize,
+      } = await setUpShellPanel({
+        dir,
+        changeAfterMount,
+        slot,
+        position,
+      });
+
+      panel.style.setProperty(sizeCssProp, `${baselineContentSize}px`);
+      await shell.manager.component.updateComplete;
+      expect(getComputedStyle(content)[computedSizeProp]).toBe(`${baselineContentSize}px`);
+
+      const handleRect = handle.getBoundingClientRect();
+      const startX = handleRect.left + handleRect.width / 2 + mouseDelta.dx;
+      const startY = handleRect.top + handleRect.height / 2 + mouseDelta.dy;
+
+      await userEvent.hover(handle);
+      await commands.mouseDown();
+      await commands.mouseMove(startX, startY);
       await commands.mouseUp();
 
-      expect(getComputedStyle(content).inlineSize).not.toBe(`${initialSize}px`);
+      const afterUserResize = parseFloat(getComputedStyle(content)[computedSizeProp]);
+      expect(afterUserResize).toBeGreaterThan(baselineContentSize);
 
-      await panel.updateSize({ inline: overrideSize });
-      await component.updateComplete;
+      if (changeAfterMount === "slot") {
+        await assertLayoutChangeResetsSize({
+          shell,
+          content,
+          afterConnectContentRect,
+          panel,
+          slot,
+        });
+      }
 
-      expect(getComputedStyle(content).inlineSize).toBe(`${overrideSize}px`);
-      await panel.updateSize({ inline: null });
-      await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${initialSize}px`);
+      await assertMethodOverride({
+        axis,
+        baselineContentSize,
+        shell,
+        content,
+        overrideSize,
+        panel,
+        computedSizeProp,
+      });
+    });
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(
+      () => mount(<calcite-shell-panel display-mode="float-all" resizable slot="panel-start" />),
+      {
+        "--calcite-shell-panel-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-shell-panel-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+        "--calcite-shell-panel-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-shell-panel-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
+      },
+    );
+  });
+
+  describe("border configurations", () => {
+    themed(
+      () =>
+        mount(<calcite-shell-panel display-mode="float-all" position="end" slot="panel-start" />),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineEndColor",
+        },
+      },
+    );
+    themed(
+      () =>
+        mount(
+          <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-top" />,
+        ),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineColor",
+        },
+      },
+    );
+    themed(() => mount(<calcite-shell-panel display-mode="float-all" slot="panel-top" />), {
+      "--calcite-shell-panel-border-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderInlineStartColor",
+      },
+    });
+    themed(
+      () =>
+        mount(
+          <calcite-shell-panel
+            display-mode="float-all"
+            layout="horizontal"
+            position="end"
+            slot="panel-bottom"
+          />,
+        ),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineColor",
+        },
+      },
+    );
+    themed(
+      () =>
+        mount(
+          <calcite-shell-panel display-mode="float-all" layout="vertical" slot="panel-bottom" />,
+        ),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+      },
+    );
+  });
+
+  describe("height", () => {
+    themed(() => mount(<calcite-shell-panel layout="horizontal" />), {
+      "--calcite-shell-panel-height": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "blockSize",
+      },
+      "--calcite-shell-panel-max-height": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "maxBlockSize",
+      },
+      "--calcite-shell-panel-min-height": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "minBlockSize",
+      },
     });
   });
 
-  describe("horizontal panel", () => {
-    async function setupHorizontalPanel(initialSize: number) {
-      const { el, component } = await mount<"calcite-shell">(
-        <calcite-shell>
-          <calcite-shell-panel resizable slot="panel-bottom">
-            <calcite-panel>Content</calcite-panel>
-          </calcite-shell-panel>
-        </calcite-shell>,
-      );
-
-      const panel = el.querySelector("calcite-shell-panel")!;
-      expect(panel).toBeTruthy();
-
-      const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
-      const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
-      expect(content).toBeTruthy();
-      expect(handle).toBeTruthy();
-
-      panel.style.setProperty("--calcite-shell-panel-height", `${initialSize}px`);
-      await component.updateComplete;
-      expect(getComputedStyle(content).height).toBe(`${initialSize}px`);
-
-      return { panel, content, handle, component };
-    }
-
-    it("should update horizontal panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
-      const initialSize = 200;
-      const overrideSize = 250;
-
-      const { panel, content, handle, component } = await setupHorizontalPanel(initialSize);
-
-      handle.focus();
-      await userEvent.keyboard("{ArrowDown}");
-      const afterKeyboard = parseFloat(getComputedStyle(content).blockSize);
-      expect(afterKeyboard).not.toBe(initialSize);
-
-      await panel.updateSize({ block: overrideSize });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${overrideSize}px`);
-
-      await panel.updateSize({ block: null });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
-    });
-
-    it("should update horizontal panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
-      const initialSize = 200;
-      const overrideSize = 250;
-
-      const { panel, content, handle, component } = await setupHorizontalPanel(initialSize);
-
-      await userEvent.click(handle);
-      const handleRect = handle.getBoundingClientRect();
-      await commands.mouseMove(
-        handleRect.left + handleRect.width / 2,
-        handleRect.top + handleRect.height / 2,
-      );
-      await commands.mouseDown();
-      await commands.mouseUp();
-
-      expect(getComputedStyle(content).blockSize).not.toBe(initialSize);
-
-      await panel.updateSize({ block: overrideSize });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${overrideSize}px`);
-      await panel.updateSize({ block: null });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
+  describe("width", () => {
+    themed(() => mount(<calcite-shell-panel layout="vertical" />), {
+      "--calcite-shell-panel-width": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-shell-panel-max-width": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "maxInlineSize",
+      },
+      "--calcite-shell-panel-min-width": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "minInlineSize",
+      },
     });
   });
 });

@@ -4,9 +4,10 @@
   "allSelected": "Todas las seleccionadas",
   "clear": "Borrar valor",
   "noMatches": "Ninguna coincidencia",
-  "removeTag": "Eliminar etiqueta",
+  "removeTag": "Eliminar etiqueta {value}",
   "required": "Obligatorio",
   "selectAll": "Seleccionar todo",
   "selected": "seleccionado",
-  "nonEditable": "Solo lectura {value}"
+  "nonEditable": "Solo lectura {value}",
+  "disabledSelectedCount": "+{count}"
 }

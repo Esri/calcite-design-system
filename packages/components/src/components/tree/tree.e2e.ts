@@ -1,8 +1,6 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { SelectionMode } from "../interfaces";
@@ -12,7 +10,6 @@ import { mockConsole } from "../../tests/utils/logging";
  * Helper to ensure an item is clicked and avoids clicking on any of its children
  *
  * @param page – the test page
- * @param itemSelector – the selector for the item click target
  * @param item
  */
 async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
@@ -23,11 +20,6 @@ async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
 }
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(`<calcite-tree></calcite-tree>`);
-});
-
 describe("it forwards focus", () => {
   it("to first selected item", async () => {
     const page = await newE2EPage({
@@ -40,7 +32,7 @@ describe("it forwards focus", () => {
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#two"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#two"))).toBe(true);
   });
 
   it("to first item if none selected", async () => {
@@ -54,12 +46,12 @@ describe("it forwards focus", () => {
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#one"))).toBe(true);
 
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
   });
 
   it("doesn't trap focus", async () => {
@@ -71,37 +63,22 @@ describe("it forwards focus", () => {
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#one"))).toBe(true);
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
 
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#one"))).toBe(true);
 
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
   });
-});
-
-describe("accessible: with nested children", () => {
-  accessible(html`
-    <calcite-tree lines>
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="http://www.esri.com">Grandchild 1</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-  `);
 });
 
 it("should correctly select tree in ancestors selection mode", async () => {
@@ -268,7 +245,7 @@ describe("item selection", () => {
     const tree = await page.find("calcite-tree");
     const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
     const grandchildOne = await page.find("#grandchild-one");
-    await grandchildOne.click();
+    await directItemClick(page, grandchildOne);
     expect(selectEventSpy).toHaveReceivedEventTimes(1);
   });
 
@@ -1013,13 +990,13 @@ describe("keyboard support", () => {
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(1);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(2);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
   });
 
   it("does prevent space/enter keyboard event on actions with selectionMode of none", async () => {
@@ -1045,13 +1022,13 @@ describe("keyboard support", () => {
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(1);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(2);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
   });
 });
 

@@ -1,16 +1,23 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils/puppeteer";
+import { expect, it } from "vitest";
+import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import type { AddEventDetail, MoveEventDetail } from "./interfaces";
 import type { ReorderEventDetail } from "./interfaces";
 
-describe("accessible", () => {
-  accessible(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
-});
+mockConsole();
+
+async function openSortHandle(page): Promise<void> {
+  const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
+  await action.callMethod("setFocus");
+
+  const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
+  await page.keyboard.press("ArrowDown");
+  await page.waitForChanges();
+  await openEventSpy.next();
+}
 
 it("sets handle tooltip", async () => {
   const page = await newE2EPage();
@@ -53,20 +60,14 @@ it("fires calciteSortHandleReorder event", async () => {
 
   const calciteSortHandleReorderSpy = await page.spyOnEvent<ReorderEventDetail>("calciteSortHandleReorder");
 
-  const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
-  await action.callMethod("setFocus");
-
-  const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
-  await page.keyboard.press("ArrowDown");
-  await page.waitForChanges();
-  await openEventSpy.next();
+  await openSortHandle(page);
   expect(await sortHandle.getProperty("open")).toBe(true);
 
   await page.keyboard.press("Enter");
   await page.waitForChanges();
-  expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
+  expect(calciteSortHandleReorderSpy.lastEvent!.detail.reorder).toBe(REORDER_VALUES[0]);
   expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleReorderSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleReorderSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("fires calciteSortHandleMove event", async () => {
@@ -96,9 +97,9 @@ it("fires calciteSortHandleMove event", async () => {
 
   await page.keyboard.press(" ");
   await page.waitForChanges();
-  expect(calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
+  expect(calciteSortHandleMoveSpy.lastEvent!.detail.moveTo.id).toBe(moveToItems[1].id);
   expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleMoveSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleMoveSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("fires calciteSortHandleAdd event", async () => {
@@ -128,12 +129,12 @@ it("fires calciteSortHandleAdd event", async () => {
 
   await page.keyboard.press(" ");
   await page.waitForChanges();
-  expect(calciteSortHandleAddSpy.lastEvent.detail.addTo.id).toBe(addToItems[1].id);
+  expect(calciteSortHandleAddSpy.lastEvent!.detail.addTo.id).toBe(addToItems[1].id);
   expect(calciteSortHandleAddSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleAddSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleAddSpy.lastEvent!.cancelable).toBe(true);
 });
 
-it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize < 2", async () => {
+it("is disabled when no items are available, sort is disabled, set info is invalid, or all reorder actions are disabled", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-sort-handle label="test"></calcite-sort-handle>`);
   await skipAnimations(page);
@@ -174,6 +175,10 @@ it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize
   expect(await dropdown.getProperty("disabled")).toBe(true);
 
   sortHandle.setProperty("moveToItems", moveToItems);
+  await page.waitForChanges();
+
+  expect(await dropdown.getProperty("disabled")).toBe(false);
+
   sortHandle.setProperty("setSize", 2);
   await page.waitForChanges();
 
@@ -187,6 +192,96 @@ it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize
 
   sortHandle.setProperty("sortDisabled", false);
   await page.waitForChanges();
+
+  expect(await dropdown.getProperty("disabled")).toBe(false);
+});
+
+it("renders boundary reorder items disabled instead of hiding them", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="4"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const reorderItems = await findAll(page, `calcite-sort-handle >>> #${IDS.reorder} calcite-dropdown-item`);
+
+  expect(reorderItems).toHaveLength(4);
+  expect(await reorderItems[0].getProperty("disabled")).toBe(true);
+  expect(await reorderItems[1].getProperty("disabled")).toBe(true);
+  expect(await reorderItems[2].getProperty("disabled")).toBe(false);
+  expect(await reorderItems[3].getProperty("disabled")).toBe(false);
+});
+
+it("does not emit reorder from disabled boundary items and still allows enabled actions", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="4"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const calciteSortHandleReorderSpy = await page.spyOnEvent<ReorderEventDetail>("calciteSortHandleReorder");
+
+  await openSortHandle(page);
+
+  const reorderItems = await findAll(page, `calcite-sort-handle >>> #${IDS.reorder} calcite-dropdown-item`);
+  await reorderItems[0].click();
+  await page.waitForChanges();
+
+  expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(0);
+
+  await reorderItems[2].click();
+  await page.waitForChanges();
+  expect(calciteSortHandleReorderSpy.lastEvent!.detail.reorder).toBe(REORDER_VALUES[2]);
+});
+
+it("hides reorder group title when it is the only visible group", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="2" set-size="4"></calcite-sort-handle>`);
+  await page.waitForChanges();
+
+  const reorderGroup = await page.find(`calcite-sort-handle >>> #${IDS.reorder}`);
+
+  expect(await reorderGroup.getProperty("groupTitle")).toBe("");
+});
+
+it("shows reorder group title when moveTo items are present", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="2" set-size="4"></calcite-sort-handle>`);
+
+  const sortHandle = await page.find("calcite-sort-handle");
+  sortHandle.setProperty("moveToItems", [{ label: "List 2", id: "list2" }]);
+  await page.waitForChanges();
+
+  const reorderGroup = await page.find(`calcite-sort-handle >>> #${IDS.reorder}`);
+
+  expect(await reorderGroup.getProperty("groupTitle")).toBe(T9nStrings.reorder);
+});
+
+it("disables single-item sets and renders disabled reorder actions", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="1"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
+  const reorderItems = await findAll(page, `calcite-sort-handle >>> #${IDS.reorder} calcite-dropdown-item`);
+
+  expect(await dropdown.getProperty("disabled")).toBe(true);
+  expect(reorderItems).toHaveLength(4);
+
+  for (const item of reorderItems) {
+    expect(await item.getProperty("disabled")).toBe(true);
+  }
+});
+
+it("keeps single-item sets enabled when move-to items are available", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="1"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const sortHandle = await page.find("calcite-sort-handle");
+  sortHandle.setProperty("moveToItems", [
+    { label: "List 2", id: "list2" },
+    { label: "List 3", id: "list3" },
+  ]);
+  await page.waitForChanges();
+
+  const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
 
   expect(await dropdown.getProperty("disabled")).toBe(false);
 });
@@ -214,8 +309,4 @@ it("doesn't render reorder group when sortDisabled is true", async () => {
   await page.waitForChanges();
 
   expect(await page.find(`calcite-sort-handle >>> #${IDS.reorder}`)).toBeNull();
-});
-
-describe("openClose", () => {
-  openClose(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
 });

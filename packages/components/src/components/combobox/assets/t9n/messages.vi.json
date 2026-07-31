@@ -4,9 +4,10 @@
   "allSelected": "Tất cả đã được chọn",
   "clear": "Xóa giá trị",
   "noMatches": "Không có kết quả trùng khớp",
-  "removeTag": "Xóa thẻ",
+  "removeTag": "Gỡ bỏ thẻ {value}",
   "required": "Bắt buộc",
   "selectAll": "Chọn tất cả",
   "selected": "đã được chọn",
-  "nonEditable": "Chỉ đọc {value}"
+  "nonEditable": "Chỉ đọc {value}",
+  "disabledSelectedCount": "+{count}"
 }

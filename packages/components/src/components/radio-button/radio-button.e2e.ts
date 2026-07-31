@@ -1,22 +1,10 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import type { RadioButton } from "./radio-button";
-import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(
-    `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`,
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
-});
 
 describe("labelable", () => {
   mockConsole();
@@ -259,7 +247,7 @@ it("programmatically checking a radio button updates the group's state correctly
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
   await page.evaluate(() => {
-    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]");
+    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]")!;
     second.checked = true;
   });
   await page.waitForChanges();
@@ -279,7 +267,7 @@ it("programmatically un-checking a radio button updates the group's state correc
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
   await page.evaluate(() => {
-    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]");
+    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]")!;
     second.checked = false;
   });
   await page.waitForChanges();
@@ -474,71 +462,4 @@ it("works correctly inside a shadowRoot", async () => {
 
   expect(await radios[1].getProperty("checked")).toBe(true);
   expect(radios[1].getAttribute("checked")).toBe("");
-});
-
-describe("is form-associated", () => {
-  describe("no group", () => {
-    formAssociated("calcite-radio-button", {
-      testValue: true,
-      inputType: "radio",
-    });
-  });
-
-  // skipped until the util supports a parent component wrapping the form associated element(s)
-  // https://github.com/Esri/calcite-design-system/issues/9221
-  describe.skip("group", () => {
-    formAssociated(
-      html`
-        <calcite-radio-button-group name="using" required>
-          <calcite-label layout="inline">
-            Yes
-            <calcite-radio-button value="yes" required></calcite-radio-button>
-          </calcite-label>
-          <calcite-label layout="inline">
-            No
-            <calcite-radio-button value="no" required></calcite-radio-button>
-          </calcite-label>
-          <calcite-label layout="inline">
-            Maybe
-            <calcite-radio-button value="maybe" required></calcite-radio-button>
-          </calcite-label>
-        </calcite-radio-button-group>
-      `,
-      {
-        testValue: true,
-        inputType: "radio",
-        validation: true,
-        changeValueKeys: ["Space"],
-      },
-    );
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-radio-button></calcite-radio-button>`, {
-      "--calcite-radio-button-background-color": {
-        targetProp: "backgroundColor",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-border-color": {
-        targetProp: "boxShadow",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-corner-radius": {
-        targetProp: "borderRadius",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-size": [
-        {
-          targetProp: "blockSize",
-          shadowSelector: `.${CSS.radio}`,
-        },
-        {
-          targetProp: "inlineSize",
-          shadowSelector: `.${CSS.radio}`,
-        },
-      ],
-    });
-  });
 });

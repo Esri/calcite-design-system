@@ -1,17 +1,24 @@
-import { describe, it, expect, vi } from "vitest";
-import { h } from "@arcgis/lumina";
+import { describe, expect, it, vi } from "vitest";
+import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { commands, page, userEvent } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
+
 import {
+  accessible,
   defaults,
-  reflects,
+  disabled,
+  formAssociated,
   hidden,
   internalLabel,
+  reflects,
   renders,
   t9n,
-  disabled,
+  themed,
 } from "../../tests/commonTests/browser";
-import { Slider } from "./slider";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import type { Slider } from "./slider";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -35,6 +42,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "labelFormatter",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "label",
         defaultValue: undefined,
       },
       {
@@ -68,6 +79,10 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
 });
@@ -92,6 +107,59 @@ describe("reflects", () => {
   );
 });
 
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-slider
+        label="hello world"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    ),
+  );
+
+  it("applies min and max labels to the corresponding thumbs", async () => {
+    await mount<Slider>(
+      <calcite-slider
+        label="Group label"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    );
+
+    const container = page.getByLabelText("Group label");
+    await expect.element(container).toHaveAttribute("aria-label", "Group label");
+
+    const [minThumb, maxThumb] = page.getByRole("slider").all();
+
+    await expect.element(minThumb).toHaveAttribute("aria-label", "Minimum");
+    await expect.element(maxThumb).toHaveAttribute("aria-label", "Maximum");
+  });
+
+  it("uses label as fallback aria-label for single-value thumb", async () => {
+    await mount(<calcite-slider label="Single fallback label" value={25} />);
+
+    const thumb = page.getByRole("slider");
+
+    await expect.element(thumb).toHaveAttribute("aria-label", "Single fallback label");
+  });
+
+  it("uses label as fallback aria-label for range thumbs and labels container as group", async () => {
+    await mount(<calcite-slider label="Range fallback label" max-value="75" min-value="50" />);
+
+    const container = page.getByRole("group", { name: "Range fallback label" });
+    const [minThumb, maxThumb] = page.getByRole("slider").all();
+
+    await expect.element(container).toHaveAttribute("aria-label", "Range fallback label");
+    await expect.element(minThumb).toHaveAttribute("aria-label", "Range fallback label");
+    await expect.element(maxThumb).toHaveAttribute("aria-label", "Range fallback label");
+  });
+});
+
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-slider"));
 });
@@ -110,6 +178,16 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-slider"));
+});
+
+describe("is form-associated", () => {
+  describe("single value", () => {
+    formAssociated(() => mount("calcite-slider"), { testValue: 5 });
+  });
+
+  describe("range", () => {
+    formAssociated(() => mount("calcite-slider"), { testValue: [5, 10] });
+  });
 });
 
 describe("interactions", () => {
@@ -255,10 +333,12 @@ describe("resetting value", () => {
     const { el } = await mount("calcite-slider");
     const initialValue = el.value;
 
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = undefined;
     expect(el.value).toBe(initialValue);
 
     el.value = 0;
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = null;
     expect(el.value).toBe(initialValue);
   });
@@ -267,11 +347,260 @@ describe("resetting value", () => {
     const { el } = await mount<Slider>(<calcite-slider maxValue={100} minValue={0} />);
     const initialValue = el.value;
 
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = undefined;
     expect(el.value).toEqual(initialValue);
 
     el.value = [20, 80];
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = null;
     expect(el.value).toEqual(initialValue);
+  });
+});
+
+const sliderWidthFor1To1PixelValueTrack = "114px";
+
+describe("number locale support", () => {
+  const expectedNotSeparatedValueArray = {
+    en: ["2500", "500000.5", "1000", "1000000.5"],
+    fr: ["2500", "500000,5", "1000", "1000000,5"],
+  };
+
+  const formattedValuesPerLanguageObject = {
+    "de-CH": ["2'500", "500'000.5", "1'000", "1'000'000.5"],
+    en: ["2,500", "500,000.5", "1,000", "1,000,000.5"],
+    es: ["2.500", "500.000,5", "1.000", "1.000.000,5"],
+    fr: ["2 500", "500 000,5", "1 000", "1 000 000,5"],
+    hi: ["2,500", "5,00,000.5", "1,000", "10,00,000.5"],
+  };
+
+  function renderSlider(): JsxNode {
+    return (
+      <calcite-slider
+        group-separator
+        label-handles
+        label-ticks
+        lang="en"
+        max={1000000.5}
+        max-value="500000.50"
+        min={1000}
+        min-value="2500"
+        step={1000}
+        style={{
+          width: sliderWidthFor1To1PixelValueTrack,
+        }}
+        ticks={1000}
+      />
+    );
+  }
+
+  async function getValueDisplayElements(): Promise<{
+    labelMinVal: Locator;
+    labelVal: Locator;
+    tickMin: Locator;
+    tickMax: Locator;
+  }> {
+    const labelMinVal = page.getBySelector(`calcite-slider .${CSS.handleLabelMinValue}`).first();
+    const labelVal = page.getBySelector(`calcite-slider .${CSS.handleLabelValue}`).first();
+
+    const tickMin = page.getBySelector(`calcite-slider .${CSS.tickMin}`).first();
+    const tickMax = page.getBySelector(`calcite-slider .${CSS.tickMax}`).first();
+
+    return {
+      labelMinVal,
+      labelVal,
+      tickMin,
+      tickMax,
+    };
+  }
+
+  it("does not render separated when groupSeparator prop is false", async () => {
+    const { el, reRender } = await mount<Slider>(renderSlider);
+    el.groupSeparator = false;
+    await reRender();
+    const valueDisplayEls = await getValueDisplayElements();
+
+    expect(el).toHaveProperty("groupSeparator", false);
+
+    await expect
+      .element(valueDisplayEls.labelMinVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[0]);
+    await expect
+      .element(valueDisplayEls.labelVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[1]);
+    await expect
+      .element(valueDisplayEls.tickMin)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[2]);
+    await expect
+      .element(valueDisplayEls.tickMax)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[3]);
+
+    el.lang = "fr";
+    await reRender();
+
+    await expect
+      .element(valueDisplayEls.labelMinVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[0]);
+    await expect
+      .element(valueDisplayEls.labelVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[1]);
+    await expect
+      .element(valueDisplayEls.tickMin)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[2]);
+    await expect
+      .element(valueDisplayEls.tickMax)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[3]);
+  });
+
+  it("displays group separator for multiple locales", async () => {
+    const { el, reRender } = await mount<Slider>(renderSlider);
+    const valueDisplayEls = await getValueDisplayElements();
+
+    for (const lang in formattedValuesPerLanguageObject) {
+      el.lang = lang;
+      await reRender();
+
+      await expect
+        .element(valueDisplayEls.labelMinVal)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][0]);
+      await expect
+        .element(valueDisplayEls.labelVal)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][1]);
+      await expect
+        .element(valueDisplayEls.tickMin)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][2]);
+      await expect
+        .element(valueDisplayEls.tickMax)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][3]);
+    }
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-slider value={30} />), {
+      "--calcite-slider-track-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-slider-track-fill-color": {
+        shadowSelector: `.${CSS.trackRange}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-slider-handle-fill-color": {
+        shadowSelector: `.${CSS.handle}`,
+        targetProp: "backgroundColor",
+      },
+    });
+  });
+
+  describe("text color", () => {
+    describe("should apply handle label", () => {
+      themed(
+        () => mount(<calcite-slider label-handles max-label="100" min-label="0" value={30} />),
+        {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.handleLabel}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+    describe("should apply tick labels", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.tickLabel}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+  });
+
+  describe("handle extension", () => {
+    describe("should apply handle extension", () => {
+      themed(() => mount(<calcite-slider precise value={30} />), {
+        "--calcite-slider-handle-extension-color": {
+          shadowSelector: `.${CSS.handleExtension}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+  });
+
+  describe("ticks", () => {
+    describe("should apply ticks", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-color": {
+            shadowSelector: `.${CSS.tick}:not(.${CSS.tickActive})`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+    describe("should apply ticks border", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-border-color": {
+            shadowSelector: `.${CSS.tick}`,
+            targetProp: "borderColor",
+          },
+        },
+      );
+    });
+    describe("should apply ticks in selected range", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-selected-color": {
+            shadowSelector: `.${CSS.tickActive}`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+  });
+
+  describe("--calcite-slider-graph-color", () => {
+    describe("should apply graph", () => {
+      themed(
+        () =>
+          mount(
+            <calcite-slider
+              histogram={[
+                [0, 0],
+                [20, 12],
+                [40, 35],
+                [60, 65],
+                [80, 25],
+                [90, 10],
+                [100, 0],
+              ]}
+              id="basicHistogram"
+              label-handles
+              max={100}
+              min={0}
+              scale="m"
+              step={1}
+              value={60}
+            />,
+          ),
+        {
+          "--calcite-slider-graph-color": {
+            shadowSelector: `.${CSS.graph}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 });

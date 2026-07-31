@@ -36,6 +36,11 @@
         },
         {
           "type": "json",
+          "path": "/examples/components/react-19-and-above/package.json",
+          "jsonpath": "$.dependencies['@esri/calcite-components']"
+        },
+        {
+          "type": "json",
           "path": "/examples/components/rollup/package.json",
           "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
@@ -66,7 +71,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": "/examples/components/react/package.json",
+          "path": "/examples/components/react-18-and-below/package.json",
           "jsonpath": "$.dependencies['@esri/calcite-components-react']"
         }
       ]
@@ -83,6 +88,9 @@
     },
     "packages/eslint-plugin-components": {
       "component": "@esri/eslint-plugin-calcite-components"
+    },
+    "packages/stylelint-plugin-components": {
+      "component": "@esri/stylelint-plugin-calcite-components"
     }
   },
   "plugins": [

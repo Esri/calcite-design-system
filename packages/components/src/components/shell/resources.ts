@@ -4,6 +4,9 @@ export const CSS = {
   contentBehind: "content--behind",
   contentBottom: "content-bottom",
   contentNonInteractive: "content--non-interactive",
+  hasActionBarPositionPanel: "has-action-bar-position-panel",
+  hasResizablePanelBottom: "has-resizable-panel-bottom",
+  hasResizablePanelTop: "has-resizable-panel-top",
   footer: "footer",
   positionedSlotWrapper: "positioned-slot-wrapper",
   container: "container",
@@ -19,6 +22,5 @@ export const SLOTS = {
   footer: "footer",
   alerts: "alerts",
   sheets: "sheets",
-  modals: "modals",
   dialogs: "dialogs",
 };

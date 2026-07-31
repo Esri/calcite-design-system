@@ -5,12 +5,16 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -45,8 +49,54 @@ describe("defaults", () => {
         propertyName: "validationMessage",
         defaultValue: undefined,
       },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
+});
+
+describe("is form-associated", () => {
+  describe("unselected value", () => {
+    formAssociated(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item id="child-1" value="1">
+              one
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item id="child-2" value="2">
+              two
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item id="child-3" value="3">
+              three
+            </calcite-segmented-control-item>
+          </calcite-segmented-control>,
+        ),
+      { testValue: 2, validation: true, changeValueKeys: ["{Space}"] },
+    );
+  });
+
+  describe("selected-value", () => {
+    formAssociated(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item id="child-1" value="1">
+              one
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item checked id="child-2" value="2">
+              two
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item id="child-3" value="3">
+              three
+            </calcite-segmented-control-item>
+          </calcite-segmented-control>,
+        ),
+      { testValue: 2 },
+    );
+  });
 });
 
 describe("is focusable", () => {
@@ -163,4 +213,17 @@ describe("disabled", () => {
       ),
     { focusTarget: "child" },
   );
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-segmented-control"), {
+    "--calcite-segmented-control-corner-radius": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "borderRadius",
+    },
+    "--calcite-segmented-control-border-color": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "outlineColor",
+    },
+  });
 });

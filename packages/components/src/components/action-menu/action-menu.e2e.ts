@@ -1,9 +1,9 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
-import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
+
+import { CSS as TooltipCSS } from "../tooltip/resources";
+import { HOVER_OPEN_DELAY_MS } from "../../controllers/useReferenceElement/manager";
 import {
   findAll,
   getElementRect,
@@ -16,23 +16,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-action-menu label="test">
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-  `);
-});
-
-describe("accessible with tooltip", () => {
-  accessible(html`
-    <calcite-action-menu label="test">
-      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-  `);
-});
 
 it("should emit 'calciteActionMenuOpen' event", async () => {
   const page = await newE2EPage();
@@ -55,7 +38,7 @@ it("should emit 'calciteActionMenuOpen' event", async () => {
 
 async function waitForActionMenuClose(page: E2EPage): Promise<void> {
   // replace with close event handling once https://github.com/Esri/calcite-design-system/issues/4544 lands
-  await page.waitForFunction(() => document.querySelector("calcite-action-menu").open === false);
+  await page.waitForFunction(() => document.querySelector("calcite-action-menu")!.open === false);
 }
 
 it("should close menu if clicked outside", async () => {
@@ -164,7 +147,7 @@ describe("adding/removing from DOM", () => {
 
   async function testToggle(triggerSelector: string): Promise<void> {
     await page.evaluate(() => {
-      const actionMenu = document.querySelector("calcite-action-menu");
+      const actionMenu = document.querySelector("calcite-action-menu")!;
       actionMenu.remove();
       document.body.append(actionMenu);
     });
@@ -225,7 +208,7 @@ it("should close tooltip when open", async () => {
   expect(await tooltipPositionContainer.isVisible()).toBe(false);
 
   await trigger.hover();
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await tooltipPositionContainer.isVisible()).toBe(true);
 
@@ -625,20 +608,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  themed(
-    html`<calcite-action-menu open>
-      <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action
-    ></calcite-action-menu>`,
-    {
-      "--calcite-action-menu-items-space": {
-        shadowSelector: `.${CSS.menu}`,
-        targetProp: "gap",
-      },
-    },
-  );
 });

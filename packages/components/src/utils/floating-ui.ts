@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer } from "lit";
 import {
   arrow,
@@ -20,7 +19,7 @@ import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
-import { getElementDir } from "./dom";
+import { Direction } from "./dom";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
   if (!isServer) {
@@ -41,6 +40,11 @@ interface PositionFloatingUiOptions {
   arrowEl?: SVGSVGElement;
 
   /**
+   * The direction of the component, which determines the effective placement of variation placements (e.g., "leading" or "trailing").
+   */
+  direction: Direction;
+
+  /**
    * Prevents flipping the component's placement when overlapping its `referenceElement`.
    */
   flipDisabled?: boolean;
@@ -53,7 +57,7 @@ interface PositionFloatingUiOptions {
   /**
    * The `floatingElement` containing the floating ui.
    */
-  floatingEl: HTMLElement;
+  floatingEl?: HTMLElement;
 
   /**
    * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
@@ -78,7 +82,7 @@ interface PositionFloatingUiOptions {
   /**
    * The `referenceElement` used to position the component according to its `placement` value.
    */
-  referenceEl: ReferenceElement;
+  referenceEl?: ReferenceElement;
 
   /**
    * The type of floating UI, which determines the default middleware used for positioning.
@@ -97,6 +101,7 @@ export const positionFloatingUI =
     component: FloatingUIComponent,
     {
       arrowEl,
+      direction,
       flipDisabled,
       flipPlacements,
       floatingEl,
@@ -112,7 +117,7 @@ export const positionFloatingUI =
       return;
     }
 
-    const isRTL = getElementDir(floatingEl) === "rtl";
+    const isRTL = direction === "rtl";
 
     const {
       x,
@@ -313,10 +318,10 @@ export interface FloatingUIComponent {
   floatingLayout?: FloatingLayout;
 
   /** The `floatingElement` containing the floating ui. */
-  floatingEl: HTMLElement;
+  floatingEl?: HTMLElement;
 
   /** The `referenceElement` used to position the component according to its `placement` value. */
-  referenceEl: ReferenceElement;
+  referenceEl?: ReferenceElement;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
@@ -328,7 +333,11 @@ export const FloatingCSS = {
   arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
-function getMiddleware({
+/**
+ * Exported for testing purposes only
+ * @private
+ */
+export function getMiddleware({
   placement,
   flipDisabled,
   flipPlacements,
@@ -345,15 +354,14 @@ function getMiddleware({
   arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
-  const middleware = [shift(), hide()];
+  const rootBoundary = "layoutViewport";
+  const isAutoPlacement = placement === "auto" || placement === "auto-start" || placement === "auto-end";
 
-  if (type === "menu") {
-    middleware.push(
-      flip({
-        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"],
-      }),
-    );
-  }
+  const middleware = [
+    shift({
+      rootBoundary,
+    }),
+  ];
 
   middleware.push(
     offset({
@@ -362,12 +370,24 @@ function getMiddleware({
     }),
   );
 
-  if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
+  if (isAutoPlacement) {
     middleware.push(
-      autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null }),
+      autoPlacement({
+        alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null,
+        rootBoundary,
+      }),
     );
-  } else if (!flipDisabled) {
-    middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
+  }
+
+  const shouldAddFlip = !flipDisabled && (!isAutoPlacement || type === "menu");
+
+  if (shouldAddFlip) {
+    const fallbackPlacements =
+      type === "menu"
+        ? flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+        : flipPlacements;
+
+    middleware.push(flip(fallbackPlacements ? { fallbackPlacements, rootBoundary } : { rootBoundary }));
   }
 
   if (arrowEl) {
@@ -377,6 +397,12 @@ function getMiddleware({
       }),
     );
   }
+
+  middleware.push(
+    hide({
+      rootBoundary,
+    }),
+  );
 
   return middleware;
 }
@@ -498,13 +524,13 @@ const componentToDebouncedRepositionMap = new WeakMap<
 async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   const { referenceEl, floatingEl } = component;
 
-  if (!floatingEl.isConnected) {
+  if (!floatingEl?.isConnected) {
     return;
   }
 
   const effectiveAutoUpdate = !isServer
     ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
+    : (_refEl: ReferenceElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
         return () => {
           /* noop */
@@ -517,7 +543,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   let repositionPromise: Promise<void>;
 
   const cleanUp = effectiveAutoUpdate(
-    referenceEl,
+    referenceEl!,
     floatingEl,
     // callback is invoked immediately
     () => {
@@ -531,7 +557,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
 
   autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
 
-  return repositionPromise;
+  return repositionPromise!;
 }
 
 /**
@@ -563,13 +589,9 @@ export async function connectFloatingUI(component: FloatingUIComponent): Promise
 
   hideFloatingUI(component);
 
-  if (!floatingEl || !referenceEl) {
-    return;
-  }
-
   disconnectFloatingUI(component);
 
-  if (!component.open) {
+  if (!floatingEl || !referenceEl || !component.open) {
     return;
   }
 

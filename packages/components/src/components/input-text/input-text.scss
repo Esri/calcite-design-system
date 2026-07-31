@@ -11,6 +11,14 @@
  * @prop --calcite-input-action-icon-color-press: Specifies the icon color of the component's `clearable` element when pressed.
  * @prop --calcite-input-loading-background-color: When `loading`, specifies the background color of the component`s `loading` element.
  * @prop --calcite-input-loading-fill-color: When `loading`, specifies the fill color of the component`s `loading` element.
+ * @prop --calcite-input-text-inline-editable-background-color-hover: When `inline-editable` is enabled, specifies the background color of the component, its inline editable elements and slotted `calcite-action` wrappers, when hovered.
+ * @prop --calcite-input-text-inline-editable-control-background-color: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls.
+ * @prop --calcite-input-text-inline-editable-control-background-color-hover: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when hovered.
+ * @prop --calcite-input-text-inline-editable-control-background-color-press: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when pressed.
+ * @prop --calcite-input-text-inline-editable-control-corner-radius: When `inline-editable` is enabled, specifies the corner radius of the component's inline editable controls.
+ * @prop --calcite-input-text-inline-editable-control-loader-color: When `inline-editable` is enabled, specifies the loader color of the component's inline editable controls.
+ * @prop --calcite-input-text-inline-editable-control-text-color: When `inline-editable` is enabled, specifies the text color of the component's inline editable controls.
+ * @prop --calcite-input-text-inline-editable-control-text-color-press: When `inline-editable` is enabled, specifies the text color of the component's inline editable controls, when pressed or hovered.
  * @prop --calcite-input-prefix-size-x: When `prefixText` is provided, specifies the width of the component's prefix element.
  * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
  * @prop --calcite-input-suffix-size-x: When `suffixText` is provided, specifies the width of the component's suffix element.
@@ -29,11 +37,21 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-input-text-alignment
+// --calcite-internal-input-text-focus-outline-color
+// --calcite-internal-input-text-icon-border-inline-start-width
+// --calcite-internal-input-text-icon-padding-inline
+// --calcite-internal-input-text-input-border-inline-end-width
+// --calcite-internal-input-text-input-border-inline-start-width
 
 @use "../../styles/includes";
 
 :host {
   @apply block;
+
+  --calcite-internal-input-text-focus-outline-color: var(
+    --calcite-color-focus,
+    var(--calcite-ui-focus-color, var(--calcite-color-brand))
+  );
 }
 
 @mixin input-affix-spacing($main-padding, $affix-padding, $custom-padding) {
@@ -53,6 +71,8 @@
 
 // scales
 :host([scale="s"]) {
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+
   & input {
     padding-inline-start: var(--calcite-spacing-sm);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
@@ -75,12 +95,13 @@
   }
 
   & .clear-button {
-    min-block-size: theme("spacing.6");
-    min-inline-size: theme("spacing.6");
+    block-size: var(--calcite-spacing-xxl);
   }
 }
 
 :host([scale="m"]) {
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-md);
+
   & input {
     padding-inline-start: var(--calcite-spacing-md);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-md));
@@ -101,14 +122,11 @@
   & .action-wrapper {
     @apply h-8;
   }
-
-  & .clear-button {
-    min-block-size: theme("spacing.8");
-    min-inline-size: theme("spacing.8");
-  }
 }
 
 :host([scale="l"]) {
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+
   & input {
     padding-inline-start: var(--calcite-spacing-lg);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-lg));
@@ -129,11 +147,6 @@
   & .action-wrapper {
     @apply h-11;
   }
-
-  & .clear-button {
-    min-block-size: theme("spacing.11");
-    min-inline-size: theme("spacing.11");
-  }
 }
 
 @include includes.disabled();
@@ -145,7 +158,6 @@ input {
     outline-offset 0s;
   -webkit-appearance: none;
   @apply box-border
-    border
     border-solid
     flex
     flex-1
@@ -157,36 +169,73 @@ input {
     relative
     text-ellipsis
     w-full;
+  outline: none;
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-text-color, var(--calcite-color-text-1));
-  border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
   text-align: var(--calcite-internal-input-text-alignment);
-
+  border-inline-start-width: var(
+    --calcite-internal-input-text-input-border-inline-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-end-width: var(
+    --calcite-internal-input-text-input-border-inline-end-width,
+    var(--calcite-border-width-sm)
+  );
+  border-block-start-width: var(
+    --calcite-internal-input-text-input-border-block-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-block-end-width: var(
+    --calcite-internal-input-text-input-border-block-end-width,
+    var(--calcite-border-width-sm)
+  );
   &:placeholder-shown {
     @apply text-ellipsis;
   }
 }
 
-:host(:not([status="invalid"])) {
-  .has-prefix input {
-    border-inline-start-width: 0;
-  }
+.element-wrapper,
+input {
+  border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+}
 
-  .has-suffix input {
-    border-inline-end-width: 0;
+.has-prefix,
+.element-wrapper:has(.icon) {
+  input {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    --calcite-internal-input-text-input-border-inline-start-width: var(--calcite-border-width-none);
   }
+}
+
+.element-wrapper:has(.clear-button),
+.has-suffix {
+  input {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
+  }
+}
+
+.has-prefix .prefix,
+.element-wrapper:not(:has(.prefix)):has(.icon) .icon {
+  border-start-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+.has-suffix .suffix,
+:host([clearable]) .clear-button {
+  border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host([clearable]) .has-suffix .clear-button {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
 }
 
 // states
-input {
-  &::placeholder,
-  &:-ms-input-placeholder,
-  &::-ms-input-placeholder {
-    @apply font-normal;
-    color: var(--calcite-input-number-placeholder-text-color, var(--calcite-color-text-3));
-  }
-}
 input:focus {
   @apply border-color-brand;
   color: var(--calcite-input-text-text-color-focus, var(--calcite-color-text-1));
@@ -201,6 +250,8 @@ input[readonly]:focus {
 
 :host([read-only]) {
   .prefix,
+  .icon,
+  .clear-button,
   .suffix {
     background-color: var(--calcite-input-text-background-color, var(--calcite-color-background));
   }
@@ -210,72 +261,66 @@ calcite-icon {
   color: var(--calcite-input-action-icon-color, var(--calcite-color-text-3));
 }
 
-//focus
-
-input {
-  @apply focus-base;
-}
-input:focus {
-  @apply focus-inset;
-}
-
-:host([status="invalid"]) {
-  & input {
-    @apply border-color-danger;
-  }
-  & input:focus {
-    @apply focus-inset-danger;
-  }
-}
-
-// ICONS
-
-// position icons
-
-:host([scale="s"]) .icon {
-  inset-inline-start: theme("spacing.2");
-}
-
-:host([scale="m"]) .icon {
-  inset-inline-start: theme("spacing.3");
-}
-
-:host([scale="l"]) .icon {
-  inset-inline-start: theme("spacing.4");
-}
-
-// position placeholder/value text in relation to icons
-
-:host([icon][scale="s"]) input {
-  padding-inline-start: theme("padding.8");
-}
-
-:host([icon][scale="m"]) input {
-  padding-inline-start: theme("padding.10");
-}
-
-:host([icon][scale="l"]) input {
-  padding-inline-start: theme("padding.14");
-}
-
-// positioning wrapper for icon and loader
-
 .element-wrapper {
   @apply relative
-    order-3
     inline-flex
     flex-1
     items-center;
   isolation: isolate;
+  order: 3;
+}
+
+.element-wrapper:has(input:focus) {
+  outline: var(--calcite-border-width-md) solid var(--calcite-internal-input-text-focus-outline-color);
+  outline-offset: calc(var(--calcite-border-width-sm) * -2);
+
+  input {
+    z-index: calc(var(--calcite-z-index) * -1);
+  }
+}
+
+:host([status="invalid"]) {
+  .prefix,
+  .icon,
+  input,
+  .clear-button,
+  .suffix {
+    border-color: var(--calcite-color-status-danger);
+  }
+
+  --calcite-internal-input-text-focus-outline-color: var(--calcite-color-status-danger);
 }
 
 .icon {
-  @apply transition-default
-    pointer-events-none
-    absolute
-    block
-    z-default; // needed for firefox to display the icon properly
+  box-sizing: border-box;
+  display: flex;
+  align-self: stretch;
+  border-style: solid;
+  border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
+  align-items: center;
+  padding-inline-start: var(--calcite-internal-input-text-icon-padding-inline);
+  border-block-start-width: var(
+    --calcite-internal-input-text-icon-border-block-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-end-width: var(
+    --calcite-internal-input-text-icon-border-inline-end-width,
+    var(--calcite-border-width-none)
+  );
+  border-block-end-width: var(
+    --calcite-internal-input-text-icon-border-block-end-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-start-width: var(
+    --calcite-internal-input-text-icon-border-inline-start-width,
+    var(--calcite-border-width-sm)
+  );
+}
+
+.has-prefix .icon {
+  --calcite-internal-input-text-icon-border-inline-start-width: var(--calcite-border-width-none);
 }
 
 // hide browser default clear
@@ -288,44 +333,15 @@ input[type="text"]::-ms-reveal {
 }
 
 .clear-button {
-  pointer-events: initial;
-  @apply focus-base
-    order-4
-    m-0
-    box-border
-    flex
-    min-h-full
-    cursor-pointer
-    items-center
-    justify-center
-    self-stretch
-    border
-    border-solid;
-
+  box-sizing: border-box;
+  display: flex;
+  align-self: stretch;
+  order: 4;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-input-action-background-color, var(--calcite-color-foreground-1));
-  border-inline-start-width: theme("borderWidth.0");
-
-  &:hover {
-    @apply transition-default;
-    background-color: var(--calcite-input-action-background-color-hover, var(--calcite-color-foreground-2));
-    calcite-icon {
-      @apply transition-default;
-      color: var(--calcite-input-action-icon-color-hover, var(--calcite-color-text-1));
-    }
-  }
-  &:active {
-    background-color: var(--calcite-input-action-background-color-press, var(--calcite-color-foreground-3));
-    calcite-icon {
-      color: var(--calcite-input-action-icon-color-press, (--calcite-color-text-1));
-    }
-  }
-  &:focus {
-    @apply focus-inset;
-  }
-  &:disabled {
-    @apply opacity-disabled;
-  }
+  border-inline-start-width: var(--calcite-border-width-none);
+  background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
 }
 
 .has-suffix .clear-button {
@@ -345,9 +361,14 @@ input[type="text"]::-ms-reveal {
   }
 }
 
+.inline-editable {
+  order: 7;
+}
+
 // slotted action
 .action-wrapper {
-  @apply order-7 flex;
+  order: 8;
+  display: flex;
 }
 
 // prefix and suffix
@@ -369,39 +390,18 @@ input[type="text"]::-ms-reveal {
 }
 
 .prefix {
-  @apply order-2;
+  order: 0;
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size-x, auto);
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
-  border-start-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 .suffix {
-  @apply order-5;
+  order: 5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size-x, auto);
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
-  border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-}
-
-:host([prefix-text]:not([prefix-text=""])) input {
-  border-start-start-radius: 0;
-  border-end-start-radius: 0;
-}
-
-:host([suffix-text]:not([suffix-text=""])) input,
-:host .clearable input {
-  border-start-end-radius: 0;
-  border-end-end-radius: 0;
-}
-
-:host(:not([suffix-text])) .clear-button,
-:host([suffix-text=""]) .clear-button {
-  border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 // alignment type
@@ -424,22 +424,6 @@ input[type="text"]::-ms-reveal {
     items-center;
 }
 
-:host(.input--no-bottom-border) input {
-  @apply border-b-0;
-}
-
-:host(.input--no-top-border) input {
-  @apply border-t-0;
-}
-
-:host(.input--no-right-border) input {
-  border-inline-end: 0;
-}
-
-:host(.input--no-left-border) input {
-  border-inline-start: 0;
-}
-
 :host(.border-top-color-one) input {
   @apply border-t-color-1;
 }
@@ -447,7 +431,13 @@ input[type="text"]::-ms-reveal {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default bg-transparent;
+    @apply transition-default;
+
+    // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
+    &.inline-editable-child {
+      @apply bg-transparent;
+    }
+
     .editing-enabled {
       background-color: inherit;
     }
@@ -461,8 +451,61 @@ input {
   }
 }
 
+.element-wrapper:has(input.inline-child:not(.editing-enabled)) {
+  .loader,
+  .prefix,
+  .icon,
+  .clear-button,
+  .suffix {
+    display: none;
+  }
+}
+
+// `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove .inline-editable-child)
+:host([inline-editable]:not([editing-enabled])),
+:host:has(input.inline-child:not(.inline-editable-child):not(.editing-enabled)) {
+  .wrapper {
+    &:hover {
+      input,
+      .inline-editable,
+      .action-wrapper {
+        @apply transition-default;
+        background-color: var(
+          --calcite-input-text-inline-editable-background-color-hover,
+          var(--calcite-color-foreground-2)
+        );
+      }
+    }
+  }
+}
+
+:host([inline-editable]) {
+  input,
+  .inline-editable,
+  .action-wrapper {
+    @apply transition-default;
+    background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
+  }
+}
+
 @include includes.form-internal-label();
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.base-component();
-@include includes.input-placeholder-text();
+@include includes.input-placeholder-text("--calcite-input-text-placeholder-text-color");
+@include includes.clear-button(
+  $background-color: "--calcite-input-action-background-color",
+  $background-color-hover: "--calcite-input-action-background-color-hover",
+  $background-color-press: "--calcite-input-action-background-color-press",
+  $icon-color: "--calcite-input-action-icon-color",
+  $icon-color-hover: "--calcite-input-action-icon-color-hover",
+  $icon-color-press: "--calcite-input-action-icon-color-press"
+);
+@include includes.inline-editable(
+  $background-color: "--calcite-input-text-inline-editable-control-background-color",
+  $background-color-hover: "--calcite-input-text-inline-editable-control-background-color-hover",
+  $background-color-press: "--calcite-input-text-inline-editable-control-background-color-press",
+  $corner-radius: "--calcite-input-text-inline-editable-control-corner-radius",
+  $loader-color: "--calcite-input-text-inline-editable-control-loader-color",
+  $text-color: "--calcite-input-text-inline-editable-control-text-color",
+  $text-color-press: "--calcite-input-text-inline-editable-control-text-color-press"
+);

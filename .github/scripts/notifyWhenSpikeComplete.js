@@ -2,14 +2,15 @@
 // When the "spike complete" label is added to an issue:
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
-// 3. Generates a notification to the Calcite project manager(s)
+// 3. Generates a notification comment tagging the planner(s)
 // 4. Emits "SyncActionChanges" event to trigger the Monday.com sync
 //
 // The secret is formatted like so: person1, person2, person3
 //
-// Note the script automatically adds the "@" character in to notify the project manager(s)
+// Note the script automatically adds the "@" character in to notify the planner(s)
 const {
   labels: { issueWorkflow, planning },
+  milestones,
 } = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
@@ -22,10 +23,10 @@ module.exports = async ({ github, context }) => {
     issue: { number },
   } = payload;
 
-  const { MANAGERS } = process.env;
+  const { PLANNERS } = process.env;
 
   // Add a "@" character to notify the user
-  const calcite_managers = MANAGERS?.split(",").map((v) => " @" + v.trim());
+  const calcite_planners = PLANNERS?.split(",").map((v) => " @" + v.trim());
 
   const issueProps = {
     owner,
@@ -47,24 +48,17 @@ module.exports = async ({ github, context }) => {
     label: issueWorkflow.inDevelopment,
   });
 
-  await github.rest.issues.addLabels({
-    ...issueProps,
-    labels: [issueWorkflow.needsMilestone],
-  });
-
-  /* Update issue */
-
-  // Clear assignees and milestone
+  // Clear assignees and set milestone to backlog
   await github.rest.issues.update({
     ...issueProps,
     assignees: [],
-    milestone: null,
+    milestone: milestones.backlog.number,
   });
 
-  // Add a comment to notify the project manager(s)
+  // Add a comment to notify the planner(s)
   await github.rest.issues.createComment({
     ...issueProps,
-    body: `cc ${calcite_managers}`,
+    body: `The spike effort has been completed. cc ${calcite_planners}`,
   });
 
   await github.rest.actions.createWorkflowDispatch({
@@ -77,8 +71,6 @@ module.exports = async ({ github, context }) => {
       event_type: "SyncActionChanges",
       milestone_updated: true,
       assignee_updated: true,
-      label_name: issueWorkflow.needsMilestone,
-      label_action: "added",
     },
   });
 };

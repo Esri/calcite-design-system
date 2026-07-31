@@ -4,21 +4,34 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ActionPad } from "./action-pad";
 
-const { position, selectionAppearance } = ATTRIBUTES;
+const { layout, position, scale, selectionAppearance } = ATTRIBUTES;
 
-type ActionPadStoryArgs = Pick<ActionPad, "expandDisabled" | "expanded" | "position" | "selectionAppearance">;
+type ActionPadStoryArgs = Pick<
+  ActionPad,
+  "expandDisabled" | "expanded" | "layout" | "position" | "scale" | "selectionAppearance"
+>;
 
 export default {
   title: "Components/Action Pad",
   args: {
     expandDisabled: false,
     expanded: false,
+    layout: layout.values[1],
     position: position.defaultValue,
+    scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
+    layout: {
+      options: layout.values,
+      control: { type: "select" },
+    },
     position: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
     selectionAppearance: {
@@ -37,7 +50,9 @@ export const simple = (args: ActionPadStoryArgs): string => html`
   <calcite-action-pad
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
+    layout="${args.layout}"
     position="${args.position}"
+    scale="${args.scale}"
     selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>
@@ -88,7 +103,7 @@ export const withGroups = (): string =>
     >
   </calcite-action-pad>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-action-pad position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
@@ -100,34 +115,34 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-action-pad>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const hebrewLocale_TestOnly = (): string =>
+export const hebrewLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="he" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const norwegianLocale_TestOnly = (): string =>
+export const norwegianLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="nb" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const spanishLocale_TestOnly = (): string =>
+export const spanishLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="es" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const taiwanLocale_TestOnly = (): string =>
+export const taiwanLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="zh-TW" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const russianLocale_TestOnly = (): string =>
+export const russianLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="ru" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const romanianMoldovaLocale_TestOnly = (): string =>
+export const romanianMoldovaLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="ro-mo" layout="horizontal"> </calcite-action-pad>
   </div>`;

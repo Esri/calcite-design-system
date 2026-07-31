@@ -42,7 +42,7 @@ export class Fab extends LitElement {
   /**
    * Specifies an icon to display.
    */
-  @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
+  @property({ reflect: true }) icon: IconName = ICONS.plus;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -51,7 +51,7 @@ export class Fab extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
@@ -75,7 +75,7 @@ export class Fab extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

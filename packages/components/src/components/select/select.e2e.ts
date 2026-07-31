@@ -1,23 +1,10 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Select } from "./select";
-
-const simpleTestMarkup = html`
-  <calcite-select label="required-for-a11y-test">
-    <calcite-option>uno</calcite-option>
-    <calcite-option>dos</calcite-option>
-    <calcite-option>tres</calcite-option>
-  </calcite-select>
-`;
-
-describe("accessible", () => {
-  accessible(simpleTestMarkup);
-});
 
 async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
   const selectedOptionValue = await page.$eval(
@@ -46,11 +33,11 @@ describe("flat options", () => {
     const select = await page.find("calcite-select");
     const spy = await select.spyOnEvent("calciteSelectChange");
 
-    const internalSelect = await page.evaluateHandle(() =>
-      document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+    const internalSelect = await page.evaluateHandle(
+      () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
     );
 
-    await internalSelect.asElement().select("dos");
+    await internalSelect.asElement()!.select("dos");
     await page.waitForChanges();
 
     let selected = await findAll(page, "calcite-option[selected]");
@@ -162,11 +149,11 @@ describe("grouped options", () => {
     const select = await page.find("calcite-select");
     const spy = await select.spyOnEvent("calciteSelectChange");
 
-    const internalSelect = await page.evaluateHandle(() =>
-      document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+    const internalSelect = await page.evaluateHandle(
+      () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
     );
 
-    await internalSelect.asElement().select("c");
+    await internalSelect.asElement()!.select("c");
     await page.waitForChanges();
 
     let selected = await findAll(page, "calcite-option[selected]");
@@ -300,18 +287,18 @@ it("item is selected before change event", async () => {
   type TestWindow = typeof window & { selectedOptionId: string };
 
   await page.evaluate(() => {
-    document.querySelector("calcite-select").addEventListener("calciteSelectChange", (event) => {
+    document.querySelector("calcite-select")!.addEventListener("calciteSelectChange", (event) => {
       (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
         "calcite-option[selected]",
-      ).id;
+      )!.id;
     });
   });
 
-  const internalSelect = await page.evaluateHandle(() =>
-    document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+  const internalSelect = await page.evaluateHandle(
+    () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
   );
 
-  await internalSelect.asElement().select("dos");
+  await internalSelect.asElement()!.select("dos");
   await page.waitForChanges();
 
   const selectedOptionId = await page.evaluate(() => (window as TestWindow).selectedOptionId);
@@ -334,15 +321,15 @@ it("honors empty value", async () => {
     select.addEventListener("calciteSelectChange", (event) => {
       (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
         "calcite-option[selected]",
-      ).id;
+      )!.id;
     }),
   );
 
-  const internalSelect = await page.evaluateHandle(() =>
-    document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+  const internalSelect = await page.evaluateHandle(
+    () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
   );
 
-  await internalSelect.asElement().select("");
+  await internalSelect.asElement()!.select("");
   await page.waitForChanges();
 
   const selectedOptionId = await page.evaluate(() => (window as TestWindow).selectedOptionId);
@@ -381,77 +368,4 @@ it("does not throw when added and removed multiple times and a row", async () =>
   };
 
   await expect(runTest()).resolves.toBeUndefined();
-});
-
-describe("is form-associated", () => {
-  formAssociated(
-    html`
-      <calcite-select>
-        <calcite-option id="0"></calcite-option>
-        <calcite-option id="1">uno</calcite-option>
-        <calcite-option id="2">dos</calcite-option>
-        <calcite-option id="3">tres</calcite-option>
-      </calcite-select>
-    `,
-    {
-      testValue: "dos",
-      validation: true,
-      // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
-      // due to the context menu not being accessible in puppeteer
-      changeValueKeys: ["t"],
-    },
-  );
-});
-
-describe("theme", () => {
-  themed(
-    html`
-      <calcite-select label="calcite select">
-        <calcite-option value="high">uno</calcite-option>
-        <calcite-option value="medium">dos</calcite-option>
-        <calcite-option value="low">tres</calcite-option>
-      </calcite-select>
-    `,
-    {
-      "--calcite-select-font-size": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "fontSize",
-      },
-      "--calcite-select-text-color": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "color",
-      },
-      "--calcite-select-border-color": [
-        {
-          shadowSelector: `.${CSS.select}`,
-          targetProp: "borderColor",
-        },
-        {
-          shadowSelector: `.${CSS.iconContainer}`,
-          targetProp: "borderColor",
-        },
-      ],
-      "--calcite-select-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-      },
-      "--calcite-select-icon-color-hover": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-        state: "hover",
-      },
-      "--calcite-select-background-color": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-select-corner-radius": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-select-shadow": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "boxShadow",
-      },
-    },
-  );
 });

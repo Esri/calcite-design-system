@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { Fragment, h, JsxNode, LitElement, property, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -22,7 +21,7 @@ export class Loader extends LitElement {
 
   // #region Private Properties
 
-  private formatter: Intl.NumberFormat;
+  private formatter?: Intl.NumberFormat;
 
   messages = useT9n<Record<string, never>>({ name: null });
 
@@ -41,11 +40,10 @@ export class Loader extends LitElement {
   @property({ reflect: true }) inline = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -106,15 +104,13 @@ export class Loader extends LitElement {
       return `${this.value}`;
     }
 
-    return this.formatter.format(this.value / 100);
+    return this.formatter!.format(this.value / 100);
   }
 
   /**
    * Return the proper sizes based on the scale property
-   *
-   * @param scale
    */
-  private getSize(scale: string) {
+  private getSize(scale: Scale) {
     return {
       s: 32,
       m: 64,
@@ -122,7 +118,7 @@ export class Loader extends LitElement {
     }[scale];
   }
 
-  private getInlineSize(scale: string) {
+  private getInlineSize(scale: Scale) {
     return {
       s: 12,
       m: 16,
@@ -157,11 +153,11 @@ export class Loader extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaValueMax = isDeterminate ? "100" : undefined;
+    this.el.ariaValueMax = isDeterminate ? "100" : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaValueMin = isDeterminate ? "0" : undefined;
+    this.el.ariaValueMin = isDeterminate ? "0" : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaValueNow = isDeterminate ? valueNow.toString() : undefined;
+    this.el.ariaValueNow = isDeterminate ? valueNow.toString() : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "id", id);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

@@ -5,5 +5,5 @@
   "pause": "Пауза",
   "carousel": "Карусель",
   "carouselItemProgress": "Индикатор выполнения для элемента Карусель",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Элемент {current} из {total}"
 }

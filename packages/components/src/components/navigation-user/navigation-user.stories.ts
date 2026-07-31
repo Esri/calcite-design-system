@@ -1,58 +1,58 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
-import { CalciteNavigationUser } from "./navigation-user";
+import type { NavigationUser } from "./navigation-user";
 
 type NavigationUserStoryArgs = Pick<
-  CalciteNavigationUser,
-  "fullName" | "username" | "thumbnail" | "userId" | "textDisabled" | "active"
+  NavigationUser,
+  "active" | "fullName" | "textDisabled" | "thumbnail" | "userId" | "username"
 >;
 
 export default {
   title: "Components/Navigation/Navigation User",
   args: {
+    active: true,
     fullName: "Edward Abbey",
-    userName: "eabbey_123",
+    textDisabled: false,
     thumbnail: "",
     userId: "",
-    textDisabled: false,
-    active: true,
+    username: "eabbey_123",
   },
 };
 
 export const simple = (args: NavigationUserStoryArgs): string => html`
   <calcite-navigation-user
-    slot="user"
+    ${boolean("active", args.active)}
     full-name="${args.fullName}"
-    username="${args.username}"
+    slot="user"
+    ${boolean("text-disabled", args.textDisabled)}
     thumbnail="${args.thumbnail}"
     user-id="${args.userId}"
-    ${boolean("text-disabled", args.textDisabled)}
-    ${boolean("active", args.active)}
+    username="${args.username}"
   />
 `;
 
 export const fullName = (): string => html`<calcite-navigation-user full-name="Edward Abbey" />`;
 
-export const username_TestOnly = (): string => html`<calcite-navigation-user username="eabbey_123" />`;
+export const username = (): string => html`<calcite-navigation-user username="eabbey_123" />`;
 
-export const thumbnail_TestOnly = (): string =>
+export const thumbnail = (): string =>
   html`<calcite-navigation-user thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const fullNameAndThumbnail_TestOnly = (): string =>
+export const fullNameAndThumbnail = (): string =>
   html`<calcite-navigation-user full-name="Edward Abbey" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const usernameAndThumbnail_TestOnly = (): string =>
+export const usernameAndThumbnail = (): string =>
   html`<calcite-navigation-user username="eabbey_123" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const All_TestOnly = (): string =>
+export const All = (): string =>
   html`<calcite-navigation-user
     full-name="Edward Abbey"
     username="eabbey_123"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
-export const slottedInNav_TestOnly = (): string => html`
+export const slottedInNav = (): string => html`
   <calcite-navigation style="--calcite-color-brand: #bf390f">
     <calcite-navigation-user
       full-name="Edward Abbey"

@@ -55,12 +55,20 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-table-border-collapse
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
+// --calcite-internal-table-header-border-block-end-width
 // --calcite-internal-table-selection-action-spacing
+// --calcite-internal-table-sticky-header-border-shadow
 
 @use "../../styles/includes";
+
+:host {
+  @apply flex;
+  --calcite-internal-table-border-collapse: collapse;
+}
 
 :host([scale="s"]) {
   --calcite-internal-table-cell-padding: 0.25rem;
@@ -84,8 +92,15 @@
   --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--1);
 }
 
-:host {
-  @apply flex;
+:host([sticky-header]) {
+  --calcite-internal-table-border-collapse: separate;
+  --calcite-internal-table-header-border-block-end-width: 0;
+  --calcite-internal-table-sticky-header-border-shadow: inset 0 calc(-1 * var(--calcite-border-width-sm)) 0 0
+    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
+}
+
+:host([sticky-header]) .table-container {
+  position: relative;
 }
 
 .container {
@@ -95,13 +110,16 @@
 }
 
 .table-container {
-  @apply overflow-auto whitespace-nowrap;
-}
-
-.table-container {
+  @apply whitespace-nowrap;
+  line-height: var(--calcite-font-line-height-relative-tight);
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
+  overflow: auto;
+}
+
+.table-container--overflow {
+  overscroll-behavior-y: none;
 }
 
 .assistive-text {
@@ -109,8 +127,8 @@
 }
 
 table {
-  @apply border-collapse;
-  overflow-x: scroll;
+  border-collapse: var(--calcite-internal-table-border-collapse);
+  border-spacing: 0;
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
@@ -141,6 +159,7 @@ table {
     );
   }
 }
+
 .selection-actions {
   @apply flex flex-row;
   gap: var(--calcite-internal-table-selection-action-spacing);

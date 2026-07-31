@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -44,11 +43,10 @@ export class ChipGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -61,15 +59,12 @@ export class ChipGroup extends LitElement {
   @property() selectedItems: Chip["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -85,7 +80,7 @@ export class ChipGroup extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -184,9 +179,10 @@ export class ChipGroup extends LitElement {
   }
 
   private updateItems(event?: Event): void {
-    const itemsFromSlot = this.slotRef.value
-      ?.assignedElements({ flatten: true })
-      .filter((el): el is Chip["el"] => el?.matches("calcite-chip"));
+    const itemsFromSlot =
+      this.slotRef.value
+        ?.assignedElements({ flatten: true })
+        .filter((el): el is Chip["el"] => el?.matches("calcite-chip")) || [];
 
     this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Chip["el"]>(event);
 

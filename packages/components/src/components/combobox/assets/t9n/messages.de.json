@@ -4,9 +4,10 @@
   "allSelected": "Alle ausgewählt",
   "clear": "Wert löschen",
   "noMatches": "Keine Übereinstimmungen",
-  "removeTag": "Tag entfernen",
+  "removeTag": "Tag '{value}' entfernen",
   "required": "Erforderlich",
   "selectAll": "Alle auswählen",
   "selected": "ausgewählt",
-  "nonEditable": "{value} ist schreibgeschützt."
+  "nonEditable": "{value} ist schreibgeschützt.",
+  "disabledSelectedCount": "+{count}"
 }

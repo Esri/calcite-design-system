@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, JsxNode, ToEvents } from "@arcgis/lumina";
 import { focusElementInGroup } from "../../utils/dom";
-import { SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
 import type { Card } from "../card/card";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -42,11 +41,13 @@ export class CardGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
+
+  /** Specifies the size of the component. Child `calcite-card`s inherit the component's value. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
@@ -70,7 +71,7 @@ export class CardGroup extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -90,7 +91,10 @@ export class CardGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalCardKeyEvent", this.calciteInternalCardKeyEventListener);
+    this.listen<ToEvents<Card>["calciteInternalCardKeyEvent"]>(
+      "calciteInternalCardKeyEvent",
+      this.calciteInternalCardKeyEventListener,
+    );
     this.listen("calciteCardSelect", this.calciteCardSelectListener);
   }
 
@@ -102,6 +106,10 @@ export class CardGroup extends LitElement {
     if (changes.has("selectionMode") && this.hasUpdated) {
       this.updateItemsOnSelectionModeChange();
     }
+
+    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+      this.updateItemsScale();
+    }
   }
 
   loaded(): void {
@@ -112,7 +120,7 @@ export class CardGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
+  private calciteInternalCardKeyEventListener(event: CustomEvent<KeyboardEvent>): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items.filter((el) => !el.disabled);
       switch (event.detail["key"]) {
@@ -152,13 +160,20 @@ export class CardGroup extends LitElement {
   private updateItemsOnSlotChange(event: Event): void {
     this.updateSlottedItems(event.target as HTMLSlotElement);
     this.updateSelectedItems();
+    this.updateItemsScale();
   }
 
-  private updateSlottedItems(target: HTMLSlotElement): void {
+  private updateSlottedItems(target?: HTMLSlotElement): void {
     this.items =
       target
         ?.assignedElements({ flatten: true })
         .filter((el): el is Card["el"] => el?.matches("calcite-card")) || [];
+  }
+
+  private updateItemsScale(): void {
+    this.items.forEach((el) => {
+      el.scale = this.scale;
+    });
   }
 
   private updateSelectedItems(): void {

@@ -1,5 +1,6 @@
 {
   "chooseDate": "בחר תאריך",
+  "clear": "Clear value",
   "date": "תאריך",
   "dateFormat": "פורמט תאריך: {format}",
   "endDate": "תאריך סיום",

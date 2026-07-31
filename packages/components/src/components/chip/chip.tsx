@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -44,7 +43,7 @@ export class Chip extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -68,10 +67,10 @@ export class Chip extends LitElement {
     Appearance
   > = "solid";
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
@@ -81,7 +80,7 @@ export class Chip extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -98,17 +97,16 @@ export class Chip extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
-  @property() parentChipGroup: ChipGroup["el"];
+  @property() parentChipGroup?: ChipGroup["el"];
 
   /**
    * Specifies the size of the component.
@@ -143,7 +141,7 @@ export class Chip extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -153,6 +151,7 @@ export class Chip extends LitElement {
       } else if (this.closable) {
         return this.closeButtonRef.value;
       }
+      return;
     }, options);
   }
 
@@ -285,7 +284,7 @@ export class Chip extends LitElement {
     if (this.selectionMode === "single") {
       this.calciteInternalSyncSelectedChips.emit();
     }
-    const selectedInParent = this.parentChipGroup.selectedItems.includes(this.el);
+    const selectedInParent = this.parentChipGroup?.selectedItems.includes(this.el);
 
     if (!selectedInParent && selected && this.selectionMode !== "multiple") {
       this.calciteInternalChipSelect.emit();
@@ -364,7 +363,9 @@ export class Chip extends LitElement {
           ? "radio"
           : this.interactive
             ? "button"
-            : "img";
+            : this.closable
+              ? undefined
+              : "img";
     return (
       <this.interactiveContainer disabled={disabled}>
         <div

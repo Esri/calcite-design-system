@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "İptal",
   "clear": "Değeri temizle",
+  "confirmInlineEditingChanges": "Kaydet",
+  "enableInlineEditing": "Düzenle",
   "loading": "Yükleniyor",
   "required": "Gerekli"
 }

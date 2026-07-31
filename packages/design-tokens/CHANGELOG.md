@@ -3,17 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [4.0.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.1-next.1...@esri/calcite-design-tokens@4.0.1-next.2) (2026-02-12)
+## [4.1.1-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.4...@esri/calcite-design-tokens@4.1.1-next.5) (2026-07-30)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
 
-## [4.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.1-next.0...@esri/calcite-design-tokens@4.0.1-next.1) (2026-02-12)
+## [4.1.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.3...@esri/calcite-design-tokens@4.1.1-next.4) (2026-07-17)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
 
-## [4.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.23...@esri/calcite-design-tokens@4.0.1-next.0) (2026-02-05)
+## [4.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.2...@esri/calcite-design-tokens@4.1.1-next.3) (2026-07-13)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.1...@esri/calcite-design-tokens@4.1.1-next.2) (2026-06-23)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.0...@esri/calcite-design-tokens@4.1.1-next.1) (2026-06-08)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.0-next.11...@esri/calcite-design-tokens@4.1.1-next.0) (2026-05-28)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0...@esri/calcite-design-tokens@4.1.0) (2026-05-28)
+
+### Features
+
+- **semantic-tokens:** Update shadow token styles ([#14152](https://github.com/Esri/calcite-design-system/issues/14152)) ([34ec5b8](https://github.com/Esri/calcite-design-system/commit/34ec5b8da3c0f7228e91a6788858c5cec4b8b43b))
 
 ## [4.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.1...@esri/calcite-design-tokens@4.0.0) (2026-02-04)
 

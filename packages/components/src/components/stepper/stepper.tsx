@@ -1,6 +1,14 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
@@ -10,7 +18,6 @@ import { NumberingSystem } from "../../utils/locale";
 import { useT9n } from "../../controllers/useT9n";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
-import { isHidden } from "../../utils/component";
 import { CSS, ICONS, IDS } from "./resources";
 import { StepBar } from "./functional/step-bar";
 import {
@@ -20,6 +27,7 @@ import {
 } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper.scss";
+import { isStepperItem } from "../stepper-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -39,11 +47,11 @@ export class Stepper extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  private enabledItems: StepperItem["el"][] = [];
+  private visibleItems: StepperItem["el"][] = [];
+
+  private focusableItems: StepperItem["el"][] = [];
 
   private guid = guid();
-
-  private itemMap = new Map<StepperItem["el"], { position: number; content: Node[] }>();
 
   private items: StepperItem["el"][] = [];
 
@@ -63,7 +71,7 @@ export class Stepper extends LitElement {
 
   //#region State Properties
 
-  @state() currentActivePosition: number;
+  @state() currentActivePosition = -1;
 
   //#endregion
 
@@ -75,7 +83,7 @@ export class Stepper extends LitElement {
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: StepperLayout = "horizontal";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
@@ -92,7 +100,7 @@ export class Stepper extends LitElement {
    *
    * @readonly
    */
-  @property() selectedItem: StepperItem["el"] = null;
+  @property() selectedItem: StepperItem["el"] | null = null;
 
   //#endregion
 
@@ -101,7 +109,7 @@ export class Stepper extends LitElement {
   /** Set the last `calcite-stepper-item` as active. */
   @method()
   async endStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, "previous");
+    const enabledStepIndex = this.getEnabledStepIndex(this.visibleItems.length - 1, "previous");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -182,8 +190,14 @@ export class Stepper extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalStepperItemKeyEvent", this.calciteInternalStepperItemKeyEvent);
-    this.listen("calciteInternalStepperItemRegister", this.registerItem);
+    this.listen<ToEvents<StepperItem>["calciteInternalStepperItemKeyEvent"]>(
+      "calciteInternalStepperItemKeyEvent",
+      this.calciteInternalStepperItemKeyEvent,
+    );
+    this.listen("calciteInternalStepperItemUpdate", (event: Event): void => {
+      event.stopPropagation();
+      this.updateItems();
+    });
     this.listen("calciteInternalStepperItemSelect", this.updateItem);
     this.listen("calciteStepperItemSelect", this.handleItemSelect);
   }
@@ -199,17 +213,13 @@ export class Stepper extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("icon") && (this.hasUpdated || this.icon !== false)) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("icon") && (this.hasUpdated || this.icon !== false)) ||
       (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("numberingSystem") && (this.hasUpdated || this.numberingSystem !== undefined))
     ) {
       this.updateItems();
-      this.determineActiveStepper();
-    }
-
-    if (changes.has("numberingSystem")) {
-      this.setStepperItemNumberingSystem();
     }
 
     if (changes.has("currentActivePosition")) {
@@ -221,12 +231,9 @@ export class Stepper extends LitElement {
 
   loaded(): void {
     // if no stepper items are set as active, default to the first one
-    if (typeof this.currentActivePosition !== "number") {
+    if (this.currentActivePosition === -1) {
       const enabledStepIndex = this.getFirstEnabledStepperPosition();
-
-      if (enabledStepIndex === 0) {
-        this.currentActivePosition = enabledStepIndex;
-      }
+      this.currentActivePosition = enabledStepIndex;
 
       this.calciteInternalStepperItemChange.emit({
         position: enabledStepIndex,
@@ -249,28 +256,19 @@ export class Stepper extends LitElement {
     switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
-        focusElementInGroup(this.enabledItems, itemToFocus, "next");
+        focusElementInGroup(this.focusableItems, itemToFocus, "next");
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        focusElementInGroup(this.enabledItems, itemToFocus, "previous");
+        focusElementInGroup(this.focusableItems, itemToFocus, "previous");
         break;
       case "Home":
-        focusElementInGroup(this.enabledItems, itemToFocus, "first");
+        focusElementInGroup(this.focusableItems, itemToFocus, "first");
         break;
       case "End":
-        focusElementInGroup(this.enabledItems, itemToFocus, "last");
+        focusElementInGroup(this.focusableItems, itemToFocus, "last");
         break;
     }
-    event.stopPropagation();
-  }
-
-  private registerItem(event: CustomEvent): void {
-    const item = event.target as StepperItem["el"];
-    const { content, position } = event.detail;
-
-    this.itemMap.set(item, { position, content });
-    this.enabledItems = this.filterItems();
     event.stopPropagation();
   }
 
@@ -295,26 +293,30 @@ export class Stepper extends LitElement {
   }
 
   private updateItems(): void {
-    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
+    this.visibleItems = this.items.filter((item) => !item.hidden);
+    this.determineActiveStepper();
+    this.focusableItems = this.visibleItems.filter((item) => !item.disabled && !item.itemHidden);
+    this.items.forEach((item) => {
       item.icon = this.icon;
       item.numbered = this.numbered;
       item.layout = this.layout;
       item.scale = this.scale;
+      item.numberingSystem = this.numberingSystem;
     });
   }
 
   private determineActiveStepper(): void {
-    const { items } = this;
+    const { visibleItems } = this;
 
-    if (items.length < 2) {
+    if (visibleItems.length < 2) {
       return;
     }
 
     const { currentActivePosition, layout } = this;
 
     this.multipleViewMode = layout !== "horizontal-single";
-    items.forEach((item, index) => {
-      item.itemHidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
+    visibleItems.forEach((item, index) => {
+      item.itemHidden = layout === "horizontal-single" && index !== currentActivePosition;
     });
   }
 
@@ -322,14 +324,14 @@ export class Stepper extends LitElement {
     startIndex: number,
     direction: "next" | "previous" = "next",
   ): number | null {
-    const { items, currentActivePosition } = this;
+    const { visibleItems, currentActivePosition } = this;
 
     let newIndex = startIndex;
-    while (newIndex >= 0 && newIndex < items.length && items[newIndex]?.disabled) {
+    while (newIndex >= 0 && newIndex < visibleItems.length && visibleItems[newIndex]?.disabled) {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
-    return newIndex !== currentActivePosition && newIndex < items.length && newIndex >= 0
+    return newIndex !== currentActivePosition && newIndex < visibleItems.length && newIndex >= 0
       ? newIndex
       : null;
   }
@@ -338,16 +340,6 @@ export class Stepper extends LitElement {
     this.currentActivePosition = position;
     this.calciteInternalStepperItemChange.emit({
       position,
-    });
-  }
-
-  private filterItems(): StepperItem["el"][] {
-    return this.items.filter((item) => !item.disabled && !isHidden(item));
-  }
-
-  private setStepperItemNumberingSystem(): void {
-    this.items.forEach((item: StepperItem["el"]) => {
-      item.numberingSystem = this.numberingSystem;
     });
   }
 
@@ -363,14 +355,15 @@ export class Stepper extends LitElement {
     if (
       typeof this.currentActivePosition === "number" &&
       currentActivePosition !== this.currentActivePosition &&
-      !this.items[this.currentActivePosition].disabled
+      this.visibleItems[this.currentActivePosition] &&
+      !this.visibleItems[this.currentActivePosition].disabled
     ) {
       this.emitItemSelect();
     }
   }
 
   private getFirstEnabledStepperPosition(): number {
-    const enabledStepIndex = this.items.findIndex((item) => !item.disabled);
+    const enabledStepIndex = this.visibleItems.findIndex((item) => !item.disabled);
 
     if (enabledStepIndex > -1) {
       return enabledStepIndex;
@@ -379,15 +372,12 @@ export class Stepper extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is StepperItem["el"] =>
-        el?.tagName === "CALCITE-STEPPER-ITEM" && !isHidden(el as StepperItem["el"]),
-    );
-    this.items = items;
-    const spacing = Array(items.length).fill("1fr").join(" ");
-    this.containerRef.value.style.gridTemplateAreas = spacing;
-    this.containerRef.value.style.gridTemplateColumns = spacing;
-    this.setStepperItemNumberingSystem();
+    this.items = slotChangeGetAssignedElements(event).filter((el) => isStepperItem(el));
+    this.updateItems();
+    const spacing = Array(this.visibleItems.length).fill("1fr").join(" ");
+    const value = this.containerRef.value!;
+    value.style.gridTemplateAreas = spacing;
+    value.style.gridTemplateColumns = spacing;
   }
 
   //#endregion
@@ -396,7 +386,7 @@ export class Stepper extends LitElement {
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = this.messages.label;
+    this.el.ariaLabel = this.messages.label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "region";
     return (
@@ -406,7 +396,7 @@ export class Stepper extends LitElement {
       >
         {this.layout === "horizontal-single" && (
           <div class={{ [CSS.stepBarContainer]: true }}>
-            {this.items.map((item, index) => (
+            {this.visibleItems.map((item, index) => (
               <StepBar
                 active={index === this.currentActivePosition}
                 complete={item.complete && index !== this.currentActivePosition && !item.error}

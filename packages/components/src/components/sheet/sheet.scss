@@ -101,29 +101,22 @@
 }
 
 :host([display-mode="float"]) .content {
-  --tw-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16);
-  --tw-shadow-colored: 0 2px 12px -4px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-sheet-shadow,
-    var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000),
-    var(--tw-shadow)
-  );
+  box-shadow: var(--calcite-sheet-shadow, var(--calcite-shadow-sm));
 }
 
-:host([display-mode="overlay"][position="inline-start"]) .container {
+:host([display-mode="overlay"][position="inline-start"]) .content {
   box-shadow: var(--calcite-scrim-shadow-inline-start-internal);
 }
 
-:host([display-mode="overlay"][position="inline-end"]) .container {
+:host([display-mode="overlay"][position="inline-end"]) .content {
   box-shadow: var(--calcite-scrim-shadow-inline-end-internal);
 }
 
-:host([display-mode="overlay"][position="block-start"]) .container {
+:host([display-mode="overlay"][position="block-start"]) .content {
   box-shadow: var(--calcite-scrim-shadow-block-start-internal);
 }
 
-:host([display-mode="overlay"][position="block-end"]) .container {
+:host([display-mode="overlay"][position="block-end"]) .content {
   box-shadow: var(--calcite-scrim-shadow-block-end-internal);
 }
 
@@ -247,6 +240,7 @@
 .container--open {
   @apply opacity-100 visible;
   transition-delay: 0ms;
+
   .content {
     @apply pointer-events-auto visible opacity-100;
     transition:
@@ -256,6 +250,11 @@
       max-inline-size var(--calcite-internal-animation-timing-medium) animation.$easing-function,
       max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function;
     transition-delay: 0ms;
+  }
+
+  @starting-style {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 

@@ -4,9 +4,10 @@
   "allSelected": "Všechny vybrané",
   "clear": "Vymazat hodnotu",
   "noMatches": "Žádné shody",
-  "removeTag": "Odebrat klíčové slovo",
+  "removeTag": "Odebrat klíčové slovo {value}",
   "required": "Povinné",
   "selectAll": "Vybrat vše",
   "selected": "vybraný",
-  "nonEditable": "Pouze pro čtení {value}"
+  "nonEditable": "Pouze pro čtení {value}",
+  "disabledSelectedCount": "+{count}"
 }

@@ -1,5 +1,5 @@
-import { h } from "@arcgis/lumina";
-import { userEvent } from "vitest/browser";
+import { Fragment, h } from "@arcgis/lumina";
+import { page, userEvent } from "vitest/browser";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -11,11 +11,40 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   t9n,
+  accessible,
+  topLayer,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-pad>
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      ),
+    );
+  });
+
+  describe("should be accessible when expanded", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-pad expanded>
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -121,6 +150,24 @@ describe("translation support", () => {
   t9n(() => mount("calcite-action-pad"));
 });
 
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-pad expand-disabled>
+          <calcite-action-group>
+            <calcite-action icon="plus" slot="menu-actions" text="Add" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      ),
+    {
+      componentTarget: page.getBySelector("calcite-action-pad > calcite-action-group"),
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+    },
+  );
+});
+
 describe("selection-modes", () => {
   it("supports ARIA keyboard navigation and focus management", async () => {
     const { el } = await mount<"calcite-action-pad">(
@@ -187,5 +234,66 @@ describe("selection-modes", () => {
     await userEvent.click(action4);
     expect(action3.active).toBe(false);
     expect(action4.active).toBe(false);
+  });
+});
+
+it("keeps actions tabbable when tabbing out", async () => {
+  await mount(
+    <>
+      <calcite-action-pad expand-disabled>
+        <calcite-action icon="number-circle-1" text="first" />
+        <calcite-action icon="number-circle-2" text="second" />
+      </calcite-action-pad>
+      <calcite-action icon="number-circle-3" text="third" />
+    </>,
+  );
+  const actions = page.getBySelector("calcite-action");
+
+  await userEvent.keyboard("{Tab}");
+  await expect.element(actions.nth(0)).toHaveFocus();
+
+  await userEvent.keyboard("{Tab}");
+  await expect.element(actions.nth(2)).toHaveFocus();
+
+  await userEvent.keyboard("{Tab}");
+  expect(document.body).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  await expect.element(actions.nth(2)).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  await expect.element(actions.nth(0)).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  expect(document.body).toHaveFocus();
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-action-pad"), {
+      "--calcite-action-pad-corner-radius": {
+        targetProp: "borderRadius",
+      },
+      "--calcite-action-pad-items-space": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
+    });
+  });
+  describe("grid", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action-pad expanded layout="vertical">
+            <calcite-action-group />
+          </calcite-action-pad>,
+        ),
+      {
+        "--calcite-action-pad-expanded-max-width": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "maxInlineSize",
+        },
+      },
+    );
   });
 });

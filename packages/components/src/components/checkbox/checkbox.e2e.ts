@@ -1,29 +1,13 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
 import { findAll } from "../../tests/utils/puppeteer";
-import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(
-    `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`,
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`);
-});
 
 describe("labelable", () => {
   labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" });
-});
-
-describe("is form-associated", () => {
-  formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" });
 });
 
 it("renders with correct default attributes", async () => {
@@ -32,7 +16,6 @@ it("renders with correct default attributes", async () => {
 
   const calciteCheckbox = await page.find("calcite-checkbox");
 
-  expect(calciteCheckbox).toHaveAttribute(HYDRATED_ATTR);
   expect(calciteCheckbox).not.toHaveAttribute("checked");
   expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
 });
@@ -143,7 +126,7 @@ it("resets to initial value when form reset event is triggered", async () => {
   expect(await checked.getProperty("checked")).toBe(false);
 
   await page.evaluate(() => {
-    const form = document.querySelector("form");
+    const form = document.querySelector("form")!;
     form.reset();
   });
   await page.waitForChanges();
@@ -158,7 +141,7 @@ describe("WCAG AA recommended minimum 24px click area", () => {
     await page.setContent(html`<calcite-checkbox dir="${direction}" scale="${scale}"></calcite-checkbox>`);
     const checkbox = await page.find("calcite-checkbox");
     const { left, top, right, bottom } = await page.evaluate(() =>
-      document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
+      document.querySelector("calcite-checkbox")!.getBoundingClientRect().toJSON(),
     );
 
     const testClick = async (x, y, expected) => {
@@ -174,7 +157,7 @@ describe("WCAG AA recommended minimum 24px click area", () => {
     await testClick(right + maxExtraPixels + 1, bottom + maxExtraPixels + 1, false);
   };
 
-  const directions = ["ltr", "rtl"];
+  const directions: Direction[] = ["ltr", "rtl"];
 
   directions.forEach((direction: Direction) => {
     describe(`${direction}`, () => {
@@ -189,55 +172,6 @@ describe("WCAG AA recommended minimum 24px click area", () => {
       it("large checkbox allows clicks 3px around all sides", async () => {
         await testCheckboxClick("l", 3, direction);
       });
-    });
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html` <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox> `, {
-      "--calcite-checkbox-size": [
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "inlineSize",
-        },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "blockSize",
-        },
-      ],
-      "--calcite-checkbox-icon-color": {
-        shadowSelector: `.${CSS.check}`,
-        targetProp: "color",
-      },
-    });
-  });
-  describe("checked", () => {
-    themed(html` <calcite-checkbox name="s-checked" scale="s" checked></calcite-checkbox> `, {
-      "--calcite-checkbox-border-color-hover": [
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "boxShadow",
-          state: "hover",
-        },
-      ],
-      "--calcite-checkbox-border-color-press": [
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-checkbox >>> .${CSS.check}` },
-        },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "boxShadow",
-          state: { press: `calcite-checkbox >>> .${CSS.check}` },
-        },
-      ],
     });
   });
 });

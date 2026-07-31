@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { CSS, IDS } from "./resources";
@@ -27,11 +26,10 @@ export class CarouselItem extends LitElement {
   // #region Public Properties
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;

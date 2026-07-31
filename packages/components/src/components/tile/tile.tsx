@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
@@ -17,7 +16,7 @@ declare global {
 }
 
 /**
- * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
+ * @slot content-top - A slot for adding non-actionable elements above the component's content.
  * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
  */
 export class Tile extends LitElement implements SelectableComponent {
@@ -29,7 +28,7 @@ export class Tile extends LitElement implements SelectableComponent {
 
   // #region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerEl?: HTMLDivElement;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -57,8 +56,8 @@ export class Tile extends LitElement implements SelectableComponent {
   /** Specifies alignment of the component's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** Specifies a description for the component. Displays below the `heading`. */
-  @property({ reflect: true }) description: string;
+  /** @copyDoc */
+  @property({ reflect: true }) description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -72,17 +71,17 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) embed = false;
 
-  /** Specifies the component's heading text. displays between the `icon` and `description`. */
-  @property({ reflect: true }) heading: string;
+  /** @copyDoc */
+  @property({ reflect: true }) heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** When embed is `false`, specifies the URL for the component. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -95,8 +94,8 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property() interactive = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /**
    * Defines the layout of the component.
@@ -114,11 +113,11 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance, where:
+   * Specifies the selection appearance.
    *
-   * - `"icon"` (displays a checkmark or dot),
-   * - `"highlight"` (changes the background color), or
-   * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` changes the background color.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
@@ -130,12 +129,12 @@ export class Tile extends LitElement implements SelectableComponent {
   > = "icon";
 
   /**
-   * Specifies the selection mode, where:
+   * Specifies the selection mode.
    *
-   * - `"multiple"` (allows any number of selected items),
-   * - `"single"` (allows only one selected item),
-   * - `"single-persist"` (allows only one selected item and prevents de-selection),
-   * - `"none"` (allows no selected items).
+   * - `"multiple"` allows any number of selected items.
+   * - `"single"` allows only one selected item.
+   * - `"single-persist"` allows only one selected item and prevents de-selection.
+   * - `"none"` allows no selected items.
    *
    * This property is set by the parent tile-group.
    *
@@ -155,7 +154,7 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

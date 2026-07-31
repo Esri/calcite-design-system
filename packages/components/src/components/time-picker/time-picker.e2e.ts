@@ -1,11 +1,8 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-import { formatTimePart, getLocaleHourFormat, localizeTimeString } from "../../utils/time";
+
+import { formatTimePart } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { supportedNlsLocales } from "../date-picker/utils";
-import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 const letterKeys = [
@@ -38,14 +35,6 @@ const letterKeys = [
 ] as const;
 
 export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-
-describe("accessible", () => {
-  accessible(`<calcite-time-picker></calcite-time-picker>`);
-});
-
-describe("accessible using seconds", () => {
-  accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`);
-});
 
 describe("focusing", () => {
   it("should focus input when corresponding nudge up button is clicked", async () => {
@@ -157,7 +146,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.hour}`,
       ),
     ).toBe(true);
@@ -168,7 +157,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.minute}`,
       ),
     ).toBe(true);
@@ -179,7 +168,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.second}`,
       ),
     ).toBe(true);
@@ -190,7 +179,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.meridiem}`,
       ),
     ).toBe(true);
@@ -207,7 +196,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.hour}`,
       ),
     ).toBe(true);
@@ -218,7 +207,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.minute}`,
       ),
     ).toBe(true);
@@ -229,7 +218,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.second}`,
       ),
     ).toBe(true);
@@ -240,7 +229,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.meridiem}`,
       ),
     ).toBe(true);
@@ -251,7 +240,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.second}`,
       ),
     ).toBe(true);
@@ -262,7 +251,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.minute}`,
       ),
     ).toBe(true);
@@ -273,7 +262,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => !!element.shadowRoot?.activeElement?.matches(selector),
         `.${CSS.hour}`,
       ),
     ).toBe(true);
@@ -1180,307 +1169,5 @@ describe("fractional second support", () => {
     const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
     expect(fractionalSecondEl.textContent).toEqual("000");
     expect(changeEventSpy).toHaveReceivedEventTimes(1);
-  });
-});
-
-describe("l10n", () => {
-  supportedNlsLocales.forEach((locale) => {
-    if (locale !== "en") {
-      return;
-    }
-    const localeHourFormat = getLocaleHourFormat(locale);
-    describe(`${locale} (${localeHourFormat}-hour)`, () => {
-      const step = 0.001;
-
-      describe(`hour-format="user"`, () => {
-        it(`displays initial localized value in the locale's preferred hour format`, async () => {
-          const initialDelocalizedValue = "14:02:30.001";
-          const page = await newE2EPage();
-          await page.setContent(html`
-            <calcite-time-picker
-              lang="${locale}"
-              step="${step}"
-              value="${initialDelocalizedValue}"
-            ></calcite-time-picker>
-          `);
-
-          const {
-            hour: expectedLocalizedHour,
-            hourSuffix: expectedLocalizedHourSuffix,
-            minute: expectedLocalizedMinute,
-            minuteSuffix: expectedLocalizedMinuteSuffix,
-            second: expectedLocalizedSecond,
-            secondSuffix: expectedLocalizedSecondSuffix,
-            decimalSeparator: expectedLocalizedDecimalSeparator,
-            fractionalSecond: expectedLocalizedFractionalSecond,
-            meridiem: expectedLocalizedMeridiem,
-          } = localizeTimeString({
-            value: initialDelocalizedValue,
-            locale,
-            parts: true,
-            step,
-          });
-
-          const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-          const hourSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.hourSuffix}`);
-          const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
-          const minuteSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.minuteSuffix}`);
-          const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
-          const decimalSeparatorEl = await page.find(`calcite-time-picker >>> .${CSS.decimalSeparator}`);
-          const fractionalSecondEl = await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`);
-          const secondSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.secondSuffix}`);
-          const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-
-          expect(hourEl).toEqualText(expectedLocalizedHour);
-          expect(hourSuffixEl).toEqualText(expectedLocalizedHourSuffix);
-          expect(minuteEl).toEqualText(expectedLocalizedMinute);
-          expect(minuteSuffixEl).toEqualText(expectedLocalizedMinuteSuffix);
-          expect(secondEl).toEqualText(expectedLocalizedSecond);
-          expect(decimalSeparatorEl).toEqualText(expectedLocalizedDecimalSeparator);
-          expect(fractionalSecondEl).toEqualText(expectedLocalizedFractionalSecond);
-          if (secondSuffixEl) {
-            // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
-            // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
-            // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
-            expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
-          }
-
-          if (localeHourFormat === "12") {
-            expect(meridiemEl).toEqualText(expectedLocalizedMeridiem);
-          } else {
-            expect(meridiemEl).toBeNull();
-          }
-        });
-      });
-
-      describe(`hour-format="12"`, () => {
-        it("displays initial localized value correctly", async () => {
-          const initialDelocalizedValue = "14:02:30.001";
-          const page = await newE2EPage();
-          await page.setContent(html`
-            <calcite-time-picker
-              hour-format="12"
-              lang="${locale}"
-              step="${step}"
-              value="${initialDelocalizedValue}"
-            ></calcite-time-picker>
-          `);
-
-          const {
-            hour: expectedLocalizedHour,
-            hourSuffix: expectedLocalizedHourSuffix,
-            minute: expectedLocalizedMinute,
-            minuteSuffix: expectedLocalizedMinuteSuffix,
-            second: expectedLocalizedSecond,
-            secondSuffix: expectedLocalizedSecondSuffix,
-            decimalSeparator: expectedLocalizedDecimalSeparator,
-            fractionalSecond: expectedLocalizedFractionalSecond,
-            meridiem: expectedLocalizedMeridiem,
-          } = localizeTimeString({
-            hour12: true,
-            value: initialDelocalizedValue,
-            locale,
-            parts: true,
-            step,
-          });
-
-          const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-          const hourSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.hourSuffix}`);
-          const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
-          const minuteSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.minuteSuffix}`);
-          const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
-          const decimalSeparatorEl = await page.find(`calcite-time-picker >>> .${CSS.decimalSeparator}`);
-          const fractionalSecondEl = await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`);
-          const secondSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.secondSuffix}`);
-          const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-
-          expect(hourEl).toEqualText(expectedLocalizedHour);
-          expect(hourSuffixEl).toEqualText(expectedLocalizedHourSuffix);
-          expect(minuteEl).toEqualText(expectedLocalizedMinute);
-          expect(minuteSuffixEl).toEqualText(expectedLocalizedMinuteSuffix);
-          expect(secondEl).toEqualText(expectedLocalizedSecond);
-          expect(decimalSeparatorEl).toEqualText(expectedLocalizedDecimalSeparator);
-          expect(fractionalSecondEl).toEqualText(expectedLocalizedFractionalSecond);
-          if (secondSuffixEl) {
-            // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
-            // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
-            // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
-            expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
-          }
-          expect(meridiemEl).toEqualText(expectedLocalizedMeridiem);
-        });
-
-        it("always displays hour in 12 hour format when nudging and no value is set", async () => {
-          const page = await newE2EPage({
-            html: `<calcite-time-picker hour-format="12" lang="${locale}"></calcite-time-picker>`,
-          });
-          const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-
-          await hour.click();
-
-          for (let i = 1; i < 24; i++) {
-            await page.keyboard.press("ArrowUp");
-            await page.waitForChanges();
-
-            expect(hour).toEqualText(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
-          }
-
-          await page.keyboard.press("Delete");
-          await page.waitForChanges();
-          await page.keyboard.press("ArrowDown");
-
-          for (let i = 23; i > 0; i--) {
-            await page.keyboard.press("ArrowDown");
-            await page.waitForChanges();
-
-            expect(hour).toEqualText(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
-          }
-        });
-      });
-
-      describe(`hour-format="24"`, () => {
-        it("displays initial localized value correctly", async () => {
-          const initialDelocalizedValue = "14:02:30.001";
-          const page = await newE2EPage();
-          await page.setContent(html`
-            <calcite-time-picker
-              hour-format="24"
-              lang="${locale}"
-              step="${step}"
-              value="${initialDelocalizedValue}"
-            ></calcite-time-picker>
-          `);
-
-          const {
-            hour: expectedLocalizedHour,
-            hourSuffix: expectedLocalizedHourSuffix,
-            minute: expectedLocalizedMinute,
-            minuteSuffix: expectedLocalizedMinuteSuffix,
-            second: expectedLocalizedSecond,
-            secondSuffix: expectedLocalizedSecondSuffix,
-            decimalSeparator: expectedLocalizedDecimalSeparator,
-            fractionalSecond: expectedLocalizedFractionalSecond,
-          } = localizeTimeString({
-            hour12: false,
-            value: initialDelocalizedValue,
-            locale,
-            parts: true,
-            step,
-          });
-
-          const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-          const hourSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.hourSuffix}`);
-          const minuteEl = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
-          const minuteSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.minuteSuffix}`);
-          const secondEl = await page.find(`calcite-time-picker >>> .${CSS.second}`);
-          const decimalSeparatorEl = await page.find(`calcite-time-picker >>> .${CSS.decimalSeparator}`);
-          const fractionalSecondEl = await page.find(`calcite-time-picker >>> .${CSS.fractionalSecond}`);
-          const secondSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.secondSuffix}`);
-          const meridiemEl = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-
-          expect(hourEl).toEqualText(expectedLocalizedHour);
-          expect(hourSuffixEl).toEqualText(expectedLocalizedHourSuffix);
-          expect(minuteEl).toEqualText(expectedLocalizedMinute);
-          expect(minuteSuffixEl).toEqualText(expectedLocalizedMinuteSuffix);
-          expect(secondEl).toEqualText(expectedLocalizedSecond);
-          expect(decimalSeparatorEl).toEqualText(expectedLocalizedDecimalSeparator);
-          expect(fractionalSecondEl).toEqualText(expectedLocalizedFractionalSecond);
-          if (secondSuffixEl) {
-            // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
-            // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
-            // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
-            expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
-          }
-          expect(meridiemEl).toBeNull();
-        });
-
-        it("always displays hour in 24 hour format when nudging and no value is set", async () => {
-          const page = await newE2EPage({
-            html: `<calcite-time-picker hour-format="24" lang="${locale}"></calcite-time-picker>`,
-          });
-          const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-
-          await hour.click();
-
-          for (let i = 1; i < 24; i++) {
-            await page.keyboard.press("ArrowUp");
-            await page.waitForChanges();
-
-            expect(hour).toEqualText(formatTimePart(i));
-          }
-
-          await page.keyboard.press("Delete");
-          await page.waitForChanges();
-          await page.keyboard.press("ArrowDown");
-
-          for (let i = 23; i > 0; i--) {
-            await page.keyboard.press("ArrowDown");
-            await page.waitForChanges();
-
-            expect(hour).toEqualText(formatTimePart(i));
-          }
-        });
-      });
-    });
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-time-picker></calcite-time-picker>`, {
-      "--calcite-time-picker-background-color": {
-        targetProp: "backgroundColor",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-      "--calcite-time-picker-corner-radius": {
-        targetProp: "borderRadius",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-      "--calcite-time-picker-button-background-color-hover": {
-        targetProp: "backgroundColor",
-        state: "hover",
-        shadowSelector: `.${CSS.button}`,
-      },
-      "--calcite-time-picker-button-background-color-press": {
-        targetProp: "backgroundColor",
-        state: { press: { attribute: "class", value: CSS.button } },
-        shadowSelector: `.${CSS.button}`,
-      },
-      "--calcite-time-picker-color": {
-        targetProp: "color",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-      "--calcite-time-picker-icon-color": {
-        targetProp: "color",
-        shadowSelector: "calcite-icon",
-      },
-      "--calcite-time-picker-input-border-color-hover": {
-        targetProp: "boxShadow",
-        state: "hover",
-        shadowSelector: `.${CSS.input}`,
-      },
-      "--calcite-time-picker-border-color": {
-        targetProp: "borderColor",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-    });
-  });
-
-  describe("hour input focused", () => {
-    themed(
-      async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`<calcite-time-picker></calcite-time-picker>`);
-        const timePickerHour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-        await timePickerHour.focus();
-        return { page, tag: "calcite-time-picker" };
-      },
-      {
-        "--calcite-time-picker-input-border-color-press": {
-          targetProp: "boxShadow",
-          shadowSelector: `.${CSS.hour}`,
-        },
-      },
-    );
   });
 });

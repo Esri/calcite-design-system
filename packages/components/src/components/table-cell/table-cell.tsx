@@ -1,10 +1,9 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { Alignment, Scale } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
-import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -31,6 +30,8 @@ export class TableCell extends LitElement {
 
   private containerRef = createRef<HTMLTableCellElement>();
 
+  private direction = useDirection();
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -56,53 +57,62 @@ export class TableCell extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the alignment of the component. */
+  /**
+   * Specifies the horizontal alignment of content within the component.
+   *
+   * - `"start"` positions content at the start of the component.
+   * - `"center"` positions content in the middle of the component.
+   * - `"end"` positions content at the end of the component.
+   */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** Specifies the number of columns the component should span. */
-  @property({ reflect: true }) colSpan: number;
+  @property({ reflect: true }) colSpan?: number;
 
   /** @private */
-  @property() disabled: boolean;
+  @property() disabled = false;
 
   /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() lastCell: boolean;
+  @property() lastCell = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
-  @property() numberCell: boolean;
+  @property() numberCell = false;
+
+  /** @private */
+  @property({ reflect: true }) reachesBodyEnd = false;
 
   /** @private */
   @property() parentRowAlignment: Alignment = "start";
 
   /** @private */
-  @property() parentRowIsSelected: boolean;
+  @property() parentRowIsSelected = false;
 
   /** @private */
-  @property() parentRowPositionLocalized: string;
+  @property() parentRowPositionLocalized?: string;
 
   /** @private */
-  @property() parentRowType: RowType;
+  @property() parentRowType!: RowType;
 
   /** @private */
-  @property() positionInRow: number;
+  @property() positionInRow!: number;
 
   /** @private */
-  @property() readCellContentsToAT: boolean;
+  @property() readCellContentsToAT = false;
 
   /** Specifies the number of rows the component should span. */
-  @property({ reflect: true }) rowSpan: number;
+  @property({ reflect: true }) rowSpan?: number;
 
   /** @private */
   @property() scale: Scale = "m";
 
   /** @private */
-  @property() selectionCell: boolean;
+  @property() selectionCell = false;
 
   //#endregion
 
@@ -113,7 +123,7 @@ export class TableCell extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -162,7 +172,7 @@ export class TableCell extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const staticCell =
       this.disabled ||
       (this.interactionMode === "static" &&

@@ -34,8 +34,7 @@
         "packages:eslint",
         "packages:stylelint",
         "prettier",
-        "typescript-eslint",
-        "typescript-strict-plugin"
+        "typescript-eslint"
       ]
     },
     {

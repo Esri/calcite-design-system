@@ -1,12 +1,10 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
 import { resizeShiftStep } from "../../utils/resources";
-import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS } from "./resources";
@@ -27,7 +25,7 @@ const dispatchDialogKeydown = async ({
 }): Promise<void> => {
   await page.$eval(
     `calcite-dialog >>> .${CSS.dialog}`,
-    (el: HTMLDivElement, key, shiftKey) => {
+    (el, key, shiftKey) => {
       el.dispatchEvent(new KeyboardEvent("keydown", { key, shiftKey, bubbles: true }));
     },
     key,
@@ -38,43 +36,6 @@ const dispatchDialogKeydown = async ({
 };
 
 mockConsole();
-
-describe("openClose", () => {
-  openClose("calcite-dialog");
-  openClose.initial("calcite-dialog");
-});
-
-describe("accessible", () => {
-  accessible(async () => {
-    const page = await newProgrammaticE2EPage();
-    await skipAnimations(page);
-    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-    await page.evaluate(() => {
-      const dialog = document.createElement("calcite-dialog");
-      dialog.open = true;
-      dialog.heading = "My Dialog";
-      dialog.description = "My Description";
-      document.body.append(dialog);
-    });
-    await openEventSpy.next();
-
-    return { page, tag: "calcite-dialog" };
-  });
-});
-
-describe("focus-trap", () => {
-  describe("default", () => {
-    focusTrap("calcite-dialog", {
-      toggleProp: "open",
-    });
-  });
-
-  describe("modal", () => {
-    focusTrap(html`<calcite-dialog modal></calcite-dialog>`, {
-      toggleProp: "open",
-    });
-  });
-});
 
 it("should set internal panel properties", async () => {
   const page = await newE2EPage();
@@ -109,6 +70,7 @@ it("should set internal panel properties", async () => {
   expect(await panel.getProperty("scale")).toBe("l");
   expect(await panel.getProperty("icon")).toBe("x");
   expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  expect(await panel.getProperty("focusTrapEnabled")).toBe(false);
   expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
 });
 
@@ -122,14 +84,14 @@ it("outsideCloseDisabled", async () => {
 
   const dialog = await page.find("calcite-dialog");
 
-  await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-dialog", (el) => el.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await dialog.getProperty("open")).toBe(true);
 
   dialog.setProperty("outsideCloseDisabled", false);
   await page.waitForChanges();
 
-  await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-dialog", (el) => el.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await dialog.getProperty("open")).toBe(false);
 });
@@ -212,8 +174,8 @@ it("does not overflow page bounds when requested css variable sizes are larger t
 
   const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
   const style = await internalDialog.getComputedStyle();
-  expect(parseInt(style.width)).toBeLessThanOrEqual(800);
-  expect(parseInt(style.height)).toBeLessThanOrEqual(800);
+  expect(parseInt(style.width, 10)).toBeLessThanOrEqual(800);
+  expect(parseInt(style.height, 10)).toBeLessThanOrEqual(800);
 });
 
 it("escapeDisabled", async () => {
@@ -234,14 +196,14 @@ it("escapeDisabled", async () => {
   await page.waitForChanges();
 
   expect(eventSpy).toHaveReceivedEventTimes(1);
-  expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+  expect(eventSpy.lastEvent!.defaultPrevented).toBe(true);
   expect(await dialog.getProperty("open")).toBe(true);
 
   await page.keyboard.down("Enter");
   await page.keyboard.up("Enter");
   await page.waitForChanges();
   expect(eventSpy).toHaveReceivedEventTimes(2);
-  expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
+  expect(eventSpy.lastEvent!.defaultPrevented).toBe(false);
 
   dialog.setProperty("escapeDisabled", false);
   await page.waitForChanges();
@@ -251,7 +213,7 @@ it("escapeDisabled", async () => {
   await page.waitForChanges();
 
   expect(eventSpy).toHaveReceivedEventTimes(3);
-  expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
+  expect(eventSpy.lastEvent!.defaultPrevented).toBe(false);
   expect(await dialog.getProperty("open")).toBe(false);
 });
 
@@ -380,7 +342,7 @@ describe("beforeClose()", () => {
   });
 });
 
-describe("calcite-dialog accessibility checks", () => {
+describe("accessibility checks", () => {
   it("traps focus within the dialog when open", async () => {
     const button1Id = "button1";
     const button2Id = "button2";
@@ -426,8 +388,8 @@ describe("calcite-dialog accessibility checks", () => {
     await skipAnimations(page);
 
     const dialog = await page.find("calcite-dialog");
-    await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
-      button.focus();
+    await page.$eval(initiallyFocusedIdSelector, (button) => {
+      (button as HTMLButtonElement).focus();
     });
 
     dialog.setProperty("open", true);
@@ -489,7 +451,7 @@ describe("calcite-dialog accessibility checks", () => {
     await page.waitForChanges();
 
     await page.evaluate(() => {
-      const btn = document.getElementById("openButton");
+      const btn = document.getElementById("openButton")!;
       btn.addEventListener("click", () => {
         const button = document.createElement("calcite-button");
         button.innerHTML = "focusable";
@@ -623,7 +585,7 @@ it("should close when the scrim is clicked", async () => {
   expect(dialog).toHaveAttribute("open");
 
   await page.evaluate((className) => {
-    const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+    const scrim = document.querySelector("calcite-dialog")!.shadowRoot!.querySelector(className);
     (scrim as HTMLElement).click();
   }, `.${CSS.scrim}`);
 
@@ -760,7 +722,7 @@ it("when dialog css override set, scrim should adhere to requested color", async
       `,
   });
   const scrimStyles = await page.evaluate((className) => {
-    const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+    const scrim = document.querySelector("calcite-dialog")!.shadowRoot!.querySelector(className)!;
     return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
   }, `.${CSS.scrim}`);
   expect(scrimStyles).toEqual(overrideStyle);
@@ -882,14 +844,17 @@ describe("keyboard resize", () => {
   it("should resize properly via shift and arrow keys", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
-        ><p>
-          Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
-          Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
-          eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
-          ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
-          fermentum tellus quis ad facilisis ultrices eros imperdiet.
-        </p></calcite-dialog
+      html`<calcite-dialog
+        style="
+          --calcite-dialog-size-y: 400px;
+          --calcite-dialog-size-x: 400px;
+          --calcite-dialog-min-size-y: 120px;
+          --calcite-dialog-min-size-x: 120px;"
+        width-scale="s"
+        heading="Hello world"
+        resizable
+        open
+        >Dialog content</calcite-dialog
       >`,
     );
     await skipAnimations(page);
@@ -900,8 +865,8 @@ describe("keyboard resize", () => {
     let computedStyle = await container.getComputedStyle();
     const initialBlockSize = computedStyle.blockSize;
     const initialInlineSize = computedStyle.inlineSize;
-    const initialHeight = parseInt(initialBlockSize);
-    const initialWidth = parseInt(initialInlineSize);
+    const initialHeight = parseInt(initialBlockSize, 10);
+    const initialWidth = parseInt(initialInlineSize, 10);
 
     await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
@@ -957,9 +922,9 @@ describe("keyboard resize", () => {
 
     let computedStyle = await container.getComputedStyle();
     const initialBlockSize = computedStyle.blockSize;
-    const initialHeight = parseInt(initialBlockSize);
+    const initialHeight = parseInt(initialBlockSize, 10);
     const initialInlineSize = computedStyle.inlineSize;
-    const initialWidth = parseInt(initialInlineSize);
+    const initialWidth = parseInt(initialInlineSize, 10);
 
     await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
@@ -992,161 +957,6 @@ describe("slotted", () => {
     const dialog = await page.find("calcite-dialog");
     expect(await dialog.getProperty("open")).toBe(true);
   });
-});
-
-describe("theme sizing", () => {
-  themed(
-    async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog icon="banana" width-scale="s" modal open fullscreen-disabled
-          ><p>Hello world!</p></calcite-dialog
-        >`,
-      );
-      await skipAnimations(page);
-      return { page, tag: "calcite-dialog" };
-    },
-    {
-      "--calcite-dialog-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "inlineSize",
-      },
-      "--calcite-dialog-min-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "minInlineSize",
-      },
-      "--calcite-dialog-max-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "maxInlineSize",
-      },
-      "--calcite-dialog-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "blockSize",
-      },
-      "--calcite-dialog-min-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "minBlockSize",
-      },
-      "--calcite-dialog-max-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "maxBlockSize",
-      },
-      "--calcite-dialog-offset-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "insetInlineStart",
-      },
-      "--calcite-dialog-offset-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "insetBlockStart",
-      },
-    },
-  );
-});
-
-describe("theme appearance", () => {
-  themed(
-    async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog heading="Information" description="Themed" kind="info" scale="s" modal open>
-          <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
-          <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-          <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
-          <div slot="content-top">To continue, you must agree to the terms</div>
-          <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
-            <calcite-checkbox></calcite-checkbox>I agree to the terms
-          </calcite-label>
-          <p>
-            Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam
-            fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros. Aenean
-            sodales sollicitudin dui in fermentum.
-          </p>
-
-          <calcite-button slot="footer-end" width="auto" scale="s">Add members now</calcite-button>
-        </calcite-dialog>`,
-      );
-      // set large page to ensure test dialog isn't becoming fullscreen
-      await page.setViewport({ width: 1440, height: 1440 });
-      await skipAnimations(page);
-      return { page, tag: "calcite-dialog" };
-    },
-    {
-      "--calcite-dialog-scrim-background-color": {
-        shadowSelector: `.${CSS.scrim}`,
-        targetProp: "--calcite-scrim-background",
-      },
-      "--calcite-dialog-content-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-content-space",
-      },
-      "--calcite-dialog-footer-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-footer-space",
-      },
-      "--calcite-dialog-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-background-color",
-      },
-      "--calcite-dialog-icon-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-icon-color",
-      },
-      "--calcite-dialog-heading-text-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-heading-text-color",
-      },
-      "--calcite-dialog-description-text-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-description-text-color",
-      },
-      "--calcite-dialog-header-action-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-action-background-color",
-      },
-      "--calcite-dialog-header-action-text-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-action-text-color",
-      },
-      "--calcite-dialog-header-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-background-color",
-      },
-      "--calcite-dialog-footer-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-footer-background-color",
-      },
-      "--calcite-dialog-border-color": [
-        {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
-        },
-        {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
-        },
-        {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
-        },
-        {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
-        },
-      ],
-      "--calcite-dialog-accent-color": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-dialog-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-space",
-      },
-      "--calcite-dialog-corner-radius": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-corner-radius",
-      },
-    },
-  );
 });
 
 describe.each([{ modal: true }, { modal: false }])("focusTrap behavior", ({ modal }) => {

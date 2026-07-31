@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
 import { IconName } from "../components/icon/interfaces";
@@ -22,7 +21,7 @@ export const tabbableOptions = {
  * @param el An element.
  * @returns The element's ID.
  */
-export function ensureId(el: Element): string {
+export function ensureId(el: Element | undefined): string {
   if (!el) {
     return "";
   }
@@ -79,7 +78,7 @@ export function getElementDir(el: HTMLElement): Direction {
  * @param el An element.
  * @returns The element's width.
  */
-export function getElementWidth(el: HTMLElement): number {
+export function getElementWidth(el: HTMLElement | undefined): number {
   if (!el) {
     return 0;
   }
@@ -115,12 +114,12 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
  * @param text The string of text to measure.
  * @param font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
  */
-export function getTextWidth(text: string, font: string): number {
+export function getTextWidth(text: string | undefined, font: string): number {
   if (!text) {
     return 0;
   }
   const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
+  const context = canvas.getContext("2d")!;
   context.font = font;
   return context.measureText(text).width;
 }
@@ -155,7 +154,7 @@ export function queryElementRoots<T extends Element = Element>(
   }
 
   if ((el as Slottable).assignedSlot) {
-    el = (el as Slottable).assignedSlot;
+    el = el.assignedSlot!;
   }
 
   const rootNode = getRootNode(el);
@@ -172,7 +171,12 @@ export function queryElementRoots<T extends Element = Element>(
       ? rootNode.querySelector<T>(selector)
       : null;
 
-  return found || queryElementRoots<T>(getHost(rootNode), { selector, id });
+  if (found) {
+    return found;
+  }
+
+  const host = getHost(rootNode);
+  return host ? queryElementRoots<T>(host, { selector, id }) : null;
 }
 
 /**
@@ -196,37 +200,18 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string,
 ): T | null {
-  return element
-    ? element.closest(selector) || closestElementCrossShadowBoundary(getHost(getRootNode(element)), selector)
-    : null;
-}
-
-/**
- * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
- *
- * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
- *
- * @param element An element.
- * @param onVisit The callback.
- * @returns The result.
- */
-export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
-  return visit(element, onVisit);
-}
-
-function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
-  if (!node) {
-    return;
+  if (!element) {
+    return null;
   }
 
-  const result = onVisit(node);
-  if (result !== undefined) {
-    return result;
+  const closest = element.closest<T>(selector);
+
+  if (closest) {
+    return closest;
   }
 
-  const { parentNode } = node;
-
-  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
+  const host = getHost(getRootNode(element));
+  return host ? closestElementCrossShadowBoundary<T>(host, selector) : null;
 }
 
 export type FocusableElement = SetFocusable | HTMLElement;
@@ -254,10 +239,10 @@ export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export async function focusElement(
-  el: FocusableElement,
+  el: FocusableElement | undefined,
   includeContainer = false,
   strategy: "focusable" | "tabbable" = "tabbable",
   context?: HTMLElement,
@@ -283,7 +268,10 @@ export async function focusElement(
  *
  * @returns the first tabbable element.
  */
-export function getFirstTabbable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+export function getFirstTabbable(
+  element: HTMLElement | undefined,
+  includeContainer?: boolean,
+): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -298,7 +286,7 @@ export function getFirstTabbable(element: HTMLElement, includeContainer?: boolea
  * @param includeContainer When true, the container element will be considered as well.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstTabbable(element, includeContainer)?.focus(options);
@@ -314,7 +302,7 @@ export function focusFirstTabbable(element: HTMLElement, includeContainer?: bool
  *
  * @internal
  */
-function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -366,7 +354,7 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  */
 export function setRequestedIcon(
   iconObject: Record<string, IconName>,
-  iconValue: IconName | boolean | "",
+  iconValue: IconName | boolean | "" | undefined,
   matchedValue: string,
 ): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
@@ -374,6 +362,7 @@ export function setRequestedIcon(
   } else if (iconValue === "" || iconValue === true) {
     return iconObject[matchedValue];
   }
+  return;
 }
 
 /**
@@ -426,6 +415,9 @@ export function slotChangeGetTextContent(event: Event): string {
 
 /**
  * This helper checks if an element has visible content.
+ *
+ * @deprecated Using this utility with slots/content that start empty or may change creates incorrect behavior.
+ * It should not be used until a solution is found via https://github.com/Esri/calcite-design-system/issues/14270.
  *
  * @param element The element to check.
  * @returns True if the element has visible content, otherwise false.
@@ -508,7 +500,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @param selector The CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] {
   return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
 }
 
@@ -519,7 +511,7 @@ export function slotChangeGetAssignedElements<T extends Element>(event: Event, s
  * @param selector CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] {
   const assignedElements = slot.assignedElements({
     flatten: true,
   });
@@ -564,9 +556,9 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param targetAsContext
  * @returns The focused element
  */
-export const focusElementInGroup = <T extends Element = Element>(
-  elements: Element[],
-  currentElement: Element,
+export const focusElementInGroup = <T extends HTMLElement = HTMLElement>(
+  elements: T[],
+  currentElement: T,
   destination: FocusElementInGroupDestination,
   cycle = true,
   includeContainer = true,
@@ -592,6 +584,7 @@ export const focusElementInGroup = <T extends Element = Element>(
   }
 
   focusElement(focusTarget, includeContainer, "tabbable", targetAsContext ? focusTarget : undefined);
+
   return focusTarget;
 };
 
@@ -603,7 +596,7 @@ export const focusElementInGroup = <T extends Element = Element>(
  * @returns true when a is before b in the DOM
  */
 export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
-  if (a.parentNode !== b.parentNode) {
+  if (!a.parentNode || !b.parentNode || a.parentNode !== b.parentNode) {
     return false;
   }
 
@@ -632,17 +625,20 @@ export async function whenTransitionDone(targetEl: HTMLElement, transitionProp: 
 }
 
 type TransitionOrAnimation = "transition" | "animation";
-type TransitionOrAnimationInstance = CSSTransition | Animation;
+type TransitionOrAnimationInstance = CSSTransition | CSSAnimation;
 
 function findAnimation(
   targetEl: HTMLElement,
   type: TransitionOrAnimation,
   transitionPropOrAnimationName: string,
-): TransitionOrAnimationInstance {
-  const targetProp = type === "transition" ? "transitionProperty" : "animationName";
+): TransitionOrAnimationInstance | undefined {
   return targetEl
     .getAnimations()
-    .find((anim: Animation | CSSTransition) => anim[targetProp] === transitionPropOrAnimationName);
+    .find((anim): anim is TransitionOrAnimationInstance =>
+      type === "transition"
+        ? "transitionProperty" in anim && anim.transitionProperty === transitionPropOrAnimationName
+        : "animationName" in anim && anim.animationName === transitionPropOrAnimationName,
+    );
 }
 
 /**

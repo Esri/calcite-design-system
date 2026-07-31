@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { Scale } from "../interfaces";
@@ -37,8 +37,8 @@ export class ListItemGroup extends LitElement {
    */
   @property({ reflect: true }) filterHidden = false;
 
-  /** Specifies the heading text for the nested `calcite-list-item` rows. */
-  @property({ reflect: true }) heading: string;
+  /** @copyDoc */
+  @property({ reflect: true }) heading?: string;
 
   /**
    * Specifies the size of the component.
@@ -57,6 +57,23 @@ export class ListItemGroup extends LitElement {
    * @private
    */
   calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
+
+  /**
+   * Fires when group property changes should notify parent lists.
+   *
+   * @private
+   */
+  calciteInternalListItemGroupChange = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("heading")) {
+      this.calciteInternalListItemGroupChange.emit();
+    }
+  }
 
   //#endregion
 

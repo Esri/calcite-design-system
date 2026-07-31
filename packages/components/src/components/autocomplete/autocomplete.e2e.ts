@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -12,6 +12,16 @@ const emptyAutocompleteHTML = html`<calcite-autocomplete label="Item list" id="m
 const simpleHTML = html`
   <calcite-autocomplete label="Item list" id="myAutocomplete">
     <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+    <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
+  </calcite-autocomplete>
+`;
+
+const simpleHTMLSelectedItem = html`
+  <calcite-autocomplete label="Item list" id="myAutocomplete">
+    <calcite-autocomplete-item label="Item one" value="one" heading="Item one" selected></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
@@ -107,123 +117,8 @@ it("should emit calciteAutocompleteItemSelect", async () => {
   expect(itemChangeSpy).toHaveReceivedEventTimes(2);
 });
 
-describe("theme", () => {
-  themed("<calcite-autocomplete open></calcite-autocomplete>", {
-    "--calcite-autocomplete-background-color": {
-      shadowSelector: `.${CSS.contentAnimation}`,
-      targetProp: "backgroundColor",
-    },
-    "--calcite-autocomplete-corner-radius": {
-      shadowSelector: `.${CSS.contentAnimation}`,
-      targetProp: "borderRadius",
-    },
-    "--calcite-autocomplete-text-color": {
-      shadowSelector: `.${CSS.contentAnimation}`,
-      targetProp: "color",
-    },
-    "--calcite-autocomplete-menu-max-size-y": {
-      shadowSelector: `.${CSS.contentAnimation}`,
-      targetProp: "maxBlockSize",
-    },
-    "--calcite-autocomplete-input-prefix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-prefix-size",
-    },
-    "--calcite-autocomplete-input-suffix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-suffix-size",
-    },
-    "--calcite-autocomplete-input-background-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-background-color",
-    },
-    "--calcite-autocomplete-input-border-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-border-color",
-    },
-    "--calcite-autocomplete-input-corner-radius": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-corner-radius",
-    },
-    "--calcite-autocomplete-input-shadow": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-shadow",
-    },
-    "--calcite-autocomplete-input-icon-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-icon-color",
-    },
-    "--calcite-autocomplete-input-text-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-text-color",
-    },
-    "--calcite-autocomplete-input-placeholder-text-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-placeholder-text-color",
-    },
-    "--calcite-autocomplete-input-actions-background-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-actions-background-color",
-    },
-    "--calcite-autocomplete-input-actions-background-color-hover": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-actions-background-color-hover",
-    },
-    "--calcite-autocomplete-input-actions-background-color-press": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-actions-background-color-press",
-    },
-    "--calcite-autocomplete-input-actions-icon-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-actions-icon-color",
-    },
-    "--calcite-autocomplete-input-actions-icon-color-hover": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-actions-icon-color-hover",
-    },
-    "--calcite-autocomplete-input-actions-icon-color-press": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-actions-icon-color-press",
-    },
-    "--calcite-autocomplete-input-loading-background-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-loading-background-color",
-    },
-    "--calcite-autocomplete-input-loading-fill-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-loading-fill-color",
-    },
-    "--calcite-autocomplete-input-prefix-text-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-prefix-text-color",
-    },
-    "--calcite-autocomplete-input-suffix-text-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-suffix-text-color",
-    },
-  });
-});
-
-describe("accessible", () => {
-  accessible(simpleHTML);
-  accessible(simpleFormHTML);
-  accessible(simpleGroupHTML);
-  accessible(simpleGroupHTML);
-});
-
 describe("labelable", () => {
   labelable("calcite-autocomplete");
-});
-
-describe("openClose", () => {
-  openClose(simpleHTML);
-});
-
-describe("is form-associated", () => {
-  formAssociated(simpleHTML, {
-    testValue: "two",
-    submitsOnEnter: true,
-  });
 });
 
 it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
@@ -232,6 +127,39 @@ it("should set screen reader list attribute 'aria-live' to 'polite'", async () =
 
   const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
   expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
+});
+
+it("should expose and update listbox option aria-selected from item selected state", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTMLSelectedItem);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.setProperty("open", true);
+  await page.waitForChanges();
+
+  const getOptionSelectionState = async () => {
+    const options = await findAll(page, "calcite-autocomplete >>> ul[role='listbox'] li[role='option']");
+
+    const optionSelectionState = await Promise.all(
+      options.map(async (option) => ({
+        label: await option.getProperty("ariaLabel"),
+        selected: await option.getProperty("ariaSelected"),
+      })),
+    );
+
+    return optionSelectionState;
+  };
+
+  let optionSelectionState = await getOptionSelectionState();
+  expect(optionSelectionState).toContainEqual({ label: "Item one", selected: "true" });
+  expect(optionSelectionState).toContainEqual({ label: "Item two", selected: "false" });
+
+  const item = await page.find("calcite-autocomplete-item[value='two']");
+  item.setProperty("selected", true);
+  await page.waitForChanges();
+
+  optionSelectionState = await getOptionSelectionState();
+  expect(optionSelectionState).toContainEqual({ label: "Item two", selected: "true" });
 });
 
 it("should be able to remove icon", async () => {

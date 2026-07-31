@@ -1,14 +1,9 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { expect, it } from "vitest";
+
 import { CSS, SUBSTITUTIONS } from "./resources";
 import type { HandleNudge } from "./interfaces";
 import type { Handle } from "./handle";
-
-describe("accessible", () => {
-  accessible(`<calcite-handle></calcite-handle>`);
-});
 
 it("sets handle tooltip", async () => {
   const page = await newE2EPage();
@@ -107,13 +102,13 @@ it("fires calciteHandleNudge event when focused and up or down key is pressed", 
   await page.waitForChanges();
   await nudgeEventSpy.next();
 
-  expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
+  expect(calciteHandleNudgeSpy.lastEvent!.detail.direction).toBe("up");
 
   await page.keyboard.press("ArrowDown");
   await page.waitForChanges();
   await nudgeEventSpy.next();
 
-  expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
+  expect(calciteHandleNudgeSpy.lastEvent!.detail.direction).toBe("down");
   expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
 });
 
@@ -133,41 +128,4 @@ it("sets radio role properly", async () => {
 
   await page.waitForChanges();
   expect(internalHandle.getAttribute("aria-checked")).toBe("true");
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed("calcite-handle", {
-      "--calcite-handle-background-color": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-handle-background-color-hover": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-      "--calcite-handle-icon-color": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "color",
-      },
-      "--calcite-handle-icon-color-hover": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "color",
-        state: "hover",
-      },
-    });
-  });
-  describe("selected", () => {
-    themed("<calcite-handle selected></calcite-handle>", {
-      "--calcite-handle-background-color-selected": {
-        shadowSelector: `.${CSS.handleSelected}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-handle-icon-color-selected": {
-        shadowSelector: `.${CSS.handleSelected}`,
-        targetProp: "color",
-      },
-    });
-  });
 });
