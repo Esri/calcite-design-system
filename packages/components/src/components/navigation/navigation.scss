@@ -21,6 +21,7 @@
 @use "../../styles/includes";
 
 @include includes.base-component();
+@include includes.base-component-sizing();
 
 :host {
   @apply block;
