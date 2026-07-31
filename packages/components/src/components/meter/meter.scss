@@ -90,7 +90,7 @@
   @apply flex relative items-center;
   margin: 0;
   inline-size: var(--calcite-container-size-content-fluid);
-  block-size: var(--calcite-internal-meter-height);
+  block-size: calc(var(--calcite-internal-meter-height) + (var(--calcite-border-width-sm) * 2));
   background-color: var(--calcite-internal-meter-background-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-meter-border-color);
   border-radius: var(--calcite-internal-meter-corner-radius);
