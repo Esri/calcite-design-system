@@ -1,10 +1,10 @@
 import { PropertyValues } from "lit";
+import type { Ref } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -21,6 +21,7 @@ import { styles as headerStyles } from "../../styles/component/header.scss";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useToggleTransitionEvents } from "../../controllers/useToggleTransitionEvents";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -49,7 +50,26 @@ export class Block extends LitElement {
 
   transitionProp = "margin-top" as const;
 
-  transitionEl: HTMLElement | undefined;
+  transitionRef = { value: this.el } satisfies Ref<HTMLElement>;
+
+  toggleTransitionEvents: void = useToggleTransitionEvents<Block>({
+    expanded: {
+      events: {
+        active() {
+          this.onOpen();
+        },
+        beforeActive() {
+          this.onBeforeOpen();
+        },
+        beforeInactive() {
+          this.onBeforeClose();
+        },
+        inactive() {
+          this.onClose();
+        },
+      },
+    },
+  })(this);
 
   private blockSectionChildren: BlockSection["el"][] = [];
 
@@ -278,10 +298,6 @@ export class Block extends LitElement {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    this.transitionEl = this.el;
-  }
-
   load(): void {
     if (!this.heading && !this.label) {
       logger.warn(
@@ -295,10 +311,6 @@ export class Block extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      toggleOpenClose(this);
-    }
-
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
     }

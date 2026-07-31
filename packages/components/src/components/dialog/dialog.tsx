@@ -6,12 +6,12 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { OpenCloseComponentWithEl, toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
+import { useToggleTransitionEvents } from "../../controllers/useToggleTransitionEvents";
 import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
@@ -50,7 +50,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
  */
-export class Dialog extends LitElement implements OpenCloseComponentWithEl {
+export class Dialog extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -85,8 +85,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   private _open = false;
 
-  openProp = "opened";
-
   transitionProp = "opacity" as const;
 
   private panelRef = createRef<Panel["el"]>();
@@ -95,7 +93,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
-  transitionEl!: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -106,8 +104,27 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  toggleTransitionEvents: void = useToggleTransitionEvents<Dialog>({
+    opened: {
+      events: {
+        active() {
+          this.onOpen();
+        },
+        beforeActive() {
+          this.onBeforeOpen();
+        },
+        beforeInactive() {
+          this.onBeforeClose();
+        },
+        inactive() {
+          this.onClose();
+        },
+      },
+    },
+  })(this);
+
   private sizeOverride = useSizeOverride({
-    targetElement: () => ({ value: this.transitionEl }),
+    targetElement: this.transitionRef,
     getBounds: () => ({
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
@@ -360,6 +377,10 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     this.setUpInteractions();
   }
 
+  override firstUpdated(): void {
+    this.setUpInteractions();
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -381,10 +402,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
     ) {
       this.updateAssistiveText();
-    }
-
-    if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      this.handleOpenedChange();
     }
   }
 
@@ -452,10 +469,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     this.opened = value;
   }
 
-  private handleOpenedChange(): void {
-    toggleOpenClose(this);
-  }
-
   private async triggerInteractModifiers(): Promise<void> {
     const { interaction } = this;
 
@@ -472,13 +485,10 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     });
   }
 
-  private getTransitionRefDOMRect(): DOMRect {
-    return this.transitionEl.getBoundingClientRect();
-  }
-
   private handleKeyDown(event: KeyboardEvent): void {
     const { key, shiftKey, defaultPrevented } = event;
-    const { dragEnabled, resizable, resizePosition, dragPosition, transitionEl } = this;
+    const { dragEnabled, resizable, resizePosition, dragPosition } = this;
+    const transitionEl = this.transitionRef.value;
 
     const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
 
@@ -491,7 +501,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
         if (shiftKey && resizable && transitionEl) {
           const { minBlockSize } = window.getComputedStyle(transitionEl);
           const minHeight = getStylePixelValue(minBlockSize);
-          const height = this.getTransitionRefDOMRect().height;
+          const height = transitionEl.getBoundingClientRect().height;
 
           if (height <= minHeight) {
             return;
@@ -514,7 +524,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
           this.updateSizeInternal({
-            block: this.getTransitionRefDOMRect().height + resizeShiftStep,
+            block: transitionEl.getBoundingClientRect().height + resizeShiftStep,
           });
           resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
@@ -531,7 +541,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
         if (shiftKey && resizable && transitionEl) {
           const { minInlineSize } = window.getComputedStyle(transitionEl);
           const minWidth = getStylePixelValue(minInlineSize);
-          const width = this.getTransitionRefDOMRect().width;
+          const width = transitionEl.getBoundingClientRect().width;
 
           if (width <= minWidth) {
             return;
@@ -554,7 +564,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       case "ArrowRight":
         if (shiftKey && resizable && transitionEl) {
           this.updateSizeInternal({
-            inline: this.getTransitionRefDOMRect().width + resizeShiftStep,
+            inline: transitionEl.getBoundingClientRect().width + resizeShiftStep,
           });
           resizePosition.right += resizeShiftStep;
           this.updateTransform();
@@ -574,10 +584,10 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     const {
       dragPosition: { x, y },
       resizePosition,
-      transitionEl,
       dragEnabled,
       resizable,
     } = this;
+    const transitionEl = this.transitionRef.value;
 
     if (!transitionEl) {
       return;
@@ -593,7 +603,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     const translateX = Math.round(x + left + right);
     const translateY = Math.round(y + top + bottom);
 
-    this.transitionEl.style.transform =
+    transitionEl.style.transform =
       translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : "";
   }
 
@@ -611,7 +621,8 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   private async setUpInteractions(): Promise<void> {
     this.cleanUpInteractions();
 
-    const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
+    const { el, resizable, dragEnabled, resizePosition, dragPosition } = this;
+    const transitionEl = this.transitionRef.value;
 
     if (!transitionEl || !this.open) {
       return;
@@ -624,9 +635,8 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     if (resizable) {
       await this.el.componentOnReady();
 
-      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } = window.getComputedStyle(
-        this.transitionEl,
-      );
+      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
+        window.getComputedStyle(transitionEl);
 
       this.interaction.resizable({
         edges: {
@@ -722,15 +732,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     }
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-    this.setUpInteractions();
-  }
-
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
     if (event.target !== this.panelRef.value) {
       return;
@@ -770,7 +771,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
   private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
-    const dialogElement = this.transitionEl;
+    const dialogElement = this.transitionRef.value;
     if (!dialogElement) {
       return;
     }
@@ -807,7 +808,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
             ),
           }}
           onKeyDown={this.handleKeyDown}
-          ref={this.setTransitionEl}
+          ref={this.transitionRef}
         >
           {assistiveText ? (
             <div ariaLive="polite" class={CSS.assistiveText} key="assistive-text">

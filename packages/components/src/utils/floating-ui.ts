@@ -561,7 +561,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
 }
 
 /**
- * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
+ * Helper to hide the floating element when the component is closed. This should be called within the component's onClose() method.
  */
 export function hideFloatingUI(component: FloatingUIComponent): void {
   const { floatingEl } = component;

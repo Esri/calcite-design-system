@@ -43,7 +43,7 @@ import { Validation } from "../functional/Validation";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useToggleTransitionEvents } from "../../controllers/useToggleTransitionEvents";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -146,6 +146,28 @@ export class Autocomplete
 
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
+  })(this);
+
+  toggleTransitionEvents: void = useToggleTransitionEvents<Autocomplete>({
+    open: {
+      events: {
+        active() {
+          this.onOpen();
+        },
+        beforeActive() {
+          this.onBeforeOpen();
+        },
+        beforeInactive() {
+          this.onBeforeClose();
+        },
+        inactive() {
+          this.onClose();
+        },
+      },
+      shouldToggle() {
+        return !this.disabled;
+      },
+    },
   })(this);
 
   //#endregion
@@ -515,7 +537,6 @@ export class Autocomplete
       this.activeIndex = -1;
     }
 
-    toggleOpenClose(this);
     this.setFloatingElSize();
     this.reposition(true);
   }

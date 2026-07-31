@@ -15,12 +15,12 @@ import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, ResizeValues, Scale, Width } from "../interfaces";
 import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
+import { useToggleTransitionEvents } from "../../controllers/useToggleTransitionEvents";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
@@ -78,8 +78,6 @@ export class Sheet extends LitElement {
 
   private _open = false;
 
-  openProp = "opened";
-
   transitionProp = "opacity" as const;
 
   private resizeHandleEl?: HTMLDivElement;
@@ -87,6 +85,28 @@ export class Sheet extends LitElement {
   transitionRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  toggleTransitionEvents: void = useToggleTransitionEvents<Sheet>({
+    opened: {
+      events: {
+        active() {
+          this.onOpen();
+        },
+        beforeActive() {
+          this.onBeforeOpen();
+        },
+        beforeInactive() {
+          this.onBeforeClose();
+        },
+        inactive() {
+          this.onClose();
+        },
+      },
+      shouldToggle() {
+        return !!this.transitionRef.value;
+      },
+    },
+  })(this);
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
@@ -318,14 +338,6 @@ export class Sheet extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (
-      changes.has("opened") &&
-      (this.hasUpdated || this.opened !== false) &&
-      this.transitionRef.value
-    ) {
-      toggleOpenClose(this);
-    }
-
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||

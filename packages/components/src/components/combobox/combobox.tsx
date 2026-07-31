@@ -33,7 +33,6 @@ import {
 import { guid } from "../../utils/guid";
 import { getLabelText } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
@@ -56,6 +55,7 @@ import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
+import { useToggleTransitionEvents } from "../../controllers/useToggleTransitionEvents";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
@@ -202,8 +202,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   labelable = useLabel(this);
 
-  private listContainerEl?: HTMLDivElement;
-
   private maxCompactBreakpoint?: number;
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
@@ -213,6 +211,30 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   };
 
   transitionProp = "opacity" as const;
+
+  transitionRef = createRef<HTMLDivElement>();
+
+  toggleTransitionEvents: void = useToggleTransitionEvents<Combobox>({
+    open: {
+      events: {
+        active() {
+          this.onOpen();
+        },
+        beforeActive() {
+          this.onBeforeOpen();
+        },
+        beforeInactive() {
+          this.onBeforeClose();
+        },
+        inactive() {
+          this.onClose();
+        },
+      },
+      shouldToggle() {
+        return !this.disabled;
+      },
+    },
+  })(this);
 
   referenceEl?: HTMLDivElement;
 
@@ -243,8 +265,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   private textInputRef = createRef<HTMLInputElement>();
-
-  transitionEl: HTMLDivElement | undefined;
 
   private _value: string | string[] = "";
 
@@ -617,6 +637,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.setFilteredPlacements();
     connectFloatingUI(this);
     this.cancelable.add(this.filterItems);
+    void this.updateComplete.then(() => {
+      if (this.el.isConnected && this.transitionRef.value) {
+        this.resizeObserver?.observe(this.transitionRef.value);
+      }
+    });
   }
 
   async load(): Promise<void> {
@@ -628,10 +653,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.openHandler();
-    }
-
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange(this.disabled);
     }
@@ -684,14 +705,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private filterTextChange(value: string): void {
     this.updateActiveItemIndex(-1);
     this.filterItems(value, true);
-  }
-
-  private openHandler(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    toggleOpenClose(this);
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -1087,7 +1100,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private async setMaxScrollerHeight(): Promise<void> {
-    const { listContainerEl, open, referenceEl } = this;
+    const { open, referenceEl } = this;
+    const listContainerEl = this.transitionRef.value;
 
     if (!listContainerEl || !open || !referenceEl) {
       return;
@@ -1432,12 +1446,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.compactSelectionDisplay = chipContainerElWidth < this.maxCompactBreakpoint;
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    updateRefObserver(this.resizeObserver, this.listContainerEl, el);
-    this.listContainerEl = el;
-    this.transitionEl = el;
-  }
-
   private setChipContainerEl(el: HTMLDivElement): void {
     updateRefObserver(this.resizeObserver, this.chipContainerEl, el);
     this.chipContainerEl = el;
@@ -1755,7 +1763,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       scrollToSelected && this.selectedItems?.length
         ? this.selectedItems[0]
         : this.keyboardNavItems[this.activeItemIndex];
-    const listContainer = this.listContainerEl;
+    const listContainer = this.transitionRef.value;
 
     if (!item || !listContainer) {
       return;
@@ -2241,7 +2249,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderFloatingUIContainer(): JsxNode {
-    const { messages, setFloatingEl, setContainerEl, open, scale } = this;
+    const { messages, setFloatingEl, open, scale, transitionRef } = this;
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
@@ -2252,7 +2260,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
-        <div class={classes} ref={setContainerEl}>
+        <div class={classes} ref={transitionRef}>
           <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             {this.selectAllEnabled &&
               this.selectionMode !== "single" &&
