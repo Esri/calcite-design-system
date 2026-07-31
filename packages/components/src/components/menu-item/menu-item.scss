@@ -146,19 +146,23 @@
 }
 
 :host([layout="vertical"]) .icon--end {
-  @apply ms-auto;
+  @apply ms-auto ps-3;
+  inline-size: theme("spacing.7");
+  min-inline-size: theme("spacing.7");
 }
 
 .icon--dropdown {
-  @apply ms-auto me-0 relative;
-}
-
-.icon--breadcrumb ~ .icon--dropdown {
-  @apply ms-2;
+  @apply ms-auto me-0 ps-2 relative;
+  inline-size: theme("spacing.6");
+  min-inline-size: theme("spacing.6");
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
   @apply ms-3;
+}
+
+:host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
+  @apply ms-2;
 }
 
 :host([layout="vertical"]) .hover-href-icon {
@@ -174,7 +178,9 @@
 }
 
 .icon--breadcrumb {
-  @apply ms-2 me-0;
+  @apply ps-2 me-0;
+  inline-size: theme("spacing.6");
+  min-inline-size: theme("spacing.6");
 }
 
 :host([layout="vertical"]) .icon--breadcrumb {
