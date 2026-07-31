@@ -111,12 +111,6 @@ export function useToggleTransitionEvents<T extends ToggleTransitionComponent>(
       before: ToggleTransitionCallback<T> | undefined,
       complete: ToggleTransitionCallback<T>,
     ): Promise<void> {
-      await component.updateComplete;
-
-      if (!component.el.isConnected) {
-        return;
-      }
-
       let started = false;
       let completed = false;
 
@@ -134,13 +128,8 @@ export function useToggleTransitionEvents<T extends ToggleTransitionComponent>(
 
       pendingTransitions.add(pendingTransition);
 
-      try {
-        before?.call(component);
-        started = true;
-      } catch (error) {
-        pendingTransitions.delete(pendingTransition);
-        throw error;
-      }
+      before?.call(component);
+      started = true;
 
       if (!component.el.isConnected) {
         pendingTransition.complete();
