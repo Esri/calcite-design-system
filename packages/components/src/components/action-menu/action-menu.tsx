@@ -12,7 +12,7 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { toAriaBoolean } from "../../utils/aria";
-import {
+import type {
   FlipPlacement,
   LogicalPlacement,
   OverlayPositioning,

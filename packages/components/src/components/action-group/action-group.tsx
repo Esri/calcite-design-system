@@ -12,7 +12,7 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
-import {
+import type {
   FlipPlacement,
   LogicalPlacement,
   OverlayPositioning,
