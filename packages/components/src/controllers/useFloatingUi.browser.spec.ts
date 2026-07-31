@@ -6,20 +6,24 @@ import { mockConsole } from "../tests/utils/logging";
 import { DEBOUNCE } from "../utils/resources";
 import {
   defaultOffsetDistance,
-  filterValidFlipPlacements,
-  flipPlacements,
+  FlipPlacement,
   getEffectivePlacement,
   LogicalPlacement,
   OverlayPositioning,
-  placements,
+  placementDataAttribute,
   ReferenceElement,
   useFloatingUi,
 } from "./useFloatingUi";
+
+let initialFlipPlacements: FlipPlacement[] | undefined;
+let flipPlacementsAfterConnect: FlipPlacement[] | undefined;
 
 class TestFloatingUi extends LitElement {
   direction: "ltr" | "rtl" = "ltr";
 
   floatingEl?: HTMLElement;
+
+  flipPlacements = initialFlipPlacements;
 
   open = false;
 
@@ -31,13 +35,22 @@ class TestFloatingUi extends LitElement {
 
   floatingUi = useFloatingUi<this>(() => ({
     direction: this.direction,
-    floatingEl: this.floatingEl,
-    referenceEl: this.referenceEl,
-    overlayPositioning: this.overlayPositioning,
-    placement: this.placement,
-    flipPlacements: [],
     type: "menu",
   }))(this);
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+
+    if (flipPlacementsAfterConnect) {
+      const previousFlipPlacements = this.flipPlacements;
+      this.flipPlacements = flipPlacementsAfterConnect;
+      this.requestUpdate("flipPlacements", previousFlipPlacements);
+    }
+  }
+
+  async reposition(delayed = false): Promise<void> {
+    return this.floatingUi.reposition(delayed);
+  }
 }
 
 let floatingEls: HTMLElement[] = [];
@@ -45,6 +58,8 @@ let referenceEls: HTMLElement[] = [];
 
 beforeEach(() => {
   floatingEls = [];
+  flipPlacementsAfterConnect = undefined;
+  initialFlipPlacements = undefined;
   referenceEls = [];
 });
 
@@ -225,12 +240,52 @@ it("uses the expected default offset distance", () => {
   expect(defaultOffsetDistance).toBe(6);
 });
 
-describe("filterValidFlipPlacements", () => {
+describe("flip placements", () => {
   mockConsole();
 
-  it("filters invalid placements", () => {
-    expect(new Set(filterValidFlipPlacements([...placements], document.createElement("div")))).toEqual(
-      new Set(flipPlacements),
+  it("filters initial placements once and uses the component element in warnings", async () => {
+    initialFlipPlacements = ["invalid" as FlipPlacement, "bottom"];
+    const { component, el, floatingEl, referenceEl } = await mountFloatingUi();
+    referenceEl.style.insetBlockStart = "0";
+    component.open = true;
+
+    await component.floatingUi.connect();
+    await component.floatingUi.reposition();
+
+    expect(floatingEl.getAttribute(placementDataAttribute)).toBe("bottom");
+    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledWith(
+      expect.stringContaining(`${el.tagName}: Invalid value found in: flipPlacements.`),
+      { el },
     );
+  });
+
+  it("filters placements assigned after connection and before the first update", async () => {
+    flipPlacementsAfterConnect = ["invalid" as FlipPlacement, "right"];
+    const { component, floatingEl, referenceEl } = await mountFloatingUi();
+    referenceEl.style.insetBlockStart = "0";
+    component.open = true;
+
+    await component.floatingUi.connect();
+
+    expect(floatingEl.getAttribute(placementDataAttribute)).toBe("right");
+    expect(console.warn).toHaveBeenCalledTimes(1);
+  });
+
+  it("refreshes filtered placements and repositions when the property changes", async () => {
+    const { component, floatingEl, referenceEl } = await mountFloatingUi();
+    referenceEl.style.insetBlockStart = "0";
+    component.open = true;
+    await component.floatingUi.connect();
+
+    const previousFlipPlacements = component.flipPlacements;
+    component.flipPlacements = ["invalid" as FlipPlacement, "right"];
+    component.requestUpdate("flipPlacements", previousFlipPlacements);
+    await component.updateComplete;
+    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.reposition));
+    await afterNextFrame();
+
+    expect(floatingEl.getAttribute(placementDataAttribute)).toBe("right");
+    expect(console.warn).toHaveBeenCalledTimes(1);
   });
 });

@@ -19,7 +19,6 @@ import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
   defaultMenuPlacement,
-  filterValidFlipPlacements,
   FlipPlacement,
   FloatingCSS,
   LogicalPlacement,
@@ -162,17 +161,10 @@ export class Combobox extends LitElement implements LabelableComponent {
 
   private filterTextMatchPattern?: RegExp;
 
-  private filteredFlipPlacements?: FlipPlacement[];
-
   floatingEl?: HTMLDivElement;
 
   private floatingUi = useFloatingUi<this>(() => ({
     direction: this.direction,
-    flipPlacements: this.filteredFlipPlacements,
-    floatingEl: this.floatingEl,
-    overlayPositioning: this.overlayPositioning,
-    placement: this.placement,
-    referenceEl: this.referenceEl,
     type: "menu",
   }))(this);
 
@@ -614,7 +606,6 @@ export class Combobox extends LitElement implements LabelableComponent {
     connectLabel(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
-    this.setFilteredPlacements();
     this.floatingUi.connect();
     this.cancelable.add(this.filterItems);
   }
@@ -654,10 +645,6 @@ export class Combobox extends LitElement implements LabelableComponent {
       changes.has("selectionAppearance")
     ) {
       this.updateItems();
-    }
-
-    if (changes.has("flipPlacements")) {
-      this.flipPlacementsHandler();
     }
   }
 
@@ -708,11 +695,6 @@ export class Combobox extends LitElement implements LabelableComponent {
 
       this.updateItems();
     }
-  }
-
-  private flipPlacementsHandler(): void {
-    this.setFilteredPlacements();
-    this.reposition(true);
   }
 
   private selectedItemsHandler(): void {
@@ -844,14 +826,6 @@ export class Combobox extends LitElement implements LabelableComponent {
       this.textInputRef.value.value = "";
     }
     this.filterText = "";
-  }
-
-  private setFilteredPlacements(): void {
-    const { el, flipPlacements } = this;
-
-    this.filteredFlipPlacements = flipPlacements
-      ? filterValidFlipPlacements(flipPlacements, el)
-      : undefined;
   }
 
   private getValue(): string | string[] {

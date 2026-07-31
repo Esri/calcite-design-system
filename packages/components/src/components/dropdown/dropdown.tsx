@@ -13,7 +13,6 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { nextFrame } from "../../utils/dom";
 import {
   defaultMenuPlacement,
-  filterValidFlipPlacements,
   FlipPlacement,
   FloatingCSS,
   LogicalPlacement,
@@ -73,19 +72,10 @@ export class Dropdown extends LitElement implements ReferenceElementComponent {
 
   private direction = useDirection();
 
-  private filteredFlipPlacements?: FlipPlacement[];
-
   floatingEl?: HTMLDivElement;
 
   private floatingUi = useFloatingUi<this>(() => ({
     direction: this.direction,
-    floatingEl: this.floatingEl,
-    referenceEl: this.referenceEl,
-    offsetDistance: this.offsetDistance,
-    offsetSkidding: this.offsetSkidding,
-    overlayPositioning: this.overlayPositioning,
-    placement: this.placement,
-    flipPlacements: this.filteredFlipPlacements,
     type: "menu",
   }))(this);
 
@@ -269,7 +259,6 @@ export class Dropdown extends LitElement implements ReferenceElementComponent {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setFilteredPlacements();
     this.updateItems();
     this.floatingUi.connect();
   }
@@ -285,10 +274,6 @@ export class Dropdown extends LitElement implements ReferenceElementComponent {
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange(this.disabled);
-    }
-
-    if (changes.has("flipPlacements")) {
-      this.flipPlacementsHandler();
     }
 
     if (changes.has("maxItems") && this.hasUpdated) {
@@ -349,11 +334,6 @@ export class Dropdown extends LitElement implements ReferenceElementComponent {
     }
   }
 
-  private flipPlacementsHandler(): void {
-    this.setFilteredPlacements();
-    this.reposition(true);
-  }
-
   private handlePropsChange(): void {
     this.updateItems();
     this.updateGroupProps();
@@ -409,14 +389,6 @@ export class Dropdown extends LitElement implements ReferenceElementComponent {
     if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
     }
-  }
-
-  private setFilteredPlacements(): void {
-    const { el, flipPlacements } = this;
-
-    this.filteredFlipPlacements = flipPlacements
-      ? filterValidFlipPlacements(flipPlacements, el)
-      : undefined;
   }
 
   private updateItems(): void {

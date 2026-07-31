@@ -90,11 +90,6 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
 
   private floatingUi = useFloatingUi<this>(() => ({
     direction: this.direction,
-    flipPlacements: this.flipPlacements,
-    floatingEl: this.floatingEl,
-    overlayPositioning: this.overlayPositioning,
-    placement: this.placement,
-    referenceEl: this.referenceEl,
     type: "menu",
   }))(this);
 
@@ -430,7 +425,6 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
     }
 
     if (
-      changes.has("flipPlacements") ||
       (changes.has("overlayPositioning") &&
         (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
       (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))

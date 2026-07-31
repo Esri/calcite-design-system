@@ -23,7 +23,6 @@ import {
 } from "../../utils/date";
 import {
   defaultMenuPlacement,
-  filterValidFlipPlacements,
   FlipPlacement,
   FloatingCSS,
   MenuPlacement,
@@ -107,17 +106,10 @@ export class InputDatePicker extends LitElement implements LabelableComponent {
 
   private endWrapper?: HTMLDivElement;
 
-  private filteredFlipPlacements?: FlipPlacement[];
-
   floatingEl?: HTMLDivElement;
 
   private floatingUi = useFloatingUi<this>(() => ({
     direction: this.direction,
-    flipPlacements: this.filteredFlipPlacements,
-    floatingEl: this.floatingEl,
-    overlayPositioning: this.overlayPositioning,
-    placement: this.placement,
-    referenceEl: this.referenceEl,
     type: "menu",
   }))(this);
 
@@ -409,7 +401,6 @@ export class InputDatePicker extends LitElement implements LabelableComponent {
     }
 
     connectLabel(this);
-    this.setFilteredPlacements();
     this.floatingUi.connect();
   }
 
@@ -429,10 +420,6 @@ export class InputDatePicker extends LitElement implements LabelableComponent {
 
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
       this.handleDisabledAndReadOnlyChange(this.readOnly);
-    }
-
-    if (changes.has("flipPlacements")) {
-      this.flipPlacementsHandler();
     }
 
     const minSource = getMinMaxSource(changes, "min");
@@ -545,11 +532,6 @@ export class InputDatePicker extends LitElement implements LabelableComponent {
     }
   }
 
-  private flipPlacementsHandler(): void {
-    this.setFilteredPlacements();
-    this.reposition(true);
-  }
-
   private openHandler(): void {
     if (this.disabled || this.readOnly) {
       return;
@@ -629,14 +611,6 @@ export class InputDatePicker extends LitElement implements LabelableComponent {
     if (!range || !this.open || currentOpenInput === position) {
       this.open = !this.open;
     }
-  }
-
-  private setFilteredPlacements(): void {
-    const { el, flipPlacements } = this;
-
-    this.filteredFlipPlacements = flipPlacements
-      ? filterValidFlipPlacements(flipPlacements, el)
-      : undefined;
   }
 
   onLabelClick(): void {

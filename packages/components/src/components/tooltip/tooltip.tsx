@@ -51,12 +51,6 @@ export class Tooltip extends LitElement implements ReferenceElementComponent {
   private floatingUi = useFloatingUi<this>(() => ({
     arrowEl: this.arrowEl,
     direction: this.direction,
-    floatingEl: this.floatingEl,
-    referenceEl: this.referenceEl,
-    overlayPositioning: this.overlayPositioning,
-    placement: this.placement,
-    offsetDistance: this.offsetDistance,
-    offsetSkidding: this.offsetSkidding,
     type: "tooltip",
   }))(this);
 

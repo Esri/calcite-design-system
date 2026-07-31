@@ -47,46 +47,6 @@ export interface PositionFloatingUiOptions {
   direction: Direction;
 
   /**
-   * Prevents flipping the component's placement when overlapping its `referenceElement`.
-   */
-  flipDisabled?: boolean;
-
-  /**
-   * Defines the available placements that can be used when a flip occurs.
-   */
-  flipPlacements?: FlipPlacement[];
-
-  /**
-   * The `floatingElement` containing the floating ui.
-   */
-  floatingEl?: HTMLElement;
-
-  /**
-   * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
-   */
-  overlayPositioning: Strategy;
-
-  /**
-   * Determines where the component will be positioned relative to the `referenceElement`.
-   */
-  placement: LogicalPlacement;
-
-  /**
-   * Offsets the position of the popover away from the `referenceElement`.
-   */
-  offsetDistance?: number;
-
-  /**
-   * Offsets the position of the component along the `referenceElement`.
-   */
-  offsetSkidding?: number;
-
-  /**
-   * The `referenceElement` used to position the component according to its `placement` value.
-   */
-  referenceEl?: ReferenceElement;
-
-  /**
    * The type of floating UI, which determines the default middleware used for positioning.
    */
   type: UIType;
@@ -100,21 +60,21 @@ export interface PositionFloatingUiOptions {
 export const positionFloatingUI =
   /* we export arrow function to allow us to spy on it during testing */
   async (
-    component: FloatingUIHost,
-    {
-      arrowEl,
-      direction,
+    component: FloatingUIComponent,
+    options: PositionFloatingUiOptions,
+    flipPlacements?: FlipPlacement[],
+  ): Promise<void> => {
+    const { arrowEl, direction, type } = options;
+    const {
       flipDisabled,
-      flipPlacements,
       floatingEl,
       offsetDistance,
       offsetSkidding,
       overlayPositioning = "absolute",
       placement,
       referenceEl,
-      type,
-    }: PositionFloatingUiOptions,
-  ): Promise<void> => {
+    } = component;
+
     if (!referenceEl || !floatingEl) {
       return;
     }
@@ -284,8 +244,20 @@ export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
+  /** Prevents flipping the component's placement when overlapping its `referenceElement`. */
+  flipDisabled?: boolean;
+
+  /** Defines the available placements that can be used when a flip occurs. */
+  flipPlacements?: FlipPlacement[];
+
   /** Whether the component is opened. */
   open: boolean;
+
+  /** Offsets the position of the popover away from the `referenceElement`. */
+  offsetDistance?: number;
+
+  /** Offsets the position of the component along the `referenceElement`. */
+  offsetSkidding?: number;
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   overlayPositioning: OverlayPositioning;
@@ -328,10 +300,7 @@ export interface FloatingUIComponent {
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 
-type FloatingUIHost = LitElement & {
-  floatingLayout?: FloatingLayout;
-  open: boolean;
-};
+type FloatingUIHost = LitElement & FloatingUIComponent;
 
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
@@ -455,14 +424,22 @@ export const useFloatingUi = <T extends FloatingUIHost>(
   makeGenericController<UseFloatingUi, T>((component, controller) => {
     let autoUpdateCleanup: (() => void) | undefined;
     let autoUpdatePending = false;
+    let filteredFlipPlacements: FlipPlacement[] | undefined;
+    let validatedFlipPlacements: FlipPlacement[] | undefined;
 
-    const debouncedReposition: DebouncedFunction<typeof positionFloatingUI> = debounce(
-      positionFloatingUI,
-      DEBOUNCE.reposition,
-      {
-        edges: ["leading", "trailing"],
-      },
-    );
+    const position = (component: FloatingUIComponent, options: PositionFloatingUiOptions): Promise<void> =>
+      positionFloatingUI(component, options, filteredFlipPlacements);
+
+    const debouncedReposition: DebouncedFunction<typeof position> = debounce(position, DEBOUNCE.reposition, {
+      edges: ["leading", "trailing"],
+    });
+
+    const updateFlipPlacements = (): void => {
+      const { flipPlacements } = component;
+
+      validatedFlipPlacements = flipPlacements;
+      filteredFlipPlacements = flipPlacements ? filterValidFlipPlacements(flipPlacements, component.el) : undefined;
+    };
 
     const disconnect = (): void => {
       autoUpdateCleanup?.();
@@ -473,7 +450,7 @@ export const useFloatingUi = <T extends FloatingUIHost>(
     };
 
     const hide = (): void => {
-      const { floatingEl } = getOptions();
+      const { floatingEl } = component;
 
       if (!floatingEl) {
         return;
@@ -492,17 +469,18 @@ export const useFloatingUi = <T extends FloatingUIHost>(
 
     const reposition = async (delayed = false): Promise<void> => {
       const options = getOptions();
+      const { floatingEl, open, overlayPositioning, referenceEl } = component;
 
-      if (!component.open || !options.floatingEl || !options.referenceEl) {
+      if (!open || !floatingEl || !referenceEl) {
         return;
       }
 
-      Object.assign(options.floatingEl.style, {
+      Object.assign(floatingEl.style, {
         display: "block",
         inset: "unset",
         // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
         left: "0",
-        position: options.overlayPositioning ?? "absolute",
+        position: overlayPositioning ?? "absolute",
         top: "0",
       });
 
@@ -510,13 +488,13 @@ export const useFloatingUi = <T extends FloatingUIHost>(
         return runAutoUpdate();
       }
 
-      const positionFunction = delayed ? debouncedReposition : positionFloatingUI;
+      const positionFunction = delayed ? debouncedReposition : position;
 
       await positionFunction(component, options);
     };
 
     const runAutoUpdate = async (): Promise<void> => {
-      const { referenceEl, floatingEl } = getOptions();
+      const { floatingEl, referenceEl } = component;
 
       if (!floatingEl?.isConnected || !referenceEl) {
         return;
@@ -555,18 +533,27 @@ export const useFloatingUi = <T extends FloatingUIHost>(
     };
 
     const connect = async (): Promise<void> => {
-      const { floatingEl, referenceEl } = getOptions();
+      const { floatingEl, open, referenceEl } = component;
 
       hide();
       disconnect();
 
-      if (!floatingEl || !referenceEl || !component.open) {
+      if (!floatingEl || !referenceEl || !open) {
         return;
       }
 
       return runAutoUpdate();
     };
 
+    controller.onConnected(updateFlipPlacements);
+    controller.onUpdate((changes) => {
+      if (!changes.has("flipPlacements") || component.flipPlacements === validatedFlipPlacements) {
+        return;
+      }
+
+      updateFlipPlacements();
+      reposition(true);
+    });
     controller.onDisconnected(disconnect);
 
     return {

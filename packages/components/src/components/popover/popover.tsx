@@ -4,7 +4,6 @@ import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
   defaultOffsetDistance,
-  filterValidFlipPlacements,
   FlipPlacement,
   FloatingCSS,
   FloatingLayout,
@@ -58,21 +57,11 @@ export class Popover extends LitElement implements ReferenceElementComponent {
 
   private direction = useDirection();
 
-  private filteredFlipPlacements?: FlipPlacement[];
-
   floatingEl?: HTMLDivElement;
 
   private floatingUi = useFloatingUi<this>(() => ({
     arrowEl: this.arrowEl,
     direction: this.direction,
-    flipDisabled: this.flipDisabled,
-    flipPlacements: this.filteredFlipPlacements,
-    floatingEl: this.floatingEl,
-    offsetDistance: this.offsetDistance,
-    offsetSkidding: this.offsetSkidding,
-    overlayPositioning: this.overlayPositioning,
-    placement: this.placement,
-    referenceEl: this.referenceEl,
     type: "popover",
   }))(this);
 
@@ -272,7 +261,6 @@ export class Popover extends LitElement implements ReferenceElementComponent {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setFilteredPlacements();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -280,10 +268,6 @@ export class Popover extends LitElement implements ReferenceElementComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("flipPlacements")) {
-      this.flipPlacementsHandler();
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -318,11 +302,6 @@ export class Popover extends LitElement implements ReferenceElementComponent {
 
   //#region Private Methods
 
-  private flipPlacementsHandler(): void {
-    this.setFilteredPlacements();
-    this.reposition(true);
-  }
-
   private openHandler(): void {
     toggleOpenClose(this);
     this.reposition(true);
@@ -330,14 +309,6 @@ export class Popover extends LitElement implements ReferenceElementComponent {
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-  }
-
-  private setFilteredPlacements(): void {
-    const { el, flipPlacements } = this;
-
-    this.filteredFlipPlacements = flipPlacements
-      ? filterValidFlipPlacements(flipPlacements, el)
-      : undefined;
   }
 
   private hide(): void {
