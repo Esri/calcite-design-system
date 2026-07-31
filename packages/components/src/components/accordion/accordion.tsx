@@ -11,7 +11,11 @@ declare global {
     "calcite-accordion": Accordion;
   }
 }
-/** @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. */
+
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block-group` component instead.
+ * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
+ */
 export class Accordion extends LitElement {
   // #region Static Members
 
