@@ -1,8 +1,11 @@
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
 import { accessible, hidden, renders, themed } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
+import { StatusIconDefaults } from "./resources";
+import type { InputMessage } from "./input-message";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-input-message>Text</calcite-input-message>));
@@ -92,5 +95,77 @@ describe("theme", () => {
         },
       },
     );
+  });
+});
+
+describe("when icon prop is provided", () => {
+  describe("when it's a boolean type", () => {
+    describe("when value is true", () => {
+      it("should render the default status icon", async () => {
+        await mount(<calcite-input-message icon>Text</calcite-input-message>);
+        const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
+        await expect.element(icon).toBeInTheDocument();
+        await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.idle);
+      });
+
+      describe("when element status is changed", () => {
+        it("should render icon based on new status", async () => {
+          const { el, reRender } = await mount<InputMessage>(
+            <calcite-input-message icon status="invalid">
+              Example
+            </calcite-input-message>,
+          );
+          const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
+          await expect.element(icon).toBeInTheDocument();
+          await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.invalid);
+
+          el.status = "valid";
+          await reRender();
+
+          await expect.element(icon).toBeInTheDocument();
+          await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.valid);
+        });
+      });
+    });
+
+    describe("when value is false", () => {
+      it("should render no icon", async () => {
+        await mount(<calcite-input-message>Text</calcite-input-message>);
+        const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
+        await expect.element(icon).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("when it's a string type", () => {
+    it("should render the requested custom icon", async () => {
+      await mount(<calcite-input-message icon="banana">Nah</calcite-input-message>);
+      const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
+      await expect.element(icon).toBeInTheDocument();
+      await expect.element(icon).toHaveAttribute("icon", "banana");
+    });
+
+    describe("when the icon is changed", () => {
+      it("should render the new icon", async () => {
+        const { el, reRender } = await mount<InputMessage>(
+          <calcite-input-message icon="information">More info</calcite-input-message>,
+        );
+        const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
+        await expect.element(icon).toBeInTheDocument();
+        await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.idle);
+
+        el.icon = "banana";
+        await reRender();
+
+        await expect.element(icon).toBeInTheDocument();
+        await expect.element(icon).toHaveAttribute("icon", "banana");
+
+        el.icon = "view-hide";
+        await reRender();
+
+        await expect.element(icon).toBeInTheDocument();
+        await expect.element(icon).toHaveAttribute("icon", "view-hide");
+      });
+    });
   });
 });

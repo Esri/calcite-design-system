@@ -187,8 +187,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) height?: Height;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.38...@esri/calcite-components@5.2.0-next.39) (2026-07-30)
+
+### Bug Fixes
+
+- **input-time-picker:** ensure time part input placement aligns with page direction ([#14901](https://github.com/Esri/calcite-design-system/issues/14901)), closes [#13135](https://github.com/Esri/calcite-design-system/issues/13135)
+
+## [5.2.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.37...@esri/calcite-components@5.2.0-next.38) (2026-07-30)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.36...@esri/calcite-components@5.2.0-next.37) (2026-07-30)
+
+### Bug Fixes
+
+- **icon:** fix icon type ([#14889](https://github.com/Esri/calcite-design-system/issues/14889)), closes [#14898](https://github.com/Esri/calcite-design-system/issues/14898)
+
 ## [5.2.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.35...@esri/calcite-components@5.2.0-next.36) (2026-07-28)
 
 ### Bug Fixes
