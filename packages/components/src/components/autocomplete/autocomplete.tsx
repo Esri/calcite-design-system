@@ -25,7 +25,7 @@ import {
 } from "../../controllers/useFloatingUi";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -43,6 +43,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -100,6 +101,8 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
   private inputId = IDS.input(this.guid);
 
   labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   private listId = IDS.list(this.guid);
 
@@ -189,7 +192,7 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
    *
    * To hide the default icon, set the property to `false` using JavaScript.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -226,9 +229,7 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
   @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -294,9 +295,7 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -304,7 +303,6 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -405,7 +403,6 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
       childList: true,
       subtree: true,
     });
-    connectLabel(this);
     this.getAllItemsDebounced();
     this.floatingUi.connect();
     this.cancelable.add(this.getAllItemsDebounced);
@@ -465,7 +462,6 @@ export class Autocomplete extends LitElement implements LabelableComponent, Text
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectLabel(this);
   }
 
   //#endregion

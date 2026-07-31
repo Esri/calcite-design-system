@@ -15,7 +15,8 @@ import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -129,7 +130,7 @@ export class InputNumber
 
   private interactiveContainer = useInteractive(this);
 
-  private useInlineEditable = new UseInlineEditable({
+  private inlineEditableManager = new UseInlineEditable({
     getEditingEnabled: () => this.editingEnabled,
     setEditingEnabled: (editingEnabled) => {
       this.editingEnabled = editingEnabled;
@@ -151,6 +152,8 @@ export class InputNumber
       this.calciteInputNumberInlineEditableChange.emit();
     },
   });
+
+  labelable = useLabel(this);
 
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEditable(): boolean {
@@ -233,7 +236,7 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -241,7 +244,7 @@ export class InputNumber
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
   @property() integer = false;
 
-  /** Specifies an accessible label for the component's button or hyperlink. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** @copyDoc */
@@ -347,9 +350,7 @@ export class InputNumber
   @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -357,7 +358,6 @@ export class InputNumber
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -445,7 +445,6 @@ export class InputNumber
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -495,7 +494,6 @@ export class InputNumber
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.stopNudging();
   }
 
@@ -547,7 +545,7 @@ export class InputNumber
         return;
       }
 
-      this.useInlineEditable.cancelEditing();
+      this.inlineEditableManager.cancelEditing();
       requestAnimationFrame(() => {
         this.enableInlineEditingButtonRef.value?.setFocus();
       });
@@ -570,7 +568,7 @@ export class InputNumber
 
   onLabelClick(): void {
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -641,7 +639,7 @@ export class InputNumber
     this.calciteInternalInputNumberBlur.emit();
 
     if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
-      this.useInlineEditable.disable();
+      this.inlineEditableManager.disable();
     }
 
     this.emitChangeIfUserModified();
@@ -669,7 +667,7 @@ export class InputNumber
 
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
       event.preventDefault();
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -1181,13 +1179,13 @@ export class InputNumber
                 enableEditingButtonRef={this.enableInlineEditingButtonRef}
                 enableEditingLabel={this.messages.enableInlineEditing}
                 loading={this.inlineEditableLoading}
-                onCancelEditing={() => this.useInlineEditable.cancelEditing()}
+                onCancelEditing={() => this.inlineEditableManager.cancelEditing()}
                 onConfirmChanges={() =>
-                  this.useInlineEditable.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                  this.inlineEditableManager.confirm(this.inlineEditableAfterConfirm, (loading) => {
                     this.inlineEditableLoading = loading;
                   })
                 }
-                onEnableEditing={() => this.useInlineEditable.enable()}
+                onEnableEditing={() => this.inlineEditableManager.enable()}
                 scale={this.scale}
                 showControls={this.editingEnabled && this.inlineEditableControls}
               />

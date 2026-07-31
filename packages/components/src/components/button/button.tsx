@@ -11,7 +11,8 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
@@ -40,7 +41,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Button extends LitElement implements LabelableComponent {
+export class Button extends LitElement {
   //#region Static Members
 
   static formAssociated = true;
@@ -77,6 +78,8 @@ export class Button extends LitElement implements LabelableComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   //#endregion
 
@@ -119,13 +122,13 @@ export class Button extends LitElement implements LabelableComponent {
   @property({ reflect: true }) href?: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
@@ -198,7 +201,6 @@ export class Button extends LitElement implements LabelableComponent {
 
   override connectedCallback(): void {
     this.setupTextContentObserver();
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -211,7 +213,6 @@ export class Button extends LitElement implements LabelableComponent {
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLabel(this);
     this.resizeObserver?.disconnect();
   }
 

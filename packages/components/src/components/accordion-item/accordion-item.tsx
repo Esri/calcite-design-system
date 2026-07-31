@@ -22,6 +22,7 @@ declare global {
 }
 
 /**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
@@ -76,7 +77,7 @@ export class AccordionItem extends LitElement {
   @property() heading?: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
@@ -99,7 +100,7 @@ export class AccordionItem extends LitElement {
   @property() iconPosition!: Extract<"start" | "end", Position>;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.

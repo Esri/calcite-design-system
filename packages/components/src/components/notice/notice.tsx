@@ -88,7 +88,7 @@ export class Notice extends LitElement {
   @property({ reflect: true }) closable = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -108,7 +108,11 @@ export class Notice extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   //#endregion

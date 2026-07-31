@@ -12,7 +12,8 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -68,7 +69,7 @@ export class TextArea
 
   private footerRef = createRef<HTMLElement>();
 
-  private validationMessageEl?: HTMLDivElement;
+  private loaderContainerRef = createRef<HTMLDivElement>();
 
   formSupport = useForm<this>({
     inputType: "text",
@@ -84,15 +85,8 @@ export class TextArea
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
-    const {
-      textAreaHeight,
-      textAreaWidth,
-      elHeight,
-      elWidth,
-      footerHeight,
-      footerWidth,
-      validationMessageHeight,
-    } = this.getHeightAndWidthOfElements();
+    const { textAreaHeight, textAreaWidth, loaderHeight, elWidth, footerHeight, footerWidth } =
+      this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerRef.value!.style.width = `${textAreaWidth}px`;
     }
@@ -102,11 +96,14 @@ export class TextArea
     }
 
     const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
-    if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
+    if (this.dimensionsDiffer(elWidth, textAreaWidth) && elStyleWidth !== "auto") {
       this.updateSizeToAuto("width");
     }
     if (
-      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
+      loaderHeight > 0 &&
+      textAreaHeight > 0 &&
+      footerHeight > 0 &&
+      this.dimensionsDiffer(loaderHeight, textAreaHeight + footerHeight) &&
       elStyleHeight !== "auto"
     ) {
       this.updateSizeToAuto("height");
@@ -135,6 +132,8 @@ export class TextArea
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   //#endregion
 
@@ -202,7 +201,7 @@ export class TextArea
   @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component. Required to pass the component's value on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
@@ -250,9 +249,7 @@ export class TextArea
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -260,7 +257,6 @@ export class TextArea
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -313,7 +309,6 @@ export class TextArea
   //#region Lifecycle
 
   override connectedCallback(): void {
-    connectLabel(this);
     this.cancelable.add(this.updateSizeToAuto);
   }
 
@@ -343,13 +338,17 @@ export class TextArea
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.resizeObserver?.disconnect();
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private dimensionsDiffer(dimensionA: number, dimensionB: number): boolean {
+    const dimensionTolerance = 1;
+    return Math.abs(dimensionA - dimensionB) > dimensionTolerance;
+  }
 
   private updateNumberFormatter(): void {
     numberStringFormatter.numberFormatOptions = {
@@ -407,42 +406,42 @@ export class TextArea
   }
 
   private setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
-      this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
-      this.textAreaEl!.style.height = `${elHeight - footerHeight}px`;
+    const { textAreaHeight, loaderHeight, footerHeight } = this.getHeightAndWidthOfElements();
+    if (loaderHeight <= 0 || textAreaHeight <= 0 || footerHeight <= 0) {
+      return;
+    }
+
+    if (this.dimensionsDiffer(textAreaHeight + footerHeight, loaderHeight)) {
+      this.textAreaEl!.style.height = `${loaderHeight - footerHeight}px`;
     }
   }
 
   private getHeightAndWidthOfElements(): {
     textAreaHeight: number;
     textAreaWidth: number;
-    elHeight: number;
+    loaderHeight: number;
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
-    validationMessageHeight: number;
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
       : NO_DIMENSIONS;
-    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
+    const { height: loaderHeight } = this.loaderContainerRef.value
+      ? this.loaderContainerRef.value.getBoundingClientRect()
+      : NO_DIMENSIONS;
+    const { width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerRef.value
       ? this.footerRef.value.getBoundingClientRect()
-      : NO_DIMENSIONS;
-
-    const { height: validationMessageHeight } = this.validationMessageEl
-      ? this.validationMessageEl.getBoundingClientRect()
       : NO_DIMENSIONS;
 
     return {
       textAreaHeight,
       textAreaWidth,
-      elHeight,
+      loaderHeight,
       elWidth,
       footerHeight,
       footerWidth,
-      validationMessageHeight,
     };
   }
 
@@ -454,13 +453,6 @@ export class TextArea
 
   private isCharacterLimitExceeded(): boolean {
     return (this.maxLength !== undefined && this.value?.length > this.maxLength) || false;
-  }
-
-  private setValidationRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-    this.validationMessageEl = el;
   }
 
   //#endregion
@@ -485,7 +477,7 @@ export class TextArea
               tooltipText={this.messages.required}
             />
           )}
-          <div class={CSS.loaderContainer}>
+          <div class={CSS.loaderContainer} ref={this.loaderContainerRef}>
             {this.loading ? loader : null}
             <textarea
               aria-describedby={this.guid}
@@ -558,7 +550,6 @@ export class TextArea
               icon={this.validationIcon}
               id={IDS.validationMessage}
               message={this.validationMessage}
-              ref={this.setValidationRef}
               scale={this.scale}
               status={this.status}
             />

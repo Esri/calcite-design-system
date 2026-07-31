@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Отказ",
   "clear": "Изчистване на стойност",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Запазване",
+  "enableInlineEditing": "Редактиране",
   "loading": "Зареждане",
   "required": "Необходими"
 }

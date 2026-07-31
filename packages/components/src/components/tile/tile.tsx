@@ -81,7 +81,7 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -113,11 +113,11 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance, where:
+   * Specifies the selection appearance.
    *
-   * - `"icon"` (displays a checkmark or dot),
-   * - `"highlight"` (changes the background color), or
-   * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` changes the background color.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
@@ -129,12 +129,12 @@ export class Tile extends LitElement implements SelectableComponent {
   > = "icon";
 
   /**
-   * Specifies the selection mode, where:
+   * Specifies the selection mode.
    *
-   * - `"multiple"` (allows any number of selected items),
-   * - `"single"` (allows only one selected item),
-   * - `"single-persist"` (allows only one selected item and prevents de-selection),
-   * - `"none"` (allows no selected items).
+   * - `"multiple"` allows any number of selected items.
+   * - `"single"` allows only one selected item.
+   * - `"single-persist"` allows only one selected item and prevents de-selection.
+   * - `"none"` allows no selected items.
    *
    * This property is set by the parent tile-group.
    *

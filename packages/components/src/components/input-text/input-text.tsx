@@ -14,7 +14,8 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { setRequestedIcon } from "../../utils/dom";
 import { useForm } from "../../controllers/useForm";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
@@ -110,7 +111,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private interactiveContainer = useInteractive(this);
 
-  private useInlineEditable = new UseInlineEditable({
+  private inlineEditableManager = new UseInlineEditable({
     getEditingEnabled: () => this.editingEnabled,
     setEditingEnabled: (editingEnabled) => {
       this.editingEnabled = editingEnabled;
@@ -132,6 +133,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       this.calciteInputTextInlineEditableChange.emit();
     },
   });
+
+  labelable = useLabel(this);
 
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEditable(): boolean {
@@ -209,12 +212,12 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies an accessible label for the component's button or hyperlink. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** @copyDoc */
@@ -243,9 +246,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -293,9 +294,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -303,7 +302,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -387,8 +385,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -401,10 +397,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     if (changes.has("icon")) {
       this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     }
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -439,7 +431,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         return;
       }
 
-      this.useInlineEditable.cancelEditing();
+      this.inlineEditableManager.cancelEditing();
       requestAnimationFrame(() => {
         this.enableInlineEditingButtonRef.value?.setFocus();
       });
@@ -462,7 +454,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   onLabelClick(): void {
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -492,7 +484,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     });
 
     if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
-      this.useInlineEditable.disable();
+      this.inlineEditableManager.disable();
     }
 
     this.emitChangeIfUserModified();
@@ -520,7 +512,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
       event.preventDefault();
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -717,13 +709,13 @@ export class InputText extends LitElement implements LabelableComponent, Textual
                 enableEditingButtonRef={this.enableInlineEditingButtonRef}
                 enableEditingLabel={this.messages.enableInlineEditing}
                 loading={this.inlineEditableLoading}
-                onCancelEditing={() => this.useInlineEditable.cancelEditing()}
+                onCancelEditing={() => this.inlineEditableManager.cancelEditing()}
                 onConfirmChanges={() =>
-                  this.useInlineEditable.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                  this.inlineEditableManager.confirm(this.inlineEditableAfterConfirm, (loading) => {
                     this.inlineEditableLoading = loading;
                   })
                 }
-                onEnableEditing={() => this.useInlineEditable.enable()}
+                onEnableEditing={() => this.inlineEditableManager.enable()}
                 scale={this.scale}
                 showControls={this.editingEnabled && this.inlineEditableControls}
               />

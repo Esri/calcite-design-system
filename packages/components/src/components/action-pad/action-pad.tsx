@@ -11,7 +11,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { ExpandToggle, legacyToggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../controllers/useFloatingUi";
@@ -175,7 +175,7 @@ export class ActionPad extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && this.hasUpdated) {
-      toggleChildActionText({ el: this.el, expanded: this.expanded });
+      legacyToggleChildActionText({ el: this.el, expanded: this.expanded });
     }
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {

@@ -172,7 +172,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property({ reflect: true }) interactionMode?: InteractionMode;
 
-  /** Specifies an accessible label for the component, displays above the `description`. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** @copyDoc */
@@ -232,7 +232,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot), `"border"` (displays a border) or `"highlight"` (displays background highlight). [Deprecated] The `"border"` value is deprecated, use `"highlight"` instead.
+   * Specifies the selection appearance.
+   *
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` displays background highlight.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * @private
    */
@@ -242,7 +246,12 @@ export class ListItem extends LitElement implements SortableComponentItem {
   >;
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+   * Specifies the selection mode of the component.
+   *
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    *
    * @private
    */
@@ -275,10 +284,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property() value: any;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;

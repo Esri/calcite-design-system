@@ -1,11 +1,14 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Checkbox } from "./checkbox";
 
 const { scale, status } = ATTRIBUTES;
 
-type CheckboxStoryArgs = Pick<Checkbox, "checked" | "disabled" | "indeterminate" | "scale" | "status" | "label">;
+type CheckboxStoryArgs = Pick<
+  Checkbox,
+  "checked" | "disabled" | "indeterminate" | "label" | "labelText" | "required" | "scale" | "status"
+>;
 
 export default {
   title: "Components/Controls/Checkbox",
@@ -13,6 +16,8 @@ export default {
     checked: true,
     disabled: false,
     indeterminate: false,
+    labelText: "Label text",
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     label: "Checkbox",
@@ -30,16 +35,15 @@ export default {
 };
 
 export const simple = (args: CheckboxStoryArgs): string => html`
-  <calcite-label layout="inline">
-    <calcite-checkbox
-      ${boolean("checked", args.checked)}
-      ${boolean("disabled", args.disabled)}
-      ${boolean("indeterminate", args.indeterminate)}
-      scale="${args.scale}"
-      status="${args.status}"
-    ></calcite-checkbox>
-    ${args.label}
-  </calcite-label>
+  <calcite-checkbox
+    ${boolean("checked", args.checked)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("indeterminate", args.indeterminate)}
+    ${optionalAttribute("label-text", args.labelText)}
+    ${boolean("required", args.required)}
+    scale="${args.scale}"
+    status="${args.status}"
+  ></calcite-checkbox>
 `;
 
 export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;

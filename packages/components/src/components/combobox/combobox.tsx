@@ -26,10 +26,11 @@ import {
   useFloatingUi,
 } from "../../controllers/useFloatingUi";
 import { guid } from "../../utils/guid";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
 import { getIconScale, isHidden } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
@@ -196,6 +197,8 @@ export class Combobox extends LitElement implements LabelableComponent {
   private fitFollowUpRefreshPromise?: Promise<void>;
 
   labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   private listContainerEl?: HTMLDivElement;
 
@@ -383,8 +386,7 @@ export class Combobox extends LitElement implements LabelableComponent {
   @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -411,7 +413,7 @@ export class Combobox extends LitElement implements LabelableComponent {
   @property() placeholder?: string;
 
   /** Specifies the input's placeholder icon. */
-  @property({ reflect: true, type: String }) placeholderIcon?: IconName;
+  @property({ reflect: true }) placeholderIcon?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`. */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
@@ -451,22 +453,19 @@ export class Combobox extends LitElement implements LabelableComponent {
   }
 
   /**
-   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
+   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections.
    *
-   * `"all"` displays all selections with individual `calcite-chip`s,
-   *
-   * `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and
-   *
-   * `"single"` displays one `calcite-chip` with the total number of selections.
+   * - `"all"` displays all selections with individual `calcite-chip`s.
+   * - `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed.
+   * - `"single"` displays one `calcite-chip` with the total number of selections.
    */
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**
-   * Specifies the selection appearance, where
+   * Specifies the selection appearance.
    *
-   * `"icon"` displays a checkmark or dot, and
-   *
-   * `"highlight"` displays a background highlight.
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` displays a background highlight.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -474,15 +473,12 @@ export class Combobox extends LitElement implements LabelableComponent {
   > = "icon";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -500,9 +496,7 @@ export class Combobox extends LitElement implements LabelableComponent {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -510,7 +504,6 @@ export class Combobox extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -603,7 +596,6 @@ export class Combobox extends LitElement implements LabelableComponent {
   }
 
   override connectedCallback(): void {
-    connectLabel(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.floatingUi.connect();
@@ -657,7 +649,6 @@ export class Combobox extends LitElement implements LabelableComponent {
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectLabel(this);
   }
 
   //#endregion

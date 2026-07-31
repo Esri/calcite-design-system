@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 
 import {
   defaults,
@@ -374,5 +374,21 @@ describe("theme", () => {
         },
       },
     );
+  });
+
+  describe("toggleDisplay", () => {
+    it("should toggle the expanded state when the toggleDisplay is switch", async () => {
+      const { el } = await mount(
+        <calcite-block collapsible heading="heading" toggle-display="switch">
+          <div>content</div>
+        </calcite-block>,
+      );
+      expect(el).toHaveProperty("expanded", false);
+
+      await userEvent.click(el);
+      expect(el).toHaveProperty("expanded", true);
+      const slottedEl = page.getByText("content");
+      await expect.element(slottedEl).toBeVisible();
+    });
   });
 });

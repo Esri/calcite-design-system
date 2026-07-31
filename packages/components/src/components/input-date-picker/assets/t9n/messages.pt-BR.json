@@ -1,5 +1,6 @@
 {
   "chooseDate": "Escolher data",
+  "clear": "Clear value",
   "date": "Data",
   "dateFormat": "Formato da Data: {format}",
   "endDate": "Data Final",

@@ -115,13 +115,13 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) placement: LogicalPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @property({ reflect: true, type: String }) primaryIconEnd?: IconName;
+  @property({ reflect: true }) primaryIconEnd?: IconName;
 
   /** Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @property({ reflect: true, type: String }) primaryIconStart?: IconName;
+  @property({ reflect: true }) primaryIconStart?: IconName;
 
   /** Specifies an accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel?: string;
@@ -146,7 +146,11 @@ export class SplitButton extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   //#endregion

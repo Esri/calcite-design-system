@@ -1,5 +1,6 @@
 {
   "chooseDate": "Chọn ngày",
+  "clear": "Clear value",
   "date": "Ngày",
   "dateFormat": "Định dạng Ngày: {format}",
   "endDate": "Ngày Kết thúc",

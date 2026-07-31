@@ -8,7 +8,7 @@ const { layout, scale, status } = ATTRIBUTES;
 
 interface RadioButtonGroupStoryArgs extends Pick<
   RadioButtonGroup,
-  "disabled" | "layout" | "scale" | "status" | "validationIcon" | "validationMessage"
+  "disabled" | "labelText" | "layout" | "required" | "scale" | "status" | "validationIcon" | "validationMessage"
 > {
   hidden: boolean;
 }
@@ -18,7 +18,9 @@ export default {
   args: {
     disabled: false,
     hidden: false,
+    labelText: "Label text",
     layout: layout.defaultValue,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     validationIcon: "",
@@ -58,7 +60,9 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
     name="simple"
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
+    ${optionalAttribute("label-text", args.labelText)}
     layout="${args.layout}"
+    ${boolean("required", args.required)}
     scale="${args.scale}"
     status="${args.status}"
     ${optionalAttribute("validation-icon", args.validationIcon)}
