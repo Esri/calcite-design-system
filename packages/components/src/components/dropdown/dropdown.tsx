@@ -112,9 +112,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
           this.onClose();
         },
       },
-      shouldToggle() {
-        return !this.disabled;
-      },
     },
   })(this);
 

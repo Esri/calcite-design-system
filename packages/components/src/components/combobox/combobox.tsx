@@ -231,9 +231,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           this.onClose();
         },
       },
-      shouldToggle() {
-        return !this.disabled;
-      },
     },
   })(this);
 

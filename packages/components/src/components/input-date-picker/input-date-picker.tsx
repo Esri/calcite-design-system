@@ -199,9 +199,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
           this.onClose();
         },
       },
-      shouldToggle() {
-        return !this.disabled && !this.readOnly;
-      },
     },
   })(this);
 

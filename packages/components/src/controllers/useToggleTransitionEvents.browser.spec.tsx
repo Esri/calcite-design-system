@@ -198,17 +198,11 @@ describe("useToggleTransitionEvents", () => {
             this.predicateValues.push(value);
             return value && this.enabled;
           },
-          shouldToggle(active) {
-            this.callbackHosts.push(this);
-            this.guardValues.push(active);
-            return true;
-          },
         },
       })(this);
 
       callbackHosts: PredicateTest[] = [];
       emittedEvents: string[] = [];
-      guardValues: boolean[] = [];
       predicateValues: boolean[] = [];
 
       override render(): JsxNode {
@@ -241,7 +235,6 @@ describe("useToggleTransitionEvents", () => {
     await afterNextFrame();
 
     expect(component.predicateValues).toEqual([false, true, false, true, false]);
-    expect(component.guardValues).toEqual([true, false]);
     expect(component.emittedEvents).toEqual([
       "beforeSelect",
       "selected",
@@ -291,70 +284,56 @@ describe("useToggleTransitionEvents", () => {
     expect(component.emittedEvents).toEqual(["active", "inactive"]);
   });
 
-  it("supports guards", async () => {
-    class GuardedTest extends LitElement {
+  it("emits paired events for programmatic toggles before the transition ref is established", async () => {
+    class DelayedTransitionRefTest extends LitElement {
+      @property() active = false;
       @property() disabled = false;
-      @property() open = false;
+      @property() readOnly = false;
+      @property() transitionRefReady = false;
 
       transitionProp = "opacity" as const;
       transitionRef = createRef<HTMLDivElement>();
 
-      transitionController: void = useToggleTransitionEvents<GuardedTest>({
-        open: {
+      transitionController: void = useToggleTransitionEvents<DelayedTransitionRefTest>({
+        active: {
           events: {
             active() {
-              this.emittedEvents.push("open");
+              this.emittedEvents.push("active");
             },
             beforeActive() {
-              this.emittedEvents.push("beforeOpen");
-            },
-            beforeInactive() {
-              this.emittedEvents.push("beforeClose");
+              this.emittedEvents.push("beforeActive");
             },
             inactive() {
-              this.emittedEvents.push("close");
+              this.emittedEvents.push("inactive");
             },
-          },
-          shouldToggle(active) {
-            this.guardValues.push(active);
-            return !this.disabled;
           },
         },
       })(this);
 
       emittedEvents: string[] = [];
-      guardValues: boolean[] = [];
 
       override render(): JsxNode {
-        return <div ref={this.transitionRef} />;
+        return this.transitionRefReady ? <div ref={this.transitionRef} /> : null;
       }
     }
 
-    const { component } = await mount(GuardedTest);
+    const { component } = await mount(DelayedTransitionRefTest);
 
-    vi.spyOn(component.transitionRef.value!, "getAnimations").mockReturnValue([]);
+    expect(component.transitionRef.value).toBeUndefined();
 
     component.disabled = true;
-    component.open = true;
-    await component.updateComplete;
-    component.open = false;
-    await component.updateComplete;
-
-    expect(component.emittedEvents).toEqual([]);
-
-    component.disabled = false;
-    component.open = true;
+    component.readOnly = true;
+    component.active = true;
     await component.updateComplete;
     await afterNextFrame();
-    await afterNextFrame();
 
-    component.open = false;
+    expect(component.emittedEvents).toEqual(["beforeActive", "active"]);
+
+    component.transitionRefReady = true;
     await component.updateComplete;
-    await afterNextFrame();
-    await afterNextFrame();
 
-    expect(component.guardValues).toEqual([true, false, true, false]);
-    expect(component.emittedEvents).toEqual(["beforeOpen", "open", "beforeClose", "close"]);
+    expect(component.transitionRef.value).toBeInstanceOf(HTMLDivElement);
+    expect(component.emittedEvents).toEqual(["beforeActive", "active"]);
   });
 
   it("supports multiple independently keyed toggle properties", async () => {

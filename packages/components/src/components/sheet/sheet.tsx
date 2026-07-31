@@ -102,9 +102,6 @@ export class Sheet extends LitElement {
           this.onClose();
         },
       },
-      shouldToggle() {
-        return !!this.transitionRef.value;
-      },
     },
   })(this);
 

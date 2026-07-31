@@ -164,9 +164,6 @@ export class Autocomplete
           this.onClose();
         },
       },
-      shouldToggle() {
-        return !this.disabled;
-      },
     },
   })(this);
 

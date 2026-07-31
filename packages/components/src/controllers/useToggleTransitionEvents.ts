@@ -50,9 +50,6 @@ export interface ToggleTransitionPropertyConfig<T extends ToggleTransitionCompon
    * Resolves the effective active state. A boolean makes the property active when it equals that value.
    */
   isActive?: boolean | ((this: T, value: boolean) => boolean);
-
-  /** Determines whether lifecycle callbacks should run for the effective state change. */
-  shouldToggle?: (this: T, active: boolean) => boolean;
 }
 
 /**
@@ -95,10 +92,6 @@ export function useToggleTransitionEvents<T extends ToggleTransitionComponent>(
         previousActiveStates.set(property, active);
 
         if ((!stateChanged && !initialUpdate) || (initialUpdate && !active)) {
-          return;
-        }
-
-        if (propertyConfig.shouldToggle && !propertyConfig.shouldToggle.call(component, active)) {
           return;
         }
 
