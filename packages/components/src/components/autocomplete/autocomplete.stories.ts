@@ -2,7 +2,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { MODES } from "../../../.storybook/modes";
+import { allModes } from "../../../.storybook/modes";
 import { Autocomplete } from "./autocomplete";
 
 const { scale, alignment, menuPlacement, status, overlayPositioning } = ATTRIBUTES;
@@ -165,7 +165,7 @@ export const smallViewport = (): string => html`
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
-smallViewport.parameters = { chromatic: { modes: { default: MODES.small } } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.small } } };
 
 export const customIcon = (): string => html`
   <div style="width:350px">

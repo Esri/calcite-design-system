@@ -1,6 +1,6 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { MODES } from "../../../.storybook/modes";
+import { allModes } from "../../../.storybook/modes";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
 import type { Popover } from "./popover";
@@ -96,7 +96,7 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { modes: { default: MODES.small } } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.small } } };
 
 export const darkModeRTL = (): string =>
   html` <div style="width: 400px;">

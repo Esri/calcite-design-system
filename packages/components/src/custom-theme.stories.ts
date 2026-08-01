@@ -1,5 +1,5 @@
 import { html } from "../support/formatting";
-import { MODES } from "../.storybook/modes";
+import { allModes } from "../.storybook/modes";
 import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
@@ -356,7 +356,7 @@ export default {
 export const themingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
-themingInteractive.parameters = { chromatic: { modes: { default: MODES.large } } };
+themingInteractive.parameters = { chromatic: { modes: { large: allModes.large } } };
 
 export const theming = (): string => {
   return kitchenSink(
@@ -366,4 +366,4 @@ export const theming = (): string => {
     true,
   );
 };
-theming.parameters = { chromatic: { modes: { default: MODES.large } } };
+theming.parameters = { chromatic: { modes: { large: allModes.large } } };

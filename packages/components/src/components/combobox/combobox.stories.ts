@@ -4,7 +4,7 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import type { Scale } from "../interfaces";
 import type { Combobox } from "./combobox";
-import { MODES } from "../../../.storybook/modes";
+import { allModes } from "../../../.storybook/modes";
 
 const { menuPlacement, overlayPositioning, scale, selectionMode, status } = ATTRIBUTES;
 
@@ -210,7 +210,7 @@ export const smallViewport = (): string => html`
     <calcite-combobox-item icon="clock" value="clock" heading="Clock"></calcite-combobox-item>
   </calcite-combobox>
 `;
-smallViewport.parameters = { chromatic: { modes: { default: MODES.small } } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.small } } };
 
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
