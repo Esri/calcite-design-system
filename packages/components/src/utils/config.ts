@@ -2,6 +2,7 @@ import { isServer } from "lit";
 import type { FocusTrap } from "focus-trap";
 import type { LogLevel } from "./logger";
 import type { GlobalThis } from "type-fest";
+import { logger } from "./logger";
 
 type CalciteGlobalThis = GlobalThis & {
   calciteConfig?: Partial<CalciteConfig>;
@@ -84,7 +85,7 @@ export function stampVersion(): void {
     return;
   }
 
-  console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
+  logger.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
 
   Object.defineProperty(config, "version", {
     value: version,

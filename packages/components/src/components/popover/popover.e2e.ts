@@ -6,6 +6,7 @@ import { skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Popover } from "./popover";
+import { logger } from "../../utils/logger";
 
 mockConsole();
 
@@ -664,7 +665,7 @@ describe("warning messages", () => {
     );
     await page.waitForChanges();
 
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(logger.warn).not.toHaveBeenCalled();
   });
 
   it("does not warn after removal", async () => {
@@ -678,7 +679,7 @@ describe("warning messages", () => {
     await popover.callMethod("remove");
     await page.waitForChanges();
 
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(logger.warn).not.toHaveBeenCalled();
   });
 
   it("warns if reference element is not present", async () => {
@@ -686,7 +687,7 @@ describe("warning messages", () => {
     await page.setContent(`<calcite-popover reference-element="non-existent-ref">content</calcite-popover>`);
     await page.waitForChanges();
 
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(logger.warn).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
     );
   });

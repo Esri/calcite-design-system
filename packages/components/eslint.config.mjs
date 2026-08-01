@@ -104,6 +104,13 @@ export default tseslint.config(
   },
 
   {
+    files: ["src/**/*"],
+    rules: {
+      "no-console": ["error"],
+    },
+  },
+
+  {
     files: ["**/*.{e2e,spec}.{ts,tsx}", "src/tests/**/*"],
     extends: [vitestPlugin.configs.recommended],
     settings: {

@@ -38,8 +38,8 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
-    expect(console.warn).toHaveBeenCalled();
-    expect((console.warn as Mock).mock.calls[0][2]).toMatch(
+    expect(logger.warn).toHaveBeenCalled();
+    expect((logger.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}.`,
     );
   });
@@ -55,8 +55,8 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
-    expect(console.warn).toHaveBeenCalled();
-    expect((console.warn as Mock).mock.calls[0][2]).toMatch(
+    expect(logger.warn).toHaveBeenCalled();
+    expect((logger.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in a future version.`,
     );
   });
@@ -73,8 +73,8 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
-    expect(console.warn).toHaveBeenCalled();
-    expect((console.warn as Mock).mock.calls[0][2]).toMatch(
+    expect(logger.warn).toHaveBeenCalled();
+    expect((logger.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested}" instead.`,
     );
   });
@@ -91,8 +91,8 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
-    expect(console.warn).toHaveBeenCalled();
-    expect((console.warn as Mock).mock.calls[0][2]).toMatch(
+    expect(logger.warn).toHaveBeenCalled();
+    expect((logger.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested.join(`" or "`)}" instead.`,
     );
   });
@@ -110,7 +110,7 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
-    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(logger.warn).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -138,11 +138,11 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
-    expect(console.error).toHaveBeenCalledTimes(1);
-    expect(console.info).toHaveBeenCalledTimes(1);
-    expect(console.warn).toHaveBeenCalledTimes(1);
-    expect(console.debug).toHaveBeenCalledTimes(1);
-    expect(console.trace).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledTimes(1);
+    expect(logger.info).toHaveBeenCalledTimes(1);
+    expect(logger.warn).toHaveBeenCalledTimes(1);
+    expect(logger.debug).toHaveBeenCalledTimes(1);
+    expect(logger.trace).toHaveBeenCalledTimes(1);
   });
 
   it("logs only error messages when set to highest level", async () => {
@@ -150,11 +150,11 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
-    expect(console.error).toHaveBeenCalledTimes(1);
-    expect(console.info).toHaveBeenCalledTimes(0);
-    expect(console.warn).toHaveBeenCalledTimes(0);
-    expect(console.debug).toHaveBeenCalledTimes(0);
-    expect(console.trace).toHaveBeenCalledTimes(0);
+    expect(logger.error).toHaveBeenCalledTimes(1);
+    expect(logger.info).toHaveBeenCalledTimes(0);
+    expect(logger.warn).toHaveBeenCalledTimes(0);
+    expect(logger.debug).toHaveBeenCalledTimes(0);
+    expect(logger.trace).toHaveBeenCalledTimes(0);
   });
 
   it("logs info messages and above when set to default level", async () => {
@@ -162,11 +162,11 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
-    expect(console.error).toHaveBeenCalledTimes(1);
-    expect(console.info).toHaveBeenCalledTimes(1);
-    expect(console.warn).toHaveBeenCalledTimes(1);
-    expect(console.debug).toHaveBeenCalledTimes(0);
-    expect(console.trace).toHaveBeenCalledTimes(0);
+    expect(logger.error).toHaveBeenCalledTimes(1);
+    expect(logger.info).toHaveBeenCalledTimes(1);
+    expect(logger.warn).toHaveBeenCalledTimes(1);
+    expect(logger.debug).toHaveBeenCalledTimes(0);
+    expect(logger.trace).toHaveBeenCalledTimes(0);
   });
 
   it("logs no messages when set to `off`", async () => {
@@ -174,10 +174,10 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
-    expect(console.debug).toHaveBeenCalledTimes(0);
-    expect(console.error).toHaveBeenCalledTimes(0);
-    expect(console.info).toHaveBeenCalledTimes(0);
-    expect(console.trace).toHaveBeenCalledTimes(0);
-    expect(console.warn).toHaveBeenCalledTimes(0);
+    expect(logger.debug).toHaveBeenCalledTimes(0);
+    expect(logger.error).toHaveBeenCalledTimes(0);
+    expect(logger.info).toHaveBeenCalledTimes(0);
+    expect(logger.trace).toHaveBeenCalledTimes(0);
+    expect(logger.warn).toHaveBeenCalledTimes(0);
   });
 });

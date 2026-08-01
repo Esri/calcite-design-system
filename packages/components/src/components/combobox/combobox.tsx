@@ -70,6 +70,7 @@ import {
   orderValuesByPrevious,
 } from "./utils";
 import { styles } from "./combobox.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -1835,7 +1836,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private handleSelectionModeWarning(): void {
     if (this.selectionMode === "single-persist" && this.clearDisabled) {
-      console.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
+      logger.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
     }
   }
 
