@@ -1,0 +1,29 @@
+import { html } from "../../support/formatting";
+
+export const inputTimePickerTokens = {
+  calciteInputTimePickerBackgroundColor: "",
+  calciteInputTimePickerBorderColor: "",
+  calciteInputTimePickerTextColor: "",
+  calciteInputTimePickerIconColor: "",
+  calciteInputTimePickerIconColorHover: "",
+  calciteInputTimePickerShadow: "",
+  calciteInputTimePickerInputBackgroundColor: "",
+  calciteInputTimePickerInputBorderColor: "",
+  calciteInputTimePickerInputTextColor: "",
+  calciteInputTimePickerInputShadow: "",
+  calciteInputTimePickerInputCornerRadius: "",
+  calciteInputTimePickerDigitTextColor: "",
+  calciteInputTimePickerDigitIconColor: "",
+  calciteInputTimePickerDigitBorderColorPress: "",
+  calciteInputTimePickerDigitBorderColorHover: "",
+  calciteInputTimePickerActionBackgroundColorHover: "",
+  calciteInputTimePickerActionBackgroundColorPress: "",
+  calciteInputTimePickerInputActionBackgroundColor: "",
+  calciteInputTimePickerInputActionBackgroundColorHover: "",
+  calciteInputTimePickerInputActionBackgroundColorPress: "",
+  calciteInputTimePickerInputActionIconColor: "",
+  calciteInputTimePickerInputActionIconColorHover: "",
+  calciteInputTimePickerInputActionIconColorPress: "",
+};
+
+export const inputTimePicker = html`<calcite-input-time-picker open></calcite-input-time-picker>`;

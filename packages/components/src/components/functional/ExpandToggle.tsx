@@ -1,0 +1,140 @@
+import { h } from "@arcgis/lumina";
+import { TemplateResult } from "lit";
+import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Position, Scale } from "../interfaces";
+import type { Action } from "../action/action";
+import type { Tooltip } from "../tooltip/tooltip";
+import type { ActionGroup } from "../action-group/action-group";
+import type { ActionMenu } from "../action-menu/action-menu";
+import type { Direction } from "../../utils/dom";
+
+interface ExpandToggleProps {
+  expanded: boolean;
+  expandText: string;
+  collapseText: string;
+  expandLabel: string;
+  collapseLabel: string;
+  direction: Direction;
+  el: HTMLElement;
+  position?: Extract<"start" | "end", Position>;
+  tooltip?: Tooltip["el"];
+  toggle: () => void;
+  ref?: (el?: Action["el"]) => void;
+  scale?: Scale;
+}
+
+const ICONS = {
+  chevronsLeft: "chevrons-left",
+  chevronsRight: "chevrons-right",
+} as const;
+
+function getCalcitePosition(el: HTMLElement, position?: Position): Position {
+  return position || el.closest("calcite-shell-panel")?.position || "start";
+}
+
+export function toggleActionBarChildActionText({
+  actions,
+  expandables,
+  expanded,
+}: {
+  actions: Action["el"][];
+  expandables: (ActionGroup["el"] | ActionMenu["el"])[];
+  expanded: boolean;
+}): void {
+  actions
+    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
+    .forEach((action) => (action.textEnabled = expanded));
+  expandables.forEach((item) => (item.expanded = expanded));
+}
+
+// Used by the legacy action-pad component. action-bar does not use this helper.
+export function legacyToggleChildActionText({
+  el,
+  expanded,
+}: {
+  el: HTMLElement;
+  expanded: boolean;
+}): void {
+  Array.from(el.querySelectorAll("calcite-action"))
+    .filter(
+      (action) =>
+        action.slot !== ACTION_GROUP_SLOTS.menuActions &&
+        (action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true),
+    )
+    .forEach((action) => (action.textEnabled = expanded));
+
+  el.querySelectorAll<ActionMenu["el"] | ActionGroup["el"]>(
+    "calcite-action-group, calcite-action-menu",
+  ).forEach((expandable) => (expandable.expanded = expanded));
+}
+
+const setTooltipReference = ({
+  tooltip,
+  referenceElement,
+  expanded,
+  ref,
+}: {
+  tooltip?: Tooltip["el"];
+  referenceElement?: Action["el"];
+  expanded: boolean;
+  ref?: (el?: Action["el"]) => void;
+}): Action["el"] | undefined => {
+  if (tooltip) {
+    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : undefined;
+  }
+
+  if (ref) {
+    ref(referenceElement);
+  }
+
+  return referenceElement;
+};
+
+export const ExpandToggle = ({
+  collapseText,
+  collapseLabel,
+  direction,
+  expanded,
+  expandText,
+  expandLabel,
+  toggle,
+  el,
+  position,
+  tooltip,
+  ref,
+  scale,
+}: ExpandToggleProps): TemplateResult => {
+  const rtl = direction === "rtl";
+
+  const text = expanded ? collapseText : expandText;
+  const label = expanded ? collapseLabel : expandLabel;
+  const icons = [ICONS.chevronsLeft, ICONS.chevronsRight];
+
+  if (rtl) {
+    icons.reverse();
+  }
+
+  const end = getCalcitePosition(el, position) === "end";
+  const expandIcon = end ? icons[1] : icons[0];
+  const collapseIcon = end ? icons[0] : icons[1];
+
+  const actionNode = (
+    <calcite-action
+      aria={{ expanded }}
+      icon={expanded ? expandIcon : collapseIcon}
+      id="expand-toggle"
+      label={label}
+      onClick={toggle}
+      ref={(referenceElement): Action["el"] | undefined =>
+        setTooltipReference({ tooltip, referenceElement, expanded, ref })
+      }
+      scale={scale}
+      text={text}
+      textEnabled={expanded}
+      title={!expanded && !tooltip ? text : undefined}
+    />
+  );
+
+  return actionNode;
+};

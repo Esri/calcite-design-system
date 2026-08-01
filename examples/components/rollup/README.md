@@ -37,12 +37,6 @@ import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-date-picker";
 ```
 
-Lastly, import the global Calcite components stylesheet (only do this once):
-
-```js
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
 ### Configure Rollup
 
 There are a few more steps required so that rollup can successfully bundle our application:
@@ -95,7 +89,7 @@ plugins: [
   copy({
     targets: [
       {
-        src: path.resolve(__dirname, 'node_modules/@esri/calcite-components/dist/calcite/assets'),
+        src: path.resolve(__dirname, 'node_modules/@esri/calcite-components/dist/cdn/assets'),
         dest: path.resolve(__dirname, 'public')
       },
     ],

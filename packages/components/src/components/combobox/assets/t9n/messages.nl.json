@@ -1,0 +1,13 @@
+{
+  "add": "Toevoegen: {text}",
+  "all": "Alle",
+  "allSelected": "Alle geselecteerde",
+  "clear": "Waarde wissen",
+  "noMatches": "Geen overeenkomsten",
+  "removeTag": "Tag {value} verwijderen",
+  "required": "Vereist",
+  "selectAll": "Alles selecteren",
+  "selected": "geselecteerd",
+  "nonEditable": "Alleen-lezen {value}",
+  "disabledSelectedCount": "+{count}"
+}

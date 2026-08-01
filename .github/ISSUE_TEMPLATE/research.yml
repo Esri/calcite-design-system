@@ -1,6 +1,6 @@
 name: Research
 description: Request an investigation into a specific topic
-labels: ["spike", "0 - new", "needs triage"]
+labels: ["spike", "needs triage"]
 body:
   - type: markdown
     attributes:

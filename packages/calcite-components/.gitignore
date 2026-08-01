@@ -1,7 +1,0 @@
-__docs-temp__/*
-docs/
-hydrate/
-*.js
-!/lint-staged.config.mjs
-src/components/icon/assets
-node_modules

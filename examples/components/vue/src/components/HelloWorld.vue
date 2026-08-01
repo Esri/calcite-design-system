@@ -34,8 +34,6 @@ export default {
 };
 </script>
 
-<style src="@esri/calcite-components/dist/calcite/calcite.css"></style>
-
 <template>
   <div class="hello">
     <h1>{{ msg }} <calcite-icon icon="banana"></calcite-icon></h1>

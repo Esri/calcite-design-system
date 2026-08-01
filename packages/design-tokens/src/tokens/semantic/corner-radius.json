@@ -1,0 +1,68 @@
+{
+  "corner-radius": {
+    "default": {
+      "attributes": {
+        "category": "corner-radius"
+      },
+      "$type": "borderRadius",
+      "$value": "{corner-radius.none}",
+      "$extensions": {
+        "calcite.outputReference": true
+      }
+    },
+    "sharp": {
+      "attributes": {
+        "category": "corner-radius",
+        "docs": "deprecated"
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.none}",
+      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead."
+    },
+    "none": {
+      "attributes": {
+        "category": "corner-radius"
+      },
+      "$type": "borderRadius",
+      "$value": "{corner-radius.sharp}",
+      "$description": "Replaces `--calcite-corner-radius-sharp`",
+      "$extensions": {
+        "calcite.outputReference": true
+      }
+    },
+    "xs": {
+      "attributes": {
+        "category": "corner-radius"
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.2}"
+    },
+    "sm": {
+      "attributes": {
+        "category": "corner-radius"
+      },
+      "$type": "borderRadius",
+      "$value": "{corner-radius.round}",
+      "$description": "Replaces `--calcite-corner-radius-round`",
+      "$extensions": {
+        "calcite.outputReference": true
+      }
+    },
+    "round": {
+      "attributes": {
+        "category": "corner-radius",
+        "docs": "deprecated"
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.4}",
+      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead."
+    },
+    "pill": {
+      "attributes": {
+        "category": "corner-radius"
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.9999}"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@use "../../styles/includes";
+
+:host {
+  @apply flex;
+}
+
+.dropdown {
+  block-size: 100%;
+}
+
+@include includes.disabled();
+
+@include includes.base-component();

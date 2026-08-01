@@ -1,0 +1,9 @@
+{
+  "chooseDate": "Välj datum",
+  "clear": "Clear value",
+  "date": "Datum",
+  "dateFormat": "Datumformat: {format}",
+  "endDate": "Slutdatum",
+  "required": "Obligatoriskt",
+  "startDate": "Startdatum"
+}

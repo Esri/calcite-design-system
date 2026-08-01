@@ -1,0 +1,5 @@
+{
+  "rating": "Calificación",
+  "required": "Obligatorio",
+  "stars": "Estrellas: {num}"
+}

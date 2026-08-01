@@ -1,0 +1,190 @@
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputTimeZone } from "./input-time-zone";
+
+const { mode, scale, status, timeZoneOffsetStyle } = ATTRIBUTES;
+
+type InputTimeZoneStoryArgs = Pick<
+  InputTimeZone,
+  | "clearable"
+  | "disabled"
+  | "labelText"
+  | "mode"
+  | "offsetStyle"
+  | "open"
+  | "placeholder"
+  | "readOnly"
+  | "required"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
+>;
+
+export default {
+  title: "Components/Controls/InputTimeZone",
+  args: {
+    clearable: false,
+    disabled: false,
+    labelText: "Label text",
+    mode: mode.defaultValue,
+    offsetStyle: "user",
+    open: false,
+    placeholder: "Enter a time zone",
+    readOnly: false,
+    required: false,
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    validationMessage: "",
+    validationIcon: "",
+    value: "",
+  },
+  argTypes: {
+    mode: {
+      options: mode.values,
+      control: { type: "select" },
+    },
+    offsetStyle: {
+      options: timeZoneOffsetStyle.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
+  parameters: {
+    chromatic: { delay: 1500 },
+    options: {
+      // for stability, we use a timezone unaffected by daylight savings time
+      timezone: "America/Mexico_City",
+    },
+  },
+};
+
+export const simple = (args: InputTimeZoneStoryArgs): string => html`
+  <calcite-input-time-zone
+    ${boolean("clearable", args.clearable)}
+    ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
+    mode="${args.mode}"
+    offset-style="${args.offsetStyle}"
+    ${boolean("open", args.open)}
+    placeholder="${args.placeholder}"
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
+    scale="${args.scale}"
+    status="${args.status}"
+    value="${args.value}"
+    validation-message="${args.validationMessage}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
+  ></calcite-input-time-zone>
+`;
+
+export const internalLabel = (): string => html`
+  <calcite-input-time-zone scale="m" label-text="Label text" required
+    ><calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon
+  ></calcite-input-time-zone>
+`;
+
+export const clearable = (): string => html`
+  <label>default</label>
+  <calcite-input-time-zone mode="offset" clearable></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
+  <calcite-input-time-zone mode="region" clearable></calcite-input-time-zone>
+  <br />
+  <label>initialized as empty</label>
+  <calcite-input-time-zone mode="offset" clearable value=""></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable value=""></calcite-input-time-zone>
+  <calcite-input-time-zone mode="region" clearable value=""></calcite-input-time-zone>
+`;
+
+export const timeZoneNameMode = (): string => html`
+  <calcite-input-time-zone mode="name" open></calcite-input-time-zone>
+`;
+
+export const timeZoneRegionMode = (): string => html`
+  <calcite-input-time-zone mode="region" open></calcite-input-time-zone>
+`;
+
+export const initialNameSelected = (): string =>
+  // for stability, we use a timezone unaffected by daylight savings time
+  html`<calcite-input-time-zone mode="name" value="America/Phoenix"></calcite-input-time-zone>`;
+
+export const initialOffsetSelected = (): string => html`
+  <calcite-input-time-zone value="-360"></calcite-input-time-zone>
+`;
+
+export const offsetAndGroupLabelsAreLocalized = (): string => html`
+  <calcite-input-time-zone lang="en"></calcite-input-time-zone>
+  <calcite-input-time-zone lang="es"></calcite-input-time-zone>
+  <calcite-input-time-zone lang="fr"></calcite-input-time-zone>
+  <calcite-input-time-zone lang="zh"></calcite-input-time-zone>
+`;
+
+export const offsetAndGroupLabelsBasedOnReferenceDate = (): string => html`
+  <calcite-input-time-zone></calcite-input-time-zone>
+  <calcite-input-time-zone reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
+`;
+
+export const displayingTimeZoneOffsets = (): string => html`
+  <div style="width: 450px; height: 500px;">
+    <calcite-input-time-zone open></calcite-input-time-zone>
+  </div>
+`;
+
+export const disabled = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
+
+export const darkModeRTL = (): string => html`
+  <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
+`;
+
+darkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const validationMessageAllScales = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-time-zone
+      scale="s"
+      status="invalid"
+      value="America/Phoenix"
+      validation-message="Choose a closer time zone"
+      validation-icon
+    ></calcite-input-time-zone>
+    <calcite-input-time-zone
+      scale="m"
+      status="invalid"
+      value="America/Phoenix"
+      validation-message="Choose a closer time zone"
+      validation-icon
+    ></calcite-input-time-zone>
+    <calcite-input-time-zone
+      scale="l"
+      status="invalid"
+      value="America/Phoenix"
+      validation-message="Choose a closer time zone"
+      validation-icon
+    ></calcite-input-time-zone>
+  </div>
+`;
+
+export const readOnly = (): string => html` <calcite-input-time-zone read-only></calcite-input-time-zone> `;

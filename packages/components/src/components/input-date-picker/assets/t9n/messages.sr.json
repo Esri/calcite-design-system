@@ -1,0 +1,9 @@
+{
+  "chooseDate": "Odaberite datum",
+  "clear": "Clear value",
+  "date": "Datum",
+  "dateFormat": "Format datuma: {format}",
+  "endDate": "Datum završetka",
+  "required": "Obavezno",
+  "startDate": "Datum početka"
+}

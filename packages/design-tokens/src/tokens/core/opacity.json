@@ -1,0 +1,132 @@
+{
+  "core": {
+    "opacity": {
+      "0": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "0%"
+      },
+      "4": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "4%"
+      },
+      "8": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "8%"
+      },
+      "10": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "10%"
+      },
+      "12": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "12%"
+      },
+      "16": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "16%"
+      },
+      "20": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "20%"
+      },
+      "30": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "30%"
+      },
+      "40": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "40%"
+      },
+      "50": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "50%"
+      },
+      "60": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "60%"
+      },
+      "70": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "70%"
+      },
+      "80": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "80%"
+      },
+      "85": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "85%"
+      },
+      "90": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "90%"
+      },
+      "92": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "92%"
+      },
+      "96": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "96%"
+      },
+      "100": {
+        "attributes": {
+          "category": "opacity"
+        },
+        "$type": "opacity",
+        "$value": "100%"
+      }
+    }
+  }
+}

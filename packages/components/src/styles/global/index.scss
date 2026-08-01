@@ -1,0 +1,34 @@
+@use "sass:meta";
+@use "@esri/calcite-design-tokens/dist/css/index.css";
+@use "@esri/calcite-design-tokens/dist/scss";
+@use "../shared/floating-ui";
+@use "../shared/animation";
+@use "type";
+
+:root {
+  @extend %type-vars;
+  @include floating-ui.floating-ui-base();
+  @include animation.animation-base();
+  --calcite-border-radius: var(--calcite-border-radius-round, 4px);
+  --calcite-border-radius-base: 0;
+  --calcite-offset-invert-focus: 0; // should be 0 or 1
+  --calcite-panel-width-multiplier: 1;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-family: var(--calcite-font-family);
+}
+
+.calcite-mode-auto {
+  @media (prefers-color-scheme: dark) {
+    @include scss.calcite-mode-dark();
+  }
+
+  @media (prefers-color-scheme: light) {
+    @include scss.calcite-mode-light();
+  }
+}
+
+@include animation.animation-reduced-motion();

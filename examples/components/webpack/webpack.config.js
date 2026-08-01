@@ -31,7 +31,7 @@ module.exports = {
       patterns: [
         {
           from: "**",
-          context: "node_modules/@esri/calcite-components/dist/calcite/",
+          context: "node_modules/@esri/calcite-components/dist/cdn/",
           to: "./",
         },
       ],

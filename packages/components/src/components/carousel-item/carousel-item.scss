@@ -1,0 +1,16 @@
+@use "../../styles/includes";
+
+:host {
+  @apply flex;
+}
+
+.container {
+  @apply hidden;
+  inline-size: var(--calcite-container-size-content-fluid);
+}
+
+:host([selected]) .container {
+  @apply block;
+}
+
+@include includes.base-component();

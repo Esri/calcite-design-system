@@ -1,0 +1,317 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-height
+// --calcite-internal-action-padding-block
+// --calcite-internal-action-padding-inline
+
+@use "sass:list";
+@use "@esri/calcite-design-tokens/dist/scss";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+@use "host";
+
+@mixin slotted($selector, $tag, $scope: "") {
+  #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
+  #{$scope} #{$tag}::slotted([slot="#{$selector}"]) {
+    @content;
+  }
+}
+
+@mixin word-break() {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+// mixin for the container of label displayed with form-associated components
+@mixin form-internal-label() {
+  .internal-label-alignment--center {
+    align-items: center;
+  }
+
+  .internal-label-alignment--end {
+    align-items: end;
+  }
+
+  .internal-label--container {
+    display: flex;
+    justify-content: space-between;
+    color: var(--calcite-color-text-1);
+  }
+
+  .internal-label-required--indicator {
+    font-weight: var(--calcite-font-weight-medium);
+    color: var(--calcite-color-status-danger);
+    padding-inline: var(--calcite-spacing-base);
+    &:hover {
+      cursor: help;
+    }
+  }
+
+  .internal-label--text {
+    line-height: 1;
+  }
+
+  :host([scale="s"]) {
+    .internal-label-spacing--bottom {
+      margin-block-end: var(--calcite-spacing-xxs);
+    }
+    .internal-label-spacing-inline--end {
+      margin-inline-end: var(--calcite-spacing-sm);
+    }
+    .internal-label-spacing-inline--start {
+      margin-inline-start: var(--calcite-spacing-sm);
+    }
+    .internal-label--text {
+      font-size: var(--calcite-font-size--2);
+    }
+  }
+
+  :host([scale="m"]) {
+    .internal-label-spacing--bottom {
+      margin-block-end: var(--calcite-spacing-sm);
+    }
+    .internal-label-spacing-inline--end {
+      margin-inline-end: var(--calcite-spacing-sm);
+    }
+    .internal-label-spacing-inline--start {
+      margin-inline-start: var(--calcite-spacing-sm);
+    }
+    .internal-label--text {
+      font-size: var(--calcite-font-size--1);
+    }
+  }
+
+  :host([scale="l"]) {
+    .internal-label-spacing--bottom {
+      margin-block-end: var(--calcite-spacing-sm);
+    }
+    .internal-label-spacing-inline--end {
+      margin-inline-end: var(--calcite-spacing-md);
+    }
+    .internal-label-spacing-inline--start {
+      margin-inline-start: var(--calcite-spacing-md);
+    }
+    .internal-label--text {
+      font-size: var(--calcite-font-size-0);
+    }
+  }
+}
+
+// mixin for the container of validation messages displayed below form-associated components
+@mixin form-validation-message() {
+  .validation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+  }
+
+  :host([scale="m"]) .validation-container,
+  :host([scale="l"]) .validation-container {
+    padding-block-start: 0.5rem;
+  }
+
+  :host([scale="s"]) .validation-container {
+    padding-block-start: 0.25rem;
+  }
+}
+
+// mixin to provide base disabled styles for interactive components
+// additional styling can be passed via @content
+@mixin disabled() {
+  :host([disabled]) {
+    @extend %disabled-host-only;
+    @content;
+
+    ::slotted([calcite-hydrated][disabled]),
+    [calcite-hydrated][disabled] {
+      /* prevent opacity stacking */
+      @apply opacity-100;
+    }
+  }
+
+  .interaction-container {
+    display: contents;
+  }
+}
+
+// used for host-specific styling when the `disabled` mixin cannot be applied on the host (e.g., `display: contents`)
+%disabled-host-only {
+  @apply opacity-disabled cursor-default select-none;
+  @extend %non-interactive-host-contents;
+}
+
+%non-interactive-host-contents {
+  *,
+  ::slotted(*) {
+    @apply pointer-events-none;
+  }
+}
+
+// mixin to provide default invisibility and disabling of pointer events for components.
+@mixin calcite-hydrated-hidden() {
+  :host([calcite-hydrated-hidden]) {
+    visibility: hidden !important; // 'important' is being used here to temporarily handle precendence of visibility set with calcite-hydrated. Do not follow this pattern. See #991.
+    pointer-events: none;
+  }
+}
+
+@mixin base-component() {
+  /* stylelint-disable selector-attribute-name-disallowed-list -- base component mixin needs to use [hidden] */
+  :host([hidden]) {
+    @apply hidden;
+  }
+
+  [hidden] {
+    @apply hidden;
+  }
+  /* stylelint-enable selector-attribute-name-disallowed-list */
+}
+
+@mixin clear-button(
+  $background-color: "--calcite-clear-button-background-color",
+  $background-color-hover: "--calcite-clear-button-background-color-hover",
+  $background-color-press: "--calcite-clear-button-background-color-press",
+  $icon-color: "--calcite-clear-button-icon-color",
+  $icon-color-hover: "--calcite-clear-button-icon-color-hover",
+  $icon-color-press: "--calcite-clear-button-icon-color-press"
+) {
+  .clear-button--container {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+
+    &:hover calcite-action {
+      --calcite-action-background-color: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
+      --calcite-action-text-color: var(#{$icon-color-hover}, var(--calcite-color-text-1));
+    }
+
+    &:active calcite-action {
+      --calcite-action-background-color: var(#{$background-color-press}, var(--calcite-color-border-2));
+      --calcite-action-text-color: var(#{$icon-color-press}, var(--calcite-color-text-1));
+    }
+
+    calcite-action {
+      --calcite-internal-action-height: 100%;
+      --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
+      --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+
+      --calcite-action-background-color: var(#{$background-color}, var(--calcite-color-foreground-2));
+      --calcite-action-text-color: var(#{$icon-color});
+
+      &:hover {
+        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
+        --calcite-action-text-color-press: var(#{$icon-color-hover});
+      }
+
+      &:active {
+        --calcite-action-background-color-press: var(#{$background-color-press}, var(--calcite-color-border-2));
+        --calcite-action-text-color-press: var(#{$icon-color-press});
+      }
+    }
+  }
+
+  :host([scale="s"]) {
+    .clear-button--container {
+      padding: var(--calcite-space-2xs);
+    }
+  }
+
+  :host([scale="m"]) {
+    .clear-button--container {
+      padding: var(--calcite-space-2xs);
+      padding-inline-end: var(--calcite-space-sm);
+    }
+  }
+
+  :host([scale="l"]) {
+    .clear-button--container {
+      padding-inline-end: var(--calcite-space-sm-plus);
+    }
+  }
+}
+
+@mixin inline-editable(
+  $background-color: "--calcite-inline-editable-background-color",
+  $background-color-hover: "--calcite-inline-editable-background-color-hover",
+  $background-color-press: "--calcite-inline-editable-background-color-press",
+  $corner-radius: "--calcite-inline-editable-corner-radius",
+  $loader-color: "--calcite-inline-editable-loader-color",
+  $text-color: "--calcite-inline-editable-text-color",
+  $text-color-press: "--calcite-inline-editable-text-color-press"
+) {
+  .inline-editable--container {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+
+    .enable-editing,
+    .confirm-changes,
+    .cancel-editing {
+      margin-inline-start: var(--calcite-space-2xs);
+    }
+
+    .enable-editing {
+      --calcite-action-text-color: var(#{$text-color}, var(--calcite-color-text-1));
+    }
+
+    calcite-action {
+      --calcite-action-background-color: var(#{$background-color});
+      --calcite-action-corner-radius: var(#{$corner-radius});
+      --calcite-action-loader-color: var(#{$loader-color});
+      --calcite-action-text-color: var(#{$text-color});
+
+      &:hover {
+        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(#{$background-color}));
+        --calcite-action-text-color-press: var(#{$text-color-press}, var(#{$text-color}));
+      }
+
+      &:active {
+        --calcite-action-background-color-press: var(#{$background-color-press}, var(#{$background-color}));
+        --calcite-action-text-color-press: var(#{$text-color-press}, var(#{$text-color}));
+      }
+    }
+  }
+}
+
+// we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
+$common-animatable-props: "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start, inset-size, opacity, outline-color, transform";
+
+// Mixin for default component transitions with support for customization:
+// - Use $extra-props to add specific properties (comma-separated string).
+// - Use $target-props to replace the default base properties entirely (comma-separated string).
+@mixin transition-default($target-props: $common-animatable-props, $extra-props: null) {
+  $merged-props: $target-props;
+
+  @if $extra-props != null {
+    $merged-props: list.join($target-props, $extra-props, comma);
+  }
+
+  transition-property: #{$merged-props};
+  transition-duration: var(--calcite-animation-timing);
+  transition-timing-function: ease-in-out;
+}
+
+@mixin item-hidden() {
+  :host([item-hidden]) {
+    @apply hidden;
+  }
+}
+
+// Mixin for text highlighting styles.
+// - this should be used in conjunction with the `text.tsx` util.
+@mixin text-highlight-item() {
+  .text-match {
+    background-color: transparent;
+    color: inherit;
+    font-weight: var(--calcite-font-weight-bold);
+  }
+}
+
+@mixin input-placeholder-text($placeholder-text-color: "--calcite-input-placeholder-text-color") {
+  ::placeholder {
+    @apply font-normal;
+    color: var(#{$placeholder-text-color}, var(--calcite-color-text-3));
+  }
+}

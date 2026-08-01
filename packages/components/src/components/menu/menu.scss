@@ -1,0 +1,16 @@
+@use "../../styles/includes";
+
+:host {
+  @apply flex;
+  line-height: var(--calcite-font-line-height-fixed-lg);
+}
+
+ul {
+  @apply inline-flex items-center h-full m-0 p-0;
+}
+
+:host([layout="vertical"]) ul {
+  @apply flex flex-col w-full;
+}
+
+@include includes.base-component();

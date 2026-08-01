@@ -1,0 +1,155 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-navigation-width: Specifies the width of the component's content area.
+ * @prop --calcite-navigation-background: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-navigation-background-color` instead. Specifies the background color of the component.
+ * @prop --calcite-navigation-background-color: Specifies the component's background color.
+ * @prop --calcite-navigation-border-color: Specifies the component's border color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-navigation-navigation-action-margin-inline
+// --calcite-internal-navigation-primary-height
+// --calcite-internal-navigation-secondary-height
+// --calcite-internal-navigation-tertiary-height
+
+@use "../../styles/includes";
+
+@include includes.base-component();
+
+:host {
+  @apply block;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-navigation-primary-height: 3rem;
+  --calcite-internal-navigation-secondary-height: 2.25rem;
+  --calcite-internal-navigation-tertiary-height: 2.25rem;
+  --calcite-internal-navigation-navigation-action-margin-inline: 8px;
+}
+
+:host([scale="m"]) {
+  --calcite-internal-navigation-primary-height: 4rem;
+  --calcite-internal-navigation-secondary-height: 3rem;
+  --calcite-internal-navigation-tertiary-height: 3rem;
+  --calcite-internal-navigation-navigation-action-margin-inline: var(--calcite-font-size-sm);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-navigation-primary-height: 4.75rem;
+  --calcite-internal-navigation-secondary-height: 4rem;
+  --calcite-internal-navigation-tertiary-height: 4rem;
+  --calcite-internal-navigation-navigation-action-margin-inline: var(--calcite-font-size-md);
+}
+
+.container {
+  @apply flex
+  flex-col
+  mx-auto
+  w-full;
+  margin-block: 0;
+  margin-inline: auto;
+  background-color: var(
+    --calcite-navigation-background-color,
+    var(--calcite-navigation-background, var(--calcite-color-foreground-1))
+  );
+  &.primary,
+  &.secondary,
+  &.tertiary {
+    border-block-end: 1px solid;
+    border-block-end-color: var(--calcite-navigation-border-color, var(--calcite-color-border-3));
+  }
+}
+
+.user,
+.logo {
+  @apply flex;
+}
+
+.hide {
+  @apply hidden;
+}
+
+.primary {
+  block-size: var(--calcite-internal-navigation-primary-height);
+}
+
+.secondary {
+  block-size: var(--calcite-internal-navigation-secondary-height);
+}
+
+.tertiary {
+  block-size: var(--calcite-internal-navigation-tertiary-height);
+}
+
+.container-content {
+  @apply flex
+  w-full
+  h-full
+  mx-auto;
+  margin-block: 0;
+  inline-size: var(--calcite-navigation-width, 100%);
+  max-inline-size: 100%;
+  &.progress-bar {
+    margin-block-start: 0.125rem;
+  }
+}
+
+slot[name] {
+  @apply flex flex-row;
+}
+
+slot[name="navigation-secondary"]::slotted(calcite-navigation),
+slot[name="navigation-tertiary"]::slotted(calcite-navigation) {
+  @apply w-full;
+}
+
+slot[name="content-start"]::slotted(*),
+slot[name="content-center"]::slotted(*),
+slot[name="content-end"]::slotted(*) {
+  @apply flex flex-row items-center;
+}
+
+slot[name="progress"],
+slot[name="progress"] calcite-progress {
+  inset-block-start: 0;
+  inset-inline: 0;
+}
+slot[name="content-end"] {
+  @apply ms-auto;
+}
+
+slot[name="content-start"] {
+  @apply me-auto;
+}
+
+slot[name="content-end"],
+slot[name="logo"] ~ slot[name="user"],
+slot[name="user"]:only-child {
+  @apply ms-auto;
+}
+
+slot[name="content-center"] {
+  @apply ms-auto me-auto;
+}
+
+slot[name="content-start"] ~ slot[name="content-center"] {
+  @apply ms-0;
+}
+
+slot[name="content-start"] ~ slot[name="content-end"],
+slot[name="content-center"] ~ slot[name="content-end"],
+slot[name="content-center"] ~ slot[name="user"],
+slot[name="content-end"] ~ slot[name="user"] {
+  @apply m-0;
+}
+
+slot[name="navigation-action"] calcite-action {
+  @apply self-center;
+  margin-inline-start: var(--calcite-internal-navigation-navigation-action-margin-inline);
+}

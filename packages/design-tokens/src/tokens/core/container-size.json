@@ -1,0 +1,83 @@
+{
+  "core": {
+    "container-size": {
+      "0": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "0"
+      },
+      "154": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "154"
+      },
+      "320": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "320"
+      },
+      "328": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "328"
+      },
+      "476": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "476"
+      },
+      "504": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "504"
+      },
+      "678": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "678"
+      },
+      "768": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "768"
+      },
+      "854": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "854"
+      },
+      "1152": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "1152"
+      },
+      "1440": {
+        "attributes": {
+          "category": "breakpoint"
+        },
+        "$type": "sizing",
+        "$value": "1440"
+      }
+    }
+  }
+}

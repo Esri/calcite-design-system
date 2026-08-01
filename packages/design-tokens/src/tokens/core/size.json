@@ -1,0 +1,397 @@
+{
+  "core": {
+    "size": {
+      "default": {
+        "1": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "1px"
+        },
+        "2": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "2px"
+        },
+        "4": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "4px"
+        },
+        "6": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "6px"
+        },
+        "8": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "8px"
+        },
+        "10": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "10px"
+        },
+        "12": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "12px"
+        },
+        "14": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "14px"
+        },
+        "16": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "16px"
+        },
+        "20": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "20px"
+        },
+        "24": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "24px"
+        },
+        "28": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "28px"
+        },
+        "32": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "32px"
+        },
+        "36": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "36px"
+        },
+        "40": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "40px"
+        },
+        "44": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "44px"
+        },
+        "48": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "48px"
+        },
+        "56": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "56px"
+        },
+        "64": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "64px"
+        },
+        "72": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "72px"
+        },
+        "80": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "80px"
+        },
+        "96": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "96px"
+        },
+        "112": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "112px"
+        },
+        "128": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "128px"
+        },
+        "144": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "144px"
+        },
+        "160": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "160px"
+        },
+        "192": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "192px"
+        },
+        "224": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "224px"
+        },
+        "256": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "256px"
+        },
+        "288": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "288px"
+        },
+        "9999": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "9999px"
+        },
+        "none": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "0"
+        }
+      },
+      "relative": {
+        "50": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "50%"
+        },
+        "100": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "100%"
+        },
+        "125": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "125%"
+        },
+        "137": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "137.5%"
+        },
+        "150": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "150%"
+        },
+        "162": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "162.5%"
+        },
+        "200": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "200%"
+        },
+        "auto": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "auto"
+        },
+        "normal": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "normal"
+        }
+      },
+      "rem": {
+        "1": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "1rem"
+        },
+        "2": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "2rem"
+        },
+        "3": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "3rem"
+        },
+        "4": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "4rem"
+        },
+        "5": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "5rem"
+        },
+        "0-625": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "0.625rem"
+        },
+        "0-75": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "0.75rem"
+        },
+        "0-875": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "0.875rem"
+        },
+        "1-125": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "1.125rem"
+        },
+        "1-25": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "1.25rem"
+        },
+        "1-5": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "1.5rem"
+        },
+        "1-625": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "1.625rem"
+        },
+        "2-5": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "2.5rem"
+        },
+        "3-5": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "3.5rem"
+        }
+      }
+    }
+  }
+}

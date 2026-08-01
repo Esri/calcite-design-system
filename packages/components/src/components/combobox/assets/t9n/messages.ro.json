@@ -1,0 +1,13 @@
+{
+  "add": "Adăugați: {text}",
+  "all": "Toate",
+  "allSelected": "Toate selectate",
+  "clear": "Golire valoare",
+  "noMatches": "Nu au fost găsite concordanțe",
+  "removeTag": "Eliminare {value} etichetă",
+  "required": "Obligatoriu",
+  "selectAll": "Selectare globală",
+  "selected": "selectat",
+  "nonEditable": "{value} doar pentru citire",
+  "disabledSelectedCount": "+{count}"
+}

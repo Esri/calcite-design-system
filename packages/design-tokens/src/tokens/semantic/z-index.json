@@ -1,0 +1,74 @@
+{
+  "z-index": {
+    "deep": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.0}"
+    },
+    "default": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.1}"
+    },
+    "sticky": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.3}"
+    },
+    "header": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.4}"
+    },
+    "toast": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.5}"
+    },
+    "dropdown": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.6}"
+    },
+    "overlay": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.7}"
+    },
+    "modal": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.8}"
+    },
+    "popup": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.9}"
+    },
+    "tooltip": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.9} + 1"
+    }
+  }
+}

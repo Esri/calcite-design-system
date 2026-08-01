@@ -1,0 +1,38 @@
+{
+  "border": {
+    "width": {
+      "none": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
+        },
+        "$type": "borderWidth",
+        "$value": "{core.size.default.none}"
+      },
+      "sm": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
+        },
+        "$type": "borderWidth",
+        "$value": "{core.size.default.1}"
+      },
+      "md": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
+        },
+        "$type": "borderWidth",
+        "$value": "{core.size.default.2}"
+      },
+      "lg": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
+        },
+        "$type": "borderWidth",
+        "$value": "{core.size.default.4}"
+      }
+    }
+  }
+}

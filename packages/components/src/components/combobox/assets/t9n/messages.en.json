@@ -1,0 +1,13 @@
+{
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove {value} tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
+  "nonEditable": "Read-only {value}",
+  "disabledSelectedCount": "+{count}"
+}

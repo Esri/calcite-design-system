@@ -1,0 +1,39 @@
+{
+  "opacity": {
+    "disabled": {
+      "attributes": {
+        "category": "opacity"
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.50}"
+    },
+    "light": {
+      "attributes": {
+        "category": "opacity"
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.40}"
+    },
+    "half": {
+      "attributes": {
+        "category": "opacity"
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.50}"
+    },
+    "dark": {
+      "attributes": {
+        "category": "opacity"
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.85}"
+    },
+    "full": {
+      "attributes": {
+        "category": "opacity"
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.100}"
+    }
+  }
+}

@@ -4,7 +4,7 @@ import {
   ComponentFixtureAutoDetect,
   TestBed,
 } from '@angular/core/testing';
-import { setAssetPath } from '@esri/calcite-components/dist/components';
+import { setAssetPath } from '@esri/calcite-components';
 import { AppComponent } from './app.component';
 
 let app: AppComponent;

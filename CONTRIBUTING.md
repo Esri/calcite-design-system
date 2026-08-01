@@ -13,7 +13,7 @@ Anyone can be a user; no permissions are needed to search, comment, provide feed
 Users can help most by:<a href="#users-help" id="users-help" />
 
 - Adding reactions, feedback, and/or comments to [existing issues](https://github.com/Esri/calcite-design-system/issues) 👍
-- Searching and exploring existing issues, including exploration of the [before filing an issue](#before-filing-an-issue) section prior to filing a new issue
+- Searching and exploring existing issues, including exploration of the [before filing an issue](#before-filing-an-issue) section prior to filing a new issue 🔎
 - Reporting issues by [filing a bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml) 🐛
 - Requesting features for existing components by [creating an enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml) ⭐
 - Adding ideas for components by [creating a new component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml) 🆕
@@ -21,6 +21,9 @@ Users can help most by:<a href="#users-help" id="users-help" />
 ### Contributors
 
 Contributors require additional permissions to gain access to the Chromatic test integration suite, where visual changes can be reviewed by the team prior to merging PRs.
+
+> [!WARNING]
+> **Pull requests must come from a cloned repo with a feature branch**. GitHub forks are not supported since workflows triggered from forks cannot access repository secrets (e.g., Chromatic tokens), causing visual snapshot and CI checks to fail. Refer to [GitHub's documentation on security guidelines](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#security-hardening-with-open-source-workflows).
 
 To become a contributor, you must:
 
@@ -37,9 +40,10 @@ Once access is granted to the [Calcite Core Contributors GitHub team](https://gi
 Contributors can help most by:
 
 - Any of the items listed under the [user role](#users-help)
-- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started
-  - To let us know of your interest in the issue, please comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue. Comments also provide us access to assign the issue to you
-- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](packages/calcite-components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
+- Working on issues that have [low estimates](#estimates) - it is strongly recommended to work on issues with estimates of `estimate - 5` and lower
+  - Ensure the issue has not been added to the [Freezer milestone](https://github.com/Esri/calcite-design-system/milestone/28)
+  - **Prior to starting work on a new contribution**, please reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco) to coordinate and align on approaches, strategies, and goals across the repository. Sometimes additional context is needed, which may not be specified in the issue. Additionally, communication is needed to ensure the issue follows [Calcite's issue lifecycle](#lifecycle) and is assigned to the proper milestone
+- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development and reaching out to the code owners, please review our [component conventions](packages/components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -53,7 +57,7 @@ Have you found a new bug? Want to request a new feature? We'd love to hear from 
 
 If something isn't working the way you expect, take a look at the [existing issues](https://github.com/Esri/calcite-design-system/issues) before logging a new one. You can also report a bug or request an enhancement with [Esri Support](https://support.esri.com/en-us/contact), or ask questions, share ideas, and collaborate with others on [Esri Community](https://community.esri.com/t5/calcite-design-system/ct-p/calcite-design-system).
 
-When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-design-system/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs - we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/qecewik/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to get you started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other considerations:
+When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-design-system/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs - we created templates in [CodePen](https://codepen.io/pen?template=emzLWmy), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/qecewik/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to get you started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other considerations:
 
 - Use a clear and descriptive title
 - Describe what is happening now vs what should happen
@@ -70,30 +74,65 @@ GitHub labels are used for organizing issues and providing context. You can fami
 
 ### Lifecycle
 
-There are four issue lifecycle labels:
+Lifecycle labels are used to communicate the state of an issue. Each issue can only be assigned one lifecycle label at any time. Please make sure to keep the lifecycle label up to date.
 
-- `0 - new`: Issues that are up for grabs.
-- `1 - assigned`: Issues that someone will work on soon.
-- `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
-- `4 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
+- `1 - in design`: Issues that are actively undergoing design expertise.
+- `2 - ready for dev`: Issues that are fully designed, have acceptance criteria defined, and are ready for a developer to pick up.
+- `3 - in development`: Issues that are actively under development.
+- `4 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
+- `5 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
-An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
+### Paused issues
+
+When work has begun on an issue, but has paused for varying reasons (e.g., priorities shifting, waiting on a meeting or individual), the `paused` label is added. The label ensures the issue's status is clearly communicated, aiding in the prioritization and planning process.
+
+When adding the `paused` label, add a comment to the issue stating **why** it has been paused and if predictable, when work is expected to resume. No other lifecycle label change is needed.
+
+Paused issues may be moved into future milestones or the `Backlog` milestone by Calcite contributing members, depending on when work is expected to resume and the priority of the issue.
 
 ### Issues that cannot be worked on
 
-There are four labels that mean an issue is not ready for development:
+Certain labels indicate that an issue is not ready for development:
 
-- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, an additional label, `ready for dev` will be added to the issue, which means a developer can pick up the issue.
+- `1 - in design`: Issues that are going through design consultation. Once designers complete the effort, the `2 - ready for dev` label will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
-- `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
-- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas.
+- `need more info`: Issues that require more information and/or a clear, actionable description from the submitter. If there is no follow up after two weeks since the label was added, the issue will be automatically closed.
+- `needs refinement`: Issues that are supported, but need scope refinement or updated acceptance criteria before moving forward, as a result of a change in scope or effort. Refer to the [issue refinement section](#issue-refinement) for more details.
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue.
+
+#### Blocked issues process
+
+When an issue blocks or is blocked by other GitHub issues:
+
+- Link the issues using GitHub's issue relationships.
+- Apply the `blocked` label to support Monday syncing.
+
+To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
+
+- Retrieves the list of issues that were blocked by the closed issue
+- Checks each issue for any remaining open blocking issues
+- If none remain, adds a comment to notify product engineers that the issue is now unblocked
+
+### Issue Refinement
+
+When the `needs refinement` label is added to an issue, additional information or scope refinement is needed. Follow the steps below to ensure the issue is properly refined and updates are communicated.
+
+1. Where refinement is needed, apply the `needs refinement` label to the issue.
+2. Add a comment explaining **why** the label was added (e.g., missing requirements/information, unclear scope, etc.), and where appropriate mention the following via an `@` tag:
+   1. The issue author, when more information regarding the issue request is needed.
+   2. An involved PE, if previously involved in discussion.
+   3. External Esri team members, if their input determines priority or impact.
+   4. Other previously involved individuals, as needed.
+3. If needed, contact the relevant individuals via external channels.
+4. Once refinement is complete:
+   1. Update the issue description with the new information.
+   2. Add a comment summarizing the updates and stating that refinement is complete. Mention a PE via an `@` tag — preferably one previously involved.
+5. Remove the `needs refinement` label.
 
 ### Milestones
 
 Milestones are used to organize issues targeted for a sprint in a planned release, and are not closed until all of the issues are verified. We have multiple milestones open at a time to help with future sprint planning. Calcite Core team members should grab issues from the current milestone when you are looking for something to work on. External contributors should ask before working on issues in upcoming milestones, since some of them need to be completed in a timely manner. There are also two constant milestones:
 
-- **Stalled:** Issues we want to work on now, but are blocked, missing information, or require discussion to define action items. Try not to work on these issues unless an issue has a `spike` label and the research can be added to the issue for consideration in a future sprint.
 - **Freezer:** Items that we want to look into, but do not have an immediate timeline associated. Try not to work on these issues unless they have a `help wanted` label.
 
 ### Estimates
@@ -102,9 +141,9 @@ Estimates are used to determine how much effort needs to go into an issue. The t
 
 ### Design estimates
 
-- `estimate - design - sm`: No more than a few days of design expertise.
-- `estimate - design - md`: One to two weeks of design efforts and collaboration.
-- `estimate - design - lg`: Two to four weeks of design expertise, collaboration, and discussion. Usually requires all hands on deck.
+- `estimate - design - 5`: No more than a few days of design expertise.
+- `estimate - design - 13`: One to two weeks of design efforts and collaboration.
+- `estimate - design - 21`: Two to four weeks of design expertise, collaboration, and discussion. Usually requires all hands on deck.
 
 ### Development estimates
 
@@ -132,7 +171,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure to use the major versions of Node/NPM specified under the "volta" key in [`package.json`](./package.json).
+An installation of [Node](https://nodejs.org/en) is required for development. It is recommended to use [Mise](https://mise.jdx.dev/), which automatically uses the Node and npm versions defined in the [`engines`](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#engines) field of [`package.json`](./package.json). You'll need to follow steps 1–3 from the [Getting Started page](https://mise.jdx.dev/getting-started.html). If you use a different Node version manager, ensure it matches the major Node and npm versions specified in `engines`.
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
@@ -145,7 +184,7 @@ If your IDE supports the [Language Server Protocol (LSP) specification](https://
 
 **NOTE:** If you are on Windows, we strongly recommend using the Bash emulation that ships with [Git for Windows](https://gitforwindows.org/). Or better yet, use [Ubuntu in WSL](https://ubuntu.com/wsl)! Otherwise, keep in mind that some of the scripts used by maintainers (such as for releasing) likely won't work in Command Prompt or PowerShell. However, please log an issue if scripts used for normal development (start/test/build/etc) don't work in your Windows environment.
 
-## Starting the demos
+## Starting development
 
 First, clone the repo and then install the NPM dependencies:
 
@@ -161,7 +200,9 @@ Next, start the local Vite development server on localhost:
 npm run start:components
 ```
 
-The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/index.html`](./packages/calcite-components/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components/`](packages/calcite-components/src/components/), and the changes will be reflected in the demos.
+This will open main demo page in the browser. You can edit `index.html` under [`packages/components`](packages/components) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
+
+By default, the page is blank with a few controls for common test scenarios, such as toggling between dark and light modes. You can add a documentation snippet by running `npx snippet` and following the prompts. You can also paste code from an issue repro case or a Storybook story.
 
 ## Linting
 
@@ -174,13 +215,13 @@ npm run lint
 Or use the `--workspace` flag to lint a single package.
 
 ```sh
-npm --workspace=packages/calcite-components run lint
+npm --workspace=packages/components run lint
 ```
 
 You can avoid using the `--workspace` flag in every command by `cd`ing into the package you're working on:
 
 ```sh
-cd packages/calcite-components
+cd packages/components
 # the following will only lint and test calcite-components
 npm run lint
 npm test
@@ -190,15 +231,15 @@ npm test
 
 `npm test` will run the test suites.
 
-Calcite Components include Vitest's testing tools which are powered by [Vitest](https://vitest.dev) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+Calcite Components include [Vitest](https://vitest.dev)-based testing tools that use [Puppeteer](https://github.com/GoogleChrome/puppeteer) and [Playwright](https://playwright.dev/), including Playwright for Vitest browser mode.
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/calcite-components run test:watch:stable` or `npm --workspace=packages/calcite-components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
+If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/components run test:watch:node` or `npm --workspace=packages/components run test:watch:browser`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
-Please refer to Calcite's [testing conventions](./packages/calcite-components/conventions/Testing.md) for more information.
+Please refer to Calcite's [testing conventions](./packages/components/conventions/Testing.md) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./packages/calcite-components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [component conventions guide](./packages/components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -206,11 +247,11 @@ Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to 
 
 1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories
-3. Run the documentation locally with `npm --workspace=packages/calcite-components run docs:preview`
+3. Run the documentation locally with `npm --workspace=packages/components run docs:preview`
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
-Please refer to the [Documentation Conventions](./packages/calcite-components/conventions/Documentation.md) for more information.
+Please refer to the [Documentation Conventions](./packages/components/conventions/Documentation.md) for more information.
 
 ## Branch naming conventions
 
@@ -301,7 +342,7 @@ Related Issue: <Issue number>
 Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
 ```
 
-For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main).
+For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/dev).
 
 ## Breaking changes
 
@@ -315,7 +356,7 @@ The PR's details should be comprehensive, and when possible, include the followi
 - Why the breaking change is proposed
 - An example to support users migrating from the previous major version (e.g., `1.x` to `2.x`)
 
-For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
+For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/dev/packages/design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
 
 ```text
 <type>(<scope>)!: <descriptive summary>
@@ -346,11 +387,13 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 ## Pull requests
 
-In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
+Pull requests should follow conventional commits and will be validated by the [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) check before merging.
 
-You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
+You can update the PR title at any time prior to merging. This is useful if the scope or type changes, or if additional clarity is needed for the changelog entry.
 
-By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
+By default, the PR body is used as the commit message when squash merging, so include any relevant details there.
+
+See the [PR review guidelines](https://github.com/Esri/calcite-design-system/wiki/PR-Review-Guidelines) wiki page for detailed information on how pull requests are reviewed.
 
 ### Visual snapshots
 
