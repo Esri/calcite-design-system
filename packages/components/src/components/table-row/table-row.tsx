@@ -1,6 +1,5 @@
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
-import { render } from "lit";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import {
@@ -209,9 +208,7 @@ export class TableRow extends LitElement {
   }
 
   loaded(): void {
-    if (this.rowCells.length > 0) {
-      this.updateCells();
-    }
+    this.updateCells();
   }
 
   //#endregion
@@ -351,6 +348,16 @@ export class TableRow extends LitElement {
 
     if (cells.length > 0) {
       cells?.forEach((cell, index) => {
+        if (index < renderedCells.length) {
+          const columnStart = index + 1;
+
+          cell.columnStart = columnStart;
+          cell.style.setProperty(
+            "--calcite-internal-table-cell-grid-column-start",
+            `${columnStart}`,
+          );
+        }
+
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
         cell.parentRowAlignment = alignment;
@@ -360,11 +367,11 @@ export class TableRow extends LitElement {
         cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
-          const rowSpan = cell.rowSpan || 1;
+          const rowSpan = cell.effectiveRowSpan ?? cell.rowSpan ?? 1;
           const reachesBodyEnd =
             this.rowType === "body" &&
-            rowSpan > 1 &&
-            this.positionSection + rowSpan >= this.bodyRowCount;
+            (cell.rowSpan === 0 ||
+              (rowSpan > 1 && this.positionSection + rowSpan >= this.bodyRowCount));
 
           (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
           (cell as TableCell["el"]).disabled = this.disabled;
@@ -476,27 +483,20 @@ export class TableRow extends LitElement {
   override render(): JsxNode {
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        <tr
+        <div
           ariaRowIndex={this.positionAll + 1}
           ariaSelected={this.selected}
-          class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
-          onKeyDown={this.keyDownHandler}
-          ref={(el) => {
-            if (!el) {
-              return;
-            }
-
-            /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
-            render(
-              <>
-                {this.numbered && this.renderNumberedCell()}
-                {this.selectionMode !== "none" && this.renderSelectableCell()}
-                <slot ref={this.rowSlotRef} />
-              </>,
-              el,
-            );
+          class={{
+            [CSS.lastVisibleRow]: this.lastVisibleRow,
+            [CSS.row]: true,
           }}
-        />
+          onKeyDown={this.keyDownHandler}
+          role="row"
+        >
+          {this.numbered && this.renderNumberedCell()}
+          {this.selectionMode !== "none" && this.renderSelectableCell()}
+          <slot ref={this.rowSlotRef} />
+        </div>
       </this.interactiveContainer>
     );
   }

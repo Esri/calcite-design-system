@@ -15,11 +15,10 @@ import type { TableCell } from "../table-cell/table-cell";
 import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
 
-async function getFocusedTableCellClassList(
-  page: E2EPage,
-  rowId: string,
-  cellSelector: "td" | "th",
-): Promise<string[]> {
+const tableCellSelector = `.${CELL_CSS.cell}`;
+const tableHeaderSelector = `.${HEADER_CSS.cell}`;
+
+async function getFocusedTableCellClassList(page: E2EPage, rowId: string, cellSelector: string): Promise<string[]> {
   return page.$eval(
     `#${rowId}`,
     (el, cellSelector) => {
@@ -1752,7 +1751,7 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell, HEADER_CSS.multipleSelectionCell]),
     );
 
@@ -1766,19 +1765,19 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell, HEADER_CSS.multipleSelectionCell]),
     );
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
@@ -1796,7 +1795,7 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell, HEADER_CSS.multipleSelectionCell]),
     );
   });
@@ -1835,7 +1834,7 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
@@ -1849,19 +1848,19 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
@@ -1879,7 +1878,7 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
   });
@@ -1918,14 +1917,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
@@ -1935,23 +1934,26 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual([HEADER_CSS.selectionCell]);
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual([
+      HEADER_CSS.cell,
+      HEADER_CSS.selectionCell,
+    ]);
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
@@ -1965,7 +1967,7 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.keyboard.up("ControlRight");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
   });
@@ -2008,14 +2010,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell, HEADER_CSS.multipleSelectionCell]),
     );
 
@@ -2025,19 +2027,19 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell, HEADER_CSS.multipleSelectionCell]),
     );
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row2.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row2.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
@@ -2053,7 +2055,7 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.numberCell]),
     );
 
@@ -2061,7 +2063,7 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.keyboard.up("ControlLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
   });
@@ -2107,14 +2109,14 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
@@ -2124,37 +2126,37 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row1.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row1.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row1.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row1.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row2.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row2.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row2.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row2.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
@@ -2166,7 +2168,7 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.numberCell]),
     );
 
@@ -2174,7 +2176,7 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Home");
     await page.keyboard.up("ControlRight");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
@@ -2199,37 +2201,37 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row4.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row4.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.selectionCell]),
     );
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row4.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, row4.id, tableCellSelector)).toEqual(
       expect.arrayContaining([HEADER_CSS.numberCell]),
     );
 
@@ -2241,7 +2243,7 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowFoot.id, "td")).toEqual(
+    expect(await getFocusedTableCellClassList(page, rowFoot.id, tableCellSelector)).toEqual(
       expect.arrayContaining([CELL_CSS.footerCell, HEADER_CSS.numberCell]),
     );
   });
@@ -2281,7 +2283,8 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual([
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual([
+      HEADER_CSS.cell,
       HEADER_CSS.selectionCell,
       HEADER_CSS.multipleSelectionCell,
     ]);
@@ -2291,7 +2294,8 @@ describe("keyboard navigation", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual([
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual([
+      HEADER_CSS.cell,
       HEADER_CSS.selectionCell,
       HEADER_CSS.multipleSelectionCell,
     ]);
@@ -2299,26 +2303,39 @@ describe("keyboard navigation", () => {
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
 
-    expect(await getFocusedTableCellClassList(page, rowHead.id, "th")).toEqual([
+    expect(await getFocusedTableCellClassList(page, rowHead.id, tableHeaderSelector)).toEqual([
+      HEADER_CSS.cell,
       HEADER_CSS.selectionCell,
       HEADER_CSS.multipleSelectionCell,
     ]);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row1.id, "td")).toEqual([HEADER_CSS.selectionCell]);
+    expect(await getFocusedTableCellClassList(page, row1.id, tableCellSelector)).toEqual([
+      CELL_CSS.cell,
+      HEADER_CSS.selectionCell,
+    ]);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row2.id, "td")).toEqual([HEADER_CSS.selectionCell]);
+    expect(await getFocusedTableCellClassList(page, row2.id, tableCellSelector)).toEqual([
+      CELL_CSS.cell,
+      HEADER_CSS.selectionCell,
+    ]);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual([HEADER_CSS.selectionCell]);
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual([
+      CELL_CSS.cell,
+      HEADER_CSS.selectionCell,
+    ]);
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(await getFocusedTableCellClassList(page, row3.id, "td")).toEqual([HEADER_CSS.selectionCell]);
+    expect(await getFocusedTableCellClassList(page, row3.id, tableCellSelector)).toEqual([
+      CELL_CSS.cell,
+      HEADER_CSS.selectionCell,
+    ]);
   });
 
   it("updates table-row's selected property correctly when calciteTabRowSelect event is emitted", async () => {

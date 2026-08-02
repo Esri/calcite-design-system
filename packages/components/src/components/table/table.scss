@@ -55,7 +55,6 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-table-border-collapse
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
@@ -67,7 +66,6 @@
 
 :host {
   @apply flex;
-  --calcite-internal-table-border-collapse: collapse;
 }
 
 :host([scale="s"]) {
@@ -93,7 +91,6 @@
 }
 
 :host([sticky-header]) {
-  --calcite-internal-table-border-collapse: separate;
   --calcite-internal-table-header-border-block-end-width: 0;
   --calcite-internal-table-sticky-header-border-shadow: inset 0 calc(-1 * var(--calcite-border-width-sm)) 0 0
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
@@ -122,27 +119,25 @@
   overscroll-behavior-y: none;
 }
 
-.assistive-text {
-  @apply sr-only;
-}
-
-table {
-  border-collapse: var(--calcite-internal-table-border-collapse);
-  border-spacing: 0;
+.table {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: var(--calcite-internal-table-column-template-auto);
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
-/* Workaround for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
-/* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
-@-moz-document url-prefix() {
-  table {
-    @apply border-separate;
-    border-spacing: 0;
-  }
+.table__head,
+.table__body,
+.table__foot {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  pointer-events: none;
 }
 
 .table--fixed {
-  @apply table-fixed;
+  grid-template-columns: var(--calcite-internal-table-column-template-fixed);
 }
 
 .bordered {

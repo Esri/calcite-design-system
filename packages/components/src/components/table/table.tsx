@@ -1,7 +1,6 @@
 import { PropertyValues } from "lit";
-import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
@@ -19,6 +18,15 @@ import {
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
+
+const maxColumnSpan = 1000;
+const tableStructureSelector = "calcite-table-row, calcite-table-cell, calcite-table-header";
+
+function normalizeSpan(span: number | undefined, max: number): number {
+  const normalizedSpan = Math.trunc(span || 1);
+
+  return Number.isFinite(normalizedSpan) ? Math.min(max, Math.max(1, normalizedSpan)) : 1;
+}
 
 declare global {
   interface DeclareElements {
@@ -53,7 +61,7 @@ export class Table extends LitElement {
 
   private tableContainerRef = createRef<HTMLDivElement>();
 
-  private tableEl: HTMLTableElement | null = null;
+  private tableRef = createRef<HTMLDivElement>();
 
   private tableBodySlotRef = createRef<HTMLSlotElement>();
 
@@ -66,6 +74,26 @@ export class Table extends LitElement {
   private tableContainerResizeObserver = createObserver("resize", () =>
     this.scheduleTableContainerOverflowUpdate(),
   );
+
+  private tableMutationObserver = createObserver("mutation", (records) => {
+    const tableStructureChanged = records.some((record) => {
+      if (record.type === "attributes") {
+        return true;
+      }
+
+      return [...record.addedNodes, ...record.removedNodes].some(
+        (node) =>
+          node instanceof Element &&
+          (node.matches(tableStructureSelector) || !!node.querySelector(tableStructureSelector)),
+      );
+    });
+
+    if (tableStructureChanged) {
+      this.updateRows();
+    } else {
+      this.scheduleTableContainerOverflowUpdate();
+    }
+  });
 
   /**
    * Made into a prop for testing purposes only
@@ -80,9 +108,17 @@ export class Table extends LitElement {
 
   @state() colCount = 0;
 
+  @state() bodyRowCount = 0;
+
+  @state() footRowCount = 0;
+
+  @state() headRowCount = 0;
+
   @state() pageStartRow = 1;
 
   @state() readCellContentsToAT = false;
+
+  @state() rowCount = 0;
 
   @state() selectedCount = 0;
 
@@ -190,6 +226,20 @@ export class Table extends LitElement {
     );
   }
 
+  override connectedCallback(): void {
+    this.tableMutationObserver?.observe(this.el, {
+      attributeFilter: ["col-span", "row-span"],
+      attributes: true,
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+
+    if (this.hasUpdated) {
+      this.updateRows();
+    }
+  }
+
   async load(): Promise<void> {
     /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
@@ -205,6 +255,7 @@ export class Table extends LitElement {
     }
 
     this.tableContainerResizeObserver?.disconnect();
+    this.tableMutationObserver?.disconnect();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -334,11 +385,85 @@ export class Table extends LitElement {
     return el.assignedElements({ flatten: true }).filter((el) => el.matches("calcite-table-row"));
   }
 
+  private getColumnTemplate(contentTrack: string): string {
+    const supplementalColumnCount =
+      (this.numbered ? 1 : 0) + (this.selectionMode !== "none" ? 1 : 0);
+    const contentColumnCount = Math.max(this.colCount - supplementalColumnCount, 0);
+    const tracks = [
+      supplementalColumnCount > 0 ? `repeat(${supplementalColumnCount}, max-content)` : "",
+      contentColumnCount > 0 ? `repeat(${contentColumnCount}, ${contentTrack})` : "",
+    ].filter(Boolean);
+
+    return tracks.join(" ") || contentTrack;
+  }
+
+  private updateSectionGridPlacements(rows: TableRow["el"][]): number {
+    const supplementalColumnCount =
+      (this.numbered ? 1 : 0) + (this.selectionMode !== "none" ? 1 : 0);
+    const occupiedColumns = new Map<number, number>();
+    let sectionColumnCount = supplementalColumnCount;
+
+    rows.forEach((row, rowIndex) => {
+      const rowPosition = rowIndex + 1;
+      let nextColumn = supplementalColumnCount + 1;
+      let rowGridSpan = 1;
+      const cells = Array.from(row.children)
+        .filter((element) => element.matches("calcite-table-cell, calcite-table-header"))
+        .map(
+          (element) =>
+            element as HTMLElement & {
+              colSpan?: number;
+              columnStart?: number;
+              effectiveColSpan?: number;
+              effectiveRowSpan?: number;
+              rowSpan?: number;
+            },
+        );
+
+      cells.forEach((cell) => {
+        const columnSpan = normalizeSpan(cell.colSpan, maxColumnSpan);
+        const remainingRowCount = rows.length - rowIndex;
+        const rowSpan =
+          cell.rowSpan === 0 ? remainingRowCount : normalizeSpan(cell.rowSpan, remainingRowCount);
+
+        while (
+          Array.from(
+            { length: columnSpan },
+            (_, offset) => occupiedColumns.get(nextColumn + offset) || 0,
+          ).some((occupiedThroughRow) => occupiedThroughRow >= rowPosition)
+        ) {
+          nextColumn++;
+        }
+
+        cell.columnStart = nextColumn;
+        cell.effectiveColSpan = cell.colSpan === undefined ? undefined : columnSpan;
+        cell.effectiveRowSpan =
+          cell.rowSpan === undefined ? undefined : cell.rowSpan === 0 ? 0 : rowSpan;
+        cell.style.setProperty("--calcite-internal-table-cell-grid-column-start", `${nextColumn}`);
+        cell.style.setProperty("--calcite-internal-table-cell-grid-column-span", `${columnSpan}`);
+        cell.style.setProperty("--calcite-internal-table-cell-grid-row-span", `${rowSpan}`);
+
+        for (let offset = 0; offset < columnSpan; offset++) {
+          occupiedColumns.set(nextColumn + offset, rowPosition + rowSpan - 1);
+        }
+
+        nextColumn += columnSpan;
+        rowGridSpan = Math.max(rowGridSpan, rowSpan);
+      });
+
+      row.style.setProperty("--calcite-internal-table-row-grid-position", `${rowPosition}`);
+      row.style.setProperty("--calcite-internal-table-row-grid-span", `${rowGridSpan}`);
+      sectionColumnCount = Math.max(sectionColumnCount, nextColumn - 1);
+    });
+
+    return sectionColumnCount;
+  }
+
   private observeTableContainer(): void {
     this.tableContainerResizeObserver?.disconnect();
 
     const tableContainer = this.tableContainerRef.value;
-    const table = this.tableEl;
+    const table = this.tableRef.value;
 
     if (tableContainer) {
       this.tableContainerResizeObserver?.observe(tableContainer);
@@ -424,20 +549,31 @@ export class Table extends LitElement {
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
     });
 
-    const colCount = headRows[0]?.cellCount || 0;
-
-    this.colCount = colCount;
+    this.bodyRowCount = bodyRows.length;
+    this.footRowCount = footRows.length;
+    this.headRowCount = headRows.length;
+    this.rowCount = allRows.length;
     this.headRows = headRows;
     this.bodyRows = bodyRows;
     this.footRows = footRows;
     this.allRows = allRows;
+
+    this.handleCurrentPageRange();
+
+    // Coordinates nested row grids against shared section tracks for column and row spans.
+    const colCount = Math.max(
+      this.updateSectionGridPlacements(headRows.filter((row) => !isHidden(row))),
+      this.updateSectionGridPlacements(bodyRows.filter((row) => !isHidden(row))),
+      this.updateSectionGridPlacements(footRows.filter((row) => !isHidden(row))),
+    );
+
+    this.colCount = colCount;
 
     this.applyHeaderRowPositionStyles();
 
     this.observeTableContainer();
     this.scheduleTableContainerOverflowUpdate();
 
-    this.handleCurrentPageRange();
     this.updateSelectedItems();
   }
 
@@ -587,30 +723,6 @@ export class Table extends LitElement {
     );
   }
 
-  renderTHead(): JsxNode {
-    return (
-      <thead>
-        <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotRef} />
-      </thead>
-    );
-  }
-
-  renderTBody(): JsxNode {
-    return (
-      <tbody>
-        <slot ref={this.tableBodySlotRef} />
-      </tbody>
-    );
-  }
-
-  renderTFoot(): JsxNode {
-    return (
-      <tfoot>
-        <slot name={SLOTS.tableFooter} ref={this.tableFootSlotRef} />
-      </tfoot>
-    );
-  }
-
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
@@ -626,34 +738,57 @@ export class Table extends LitElement {
           }}
           ref={this.tableContainerRef}
         >
-          <table
+          <div
             ariaColCount={this.colCount}
+            ariaLabel={this.caption}
             ariaMultiSelectable={
               /* workaround to ensure the attr gets removed; we should be able to avoid the ternary when fixed */
               this.selectionMode === "multiple" ? "true" : undefined
             }
-            ariaRowCount={this.allRows?.length}
-            class={{ [CSS.tableFixed]: this.layout === "fixed" }}
-            ref={(el) => {
-              if (!el) {
-                return;
-              }
-
-              this.tableEl = el;
-
-              /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
-              render(
-                <>
-                  <caption class={CSS.assistiveText}>{this.caption}</caption>
-                  {this.renderTHead()}
-                  {this.renderTBody()}
-                  {this.renderTFoot()}
-                </>,
-                el,
-              );
+            ariaRowCount={this.rowCount}
+            class={{
+              [CSS.table]: true,
+              [CSS.tableFixed]: this.layout === "fixed",
             }}
+            ref={this.tableRef}
             role={this.interactionMode === "interactive" ? "grid" : "table"}
-          />
+            style={{
+              ["--calcite-internal-table-column-template-auto"]: this.getColumnTemplate(
+                "minmax(min-content, auto)",
+              ),
+              ["--calcite-internal-table-column-template-fixed"]:
+                this.getColumnTemplate("minmax(0, 1fr)"),
+            }}
+          >
+            <div
+              class={CSS.tableHead}
+              role="rowgroup"
+              style={{ gridRow: `1 / span ${Math.max(this.rowCount, 1)}` }}
+            >
+              <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotRef} />
+            </div>
+            <div
+              class={CSS.tableBody}
+              role="rowgroup"
+              style={{
+                gridRow: `${this.headRowCount + 1} / span ${Math.max(this.bodyRowCount, 1)}`,
+              }}
+            >
+              <slot ref={this.tableBodySlotRef} />
+            </div>
+            <div
+              class={CSS.tableFoot}
+              role="rowgroup"
+              style={{
+                gridRow: `${this.headRowCount + this.bodyRowCount + 1} / span ${Math.max(
+                  this.footRowCount,
+                  1,
+                )}`,
+              }}
+            >
+              <slot name={SLOTS.tableFooter} ref={this.tableFootSlotRef} />
+            </div>
+          </div>
         </div>
         {this.pageSize > 0 && this.renderPaginationArea()}
       </div>

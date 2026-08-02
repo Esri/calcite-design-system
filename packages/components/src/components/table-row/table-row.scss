@@ -28,41 +28,40 @@
 @include includes.base-component();
 
 @include includes.disabled() {
-  tr {
+  .row {
     @apply opacity-disabled pointer-events-none;
   }
 }
 
-calcite-table-cell {
+.row {
   --calcite-internal-table-cell-background-color: var(
     --calcite-table-row-background-color,
     var(--calcite-table-row-background, var(--calcite-color-foreground-1))
   );
+  --calcite-internal-table-row-border-block-end-width: var(--calcite-border-width-sm);
+  --calcite-internal-table-row-border-block-end-color: var(--calcite-table-row-border-color, transparent);
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: var(--calcite-internal-table-row-grid-position) / span var(--calcite-internal-table-row-grid-span, 1);
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  pointer-events: none;
 }
 
-:host([slot="table-header"]) tr {
+:host([slot="table-header"]) .row {
   position: var(--calcite-internal-table-header-row-position);
   inset-block-start: var(--calcite-internal-table-header-offset, 0);
   z-index: var(--calcite-internal-table-header-z-index, calc(var(--calcite-z-index) + 1));
 }
 
-:host([selected]) calcite-table-cell {
+:host([selected]) .row {
   --calcite-internal-table-cell-background-color: var(
     --calcite-table-row-background-color-selected,
     var(--calcite-color-foreground-1)
   );
 }
 
-tr {
-  --calcite-internal-table-row-border-block-end-width: var(--calcite-border-width-sm);
-  --calcite-internal-table-row-border-block-end-color: var(--calcite-table-row-border-color, transparent);
-  background-color: var(
-    --calcite-table-row-background-color,
-    var(--calcite-table-row-background, var(--calcite-color-foreground-1))
-  );
-}
-
-tr.last-visible-row {
+.row.last-visible-row {
   --calcite-internal-table-row-border-block-end-width: 0;
   --calcite-internal-table-row-border-block-end-color: transparent;
 }
