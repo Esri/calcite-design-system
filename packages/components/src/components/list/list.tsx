@@ -40,7 +40,6 @@ import { DEBOUNCE } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
-import { isStructuredCloneable } from "../../utils/clone-safe";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
@@ -110,9 +109,7 @@ export class List extends LitElement {
 
   private itemElementsByIndex: ListItem["el"][] = [];
 
-  private metadataCloneableCache = new WeakMap<object, boolean>();
-
-  private hasWarnedInvalidMetadata = false;
+  private filterDataByItem = new WeakMap<ListItem["el"], FilterItemData>();
 
   private filterDataRequestId = 0;
 
@@ -1000,43 +997,18 @@ export class List extends LitElement {
     return this.listItems.map((item, itemIndex) => {
       this.itemElementsByIndex[itemIndex] = item;
 
-      return {
-        label: item.label,
-        description: item.description,
-        metadata: this.getFilterMetadata(item.metadata),
-        heading: this.getGroupHeading(item),
-        itemIndex,
-      };
+      const filterData = this.filterDataByItem.get(item) ?? { itemIndex };
+
+      filterData.label = item.label;
+      filterData.description = item.description;
+      filterData.metadata = item.metadata;
+      filterData.heading = this.getGroupHeading(item);
+      filterData.itemIndex = itemIndex;
+
+      this.filterDataByItem.set(item, filterData);
+
+      return filterData;
     });
-  }
-
-  private getFilterMetadata(
-    metadata: SharedListFilterFields["metadata"],
-  ): SharedListFilterFields["metadata"] {
-    if (!metadata) {
-      return metadata;
-    }
-
-    const cachedCloneable = this.metadataCloneableCache.get(metadata);
-    if (cachedCloneable !== undefined) {
-      return cachedCloneable ? metadata : undefined;
-    }
-
-    const isCloneable = isStructuredCloneable(metadata);
-    this.metadataCloneableCache.set(metadata, isCloneable);
-
-    if (isCloneable) {
-      return metadata;
-    }
-
-    if (!this.hasWarnedInvalidMetadata) {
-      this.hasWarnedInvalidMetadata = true;
-      console.warn(
-        "calcite-list-item metadata must be structured-clone-safe for worker filtering. Ignoring invalid metadata.",
-      );
-    }
-
-    return undefined;
   }
 
   private getGroupHeading(item: ListItem["el"]): string[] {

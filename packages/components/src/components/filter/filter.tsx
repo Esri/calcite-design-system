@@ -16,6 +16,7 @@ import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type { CloneSafeRecord } from "./interfaces";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./filter.scss";
 
@@ -76,7 +77,7 @@ export class Filter extends LitElement {
    *
    * @readonly
    */
-  @property() filteredItems: object[] = [];
+  @property() filteredItems: CloneSafeRecord[] = [];
 
   /**
    * Specifies the items to filter. The component uses the values as the starting point, and returns items
@@ -85,7 +86,7 @@ export class Filter extends LitElement {
    *
    * This property is needed to conduct filtering.
    */
-  @property() items: object[] = [];
+  @property() items: CloneSafeRecord[] = [];
 
   /** Whether filtering is currently in progress. */
   @property()
@@ -263,7 +264,7 @@ export class Filter extends LitElement {
 
   private async updateFilteredFromWorker(
     requestId: number,
-    items: object[],
+    items: CloneSafeRecord[],
     value: string,
     emit = false,
     callback?: () => void,
@@ -285,7 +286,7 @@ export class Filter extends LitElement {
     this.updateFiltered(filtered, emit, callback);
   }
 
-  private updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
+  private updateFiltered(filtered: CloneSafeRecord[], emit = false, callback?: () => void): void {
     this.filteredItems = filtered;
     if (emit && this.el.isConnected) {
       this.calciteFilterChange.emit();

@@ -19,6 +19,45 @@ type PendingRequest = {
 let filterWorker: Worker | null = null;
 let currentRequestId = 0;
 const pendingRequests = new Map<number, PendingRequest>();
+const cloneableRecordCache = new WeakMap<object, boolean>();
+
+function isStructuredCloneable(value: unknown): boolean {
+  const structuredCloneFn = globalThis.structuredClone;
+
+  if (typeof structuredCloneFn !== "function") {
+    return true;
+  }
+
+  try {
+    structuredCloneFn(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function hasCloneableWorkerData(data: object[]): boolean {
+  for (const item of data) {
+    const cachedCloneable = cloneableRecordCache.get(item);
+
+    if (cachedCloneable !== undefined) {
+      if (!cachedCloneable) {
+        return false;
+      }
+
+      continue;
+    }
+
+    const cloneable = isStructuredCloneable(item);
+    cloneableRecordCache.set(item, cloneable);
+
+    if (!cloneable) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 function resolvePendingRequests(filteredIndexes: number[] | null): void {
   pendingRequests.forEach(({ resolve }) => resolve(filteredIndexes));
@@ -62,6 +101,10 @@ function initializeWorker(): Worker | null {
 }
 
 export function filterInWorker(data: object[], value: string, filterProps?: string[]): Promise<number[] | null> {
+  if (!hasCloneableWorkerData(data)) {
+    return Promise.resolve(null);
+  }
+
   const worker = initializeWorker();
 
   if (!worker) {

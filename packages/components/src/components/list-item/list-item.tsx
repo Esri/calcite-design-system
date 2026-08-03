@@ -24,7 +24,7 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
-import type { CloneSafeRecord } from "../../utils/clone-safe";
+import type { CloneSafeRecord } from "../../utils/clone-safe-types";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

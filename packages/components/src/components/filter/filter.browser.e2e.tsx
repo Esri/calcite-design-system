@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
-import { userEvent } from "vitest/browser";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { terminateFilterWorker } from "../../utils/filter-worker";
 import {
   cancelable,
   defaults,
@@ -183,5 +184,88 @@ describe("theme", () => {
         shadowSelector: "calcite-input",
       },
     });
+  });
+});
+
+describe("worker filtering", () => {
+  afterEach(() => {
+    terminateFilterWorker();
+  });
+
+  it("emits calciteFilterStatusChange while filtering with a web worker", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: {
+        requestId: number;
+        data: Array<{ label?: string }>;
+        value: string;
+      }): void {
+        const filterValue = message.value.toLowerCase();
+        const filteredIndexes = message.data
+          .map((item, index) => ({
+            index,
+            label: (item.label ?? "").toLowerCase(),
+          }))
+          .filter((item) => item.label.includes(filterValue))
+          .map((item) => item.index);
+
+        setTimeout(() => {
+          this.messageListeners.forEach((listener) =>
+            listener(
+              new MessageEvent("message", {
+                data: {
+                  requestId: message.requestId,
+                  filteredIndexes,
+                },
+              }),
+            ),
+          );
+        }, 50);
+      }
+
+      terminate(): void {
+        this.messageListeners.length = 0;
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+      const filteringStates: boolean[] = [];
+      const statusChangeSpy = vi.fn();
+
+      el.items = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+
+      el.addEventListener("calciteFilterStatusChange", () => {
+        statusChangeSpy();
+        filteringStates.push(el.filtering);
+      });
+
+      const filterInput = page.getByLabelText("Filter");
+
+      await userEvent.click(filterInput);
+      await userEvent.type(filterInput, "o");
+
+      await vi.waitUntil(() => statusChangeSpy.mock.calls.length === 2);
+
+      expect(filteringStates).toEqual([true, false]);
+      expect(el.filtering).toBe(false);
+      expect(statusChangeSpy).toHaveBeenCalledTimes(2);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
   });
 });

@@ -55,6 +55,34 @@ describe("filter-worker", () => {
     }
   });
 
+  it("falls back when data is not structured-cloneable", async () => {
+    const nativeWorker = globalThis.Worker;
+    let postMessageCallCount = 0;
+
+    class MockWorker {
+      addEventListener(): void {
+        // no-op
+      }
+
+      postMessage(): void {
+        postMessageCallCount++;
+      }
+
+      terminate(): void {
+        // no-op
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      await expect(filterInWorker([{ callback: () => {} }], "one", ["callback"])).resolves.toBeNull();
+      expect(postMessageCallCount).toBe(0);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
   it("resolves pending requests when worker errors", async () => {
     const nativeWorker = globalThis.Worker;
 
