@@ -1,9 +1,14 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { BlockGroup } from "./block-group";
+import type { BlockGroup } from "./block-group";
+import { Decorator } from "@storybook/web-components-vite";
 
 const { scale } = ATTRIBUTES;
+
+const expandMode: BlockGroup["expandMode"][] = ["single", "multiple", "single-persist"];
+
+type ExpandModeStoryArgs = Pick<BlockGroup, "expandMode">;
 
 type BlockGroupStoryArgs = Pick<BlockGroup, "disabled" | "group" | "dragEnabled" | "label" | "loading" | "scale">;
 
@@ -103,3 +108,90 @@ export const allScales = (): string =>
       <calcite-block-group scale="m"> ${blockHTML} </calcite-block-group>
       <calcite-block-group scale="l"> ${blockHTML} </calcite-block-group>
     </div>`;
+
+const nestedBlockGroupHTML = (expandMode: BlockGroup["expandMode"]): string => html`
+  <calcite-block-group label="Rivers">
+    <calcite-block
+      collapsible
+      heading="Rivers"
+      description="Primary waterways and regional flow lines"
+      expanded
+    ></calcite-block>
+    <calcite-block
+      collapsible
+      heading="Gauging Stations"
+      description="Monitoring sites reporting water level metrics"
+    ></calcite-block>
+  </calcite-block-group>
+  <calcite-block-group expand-mode="${expandMode}" label="Lakes & Ponds">
+    <calcite-block collapsible heading="Lakes" description="Large standing-water bodies and reservoirs"></calcite-block>
+    <calcite-block collapsible heading="Ponds" description="Small standing-water features and basins"></calcite-block>
+  </calcite-block-group>
+`;
+
+const nestedBlockHTML = (): string => html`
+  <calcite-block collapsible heading="Rivers" description="Primary waterways and regional flow lines" expanded>
+    <calcite-block
+      collapsible
+      heading="Gauging Stations"
+      description="Monitoring sites reporting water level metrics"
+      slot="children"
+    ></calcite-block>
+    <calcite-block
+      collapsible
+      heading="Streams"
+      description="Secondary channels feeding larger rivers"
+      expanded
+      slot="children"
+    >
+      <calcite-block
+        collapsible
+        heading="Sub Streams"
+        description="Minor stream branches in local watersheds"
+        slot="children"
+      ></calcite-block>
+      <calcite-block
+        collapsible
+        heading="Tributaries"
+        description="Contributing flow sources into stream network"
+        slot="children"
+      ></calcite-block>
+    </calcite-block>
+  </calcite-block>
+  <calcite-block collapsible heading="Lakes" description="Large standing-water bodies and reservoirs"></calcite-block>
+`;
+
+const expandModeDecorator: Decorator = (storyFn, context) =>
+  html` <style>
+      .container-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+    <div class="container-wrapper">
+      ${expandMode
+        .map(
+          (mode) =>
+            html` <div class="container">
+              <p>expandMode="${mode}"</p>
+              <calcite-block-group label="My Group" expand-mode="${mode}">
+                ${storyFn({ ...context.args, expandMode: mode })}
+              </calcite-block-group>
+            </div>`,
+        )
+        .join("")}
+    </div>`;
+
+export const allExpandModesWithNestedBlockGroup = (args: ExpandModeStoryArgs): string =>
+  nestedBlockGroupHTML(args.expandMode);
+
+allExpandModesWithNestedBlockGroup.decorators = [expandModeDecorator];
+allExpandModesWithNestedBlockGroup.args = { expandMode: "single" };
+
+export const allExpandModesWithNestedBlock = (): string => nestedBlockHTML();
+allExpandModesWithNestedBlock.decorators = [expandModeDecorator];

@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.40...@esri/calcite-components@5.2.0-next.41) (2026-08-03)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.39...@esri/calcite-components@5.2.0-next.40) (2026-07-31)
+
+### Features
+
+- **block, block-group:** enhance nesting support with expandMode property & children slot ([#14733](https://github.com/Esri/calcite-design-system/issues/14733)), closes [#12179](https://github.com/Esri/calcite-design-system/issues/12179)
+
+## [5.2.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.38...@esri/calcite-components@5.2.0-next.39) (2026-07-30)
+
+### Bug Fixes
+
+- **input-time-picker:** ensure time part input placement aligns with page direction ([#14901](https://github.com/Esri/calcite-design-system/issues/14901)), closes [#13135](https://github.com/Esri/calcite-design-system/issues/13135)
+
+## [5.2.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.37...@esri/calcite-components@5.2.0-next.38) (2026-07-30)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.36...@esri/calcite-components@5.2.0-next.37) (2026-07-30)
+
+### Bug Fixes
+
+- **icon:** fix icon type ([#14889](https://github.com/Esri/calcite-design-system/issues/14889)), closes [#14898](https://github.com/Esri/calcite-design-system/issues/14898)
+
+## [5.2.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.35...@esri/calcite-components@5.2.0-next.36) (2026-07-28)
+
+### Bug Fixes
+
+- **action-bar:** hide leading group border for action-start slot when wrapping ([#14879](https://github.com/Esri/calcite-design-system/issues/14879)), closes [#11000](https://github.com/Esri/calcite-design-system/issues/11000) [#14799](https://github.com/Esri/calcite-design-system/issues/14799)
+
+## [5.2.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.34...@esri/calcite-components@5.2.0-next.35) (2026-07-27)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.2.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.33...@esri/calcite-components@5.2.0-next.34) (2026-07-24)
 
 ### Features
