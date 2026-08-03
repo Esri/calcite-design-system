@@ -501,20 +501,6 @@ export class InputNumber
 
   //#region Private Methods
 
-  onFormSubmit(event: SubmitEvent): void {
-    const inputValue = this.childNumberRef?.value.value;
-    if (!inputValue) {
-      return;
-    }
-    // TODO: figure out other invalid values to check for
-    if (inputValue !== this.value && ["-", ".", "e", "E", ","].includes(inputValue)) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.status = "invalid";
-      this.validationIcon = true;
-    }
-  }
-
   private stopNudging() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   }
