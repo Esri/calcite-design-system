@@ -10,6 +10,7 @@ import {
 describe("filter-worker", () => {
   afterEach(() => {
     terminateFilterWorker();
+    vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 
@@ -71,6 +72,40 @@ describe("filter-worker", () => {
     } finally {
       globalThis.Worker = nativeWorker;
     }
+  });
+
+  it("caches data as non-cloneable after DataCloneError when structuredClone is unavailable", async () => {
+    let workerConstructorCallCount = 0;
+    let postMessageCallCount = 0;
+    const item: { label: string; callback?: () => void } = { label: "one", callback: () => {} };
+
+    class MockWorker {
+      constructor() {
+        workerConstructorCallCount++;
+      }
+
+      addEventListener(): void {
+        // no-op
+      }
+
+      postMessage(): void {
+        postMessageCallCount++;
+        throw new DOMException("postMessage failed", "DataCloneError");
+      }
+
+      terminate(): void {
+        // no-op
+      }
+    }
+
+    vi.stubGlobal("Worker", MockWorker);
+    vi.stubGlobal("structuredClone", undefined);
+
+    await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
+    await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
+
+    expect(workerConstructorCallCount).toBe(1);
+    expect(postMessageCallCount).toBe(1);
   });
 
   it("falls back when data is not structured-cloneable", async () => {
