@@ -59,7 +59,7 @@ export class Handle extends LitElement {
   @property({ reflect: true }) dragHandle?: string;
 
   /**
-   *
+   * @copyDoc
    * @private
    */
   @property() label?: string;
