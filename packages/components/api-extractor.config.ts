@@ -80,8 +80,22 @@ export const config: ApiExtractorConfig = {
         iconStart: {
           description: "Specifies an icon to display at the start of the component.",
         },
-        label: {
-          description: "Specifies an accessible label for the component.",
+        label(_apiProperty, apiClass) {
+          const baseDescription = "Specifies an accessible label for the component.";
+          const dragDescription = (component: string): string =>
+            `When \`dragEnabled\` is \`true\` and multiple ${component} sorting is enabled with \`group\`, specifies the component's name for dragging between ${component}s.`;
+
+          const descriptionOverrides: Record<string, string> = {
+            Avatar: `Specifies alternative text when \`thumbnail\` is defined, otherwise ${baseDescription.toLowerCase()}`,
+            BlockGroup: `${baseDescription}\n\n${dragDescription("group")}`,
+            List: `${baseDescription}\n\n${dragDescription("list")}`,
+            ListItem: `${baseDescription.slice(0, baseDescription.length - 1)}, displays above the \`description\`.`,
+            Navigation: "When `navigationAction` is `true`, specifies an accessible label for the `calcite-action`.",
+          };
+
+          return {
+            description: descriptionOverrides[apiClass.name] ?? baseDescription,
+          };
         },
         labelText: {
           description: "Specifies the component's label text.",
@@ -95,11 +109,11 @@ export const config: ApiExtractorConfig = {
         },
         name: {
           description:
-            "Specifies the name of the component. Required to pass the component's `value` on form submission.",
+            "Specifies the name of the component.\n\nRequired to pass the component's `value` on form submission.",
         },
         overlayPositioning: {
           description:
-            'Specifies the type of positioning to use for overlaid content, where:\n\n`"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout, and\n\n`"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
+            'Specifies the type of positioning to use for overlaid content.\n\n- `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout.\n\n- `"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
         },
         referenceElement: {
           description:

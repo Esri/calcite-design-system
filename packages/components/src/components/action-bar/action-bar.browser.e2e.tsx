@@ -113,6 +113,10 @@ describe("defaults", () => {
         propertyName: "expandPosition",
         defaultValue: "end",
       },
+      {
+        propertyName: "overflowMode",
+        defaultValue: "collapse",
+      },
     ],
   );
 });
@@ -164,6 +168,10 @@ describe("reflects", () => {
       {
         propertyName: "expandPosition",
         value: "start",
+      },
+      {
+        propertyName: "overflowMode",
+        value: "wrap",
       },
     ],
   );
@@ -365,6 +373,32 @@ describe("overflowing actions", () => {
     await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
     await expect.element(triggerActions.nth(1)).toBeInViewport();
     await expect.element(triggerActions.nth(2)).toBeInViewport();
+  });
+
+  it("honors consumer-slotted menu-actions in wrap and none modes", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="map" slot="menu-actions" text="New" />
+          <calcite-action icon="collection" slot="menu-actions" text="Open" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const authoredCount = (): number =>
+      page.getBySelector("calcite-action[slot='menu-actions']").elements().length;
+
+    await component.updateComplete;
+
+    // `wrap` leaves slotting to the consumer, so authored menu-actions render in the group's menu.
+    expect(authoredCount()).toBe(2);
+
+    el.overflowMode = "none";
+    await component.updateComplete;
+
+    // `none` behaves the same way.
+    expect(authoredCount()).toBe(2);
   });
 
   it("overflows when an actions-end group adds trailing divider and wrapper gaps", async () => {
@@ -903,6 +937,182 @@ describe("overflow-disabled actions", () => {
   });
 });
 
+describe("wrap", () => {
+  it("wraps items when enabled for horizontal layout", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-bar>,
+    );
+
+    const container = page.getByRole("toolbar").element();
+    expect(getComputedStyle(container).flexWrap).toBe("wrap");
+  });
+
+  it("wraps items when enabled for vertical layout", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar layout="vertical" overflow-mode="wrap">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-bar>,
+    );
+
+    const container = page.getByRole("toolbar").element();
+    expect(getComputedStyle(container).flexWrap).toBe("wrap");
+  });
+
+  it("keeps top-level items in the default slot when enabled", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-bar>,
+    );
+
+    Array.from(el.children).forEach((child) => {
+      expect(child.slot).toBe("");
+    });
+  });
+
+  it("removes the divider overlay when leaving wrap mode", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap" style="width: 120px;">
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search" />
+          <calcite-action icon="information" text="About" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    await component.updateComplete;
+
+    await expect
+      .poll(() => page.getBySelector(`calcite-action-bar .${CSS.line}`).elements().length)
+      .toBeGreaterThan(0);
+    await expect
+      .element(page.getBySelector(`calcite-action-bar .${CSS.lineOverlay}`))
+      .toBeInTheDocument();
+
+    el.overflowMode = "collapse";
+    await component.updateComplete;
+
+    await expect
+      .element(page.getBySelector(`calcite-action-bar .${CSS.lineOverlay}`))
+      .not.toBeInTheDocument();
+  });
+
+  it("does not render the divider overlay when layout is grid", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar layout="grid" overflow-mode="wrap">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-bar>,
+    );
+
+    await expect
+      .element(page.getBySelector(`calcite-action-bar .${CSS.lineOverlay}`))
+      .not.toBeInTheDocument();
+  });
+
+  it("keeps the container's leading padding when only bare actions are slotted", async () => {
+    const { component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap" style="width: 120px;">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+        <calcite-action icon="layers" text="Layers" />
+      </calcite-action-bar>,
+    );
+
+    await component.updateComplete;
+
+    // Without groups there are no dividers to clip, so the clipping machinery stays off and the
+    // container keeps its default leading padding.
+    const container = page.getByRole("toolbar").element();
+    expect(container.classList.contains(CSS.hasActionGroups)).toBe(false);
+    expect(getComputedStyle(container).paddingInlineStart).not.toBe("0px");
+  });
+
+  it("ignores hidden top-level items when measuring wrapped lines", async () => {
+    const { component } = await mount<ActionBar>(
+      <calcite-action-bar
+        expandDisabled
+        layout="horizontal"
+        overflow-mode="wrap"
+        style="width: 120px;"
+      >
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group hidden>
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search" />
+          <calcite-action icon="information" text="About" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    await component.updateComplete;
+    await expect
+      .poll(() => page.getBySelector(`calcite-action-bar .${CSS.line}`).elements().length)
+      .toBeGreaterThan(0);
+
+    // The two visible groups wrap into two rows → exactly one divider; the hidden group must not
+    // add a phantom line.
+    expect(page.getBySelector(`calcite-action-bar .${CSS.line}`).elements()).toHaveLength(1);
+  });
+
+  it("re-measures wrapped lines when the actions-end group becomes visible", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar
+        expand-toggle-disabled
+        layout="horizontal"
+        overflow-mode="wrap"
+        style="width: 120px;"
+      >
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search" />
+          <calcite-action icon="information" text="About" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const lineCount = (): number =>
+      page.getBySelector(`calcite-action-bar .${CSS.line}`).elements().length;
+
+    await component.updateComplete;
+    await expect.poll(lineCount).toBeGreaterThan(0);
+    const initial = lineCount();
+
+    // Showing the expand toggle un-hides the actions-end group, adding it to the wrap flow. The
+    // divider overlay must re-measure to account for the new wrapped line.
+    el.expandToggleDisabled = false;
+    await component.updateComplete;
+
+    await expect.poll(lineCount).toBeGreaterThan(initial);
+  });
+});
+
 describe("slot-change action tracking", () => {
   it("updates slotted action state when an action-group emits an actions change event", async () => {
     const actionsChange = vi.fn();
@@ -1098,7 +1308,7 @@ describe("slot-change action tracking", () => {
 
   it("closes default-slot group menu when a slotted actions-start group menu opens", async () => {
     await mount<ActionBar>(
-      <calcite-action-bar>
+      <calcite-action-bar layout="horizontal" overflow-actions-disabled>
         <calcite-action-group id="default-group">
           <calcite-action icon="plus" text="Default" />
           <calcite-action icon="save" slot="menu-actions" text="Save" />
@@ -1110,30 +1320,29 @@ describe("slot-change action tracking", () => {
       </calcite-action-bar>,
     );
 
-    const defaultGroup = page
-      .getBySelector("calcite-action-group#default-group")
-      .element() as ActionGroup["el"];
-    const startGroup = page
-      .getBySelector("calcite-action-group#start-group[slot='actions-start']")
-      .element() as ActionGroup["el"];
-    const defaultTrigger = page
-      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
-    const startTrigger = page
-      .getBySelector("calcite-action-group#start-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
+    const defaultGroup = page.getBySelector("calcite-action-group#default-group");
+    const startGroup = page.getBySelector("calcite-action-group#start-group[slot='actions-start']");
+    const defaultTrigger = page.getBySelector(
+      "calcite-action-group#default-group calcite-action[slot='trigger']",
+    );
+    const startTrigger = page.getBySelector(
+      "calcite-action-group#start-group calcite-action[slot='trigger']",
+    );
 
-    await userEvent.click(defaultTrigger);
-    expect(defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultTrigger).toBeVisible();
+    await expect.element(startTrigger).toBeVisible();
 
-    startTrigger.click();
-    expect(startGroup.menuOpen).toBe(true);
-    expect(defaultGroup.menuOpen).toBe(false);
+    await defaultTrigger.click();
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", true);
+
+    await startTrigger.click();
+    await expect.element(startGroup).toHaveProperty("menuOpen", true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", false);
   });
 
   it("closes default-slot group menu when a slotted actions-end group menu opens", async () => {
     await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal">
+      <calcite-action-bar layout="horizontal" overflow-actions-disabled>
         <calcite-action-group id="default-group">
           <calcite-action icon="plus" text="Default" />
           <calcite-action icon="save" slot="menu-actions" text="Save" />
@@ -1145,25 +1354,24 @@ describe("slot-change action tracking", () => {
       </calcite-action-bar>,
     );
 
-    const defaultGroup = page
-      .getBySelector("calcite-action-group#default-group")
-      .element() as ActionGroup["el"];
-    const endGroup = page
-      .getBySelector("calcite-action-group#end-group[slot='actions-end']")
-      .element() as ActionGroup["el"];
-    const defaultTrigger = page
-      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
-    const endTrigger = page
-      .getBySelector("calcite-action-group#end-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
+    const defaultGroup = page.getBySelector("calcite-action-group#default-group");
+    const endGroup = page.getBySelector("calcite-action-group#end-group[slot='actions-end']");
+    const defaultTrigger = page.getBySelector(
+      "calcite-action-group#default-group calcite-action[slot='trigger']",
+    );
+    const endTrigger = page.getBySelector(
+      "calcite-action-group#end-group calcite-action[slot='trigger']",
+    );
 
-    await userEvent.click(defaultTrigger);
-    expect(defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultTrigger).toBeVisible();
+    await expect.element(endTrigger).toBeVisible();
 
-    endTrigger.click();
-    expect(endGroup.menuOpen).toBe(true);
-    expect(defaultGroup.menuOpen).toBe(false);
+    await defaultTrigger.click();
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", true);
+
+    await endTrigger.click();
+    await expect.element(endGroup).toHaveProperty("menuOpen", true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", false);
   });
 
   it("closes other direct action-menus when one opens", async () => {

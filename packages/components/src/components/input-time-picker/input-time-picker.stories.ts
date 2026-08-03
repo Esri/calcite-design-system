@@ -11,6 +11,7 @@ interface InputTimePickerStoryArgs extends Pick<
   | "clearable"
   | "disabled"
   | "hourFormat"
+  | "labelText"
   | "max"
   | "min"
   | "open"
@@ -35,6 +36,7 @@ export default {
     disabled: false,
     hidden: false,
     hourFormat: undefined,
+    labelText: "Label text",
     max: "",
     min: "",
     open: false,
@@ -78,6 +80,7 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
     hour-format="${args.hourFormat}"
+    ${optionalAttribute("label-text", args.labelText)}
     max="${args.max}"
     min="${args.min}"
     placeholder="${args.placeholder}"
@@ -271,4 +274,15 @@ Focus.parameters = {
 
 export const clearable = (): string => html`
   <calcite-input-time-picker clearable value="10:37"></calcite-input-time-picker>
+`;
+
+export const timePartsAlignedInBothDirectionsWhenWide = (): string => html`
+  <style>
+    calcite-input-time-picker {
+      width: 300px;
+    }
+  </style>
+  <calcite-input-time-picker value="22:37"></calcite-input-time-picker>
+  <br />
+  <calcite-input-time-picker dir="rtl" lang="ar" numbering-system="arab" value="22:37"></calcite-input-time-picker>
 `;

@@ -135,11 +135,11 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) name?: string;
 
   /**
-   * When `mode` is `"offset"`, specifies how the offset will be displayed, where
+   * When `mode` is `"offset"`, specifies how the offset will be displayed.
    *
-   * `"user"` uses `UTC` or `GMT` depending on the user's locale,
-   * `"gmt"` always uses `GMT`, and
-   * `"utc"` always uses `UTC`.
+   * - `"user"` uses `UTC` or `GMT` depending on the user's locale.
+   * - `"gmt"` always uses `GMT`.
+   * - `"utc"` always uses `UTC`.
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
@@ -190,9 +190,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -200,7 +198,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

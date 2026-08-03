@@ -11,7 +11,11 @@ declare global {
     "calcite-accordion": Accordion;
   }
 }
-/** @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. */
+
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block-group` component instead.
+ * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
+ */
 export class Accordion extends LitElement {
   // #region Static Members
 
@@ -41,13 +45,11 @@ export class Accordion extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection, and
-   *
-   * `"single-persist"` allows one selection and prevents de-selection.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple",

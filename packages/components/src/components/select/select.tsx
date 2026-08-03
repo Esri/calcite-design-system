@@ -96,8 +96,7 @@ export class Select extends LitElement implements LabelableComponent {
   @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -128,9 +127,7 @@ export class Select extends LitElement implements LabelableComponent {
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -138,7 +135,6 @@ export class Select extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -147,7 +143,11 @@ export class Select extends LitElement implements LabelableComponent {
   // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   /** @copyDoc */
