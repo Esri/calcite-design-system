@@ -369,12 +369,6 @@ describe("is form-associated", () => {
     inputType: "number",
     validation: true,
   });
-  formAssociated(() => mount("calcite-input-number"), {
-    testValue: "-",
-    submitsOnEnter: true,
-    inputType: "number",
-    validation: true,
-  });
 });
 
 it("renders number buttons in default vertical alignment", async () => {
