@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.9...@esri/calcite-ui-icons@4.6.0-next.10) (2026-08-03)
+
+### Features
+
+- add load configuration ([#14921](https://github.com/Esri/calcite-design-system/issues/14921))
+
+## [4.6.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.8...@esri/calcite-ui-icons@4.6.0-next.9) (2026-07-30)
+
+### Bug Fixes
+
+- publish, review map, show orientated imagery ([#14906](https://github.com/Esri/calcite-design-system/issues/14906))
+
+## [4.6.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.7...@esri/calcite-ui-icons@4.6.0-next.8) (2026-07-27)
+
+### Features
+
+- add tree-map and radar-chart ([#14876](https://github.com/Esri/calcite-design-system/issues/14876))
+
 ## [4.6.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.6...@esri/calcite-ui-icons@4.6.0-next.7) (2026-07-08)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
