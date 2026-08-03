@@ -49,6 +49,10 @@ export const getFilteredIndexes = (data: Array<object>, value: string, filterPro
 };
 
 export const filter = (data: Array<object>, value: string, filterProps?: string[]): Array<any> => {
+  if (value === "" || data.length === 0) {
+    return data;
+  }
+
   const indexes = getFilteredIndexes(data, value, filterProps);
 
   return indexes.map((index) => data[index]);

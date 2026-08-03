@@ -22,7 +22,7 @@ const pendingRequests = new Map<number, PendingRequest>();
 const cloneableRecordCache = new WeakMap<object, boolean>();
 
 function isDataCloneError(error: unknown): boolean {
-  return error instanceof DOMException && error.name === "DataCloneError";
+  return typeof DOMException !== "undefined" && error instanceof DOMException && error.name === "DataCloneError";
 }
 
 function isStructuredCloneable(value: unknown): boolean {
@@ -128,6 +128,12 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
       data.forEach((item) => {
         cloneableRecordCache.set(item, cloneable ? isStructuredCloneable(item) : false);
       });
+
+      if (cloneable) {
+        resolvePendingRequests(null);
+        worker.terminate();
+        filterWorker = null;
+      }
 
       pendingRequests.delete(requestId);
       resolve(null);
