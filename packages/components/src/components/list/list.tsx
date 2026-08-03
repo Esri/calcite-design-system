@@ -53,6 +53,7 @@ declare global {
 }
 
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
+const defaultFilterProps = ["description", "label", "metadata", "heading"];
 
 type FilterItemData = SharedListFilterFields & {
   itemIndex: number;
@@ -154,13 +155,7 @@ export class List extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  private get effectiveFilterProps(): string[] {
-    if (!this.filterProps) {
-      return ["description", "label", "metadata", "heading"];
-    }
-
-    return this.filterProps.filter((prop) => prop !== "el");
-  }
+  private effectiveFilterProps: string[] = defaultFilterProps;
 
   private filterRowResizeObserver = createObserver("resize", () => this.updateFilterRowHeight());
 
@@ -456,6 +451,12 @@ export class List extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("filterProps")) {
+      this.effectiveFilterProps = this.filterProps
+        ? this.filterProps.filter((prop) => prop !== "el")
+        : defaultFilterProps;
+    }
+
     const filterTextChanged = changes.has("filterText");
 
     if (
@@ -944,11 +945,10 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
   }
 
-  private async filterAndUpdateData(): Promise<void> {
+  private async filterAndUpdateData(
+    filterValue = this.filterEl?.value ?? this.filterText,
+  ): Promise<void> {
     const requestId = ++this.filterDataRequestId;
-
-    // Keep in-progress user input as source-of-truth during rapid item updates.
-    const filterValue = this.filterEl?.value ?? this.filterText;
     await this.filterEl?.filter(filterValue);
 
     if (requestId !== this.filterDataRequestId) {
@@ -965,9 +965,8 @@ export class List extends LitElement {
       return;
     }
 
-    filterEl.value = filterText;
     filterEl.filterProps = effectiveFilterProps;
-    this.filterAndUpdateData();
+    this.filterAndUpdateData(filterText);
   }
 
   private setDefaultSlotEl(el: HTMLSlotElement): void {

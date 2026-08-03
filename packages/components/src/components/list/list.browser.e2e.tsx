@@ -659,6 +659,74 @@ describe("filter loading state", () => {
       globalThis.Worker = nativeWorker;
     }
   });
+
+  it("does not trigger an extra worker request when filterText is set programmatically", async () => {
+    const nativeWorker = globalThis.Worker;
+    let postMessageCallCount = 0;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: {
+        requestId: number;
+        data: Array<{ label?: string }>;
+        value: string;
+      }): void {
+        postMessageCallCount++;
+        const filterValue = message.value.toLowerCase();
+        const filteredIndexes = message.data
+          .map((item, index) => ({
+            index,
+            label: (item.label ?? "").toLowerCase(),
+          }))
+          .filter((item) => item.label.includes(filterValue))
+          .map((item) => item.index);
+
+        this.messageListeners.forEach((listener) =>
+          listener(
+            new MessageEvent("message", {
+              data: {
+                requestId: message.requestId,
+                filteredIndexes,
+              },
+            }),
+          ),
+        );
+      }
+
+      terminate(): void {
+        this.messageListeners.length = 0;
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const itemCount = 120;
+      const items = Array.from({ length: itemCount }, (_, index) => (
+        <calcite-list-item label={`Item ${index}`} value={`item-${index}`} />
+      ));
+
+      const { el } = await mount<List>(<calcite-list filter-enabled>{items}</calcite-list>);
+
+      await vi.waitUntil(() => el.filteredItems.length === itemCount);
+
+      el.filterText = "Item 11";
+
+      await vi.waitUntil(() => el.filteredItems.length === 11);
+      await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
+
+      expect(postMessageCallCount).toBe(1);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
 });
 
 describe("filter item data updates", () => {
