@@ -90,28 +90,28 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @private */
   @property({ reflect: true }) layout!: TabLayout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -203,6 +203,9 @@ export class TabTitle extends LitElement {
   /** @private */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
+  /** @private */
+  calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
+
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
    *
@@ -273,6 +276,10 @@ export class TabTitle extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.selectedHandler();
+    }
+
+    if (changes.has("closed") && this.hasUpdated) {
+      this.calciteInternalTabTitleCloseChange.emit();
     }
 
     if (this.parentTabsEl) {

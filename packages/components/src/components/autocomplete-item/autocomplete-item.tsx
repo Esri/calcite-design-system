@@ -40,7 +40,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() active = false;
 
-  /** Specifies a description for the component. Displays below the label text. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -54,20 +54,19 @@ export class AutocompleteItem extends LitElement {
   @property() guid = IDS.host(guid());
 
   /**
-   * Specifies the component's heading text.
-   *
+   * @copyDoc
    * @required
    */
   @property() heading!: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Pattern for highlighting text matches.
@@ -76,7 +75,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property({ reflect: true }) inputValueMatchPattern?: RegExp;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /**

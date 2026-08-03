@@ -28,17 +28,17 @@
 @include includes.disabled();
 
 :host([scale="s"]) {
-  @apply h-6;
+  min-block-size: var(--calcite-space-2xl);
   --calcite-internal-rating-spacing: theme("spacing.1");
 }
 
 :host([scale="m"]) {
-  @apply h-8;
+  min-block-size: var(--calcite-space-3xl);
   --calcite-internal-rating-spacing: theme("spacing.2");
 }
 
 :host([scale="l"]) {
-  @apply h-11;
+  min-block-size: var(--calcite-space-4xl);
   --calcite-internal-rating-spacing: theme("spacing.3");
 }
 
@@ -121,5 +121,4 @@ calcite-chip {
 
 @include includes.form-internal-label();
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.base-component();

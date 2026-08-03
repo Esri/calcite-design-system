@@ -22,6 +22,7 @@ declare global {
 }
 
 /**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
@@ -66,17 +67,17 @@ export class AccordionItem extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies a description for the component. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
@@ -88,7 +89,7 @@ export class AccordionItem extends LitElement {
    */
   @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
@@ -98,8 +99,8 @@ export class AccordionItem extends LitElement {
    */
   @property() iconPosition!: Extract<"start" | "end", Position>;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
@@ -115,7 +116,7 @@ export class AccordionItem extends LitElement {
    */
   @property({ reflect: true }) scale!: Scale;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

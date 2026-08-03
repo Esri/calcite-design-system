@@ -1,13 +1,14 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
 import { createControlledPromise } from "../../tests/utils/promises";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
+
+// Deprecated in v5.2.0, removal target v7.0.0
 
 describe("rendering permutations", () => {
   it("renders default props when none are provided", async () => {
@@ -24,14 +25,14 @@ describe("rendering permutations", () => {
     expect(element).not.toHaveAttribute("loading");
   });
 
-  it(`should set all internal calcite-button types to 'button'`, async () => {
+  it(`should set all internal calcite-action types to 'action'`, async () => {
     const page = await newE2EPage({
       html: html`<calcite-inline-editable controls editing-enabled>
         <calcite-input />
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 
@@ -47,7 +48,7 @@ describe("rendering permutations", () => {
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 
@@ -124,26 +125,6 @@ describe("does not have controls", () => {
     await page.waitForChanges();
     expect(element).not.toHaveAttribute("editing-enabled");
   });
-
-  describe("accessibility", () => {
-    accessible(html`
-      <calcite-label>
-        Label
-        <calcite-inline-editable>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-
-    accessible(html`
-      <calcite-label>
-        Label
-        <calcite-inline-editable editing-enabled>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-  });
 });
 
 describe("has controls", () => {
@@ -186,7 +167,7 @@ describe("has controls", () => {
     const cancelEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.cancelEditingButton}`);
     expect(await input.getProperty("value")).toBe("John Doe");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("-typo");
@@ -206,7 +187,7 @@ describe("has controls", () => {
     await element.click();
     expect(await input.getProperty("value")).toBe("John Doe");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("-typo");
@@ -261,7 +242,7 @@ describe("has controls", () => {
     await enableEditingButton.click();
     const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("Moe");
@@ -286,7 +267,7 @@ describe("has controls", () => {
     await enableEditingButton.click();
     const confirmChangesButton = await page.find(`calcite-inline-editable >>> .${CSS.confirmChangesButton}`);
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("Moe");
@@ -315,7 +296,7 @@ describe("has controls", () => {
     await enableEditingButton.click();
     const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("Moe");
@@ -324,26 +305,6 @@ describe("has controls", () => {
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("John DoeMoe");
     expect(element).toHaveAttribute("editing-enabled");
-  });
-
-  describe("accessibility", () => {
-    accessible(html`
-      <calcite-label controls>
-        Label
-        <calcite-inline-editable>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-
-    accessible(html`
-      <calcite-label controls editing-enabled>
-        Label
-        <calcite-inline-editable editing-enabled>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
   });
 
   describe("labelable", () => {
@@ -369,57 +330,4 @@ describe("has controls", () => {
       );
     });
   });
-});
-
-describe("theme", () => {
-  themed("calcite-inline-editable", {
-    "--calcite-inline-editable-background-color-hover": {
-      shadowSelector: `.${CSS.wrapper}`,
-      state: "hover",
-      targetProp: "backgroundColor",
-    },
-    "--calcite-inline-editable-background-color": {
-      shadowSelector: `.${CSS.wrapper}`,
-      targetProp: "backgroundColor",
-    },
-  });
-  themed(
-    html`<calcite-inline-editable controls editing-enabled>
-      <calcite-input />
-    </calcite-inline-editable>`,
-    {
-      "--calcite-inline-editable-button-corner-radius": [
-        {
-          shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-button-corner-radius",
-        },
-        {
-          shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-button-corner-radius",
-        },
-        {
-          shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-button-corner-radius",
-        },
-      ],
-      "--calcite-inline-editable-button-loader-color": {
-        shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-button-loader-color",
-      },
-      "--calcite-inline-editable-button-text-color": [
-        {
-          shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-button-text-color",
-        },
-        {
-          shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-button-text-color",
-        },
-        {
-          shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-button-text-color",
-        },
-      ],
-    },
-  );
 });

@@ -1,7 +1,13 @@
 import { Decorator } from "@storybook/web-components-vite";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Scale } from "../interfaces";
+import type { Tree } from "./tree";
+
+const { scale, selectionMode } = ATTRIBUTES;
+
+type TreeStoryArgs = Pick<Tree, "lines" | "scale" | "selectionMode">;
 
 /**
  * This decorator takes HTML for items and will create a composite story for all scales for each specified selection mode.
@@ -11,7 +17,7 @@ import type { Scale } from "../interfaces";
 const allScaleTreeBuilder: Decorator = (itemsStory, context): string => {
   const items = itemsStory();
   const { selectionMode = "single", lines } = context.args;
-  const scales: Scale[] = ["s", "m", "l"];
+  const scales: Scale[] = scale.values;
 
   return html`
     <style>
@@ -26,22 +32,39 @@ const allScaleTreeBuilder: Decorator = (itemsStory, context): string => {
     </style>
 
     <div class="container">
-      ${scales.map(
-        (scale) => html`
-          <div class="tree-container">
-            <h3>${selectionMode} selection mode + ${scale} scale</h3>
-            <calcite-tree selection-mode="${selectionMode}" ${lines ? "lines" : ""} scale="${scale}">
-              ${items}
-            </calcite-tree>
-          </div>
-        `,
-      )}
+      ${scales
+        .map(
+          (scale) => html`
+            <div class="tree-container">
+              <h3>${selectionMode} selection mode + ${scale} scale</h3>
+              <calcite-tree selection-mode="${selectionMode}" ${lines ? "lines" : ""} scale="${scale}">
+                ${items}
+              </calcite-tree>
+            </div>
+          `,
+        )
+        .join("")}
     </div>
   `;
 };
 
 export default {
   title: "Components/Tree",
+  args: {
+    lines: false,
+    scale: scale.defaultValue,
+    selectionMode: "single",
+  },
+  argTypes: {
+    selectionMode: {
+      options: selectionMode.values.filter((option) => option !== "children" && option !== "multichildren"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 1000,
@@ -130,6 +153,12 @@ const iconStartLargeActionsEnd = (scale: string) => html`
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
+`;
+
+export const simple = (args: TreeStoryArgs): string => html`
+  <calcite-tree selection-mode="${args.selectionMode}" ${boolean("lines", args.lines)} scale="${args.scale}">
+    ${treeItems(true, args.selectionMode === "none")}
+  </calcite-tree>
 `;
 
 export const singleSelectionMode = (): string => html` ${treeItems()} `;

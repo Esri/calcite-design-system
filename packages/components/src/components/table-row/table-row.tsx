@@ -1,9 +1,13 @@
 import { PropertyValues } from "lit";
-import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit/directives/ref.js";
+import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
 import { render } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
+import {
+  focusElementInGroup,
+  FocusElementInGroupDestination,
+  getSlotAssignedElements,
+} from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
@@ -31,11 +35,17 @@ export class TableRow extends LitElement {
 
   messages;
 
+  private numberedCellRef = createRef<TableCell["el"]>();
+
+  private numberedHeaderRef = createRef<TableHeader["el"]>();
+
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
-  private tableRowEl?: HTMLTableRowElement;
+  private rowSlotRef = createRef<HTMLSlotElement>();
 
-  private tableRowSlotRef = createRef<HTMLSlotElement>();
+  private selectionCellRef = createRef<TableCell["el"]>();
+
+  private selectionHeaderRef = createRef<TableHeader["el"]>();
 
   private userTriggered = false;
 
@@ -61,10 +71,11 @@ export class TableRow extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the vertical alignment of content within child `calcite-table-cell`s, where:
-   * `"start"` positions content at the top of a `calcite-table-cell`,
-   * `"center"` positions content in the middle of a `calcite-table-cell`, and
-   * `"end"` positions content at the bottom of a `calcite-table-cell`.
+   * Specifies the vertical alignment of content within child `calcite-table-cell`s.
+   *
+   * - `"start"` positions content at the top of a `calcite-table-cell`.
+   * - `"center"` positions content in the middle of a `calcite-table-cell`.
+   * - `"end"` positions content at the bottom of a `calcite-table-cell`.
    */
   @property({ reflect: true }) alignment!: Alignment;
 
@@ -110,6 +121,9 @@ export class TableRow extends LitElement {
 
   /** @private */
   @property() scale!: Scale;
+
+  /** @private */
+  @property() stickyHeaderEnabled = false;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true })
@@ -195,7 +209,7 @@ export class TableRow extends LitElement {
   }
 
   loaded(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       this.updateCells();
     }
   }
@@ -209,13 +223,13 @@ export class TableRow extends LitElement {
   }
 
   private handleCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       this.updateCells();
     }
   }
 
   private handleDelayedCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       requestAnimationFrame(() => this.updateCells());
     }
   }
@@ -321,24 +335,22 @@ export class TableRow extends LitElement {
       : this.rowType !== "head"
         ? "center"
         : "start";
-
-    const slottedCells =
-      this.tableRowSlotRef.value
-        ?.assignedElements({ flatten: true })
-        ?.filter((el) => el.matches("calcite-table-cell") || el.matches("calcite-table-header")) ??
-      [];
-
-    const tableRowEls: NodeListOf<TableCell["el"] | TableHeader["el"]> | undefined =
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell");
-
-    const renderedCells = tableRowEls
-      ? Array.from(tableRowEls).filter((el) => el.numberCell || el.selectionCell)
-      : undefined;
-
-    const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
+    const slottedCells = this.rowSlotRef.value
+      ? getSlotAssignedElements<TableCell["el"] | TableHeader["el"]>(
+          this.rowSlotRef.value,
+          "calcite-table-cell, calcite-table-header",
+        )
+      : [];
+    const renderedCells = [
+      this.numberedCellRef.value,
+      this.numberedHeaderRef.value,
+      this.selectionCellRef.value,
+      this.selectionHeaderRef.value,
+    ].filter((cell) => cell != null);
+    const cells = renderedCells.concat(slottedCells);
 
     if (cells.length > 0) {
-      cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
+      cells?.forEach((cell, index) => {
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
         cell.parentRowAlignment = alignment;
@@ -348,8 +360,15 @@ export class TableRow extends LitElement {
         cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
+          const rowSpan = cell.rowSpan || 1;
+          const reachesBodyEnd =
+            this.rowType === "body" &&
+            rowSpan > 1 &&
+            this.positionSection + rowSpan >= this.bodyRowCount;
+
           (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
           (cell as TableCell["el"]).disabled = this.disabled;
+          (cell as TableCell["el"]).reachesBodyEnd = reachesBodyEnd;
         }
       });
     }
@@ -393,6 +412,7 @@ export class TableRow extends LitElement {
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
+        ref={this.selectionHeaderRef}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell={true}
@@ -407,6 +427,7 @@ export class TableRow extends LitElement {
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.positionSectionLocalized}
+        ref={this.selectionCellRef}
         selectionCell={true}
       >
         {this.renderSelectionIcon()}
@@ -416,6 +437,7 @@ export class TableRow extends LitElement {
         alignment="center"
         key="selection-foot"
         parentRowAlignment={this.alignment}
+        ref={this.selectionCellRef}
         selectionCell={true}
       />
     );
@@ -428,6 +450,7 @@ export class TableRow extends LitElement {
         key="numbered-head"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={this.numberedHeaderRef}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
@@ -435,6 +458,7 @@ export class TableRow extends LitElement {
         key="numbered-body"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={this.numberedCellRef}
       >
         {this.positionSectionLocalized}
       </calcite-table-cell>
@@ -444,6 +468,7 @@ export class TableRow extends LitElement {
         key="numbered-foot"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={this.numberedCellRef}
       />
     );
   }
@@ -461,14 +486,12 @@ export class TableRow extends LitElement {
               return;
             }
 
-            this.tableRowEl = el;
-
             /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
             render(
               <>
                 {this.numbered && this.renderNumberedCell()}
                 {this.selectionMode !== "none" && this.renderSelectableCell()}
-                <slot ref={this.tableRowSlotRef} />
+                <slot ref={this.rowSlotRef} />
               </>,
               el,
             );

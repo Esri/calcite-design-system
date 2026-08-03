@@ -113,10 +113,11 @@ export function formatTimePart(number: number | null | undefined, minLength?: nu
   if (number >= 10) {
     return numberAsString;
   }
+  return;
 }
 
 function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): number {
-  return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
+  return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3), 10);
 }
 
 export function getLocaleHourFormat(locale: Locale): EffectiveHourFormat {
@@ -263,7 +264,7 @@ export function getMeridiem(hour: string | null | undefined): Meridiem | null {
   if (!isValidNumber(hour)) {
     return null;
   }
-  const hourAsNumber = parseInt(hour!);
+  const hourAsNumber = parseInt(hour!, 10);
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
 }
 
@@ -298,9 +299,9 @@ export function isValidTime(value: string | Time | null | undefined): value is s
   if (!hour || !minute) {
     return false;
   }
-  const hourAsNumber = parseInt(hour);
-  const minuteAsNumber = parseInt(minute);
-  const secondAsNumber = parseInt(second ?? "");
+  const hourAsNumber = parseInt(hour, 10);
+  const minuteAsNumber = parseInt(minute, 10);
+  const secondAsNumber = parseInt(second ?? "", 10);
   const hourValid = isValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
   const minuteValid = isValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
   const secondValid = isValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
@@ -357,7 +358,7 @@ export function localizeTimePart({
         numberingSystem,
       };
       const localizedZero = numberStringFormatter.localize("0");
-      if (parseInt(value) === 0) {
+      if (parseInt(value, 10) === 0) {
         localizedFractionalSecond = "".padStart(value.length, localizedZero);
       } else {
         localizedFractionalSecond = numberStringFormatter
@@ -371,7 +372,7 @@ export function localizeTimePart({
     return localizedFractionalSecond;
   }
 
-  const valueAsNumber = parseInt(value as string);
+  const valueAsNumber = parseInt(value as string, 10);
   const date = new Date(
     Date.UTC(
       0,
@@ -431,9 +432,9 @@ export function localizeTimeString({
       0,
       0,
       0,
-      parseInt(hour!),
-      parseInt(minute!),
-      includeSeconds && typeof second === "string" ? parseInt(second) : 0,
+      parseInt(hour!, 10),
+      parseInt(minute!, 10),
+      includeSeconds && typeof second === "string" ? parseInt(second, 10) : 0,
       includeSeconds && fractionalSecond ? fractionalSecondPartToMilliseconds(fractionalSecond) : 0,
     ),
   );
@@ -535,9 +536,9 @@ export function toISOTimeString(value: string | Time | null | undefined, step: n
   }
 
   if (hour && minute) {
-    isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
+    isoTimeString = `${formatTimePart(parseInt(hour, 10))}:${formatTimePart(parseInt(minute, 10))}`;
     if (step < 60) {
-      isoTimeString += `:${formatTimePart(parseInt(second || "0"))}`;
+      isoTimeString += `:${formatTimePart(parseInt(second || "0", 10))}`;
       if (step < 1) {
         isoTimeString += `.${formatFractionalSecond(fractionalSecond || "0", step)}`;
       }

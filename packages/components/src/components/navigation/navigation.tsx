@@ -60,30 +60,30 @@ export class Navigation extends LitElement {
 
   // #region State Properties
 
-  @state() logoSlotHasElements: boolean;
+  @state() logoSlotHasElements = false;
 
-  @state() navigationActionSlotHasElements: boolean;
+  @state() navigationActionSlotHasElements = false;
 
-  @state() primaryContentCenterSlotHasElements: boolean;
+  @state() primaryContentCenterSlotHasElements = false;
 
-  @state() primaryContentEndSlotHasElements: boolean;
+  @state() primaryContentEndSlotHasElements = false;
 
-  @state() primaryContentStartSlotHasElements: boolean;
+  @state() primaryContentStartSlotHasElements = false;
 
-  @state() progressSlotHasElement: boolean;
+  @state() progressSlotHasElement = false;
 
-  @state() secondarySlotHasElements: boolean;
+  @state() secondarySlotHasElements = false;
 
-  @state() tertiarySlotHasElements: boolean;
+  @state() tertiarySlotHasElements = false;
 
-  @state() userSlotHasElements: boolean;
+  @state() userSlotHasElements = false;
 
   // #endregion
 
   // #region Public Properties
 
-  /** When `navigationAction` is `true`, specifies an accessible label for the `calcite-action`. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
   @property({ reflect: true }) navigationAction = false;

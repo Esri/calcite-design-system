@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
@@ -43,7 +42,7 @@ export class Scrim extends LitElement {
 
   @state() hasContent = false;
 
-  @state() loaderScale: Scale;
+  @state() loaderScale?: Scale;
 
   //#endregion
 
@@ -52,7 +51,7 @@ export class Scrim extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

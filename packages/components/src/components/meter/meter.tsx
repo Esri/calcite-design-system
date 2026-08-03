@@ -85,16 +85,15 @@ export class Meter extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies the component's display, where
-   * `"single"` displays a single color, and
-   * `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
+   * Specifies the component's display.
+   *
+   * - `"single"` displays a single color.
+   * - `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
    */
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
+   * @copyDoc
    *
    * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
@@ -107,8 +106,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) high?: number;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -123,7 +121,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) min = 0;
 
   /**
-   * Specifies the name of the component. Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
@@ -219,14 +217,14 @@ export class Meter extends LitElement {
 
   private calculateValues(): void {
     const { min, max, low, high, value } = this;
-    const lowPercent = (100 * (low - min)) / (max - min);
-    const highPercent = (100 * (high - min)) / (max - min);
-    const currentPercent = (100 * (value - min)) / (max - min);
+    const lowPercent = low === undefined ? NaN : (100 * (low - min)) / (max - min);
+    const highPercent = high === undefined ? NaN : (100 * (high - min)) / (max - min);
+    const currentPercent = value === undefined ? NaN : (100 * (value - min)) / (max - min);
 
-    if (!low || low < min || low > high || low > max) {
+    if (!low || low < min || (high !== undefined && low > high) || low > max) {
       this.low = min;
     }
-    if (!high || high > max || high < low || high < min) {
+    if (!high || high > max || (low !== undefined && high < low) || high < min) {
       this.high = max;
     }
     if (!value) {
@@ -266,10 +264,10 @@ export class Meter extends LitElement {
     const { low, high, min, max, value } = this;
     const lowest = low ? low : min;
     const highest = high ? high : max;
-    const aboveLowest = value >= lowest;
-    const belowLowest = value < lowest;
-    const aboveHighest = value >= highest;
-    const belowHighest = value < highest;
+    const aboveLowest = value !== undefined && value >= lowest;
+    const belowLowest = value !== undefined && value < lowest;
+    const aboveHighest = value !== undefined && value >= highest;
+    const belowHighest = value !== undefined && value < highest;
 
     if (!value || (!low && belowHighest) || belowLowest) {
       return CSS.success;

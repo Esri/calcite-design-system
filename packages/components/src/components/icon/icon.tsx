@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { PropertyValues, isServer } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
@@ -28,13 +27,13 @@ export class Icon extends LitElement {
 
   private direction = useDirection();
 
-  private intersectionObserver: IntersectionObserver;
+  private intersectionObserver?: IntersectionObserver;
 
   // #endregion
 
   // #region State Properties
 
-  @state() private pathData: CalciteIconPath;
+  @state() private pathData?: CalciteIconPath;
 
   @state() private visible = false;
 
@@ -53,11 +52,7 @@ export class Icon extends LitElement {
    *
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
-  @property({
-    reflect: true,
-    type: String,
-  })
-  icon: IconName = null;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, preloads the `icon` data. */
   @property({ reflect: true }) preload = false;
@@ -73,7 +68,7 @@ export class Icon extends LitElement {
    *
    * It is recommended to set this value if your icon is semantic.
    */
-  @property() textLabel: string;
+  @property() textLabel?: string;
 
   // #endregion
 
@@ -100,7 +95,7 @@ export class Icon extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("icon") && (this.hasUpdated || this.icon !== null)) ||
+      (changes.has("icon") && (this.hasUpdated || this.icon !== undefined)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
       this.loadIconPathData();
@@ -109,7 +104,7 @@ export class Icon extends LitElement {
 
   override disconnectedCallback(): void {
     this.intersectionObserver?.disconnect();
-    this.intersectionObserver = null;
+    this.intersectionObserver = undefined;
   }
 
   // #endregion
@@ -140,8 +135,8 @@ export class Icon extends LitElement {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            this.intersectionObserver.disconnect();
-            this.intersectionObserver = null;
+            this.intersectionObserver?.disconnect();
+            this.intersectionObserver = undefined;
             callback();
           }
         });
@@ -166,7 +161,7 @@ export class Icon extends LitElement {
     const dir = this.direction;
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
-    const paths = [].concat(pathData || "");
+    const paths = Array.isArray(pathData) ? pathData : [pathData ?? ""];
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaHidden = toAriaBoolean(!semantic);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

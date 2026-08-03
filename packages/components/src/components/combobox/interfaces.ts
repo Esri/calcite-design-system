@@ -5,13 +5,16 @@ export type ComboboxChildElement = ComboboxItem["el"] | ComboboxItemGroup["el"];
 export type SelectionDisplay = "all" | "fit" | "single";
 
 export interface ItemData extends BaseData {
-  description: string;
-  metadata: Record<string, unknown>;
-  shortHeading: string;
-  el: ComboboxItem["el"] | ComboboxItemGroup["el"];
+  description: string | undefined;
+  filterDisabled: boolean;
+  metadata: Record<string, unknown> | undefined;
+  shortHeading: string | undefined;
+  el: ComboboxItem["el"];
 }
 
-export type GroupData = BaseData;
+export type GroupData = BaseData & {
+  el: ComboboxItemGroup["el"];
+};
 
 interface BaseData {
   label: string;

@@ -1,10 +1,10 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TextArea } from "./text-area";
 
-const { scale, status } = ATTRIBUTES;
+const { scale, status, textAreaWrap } = ATTRIBUTES;
 
 type TextAreaStoryArgs = Pick<
   TextArea,
@@ -16,9 +16,17 @@ type TextAreaStoryArgs = Pick<
   | "resize"
   | "rows"
   | "label"
-  | "name"
-  | "validationMessage"
+  | "labelText"
+  | "limitText"
+  | "loading"
+  | "maxLength"
+  | "minLength"
+  | "readOnly"
+  | "required"
   | "validationIcon"
+  | "validationMessage"
+  | "value"
+  | "wrap"
 >;
 
 export default {
@@ -32,9 +40,17 @@ export default {
     resize: "both",
     rows: 2,
     label: "",
-    name: "",
+    labelText: "Label text",
+    limitText: false,
+    loading: false,
+    maxLength: undefined,
+    minLength: undefined,
+    readOnly: false,
+    required: false,
     validationMessage: "",
     validationIcon: "",
+    value: "",
+    wrap: "soft",
   },
   argTypes: {
     scale: {
@@ -45,8 +61,18 @@ export default {
       options: status.values,
       control: { type: "select" },
     },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
+    },
     validationIcon: {
       options: iconNames,
+      control: { type: "select" },
+    },
+    wrap: {
+      options: textAreaWrap.values,
       control: { type: "select" },
     },
   },
@@ -58,13 +84,21 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     status="${args.status}"
     placeholder="${args.placeholder}"
     ${boolean("disabled", args.disabled)}
+    ${boolean("loading", args.loading)}
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     columns="${args.columns}"
     resize="${args.resize}"
     rows="${args.rows}"
     label="${args.label}"
-    name="${args.name}"
+    ${optionalAttribute("label-text", args.labelText)}
+    ${optionalAttribute("max-length", args.maxLength)}
+    ${optionalAttribute("min-length", args.minLength)}
+    limit-text="${args.limitText}"
+    value="${args.value}"
+    wrap="${args.wrap}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   >
   </calcite-text-area>
 `;

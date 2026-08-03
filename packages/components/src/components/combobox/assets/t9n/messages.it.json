@@ -4,7 +4,7 @@
   "allSelected": "Tutti selezionati",
   "clear": "Cancella valore",
   "noMatches": "Nessuna corrispondenza",
-  "removeTag": "Rimuovere tag",
+  "removeTag": "Rimuovi tag {value}",
   "required": "Richiesti",
   "selectAll": "Seleziona tutto",
   "selected": "selezionato",

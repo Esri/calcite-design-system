@@ -11,6 +11,8 @@ import {
   renders,
   t9n,
   openClose,
+  accessible,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -27,6 +29,10 @@ function getDropdownFromItemText(text: string) {
 
   return page.elementLocator(dropdown);
 }
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
+});
 
 describe("defaults", () => {
   defaults(
@@ -92,6 +98,10 @@ describe("openClose", () => {
   openClose((mountOptions) =>
     mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />, mountOptions),
   );
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
 });
 
 describe("translation support", () => {

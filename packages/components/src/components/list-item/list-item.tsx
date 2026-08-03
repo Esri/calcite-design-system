@@ -133,13 +133,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() sortDisabled = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
-  /** Specifies a description for the component. Displays below the `label`. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -172,10 +172,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property({ reflect: true }) interactionMode?: InteractionMode;
 
-  /** Specifies an accessible label for the component, displays above the `description`. */
+  /** @copyDoc */
   @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
@@ -232,7 +232,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot), `"border"` (displays a border) or `"highlight"` (displays background highlight). [Deprecated] The `"border"` value is deprecated, use `"highlight"` instead.
+   * Specifies the selection appearance.
+   *
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` displays background highlight.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * @private
    */
@@ -242,7 +246,12 @@ export class ListItem extends LitElement implements SortableComponentItem {
   >;
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+   * Specifies the selection mode of the component.
+   *
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    *
    * @private
    */
@@ -274,19 +283,17 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** The component's value. */
   @property() value: any;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */

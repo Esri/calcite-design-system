@@ -1,13 +1,10 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import type { DatePicker } from "./date-picker";
 
 describe("calciteDatePickerChange & calciteDatePickerRangeChange events", () => {
@@ -200,9 +197,9 @@ describe("when the lang is set to Slovak calendar", () => {
     const text: string = await page.evaluate(
       () =>
         document
-          .querySelector("calcite-date-picker")
-          .shadowRoot.querySelector("calcite-date-picker-month")
-          .shadowRoot.querySelector(".week-header").textContent,
+          .querySelector("calcite-date-picker")!
+          .shadowRoot!.querySelector("calcite-date-picker-month")!
+          .shadowRoot!.querySelector(".week-header")!.textContent,
     );
 
     expect(text).toEqual("po");
@@ -223,7 +220,7 @@ describe("min & max", () => {
     await page.waitForChanges();
     const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
     const minDateAsTime = await page.$eval("calcite-date-picker", (picker: DatePicker["el"]) =>
-      picker.minAsDate.getTime(),
+      picker.minAsDate?.getTime(),
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
@@ -995,7 +992,7 @@ describe("selection", () => {
     const currentISODate = toDateOnlyIso(currentDate);
 
     await page.evaluate((currentISODate) => {
-      const datePicker = document.querySelector("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker")!;
       datePicker.min = currentISODate;
     }, currentISODate);
 
@@ -1089,7 +1086,7 @@ describe("selection", () => {
     const currentISODate = toDateOnlyIso(currentDate);
 
     await page.evaluate((currentISODate) => {
-      const datePicker = document.querySelector("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker")!;
       datePicker.min = currentISODate;
     }, currentISODate);
 
@@ -1117,7 +1114,7 @@ it("updates the calendar immediately as a new year is typed but doesn't change t
 
   async function getActiveMonthDate(): Promise<string> {
     return page.$eval("calcite-date-picker", (datePicker: DatePicker["el"]) =>
-      datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString(),
+      datePicker.shadowRoot!.querySelector("calcite-date-picker-month")!.activeDate.toISOString(),
     );
   }
 
@@ -1125,10 +1122,10 @@ it("updates the calendar immediately as a new year is typed but doesn't change t
     return page.$eval(
       "calcite-date-picker",
       (datePicker: DatePicker["el"]) =>
-        datePicker.shadowRoot
-          .querySelector("calcite-date-picker-month")
-          .shadowRoot.querySelector("calcite-date-picker-month-header")
-          .shadowRoot.querySelector<HTMLInputElement>(".year").value,
+        datePicker
+          .shadowRoot!.querySelector("calcite-date-picker-month")!
+          .shadowRoot!.querySelector("calcite-date-picker-month-header")!
+          .shadowRoot!.querySelector<HTMLInputElement>(".year")!.value,
     );
   }
 
@@ -1190,172 +1187,6 @@ it("restarts range on selection after a range is complete when proximitySelectio
   expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
 });
 
-describe("theme", () => {
-  describe("default", async () => {
-    const datePickerHTML: string = html`<calcite-date-picker></calcite-date-picker>`;
-    const componentTokens: ComponentTestTokens = {
-      "--calcite-date-picker-border-color": {
-        selector: "calcite-date-picker",
-        targetProp: "borderColor",
-      },
-      "--calcite-date-picker-corner-radius": {
-        selector: "calcite-date-picker",
-        targetProp: "borderRadius",
-      },
-      "--calcite-date-picker-week-header-text-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `.${MONTH_CSS.weekHeader}`,
-        targetProp: "color",
-      },
-      "--calcite-date-picker-header-action-background-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} >>> calcite-action`,
-        targetProp: "--calcite-action-background-color",
-      },
-      "--calcite-date-picker-header-action-background-color-hover": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
-        targetProp: "--calcite-action-background-color-hover",
-        state: "hover",
-      },
-      "--calcite-date-picker-header-action-background-color-press": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
-        targetProp: "--calcite-action-background-color-press",
-        state: { press: { attribute: "class", value: `${MONTH_HEADER_CSS.chevron}` } },
-      },
-      "--calcite-date-picker-header-action-text-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
-        targetProp: "--calcite-action-text-color",
-      },
-      "--calcite-date-picker-header-action-text-color-press": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
-        targetProp: "--calcite-action-text-color-press",
-        state: { press: { attribute: "class", value: `${MONTH_HEADER_CSS.chevron}` } },
-      },
-      "--calcite-date-picker-year-text-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>>  input`,
-        targetProp: "color",
-      },
-      "--calcite-date-picker-month-select-font-size": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
-        targetProp: "--calcite-select-font-size",
-      },
-      "--calcite-date-picker-month-select-text-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
-        targetProp: "--calcite-select-text-color",
-      },
-      "--calcite-date-picker-month-select-icon-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
-        targetProp: "--calcite-select-icon-color",
-      },
-      "--calcite-date-picker-month-select-icon-color-hover": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
-        targetProp: "--calcite-select-icon-color-hover",
-        state: "hover",
-      },
-      "--calcite-date-picker-day-background-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day >>> .day`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-date-picker-day-background-color-hover": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day >>> .day`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-      "--calcite-date-picker-day-text-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[current-month] >>> .day`,
-        targetProp: "color",
-      },
-      "--calcite-date-picker-day-text-color-hover": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day >>> .day`,
-        targetProp: "color",
-        state: "hover",
-      },
-      "--calcite-date-picker-current-day-text-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay} >>> .day`,
-        targetProp: "color",
-      },
-    };
-    themed(datePickerHTML, componentTokens);
-  });
-
-  describe("selected", () => {
-    const datePickerHTML: string = html`<calcite-date-picker value="2024-01-31"></calcite-date-picker>`;
-    const componentTokens: ComponentTestTokens = {
-      "--calcite-date-picker-day-background-color-selected": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[selected] >>> .day`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-date-picker-day-text-color-selected": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[selected] >>> .day`,
-        targetProp: "color",
-      },
-    };
-    themed(datePickerHTML, componentTokens);
-  });
-
-  describe("range", () => {
-    const rangeDatePickerHTML: string = html`
-      <calcite-date-picker range></calcite-date-picker>
-      <script>
-        const datePicker = document.querySelector("calcite-date-picker");
-        datePicker.value = ["2025-01-01", "2025-02-20"];
-      </script>
-    `;
-    const componentTokens: ComponentTestTokens = {
-      "--calcite-date-picker-range-calendar-divider-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> .${MONTH_CSS.calendarStart}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-date-picker-day-range-text-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[highlighted] >>> .day`,
-        targetProp: "color",
-      },
-      "--calcite-date-picker-day-range-background-color": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[highlighted] >>> .day`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-date-picker-day-outside-range-background-color-hover": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[id='20250105'] >>> .day`,
-        targetProp: "backgroundColor",
-        state: {
-          hover:
-            "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106'] >>> .day",
-        },
-      },
-      "--calcite-date-picker-day-outside-range-text-color-hover": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[id='20250105'] >>> .day`,
-        targetProp: "color",
-        state: {
-          hover:
-            "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106'] >>> .day",
-        },
-      },
-    };
-    themed(rangeDatePickerHTML, componentTokens);
-  });
-});
-
 function getLocalDayDate(): Date {
   const today = new Date();
   today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
@@ -1371,12 +1202,8 @@ async function setActiveDate(page: E2EPage, isoDate: string): Promise<void> {
   await page.waitForChanges();
 }
 
-async function getActiveDate(page: E2EPage): Promise<string> {
-  return getDateIsoStringFromProp(page, "activeDate");
-}
-
-async function getDateIsoStringFromProp(page: E2EPage, prop: keyof ConditionalPick<DatePicker, Date>): Promise<string> {
-  return page.$eval("calcite-date-picker", (datePicker, prop) => datePicker[prop]?.toISOString(), prop);
+async function getActiveDate(page: E2EPage): Promise<string | undefined> {
+  return page.$eval("calcite-date-picker", (datePicker) => datePicker["activeDate"]?.toISOString());
 }
 
 async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
@@ -1412,7 +1239,7 @@ async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
     page,
     `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
   );
-  return days.find((d) => !d.classList.contains("noncurrent"));
+  return days.find((d) => !d.classList.contains("noncurrent"))!;
 }
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {

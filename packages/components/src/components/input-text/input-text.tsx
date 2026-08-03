@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -15,18 +14,25 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { setRequestedIcon } from "../../utils/dom";
 import { useForm } from "../../controllers/useForm";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
+import {
+  CSS as InlineEditableControlsCSS,
+  InlineEditableControls,
+} from "../functional/InlineEditableControls";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import type { InlineEditable } from "../inline-editable/inline-editable";
+import { UseInlineEditable } from "../../controllers/useInlineEditable";
+import type { Action } from "../action/action";
+import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -64,19 +70,22 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private childRef = createRef<HTMLInputElement>();
 
-  defaultValue: InputText["value"];
+  private enableInlineEditingButtonRef = createRef<Action["el"]>();
+
+  defaultValue?: InputText["value"];
 
   private direction = useDirection();
 
-  private inlineEditableEl: InlineEditable["el"];
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+  private inlineEditableEl?: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private previousEmittedValue: string;
+  private previousEmittedValue?: string;
 
-  private previousValue: string;
+  private previousValue!: string;
 
   private previousValueOrigin: SetValueOrigin = "initial";
 
@@ -92,7 +101,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -102,6 +111,46 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private interactiveContainer = useInteractive(this);
 
+  private inlineEditableManager = new UseInlineEditable({
+    getEditingEnabled: () => this.editingEnabled,
+    setEditingEnabled: (editingEnabled) => {
+      this.editingEnabled = editingEnabled;
+    },
+    getValue: () => this.value,
+    setValue: (value) => {
+      this.setValue({ origin: "direct", value });
+    },
+    setFocus: () => {
+      void this.setFocus();
+    },
+    emitCancel: () => {
+      this.calciteInputTextInlineEditableCancel.emit();
+    },
+    emitConfirm: () => {
+      this.calciteInputTextInlineEditableConfirm.emit();
+    },
+    emitEnableEditingChange: () => {
+      this.calciteInputTextInlineEditableChange.emit();
+    },
+  });
+
+  labelable = useLabel(this);
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
+  private get selfManagedInlineEditable(): boolean {
+    return this.inlineEditable && !this.inlineEditableEl;
+  }
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !!this.inlineEditableEl)
+  private get hasInlineEditableContext(): boolean {
+    return this.inlineEditable || !!this.inlineEditableEl;
+  }
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove this.inlineEditableEl ? this.inlineEditableEl.editingEnabled)
+  private get inlineEditableEnabledInContext(): boolean {
+    return this.inlineEditableEl ? this.inlineEditableEl.editingEnabled : this.editingEnabled;
+  }
+
   get isClearable(): boolean {
     return this.clearable && this.value.length > 0;
   }
@@ -109,6 +158,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   //#endregion
 
   //#region State Properties
+
+  @state() inlineEditableLoading = false;
 
   @state() slottedActionElDisabledInternally = false;
 
@@ -125,7 +176,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: AutoFill;
+  @property() autocomplete?: AutoFill;
 
   /** When `true` and the component has a `value`, a clear button is displayed. */
   @property({ reflect: true }) clearable = false;
@@ -137,31 +188,40 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   @property({ reflect: true }) disabled = false;
 
-  /** @private */
+  /**
+   * When `true`, the component displays its inline editable mode.
+   *
+   * @private
+   */
   @property({ reflect: true }) editingEnabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** When `true`, enables the component's built-in inline editable behavior. */
+  @property({ reflect: true }) inlineEditable = false;
+
+  /** When `true` and `inlineEditable` is `true`, displays the component's built-in inline editable save and cancel controls. */
+  @property({ reflect: true }) inlineEditableControls = false;
+
+  /** Specifies a callback to be executed when saving inline editable changes */
+  @property() inlineEditableAfterConfirm!: () => Promise<void>;
+
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
    * Specifies an icon to display.
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies an accessible label for the component's button or hyperlink. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -172,9 +232,9 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -183,16 +243,14 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /**
    * When the component resides in a form,
@@ -201,17 +259,17 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
-  @property() pattern: string;
+  @property() pattern?: string;
 
   /**
    * Specifies the component's placeholder text.
    *
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /** Specifies text to display at the start of the component. */
-  @property() prefixText: string;
+  @property() prefixText?: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
@@ -233,23 +291,20 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies text to display at the end of the component. */
-  @property() suffixText: string;
+  @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property()
@@ -305,6 +360,15 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     value: string;
   }>();
 
+  /** Fires when built-in inline editable is cancelled. */
+  calciteInputTextInlineEditableCancel = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is confirmed. */
+  calciteInputTextInlineEditableConfirm = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is enabled. */
+  calciteInputTextInlineEditableChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -316,12 +380,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   }
 
   override connectedCallback(): void {
-    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable") ?? undefined;
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -334,10 +397,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     if (changes.has("icon")) {
       this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     }
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -364,7 +423,26 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       return;
     }
 
-    if (this.isClearable && event.key === "Escape") {
+    if (this.selfManagedInlineEditable && this.editingEnabled && event.key === "Escape") {
+      event.preventDefault();
+
+      if (this.clearable && this.value?.length > 0) {
+        this.clearInputTextValue(event);
+        return;
+      }
+
+      this.inlineEditableManager.cancelEditing();
+      requestAnimationFrame(() => {
+        this.enableInlineEditingButtonRef.value?.setFocus();
+      });
+      return;
+    }
+
+    if (
+      this.isClearable &&
+      event.key === "Escape" &&
+      (!this.hasInlineEditableContext || this.inlineEditableEnabledInContext)
+    ) {
       this.clearInputTextValue(event);
       event.preventDefault();
     }
@@ -375,6 +453,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   }
 
   onLabelClick(): void {
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
+      this.inlineEditableManager.enable();
+      return;
+    }
+
     this.setFocus();
   }
 
@@ -396,9 +479,13 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private inputTextBlurHandler() {
     this.calciteInternalInputTextBlur.emit({
-      element: this.childRef.value,
+      element: this.childRef.value!,
       value: this.value,
     });
+
+    if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
+      this.inlineEditableManager.disable();
+    }
 
     this.emitChangeIfUserModified();
   }
@@ -409,11 +496,23 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     }
 
     const composedPath = event.composedPath();
+    const clickedInlineEditableControls = composedPath.some(
+      (element) =>
+        element instanceof HTMLElement &&
+        element.classList.contains(InlineEditableControlsCSS.container),
+    );
 
     if (
-      !composedPath.includes(this.inputWrapperRef.value) ||
-      composedPath.includes(this.actionWrapperRef.value)
+      !composedPath.includes(this.inputWrapperRef.value!) ||
+      composedPath.includes(this.actionWrapperRef.value!) ||
+      clickedInlineEditableControls
     ) {
+      return;
+    }
+
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
+      event.preventDefault();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -422,7 +521,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private inputTextFocusHandler(): void {
     this.calciteInternalInputTextFocus.emit({
-      element: this.childRef.value,
+      element: this.childRef.value!,
       value: this.value,
     });
   }
@@ -542,8 +641,9 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus}
         class={{
-          [CSS.editingEnabled]: this.editingEnabled,
-          [CSS.inlineChild]: !!this.inlineEditableEl,
+          [CSS.editingEnabled]: this.inlineEditableEnabledInContext,
+          [CSS.inlineChild]: this.hasInlineEditableContext,
+          [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled}
@@ -562,7 +662,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         ref={this.childRef}
         required={this.required}
         spellcheck={this.el.spellcheck}
-        tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
+        tabIndex={
+          this.disabled || (this.hasInlineEditableContext && !this.inlineEditableEnabledInContext)
+            ? -1
+            : undefined
+        }
         type="text"
         value={this.value}
       />
@@ -596,6 +700,27 @@ export class InputText extends LitElement implements LabelableComponent, Textual
             {this.isClearable ? clearButton : null}
             {this.suffixText ? suffixText : null}
           </div>
+          {this.selfManagedInlineEditable && (
+            <div class={CSS.inlineEditable}>
+              <InlineEditableControls
+                cancelEditingLabel={this.messages.cancelInlineEditing}
+                confirmChangesLabel={this.messages.confirmInlineEditingChanges}
+                editingEnabled={this.editingEnabled}
+                enableEditingButtonRef={this.enableInlineEditingButtonRef}
+                enableEditingLabel={this.messages.enableInlineEditing}
+                loading={this.inlineEditableLoading}
+                onCancelEditing={() => this.inlineEditableManager.cancelEditing()}
+                onConfirmChanges={() =>
+                  this.inlineEditableManager.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                    this.inlineEditableLoading = loading;
+                  })
+                }
+                onEnableEditing={() => this.inlineEditableManager.enable()}
+                scale={this.scale}
+                showControls={this.editingEnabled && this.inlineEditableControls}
+              />
+            </div>
+          )}
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>

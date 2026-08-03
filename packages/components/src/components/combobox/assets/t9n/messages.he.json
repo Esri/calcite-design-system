@@ -4,7 +4,7 @@
   "allSelected": "כולם נבחרו",
   "clear": "נקה ערך",
   "noMatches": "אין התאמות",
-  "removeTag": "הסר תג",
+  "removeTag": "הסר תג {value}",
   "required": "נדרש",
   "selectAll": "בחר הכול",
   "selected": "נבחר",

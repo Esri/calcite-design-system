@@ -1,22 +1,23 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Autocomplete } from "./autocomplete";
 
-const { scale, alignment, status, overlayPositioning } = ATTRIBUTES;
+const { scale, alignment, menuPlacement, status, overlayPositioning } = ATTRIBUTES;
 
 type AutocompleteStoryArgs = Pick<
   Autocomplete,
   | "alignment"
   | "disabled"
+  | "icon"
   | "inputValue"
+  | "iconFlipRtl"
   | "label"
+  | "labelText"
   | "loading"
   | "maxLength"
   | "minLength"
-  | "name"
   | "open"
   | "overlayPositioning"
   | "placeholder"
@@ -37,12 +38,17 @@ export default {
   args: {
     alignment: alignment.defaultValue,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
     inputValue: "",
+    labelText: "Label text",
     loading: false,
+    maxLength: undefined,
+    minLength: undefined,
     open: true,
     overlayPositioning: overlayPositioning.defaultValue,
     placeholder: "Placeholder text",
-    placement: defaultMenuPlacement,
+    placement: menuPlacement.defaultValue,
     prefixText: "",
     readOnly: false,
     required: false,
@@ -63,8 +69,14 @@ export default {
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
+    },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
     },
     scale: {
       options: scale.values,
@@ -72,6 +84,10 @@ export default {
     },
     status: {
       options: status.values,
+      control: { type: "select" },
+    },
+    icon: {
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
     validationIcon: {
@@ -91,16 +107,18 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
     <form class="locate-form">
       <calcite-autocomplete
         ${boolean("disabled", args.disabled)}
+        ${boolean("icon-flip-rtl", args.iconFlipRtl)}
         ${boolean("loading", args.loading)}
         ${boolean("open", args.open)}
         ${boolean("read-only", args.readOnly)}
         ${boolean("required", args.required)}
         alignment="${args.alignment}"
+        ${optionalAttribute("icon", args.icon)}
         input-value="${args.inputValue}"
         label="${args.label}"
-        max-length="${args.maxLength}"
-        min-length="${args.minLength}"
-        name="${args.name}"
+        ${optionalAttribute("label-text", args.labelText)}
+        ${optionalAttribute("max-length", args.maxLength)}
+        ${optionalAttribute("min-length", args.minLength)}
         overlay-positioning="${args.overlayPositioning}"
         placeholder="${args.placeholder}"
         placement="${args.placement}"
@@ -108,7 +126,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         scale="${args.scale}"
         status="${args.status}"
         suffix-text="${args.suffixText}"
-        validation-icon="${args.validationIcon}"
+        ${optionalAttribute("validation-icon", args.validationIcon)}
         validation-message="${args.validationMessage}"
         value="${args.value}"
       >

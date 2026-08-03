@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import {
@@ -46,7 +45,7 @@ export class DatePickerMonth extends LitElement {
 
   //#region Private Properties
 
-  private activeFocus: boolean;
+  private activeFocus: boolean = false;
 
   private storeDayRef = (el: DatePickerDay["el"]): void => {
     // when moving via keyboard, focus must be updated on active date
@@ -59,7 +58,7 @@ export class DatePickerMonth extends LitElement {
 
   //#region State Properties
 
-  @state() focusedDate: Date;
+  @state() focusedDate?: Date;
 
   //#endregion
 
@@ -76,55 +75,55 @@ export class DatePickerMonth extends LitElement {
    *
    * @private
    */
-  @property() dateTimeFormat: Intl.DateTimeFormat;
+  @property() dateTimeFormat!: Intl.DateTimeFormat;
 
   /** End date currently active. */
   @property() endDate?: Date;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
 
   /** The range of dates currently being hovered. */
-  @property() hoverRange: HoverRange;
+  @property() hoverRange?: HoverRange;
 
   /**
    * Specifies the layout of the component.
    *
    * @private
    */
-  @property({ reflect: true }) layout: "horizontal" | "vertical";
+  @property({ reflect: true }) layout!: "horizontal" | "vertical";
 
   /**
    * CLDR locale data for current locale.
    *
    * @private
    */
-  @property() localeData: DateLocaleData;
+  @property() localeData!: DateLocaleData;
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @property() max: Date;
+  @property() max?: Date;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @private
    */
-  @property() messages: DatePicker["messages"]["_overrides"];
+  @property() messages!: DatePicker["messages"]["_overrides"];
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @property() min: Date;
+  @property() min?: Date;
 
   /** Specifies the monthStyle used by the component. */
-  @property() monthStyle: "abbreviated" | "wide";
+  @property() monthStyle!: "abbreviated" | "wide";
 
   /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
   @property({ reflect: true }) range: boolean = false;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** Already selected date. */
-  @property() selectedDate: Date;
+  @property() selectedDate?: Date;
 
   /** Start date currently active. */
   @property() startDate?: Date;
@@ -283,7 +282,7 @@ export class DatePickerMonth extends LitElement {
     const nextDate = new Date(targetDate);
     nextDate.setMonth(targetDate.getMonth() + step);
     this.calciteInternalDatePickerMonthActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max),
+      dateFromRange(nextDate, this.min, this.max)!,
     );
     this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
@@ -300,7 +299,7 @@ export class DatePickerMonth extends LitElement {
     const nextDate = new Date(targetDate);
     nextDate.setDate(targetDate.getDate() + step);
     this.calciteInternalDatePickerMonthActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max),
+      dateFromRange(nextDate, this.min, this.max)!,
     );
 
     this.focusedDate = dateFromRange(nextDate, this.min, this.max);
@@ -319,7 +318,7 @@ export class DatePickerMonth extends LitElement {
     const lastDate = new Date(year, month, 0);
     const date = lastDate.getDate();
     const startDay = lastDate.getDay();
-    const days = [];
+    const days: number[] = [];
 
     if (startDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
@@ -343,7 +342,7 @@ export class DatePickerMonth extends LitElement {
    */
   private getCurrentMonthDays(month: number, year: number): number[] {
     const num = new Date(year, month + 1, 0).getDate();
-    const days = [];
+    const days: number[] = [];
     for (let i = 0; i < num; i++) {
       days.push(i + 1);
     }
@@ -359,7 +358,7 @@ export class DatePickerMonth extends LitElement {
    */
   private getNextMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const endDay = new Date(year, month + 1, 0).getDay();
-    const days = [];
+    const days: number[] = [];
     if (endDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
@@ -448,17 +447,17 @@ export class DatePickerMonth extends LitElement {
     }
     const { start, end } = this.hoverRange;
     const isStartFocused = this.isFocusedOnStart();
-    const isEndAfterStart = this.startDate && end > this.startDate;
-    const isEndBeforeEnd = this.endDate && end < this.endDate;
-    const isStartAfterStart = this.startDate && start > this.startDate;
-    const isStartBeforeEnd = this.endDate && start < this.endDate;
+    const isEndAfterStart = this.startDate && end && end > this.startDate;
+    const isEndBeforeEnd = this.endDate && end && end < this.endDate;
+    const isStartAfterStart = this.startDate && start && start > this.startDate;
+    const isStartBeforeEnd = this.endDate && start && start < this.endDate;
 
     const isEndDateAfterStartAndBeforeEnd =
       !isStartFocused && this.startDate && isEndAfterStart && (!this.endDate || isEndBeforeEnd);
     const isStartDateBeforeEndAndAfterStart =
       isStartFocused && this.startDate && isStartAfterStart && isStartBeforeEnd;
 
-    return isEndDateAfterStartAndBeforeEnd || isStartDateBeforeEndAndAfterStart;
+    return !!(isEndDateAfterStartAndBeforeEnd || isStartDateBeforeEndAndAfterStart);
   }
 
   private isRangeHover(date: Date): boolean {
@@ -469,18 +468,48 @@ export class DatePickerMonth extends LitElement {
     const isStartFocused = this.isFocusedOnStart();
     const insideRange = this.isHoverInRange();
 
-    const isDateBeforeStartDateAndAfterStart = date > start && date < this.startDate;
-    const isDateAfterEndDateAndBeforeEnd = date < end && date > this.endDate;
-    const isDateBeforeEndDateAndAfterEnd = date > end && date < this.endDate;
-    const isDateAfterStartDateAndBeforeStart = date < start && date > this.startDate;
-    const isDateAfterStartDateAndBeforeEnd = date < end && date > this.startDate;
-    const isDateBeforeEndDateAndAfterStart = date > start && date < this.endDate;
+    const isDateBeforeStartDateAndAfterStart = !!(
+      start &&
+      date > start &&
+      this.startDate &&
+      date < this.startDate
+    );
+    const isDateAfterEndDateAndBeforeEnd = !!(
+      end &&
+      date < end &&
+      this.endDate &&
+      date > this.endDate
+    );
+    const isDateBeforeEndDateAndAfterEnd = !!(
+      end &&
+      date > end &&
+      this.endDate &&
+      date < this.endDate
+    );
+    const isDateAfterStartDateAndBeforeStart = !!(
+      start &&
+      date < start &&
+      this.startDate &&
+      date > this.startDate
+    );
+    const isDateAfterStartDateAndBeforeEnd = !!(
+      end &&
+      date < end &&
+      this.startDate &&
+      date > this.startDate
+    );
+    const isDateBeforeEndDateAndAfterStart = !!(
+      start &&
+      date > start &&
+      this.endDate &&
+      date < this.endDate
+    );
     const hasBothStartAndEndDate = this.startDate && this.endDate;
 
     if (insideRange) {
       if (hasBothStartAndEndDate) {
         return isStartFocused
-          ? date < this.endDate &&
+          ? !!(this.endDate && date < this.endDate) &&
               (isDateAfterStartDateAndBeforeStart || isDateBeforeStartDateAndAfterStart)
           : isDateBeforeEndDateAndAfterEnd || isDateAfterEndDateAndBeforeEnd;
       } else if (this.startDate && !this.endDate) {
@@ -495,6 +524,8 @@ export class DatePickerMonth extends LitElement {
         return isStartFocused ? isDateBeforeStartDateAndAfterStart : isDateAfterEndDateAndBeforeEnd;
       }
     }
+
+    return false;
   }
 
   private getDays(
@@ -551,7 +582,7 @@ export class DatePickerMonth extends LitElement {
     const target = event.target as DatePickerMonthHeader["el"];
     this.updateFocusableDate(date);
     event.stopPropagation();
-    this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position });
+    this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position! });
   }
 
   private updateFocusableDate(date: Date): void {
@@ -564,7 +595,7 @@ export class DatePickerMonth extends LitElement {
     }
   }
 
-  private getFirstValidDateOfMonth(date: Date): Date {
+  private getFirstValidDateOfMonth(date: Date): Date | undefined {
     return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
   }
 
@@ -579,7 +610,10 @@ export class DatePickerMonth extends LitElement {
     const { abbreviated, short, narrow } = this.localeData.days;
     const weekDays =
       this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
-    const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
+    const adjustedWeekDays = [
+      ...weekDays!.slice(startOfWeek, 7),
+      ...weekDays!.slice(0, startOfWeek),
+    ];
     const curMonDays = this.getCurrentMonthDays(month, year);
     const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
@@ -677,7 +711,9 @@ export class DatePickerMonth extends LitElement {
           min={this.min}
           monthStyle={this.monthStyle}
           oncalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
-          position={isEndCalendar ? "end" : this.range && this.calendars === 2 ? "start" : null}
+          position={
+            isEndCalendar ? "end" : this.range && this.calendars === 2 ? "start" : undefined
+          }
           scale={this.scale}
           selectedDate={this.selectedDate}
         />

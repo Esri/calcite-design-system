@@ -27,7 +27,6 @@ const resources = {
     },
     issueWorkflow: {
       needsTriage: "needs triage",
-      needsMilestone: "needs milestone",
       inDesign: "1 - in design",
       readyForDev: "2 - ready for dev",
       inDevelopment: "3 - in development",
@@ -40,7 +39,11 @@ const resources = {
       spikeComplete: "spike complete",
       noChangelogEntry: "no changelog entry",
       blocked: "blocked",
+      breakingChange: "breaking change",
+      bounceBack: "bounce back",
+      futureBreakingChange: "future breaking change",
       monday: "monday.com sync",
+      paused: "paused",
     },
     priority: {
       low: "p - low",
@@ -66,17 +69,20 @@ const resources = {
       thirtyFour: "estimate - 34",
     },
     designEstimate: {
+      one: "estimate - design - 1",
       two: "estimate - design - 2",
+      three: "estimate - design - 3",
       five: "estimate - design - 5",
+      eight: "estimate - design - 8",
       thirteen: "estimate - design - 13",
       twentyOne: "estimate - design - 21",
+      thirtyFour: "estimate - design - 34",
     },
     productColor: "006B75",
   },
-  milestone: {
-    backlog: "Backlog",
-    stalled: "Stalled",
-    freezer: "Freezer",
+  milestones: {
+    backlog: { name: "Backlog", number: 154 },
+    freezer: { name: "Freezer", number: 28 },
   },
   teams: {
     admins: "calcite-design-system-admins",

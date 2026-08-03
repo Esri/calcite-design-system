@@ -118,43 +118,42 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
   @property({ reflect: true }) autoClose = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, prevents flipping the component's placement when overlapping its `referenceElement`. */
   @property({ reflect: true }) flipDisabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements?: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component, where
+   * Specifies custom focus trap configuration on the component.
    *
-   * `"allowOutsideClick`" allows outside clicks,
-   * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active,
-   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
-   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * - `"allowOutsideClick`" allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -168,13 +167,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
@@ -184,13 +177,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+   * @copyDoc
    *
    * @required
    */
@@ -200,9 +187,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */

@@ -28,7 +28,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @slot - A slot for adding custom content.
+ */
 export class BlockSection extends LitElement {
   //#region Static Members
 
@@ -60,16 +63,16 @@ export class BlockSection extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -105,11 +108,10 @@ export class BlockSection extends LitElement {
   @property() text?: string;
 
   /**
-   * Specifies how the component's toggle is displayed, where:
+   * Specifies how the component's toggle is displayed.
    *
-   * `"button"` sets the toggle to a selectable header, and
-   *
-   * `"switch"` sets the toggle to a switch.
+   * - `"button"` sets the toggle to a selectable header.
+   * - `"switch"` sets the toggle to a switch.
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 

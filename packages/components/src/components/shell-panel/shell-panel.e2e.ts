@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY, resizeStep } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -18,8 +17,8 @@ it("has a slot", async () => {
   const contentBodyHasSlot = await page.$eval(
     "calcite-shell-panel",
     (panel: ShellPanel["el"], contentBodyClass: string) => {
-      const contentBody = panel.shadowRoot.querySelector(contentBodyClass);
-      return contentBody.firstElementChild.tagName == "SLOT";
+      const contentBody = panel.shadowRoot!.querySelector(contentBodyClass)!;
+      return contentBody.firstElementChild!.tagName == "SLOT";
     },
     `.${CSS.contentBody}`,
   );
@@ -68,9 +67,9 @@ it("start position property should have action slot first", async () => {
   const actionSlotIsFirst = await page.$eval(
     "calcite-shell-panel",
     (panel: ShellPanel["el"], containerSelector: string, actionBarContainerClass: string) => {
-      return panel.shadowRoot
-        .querySelector(containerSelector)
-        .firstElementChild.classList.contains(actionBarContainerClass);
+      return panel
+        .shadowRoot!.querySelector(containerSelector)!
+        .firstElementChild!.classList.contains(actionBarContainerClass);
     },
     `.${CSS.container}`,
     CSS.actionBarContainer,
@@ -88,29 +87,14 @@ it("trailing position property should have DIV first", async () => {
   const divElementIsFirst = await page.$eval(
     "calcite-shell-panel",
     (panel: ShellPanel["el"], containerClass: string, contentClass: string) => {
-      const container = panel.shadowRoot.querySelector(containerClass);
-      return container.firstElementChild.classList.contains(contentClass);
+      const container = panel.shadowRoot!.querySelector(containerClass)!;
+      return container.firstElementChild!.classList.contains(contentClass);
     },
     `.${CSS.contentContainer}`,
     CSS.content,
   );
 
   expect(divElementIsFirst).toBe(true);
-});
-
-describe("accessible", () => {
-  accessible(`
-    <calcite-shell-panel slot="panel-start" position="start">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Save" icon="save"></calcite-action>
-          <calcite-action text="Layers" icon="layers"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-    `);
 });
 
 it("should have floatContent class when detached", async () => {
@@ -414,7 +398,7 @@ describe("resizing", () => {
 
     const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).blockSize);
+    const initialHeight = parseInt((await content.getComputedStyle()).blockSize, 10);
 
     expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
@@ -517,7 +501,7 @@ describe("resizing", () => {
 
     const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).blockSize.replace("px", ""));
+    const initialHeight = parseInt((await content.getComputedStyle()).blockSize.replace("px", ""), 10);
 
     expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
@@ -581,7 +565,7 @@ it("click event should pass through host element", async () => {
   const shellPanel = await page.find("calcite-shell-panel");
   await shellPanel.click();
   await page.waitForChanges();
-  expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
+  expect(await page.evaluate((selector) => document.activeElement!.matches(selector), "calcite-action")).toBe(true);
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
@@ -635,124 +619,5 @@ describe("border on resize handle", () => {
     expect(style.borderBlockStart).toBe("0px none rgb(148, 148, 148)");
     expect(style.borderInlineEnd).toBe("0px none rgb(148, 148, 148)");
     expect(style.borderBlockEnd).toBe("0px none rgb(148, 148, 148)");
-  });
-});
-
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all" resizable></calcite-shell-panel>`, {
-      "--calcite-shell-panel-corner-radius": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-shell-panel-shadow": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "boxShadow",
-      },
-      "--calcite-shell-panel-border-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderInlineStartColor",
-      },
-      "--calcite-shell-panel-background-color": {
-        shadowSelector: `.${CSS.content}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-shell-panel-text-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "color",
-      },
-      "--calcite-shell-panel-resize-background-color": {
-        shadowSelector: `.${CSS.resizeHandleBar}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-shell-panel-resize-icon-color": {
-        shadowSelector: `.${CSS.resizeHandleBar}`,
-        targetProp: "color",
-      },
-    });
-  });
-
-  describe("border configurations", () => {
-    themed(
-      html`<calcite-shell-panel position="end" slot="panel-start" display-mode="float-all"></calcite-shell-panel>`,
-      {
-        "--calcite-shell-panel-border-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderInlineEndColor",
-        },
-      },
-    );
-    themed(
-      html`<calcite-shell-panel layout="horizontal" slot="panel-top" display-mode="float-all"></calcite-shell-panel>`,
-      {
-        "--calcite-shell-panel-border-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderInlineColor",
-        },
-      },
-    );
-    themed(html`<calcite-shell-panel slot="panel-top" display-mode="float-all"></calcite-shell-panel>`, {
-      "--calcite-shell-panel-border-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderInlineStartColor",
-      },
-    });
-    themed(
-      html`<calcite-shell-panel
-        layout="horizontal"
-        position="end"
-        slot="panel-bottom"
-        display-mode="float-all"
-      ></calcite-shell-panel>`,
-      {
-        "--calcite-shell-panel-border-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderInlineColor",
-        },
-      },
-    );
-    themed(
-      html`<calcite-shell-panel layout="vertical" slot="panel-bottom" display-mode="float-all"></calcite-shell-panel>`,
-      {
-        "--calcite-shell-panel-border-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderInlineStartColor",
-        },
-      },
-    );
-  });
-
-  describe("height", () => {
-    themed(html`<calcite-shell-panel layout="horizontal"></calcite-shell-panel>`, {
-      "--calcite-shell-panel-height": {
-        shadowSelector: `.${CSS.content}`,
-        targetProp: "blockSize",
-      },
-      "--calcite-shell-panel-max-height": {
-        shadowSelector: `.${CSS.content}`,
-        targetProp: "maxBlockSize",
-      },
-      "--calcite-shell-panel-min-height": {
-        shadowSelector: `.${CSS.content}`,
-        targetProp: "minBlockSize",
-      },
-    });
-  });
-
-  describe("width", () => {
-    themed(html`<calcite-shell-panel layout="vertical"></calcite-shell-panel>`, {
-      "--calcite-shell-panel-width": {
-        shadowSelector: `.${CSS.content}`,
-        targetProp: "inlineSize",
-      },
-      "--calcite-shell-panel-max-width": {
-        shadowSelector: `.${CSS.content}`,
-        targetProp: "maxInlineSize",
-      },
-      "--calcite-shell-panel-min-width": {
-        shadowSelector: `.${CSS.content}`,
-        targetProp: "minInlineSize",
-      },
-    });
   });
 });

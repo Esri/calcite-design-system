@@ -49,6 +49,11 @@ th {
   }
 }
 
+th:not(.body-row):not(.footer-row) {
+  border-block-end-width: var(--calcite-internal-table-header-border-block-end-width, var(--calcite-border-width-sm));
+  box-shadow: var(--calcite-internal-table-sticky-header-border-shadow, 0 0 0 0 transparent);
+}
+
 th:not(.center):not(.end).content-cell {
   @apply align-top;
 }

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
@@ -37,14 +36,13 @@ export class ComboboxItemGroup extends LitElement {
   @property({ reflect: true }) afterEmptyGroup = false;
 
   /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
-  @property() ancestors: ComboboxChildElement[];
+  @property() ancestors?: ComboboxChildElement[];
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /**
    * Specifies the group's position in the `calcite-combobox` menu.

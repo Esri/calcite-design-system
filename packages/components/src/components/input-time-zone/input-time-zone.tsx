@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   createEvent,
@@ -11,7 +10,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { IconName } from "../icon/interfaces";
@@ -59,17 +58,17 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private comboboxRef = createRef<Combobox["el"]>();
 
-  defaultValue: InputTimeZone["value"];
+  defaultValue?: InputTimeZone["value"];
 
   formSupport = useForm<this>({
     inputType: "text",
   })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private normalizer: (timeZone: TimeZone) => TimeZone;
+  private normalizer!: (timeZone: TimeZone) => TimeZone;
 
-  private _value: string;
+  private _value?: string;
 
   /**
    * Made into a prop for testing purposes only
@@ -82,6 +81,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   /**
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
    */
@@ -91,9 +92,9 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   //#region State Properties
 
-  @state() selectedTimeZoneItem: TimeZoneItem;
+  @state() selectedTimeZoneItem?: TimeZoneItem;
 
-  @state() timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
+  @state() timeZoneItems?: TimeZoneItem[] | TimeZoneItemGroup[];
 
   //#endregion
 
@@ -109,20 +110,16 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -134,29 +131,30 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
-   * When `mode` is `"offset"`, specifies how the offset will be displayed, where
+   * When `mode` is `"offset"`, specifies how the offset will be displayed.
    *
-   * `"user"` uses `UTC` or `GMT` depending on the user's locale,
-   * `"gmt"` always uses `GMT`, and
-   * `"utc"` always uses `UTC`.
+   * - `"user"` uses `UTC` or `GMT` depending on the user's locale.
+   * - `"gmt"` always uses `GMT`.
+   * - `"utc"` always uses `UTC`.
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
 
   /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -168,7 +166,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * @see [MDN - Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
    */
-  @property() referenceDate: Date | string;
+  @property() referenceDate?: Date | string;
 
   /**
    * When `true` and the component resides in a form,
@@ -185,29 +183,24 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /**
    * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
@@ -217,10 +210,10 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * @see [Identifying time zones and zone offsets](https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC).
    */
   @property()
-  get value(): string {
+  get value(): string | undefined {
     return this._value;
   }
-  set value(value: string) {
+  set value(value: string | undefined) {
     this.#valueUpdateContext = "internal";
     this._value = value;
   }
@@ -264,10 +257,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
   async load(): Promise<void> {
     this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
@@ -306,10 +295,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     this.openChanged();
   }
 
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
-  }
-
   //#endregion
 
   //#region Private Methods
@@ -330,7 +315,10 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     }
   }
 
-  private async handleValueChange(value: string, oldValue: string): Promise<void> {
+  private async handleValueChange(
+    value: string | undefined,
+    oldValue: string | undefined,
+  ): Promise<void> {
     const userUpdated = this.#valueUpdateContext === "user";
     this.#valueUpdateContext = null;
 
@@ -344,7 +332,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     if (!normalized) {
       if (this.clearable) {
         this._value = normalized;
-        this.selectedTimeZoneItem = null;
+        this.selectedTimeZoneItem = undefined;
         return;
       }
 
@@ -379,10 +367,12 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       return;
     }
 
-    this.comboboxRef.value.selectedItems[0].heading = this.getItemLabel(
-      this.selectedTimeZoneItem,
-      open,
-    );
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.selectedItems[0].heading = this.getItemLabel(
+        this.selectedTimeZoneItem,
+        open,
+      );
+    }
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -406,15 +396,18 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     if (!selectedItem) {
       this._value = "";
       this.requestUpdate("value", previousValue);
-      this.selectedTimeZoneItem = null;
+      this.selectedTimeZoneItem = undefined;
       this.calciteInputTimeZoneChange.emit();
       return;
     }
 
-    const selected = this.findTimeZoneItemByLabel(selectedItem.getAttribute("data-label"));
-    const selectedValue = `${selected.value}`;
+    const selected = this.findTimeZoneItemByLabel(
+      selectedItem.getAttribute("data-label") ?? undefined,
+    );
 
-    if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
+    const selectedValue = selected?.value === undefined ? undefined : `${selected?.value}`;
+
+    if (this.value === selectedValue && selected?.label === this.selectedTimeZoneItem?.label) {
       return;
     }
 
@@ -437,11 +430,11 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     this.calciteInputTimeZoneOpen.emit();
   }
 
-  private findTimeZoneItem(value: number | string | null): TimeZoneItem | null {
+  private findTimeZoneItem(value: number | string | undefined): TimeZoneItem | undefined {
     return findTimeZoneItemByProp(this.timeZoneItems, "value", value);
   }
 
-  private findTimeZoneItemByLabel(label: string | null): TimeZoneItem | null {
+  private findTimeZoneItemByLabel(label: string | undefined): TimeZoneItem | undefined {
     return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
   }
 
@@ -451,7 +444,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private updateTimeZoneSelection(): void {
     if (this.value === "" && this.clearable) {
-      this.selectedTimeZoneItem = null;
+      this.selectedTimeZoneItem = undefined;
       return;
     }
 
@@ -478,7 +471,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     );
   }
 
-  private normalizeValue(value: string | null): string {
+  private normalizeValue(value: string | undefined): string {
     value = value === undefined ? "" : value;
 
     return value ? this.normalizer(value) : value;
@@ -512,13 +505,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
           oncalciteComboboxClose={this.onComboboxClose}
           oncalciteComboboxOpen={this.onComboboxOpen}
           overlayPositioning={this.overlayPositioning}
-          placeholder={
-            this.mode === "name"
-              ? this.messages.namePlaceholder
-              : this.mode === "offset"
-                ? this.messages.offsetPlaceholder
-                : this.messages.regionPlaceholder
-          }
+          placeholder={this.placeholder || this.messages[`${this.mode}Placeholder`]}
           placeholderIcon="search"
           readOnly={this.readOnly}
           ref={this.comboboxRef}
@@ -542,7 +529,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       return this.renderRegionItems();
     }
 
-    return this.timeZoneItems.map((group) => {
+    return this.timeZoneItems?.map((group) => {
       const selected = this.selectedTimeZoneItem === group;
       const { label, metadata, value } = group;
 

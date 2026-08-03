@@ -4,7 +4,7 @@
   "allSelected": "All selected",
   "clear": "Clear value",
   "noMatches": "No matches",
-  "removeTag": "Remove tag",
+  "removeTag": "Remove {value} tag",
   "required": "Required",
   "selectAll": "Select all",
   "selected": "selected",

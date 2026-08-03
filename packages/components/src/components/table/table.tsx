@@ -9,6 +9,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
+import { createObserver } from "../../utils/observers";
 import {
   TableInteractionMode,
   TableLayout,
@@ -50,11 +51,21 @@ export class Table extends LitElement {
 
   private paginationRef = createRef<Pagination["el"]>();
 
+  private tableContainerRef = createRef<HTMLDivElement>();
+
+  private tableEl: HTMLTableElement | null = null;
+
   private tableBodySlotRef = createRef<HTMLSlotElement>();
 
   private tableFootSlotRef = createRef<HTMLSlotElement>();
 
   private tableHeadSlotRef = createRef<HTMLSlotElement>();
+
+  private tableContainerOverflowAnimationFrame: number | null = null;
+
+  private tableContainerResizeObserver = createObserver("resize", () =>
+    this.scheduleTableContainerOverflowUpdate(),
+  );
 
   /**
    * Made into a prop for testing purposes only
@@ -74,6 +85,8 @@ export class Table extends LitElement {
   @state() readCellContentsToAT = false;
 
   @state() selectedCount = 0;
+
+  @state() tableContainerHasOverflow = false;
 
   @state() _selectedItems: TableRow["el"][] = [];
 
@@ -105,7 +118,7 @@ export class Table extends LitElement {
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: TableLayout = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the position of the row in numeric form. */
@@ -133,13 +146,11 @@ export class Table extends LitElement {
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single",
@@ -148,6 +159,9 @@ export class Table extends LitElement {
 
   /** When `true`, displays striped styling on the component's `calcite-table-rows`. */
   @property({ reflect: true }) striped = false;
+
+  /** When `true`, displays the component's `table-header` slot as sticky while the component remains in view. */
+  @property({ reflect: true }) stickyHeader = false;
 
   //#endregion
 
@@ -184,6 +198,15 @@ export class Table extends LitElement {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
+  override disconnectedCallback(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+      this.tableContainerOverflowAnimationFrame = null;
+    }
+
+    this.tableContainerResizeObserver?.disconnect();
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -202,6 +225,18 @@ export class Table extends LitElement {
     ) {
       this.updateRows();
     }
+
+    if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
+      this.allRows?.forEach((row) => {
+        row.stickyHeaderEnabled = this.stickyHeader;
+      });
+
+      if (this.stickyHeader) {
+        this.applyHeaderRowPositionStyles();
+      } else {
+        this.resetStickyHeaderState();
+      }
+    }
   }
 
   //#endregion
@@ -210,6 +245,18 @@ export class Table extends LitElement {
 
   private handleSlotChange(): void {
     this.updateRows();
+  }
+
+  private clearStickyHeaderRowStyles(): void {
+    this.headRows?.forEach((row) => {
+      row.style.removeProperty("--calcite-internal-table-header-offset");
+      row.style.removeProperty("--calcite-internal-table-header-z-index");
+      row.style.removeProperty("--calcite-internal-table-header-row-position");
+    });
+  }
+
+  private resetStickyHeaderState(): void {
+    this.clearStickyHeaderRowStyles();
   }
 
   private calciteTableRowSelectListener(event: CustomEvent): void {
@@ -287,6 +334,58 @@ export class Table extends LitElement {
     return el.assignedElements({ flatten: true }).filter((el) => el.matches("calcite-table-row"));
   }
 
+  private observeTableContainer(): void {
+    this.tableContainerResizeObserver?.disconnect();
+
+    const tableContainer = this.tableContainerRef.value;
+    const table = this.tableEl;
+
+    if (tableContainer) {
+      this.tableContainerResizeObserver?.observe(tableContainer);
+    }
+
+    if (table) {
+      this.tableContainerResizeObserver?.observe(table);
+    }
+  }
+
+  private scheduleTableContainerOverflowUpdate(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+    }
+
+    this.tableContainerOverflowAnimationFrame = requestAnimationFrame(() => {
+      this.tableContainerOverflowAnimationFrame = null;
+      this.updateTableContainerOverflow();
+    });
+  }
+
+  private applyHeaderRowPositionStyles(): void {
+    this.clearStickyHeaderRowStyles();
+
+    const firstHeadRow = this.headRows?.[0];
+
+    if (!firstHeadRow) {
+      return;
+    }
+
+    firstHeadRow.style.setProperty("--calcite-internal-table-header-offset", "0");
+    firstHeadRow.style.setProperty("--calcite-internal-table-header-z-index", "2");
+    firstHeadRow.style.setProperty(
+      "--calcite-internal-table-header-row-position",
+      this.stickyHeader ? "sticky" : "static",
+    );
+  }
+
+  private updateTableContainerOverflow(): void {
+    const tableContainer = this.tableContainerRef.value;
+
+    this.tableContainerHasOverflow =
+      !!tableContainer &&
+      (tableContainer.scrollHeight > tableContainer.clientHeight ||
+        tableContainer.scrollWidth > tableContainer.clientWidth);
+  }
+
   private updateRows(): void {
     const headRows = this.getSlottedRows(this.tableHeadSlotRef.value);
     const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value);
@@ -325,14 +424,18 @@ export class Table extends LitElement {
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
     });
 
-    const colCount =
-      headRows[0]?.cellCount || headRows[0]?.querySelectorAll("calcite-table-header")?.length;
+    const colCount = headRows[0]?.cellCount || 0;
 
     this.colCount = colCount;
     this.headRows = headRows;
     this.bodyRows = bodyRows;
     this.footRows = footRows;
     this.allRows = allRows;
+
+    this.applyHeaderRowPositionStyles();
+
+    this.observeTableContainer();
+    this.scheduleTableContainerOverflowUpdate();
 
     this.handleCurrentPageRange();
     this.updateSelectedItems();
@@ -519,7 +622,9 @@ export class Table extends LitElement {
             [CSS.bordered]: this.bordered,
             [CSS.striped]: this.striped,
             [CSS.tableContainer]: true,
+            [CSS.tableContainerOverflow]: this.tableContainerHasOverflow,
           }}
+          ref={this.tableContainerRef}
         >
           <table
             ariaColCount={this.colCount}
@@ -533,6 +638,8 @@ export class Table extends LitElement {
               if (!el) {
                 return;
               }
+
+              this.tableEl = el;
 
               /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
               render(

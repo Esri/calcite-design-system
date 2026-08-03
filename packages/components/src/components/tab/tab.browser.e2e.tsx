@@ -1,7 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -23,5 +24,16 @@ describe("renders", () => {
 
   describe("selected", () => {
     renders(() => mount(<calcite-tab selected>A tab</calcite-tab>), { display: "flex" });
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-tab"), {
+      "--calcite-tab-content-space-y": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "paddingBlock",
+      },
+    });
   });
 });
