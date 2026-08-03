@@ -3,7 +3,7 @@ import { ListItem } from "./list-item";
 export type SharedListFilterFields = {
   label?: string;
   description?: string;
-  metadata?: object;
+  metadata?: Record<string, unknown>;
   heading?: string[];
 };
 

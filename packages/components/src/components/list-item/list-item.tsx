@@ -179,7 +179,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
-  @property() metadata?: object;
+  @property() metadata?: Record<string, unknown>;
 
   /**
    * Specifies the nesting behavior.

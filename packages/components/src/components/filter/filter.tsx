@@ -88,7 +88,7 @@ export class Filter extends LitElement {
   @property() items: object[] = [];
 
   /** Whether filtering is currently in progress. */
-  @property()
+  @property({ attribute: false })
   get filtering(): boolean {
     return this._filtering;
   }
@@ -132,8 +132,14 @@ export class Filter extends LitElement {
   @method()
   async filter(value: string = this.value): Promise<void> {
     return new Promise((resolve) => {
-      this.value = value;
-      /** TODO: [MIGRATION] we bypass the debounced function to work around an issue with debounce using the last args passed when invoking the debounced fn, causing the promise to not resolve */
+      const oldValue = this._value;
+
+      if (value !== oldValue) {
+        this._value = value;
+        this.requestUpdate("value", oldValue);
+      }
+
+      /** We intentionally avoid the value setter to prevent scheduling an extra debounced filter pass. */
       this.filterItems(value, false, resolve);
     });
   }

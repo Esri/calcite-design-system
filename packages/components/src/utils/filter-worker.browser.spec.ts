@@ -31,14 +31,26 @@ describe("filter-worker", () => {
 
   it("falls back when worker postMessage throws", async () => {
     const nativeWorker = globalThis.Worker;
+    let postMessageCallCount = 0;
+    const item: { label: string; callback?: () => void } = { label: "one" };
 
     class MockWorker {
-      addEventListener(): void {
-        // no-op
+      private errorListeners: Array<() => void> = [];
+
+      addEventListener(type: string, listener: () => void): void {
+        if (type === "error") {
+          this.errorListeners.push(listener);
+        }
       }
 
-      postMessage(): never {
-        throw new Error("postMessage failed");
+      postMessage(): void {
+        postMessageCallCount++;
+
+        if (typeof item.callback === "function") {
+          throw new Error("postMessage failed");
+        }
+
+        this.errorListeners.forEach((listener) => listener());
       }
 
       terminate(): void {
@@ -49,7 +61,13 @@ describe("filter-worker", () => {
     globalThis.Worker = MockWorker as unknown as typeof Worker;
 
     try {
-      await expect(filterInWorker([{ label: "one" }], "one", ["label"])).resolves.toBeNull();
+      await expect(filterInWorker([item], "one", ["label"])).resolves.toBeNull();
+
+      item.callback = () => {};
+
+      await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
+      await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
+      expect(postMessageCallCount).toBe(2);
     } finally {
       globalThis.Worker = nativeWorker;
     }

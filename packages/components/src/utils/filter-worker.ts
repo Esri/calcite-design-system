@@ -119,6 +119,9 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
     try {
       worker.postMessage({ requestId, data, value, filterProps } satisfies FilterWorkerRequest);
     } catch {
+      data.forEach((item) => {
+        cloneableRecordCache.set(item, isStructuredCloneable(item));
+      });
       pendingRequests.delete(requestId);
       resolve(null);
     }
