@@ -85,6 +85,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private activeItemIndex = -1;
 
+  private activeDescendantOwnerEl?: HTMLElement;
+
   private groups: DropdownGroup["el"][] = [];
 
   private items: DropdownItem["el"][] = [];
@@ -332,6 +334,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl") && this.referenceElementType) {
+      this.syncActiveDescendantOwnerElement();
       connectFloatingUI(this);
     }
   }
@@ -342,6 +345,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   override disconnectedCallback(): void {
+    if (this.activeDescendantOwnerEl) {
+      this.activeDescendantOwnerEl.ariaActiveDescendantElement = null;
+      this.activeDescendantOwnerEl = undefined;
+    }
+
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectFloatingUI(this);
@@ -524,6 +532,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   onClose(): void {
     this.calciteDropdownClose.emit();
+    this.syncActiveDescendantOwnerElement();
     hideFloatingUI(this);
     this.topLayer.hide();
   }
@@ -540,6 +549,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     this.referenceEl = el;
+    this.syncActiveDescendantOwnerElement();
 
     connectFloatingUI(this);
   }
@@ -687,6 +697,37 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     });
 
     this.activeDescendantElement = activeItem ?? undefined;
+    this.syncActiveDescendantOwnerElement();
+  }
+
+  private getActiveDescendantOwnerElement(): HTMLElement | undefined {
+    if (this.referenceElementType && this.referenceEl instanceof HTMLElement) {
+      return this.referenceEl;
+    }
+
+    const slottedTrigger = this.el.querySelector<HTMLElement>(`[slot="${SLOTS.trigger}"]`);
+
+    if (slottedTrigger) {
+      return slottedTrigger;
+    }
+
+    return this.referenceEl instanceof HTMLElement ? this.referenceEl : undefined;
+  }
+
+  private syncActiveDescendantOwnerElement(): void {
+    const ownerEl = this.getActiveDescendantOwnerElement();
+
+    if (this.activeDescendantOwnerEl && this.activeDescendantOwnerEl !== ownerEl) {
+      this.activeDescendantOwnerEl.ariaActiveDescendantElement = null;
+    }
+
+    if (!ownerEl) {
+      this.activeDescendantOwnerEl = undefined;
+      return;
+    }
+
+    ownerEl.ariaActiveDescendantElement = this.open ? (this.activeDescendantElement ?? null) : null;
+    this.activeDescendantOwnerEl = ownerEl;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {

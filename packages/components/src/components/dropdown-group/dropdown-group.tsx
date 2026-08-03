@@ -34,6 +34,10 @@ export class DropdownGroup extends LitElement {
   /** the requested item */
   private requestedDropdownItem?: DropdownItem["el"];
 
+  private items: DropdownItem["el"][] = [];
+
+  private describedItems = new Set<DropdownItem["el"]>();
+
   // #endregion
 
   // #region Public Properties
@@ -98,8 +102,22 @@ export class DropdownGroup extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("groupTitle")) {
+      this.syncItemGroupDescriptions(this.getItems());
+    }
+  }
+
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+
+    this.describedItems.forEach((item) => {
+      item.ariaDescribedByElements =
+        item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? [];
+    });
+
+    this.describedItems.clear();
+    this.items = [];
   }
 
   // #endregion
@@ -115,9 +133,44 @@ export class DropdownGroup extends LitElement {
   }
 
   private updateItems(): void {
-    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
-      (item) => (item.selectionMode = this.selectionMode),
-    );
+    const items = this.getItems();
+
+    this.items = items;
+
+    items.forEach((item) => {
+      item.selectionMode = this.selectionMode;
+    });
+
+    this.syncItemGroupDescriptions(items);
+  }
+
+  private getItems(): DropdownItem["el"][] {
+    return Array.from(this.el.querySelectorAll<DropdownItem["el"]>("calcite-dropdown-item"));
+  }
+
+  private syncItemGroupDescriptions(items: DropdownItem["el"][] = this.items): void {
+    const descriptionEl = this.groupTitle ? this.el : null;
+
+    const currentItems = new Set(items);
+
+    this.describedItems.forEach((item) => {
+      if (!currentItems.has(item)) {
+        item.ariaDescribedByElements =
+          item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? [];
+      }
+    });
+
+    currentItems.forEach((item) => {
+      const currentDescriptions =
+        item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? [];
+
+      item.ariaDescribedByElements = descriptionEl
+        ? [...currentDescriptions, descriptionEl]
+        : currentDescriptions;
+    });
+
+    this.items = items;
+    this.describedItems = currentItems;
   }
 
   // #endregion
