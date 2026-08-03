@@ -21,6 +21,10 @@ let currentRequestId = 0;
 const pendingRequests = new Map<number, PendingRequest>();
 const cloneableRecordCache = new WeakMap<object, boolean>();
 
+function isDataCloneError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === "DataCloneError";
+}
+
 function isStructuredCloneable(value: unknown): boolean {
   const structuredCloneFn = globalThis.structuredClone;
 
@@ -118,10 +122,13 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
 
     try {
       worker.postMessage({ requestId, data, value, filterProps } satisfies FilterWorkerRequest);
-    } catch {
+    } catch (error) {
+      const cloneable = !isDataCloneError(error);
+
       data.forEach((item) => {
-        cloneableRecordCache.set(item, isStructuredCloneable(item));
+        cloneableRecordCache.set(item, cloneable ? isStructuredCloneable(item) : false);
       });
+
       pendingRequests.delete(requestId);
       resolve(null);
     }

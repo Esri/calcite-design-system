@@ -1,3 +1,5 @@
+/// <reference lib="webworker" />
+
 import { getFilteredIndexes } from "./filter";
 
 type FilterWorkerRequest = {
