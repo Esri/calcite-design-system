@@ -46,8 +46,10 @@ describe("referenceElementManager", () => {
 
     await afterNextFrame();
 
-    const clickAddCalls = addListenerSpy.mock.calls.filter(([type]) => type === "click");
-    const keydownAddCalls = addListenerSpy.mock.calls.filter(([type]) => type === "keydown");
+    const clickAddCalls = addListenerSpy.mock.calls.filter(([type]) => String(type) === "click");
+    const keydownAddCalls = addListenerSpy.mock.calls.filter(
+      ([type]) => String(type) === "keydown",
+    );
 
     expect(clickAddCalls).toHaveLength(1);
     expect(keydownAddCalls).toHaveLength(1);
@@ -56,8 +58,12 @@ describe("referenceElementManager", () => {
 
     await afterNextFrame();
 
-    const clickRemoveCalls = removeListenerSpy.mock.calls.filter(([type]) => type === "click");
-    const keydownRemoveCalls = removeListenerSpy.mock.calls.filter(([type]) => type === "keydown");
+    const clickRemoveCalls = removeListenerSpy.mock.calls.filter(
+      ([type]) => String(type) === "click",
+    );
+    const keydownRemoveCalls = removeListenerSpy.mock.calls.filter(
+      ([type]) => String(type) === "keydown",
+    );
 
     expect(clickRemoveCalls).toHaveLength(1);
     expect(keydownRemoveCalls).toHaveLength(1);

@@ -166,6 +166,7 @@ export class Filter extends LitElement {
   /**
    * Fires when filtering starts and completes.
    *
+   * Use the `filtering` property to determine the current filtering state.
    */
   calciteFilterStatusChange = createEvent({ cancelable: false });
 
