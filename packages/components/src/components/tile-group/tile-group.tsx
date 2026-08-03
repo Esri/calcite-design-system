@@ -44,8 +44,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -68,11 +67,11 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property() selectedItems: Tile["el"][] = [];
 
   /**
-   * Specifies the selection appearance, where:
+   * Specifies the selection appearance.
    *
-   * - `"icon"` (displays a checkmark or dot),
-   * - `"highlight"` (changes the background color), and
-   * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` changes the background color.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight" | "border",
@@ -80,12 +79,12 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   > = "icon";
 
   /**
-   * Specifies the selection mode, where:
+   * Specifies the selection mode.
    *
-   * - `"multiple"` (allows any number of selected items),
-   * - `"single"` (allows only one selected item),
-   * - `"single-persist"` (allows only one selected item and prevents de-selection), and
-   * - `"none"` (allows no selected items).
+   * - `"multiple"` allows any number of selected items.
+   * - `"single"` allows only one selected item.
+   * - `"single-persist"` allows only one selected item and prevents de-selection.
+   * - `"none"` allows no selected items.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",

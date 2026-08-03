@@ -1,5 +1,6 @@
 {
   "chooseDate": "Izvēlieties datumu",
+  "clear": "Clear value",
   "date": "Datums",
   "dateFormat": "Datuma formāts: {format}",
   "endDate": "Beigu datums",

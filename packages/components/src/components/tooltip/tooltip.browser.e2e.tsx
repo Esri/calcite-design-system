@@ -41,7 +41,7 @@ class TooltipShadowA extends LitElement {
         <button id="tooltip-button">Data disclaimer</button>
         <calcite-tooltip reference-element="tooltip-button">content</calcite-tooltip>
       </>
-    )
+    );
   }
 }
 
@@ -49,9 +49,7 @@ class TooltipShadowB extends LitElement {
   static tagName = "tooltip-shadow-b";
 
   override render(): JsxNode {
-    return (
-      <tooltip-shadow-a/>
-    )
+    return <tooltip-shadow-a />;
   }
 }
 
@@ -463,7 +461,9 @@ describe("reference element", () => {
         <div id="ref">referenceElement</div>
       </>,
     );
-    const positionContainer = el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.positionContainer}`)!;
+    const positionContainer = el.shadowRoot.querySelector<HTMLElement>(
+      `.${CSS.positionContainer}`,
+    )!;
 
     expect(getComputedStyle(positionContainer).transform).toBe("none");
 
@@ -482,7 +482,9 @@ describe("reference element", () => {
         <div id="ref">referenceElement</div>
       </>,
     );
-    const positionContainer = el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.positionContainer}`)!;
+    const positionContainer = el.shadowRoot.querySelector<HTMLElement>(
+      `.${CSS.positionContainer}`,
+    )!;
 
     await expect.element(page.getByText("content")).toBeVisible();
     expect(getComputedStyle(positionContainer).transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
@@ -502,7 +504,9 @@ describe("reference element", () => {
         }) as DOMRect,
     };
     await reRender();
-    const positionContainer = el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.positionContainer}`)!;
+    const positionContainer = el.shadowRoot.querySelector<HTMLElement>(
+      `.${CSS.positionContainer}`,
+    )!;
 
     await expect.element(page.getByText("content")).toBeVisible();
     expect(getComputedStyle(positionContainer).transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
@@ -591,7 +595,9 @@ describe("interactions", () => {
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
     expect(el.open).toBe(true);
 
-    document.querySelector("#container")!.addEventListener("pointermove", (event) => event.preventDefault());
+    document
+      .querySelector("#container")!
+      .addEventListener("pointermove", (event) => event.preventDefault());
     pointerMove(reference);
     vi.advanceTimersByTime(HOVER_CLOSE_DELAY_MS);
 
@@ -738,7 +744,7 @@ describe("interactions", () => {
     await reRender();
     document.body.addEventListener("keydown", (event) => event.preventDefault(), {
       capture: true,
-      once: true
+      once: true,
     });
 
     keydown(reference, "Escape");
@@ -750,9 +756,13 @@ describe("interactions", () => {
   it("only opens the most recently interacted-with tooltip", async () => {
     await mount(
       <>
-        <calcite-tooltip id="tip1" reference-element="ref1">Content 1</calcite-tooltip>
+        <calcite-tooltip id="tip1" reference-element="ref1">
+          Content 1
+        </calcite-tooltip>
         <button id="ref1">Button 1</button>
-        <calcite-tooltip id="tip2" reference-element="ref2">Content 2</calcite-tooltip>
+        <calcite-tooltip id="tip2" reference-element="ref2">
+          Content 2
+        </calcite-tooltip>
         <button id="ref2">Button 2</button>
       </>,
     );
@@ -779,8 +789,12 @@ describe("interactions", () => {
       <>
         <button id="ref1">referenceElement 1</button>
         <button id="ref2">referenceElement 2</button>
-        <calcite-tooltip id="tip1" reference-element="ref1">content</calcite-tooltip>
-        <calcite-tooltip id="tip2" reference-element="ref2">content 2</calcite-tooltip>
+        <calcite-tooltip id="tip1" reference-element="ref1">
+          content
+        </calcite-tooltip>
+        <calcite-tooltip id="tip2" reference-element="ref2">
+          content 2
+        </calcite-tooltip>
       </>,
     );
     const tip1 = document.querySelector<Tooltip>("#tip1")!;
@@ -826,7 +840,9 @@ describe("interactions", () => {
   it("does not open when the reference is clicked before the hover delay", async () => {
     const { el } = await mount<Tooltip>(
       <>
-        <calcite-tooltip close-on-click reference-element="ref">Content</calcite-tooltip>
+        <calcite-tooltip close-on-click reference-element="ref">
+          Content
+        </calcite-tooltip>
         <button id="ref">Button</button>
       </>,
     );
@@ -850,7 +866,7 @@ describe("interactions", () => {
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
     expect(el.open).toBe(true);
 
-    await userEvent.hover(document.body, { position: { x: -1, y: -1 }});
+    await userEvent.hover(document.body, { position: { x: -1, y: -1 } });
     vi.advanceTimersByTime(HOVER_CLOSE_DELAY_MS);
 
     expect(el.open).toBe(false);
@@ -892,7 +908,9 @@ describe("interactions", () => {
 
 describe("within shadow roots", () => {
   function getElements(id: string): { button: HTMLButtonElement; tooltip: Tooltip["el"] } {
-    const innerRoot = document.querySelector(id)!.shadowRoot!.querySelector("tooltip-shadow-a")!.shadowRoot!;
+    const innerRoot = document
+      .querySelector(id)!
+      .shadowRoot!.querySelector("tooltip-shadow-a")!.shadowRoot!;
     return {
       button: innerRoot.querySelector("button")!,
       tooltip: innerRoot.querySelector("calcite-tooltip")!,
@@ -963,7 +981,9 @@ describe("lifecycle events", () => {
 
     el.open = true;
     await reRender();
-    await new Promise<void>((resolve) => el.addEventListener("calciteTooltipOpen", () => resolve(), { once: true }));
+    await new Promise<void>((resolve) =>
+      el.addEventListener("calciteTooltipOpen", () => resolve(), { once: true }),
+    );
 
     expect(beforeOpen).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenCalledTimes(1);
@@ -972,7 +992,9 @@ describe("lifecycle events", () => {
 
     el.open = false;
     await reRender();
-    await new Promise<void>((resolve) => el.addEventListener("calciteTooltipClose", () => resolve(), { once: true }));
+    await new Promise<void>((resolve) =>
+      el.addEventListener("calciteTooltipClose", () => resolve(), { once: true }),
+    );
 
     expect(beforeOpen).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenCalledTimes(1);
@@ -1030,17 +1052,17 @@ describe("lifecycle events", () => {
           ref={(style) => {
             if (style) {
               style.innerHTML = css`
-                  .event-template {
-                    display: none;
-                  }
-                  .event-container {
-                    height: 100px;
-                    width: 100px;
-                  }
-                  .event-container:hover .event-template {
-                    display: initial;
-                  }
-                `;
+                .event-template {
+                  display: none;
+                }
+                .event-container {
+                  height: 100px;
+                  width: 100px;
+                }
+                .event-container:hover .event-template {
+                  display: initial;
+                }
+              `;
             }
           }}
         />
@@ -1086,7 +1108,7 @@ describe("interacting with open content", () => {
     await reRender();
     expect(el.open).toBe(true);
 
-    click(el.shadowRoot!.querySelector(`.${CSS.positionContainer}`)!);
+    click(el.shadowRoot.querySelector(`.${CSS.positionContainer}`)!);
     await reRender();
     expect(el.open).toBe(true);
 

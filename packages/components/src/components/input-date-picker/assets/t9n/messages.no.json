@@ -1,5 +1,6 @@
 {
   "chooseDate": "Velg dato",
+  "clear": "Clear value",
   "date": "Dato",
   "dateFormat": "Datoformat: {format}",
   "endDate": "Sluttdato",

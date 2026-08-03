@@ -45,8 +45,7 @@ export class Menu extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

@@ -40,8 +40,7 @@ export class SwatchGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -57,15 +56,12 @@ export class SwatchGroup extends LitElement {
   @property() selectedItems: Swatch["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",

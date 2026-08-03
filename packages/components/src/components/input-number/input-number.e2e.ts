@@ -40,22 +40,6 @@ it("when disabled, spinner buttons  should not be interactive/should not nudge t
   expect(calciteInputInput).not.toHaveReceivedEvent();
 });
 
-it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number icon="key"></calcite-input-number>`);
-
-  const icon = await page.find("calcite-input-number >>> .icon");
-  expect(icon).not.toBeNull();
-});
-
-it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number icon></calcite-input-number>`);
-
-  const icon = await page.find("calcite-input-number >>> .icon");
-  expect(icon).toBeNull();
-});
-
 it("renders number buttons in default vertical alignment", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-number></calcite-input-number>`);

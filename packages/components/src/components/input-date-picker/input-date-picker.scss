@@ -249,9 +249,11 @@
 }
 
 :host([layout="vertical"]) .divider-container {
-  @apply w-full h-px border-t-0 border-b-0;
+  @apply h-px border-t-0 border-b-0;
   border-inline-start-width: var(--calcite-border-width-sm);
   border-inline-end-width: var(--calcite-border-width-none);
+  inline-size: calc(100% - var(--calcite-space-md));
+  padding-inline: var(--calcite-space-md);
   & .divider {
     @apply w-full h-px my-0;
   }
@@ -304,6 +306,11 @@
     padding-inline-start: var(--calcite-space-sm);
   }
 
+  .divider-container {
+    inline-size: calc(100% - var(--calcite-space-sm));
+    padding-inline: var(--calcite-space-sm);
+  }
+
   .clear-button {
     margin-inline-start: var(--calcite-space-sm);
   }
@@ -316,6 +323,11 @@
 
   .vertical-actions-container:not(:has(.clear-button)) .toggle-icon {
     padding-inline-start: var(--calcite-space-lg);
+  }
+
+  .divider-container {
+    inline-size: calc(100% - var(--calcite-space-lg));
+    padding-inline: var(--calcite-space-lg);
   }
 
   .clear-button {
@@ -448,7 +460,6 @@ calcite-date-picker {
 }
 
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.form-internal-label();
 @include includes.base-component();
 @include includes.clear-button(

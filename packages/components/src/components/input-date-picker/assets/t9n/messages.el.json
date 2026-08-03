@@ -1,5 +1,6 @@
 {
   "chooseDate": "Επιλογή ημερομηνίας",
+  "clear": "Clear value",
   "date": "Ημερομηνία",
   "dateFormat": "Μορφότυπο ημερομηνίας: {format}",
   "endDate": "Ημερομηνία λήξης",

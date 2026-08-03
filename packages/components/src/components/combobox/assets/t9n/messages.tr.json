@@ -4,7 +4,7 @@
   "allSelected": "Tümü seçildi",
   "clear": "Değeri temizle",
   "noMatches": "Eşleşme yok",
-  "removeTag": "Remove {value} tag",
+  "removeTag": "{value} etiketini kaldır",
   "required": "Gerekli",
   "selectAll": "Tümünü seç",
   "selected": "seçili",
