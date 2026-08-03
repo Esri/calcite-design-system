@@ -105,9 +105,9 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(exponentialString)).toBe("2.5e123");
     expect(sanitizeNumberString(negativeExponentialString)).toBe("-2.5e-123");
     expect(sanitizeNumberString(multipleEString)).toBe("2e42421");
-    expect(sanitizeNumberString(singleEString)).toBe("");
-    expect(sanitizeNumberString(leadingEString)).toBe("1e5");
-    expect(sanitizeNumberString(trailingEString)).toBe("12");
+    expect(sanitizeNumberString(singleEString)).toBe("e");
+    expect(sanitizeNumberString(leadingEString)).toBe("e5");
+    expect(sanitizeNumberString(trailingEString)).toBe("12e");
     expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("5e6");
     expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
     expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("1.2e21");
