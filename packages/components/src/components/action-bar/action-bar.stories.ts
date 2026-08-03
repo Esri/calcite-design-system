@@ -457,6 +457,50 @@ export const verticalWrap = (): string =>
     </calcite-action-group>
   </calcite-action-bar>`;
 
+export const wrapWithActionsStartGroups = (): string =>
+  html`<div style="display: flex; gap: 1rem;">
+    <div style="width: 360px;">
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+        <calcite-action-group slot="actions-start">
+          <calcite-action text="Home" icon="home"></calcite-action>
+          <calcite-action text="Locate" icon="compass"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Save" icon="save"></calcite-action>
+          <calcite-action text="Layers" icon="layers"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+          <calcite-action text="Measure" icon="measure"></calcite-action>
+          <calcite-action text="Share" icon="share"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="Settings" icon="gear"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    </div>
+    <calcite-action-bar layout="vertical" overflow-mode="wrap" style="height: 260px;">
+      <calcite-action-group slot="actions-start">
+        <calcite-action text="Home" icon="home"></calcite-action>
+        <calcite-action text="Locate" icon="compass"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Measure" icon="measure"></calcite-action>
+        <calcite-action text="Share" icon="share"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="actions-end">
+        <calcite-action text="Settings" icon="gear"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>`;
+
 export const darkModeRTL = (): string => html`
   <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>

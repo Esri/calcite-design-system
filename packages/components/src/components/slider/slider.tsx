@@ -284,9 +284,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property({ reflect: true }) mirrored = false;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission
+   * @copyDoc
    */
   @property({ reflect: true }) name?: string;
 
@@ -321,9 +319,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property({ reflect: true }) ticks?: number;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -331,7 +327,6 @@ export class Slider extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

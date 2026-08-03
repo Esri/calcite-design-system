@@ -88,7 +88,7 @@ export class Notice extends LitElement {
   @property({ reflect: true }) closable = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
