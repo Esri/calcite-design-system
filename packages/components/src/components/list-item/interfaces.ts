@@ -1,10 +1,9 @@
 import { ListItem } from "./list-item";
-import type { CloneSafeRecord } from "../../utils/clone-safe-types";
 
 export type SharedListFilterFields = {
   label?: string;
   description?: string;
-  metadata?: CloneSafeRecord;
+  metadata?: object;
   heading?: string[];
 };
 
