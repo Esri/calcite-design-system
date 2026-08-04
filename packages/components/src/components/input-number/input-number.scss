@@ -640,7 +640,6 @@ input {
 
 @include includes.form-internal-label();
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.base-component();
 @include includes.input-placeholder-text("--calcite-input-number-placeholder-text-color");
 @include includes.clear-button(
