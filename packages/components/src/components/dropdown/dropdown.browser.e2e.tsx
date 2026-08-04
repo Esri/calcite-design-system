@@ -319,21 +319,24 @@ describe("ariaActiveDescendantElement", () => {
     return page.elementLocator(triggerHost!);
   }
 
-  function getTriggerSlotLocator(): ReturnType<typeof page.elementLocator> {
-    const slot = (getSlottedTriggerLocator().element() as HTMLElement | null)?.assignedSlot;
-
-    expect(slot).toBeTruthy();
-
-    return page.elementLocator(slot!);
-  }
-
   function getSlottedTriggerElement(): HTMLElement | null {
     return getSlottedTriggerLocator().element() as HTMLElement | null;
   }
 
-  function getActiveDescendantId(): string | undefined {
-    return (getTriggerSlotLocator().element() as HTMLSlotElement | null)
-      ?.ariaActiveDescendantElement?.id;
+  function getTriggerSlotElement(): HTMLSlotElement | null {
+    return getSlottedTriggerElement()?.assignedSlot as HTMLSlotElement | null;
+  }
+
+  function getTriggerActiveDescendantId(): string | undefined {
+    return getSlottedTriggerElement()?.ariaActiveDescendantElement?.id;
+  }
+
+  function getTriggerSlotActiveDescendantId(): string | undefined {
+    return getTriggerSlotElement()?.ariaActiveDescendantElement?.id;
+  }
+
+  function getReferenceTriggerOwnerElement(triggerEl: HTMLElement | null): HTMLElement | null {
+    return (triggerEl?.shadowRoot?.activeElement as HTMLElement | null) ?? triggerEl;
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
@@ -342,7 +345,7 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(trigger);
 
-    expect(getActiveDescendantId()).toBe("item-1");
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-1");
   });
 
   it("sets ariaActiveDescendantElement on the slotted trigger element when opened", async () => {
@@ -351,7 +354,7 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(trigger);
 
-    expect(getSlottedTriggerElement()?.ariaActiveDescendantElement?.id).toBe("item-1");
+    expect(getTriggerActiveDescendantId()).toBe("item-1");
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
@@ -363,7 +366,7 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowDown}");
 
-    expect(getActiveDescendantId()).toBe("item-2");
+    expect(getTriggerActiveDescendantId()).toBe("item-2");
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
@@ -375,13 +378,13 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    let activeDescendantId = getActiveDescendantId();
+    let activeDescendantId = getTriggerActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-3");
 
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    activeDescendantId = getActiveDescendantId();
+    activeDescendantId = getTriggerActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-2");
   });
@@ -392,15 +395,42 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(trigger);
 
-    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
-      "item-1",
+    const focusedTriggerElement = getReferenceTriggerOwnerElement(
+      trigger.element() as HTMLElement | null,
     );
+
+    expect(focusedTriggerElement?.ariaActiveDescendantElement?.id).toBe("item-1");
 
     await userEvent.type(trigger, "{ArrowDown}");
 
-    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
-      "item-2",
+    expect(focusedTriggerElement?.ariaActiveDescendantElement?.id).toBe("item-2");
+  });
+
+  it("sets ariaActiveDescendantElement on focused trigger slot node when multiple trigger nodes exist", async () => {
+    await mount<Dropdown>(
+      <calcite-dropdown>
+        <span id="trigger-label" slot="trigger">
+          Label
+        </span>
+        <calcite-button id="trigger-button" slot="trigger">
+          Open dropdown
+        </calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
     );
+
+    const triggerButton = page.getBySelector("#trigger-button");
+    const triggerLabel = page.getBySelector("#trigger-label");
+
+    await userEvent.click(triggerButton);
+
+    expect((triggerButton.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
+    expect((triggerLabel.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
   });
 
   it("associates grouped items with their title in slotted-trigger mode", async () => {
@@ -484,15 +514,19 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(triggerOne);
 
-    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
-      "item-1",
-    );
+    expect(
+      getReferenceTriggerOwnerElement(triggerOne.element() as HTMLElement | null)
+        ?.ariaActiveDescendantElement?.id,
+    ).toBe("item-1");
 
     const updateComplete = component.updateComplete;
     el.referenceElement = "trigger-two";
     await waitForSettledUpdate(component, updateComplete);
 
-    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+    expect(
+      getReferenceTriggerOwnerElement(triggerOne.element() as HTMLElement | null)
+        ?.ariaActiveDescendantElement,
+    ).toBeNull();
     expect((triggerTwo.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
       "item-1",
     );
