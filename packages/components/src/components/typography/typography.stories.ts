@@ -21,6 +21,9 @@ export default {
   decorators: [
     (story: () => string, context: StoryContext): string => {
       const { containerWidth } = context.args;
+      if (context.parameters.disableDecorators) {
+        return story();
+      }
       return html`
         <div style="width: ${containerWidth}px; border: 1px solid var(--calcite-color-border-3); padding: 8px;">
           ${story()}
@@ -73,3 +76,75 @@ export const tooltipEnabled = (): string => html`
     Andes-Mountain-Observatory-Annual-Climate-Report-Archive-2026
   </calcite-typography>
 `;
+
+export const truncationSandBox = (): string => html`
+  <style>
+    calcite-chip {
+      max-width: 500px;
+    }
+    calcite-tab-title {
+      max-width: 100px;
+    }
+  </style>
+  <calcite-button width="half">
+    <calcite-typography wrap>
+      This is a long placeholder paragraph written in plain English for drafts, mockups, and early content planning. It
+      is designed to look natural on the page while remaining generic enough to replace later with final copy. Teams
+      often use text like this to check spacing, hierarchy, alignment, and overall reading flow before real messaging is
+      approved. Because the language is neutral and broadly understandable, it works well across landing pages, internal
+      tools, product cards, help content, and presentation materials where realistic line length
+      matters.</calcite-typography
+    >
+  </calcite-button>
+  <calcite-chip-group label="demo-group-label">
+    <calcite-chip value="biome-a" label="Biome A">
+      <calcite-typography>
+        This is a long placeholder paragraph written in plain English for drafts, mockups, and early content planning.
+        It is designed to look natural on the page while remaining generic enough to replace later with final copy.
+        Teams often use text like this to check spacing, hierarchy, alignment, and overall reading flow before real
+        messaging is approved. Because the language is neutral and broadly understandable, it works well across landing
+        pages, internal tools, product cards, help content, and presentation materials where realistic line length
+        matters.
+      </calcite-typography></calcite-chip
+    >
+    <calcite-chip value="biome-b" label="Biome B">Biome B</calcite-chip>
+    <calcite-chip value="biome-d" label="Biome C">Biome C</calcite-chip>
+    <calcite-chip value="biome-d" label="Biome D">Biome D</calcite-chip>
+    <calcite-chip value="biome-e" label="Biome E">Biome E</calcite-chip>
+  </calcite-chip-group>
+
+  <calcite-tabs>
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title
+        ><calcite-typography
+          >This is a long placeholder paragraph written in plain English for drafts, mockups, and early content
+          planning. It is designed to look natural on the page while remaining generic enough to replace later with
+          final copy. Teams often use text like this to check spacing, hierarchy, alignment, and overall reading flow
+          before real messaging is approved. Because the language is neutral and broadly understandable, it works well
+          across landing pages, internal tools, product cards, help content, and presentation materials where realistic
+          line length matters.</calcite-typography
+        >
+      </calcite-tab-title>
+      <calcite-tab-title>Automobiles</calcite-tab-title>
+      <calcite-tab-title>Aircraft</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab selected>
+      <calcite-notice icon="embark" open>
+        <div slot="message">Recommended for coastal use</div>
+      </calcite-notice>
+    </calcite-tab>
+    <calcite-tab>
+      <calcite-notice icon="car" open>
+        <div slot="message">A good choice for inland adventure</div>
+      </calcite-notice>
+    </calcite-tab>
+    <calcite-tab>
+      <calcite-notice icon="plane" open>
+        <div slot="message">Cross continents quickly</div>
+      </calcite-notice>
+    </calcite-tab>
+  </calcite-tabs>
+`;
+truncationSandBox.parameters = {
+  disableDecorators: true,
+};
