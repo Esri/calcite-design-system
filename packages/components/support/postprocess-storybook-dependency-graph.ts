@@ -41,7 +41,6 @@ interface LuminaContent {
     );
 
     const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(relativePath);
-    console.log(storybookItemIndex);
 
     if (storybookItemIndex !== -1) {
       references.forEach((reference: string) => {

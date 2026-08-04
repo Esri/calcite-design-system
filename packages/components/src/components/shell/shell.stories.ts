@@ -12,7 +12,6 @@ import "../action-bar/action-bar"; // Force Vite to statically trace the file fo
 import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../block/block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../block-content/block-content"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../block-section/block-section"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
