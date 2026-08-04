@@ -2,6 +2,7 @@ import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
 import type { Input } from "../input/input";
 import type { Scale } from "../interfaces";
+import type { TextArea } from "../text-area/text-area";
 import { getSlotAssignedElements, getStylePixelValue } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
@@ -14,6 +15,8 @@ const internalPrefixWidthVar = "--calcite-internal-input-prefix-width";
 const internalSuffixWidthVar = "--calcite-internal-input-suffix-width";
 const prefixSizeVar = "--calcite-input-prefix-size";
 const suffixSizeVar = "--calcite-input-suffix-size";
+
+type ReadOnlyElement = Input["el"] | TextArea["el"];
 
 declare global {
   interface DeclareElements {
@@ -36,7 +39,7 @@ export class FieldSet extends LitElement {
 
   private inputDisabledState = new WeakMap<Input["el"], boolean>();
 
-  private inputReadOnlyState = new WeakMap<Input["el"], boolean>();
+  private inputReadOnlyState = new WeakMap<ReadOnlyElement, boolean>();
 
   private legendId = `calcite-field-set-legend-${guid()}`;
 
@@ -52,6 +55,18 @@ export class FieldSet extends LitElement {
         return Array.from(element.querySelectorAll<Input["el"]>("calcite-input"));
       }) ?? []
     );
+  }
+
+  private get readOnlyElements(): ReadOnlyElement[] {
+    return this.slottedElements.flatMap((element) => {
+      if (element.matches("calcite-input, calcite-text-area")) {
+        return [element as ReadOnlyElement];
+      }
+
+      return Array.from(
+        element.querySelectorAll<ReadOnlyElement>("calcite-input, calcite-text-area"),
+      );
+    });
   }
 
   private get slottedElements(): HTMLElement[] {
@@ -144,7 +159,7 @@ export class FieldSet extends LitElement {
     return input.hasAttribute("disabled") || input.disabled;
   }
 
-  private getInputReadOnlyState(input: Input["el"]): boolean {
+  private getInputReadOnlyState(input: ReadOnlyElement): boolean {
     return input.hasAttribute("read-only") || input.readOnly;
   }
 
@@ -243,7 +258,7 @@ export class FieldSet extends LitElement {
   }
 
   private syncInputsScale(): void {
-    this.inputs.forEach((input) => {
+    this.readOnlyElements.forEach((input) => {
       input.scale = this.scale;
     });
   }
@@ -251,7 +266,7 @@ export class FieldSet extends LitElement {
   private syncInputsReadOnlyState(previousReadOnly = this.readOnly): void {
     const wasReadOnly = previousReadOnly;
 
-    this.inputs?.forEach((input) => {
+    this.readOnlyElements.forEach((input) => {
       if (this.readOnly) {
         if (!wasReadOnly || !this.inputReadOnlyState.has(input)) {
           this.inputReadOnlyState.set(input, this.getInputReadOnlyState(input));

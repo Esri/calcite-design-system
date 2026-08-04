@@ -63,6 +63,7 @@ export const simple = (args: FormStoryArgs): string => html`
       <div slot="legend">Field Set legend</div>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-text-area label-text="Label" placeholder="Placeholder"></calcite-text-area>
     </calcite-field-set>
     <calcite-field-set>
       <div slot="legend">Field Set legend</div>

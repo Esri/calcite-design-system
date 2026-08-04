@@ -19,12 +19,14 @@
 // --calcite-internal-field-set-legend-font-size
 // --calcite-internal-field-set-legend-line-height
 // --calcite-internal-field-set-legend-min-block-size
+// --calcite-internal-text-area-block-size
 
 @use "../../styles/includes";
 
 :host {
   display: block;
   inline-size: 100%;
+  --calcite-internal-text-area-block-size: auto;
 }
 
 .container {

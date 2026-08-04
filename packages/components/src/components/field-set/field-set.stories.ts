@@ -41,7 +41,7 @@ export default {
     readOnly: false,
     scale: "m",
     layout: "vertical",
-    columns: 2,
+    columns: 1,
     columnGap: "",
     prefixAutoWidth: false,
     suffixAutoWidth: false,
@@ -130,6 +130,7 @@ export const simple = (args: FieldSetStoryArgs): string => {
       ></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder" disabled></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-text-area label-text="Label" placeholder="Placeholder"></calcite-text-area>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder" value="Sample value"></calcite-input>
     </calcite-field-set>
@@ -160,7 +161,6 @@ export const layouts = (args: FieldSetStoryArgs): string => html`
     ${simple({ ...args, columns: 6, layout: "columns", legendText: "Columns (6)" })}
   </div>
 `;
-layouts.args = { columns: 2, layout: "vertical" };
 layouts.parameters = { controls: { disable: true } };
 
 export const disabled = (args: FieldSetStoryArgs): string => simple(args);
