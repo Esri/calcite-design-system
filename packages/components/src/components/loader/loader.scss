@@ -32,19 +32,13 @@
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;
   flex-direction: column;
-  block-size: calc(
-    var(--calcite-loader-size, var(--calcite-internal-loader-size)) +
-      var(--calcite-loader-spacing, theme("spacing.16")) * 2
-  );
-  min-block-size: calc(
-    var(--calcite-loader-size, var(--calcite-internal-loader-size)) +
-      var(--calcite-loader-spacing, theme("spacing.16")) * 2
-  );
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
+  min-block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
   font-size: var(--calcite-loader-font-size);
   stroke-width: var(--calcite-internal-stroke-width);
   fill: none;
   transform: scale(1, 1);
-  padding-block: var(--calcite-loader-spacing, theme("spacing.16"));
+  margin-block: var(--calcite-loader-spacing, theme("spacing.16"));
 }
 
 :host([scale="s"]) {

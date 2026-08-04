@@ -77,15 +77,15 @@
 }
 
 .primary {
-  block-size: var(--calcite-internal-navigation-primary-height);
+  block-size: calc(var(--calcite-internal-navigation-primary-height) + 1px);
 }
 
 .secondary {
-  block-size: var(--calcite-internal-navigation-secondary-height);
+  block-size: calc(var(--calcite-internal-navigation-secondary-height) + 1px);
 }
 
 .tertiary {
-  block-size: var(--calcite-internal-navigation-tertiary-height);
+  block-size: calc(var(--calcite-internal-navigation-tertiary-height) + 1px);
 }
 
 .container-content {
