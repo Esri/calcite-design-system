@@ -1233,8 +1233,15 @@ exports[`CSS > index should match 1`] = `
     --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
 }
+:where(*) {
+  --calcite-color-surface-1: var(--calcite-color-background);
+  --calcite-color-surface-2: var(--calcite-color-foreground-1);
+  --calcite-color-surface-3: var(--calcite-color-foreground-2);
+  --calcite-color-surface-4: var(--calcite-color-foreground-3);
+  --calcite-color-surface-highlight: var(--calcite-color-foreground-current);
+}
 @media (prefers-color-scheme: light) {
-  .calcite-mode-auto {
+  :where(.calcite-mode-auto) {
     --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
@@ -1308,7 +1315,7 @@ exports[`CSS > index should match 1`] = `
   }
 }
 @media (prefers-color-scheme: dark) {
-  .calcite-mode-auto {
+  :where(.calcite-mode-auto) {
     --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
@@ -1381,7 +1388,7 @@ exports[`CSS > index should match 1`] = `
     ); /** Replaces \`--calcite-color-background\` */
   }
 }
-.calcite-mode-light {
+:where(.calcite-mode-light) {
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
@@ -1453,7 +1460,7 @@ exports[`CSS > index should match 1`] = `
     --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
 }
-.calcite-mode-dark {
+:where(.calcite-mode-dark) {
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
@@ -1608,8 +1615,10 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-round: 4px; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
   --calcite-corner-radius-pill: 9999px;
-  --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
-  --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
+  --calcite-font-family:
+    "Avenir Next", Avenir, "Helvetica Neue", sans-serif; /** Primary font with fallbacks */
+  --calcite-font-family-code:
+    Monaco, Consolas, "Andale Mono", "Lucida Console", monospace; /** Font family for code with fallbacks */
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
   --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
@@ -1679,8 +1688,10 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-opacity-dark: 0.85;
   --calcite-opacity-full: 1;
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
-  --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --calcite-shadow-sm:
+    0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+  --calcite-shadow-md:
+    0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1731,32 +1742,110 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
-  --calcite-corner-radius-none: var(--calcite-corner-radius-sharp); /** Replaces \`--calcite-corner-radius-sharp\` */
-  --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
-  --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
-  --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
-  --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
-  --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
-  --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
-  --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
-  --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-space-2xs: var(--calcite-spacing-xxs); /** Replaces \`--calcite-spacing-xxs\` */
-  --calcite-space-xs: var(--calcite-spacing-xs); /** Replaces \`--calcite-spacing-xs\` */
-  --calcite-space-sm: var(--calcite-spacing-sm); /** Replaces \`--calcite-spacing-sm\` */
-  --calcite-space-sm-plus: var(--calcite-spacing-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-space-md: var(--calcite-spacing-md); /** Replaces \`--calcite-spacing-md\` */
-  --calcite-space-md-plus: var(--calcite-spacing-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
-  --calcite-space-lg: var(--calcite-spacing-lg); /** Replaces \`--calcite-spacing-lg\` */
-  --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
-  --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
+  --calcite-corner-radius-none: var(
+    --calcite-corner-radius-sharp
+  ); /** Replaces \`--calcite-corner-radius-sharp\` */
+  --calcite-corner-radius-sm: var(
+    --calcite-corner-radius-round
+  ); /** Replaces \`--calcite-corner-radius-round\` */
+  --calcite-font-weight-regular: var(
+    --calcite-font-weight-normal
+  ); /** Replaces \`--calcite-font-weight-normal\` */
+  --calcite-font-size-2xl: var(
+    --calcite-font-size-xxl
+  ); /** Replaces \`--calcite-font-size-xxl\` */
+  --calcite-size-4xs: var(
+    --calcite-size-fixed-sm-plus
+  ); /** Replaces \`--calcite-size-fixed-sm-plus\` */
+  --calcite-size-3xs: var(
+    --calcite-size-fixed-md
+  ); /** Replaces \`--calcite-size-fixed-md\` */
+  --calcite-size-2xs: var(
+    --calcite-size-fixed-md-plus
+  ); /** Replaces \`--calcite-size-fixed-md-plus\` */
+  --calcite-size-xs: var(
+    --calcite-size-fixed-lg
+  ); /** Replaces \`--calcite-size-fixed-lg\` */
+  --calcite-size-sm: var(
+    --calcite-size-fixed-xxl
+  ); /** Replaces \`--calcite-size-fixed-xxl\` */
+  --calcite-size-md: var(
+    --calcite-size-fixed-xxxl
+  ); /** Replaces \`--calcite-size-fixed-xxxl\` */
+  --calcite-size-2xl: var(
+    --calcite-size-xxl
+  ); /** Replaces \`--calcite-size-xxl\` */
+  --calcite-size-3xl: var(
+    --calcite-size-xxxl
+  ); /** Replaces \`--calcite-size-xxxl\` */
+  --calcite-space-none: var(
+    --calcite-spacing-none
+  ); /** Replaces \`--calcite-spacing-none\` */
+  --calcite-space-px: var(
+    --calcite-spacing-px
+  ); /** Replaces \`--calcite-spacing-px\` */
+  --calcite-space-base: var(
+    --calcite-spacing-base
+  ); /** Replaces \`--calcite-spacing-base\` */
+  --calcite-space-2xs: var(
+    --calcite-spacing-xxs
+  ); /** Replaces \`--calcite-spacing-xxs\` */
+  --calcite-space-xs: var(
+    --calcite-spacing-xs
+  ); /** Replaces \`--calcite-spacing-xs\` */
+  --calcite-space-sm: var(
+    --calcite-spacing-sm
+  ); /** Replaces \`--calcite-spacing-sm\` */
+  --calcite-space-sm-plus: var(
+    --calcite-spacing-sm-plus
+  ); /** Replaces \`--calcite-spacing-sm-plus\` */
+  --calcite-space-md: var(
+    --calcite-spacing-md
+  ); /** Replaces \`--calcite-spacing-md\` */
+  --calcite-space-md-plus: var(
+    --calcite-spacing-md-plus
+  ); /** Replaces \`--calcite-spacing-md-plus\` */
+  --calcite-space-lg: var(
+    --calcite-spacing-lg
+  ); /** Replaces \`--calcite-spacing-lg\` */
+  --calcite-space-xl: var(
+    --calcite-spacing-xl
+  ); /** Replaces \`--calcite-spacing-xl\` */
+  --calcite-space-2xl: var(
+    --calcite-spacing-xxl
+  ); /** Replaces \`--calcite-spacing-xxl\` */
+  --calcite-space-3xl: var(
+    --calcite-spacing-xxxl
+  ); /** Replaces \`--calcite-spacing-xxxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
+}
+:where(*) {
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-corner-radius-none: var(--calcite-corner-radius-sharp);
+  --calcite-corner-radius-sm: var(--calcite-corner-radius-round);
+  --calcite-font-weight-regular: var(--calcite-font-weight-normal);
+  --calcite-font-size-2xl: var(--calcite-font-size-xxl);
+  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus);
+  --calcite-size-3xs: var(--calcite-size-fixed-md);
+  --calcite-size-2xs: var(--calcite-size-fixed-md-plus);
+  --calcite-size-xs: var(--calcite-size-fixed-lg);
+  --calcite-size-sm: var(--calcite-size-fixed-xxl);
+  --calcite-size-md: var(--calcite-size-fixed-xxxl);
+  --calcite-size-2xl: var(--calcite-size-xxl);
+  --calcite-size-3xl: var(--calcite-size-xxxl);
+  --calcite-space-none: var(--calcite-spacing-none);
+  --calcite-space-px: var(--calcite-spacing-px);
+  --calcite-space-base: var(--calcite-spacing-base);
+  --calcite-space-2xs: var(--calcite-spacing-xxs);
+  --calcite-space-xs: var(--calcite-spacing-xs);
+  --calcite-space-sm: var(--calcite-spacing-sm);
+  --calcite-space-sm-plus: var(--calcite-spacing-sm-plus);
+  --calcite-space-md: var(--calcite-spacing-md);
+  --calcite-space-md-plus: var(--calcite-spacing-md-plus);
+  --calcite-space-lg: var(--calcite-spacing-lg);
+  --calcite-space-xl: var(--calcite-spacing-xl);
+  --calcite-space-2xl: var(--calcite-spacing-xxl);
+  --calcite-space-3xl: var(--calcite-spacing-xxxl);
 }
 "
 `;
