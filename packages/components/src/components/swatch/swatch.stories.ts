@@ -3,6 +3,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Swatch } from "./swatch";
+import "./swatch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale } = ATTRIBUTES;
 

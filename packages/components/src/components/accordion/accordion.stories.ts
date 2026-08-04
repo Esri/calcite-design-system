@@ -7,6 +7,11 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Accordion } from "./accordion";
 const { appearance, iconType, position, scale, selectionMode } = ATTRIBUTES;
 import "./accordion"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../accordion-item/accordion-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../switch/switch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 type AccordionStoryArgs = Pick<Accordion, "appearance" | "iconPosition" | "iconType" | "scale" | "selectionMode"> &
   Pick<AccordionItem, "heading" | "description" | "iconStart" | "iconEnd">;

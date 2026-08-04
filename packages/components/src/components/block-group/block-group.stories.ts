@@ -2,6 +2,8 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { BlockGroup } from "./block-group";
+import "./block-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block/block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale } = ATTRIBUTES;
 

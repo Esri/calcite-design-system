@@ -2,6 +2,12 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { Navigation } from "./navigation";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../menu/menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../menu-item/menu-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./navigation"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../navigation-logo/navigation-logo"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../navigation-user/navigation-user"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 const { scale } = ATTRIBUTES;
 
 type NavigationStoryArgs = Pick<Navigation, "label" | "navigationAction" | "scale">;

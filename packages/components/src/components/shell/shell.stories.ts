@@ -7,6 +7,38 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "../dialog/dialog";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block/block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block-content/block-content"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block-section/block-section"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip-group/chip-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dialog/dialog"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow/flow"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow-item/flow-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list/list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../popover/popover"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../sheet/sheet"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../sortable-list/sortable-list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab/tab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-nav/tab-nav"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-title/tab-title"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tabs/tabs"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { dialogPlacement, shellDisplayMode, position, scale } = ATTRIBUTES;
 

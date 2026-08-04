@@ -3,6 +3,8 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { TileGroup } from "./tile-group";
+import "../tile/tile"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tile-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { alignment, dir, layout, scale, tileSelectionAppearance, tileSelectionMode } = ATTRIBUTES;
 

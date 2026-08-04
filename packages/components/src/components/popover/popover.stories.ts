@@ -3,6 +3,9 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
 import { Popover } from "./popover";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./popover"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { placement, scale } = ATTRIBUTES;
 

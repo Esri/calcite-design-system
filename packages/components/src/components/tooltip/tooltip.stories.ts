@@ -3,6 +3,8 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { Tooltip } from "./tooltip";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { overlayPositioning, placement, scale } = ATTRIBUTES;
 

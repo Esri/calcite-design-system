@@ -7,6 +7,13 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { Block } from "./block";
+import "./block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block-section/block-section"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { headingLevelWithNone, placement, toggleDisplay, scale } = ATTRIBUTES;
 
