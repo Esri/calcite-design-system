@@ -352,6 +352,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       triggerSlotEl.ariaActiveDescendantElement = null;
     }
 
+    if (this.referenceEl instanceof HTMLElement) {
+      this.referenceEl.ariaActiveDescendantElement = null;
+    }
+
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectFloatingUI(this);
@@ -707,16 +711,21 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private syncActiveDescendantOwnerElement(): void {
+    const { referenceEl, referenceElementType } = this;
     const triggerSlotEl = this.triggerSlotRef.value;
     const activeDescendantEl = this.open ? (this.activeDescendantElement ?? null) : null;
+    const referenceOwnerEl = referenceEl instanceof HTMLElement ? referenceEl : null;
+    const isReferenceMode = Boolean(referenceElementType);
 
-    if (!triggerSlotEl) {
+    if (triggerSlotEl) {
+      triggerSlotEl.ariaActiveDescendantElement = isReferenceMode ? null : activeDescendantEl;
+    }
+
+    if (!referenceOwnerEl) {
       return;
     }
 
-    triggerSlotEl.ariaActiveDescendantElement = this.referenceElementType
-      ? null
-      : activeDescendantEl;
+    referenceOwnerEl.ariaActiveDescendantElement = isReferenceMode ? activeDescendantEl : null;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
