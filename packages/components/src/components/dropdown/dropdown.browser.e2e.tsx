@@ -327,16 +327,8 @@ describe("ariaActiveDescendantElement", () => {
     return getSlottedTriggerElement()?.assignedSlot as HTMLSlotElement | null;
   }
 
-  function getTriggerActiveDescendantId(): string | undefined {
-    return getSlottedTriggerElement()?.ariaActiveDescendantElement?.id;
-  }
-
   function getTriggerSlotActiveDescendantId(): string | undefined {
     return getTriggerSlotElement()?.ariaActiveDescendantElement?.id;
-  }
-
-  function getReferenceTriggerOwnerElement(triggerEl: HTMLElement | null): HTMLElement | null {
-    return (triggerEl?.shadowRoot?.activeElement as HTMLElement | null) ?? triggerEl;
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
@@ -348,15 +340,6 @@ describe("ariaActiveDescendantElement", () => {
     expect(getTriggerSlotActiveDescendantId()).toBe("item-1");
   });
 
-  it("sets ariaActiveDescendantElement on the slotted trigger element when opened", async () => {
-    await mount<Dropdown>(renderDropdown);
-    const trigger = page.getByText("Open dropdown");
-
-    await userEvent.click(trigger);
-
-    expect(getTriggerActiveDescendantId()).toBe("item-1");
-  });
-
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
     await mount<Dropdown>(renderDropdown);
     const trigger = page.getByText("Open dropdown");
@@ -366,7 +349,7 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowDown}");
 
-    expect(getTriggerActiveDescendantId()).toBe("item-2");
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-2");
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
@@ -378,13 +361,13 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    let activeDescendantId = getTriggerActiveDescendantId();
+    let activeDescendantId = getTriggerSlotActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-3");
 
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    activeDescendantId = getTriggerActiveDescendantId();
+    activeDescendantId = getTriggerSlotActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-2");
   });
@@ -395,15 +378,15 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(trigger);
 
-    const focusedTriggerElement = getReferenceTriggerOwnerElement(
-      trigger.element() as HTMLElement | null,
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
     );
-
-    expect(focusedTriggerElement?.ariaActiveDescendantElement?.id).toBe("item-1");
 
     await userEvent.type(trigger, "{ArrowDown}");
 
-    expect(focusedTriggerElement?.ariaActiveDescendantElement?.id).toBe("item-2");
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-2",
+    );
   });
 
   it("sets ariaActiveDescendantElement on focused trigger slot node when multiple trigger nodes exist", async () => {
@@ -427,9 +410,8 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(triggerButton);
 
-    expect((triggerButton.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
-      "item-1",
-    );
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-1");
+    expect((triggerButton.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
     expect((triggerLabel.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
   });
 
@@ -479,19 +461,19 @@ describe("ariaActiveDescendantElement", () => {
     await expect.element(trigger).toHaveFocus();
   });
 
-  it("clears ariaActiveDescendantElement from the trigger when dropdown disconnects", async () => {
-    const { el } = await mount<Dropdown>(renderDropdown);
-    const trigger = getSlottedTriggerElement();
+  it("clears ariaActiveDescendantElement from the referenceElement trigger when dropdown disconnects", async () => {
+    const { el } = await mount<Dropdown>(renderReferenceElementDropdown);
+    const trigger = page.getBySelector("#trigger");
 
-    expect(trigger).toBeTruthy();
+    await userEvent.click(trigger);
 
-    await userEvent.click(page.getByText("Open dropdown"));
-
-    expect(trigger?.ariaActiveDescendantElement?.id).toBe("item-1");
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
 
     el.remove();
 
-    expect(trigger?.ariaActiveDescendantElement).toBeNull();
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
   });
 
   it("moves ariaActiveDescendantElement to the new referenceElement while open", async () => {
@@ -514,19 +496,15 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(triggerOne);
 
-    expect(
-      getReferenceTriggerOwnerElement(triggerOne.element() as HTMLElement | null)
-        ?.ariaActiveDescendantElement?.id,
-    ).toBe("item-1");
+    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
 
     const updateComplete = component.updateComplete;
     el.referenceElement = "trigger-two";
     await waitForSettledUpdate(component, updateComplete);
 
-    expect(
-      getReferenceTriggerOwnerElement(triggerOne.element() as HTMLElement | null)
-        ?.ariaActiveDescendantElement,
-    ).toBeNull();
+    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
     expect((triggerTwo.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
       "item-1",
     );
@@ -552,12 +530,7 @@ describe("referenceElement keydown", () => {
   it("opens when Enter is pressed on referenceElement", async () => {
     const { el } = await mount<Dropdown>(renderReferenceElementDropdownHTML);
     const trigger = page.getByRole("button", { name: "Open dropdown" });
-    const dropdownElement = trigger.element()?.nextElementSibling;
-
-    expect(dropdownElement).toBeTruthy();
-
-    const dropdown = page.elementLocator(dropdownElement!).element() as Dropdown;
-    const component = dropdown.manager.component;
+    const component = el.manager.component;
 
     expect(el.open).toBe(false);
 

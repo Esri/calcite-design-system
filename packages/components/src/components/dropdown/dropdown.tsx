@@ -335,6 +335,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl") && this.referenceElementType) {
+      const previousReferenceEl = changes.get("referenceEl");
+
+      if (previousReferenceEl instanceof HTMLElement) {
+        previousReferenceEl.ariaActiveDescendantElement = null;
+      }
+
       this.syncActiveDescendantOwnerElement();
       connectFloatingUI(this);
     }
