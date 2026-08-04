@@ -388,8 +388,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -416,7 +415,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property() placeholder?: string;
 
   /** Specifies the input's placeholder icon. */
-  @property({ reflect: true, type: String }) placeholderIcon?: IconName;
+  @property({ reflect: true }) placeholderIcon?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`. */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
@@ -499,9 +498,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -509,7 +506,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

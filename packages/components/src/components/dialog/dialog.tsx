@@ -160,7 +160,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** Specifies the component's description. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, the component is draggable. */
@@ -210,7 +210,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   >;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
