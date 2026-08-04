@@ -6,6 +6,7 @@ type FormStoryArgs = {
   scale: "s" | "m" | "l";
   showButtons: boolean;
   showNotice: boolean;
+  noticeOpen: boolean;
 };
 
 type NativeFormStoryOptions = {
@@ -28,6 +29,7 @@ export default {
     scale: "m",
     showButtons: true,
     showNotice: true,
+    noticeOpen: true,
   },
   argTypes: {
     disabled: {
@@ -54,6 +56,10 @@ export default {
       name: "notice",
       control: { type: "boolean" },
     },
+    noticeOpen: {
+      name: "notice open",
+      control: { type: "boolean" },
+    },
   },
 };
 
@@ -72,7 +78,13 @@ export const simple = (args: FormStoryArgs): string => html`
     </calcite-field-set>
     ${args.showNotice
       ? html`
-          <calcite-notice open icon="exclamation-mark-triangle-f" kind="danger" slot="notice">
+          <calcite-notice
+            ${args.noticeOpen ? "open" : ""}
+            icon="exclamation-mark-triangle-f"
+            kind="danger"
+            closable
+            slot="notice"
+          >
             <div slot="message">Aggregate notice</div>
           </calcite-notice>
         `
@@ -85,6 +97,10 @@ export const simple = (args: FormStoryArgs): string => html`
       : ""}
   </calcite-form>
 `;
+
+export const noticeNoOpen = (args: FormStoryArgs): string => simple(args);
+noticeNoOpen.args = { noticeOpen: false };
+noticeNoOpen.parameters = { controls: { include: ["notice", "notice open"] } };
 
 const renderNativeFormFieldSets = (requireName = false): string => {
   const lastNameRequired = requireName ? "required" : "";

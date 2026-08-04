@@ -31,6 +31,10 @@ export class Form extends LitElement {
 
   private fieldSetReadOnlyState = new WeakMap<HTMLElement & { readOnly?: boolean }, boolean>();
 
+  private syncHasNotice = (): void => {
+    this.hasNotice = this.notices.some((notice) => notice.hasAttribute("open"));
+  };
+
   private get fieldSets(): Array<
     HTMLElement & { disabled?: boolean; readOnly?: boolean; scale?: Scale }
   > {
@@ -84,6 +88,12 @@ export class Form extends LitElement {
 
   //#region Lifecycle
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.el.addEventListener("calciteNoticeBeforeOpen", this.syncHasNotice);
+    this.el.addEventListener("calciteNoticeClose", this.syncHasNotice);
+  }
+
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("disabled")) {
       this.syncFieldSetsDisabledState(changes.get("disabled"));
@@ -99,6 +109,12 @@ export class Form extends LitElement {
     this.syncButtonsScale();
   }
 
+  override disconnectedCallback(): void {
+    this.el.removeEventListener("calciteNoticeBeforeOpen", this.syncHasNotice);
+    this.el.removeEventListener("calciteNoticeClose", this.syncHasNotice);
+    super.disconnectedCallback();
+  }
+
   //#endregion
 
   //#region Private Methods
@@ -109,8 +125,8 @@ export class Form extends LitElement {
     this.syncButtonsScale();
   }
 
-  private handleNoticeSlotChange(event: Event): void {
-    this.hasNotice = slotChangeHasAssignedElement(event);
+  private handleNoticeSlotChange(): void {
+    this.syncHasNotice();
     this.syncNoticesScale();
   }
 

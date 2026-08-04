@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import { hidden, renders } from "../../tests/commonTests/browser";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { CSS } from "./resources";
 
 type ScaledElement = HTMLElement & {
@@ -57,7 +58,7 @@ describe("structure", () => {
     expect(buttonContainer.hidden).toBe(true);
   });
 
-  it("shows the divider and notice container when notice content is slotted", async () => {
+  it("keeps the divider and notice container hidden when a slotted notice is closed", async () => {
     const { el } = await mount(
       <calcite-form>
         <calcite-field-set />
@@ -73,11 +74,35 @@ describe("structure", () => {
     const notices = el.querySelectorAll('[slot="notice"]');
 
     await vi.waitFor(() => {
-      expect(divider.hidden).toBe(false);
-      expect(noticeContainer.hidden).toBe(false);
+      expect(divider.hidden).toBe(true);
+      expect(noticeContainer.hidden).toBe(true);
       expect(buttonContainer.hidden).toBe(true);
       expect(notices).toHaveLength(1);
     });
+  });
+
+  it("shows the divider and notice container when a slotted notice is open", async () => {
+    const openEvent = waitForEvent(document, "calciteNoticeOpen");
+    const { el } = await mount(
+      <calcite-form>
+        <calcite-field-set />
+        <calcite-notice id="notice" open slot="notice">
+          <div slot="message">Notice message</div>
+        </calcite-notice>
+      </calcite-form>,
+    );
+
+    const divider = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.divider}`)!;
+    const notice = el.querySelector<ScaledElement>("#notice")!;
+    const noticeContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.noticeContainer}`)!;
+
+    await vi.waitFor(() => {
+      expect(divider.hidden).toBe(false);
+      expect(noticeContainer.hidden).toBe(false);
+      expect(notice.hasAttribute("open")).toBe(true);
+    });
+
+    await openEvent;
   });
 
   it("shows the divider and buttons container when buttons are slotted", async () => {
@@ -141,6 +166,37 @@ describe("structure", () => {
     await waitForUpdate(notice);
 
     expect(notice.scale).toBe("s");
+  });
+
+  it("hides the notice container after a slotted notice closes", async () => {
+    const { el } = await mount(
+      <calcite-form>
+        <calcite-field-set />
+        <calcite-notice id="notice" slot="notice">
+          <div slot="message">Notice message</div>
+        </calcite-notice>
+      </calcite-form>,
+    );
+    const notice = el.querySelector<ScaledElement & { open: boolean }>("#notice")!;
+    const noticeContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.noticeContainer}`)!;
+    const openHandler = vi.fn();
+    const closeHandler = vi.fn();
+
+    notice.addEventListener("calciteNoticeOpen", openHandler);
+    notice.addEventListener("calciteNoticeClose", closeHandler);
+    notice.open = true;
+
+    await vi.waitFor(() => {
+      expect(openHandler).toHaveBeenCalledTimes(1);
+      expect(noticeContainer.hidden).toBe(false);
+    });
+
+    notice.removeAttribute("open");
+
+    await vi.waitFor(() => {
+      expect(closeHandler).toHaveBeenCalledTimes(1);
+      expect(noticeContainer.hidden).toBe(true);
+    });
   });
 
   it("propagates scale to slotted buttons", async () => {
