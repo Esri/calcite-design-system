@@ -2,6 +2,7 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 @include includes.base-component();
+@include includes.base-component-sizing();
 
 .calendar-container {
   @apply flex w-full;
