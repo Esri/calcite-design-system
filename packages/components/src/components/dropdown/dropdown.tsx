@@ -11,7 +11,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { getSlotAssignedElements, nextFrame } from "../../utils/dom";
+import { nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -85,8 +85,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private focusLastDropdownItem = false;
 
   private activeItemIndex = -1;
-
-  private activeDescendantOwnerEl?: HTMLElement;
 
   private groups: DropdownGroup["el"][] = [];
 
@@ -348,9 +346,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   override disconnectedCallback(): void {
-    if (this.activeDescendantOwnerEl) {
-      this.activeDescendantOwnerEl.ariaActiveDescendantElement = null;
-      this.activeDescendantOwnerEl = undefined;
+    const triggerSlotEl = this.triggerSlotRef.value;
+
+    if (triggerSlotEl) {
+      triggerSlotEl.ariaActiveDescendantElement = null;
     }
 
     this.mutationObserver?.disconnect();
@@ -707,108 +706,17 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.syncActiveDescendantOwnerElement();
   }
 
-  private getDeepActiveElement(): HTMLElement | undefined {
-    const activeElement = this.el.ownerDocument.activeElement;
-
-    if (!(activeElement instanceof HTMLElement)) {
-      return;
-    }
-
-    let deepestActiveElement: HTMLElement = activeElement;
-    let nextActiveElement: Element | null = deepestActiveElement.shadowRoot
-      ? deepestActiveElement.shadowRoot.activeElement
-      : null;
-
-    while (nextActiveElement) {
-      if (!(nextActiveElement instanceof HTMLElement)) {
-        break;
-      }
-
-      deepestActiveElement = nextActiveElement;
-      nextActiveElement = deepestActiveElement.shadowRoot
-        ? deepestActiveElement.shadowRoot.activeElement
-        : null;
-    }
-
-    return deepestActiveElement;
-  }
-
-  private isNodeWithinElementAcrossShadowBoundary(node: Node, element: HTMLElement): boolean {
-    let currentNode: Node | null = node;
-
-    while (currentNode) {
-      if (currentNode === element) {
-        return true;
-      }
-
-      if (currentNode instanceof Element && currentNode.assignedSlot) {
-        currentNode = currentNode.assignedSlot;
-        continue;
-      }
-
-      if (currentNode.parentNode) {
-        currentNode = currentNode.parentNode;
-        continue;
-      }
-
-      const rootNode = currentNode.getRootNode();
-      currentNode = rootNode instanceof ShadowRoot ? rootNode.host : null;
-    }
-
-    return false;
-  }
-
-  private getActiveDescendantOwnerElement(): HTMLElement | undefined {
-    const referenceEl = this.referenceEl instanceof HTMLElement ? this.referenceEl : undefined;
-    const activeElement = this.getDeepActiveElement();
-
-    if (this.referenceElementType) {
-      if (referenceEl && activeElement) {
-        return this.isNodeWithinElementAcrossShadowBoundary(activeElement, referenceEl)
-          ? activeElement
-          : referenceEl;
-      }
-
-      return referenceEl;
-    }
-
-    const slottedTriggers = this.triggerSlotRef.value
-      ? getSlotAssignedElements<HTMLElement>(this.triggerSlotRef.value)
-      : [];
-
-    if (!(activeElement instanceof Node)) {
-      return slottedTriggers[0] ?? referenceEl;
-    }
-
-    const focusedSlottedTrigger = slottedTriggers.find((slottedTrigger) =>
-      this.isNodeWithinElementAcrossShadowBoundary(activeElement, slottedTrigger),
-    );
-
-    return focusedSlottedTrigger ?? slottedTriggers[0] ?? referenceEl;
-  }
-
   private syncActiveDescendantOwnerElement(): void {
-    const ownerEl = this.getActiveDescendantOwnerElement();
     const triggerSlotEl = this.triggerSlotRef.value;
     const activeDescendantEl = this.open ? (this.activeDescendantElement ?? null) : null;
 
-    if (this.activeDescendantOwnerEl && this.activeDescendantOwnerEl !== ownerEl) {
-      this.activeDescendantOwnerEl.ariaActiveDescendantElement = null;
-    }
-
-    if (triggerSlotEl) {
-      triggerSlotEl.ariaActiveDescendantElement = this.referenceElementType
-        ? null
-        : activeDescendantEl;
-    }
-
-    if (!ownerEl) {
-      this.activeDescendantOwnerEl = undefined;
+    if (!triggerSlotEl) {
       return;
     }
 
-    ownerEl.ariaActiveDescendantElement = activeDescendantEl;
-    this.activeDescendantOwnerEl = ownerEl;
+    triggerSlotEl.ariaActiveDescendantElement = this.referenceElementType
+      ? null
+      : activeDescendantEl;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
