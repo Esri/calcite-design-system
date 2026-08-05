@@ -286,7 +286,7 @@ export class Filter extends LitElement {
 
     await Promise.resolve();
 
-    if (!settledBeforeAwait) {
+    if (!settledBeforeAwait && requestId === this.filterRequestId) {
       this.setFiltering(true);
     }
 
