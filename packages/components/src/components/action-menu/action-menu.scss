@@ -64,7 +64,7 @@
   max-h-menu;
 
   gap: var(--calcite-internal-action-menu-gap);
-  padding: var(--calcite-internal-action-menu-padding);
+  margin: var(--calcite-internal-action-menu-padding);
 }
 
 @include includes.base-component();

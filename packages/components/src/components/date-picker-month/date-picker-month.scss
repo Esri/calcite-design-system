@@ -20,7 +20,7 @@
   @apply flex;
   block-size: #{core.$calcite-size-16};
   padding-inline: var(--calcite-spacing-sm);
-  padding-block: var(--calcite-spacing-md);
+  margin-block: var(--calcite-spacing-md);
 }
 
 .week-header {
@@ -71,7 +71,7 @@
   }
   .week-header-container {
     padding-inline: var(--calcite-spacing-xs);
-    padding-block: var(--calcite-spacing-sm);
+    margin-block: var(--calcite-spacing-sm);
   }
   .day {
     font-size: var(--calcite-font-size-sm);
@@ -88,7 +88,7 @@
   }
   .week-header-container {
     padding-inline: var(--calcite-spacing-md);
-    padding-block: var(--calcite-spacing-md-plus);
+    margin-block: var(--calcite-spacing-md-plus);
   }
   .day {
     font-size: var(--calcite-font-size-md);
