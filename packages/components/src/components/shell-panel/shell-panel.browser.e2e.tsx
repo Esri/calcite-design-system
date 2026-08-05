@@ -32,6 +32,10 @@ locators.extend({
   },
 });
 
+function getByCssElement<T extends Element>(element: Element, css: string): T {
+  return page.elementLocator(element).getByCss(css).element() as unknown as T;
+}
+
 mockConsole();
 
 describe("accessible", () => {
@@ -130,20 +134,19 @@ describe("action bar", () => {
           </calcite-shell-panel>
         </calcite-shell>,
       );
-      const actionBar = el.querySelector<ActionBar["el"]>(
-        "calcite-action-bar",
-      )! as ActionBar["el"] & {
-        updateComplete: Promise<void>;
-      };
+      const actionBar = getByCssElement<ActionBar["el"]>(
+        el,
+        ":scope > calcite-shell-panel > calcite-action-bar",
+      );
 
-      await actionBar.updateComplete;
+      await actionBar.manager.component.updateComplete;
 
-      const expandToggle = actionBar.shadowRoot?.querySelector<HTMLElement & { icon?: string }>(
+      const expandToggle = getByCssElement<HTMLElement & { icon: string }>(
+        actionBar,
         "#expand-toggle",
       );
 
-      expect(expandToggle).toBeDefined();
-      expect(expandToggle?.icon).toBe(expectedIcon);
+      expect(expandToggle.icon).toBe(expectedIcon);
     },
   );
 });
@@ -395,10 +398,6 @@ describe("shell-panel updateSize public method", () => {
       keyboardKey,
       mouseDelta,
     };
-  }
-
-  function getByCssElement<T extends Element>(element: Element, css: string): T {
-    return page.elementLocator(element).getByCss(css).element() as unknown as T;
   }
 
   function getShellPanelBySlot(shell: Shell["el"], slot: PanelSlot): ShellPanel["el"] {
