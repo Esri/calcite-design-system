@@ -295,7 +295,7 @@ describe("dismiss progress color", () => {
         {override ? (
           <style>{`:root { --calcite-color-transparent-tint: ${override}; }`}</style>
         ) : null}
-        <calcite-alert autoClose autoCloseDuration="slow" icon="i2DExplore" kind="danger" open>
+        <calcite-alert autoClose autoCloseDuration="slow" icon="2d-explore" kind="danger" open>
           <div slot="message">Successfully duplicated a layer</div>
         </calcite-alert>
       </div>,
