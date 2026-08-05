@@ -22,7 +22,7 @@ const pendingRequests = new Map<number, PendingRequest>();
 const cloneableRecordCache = new WeakMap<object, boolean>();
 
 function isDataCloneError(error: unknown): boolean {
-  return typeof DOMException !== "undefined" && error instanceof DOMException && error.name === "DataCloneError";
+  return !!error && typeof error === "object" && "name" in error && error.name === "DataCloneError";
 }
 
 function isStructuredCloneable(value: unknown): boolean {

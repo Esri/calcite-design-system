@@ -108,11 +108,16 @@ describe("filter-worker", () => {
     expect(postMessageCallCount).toBe(1);
   });
 
-  it("handles DataCloneError-like errors when DOMException is unavailable", async () => {
+  it("handles DataCloneError-like errors without relying on DOMException instance checks", async () => {
+    let workerConstructorCallCount = 0;
     let postMessageCallCount = 0;
     const item: { label: string; callback?: () => void } = { label: "one", callback: () => {} };
 
     class MockWorker {
+      constructor() {
+        workerConstructorCallCount++;
+      }
+
       addEventListener(): void {
         // no-op
       }
@@ -128,13 +133,13 @@ describe("filter-worker", () => {
     }
 
     vi.stubGlobal("Worker", MockWorker);
-    vi.stubGlobal("DOMException", undefined);
     vi.stubGlobal("structuredClone", undefined);
 
     await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
     await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
 
-    expect(postMessageCallCount).toBe(2);
+    expect(workerConstructorCallCount).toBe(1);
+    expect(postMessageCallCount).toBe(1);
   });
 
   it("recreates the worker after non-clone postMessage failures", async () => {
