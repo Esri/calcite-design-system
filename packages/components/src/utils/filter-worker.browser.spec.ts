@@ -184,6 +184,7 @@ describe("filter-worker", () => {
 
       postMessage(): void {
         postMessageCallCount++;
+        throw new DOMException("postMessage failed", "DataCloneError");
       }
 
       terminate(): void {
@@ -197,7 +198,9 @@ describe("filter-worker", () => {
     });
 
     await expect(filterInWorker([{ callback: () => {} }], "one", ["callback"])).resolves.toBeNull();
-    expect(postMessageCallCount).toBe(0);
+    await expect(filterInWorker([{ callback: () => {} }], "one", ["callback"])).resolves.toBeNull();
+
+    expect(postMessageCallCount).toBe(2);
   });
 
   it("revalidates cached non-cloneable data after mutation", async () => {
@@ -213,8 +216,12 @@ describe("filter-worker", () => {
         }
       }
 
-      postMessage(message: { requestId: number }): void {
+      postMessage(message: { requestId: number; data: Array<{ callback?: () => void }> }): void {
         postMessageCallCount++;
+
+        if (typeof message.data[0]?.callback === "function") {
+          throw new DOMException("postMessage failed", "DataCloneError");
+        }
 
         this.messageListeners.forEach((listener) =>
           listener(
@@ -243,12 +250,12 @@ describe("filter-worker", () => {
     });
 
     await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
-    expect(postMessageCallCount).toBe(0);
+    expect(postMessageCallCount).toBe(1);
 
     delete item.callback;
 
     await expect(filterInWorker([item], "one", ["label"])).resolves.toEqual([0]);
-    expect(postMessageCallCount).toBe(1);
+    expect(postMessageCallCount).toBe(2);
   });
 
   it("resolves pending requests when worker errors", async () => {

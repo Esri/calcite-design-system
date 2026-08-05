@@ -66,13 +66,6 @@ function hasCloneableWorkerData(data: object[]): boolean {
     if (!hasStructuredClone) {
       continue;
     }
-
-    const cloneable = isStructuredCloneable(item);
-    cloneableRecordCache.set(item, cloneable);
-
-    if (!cloneable) {
-      return false;
-    }
   }
 
   return true;
