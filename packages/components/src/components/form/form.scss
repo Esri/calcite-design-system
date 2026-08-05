@@ -12,6 +12,8 @@
 //
 // --calcite-internal-form-gap
 
+@use "../../styles/includes";
+
 :host {
   display: block;
   inline-size: 100%;
