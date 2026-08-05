@@ -41,13 +41,13 @@ export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGen
   return makeGenericController<UseCancelable, T>((_, controller) => {
     const resources = new Set<Cancelable>();
 
-    const cancelResource = (resource: Cancelable): void => {
+    const cancelManagedResource = (resource: Cancelable): void => {
       // eslint-disable-next-line no-restricted-properties -- this controller manages cancel calls
       resource.cancel();
     };
 
     controller.onDisconnected(() => {
-      resources.forEach((resource) => cancelResource(resource));
+      resources.forEach((resource) => cancelManagedResource(resource));
     });
 
     return {
@@ -60,7 +60,7 @@ export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGen
         }
 
         resources.delete(resource);
-        cancelResource(resource);
+        cancelManagedResource(resource);
       },
       resources,
     };
