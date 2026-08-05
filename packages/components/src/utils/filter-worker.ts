@@ -41,8 +41,6 @@ function isStructuredCloneable(value: unknown): boolean {
 }
 
 function hasCloneableWorkerData(data: object[]): boolean {
-  const hasStructuredClone = typeof globalThis.structuredClone === "function";
-
   for (const item of data) {
     const cachedCloneable = cloneableRecordCache.get(item);
 
@@ -50,19 +48,6 @@ function hasCloneableWorkerData(data: object[]): boolean {
       if (!cachedCloneable) {
         return false;
       }
-
-      continue;
-    }
-
-    if (!hasStructuredClone) {
-      continue;
-    }
-
-    const cloneable = isStructuredCloneable(item);
-    cloneableRecordCache.set(item, cloneable);
-
-    if (!cloneable) {
-      return false;
     }
   }
 
