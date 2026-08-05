@@ -175,7 +175,8 @@ export class Filter extends LitElement {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
+  constructor() {
+    super();
     this.cancelable.add(this.filterDebounced);
   }
 

@@ -308,6 +308,25 @@ describe("worker filtering", () => {
 });
 
 describe("filter method", () => {
+  it("cancels pending debounced filtering before connection", async () => {
+    const filterEl = document.createElement("calcite-filter") as Filter["el"];
+
+    filterEl.items = [
+      { label: "Harry", value: "harry" },
+      { label: "Matt", value: "matt" },
+    ];
+
+    filterEl.value = "Har";
+
+    await filterEl.filter("Matt");
+
+    expect(filterEl.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+
+    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
+
+    expect(filterEl.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+  });
+
   it("cancels pending debounced input filtering before immediate filtering", async () => {
     const { el } = await mount("calcite-filter");
     const filterChangeSpy = vi.fn();
