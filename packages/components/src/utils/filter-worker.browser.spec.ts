@@ -200,6 +200,57 @@ describe("filter-worker", () => {
     expect(postMessageCallCount).toBe(0);
   });
 
+  it("revalidates cached non-cloneable data after mutation", async () => {
+    let postMessageCallCount = 0;
+    const item: { label: string; callback?: () => void } = { label: "one", callback: () => {} };
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: { requestId: number }): void {
+        postMessageCallCount++;
+
+        this.messageListeners.forEach((listener) =>
+          listener(
+            new MessageEvent("message", {
+              data: {
+                requestId: message.requestId,
+                filteredIndexes: [0],
+              },
+            }),
+          ),
+        );
+      }
+
+      terminate(): void {
+        // no-op
+      }
+    }
+
+    vi.stubGlobal("Worker", MockWorker);
+    vi.stubGlobal("structuredClone", (value: unknown) => {
+      if (typeof value === "object" && value !== null && "callback" in value) {
+        throw new DOMException("value is not cloneable", "DataCloneError");
+      }
+
+      return value;
+    });
+
+    await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
+    expect(postMessageCallCount).toBe(0);
+
+    delete item.callback;
+
+    await expect(filterInWorker([item], "one", ["label"])).resolves.toEqual([0]);
+    expect(postMessageCallCount).toBe(1);
+  });
+
   it("resolves pending requests when worker errors", async () => {
     const nativeWorker = globalThis.Worker;
 

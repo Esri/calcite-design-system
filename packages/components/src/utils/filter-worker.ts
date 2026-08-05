@@ -48,7 +48,16 @@ function hasCloneableWorkerData(data: object[]): boolean {
 
     if (cachedCloneable !== undefined) {
       if (!cachedCloneable) {
-        return false;
+        if (!hasStructuredClone) {
+          return false;
+        }
+
+        const cloneable = isStructuredCloneable(item);
+        cloneableRecordCache.set(item, cloneable);
+
+        if (!cloneable) {
+          return false;
+        }
       }
 
       continue;
