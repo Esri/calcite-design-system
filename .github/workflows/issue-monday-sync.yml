@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       issue_number:
-        type: number
+        type: string
         description: "The target issue number for syncing changes."
         required: true
       event_type:

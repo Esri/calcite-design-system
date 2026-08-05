@@ -204,9 +204,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -214,7 +212,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

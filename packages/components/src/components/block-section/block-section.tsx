@@ -28,7 +28,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @slot - A slot for adding custom content.
+ */
 export class BlockSection extends LitElement {
   //#region Static Members
 
@@ -61,13 +64,13 @@ export class BlockSection extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
