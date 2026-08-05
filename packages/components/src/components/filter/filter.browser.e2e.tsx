@@ -16,6 +16,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import type { Filter } from "./filter";
 import { CSS } from "./resources";
 
 mockConsole();
@@ -308,8 +309,10 @@ describe("worker filtering", () => {
 });
 
 describe("filter method", () => {
-  it("cancels pending debounced filtering before connection", async () => {
-    const filterEl = document.createElement("calcite-filter") as Filter["el"];
+  it("cancels pending debounced filtering after disconnection", async () => {
+    const { el: filterEl } = await mount<Filter["el"]>("calcite-filter");
+
+    filterEl.remove();
 
     filterEl.items = [
       { label: "Harry", value: "harry" },
