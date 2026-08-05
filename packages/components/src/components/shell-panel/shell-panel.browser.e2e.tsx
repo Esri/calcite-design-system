@@ -94,6 +94,55 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-shell-panel"));
 });
 
+describe("action bar", () => {
+  const positions = [undefined, "start", "end", "top", "bottom"] as const;
+  const cases = [
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: "chevrons-right",
+      slot: "panel-start",
+    })),
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: "chevrons-left",
+      slot: "panel-end",
+    })),
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: actionBarPosition === "end" ? "chevrons-left" : "chevrons-right",
+      slot: "panel-top",
+    })),
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: actionBarPosition === "end" ? "chevrons-left" : "chevrons-right",
+      slot: "panel-bottom",
+    })),
+  ] as const;
+
+  it.each(cases)(
+    "uses $expectedIcon for $slot with action-bar-position $actionBarPosition",
+    async ({ actionBarPosition, expectedIcon, slot }) => {
+      const { el } = await mount(
+        <calcite-shell>
+          <calcite-shell-panel actionBarPosition={actionBarPosition} slot={slot}>
+            <calcite-action-bar slot="action-bar" />
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const actionBar = el.querySelector("calcite-action-bar")!;
+
+      await actionBar.updateComplete;
+
+      const expandToggle = actionBar.shadowRoot?.querySelector<HTMLElement & { icon?: string }>(
+        "#expand-toggle",
+      );
+
+      expect(expandToggle).toBeDefined();
+      expect(expandToggle?.icon).toBe(expectedIcon);
+    },
+  );
+});
+
 describe("renders", () => {
   renders(() => mount(<calcite-shell-panel>content</calcite-shell-panel>), { display: "flex" });
 });
