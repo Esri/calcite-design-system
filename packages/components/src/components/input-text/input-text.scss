@@ -197,10 +197,7 @@ input {
 
 .element-wrapper,
 input {
-  border-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
-  );
+  border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 .has-prefix,
@@ -223,26 +220,14 @@ input {
 
 .has-prefix .prefix,
 .element-wrapper:not(:has(.prefix)):has(.icon) .icon {
-  border-start-start-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
-  );
-  border-end-start-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
-  );
+  border-start-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 .has-suffix .suffix,
 :host([clearable]) .clear-button {
-  border-end-end-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
-  );
-  border-start-end-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
-  );
+  border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 :host([clearable]) .has-suffix .clear-button {
