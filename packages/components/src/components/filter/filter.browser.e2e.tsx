@@ -16,7 +16,6 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import type { Filter } from "./filter";
 import { CSS } from "./resources";
 
 mockConsole();
@@ -310,24 +309,24 @@ describe("worker filtering", () => {
 
 describe("filter method", () => {
   it("cancels pending debounced filtering after disconnection", async () => {
-    const { el: filterEl } = await mount<Filter["el"]>("calcite-filter");
+    const { el } = await mount("calcite-filter");
 
-    filterEl.remove();
+    el.remove();
 
-    filterEl.items = [
+    el.items = [
       { label: "Harry", value: "harry" },
       { label: "Matt", value: "matt" },
     ];
 
-    filterEl.value = "Har";
+    el.value = "Har";
 
-    await filterEl.filter("Matt");
+    await el.filter("Matt");
 
-    expect(filterEl.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
 
     await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
 
-    expect(filterEl.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
   });
 
   it("cancels pending debounced input filtering before immediate filtering", async () => {
