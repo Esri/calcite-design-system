@@ -131,10 +131,11 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
     try {
       worker.postMessage({ requestId, data, value, filterProps } satisfies FilterWorkerRequest);
     } catch (error) {
+      const isCloneError = isDataCloneError(error);
       const hasStructuredClone = typeof globalThis.structuredClone === "function";
       let hasNonCloneableData = false;
 
-      if (isDataCloneError(error) || hasStructuredClone) {
+      if (isCloneError) {
         data.forEach((item) => {
           const cloneable = hasStructuredClone ? isStructuredCloneable(item) : false;
           cloneableRecordCache.set(item, cloneable);
@@ -142,7 +143,7 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
         });
       }
 
-      if (!hasNonCloneableData) {
+      if (!isCloneError || !hasNonCloneableData) {
         resolvePendingRequests(null);
         worker.terminate();
         filterWorker = null;

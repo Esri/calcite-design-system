@@ -68,7 +68,7 @@ describe("filter-worker", () => {
 
       await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
       await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
-      expect(postMessageCallCount).toBe(2);
+      expect(postMessageCallCount).toBe(3);
     } finally {
       globalThis.Worker = nativeWorker;
     }
@@ -171,6 +171,48 @@ describe("filter-worker", () => {
     await expect(filterInWorker([item], "one", ["label"])).resolves.toBeNull();
 
     expect(workerConstructorCallCount).toBe(2);
+    expect(terminatedWorkers).toBe(2);
+  });
+
+  it("recreates the worker on non-DataCloneError failures even when data is non-cloneable", async () => {
+    const item: { label: string; callback?: () => void } = { label: "one", callback: () => {} };
+    let workerConstructorCallCount = 0;
+    let postMessageCallCount = 0;
+    let terminatedWorkers = 0;
+
+    class MockWorker {
+      constructor() {
+        workerConstructorCallCount++;
+      }
+
+      addEventListener(): void {
+        // no-op
+      }
+
+      postMessage(): void {
+        postMessageCallCount++;
+        throw new Error("worker unavailable");
+      }
+
+      terminate(): void {
+        terminatedWorkers++;
+      }
+    }
+
+    vi.stubGlobal("Worker", MockWorker);
+    vi.stubGlobal("structuredClone", (value: unknown) => {
+      if (typeof value === "object" && value !== null && "callback" in value) {
+        throw new DOMException("value is not cloneable", "DataCloneError");
+      }
+
+      return value;
+    });
+
+    await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
+    await expect(filterInWorker([item], "one", ["callback"])).resolves.toBeNull();
+
+    expect(workerConstructorCallCount).toBe(2);
+    expect(postMessageCallCount).toBe(2);
     expect(terminatedWorkers).toBe(2);
   });
 
