@@ -132,11 +132,10 @@ export class Filter extends LitElement {
   @method()
   async filter(value: string = this.value): Promise<void> {
     return new Promise((resolve) => {
-      this.cancelable.cancelResource(this.filterDebounced);
-
       const oldValue = this._value;
 
       if (value !== oldValue) {
+        this.cancelable.cancelResource(this.filterDebounced);
         this._value = value;
         this.requestUpdate("value", oldValue);
       }
@@ -277,9 +276,20 @@ export class Filter extends LitElement {
     emit = false,
     callback?: () => void,
   ): Promise<void> {
-    this.setFiltering(true);
+    const filteredIndexesPromise = filterInWorker(items, value, this.filterProps);
+    let settledBeforeAwait = false;
 
-    const filteredIndexes = await filterInWorker(items, value, this.filterProps);
+    void filteredIndexesPromise.then(() => {
+      settledBeforeAwait = true;
+    });
+
+    await Promise.resolve();
+
+    if (!settledBeforeAwait) {
+      this.setFiltering(true);
+    }
+
+    const filteredIndexes = await filteredIndexesPromise;
 
     if (requestId !== this.filterRequestId) {
       callback?.();

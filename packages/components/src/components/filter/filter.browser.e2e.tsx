@@ -193,6 +193,42 @@ describe("worker filtering", () => {
     terminateFilterWorker();
   });
 
+  it("does not emit calciteFilterStatusChange when worker filtering falls back synchronously", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      constructor() {
+        throw new Error("worker unavailable");
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+      const statusChangeSpy = vi.fn();
+
+      el.items = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+
+      el.addEventListener("calciteFilterStatusChange", statusChangeSpy);
+
+      const filterInput = page.getByLabelText("Filter");
+
+      await userEvent.click(filterInput);
+      await userEvent.type(filterInput, "one");
+
+      await vi.waitUntil(() => el.filteredItems.length === 60);
+
+      expect(el.filtering).toBe(false);
+      expect(statusChangeSpy).toHaveBeenCalledTimes(0);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
   it("emits calciteFilterStatusChange while filtering with a web worker", async () => {
     const nativeWorker = globalThis.Worker;
 
