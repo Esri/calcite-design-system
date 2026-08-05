@@ -460,7 +460,6 @@ calcite-date-picker {
 }
 
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.form-internal-label();
 @include includes.base-component();
 @include includes.clear-button(

@@ -79,8 +79,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
   @property({ reflect: true }) hovered = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @private
    */
   @property() label?: string;
@@ -114,7 +113,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * @copyDoc
    *
    * @internal
-   * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
