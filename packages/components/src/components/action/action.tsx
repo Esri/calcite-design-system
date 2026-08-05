@@ -130,7 +130,7 @@ export class Action extends LitElement {
   @property({ reflect: true }) form?: string;
 
   /** Specifies an icon to display. */
-  @property({ type: String, reflect: true }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -253,7 +253,7 @@ export class Action extends LitElement {
     };
 
     return text ? (
-      <div class={textContainerClasses} key="text-container">
+      <div ariaHidden="true" class={textContainerClasses} key="text-container">
         {text}
       </div>
     ) : null;
