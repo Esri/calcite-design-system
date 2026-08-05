@@ -193,6 +193,134 @@ describe("propagation", () => {
   });
 });
 
+describe("Label propagation", () => {
+  it("propagates scale to inputs wrapped by Label components", async () => {
+    const { el } = await mount(
+      <calcite-field-set scale="s">
+        <calcite-label>
+          First label
+          <calcite-input id="first" />
+        </calcite-label>
+        <calcite-label>
+          Second label
+          <calcite-input id="second" />
+        </calcite-label>
+        <calcite-label>
+          Third label
+          <calcite-input id="third" />
+        </calcite-label>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const inputs = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-input"));
+
+    await Promise.all(inputs.map(waitForUpdate));
+
+    expect(inputs.map((input) => input.scale)).toEqual(["s", "s", "s"]);
+  });
+
+  it("disables inputs wrapped by Label components and restores their prior disabled state", async () => {
+    const { el } = await mount(
+      <calcite-field-set>
+        <calcite-label>
+          Enabled label
+          <calcite-input id="enabled" />
+        </calcite-label>
+        <calcite-label>
+          Disabled label
+          <calcite-input disabled id="disabled" />
+        </calcite-label>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const enabledInput = fieldSet.querySelector<UpdatableElement>("#enabled")!;
+    const disabledInput = fieldSet.querySelector<UpdatableElement>("#disabled")!;
+
+    fieldSet.disabled = true;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(disabledInput)]);
+
+    expect(enabledInput.disabled).toBe(true);
+    expect(disabledInput.disabled).toBe(true);
+
+    fieldSet.disabled = false;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(disabledInput)]);
+
+    expect(enabledInput.disabled).toBe(false);
+    expect(disabledInput.disabled).toBe(true);
+  });
+
+  it("sets inputs wrapped by Label components to read-only and restores their prior read-only state", async () => {
+    const { el } = await mount(
+      <calcite-field-set>
+        <calcite-label>
+          Editable label
+          <calcite-input id="editable" />
+        </calcite-label>
+        <calcite-label>
+          Read-only label
+          <calcite-input id="read-only" readOnly />
+        </calcite-label>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const editableInput = fieldSet.querySelector<UpdatableElement>("#editable")!;
+    const readOnlyInput = fieldSet.querySelector<UpdatableElement>("#read-only")!;
+
+    fieldSet.readOnly = true;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
+
+    expect(editableInput.readOnly).toBe(true);
+    expect(readOnlyInput.readOnly).toBe(true);
+
+    fieldSet.readOnly = false;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
+
+    expect(editableInput.readOnly).toBe(false);
+    expect(readOnlyInput.readOnly).toBe(true);
+  });
+
+  it("propagates scale and read-only state to Text Areas wrapped by Label components", async () => {
+    const { el } = await mount(
+      <calcite-field-set scale="s">
+        <calcite-label>
+          Editable label
+          <calcite-text-area id="editable" />
+        </calcite-label>
+        <calcite-label>
+          Read-only label
+          <calcite-text-area id="read-only" readOnly />
+        </calcite-label>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const editableTextArea = fieldSet.querySelector<UpdatableElement>("#editable")!;
+    const readOnlyTextArea = fieldSet.querySelector<UpdatableElement>("#read-only")!;
+
+    await Promise.all([waitForUpdate(editableTextArea), waitForUpdate(readOnlyTextArea)]);
+
+    expect(editableTextArea.scale).toBe("s");
+    expect(readOnlyTextArea.scale).toBe("s");
+
+    fieldSet.readOnly = true;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(editableTextArea), waitForUpdate(readOnlyTextArea)]);
+
+    expect(editableTextArea.readOnly).toBe(true);
+    expect(readOnlyTextArea.readOnly).toBe(true);
+
+    fieldSet.readOnly = false;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(editableTextArea), waitForUpdate(readOnlyTextArea)]);
+
+    expect(editableTextArea.readOnly).toBe(false);
+    expect(readOnlyTextArea.readOnly).toBe(true);
+  });
+});
+
 describe("theme", () => {
   themed(
     () =>

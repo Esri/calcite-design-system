@@ -97,6 +97,35 @@ export const simple = (args: FormStoryArgs): string => html`
   </calcite-form>
 `;
 
+const renderLabelFieldSets = (): string => html`
+  <calcite-field-set>
+    <div slot="legend">Field Set legend</div>
+    <calcite-label>
+      Label
+      <calcite-input placeholder="Placeholder"></calcite-input>
+    </calcite-label>
+    <calcite-label>
+      Label
+      <calcite-input placeholder="Placeholder"></calcite-input>
+    </calcite-label>
+    <calcite-label>
+      Label
+      <calcite-text-area placeholder="Placeholder"></calcite-text-area>
+    </calcite-label>
+  </calcite-field-set>
+  <calcite-field-set>
+    <div slot="legend">Field Set legend</div>
+    <calcite-label>
+      Label
+      <calcite-input placeholder="Placeholder"></calcite-input>
+    </calcite-label>
+    <calcite-label>
+      Label
+      <calcite-input placeholder="Placeholder"></calcite-input>
+    </calcite-label>
+  </calcite-field-set>
+`;
+
 export const noticeNoOpen = (args: FormStoryArgs): string => simple(args);
 noticeNoOpen.args = { noticeOpen: false };
 noticeNoOpen.parameters = { controls: { include: ["notice", "notice open"] } };
@@ -140,12 +169,51 @@ const renderNativeFormFieldSets = (requireName = false): string => {
   `;
 };
 
-const renderNativeFormStory = (args: FormStoryArgs, options: NativeFormStoryOptions): string => html`
+const renderNativeFormLabelFieldSets = (requireName = false): string => {
+  const lastNameRequired = requireName ? "required" : "";
+  const lastNameValue = requireName ? "" : 'value="Ramos"';
+
+  return `
+    <calcite-field-set>
+      <div slot="legend">Applicant details</div>
+      <calcite-label>
+        First name
+        <calcite-input name="firstName" placeholder="Enter first name" value="Alicia"></calcite-input>
+      </calcite-label>
+      <calcite-label>
+        Last name
+        <calcite-input
+          name="lastName"
+          placeholder="Enter last name"
+          ${lastNameRequired}
+          ${lastNameValue}
+        ></calcite-input>
+      </calcite-label>
+    </calcite-field-set>
+    <calcite-field-set>
+      <div slot="legend">Property details</div>
+      <calcite-label>
+        Parcel ID
+        <calcite-input name="parcelId" placeholder="Enter parcel ID" value="12-345-6789"></calcite-input>
+      </calcite-label>
+      <calcite-label>
+        City
+        <calcite-input name="city" placeholder="Enter city" value="Austin"></calcite-input>
+      </calcite-label>
+    </calcite-field-set>
+  `;
+};
+
+const renderNativeFormStory = (
+  args: FormStoryArgs,
+  options: NativeFormStoryOptions,
+  renderFieldSets = renderNativeFormFieldSets,
+): string => html`
   <div style="display: flex; flex-direction: column; gap: 1rem; max-inline-size: 42rem;">
     <div style="color: var(--calcite-color-text-2);">${options.description}</div>
     <form id="${options.formId}" style="display: flex; flex-direction: column; gap: 1rem;">
       <calcite-form ${args.disabled ? "disabled" : ""} ${args.readOnly ? "read-only" : ""} scale="${args.scale}">
-        ${renderNativeFormFieldSets(options.requireName)}
+        ${renderFieldSets(options.requireName)}
       </calcite-form>
       <div style="display: flex; gap: 1rem; padding: 1rem; border: 1px solid red;">
         ${options.includePreviewButton
@@ -224,6 +292,18 @@ const renderInPanel = (args: FormStoryArgs): string => html`
   </calcite-panel>
 `;
 
+const renderInPanelUsingLabels = (args: FormStoryArgs): string => html`
+  <calcite-panel
+    heading="Form"
+    scale="${args.scale}"
+    style="height: auto; --calcite-panel-space: var(--calcite-space-md);"
+  >
+    ${simpleUsingLabels(args)}
+    <calcite-button slot="footer-end" appearance="outline"> Cancel </calcite-button>
+    <calcite-button slot="footer-end"> Submit </calcite-button>
+  </calcite-panel>
+`;
+
 export const inPanel = (args: FormStoryArgs): string => html`
   <div style="display: flex; gap: 3rem; align-items: start;">
     ${renderInPanel({ ...args, scale: "s" })} ${renderInPanel({ ...args, scale: "m" })}
@@ -257,6 +337,58 @@ const renderControlsForm = (args: FormStoryArgs, style = ""): string => html`
       <div slot="legend">Field Set legend</div>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-set>
+    <calcite-field-set layout="horizontal">
+      <div slot="legend">Field Set legend</div>
+      <calcite-checkbox label-text="Allows large dogs"></calcite-checkbox>
+      <calcite-checkbox label-text="Must have parking"></calcite-checkbox>
+      <calcite-checkbox label-text="Allows cats"></calcite-checkbox>
+      <calcite-checkbox label-text="Must be on ground floor"></calcite-checkbox>
+      <calcite-checkbox label-text="On-site laundry"></calcite-checkbox>
+      <calcite-checkbox label-text="Waterfront"></calcite-checkbox>
+      <calcite-checkbox label-text="On-site parking"></calcite-checkbox>
+    </calcite-field-set>
+    <calcite-field-set layout="columns" columns="2">
+      <div slot="legend">Field Set legend</div>
+      <calcite-checkbox label-text="Allows large dogs"></calcite-checkbox>
+      <calcite-checkbox label-text="Must have parking"></calcite-checkbox>
+      <calcite-checkbox label-text="Allows cats"></calcite-checkbox>
+      <calcite-checkbox label-text="Must be on ground floor"></calcite-checkbox>
+      <calcite-checkbox label-text="On-site laundry"></calcite-checkbox>
+      <calcite-checkbox label-text="Waterfront"></calcite-checkbox>
+      <calcite-checkbox label-text="On-site parking"></calcite-checkbox>
+    </calcite-field-set>
+  </calcite-form>
+`;
+
+const renderControlsFormUsingLabels = (args: FormStoryArgs, style = ""): string => html`
+  <calcite-form
+    ${args.disabled ? "disabled" : ""}
+    ${args.readOnly ? "read-only" : ""}
+    scale="${args.scale}"
+    ${style ? `style="${style}"` : ""}
+  >
+    <calcite-field-set columns="2" layout="columns">
+      <div slot="legend">Field Set legend</div>
+      <calcite-label>
+        Label
+        <calcite-input placeholder="Placeholder"></calcite-input>
+      </calcite-label>
+      <calcite-label>
+        Label
+        <calcite-input placeholder="Placeholder"></calcite-input>
+      </calcite-label>
+    </calcite-field-set>
+    <calcite-field-set>
+      <div slot="legend">Field Set legend</div>
+      <calcite-label>
+        Label
+        <calcite-input placeholder="Placeholder"></calcite-input>
+      </calcite-label>
+      <calcite-label>
+        Label
+        <calcite-input placeholder="Placeholder"></calcite-input>
+      </calcite-label>
     </calcite-field-set>
     <calcite-field-set layout="horizontal">
       <div slot="legend">Field Set legend</div>
@@ -327,5 +459,120 @@ export const nativeButtonTypes = (args: FormStoryArgs): string =>
   });
 nativeButtonTypes.args = { showNotice: false };
 nativeButtonTypes.parameters = {
+  controls: { disable: true },
+};
+
+export const simpleUsingLabels = (args: FormStoryArgs): string => html`
+  <calcite-form
+    ${args.disabled ? "disabled" : ""}
+    ${args.readOnly ? "read-only" : ""}
+    scale="${args.scale}"
+    ${args.space ? `style="--calcite-form-space: ${args.space};"` : ""}
+  >
+    ${renderLabelFieldSets()}
+    ${args.showNotice
+      ? html`
+          <calcite-notice
+            ${args.noticeOpen ? "open" : ""}
+            icon="exclamation-mark-triangle-f"
+            kind="danger"
+            closable
+            slot="notice"
+          >
+            <div slot="message">Aggregate notice</div>
+          </calcite-notice>
+        `
+      : ""}
+  </calcite-form>
+`;
+
+export const noticeNoOpenUsingLabels = (args: FormStoryArgs): string => simpleUsingLabels(args);
+noticeNoOpenUsingLabels.args = { noticeOpen: false };
+noticeNoOpenUsingLabels.parameters = { controls: { include: ["notice", "notice open"] } };
+
+export const scalesUsingLabels = (args: FormStoryArgs): string => html`
+  <div style="display: flex; gap: 3rem;">
+    ${simpleUsingLabels({ ...args, scale: "s" })} ${simpleUsingLabels({ ...args, scale: "m" })}
+    ${simpleUsingLabels({ ...args, scale: "l" })}
+  </div>
+`;
+scalesUsingLabels.args = { scale: "m" };
+scalesUsingLabels.parameters = { controls: { disable: true } };
+
+export const inPanelUsingLabels = (args: FormStoryArgs): string => html`
+  <div style="display: flex; gap: 3rem; align-items: start;">
+    ${renderInPanelUsingLabels({ ...args, scale: "s" })} ${renderInPanelUsingLabels({ ...args, scale: "m" })}
+    ${renderInPanelUsingLabels({ ...args, scale: "l" })}
+  </div>
+`;
+inPanelUsingLabels.args = { scale: "m" };
+inPanelUsingLabels.parameters = { controls: { disable: true } };
+
+export const disabledUsingLabels = (args: FormStoryArgs): string => simpleUsingLabels(args);
+disabledUsingLabels.args = { disabled: true };
+disabledUsingLabels.parameters = { controls: { disable: true } };
+
+export const readOnlyUsingLabels = (args: FormStoryArgs): string => simpleUsingLabels(args);
+readOnlyUsingLabels.args = { readOnly: true };
+readOnlyUsingLabels.parameters = { controls: { disable: true } };
+
+export const controlsUsingLabels = (args: FormStoryArgs): string => html`
+  <div style="display: flex; flex-direction: column; gap: 50px;">
+    ${renderControlsFormUsingLabels(args)} ${renderControlsFormUsingLabels(args, "inline-size: 382px;")}
+  </div>
+`;
+
+export const customSpacingUsingLabels = (args: FormStoryArgs): string => simpleUsingLabels(args);
+customSpacingUsingLabels.args = { space: "40px" };
+customSpacingUsingLabels.parameters = { controls: { include: ["space"] } };
+
+export const nativeSubmitAndResetUsingLabels = (args: FormStoryArgs): string =>
+  renderNativeFormStory(
+    args,
+    {
+      description:
+        "Buttons remain light DOM children of the outer native form, so submit and reset work without extra wiring.",
+      formId: "native-form-submit-reset-using-labels",
+      statusId: "native-form-submit-reset-using-labels-status",
+    },
+    renderNativeFormLabelFieldSets,
+  );
+nativeSubmitAndResetUsingLabels.args = { showNotice: false };
+nativeSubmitAndResetUsingLabels.parameters = {
+  controls: { disable: true },
+};
+
+export const nativeValidationUsingLabels = (args: FormStoryArgs): string =>
+  renderNativeFormStory(
+    args,
+    {
+      description:
+        "This story leaves one required value empty so the browser's native validation UI can block submission until the field is completed.",
+      formId: "native-form-validation-using-labels",
+      includeNotice: true,
+      requireName: true,
+      statusId: "native-form-validation-using-labels-status",
+    },
+    renderNativeFormLabelFieldSets,
+  );
+nativeValidationUsingLabels.args = { showNotice: true };
+nativeValidationUsingLabels.parameters = {
+  controls: { disable: true },
+};
+
+export const nativeButtonTypesUsingLabels = (args: FormStoryArgs): string =>
+  renderNativeFormStory(
+    args,
+    {
+      description:
+        "A non-submit button can still read the current form data, while the reset and submit buttons keep their native form behavior.",
+      formId: "native-form-button-types-using-labels",
+      includePreviewButton: true,
+      statusId: "native-form-button-types-using-labels-status",
+    },
+    renderNativeFormLabelFieldSets,
+  );
+nativeButtonTypesUsingLabels.args = { showNotice: false };
+nativeButtonTypesUsingLabels.parameters = {
   controls: { disable: true },
 };

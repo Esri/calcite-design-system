@@ -342,3 +342,138 @@ describe("native form behavior", () => {
     expect(form.checkValidity()).toBe(false);
   });
 });
+
+describe("native form behavior with Labels", () => {
+  it("submits the outer native form when a submit button is clicked", async () => {
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    const { container } = await mount(
+      <form>
+        <calcite-form>
+          <calcite-field-set>
+            <calcite-label>
+              First name
+              <calcite-input id="first-name" name="firstName" value="Alicia" />
+            </calcite-label>
+            <calcite-label>
+              City
+              <calcite-input id="city" name="city" value="Austin" />
+            </calcite-label>
+          </calcite-field-set>
+        </calcite-form>
+        <calcite-button type="submit">Submit</calcite-button>
+      </form>,
+    );
+
+    const form = container.querySelector("form")!;
+    const submitButton = page.elementLocator(form).getBySelector('calcite-button[type="submit"]');
+    const firstNameInput = form.querySelector<InputElement>("#first-name")!;
+    const cityInput = form.querySelector<InputElement>("#city")!;
+
+    await Promise.all([waitForUpdate(firstNameInput), waitForUpdate(cityInput)]);
+
+    form.addEventListener("submit", onSubmit);
+
+    await userEvent.click(submitButton);
+
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    expect(Array.from(new FormData(form).entries())).toEqual([
+      ["firstName", "Alicia"],
+      ["city", "Austin"],
+    ]);
+  });
+
+  it("resets Label-wrapped form-associated inputs when a reset button is clicked", async () => {
+    const onReset = vi.fn();
+    const { container } = await mount(
+      <form>
+        <calcite-form>
+          <calcite-field-set>
+            <calcite-label>
+              First name
+              <calcite-input id="first-name" name="firstName" value="Alicia" />
+            </calcite-label>
+          </calcite-field-set>
+        </calcite-form>
+        <calcite-button type="reset">Reset</calcite-button>
+      </form>,
+    );
+
+    const form = container.querySelector("form")!;
+    const resetButton = page.elementLocator(form).getBySelector('calcite-button[type="reset"]');
+    const firstNameInput = form.querySelector<InputElement>("#first-name")!;
+
+    await waitForUpdate(firstNameInput);
+
+    form.addEventListener("reset", onReset);
+    firstNameInput.value = "Updated";
+    await waitForUpdate(firstNameInput);
+
+    expect(firstNameInput.value).toBe("Updated");
+
+    await userEvent.click(resetButton);
+
+    await vi.waitFor(() => {
+      expect(onReset).toHaveBeenCalledTimes(1);
+      expect(firstNameInput.value).toBe("Alicia");
+    });
+  });
+
+  it("does not submit the outer form when a button has type button", async () => {
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    const { container } = await mount(
+      <form>
+        <calcite-form>
+          <calcite-field-set>
+            <calcite-label>
+              First name
+              <calcite-input id="first-name" name="firstName" value="Alicia" />
+            </calcite-label>
+          </calcite-field-set>
+        </calcite-form>
+        <calcite-button type="button">Preview</calcite-button>
+      </form>,
+    );
+
+    const form = container.querySelector("form")!;
+    const previewButton = page.elementLocator(form).getBySelector('calcite-button[type="button"]');
+    const firstNameInput = form.querySelector<InputElement>("#first-name")!;
+
+    await waitForUpdate(firstNameInput);
+
+    form.addEventListener("submit", onSubmit);
+
+    await userEvent.click(previewButton);
+
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("honors native validation when a submit button is clicked", async () => {
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    const { container } = await mount(
+      <form>
+        <calcite-form>
+          <calcite-field-set>
+            <calcite-label>
+              First name
+              <calcite-input id="first-name" name="firstName" required />
+            </calcite-label>
+          </calcite-field-set>
+        </calcite-form>
+        <calcite-button type="submit">Submit</calcite-button>
+      </form>,
+    );
+
+    const form = container.querySelector("form")!;
+    const submitButton = page.elementLocator(form).getBySelector('calcite-button[type="submit"]');
+    const firstNameInput = form.querySelector<InputElement>("#first-name")!;
+
+    await waitForUpdate(firstNameInput);
+
+    form.addEventListener("submit", onSubmit);
+
+    await userEvent.click(submitButton);
+
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(form.checkValidity()).toBe(false);
+  });
+});
