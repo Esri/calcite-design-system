@@ -948,6 +948,12 @@ export class List extends LitElement {
   private async filterAndUpdateData(
     filterValue = this.filterEl?.value ?? this.filterText,
   ): Promise<void> {
+    // Avoid canceling the pending debounced filter input sync when items rerender
+    // before filterText is updated from calciteFilterChange.
+    if (this.filterEl && filterValue === this.filterEl.value && this.filterText !== filterValue) {
+      return;
+    }
+
     const requestId = ++this.filterDataRequestId;
     await this.filterEl?.filter(filterValue);
 
