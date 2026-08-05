@@ -29,7 +29,7 @@ function isStructuredCloneable(value: unknown): boolean {
   const structuredCloneFn = globalThis.structuredClone;
 
   if (typeof structuredCloneFn !== "function") {
-    return true;
+    return false;
   }
 
   try {
@@ -40,16 +40,33 @@ function isStructuredCloneable(value: unknown): boolean {
   }
 }
 
-function hasKnownUncloneableWorkerData(data: object[]): boolean {
+function hasCloneableWorkerData(data: object[]): boolean {
+  const hasStructuredClone = typeof globalThis.structuredClone === "function";
+
   for (const item of data) {
     const cachedCloneable = cloneableRecordCache.get(item);
 
-    if (cachedCloneable === false) {
-      return true;
+    if (cachedCloneable !== undefined) {
+      if (!cachedCloneable) {
+        return false;
+      }
+
+      continue;
+    }
+
+    if (!hasStructuredClone) {
+      continue;
+    }
+
+    const cloneable = isStructuredCloneable(item);
+    cloneableRecordCache.set(item, cloneable);
+
+    if (!cloneable) {
+      return false;
     }
   }
 
-  return false;
+  return true;
 }
 
 function resolvePendingRequests(filteredIndexes: number[] | null): void {
@@ -94,7 +111,7 @@ function initializeWorker(): Worker | null {
 }
 
 export function filterInWorker(data: object[], value: string, filterProps?: string[]): Promise<number[] | null> {
-  if (hasKnownUncloneableWorkerData(data)) {
+  if (!hasCloneableWorkerData(data)) {
     return Promise.resolve(null);
   }
 
@@ -112,11 +129,18 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
     try {
       worker.postMessage({ requestId, data, value, filterProps } satisfies FilterWorkerRequest);
     } catch (error) {
-      if (isDataCloneError(error)) {
+      const hasStructuredClone = typeof globalThis.structuredClone === "function";
+      let hasNonCloneableData = false;
+
+      if (isDataCloneError(error) || hasStructuredClone) {
         data.forEach((item) => {
-          cloneableRecordCache.set(item, isStructuredCloneable(item));
+          const cloneable = hasStructuredClone ? isStructuredCloneable(item) : false;
+          cloneableRecordCache.set(item, cloneable);
+          hasNonCloneableData ||= !cloneable;
         });
-      } else {
+      }
+
+      if (!hasNonCloneableData) {
         resolvePendingRequests(null);
         worker.terminate();
         filterWorker = null;
