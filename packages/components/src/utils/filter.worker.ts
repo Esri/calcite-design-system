@@ -1,5 +1,3 @@
-/// <reference lib="webworker" />
-
 import { getFilteredIndexes } from "./filter";
 
 type FilterWorkerRequest = {
@@ -14,11 +12,18 @@ type FilterWorkerResponse = {
   filteredIndexes: number[];
 };
 
-self.addEventListener("message", (event: MessageEvent<FilterWorkerRequest>) => {
+type WorkerScope = {
+  addEventListener: (type: "message", listener: (event: MessageEvent<FilterWorkerRequest>) => void) => void;
+  postMessage: (message: FilterWorkerResponse) => void;
+};
+
+const workerScope = globalThis as unknown as WorkerScope;
+
+workerScope.addEventListener("message", (event: MessageEvent<FilterWorkerRequest>) => {
   const { requestId, data, value, filterProps } = event.data;
   const filteredIndexes = getFilteredIndexes(data, value, filterProps);
 
-  self.postMessage({
+  workerScope.postMessage({
     requestId,
     filteredIndexes,
   } satisfies FilterWorkerResponse);
