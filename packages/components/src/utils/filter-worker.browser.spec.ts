@@ -175,7 +175,6 @@ describe("filter-worker", () => {
   });
 
   it("falls back when data is not structured-cloneable", async () => {
-    const nativeWorker = globalThis.Worker;
     let postMessageCallCount = 0;
 
     class MockWorker {
@@ -192,14 +191,13 @@ describe("filter-worker", () => {
       }
     }
 
-    globalThis.Worker = MockWorker as unknown as typeof Worker;
+    vi.stubGlobal("Worker", MockWorker);
+    vi.stubGlobal("structuredClone", () => {
+      throw new DOMException("value is not cloneable", "DataCloneError");
+    });
 
-    try {
-      await expect(filterInWorker([{ callback: () => {} }], "one", ["callback"])).resolves.toBeNull();
-      expect(postMessageCallCount).toBe(0);
-    } finally {
-      globalThis.Worker = nativeWorker;
-    }
+    await expect(filterInWorker([{ callback: () => {} }], "one", ["callback"])).resolves.toBeNull();
+    expect(postMessageCallCount).toBe(0);
   });
 
   it("resolves pending requests when worker errors", async () => {
