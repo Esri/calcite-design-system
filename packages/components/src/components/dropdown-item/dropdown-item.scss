@@ -57,7 +57,7 @@
   @apply relative
     opacity-0
     ease-in-out;
-  transform: scale(0.9);
+  transform: translateX(0.5px) scale(0.9);
 }
 
 .icon--start,
@@ -72,11 +72,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-spacing-sm);
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-sm);
+    margin-inline-start: var(--calcite-spacing-sm);
   }
 }
 
@@ -87,11 +87,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-md);
+    margin-inline-end: var(--calcite-spacing-md);
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-md);
+    margin-inline-start: var(--calcite-spacing-md);
   }
 }
 
@@ -102,11 +102,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-lg);
+    margin-inline-end: var(--calcite-spacing-lg);
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-lg);
+    margin-inline-start: var(--calcite-spacing-lg);
   }
 }
 

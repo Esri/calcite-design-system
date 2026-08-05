@@ -216,6 +216,7 @@
 
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
+  min-inline-size: calc(100% + 2px);
   box-shadow: var(--calcite-shadow-md);
   border: var(--calcite-internal-menu-item-border);
   border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
