@@ -18,6 +18,7 @@ import { Dir } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
+import type { ActionBar } from "../action-bar/action-bar";
 
 declare module "vitest/browser" {
   interface LocatorSelectors {
@@ -129,7 +130,11 @@ describe("action bar", () => {
           </calcite-shell-panel>
         </calcite-shell>,
       );
-      const actionBar = el.querySelector("calcite-action-bar")!;
+      const actionBar = el.querySelector<ActionBar["el"]>(
+        "calcite-action-bar",
+      )! as ActionBar["el"] & {
+        updateComplete: Promise<void>;
+      };
 
       await actionBar.updateComplete;
 
