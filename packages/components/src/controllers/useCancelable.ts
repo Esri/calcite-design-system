@@ -59,6 +59,7 @@ export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGen
           return;
         }
 
+        resources.delete(resource);
         cancelResource(resource);
       },
       resources,
