@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { terminateFilterWorker } from "../../utils/filter-worker";
+import { DEBOUNCE } from "../../utils/resources";
 import {
   cancelable,
   defaults,
@@ -267,5 +268,33 @@ describe("worker filtering", () => {
     } finally {
       globalThis.Worker = nativeWorker;
     }
+  });
+});
+
+describe("filter method", () => {
+  it("cancels pending debounced input filtering before immediate filtering", async () => {
+    const { el } = await mount("calcite-filter");
+    const filterChangeSpy = vi.fn();
+
+    el.items = [
+      { label: "Harry", value: "harry" },
+      { label: "Matt", value: "matt" },
+    ];
+
+    el.addEventListener("calciteFilterChange", filterChangeSpy);
+
+    const filterInput = page.getByLabelText("Filter");
+
+    await userEvent.click(filterInput);
+    await userEvent.type(filterInput, "Har");
+
+    await el.filter("Matt");
+
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+
+    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
+
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+    expect(filterChangeSpy).toHaveBeenCalledTimes(0);
   });
 });

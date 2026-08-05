@@ -132,6 +132,8 @@ export class Filter extends LitElement {
   @method()
   async filter(value: string = this.value): Promise<void> {
     return new Promise((resolve) => {
+      this.cancelable.cancelResource(this.filterDebounced);
+
       const oldValue = this._value;
 
       if (value !== oldValue) {
