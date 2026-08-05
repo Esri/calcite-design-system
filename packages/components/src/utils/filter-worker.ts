@@ -40,27 +40,16 @@ function isStructuredCloneable(value: unknown): boolean {
   }
 }
 
-function hasCloneableWorkerData(data: object[]): boolean {
+function hasKnownUncloneableWorkerData(data: object[]): boolean {
   for (const item of data) {
     const cachedCloneable = cloneableRecordCache.get(item);
 
-    if (cachedCloneable !== undefined) {
-      if (!cachedCloneable) {
-        return false;
-      }
-
-      continue;
-    }
-
-    const cloneable = isStructuredCloneable(item);
-    cloneableRecordCache.set(item, cloneable);
-
-    if (!cloneable) {
-      return false;
+    if (cachedCloneable === false) {
+      return true;
     }
   }
 
-  return true;
+  return false;
 }
 
 function resolvePendingRequests(filteredIndexes: number[] | null): void {
@@ -105,7 +94,7 @@ function initializeWorker(): Worker | null {
 }
 
 export function filterInWorker(data: object[], value: string, filterProps?: string[]): Promise<number[] | null> {
-  if (!hasCloneableWorkerData(data)) {
+  if (hasKnownUncloneableWorkerData(data)) {
     return Promise.resolve(null);
   }
 
@@ -123,13 +112,11 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
     try {
       worker.postMessage({ requestId, data, value, filterProps } satisfies FilterWorkerRequest);
     } catch (error) {
-      const cloneable = !isDataCloneError(error);
-
-      data.forEach((item) => {
-        cloneableRecordCache.set(item, cloneable ? isStructuredCloneable(item) : false);
-      });
-
-      if (cloneable) {
+      if (isDataCloneError(error)) {
+        data.forEach((item) => {
+          cloneableRecordCache.set(item, isStructuredCloneable(item));
+        });
+      } else {
         resolvePendingRequests(null);
         worker.terminate();
         filterWorker = null;
