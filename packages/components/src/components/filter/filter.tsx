@@ -134,8 +134,10 @@ export class Filter extends LitElement {
     return new Promise((resolve) => {
       const oldValue = this._value;
 
+      this.cancelable.cancelResource(this.filterDebounced);
+      this.cancelable.add(this.filterDebounced);
+
       if (value !== oldValue) {
-        this.cancelable.cancelResource(this.filterDebounced);
         this._value = value;
         this.requestUpdate("value", oldValue);
       }

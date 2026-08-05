@@ -425,4 +425,81 @@ describe("filter method", () => {
     expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
     expect(filterChangeSpy).toHaveBeenCalledTimes(0);
   });
+
+  it("cancels pending debounced items-change filtering when filter is called with the same value", async () => {
+    const nativeWorker = globalThis.Worker;
+    let postMessageCallCount = 0;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: {
+        requestId: number;
+        data: Array<{ label?: string }>;
+        value: string;
+      }): void {
+        postMessageCallCount++;
+
+        const filterValue = message.value.toLowerCase();
+        const filteredIndexes = message.data
+          .map((item, index) => ({
+            index,
+            label: (item.label ?? "").toLowerCase(),
+          }))
+          .filter((item) => item.label.includes(filterValue))
+          .map((item) => item.index);
+
+        this.messageListeners.forEach((listener) =>
+          listener(
+            new MessageEvent("message", {
+              data: {
+                requestId: message.requestId,
+                filteredIndexes,
+              },
+            }),
+          ),
+        );
+      }
+
+      terminate(): void {
+        this.messageListeners.length = 0;
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+      const initialItems = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+
+      el.items = initialItems;
+      await el.filter("one");
+
+      postMessageCallCount = 0;
+
+      const nextItems = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One Updated ${index}` : `Two Updated ${index}`,
+        value: `${index}`,
+      }));
+
+      el.items = nextItems;
+      await Promise.resolve();
+
+      await el.filter("one");
+      await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 10));
+
+      expect(postMessageCallCount).toBe(1);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
 });
