@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { hidden, renders } from "../../tests/commonTests/browser";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { CSS } from "./resources";
@@ -42,7 +42,7 @@ describe("renders", () => {
 });
 
 describe("structure", () => {
-  it("keeps the divider, notice container, and buttons container hidden when no footer slots are populated", async () => {
+  it("keeps the divider and notice container hidden when no notice is slotted", async () => {
     const { el } = await mount(
       <calcite-form>
         <calcite-field-set />
@@ -51,11 +51,9 @@ describe("structure", () => {
 
     const divider = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.divider}`)!;
     const noticeContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.noticeContainer}`)!;
-    const buttonContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.buttonContainer}`)!;
 
     expect(divider.hidden).toBe(true);
     expect(noticeContainer.hidden).toBe(true);
-    expect(buttonContainer.hidden).toBe(true);
   });
 
   it("keeps the divider and notice container hidden when a slotted notice is closed", async () => {
@@ -70,13 +68,11 @@ describe("structure", () => {
 
     const divider = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.divider}`)!;
     const noticeContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.noticeContainer}`)!;
-    const buttonContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.buttonContainer}`)!;
     const notices = el.querySelectorAll('[slot="notice"]');
 
     await vi.waitFor(() => {
       expect(divider.hidden).toBe(true);
       expect(noticeContainer.hidden).toBe(true);
-      expect(buttonContainer.hidden).toBe(true);
       expect(notices).toHaveLength(1);
     });
   });
@@ -103,33 +99,6 @@ describe("structure", () => {
     });
 
     await openEvent;
-  });
-
-  it("shows the divider and buttons container when buttons are slotted", async () => {
-    const { el } = await mount(
-      <calcite-form>
-        <calcite-field-set />
-        <calcite-field-set />
-        <calcite-button slot="buttons">Submit</calcite-button>
-      </calcite-form>,
-    );
-
-    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
-    const divider = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.divider}`)!;
-    const noticeContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.noticeContainer}`)!;
-    const buttonContainer = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.buttonContainer}`)!;
-    const fieldSets = el.querySelectorAll("calcite-field-set");
-    const buttons = el.querySelectorAll('[slot="buttons"]');
-
-    await vi.waitFor(() => {
-      expect(container.tagName).toBe("DIV");
-      expect(divider.hidden).toBe(false);
-      expect(noticeContainer.hidden).toBe(true);
-      expect(buttonContainer.tagName).toBe("DIV");
-      expect(buttonContainer.hidden).toBe(false);
-      expect(fieldSets).toHaveLength(2);
-      expect(buttons).toHaveLength(1);
-    });
   });
 
   it("propagates scale to slotted field sets", async () => {
@@ -199,75 +168,31 @@ describe("structure", () => {
     });
   });
 
-  it("propagates scale to slotted buttons", async () => {
-    const { el } = await mount(
-      <calcite-form scale="s">
-        <calcite-field-set />
-        <calcite-button appearance="outline" id="cancel" slot="buttons">
-          Cancel
-        </calcite-button>
-        <calcite-button id="save" slot="buttons">
-          Save
-        </calcite-button>
-      </calcite-form>,
-    );
-
-    const cancelButton = el.querySelector<ScaledElement>("#cancel")!;
-    const saveButton = el.querySelector<ScaledElement>("#save")!;
-
-    await Promise.all([waitForUpdate(cancelButton), waitForUpdate(saveButton)]);
-
-    expect(cancelButton.scale).toBe("s");
-    expect(saveButton.scale).toBe("s");
-  });
-
-  it("disables slotted field sets and buttons and restores their prior disabled state", async () => {
+  it("disables slotted field sets and restores their prior disabled state", async () => {
     const { el } = await mount(
       <calcite-form>
         <calcite-field-set id="enabled-field-set" />
         <calcite-field-set disabled id="disabled-field-set" />
-        <calcite-button id="enabled-button" slot="buttons">
-          Save
-        </calcite-button>
-        <calcite-button disabled id="disabled-button" slot="buttons">
-          Cancel
-        </calcite-button>
       </calcite-form>,
     );
 
     const form = el as HTMLElement & { disabled?: boolean; updateComplete?: Promise<unknown> };
     const enabledFieldSet = el.querySelector<ScaledElement>("#enabled-field-set")!;
     const disabledFieldSet = el.querySelector<ScaledElement>("#disabled-field-set")!;
-    const enabledButton = el.querySelector<ScaledElement>("#enabled-button")!;
-    const disabledButton = el.querySelector<ScaledElement>("#disabled-button")!;
 
     form.disabled = true;
     await waitForUpdate(form);
-    await Promise.all([
-      waitForUpdate(enabledFieldSet),
-      waitForUpdate(disabledFieldSet),
-      waitForUpdate(enabledButton),
-      waitForUpdate(disabledButton),
-    ]);
+    await Promise.all([waitForUpdate(enabledFieldSet), waitForUpdate(disabledFieldSet)]);
 
     expect(enabledFieldSet.disabled).toBe(true);
     expect(disabledFieldSet.disabled).toBe(true);
-    expect(enabledButton.disabled).toBe(true);
-    expect(disabledButton.disabled).toBe(true);
 
     form.disabled = false;
     await waitForUpdate(form);
-    await Promise.all([
-      waitForUpdate(enabledFieldSet),
-      waitForUpdate(disabledFieldSet),
-      waitForUpdate(enabledButton),
-      waitForUpdate(disabledButton),
-    ]);
+    await Promise.all([waitForUpdate(enabledFieldSet), waitForUpdate(disabledFieldSet)]);
 
     expect(enabledFieldSet.disabled).toBe(false);
     expect(disabledFieldSet.disabled).toBe(true);
-    expect(enabledButton.disabled).toBe(false);
-    expect(disabledButton.disabled).toBe(true);
   });
 
   it("sets slotted field sets to read-only and restores their prior read-only state", async () => {
@@ -299,7 +224,7 @@ describe("structure", () => {
 });
 
 describe("native form behavior", () => {
-  it("submits the outer native form when a slotted submit button is clicked", async () => {
+  it("submits the outer native form when a submit button is clicked", async () => {
     const onSubmit = vi.fn((event: Event) => event.preventDefault());
     const { container } = await mount(
       <form>
@@ -308,15 +233,13 @@ describe("native form behavior", () => {
             <calcite-input id="first-name" name="firstName" value="Alicia" />
             <calcite-input id="city" name="city" value="Austin" />
           </calcite-field-set>
-          <calcite-button slot="buttons" type="submit">
-            Submit
-          </calcite-button>
         </calcite-form>
+        <calcite-button type="submit">Submit</calcite-button>
       </form>,
     );
 
     const form = container.querySelector("form")!;
-    const submitButton = form.querySelector<HTMLElement>('calcite-button[type="submit"]')!;
+    const submitButton = page.elementLocator(form).getBySelector('calcite-button[type="submit"]');
     const firstNameInput = form.querySelector<InputElement>("#first-name")!;
     const cityInput = form.querySelector<InputElement>("#city")!;
 
@@ -333,7 +256,7 @@ describe("native form behavior", () => {
     ]);
   });
 
-  it("resets form-associated inputs when a slotted reset button is clicked", async () => {
+  it("resets form-associated inputs when a reset button is clicked", async () => {
     const onReset = vi.fn();
     const { container } = await mount(
       <form>
@@ -341,15 +264,13 @@ describe("native form behavior", () => {
           <calcite-field-set>
             <calcite-input id="first-name" name="firstName" value="Alicia" />
           </calcite-field-set>
-          <calcite-button slot="buttons" type="reset">
-            Reset
-          </calcite-button>
         </calcite-form>
+        <calcite-button type="reset">Reset</calcite-button>
       </form>,
     );
 
     const form = container.querySelector("form")!;
-    const resetButton = form.querySelector<HTMLElement>('calcite-button[type="reset"]')!;
+    const resetButton = page.elementLocator(form).getBySelector('calcite-button[type="reset"]');
     const firstNameInput = form.querySelector<InputElement>("#first-name")!;
 
     await waitForUpdate(firstNameInput);
@@ -368,7 +289,7 @@ describe("native form behavior", () => {
     });
   });
 
-  it("does not submit the outer form when a slotted button has type button", async () => {
+  it("does not submit the outer form when a button has type button", async () => {
     const onSubmit = vi.fn((event: Event) => event.preventDefault());
     const { container } = await mount(
       <form>
@@ -376,15 +297,13 @@ describe("native form behavior", () => {
           <calcite-field-set>
             <calcite-input id="first-name" name="firstName" value="Alicia" />
           </calcite-field-set>
-          <calcite-button slot="buttons" type="button">
-            Preview
-          </calcite-button>
         </calcite-form>
+        <calcite-button type="button">Preview</calcite-button>
       </form>,
     );
 
     const form = container.querySelector("form")!;
-    const previewButton = form.querySelector<HTMLElement>('calcite-button[type="button"]')!;
+    const previewButton = page.elementLocator(form).getBySelector('calcite-button[type="button"]');
     const firstNameInput = form.querySelector<InputElement>("#first-name")!;
 
     await waitForUpdate(firstNameInput);
@@ -396,7 +315,7 @@ describe("native form behavior", () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it("honors native validation when a slotted submit button is clicked", async () => {
+  it("honors native validation when a submit button is clicked", async () => {
     const onSubmit = vi.fn((event: Event) => event.preventDefault());
     const { container } = await mount(
       <form>
@@ -404,15 +323,13 @@ describe("native form behavior", () => {
           <calcite-field-set>
             <calcite-input id="first-name" name="firstName" required />
           </calcite-field-set>
-          <calcite-button slot="buttons" type="submit">
-            Submit
-          </calcite-button>
         </calcite-form>
+        <calcite-button type="submit">Submit</calcite-button>
       </form>,
     );
 
     const form = container.querySelector("form")!;
-    const submitButton = form.querySelector<HTMLElement>('calcite-button[type="submit"]')!;
+    const submitButton = page.elementLocator(form).getBySelector('calcite-button[type="submit"]');
     const firstNameInput = form.querySelector<InputElement>("#first-name")!;
 
     await waitForUpdate(firstNameInput);

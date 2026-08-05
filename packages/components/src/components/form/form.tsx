@@ -1,7 +1,7 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
 import type { Scale } from "../interfaces";
-import { getSlotAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { getSlotAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./form.scss";
 
@@ -14,7 +14,6 @@ declare global {
 /**
  * @slot - A slot for adding one or more `calcite-field-set` components.
  * @slot notice - A slot for adding a form `calcite-notice` component.
- * @slot buttons - A slot for adding form `calcite-button` components.
  */
 export class Form extends LitElement {
   //#region Static Members
@@ -24,8 +23,6 @@ export class Form extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  private buttonDisabledState = new WeakMap<HTMLElement & { disabled?: boolean }, boolean>();
 
   private fieldSetDisabledState = new WeakMap<HTMLElement & { disabled?: boolean }, boolean>();
 
@@ -57,17 +54,9 @@ export class Form extends LitElement {
     return slot ? getSlotAssignedElements<HTMLElement>(slot) : [];
   }
 
-  private get buttons(): Array<HTMLElement & { disabled?: boolean; scale?: Scale }> {
-    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="buttons"]');
-
-    return slot ? getSlotAssignedElements<HTMLElement>(slot) : [];
-  }
-
   //#endregion
 
   //#region State Properties
-
-  @state() private hasButtons = false;
 
   @state() private hasNotice = false;
 
@@ -75,13 +64,13 @@ export class Form extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, disables slotted field sets and buttons. */
+  /** When `true`, disables slotted field sets. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, sets slotted field sets to read-only. */
   @property({ reflect: true }) readOnly = false;
 
-  /** Specifies the scale of slotted field sets, notices, and buttons. */
+  /** Specifies the scale of slotted field sets and notices. */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
@@ -97,7 +86,6 @@ export class Form extends LitElement {
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("disabled")) {
       this.syncFieldSetsDisabledState(changes.get("disabled"));
-      this.syncButtonsDisabledState(changes.get("disabled"));
     }
 
     if (changes.has("readOnly")) {
@@ -106,7 +94,6 @@ export class Form extends LitElement {
 
     this.syncFieldSetsScale();
     this.syncNoticesScale();
-    this.syncButtonsScale();
   }
 
   override disconnectedCallback(): void {
@@ -119,12 +106,6 @@ export class Form extends LitElement {
 
   //#region Private Methods
 
-  private handleButtonsSlotChange(event: Event): void {
-    this.hasButtons = slotChangeHasAssignedElement(event);
-    this.syncButtonsDisabledState();
-    this.syncButtonsScale();
-  }
-
   private handleNoticeSlotChange(): void {
     this.syncHasNotice();
     this.syncNoticesScale();
@@ -136,44 +117,12 @@ export class Form extends LitElement {
     this.syncFieldSetsScale();
   }
 
-  private getButtonDisabledState(button: HTMLElement & { disabled?: boolean }): boolean {
-    return button.hasAttribute("disabled") || !!button.disabled;
-  }
-
   private getFieldSetDisabledState(fieldSet: HTMLElement & { disabled?: boolean }): boolean {
     return fieldSet.hasAttribute("disabled") || !!fieldSet.disabled;
   }
 
   private getFieldSetReadOnlyState(fieldSet: HTMLElement & { readOnly?: boolean }): boolean {
     return fieldSet.hasAttribute("read-only") || !!fieldSet.readOnly;
-  }
-
-  private syncButtonsDisabledState(previousDisabled = this.disabled): void {
-    const wasDisabled = previousDisabled;
-
-    this.buttons.forEach((button) => {
-      if (this.disabled) {
-        if (!wasDisabled || !this.buttonDisabledState.has(button)) {
-          this.buttonDisabledState.set(button, this.getButtonDisabledState(button));
-        }
-
-        button.toggleAttribute("disabled", true);
-        button.disabled = true;
-        return;
-      }
-
-      if (!wasDisabled) {
-        this.buttonDisabledState.set(button, this.getButtonDisabledState(button));
-        return;
-      }
-
-      const buttonDisabled = this.buttonDisabledState.get(button);
-      const nextDisabled = buttonDisabled ?? this.getButtonDisabledState(button);
-
-      button.toggleAttribute("disabled", nextDisabled);
-      button.disabled = nextDisabled;
-      this.buttonDisabledState.set(button, nextDisabled);
-    });
   }
 
   private syncFieldSetsDisabledState(previousDisabled = this.disabled): void {
@@ -244,28 +193,17 @@ export class Form extends LitElement {
     });
   }
 
-  private syncButtonsScale(): void {
-    this.buttons.forEach((button) => {
-      button.scale = this.scale;
-    });
-  }
-
   //#endregion
 
   //#region Rendering
 
   override render(): JsxNode {
-    const hasFooterContent = this.hasNotice || this.hasButtons;
-
     return (
       <div class={CSS.container}>
         <slot onSlotChange={this.handleDefaultSlotChange} />
-        <div class={CSS.divider} hidden={!hasFooterContent} />
+        <div class={CSS.divider} hidden={!this.hasNotice} />
         <div class={CSS.noticeContainer} hidden={!this.hasNotice}>
           <slot name="notice" onSlotChange={this.handleNoticeSlotChange} />
-        </div>
-        <div class={CSS.buttonContainer} hidden={!this.hasButtons}>
-          <slot name="buttons" onSlotChange={this.handleButtonsSlotChange} />
         </div>
       </div>
     );

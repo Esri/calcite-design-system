@@ -4,9 +4,9 @@ type FormStoryArgs = {
   disabled: boolean;
   readOnly: boolean;
   scale: "s" | "m" | "l";
-  showButtons: boolean;
   showNotice: boolean;
   noticeOpen: boolean;
+  space: string;
 };
 
 type NativeFormStoryOptions = {
@@ -27,9 +27,9 @@ export default {
     disabled: false,
     readOnly: false,
     scale: "m",
-    showButtons: true,
     showNotice: true,
     noticeOpen: true,
+    space: "",
   },
   argTypes: {
     disabled: {
@@ -48,10 +48,6 @@ export default {
         },
       },
     },
-    showButtons: {
-      name: "buttons",
-      control: { type: "boolean" },
-    },
     showNotice: {
       name: "notice",
       control: { type: "boolean" },
@@ -60,11 +56,20 @@ export default {
       name: "notice open",
       control: { type: "boolean" },
     },
+    space: {
+      name: "space",
+      control: { type: "text" },
+    },
   },
 };
 
 export const simple = (args: FormStoryArgs): string => html`
-  <calcite-form ${args.disabled ? "disabled" : ""} ${args.readOnly ? "read-only" : ""} scale="${args.scale}">
+  <calcite-form
+    ${args.disabled ? "disabled" : ""}
+    ${args.readOnly ? "read-only" : ""}
+    scale="${args.scale}"
+    ${args.space ? `style="--calcite-form-space: ${args.space};"` : ""}
+  >
     <calcite-field-set>
       <div slot="legend">Field Set legend</div>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
@@ -87,12 +92,6 @@ export const simple = (args: FormStoryArgs): string => html`
           >
             <div slot="message">Aggregate notice</div>
           </calcite-notice>
-        `
-      : ""}
-    ${args.showButtons
-      ? html`
-          <calcite-button slot="buttons" appearance="outline">Cancel</calcite-button>
-          <calcite-button slot="buttons">Save</calcite-button>
         `
       : ""}
   </calcite-form>
@@ -147,23 +146,16 @@ const renderNativeFormStory = (args: FormStoryArgs, options: NativeFormStoryOpti
     <form id="${options.formId}" style="display: flex; flex-direction: column; gap: 1rem;">
       <calcite-form ${args.disabled ? "disabled" : ""} ${args.readOnly ? "read-only" : ""} scale="${args.scale}">
         ${renderNativeFormFieldSets(options.requireName)}
-        ${options.includeNotice
-          ? html`
-              <calcite-notice icon="information-f" kind="brand" open slot="notice">
-                <div slot="message">The outer native form owns submission and validation.</div>
-              </calcite-notice>
-            `
-          : ""}
+      </calcite-form>
+      <div style="display: flex; gap: 1rem; padding: 1rem; border: 1px solid red;">
         ${options.includePreviewButton
           ? html`
-              <calcite-button appearance="outline" data-action="preview" slot="buttons" type="button">
-                Preview data
-              </calcite-button>
+              <calcite-button appearance="outline" data-action="preview" type="button"> Preview data </calcite-button>
             `
           : ""}
-        <calcite-button appearance="outline" slot="buttons" type="reset">Reset</calcite-button>
-        <calcite-button slot="buttons" type="submit">Submit</calcite-button>
-      </calcite-form>
+        <calcite-button appearance="outline" type="reset">Reset</calcite-button>
+        <calcite-button type="submit">Submit</calcite-button>
+      </div>
     </form>
     <div
       aria-live="polite"
@@ -220,6 +212,27 @@ export const scales = (args: FormStoryArgs): string => html`
 scales.args = { scale: "m" };
 scales.parameters = { controls: { disable: true } };
 
+const renderInPanel = (args: FormStoryArgs): string => html`
+  <calcite-panel
+    heading="Form"
+    scale="${args.scale}"
+    style="height: auto; --calcite-panel-space: var(--calcite-space-md);"
+  >
+    ${simple(args)}
+    <calcite-button slot="footer-end" appearance="outline"> Cancel </calcite-button>
+    <calcite-button slot="footer-end"> Submit </calcite-button>
+  </calcite-panel>
+`;
+
+export const inPanel = (args: FormStoryArgs): string => html`
+  <div style="display: flex; gap: 3rem; align-items: start;">
+    ${renderInPanel({ ...args, scale: "s" })} ${renderInPanel({ ...args, scale: "m" })}
+    ${renderInPanel({ ...args, scale: "l" })}
+  </div>
+`;
+inPanel.args = { scale: "m" };
+inPanel.parameters = { controls: { disable: true } };
+
 export const Disabled = (args: FormStoryArgs): string => simple(args);
 Disabled.args = { disabled: true };
 Disabled.parameters = { controls: { disable: true } };
@@ -274,14 +287,18 @@ export const controls = (args: FormStoryArgs): string => html`
   </div>
 `;
 
+export const customSpacing = (args: FormStoryArgs): string => simple(args);
+customSpacing.args = { space: "40px" };
+customSpacing.parameters = { controls: { include: ["space"] } };
+
 export const nativeSubmitAndReset = (args: FormStoryArgs): string =>
   renderNativeFormStory(args, {
     description:
-      "The slotted buttons remain light DOM children of the outer native form, so submit and reset work without extra wiring.",
+      "Buttons remain light DOM children of the outer native form, so submit and reset work without extra wiring.",
     formId: "native-form-submit-reset",
     statusId: "native-form-submit-reset-status",
   });
-nativeSubmitAndReset.args = { showButtons: true, showNotice: false };
+nativeSubmitAndReset.args = { showNotice: false };
 nativeSubmitAndReset.parameters = {
   controls: { disable: true },
 };
@@ -295,7 +312,7 @@ export const nativeValidation = (args: FormStoryArgs): string =>
     requireName: true,
     statusId: "native-form-validation-status",
   });
-nativeValidation.args = { showButtons: true, showNotice: true };
+nativeValidation.args = { showNotice: true };
 nativeValidation.parameters = {
   controls: { disable: true },
 };
@@ -308,7 +325,7 @@ export const nativeButtonTypes = (args: FormStoryArgs): string =>
     includePreviewButton: true,
     statusId: "native-form-button-types-status",
   });
-nativeButtonTypes.args = { showButtons: true, showNotice: false };
+nativeButtonTypes.args = { showNotice: false };
 nativeButtonTypes.parameters = {
   controls: { disable: true },
 };

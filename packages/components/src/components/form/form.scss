@@ -10,9 +10,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-form-button-gap
-
-@use "../../styles/includes";
+// --calcite-internal-form-gap
 
 :host {
   display: block;
@@ -22,7 +20,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--calcite-form-space, var(--calcite-internal-form-button-gap));
+  gap: var(--calcite-form-space, var(--calcite-internal-form-gap));
 }
 
 .divider {
@@ -33,25 +31,16 @@
   inline-size: 100%;
 }
 
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--calcite-internal-form-button-gap);
-}
-
 :host([scale="s"]) {
-  --calcite-internal-form-button-gap: var(--calcite-space-sm);
-  --calcite-internal-form-button-gap: var(--calcite-space-xs);
+  --calcite-internal-form-gap: var(--calcite-space-xs);
 }
 
 :host([scale="m"]) {
-  --calcite-internal-form-button-gap: var(--calcite-space-md);
-  --calcite-internal-form-button-gap: var(--calcite-space-sm);
+  --calcite-internal-form-gap: var(--calcite-space-sm);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-form-button-gap: var(--calcite-space-lg);
-  --calcite-internal-form-button-gap: var(--calcite-space-md);
+  --calcite-internal-form-gap: var(--calcite-space-md);
 }
 
 @include includes.base-component();
