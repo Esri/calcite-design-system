@@ -844,7 +844,9 @@ export class List extends LitElement {
   }): void {
     const filterHidden = !visibleParents.has(el) && !filteredItems.includes(el as ListItem["el"]);
 
-    el.filterHidden = filterHidden;
+    if (el.filterHidden !== filterHidden) {
+      el.filterHidden = filterHidden;
+    }
 
     const closestParent = el.parentElement!.closest<ListElement>(parentSelector);
 
@@ -880,9 +882,15 @@ export class List extends LitElement {
       (item) => !item.filterHidden && this.allParentListItemsExpanded(item),
     );
 
-    visibleItems.forEach(
-      (item) => (item.bordered = item !== visibleItems[visibleItems.length - 1]),
-    );
+    const lastVisibleItem = visibleItems[visibleItems.length - 1];
+
+    visibleItems.forEach((item) => {
+      const bordered = item !== lastVisibleItem;
+
+      if (item.bordered !== bordered) {
+        item.bordered = bordered;
+      }
+    });
   }
 
   private updateFilteredItems(): void {
