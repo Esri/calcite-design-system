@@ -37,13 +37,13 @@ interface LuminaContent {
 
     references.push(
       ...dependencies.referencedTagNames.map((tag: string) => {
-        const componentName = tag.substring(tag.indexOf("calcite-"), tag.length);
+        const componentName = tag.replace("calcite-", "");
         return `./src/components/${componentName}/${componentName}.tsx`;
       }),
     );
     references.push(
       ...dependencies.referencedDeferredTagNames.map((tag: string) => {
-        const componentName = tag.substring(tag.indexOf("calcite-"), tag.length);
+        const componentName = tag.replace("calcite-", "");
         return `./src/components/${componentName}/${componentName}.tsx`;
       }),
     );
