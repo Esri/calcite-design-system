@@ -9,6 +9,7 @@ import {
   slots,
   themed,
 } from "../../tests/commonTests/browser";
+import { CSS as FieldSetRowCSS } from "../field-set-row/resources";
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
@@ -118,6 +119,87 @@ describe("layout", () => {
 
     expect(fieldWrapper.classList.contains(CSS.fieldWrapperColumns)).toBe(true);
     expect(getStyleProperty(fieldSet, "--calcite-internal-field-set-columns")).toBe("4");
+  });
+
+  it("supports rows that control the layout of their slotted inputs", async () => {
+    const { el } = await mount(
+      <calcite-field-set scale="s">
+        <calcite-field-set-row columns={2} id="columns-row" layout="columns">
+          <calcite-input id="first" />
+          <calcite-input id="second" />
+        </calcite-field-set-row>
+        <calcite-field-set-row id="vertical-row">
+          <calcite-input id="third" />
+        </calcite-field-set-row>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const columnsRow = fieldSet.querySelector<HTMLElement>("#columns-row")!;
+    const verticalRow = fieldSet.querySelector<HTMLElement>("#vertical-row")!;
+    const columnsRowContainer = columnsRow.shadowRoot!.querySelector<HTMLElement>(
+      `.${FieldSetRowCSS.container}`,
+    )!;
+    const verticalRowContainer = verticalRow.shadowRoot!.querySelector<HTMLElement>(
+      `.${FieldSetRowCSS.container}`,
+    )!;
+    const inputs = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-input"));
+
+    await Promise.all(inputs.map(waitForUpdate));
+
+    expect(columnsRowContainer.classList.contains(FieldSetRowCSS.containerColumns)).toBe(true);
+    expect(verticalRowContainer.classList.contains(FieldSetRowCSS.containerVertical)).toBe(true);
+    expect(inputs.map((input) => input.scale)).toEqual(["s", "s", "s"]);
+  });
+
+  it("supports a row and directly slotted inputs", async () => {
+    const { el } = await mount(
+      <calcite-field-set>
+        <calcite-field-set-row columns={2} id="columns-row" layout="columns">
+          <calcite-input />
+          <calcite-input />
+        </calcite-field-set-row>
+        <calcite-input id="direct-input" />
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const fieldWrapper = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
+    const columnsRow = fieldSet.querySelector<HTMLElement>("#columns-row")!;
+    const columnsRowContainer = columnsRow.shadowRoot!.querySelector<HTMLElement>(
+      `.${FieldSetRowCSS.container}`,
+    )!;
+
+    expect(fieldWrapper.classList.contains(CSS.fieldWrapperVertical)).toBe(true);
+    expect(columnsRowContainer.classList.contains(FieldSetRowCSS.containerColumns)).toBe(true);
+    expect(fieldSet.querySelector("#direct-input")).not.toBeNull();
+  });
+
+  it("supports a columns Field Set containing rows with independent layouts", async () => {
+    const { el } = await mount(
+      <calcite-field-set columns={2} layout="columns">
+        <calcite-field-set-row columns={2} id="columns-row" layout="columns">
+          <calcite-input />
+          <calcite-input />
+        </calcite-field-set-row>
+        <calcite-field-set-row id="vertical-row">
+          <calcite-input />
+        </calcite-field-set-row>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const fieldWrapper = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
+    const columnsRow = fieldSet.querySelector<HTMLElement>("#columns-row")!;
+    const verticalRow = fieldSet.querySelector<HTMLElement>("#vertical-row")!;
+    const columnsRowContainer = columnsRow.shadowRoot!.querySelector<HTMLElement>(
+      `.${FieldSetRowCSS.container}`,
+    )!;
+    const verticalRowContainer = verticalRow.shadowRoot!.querySelector<HTMLElement>(
+      `.${FieldSetRowCSS.container}`,
+    )!;
+
+    expect(fieldWrapper.classList.contains(CSS.fieldWrapperColumns)).toBe(true);
+    expect(getStyleProperty(fieldSet, "--calcite-internal-field-set-columns")).toBe("2");
+    expect(columnsRowContainer.classList.contains(FieldSetRowCSS.containerColumns)).toBe(true);
+    expect(verticalRowContainer.classList.contains(FieldSetRowCSS.containerVertical)).toBe(true);
   });
 });
 

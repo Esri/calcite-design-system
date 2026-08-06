@@ -368,3 +368,40 @@ prefixAndSuffixAutoWidthUsingLabels.args = { prefixAutoWidth: true, suffixAutoWi
 prefixAndSuffixAutoWidthUsingLabels.parameters = {
   controls: { include: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
+
+export const fieldSetRowWrappers = (): string => html`
+  <calcite-field-set>
+    <div slot="legend">Field Set legend</div>
+    <calcite-field-set-row layout="columns" columns="2">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-set-row>
+    <calcite-field-set-row>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-set-row>
+  </calcite-field-set>
+`;
+
+export const fieldSetOneRowWrapper = (): string => html`
+  <calcite-field-set>
+    <div slot="legend">Field Set legend</div>
+    <calcite-field-set-row layout="columns" columns="2">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-set-row>
+    <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+  </calcite-field-set>
+`;
+
+export const fieldSetParentChildColumns = (): string => html`
+  <calcite-field-set layout="columns" columns="2">
+    <div slot="legend">Field Set legend</div>
+    <calcite-field-set-row layout="columns" columns="2">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-set-row>
+    <calcite-field-set-row>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-set-row>
+  </calcite-field-set>
+`;
