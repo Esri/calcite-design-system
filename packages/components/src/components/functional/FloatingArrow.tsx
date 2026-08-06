@@ -1,6 +1,6 @@
 import { TemplateResult } from "lit";
 import { h, LuminaJsx } from "@arcgis/lumina";
-import { FloatingLayout } from "../../controllers/useFloatingUi";
+import type { FloatingLayout } from "../../controllers/useFloatingUi";
 
 interface FloatingArrowProps extends LuminaJsx.CustomAttributes<SVGSVGElement> {
   floatingLayout: FloatingLayout;

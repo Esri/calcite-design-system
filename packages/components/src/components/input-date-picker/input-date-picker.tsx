@@ -23,10 +23,10 @@ import {
 } from "../../utils/date";
 import {
   defaultMenuPlacement,
-  FlipPlacement,
+  type FlipPlacement,
   FloatingCSS,
-  MenuPlacement,
-  OverlayPositioning,
+  type MenuPlacement,
+  type OverlayPositioning,
   useFloatingUi,
 } from "../../controllers/useFloatingUi";
 import { numberKeys } from "../../utils/key";

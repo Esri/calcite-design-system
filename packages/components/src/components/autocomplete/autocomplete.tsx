@@ -15,11 +15,11 @@ import { debounce } from "es-toolkit";
 import { escapeRegExp } from "es-toolkit/compat";
 import { createRef } from "lit/directives/ref.js";
 import {
-  FlipPlacement,
+  type FlipPlacement,
   FloatingCSS,
-  FloatingLayout,
-  MenuPlacement,
-  OverlayPositioning,
+  type FloatingLayout,
+  type MenuPlacement,
+  type OverlayPositioning,
   defaultMenuPlacement,
   useFloatingUi,
 } from "../../controllers/useFloatingUi";

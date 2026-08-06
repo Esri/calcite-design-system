@@ -4,12 +4,12 @@ import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
   defaultOffsetDistance,
-  FlipPlacement,
+  type FlipPlacement,
   FloatingCSS,
-  FloatingLayout,
-  LogicalPlacement,
-  OverlayPositioning,
-  ReferenceElement,
+  type FloatingLayout,
+  type LogicalPlacement,
+  type OverlayPositioning,
+  type ReferenceElement,
   useFloatingUi,
 } from "../../controllers/useFloatingUi";
 import { toggleOpenClose } from "../../utils/openCloseComponent";

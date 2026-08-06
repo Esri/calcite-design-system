@@ -19,10 +19,10 @@ import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
   defaultMenuPlacement,
-  FlipPlacement,
+  type FlipPlacement,
   FloatingCSS,
-  LogicalPlacement,
-  OverlayPositioning,
+  type LogicalPlacement,
+  type OverlayPositioning,
   useFloatingUi,
 } from "../../controllers/useFloatingUi";
 import { guid } from "../../utils/guid";

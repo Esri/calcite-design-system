@@ -1,7 +1,7 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
 import { nil } from "@arcgis/toolkit/type";
-import { ReferenceElement } from "./useFloatingUi";
+import type { ReferenceElement } from "./useFloatingUi";
 import { queryElementRoots } from "../utils/dom";
 import type { ReferenceElementComponentManager } from "./useReferenceElement/manager";
 

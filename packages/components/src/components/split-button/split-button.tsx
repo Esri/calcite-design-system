@@ -7,7 +7,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import {
+import type {
   FlipPlacement,
   LogicalPlacement,
   OverlayPositioning,

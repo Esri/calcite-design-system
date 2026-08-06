@@ -21,7 +21,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
-import { OverlayPositioning } from "../../controllers/useFloatingUi";
+import type { OverlayPositioning } from "../../controllers/useFloatingUi";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";

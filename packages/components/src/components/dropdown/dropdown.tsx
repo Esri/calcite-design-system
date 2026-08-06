@@ -13,11 +13,11 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { nextFrame } from "../../utils/dom";
 import {
   defaultMenuPlacement,
-  FlipPlacement,
+  type FlipPlacement,
   FloatingCSS,
-  LogicalPlacement,
-  OverlayPositioning,
-  ReferenceElement,
+  type LogicalPlacement,
+  type OverlayPositioning,
+  type ReferenceElement,
   useFloatingUi,
 } from "../../controllers/useFloatingUi";
 import { isActivationKey } from "../../utils/key";
