@@ -357,6 +357,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     if (changes.has("referenceEl") && this.referenceElementType) {
       connectFloatingUI(this);
     }
+
+    // might be good to keep as ref callback
+    if (this.el.isConnected && this.transitionRef.value) {
+      this.resizeObserver?.observe(this.transitionRef.value);
+    }
   }
 
   loaded(): void {

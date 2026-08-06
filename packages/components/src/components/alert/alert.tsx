@@ -94,9 +94,6 @@ export class Alert extends LitElement {
           this.onClose();
         },
       },
-      isActive(value) {
-        return this.open && value;
-      },
     },
   })(this);
 
