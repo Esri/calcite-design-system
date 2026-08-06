@@ -13,7 +13,6 @@ import { CSS as FieldSetRowCSS } from "../field-set-row/resources";
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
-  disabled?: boolean;
   prefixAutoWidth?: boolean;
   readOnly?: boolean;
   scale?: string;
@@ -80,25 +79,34 @@ describe("structure", () => {
   it("renders a fieldset with a legend", async () => {
     const { el } = await mount<"calcite-field-set">(<calcite-field-set />);
     const container = el.shadowRoot.querySelector<HTMLElement>(".container")!;
+    const legendWrapper = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legendWrapper}`)!;
 
-    expect(el.shadowRoot.querySelector(".legend")).toBeNull();
-    expect(container.hasAttribute("aria-labelledby")).toBe(false);
     expect(container.tagName).toBe("FIELDSET");
+    expect(legendWrapper.hidden).toBe(true);
   });
 
-  it("only includes aria-labelledby when the legend slot is populated", async () => {
+  it("hides the legend wrapper when the legend slot has no text", async () => {
+    const { el } = await mount<"calcite-field-set">(
+      <calcite-field-set>
+        <div slot="legend" />
+      </calcite-field-set>,
+    );
+
+    expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legendWrapper}`)!.hidden).toBe(true);
+  });
+
+  it("renders a native legend when the legend slot is populated", async () => {
     const { el } = await mount<"calcite-field-set">(
       <calcite-field-set>
         <div slot="legend">Legend text</div>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
-    const container = fieldSet.shadowRoot.querySelector<HTMLElement>(".container")!;
     const legend = fieldSet.shadowRoot.querySelector<HTMLElement>(".legend")!;
 
     await vi.waitFor(() => {
-      expect(legend.tagName).toBe("DIV");
-      expect(container.getAttribute("aria-labelledby")).toBe(legend.id);
+      expect(legend.tagName).toBe("LEGEND");
+      expect(legend.parentElement!.hidden).toBe(false);
     });
   });
 });

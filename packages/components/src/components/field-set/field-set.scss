@@ -38,7 +38,7 @@
   margin: 0;
 }
 
-.legend {
+.legend-wrapper {
   display: flex;
   align-items: center;
   font-size: var(--calcite-internal-field-set-legend-font-size, var(--calcite-font-size));
@@ -46,6 +46,10 @@
   line-height: var(--calcite-internal-field-set-legend-line-height, var(--calcite-font-line-height-fixed-base));
   color: var(--calcite-field-set-legend-text-color, var(--calcite-color-text-1));
   min-block-size: var(--calcite-internal-field-set-legend-min-block-size);
+}
+
+.legend {
+  padding-inline: 0;
 }
 
 .field-wrapper {

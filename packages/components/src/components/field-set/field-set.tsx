@@ -123,6 +123,8 @@ export class FieldSet extends LitElement {
       attributes: true,
       attributeFilter: ["slot"],
       childList: true,
+      characterData: true,
+      subtree: true,
     });
   }
 
@@ -292,9 +294,9 @@ export class FieldSet extends LitElement {
   }
 
   private syncHasLegend(): void {
-    this.hasLegend = Array.from(this.el.children).some(
-      (element) => element.getAttribute("slot") === "legend",
-    );
+    this.hasLegend = Array.from(this.el.children).some((element) => {
+      return element.getAttribute("slot") === "legend" && Boolean(element.textContent?.trim());
+    });
   }
 
   //#endregion
@@ -303,16 +305,12 @@ export class FieldSet extends LitElement {
 
   override render(): JsxNode {
     return (
-      <fieldset
-        aria-labelledby={this.hasLegend ? this.legendId : undefined}
-        class={CSS.container}
-        disabled={this.disabled}
-      >
-        {this.hasLegend ? (
-          <div class={CSS.legend} id={this.legendId}>
+      <fieldset class={CSS.container} disabled={this.disabled}>
+        <div class={CSS.legendWrapper} hidden={!this.hasLegend}>
+          <legend class={CSS.legend} id={this.legendId}>
             <slot name="legend" />
-          </div>
-        ) : null}
+          </legend>
+        </div>
         <div
           class={{
             [CSS.fieldWrapper]: true,
