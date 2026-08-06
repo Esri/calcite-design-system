@@ -21,31 +21,30 @@ export const allModes = {
   extraWide: {
     viewport: {
       height: 800,
-      width: 2500,
+      width: maxSizeInPx,
     },
   },
   short: {
     viewport: {
       height: 400,
-      width: 1200,
+      width: maxSizeInPx / 2,
     },
   },
   standard: {
     viewport: {
       height: 700,
-      width: 1200,
+      width: maxSizeInPx / 2
     },
   },
   square: {
     viewport: {
-      height: 1200,
-      width: 1200,
+      height: maxSizeInPx / 2,
+      width: maxSizeInPx / 2
     },
   },
   tall: {
     viewport: {
-      height: 6112,
-      width: 1200,
+      height: maxSizeInPx,
     },
   },
 } as const;

@@ -61,7 +61,7 @@ export default {
     },
   },
   parameters: {
-    chromatic: { delay: 10000, modes: { wide: allModes.wide }, cropToViewport: true },
+    chromatic: { delay: 10000, modes: { wide: allModes.wide } },
   },
 };
 
