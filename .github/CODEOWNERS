@@ -9,3 +9,5 @@ support/                                     @jcfranco @benelan
 /packages/eslint-plugin-components           @jcfranco
 /packages/design-tokens                      @matgalla
 /packages/components/src/components/*/*.scss @Esri/calcite-pes
+/packages/components/src/components/*/assets/t9n/* @anveshmekala @benelan @jcfranco
+t9nmanifest.txt                              @anveshmekala @benelan @jcfranco
