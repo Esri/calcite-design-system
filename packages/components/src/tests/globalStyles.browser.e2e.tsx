@@ -24,18 +24,14 @@ afterEach(() => {
 });
 
 it("should set animation duration to 0ms when --calcite-duration-factor set to zero", async () => {
-  const { el } = await mount(
-    <div style="transition: all var(--calcite-animation-timing) linear;" />,
-  );
+  const { el } = await mount(<div style="transition: all var(--calcite-animation-timing) linear;" />);
 
   expect(window.getComputedStyle(el).transitionDuration).toEqual("0s");
 });
 
 it("should not be able to disable animations with --calcite-duration-factor at component level", async () => {
   overrideTestStyles();
-  const { el } = await mount(
-    <div style="transition: all var(--calcite-animation-timing) linear;" />,
-  );
+  const { el } = await mount(<div style="transition: all var(--calcite-animation-timing) linear;" />);
 
   el.style.setProperty("--calcite-duration-factor", "0");
 
@@ -44,9 +40,7 @@ it("should not be able to disable animations with --calcite-duration-factor at c
 
 it("should set animation duration to default value 150ms", async () => {
   overrideTestStyles();
-  const { el } = await mount(
-    <div style="transition: all var(--calcite-animation-timing) linear;" />,
-  );
+  const { el } = await mount(<div style="transition: all var(--calcite-animation-timing) linear;" />);
 
   expect(window.getComputedStyle(el).transitionDuration).toEqual("0.15s");
 });
