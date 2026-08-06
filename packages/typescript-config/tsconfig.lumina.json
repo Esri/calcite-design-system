@@ -6,6 +6,8 @@
     "jsxFragmentFactory": "Fragment",
     "lib": [
       "dom",
+      "dom.asynciterable",
+      "dom.iterable",
       "es2025",
       "esnext.array",
       "esnext.disposable",
