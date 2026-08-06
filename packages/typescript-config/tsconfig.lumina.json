@@ -7,7 +7,6 @@
     "lib": [
       "dom",
       "es2025",
-      // Include ESNext features that are already available in browsers we support
       "esnext.array",
       "esnext.disposable",
       "esnext.error",
