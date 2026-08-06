@@ -1,3 +1,5 @@
+import FilterWorker from "./filter.worker?worker&inline";
+
 type FilterWorkerRequest = {
   requestId: number;
   data: object[];
@@ -76,6 +78,11 @@ function resolvePendingRequests(filteredIndexes: number[] | null): void {
   pendingRequests.clear();
 }
 
+function terminateWorker(): void {
+  filterWorker?.terminate();
+  filterWorker = null;
+}
+
 function initializeWorker(): Worker | null {
   if (typeof Worker === "undefined") {
     return null;
@@ -86,7 +93,7 @@ function initializeWorker(): Worker | null {
   }
 
   try {
-    filterWorker = new Worker(new URL("./filter.worker.ts", import.meta.url), { type: "module" });
+    filterWorker = new FilterWorker();
   } catch {
     return null;
   }
@@ -105,8 +112,7 @@ function initializeWorker(): Worker | null {
 
   filterWorker.addEventListener("error", () => {
     resolvePendingRequests(null);
-    filterWorker?.terminate();
-    filterWorker = null;
+    terminateWorker();
   });
 
   return filterWorker;
@@ -145,8 +151,7 @@ export function filterInWorker(data: object[], value: string, filterProps?: stri
 
       if (!isCloneError || !hasNonCloneableData) {
         resolvePendingRequests(null);
-        worker.terminate();
-        filterWorker = null;
+        terminateWorker();
       }
 
       pendingRequests.delete(requestId);
@@ -164,6 +169,5 @@ export function shouldFilterInWorker(
 
 export function terminateFilterWorker(): void {
   resolvePendingRequests(null);
-  filterWorker?.terminate();
-  filterWorker = null;
+  terminateWorker();
 }

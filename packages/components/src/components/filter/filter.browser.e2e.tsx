@@ -193,6 +193,38 @@ describe("worker filtering", () => {
     terminateFilterWorker();
   });
 
+  it("returns expected filtered items when worker creation fails", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      constructor() {
+        throw new DOMException("worker creation blocked by policy", "SecurityError");
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+
+      el.items = [
+        { label: "One", value: "one" },
+        { label: "Two", value: "two" },
+        { label: "Twenty", value: "twenty" },
+      ];
+
+      await el.filter("tw");
+
+      expect(el.filteredItems).toEqual([
+        { label: "Two", value: "two" },
+        { label: "Twenty", value: "twenty" },
+      ]);
+      expect(el.filtering).toBe(false);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
   it("does not emit calciteFilterStatusChange when worker filtering falls back synchronously", async () => {
     const nativeWorker = globalThis.Worker;
 

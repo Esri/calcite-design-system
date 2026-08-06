@@ -14,12 +14,119 @@ describe("filter-worker", () => {
     vi.restoreAllMocks();
   });
 
+  it("filters with the bundled worker", async () => {
+    const data = [{ label: "one" }, { label: "two" }, { label: "three" }];
+
+    await expect(filterInWorker(data, "tw", ["label"])).resolves.toEqual([1]);
+  });
+
+  it("reuses the same worker across successful requests", async () => {
+    const nativeWorker = globalThis.Worker;
+    let workerConstructorCallCount = 0;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      constructor() {
+        workerConstructorCallCount++;
+      }
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: { requestId: number; data: Array<{ label: string }>; value: string }): void {
+        const filteredIndexes = message.data
+          .map((item, index) => ({ item, index }))
+          .filter(({ item }) => item.label.includes(message.value))
+          .map(({ index }) => index);
+
+        this.messageListeners.forEach((listener) =>
+          listener(
+            new MessageEvent("message", {
+              data: {
+                requestId: message.requestId,
+                filteredIndexes,
+              },
+            }),
+          ),
+        );
+      }
+
+      terminate(): void {
+        // no-op
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      await expect(filterInWorker([{ label: "one" }, { label: "two" }], "o", ["label"])).resolves.toEqual([0, 1]);
+      await expect(filterInWorker([{ label: "one" }, { label: "two" }], "tw", ["label"])).resolves.toEqual([1]);
+      expect(workerConstructorCallCount).toBe(1);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
+  it("resolves pending requests when terminateFilterWorker is called", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      addEventListener(): void {
+        // no-op
+      }
+
+      postMessage(): void {
+        // intentionally unresolved to validate termination fallback
+      }
+
+      terminate(): void {
+        // no-op
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const pendingRequest = filterInWorker([{ label: "one" }], "one", ["label"]);
+
+      terminateFilterWorker();
+
+      await expect(pendingRequest).resolves.toBeNull();
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
   it("falls back when worker creation fails", async () => {
+    const nativeWorker = globalThis.Worker;
+    let workerConstructorCallCount = 0;
+
+    globalThis.Worker = class {
+      constructor() {
+        workerConstructorCallCount++;
+        throw new Error("worker not available");
+      }
+    } as unknown as typeof Worker;
+
+    try {
+      await expect(filterInWorker([{ label: "one" }], "one", ["label"])).resolves.toBeNull();
+      await expect(filterInWorker([{ label: "one" }], "one", ["label"])).resolves.toBeNull();
+      expect(workerConstructorCallCount).toBe(2);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
+  it("falls back when worker creation throws SecurityError", async () => {
     const nativeWorker = globalThis.Worker;
 
     globalThis.Worker = class {
       constructor() {
-        throw new Error("worker not available");
+        throw new DOMException("worker creation blocked by policy", "SecurityError");
       }
     } as unknown as typeof Worker;
 
