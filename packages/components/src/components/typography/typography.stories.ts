@@ -85,6 +85,21 @@ export const truncationSandBox = (): string => html`
     calcite-tab-title {
       max-width: 100px;
     }
+    .container {
+      display: flex;
+      flex-direction: row;
+      width: 250px;
+    }
+    .button-container {
+      display: flex;
+      flex-direction: row;
+    }
+    .dropdown-container,
+    calcite-dropdown,
+    calcite-button,
+    calcite-dropdown-item {
+      overflow: hidden;
+    }
   </style>
   <calcite-button width="half">
     <calcite-typography wrap>
@@ -144,6 +159,38 @@ export const truncationSandBox = (): string => html`
       </calcite-notice>
     </calcite-tab>
   </calcite-tabs>
+  <div class="container">
+    <div class="dropdown-container"></div>
+    <calcite-dropdown width="m">
+      <calcite-button slot="trigger" icon-end="chevron-down"
+        ><calcite-typography>Select land from the list</calcite-typography></calcite-button
+      >
+      <calcite-dropdown-group group-title="Natural places">
+        <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+        <calcite-dropdown-item>River</calcite-dropdown-item>
+        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+        <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+        <calcite-dropdown-item>Desert</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+    <div class="button-container">
+      <calcite-button icon-end="banana"></calcite-button>
+      <calcite-button icon-end="banana"></calcite-button>
+      <calcite-button icon-end="banana"></calcite-button>
+    </div>
+    <calcite-dropdown width="m" class="dropdown">
+      <calcite-button slot="trigger">Select landform</calcite-button>
+      <calcite-dropdown-group group-title="Natural places">
+        <calcite-dropdown-item
+          ><calcite-typography>MountainWithAVeryLongTranslationString</calcite-typography></calcite-dropdown-item
+        >
+        <calcite-dropdown-item>River</calcite-dropdown-item>
+        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
 `;
 truncationSandBox.parameters = {
   disableDecorators: true,
