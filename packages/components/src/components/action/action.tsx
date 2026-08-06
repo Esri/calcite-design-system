@@ -253,7 +253,7 @@ export class Action extends LitElement {
     };
 
     return text ? (
-      <div class={textContainerClasses} key="text-container">
+      <div ariaHidden="true" class={textContainerClasses} key="text-container">
         {text}
       </div>
     ) : null;
