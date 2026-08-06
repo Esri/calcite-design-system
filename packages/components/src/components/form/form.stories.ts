@@ -313,6 +313,29 @@ export const inPanel = (args: FormStoryArgs): string => html`
 inPanel.args = { scale: "m" };
 inPanel.parameters = { controls: { disable: true } };
 
+const renderInFlow = (args: FormStoryArgs): string => html`
+  <calcite-flow>
+    <calcite-flow-item
+      heading="Form"
+      scale="${args.scale}"
+      style="height: auto; --calcite-flow-space: var(--calcite-space-md);"
+    >
+      ${simple(args)}
+      <calcite-button slot="footer-end" appearance="outline"> Cancel </calcite-button>
+      <calcite-button slot="footer-end"> Submit </calcite-button>
+    </calcite-flow-item>
+  </calcite-flow>
+`;
+
+export const inFlow = (args: FormStoryArgs): string => html`
+  <div style="display: flex; gap: 3rem; align-items: start;">
+    ${renderInFlow({ ...args, scale: "s" })} ${renderInFlow({ ...args, scale: "m" })}
+    ${renderInFlow({ ...args, scale: "l" })}
+  </div>
+`;
+inFlow.args = { scale: "m" };
+inFlow.parameters = { controls: { disable: true } };
+
 export const Disabled = (args: FormStoryArgs): string => simple(args);
 Disabled.args = { disabled: true };
 Disabled.parameters = { controls: { disable: true } };
