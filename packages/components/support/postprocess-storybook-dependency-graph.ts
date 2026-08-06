@@ -35,9 +35,17 @@ interface LuminaContent {
       (referencePath: string) => `.${referencePath.substring(referencePath.indexOf("/src/"), referencePath.length)}`,
     );
 
-    references.push(...dependencies.referencedTagNames.map((tag: string) => `./src/components/${tag}/${tag}.tsx`));
     references.push(
-      ...dependencies.referencedDeferredTagNames.map((tag: string) => `./src/components/${tag}/${tag}.tsx`),
+      ...dependencies.referencedTagNames.map((tag: string) => {
+        const componentName = tag.substring(tag.indexOf("calcite-"), tag.length);
+        return `./src/components/${componentName}/${componentName}.tsx`;
+      }),
+    );
+    references.push(
+      ...dependencies.referencedDeferredTagNames.map((tag: string) => {
+        const componentName = tag.substring(tag.indexOf("calcite-"), tag.length);
+        return `./src/components/${componentName}/${componentName}.tsx`;
+      }),
     );
 
     const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(relativePath);
