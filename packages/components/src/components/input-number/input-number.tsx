@@ -951,8 +951,16 @@ export class InputNumber
 
     if (newValue) {
       const valid = isValidNumber(newValue);
+      if (!valid) {
+        this.formSupport.setCustomValidity("Please enter a number.");
+      } else {
+        this.formSupport.setCustomValidity("");
+      }
       this.status = valid ? "valid" : "invalid";
       this.validationIcon = !valid;
+    } else if (!this.required) {
+      this.formSupport.setCustomValidity("");
+      this.status = "valid";
     }
 
     // don't sanitize the start of negative/decimal numbers, but
