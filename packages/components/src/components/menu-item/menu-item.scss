@@ -14,9 +14,6 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-action-height
-// --calcite-internal-action-padding-block
-// --calcite-internal-action-padding-inline
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
 // --calcite-internal-menu-item-icon-color
@@ -109,8 +106,8 @@
   }
 }
 
-.content-container {
-  display: contents;
+:host([layout="vertical"]) .content {
+  @apply px-3;
 }
 
 :host([scale="s"]:not([layout="vertical"])) {
@@ -122,34 +119,16 @@
 
   .content {
     font-size: var(--calcite-font-size);
-    gap: var(--calcite-space-xs);
     line-height: theme("spacing.4");
-    padding-block-start: var(--calcite-space-base);
-    border-block-end-width: var(--calcite-border-width-md);
-    padding-inline-end: var(--calcite-space-sm);
-    padding-inline-start: var(--calcite-space-md);
+    padding-inline: var(--calcite-space-md);
   }
 
-  .item-content:has(.dropdown-action) .content {
-    inline-size: auto;
+  .icon--start {
+    margin-inline-end: var(--calcite-space-sm);
   }
 
-  .content-container {
-    @apply flex items-center;
-    gap: var(--calcite-space-sm);
-  }
-
-  .icon--dropdown {
-    @apply m-0 p-0;
-  }
-
-  .dropdown-action {
-    --calcite-internal-action-height: theme("spacing.6");
-    --calcite-internal-action-padding-block: 0;
-    --calcite-internal-action-padding-inline: var(--calcite-space-2xs);
-    block-size: theme("spacing.6");
-    margin-inline-start: 0;
-    padding-inline-start: var(--calcite-space-2xs);
+  .icon--end {
+    margin-inline-start: var(--calcite-space-sm);
   }
 }
 
@@ -162,122 +141,22 @@
 
   .content {
     font-size: var(--calcite-font-size-lg);
-    gap: var(--calcite-space-sm-plus);
     line-height: theme("spacing.6");
-    padding-block-start: var(--calcite-space-base);
-    border-block-end-width: var(--calcite-border-width-md);
-    padding-inline-end: var(--calcite-space-lg);
-    padding-inline-start: var(--calcite-space-xl);
+    padding-inline: var(--calcite-space-xl);
   }
 
-  .item-content:has(.dropdown-action) .content {
-    inline-size: auto;
+  .icon--start {
+    margin-inline-end: var(--calcite-space-lg);
   }
 
-  .content-container {
-    @apply flex items-center;
-    gap: var(--calcite-space-lg);
+  .icon--end {
+    margin-inline-start: var(--calcite-space-lg);
   }
 
   .icon--dropdown {
-    @apply m-0 p-0;
+    margin-inline-start: var(--calcite-space-sm-plus);
+    padding-inline-start: 0;
   }
-
-  .dropdown-action {
-    --calcite-action-corner-radius: var(--calcite-corner-radius-xs);
-    --calcite-internal-action-height: theme("spacing.11");
-    --calcite-internal-action-padding-block: var(--calcite-space-sm-plus);
-    --calcite-internal-action-padding-inline: var(--calcite-space-sm-plus);
-    block-size: theme("spacing.11");
-    inline-size: theme("spacing.11");
-    margin-inline-start: 0;
-  }
-}
-
-:host([scale="s"][layout="vertical"]) {
-  & .container,
-  & .item-content,
-  & .content {
-    min-block-size: theme("spacing.8");
-  }
-
-  .content {
-    font-size: var(--calcite-font-size);
-    gap: var(--calcite-space-sm);
-    line-height: theme("spacing.4");
-    padding: var(--calcite-space-sm);
-  }
-
-  .content-container {
-    @apply flex items-center;
-    gap: var(--calcite-space-sm);
-  }
-
-  .item-content:has(.dropdown-action) .content {
-    inline-size: auto;
-  }
-
-  .icon--dropdown {
-    box-sizing: border-box;
-    block-size: theme("spacing.4");
-    inline-size: calc(theme("spacing.4") + var(--calcite-space-xs));
-    padding-inline-start: var(--calcite-space-xs);
-  }
-}
-
-:host([breadcrumb][scale="s"][layout="vertical"]) {
-  .content {
-    gap: var(--calcite-space-xs);
-  }
-
-  .icon--breadcrumb {
-    @apply p-0;
-  }
-}
-
-:host([scale="l"][layout="vertical"]) {
-  & .container,
-  & .item-content,
-  & .content {
-    min-block-size: theme("spacing.14");
-  }
-
-  .content {
-    font-size: var(--calcite-font-size-lg);
-    gap: var(--calcite-space-lg);
-    line-height: theme("spacing.6");
-    padding: var(--calcite-space-lg);
-  }
-
-  .content-container {
-    @apply flex items-center;
-    gap: var(--calcite-space-lg);
-  }
-
-  .item-content:has(.dropdown-action) .content {
-    inline-size: auto;
-  }
-
-  .icon--dropdown {
-    box-sizing: border-box;
-    block-size: theme("spacing.6");
-    inline-size: calc(theme("spacing.6") + var(--calcite-space-sm-plus));
-    padding-inline-start: var(--calcite-space-sm-plus);
-  }
-}
-
-:host([breadcrumb][scale="l"][layout="vertical"]) {
-  .content {
-    gap: var(--calcite-space-sm-plus);
-  }
-
-  .icon--breadcrumb {
-    @apply p-0;
-  }
-}
-
-:host([layout="vertical"]) .content {
-  @apply px-3;
 }
 
 :host([active]) {
@@ -349,7 +228,6 @@
 
 :host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
   @apply ms-2;
-  margin-inline-start: 0.5rem;
 }
 
 :host([breadcrumb]) .content {
@@ -432,22 +310,6 @@
 
 :host([slot="submenu-item"]) .parent--vertical {
   @apply ps-6;
-}
-
-:host([slot="submenu-item"][scale="s"][layout="vertical"]) {
-  min-block-size: theme("spacing.9");
-
-  .parent--vertical {
-    padding-inline-start: var(--calcite-space-xl);
-  }
-}
-
-:host([slot="submenu-item"][scale="l"][layout="vertical"]) {
-  min-block-size: theme("spacing.16");
-
-  .parent--vertical {
-    padding-inline-start: theme("spacing.8");
-  }
 }
 
 .dropdown-menu-items.nested.calcite--rtl {

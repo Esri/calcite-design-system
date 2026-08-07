@@ -87,7 +87,7 @@ export const iconsAndBreadcrumbVertical = (): string =>
     ></calcite-menu-item>
   </calcite-menu>`;
 
-export const scaleComparison = (): string => html`
+export const allScales = (): string => html`
   <style>
     .menu-scale-test {
       display: grid;
@@ -100,14 +100,16 @@ export const scaleComparison = (): string => html`
     }
 
     .comparison-grid {
-      align-items: start;
+      align-items: center;
       display: grid;
       gap: 0.75rem;
       grid-template-columns: 12rem repeat(3, minmax(20rem, max-content));
     }
 
     .comparison-grid--horizontal {
-      row-gap: 8rem;
+      column-gap: 1.5rem;
+      grid-template-columns: 12rem repeat(3, max-content);
+      row-gap: 5rem;
     }
 
     .comparison-grid calcite-menu {
@@ -133,142 +135,105 @@ export const scaleComparison = (): string => html`
       <h2>Horizontal</h2>
       <div class="comparison-grid comparison-grid--horizontal">
         <div></div>
-        <div class="column-heading">Scale m</div>
         <div class="column-heading">Scale s</div>
+        <div class="column-heading">Scale m</div>
         <div class="column-heading">Scale l</div>
 
         <div class="row-heading">Default</div>
-        <calcite-menu label="Horizontal default scale m">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="m" text="Default" />
-        </calcite-menu>
         <calcite-menu label="Horizontal default scale s">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="s" text="Default" />
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="s" text="Menu item" />
+        </calcite-menu>
+        <calcite-menu label="Horizontal default scale m">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="m" text="Menu item" />
         </calcite-menu>
         <calcite-menu label="Horizontal default scale l">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="l" text="Default" />
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="l" text="Menu item" />
         </calcite-menu>
 
         <div class="row-heading">Has children</div>
-        <calcite-menu label="Horizontal has children scale m">
-          <calcite-menu-item
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has children"
-            open
-            scale="m"
-            text="Has children"
-          >
+        <calcite-menu label="Horizontal has children scale s">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="s" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child one"
-              scale="m"
+              label="Menu item"
+              scale="s"
               slot="submenu-item"
-              text="Child one"
-            />
-            <calcite-menu-item
-              icon-end="diamond"
-              icon-start="diamond"
-              label="Child two"
-              scale="m"
-              slot="submenu-item"
-              text="Child two"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
-        <calcite-menu label="Horizontal has children scale s">
-          <calcite-menu-item
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has children"
-            open
-            scale="s"
-            text="Has children"
-          >
+        <calcite-menu label="Horizontal has children scale m">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="m" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child one"
-              scale="s"
+              label="Menu item"
+              scale="m"
               slot="submenu-item"
-              text="Child one"
-            />
-            <calcite-menu-item
-              icon-end="diamond"
-              icon-start="diamond"
-              label="Child two"
-              scale="s"
-              slot="submenu-item"
-              text="Child two"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu label="Horizontal has children scale l">
-          <calcite-menu-item
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has children"
-            open
-            scale="l"
-            text="Has children"
-          >
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="l" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child one"
+              label="Menu item"
               scale="l"
               slot="submenu-item"
-              text="Child one"
-            />
-            <calcite-menu-item
-              icon-end="diamond"
-              icon-start="diamond"
-              label="Child two"
-              scale="l"
-              slot="submenu-item"
-              text="Child two"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
 
         <div class="row-heading">Has children + href</div>
-        <calcite-menu label="Horizontal has children and href scale m">
-          <calcite-menu-item
-            href="#"
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has children and href"
-            open
-            scale="m"
-            text="Has children + href"
-          >
-            <calcite-menu-item
-              icon-end="diamond"
-              icon-start="diamond"
-              label="Linked child"
-              scale="m"
-              slot="submenu-item"
-              text="Linked child"
-            />
-          </calcite-menu-item>
-        </calcite-menu>
         <calcite-menu label="Horizontal has children and href scale s">
           <calcite-menu-item
             href="#"
             icon-end="diamond"
             icon-start="diamond"
-            label="Has children and href"
-            open
+            label="Menu item"
             scale="s"
-            text="Has children + href"
+            text="Menu item"
           >
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Linked child"
+              label="Menu item"
               scale="s"
               slot="submenu-item"
-              text="Linked child"
+              hidden
+              text="Menu item"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Horizontal has children and href scale m">
+          <calcite-menu-item
+            href="#"
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Menu item"
+            scale="m"
+            text="Menu item"
+          >
+            <calcite-menu-item
+              hidden
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Menu item"
+              scale="m"
+              slot="submenu-item"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
@@ -277,41 +242,42 @@ export const scaleComparison = (): string => html`
             href="#"
             icon-end="diamond"
             icon-start="diamond"
-            label="Has children and href"
-            open
+            label="Menu item"
             scale="l"
-            text="Has children + href"
+            text="Menu item"
           >
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Linked child"
+              label="Menu item"
               scale="l"
               slot="submenu-item"
-              text="Linked child"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
 
         <div class="row-heading">Has breadcrumbs</div>
-        <calcite-menu label="Horizontal has breadcrumbs scale m">
-          <calcite-menu-item
-            breadcrumb
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has breadcrumbs"
-            scale="m"
-            text="Has breadcrumbs"
-          />
-        </calcite-menu>
         <calcite-menu label="Horizontal has breadcrumbs scale s">
           <calcite-menu-item
             breadcrumb
             icon-end="diamond"
             icon-start="diamond"
-            label="Has breadcrumbs"
+            label="Menu item"
             scale="s"
-            text="Has breadcrumbs"
+            text="Menu item"
+          />
+        </calcite-menu>
+        <calcite-menu label="Horizontal has breadcrumbs scale m">
+          <calcite-menu-item
+            breadcrumb
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Menu item"
+            scale="m"
+            text="Menu item"
           />
         </calcite-menu>
         <calcite-menu label="Horizontal has breadcrumbs scale l">
@@ -319,9 +285,9 @@ export const scaleComparison = (): string => html`
             breadcrumb
             icon-end="diamond"
             icon-start="diamond"
-            label="Has breadcrumbs"
+            label="Menu item"
             scale="l"
-            text="Has breadcrumbs"
+            text="Menu item"
           />
         </calcite-menu>
       </div>
@@ -337,132 +303,129 @@ export const scaleComparison = (): string => html`
 
         <div class="row-heading">Default</div>
         <calcite-menu label="Vertical default scale m" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="m" text="Default" />
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="m" text="Menu item" />
         </calcite-menu>
         <calcite-menu label="Vertical default scale s" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="s" text="Default" />
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="s" text="Menu item" />
         </calcite-menu>
         <calcite-menu label="Vertical default scale l" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="l" text="Default" />
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="l" text="Menu item" />
         </calcite-menu>
 
         <div class="row-heading">Has children</div>
         <calcite-menu label="Vertical has children scale m" layout="vertical">
-          <calcite-menu-item
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has children"
-            open
-            scale="m"
-            text="Has children"
-          >
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="m" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child one"
+              label="Menu item"
               scale="m"
               slot="submenu-item"
-              text="Child one"
+              hidden
+              text="Menu item"
             />
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child two"
+              label="Menu item"
               scale="m"
               slot="submenu-item"
-              text="Child two"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu label="Vertical has children scale s" layout="vertical">
-          <calcite-menu-item
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has children"
-            open
-            scale="s"
-            text="Has children"
-          >
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="s" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child one"
+              label="Menu item"
               scale="s"
               slot="submenu-item"
-              text="Child one"
+              hidden
+              text="Menu item"
             />
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child two"
+              label="Menu item"
               scale="s"
               slot="submenu-item"
-              text="Child two"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu label="Vertical has children scale l" layout="vertical">
-          <calcite-menu-item
-            icon-end="diamond"
-            icon-start="diamond"
-            label="Has children"
-            open
-            scale="l"
-            text="Has children"
-          >
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="l" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child one"
+              label="Menu item"
               scale="l"
               slot="submenu-item"
-              text="Child one"
+              hidden
+              text="Menu item"
             />
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Child two"
+              label="Menu item"
               scale="l"
               slot="submenu-item"
-              text="Child two"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
 
         <div class="row-heading">Is child</div>
         <calcite-menu label="Vertical child scale m" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Parent" open scale="m" text="Parent">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="m" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Is child"
+              label="Menu item"
               scale="m"
               slot="submenu-item"
-              text="Is child"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu label="Vertical child scale s" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Parent" open scale="s" text="Parent">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="s" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Is child"
+              label="Menu item"
               scale="s"
               slot="submenu-item"
-              text="Is child"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu label="Vertical child scale l" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Parent" open scale="l" text="Parent">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="l" text="Menu item">
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Is child"
+              label="Menu item"
               scale="l"
               slot="submenu-item"
-              text="Is child"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
@@ -473,18 +436,19 @@ export const scaleComparison = (): string => html`
             href="#"
             icon-end="diamond"
             icon-start="diamond"
-            label="Has children and href"
-            open
+            label="Menu item"
             scale="m"
-            text="Has children + href"
+            text="Menu item"
           >
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Linked child"
+              label="Menu item"
               scale="m"
               slot="submenu-item"
-              text="Linked child"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
@@ -493,18 +457,19 @@ export const scaleComparison = (): string => html`
             href="#"
             icon-end="diamond"
             icon-start="diamond"
-            label="Has children and href"
-            open
+            label="Menu item"
             scale="s"
-            text="Has children + href"
+            text="Menu item"
           >
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Linked child"
+              label="Menu item"
               scale="s"
               slot="submenu-item"
-              text="Linked child"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
@@ -513,18 +478,19 @@ export const scaleComparison = (): string => html`
             href="#"
             icon-end="diamond"
             icon-start="diamond"
-            label="Has children and href"
-            open
+            label="Menu item"
             scale="l"
-            text="Has children + href"
+            text="Menu item"
           >
             <calcite-menu-item
+              hidden
               icon-end="diamond"
               icon-start="diamond"
-              label="Linked child"
+              label="Menu item"
               scale="l"
               slot="submenu-item"
-              text="Linked child"
+              hidden
+              text="Menu item"
             />
           </calcite-menu-item>
         </calcite-menu>
@@ -535,9 +501,9 @@ export const scaleComparison = (): string => html`
             breadcrumb
             icon-end="diamond"
             icon-start="diamond"
-            label="Has breadcrumbs"
+            label="Menu item"
             scale="m"
-            text="Has breadcrumbs"
+            text="Menu item"
           />
         </calcite-menu>
         <calcite-menu label="Vertical has breadcrumbs scale s" layout="vertical">
@@ -545,9 +511,9 @@ export const scaleComparison = (): string => html`
             breadcrumb
             icon-end="diamond"
             icon-start="diamond"
-            label="Has breadcrumbs"
+            label="Menu item"
             scale="s"
-            text="Has breadcrumbs"
+            text="Menu item"
           />
         </calcite-menu>
         <calcite-menu label="Vertical has breadcrumbs scale l" layout="vertical">
@@ -555,9 +521,9 @@ export const scaleComparison = (): string => html`
             breadcrumb
             icon-end="diamond"
             icon-start="diamond"
-            label="Has breadcrumbs"
+            label="Menu item"
             scale="l"
-            text="Has breadcrumbs"
+            text="Menu item"
           />
         </calcite-menu>
       </div>

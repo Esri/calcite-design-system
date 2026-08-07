@@ -3,7 +3,6 @@ import { IconName } from "../icon/interfaces";
 export const CSS = {
   container: "container",
   content: "content",
-  contentContainer: "content-container",
   dropdownVertical: "dropdown--vertical",
   dropdownMenuItems: "dropdown-menu-items",
   dropdownAction: "dropdown-action",

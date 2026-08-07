@@ -405,14 +405,12 @@ export class MenuItem extends LitElement {
     const hasDropdownIcon = !this.href && this.hasSubmenu;
     return (
       <>
-        <div class={CSS.contentContainer}>
-          {this.iconStart && this.renderIconStart()}
-          <div class={CSS.textContainer}>
-            <span>{this.text}</span>
-          </div>
-          {hasHref && this.renderHrefIcon(dir)}
-          {this.iconEnd && this.renderIconEnd()}
+        {this.iconStart && this.renderIconStart()}
+        <div class={CSS.textContainer}>
+          <span>{this.text}</span>
         </div>
+        {hasHref && this.renderHrefIcon(dir)}
+        {this.iconEnd && this.renderIconEnd()}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {hasDropdownIcon ? this.renderDropdownIcon(dir) : null}
       </>
