@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.42...@esri/calcite-components@5.2.0-next.43) (2026-08-06)
+
+### Bug Fixes
+
+- **icon:** fix icon type regression ([#14964](https://github.com/Esri/calcite-design-system/issues/14964))
+
 ## [5.2.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.41...@esri/calcite-components@5.2.0-next.42) (2026-08-04)
 
 ### Bug Fixes
