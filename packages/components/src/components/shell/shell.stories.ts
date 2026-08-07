@@ -6,7 +6,6 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { allModes } from "../../../.storybook/modes";
 import { Dialog } from "../dialog/dialog";
 
 const { dialogPlacement, shellDisplayMode, position, scale } = ATTRIBUTES;
@@ -2734,7 +2733,12 @@ export const panelsWithOverflowingContent = (): string =>
 panelsWithOverflowingContent.parameters = {
   chromatic: {
     modes: {
-      short: allModes.short,
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 400,
+        },
+      },
     },
     cropToViewport: true,
   },
@@ -2773,7 +2777,12 @@ export const panelsWithHeightsDefined = (): string =>
 panelsWithHeightsDefined.parameters = {
   chromatic: {
     modes: {
-      square: allModes.square,
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 1200,
+        },
+      },
     },
     cropToViewport: true,
   },
@@ -3450,7 +3459,12 @@ shellPanelWithActionBarPositionProp.argTypes = {
 shellPanelWithActionBarPositionProp.parameters = {
   chromatic: {
     modes: {
-      standard: allModes.standard,
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 700,
+        },
+      },
     },
     cropToViewport: true,
   },
@@ -3495,7 +3509,12 @@ const shellPanelActionBarPositions: Position[] = ["start", "end", "top", "bottom
 const shellPanelWithActionBarPositionPanelSlotStoryParameters = {
   chromatic: {
     modes: {
-      tall: allModes.tall,
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 6112, // height of 8 panels plus 7 gaps (8 * 750 + 112)
+        },
+      },
     },
     cropToViewport: true,
   },
