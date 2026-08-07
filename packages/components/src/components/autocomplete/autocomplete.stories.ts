@@ -146,6 +146,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         form.addEventListener("submit", (event) => {
           event.preventDefault();
           const data = new FormData(event.target);
+          // eslint-disable-next-line no-console -- test message external to components
           console.log([...data.entries()]);
         });
       });

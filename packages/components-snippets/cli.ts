@@ -89,6 +89,7 @@ async function promptForChoice(promptLabel: string, options: string[]): Promise<
 
   const index = Number.parseInt(value, 10);
   if (Number.isNaN(index) || index < 0 || index >= options.length) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("Unexpected selection result");
     process.exit(1);
   }
@@ -117,6 +118,7 @@ async function promptForMultipleChoices(promptLabel: string, options: string[]):
     .filter((index) => !Number.isNaN(index) && index >= 0 && index < options.length);
 
   if (indices.length === 0) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("No valid selections resolved from prompt");
     process.exit(1);
   }
@@ -131,6 +133,7 @@ async function collectComponents(rootDir: string): Promise<Map<string, Component
     entries = await fs.readdir(rootDir, { withFileTypes: true });
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      // eslint-disable-next-line no-console -- script logging
       console.error(`Error: Documentation snippets directory not found at: ${rootDir}`);
       process.exit(1);
     }
@@ -292,6 +295,7 @@ async function updateIndexHtml(indexHtmlPath: string, snippetContent: string): P
   const endIndex = originalContent.indexOf(endMarker);
 
   if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("Could not find demo snippet markers in index.html");
     process.exit(1);
   }
@@ -313,6 +317,7 @@ async function run(component?: string): Promise<void> {
   const componentNames = Array.from(componentsMap.keys()).sort();
 
   if (componentNames.length === 0) {
+    // eslint-disable-next-line no-console -- script logging
     console.error(`No MDX snippets found in ${snippetsRoot}`);
     process.exit(1);
   }
@@ -324,6 +329,7 @@ async function run(component?: string): Promise<void> {
     selectedComponentIndex = componentNames.findIndex((name) => name.toLowerCase() === normalizedArg);
 
     if (selectedComponentIndex === -1) {
+      // eslint-disable-next-line no-console -- script logging
       console.error(`Component "${component}" not found.`);
     }
   }
@@ -336,6 +342,7 @@ async function run(component?: string): Promise<void> {
   const componentEntry = componentsMap.get(selectedComponentName);
 
   if (!componentEntry) {
+    // eslint-disable-next-line no-console -- script logging
     console.error(`Component not found for selection: ${selectedComponentName}`);
     process.exit(1);
   }
@@ -379,6 +386,7 @@ async function run(component?: string): Promise<void> {
   }
 
   if (aggregateUnknownLanguages.size > 0) {
+    // eslint-disable-next-line no-console -- script logging
     console.warn(`Warning: unrecognized code block languages: ${Array.from(aggregateUnknownLanguages).join(", ")}`);
   }
 
@@ -388,6 +396,7 @@ async function run(component?: string): Promise<void> {
 
   const snippetNames = selectedSnippetPaths.map((filePath) => path.basename(filePath));
 
+  // eslint-disable-next-line no-console -- script logging
   console.log(`Updated ${indexHtmlPath} with snippet(s) from ${selectedComponentName}: ${snippetNames.join(", ")}`);
 }
 
@@ -400,6 +409,7 @@ try {
     process.exit(130);
   }
 
+  // eslint-disable-next-line no-console -- script logging
   console.error(error);
   process.exit(1);
 }
