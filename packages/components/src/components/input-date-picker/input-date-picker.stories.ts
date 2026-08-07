@@ -272,7 +272,7 @@ export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizon
 allScalesRangeHorizontal.parameters = {
   chromatic: {
     modes: {
-      extraWide: allModes.extraWide,
+      extraWide: allModes.landscapeLarge,
     },
     cropToViewport: true,
   },

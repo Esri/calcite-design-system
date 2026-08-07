@@ -193,7 +193,7 @@ export const smallViewport = (): string => html`
     aliqua</calcite-tooltip
   >
 `;
-smallViewport.parameters = { chromatic: { modes: { small: allModes.small } } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const open = (): string => html`
   <div style="width: 400px;">

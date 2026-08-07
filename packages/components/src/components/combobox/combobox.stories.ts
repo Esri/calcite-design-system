@@ -210,7 +210,7 @@ export const smallViewport = (): string => html`
     <calcite-combobox-item icon="clock" value="clock" heading="Clock"></calcite-combobox-item>
   </calcite-combobox>
 `;
-smallViewport.parameters = { chromatic: { modes: { small: allModes.small } } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">

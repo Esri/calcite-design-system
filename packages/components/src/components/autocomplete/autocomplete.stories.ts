@@ -165,7 +165,7 @@ export const smallViewport = (): string => html`
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
-smallViewport.parameters = { chromatic: { modes: { small: allModes.small } } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const customIcon = (): string => html`
   <div style="width:350px">

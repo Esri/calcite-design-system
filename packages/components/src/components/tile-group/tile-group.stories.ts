@@ -61,7 +61,7 @@ export default {
     },
   },
   parameters: {
-    chromatic: { delay: 10000, modes: { wide: allModes.wide } },
+    chromatic: { delay: 10000, modes: { wide: allModes.widthLarge } },
   },
 };
 

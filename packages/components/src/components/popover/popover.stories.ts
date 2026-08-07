@@ -96,7 +96,7 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { modes: { small: allModes.small } } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const darkModeRTL = (): string =>
   html` <div style="width: 400px;">
