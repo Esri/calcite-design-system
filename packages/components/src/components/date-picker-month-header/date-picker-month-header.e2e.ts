@@ -17,7 +17,7 @@ const localeDataFixture = {
   months: {
     abbreviated: ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sept.", "oct.", "nov.", "dic."],
     narrow: ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
-    widthFull: [
+    wide: [
       "enero",
       "febrero",
       "marzo",
