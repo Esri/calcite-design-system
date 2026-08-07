@@ -170,10 +170,6 @@ export class MenuItem extends LitElement {
 
   //#region Private Methods
 
-  private getContentIconScale(): "s" | "m" {
-    return getIconScale(this.scale);
-  }
-
   private handleClickOut(event: Event): void {
     if (
       this.topLevelMenuLayout !== "vertical" &&
@@ -301,7 +297,7 @@ export class MenuItem extends LitElement {
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         key={CSS.iconStart}
-        scale={this.getContentIconScale()}
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -313,7 +309,7 @@ export class MenuItem extends LitElement {
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         key={CSS.iconEnd}
-        scale={this.getContentIconScale()}
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -395,7 +391,7 @@ export class MenuItem extends LitElement {
         class={CSS.hoverHrefIcon}
         icon={dir === "rtl" ? ICONS.arrowLeft : ICONS.arrowRight}
         key={CSS.hoverHrefIcon}
-        scale={this.getContentIconScale()}
+        scale={getIconScale(this.scale)}
       />
     );
   }
