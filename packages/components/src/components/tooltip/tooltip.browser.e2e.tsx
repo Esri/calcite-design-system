@@ -1,6 +1,6 @@
 import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
+import { it, expect, beforeAll, afterAll, describe, vi, beforeEach } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import {
   defaults,
@@ -55,6 +55,10 @@ class TooltipShadowB extends LitElement {
 }
 
 mockConsole();
+
+beforeEach(() => {
+  vi.spyOn(logger, "warn");
+});
 
 const eventOptions = { bubbles: true, cancelable: true };
 

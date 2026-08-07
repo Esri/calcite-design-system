@@ -59,6 +59,10 @@ function clearStorage(): void {
   localStorage.removeItem(storageKey);
 }
 
+beforeEach(() => {
+  vi.spyOn(logger, "warn");
+});
+
 afterEach(() => {
   vi.restoreAllMocks();
 });
