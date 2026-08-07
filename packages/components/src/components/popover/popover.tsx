@@ -4,19 +4,14 @@ import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
   defaultOffsetDistance,
-  connectFloatingUI,
-  disconnectFloatingUI,
-  filterValidFlipPlacements,
-  FlipPlacement,
+  type FlipPlacement,
   FloatingCSS,
-  FloatingLayout,
-  FloatingUIComponent,
-  hideFloatingUI,
-  LogicalPlacement,
-  OverlayPositioning,
-  ReferenceElement,
-  reposition,
-} from "../../utils/floating-ui";
+  type FloatingLayout,
+  type LogicalPlacement,
+  type OverlayPositioning,
+  type ReferenceElement,
+  useFloatingUi,
+} from "../../controllers/useFloatingUi";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
@@ -45,7 +40,7 @@ declare global {
 const manager = referenceElementManager({ click: true });
 
 /** @slot - A slot for adding custom content. */
-export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
+export class Popover extends LitElement implements ReferenceElementComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -62,9 +57,13 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   private direction = useDirection();
 
-  private filteredFlipPlacements?: FlipPlacement[];
-
   floatingEl?: HTMLDivElement;
+
+  private floatingUi = useFloatingUi<this>(() => ({
+    arrowEl: this.arrowEl,
+    direction: this.direction,
+    type: "popover",
+  }))(this);
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
@@ -211,34 +210,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const {
-      referenceEl,
-      placement,
-      overlayPositioning,
-      flipDisabled,
-      filteredFlipPlacements,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      floatingEl,
-    } = this;
-    return reposition(
-      this,
-      {
-        direction: this.direction,
-        floatingEl,
-        referenceEl,
-        overlayPositioning,
-        placement,
-        flipDisabled,
-        flipPlacements: filteredFlipPlacements,
-        offsetDistance,
-        offsetSkidding,
-        arrowEl,
-        type: "popover",
-      },
-      delayed,
-    );
+    return this.floatingUi.reposition(delayed);
   }
 
   /**
@@ -288,7 +260,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setFilteredPlacements();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -296,10 +267,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("flipPlacements")) {
-      this.flipPlacementsHandler();
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -322,23 +289,17 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl")) {
-      connectFloatingUI(this);
+      this.floatingUi.connect();
     }
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectFloatingUI(this);
   }
 
   //#endregion
 
   //#region Private Methods
-
-  private flipPlacementsHandler(): void {
-    this.setFilteredPlacements();
-    this.reposition(true);
-  }
 
   private openHandler(): void {
     toggleOpenClose(this);
@@ -347,14 +308,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-  }
-
-  private setFilteredPlacements(): void {
-    const { el, flipPlacements } = this;
-
-    this.filteredFlipPlacements = flipPlacements
-      ? filterValidFlipPlacements(flipPlacements, el)
-      : undefined;
   }
 
   private hide(): void {
@@ -377,7 +330,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   onClose(): void {
     this.calcitePopoverClose.emit();
-    hideFloatingUI(this);
+    this.floatingUi.hide();
     this.focusTrap.deactivate();
     this.topLayer.hide();
   }

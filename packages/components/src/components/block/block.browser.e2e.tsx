@@ -19,7 +19,7 @@ import {
   topLayer,
   themed,
 } from "../../tests/commonTests/browser";
-import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../controllers/useFloatingUi";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";

@@ -3,18 +3,14 @@ import { LitElement, property, createEvent, h, method, state, JsxNode } from "@a
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
-  connectFloatingUI,
   defaultOffsetDistance,
-  disconnectFloatingUI,
   FloatingCSS,
   FloatingLayout,
-  FloatingUIComponent,
-  hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition,
-} from "../../utils/floating-ui";
+  useFloatingUi,
+} from "../../controllers/useFloatingUi";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { Scale } from "../interfaces";
@@ -37,7 +33,7 @@ declare global {
 const manager = referenceElementManager({ hover: true });
 
 /** @slot - A slot for adding text. */
-export class Tooltip extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
+export class Tooltip extends LitElement implements ReferenceElementComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -51,6 +47,12 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   private direction = useDirection();
 
   floatingEl?: HTMLDivElement;
+
+  private floatingUi = useFloatingUi<this>(() => ({
+    arrowEl: this.arrowEl,
+    direction: this.direction,
+    type: "tooltip",
+  }))(this);
 
   referenceElementType: ReferenceElementType = "hover";
 
@@ -130,31 +132,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const {
-      referenceEl,
-      placement,
-      overlayPositioning,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      floatingEl,
-    } = this;
-
-    return reposition(
-      this,
-      {
-        direction: this.direction,
-        floatingEl,
-        referenceEl: referenceEl,
-        overlayPositioning,
-        placement,
-        offsetDistance,
-        offsetSkidding,
-        arrowEl,
-        type: "tooltip",
-      },
-      delayed,
-    );
+    return this.floatingUi.reposition(delayed);
   }
 
   // #endregion
@@ -204,12 +182,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl")) {
-      connectFloatingUI(this);
+      this.floatingUi.connect();
     }
-  }
-
-  override disconnectedCallback(): void {
-    disconnectFloatingUI(this);
   }
 
   // #endregion
@@ -236,7 +210,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   onClose(): void {
     this.calciteTooltipClose.emit();
-    hideFloatingUI(this);
+    this.floatingUi.hide();
     this.topLayer.hide();
   }
 

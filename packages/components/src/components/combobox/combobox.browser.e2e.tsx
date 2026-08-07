@@ -21,7 +21,7 @@ import {
   accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { defaultMenuPlacement } from "../../utils/floating-ui";
+import { defaultMenuPlacement } from "../../controllers/useFloatingUi";
 import { DEBOUNCE } from "../../utils/resources";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import type { ComboboxItem } from "../combobox-item/combobox-item";

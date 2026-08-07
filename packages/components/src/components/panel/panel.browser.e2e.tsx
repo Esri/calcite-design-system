@@ -17,7 +17,7 @@ import {
   topLayer,
   themed,
 } from "../../tests/commonTests/browser";
-import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../controllers/useFloatingUi";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
 import type { Panel } from "./panel";

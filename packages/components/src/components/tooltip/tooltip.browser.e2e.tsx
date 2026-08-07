@@ -20,7 +20,7 @@ import {
   HOVER_CLOSE_DELAY_MS,
   HOVER_QUICK_OPEN_DELAY_MS,
 } from "../../controllers/useReferenceElement/manager";
-import { FloatingCSS } from "../../utils/floating-ui";
+import { FloatingCSS } from "../../controllers/useFloatingUi";
 import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 import { html } from "lit";

@@ -14,7 +14,7 @@ import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, legacyToggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import type { OverlayPositioning } from "../../controllers/useFloatingUi";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Action } from "../action/action";

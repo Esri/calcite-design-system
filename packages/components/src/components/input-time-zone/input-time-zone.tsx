@@ -12,7 +12,7 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, Status } from "../interfaces";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import type { OverlayPositioning } from "../../controllers/useFloatingUi";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";

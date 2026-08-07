@@ -3,7 +3,7 @@ import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { css } from "../../../../support/formatting";
 import type { IntrinsicElementsWithProp } from "../../utils/interfaces";
-import type { FlipPlacement, FloatingUIComponent } from "../../../utils/floating-ui";
+import type { FlipPlacement, FloatingUIComponent } from "../../../controllers/useFloatingUi";
 import { afterNextFrame } from "../../utils/timing";
 import type { LitElement } from "@arcgis/lumina";
 import { waitForEvent } from "./utils";

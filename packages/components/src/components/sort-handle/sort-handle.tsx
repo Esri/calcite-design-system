@@ -2,11 +2,11 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 import {
-  FlipPlacement,
-  LogicalPlacement,
-  OverlayPositioning,
+  type FlipPlacement,
+  type LogicalPlacement,
+  type OverlayPositioning,
   defaultMenuPlacement,
-} from "../../utils/floating-ui";
+} from "../../controllers/useFloatingUi";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
 import { useSetFocus } from "../../controllers/useSetFocus";

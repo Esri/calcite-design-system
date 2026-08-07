@@ -7,10 +7,10 @@ import { getIconScale } from "../../utils/component";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
-  FlipPlacement,
-  LogicalPlacement,
-  OverlayPositioning,
-} from "../../utils/floating-ui";
+  type FlipPlacement,
+  type LogicalPlacement,
+  type OverlayPositioning,
+} from "../../controllers/useFloatingUi";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";

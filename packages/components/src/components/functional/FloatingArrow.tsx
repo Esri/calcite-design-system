@@ -1,6 +1,6 @@
 import { TemplateResult } from "lit";
 import { h, LuminaJsx } from "@arcgis/lumina";
-import { FloatingLayout } from "../../utils/floating-ui";
+import type { FloatingLayout } from "../../controllers/useFloatingUi";
 
 interface FloatingArrowProps extends LuminaJsx.CustomAttributes<SVGSVGElement> {
   floatingLayout: FloatingLayout;
@@ -25,7 +25,7 @@ const DEFAULTS = {
  * @param floatingLayout.floatingLayout
  * @param floatingLayout – The effective floating layout to render the arrow vertically or horizontally. Possible values: `vertical` or `horizontal`.
  *
- * @see [floating-ui](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/utils/floating-ui.ts).
+ * @see [floating-ui](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/controllers/useFloatingUi.ts).
  * @param floatingLayout.key
  * @param floatingLayout.ref
  */

@@ -12,8 +12,12 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { toAriaBoolean } from "../../utils/aria";
+import type {
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../controllers/useFloatingUi";
 import { getSlotAssignedElements } from "../../utils/dom";
-import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { Appearance, Scale } from "../interfaces";

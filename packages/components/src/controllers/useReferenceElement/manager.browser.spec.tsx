@@ -2,7 +2,7 @@ import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { afterNextFrame } from "../../tests/utils/timing";
-import type { ReferenceElement } from "../../utils/floating-ui";
+import type { ReferenceElement } from "../useFloatingUi";
 import { useReferenceElement } from "../useReferenceElement";
 import { referenceElementManager } from "./manager";
 

@@ -4,7 +4,7 @@ import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../controllers/useFloatingUi";
 import { Scale } from "../interfaces";
 import { Block } from "./block";
 

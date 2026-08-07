@@ -18,18 +18,13 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
-  connectFloatingUI,
   defaultMenuPlacement,
-  disconnectFloatingUI,
-  filterValidFlipPlacements,
-  FlipPlacement,
+  type FlipPlacement,
   FloatingCSS,
-  FloatingUIComponent,
-  hideFloatingUI,
-  LogicalPlacement,
-  OverlayPositioning,
-  reposition,
-} from "../../utils/floating-ui";
+  type LogicalPlacement,
+  type OverlayPositioning,
+  useFloatingUi,
+} from "../../controllers/useFloatingUi";
 import { guid } from "../../utils/guid";
 import { getLabelText } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -81,7 +76,7 @@ declare global {
  * @slot - A slot for adding `calcite-combobox-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
+export class Combobox extends LitElement implements LabelableComponent {
   //#region Static Members
 
   static formAssociated = true;
@@ -167,9 +162,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private filterTextMatchPattern?: RegExp;
 
-  private filteredFlipPlacements?: FlipPlacement[];
-
   floatingEl?: HTMLDivElement;
+
+  private floatingUi = useFloatingUi<this>(() => ({
+    direction: this.direction,
+    type: "menu",
+  }))(this);
 
   private getSelectedItems = (): HTMLCalciteComboboxItemElement["el"][] => {
     if (!this.isMulti()) {
@@ -535,21 +533,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    */
   @method()
   async reposition(delayed = false): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
-
-    return reposition(
-      this,
-      {
-        direction: this.direction,
-        floatingEl,
-        referenceEl,
-        overlayPositioning,
-        placement,
-        flipPlacements: filteredFlipPlacements,
-        type: "menu",
-      },
-      delayed,
-    );
+    return this.floatingUi.reposition(delayed);
   }
 
   /**
@@ -614,8 +598,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
-    this.setFilteredPlacements();
-    connectFloatingUI(this);
+    this.floatingUi.connect();
     this.cancelable.add(this.filterItems);
   }
 
@@ -655,14 +638,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     ) {
       this.updateItems();
     }
-
-    if (changes.has("flipPlacements")) {
-      this.flipPlacementsHandler();
-    }
   }
 
   loaded(): void {
-    connectFloatingUI(this);
+    this.floatingUi.connect();
     this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
@@ -670,7 +649,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectFloatingUI(this);
   }
 
   //#endregion
@@ -708,11 +686,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
       this.updateItems();
     }
-  }
-
-  private flipPlacementsHandler(): void {
-    this.setFilteredPlacements();
-    this.reposition(true);
   }
 
   private selectedItemsHandler(): void {
@@ -844,14 +817,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       this.textInputRef.value.value = "";
     }
     this.filterText = "";
-  }
-
-  private setFilteredPlacements(): void {
-    const { el, flipPlacements } = this;
-
-    this.filteredFlipPlacements = flipPlacements
-      ? filterValidFlipPlacements(flipPlacements, el)
-      : undefined;
   }
 
   private getValue(): string | string[] {
@@ -1082,7 +1047,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   onClose(): void {
     this.calciteComboboxClose.emit();
-    hideFloatingUI(this);
+    this.floatingUi.hide();
     this.topLayer.hide();
   }
 
@@ -1348,7 +1313,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   private shouldUseFitCompactDisplay({
@@ -1445,7 +1410,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
-    connectFloatingUI(this);
+    this.floatingUi.connect();
   }
 
   private syncChipVisibilityCounts(chipEls: Chip["el"][]): void {
