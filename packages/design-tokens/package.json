@@ -40,8 +40,5 @@
     "test:watch": "vitest",
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts",
     "util:update-test-snapshots": "vitest --update"
-  },
-  "devDependencies": {
-    "vitest": "4.1.10"
   }
 }
