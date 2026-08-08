@@ -1,8 +1,9 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import type { Option } from "./option";
 
 describe("accessible", () => {
   accessible(() => mount(`calcite-option`));
@@ -46,7 +47,7 @@ describe("renders", () => {
 
 it("falls back to the text content when value/label is not specified", async () => {
   const optionText = "one";
-  const { el, reRender } = await mount(<calcite-option>{optionText}</calcite-option>);
+  const { el, reRender } = await mount<Option>(<calcite-option>{optionText}</calcite-option>);
 
   await expect.element(el).toHaveProperty("label", optionText);
   await expect.element(el).toHaveProperty("value", optionText);
