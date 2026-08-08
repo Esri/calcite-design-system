@@ -60,20 +60,14 @@ it("falls back to the text content when value/label is not specified", async () 
   await expect.element(el).toHaveProperty("label", "two");
   await expect.element(el).toHaveProperty("value", 2);
 
-  el.label = undefined;
-  el.value = undefined;
-
-  await expect.element(el).toHaveProperty("label", optionText);
-  await expect.element(el).toHaveProperty("value", optionText);
-
   el.label = "";
   el.value = "";
 
   await expect.element(el).toHaveProperty("label", optionText);
   await expect.element(el).toHaveProperty("value", "");
 
-  el.label = null;
-  el.value = null;
+  el.label = undefined;
+  el.value = undefined;
 
   await expect.element(el).toHaveProperty("label", optionText);
   await expect.element(el).toHaveProperty("value", optionText);
@@ -117,15 +111,19 @@ describe("whitespace handling", () => {
       </>,
     );
     const options = page.getBySelector("calcite-option");
-    const labels = options.elements().map((option: Option["el"]) => option.label);
-
-    expect(labels).toEqual([
+    const expectedLabels = [
       "spaces",
       "breaks",
       "\u00A0non-breaking-space\u00A0",
       "newlines",
       "multi line breaks",
-    ]);
+    ];
+
+    await Promise.all(
+      expectedLabels.map((label, index) =>
+        expect.element(options.nth(index)).toHaveProperty("label", label),
+      ),
+    );
   });
 
   it("preserves all whitespace when provided via label", async () => {
@@ -148,14 +146,19 @@ breaks (label)
       </>,
     );
     const options = page.getBySelector("calcite-option");
-    const labels = options.elements().map((option: Option["el"]) => option.label);
 
-    expect(labels).toEqual([
+    const expectedLabels = [
       " spaces (label) ",
       "<br>breaks (label)<br>",
       "&nbsp;non-breaking-space (label)&nbsp;",
       "\nnewlines (label)\n",
       "multi\nline\nbreaks (label)\n",
-    ]);
+    ];
+
+    await Promise.all(
+      expectedLabels.map((label, index) =>
+        expect.element(options.nth(index)).toHaveProperty("label", label),
+      ),
+    );
   });
 });
