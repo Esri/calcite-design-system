@@ -1,8 +1,4 @@
 {
-  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
-  },
+  "extends": "@esri/calcite-typescript-config/tsconfig.node.json",
   "include": ["cli.ts"]
 }
