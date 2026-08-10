@@ -121,6 +121,7 @@ describe("translation support", () => {
 });
 
 describe("disabled", () => {
+  mockConsole();
   disabled(() => mount("calcite-input-date-picker"));
 });
 

@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { clearConfig, defaultConfig, getConfig, stampVersion } from "./config";
+import { logger } from "./logger";
 
 beforeEach(() => {
   clearConfig();
@@ -47,19 +48,17 @@ describe(stampVersion, () => {
     expect(globalThis.calciteConfig.version).toBe(testVersion);
   });
 
-  const originalConsoleInfo = console.warn;
-
   beforeEach(() => {
-    console.info = vi.fn();
+    vi.spyOn(logger, "info");
   });
 
   afterEach(() => {
-    console.info = originalConsoleInfo;
+    vi.restoreAllMocks();
   });
 
   it("logs info with registered version", async () => {
-    expect(console.info).not.toHaveBeenCalled();
+    expect(logger.info).not.toHaveBeenCalled();
     stampVersion();
-    expect(console.info).toHaveBeenCalled();
+    expect(logger.info).toHaveBeenCalled();
   });
 });
