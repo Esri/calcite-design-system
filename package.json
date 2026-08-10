@@ -5,6 +5,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
     "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
