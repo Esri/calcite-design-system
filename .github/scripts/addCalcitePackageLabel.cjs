@@ -1,5 +1,5 @@
 // @ts-check
-const { createLabelIfMissing } = require("./support/utils");
+const { createLabelIfMissing } = require("./support/utils.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
