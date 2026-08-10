@@ -2,7 +2,7 @@
 const { createLabelIfMissing } = require("./support/utils");
 const {
   labels: { productColor },
-} = require("./support/resources");
+} = require("./support/resources.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {

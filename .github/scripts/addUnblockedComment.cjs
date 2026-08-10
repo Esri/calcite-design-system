@@ -4,7 +4,7 @@ const {
     planning: { blocked },
   },
   groups: { pes },
-} = require("./support/resources");
+} = require("./support/resources.cjs");
 
 // When an issue with blocking relationships is closed, the following actions are performed for each blocked issue:
 // 1. Check that all other blocking issues are closed. If so, create a comment to notify that the issue is ready for reevaluation.
