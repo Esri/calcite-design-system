@@ -25,6 +25,6 @@ jobs:
         with:
           script: |
             core.startGroup("Create Task");
-            const action = require('${{ github.workspace }}/.github/scripts/monday/createRefactorTask.js')
+            const action = require('${{ github.workspace }}/.github/scripts/monday/createRefactorTask')
             await action({github, context, core})
             core.endGroup();

@@ -17,5 +17,5 @@ jobs:
           ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/addUnblockedComment.js')
+            const action = require('${{ github.workspace }}/.github/scripts/addUnblockedComment')
             await action({github, context, core})
