@@ -1,5 +1,5 @@
 // @ts-check
-const Monday = require("../support/monday");
+const Monday = require("../support/monday.cjs");
 const { createBodyUpdater } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */

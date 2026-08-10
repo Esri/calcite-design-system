@@ -1,5 +1,5 @@
 // @ts-check
-const Monday = require("../support/monday");
+const Monday = require("../support/monday.cjs");
 const { assertRequired, createBodyUpdater } = require("../support/utils");
 
 /**
