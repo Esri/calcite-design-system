@@ -4,14 +4,14 @@ const {
   milestones,
   packages,
 } = require("./resources.cjs");
-const { includesLabel, notInLifecycle } = require("./utils");
+const { includesLabel, notInLifecycle } = require("./utils.cjs");
 const REPO_CALCITE = "calcite-design-system";
 const REPO_DOCS = "calcite-documentation";
 
 /**
  * @param {import('@octokit/webhooks-types').Issue | import('@octokit/webhooks-types').PullRequestClosedEvent["pull_request"]} issue - The GitHub issue or pull request object
  * @param {import('@actions/core')} core - The core library for logging and reporting workflow status
- * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
+ * @param {import('./utils.cjs').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */
 module.exports = function Monday(issue, core, updateIssueBody) {
   /**
