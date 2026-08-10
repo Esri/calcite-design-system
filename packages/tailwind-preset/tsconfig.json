@@ -1,5 +1,6 @@
 {
-  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@esri/calcite-typescript-config/tsconfig.node.json",
   "compilerOptions": {
     "declaration": true,
     "module": "node18",

@@ -1,7 +1,7 @@
 // @ts-check
 const {
   labels: { issueWorkflow },
-} = require("./resources");
+} = require("./resources.cjs");
 
 /** @typedef {(issueNumber: number, updatedBody: string) => Promise<void>} UpdateBodyCallback */
 

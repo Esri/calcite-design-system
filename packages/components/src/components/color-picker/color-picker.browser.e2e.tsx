@@ -46,6 +46,7 @@ import type { Button } from "../button/button";
 import type { TabTitle } from "../tab-title/tab-title";
 import { afterNextFrame } from "../../tests/utils/timing";
 import { focusElement } from "../../utils/dom";
+import { logger } from "../../utils/logger";
 
 vi.mock("es-toolkit", { spy: true });
 
@@ -57,6 +58,10 @@ function clearStorage(): void {
   const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${storageId}`;
   localStorage.removeItem(storageKey);
 }
+
+beforeEach(() => {
+  vi.spyOn(logger, "warn");
+});
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -698,8 +703,8 @@ const clearAndEnterHexOrChannelValue = async (
 };
 
 function assertUnsupportedValueMessage(value: string | object | undefined, format: string): void {
-  expect(console.warn).toHaveBeenCalledTimes(1);
-  expect(console.warn).toHaveBeenCalledWith(
+  expect(logger.warn).toHaveBeenCalledTimes(1);
+  expect(logger.warn).toHaveBeenCalledWith(
     expect.stringMatching(
       new RegExp(
         `\\s*ignoring color value \\(${value}\\) as it is not compatible with the current format \\(${format}\\)\\s*`,
