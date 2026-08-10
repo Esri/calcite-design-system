@@ -881,14 +881,7 @@ export class Input
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value?.value) {
-        return;
-      }
-      if (
-        this.value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (this.childNumberRef.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -1012,9 +1005,7 @@ export class Input
           : newLocalizedValue;
 
       this.userChangedValue = origin === "user" && this.value !== newValue;
-      // don't sanitize the start of negative/decimal numbers, but
-      // don't set value to an invalid number
-      this.value = ["-", "."].includes(newValue) ? "" : newValue;
+      this.value = isValidNumber(newValue) ? newValue : "";
     } else {
       this.userChangedValue = origin === "user" && this.value !== value;
       this.value = value;

@@ -30,7 +30,7 @@ describe("defaults", () => {
     [
       {
         propertyName: "status",
-        defaultValue: "idle",
+        defaultValue: "valid",
       },
       {
         propertyName: "alignment",
