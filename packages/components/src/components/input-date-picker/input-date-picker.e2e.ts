@@ -2,7 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { beforeEach, describe, expect, it } from "vitest";
 import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
+import { findAll, getFocusedElementProp, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS, POSITION } from "./resources";
@@ -2005,29 +2005,6 @@ it("should not update startDate when endDate is updated", async () => {
   expect(await inputDatePicker.getProperty("value")).toEqual(["2025-09-21", "2025-10-05"]);
   expect(await getDateInputValue(page, "end")).toBe("10/5/2025");
   expect(await getDateInputValue(page, "start")).toBe("9/21/2025");
-});
-
-it("should not shift focus back on input-date-picker when other input elements are clicked", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    html`<calcite-input id="input"></calcite-input>
-      <calcite-input-date-picker id="input-date"></calcite-input-date-picker>`,
-  );
-
-  const input = await page.find("calcite-input");
-  const inputDatePicker = await page.find("calcite-input-date-picker");
-  const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
-  expect(await calendar.isVisible()).toBe(false);
-
-  await inputDatePicker.click();
-  await page.waitForChanges();
-  expect(await calendar.isVisible()).toBe(true);
-  expect(await isElementFocused(page, "#input-date")).toBe(true);
-
-  await input.click();
-  await page.waitForChanges();
-  expect(await calendar.isVisible()).toBe(false);
-  expect(await isElementFocused(page, "#input")).toBe(true);
 });
 
 describe("proximitySelectionDisabled", () => {

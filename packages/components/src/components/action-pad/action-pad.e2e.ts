@@ -161,49 +161,6 @@ it("should not modify textEnabled on actions or expanded on group", async () => 
   expect(await action.getProperty("textEnabled")).toBe(false);
 });
 
-it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-  const page = await newE2EPage({
-    html: `<calcite-action-pad>
-          <calcite-action-group>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group menu-open>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-pad>`,
-  });
-
-  const eventSpy = await page.spyOnEvent("calciteActionMenuOpen", "window");
-
-  await page.waitForChanges();
-
-  let groups = await findAll(page, "calcite-action-group");
-
-  expect(await groups[0].getProperty("menuOpen")).toBe(false);
-  expect(await groups[1].getProperty("menuOpen")).toBe(true);
-
-  groups[0].setProperty("menuOpen", true);
-
-  await page.waitForChanges();
-  await page.waitForChanges();
-
-  expect(eventSpy).toHaveReceivedEventTimes(2);
-
-  groups = await findAll(page, "calcite-action-group");
-
-  expect(await groups[0].getProperty("menuOpen")).toBe(true);
-  expect(await groups[1].getProperty("menuOpen")).toBe(false);
-});
-
 it("should honor scale of expand icon", async () => {
   const page = await newE2EPage({ html: `<calcite-action-pad scale="l"></calcite-action-pad>` });
 

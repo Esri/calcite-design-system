@@ -1,9 +1,8 @@
-import { JsxNode, LitElement } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
   defaults,
   floatingUIOwner,
@@ -644,4 +643,28 @@ describe("theme", () => {
       },
     });
   });
+});
+
+it("should not shift focus back on input-date-picker when other input elements are clicked", async () => {
+  await mount(
+    <>
+      <input data-testid="input" />
+      <calcite-input-date-picker data-testid="input-date" />
+    </>,
+  );
+  const input = page.getByTestId("input");
+  const inputDatePicker = page.getByTestId("input-date");
+  const calendar = page.getBySelector(`calcite-input-date-picker .${CSS.calendarWrapper}`);
+
+  await expect.element(calendar).not.toBeInTheDocument();
+
+  await inputDatePicker.click();
+
+  await expect.element(calendar).toBeInTheDocument();
+  await expect.element(inputDatePicker).toHaveFocus();
+
+  await input.click();
+
+  await expect.element(calendar).not.toBeInTheDocument();
+  await expect.element(input).toHaveFocus();
 });
