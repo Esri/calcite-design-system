@@ -11,7 +11,7 @@
 const {
   labels: { issueWorkflow },
   milestones,
-} = require("./support/resources");
+} = require("./support/resources.cjs");
 const { removeLabel } = require("./support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */

@@ -7,7 +7,7 @@ const {
     issueType: { designTokens },
   },
   packages: { tokens: tokensPackage },
-} = require("../support/resources");
+} = require("../support/resources.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {

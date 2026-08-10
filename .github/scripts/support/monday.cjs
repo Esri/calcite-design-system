@@ -3,7 +3,7 @@ const {
   labels: { bug, issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff, productColor },
   milestones,
   packages,
-} = require("./resources");
+} = require("./resources.cjs");
 const { includesLabel, notInLifecycle } = require("./utils");
 const REPO_CALCITE = "calcite-design-system";
 const REPO_DOCS = "calcite-documentation";
