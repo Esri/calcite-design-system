@@ -3,6 +3,7 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { allModes } from "../../../.storybook/modes";
 import { InputDatePicker } from "./input-date-picker";
 import "./input-date-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
@@ -272,12 +273,7 @@ export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizon
 allScalesRangeHorizontal.parameters = {
   chromatic: {
     modes: {
-      largeScreen: {
-        viewport: {
-          width: 2500,
-          height: 800,
-        },
-      },
+      extraWide: allModes.landscapeLarge,
     },
     cropToViewport: true,
   },

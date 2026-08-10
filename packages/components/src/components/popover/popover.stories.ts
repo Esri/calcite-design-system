@@ -1,8 +1,9 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { allModes } from "../../../.storybook/modes";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
-import { Popover } from "./popover";
+import type { Popover } from "./popover";
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "./popover"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -98,7 +99,7 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const darkModeRTL = (): string =>
   html` <div style="width: 400px;">

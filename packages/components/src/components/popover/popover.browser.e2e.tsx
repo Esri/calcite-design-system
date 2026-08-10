@@ -1,5 +1,5 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
@@ -20,8 +20,13 @@ import { mockConsole } from "../../tests/utils/logging";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 import { Popover } from "./popover";
+import { logger } from "../../utils/logger";
 
 mockConsole();
+
+beforeEach(() => {
+  vi.spyOn(logger, "warn");
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -331,6 +336,47 @@ describe("theme", () => {
           },
         ],
       },
+    );
+  });
+});
+
+describe("warning messages", () => {
+  it("does not warn if reference element is present", async () => {
+    await mount(
+      <>
+        <calcite-popover reference-element="ref">content</calcite-popover>
+        <div id="ref">referenceElement</div>
+      </>,
+    );
+
+    expect(logger.warn).not.toHaveBeenCalled();
+  });
+
+  it("does not warn after removal", async () => {
+    const { el, reRender } = await mount(
+      <>
+        <calcite-popover reference-element="ref">content</calcite-popover>
+        <div id="ref">referenceElement</div>
+      </>,
+    );
+
+    el.remove();
+    await reRender();
+
+    expect(logger.warn).not.toHaveBeenCalled();
+  });
+
+  it("warns if reference element is not present", async () => {
+    const { el } = await mount(
+      <>
+        <calcite-popover reference-element="non-existent-ref">content</calcite-popover>
+      </>,
+    );
+
+    expect(logger.warn).toHaveBeenCalled();
+    expect(logger.warn).toHaveBeenCalledWith(
+      expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
+      { el },
     );
   });
 });
