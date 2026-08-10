@@ -104,26 +104,31 @@ export const allScales = (): string => html`
       column-gap: 1.5rem;
       display: grid;
       gap: 0.75rem;
-      grid-template-columns: 12rem repeat(3, max-content);
-      row-gap: 2rem;
+      grid-template-columns:
+        10rem
+        minmax(22rem, max-content)
+        minmax(22rem, max-content)
+        minmax(23rem, max-content);
+      row-gap: 1rem;
     }
 
-    .comparison-grid:not(.comparison-grid--horizontal) {
-      column-gap: 3rem;
-      grid-template-columns: 12rem 228px 232px 314px;
-    }
-
-    .comparison-grid:not(.comparison-grid--horizontal) calcite-menu {
-      inline-size: 100%;
-    }
-
-    .comparison-grid:not(.comparison-grid--horizontal) calcite-menu-item.is-child {
-      inline-size: calc(100% - var(--calcite-space-xl));
-      margin-inline-start: var(--calcite-space-xl);
+    .layout-heading {
+      grid-column: 1 / -1;
+      margin-block-start: 1rem;
+      font-weight: 600;
     }
 
     .comparison-grid calcite-menu {
       justify-self: start;
+    }
+
+    .comparison-grid calcite-menu.vertical-scale-s,
+    .comparison-grid calcite-menu.vertical-scale-m {
+      inline-size: 232px;
+    }
+
+    .comparison-grid calcite-menu.vertical-scale-l {
+      inline-size: 314px;
     }
 
     .column-heading,
@@ -294,30 +299,26 @@ export const allScales = (): string => html`
             text="Menu item"
           />
         </calcite-menu>
-      </div>
-    </section>
 
-    <section class="comparison-section">
-      <h2>Vertical</h2>
-      <div class="comparison-grid">
+        <div class="layout-heading">Vertical</div>
         <div></div>
         <div class="column-heading">Scale s</div>
         <div class="column-heading">Scale m</div>
         <div class="column-heading">Scale l</div>
 
         <div class="row-heading">Default</div>
-        <calcite-menu label="Vertical default scale s" layout="vertical">
+        <calcite-menu class="vertical-scale-s" label="Vertical default scale s" layout="vertical">
           <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="s" text="Menu item" />
         </calcite-menu>
-        <calcite-menu label="Vertical default scale m" layout="vertical">
+        <calcite-menu class="vertical-scale-m" label="Vertical default scale m" layout="vertical">
           <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="m" text="Menu item" />
         </calcite-menu>
-        <calcite-menu label="Vertical default scale l" layout="vertical">
+        <calcite-menu class="vertical-scale-l" label="Vertical default scale l" layout="vertical">
           <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="l" text="Menu item" />
         </calcite-menu>
 
         <div class="row-heading">Has children</div>
-        <calcite-menu label="Vertical has children scale s" layout="vertical">
+        <calcite-menu class="vertical-scale-s" label="Vertical has children scale s" layout="vertical">
           <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="s" text="Menu item">
             <calcite-menu-item
               hidden
@@ -339,7 +340,7 @@ export const allScales = (): string => html`
             />
           </calcite-menu-item>
         </calcite-menu>
-        <calcite-menu label="Vertical has children scale m" layout="vertical">
+        <calcite-menu class="vertical-scale-m" label="Vertical has children scale m" layout="vertical">
           <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="m" text="Menu item">
             <calcite-menu-item
               hidden
@@ -361,7 +362,7 @@ export const allScales = (): string => html`
             />
           </calcite-menu-item>
         </calcite-menu>
-        <calcite-menu label="Vertical has children scale l" layout="vertical">
+        <calcite-menu class="vertical-scale-l" label="Vertical has children scale l" layout="vertical">
           <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Menu item" scale="l" text="Menu item">
             <calcite-menu-item
               hidden
@@ -385,7 +386,7 @@ export const allScales = (): string => html`
         </calcite-menu>
 
         <div class="row-heading">Is child</div>
-        <calcite-menu label="Vertical child scale s" layout="vertical">
+        <calcite-menu class="vertical-scale-s" label="Vertical child scale s" layout="vertical">
           <calcite-menu-item
             class="is-child"
             icon-end="diamond"
@@ -395,7 +396,7 @@ export const allScales = (): string => html`
             text="Menu item"
           />
         </calcite-menu>
-        <calcite-menu label="Vertical child scale m" layout="vertical">
+        <calcite-menu class="vertical-scale-m" label="Vertical child scale m" layout="vertical">
           <calcite-menu-item
             class="is-child"
             icon-end="diamond"
@@ -405,7 +406,7 @@ export const allScales = (): string => html`
             text="Menu item"
           />
         </calcite-menu>
-        <calcite-menu label="Vertical child scale l" layout="vertical">
+        <calcite-menu class="vertical-scale-l" label="Vertical child scale l" layout="vertical">
           <calcite-menu-item
             class="is-child"
             icon-end="diamond"
@@ -417,7 +418,7 @@ export const allScales = (): string => html`
         </calcite-menu>
 
         <div class="row-heading">Has children + href</div>
-        <calcite-menu label="Vertical has children and href scale s" layout="vertical">
+        <calcite-menu class="vertical-scale-s" label="Vertical has children and href scale s" layout="vertical">
           <calcite-menu-item
             href="#"
             icon-end="diamond"
@@ -437,7 +438,7 @@ export const allScales = (): string => html`
             />
           </calcite-menu-item>
         </calcite-menu>
-        <calcite-menu label="Vertical has children and href scale m" layout="vertical">
+        <calcite-menu class="vertical-scale-m" label="Vertical has children and href scale m" layout="vertical">
           <calcite-menu-item
             href="#"
             icon-end="diamond"
@@ -457,7 +458,7 @@ export const allScales = (): string => html`
             />
           </calcite-menu-item>
         </calcite-menu>
-        <calcite-menu label="Vertical has children and href scale l" layout="vertical">
+        <calcite-menu class="vertical-scale-l" label="Vertical has children and href scale l" layout="vertical">
           <calcite-menu-item
             href="#"
             icon-end="diamond"
@@ -479,7 +480,7 @@ export const allScales = (): string => html`
         </calcite-menu>
 
         <div class="row-heading">Has breadcrumbs</div>
-        <calcite-menu label="Vertical has breadcrumbs scale s" layout="vertical">
+        <calcite-menu class="vertical-scale-s" label="Vertical has breadcrumbs scale s" layout="vertical">
           <calcite-menu-item
             breadcrumb
             icon-end="diamond"
@@ -489,7 +490,7 @@ export const allScales = (): string => html`
             text="Menu item"
           />
         </calcite-menu>
-        <calcite-menu label="Vertical has breadcrumbs scale m" layout="vertical">
+        <calcite-menu class="vertical-scale-m" label="Vertical has breadcrumbs scale m" layout="vertical">
           <calcite-menu-item
             breadcrumb
             icon-end="diamond"
@@ -499,7 +500,7 @@ export const allScales = (): string => html`
             text="Menu item"
           />
         </calcite-menu>
-        <calcite-menu label="Vertical has breadcrumbs scale l" layout="vertical">
+        <calcite-menu class="vertical-scale-l" label="Vertical has breadcrumbs scale l" layout="vertical">
           <calcite-menu-item
             breadcrumb
             icon-end="diamond"

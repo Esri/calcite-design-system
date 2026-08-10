@@ -137,8 +137,12 @@
   }
 
   .dropdown-action {
+    box-sizing: border-box;
+    block-size: 2.25rem;
+    flex: 0 0 2rem;
     margin-inline-start: var(--calcite-space-xs);
-
+    padding-block: 0.375rem;
+    padding-inline: var(--calcite-space-2xs);
     &::after {
       inset-inline-start: calc(-1 * var(--calcite-space-xs));
     }
@@ -182,15 +186,24 @@
   }
 }
 
-:host([slot="submenu-item"][scale="s"][layout="vertical"]) {
+:host(.is-child[scale="s"][layout="vertical"]) {
   min-block-size: theme("spacing.9");
 
   .parent--vertical {
+    block-size: theme("spacing.9");
+    box-sizing: border-box;
     padding-inline-start: var(--calcite-space-xl);
   }
 
-  .icon--end ~ .icon--dropdown {
-    padding-inline-start: var(--calcite-space-sm);
+  .content {
+    min-block-size: theme("spacing.9");
+  }
+}
+
+:host(.is-child[scale="m"][layout="vertical"]) {
+  .parent--vertical {
+    box-sizing: border-box;
+    padding-inline-start: var(--calcite-space-xl);
   }
 }
 
@@ -273,6 +286,15 @@
 
 :host([slot="submenu-item"][scale="l"][layout="vertical"]) {
   .parent--vertical {
+    padding-inline-start: theme("spacing.8");
+  }
+}
+
+:host(.is-child[scale="l"][layout="vertical"]) {
+  min-block-size: theme("spacing.16");
+
+  .parent--vertical {
+    box-sizing: border-box;
     padding-inline-start: theme("spacing.8");
   }
 }
