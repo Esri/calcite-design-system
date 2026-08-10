@@ -1,6 +1,6 @@
 // @ts-check
 const Monday = require("../support/monday.cjs");
-const { assertRequired, createBodyUpdater } = require("../support/utils");
+const { assertRequired, createBodyUpdater } = require("../support/utils.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {

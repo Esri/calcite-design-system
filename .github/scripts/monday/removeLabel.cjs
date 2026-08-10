@@ -1,6 +1,6 @@
 // @ts-check
 const Monday = require("../support/monday.cjs");
-const { assertRequired, includesLabel, createBodyUpdater } = require("../support/utils");
+const { assertRequired, includesLabel, createBodyUpdater } = require("../support/utils.cjs");
 const {
   labels: {
     planning: { spike, spikeComplete },

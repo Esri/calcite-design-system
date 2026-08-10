@@ -12,7 +12,7 @@ const {
   labels: { issueWorkflow, planning },
   milestones,
 } = require("./support/resources.cjs");
-const { removeLabel } = require("./support/utils");
+const { removeLabel } = require("./support/utils.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
