@@ -649,7 +649,7 @@ export class DatePickerMonth extends LitElement {
   }
 
   /**
-   * Render calcite-date-picker-day
+   * Render calcite-date-picker-day component
    *
    * @param day
    * @param day.active
