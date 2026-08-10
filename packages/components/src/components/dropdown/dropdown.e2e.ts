@@ -6,6 +6,7 @@ import {
   findAll,
   getFocusedElementProp,
   skipAnimations,
+  waitForAnimationFrame,
 } from "../../tests/utils/puppeteer";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
@@ -606,6 +607,42 @@ describe("scrolling", () => {
       // no scroller should be present when max-items === items
       const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
       expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
+    });
+
+    it("does not display a scrollbar on subsequent opens when max-items matches the number of items", async () => {
+      const page = await newE2EPage();
+      // the number of items must match `max-items` for this scenario
+      const items = Array.from({ length: maxItems }, (_, index) => index + 1)
+        .map((position) => html`<calcite-dropdown-item id="item-${position}">${position}</calcite-dropdown-item>`)
+        .join("");
+
+      await page.setContent(
+        html` <calcite-dropdown max-items="${maxItems}">
+          <calcite-button slot="trigger">Open Dropdown</calcite-button>
+          <calcite-dropdown-group group-title="First group">${items}</calcite-dropdown-group>
+        </calcite-dropdown>`,
+      );
+
+      const element = await page.find("calcite-dropdown");
+      const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
+      const dropdownOpenEventSpy = await page.spyOnEvent("calciteDropdownOpen");
+      const dropdownCloseEventSpy = await page.spyOnEvent("calciteDropdownClose");
+
+      async function assertNoScrollbar(): Promise<void> {
+        await waitForAnimationFrame(page);
+        expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
+      }
+
+      await element.click();
+      await dropdownOpenEventSpy.next();
+      await assertNoScrollbar();
+
+      await element.click();
+      await dropdownCloseEventSpy.next();
+
+      await element.click();
+      await dropdownOpenEventSpy.next();
+      await assertNoScrollbar();
     });
 
     it("does not scroll to selected item on open when max-items causes selected item to be beyond scroller", async () => {
