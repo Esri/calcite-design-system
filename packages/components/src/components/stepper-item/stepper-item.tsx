@@ -10,6 +10,7 @@ import {
   setAttribute,
   state,
 } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
 import { Scale } from "../interfaces";
 import {
   StepperItemChangeEventDetail,
@@ -329,7 +330,7 @@ export class StepperItem extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.complete && (
-            <span ariaLive="polite" class={CSS.visuallyHidden}>
+            <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS.visuallyHidden}>
               {this.messages.complete}
             </span>
           )}

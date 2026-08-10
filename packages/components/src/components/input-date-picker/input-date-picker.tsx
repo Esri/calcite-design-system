@@ -34,6 +34,7 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
+import { resolveAriaLive } from "../../utils/aria";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
@@ -1235,7 +1236,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
             <div
               ariaHidden={!this.open}
               ariaLabel={messages.chooseDate}
-              ariaLive="polite"
+              ariaLive={resolveAriaLive(this.el.ariaLive)}
               ariaModal={false}
               class={CSS.menu}
               id={this.dialogId}
@@ -1333,6 +1334,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
+            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

@@ -9,6 +9,7 @@ import {
   state,
   ToEvents,
 } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
 import { getIconScale } from "../../utils/component";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { LogicalFlowPosition, Scale, SelectionMode } from "../interfaces";
@@ -303,7 +304,7 @@ export class Card extends LitElement {
           tabIndex={!this.selectable || this.disabled ? 0 : -1}
         >
           {this.loading ? (
-            <div ariaLive="polite" class="calcite-card-loader-container">
+            <div ariaLive={resolveAriaLive(this.el.ariaLive)} class="calcite-card-loader-container">
               <calcite-loader label={this.messages.loading} />
             </div>
           ) : null}

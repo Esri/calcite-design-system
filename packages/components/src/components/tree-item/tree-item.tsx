@@ -7,7 +7,7 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { toAriaBoolean } from "../../utils/aria";
+import { resolveAriaLive, toAriaBoolean } from "../../utils/aria";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -435,6 +435,7 @@ export class TreeItem extends LitElement {
 
     const hidden = !(this.parentExpanded || this.depth === 1);
     const isExpanded = this.updateAfterInitialRender && this.expanded;
+    const ariaLive = resolveAriaLive(this.el.ariaLive);
     const { hasEndActions } = this;
     const slotNode = (
       <slot
@@ -463,8 +464,9 @@ export class TreeItem extends LitElement {
     this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLive = "polite";
+    if (ariaLive) {
+      this.el.ariaLive = ariaLive;
+    }
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaSelected =
       this.selectionMode === "single" ||

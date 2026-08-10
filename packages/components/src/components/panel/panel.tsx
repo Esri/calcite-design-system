@@ -16,6 +16,7 @@ import {
   slotChangeHasAssignedElement,
   slotChangeHasTextContent,
 } from "../../utils/dom";
+import { resolveAriaLive } from "../../utils/aria";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -795,7 +796,7 @@ export class Panel extends LitElement {
         ariaBusy={loading}
         ariaDescription={hasDialogRole && description ? description : undefined}
         ariaLabel={hasDialogRole && heading ? heading : undefined}
-        ariaLive={hasDialogRole ? "polite" : undefined}
+        ariaLive={hasDialogRole ? resolveAriaLive(this.el.ariaLive) : undefined}
         class={CSS.container}
         hidden={closed}
         ref={this.containerRef}

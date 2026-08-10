@@ -2,6 +2,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
+import { resolveAriaLive } from "../../utils/aria";
 import { Alignment, Scale } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -202,7 +203,7 @@ export class TableCell extends LitElement {
           tabIndex={staticCell ? -1 : 0}
         >
           {(this.selectionCell || this.readCellContentsToAT) && (
-            <span ariaLive={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
+            <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS.assistiveText}>
               {this.selectionCell && this.selectionText}
               {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
             </span>

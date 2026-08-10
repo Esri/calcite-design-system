@@ -1,6 +1,7 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
@@ -219,7 +220,7 @@ export class TableHeader extends LitElement {
           />
         )}
         {(this.selectionCell || this.numberCell) && (
-          <span ariaLive={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
+          <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS.assistiveText}>
             {this.screenReaderText}
           </span>
         )}
