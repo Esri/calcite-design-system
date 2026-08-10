@@ -1,5 +1,6 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -90,6 +91,32 @@ describe("slots", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-card"));
+});
+
+describe("aria-live", () => {
+  it("sets loader aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-card loading>
+        <span slot="heading">Card heading</span>
+      </calcite-card>,
+    );
+    const loaderContainer = page
+      .getBySelector("calcite-card .calcite-card-loader-container")
+      .element() as HTMLElement;
+
+    expect(loaderContainer).toBeDefined();
+    expect(loaderContainer.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(loaderContainer.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(loaderContainer.getAttribute("aria-live")).toBe(null);
+  });
 });
 
 describe("theme", () => {

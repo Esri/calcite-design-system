@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { CSS } from "./resources";
 import {
   defaults,
@@ -159,6 +160,28 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-button"));
+});
+
+describe("aria-live", () => {
+  it("sets internal control aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(<calcite-button>Continue</calcite-button>);
+    const control = page.getBySelector("calcite-button button, calcite-button a").element() as
+      | HTMLButtonElement
+      | HTMLAnchorElement;
+
+    expect(control).toBeDefined();
+    expect(control.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(control.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(control.getAttribute("aria-live")).toBe(null);
+  });
 });
 
 describe("theme", () => {

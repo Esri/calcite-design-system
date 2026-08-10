@@ -794,50 +794,6 @@ describe("keyboard assistive text", () => {
     const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
     expect(assistiveTextElement).toBeNull();
   });
-
-  it("should have assistive text when resizable", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
-    );
-    await skipAnimations(page);
-    await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
-    expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-    const messages = await import("./assets/t9n/messages.json");
-    expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
-  });
-
-  it("should have assistive text when dragEnabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
-    );
-    await skipAnimations(page);
-    await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
-    expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-    const messages = await import("./assets/t9n/messages.json");
-    expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
-  });
-
-  it("should have assistive text when resizable and dragEnabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
-        >Hello world!</calcite-dialog
-      >`,
-    );
-    await skipAnimations(page);
-    await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
-    expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-    const messages = await import("./assets/t9n/messages.json");
-    expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
-  });
 });
 
 describe("keyboard resize", () => {

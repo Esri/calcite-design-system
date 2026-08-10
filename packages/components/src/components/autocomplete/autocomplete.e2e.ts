@@ -121,14 +121,6 @@ describe("labelable", () => {
   labelable("calcite-autocomplete");
 });
 
-it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
-  const page = await newE2EPage();
-  await page.setContent(simpleHTML);
-
-  const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
-  expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
-});
-
 it("should expose and update listbox option aria-selected from item selected state", async () => {
   const page = await newE2EPage();
   await page.setContent(simpleHTMLSelectedItem);

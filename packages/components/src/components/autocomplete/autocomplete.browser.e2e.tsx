@@ -1,6 +1,6 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   focusable,
@@ -359,6 +359,28 @@ describe("keyboard selection", () => {
 
     expect(firstItem.selected).toBe(false);
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("aria-live", () => {
+  it("sets screen reader list aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const screenReaderList = page
+      .getBySelector(`#myAutocomplete .${CSS.screenReadersOnly}`)
+      .element() as HTMLElement;
+
+    expect(screenReaderList).toBeDefined();
+    expect(screenReaderList.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(screenReaderList.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(screenReaderList.getAttribute("aria-live")).toBe(null);
   });
 });
 

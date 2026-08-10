@@ -207,18 +207,19 @@ describe("a11y attributes", () => {
     await expect.element(page.getByLabelText("hi")).toBeDefined();
   });
 
-  it("should have a indicator live region", async () => {
+  it("should have an indicator live region without default aria-live", async () => {
     const { el, reRender } = await mount("calcite-action");
     const liveRegion = page.getByRole("region");
+    const liveRegionElement = liveRegion.element() as HTMLElement;
 
-    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
+    expect(liveRegionElement.getAttribute("aria-live")).toBe(null);
     await expect.element(liveRegion).toBeInTheDocument();
     await expect.element(liveRegion).toHaveTextContent("");
 
     el.indicator = true;
     await reRender();
 
-    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
+    expect(liveRegionElement.getAttribute("aria-live")).toBe(null);
     await expect.element(liveRegion).toBeInTheDocument();
     await expect.element(liveRegion).toHaveTextContent("Indicator present");
   });
