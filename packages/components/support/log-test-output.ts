@@ -14,22 +14,28 @@ const logs: TestLog[] = [
 
 let hadError = false;
 
+// eslint-disable-next-line no-console -- script logging
 console.log(chalk.bgMagenta.bold.whiteBright("\n=======Test Summary======="));
 
 for (const { name, file } of logs) {
   if (existsSync(file) && statSync(file).size > 0) {
     hadError = true;
+    // eslint-disable-next-line no-console -- script logging
     console.log(chalk.bold.underline.magentaBright(`\n${name} Errors\n`));
     process.stdout.write(readFileSync(file, "utf8"));
+    // eslint-disable-next-line no-console -- script logging
     console.log(chalk.bold.gray("\n==================================================================="));
   } else {
+    // eslint-disable-next-line no-console -- script logging
     console.log(chalk.green(`\n[${name}] No errors found.`));
   }
 }
 
 if (hadError) {
+  // eslint-disable-next-line no-console -- script logging
   console.log(chalk.bgRed.whiteBright("\nSome tests failed. See above for details.\n"));
 } else {
+  // eslint-disable-next-line no-console -- script logging
   console.log(chalk.bgGreen.blackBright("\nAll tests passed!\n"));
 }
 

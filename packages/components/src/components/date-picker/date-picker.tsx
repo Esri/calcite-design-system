@@ -35,6 +35,7 @@ import {
   getMinMaxSource,
 } from "./utils";
 import { styles } from "./date-picker.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -231,7 +232,7 @@ export class DatePicker extends LitElement {
     }
 
     if (changes.has("messages") && this.hasUpdated) {
-      this.loadLocaleData().catch(console.error);
+      this.loadLocaleData().catch(logger.error);
     }
   }
 

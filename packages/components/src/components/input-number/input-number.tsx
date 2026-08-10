@@ -48,6 +48,7 @@ import { useForm } from "../../controllers/useForm";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -996,7 +997,7 @@ export class InputNumber
 
   private warnAboutInvalidNumberValue(value: string): void {
     if (value && !isValidNumber(value)) {
-      console.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
+      logger.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
     }
   }
 
