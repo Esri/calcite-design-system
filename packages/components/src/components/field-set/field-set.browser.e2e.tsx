@@ -260,6 +260,70 @@ describe("propagation", () => {
     expect(editableInput.readOnly).toBe(false);
     expect(readOnlyInput.readOnly).toBe(true);
   });
+
+  it("propagates to compatible controls while leaving composite descendants to their owner", async () => {
+    const { el } = await mount(
+      <calcite-field-set scale="s">
+        <calcite-checkbox id="checkbox" />
+        <calcite-radio-button id="radio-button" value="standalone" />
+        <calcite-radio-button-group id="radio-button-group" name="framework">
+          <calcite-radio-button id="grouped-radio-button" value="react" />
+        </calcite-radio-button-group>
+        <calcite-switch id="switch" />
+        <calcite-select id="select">
+          <calcite-option label="Option" value="option" />
+        </calcite-select>
+        <calcite-combobox id="combobox">
+          <calcite-combobox-item heading="Option" value="option" />
+        </calcite-combobox>
+        <calcite-slider id="slider" max={100} min={0} value={50} />
+        <calcite-segmented-control id="segmented-control">
+          <calcite-segmented-control-item checked value="option">
+            Option
+          </calcite-segmented-control-item>
+        </calcite-segmented-control>
+        <calcite-field-set id="nested-field-set" scale="l">
+          <calcite-checkbox id="nested-checkbox" />
+        </calcite-field-set>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const controls = [
+      "checkbox",
+      "radio-button",
+      "radio-button-group",
+      "switch",
+      "select",
+      "combobox",
+      "slider",
+      "segmented-control",
+    ].map((id) => fieldSet.querySelector<UpdatableElement>(`#${id}`)!);
+    const groupedRadioButton = fieldSet.querySelector<UpdatableElement>("#grouped-radio-button")!;
+    const nestedFieldSet = fieldSet.querySelector<UpdatableElement>("#nested-field-set")!;
+    const nestedCheckbox = fieldSet.querySelector<UpdatableElement>("#nested-checkbox")!;
+
+    await Promise.all(
+      [...controls, groupedRadioButton, nestedFieldSet, nestedCheckbox].map(waitForUpdate),
+    );
+
+    expect(controls.map((control) => control.scale)).toEqual(Array(controls.length).fill("s"));
+    expect(groupedRadioButton.scale).toBe("s");
+    expect(nestedFieldSet.scale).toBe("l");
+    expect(nestedCheckbox.scale).toBe("l");
+
+    fieldSet.disabled = true;
+    await waitForUpdate(fieldSet);
+    await Promise.all([...controls, groupedRadioButton].map(waitForUpdate));
+
+    expect(controls.map((control) => control.disabled)).toEqual(Array(controls.length).fill(true));
+    expect(groupedRadioButton.disabled).toBe(true);
+
+    fieldSet.disabled = false;
+    await waitForUpdate(fieldSet);
+    await Promise.all(controls.map(waitForUpdate));
+
+    expect(controls.map((control) => control.disabled)).toEqual(Array(controls.length).fill(false));
+  });
 });
 
 describe("Label propagation", () => {

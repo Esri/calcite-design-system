@@ -133,6 +133,26 @@ export const simple = (args: FieldSetStoryArgs): string => {
       <calcite-text-area label-text="Label" placeholder="Placeholder"></calcite-text-area>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder" value="Sample value"></calcite-input>
+      <calcite-checkbox label-text="Allows large dogs"></calcite-checkbox>
+      <calcite-radio-button label-text="Standalone radio button" value="standalone"></calcite-radio-button>
+      <calcite-radio-button-group name="framework">
+        <calcite-radio-button label-text="React" value="react"></calcite-radio-button>
+        <calcite-radio-button label-text="Vue" value="vue"></calcite-radio-button>
+      </calcite-radio-button-group>
+      <calcite-switch label="Enable notifications"></calcite-switch>
+      <calcite-select label-text="Select an option">
+        <calcite-option label="First option" value="first"></calcite-option>
+        <calcite-option label="Second option" value="second"></calcite-option>
+      </calcite-select>
+      <calcite-combobox label-text="Choose an option">
+        <calcite-combobox-item heading="First option" value="first"></calcite-combobox-item>
+        <calcite-combobox-item heading="Second option" value="second"></calcite-combobox-item>
+      </calcite-combobox>
+      <calcite-slider label-text="Slider" max="100" min="0" value="50"></calcite-slider>
+      <calcite-segmented-control label-text="Framework">
+        <calcite-segmented-control-item checked value="react">React</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+      </calcite-segmented-control>
     </calcite-field-set>
   `;
 };
@@ -276,6 +296,53 @@ const labels = (args: FieldSetStoryArgs): string => {
       <calcite-label>
         Label
         <calcite-input placeholder="Placeholder" value="Sample value"></calcite-input>
+      </calcite-label>
+      <calcite-label>
+        Allows large dogs
+        <calcite-checkbox></calcite-checkbox>
+      </calcite-label>
+      <calcite-label layout="inline">
+        Standalone radio button
+        <calcite-radio-button value="standalone"></calcite-radio-button>
+      </calcite-label>
+      <calcite-radio-button-group name="framework">
+        <calcite-label layout="inline">
+          React
+          <calcite-radio-button value="react"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label layout="inline">
+          Vue
+          <calcite-radio-button value="vue"></calcite-radio-button>
+        </calcite-label>
+      </calcite-radio-button-group>
+      <calcite-label>
+        Enable notifications
+        <calcite-switch></calcite-switch>
+      </calcite-label>
+      <calcite-label>
+        Select an option
+        <calcite-select>
+          <calcite-option label="First option" value="first"></calcite-option>
+          <calcite-option label="Second option" value="second"></calcite-option>
+        </calcite-select>
+      </calcite-label>
+      <calcite-label>
+        Choose an option
+        <calcite-combobox>
+          <calcite-combobox-item heading="First option" value="first"></calcite-combobox-item>
+          <calcite-combobox-item heading="Second option" value="second"></calcite-combobox-item>
+        </calcite-combobox>
+      </calcite-label>
+      <calcite-label>
+        Slider
+        <calcite-slider max="100" min="0" value="50"></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        Framework
+        <calcite-segmented-control>
+          <calcite-segmented-control-item checked value="react">React</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+        </calcite-segmented-control>
       </calcite-label>
     </calcite-field-set>
   `;

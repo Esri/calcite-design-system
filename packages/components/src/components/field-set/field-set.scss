@@ -68,6 +68,7 @@
   &--columns {
     display: grid;
     place-content: stretch;
+    align-items: start;
     column-gap: var(--calcite-internal-field-set-column-gap);
     grid-template-columns: repeat(
       var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 1)),

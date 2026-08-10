@@ -2,8 +2,7 @@ import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Input } from "../input/input";
 import type { Scale } from "../interfaces";
-import type { TextArea } from "../text-area/text-area";
-import { getSlotAssignedElements, getStylePixelValue } from "../../utils/dom";
+import { getStylePixelValue } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -15,7 +14,24 @@ const internalSuffixWidthVar = "--calcite-internal-input-suffix-width";
 const prefixSizeVar = "--calcite-input-prefix-size";
 const suffixSizeVar = "--calcite-input-suffix-size";
 
-type ReadOnlyElement = Input["el"] | TextArea["el"];
+type DisabledElement = HTMLElement & { disabled: boolean };
+type ReadOnlyElement = HTMLElement & { readOnly: boolean };
+type ScaledElement = HTMLElement & { scale: Scale };
+
+const controlBoundarySelector =
+  "calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
+
+function hasDisabledProperty(element: HTMLElement): element is DisabledElement {
+  return "disabled" in element;
+}
+
+function hasReadOnlyProperty(element: HTMLElement): element is ReadOnlyElement {
+  return "readOnly" in element;
+}
+
+function hasScaleProperty(element: HTMLElement): element is ScaledElement {
+  return "scale" in element;
+}
 
 declare global {
   interface DeclareElements {
@@ -35,38 +51,37 @@ export class FieldSet extends LitElement {
 
   //#region Private Properties
 
-  private inputDisabledState = new WeakMap<Input["el"], boolean>();
+  private controlDisabledState = new WeakMap<DisabledElement, boolean>();
 
-  private inputReadOnlyState = new WeakMap<ReadOnlyElement, boolean>();
+  private controlReadOnlyState = new WeakMap<ReadOnlyElement, boolean>();
 
   private get inputs(): Input["el"][] {
-    return (
-      this.slottedElements.flatMap((element) => {
-        if (element.matches("calcite-input")) {
-          return [element];
-        }
-
-        return Array.from(element.querySelectorAll<Input["el"]>("calcite-input"));
-      }) ?? []
+    return this.controlElements.filter((element): element is Input["el"] =>
+      element.matches("calcite-input"),
     );
   }
 
-  private get readOnlyElements(): ReadOnlyElement[] {
-    return this.slottedElements.flatMap((element) => {
-      if (element.matches("calcite-input, calcite-text-area")) {
-        return [element as ReadOnlyElement];
+  private get controlElements(): HTMLElement[] {
+    return Array.from(this.el.querySelectorAll<HTMLElement>("*")).filter((element) => {
+      if (element.matches("calcite-field-set")) {
+        return false;
       }
 
-      return Array.from(
-        element.querySelectorAll<ReadOnlyElement>("calcite-input, calcite-text-area"),
-      );
+      const closestBoundary = element.closest(controlBoundarySelector);
+      return closestBoundary === this.el || closestBoundary === element;
     });
   }
 
-  private get slottedElements(): HTMLElement[] {
-    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>("slot:not([name])");
+  private get disabledElements(): DisabledElement[] {
+    return this.controlElements.filter(hasDisabledProperty);
+  }
 
-    return slot ? getSlotAssignedElements<HTMLElement>(slot) : [];
+  private get readOnlyElements(): ReadOnlyElement[] {
+    return this.controlElements.filter(hasReadOnlyProperty);
+  }
+
+  private get scaledElements(): ScaledElement[] {
+    return this.controlElements.filter(hasScaleProperty);
   }
 
   //#endregion
@@ -76,7 +91,7 @@ export class FieldSet extends LitElement {
   /** When `layout` is `"columns"`, specifies the number of columns. */
   @property({ type: Number, reflect: true }) columns?: Columns;
 
-  /** When `true`, disables the slotted inputs. */
+  /** When `true`, disables slotted controls. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component layout. */
@@ -85,13 +100,13 @@ export class FieldSet extends LitElement {
   /** Specifies the field set legend. */
   @property() legend?: string;
 
-  /** When `true`, sets slotted inputs to read-only. */
+  /** When `true`, sets slotted controls to read-only. */
   @property({ reflect: true }) readOnly = false;
 
   /** When `true`, slotted input prefixes share the same width. */
   @property({ reflect: true }) prefixAutoWidth = false;
 
-  /** Specifies the scale of the slotted inputs. */
+  /** Specifies the scale of slotted controls. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, slotted input suffixes share the same width. */
@@ -107,15 +122,15 @@ export class FieldSet extends LitElement {
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("disabled")) {
-      this.syncInputsDisabledState(changes.get("disabled"));
+      this.syncControlsDisabledState(changes.get("disabled"));
     }
 
     if (changes.has("scale")) {
-      this.syncInputsScale();
+      this.syncControlsScale();
     }
 
     if (changes.has("readOnly")) {
-      this.syncInputsReadOnlyState(changes.get("readOnly"));
+      this.syncControlsReadOnlyState(changes.get("readOnly"));
     }
 
     if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
@@ -127,12 +142,12 @@ export class FieldSet extends LitElement {
 
   //#region Private Methods
 
-  private getInputDisabledState(input: Input["el"]): boolean {
-    return input.hasAttribute("disabled") || input.disabled;
+  private getControlDisabledState(control: DisabledElement): boolean {
+    return control.hasAttribute("disabled") || control.disabled;
   }
 
-  private getInputReadOnlyState(input: ReadOnlyElement): boolean {
-    return input.hasAttribute("read-only") || input.readOnly;
+  private getControlReadOnlyState(control: ReadOnlyElement): boolean {
+    return control.hasAttribute("read-only") || control.readOnly;
   }
 
   private async getInputAffixWidth(
@@ -150,38 +165,38 @@ export class FieldSet extends LitElement {
     return getStylePixelValue(getComputedStyle(input).getPropertyValue(affixWidthProperty).trim());
   }
 
-  private syncInputsDisabledState(previousDisabled = this.disabled): void {
+  private syncControlsDisabledState(previousDisabled = this.disabled): void {
     const wasDisabled = previousDisabled;
 
-    this.inputs?.forEach((input) => {
+    this.disabledElements.forEach((control) => {
       if (this.disabled) {
-        if (!wasDisabled || !this.inputDisabledState.has(input)) {
-          this.inputDisabledState.set(input, this.getInputDisabledState(input));
+        if (!wasDisabled || !this.controlDisabledState.has(control)) {
+          this.controlDisabledState.set(control, this.getControlDisabledState(control));
         }
 
-        input.toggleAttribute("disabled", true);
-        input.disabled = true;
+        control.toggleAttribute("disabled", true);
+        control.disabled = true;
         return;
       }
 
       if (!wasDisabled) {
-        this.inputDisabledState.set(input, this.getInputDisabledState(input));
+        this.controlDisabledState.set(control, this.getControlDisabledState(control));
         return;
       }
 
-      const inputDisabled = this.inputDisabledState.get(input);
-      const nextDisabled = inputDisabled ?? this.getInputDisabledState(input);
+      const controlDisabled = this.controlDisabledState.get(control);
+      const nextDisabled = controlDisabled ?? this.getControlDisabledState(control);
 
-      input.toggleAttribute("disabled", nextDisabled);
-      input.disabled = nextDisabled;
-      this.inputDisabledState.set(input, nextDisabled);
+      control.toggleAttribute("disabled", nextDisabled);
+      control.disabled = nextDisabled;
+      this.controlDisabledState.set(control, nextDisabled);
     });
   }
 
   private handleInputSlotChange(): void {
-    this.syncInputsDisabledState();
-    this.syncInputsReadOnlyState();
-    this.syncInputsScale();
+    this.syncControlsDisabledState();
+    this.syncControlsReadOnlyState();
+    this.syncControlsScale();
     void this.syncInputsAffixWidths();
   }
 
@@ -229,37 +244,37 @@ export class FieldSet extends LitElement {
     await this.syncInputAffixWidth(internalSuffixWidthVar, this.suffixAutoWidth, suffixSizeVar);
   }
 
-  private syncInputsScale(): void {
-    this.readOnlyElements.forEach((input) => {
-      input.scale = this.scale;
+  private syncControlsScale(): void {
+    this.scaledElements.forEach((control) => {
+      control.scale = this.scale;
     });
   }
 
-  private syncInputsReadOnlyState(previousReadOnly = this.readOnly): void {
+  private syncControlsReadOnlyState(previousReadOnly = this.readOnly): void {
     const wasReadOnly = previousReadOnly;
 
-    this.readOnlyElements.forEach((input) => {
+    this.readOnlyElements.forEach((control) => {
       if (this.readOnly) {
-        if (!wasReadOnly || !this.inputReadOnlyState.has(input)) {
-          this.inputReadOnlyState.set(input, this.getInputReadOnlyState(input));
+        if (!wasReadOnly || !this.controlReadOnlyState.has(control)) {
+          this.controlReadOnlyState.set(control, this.getControlReadOnlyState(control));
         }
 
-        input.toggleAttribute("read-only", true);
-        input.readOnly = true;
+        control.toggleAttribute("read-only", true);
+        control.readOnly = true;
         return;
       }
 
       if (!wasReadOnly) {
-        this.inputReadOnlyState.set(input, this.getInputReadOnlyState(input));
+        this.controlReadOnlyState.set(control, this.getControlReadOnlyState(control));
         return;
       }
 
-      const inputReadOnly = this.inputReadOnlyState.get(input);
-      const nextReadOnly = inputReadOnly ?? this.getInputReadOnlyState(input);
+      const controlReadOnly = this.controlReadOnlyState.get(control);
+      const nextReadOnly = controlReadOnly ?? this.getControlReadOnlyState(control);
 
-      input.toggleAttribute("read-only", nextReadOnly);
-      input.readOnly = nextReadOnly;
-      this.inputReadOnlyState.set(input, nextReadOnly);
+      control.toggleAttribute("read-only", nextReadOnly);
+      control.readOnly = nextReadOnly;
+      this.controlReadOnlyState.set(control, nextReadOnly);
     });
   }
 
