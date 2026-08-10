@@ -1,5 +1,5 @@
 // @ts-check
-const { createLabelIfMissing } = require("./support/utils");
+const { createLabelIfMissing } = require("./support/utils.cjs");
 const {
   labels: { productColor },
 } = require("./support/resources.cjs");

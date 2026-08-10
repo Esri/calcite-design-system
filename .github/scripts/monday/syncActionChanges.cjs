@@ -1,6 +1,6 @@
 // @ts-check
-const Monday = require("../support/monday");
-const { assertRequired, createBodyUpdater } = require("../support/utils");
+const Monday = require("../support/monday.cjs");
+const { assertRequired, createBodyUpdater } = require("../support/utils.cjs");
 
 /**
  * @typedef {object} SyncActionChangesInputs
