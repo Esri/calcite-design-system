@@ -1,18 +1,12 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import {
-  defaults,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  themed,
-} from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
 import { CSS as FieldSetRowCSS } from "../field-set-row/resources";
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
+  disabled?: boolean;
   prefixAutoWidth?: boolean;
   readOnly?: boolean;
   scale?: string;
@@ -21,6 +15,7 @@ type UpdatableElement = HTMLElement & {
 };
 
 type FieldSetElement = UpdatableElement & {
+  disabled?: boolean;
   shadowRoot: ShadowRoot;
 };
 
@@ -36,6 +31,7 @@ describe("defaults", () => {
   defaults(() => mount("calcite-field-set"), {
     disabled: false,
     layout: "vertical",
+    legend: undefined,
     prefixAutoWidth: false,
     readOnly: false,
     scale: "m",
@@ -63,16 +59,12 @@ describe("renders", () => {
   renders(
     () =>
       mount(
-        <calcite-field-set>
+        <calcite-field-set legend="Legend text">
           <calcite-input />
         </calcite-field-set>,
       ),
     { display: "block" },
   );
-});
-
-describe("slots", () => {
-  slots(() => mount("calcite-field-set"), ["legend"], true);
 });
 
 describe("structure", () => {
@@ -85,27 +77,14 @@ describe("structure", () => {
     expect(legendWrapper.hidden).toBe(true);
   });
 
-  it("hides the legend wrapper when the legend slot has no text", async () => {
-    const { el } = await mount<"calcite-field-set">(
-      <calcite-field-set>
-        <div slot="legend" />
-      </calcite-field-set>,
-    );
-
-    expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legendWrapper}`)!.hidden).toBe(true);
-  });
-
-  it("renders a native legend when the legend slot is populated", async () => {
-    const { el } = await mount<"calcite-field-set">(
-      <calcite-field-set>
-        <div slot="legend">Legend text</div>
-      </calcite-field-set>,
-    );
+  it("renders a native legend when the legend property is populated", async () => {
+    const { el } = await mount<"calcite-field-set">(<calcite-field-set legend="Legend text" />);
     const fieldSet = el as unknown as FieldSetElement;
     const legend = fieldSet.shadowRoot.querySelector<HTMLElement>(".legend")!;
 
     await vi.waitFor(() => {
       expect(legend.tagName).toBe("LEGEND");
+      expect(legend.textContent).toBe("Legend text");
       expect(legend.parentElement!.hidden).toBe(false);
     });
   });
@@ -416,7 +395,6 @@ describe("theme", () => {
     () =>
       mount(
         <calcite-field-set>
-          <div slot="legend">Legend text</div>
           <calcite-input />
         </calcite-field-set>,
       ),

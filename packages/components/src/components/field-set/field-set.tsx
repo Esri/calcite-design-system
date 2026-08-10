@@ -1,10 +1,9 @@
 import type { PropertyValues } from "lit";
-import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
+import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Input } from "../input/input";
 import type { Scale } from "../interfaces";
 import type { TextArea } from "../text-area/text-area";
 import { getSlotAssignedElements, getStylePixelValue } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -26,7 +25,6 @@ declare global {
 
 /**
  * @slot - A slot for adding content to the field set.
- * @slot legend - A slot for adding legend content.
  */
 export class FieldSet extends LitElement {
   //#region Static Members
@@ -40,10 +38,6 @@ export class FieldSet extends LitElement {
   private inputDisabledState = new WeakMap<Input["el"], boolean>();
 
   private inputReadOnlyState = new WeakMap<ReadOnlyElement, boolean>();
-
-  private legendId = `calcite-field-set-legend-${guid()}`;
-
-  private legendObserver: MutationObserver | undefined;
 
   private get inputs(): Input["el"][] {
     return (
@@ -77,12 +71,6 @@ export class FieldSet extends LitElement {
 
   //#endregion
 
-  //#region State Properties
-
-  @state() private hasLegend = false;
-
-  //#endregion
-
   //#region Public Properties
 
   /** When `layout` is `"columns"`, specifies the number of columns. */
@@ -93,6 +81,9 @@ export class FieldSet extends LitElement {
 
   /** Specifies the component layout. */
   @property({ reflect: true }) layout: Layout = "vertical";
+
+  /** Specifies the field set legend. */
+  @property() legend?: string;
 
   /** When `true`, sets slotted inputs to read-only. */
   @property({ reflect: true }) readOnly = false;
@@ -112,20 +103,6 @@ export class FieldSet extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-
-    this.syncHasLegend();
-
-    this.legendObserver = new MutationObserver(() => {
-      this.syncHasLegend();
-    });
-
-    this.legendObserver.observe(this.el, {
-      attributes: true,
-      attributeFilter: ["slot"],
-      childList: true,
-      characterData: true,
-      subtree: true,
-    });
   }
 
   override updated(changes: PropertyValues<this>): void {
@@ -144,13 +121,6 @@ export class FieldSet extends LitElement {
     if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
       void this.syncInputsAffixWidths();
     }
-  }
-
-  override disconnectedCallback(): void {
-    this.legendObserver?.disconnect();
-    this.legendObserver = undefined;
-
-    super.disconnectedCallback();
   }
 
   //#endregion
@@ -293,12 +263,6 @@ export class FieldSet extends LitElement {
     });
   }
 
-  private syncHasLegend(): void {
-    this.hasLegend = Array.from(this.el.children).some((element) => {
-      return element.getAttribute("slot") === "legend" && Boolean(element.textContent?.trim());
-    });
-  }
-
   //#endregion
 
   //#region Rendering
@@ -306,10 +270,8 @@ export class FieldSet extends LitElement {
   override render(): JsxNode {
     return (
       <fieldset class={CSS.container} disabled={this.disabled}>
-        <div class={CSS.legendWrapper} hidden={!this.hasLegend}>
-          <legend class={CSS.legend} id={this.legendId}>
-            <slot name="legend" />
-          </legend>
+        <div class={CSS.legendWrapper} hidden={!this.legend}>
+          <legend class={CSS.legend}>{this.legend}</legend>
         </div>
         <div
           class={{

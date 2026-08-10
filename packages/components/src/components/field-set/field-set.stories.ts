@@ -2,7 +2,7 @@ import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
   disabled: boolean;
-  legendText: string;
+  legend: string;
   legendTextColor?: string;
   inputGap?: string;
   gap?: string;
@@ -20,7 +20,7 @@ const hiddenCustomSpacingArgTypes = Object.fromEntries(
     "columns",
     "disabled",
     "layout",
-    "legendText",
+    "legend",
     "legendTextColor",
     "prefixAutoWidth",
     "readOnly",
@@ -36,7 +36,7 @@ export default {
   },
   args: {
     disabled: false,
-    legendText: "Field Set legend",
+    legend: "Field Set legend",
     legendTextColor: "",
     readOnly: false,
     scale: "m",
@@ -72,7 +72,7 @@ export default {
       control: { type: "radio" },
       if: { arg: "layout", eq: "columns" },
     },
-    legendText: {
+    legend: {
       control: { type: "text" },
     },
     legendTextColor: {
@@ -114,12 +114,12 @@ export const simple = (args: FieldSetStoryArgs): string => {
     <calcite-field-set
       ${args.layout === "columns" && args.columns ? `columns="${args.columns}"` : ""}
       ${args.disabled ? "disabled" : ""}
+      legend="${args.legend}"
       ${args.readOnly ? "read-only" : ""}
       layout="${args.layout}"
       scale="${args.scale}"
       ${style ? `style="${style}"` : ""}
     >
-      <div slot="legend">${args.legendText}</div>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input
         label-text="Label"
@@ -142,8 +142,8 @@ simple.parameters = {
 
 export const scales = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; gap: 3rem;">
-    ${simple({ ...args, legendText: "Small", scale: "s" })} ${simple({ ...args, legendText: "Medium (default)" })}
-    ${simple({ ...args, legendText: "Large", scale: "l" })}
+    ${simple({ ...args, legend: "Small", scale: "s" })} ${simple({ ...args, legend: "Medium (default)" })}
+    ${simple({ ...args, legend: "Large", scale: "l" })}
   </div>
 `;
 scales.args = { scale: "m" };
@@ -151,14 +151,14 @@ scales.parameters = { controls: { disable: true } };
 
 export const layouts = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; flex-direction: column; gap: 3rem;">
-    ${simple({ ...args, layout: "vertical", legendText: "Vertical" })}
-    ${simple({ ...args, layout: "horizontal", legendText: "Horizontal" })}
-    ${simple({ ...args, columns: 1, layout: "columns", legendText: "Columns (1)" })}
-    ${simple({ ...args, columns: 2, layout: "columns", legendText: "Columns (2)" })}
-    ${simple({ ...args, columns: 3, layout: "columns", legendText: "Columns (3)" })}
-    ${simple({ ...args, columns: 4, layout: "columns", legendText: "Columns (4)" })}
-    ${simple({ ...args, columns: 5, layout: "columns", legendText: "Columns (5)" })}
-    ${simple({ ...args, columns: 6, layout: "columns", legendText: "Columns (6)" })}
+    ${simple({ ...args, layout: "vertical", legend: "Vertical" })}
+    ${simple({ ...args, layout: "horizontal", legend: "Horizontal" })}
+    ${simple({ ...args, columns: 1, layout: "columns", legend: "Columns (1)" })}
+    ${simple({ ...args, columns: 2, layout: "columns", legend: "Columns (2)" })}
+    ${simple({ ...args, columns: 3, layout: "columns", legend: "Columns (3)" })}
+    ${simple({ ...args, columns: 4, layout: "columns", legend: "Columns (4)" })}
+    ${simple({ ...args, columns: 5, layout: "columns", legend: "Columns (5)" })}
+    ${simple({ ...args, columns: 6, layout: "columns", legend: "Columns (6)" })}
   </div>
 `;
 layouts.parameters = { controls: { disable: true } };
@@ -197,8 +197,8 @@ export const prefixAndSuffixAutoWidth = (args: FieldSetStoryArgs): string => htm
   <calcite-field-set
     ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
     ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
+    legend="prefix and suffix auto-width"
   >
-    <div slot="legend">prefix and suffix auto-width</div>
     <calcite-input
       label-text="Desired size"
       prefix-text="prefix"
@@ -238,12 +238,12 @@ const labels = (args: FieldSetStoryArgs): string => {
     <calcite-field-set
       ${args.layout === "columns" && args.columns ? `columns="${args.columns}"` : ""}
       ${args.disabled ? "disabled" : ""}
+      legend="${args.legend}"
       ${args.readOnly ? "read-only" : ""}
       layout="${args.layout}"
       scale="${args.scale}"
       ${style ? `style="${style}"` : ""}
     >
-      <div slot="legend">${args.legendText}</div>
       <calcite-label>
         Label
         <calcite-input placeholder="Placeholder"></calcite-input>
@@ -288,8 +288,8 @@ simpleUsingLabels.parameters = {
 
 export const scalesUsingLabels = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; gap: 3rem;">
-    ${labels({ ...args, legendText: "Small", scale: "s" })} ${labels({ ...args, legendText: "Medium (default)" })}
-    ${labels({ ...args, legendText: "Large", scale: "l" })}
+    ${labels({ ...args, legend: "Small", scale: "s" })} ${labels({ ...args, legend: "Medium (default)" })}
+    ${labels({ ...args, legend: "Large", scale: "l" })}
   </div>
 `;
 scalesUsingLabels.args = { scale: "m" };
@@ -297,14 +297,14 @@ scalesUsingLabels.parameters = { controls: { disable: true } };
 
 export const layoutsUsingLabels = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; flex-direction: column; gap: 3rem;">
-    ${labels({ ...args, layout: "vertical", legendText: "Vertical" })}
-    ${labels({ ...args, layout: "horizontal", legendText: "Horizontal" })}
-    ${labels({ ...args, columns: 1, layout: "columns", legendText: "Columns (1)" })}
-    ${labels({ ...args, columns: 2, layout: "columns", legendText: "Columns (2)" })}
-    ${labels({ ...args, columns: 3, layout: "columns", legendText: "Columns (3)" })}
-    ${labels({ ...args, columns: 4, layout: "columns", legendText: "Columns (4)" })}
-    ${labels({ ...args, columns: 5, layout: "columns", legendText: "Columns (5)" })}
-    ${labels({ ...args, columns: 6, layout: "columns", legendText: "Columns (6)" })}
+    ${labels({ ...args, layout: "vertical", legend: "Vertical" })}
+    ${labels({ ...args, layout: "horizontal", legend: "Horizontal" })}
+    ${labels({ ...args, columns: 1, layout: "columns", legend: "Columns (1)" })}
+    ${labels({ ...args, columns: 2, layout: "columns", legend: "Columns (2)" })}
+    ${labels({ ...args, columns: 3, layout: "columns", legend: "Columns (3)" })}
+    ${labels({ ...args, columns: 4, layout: "columns", legend: "Columns (4)" })}
+    ${labels({ ...args, columns: 5, layout: "columns", legend: "Columns (5)" })}
+    ${labels({ ...args, columns: 6, layout: "columns", legend: "Columns (6)" })}
   </div>
 `;
 layoutsUsingLabels.parameters = { controls: { disable: true } };
@@ -348,8 +348,8 @@ export const prefixAndSuffixAutoWidthUsingLabels = (args: FieldSetStoryArgs): st
   <calcite-field-set
     ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
     ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
+    legend="prefix and suffix auto-width"
   >
-    <div slot="legend">prefix and suffix auto-width</div>
     <calcite-label>
       Desired size
       <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"></calcite-input>
@@ -370,8 +370,7 @@ prefixAndSuffixAutoWidthUsingLabels.parameters = {
 };
 
 export const fieldSetRowWrappers = (): string => html`
-  <calcite-field-set>
-    <div slot="legend">Field Set legend</div>
+  <calcite-field-set legend="Field Set legend">
     <calcite-field-set-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
@@ -383,8 +382,7 @@ export const fieldSetRowWrappers = (): string => html`
 `;
 
 export const fieldSetOneRowWrapper = (): string => html`
-  <calcite-field-set>
-    <div slot="legend">Field Set legend</div>
+  <calcite-field-set legend="Field Set legend">
     <calcite-field-set-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
@@ -394,8 +392,7 @@ export const fieldSetOneRowWrapper = (): string => html`
 `;
 
 export const fieldSetParentChildColumns = (): string => html`
-  <calcite-field-set layout="columns" columns="2">
-    <div slot="legend">Field Set legend</div>
+  <calcite-field-set layout="columns" columns="2" legend="Field Set legend">
     <calcite-field-set-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>

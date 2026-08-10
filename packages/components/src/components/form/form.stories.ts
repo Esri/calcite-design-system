@@ -70,14 +70,12 @@ export const simple = (args: FormStoryArgs): string => html`
     scale="${args.scale}"
     ${args.space ? `style="--calcite-form-space: ${args.space};"` : ""}
   >
-    <calcite-field-set>
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set legend="Field Set legend">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-text-area label-text="Label" placeholder="Placeholder"></calcite-text-area>
     </calcite-field-set>
-    <calcite-field-set>
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set legend="Field Set legend">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
     </calcite-field-set>
@@ -98,8 +96,7 @@ export const simple = (args: FormStoryArgs): string => html`
 `;
 
 const renderLabelFieldSets = (): string => html`
-  <calcite-field-set>
-    <div slot="legend">Field Set legend</div>
+  <calcite-field-set legend="Field Set legend">
     <calcite-label>
       Label
       <calcite-input placeholder="Placeholder"></calcite-input>
@@ -113,8 +110,7 @@ const renderLabelFieldSets = (): string => html`
       <calcite-text-area placeholder="Placeholder"></calcite-text-area>
     </calcite-label>
   </calcite-field-set>
-  <calcite-field-set>
-    <div slot="legend">Field Set legend</div>
+  <calcite-field-set legend="Field Set legend">
     <calcite-label>
       Label
       <calcite-input placeholder="Placeholder"></calcite-input>
@@ -135,8 +131,7 @@ const renderNativeFormFieldSets = (requireName = false): string => {
   const lastNameValue = requireName ? "" : 'value="Ramos"';
 
   return `
-    <calcite-field-set>
-      <div slot="legend">Applicant details</div>
+    <calcite-field-set legend="Applicant details">
       <calcite-input
         label-text="First name"
         name="firstName"
@@ -151,8 +146,7 @@ const renderNativeFormFieldSets = (requireName = false): string => {
         ${lastNameValue}
       ></calcite-input>
     </calcite-field-set>
-    <calcite-field-set>
-      <div slot="legend">Property details</div>
+    <calcite-field-set legend="Property details">
       <calcite-input
         label-text="Parcel ID"
         name="parcelId"
@@ -174,8 +168,7 @@ const renderNativeFormLabelFieldSets = (requireName = false): string => {
   const lastNameValue = requireName ? "" : 'value="Ramos"';
 
   return `
-    <calcite-field-set>
-      <div slot="legend">Applicant details</div>
+    <calcite-field-set legend="Applicant details">
       <calcite-label>
         First name
         <calcite-input name="firstName" placeholder="Enter first name" value="Alicia"></calcite-input>
@@ -190,8 +183,7 @@ const renderNativeFormLabelFieldSets = (requireName = false): string => {
         ></calcite-input>
       </calcite-label>
     </calcite-field-set>
-    <calcite-field-set>
-      <div slot="legend">Property details</div>
+    <calcite-field-set legend="Property details">
       <calcite-label>
         Parcel ID
         <calcite-input name="parcelId" placeholder="Enter parcel ID" value="12-345-6789"></calcite-input>
@@ -351,18 +343,15 @@ const renderControlsForm = (args: FormStoryArgs, style = ""): string => html`
     scale="${args.scale}"
     ${style ? `style="${style}"` : ""}
   >
-    <calcite-field-set columns="2" layout="columns">
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set columns="2" layout="columns" legend="Field Set legend">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
     </calcite-field-set>
-    <calcite-field-set>
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set legend="Field Set legend">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
     </calcite-field-set>
-    <calcite-field-set layout="horizontal">
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set layout="horizontal" legend="Field Set legend">
       <calcite-checkbox label-text="Allows large dogs"></calcite-checkbox>
       <calcite-checkbox label-text="Must have parking"></calcite-checkbox>
       <calcite-checkbox label-text="Allows cats"></calcite-checkbox>
@@ -371,8 +360,7 @@ const renderControlsForm = (args: FormStoryArgs, style = ""): string => html`
       <calcite-checkbox label-text="Waterfront"></calcite-checkbox>
       <calcite-checkbox label-text="On-site parking"></calcite-checkbox>
     </calcite-field-set>
-    <calcite-field-set layout="columns" columns="2">
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set layout="columns" columns="2" legend="Field Set legend">
       <calcite-checkbox label-text="Allows large dogs"></calcite-checkbox>
       <calcite-checkbox label-text="Must have parking"></calcite-checkbox>
       <calcite-checkbox label-text="Allows cats"></calcite-checkbox>
@@ -391,8 +379,7 @@ const renderControlsFormUsingLabels = (args: FormStoryArgs, style = ""): string 
     scale="${args.scale}"
     ${style ? `style="${style}"` : ""}
   >
-    <calcite-field-set columns="2" layout="columns">
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set columns="2" layout="columns" legend="Field Set legend">
       <calcite-label>
         Label
         <calcite-input placeholder="Placeholder"></calcite-input>
@@ -402,8 +389,7 @@ const renderControlsFormUsingLabels = (args: FormStoryArgs, style = ""): string 
         <calcite-input placeholder="Placeholder"></calcite-input>
       </calcite-label>
     </calcite-field-set>
-    <calcite-field-set>
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set legend="Field Set legend">
       <calcite-label>
         Label
         <calcite-input placeholder="Placeholder"></calcite-input>
@@ -413,8 +399,7 @@ const renderControlsFormUsingLabels = (args: FormStoryArgs, style = ""): string 
         <calcite-input placeholder="Placeholder"></calcite-input>
       </calcite-label>
     </calcite-field-set>
-    <calcite-field-set layout="horizontal">
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set layout="horizontal" legend="Field Set legend">
       <calcite-checkbox label-text="Allows large dogs"></calcite-checkbox>
       <calcite-checkbox label-text="Must have parking"></calcite-checkbox>
       <calcite-checkbox label-text="Allows cats"></calcite-checkbox>
@@ -423,8 +408,7 @@ const renderControlsFormUsingLabels = (args: FormStoryArgs, style = ""): string 
       <calcite-checkbox label-text="Waterfront"></calcite-checkbox>
       <calcite-checkbox label-text="On-site parking"></calcite-checkbox>
     </calcite-field-set>
-    <calcite-field-set layout="columns" columns="2">
-      <div slot="legend">Field Set legend</div>
+    <calcite-field-set layout="columns" columns="2" legend="Field Set legend">
       <calcite-checkbox label-text="Allows large dogs"></calcite-checkbox>
       <calcite-checkbox label-text="Must have parking"></calcite-checkbox>
       <calcite-checkbox label-text="Allows cats"></calcite-checkbox>
