@@ -1,5 +1,5 @@
 import { defineConfig } from "vitest/config";
-import packageJson from "./package.json" with { type: "json" };
+import { workspaces } from "./package.json" with { type: "json" };
 
 /**
  * This helps Vitest VS Code extensions discover all vite config files in the
@@ -9,6 +9,6 @@ import packageJson from "./package.json" with { type: "json" };
  */
 export default defineConfig({
   test: {
-    projects: packageJson.workspaces.map((workspace) => `${workspace}/vite.config.ts`)
+    projects: workspaces.map((workspace) => `${workspace}/vite.config.ts`)
   },
 });
