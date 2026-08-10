@@ -19,12 +19,12 @@ jobs:
         uses: actions/github-script@v9
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/assignPullRequestAuthor')
+            const action = require('${{ github.workspace }}/.github/scripts/assignPullRequestAuthor.cjs')
             await action({github, context, core})
 
       - name: "Add commit type label"
         uses: actions/github-script@v9
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/labelPullRequestWithCommitType')
+            const action = require('${{ github.workspace }}/.github/scripts/labelPullRequestWithCommitType.cjs')
             await action({github, context, core})

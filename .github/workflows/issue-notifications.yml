@@ -18,7 +18,7 @@ jobs:
           ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenInstalled')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenInstalled.cjs')
             await action({github, context, core})
 
       - name: "Spike complete notification"
@@ -28,7 +28,7 @@ jobs:
           PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenSpikeComplete')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenSpikeComplete.cjs')
             await action({github, context, core})
 
       - name: "Ready for dev notification"
@@ -38,7 +38,7 @@ jobs:
           PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev.cjs')
             await action({github, context, core})
 
       - name: "New component notification"
@@ -48,7 +48,7 @@ jobs:
           DESIGNERS: ${{secrets.CALCITE_DESIGNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent.cjs')
             await action({github, context, core})
 
       - name: "Icon request notification"
@@ -58,5 +58,5 @@ jobs:
           ICONS_TEAM: ${{secrets.ICON_LEADS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutIconRequest')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutIconRequest.cjs')
             await action({github, context, core})

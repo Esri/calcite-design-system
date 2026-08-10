@@ -12,5 +12,5 @@ jobs:
       - uses: actions/github-script@v9
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/validatePullRequestTitle')
+            const action = require('${{ github.workspace }}/.github/scripts/validatePullRequestTitle.cjs')
             await action({github, context, core})
