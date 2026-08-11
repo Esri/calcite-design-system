@@ -60,11 +60,7 @@ export const formatIndexFile: FormatFn = async (args) => {
           .join("")
       : "";
   const platformClasses = themes
-    .map((theme) =>
-      format === "css"
-        ? `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`
-        : `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`,
-    )
+    .map((theme) => `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`)
     .join("");
   const content = [imports, root, scopedReferences, atMedia, platformClasses].filter((item) => !!item).join("");
 
