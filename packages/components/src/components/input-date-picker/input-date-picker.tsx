@@ -72,6 +72,7 @@ import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -1077,7 +1078,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   private warnAboutInvalidValue(value: string): void {
-    console.warn(
+    logger.warn(
       `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`,
     );
   }

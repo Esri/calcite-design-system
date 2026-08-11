@@ -32,7 +32,10 @@
 :host {
   @apply inline-block w-auto align-middle;
 
-  border-radius: var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, 0));
+  border-radius: var(
+    --calcite-button-corner-radius,
+    var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius))
+  );
 
   a,
   button {
@@ -91,7 +94,10 @@
     );
     border-style: solid;
     border-width: var(--calcite-border-width-sm);
-    border-radius: var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, 0));
+    border-radius: var(
+      --calcite-button-corner-radius,
+      var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius))
+    );
     color: var(--calcite-button-text-color, var(--calcite-internal-button-text-color, currentColor));
     padding-block: var(--calcite-internal-button-padding-y);
     padding-inline: var(--calcite-internal-button-padding-x);
