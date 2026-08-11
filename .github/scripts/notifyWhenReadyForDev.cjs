@@ -1,0 +1,76 @@
+// @ts-check
+// When the "2 - ready for dev" label is added to an issue:
+// 1. Modifies the labels,
+// 2. Updates the assignees and milestone, and
+// 3. Generates a notification comment tagging the planner(s)
+// 4. Emits "SyncActionChanges" event to trigger the Monday.com sync
+//
+// The secret is formatted like so: person1, person2, person3
+//
+// Note the script automatically adds the "@" character in to notify the planner(s)
+const {
+  labels: { issueWorkflow },
+  milestones,
+} = require("./support/resources.cjs");
+const { removeLabel } = require("./support/utils.cjs");
+
+/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
+module.exports = async ({ github, context }) => {
+  const { repo, owner } = context.repo;
+
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
+  const {
+    issue: { number },
+  } = payload;
+
+  const { PLANNERS } = process.env;
+
+  // Add a "@" character to notify the user
+  const calcite_planners = PLANNERS?.split(",").map((v) => " @" + v.trim());
+
+  const issueProps = {
+    owner,
+    repo,
+    issue_number: number,
+  };
+
+  /* Modify labels */
+
+  await removeLabel({
+    github,
+    context,
+    label: issueWorkflow.needsTriage,
+  });
+
+  await removeLabel({
+    github,
+    context,
+    label: issueWorkflow.inDesign,
+  });
+
+  // Clear assignees and set milestone to backlog
+  await github.rest.issues.update({
+    ...issueProps,
+    assignees: [],
+    milestone: milestones.backlog.number,
+  });
+
+  // Add a comment to notify the planner(s)
+  await github.rest.issues.createComment({
+    ...issueProps,
+    body: `Development can now begin, as design and/or acceptance criteria for the issue have been defined. cc ${calcite_planners}`,
+  });
+
+  await github.rest.actions.createWorkflowDispatch({
+    owner,
+    repo,
+    workflow_id: "issue-monday-sync.yml",
+    ref: "dev",
+    inputs: {
+      issue_number: number.toString(),
+      event_type: "SyncActionChanges",
+      milestone_updated: true,
+      assignee_updated: true,
+    },
+  });
+};

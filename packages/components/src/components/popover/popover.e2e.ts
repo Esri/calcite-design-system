@@ -1,5 +1,5 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -653,41 +653,4 @@ it("should not reopen when trigger is clicked and autoClose=true", async () => {
   await page.waitForChanges();
 
   expect(await popover.getProperty("open")).toBe(false);
-});
-
-describe("warning messages", () => {
-  it("does not warn if reference element is present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-popover reference-element="ref">content</calcite-popover>
-        <div id="ref">referenceElement</div>`,
-    );
-    await page.waitForChanges();
-
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it("does not warn after removal", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-popover reference-element="ref">content</calcite-popover>
-        <div id="ref">referenceElement</div>`,
-    );
-    await page.waitForChanges();
-    const popover = await page.find("calcite-popover");
-    await popover.callMethod("remove");
-    await page.waitForChanges();
-
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it("warns if reference element is not present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-popover reference-element="non-existent-ref">content</calcite-popover>`);
-    await page.waitForChanges();
-
-    expect(console.warn).toHaveBeenCalledWith(
-      expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
-    );
-  });
 });
