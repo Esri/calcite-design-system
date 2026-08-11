@@ -70,6 +70,8 @@ export class ActionBar extends LitElement {
 
   private navigationItems: Array<Action["el"] | ActionMenu["el"]> = [];
 
+  private currentFocusItem?: Action["el"] | ActionMenu["el"];
+
   private guid = guid();
 
   private containerRef = createRef<HTMLDivElement>();
@@ -81,8 +83,6 @@ export class ActionBar extends LitElement {
   private actionGroups: ActionGroup["el"][] = [];
 
   private actionMenuIdIndex = 0;
-
-  private actionGroupsRenderSync = 0;
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -471,27 +471,21 @@ export class ActionBar extends LitElement {
     });
 
     this.ensureActionBarChildIds();
-    this.syncNavigationItemsAfterActionGroupsRender();
+    void this.syncNavigationItemsAfterActionGroupsRender();
   }
 
-  private syncNavigationItemsAfterActionGroupsRender(): void {
-    const sync = ++this.actionGroupsRenderSync;
+  private async syncNavigationItemsAfterActionGroupsRender(): Promise<void> {
     const { actionGroups } = this;
 
-    void Promise.all(
-      actionGroups.map(async (group) => {
-        await group.componentOnReady();
-        await group.manager.component.updateComplete;
-      }),
-    ).then(() => {
-      if (sync !== this.actionGroupsRenderSync || !this.el.isConnected) {
-        return;
-      }
+    await Promise.all(actionGroups.map((group) => group.componentOnReady()));
 
-      this.queryAndStoreNavigableItems();
-      this.syncActiveDescendant();
-      this.updateActions();
-    });
+    if (!this.el.isConnected) {
+      return;
+    }
+
+    this.queryAndStoreNavigableItems();
+    this.syncActiveDescendant();
+    this.updateActions();
   }
 
   private handleDefaultSlotChange(): void {
@@ -715,11 +709,35 @@ export class ActionBar extends LitElement {
     }
 
     if (focusedItem?.matches("calcite-action-menu") && actionMenu) {
+      if (this.isForwardFocusIn(event)) {
+        const defaultNavigationItem = this.getDefaultNavigationItem();
+
+        if (defaultNavigationItem && defaultNavigationItem !== focusedItem) {
+          this.setNavigationItemTabIndexes(defaultNavigationItem);
+          this.focusItem(defaultNavigationItem);
+          return;
+        }
+      }
+
       this.syncClosedActionMenu(actionMenu);
       return;
     }
 
     this.syncActiveDescendant(focusedItem ?? undefined);
+  }
+
+  private isForwardFocusIn(focusEvent: FocusEvent): boolean {
+    const { relatedTarget } = focusEvent;
+
+    if (!(relatedTarget instanceof Element)) {
+      return false;
+    }
+
+    if (closestElementCrossShadowBoundary(relatedTarget, "calcite-action-bar") === this.el) {
+      return false;
+    }
+
+    return !!(relatedTarget.compareDocumentPosition(this.el) & Node.DOCUMENT_POSITION_FOLLOWING);
   }
 
   private handleFocusOut(event: FocusEvent): void {
@@ -803,7 +821,7 @@ export class ActionBar extends LitElement {
     item.focus();
   }
 
-  private getCurrentNavigationItem(): Action["el"] | ActionMenu["el"] {
+  private getCurrentNavigationItem(): Action["el"] | ActionMenu["el"] | undefined {
     const { activeElement } = document;
 
     if (activeElement instanceof HTMLElement) {
@@ -847,6 +865,26 @@ export class ActionBar extends LitElement {
       }
     }
 
+    const currentFocusItem = this.getCurrentFocusItem();
+
+    if (currentFocusItem) {
+      return currentFocusItem;
+    }
+
+    return this.getDefaultNavigationItem();
+  }
+
+  private getCurrentFocusItem(): Action["el"] | ActionMenu["el"] | undefined {
+    const { currentFocusItem } = this;
+
+    return currentFocusItem
+      ? this.navigationItems.find(
+          (item) => item === currentFocusItem || item.id === currentFocusItem.id,
+        )
+      : undefined;
+  }
+
+  private getDefaultNavigationItem(): Action["el"] | ActionMenu["el"] | undefined {
     return (
       this.navigationItems.find(
         (item): item is Action["el"] => isAction(item) && item !== this.expandToggleEl,
@@ -1024,6 +1062,11 @@ export class ActionBar extends LitElement {
       this.navigationItems.find((item) => item.id === this.activeDescendantId) ||
       this.getCurrentNavigationItem();
 
+    if (!current) {
+      this.setActiveDescendantElement();
+      return;
+    }
+
     this.setNavigationItemTabIndexes(current);
 
     const activeDescendantId = this.el.matches(":focus-within")
@@ -1077,6 +1120,8 @@ export class ActionBar extends LitElement {
   }
 
   private setNavigationItemTabIndexes(active: Action["el"] | ActionMenu["el"]): void {
+    this.currentFocusItem = active;
+
     this.navigationItems.forEach((item) => {
       const isActive = item === active || item.id === active.id;
 
@@ -1090,14 +1135,14 @@ export class ActionBar extends LitElement {
         return;
       }
 
-      item.tabIndex = -1;
+      item.tabIndex = isActive ? 0 : -1;
 
       const triggerAction =
         item.querySelector("calcite-action[slot='trigger']") ||
         item.shadowRoot?.querySelector("calcite-action");
 
       if (triggerAction) {
-        triggerAction.setAttribute("tabindex", isActive ? "0" : "-1");
+        triggerAction.setAttribute("tabindex", "-1");
       }
     });
   }
