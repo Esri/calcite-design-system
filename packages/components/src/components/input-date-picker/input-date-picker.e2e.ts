@@ -715,32 +715,6 @@ describe("minAsDate & maxAsDate", () => {
   });
 });
 
-it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-input-date-picker read-only id="canReadOnly"></calcite-input-date-picker>`);
-
-  const component = await page.find("#canReadOnly");
-  const input = await page.find("#canReadOnly >>> calcite-input-text");
-
-  expect(await input.getProperty("value")).toBe("");
-
-  await component.click();
-  await page.waitForChanges();
-  const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
-
-  expect(await page.evaluate(() => document.activeElement!.id)).toBe("canReadOnly");
-  expect(await calendar.isVisible()).toBe(false);
-
-  await component.click();
-  await page.waitForChanges();
-  expect(await calendar.isVisible()).toBe(false);
-
-  await component.type("atención atención");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe("");
-});
-
 it("should return endDate time as 23:59:999 when end value is typed", async () => {
   const page = await newE2EPage();
   await page.setContent(html` <calcite-input-date-picker layout="horizontal" range></calcite-input-date-picker>`);

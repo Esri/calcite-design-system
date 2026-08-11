@@ -668,3 +668,24 @@ it("should not shift focus back on input-date-picker when other input elements a
   await expect.element(calendar).not.toBeVisible();
   await expect.element(input).toHaveFocus();
 });
+
+it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
+  const { el } = await mount(<calcite-input-date-picker read-only />);
+  const input = page.getBySelector("calcite-input-text");
+  const calendar = page.getBySelector(`.${CSS.menu}`);
+
+  await expect.element(input).toHaveValue("");
+
+  await userEvent.click(el);
+
+  await expect.element(el).toHaveFocus();
+  await expect.element(calendar).not.toBeVisible();
+
+  await userEvent.click(el);
+
+  await expect.element(calendar).not.toBeVisible();
+
+  await userEvent.keyboard("atención atención");
+
+  await expect.element(input).toHaveValue("");
+});
