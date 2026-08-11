@@ -14,6 +14,8 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-height
+// --calcite-internal-action-spacing
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
 // --calcite-internal-menu-item-icon-color
@@ -197,6 +199,39 @@
 
   .content {
     min-block-size: theme("spacing.9");
+  }
+}
+
+:host([scale="s"][layout="vertical"]):has(.dropdown-action) {
+  min-block-size: theme("spacing.9");
+
+  .parent--vertical {
+    block-size: theme("spacing.9");
+  }
+
+  .content {
+    padding-inline-end: var(--calcite-space-sm);
+  }
+
+  .icon--end {
+    margin-inline-start: var(--calcite-space-sm);
+  }
+
+  .dropdown-action {
+    --calcite-internal-action-height: theme("spacing.8");
+    --calcite-internal-action-spacing: var(--calcite-space-sm);
+
+    align-items: center;
+    box-sizing: border-box;
+    block-size: theme("spacing.9");
+    flex: 0 0 theme("spacing.8");
+    margin-inline: 0;
+    margin-inline-start: theme("spacing.px");
+
+    &::after {
+      inset-block: var(--calcite-space-sm);
+      inset-inline-start: calc(-1 * theme("spacing.px"));
+    }
   }
 }
 
