@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.43...@esri/calcite-components@5.2.0-next.44) (2026-08-11)
+
+### Features
+
+- **button, split-button, card, input, input-number, input-text, input-time-picker, color-picker, date-picker, select, table:** enable default corner-radius inheritance across components ([#14890](https://github.com/Esri/calcite-design-system/issues/14890)), closes [#14675](https://github.com/Esri/calcite-design-system/issues/14675)
+
 ## [5.2.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.42...@esri/calcite-components@5.2.0-next.43) (2026-08-06)
 
 ### Bug Fixes
