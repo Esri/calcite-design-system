@@ -11,10 +11,1107 @@
     <demo-dom-swapper>
       <!-- demo snippet start -->
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
+      <style>
+        body {
+          --calcite-color-background: lavender;
+        }
+
+        /* ─── Scope demo ───────────────────────────────────────────────── */
+        .scope-demo {
+          display: grid;
+          font-family: sans-serif;
+          gap: 0.75rem;
+          padding: 1rem;
+        }
+
+        .scope-demo__intro {
+          margin: 0 0 0.25rem;
+        }
+
+        .scope-demo__row {
+          align-items: center;
+          display: flex;
+          gap: 0.75rem;
+          min-height: 3.5rem;
+        }
+
+        .scope-demo__pair {
+          align-items: center;
+          display: inline-flex;
+          gap: 0.5rem;
+          min-width: 7rem;
+        }
+
+        .scope-demo__label {
+          color: #555;
+          font-size: 0.75rem;
+          min-width: 2.75rem;
+        }
+
+        .scope-demo__note {
+          color: #555;
+          font-size: 0.75rem;
+        }
+
+        .scope-demo .swatch {
+          background: var(--calcite-color-surface-1);
+          border: 1px solid #ccc;
+          height: 2.5rem;
+          width: 2.5rem;
+        }
+
+        .swatch-default {
+          --calcite-color-background: #f7f7f7;
+        }
+
+        .swatch-surface-2 {
+          background: var(--calcite-color-surface-2);
+        }
+
+        .swatch-surface-3 {
+          background: var(--calcite-color-surface-3);
+        }
+
+        .scope-class {
+          --calcite-color-background: lightgreen;
+        }
+
+        #scope-id {
+          --calcite-color-background: lightblue;
+        }
+
+        calcite-notice.scope-component {
+          --calcite-color-foreground-3: orange;
+          --calcite-notice-background-color: var(--calcite-color-surface-4);
+          max-width: 18rem;
+        }
+
+        .mode-demo {
+          display: grid;
+          font-family: sans-serif;
+          gap: 0.75rem;
+          padding: 0.5rem 1rem 1rem;
+        }
+
+        .mode-demo__header {
+          align-items: flex-start;
+          display: flex;
+          gap: 1rem;
+          justify-content: space-between;
+        }
+
+        .mode-demo__title {
+          font-size: 1rem;
+          margin: 0;
+        }
+
+        .mode-demo__subtitle {
+          color: #555;
+          font-size: 0.875rem;
+          margin: 0.25rem 0 0;
+        }
+
+        .mode-demo__shell {
+          background: var(--calcite-color-surface-1);
+          border: 1px solid #ccc;
+          border-radius: 0.5rem;
+          color: var(--calcite-color-foreground-1);
+          display: grid;
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        .mode-demo__shell-header {
+          align-items: center;
+          display: flex;
+          gap: 0.75rem;
+          justify-content: space-between;
+        }
+
+        .mode-demo__shell-grid {
+          display: grid;
+          gap: 1rem;
+          grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        }
+
+        .mode-demo__panel {
+          background: var(--calcite-color-surface-2);
+          border: 1px solid #ccc;
+          border-radius: 0.375rem;
+          color: inherit;
+          display: grid;
+          gap: 0.75rem;
+          padding: 0.75rem;
+        }
+
+        .mode-demo__panel--override {
+          --calcite-color-background: lavender;
+        }
+
+        .mode-demo__swatch {
+          background: var(--calcite-color-surface-1);
+          border: 1px solid #aaa;
+          min-height: 2.5rem;
+        }
+
+        /* ─── Token test rows ──────────────────────────────────────────── */
+        .token-test-row {
+          align-items: center;
+          display: flex;
+          font-family: sans-serif;
+          font-size: 0.875rem;
+          gap: 1rem;
+          padding: 0.5rem 1rem;
+        }
+
+        .token-test-row .swatch {
+          border: 1px solid #ccc;
+          flex-shrink: 0;
+          height: 3rem;
+          width: 3rem;
+        }
+
+        .example-pair {
+          align-items: center;
+          display: flex;
+          gap: 0.5rem;
+          min-width: 6.5rem;
+        }
+
+        .example-label {
+          color: #555;
+          font-size: 0.75rem;
+          min-width: 2rem;
+        }
+
+        .text-sample {
+          font-family: sans-serif;
+          min-width: 6rem;
+        }
+
+        code {
+          color: #555;
+          font-size: 0.75rem;
+        }
+
+        .default-surface-1 {
+          background: var(--calcite-color-surface-1);
+          --calcite-color-background: #f7f7f7;
+        }
+        .test-surface-1 {
+          background: var(--calcite-color-surface-1);
+          --calcite-color-background: lavender;
+        }
+        .default-surface-2 {
+          background: var(--calcite-color-surface-2);
+          --calcite-color-foreground-1: #ffffff;
+        }
+        .test-surface-2 {
+          background: var(--calcite-color-surface-2);
+          --calcite-color-foreground-1: lime;
+        }
+        .default-surface-3 {
+          background: var(--calcite-color-surface-3);
+          --calcite-color-foreground-2: #f2f2f2;
+        }
+        .test-surface-3 {
+          background: var(--calcite-color-surface-3);
+          --calcite-color-foreground-2: cyan;
+        }
+        .default-surface-4 {
+          background: var(--calcite-color-surface-4);
+          --calcite-color-foreground-3: #ebebeb;
+        }
+        .test-surface-4 {
+          background: var(--calcite-color-surface-4);
+          --calcite-color-foreground-3: orange;
+        }
+        .default-highlight {
+          background: var(--calcite-color-surface-highlight);
+          --calcite-color-foreground-current: #d6efff;
+        }
+        .test-highlight {
+          background: var(--calcite-color-surface-highlight);
+          --calcite-color-foreground-current: violet;
+        }
+
+        .default-cr-none {
+          border-radius: var(--calcite-corner-radius-none);
+          background: var(--calcite-color-surface-1);
+          outline: 2px solid teal;
+          --calcite-color-background: #f7f7f7;
+        }
+        .test-cr-none {
+          border-radius: var(--calcite-corner-radius-none);
+          background: var(--calcite-color-surface-1);
+          outline: 2px solid teal;
+          --calcite-color-background: #f7f7f7;
+          --calcite-corner-radius-sharp: 16px;
+        }
+        .default-cr-sm {
+          border-radius: var(--calcite-corner-radius-sm);
+          background: var(--calcite-color-surface-1);
+          outline: 2px solid teal;
+          --calcite-color-background: #f7f7f7;
+        }
+        .test-cr-sm {
+          border-radius: var(--calcite-corner-radius-sm);
+          background: var(--calcite-color-surface-1);
+          outline: 2px solid teal;
+          --calcite-color-background: #f7f7f7;
+          --calcite-corner-radius-round: 50%;
+        }
+
+        .default-fw-regular {
+          font-weight: var(--calcite-font-weight-regular);
+        }
+        .test-fw-regular {
+          font-weight: var(--calcite-font-weight-regular);
+          --calcite-font-weight-normal: 900;
+        }
+        .default-fs-2xl {
+          font-size: var(--calcite-font-size-2xl);
+        }
+        .test-fs-2xl {
+          font-size: var(--calcite-font-size-2xl);
+          --calcite-font-size-xxl: 3rem;
+        }
+
+        .default-space-none {
+          padding: var(--calcite-space-none);
+          outline: 2px solid tomato;
+        }
+        .test-space-none {
+          padding: var(--calcite-space-none);
+          outline: 2px solid tomato;
+          --calcite-spacing-none: 1rem;
+        }
+        .default-space-sm {
+          padding: var(--calcite-space-sm);
+          outline: 2px solid tomato;
+        }
+        .test-space-sm {
+          padding: var(--calcite-space-sm);
+          outline: 2px solid tomato;
+          --calcite-spacing-sm: 2rem;
+        }
+        .default-space-md {
+          padding: var(--calcite-space-md);
+          outline: 2px solid tomato;
+        }
+        .test-space-md {
+          padding: var(--calcite-space-md);
+          outline: 2px solid tomato;
+          --calcite-spacing-md: 3rem;
+        }
+
+        .size-container {
+          align-items: flex-start;
+          background: #eee;
+          border: 1px solid #ccc;
+          display: flex;
+          flex-shrink: 0;
+          height: 8rem;
+          padding: 4px;
+          width: 8rem;
+        }
+
+        .default-size-2xs {
+          background: steelblue;
+          flex-shrink: 0;
+          height: var(--calcite-size-2xs);
+          width: var(--calcite-size-2xs);
+        }
+        .test-size-2xs {
+          background: steelblue;
+          flex-shrink: 0;
+          height: var(--calcite-size-2xs);
+          width: var(--calcite-size-2xs);
+          --calcite-size-fixed-md-plus: 80px;
+        }
+        .default-size-sm {
+          background: steelblue;
+          flex-shrink: 0;
+          height: var(--calcite-size-sm);
+          width: var(--calcite-size-sm);
+        }
+        .test-size-sm {
+          background: steelblue;
+          flex-shrink: 0;
+          height: var(--calcite-size-sm);
+          width: var(--calcite-size-sm);
+          --calcite-size-fixed-xxl: 120px;
+        }
+      </style>
+
+      <!-- ── Scope tests ──────────────────────────────────────────────── -->
+      <div class="scope-demo">
+        <p class="scope-demo__intro">
+          Each row shows one scope type overriding a deprecated token while components consume replacement vars.
+        </p>
+
+        <div class="scope-demo__row">
+          <div class="scope-demo__pair">
+            <span class="scope-demo__label">Default</span>
+            <div class="swatch swatch-default"></div>
+          </div>
+          <div class="scope-demo__pair">
+            <span class="scope-demo__label">Body</span>
+            <div class="swatch"></div>
+          </div>
+          <span class="scope-demo__note"><code>body { --calcite-color-background: lavender; }</code></span>
+        </div>
+
+        <div class="scope-demo__row">
+          <div class="scope-demo__pair">
+            <span class="scope-demo__label">Default</span>
+            <div class="swatch swatch-default"></div>
+          </div>
+          <div class="scope-demo__pair scope-class">
+            <span class="scope-demo__label">Class</span>
+            <div class="swatch"></div>
+          </div>
+          <span class="scope-demo__note"><code>.scope-class { --calcite-color-background: lightgreen; }</code></span>
+        </div>
+
+        <div class="scope-demo__row">
+          <div class="scope-demo__pair">
+            <span class="scope-demo__label">Default</span>
+            <div class="swatch swatch-default"></div>
+          </div>
+          <div class="scope-demo__pair" id="scope-id">
+            <span class="scope-demo__label">ID</span>
+            <div class="swatch"></div>
+          </div>
+          <span class="scope-demo__note"><code>#scope-id { --calcite-color-background: lightblue; }</code></span>
+        </div>
+
+        <div class="scope-demo__row">
+          <div class="scope-demo__pair">
+            <span class="scope-demo__label">Default</span>
+            <calcite-notice open>
+              <div slot="message">Default notice</div>
+            </calcite-notice>
+          </div>
+          <div class="scope-demo__pair">
+            <span class="scope-demo__label">Component</span>
+            <calcite-notice open class="scope-component">
+              <div slot="message">Component-scoped notice</div>
+            </calcite-notice>
+          </div>
+          <span class="scope-demo__note">
+            <code>calcite-notice.scope-component { --calcite-color-foreground-3: orange; }</code>
+          </span>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="mode-demo">
+        <div class="mode-demo__header">
+          <div>
+            <p class="mode-demo__title">Dark mode webapp toggle</p>
+            <p class="mode-demo__subtitle">
+              This switch flips <code>calcite-mode-dark</code> on a nested app shell, like a real web app root.
+            </p>
+          </div>
+          <calcite-label layout="inline" scale="s">
+            <calcite-switch id="mode-demo-toggle" scale="s"></calcite-switch>
+            Dark mode
+          </calcite-label>
+        </div>
+
+        <div class="mode-demo__shell calcite-mode-light" id="mode-demo-shell">
+          <div class="mode-demo__shell-header">
+            <strong>Application shell</strong>
+            <span class="scope-demo__note">Default tokens should change with the shell class.</span>
+          </div>
+
+          <div class="mode-demo__shell-grid">
+            <div class="mode-demo__panel">
+              <strong>Default content</strong>
+              <div class="mode-demo__swatch"></div>
+              <calcite-notice open>
+                <div slot="message">Default surface and foreground tokens should flip with mode.</div>
+              </calcite-notice>
+            </div>
+
+            <div class="mode-demo__panel mode-demo__panel--override">
+              <strong>Scoped override</strong>
+              <div class="mode-demo__swatch"></div>
+              <calcite-notice open>
+                <div slot="message">This card keeps its local background override in both modes.</div>
+              </calcite-notice>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- ── Token tests (class-scoped per-element overrides) ─────────── -->
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-surface-1"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-surface-1"></div>
+        </div>
+        <div>
+          <strong>--calcite-color-surface-1</strong> → override <code>--calcite-color-background: lavender</code>
+        </div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-surface-2"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-surface-2"></div>
+        </div>
+        <div><strong>--calcite-color-surface-2</strong> → override <code>--calcite-color-foreground-1: lime</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-surface-3"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-surface-3"></div>
+        </div>
+        <div><strong>--calcite-color-surface-3</strong> → override <code>--calcite-color-foreground-2: cyan</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-surface-4"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-surface-4"></div>
+        </div>
+        <div>
+          <strong>--calcite-color-surface-4</strong> → override <code>--calcite-color-foreground-3: orange</code>
+        </div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-highlight"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-highlight"></div>
+        </div>
+        <div>
+          <strong>--calcite-color-surface-highlight</strong> → override
+          <code>--calcite-color-foreground-current: violet</code>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-cr-none"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-cr-none"></div>
+        </div>
+        <div>
+          <strong>--calcite-corner-radius-none</strong> → override
+          <code>--calcite-corner-radius-sharp: 16px</code> (expect rounded corners)
+        </div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-cr-sm"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-cr-sm"></div>
+        </div>
+        <div>
+          <strong>--calcite-corner-radius-sm</strong> → override <code>--calcite-corner-radius-round: 50%</code> (expect
+          circle)
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="text-sample default-fw-regular">Default text</div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="text-sample test-fw-regular">Heavy text</div>
+        </div>
+        <div>
+          <strong>--calcite-font-weight-regular</strong> → override
+          <code>--calcite-font-weight-normal: 900</code> (expect bold)
+        </div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="text-sample default-fs-2xl">Default text</div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="text-sample test-fs-2xl">Big text</div>
+        </div>
+        <div>
+          <strong>--calcite-font-size-2xl</strong> → override <code>--calcite-font-size-xxl: 3rem</code> (expect 3rem)
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-space-none"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-space-none"></div>
+        </div>
+        <div>
+          <strong>--calcite-space-none</strong> → override <code>--calcite-spacing-none: 1rem</code> (expect padding)
+        </div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-space-sm"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-space-sm"></div>
+        </div>
+        <div>
+          <strong>--calcite-space-sm</strong> → override <code>--calcite-spacing-sm: 2rem</code> (expect more padding)
+        </div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="swatch default-space-md"></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="swatch test-space-md"></div>
+        </div>
+        <div>
+          <strong>--calcite-space-md</strong> → override <code>--calcite-spacing-md: 3rem</code> (expect most padding)
+        </div>
+      </div>
+
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-px)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-px);
+              --calcite-spacing-px: 0.75rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-px</strong> → override <code>--calcite-spacing-px: 0.75rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-base)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-base);
+              --calcite-spacing-base: 1.5rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-base</strong> → override <code>--calcite-spacing-base: 1.5rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-2xs)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-2xs);
+              --calcite-spacing-xxs: 0.5rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-2xs</strong> → override <code>--calcite-spacing-xxs: 0.5rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-xs)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-xs);
+              --calcite-spacing-xs: 0.75rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-xs</strong> → override <code>--calcite-spacing-xs: 0.75rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-sm-plus);
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-sm-plus);
+              --calcite-spacing-sm-plus: 1.25rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-sm-plus</strong> → override <code>--calcite-spacing-sm-plus: 1.25rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-md-plus);
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-md-plus);
+              --calcite-spacing-md-plus: 1.75rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-md-plus</strong> → override <code>--calcite-spacing-md-plus: 1.75rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-lg)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-lg);
+              --calcite-spacing-lg: 2.25rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-lg</strong> → override <code>--calcite-spacing-lg: 2.25rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-xl)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-xl);
+              --calcite-spacing-xl: 2.5rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-xl</strong> → override <code>--calcite-spacing-xl: 2.5rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-2xl)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-2xl);
+              --calcite-spacing-xxl: 3rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-2xl</strong> → override <code>--calcite-spacing-xxl: 3rem</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div
+            style="display: inline-block; border: 1px solid #ccc; background: #eee; padding: var(--calcite-space-3xl)"
+          >
+            sample
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div
+            style="
+              display: inline-block;
+              border: 1px solid #ccc;
+              background: #eee;
+              padding: var(--calcite-space-3xl);
+              --calcite-spacing-xxxl: 3.5rem;
+            "
+          >
+            sample
+          </div>
+        </div>
+        <div><strong>--calcite-space-3xl</strong> → override <code>--calcite-spacing-xxxl: 3.5rem</code></div>
+      </div>
+
+      <hr />
+
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container"><div class="default-size-2xs"></div></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container"><div class="test-size-2xs"></div></div>
+        </div>
+        <div>
+          <strong>--calcite-size-2xs</strong> → override <code>--calcite-size-fixed-md-plus: 80px</code> (expect 80×80)
+        </div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container"><div class="default-size-sm"></div></div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container"><div class="test-size-sm"></div></div>
+        </div>
+        <div>
+          <strong>--calcite-size-sm</strong> → override <code>--calcite-size-fixed-xxl: 120px</code> (expect 120×120)
+        </div>
+      </div>
+
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-4xs);
+                width: var(--calcite-size-4xs);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-4xs);
+                width: var(--calcite-size-4xs);
+                --calcite-size-fixed-sm-plus: 24px;
+              "
+            ></div>
+          </div>
+        </div>
+        <div><strong>--calcite-size-4xs</strong> → override <code>--calcite-size-fixed-sm-plus: 24px</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-3xs);
+                width: var(--calcite-size-3xs);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-3xs);
+                width: var(--calcite-size-3xs);
+                --calcite-size-fixed-md: 32px;
+              "
+            ></div>
+          </div>
+        </div>
+        <div><strong>--calcite-size-3xs</strong> → override <code>--calcite-size-fixed-md: 32px</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-xs);
+                width: var(--calcite-size-xs);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-xs);
+                width: var(--calcite-size-xs);
+                --calcite-size-fixed-lg: 56px;
+              "
+            ></div>
+          </div>
+        </div>
+        <div><strong>--calcite-size-xs</strong> → override <code>--calcite-size-fixed-lg: 56px</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-md);
+                width: var(--calcite-size-md);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-md);
+                width: var(--calcite-size-md);
+                --calcite-size-fixed-xxxl: 128px;
+              "
+            ></div>
+          </div>
+        </div>
+        <div><strong>--calcite-size-md</strong> → override <code>--calcite-size-fixed-xxxl: 128px</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-2xl);
+                width: var(--calcite-size-2xl);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-2xl);
+                width: var(--calcite-size-2xl);
+                --calcite-size-xxl: 88px;
+              "
+            ></div>
+          </div>
+        </div>
+        <div><strong>--calcite-size-2xl</strong> → override <code>--calcite-size-xxl: 88px</code></div>
+      </div>
+      <div class="token-test-row">
+        <div class="example-pair">
+          <span class="example-label">Default</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-3xl);
+                width: var(--calcite-size-3xl);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="example-pair">
+          <span class="example-label">Override</span>
+          <div class="size-container">
+            <div
+              style="
+                background: steelblue;
+                border: 1px solid #fff;
+                box-sizing: border-box;
+                height: var(--calcite-size-3xl);
+                width: var(--calcite-size-3xl);
+                --calcite-size-xxxl: 136px;
+              "
+            ></div>
+          </div>
+        </div>
+        <div><strong>--calcite-size-3xl</strong> → override <code>--calcite-size-xxxl: 136px</code></div>
+      </div>
 
       <!-- demo snippet end -->
+      <script>
+        const modeDemoShell = document.getElementById("mode-demo-shell");
+        const modeDemoToggle = document.getElementById("mode-demo-toggle");
+
+        const syncModeDemo = () => {
+          modeDemoShell.classList.toggle("calcite-mode-dark", modeDemoToggle.checked);
+          modeDemoShell.classList.toggle("calcite-mode-light", !modeDemoToggle.checked);
+        };
+
+        syncModeDemo();
+        modeDemoToggle.addEventListener("calciteSwitchChange", syncModeDemo);
+      </script>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>
