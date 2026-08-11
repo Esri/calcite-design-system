@@ -328,7 +328,7 @@ it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'men
 
   (groups.first().element() as ActionGroup["el"]).menuOpen = true;
 
-  expect(actionMenuOpenHandler).toHaveReceivedEventTimes(2);
+  expect(actionMenuOpenHandler).toHaveBeenCalledTimes(2);
   await expect.element(groups.nth(0)).toHaveProperty("menuOpen", true);
   await expect.element(groups.nth(1)).toHaveProperty("menuOpen", false);
 });
