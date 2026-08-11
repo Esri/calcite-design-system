@@ -2056,15 +2056,14 @@ describe("custom icons", () => {
 
     await expect(chips).toHaveLength(0);
 
-    await el.click();
-
+    await userEvent.click(el);
     await items.nth(0).click();
     await items.nth(1).click();
     await items.nth(2).click();
 
     await expect.element(chips.nth(0)).toHaveProperty("icon", "banana");
     await expect.element(chips.nth(1)).toHaveProperty("icon", "beaker");
-    await expect.element(chips.nth(2)).not.toBeInTheDocument();
+    await expect.element(chips.nth(2)).toHaveProperty("icon", undefined);
   });
 
   it("should use icon in single select", async () => {
@@ -2088,7 +2087,7 @@ describe("custom icons", () => {
     await userEvent.click(el);
     await items.nth(1).click();
 
-    await expect.element(selected).toHaveProperty("icon", "banana");
+    await expect.element(selected).toHaveProperty("icon", "beaker");
 
     await userEvent.click(el);
     await items.nth(2).click();

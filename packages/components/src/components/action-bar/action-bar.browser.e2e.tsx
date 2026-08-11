@@ -1747,7 +1747,7 @@ describe("theme", () => {
 });
 
 it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-  const { el } = await mount(
+  const { el, reRender } = await mount(
     <calcite-action-bar>
       <calcite-action-group>
         <calcite-action icon="plus" text="Add" />
@@ -1768,15 +1768,16 @@ it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => 
   );
   const actionMenuOpenHandler = vi.fn();
   el.addEventListener("calciteActionMenuOpen", actionMenuOpenHandler);
-  const groups = page.getBySelector("calcite-action-bar");
+  const groups = page.getBySelector("calcite-action-bar > calcite-action-group");
 
   expect(groups).toHaveLength(2);
   await expect.element(groups.nth(0)).toHaveProperty("menuOpen", false);
   await expect.element(groups.nth(1)).toHaveProperty("menuOpen", true);
 
   (groups.first().element() as ActionGroup["el"]).menuOpen = true;
+  await reRender();
 
-  expect(actionMenuOpenHandler).toHaveReceivedEventTimes(2);
+  expect(actionMenuOpenHandler).toHaveBeenCalledTimes(2);
   expect(groups).toHaveLength(2);
   await expect.element(groups.nth(0)).toHaveProperty("menuOpen", true);
   await expect.element(groups.nth(1)).toHaveProperty("menuOpen", false);

@@ -656,15 +656,15 @@ it("should not shift focus back on input-date-picker when other input elements a
   const inputDatePicker = page.getByTestId("input-date");
   const calendar = page.getBySelector(`calcite-input-date-picker .${CSS.calendarWrapper}`);
 
-  await expect.element(calendar).not.toBeInTheDocument();
+  await expect.element(calendar).not.toBeVisible();
 
   await inputDatePicker.click();
 
-  await expect.element(calendar).toBeInTheDocument();
+  await expect.element(calendar).toBeVisible();
   await expect.element(inputDatePicker).toHaveFocus();
 
   await input.click();
 
-  await expect.element(calendar).not.toBeInTheDocument();
+  await expect.element(calendar).not.toBeVisible();
   await expect.element(input).toHaveFocus();
 });

@@ -300,7 +300,7 @@ describe("theme", () => {
 });
 
 it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-  const { el } = await mount(
+  const { el, reRender } = await mount(
     <calcite-action-pad>
       <calcite-action-group>
         <calcite-action icon="plus" text="Add" />
@@ -327,6 +327,7 @@ it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'men
   await expect.element(groups.nth(1)).toHaveProperty("menuOpen", true);
 
   (groups.first().element() as ActionGroup["el"]).menuOpen = true;
+  await reRender();
 
   expect(actionMenuOpenHandler).toHaveBeenCalledTimes(2);
   await expect.element(groups.nth(0)).toHaveProperty("menuOpen", true);
