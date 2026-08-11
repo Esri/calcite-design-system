@@ -1241,7 +1241,7 @@ exports[`CSS > index should match 1`] = `
   --calcite-color-surface-highlight: var(--calcite-color-foreground-current);
 }
 @media (prefers-color-scheme: light) {
-  :where(.calcite-mode-auto) {
+  .calcite-mode-auto {
     --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
@@ -1315,7 +1315,7 @@ exports[`CSS > index should match 1`] = `
   }
 }
 @media (prefers-color-scheme: dark) {
-  :where(.calcite-mode-auto) {
+  .calcite-mode-auto {
     --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
@@ -1388,7 +1388,7 @@ exports[`CSS > index should match 1`] = `
     ); /** Replaces \`--calcite-color-background\` */
   }
 }
-:where(.calcite-mode-light) {
+.calcite-mode-light {
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
@@ -1460,7 +1460,7 @@ exports[`CSS > index should match 1`] = `
     --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
 }
-:where(.calcite-mode-dark) {
+.calcite-mode-dark {
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);

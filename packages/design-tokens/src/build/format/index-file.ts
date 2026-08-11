@@ -56,13 +56,13 @@ export const formatIndexFile: FormatFn = async (args) => {
   const atMedia =
     format === "css"
       ? themes
-          .map((theme) => `@media (prefers-color-scheme: ${theme}) {:where(.calcite-mode-auto) {${varLists[theme]}}}`)
+          .map((theme) => `@media (prefers-color-scheme: ${theme}) {.calcite-mode-auto {${varLists[theme]}}}`)
           .join("")
       : "";
   const platformClasses = themes
     .map((theme) =>
       format === "css"
-        ? `:where(.calcite-mode-${theme}) {${varLists[theme]}}`
+        ? `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`
         : `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`,
     )
     .join("");
