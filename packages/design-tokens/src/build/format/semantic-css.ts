@@ -15,7 +15,7 @@ export const registerFormatSemanticCss: RegisterFn = () => {
 export const formatSemanticCss: FormatFn = async (args) => {
   const { dictionary, file } = args;
   const header = await fileHeader({ file });
-  const root = `:root {${createVarList("css", dictionary, args)}}`;
+  const root = `:where(:root) {${createVarList("css", dictionary, args)}}`;
   const scopedReferenceTokens = dictionary.allTokens.filter(isReplacementToken);
   const scopedReferences = scopedReferenceTokens.length
     ? `:where(*) {${createScopedReferenceDeclarations(scopedReferenceTokens, dictionary).join("")}}`

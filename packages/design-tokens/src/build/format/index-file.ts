@@ -48,7 +48,7 @@ export const formatIndexFile: FormatFn = async (args) => {
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";
   const imports = args.options.imports.map((imp: string) => importUrl(imp, options.fileExtension)).join("");
-  const root = format === "css" ? `:root {${varLists.light}}` : "";
+  const root = format === "css" ? `:where(:root) {${varLists.light}}` : "";
   const scopedReferences =
     format === "css" && scopedReferenceTokens.length
       ? `:where(*) {${[...createScopedReferenceDeclarations(scopedReferenceTokens, lightDictionary)].join("")}}`
@@ -56,11 +56,15 @@ export const formatIndexFile: FormatFn = async (args) => {
   const atMedia =
     format === "css"
       ? themes
-          .map((theme) => `@media (prefers-color-scheme: ${theme}) {.calcite-mode-auto {${varLists[theme]}}}`)
+          .map((theme) => `@media (prefers-color-scheme: ${theme}) {:where(.calcite-mode-auto) {${varLists[theme]}}}`)
           .join("")
       : "";
   const platformClasses = themes
-    .map((theme) => `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`)
+    .map((theme) =>
+      format === "css"
+        ? `:where(.calcite-mode-${theme}) {${varLists[theme]}}`
+        : `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`,
+    )
     .join("");
   const content = [imports, root, scopedReferences, atMedia, platformClasses].filter((item) => !!item).join("");
 
