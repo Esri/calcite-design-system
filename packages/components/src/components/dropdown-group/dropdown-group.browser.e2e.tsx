@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
@@ -87,39 +87,15 @@ describe("accessibility wiring", () => {
       </calcite-dropdown>,
     );
 
-    const groupOne = page.getBySelector("#group-one").element() as HTMLElement | null;
-    const groupTwo = page.getBySelector("#group-two").element() as HTMLElement | null;
-    const item = page.getBySelector("#move-me").element() as HTMLElement | null;
+    const groupTwoEl = page.getBySelector("#group-two").element() as HTMLElement;
+    const itemEl = page.getBySelector("#move-me").element() as HTMLElement;
+    const itemLocator = page.getBySelector("#move-me");
 
-    expect(groupOne).toBeTruthy();
-    expect(groupTwo).toBeTruthy();
-    expect(item).toBeTruthy();
-
-    const groupOneEl = groupOne!;
-    const groupTwoEl = groupTwo!;
-    const itemEl = item!;
-
-    const initialGroupDescription = itemEl.ariaDescribedByElements?.find(
-      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
-    );
-
-    expect(initialGroupDescription?.id).toBe(groupOneEl.id);
+    await expect.element(itemLocator).toHaveAccessibleDescription("Group one");
 
     groupTwoEl.append(itemEl);
 
-    await vi.waitUntil(async () => {
-      const nextGroupDescription = itemEl.ariaDescribedByElements?.find(
-        (descriptionEl) => descriptionEl.tagName.toLowerCase() === "calcite-dropdown-group",
-      );
-
-      return nextGroupDescription?.id === groupTwoEl.id;
-    });
-
-    const nextGroupDescription = itemEl.ariaDescribedByElements?.find(
-      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
-    );
-
-    expect(nextGroupDescription?.id).toBe(groupTwoEl.id);
+    await expect.element(itemLocator).toHaveAccessibleDescription("Group two");
   });
 
   it("removes group description when group-title is cleared", async () => {
@@ -131,37 +107,15 @@ describe("accessibility wiring", () => {
       </calcite-dropdown>,
     );
 
-    const group = page.getBySelector("#group-one").element() as
-      | (HTMLElement & { groupTitle?: string })
-      | null;
-    const item = page.getBySelector("#item-one").element() as HTMLElement | null;
+    const groupEl = page.getBySelector("#group-one").element() as HTMLElement & {
+      groupTitle?: string;
+    };
+    const itemLocator = page.getBySelector("#item-one");
 
-    expect(group).toBeTruthy();
-    expect(item).toBeTruthy();
-
-    const groupEl = group!;
-    const itemEl = item!;
-
-    const initialGroupDescription = itemEl.ariaDescribedByElements?.find(
-      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
-    );
-
-    expect(initialGroupDescription?.id).toBe(groupEl.id);
+    await expect.element(itemLocator).toHaveAccessibleDescription("Group one");
 
     groupEl.groupTitle = undefined;
 
-    await vi.waitUntil(async () => {
-      const nextGroupDescription = itemEl.ariaDescribedByElements?.find(
-        (descriptionEl) => descriptionEl.tagName.toLowerCase() === "calcite-dropdown-group",
-      );
-
-      return !nextGroupDescription;
-    });
-
-    const nextGroupDescription = itemEl.ariaDescribedByElements?.find(
-      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
-    );
-
-    expect(nextGroupDescription).toBeUndefined();
+    await expect.element(itemLocator).not.toHaveAccessibleDescription();
   });
 });

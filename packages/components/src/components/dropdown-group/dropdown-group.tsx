@@ -38,6 +38,8 @@ export class DropdownGroup extends LitElement {
 
   private describedItems = new Set<DropdownItem["el"]>();
 
+  private currentItems = new Set<DropdownItem["el"]>();
+
   // #endregion
 
   // #region Public Properties
@@ -113,10 +115,11 @@ export class DropdownGroup extends LitElement {
 
     this.describedItems.forEach((item) => {
       item.ariaDescribedByElements =
-        item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? [];
+        item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? null;
     });
 
     this.describedItems.clear();
+    this.currentItems.clear();
     this.items = [];
   }
 
@@ -145,20 +148,27 @@ export class DropdownGroup extends LitElement {
   }
 
   private getItems(): DropdownItem["el"][] {
-    return Array.from(this.el.querySelectorAll<DropdownItem["el"]>("calcite-dropdown-item"));
+    return Array.from(this.el.querySelectorAll("calcite-dropdown-item"));
   }
 
   private syncItemGroupDescriptions(items: DropdownItem["el"][] = this.items): void {
     const descriptionEl = this.groupTitle ? this.el : null;
 
-    const currentItems = new Set(items);
+    const currentItems = this.currentItems;
+    currentItems.clear();
+    items.forEach((item) => currentItems.add(item));
+
+    const staleItems: DropdownItem["el"][] = [];
 
     this.describedItems.forEach((item) => {
       if (!currentItems.has(item)) {
         item.ariaDescribedByElements =
-          item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? [];
+          item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? null;
+        staleItems.push(item);
       }
     });
+
+    staleItems.forEach((item) => this.describedItems.delete(item));
 
     currentItems.forEach((item) => {
       const currentDescriptions =
@@ -167,10 +177,11 @@ export class DropdownGroup extends LitElement {
       item.ariaDescribedByElements = descriptionEl
         ? [...currentDescriptions, descriptionEl]
         : currentDescriptions;
+
+      this.describedItems.add(item);
     });
 
     this.items = items;
-    this.describedItems = currentItems;
   }
 
   // #endregion

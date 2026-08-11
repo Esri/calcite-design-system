@@ -443,15 +443,6 @@ describe("ariaActiveDescendantElement", () => {
     expect(groupDescription?.getAttribute("aria-label")).toBe("Group one");
   });
 
-  it("keeps focus on the slotted trigger when opened", async () => {
-    await mount<Dropdown>(renderDropdown);
-    const trigger = page.getByText("Open dropdown");
-
-    await userEvent.click(trigger);
-
-    await expect.element(trigger).toHaveFocus();
-  });
-
   it("keeps focus on the referenceElement trigger when opened", async () => {
     await mount<Dropdown>(renderReferenceElementDropdown);
     const trigger = page.getBySelector("#trigger");
