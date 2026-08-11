@@ -98,6 +98,32 @@ function renderReferenceElementDropdown(): JsxNode {
   );
 }
 
+function renderDropdownWithGroupTitle(): JsxNode {
+  return (
+    <calcite-dropdown>
+      <calcite-button slot="trigger">Open dropdown</calcite-button>
+      <calcite-dropdown-group group-title="Group one" id="group-1">
+        <calcite-dropdown-item id="grouped-item-1">Dropdown Item Content</calcite-dropdown-item>
+        <calcite-dropdown-item id="grouped-item-2">Dropdown Item Content</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  );
+}
+
+function renderReferenceElementDropdownWithGroupTitle(): JsxNode {
+  return (
+    <>
+      <calcite-dropdown reference-element="trigger">
+        <calcite-dropdown-group group-title="Group one" id="group-1">
+          <calcite-dropdown-item id="grouped-item-1">Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="grouped-item-2">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-button id="trigger">Open dropdown</calcite-button>
+    </>
+  );
+}
+
 function renderDropdownSelectionModeContent(): JsxNode {
   return (
     <calcite-dropdown>
@@ -293,17 +319,16 @@ describe("ariaActiveDescendantElement", () => {
     return page.elementLocator(triggerHost!);
   }
 
-  function getTriggerSlotLocator(): ReturnType<typeof page.elementLocator> {
-    const slot = (getSlottedTriggerLocator().element() as HTMLElement | null)?.assignedSlot;
-
-    expect(slot).toBeTruthy();
-
-    return page.elementLocator(slot!);
+  function getSlottedTriggerElement(): HTMLElement | null {
+    return getSlottedTriggerLocator().element() as HTMLElement | null;
   }
 
-  function getActiveDescendantId(): string | undefined {
-    return (getTriggerSlotLocator().element() as HTMLSlotElement | null)
-      ?.ariaActiveDescendantElement?.id;
+  function getTriggerSlotElement(): HTMLSlotElement | null {
+    return getSlottedTriggerElement()?.assignedSlot as HTMLSlotElement | null;
+  }
+
+  function getTriggerSlotActiveDescendantId(): string | undefined {
+    return getTriggerSlotElement()?.ariaActiveDescendantElement?.id;
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
@@ -312,7 +337,7 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(trigger);
 
-    expect(getActiveDescendantId()).toBe("item-1");
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-1");
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
@@ -324,7 +349,7 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowDown}");
 
-    expect(getActiveDescendantId()).toBe("item-2");
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-2");
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
@@ -336,15 +361,144 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    let activeDescendantId = getActiveDescendantId();
+    let activeDescendantId = getTriggerSlotActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-3");
 
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    activeDescendantId = getActiveDescendantId();
+    activeDescendantId = getTriggerSlotActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-2");
+  });
+
+  it("sets ariaActiveDescendantElement on the referenceElement trigger", async () => {
+    await mount<Dropdown>(renderReferenceElementDropdown);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
+
+    await userEvent.type(trigger, "{ArrowDown}");
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-2",
+    );
+  });
+
+  it("sets ariaActiveDescendantElement on focused trigger slot node when multiple trigger nodes exist", async () => {
+    await mount<Dropdown>(
+      <calcite-dropdown>
+        <span id="trigger-label" slot="trigger">
+          Label
+        </span>
+        <calcite-button id="trigger-button" slot="trigger">
+          Open dropdown
+        </calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+
+    const triggerButton = page.getBySelector("#trigger-button");
+    const triggerLabel = page.getBySelector("#trigger-label");
+
+    await userEvent.click(triggerButton);
+
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-1");
+    expect((triggerButton.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+    expect((triggerLabel.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+  });
+
+  it("associates grouped items with their title in slotted-trigger mode", async () => {
+    await mount<Dropdown>(renderDropdownWithGroupTitle);
+    const trigger = page.getByText("Open dropdown");
+
+    await userEvent.click(trigger);
+
+    const activeItem = page.getBySelector("#grouped-item-1").element() as HTMLElement | null;
+    const groupDescription = activeItem?.ariaDescribedByElements?.find(
+      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
+    );
+
+    expect(groupDescription?.getAttribute("aria-label")).toBe("Group one");
+  });
+
+  it("associates grouped items with their title in reference-element mode", async () => {
+    await mount<Dropdown>(renderReferenceElementDropdownWithGroupTitle);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    const activeItem = page.getBySelector("#grouped-item-1").element() as HTMLElement | null;
+    const groupDescription = activeItem?.ariaDescribedByElements?.find(
+      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
+    );
+
+    expect(groupDescription?.getAttribute("aria-label")).toBe("Group one");
+  });
+
+  it("keeps focus on the referenceElement trigger when opened", async () => {
+    await mount<Dropdown>(renderReferenceElementDropdown);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    await expect.element(trigger).toHaveFocus();
+  });
+
+  it("clears ariaActiveDescendantElement from the referenceElement trigger when dropdown disconnects", async () => {
+    const { el } = await mount<Dropdown>(renderReferenceElementDropdown);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
+
+    el.remove();
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+  });
+
+  it("moves ariaActiveDescendantElement to the new referenceElement while open", async () => {
+    const { el } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown reference-element="trigger-one">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">Dropdown Item Content</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger-one">Open dropdown one</calcite-button>
+        <calcite-button id="trigger-two">Open dropdown two</calcite-button>
+      </>,
+    );
+
+    const triggerOne = page.getBySelector("#trigger-one");
+    const triggerTwo = page.getBySelector("#trigger-two");
+    const component = el.manager.component;
+
+    await userEvent.click(triggerOne);
+
+    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
+
+    const updateComplete = component.updateComplete;
+    el.referenceElement = "trigger-two";
+    await waitForSettledUpdate(component, updateComplete);
+
+    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+    expect((triggerTwo.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
   });
 });
 
@@ -367,12 +521,7 @@ describe("referenceElement keydown", () => {
   it("opens when Enter is pressed on referenceElement", async () => {
     const { el } = await mount<Dropdown>(renderReferenceElementDropdownHTML);
     const trigger = page.getByRole("button", { name: "Open dropdown" });
-    const dropdownElement = trigger.element()?.nextElementSibling;
-
-    expect(dropdownElement).toBeTruthy();
-
-    const dropdown = page.elementLocator(dropdownElement!).element() as Dropdown;
-    const component = dropdown.manager.component;
+    const component = el.manager.component;
 
     expect(el.open).toBe(false);
 
