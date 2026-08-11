@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
@@ -87,15 +87,21 @@ describe("accessibility wiring", () => {
       </calcite-dropdown>,
     );
 
+    const groupOneEl = page.getBySelector("#group-one").element() as HTMLElement;
     const groupTwoEl = page.getBySelector("#group-two").element() as HTMLElement;
     const itemEl = page.getBySelector("#move-me").element() as HTMLElement;
-    const itemLocator = page.getBySelector("#move-me");
+    const getGroupDescription = (): Element | undefined =>
+      itemEl.ariaDescribedByElements!.find(
+        (descriptionEl) => descriptionEl.tagName.toLowerCase() === "calcite-dropdown-group",
+      );
 
-    await expect.element(itemLocator).toHaveAccessibleDescription("Group one");
+    expect(getGroupDescription()!.id).toBe(groupOneEl.id);
 
     groupTwoEl.append(itemEl);
 
-    await expect.element(itemLocator).toHaveAccessibleDescription("Group two");
+    await vi.waitUntil(() => getGroupDescription()?.id === groupTwoEl.id);
+
+    expect(getGroupDescription()!.id).toBe(groupTwoEl.id);
   });
 
   it("removes group description when group-title is cleared", async () => {
@@ -110,12 +116,18 @@ describe("accessibility wiring", () => {
     const groupEl = page.getBySelector("#group-one").element() as HTMLElement & {
       groupTitle?: string;
     };
-    const itemLocator = page.getBySelector("#item-one");
+    const itemEl = page.getBySelector("#item-one").element() as HTMLElement;
+    const getGroupDescription = (): Element | undefined =>
+      itemEl.ariaDescribedByElements!.find(
+        (descriptionEl) => descriptionEl.tagName.toLowerCase() === "calcite-dropdown-group",
+      );
 
-    await expect.element(itemLocator).toHaveAccessibleDescription("Group one");
+    expect(getGroupDescription()!.id).toBe(groupEl.id);
 
     groupEl.groupTitle = undefined;
 
-    await expect.element(itemLocator).not.toHaveAccessibleDescription();
+    await vi.waitUntil(() => !getGroupDescription());
+
+    expect(getGroupDescription()).toBeUndefined();
   });
 });
