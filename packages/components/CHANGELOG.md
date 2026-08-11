@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.44...@esri/calcite-components@5.2.0-next.45) (2026-08-11)
+
+### Bug Fixes
+
+- **action-bar:** account for nested action-menu items in overflow sizing ([#14968](https://github.com/Esri/calcite-design-system/issues/14968)), closes [#14965](https://github.com/Esri/calcite-design-system/issues/14965)
+
 ## [5.2.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.43...@esri/calcite-components@5.2.0-next.44) (2026-08-11)
 
 ### Features
