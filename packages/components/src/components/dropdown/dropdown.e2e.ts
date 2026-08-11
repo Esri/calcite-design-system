@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { skipAnimations } from "../../tests/utils/puppeteer";
+import { findAll, getFocusedElementProp, skipAnimations } from "../../tests/utils/puppeteer";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
 import { mockConsole } from "../../tests/utils/logging";
