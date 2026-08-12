@@ -576,7 +576,7 @@ describe("autoClose", () => {
 
     await userEvent.click(outside);
 
-    expect(dropdownTwo.open).toBe(true);
+    expect(dropdownTwo.open).toBe(false);
   });
 });
 
