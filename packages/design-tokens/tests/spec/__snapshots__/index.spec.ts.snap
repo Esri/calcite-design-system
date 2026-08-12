@@ -1823,7 +1823,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 :where(*) {
-  --calcite-corner-radius: var(--calcite-corner-radius-none, inherit);
   --calcite-corner-radius-none: var(--calcite-corner-radius-sharp, inherit);
   --calcite-corner-radius-sm: var(--calcite-corner-radius-round, inherit);
   --calcite-font-weight-regular: var(--calcite-font-weight-normal, inherit);
