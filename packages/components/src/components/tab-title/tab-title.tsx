@@ -208,16 +208,12 @@ export class TabTitle extends LitElement {
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/types.ts#L1).
    * @private
    */
   calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
 
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/types.ts).
    * @private
    */
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });
