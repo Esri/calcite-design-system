@@ -113,7 +113,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-fixed-sm-plus"
       },
       "$type": "dimension",
       "$value": "{size.fixed.sm-plus}",
@@ -133,7 +134,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-fixed-md"
       },
       "$type": "dimension",
       "$value": "{size.fixed.md}",
@@ -153,7 +155,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-fixed-md-plus"
       },
       "$type": "dimension",
       "$value": "{size.fixed.md-plus}",
@@ -164,7 +167,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-fixed-lg"
       },
       "$type": "dimension",
       "$value": "{size.fixed.lg}",
@@ -175,7 +179,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-fixed-xxl"
       },
       "$type": "dimension",
       "$value": "{size.fixed.xxl}",
@@ -186,7 +191,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-fixed-xxxl"
       },
       "$type": "dimension",
       "$value": "{size.fixed.xxxl}",
@@ -220,7 +226,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-xxl"
       },
       "$type": "dimension",
       "$value": "{size.xxl}",
@@ -240,7 +247,8 @@
         "category": "size"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.outputReference": true,
+        "calcite.replaces": "--calcite-size-xxxl"
       },
       "$type": "dimension",
       "$value": "{size.xxxl}",

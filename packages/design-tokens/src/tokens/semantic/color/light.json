@@ -10,7 +10,8 @@
         "$value": "{color.background.default}",
         "$description": "Replaces `--calcite-color-background`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.outputReference": true,
+          "calcite.replaces": "--calcite-color-background"
         }
       },
       "2": {
@@ -22,7 +23,8 @@
         "$value": "{color.foreground.1}",
         "$description": "Replaces `--calcite-color-foreground-1`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.outputReference": true,
+          "calcite.replaces": "--calcite-color-foreground-1"
         }
       },
       "3": {
@@ -34,7 +36,8 @@
         "$value": "{color.foreground.2}",
         "$description": "Replaces `--calcite-color-foreground-2`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.outputReference": true,
+          "calcite.replaces": "--calcite-color-foreground-2"
         }
       },
       "4": {
@@ -46,7 +49,8 @@
         "$value": "{color.foreground.3}",
         "$description": "Replaces `--calcite-color-foreground-3`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.outputReference": true,
+          "calcite.replaces": "--calcite-color-foreground-3"
         }
       },
       "highlight": {
@@ -58,7 +62,8 @@
         "$value": "{color.foreground.current}",
         "$description": "Replaces `--calcite-color-foreground-current`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.outputReference": true,
+          "calcite.replaces": "--calcite-color-foreground-current"
         }
       }
     },
