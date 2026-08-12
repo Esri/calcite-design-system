@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.46...@esri/calcite-components@5.2.0-next.47) (2026-08-12)
+
+### Bug Fixes
+
+- use fully specified `calcite-design-tokens` imports ([#14995](https://github.com/Esri/calcite-design-system/issues/14995)), closes [#14998](https://github.com/Esri/calcite-design-system/issues/14998)
+
+## [5.2.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.45...@esri/calcite-components@5.2.0-next.46) (2026-08-12)
+
+### Bug Fixes
+
+- **dropdown:** sync virtual-focus aria relationships across trigger and groups ([#14924](https://github.com/Esri/calcite-design-system/issues/14924)), closes [#14888](https://github.com/Esri/calcite-design-system/issues/14888)
+
+## [5.2.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.44...@esri/calcite-components@5.2.0-next.45) (2026-08-11)
+
+### Bug Fixes
+
+- **action-bar:** account for nested action-menu items in overflow sizing ([#14968](https://github.com/Esri/calcite-design-system/issues/14968)), closes [#14965](https://github.com/Esri/calcite-design-system/issues/14965)
+
+## [5.2.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.43...@esri/calcite-components@5.2.0-next.44) (2026-08-11)
+
+### Features
+
+- **button, split-button, card, input, input-number, input-text, input-time-picker, color-picker, date-picker, select, table:** enable default corner-radius inheritance across components ([#14890](https://github.com/Esri/calcite-design-system/issues/14890)), closes [#14675](https://github.com/Esri/calcite-design-system/issues/14675)
+
 ## [5.2.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.42...@esri/calcite-components@5.2.0-next.43) (2026-08-06)
 
 ### Bug Fixes

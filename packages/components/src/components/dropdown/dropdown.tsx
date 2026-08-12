@@ -1,4 +1,5 @@
 import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -98,6 +99,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   );
 
   private scrollerEl?: HTMLDivElement;
+
+  private triggerSlotRef = createRef<HTMLSlotElement>();
 
   transitionEl: HTMLDivElement | undefined;
 
@@ -332,6 +335,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl") && this.referenceElementType) {
+      const previousReferenceEl = changes.get("referenceEl");
+
+      if (previousReferenceEl instanceof HTMLElement) {
+        previousReferenceEl.ariaActiveDescendantElement = null;
+      }
+
+      this.syncActiveDescendantOwnerElement();
       connectFloatingUI(this);
     }
   }
@@ -342,6 +352,16 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   override disconnectedCallback(): void {
+    const triggerSlotEl = this.triggerSlotRef.value;
+
+    if (triggerSlotEl) {
+      triggerSlotEl.ariaActiveDescendantElement = null;
+    }
+
+    if (this.referenceEl instanceof HTMLElement) {
+      this.referenceEl.ariaActiveDescendantElement = null;
+    }
+
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectFloatingUI(this);
@@ -524,6 +544,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   onClose(): void {
     this.calciteDropdownClose.emit();
+    this.syncActiveDescendantOwnerElement();
     hideFloatingUI(this);
     this.topLayer.hide();
   }
@@ -540,6 +561,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     this.referenceEl = el;
+    this.syncActiveDescendantOwnerElement();
 
     connectFloatingUI(this);
   }
@@ -547,6 +569,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+  }
+
+  private handleTriggerSlotChange(): void {
+    this.syncActiveDescendantOwnerElement();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -687,6 +713,25 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     });
 
     this.activeDescendantElement = activeItem ?? undefined;
+    this.syncActiveDescendantOwnerElement();
+  }
+
+  private syncActiveDescendantOwnerElement(): void {
+    const { referenceEl, referenceElementType } = this;
+    const triggerSlotEl = this.triggerSlotRef.value;
+    const activeDescendantEl = this.open ? (this.activeDescendantElement ?? null) : null;
+    const referenceOwnerEl = referenceEl instanceof HTMLElement ? referenceEl : null;
+    const isReferenceMode = Boolean(referenceElementType);
+
+    if (triggerSlotEl) {
+      triggerSlotEl.ariaActiveDescendantElement = isReferenceMode ? null : activeDescendantEl;
+    }
+
+    if (!referenceOwnerEl) {
+      return;
+    }
+
+    referenceOwnerEl.ariaActiveDescendantElement = isReferenceMode ? activeDescendantEl : null;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
@@ -794,11 +839,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
             ref={this.setReferenceEl}
           >
             <slot
-              ariaActiveDescendantElement={this.activeDescendantElement ?? undefined}
               ariaControlsElements={this.scrollerEl ? [this.scrollerEl] : undefined}
               ariaExpanded={open}
               ariaHasPopup="menu"
               name={SLOTS.trigger}
+              onSlotChange={this.handleTriggerSlotChange}
+              ref={this.triggerSlotRef}
             />
           </div>
         ) : null}
