@@ -14,8 +14,6 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-action-height
-// --calcite-internal-action-spacing
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
 // --calcite-internal-menu-item-icon-color
@@ -170,7 +168,6 @@
 
   .content {
     padding: var(--calcite-space-sm);
-    padding-inline-end: var(--calcite-space-2xs);
   }
 
   .icon--start {
@@ -189,10 +186,6 @@
   .icon--end ~ .icon--dropdown {
     margin-inline-start: var(--calcite-space-sm);
     padding-inline-start: var(--calcite-space-xs);
-  }
-
-  .content:has(.icon--end):has(.icon--dropdown) {
-    padding-inline-end: var(--calcite-space-sm);
   }
 }
 
@@ -223,10 +216,6 @@
     block-size: theme("spacing.9");
   }
 
-  .content {
-    padding-inline-end: var(--calcite-space-sm);
-  }
-
   .icon--end {
     margin-inline-start: var(--calcite-space-sm);
   }
@@ -242,24 +231,18 @@
     block-size: theme("spacing.9");
   }
 
-  .content {
-    padding-inline-end: var(--calcite-space-sm);
-  }
-
   .icon--end {
     margin-inline-start: var(--calcite-space-sm);
   }
 
   .dropdown-action {
-    --calcite-internal-action-height: var(--calcite-size-md);
-    --calcite-internal-action-spacing: var(--calcite-space-sm);
-
     align-items: center;
     box-sizing: border-box;
     block-size: theme("spacing.9");
     flex: 0 0 var(--calcite-size-md);
     margin-inline: 0;
     margin-inline-start: theme("spacing.px");
+    padding-inline: var(--calcite-space-2xs);
 
     &::after {
       inset-block: var(--calcite-space-sm);
@@ -292,8 +275,7 @@
   }
 
   .content {
-    padding-inline-end: var(--calcite-space-lg);
-    padding-inline-start: var(--calcite-space-xl);
+    padding-inline: var(--calcite-space-xl);
   }
 
   .icon--start {
@@ -355,6 +337,16 @@
     margin-inline-start: var(--calcite-space-lg);
     padding-inline-start: var(--calcite-space-sm-plus);
   }
+}
+
+:host([scale="l"][layout="vertical"]) .content:not([href]) {
+  margin-inline-end: var(--calcite-space-2xs);
+  padding-inline: var(--calcite-space-xl);
+}
+
+:host([scale="l"][layout="vertical"]) .dropdown-action {
+  margin-inline-end: 0;
+  padding-inline: var(--calcite-space-xs);
 }
 
 :host([scale="l"]:not([layout="vertical"])):has(.dropdown-action) {
