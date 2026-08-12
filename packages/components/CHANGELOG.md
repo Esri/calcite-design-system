@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.45...@esri/calcite-components@5.2.0-next.46) (2026-08-12)
+
+### Bug Fixes
+
+- **dropdown:** sync virtual-focus aria relationships across trigger and groups ([#14924](https://github.com/Esri/calcite-design-system/issues/14924)), closes [#14888](https://github.com/Esri/calcite-design-system/issues/14888)
+
 ## [5.2.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.44...@esri/calcite-components@5.2.0-next.45) (2026-08-11)
 
 ### Bug Fixes
