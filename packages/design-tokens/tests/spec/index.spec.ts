@@ -1,4 +1,4 @@
-import { resolve } from "node:path";
+﻿import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { Platform } from "../../src/types/interfaces.d.ts";
@@ -20,24 +20,22 @@ const platforms: {
 platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
 
 describe("replacement-token alias behavior", () => {
-  it("keeps replacement token overrides inheritable while mapping deprecated semantic tokens", () => {
+  it("emits replacement token aliases at :root scope in semantic.css without :where(*) scoping", () => {
     const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "semantic.css");
     const content = readFileSync(filePath, "utf-8");
 
-    expect(content).toContain("--calcite-font-weight-regular: var(--calcite-font-weight-normal, inherit);");
+    expect(content).toContain("--calcite-font-weight-regular: var(");
+    expect(content).toContain("--calcite-font-weight-normal");
+    expect(content).not.toContain(":where(*)");
   });
 
-  it("keeps replacement token overrides inheritable while mapping deprecated themed tokens", () => {
+  it("emits replacement token aliases at :root scope in index.css without :where(*) scoping", () => {
     const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "index.css");
     const content = readFileSync(filePath, "utf-8");
 
-    expect(content).toContain("--calcite-color-surface-1: var(--calcite-color-background, inherit);");
-  });
-  it("does not scope non-replacement output-reference tokens", () => {
-    const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "semantic.css");
-    const content = readFileSync(filePath, "utf-8");
-
-    expect(content).not.toContain("--calcite-corner-radius: var(--calcite-corner-radius-none, inherit);");
+    expect(content).toContain("--calcite-color-surface-1: var(");
+    expect(content).toContain("--calcite-color-background");
+    expect(content).not.toContain(":where(*)");
   });
 });
 

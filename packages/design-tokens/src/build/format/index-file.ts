@@ -1,4 +1,4 @@
-import prettierSync from "@prettier/sync";
+﻿import prettierSync from "@prettier/sync";
 import type { FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
@@ -7,7 +7,7 @@ import type { Platform, RegisterFn, Stylesheet } from "../../types/interfaces.d.
 import { fromTokens } from "../utils/dictionary.ts";
 import { isThemed } from "../utils/token-types.ts";
 import { dark, light } from "../dictionaries/index.ts";
-import { createScopedReferenceDeclarations, createVarList, isReplacementToken } from "./utils/index.ts";
+import { createVarList } from "./utils/index.ts";
 
 export const registerFormatIndex: RegisterFn = () => {
   StyleDictionary.registerFormat({
@@ -42,17 +42,10 @@ export const formatIndexFile: FormatFn = async (args) => {
     ),
     dark: createVarList(commonVarFormat, fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token))), args),
   } as const;
-  const scopedReferenceTokens = lightDictionary.allTokens.filter(
-    (token) => isThemed(token) && isReplacementToken(token),
-  );
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";
   const imports = args.options.imports.map((imp: string) => importUrl(imp, options.fileExtension)).join("");
   const root = format === "css" ? `:where(:root) {${varLists.light}}` : "";
-  const scopedReferences =
-    format === "css" && scopedReferenceTokens.length
-      ? `:where(*) {${[...createScopedReferenceDeclarations(scopedReferenceTokens, lightDictionary)].join("")}}`
-      : "";
   const atMedia =
     format === "css"
       ? themes
@@ -66,7 +59,7 @@ export const formatIndexFile: FormatFn = async (args) => {
         : `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`,
     )
     .join("");
-  const content = [imports, root, scopedReferences, atMedia, platformClasses].filter((item) => !!item).join("");
+  const content = [imports, root, atMedia, platformClasses].filter((item) => !!item).join("");
 
   return prettierSync.format(`${header}${content}`, {
     parser: format,

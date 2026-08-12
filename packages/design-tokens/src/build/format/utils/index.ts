@@ -1,7 +1,6 @@
-import type { FormatFnArguments, Dictionary, OutputReferences, TransformedToken } from "style-dictionary/types";
-import { formattedVariables, getReferences } from "style-dictionary/utils";
+﻿import type { FormatFnArguments, Dictionary, TransformedToken } from "style-dictionary/types";
+import { formattedVariables } from "style-dictionary/utils";
 import type { Stylesheet } from "../../../types/interfaces.d.ts";
-import { hasReplacementExtension } from "../../utils/output-references.ts";
 
 /**
  * Helper function to remove extraneous token attributes
@@ -51,34 +50,5 @@ export function createVarList(
     format,
     dictionary,
     ...args.options,
-  });
-}
-
-export function dedupeTokensByName<T extends { name: string }>(tokens: T[]): T[] {
-  return [...new Map(tokens.map((token) => [token.name, token])).values()];
-}
-
-export function isReplacementToken(token: Parameters<Exclude<OutputReferences, boolean>>[0]): boolean {
-  return hasReplacementExtension(token);
-}
-
-export function createScopedReferenceDeclarations(
-  tokens: TransformedToken[],
-  dictionary: Pick<Dictionary, "tokens">,
-): string[] {
-  return dedupeTokensByName(tokens).map((token) => {
-    const originalValue = token.original?.$value;
-
-    if (typeof originalValue !== "string") {
-      throw new Error(`Token ${token.name} does not have a string reference value.`);
-    }
-
-    const [referenceToken] = getReferences(originalValue, dictionary.tokens);
-
-    if (!referenceToken) {
-      throw new Error(`Reference token for ${token.name} was not found.`);
-    }
-
-    return `--${token.name}: var(--${referenceToken.name}, inherit);${token.comment ? ` /** ${token.comment} */` : ""}`;
   });
 }
