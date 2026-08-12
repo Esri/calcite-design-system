@@ -925,6 +925,32 @@ describe("nested selection modes", () => {
   });
 });
 
+describe("aria-live", () => {
+  it("sets assistive text aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-list>
+        <calcite-list-item label="Item 1" value="item-1" />
+      </calcite-list>,
+    );
+    const assistiveText = page
+      .getBySelector(`calcite-list .${CSS.assistiveText}`)
+      .element() as HTMLElement;
+
+    expect(assistiveText).toBeDefined();
+    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(assistiveText.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+  });
+});
+
 describe("themed", () => {
   describe("default", () => {
     themed(() => mount("calcite-list"), {

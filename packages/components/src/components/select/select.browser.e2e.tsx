@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { TemplateResult } from "lit/html.js";
 
 import {
@@ -125,6 +126,32 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-select"));
+});
+
+describe("aria-live", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-select status="invalid" validation-message="Help">
+        <calcite-option>one</calcite-option>
+      </calcite-select>,
+    );
+    const validationMessage = page
+      .getBySelector("calcite-select calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+  });
 });
 
 describe("theme", () => {

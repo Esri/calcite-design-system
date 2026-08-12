@@ -476,6 +476,30 @@ describe("number locale support", () => {
   });
 });
 
+describe("aria-live", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-slider status="invalid" validation-message="Help" />,
+    );
+    const validationMessage = page
+      .getBySelector("calcite-slider calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+  });
+});
+
 describe("themed", () => {
   describe("default", () => {
     themed(() => mount(<calcite-slider value={30} />), {

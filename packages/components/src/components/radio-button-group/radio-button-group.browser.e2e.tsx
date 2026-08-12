@@ -1,7 +1,7 @@
 import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 
 import {
   accessible,
@@ -163,6 +163,30 @@ describe("is focusable", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-radio-button-group"));
+});
+
+describe("aria-live", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-radio-button-group status="invalid" validation-message="Help" />,
+    );
+    const validationMessage = page
+      .getBySelector("calcite-radio-button-group calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+  });
 });
 
 describe("theme", () => {

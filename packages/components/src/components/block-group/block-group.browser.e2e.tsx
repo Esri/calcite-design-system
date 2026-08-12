@@ -314,3 +314,29 @@ describe("expandMode", () => {
     await expect.element(descendantBlockElements.nth(3)).toHaveProperty("expanded", true);
   });
 });
+
+describe("aria-live", () => {
+  it("sets assistive text aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-block-group drag-enabled>
+        <calcite-block heading="Block" />
+      </calcite-block-group>,
+    );
+    const assistiveText = page
+      .getBySelector("calcite-block-group .assistive-text")
+      .element() as HTMLElement;
+
+    expect(assistiveText).toBeDefined();
+    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(assistiveText.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+  });
+});
