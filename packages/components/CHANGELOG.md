@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.47...@esri/calcite-components@5.2.0-next.48) (2026-08-12)
+
+### Bug Fixes
+
+- **dropdown:** auto-close when another dropdown opens ([#14997](https://github.com/Esri/calcite-design-system/issues/14997)), closes [#14392](https://github.com/Esri/calcite-design-system/issues/14392)
+
 ## [5.2.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.46...@esri/calcite-components@5.2.0-next.47) (2026-08-12)
 
 ### Bug Fixes
