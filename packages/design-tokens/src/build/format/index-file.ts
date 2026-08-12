@@ -3,7 +3,7 @@ import type { FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
 import type { PlatformConfig } from "../../types/extensions.d.ts";
-import type { Platform, RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import type { Platform, RegisterFn, Stylesheet } from "../../types/types.d.ts";
 import { fromTokens } from "../utils/dictionary.ts";
 import { isThemed } from "../utils/token-types.ts";
 import { dark, light } from "../dictionaries/index.ts";

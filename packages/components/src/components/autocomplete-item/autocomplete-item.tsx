@@ -1,7 +1,7 @@
 import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
-import { FlipContext, Scale } from "../interfaces";
+import { FlipContext, Scale } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { guid } from "../../utils/guid";
 import { highlightText } from "../../utils/text";
 import { useInteractive } from "../../controllers/useInteractive";

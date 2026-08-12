@@ -26,8 +26,8 @@ import {
   disconnectFloatingUI,
   reposition,
 } from "../../utils/floating-ui";
-import { Alignment, Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Alignment, Scale, Status } from "../types";
+import { IconName } from "../icon/types";
 import { getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import { slotChangeHasAssignedElement } from "../../utils/dom";

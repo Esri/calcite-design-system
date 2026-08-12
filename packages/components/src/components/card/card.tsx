@@ -11,9 +11,9 @@ import {
 } from "@arcgis/lumina";
 import { getIconScale } from "../../utils/component";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { LogicalFlowPosition, Scale, SelectionMode } from "../interfaces";
+import { LogicalFlowPosition, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";

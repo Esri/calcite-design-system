@@ -1,6 +1,6 @@
 import type { Filter, PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types/types.d.ts";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../../utils/token-types.ts";
 
 function getBasePxFontSize(config: PlatformConfig) {

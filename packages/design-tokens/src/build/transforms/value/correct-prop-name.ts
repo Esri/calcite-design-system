@@ -1,6 +1,6 @@
 import type { Filter, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types/types.d.ts";
 
 const correctedValueTypes = ["boxShadow"] as const;
 const filterTypes: Filter["filter"] = (token) =>

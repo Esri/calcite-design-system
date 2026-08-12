@@ -1,7 +1,7 @@
 import type { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import type { PlatformConfig } from "../../../types/extensions.d.ts";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types/types.d.ts";
 import { dark, light } from "../../dictionaries/index.ts";
 import { isLightOrDarkColorToken } from "../../filter/light-or-dark.ts";
 import { state } from "../../shared/state.ts";

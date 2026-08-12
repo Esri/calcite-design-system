@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement } from "@arcgis/lumina";
 import { SetOptional } from "type-fest";
-import { GlobalTestProps } from "../tests/utils/interfaces";
+import { GlobalTestProps } from "../tests/utils/types";
 import { mockConsole } from "../tests/utils/logging";
 import { type LogLevel, loggedDeprecations, logger } from "./logger";
 import { type CalciteConfig, clearConfig } from "./config";

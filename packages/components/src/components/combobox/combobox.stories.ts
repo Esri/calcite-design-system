@@ -2,7 +2,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import type { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import type { Combobox } from "./combobox";
 import { allModes } from "../../../.storybook/modes";
 

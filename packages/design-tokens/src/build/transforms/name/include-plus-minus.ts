@@ -2,7 +2,7 @@ import type { TransformedToken } from "style-dictionary";
 import type { NameTransform } from "style-dictionary/types";
 import { capitalCase, kebabCase } from "change-case";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types/types.d.ts";
 
 const regex = {
   plusMinus: RegExp("(^[+-])?[0-9A-Za-z\\-]+([+-]$)?", ""),

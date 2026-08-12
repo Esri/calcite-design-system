@@ -6,7 +6,7 @@ import {
   FocusElementInGroupDestination,
   slotChangeGetAssignedElements,
 } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import type { Chip } from "../chip/chip";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

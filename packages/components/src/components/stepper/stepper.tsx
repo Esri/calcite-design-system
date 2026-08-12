@@ -11,7 +11,7 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale } from "../types";
 import { createObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
 import { NumberingSystem } from "../../utils/locale";
@@ -20,11 +20,7 @@ import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
 import { CSS, ICONS, IDS } from "./resources";
 import { StepBar } from "./functional/step-bar";
-import {
-  StepperItemChangeEventDetail,
-  StepperItemKeyEventDetail,
-  StepperLayout,
-} from "./interfaces";
+import { StepperItemChangeEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper.scss";
 import { isStepperItem } from "../stepper-item/resources";

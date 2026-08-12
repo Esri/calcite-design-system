@@ -4,7 +4,7 @@ import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import { get } from "es-toolkit/compat";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import type { RegisterFn, Stylesheet } from "../../types/types.d.ts";
 import { state } from "../shared/state.ts";
 import type { FlattenedTransformedToken } from "../../types/extensions.d.ts";
 

@@ -1,5 +1,5 @@
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./autocomplete-item-group.scss";
 
