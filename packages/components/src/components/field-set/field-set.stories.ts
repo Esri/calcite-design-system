@@ -436,36 +436,36 @@ prefixAndSuffixAutoWidthUsingLabels.parameters = {
   controls: { include: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
 
-export const fieldSetRowWrappers = (): string => html`
+export const fieldRowWrappers = (): string => html`
   <calcite-field-set legend="Field Set legend">
-    <calcite-field-set-row layout="columns" columns="2">
+    <calcite-field-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
-    </calcite-field-set-row>
-    <calcite-field-set-row>
+    </calcite-field-row>
+    <calcite-field-row>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
-    </calcite-field-set-row>
+    </calcite-field-row>
   </calcite-field-set>
 `;
 
 export const fieldSetOneRowWrapper = (): string => html`
   <calcite-field-set legend="Field Set legend">
-    <calcite-field-set-row layout="columns" columns="2">
+    <calcite-field-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
-    </calcite-field-set-row>
+    </calcite-field-row>
     <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
   </calcite-field-set>
 `;
 
 export const fieldSetParentChildColumns = (): string => html`
   <calcite-field-set layout="columns" columns="2" legend="Field Set legend">
-    <calcite-field-set-row layout="columns" columns="2">
+    <calcite-field-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
-    </calcite-field-set-row>
-    <calcite-field-set-row>
+    </calcite-field-row>
+    <calcite-field-row>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
-    </calcite-field-set-row>
+    </calcite-field-row>
   </calcite-field-set>
 `;

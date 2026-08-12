@@ -20,7 +20,7 @@
   &--columns {
     display: grid;
     column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap, var(--calcite-space-md)));
-    grid-template-columns: repeat(var(--calcite-internal-field-set-row-columns, 1), minmax(0, 1fr));
+    grid-template-columns: repeat(var(--calcite-internal-field-row-columns, 1), minmax(0, 1fr));
   }
 }
 

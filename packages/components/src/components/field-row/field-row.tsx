@@ -1,18 +1,18 @@
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import { CSS } from "./resources";
-import { styles } from "./field-set-row.scss";
+import { styles } from "./field-row.scss";
 
 type Layout = "columns" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
 declare global {
   interface DeclareElements {
-    "calcite-field-set-row": FieldSetRow;
+    "calcite-field-row": FieldRow;
   }
 }
 
 /** @slot - A slot for adding field set row content. */
-export class FieldSetRow extends LitElement {
+export class FieldRow extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -40,7 +40,7 @@ export class FieldSetRow extends LitElement {
           [CSS.containerHorizontal]: this.layout === "horizontal",
           [CSS.containerVertical]: this.layout === "vertical",
         }}
-        style={{ "--calcite-internal-field-set-row-columns": this.columns }}
+        style={{ "--calcite-internal-field-row-columns": this.columns }}
       >
         <slot />
       </div>
