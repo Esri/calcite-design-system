@@ -535,6 +535,48 @@ describe("referenceElement keydown", () => {
   });
 });
 
+describe("autoClose", () => {
+  it("closes an open dropdown when another reference element dropdown opens", async () => {
+    const { el: dropdownOne } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown id="dropdown-1" reference-element="trigger-1">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Item 1</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger-1">Open dropdown 1</calcite-button>
+      </>,
+    );
+
+    const { el: dropdownTwo } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown id="dropdown-2" reference-element="trigger-2">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Item 2</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger-2">Open dropdown 2</calcite-button>
+      </>,
+    );
+
+    const triggerOne = page.getByRole("button", { name: "Open dropdown 1" });
+    const triggerTwo = page.getByRole("button", { name: "Open dropdown 2" });
+
+    expect(dropdownOne.open).toBe(false);
+    expect(dropdownTwo.open).toBe(false);
+
+    await userEvent.click(triggerOne);
+
+    expect(dropdownOne.open).toBe(true);
+    expect(dropdownTwo.open).toBe(false);
+
+    await userEvent.click(triggerTwo);
+
+    expect(dropdownOne.open).toBe(false);
+    expect(dropdownTwo.open).toBe(true);
+  });
+});
+
 describe("virtual referenceElement", () => {
   function renderVirtualReferenceElementDropdownHTML(): JsxNode {
     return (
