@@ -79,6 +79,6 @@ export function createScopedReferenceDeclarations(
       throw new Error(`Reference token for ${token.name} was not found.`);
     }
 
-    return `--${token.name}: var(--${referenceToken.name});${token.comment ? ` /** ${token.comment} */` : ""}`;
+    return `--${token.name}: var(--${referenceToken.name}, inherit);${token.comment ? ` /** ${token.comment} */` : ""}`;
   });
 }

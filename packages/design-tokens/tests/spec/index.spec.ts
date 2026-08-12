@@ -19,6 +19,22 @@ const platforms: {
 
 platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
 
+describe("replacement-token alias behavior", () => {
+  it("keeps replacement token overrides inheritable while mapping deprecated semantic tokens", () => {
+    const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "semantic.css");
+    const content = readFileSync(filePath, "utf-8");
+
+    expect(content).toContain("--calcite-font-weight-regular: var(--calcite-font-weight-normal, inherit);");
+  });
+
+  it("keeps replacement token overrides inheritable while mapping deprecated themed tokens", () => {
+    const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "index.css");
+    const content = readFileSync(filePath, "utf-8");
+
+    expect(content).toContain("--calcite-color-surface-1: var(--calcite-color-background, inherit);");
+  });
+});
+
 /**
  * Generate test cases for a given platform and files
  *
