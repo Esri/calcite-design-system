@@ -1,7 +1,7 @@
 import type { FormatFnArguments, Dictionary, OutputReferences, TransformedToken } from "style-dictionary/types";
 import { formattedVariables, getReferences } from "style-dictionary/utils";
 import type { Stylesheet } from "../../../types/interfaces.d.ts";
-import { hasOutputReferenceExtension } from "../../utils/output-references.ts";
+import { hasReplacementExtension } from "../../utils/output-references.ts";
 
 /**
  * Helper function to remove extraneous token attributes
@@ -59,7 +59,7 @@ export function dedupeTokensByName<T extends { name: string }>(tokens: T[]): T[]
 }
 
 export function isReplacementToken(token: Parameters<Exclude<OutputReferences, boolean>>[0]): boolean {
-  return hasOutputReferenceExtension(token) || token.comment?.startsWith("Replaces `--calcite-");
+  return hasReplacementExtension(token);
 }
 
 export function createScopedReferenceDeclarations(

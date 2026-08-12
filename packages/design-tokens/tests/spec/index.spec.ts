@@ -33,6 +33,12 @@ describe("replacement-token alias behavior", () => {
 
     expect(content).toContain("--calcite-color-surface-1: var(--calcite-color-background, inherit);");
   });
+  it("does not scope non-replacement output-reference tokens", () => {
+    const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "semantic.css");
+    const content = readFileSync(filePath, "utf-8");
+
+    expect(content).not.toContain("--calcite-corner-radius: var(--calcite-corner-radius-none, inherit);");
+  });
 });
 
 /**
