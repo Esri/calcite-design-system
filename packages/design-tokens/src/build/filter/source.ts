@@ -1,6 +1,6 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../types/types.ts";
+import type { RegisterFn } from "../../types.ts";
 
 export const filterSourceTokens: Filter["filter"] = (token) => token.isSource;
 

@@ -1,6 +1,6 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../types/types.ts";
+import type { RegisterFn } from "../../types.ts";
 import { isBreakpoint } from "../utils/token-types.ts";
 import { state } from "../shared/state.ts";
 import { isLightOrDarkColorToken } from "./light-or-dark.ts";

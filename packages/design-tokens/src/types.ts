@@ -4,7 +4,12 @@ import type {
   TransformedToken,
 } from "style-dictionary/types/index.js";
 import type { SetRequired } from "type-fest";
-import type { Platform } from "./types.ts";
+
+type InternalPlatform = "docs";
+
+export type Platform = "css" | "scss" | "es6" | InternalPlatform;
+export type Stylesheet = Extract<Platform, "css" | "scss">;
+export type RegisterFn = () => void;
 
 // convenience type per https://styledictionary.com/reference/utils/tokens/#converttokendata
 export type FlattenedTransformedToken = SetRequired<TransformedToken, "key">;
