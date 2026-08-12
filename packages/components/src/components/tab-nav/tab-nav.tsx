@@ -2,7 +2,7 @@ import {
   calciteSize24,
   calciteSize32,
   calciteSize44,
-} from "@esri/calcite-design-tokens/dist/es6/core";
+} from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
