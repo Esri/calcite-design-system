@@ -85,9 +85,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private focusLastDropdownItem = false;
 
   /** @internal */
-  get autoClose(): true {
-    return true;
-  }
+  @property({ attribute: false }) autoClose = true;
 
   private activeItemIndex = -1;
 
