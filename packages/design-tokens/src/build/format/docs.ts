@@ -1,7 +1,7 @@
 import prettierSync from "@prettier/sync";
 import type { FormatFn, TransformedToken } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../types/types.d.ts";
+import type { RegisterFn } from "../../types/types.ts";
 import { cleanAttributes } from "./utils/index.ts";
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {

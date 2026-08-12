@@ -1,7 +1,7 @@
 import { camelCase, kebabCase } from "change-case";
 import type { AttributeTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/types.d.ts";
+import type { RegisterFn } from "../../../types/types.ts";
 
 export const transformAttributePlatformNames: AttributeTransform["transform"] = (token) => {
   const isKebab = token.name.includes("-");

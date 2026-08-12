@@ -1,6 +1,6 @@
 import type { NameTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/types.d.ts";
+import type { RegisterFn } from "../../../types/types.ts";
 import { isBreakpointMinToken } from "../../utils/token-types.ts";
 
 /**

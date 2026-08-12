@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import type { Platform } from "../../src/types/types.d.ts";
+import type { Platform } from "../../src/types/types.ts";
 
 const platforms: {
   name: Platform;

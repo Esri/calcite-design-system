@@ -1,6 +1,6 @@
 import type { AttributeTransform, PlatformConfig } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/types.d.ts";
+import type { RegisterFn } from "../../../types/types.ts";
 
 export const transformAttributeSchema: AttributeTransform["transform"] = (token, config: PlatformConfig) => ({
   ...token.attributes,

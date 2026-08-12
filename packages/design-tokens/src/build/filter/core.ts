@@ -1,6 +1,6 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../types/types.d.ts";
+import type { RegisterFn } from "../../types/types.ts";
 import { isLightOrDarkColorToken } from "./light-or-dark.ts";
 
 export const filterCoreTokens: Filter["filter"] = (token, config) =>

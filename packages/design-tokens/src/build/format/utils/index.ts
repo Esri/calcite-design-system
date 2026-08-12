@@ -1,6 +1,6 @@
 import type { FormatFnArguments, Dictionary, TransformedToken } from "style-dictionary/types";
 import { formattedVariables } from "style-dictionary/utils";
-import type { Stylesheet } from "../../../types/types.d.ts";
+import type { Stylesheet } from "../../../types/types.ts";
 
 /**
  * Helper function to remove extraneous token attributes
