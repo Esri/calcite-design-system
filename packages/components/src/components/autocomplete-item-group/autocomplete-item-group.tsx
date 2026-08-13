@@ -66,9 +66,8 @@ export class AutocompleteItemGroup extends LitElement {
    * Specifies the `calcite-autocomplete-item`s in the group.
    *
    * @internal
-   * @readonly
    */
-  @property({ attribute: false }) get items(): AutocompleteItem["el"][] {
+  @property() get items(): AutocompleteItem["el"][] {
     return this._items;
   }
 
