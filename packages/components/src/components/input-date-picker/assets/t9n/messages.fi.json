@@ -1,0 +1,9 @@
+{
+  "chooseDate": "Valitse päivämäärä",
+  "clear": "Tyhjennä arvo",
+  "date": "Päivämäärä",
+  "dateFormat": "Päivämäärän muoto: {format}",
+  "endDate": "Lopetuspäivämäärä",
+  "required": "Pakollinen",
+  "startDate": "Aloituspäivämäärä"
+}

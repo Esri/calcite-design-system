@@ -1,0 +1,5 @@
+{
+  "rating": "Ocena",
+  "required": "Obavezno",
+  "stars": "Zvezdice: {num}"
+}

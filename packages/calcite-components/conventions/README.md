@@ -142,10 +142,31 @@ There are a few ways to add event listeners within our components:
 
 #### Programmatic vs User-initiated actions event story
 
-Emitting associated events for user-initiated actions:
-• Emit only when the user initiated the action that would emit the event.
-• Before open/close events are an exception because these are asynchronous and users would not be able to reliably know when the event-related action is done when triggered programmatically.
-• If a user triggers an event, any sequence of associated events would need to emit.
+##### Public interaction events
+
+Public interaction events communicate state changes caused by user interaction.
+
+Setting a component property or calling a programmatic API must update component state, but should not emit public interaction events unless that API explicitly documents an event contract.
+
+##### Associated state changes
+
+A single user action can cause multiple observable state changes. Emit each public event whose corresponding state changed as part of that action.
+
+Do not emit related events when the action does not change the state represented by that event.
+
+For example, closing the selected tab closes that tab and changes selection. Emit the close event and the tab-selection events. Closing an unselected tab closes that tab but leaves selection unchanged. Emit the close event, but not selection events.
+
+##### Lifecycle events
+
+Lifecycle events that signal the start or completion of an asynchronous component transition may emit for both user-initiated and programmatic changes.
+
+For example, consumers may rely on before-open, open, before-close, and close events to coordinate work with an open or close transition.
+
+##### Internal events
+
+Internal events may be emitted as implementation details to coordinate component parts. They are not a public event contract.
+
+For example, `calcite-tab-title` emits `calciteInternalTabsActivate` to coordinate selection with `calcite-tab-nav`. The internal event may be emitted for programmatic activation because the components still need to synchronize state. The public `calciteTabsActivate` event emits only for user-triggered activation.
 
 ## Properties
 

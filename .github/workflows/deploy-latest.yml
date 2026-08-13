@@ -2,40 +2,90 @@ name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - "releases/**"
 permissions:
   contents: write
   pull-requests: write
 jobs:
   release-please:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
-      - uses: google-github-actions/release-please-action@v3.7.9
+      - uses: googleapis/release-please-action@v4
         id: release
         with:
-          command: manifest
           token: ${{ secrets.ADMIN_TOKEN }}
-          default-branch: main
-          extra-files: |
-            packages/calcite-components/readme.md
+          target-branch: ${{ github.ref_name }}
       - name: Checkout Repository
-        if: ${{ steps.release.outputs.releases_created }}
-        uses: actions/checkout@v3
+        if: steps.release.outputs.releases_created == 'true'
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
-          ref: main
       - name: Setup Node
-        if: ${{ steps.release.outputs.releases_created }}
-        uses: actions/setup-node@v3
+        if: steps.release.outputs.releases_created == 'true'
+        uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
       - name: Build Packages and Publish to NPM
-        if: ${{ steps.release.outputs.releases_created }}
-        run: |
-          npm install
-          npm run build
-          npm run publish:latest
+        if: steps.release.outputs.releases_created == 'true'
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: |
+          npm ci
+          npm run build
+
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          release_commit="$(git rev-parse HEAD)"
+
+          npm run publish:latest
+          npm run util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
+
+          release_version="$(node -p "require('./packages/components/package.json').version")"
+
+          git checkout -B ci/cherry-pick-release-commit origin/dev
+
+          dev_commit="$(git rev-parse HEAD)"
+          dev_version="$(node -p "require('./packages/components/package.json').version")"
+
+          kept_commit=$(
+            node -p "
+              const semver=require('semver');
+              semver.gt('$dev_version','$release_version') ? '$dev_commit' : '$release_commit'
+            "
+          )
+
+          if ! git cherry-pick --no-commit "$release_commit"; then
+            conflicts="$(git diff --name-only --diff-filter=U)"
+
+            if [ -n "$conflicts" ] && echo "$conflicts" |
+              grep -qvE '^(package-lock\.json|packages/.*/(CHANGELOG\.md|package\.json))$'; then
+              echo "Aborting cherry-pick due to unexpected conflicts:"
+              echo "$conflicts"
+              git cherry-pick --abort
+              exit 1
+            fi
+          fi
+
+          git checkout "$release_commit" -- packages/*/CHANGELOG.md
+          git checkout "$kept_commit" -- package-lock.json
+          git checkout "$kept_commit" -- packages/*/package.json
+          git add package-lock.json packages/*/CHANGELOG.md packages/*/package.json
+
+          if git diff --name-only --diff-filter=U | grep -q .; then
+            echo "Aborting cherry-pick, as there are still conflicts after auto-resolution."
+            git cherry-pick --abort
+            exit 1
+          fi
+
+          git commit -C "$release_commit"
+          git push -u origin HEAD
+          gh pr create --fill --head "ci/cherry-pick-release-commit" --base "dev" \
+            --label "skip visual snapshots"

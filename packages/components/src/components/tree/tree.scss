@@ -1,0 +1,11 @@
+@use "../../styles/includes";
+
+:host {
+  @apply block;
+}
+
+:host(:focus) {
+  @apply outline-none;
+}
+
+@include includes.base-component();

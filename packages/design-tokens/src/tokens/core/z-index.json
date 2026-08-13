@@ -1,0 +1,69 @@
+{
+  "core": {
+    "z-index": {
+      "0": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "-999999"
+      },
+      "1": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "1"
+      },
+      "3": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "300"
+      },
+      "4": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "400"
+      },
+      "5": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "500"
+      },
+      "6": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "600"
+      },
+      "7": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "700"
+      },
+      "8": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "800"
+      },
+      "9": {
+        "attributes": {
+          "category": "z-index"
+        },
+        "$type": "z-index",
+        "$value": "900"
+      }
+    }
+  }
+}

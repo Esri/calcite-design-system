@@ -1,0 +1,122 @@
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ColorPicker } from "./color-picker";
+
+const { colorPickerFormat, scale } = ATTRIBUTES;
+
+type ColorPickerStoryArgs = Pick<
+  ColorPicker,
+  | "alphaChannel"
+  | "channelsDisabled"
+  | "clearable"
+  | "disabled"
+  | "fieldDisabled"
+  | "format"
+  | "hexDisabled"
+  | "savedDisabled"
+  | "scale"
+  | "value"
+>;
+
+export default {
+  title: "Components/Controls/ColorPicker",
+  args: {
+    alphaChannel: false,
+    channelsDisabled: false,
+    disabled: false,
+    format: "auto",
+    hexDisabled: false,
+    savedDisabled: false,
+    fieldDisabled: false,
+    scale: scale.defaultValue,
+    clearable: false,
+    value: "#b33f33",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    format: {
+      options: colorPickerFormat.values,
+      control: { type: "select" },
+    },
+  },
+};
+
+export const simple = (args: ColorPickerStoryArgs): string => html`
+  <calcite-color-picker
+    ${boolean("alpha-channel", args.alphaChannel)}
+    ${boolean("channels-disabled", args.channelsDisabled)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hex-disabled", args.hexDisabled)}
+    ${boolean("saved-disabled", args.savedDisabled)}
+    format="${args.format}"
+    scale="${args.scale}"
+    ${boolean("clearable", args.clearable)}
+    value="${args.value}"
+    ${boolean("field-disabled", args.fieldDisabled)}
+  ></calcite-color-picker>
+`;
+
+export const alphaChannelAllScales = (): string => html`
+  <calcite-color-picker scale="s" alpha-channel value="#b33f3333"></calcite-color-picker>
+  <calcite-color-picker scale="m" alpha-channel value="#b33f3333"></calcite-color-picker>
+  <calcite-color-picker scale="l" alpha-channel value="#b33f3333"></calcite-color-picker>
+`;
+
+export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
+
+export const darkModeRTL = (): string => html`
+  <calcite-color-picker scale="m" dir="rtl" class="calcite-mode-dark" value="#b33f33"></calcite-color-picker>
+`;
+
+darkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const thumbsOnEdgeDoNotOverflowContainer = (): string =>
+  html`<div style="overflow: auto; width: 274px;">
+    <calcite-color-picker value="#04006e"></calcite-color-picker>
+  </div>`;
+
+export const ArabicLocale = (): string => html`<calcite-color-picker lang="ar"></calcite-color-picker>`;
+
+export const NorwegianLocale = (): string => html`<calcite-color-picker lang="no"></calcite-color-picker>`;
+
+export const SpanishLocale = (): string => html`<calcite-color-picker lang="es"></calcite-color-picker>`;
+
+export const JapaneseLocale = (): string => html`<calcite-color-picker lang="ja"></calcite-color-picker>`;
+
+export const RussianLocale = (): string => html`<calcite-color-picker lang="ru"></calcite-color-picker>`;
+
+export const ThaiLocale = (): string => html`<calcite-color-picker lang="th"></calcite-color-picker>`;
+
+export const Focus = (): string =>
+  html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-color-picker");
+        const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
+        await colorPicker.setFocus();
+      })();
+    </script>`;
+
+Focus.parameters = {
+  chromatic: { delay: 2000 },
+};
+
+export const responsive = (): string =>
+  createBreakpointStories(html`
+    <style>
+      .breakpoint-story-container {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .breakpoint-story-container > * {
+        // we avoid full width to stay within Chromatic’s screenshot size limit
+        width: 25%;
+      }
+    </style>
+    <calcite-color-picker scale="{scale}"></calcite-color-picker>
+    <calcite-color-picker alpha-channel scale="{scale}"></calcite-color-picker>
+  `);

@@ -1,0 +1,25 @@
+{
+  "tokenSetOrder": [
+    "core/color",
+    "core/container-size",
+    "core/font",
+    "core/opacity",
+    "core/shadow",
+    "core/size",
+    "core/z-index",
+    "core/$metadata",
+    "core/$themes",
+    "semantic/border",
+    "semantic/container-size",
+    "semantic/corner-radius",
+    "semantic/font",
+    "semantic/opacity",
+    "semantic/shadow",
+    "semantic/size",
+    "semantic/space",
+    "semantic/z-index",
+    "semantic/typography",
+    "semantic/color/light",
+    "semantic/color/dark"
+  ]
+}

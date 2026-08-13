@@ -1,0 +1,1213 @@
+import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  LuminaJsx,
+  stringOrBoolean,
+} from "@arcgis/lumina";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { Alignment, Scale, Status } from "../interfaces";
+import { numberKeys } from "../../utils/key";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import {
+  addLocalizedTrailingDecimalZeros,
+  BigDecimal,
+  isValidNumber,
+  parseNumberString,
+  sanitizeNumberString,
+} from "../../utils/number";
+import { CSS_UTILITY } from "../../utils/resources";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
+import { getIconScale } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
+import { InternalLabel } from "../functional/InternalLabel";
+import {
+  CSS as InlineEditableControlsCSS,
+  InlineEditableControls,
+} from "../functional/InlineEditableControls";
+import { Validation } from "../functional/Validation";
+import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
+import { IconName } from "../icon/interfaces";
+import { useT9n } from "../../controllers/useT9n";
+import { UseInlineEditable } from "../../controllers/useInlineEditable";
+import type { Action } from "../action/action";
+import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
+import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { styles } from "./input-number.scss";
+import { logger } from "../../utils/logger";
+
+declare global {
+  interface DeclareElements {
+    "calcite-input-number": InputNumber;
+  }
+}
+
+/**
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
+export class InputNumber
+  extends LitElement
+  implements LabelableComponent, NumericInputComponent, TextualInputComponent
+{
+  //#region Static Members
+
+  static formAssociated = true;
+
+  static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  private actionWrapperRef = createRef<HTMLDivElement>();
+
+  attributeWatch = useWatchAttributes(
+    ["autofocus", "enterkeyhint", "inputmode"],
+    this.handleGlobalAttributesChanged,
+  );
+
+  /** number text input element for locale */
+  private childNumberRef = createRef<HTMLInputElement>();
+
+  private enableInlineEditingButtonRef = createRef<Action["el"]>();
+
+  defaultValue?: InputNumber["value"];
+
+  private direction = useDirection();
+
+  formSupport = useForm<this>({
+    inputType: "number",
+  })(this);
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+  private inlineEditableEl?: InlineEditable["el"];
+
+  private inputWrapperRef = createRef<HTMLDivElement>();
+
+  labelEl?: Label["el"];
+
+  private maxString?: string;
+
+  private minString?: string;
+
+  private nudgeNumberValueIntervalId?: number;
+
+  private previousEmittedNumberValue?: string;
+
+  private previousValue!: string;
+
+  private previousValueOrigin: SetValueOrigin = "initial";
+
+  /** the computed icon to render */
+  private requestedIcon?: IconName;
+
+  private userChangedValue = false;
+
+  private _value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  private inlineEditableManager = new UseInlineEditable({
+    getEditingEnabled: () => this.editingEnabled,
+    setEditingEnabled: (editingEnabled) => {
+      this.editingEnabled = editingEnabled;
+    },
+    getValue: () => this.value,
+    setValue: (value) => {
+      this.setNumberValue({ origin: "direct", value });
+    },
+    setFocus: () => {
+      void this.setFocus();
+    },
+    emitCancel: () => {
+      this.calciteInputNumberInlineEditableCancel.emit();
+    },
+    emitConfirm: () => {
+      this.calciteInputNumberInlineEditableConfirm.emit();
+    },
+    emitEnableEditingChange: () => {
+      this.calciteInputNumberInlineEditableChange.emit();
+    },
+  });
+
+  labelable = useLabel(this);
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
+  private get selfManagedInlineEditable(): boolean {
+    return this.inlineEditable && !this.inlineEditableEl;
+  }
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !!this.inlineEditableEl)
+  private get hasInlineEditableContext(): boolean {
+    return this.inlineEditable || !!this.inlineEditableEl;
+  }
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove this.inlineEditableEl ? this.inlineEditableEl.editingEnabled)
+  private get inlineEditableEnabledInContext(): boolean {
+    return this.inlineEditableEl ? this.inlineEditableEl.editingEnabled : this.editingEnabled;
+  }
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() displayedValue!: string;
+
+  @state() inlineEditableLoading = false;
+
+  @state() slottedActionElDisabledInternally = false;
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** Specifies the text alignment of the component's `value`. */
+  @property({ reflect: true }) alignment: Alignment = "start";
+
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @property() autocomplete?: AutoFill;
+
+  /** When `true` and the component has a `value`, a clear button is displayed. */
+  @property({ reflect: true }) clearable = false;
+
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   */
+  @property({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, the component displays its inline editable mode.
+   *
+   * @private
+   */
+  @property({ reflect: true }) editingEnabled = false;
+
+  /** When `true`, enables the component's built-in inline editable behavior. */
+  @property({ reflect: true }) inlineEditable = false;
+
+  /** When `true` and `inlineEditable` is `true`, displays the component's built-in inline editable save and cancel controls. */
+  @property({ reflect: true }) inlineEditableControls = false;
+
+  /** Specifies a callback to be executed when saving inline editable changes */
+  @property() inlineEditableAfterConfirm!: () => Promise<void>;
+
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
+
+  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  @property({ reflect: true }) groupSeparator = false;
+
+  /**
+   * Specifies an icon to display.
+   *
+   * @futureBreaking Remove boolean type as it is not supported.
+   */
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
+
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  @property({ reflect: true }) iconFlipRtl = false;
+
+  /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
+  @property() integer = false;
+
+  /** @copyDoc */
+  @property() label?: string;
+
+  /** @copyDoc */
+  @property() labelText?: string;
+
+  /** When `true`, displays a busy indicator. */
+  @property({ reflect: true }) loading = false;
+
+  /**
+   * Toggles locale formatting for numbers.
+   *
+   * @private
+   */
+  @property() localeFormat = false;
+
+  /**
+   * When the component resides in a form,
+   * specifies the maximum `value`.
+   *
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
+   */
+  @property({ reflect: true }) max?: number;
+
+  /**
+   * When the component resides in a form,
+   * specifies the maximum length of text for the component's `value`.
+   *
+   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
+   */
+  @property({ reflect: true }) maxLength?: number;
+
+  /** @copyDoc */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * When the component resides in a form,
+   * specifies the minimum `value`.
+   *
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
+   */
+  @property({ reflect: true }) min?: number;
+
+  /**
+   * When the component resides in a form,
+   * specifies the minimum length of text for the component's `value`.
+   *
+   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
+   */
+  @property({ reflect: true }) minLength?: number;
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   */
+  @property({ reflect: true }) name?: string;
+
+  /** Specifies the placement of the buttons. */
+  @property({ reflect: true }) numberButtonType: InputPlacement = "vertical";
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+
+  /**
+   * Specifies the component's placeholder text.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
+
+  /** Specifies text to display at the start of the component. */
+  @property() prefixText?: string;
+
+  /**
+   * When `true`, the component's `value` can be read, but cannot be modified.
+   *
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @property({ reflect: true }) readOnly = false;
+
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a `value` in order for the form to submit.
+   */
+  @property({ reflect: true }) required = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the input field's status, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * Specifies the granularity that the component's `value` must adhere to.
+   *
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
+   */
+  @property({ reflect: true }) step?: number | "any";
+
+  /** Specifies text to display at the end of the component. */
+  @property() suffixText?: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage?: string;
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property({ readOnly: true }) validity!: ValidityState;
+
+  /** The component's value. */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    const oldValue = this._value;
+    if (value !== oldValue) {
+      this._value = value;
+      this.valueWatcher(value, oldValue);
+      if (value && this._value === "") {
+        this.setNumberValue({
+          origin: "reset",
+          value: oldValue,
+        });
+      }
+    }
+  }
+
+  //#endregion
+
+  //#region Public Methods
+
+  /** Selects the text of the component's `value`. */
+  @method()
+  async selectText(): Promise<void> {
+    this.childNumberRef.value?.select();
+  }
+
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.childNumberRef.value, options);
+  }
+
+  //#endregion
+
+  //#region Events
+
+  /** Fires each time a new `value` is typed and committed. */
+  calciteInputNumberChange = createEvent({ cancelable: false });
+
+  /** Fires each time a new `value` is typed. */
+  calciteInputNumberInput = createEvent();
+
+  /** @private */
+  calciteInternalInputNumberBlur = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalInputNumberFocus = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is cancelled. */
+  calciteInputNumberInlineEditableCancel = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is confirmed. */
+  calciteInputNumberInlineEditableConfirm = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is enabled. */
+  calciteInputNumberInlineEditableChange = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("click", this.clickHandler);
+    this.listen("keydown", this.keyDownHandler);
+  }
+
+  override connectedCallback(): void {
+    // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable") ?? undefined;
+
+    if (this.inlineEditableEl) {
+      this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
+    }
+  }
+
+  async load(): Promise<void> {
+    this.maxString = this.max?.toString();
+    this.minString = this.min?.toString();
+    this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+    this.setPreviousEmittedNumberValue(this.value);
+    this.setPreviousNumberValue(this.value);
+
+    this.warnAboutInvalidNumberValue(this.value);
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      this.displayedValue = this.value;
+      this.previousEmittedNumberValue = this.value;
+    } else {
+      this.setNumberValue({
+        origin: "connected",
+        value: isValidNumber(this.value) ? this.value : "",
+      });
+    }
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("max")) {
+      this.maxString = this.max?.toString() || undefined;
+    }
+
+    if (changes.has("min")) {
+      this.minString = this.min?.toString() || undefined;
+    }
+
+    if (changes.has("icon")) {
+      this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+    }
+
+    if (changes.has("messages")) {
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.messages._lang,
+        numberingSystem: this.numberingSystem,
+        useGrouping: false,
+      };
+    }
+
+    if (changes.has("readOnly")) {
+      this.stopNudging();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    this.stopNudging();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private stopNudging() {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
+  }
+
+  private handleGlobalAttributesChanged(): void {
+    this.requestUpdate();
+  }
+
+  private valueWatcher(newValue: string, previousValue: string): void {
+    if (!this.userChangedValue) {
+      if (newValue === "Infinity" || newValue === "-Infinity") {
+        this.displayedValue = newValue;
+        this.previousEmittedNumberValue = newValue;
+        return;
+      }
+
+      this.setNumberValue({
+        origin: "direct",
+        previousValue,
+        value:
+          newValue == null || newValue == ""
+            ? ""
+            : isValidNumber(newValue)
+              ? newValue
+              : this.previousValue || "",
+      });
+      this.warnAboutInvalidNumberValue(newValue);
+    }
+    this.userChangedValue = false;
+  }
+
+  private keyDownHandler(event: KeyboardEvent): void {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
+      return;
+    }
+
+    if (this.selfManagedInlineEditable && this.editingEnabled && event.key === "Escape") {
+      event.preventDefault();
+
+      if (this.clearable && this.value?.length > 0) {
+        this.clearInputValue(event);
+        return;
+      }
+
+      this.inlineEditableManager.cancelEditing();
+      requestAnimationFrame(() => {
+        this.enableInlineEditingButtonRef.value?.setFocus();
+      });
+      return;
+    }
+
+    if (
+      this.isClearable &&
+      event.key === "Escape" &&
+      (!this.hasInlineEditableContext || this.inlineEditableEnabledInContext)
+    ) {
+      this.clearInputValue(event);
+      event.preventDefault();
+    }
+    if (event.key === "Enter" && this.formSupport.active) {
+      this.formSupport.requestSubmit();
+      event.preventDefault();
+    }
+  }
+
+  onLabelClick(): void {
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
+      this.inlineEditableManager.enable();
+      return;
+    }
+
+    this.setFocus();
+  }
+
+  private incrementOrDecrementNumberValue(
+    direction: NumberNudgeDirection,
+    inputMax: number | null,
+    inputMin: number | null,
+    nativeEvent: KeyboardEvent | MouseEvent,
+  ): void {
+    const { value } = this;
+
+    if (value === "Infinity" || value === "-Infinity") {
+      return;
+    }
+
+    const adjustment = direction === "up" ? 1 : -1;
+    const stepHandleInteger =
+      this.integer && typeof this.step === "number" ? Math.round(this.step) : this.step;
+    const inputStep = stepHandleInteger === "any" ? 1 : Math.abs(stepHandleInteger || 1);
+    const inputVal = new BigDecimal(value !== "" ? value : "0");
+    const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
+
+    const nudgedValueBelowInputMin = () =>
+      typeof inputMin === "number" &&
+      !isNaN(inputMin) &&
+      nudgedValue.subtract(`${inputMin}`).isNegative;
+
+    const nudgedValueAboveInputMax = () =>
+      typeof inputMax === "number" &&
+      !isNaN(inputMax) &&
+      !nudgedValue.subtract(`${inputMax}`).isNegative;
+
+    const finalValue = nudgedValueBelowInputMin()
+      ? `${inputMin}`
+      : nudgedValueAboveInputMax()
+        ? `${inputMax}`
+        : nudgedValue.toString();
+
+    this.setNumberValue({
+      committing: true,
+      nativeEvent,
+      origin: "user",
+      value: finalValue,
+    });
+  }
+
+  private clearInputValue(nativeEvent: KeyboardEvent | MouseEvent): void {
+    this.setNumberValue({
+      committing: true,
+      nativeEvent,
+      origin: "user",
+      value: "",
+    });
+  }
+
+  private emitChangeIfUserModified(): void {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedNumberValue) {
+      this.calciteInputNumberChange.emit();
+      this.setPreviousEmittedNumberValue(this.value);
+    }
+  }
+
+  private inputNumberBlurHandler() {
+    this.stopNudging();
+    this.calciteInternalInputNumberBlur.emit();
+
+    if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
+      this.inlineEditableManager.disable();
+    }
+
+    this.emitChangeIfUserModified();
+  }
+
+  private clickHandler(event: MouseEvent): void {
+    if (this.disabled) {
+      return;
+    }
+
+    const composedPath = event.composedPath();
+    const clickedInlineEditableControls = composedPath.some(
+      (element) =>
+        element instanceof HTMLElement &&
+        element.classList.contains(InlineEditableControlsCSS.container),
+    );
+
+    if (
+      !composedPath.includes(this.inputWrapperRef.value!) ||
+      composedPath.includes(this.actionWrapperRef.value!) ||
+      clickedInlineEditableControls
+    ) {
+      return;
+    }
+
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
+      event.preventDefault();
+      this.inlineEditableManager.enable();
+      return;
+    }
+
+    this.setFocus();
+  }
+
+  private inputNumberFocusHandler(): void {
+    this.calciteInternalInputNumberFocus.emit();
+  }
+
+  private inputNumberInputHandler(nativeEvent: InputEvent): void {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      return;
+    }
+
+    const value = (nativeEvent.target as HTMLInputElement).value;
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.messages._lang,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+    const delocalizedValue = numberStringFormatter.delocalize(value);
+    if (nativeEvent.inputType === "insertFromPaste") {
+      if (
+        !isValidNumber(delocalizedValue) ||
+        (this.integer && (delocalizedValue.includes("e") || delocalizedValue.includes(".")))
+      ) {
+        nativeEvent.preventDefault();
+      }
+      this.setNumberValue({
+        nativeEvent,
+        origin: "user",
+        value: parseNumberString(delocalizedValue),
+      });
+      if (this.childNumberRef.value) {
+        this.childNumberRef.value.value = this.displayedValue;
+      }
+    } else {
+      this.setNumberValue({
+        nativeEvent,
+        origin: "user",
+        value: delocalizedValue,
+      });
+    }
+  }
+
+  private inputNumberKeyDownHandler(event: KeyboardEvent): void {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      event.preventDefault();
+      if (event.key === "Backspace" || event.key === "Delete") {
+        this.clearInputValue(event);
+      }
+      return;
+    }
+
+    if (event.key === "ArrowUp") {
+      /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
+      event.preventDefault();
+      this.nudgeNumberValue("up", event);
+      return;
+    }
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      this.nudgeNumberValue("down", event);
+      return;
+    }
+    const supportedKeys = [
+      ...numberKeys,
+      "ArrowLeft",
+      "ArrowRight",
+      "Backspace",
+      "Delete",
+      "Enter",
+      "Escape",
+      "Tab",
+    ];
+    if (event.altKey || event.ctrlKey || event.metaKey) {
+      return;
+    }
+    const isShiftTabEvent = event.shiftKey && event.key === "Tab";
+    if (supportedKeys.includes(event.key) || isShiftTabEvent) {
+      if (event.key === "Enter") {
+        this.emitChangeIfUserModified();
+      }
+      return;
+    }
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.messages._lang,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+
+    if (event.key === numberStringFormatter.decimal && !this.integer) {
+      if (!this.value && !this.childNumberRef.value?.value) {
+        return;
+      }
+      if (
+        this.value &&
+        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
+      ) {
+        return;
+      }
+    }
+    if (/[eE]/.test(event.key) && !this.integer) {
+      if (!this.value && !this.childNumberRef.value?.value) {
+        return;
+      }
+      if (
+        this.value &&
+        this.childNumberRef.value &&
+        !/[eE]/.test(this.childNumberRef.value.value)
+      ) {
+        return;
+      }
+    }
+
+    if (event.key === "-") {
+      if (!this.value && !this.childNumberRef.value?.value) {
+        return;
+      }
+      if (
+        this.value &&
+        this.childNumberRef.value &&
+        this.childNumberRef.value.value.split("-").length <= 2
+      ) {
+        return;
+      }
+    }
+    event.preventDefault();
+  }
+
+  private nudgeNumberValue(
+    direction: NumberNudgeDirection,
+    nativeEvent: KeyboardEvent | MouseEvent,
+  ): void {
+    if (nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) {
+      return;
+    }
+
+    const inputMax = this.maxString ? parseFloat(this.maxString) : null;
+    const inputMin = this.minString ? parseFloat(this.minString) : null;
+
+    this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
+
+    if (this.nudgeNumberValueIntervalId) {
+      this.stopNudging();
+    }
+    let firstValueNudge = true;
+    this.nudgeNumberValueIntervalId = window.setInterval(() => {
+      if (firstValueNudge) {
+        firstValueNudge = false;
+        return;
+      }
+
+      this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
+    }, NUDGE_DELAY_IN_MS);
+  }
+
+  private nudgeButtonPointerUpHandler(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+    this.stopNudging();
+  }
+
+  private nudgeButtonPointerOutHandler(): void {
+    this.stopNudging();
+  }
+
+  private nudgeButtonPointerDownHandler(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    event.preventDefault();
+    const direction = (event.currentTarget as HTMLDivElement).dataset
+      .adjustment as NumberNudgeDirection;
+    if (!this.disabled) {
+      this.nudgeNumberValue(direction, event);
+    }
+  }
+
+  private setInputNumberValue(newInputValue: string): void {
+    if (!this.childNumberRef.value) {
+      return;
+    }
+    this.childNumberRef.value.value = newInputValue;
+  }
+
+  private setPreviousEmittedNumberValue(value: string): void {
+    this.previousEmittedNumberValue = this.normalizeValue(value);
+  }
+
+  private normalizeValue(value: string): string {
+    return isValidNumber(value) ? value : "";
+  }
+
+  private setPreviousNumberValue(value: string): void {
+    this.previousValue = this.normalizeValue(value);
+  }
+
+  private setNumberValue({
+    committing = false,
+    nativeEvent,
+    origin,
+    previousValue,
+    value,
+  }: {
+    committing?: boolean;
+    nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
+    origin: SetValueOrigin;
+    previousValue?: string;
+    value: string;
+  }): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.messages._lang,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator,
+    };
+
+    const isValueDeleted =
+      this.previousValue?.length > value.length || this.value?.length > value.length;
+
+    const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
+
+    const hasTrailingDecimalSeparator =
+      valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
+
+    const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
+    const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
+
+    const sanitizedValue =
+      hasTrailingDecimalSeparator && isValueDeleted
+        ? valueHandleInteger
+        : sanitizeNumberString(valueHandleInteger);
+
+    const newValue =
+      value && !sanitizedValue
+        ? isValidNumber(this.previousValue)
+          ? this.previousValue
+          : ""
+        : sanitizedValue;
+
+    let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+    if (origin !== "connected" && !hasTrailingDecimalSeparator) {
+      newLocalizedValue = addLocalizedTrailingDecimalZeros(
+        newLocalizedValue,
+        newValue,
+        numberStringFormatter,
+      );
+    }
+
+    // adds localized trailing decimal separator
+    if (hasTrailingDecimalSeparator && isValueDeleted) {
+      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    }
+
+    // adds localized leading zeros
+    if (hasLeadingZeros) {
+      newLocalizedValue = `${
+        hasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
+      }${numberStringFormatter.localize("0").repeat(hasLeadingZeros[1].length)}${
+        hasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
+      }`;
+    }
+
+    this.displayedValue = newLocalizedValue;
+    this.setPreviousNumberValue(previousValue ?? this.value);
+    this.previousValueOrigin = origin;
+    this.userChangedValue = origin === "user" && this.value !== newValue;
+    // don't sanitize the start of negative/decimal numbers, but
+    // don't set value to an invalid number
+    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+    this.value = validNewValue;
+
+    const localizedCharAllowlist = new Set([
+      "e",
+      "E",
+      numberStringFormatter.decimal,
+      numberStringFormatter.minusSign,
+      numberStringFormatter.group,
+      ...numberStringFormatter.digits,
+    ]);
+
+    const childInputValue = this.childNumberRef.value?.value;
+    // remove invalid characters from child input
+    if (childInputValue) {
+      const sanitizedChildInputValue = Array.from(childInputValue)
+        .filter((char) => localizedCharAllowlist.has(char))
+        .join("");
+
+      if (sanitizedChildInputValue !== childInputValue) {
+        this.setInputNumberValue(sanitizedChildInputValue);
+      }
+    }
+
+    if (origin === "direct") {
+      this.setInputNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(validNewValue);
+    }
+
+    if (nativeEvent) {
+      const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
+      if (calciteInputNumberInputEvent.defaultPrevented) {
+        this.value = this.previousValue;
+        this.displayedValue = numberStringFormatter.localize(this.previousValue);
+      } else if (committing) {
+        this.emitChangeIfUserModified();
+      }
+    }
+  }
+
+  private inputNumberKeyUpHandler(): void {
+    this.stopNudging();
+  }
+
+  private warnAboutInvalidNumberValue(value: string): void {
+    if (value && !isValidNumber(value)) {
+      logger.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
+    }
+  }
+
+  //#endregion
+
+  //#region Rendering
+
+  override render(): JsxNode {
+    const dir = this.direction;
+    const loader = (
+      <div class={CSS.loader}>
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
+      </div>
+    );
+
+    const clearButton = (
+      <div
+        class={CSS.clearButton}
+        onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
+      >
+        <ClearButton
+          ariaLabel={this.messages.clear}
+          disabled={this.disabled || this.readOnly}
+          scale={this.scale}
+          title={this.messages.clear}
+        />
+      </div>
+    );
+
+    const iconEl = (
+      <div class={CSS.inputIcon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={this.requestedIcon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
+    );
+
+    const isHorizontalNumberButton = this.numberButtonType === "horizontal";
+
+    const numberButtonsHorizontalUp = (
+      <div
+        ariaHidden="true"
+        class={{
+          [CSS.numberButtonItem]: true,
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
+        }}
+        data-adjustment={DIRECTION.up}
+        data-testid="number-button-up"
+        onPointerDown={this.nudgeButtonPointerDownHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
+      >
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronUp}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
+    );
+
+    const numberButtonsHorizontalDown = (
+      <div
+        ariaHidden="true"
+        class={{
+          [CSS.numberButtonItem]: true,
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
+        }}
+        data-adjustment={DIRECTION.down}
+        data-testid="number-button-down"
+        onPointerDown={this.nudgeButtonPointerDownHandler}
+        onPointerOut={this.nudgeButtonPointerOutHandler}
+        onPointerUp={this.nudgeButtonPointerUpHandler}
+      >
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronDown}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
+    );
+
+    const numberButtonsVertical = (
+      <div class={CSS.numberButtonWrapper}>
+        {numberButtonsHorizontalUp}
+        {numberButtonsHorizontalDown}
+      </div>
+    );
+
+    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
+    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+
+    const childEl = (
+      <input
+        aria-errormessage={IDS.validationMessage}
+        ariaInvalid={this.status === "invalid"}
+        ariaLabel={getLabelText(this)}
+        autocomplete={this.autocomplete}
+        autofocus={this.el.autofocus}
+        class={{
+          [CSS.editingEnabled]: this.inlineEditableEnabledInContext,
+          [CSS.inlineChild]: this.hasInlineEditableContext,
+          [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+        }}
+        defaultValue={this.defaultValue}
+        disabled={this.disabled}
+        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+        inputMode={
+          (this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
+        }
+        key="localized-input"
+        maxLength={this.maxLength}
+        minLength={this.minLength}
+        onBlur={this.inputNumberBlurHandler}
+        onFocus={this.inputNumberFocusHandler}
+        onInput={this.inputNumberInputHandler}
+        onKeyDown={this.inputNumberKeyDownHandler}
+        // eslint-disable-next-line @eslint-react/kit/forbid-dom-props -- intentional onKeyUp usage
+        onKeyUp={this.inputNumberKeyUpHandler}
+        placeholder={this.placeholder || ""}
+        readOnly={this.readOnly}
+        ref={this.childNumberRef}
+        required={this.required}
+        tabIndex={
+          this.disabled || (this.hasInlineEditableContext && !this.inlineEditableEnabledInContext)
+            ? -1
+            : undefined
+        }
+        type="text"
+        value={this.displayedValue}
+      />
+    );
+
+    return (
+      <this.interactiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
+        <div
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+            [CSS.clearable]: this.isClearable,
+          }}
+          ref={this.inputWrapperRef}
+        >
+          <div class={CSS.wrapper}>
+            {this.loading ? loader : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            {this.requestedIcon ? iconEl : null}
+            {childEl}
+            {this.isClearable ? clearButton : null}
+            {this.suffixText ? suffixText : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
+          </div>
+          {this.selfManagedInlineEditable && (
+            <div class={CSS.inlineEditable}>
+              <InlineEditableControls
+                cancelEditingLabel={this.messages.cancelInlineEditing}
+                confirmChangesLabel={this.messages.confirmInlineEditingChanges}
+                editingEnabled={this.editingEnabled}
+                enableEditingButtonRef={this.enableInlineEditingButtonRef}
+                enableEditingLabel={this.messages.enableInlineEditing}
+                loading={this.inlineEditableLoading}
+                onCancelEditing={() => this.inlineEditableManager.cancelEditing()}
+                onConfirmChanges={() =>
+                  this.inlineEditableManager.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                    this.inlineEditableLoading = loading;
+                  })
+                }
+                onEnableEditing={() => this.inlineEditableManager.enable()}
+                scale={this.scale}
+                showControls={this.editingEnabled && this.inlineEditableControls}
+              />
+            </div>
+          )}
+          <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
+            <slot name={SLOTS.action} />
+          </div>
+        </div>
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </this.interactiveContainer>
+    );
+  }
+
+  //#endregion
+}

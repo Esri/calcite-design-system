@@ -1,37 +1,102 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-    "npm:unpublishSafe",
-    "workarounds:typesNodeVersioning",
-    ":pinAllExceptPeerDependencies",
-    ":widenPeerDependencies"
-  ],
-  "platformCommit": true,
-  "enabledManagers": ["npm"],
+  "extends": ["config:recommended", "security:minimumReleaseAgeNpm", "workarounds:typesNodeVersioning"],
+  "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
+  "platformCommit": "auto",
+  "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
-  "schedule": ["before 5am on every weekday"],
+  "schedule": ["before 5am every weekday"],
   "labels": ["dependencies"],
   "ignoreDeps": [
-    "@types/jest",
     "@types/node",
     "@types/react",
     "@types/react-dom",
-    "@whitespace/storybook-addon-html",
-    "cheerio",
-    "jest",
-    "jest-cli",
     "node",
     "npm",
     "puppeteer",
     "react",
     "react-dom",
-    "ts-jest",
     "typescript"
   ],
+  "ignorePaths": ["examples/**"],
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
+      "groupName": "Linting",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": [
+        "@cspell/**",
+        "@prettier",
+        "@typescript-eslint/**",
+        "@vitest/eslint-plugin",
+        "husky",
+        "lint-staged",
+        "markdownlint-cli2",
+        "packages:eslint",
+        "packages:stylelint",
+        "prettier",
+        "typescript-eslint"
+      ]
+    },
+    {
+      "groupName": "Build",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["autoprefixer", "packages:vite", "postcss", "sass-embedded", "tailwindcss"]
+    },
+    {
+      "groupName": "Build (Monorepo)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["lerna", "turbo"]
+    },
+    {
+      "groupName": "Build (Tokens)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["@tokens-studio/**", "style-dictionary"]
+    },
+    {
+      "groupName": "Util Scripts",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["@inquirer/**", "chalk", "concurrently", "cpy**", "globby", "rimraf", "semver", "yargs"]
+    },
+    {
+      "groupName": "Tests (Browser)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["!@vitest/eslint-plugin", "@vitest/**", "happy-dom", "playwright", "vitest"]
+    },
+    {
+      "groupName": "Tests (A11y)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["axe-core", "jest-axe", "@types/jest-axe"]
+    },
+    {
+      "groupName": "Tests (Visual)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["chromatic", "@storybook/**", "storybook**"]
+    },
+    {
+      "groupName": "Calcite Components (Core Deps)",
+      "matchDepTypes": ["dependencies"],
+      "matchPackageNames": [
+        "**sortablejs**",
+        "@floating-ui/**",
+        "color",
+        "composed-offset-position",
+        "es-toolkit",
+        "focus-trap",
+        "interactjs",
+        "lit",
+        "timezone-groups",
+        "type-fest"
+      ]
+    },
+    {
+      "groupName": "ArcGIS",
+      "matchPackageNames": ["@arcgis/**"],
+      "rangeStrategy": "bump",
+      "ignoreUnstable": false,
+      "respectLatest": false
+    },
+    {
+      "matchPackageNames": ["*"],
       "semanticCommitType": "build",
       "semanticCommitScope": "deps",
       "addLabels": ["chore"]

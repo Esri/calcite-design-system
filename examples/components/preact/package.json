@@ -1,0 +1,48 @@
+{
+  "name": "calcite-preact-starter",
+  "private": true,
+  "type": "module",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "description": "Starter application for @esri/calcite-components with Preact and TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "examples/components/preact"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "eslint src",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "preact",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "ignorePatterns": [
+      "build/"
+    ]
+  },
+  "dependencies": {
+    "@esri/calcite-components": "5.1.2",
+    "preact": "^10.26.2",
+    "preact-iso": "^2.9.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.1",
+    "@testing-library/preact": "^3.2.4",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "eslint": "^8.20.0",
+    "eslint-config-preact": "^1.3.0",
+    "typescript": "^4.5.2",
+    "vite-plugin-static-copy": "^2.2.0",
+    "vitest": "^3.0.6"
+  },
+  "engines": {
+    "node": "24.11.0"
+  }
+}

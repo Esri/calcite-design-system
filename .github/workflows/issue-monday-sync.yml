@@ -1,0 +1,62 @@
+name: Monday.com Issue Sync
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, milestoned, demilestoned, assigned, unassigned]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        type: string
+        description: "The target issue number for syncing changes."
+        required: true
+      event_type:
+        type: string
+        description: "The type of event. Currently only 'SyncActionChanges' is supported."
+        required: true
+      milestone_updated:
+        type: boolean
+        description: "Indicates if the milestone was updated."
+        required: false
+      assignee_updated:
+        type: boolean
+        description: "Indicates if the assignee was updated."
+        required: false
+      state_updated:
+        type: choice
+        description: "Indicates if the state (open/closed) was updated."
+        required: false
+        options:
+          - open
+          - closed
+      label_name:
+        type: string
+        description: "The label name added or removed from the issue."
+        required: false
+      label_color:
+        type: string
+        description: "The hex code color (without '#' prefix) associated with the label."
+        required: false
+      label_action:
+        type: choice
+        description: "The action taken on the label."
+        required: false
+        options:
+          - added
+          - removed
+      refactor_pr:
+        type: boolean
+        description: "Indicates if the item to sync is a refactor PR instead of an issue."
+        required: false
+jobs:
+  sync-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Sync Issue to Monday.com
+        uses: ./.github/actions/monday
+        with:
+          monday_key: ${{ secrets.MONDAY_KEY }}
+          monday_board: ${{ secrets.MONDAY_BOARD }}

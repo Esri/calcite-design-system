@@ -1,0 +1,19 @@
+name: Build Storybook
+description: Install dependencies and build Storybook output
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v6
+      with:
+        node-version-file: package.json
+
+    - shell: bash
+      env:
+        STORYBOOK_SCREENSHOT_TEST_BUILD: true
+      run: |
+        npm install
+        npm --workspace="packages/design-tokens" run build
+        npm --workspace="packages/tailwind-preset" run build
+        npm --workspace="packages/ui-icons" run build
+        npm --workspace="packages/components" run build-storybook

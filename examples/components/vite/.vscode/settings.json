@@ -1,0 +1,4 @@
+{
+  "css.customData": ["./node_modules/@esri/calcite-components/dist/docs/vscode.css-custom-data.json"],
+  "html.customData": ["./node_modules/@esri/calcite-components/dist/docs/vscode.html-custom-data.json"]
+}

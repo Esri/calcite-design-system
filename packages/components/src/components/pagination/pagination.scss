@@ -1,0 +1,147 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-pagination-color: Specifies the component's item color.
+ * @prop --calcite-pagination-color-hover: Specifies the component's item color when hovered or selected.
+ * @prop --calcite-pagination-color-border-hover: Specifies the component's item bottom border color when hovered.
+ * @prop --calcite-pagination-color-border-active: Specifies the component's item bottom border color when selected.
+ * @prop --calcite-pagination-background-color: Specifies the component's item background color when active.
+ * @prop --calcite-pagination-icon-color-background-hover: Specifies the component's chevron item background color when hovered.
+ */
+
+@use "../../styles/includes";
+
+:host {
+  @apply flex;
+  writing-mode: horizontal-tb;
+}
+
+.list {
+  @apply flex list-none m-0 p-0;
+  column-gap: var(--calcite-spacing-base);
+}
+
+.list-item {
+  @apply flex m-0 p-0;
+}
+
+.hidden-item {
+  display: none;
+}
+
+:host([scale="s"]) {
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-n2h h-6 px-1;
+    min-inline-size: theme("width.6");
+  }
+}
+
+:host([scale="m"]) {
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-n1h h-8 px-2;
+    min-inline-size: theme("width.8");
+  }
+}
+
+:host([scale="l"]) {
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-0h h-11;
+    min-inline-size: theme("width.11");
+  }
+
+  & .chevron {
+    @apply px-2.5;
+  }
+
+  & .page,
+  & .ellipsis {
+    @apply px-3;
+  }
+}
+
+// focus styles
+:host button {
+  @apply focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+.chevron,
+.page,
+.ellipsis {
+  @apply p-0
+    m-0
+    text-0h
+    font-inherit
+    box-border
+    flex
+    items-center
+    border-none
+    border-opacity-0
+    justify-center
+    align-baseline
+    bg-transparent;
+
+  color: var(--calcite-pagination-color, var(--calcite-color-text-3));
+}
+
+.chevron,
+.page {
+  @apply cursor-pointer;
+  border-block: 2px solid transparent;
+
+  &:hover {
+    @apply transition-default;
+
+    color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
+  }
+  &:active {
+    color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
+  }
+}
+
+.page {
+  &:hover {
+    border-block-end-color: var(--calcite-pagination-color-border-hover, var(--calcite-color-border-2));
+  }
+  &:active {
+    background-color: var(--calcite-pagination-background-color, var(--calcite-color-foreground-3));
+  }
+  &.selected {
+    @apply font-medium;
+
+    color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
+    border-block-end-color: var(--calcite-pagination-color-border-active, var(--calcite-color-brand));
+
+    &:focus {
+      border-block-end-width: var(--calcite-spacing-xxs);
+      padding-block-start: var(--calcite-spacing-base);
+    }
+  }
+}
+
+.chevron {
+  &:hover {
+    background-color: var(--calcite-pagination-icon-color-background-hover, var(--calcite-color-foreground-2));
+  }
+  &:active {
+    background-color: var(--calcite-pagination-background-color, var(--calcite-color-foreground-3));
+  }
+  &.disabled {
+    @apply pointer-events-none bg-transparent;
+    & > calcite-icon {
+      @apply opacity-disabled;
+    }
+  }
+}
+
+@include includes.base-component();

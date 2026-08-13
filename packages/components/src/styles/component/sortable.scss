@@ -1,0 +1,26 @@
+:host(.calcite-sortable--chosen),
+:host(.calcite-sortable--drag),
+:host(.calcite-sortable--fallback),
+:host(.calcite-sortable--ghost) {
+  position: relative;
+  overflow: hidden;
+}
+
+:host(.calcite-sortable--ghost)::before {
+  content: "";
+  @apply box-border
+      border
+      border-dashed
+      border-color-brand
+      bg-foreground-2
+      absolute
+      top-0
+      start-0
+      bottom-0
+      end-0
+      z-default;
+}
+
+:host(.calcite-sortable--drag) {
+  @apply shadow-2;
+}

@@ -1,0 +1,244 @@
+{
+  "core": {
+    "font": {
+      "family": {
+        "andaleMono": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Andale Mono",
+          "$description": "Fallback for Monaco"
+        },
+        "avenirNextPro": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir Next LT Pro"
+        },
+        "avenirNextWorld": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir Next World"
+        },
+        "avenirNext": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir Next",
+          "$description": "Primary font family"
+        },
+        "avenir": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Avenir",
+          "$description": "Fallback for Avenir Next"
+        },
+        "consolas": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Consolas",
+          "$description": "Fallback for Monaco"
+        },
+        "helveticaNeue": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Helvetica Neue",
+          "$description": "Fallback for Avenir Next"
+        },
+        "lucidaConsole": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Lucida Console",
+          "$description": "Fallback for Monaco"
+        },
+        "monaco": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "Monaco"
+        },
+        "monospace": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "monospace",
+          "$description": "Fallback for Monaco"
+        },
+        "sansSerif": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontFamilies",
+          "$value": "sans-serif",
+          "$description": "Fallback for Avenir Next"
+        }
+      },
+      "style": {
+        "italic": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontStyle",
+          "$value": "italic",
+          "$description": "used in ratings"
+        }
+      },
+      "weight": {
+        "ultralight": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "UltraLight",
+          "$description": "only for Avenir Next World (secondary font family)"
+        },
+        "thin": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Thin"
+        },
+        "light": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Light",
+          "$description": "only for Avenir Next World (secondary font family)"
+        },
+        "regular": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Regular"
+        },
+        "medium": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Medium"
+        },
+        "medium-italic": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Medium Italic"
+        },
+        "demi": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Demi"
+        },
+        "bold": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Bold"
+        },
+        "extrabold": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "ExtraBold",
+          "$description": "only for Avenir Next World (secondary font family)"
+        },
+        "black": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Black",
+          "$description": "only for Avenir Next World (secondary font family)"
+        },
+        "heavy": {
+          "attributes": {
+            "category": "font"
+          },
+          "$type": "fontWeights",
+          "$value": "Heavy"
+        }
+      },
+      "text-decoration": {
+        "none": {
+          "attributes": {
+            "category": "font",
+            "docs": "deprecated"
+          },
+          "$type": "textDecoration",
+          "$value": "none",
+          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+        },
+        "underline": {
+          "attributes": {
+            "category": "font",
+            "docs": "deprecated"
+          },
+          "$type": "textDecoration",
+          "$value": "underline",
+          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+        }
+      },
+      "text-case": {
+        "none": {
+          "attributes": {
+            "category": "font",
+            "docs": "deprecated"
+          },
+          "$type": "textCase",
+          "$value": "none",
+          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+        },
+        "uppercase": {
+          "attributes": {
+            "category": "font",
+            "docs": "deprecated"
+          },
+          "$type": "textCase",
+          "$value": "uppercase",
+          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+        },
+        "lowercase": {
+          "attributes": {
+            "category": "font",
+            "docs": "deprecated"
+          },
+          "$type": "textCase",
+          "$value": "lowercase",
+          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+        },
+        "capitalize": {
+          "attributes": {
+            "category": "font",
+            "docs": "deprecated"
+          },
+          "$type": "textCase",
+          "$value": "capitalize",
+          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["**/dist/**", "www/**", "hydrate/**", "docs/**", "src/components.d.ts"]
+      "outputs": ["**/dist/**", "docs/**"]
     },
     "start": {
       "dependsOn": ["^build"],
@@ -11,9 +11,13 @@
       "persistent": true
     },
     "test": {},
+    "test:ci": {},
     "clean": {
       "cache": false
     },
-    "lint": {}
+    "lint": {},
+    "util:update-3rd-party-notices": {
+      "cache": false
+    }
   }
 }

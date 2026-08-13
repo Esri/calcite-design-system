@@ -10,70 +10,56 @@
       "sourceMapPathOverrides": {
         "*": "${webRoot}/*"
       },
-      "webRoot": "${workspaceFolder}/packages/calcite-components"
+      "webRoot": "${workspaceFolder}/packages/components"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Stencil Prerender",
-      "args": [
-        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
-        "prerender",
-        "${workspaceFolder}/dist/hydrate/index.js",
-        "--max-workers=0",
-        "--config=${workspaceFolder}/stencil.config.ts"
-      ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Stencil --e2e {currentFile}",
-      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "name": "Components E2E test {currentFile} (headful)",
+      "cwd": "${workspaceFolder}/packages/components",
       "sourceMaps": true,
-      "args": [
-        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
-        "test",
-        "--no-docs",
-        "--no-build",
-        "--no-cache",
-        "--e2e",
-        "--devtools",
-        "--",
-        "--max-workers=0",
-        "${file}"
-      ],
+      "args": ["${workspaceFolder}/node_modules/.bin/vitest", "run", "--no-file-parallelism", "${file}"],
+      "env": {
+        "DEVTOOLS": "true"
+      },
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Stencil --spec {currentFile}",
-      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "name": "Components E2E test {currentFile} (headless)",
+      "cwd": "${workspaceFolder}/packages/components",
       "sourceMaps": true,
-      "args": [
-        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
-        "test",
-        "--no-docs",
-        "--no-build",
-        "--no-cache",
-        "--spec",
-        "--devtools",
-        "--",
-        "--max-workers=0",
-        "${file}"
-      ],
-      "skipFiles": ["<node_internals>/**"],
+      "args": ["${workspaceFolder}/node_modules/.bin/vitest", "run", "--no-file-parallelism", "${file}"],
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Tokens --spec {currentFile}",
-      "cwd": "${workspaceFolder}/packages/calcite-design-tokens",
+      "name": "Components Spec test {currentFile}",
+      "cwd": "${workspaceFolder}/packages/components",
+      "args": ["${workspaceFolder}/node_modules/.bin/vitest", "run", "--no-file-parallelism", "${file}"],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Components Prerender build",
+      "cwd": "${workspaceFolder}/packages/components",
+      "args": ["${workspaceFolder}/node_modules/.bin/vite", "build", "--ssr"],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Design Tokens Spec Test {currentFile}",
+      "cwd": "${workspaceFolder}/packages/design-tokens",
       "sourceMaps": true,
-      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/jest/bin/jest.js", "--runInBand", "${file}"],
+      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/vitest/vitest.mjs", "${file}"],
       "skipFiles": ["<node_internals>/**"],
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"

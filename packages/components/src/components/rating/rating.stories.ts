@@ -1,0 +1,133 @@
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import { iconNames } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Rating } from "./rating";
+
+const { scale, status } = ATTRIBUTES;
+
+type RatingStoryArgs = Pick<
+  Rating,
+  | "scale"
+  | "value"
+  | "showChip"
+  | "average"
+  | "count"
+  | "labelText"
+  | "readOnly"
+  | "required"
+  | "disabled"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+>;
+
+export default {
+  title: "Components/Controls/Rating",
+  args: {
+    scale: scale.defaultValue,
+    value: 1,
+    showChip: true,
+    average: 4.4,
+    count: 10,
+    labelText: "Label text",
+    readOnly: false,
+    required: false,
+    disabled: false,
+    status: status.defaultValue,
+    validationMessage: "",
+    validationIcon: "",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
+};
+
+export const simple = (args: RatingStoryArgs): string => html`
+  <calcite-rating
+    scale="${args.scale}"
+    value="${args.value}"
+    ${boolean("show-chip", args.showChip)}
+    average="${args.average}"
+    count="${args.count}"
+    ${optionalAttribute("label-text", args.labelText)}
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
+    ${boolean("disabled", args.disabled)}
+    status="${args.status}"
+    validation-message="${args.validationMessage}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
+  ></calcite-rating>
+`;
+
+export const darkModeRTL = (): string => html`
+  <calcite-rating
+    class="calcite-mode-dark"
+    dir="rtl"
+    scale="m"
+    value="2"
+    show-chip
+    average="4.4"
+    count="10"
+  ></calcite-rating>
+`;
+
+darkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const disabled = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
+
+export const Focus = (): string =>
+  html` <calcite-rating value="4" required></calcite-rating>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-rating");
+        await document.querySelector("calcite-rating").setFocus();
+      })();
+    </script>`;
+
+Focus.parameters = {
+  chromatic: { delay: 500 },
+};
+
+export const validationMessageAllScales = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-inline-size: 400px;
+      min-block-size: 200px;
+      gap: 40px;
+    }
+  </style>
+  <div class="container">
+    <calcite-rating
+      scale="s"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-rating>
+    <calcite-rating
+      scale="m"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-rating>
+    <calcite-rating
+      scale="l"
+      validation-message="This field is required."
+      validation-icon
+      status="invalid"
+    ></calcite-rating>
+  </div>
+`;

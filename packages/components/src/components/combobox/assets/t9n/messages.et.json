@@ -1,0 +1,13 @@
+{
+  "add": "Lisa: {text}",
+  "all": "Kõik",
+  "allSelected": "Kõik valitud",
+  "clear": "Eemalda väärtus",
+  "noMatches": "Vasteid pole",
+  "removeTag": "Eemalda silt: {value}",
+  "required": "Nõutud",
+  "selectAll": "Vali kõik",
+  "selected": "valitud",
+  "nonEditable": "Kirjutuskaitstud {value}",
+  "disabledSelectedCount": "+{count}"
+}

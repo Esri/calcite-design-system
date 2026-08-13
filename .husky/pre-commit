@@ -1,13 +1,120 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
 
-npx lint-staged
+update_stylelint_config_if_sass_file_edited() {
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACM -- packages/**/*.scss
+  )"
 
+  if [ -n "$staged_files" ]; then
+    npm run util:update-stylelint-custom-sass-functions
+    git add "packages/components/.stylelintrc.cjs" >/dev/null 2>&1 || true
+  fi
 
-types_path="packages/calcite-components/src/components.d.ts"
+  unset staged_files
+}
 
-# make sure the types are always up to date
-if [ -n "$(git diff --name-only -- "$types_path")" ]; then
-    echo "Automatically staging changes to \"$types_path\""
-    git add "$types_path"
-fi
+check_ui_icon_name_consistency() {
+  # this pattern checks for `<iconName>-<size>.svg` or `<iconName>-<size>-f.svg` for filled icons
+  # where `<iconName>` is kebab-case, `<size>` is 16, 24, or 32
+  valid_pattern="^[a-z0-9-]+-(16|24|32)(-f)?\\.svg$"
+
+  # this pattern will check for invalid use of "-f-" anywhere except right before the size
+  invalid_pattern="\-[a-z0-9]+-f-"
+
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/ui-icons/icons/.*\.svg" || true
+  )"
+
+  if [ -n "$staged_files" ]; then
+    for file in $staged_files; do
+      filename="$(basename "$file")"
+
+      # first, ensure the filename follows the valid pattern
+      if ! echo "$filename" | grep -qE "$valid_pattern"; then
+        printf "%s\n%s" \
+          "error: file '$file' does not follow the naming convention:" \
+          "(<iconname>-<size>.svg | <iconname>-<size>-f.svg)"
+        exit 1
+      fi
+
+      # then, ensure there's no invalid use of "-f-" anywhere except right before the size
+      if echo "$filename" | grep -qE "$invalid_pattern"; then
+        printf '%s\n%s' \
+          "error: file '$file' has an invalid '-f-' and does not follow the naming convention:" \
+          "(<iconname>-<size>.svg | <iconname>-<size>-f.svg)"
+        exit 1
+      fi
+    done
+  fi
+
+  unset staged_files
+}
+
+update_t9n_manifest() {
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACD | grep -E "packages/components/src/components/.*/assets/t9n/messages.json" || true
+  )"
+
+  if [ -n "$staged_files" ]; then
+    node ./packages/components/support/update-t9n-manifest.ts || {
+      echo "Error: Failed to update T9n manifest."
+      exit 1
+    }
+
+    git add t9nmanifest.txt
+  fi
+}
+
+sync_en_t9n_bundles() {
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/components/src/components/.*/assets/t9n/messages.json" || true
+  )"
+
+  files_to_sync=""
+
+  if [ -n "$staged_files" ]; then
+    for file in $staged_files; do
+      dir=$(dirname "$file")
+      en_file="$dir/messages.en.json"
+
+      # only sync if messages.en.json is not staged
+      if ! git diff --cached --name-only --diff-filter=ACM | grep -q "$en_file"; then
+        files_to_sync="$files_to_sync $file"
+      fi
+    done
+
+    if [ -n "$files_to_sync" ]; then
+      node ./packages/components/support/sync-en-t9n-bundles.ts $files_to_sync || {
+        echo "Error: Failed to sync En T9n bundles."
+        exit 1
+      }
+
+      for file in $files_to_sync; do
+        en_file="$(dirname "$file")/messages.en.json"
+        git add "$en_file"
+      done
+    fi
+  fi
+}
+
+update_internal_custom_prop_doc() {
+  staged_scss_files="$(
+    git diff --cached --name-only --diff-filter=ACM | grep -E "^packages/components/.*\.scss$" || true
+  )"
+
+  if [ -n "$staged_scss_files" ]; then
+    node packages/components/support/add-internal-custom-prop-doc.ts $staged_scss_files
+    git add $staged_scss_files
+  fi
+
+  unset staged_scss_files
+}
+
+sync_en_t9n_bundles
+update_t9n_manifest
+update_internal_custom_prop_doc
+lint-staged
+check_ui_icon_name_consistency
+update_stylelint_config_if_sass_file_edited
+
+exit 0

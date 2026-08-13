@@ -1,0 +1,774 @@
+import { without } from "es-toolkit";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ActionBar } from "./action-bar";
+
+const { layout, position, scale, selectionAppearance } = ATTRIBUTES;
+
+type ActionBarStoryArgs = Pick<
+  ActionBar,
+  | "expandToggleDisabled"
+  | "expanded"
+  | "expandPosition"
+  | "floating"
+  | "layout"
+  | "position"
+  | "scale"
+  | "selectionAppearance"
+>;
+
+export default {
+  title: "Components/Action Bar",
+  args: {
+    expandToggleDisabled: false,
+    expanded: false,
+    layout: layout.values[1],
+    position: position.defaultValue,
+    expandPosition: "end",
+    floating: false,
+    scale: scale.defaultValue,
+    selectionAppearance: selectionAppearance.values[2],
+  },
+  argTypes: {
+    layout: {
+      options: layout.values,
+      control: { type: "select" },
+    },
+    position: {
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    expandPosition: {
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    selectionAppearance: {
+      options: without(selectionAppearance.values, "icon", "border"),
+      control: { type: "select" },
+    },
+  },
+};
+
+export const simple = (args: ActionBarStoryArgs): string => html`
+  <calcite-action-bar
+    ${boolean("expand-toggle-disabled", args.expandToggleDisabled)}
+    ${boolean("expanded", args.expanded)}
+    ${boolean("floating", args.floating)}
+    layout="${args.layout}"
+    position="${args.position}"
+    expand-position="${args.expandPosition}"
+    scale="${args.scale}"
+    selection-appearance="${args.selectionAppearance}"
+  >
+    <calcite-action-group>
+      <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+      <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+`;
+
+export const floating = (args: ActionBarStoryArgs): string =>
+  html`<div style="padding:20px;">
+    <calcite-action-bar position="${args.position}" floating>
+      <calcite-action-group>
+        <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
+        <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div> `;
+
+export const floatingWithDefinedWidths = (): string => html`
+  <style>
+    calcite-action-bar {
+      --calcite-action-bar-expanded-max-width: 150px;
+    }
+  </style>
+  <div style="padding:20px;">
+    <calcite-action-bar floating expanded>
+      <calcite-action-group expanded>
+        <calcite-action text-enabled text="Add to my custom action bar application" icon="plus"></calcite-action>
+        <calcite-action text-enabled text="Save to my custom action bar application" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group expanded>
+        <calcite-action text-enabled text="Layers in my custom action bar application" icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const floatingWithGroups = (): string =>
+  html`<div style="padding:20px;">
+    <calcite-action-bar floating layout="horizontal">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus" appearance="solid" scale="m"></calcite-action>
+        <calcite-action text="Save" icon="save" appearance="solid" scale="m"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers" icon="layers" appearance="solid" scale="m"></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap" appearance="solid" scale="m"></calcite-action>
+      </calcite-action-group>
+      <calcite-tooltip
+        slot="expand-tooltip"
+        id="calcite-tooltip-c19274e3-ff3b-6168-ef1e-8a700b056e1c"
+        role="tooltip"
+        overlay-positioning="absolute"
+        placement="auto"
+        style="visibility: hidden; pointer-events: none; position: absolute;"
+        >Toggle Action bar</calcite-tooltip
+      >
+    </calcite-action-bar>
+  </div>`;
+
+const expandPositionActions = html`<calcite-action text-enabled text="Add" icon="plus"></calcite-action>
+  <calcite-action text-enabled text="Save" icon="save"></calcite-action>
+  <calcite-action slot="actions-start" text-enabled text="Layers" icon="layers"></calcite-action>
+  <calcite-action slot="actions-end" text-enabled text="Basemaps" icon="layer-basemap"></calcite-action>
+  <calcite-tooltip slot="expand-tooltip">Toggle Action Bar</calcite-tooltip>`;
+
+export const expandPositionHorizontal = (): string =>
+  html`<style>
+      calcite-action-bar[layout="horizontal"] {
+        width: 600px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
+
+export const expandPositionVertical = (): string =>
+  html`<style>
+      calcite-action-bar[layout="vertical"] {
+        height: 300px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
+
+export const floatingDarkModeRTL = (): string =>
+  html`<div style="padding:20px;">
+    <calcite-action-bar floating position="start" dir="rtl" class="calcite-mode-dark">
+      <calcite-action-group>
+        <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+        <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>`;
+
+floatingDarkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const horizontal = (): string => html`
+  <div style="width: 500px;">
+    <calcite-action-bar layout="horizontal" style="width:100%">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const horizontalSmall = (): string => html`
+  <div style="width: 250px;">
+    <calcite-action-bar layout="horizontal" style="width:100%">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const horizontalOverflow = (): string => html`
+  <div style="width: 450px; display:flex;">
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex:1;">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Help" icon="question"></calcite-action>
+        <calcite-action
+          text-enabled
+          text="Wide action with a super long title that is unreasonable in my opinion"
+          icon="banana"
+        ></calcite-action>
+        <calcite-action
+          text-enabled
+          text="Wide action with a super long title that is unreasonable in my opinion"
+          icon="banana"
+        ></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const horizontalOverflowPerGroupDisabled = (): string => html`
+  <div style="width: 300px; display:flex;">
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex:1;">
+      <calcite-action-group overflow-actions-disabled>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" active icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" active icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const nestedActionMenuOverflow = (): string => html`
+  <style>
+    .nested-action-menu-overflow-story {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .nested-action-menu-overflow-story-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 220px;
+    }
+
+    .nested-action-menu-overflow-story-label {
+      font-family: sans-serif;
+      font-size: 0.75rem;
+      margin: 0;
+    }
+
+    .nested-action-menu-overflow-story-holder {
+      border: 1px dashed var(--calcite-ui-border-3, #999);
+      display: flex;
+      height: 160px;
+      overflow: hidden;
+    }
+
+    .nested-action-menu-overflow-story-bar {
+      height: 100%;
+    }
+  </style>
+  <div class="nested-action-menu-overflow-story">
+    <div class="nested-action-menu-overflow-story-column">
+      <p class="nested-action-menu-overflow-story-label">Baseline</p>
+      <div class="nested-action-menu-overflow-story-holder">
+        <calcite-action-bar expanded class="nested-action-menu-overflow-story-bar">
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add"></calcite-action>
+            <calcite-action icon="save" text="Save"></calcite-action>
+            <calcite-action icon="ellipsis" text="More"></calcite-action>
+            <calcite-action icon="bookmark" text="Bookmarks"></calcite-action>
+            <calcite-action icon="gear" text="Settings"></calcite-action>
+            <calcite-action icon="information" text="Info"></calcite-action>
+            <calcite-action icon="link" text="Share"></calcite-action>
+            <calcite-action icon="table" text="Table"></calcite-action>
+            <calcite-action icon="measure" text="Measure"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+      </div>
+    </div>
+    <div class="nested-action-menu-overflow-story-column">
+      <p class="nested-action-menu-overflow-story-label">Nested action-menu in group</p>
+      <div class="nested-action-menu-overflow-story-holder">
+        <calcite-action-bar expanded class="nested-action-menu-overflow-story-bar">
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add"></calcite-action>
+            <calcite-action icon="save" text="Save"></calcite-action>
+            <calcite-action-menu label="More actions">
+              <calcite-action icon="ellipsis" slot="trigger" text="More"></calcite-action>
+              <calcite-action icon="layers" text="Layers"></calcite-action>
+              <calcite-action icon="layer-basemap" text="Basemaps"></calcite-action>
+            </calcite-action-menu>
+            <calcite-action icon="bookmark" text="Bookmarks"></calcite-action>
+            <calcite-action icon="gear" text="Settings"></calcite-action>
+            <calcite-action icon="information" text="Info"></calcite-action>
+            <calcite-action icon="link" text="Share"></calcite-action>
+            <calcite-action icon="table" text="Table"></calcite-action>
+            <calcite-action icon="measure" text="Measure"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+      </div>
+    </div>
+  </div>
+`;
+
+nestedActionMenuOverflow.parameters = {
+  chromatic: {
+    delay: 500,
+  },
+};
+
+export const shadowSlottedHorizontal = (): string => html`
+  <script>
+    if (!customElements.get("action-bar-shadow-component")) {
+      class ActionBarShadowComponent extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML =
+            '<calcite-action-bar layout="horizontal" style="width: 100%;">' + "<slot></slot>" + "</calcite-action-bar>";
+        }
+      }
+
+      customElements.define("action-bar-shadow-component", ActionBarShadowComponent);
+    }
+  </script>
+  <div style="width: 420px; display: flex;">
+    <action-bar-shadow-component style="width: 100%; display: block;">
+      <calcite-action-group>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+      </calcite-action-group>
+    </action-bar-shadow-component>
+  </div>
+`;
+
+shadowSlottedHorizontal.parameters = {
+  chromatic: {
+    delay: 500,
+  },
+};
+
+export const withDefinedWidths = (): string => html`
+  <style>
+    calcite-action-bar {
+      --calcite-action-bar-expanded-max-width: 150px;
+    }
+  </style>
+  <calcite-action-bar expanded>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Add to my custom action bar application" icon="plus"></calcite-action>
+      <calcite-action text-enabled text="Save to my custom action bar application" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Layers in my custom action bar application" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+`;
+
+export const gridLayout = (): string =>
+  html`<div style="padding:20px;">
+    <calcite-action-bar layout="grid" expand-toggle-disabled overflow-actions-disabled floating>
+      <calcite-action-group>
+        <calcite-action text="Northwest" icon="chevron-up-left"></calcite-action>
+        <calcite-action text="North" icon="chevron-up"></calcite-action>
+        <calcite-action text="Northeast" icon="chevron-up-right"></calcite-action>
+        <calcite-action text="West" icon="chevron-left"></calcite-action>
+        <calcite-action text="Center" icon="gps-on"></calcite-action>
+        <calcite-action text="East" icon="chevron-right"></calcite-action>
+        <calcite-action text="Southwest" icon="chevron-down-left"></calcite-action>
+        <calcite-action text="South" icon="chevron-down"></calcite-action>
+        <calcite-action text="Southeast" icon="chevron-down-right"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>`;
+
+export const horizontalWrap = (): string =>
+  html`<div style="width: 360px;">
+    <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Measure" icon="measure"></calcite-action>
+        <calcite-action text="Share" icon="share"></calcite-action>
+        <calcite-action text="Print" icon="print"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Search" icon="search"></calcite-action>
+        <calcite-action text="About" icon="information"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="actions-end">
+        <calcite-action text="Settings" icon="gear"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>`;
+
+export const horizontalWrapNoGroups = (): string =>
+  html`<div style="width: 360px;">
+    <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+      <calcite-action text="Add" icon="plus"></calcite-action>
+      <calcite-action text="Save" icon="save"></calcite-action>
+      <calcite-action text="Layers" icon="layers"></calcite-action>
+      <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+      <calcite-action text="Measure" icon="measure"></calcite-action>
+      <calcite-action text="Share" icon="share"></calcite-action>
+      <calcite-action text="Print" icon="print"></calcite-action>
+      <calcite-action text="Search" icon="search"></calcite-action>
+      <calcite-action text="About" icon="information"></calcite-action>
+      <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      <calcite-action text="Settings" icon="gear" slot="actions-end"></calcite-action>
+    </calcite-action-bar>
+  </div>`;
+
+export const verticalWrap = (): string =>
+  html`<calcite-action-bar layout="vertical" overflow-mode="wrap" style="height: 260px;">
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+      <calcite-action text="Save" icon="save"></calcite-action>
+      <calcite-action text="Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+      <calcite-action text="Measure" icon="measure"></calcite-action>
+      <calcite-action text="Share" icon="share"></calcite-action>
+      <calcite-action text="Print" icon="print"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Search" icon="search"></calcite-action>
+      <calcite-action text="About" icon="information"></calcite-action>
+      <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group slot="actions-end">
+      <calcite-action text="Settings" icon="gear"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>`;
+
+export const wrapWithActionsStartGroups = (): string =>
+  html`<div style="display: flex; gap: 1rem;">
+    <div style="width: 360px;">
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+        <calcite-action-group slot="actions-start">
+          <calcite-action text="Home" icon="home"></calcite-action>
+          <calcite-action text="Locate" icon="compass"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Save" icon="save"></calcite-action>
+          <calcite-action text="Layers" icon="layers"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+          <calcite-action text="Measure" icon="measure"></calcite-action>
+          <calcite-action text="Share" icon="share"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action text="Settings" icon="gear"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    </div>
+    <calcite-action-bar layout="vertical" overflow-mode="wrap" style="height: 260px;">
+      <calcite-action-group slot="actions-start">
+        <calcite-action text="Home" icon="home"></calcite-action>
+        <calcite-action text="Locate" icon="compass"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Measure" icon="measure"></calcite-action>
+        <calcite-action text="Share" icon="share"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="actions-end">
+        <calcite-action text="Settings" icon="gear"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>`;
+
+export const darkModeRTL = (): string => html`
+  <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
+    <calcite-action-group>
+      <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+      <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+`;
+
+darkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const horizontalWrapDarkModeRTL = (): string =>
+  html`<div style="width: 360px;">
+    <calcite-action-bar layout="horizontal" overflow-mode="wrap" dir="rtl" class="calcite-mode-dark">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Measure" icon="measure"></calcite-action>
+        <calcite-action text="Share" icon="share"></calcite-action>
+        <calcite-action text="Print" icon="print"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Search" icon="search"></calcite-action>
+        <calcite-action text="About" icon="information"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="actions-end">
+        <calcite-action text="Settings" icon="gear"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>`;
+
+horizontalWrapDarkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const verticalWrapDarkModeRTL = (): string =>
+  html`<calcite-action-bar
+    layout="vertical"
+    overflow-mode="wrap"
+    dir="rtl"
+    class="calcite-mode-dark"
+    style="height: 260px;"
+  >
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+      <calcite-action text="Save" icon="save"></calcite-action>
+      <calcite-action text="Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+      <calcite-action text="Measure" icon="measure"></calcite-action>
+      <calcite-action text="Share" icon="share"></calcite-action>
+      <calcite-action text="Print" icon="print"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Search" icon="search"></calcite-action>
+      <calcite-action text="About" icon="information"></calcite-action>
+      <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group slot="actions-end">
+      <calcite-action text="Settings" icon="gear"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>`;
+
+verticalWrapDarkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const adjacentTooltipsOpenQuickly = (): string => html`
+  <div style="display:flex; height:500px; width: 200px;">
+    <calcite-action-bar>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus" id="add"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="add">Add</calcite-tooltip>
+        <calcite-action text="Save" icon="save" id="save"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="save">Save</calcite-tooltip>
+        <calcite-action text="Layers" icon="layers" id="layers"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="layers">Layers</calcite-tooltip>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus" id="add-2"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="add-2">Add</calcite-tooltip>
+        <calcite-action text="Save" active icon="save" id="save-2"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="save-2">Save</calcite-tooltip>
+        <calcite-action text="Layers" icon="layers" id="layers-2"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="layers-2">Layers</calcite-tooltip>
+      </calcite-action-group>
+      <calcite-action slot="actions-end" text="hello world" icon="layers" id="hello-world"></calcite-action>
+      <calcite-tooltip placement="right" reference-element="hello-world">hello world</calcite-tooltip>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const hebrewLocale = (): string => `<calcite-action-bar expanded lang="he">
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const norwegianLocale = (): string => `<calcite-action-bar expanded lang="nb">
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const FrenchLocale = (): string => `<calcite-action-bar expanded lang="fr">
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const hongKongLocale = (): string => `<calcite-action-bar expanded lang="zh-HK">
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const ukrainianLocale = (): string => `<calcite-action-bar expanded lang="uk">
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const bosnianLocale = (): string => `<calcite-action-bar expanded lang="bs">
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const fullWidthActions = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-flow: column;
+      width: 800px;
+      margin-block: 2rem;
+    }
+  </style>
+  <div class="container">
+    <calcite-action-bar layout="horizontal">
+      <calcite-action text="Add" icon="plus" width="full"> </calcite-action>
+      <calcite-action text="Remove" icon="minus" width="full"> </calcite-action>
+      <calcite-action text="Copy" icon="plus" width="full"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const overflowDisabledActions = (): string => html`
+  <style>
+    .overflow-disabled-story-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .overflow-disabled-story-label {
+      font-family: sans-serif;
+      font-size: 0.875rem;
+    }
+  </style>
+  <div class="overflow-disabled-story-group">
+    <p class="overflow-disabled-story-label">
+      Horizontal — width unconstrained. First three actions have <code>overflow-disabled</code>; all actions are
+      visible.
+    </p>
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
+        <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>
+        <calcite-action text="Layers" icon="layers" overflow-disabled></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p class="overflow-disabled-story-label">
+      Horizontal — width constrained. First three actions stay visible; the rest overflow into the menu.
+      <code>action-bar</code> cannot collapse further because the <code>overflow-disabled</code> actions set its minimum
+      width.
+    </p>
+    <div style="width: 100px; display: flex;">
+      <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex: 1;">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
+          <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>
+          <calcite-action text="Layers" icon="layers" overflow-disabled></calcite-action>
+          <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+          <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    </div>
+  </div>
+`;

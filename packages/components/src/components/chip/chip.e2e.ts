@@ -1,0 +1,107 @@
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+
+import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
+
+it("should not render a calcite-icon when selectionMode is single and not selected", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(`<calcite-chip selection-mode="single" id="chip-1" >cheetos</calcite-chip>`);
+
+  await page.waitForChanges();
+
+  const icon = await page.find("#chip-1 >>> calcite-icon");
+
+  expect(icon).toBeNull();
+});
+
+it("should not emit event after the chip is clicked if interactive if not set", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
+
+  const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+  const chip1 = await page.find("#chip-1");
+  await chip1.click();
+  await page.waitForChanges();
+
+  expect(eventSpy).not.toHaveReceivedEvent();
+});
+
+it("should emit event after the chip button is clicked when interactive", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-chip id="chip-1" interactive>cheetos</calcite-chip>`);
+
+  const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+  const chip1 = await page.find("#chip-1");
+  await chip1.click();
+  await page.waitForChanges();
+
+  expect(eventSpy).toHaveReceivedEvent();
+});
+
+it("should receive focus when clicked", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
+
+  const chip1 = await page.find("#chip-1");
+  await chip1.click();
+  await page.waitForChanges();
+  expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip1.id);
+});
+
+describe("closing", () => {
+  it("via mouse", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
+    const chip = await page.find("calcite-chip");
+    const eventSpy = await chip.spyOnEvent("calciteChipClose");
+
+    await page.click(`calcite-chip >>> .${CSS.close}`);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    await chip.callMethod("setFocus");
+    await chip.press("Delete");
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    await chip.setProperty("closed", false);
+    await page.waitForChanges();
+
+    await chip.callMethod("setFocus");
+    await chip.press("Backspace");
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("can be closed via keyboard", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip closable close-on-delete>cheetos</calcite-chip>`);
+    const chip = await page.find("calcite-chip");
+    const eventSpy = await chip.spyOnEvent("calciteChipClose");
+
+    await chip.callMethod("setFocus");
+    await chip.press("Delete");
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    await chip.setProperty("closed", false);
+    await page.waitForChanges();
+
+    await chip.callMethod("setFocus");
+    await chip.press("Backspace");
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+  });
+});
+
+it("should not render chip when closed set to true", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`
+    <calcite-chip class="layers" icon="layer" appearance="solid" kind="neutral" closable> Layers </calcite-chip>
+  `);
+
+  const chipEl = await page.find(`calcite-chip`);
+  chipEl.toggleAttribute("closed", true);
+  await page.waitForChanges();
+
+  expect(await chipEl.isVisible()).toBe(false);
+});

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "lib": [
+      "dom",
+      "es2025",
+      "esnext.array",
+      "esnext.disposable",
+      "esnext.error",
+      "esnext.sharedmemory",
+      "esnext.typedarrays"
+    ],
+    "moduleResolution": "Bundler"
+  }
+}

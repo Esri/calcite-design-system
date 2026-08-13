@@ -1,0 +1,23 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-card-group-gap: [Deprecated] in v2.13.0, removal target v6.0.0 - Use `--calcite-card-group-space` instead. Specifies the gap between slotted elements.
+ * @prop --calcite-card-group-space: Specifies the space between slotted elements.
+ */
+
+@use "../../styles/includes";
+
+:host {
+  @apply block;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--calcite-card-group-space, var(--calcite-card-group-gap, var(--calcite-spacing-md)));
+}
+
+@include includes.base-component();
+@include includes.disabled();

@@ -1,0 +1,23 @@
+name: Track Milestone Estimates
+on:
+  workflow_dispatch:
+  issues:
+    types: [closed]
+  milestone:
+    types: [closed]
+jobs:
+  estimates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Create estimates data
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/trackMilestoneEstimates.cjs')
+            await action({github, context, core})
+      - name: Upload estimates data
+        uses: actions/upload-artifact@v7
+        with:
+          name: milestone-estimates
+          path: milestone-estimates.*

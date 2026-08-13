@@ -1,0 +1,9 @@
+{
+  "previous": "Edellinen",
+  "next": "Seuraava",
+  "play": "Toista",
+  "pause": "Keskeytä",
+  "carousel": "Pyörivä näkymä",
+  "carouselItemProgress": "Pyörivän näkymän kohteen edistymisen ilmaisin",
+  "paginationStatus": "Kohde {current}/{total}"
+}

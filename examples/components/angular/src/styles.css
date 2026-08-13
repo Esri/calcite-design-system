@@ -1,0 +1,9 @@
+@import "@esri/calcite-components/main.css";
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  color: var(--calcite-color-text-1);
+  background-color: var(--calcite-color-background);
+}

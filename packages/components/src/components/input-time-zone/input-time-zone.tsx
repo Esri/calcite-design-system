@@ -1,0 +1,577 @@
+import { PropertyValues } from "lit";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  stringOrBoolean,
+} from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale, Status } from "../interfaces";
+import { OverlayPositioning } from "../../utils/floating-ui";
+import { IconName } from "../icon/interfaces";
+import { useT9n } from "../../controllers/useT9n";
+import type { Combobox } from "../combobox/combobox";
+import type { Label } from "../label/label";
+import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
+import { CSS, SLOTS } from "./resources";
+import {
+  createTimeZoneItems,
+  findTimeZoneItemByProp,
+  getNormalizer,
+  getSelectedRegionTimeZoneLabel,
+  getUserTimeZoneName,
+  getUserTimeZoneOffset,
+} from "./utils";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { styles } from "./input-time-zone.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-input-time-zone": InputTimeZone;
+  }
+}
+
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
+export class InputTimeZone extends LitElement implements LabelableComponent {
+  //#region Static Members
+
+  static formAssociated = true;
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  private comboboxRef = createRef<Combobox["el"]>();
+
+  defaultValue?: InputTimeZone["value"];
+
+  formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
+
+  labelEl?: Label["el"];
+
+  private normalizer!: (timeZone: TimeZone) => TimeZone;
+
+  private _value?: string;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
+
+  /**
+   * Note: The `internal` context is reserved for future use to provide more granular update context information.
+   */
+  #valueUpdateContext: "user" | "internal" | null = null;
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() selectedTimeZoneItem?: TimeZoneItem;
+
+  @state() timeZoneItems?: TimeZoneItem[] | TimeZoneItemGroup[];
+
+  //#endregion
+
+  //#region Public Properties
+
+  /**
+   * When `true`, an empty value (`null`) will be allowed as a `value`.
+   *
+   * When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   */
+  @property({ reflect: true }) clearable = false;
+
+  /** When `true`, prevents interaction and decreases the component's opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
+
+  /** @copyDoc */
+  @property() labelText?: string;
+
+  /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
+  @property({ reflect: true }) maxItems = 0;
+
+  /** @copyDoc */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * This specifies the type of `value` and the associated options presented to the user:
+   *
+   * Using `"offset"` will provide options that show timezone offsets.
+   *
+   * Using `"name"` will provide options that show the IANA time zone names.
+   */
+  @property({ reflect: true }) mode: TimeZoneMode = "offset";
+
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
+
+  /**
+   * When `mode` is `"offset"`, specifies how the offset will be displayed.
+   *
+   * - `"user"` uses `UTC` or `GMT` depending on the user's locale.
+   * - `"gmt"` always uses `GMT`.
+   * - `"utc"` always uses `UTC`.
+   */
+  @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
+
+  /** When `true`, displays and positions the component. */
+  @property({ reflect: true }) open = false;
+
+  /** @copyDoc */
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
+
+  /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
+  @property({ reflect: true }) readOnly = false;
+
+  /**
+   * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.
+   *
+   * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
+   *
+   * @see [MDN - Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
+   */
+  @property() referenceDate?: Date | string;
+
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a `value` in order for the form to submit.
+   *
+   * @private
+   */
+  @property({ reflect: true }) required = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the input field's status, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /** Specifies the validation icon to display under the component. */
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage?: string;
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property({ readOnly: true }) validity!: ValidityState;
+
+  /**
+   * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
+   *
+   * If no value is provided, the user's time zone offset will be selected by default.
+   *
+   * @see [Identifying time zones and zone offsets](https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC).
+   */
+  @property()
+  get value(): string | undefined {
+    return this._value;
+  }
+  set value(value: string | undefined) {
+    this.#valueUpdateContext = "internal";
+    this._value = value;
+  }
+
+  //#endregion
+
+  //#region Public Methods
+
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.comboboxRef.value, options);
+  }
+
+  //#endregion
+
+  //#region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteInputTimeZoneBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteInputTimeZoneBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component's `value` changes. */
+  calciteInputTimeZoneChange = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteInputTimeZoneClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is opened and animation is complete. */
+  calciteInputTimeZoneOpen = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  async load(): Promise<void> {
+    this.normalizer = await getNormalizer(this.mode);
+    await this.updateTimeZoneItems();
+    const initialValue = this.value;
+    const normalized = this.normalizeValue(initialValue);
+    this.value = normalized || (initialValue === "" ? normalized : undefined);
+    this.updateTimeZoneSelection();
+
+    const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
+    this.value = selectedValue;
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("value") && this.hasUpdated) {
+      this.handleValueChange(this.value, changes.get("value"));
+    }
+
+    if (
+      changes.has("messages") ||
+      (changes.has("mode") && (this.hasUpdated || this.mode !== "offset")) ||
+      changes.has("referenceDate")
+    ) {
+      this.handleTimeZoneItemPropsChange();
+    }
+
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      this.openChanged();
+    }
+  }
+
+  loaded(): void {
+    this.openChanged();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private async handleTimeZoneItemPropsChange(): Promise<void> {
+    if (!this.timeZoneItems || !this.hasUpdated) {
+      return;
+    }
+
+    await this.updateTimeZoneItems();
+    this.updateTimeZoneSelection();
+  }
+
+  private openChanged(): void {
+    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.open = this.open;
+    }
+  }
+
+  private async handleValueChange(
+    value: string | undefined,
+    oldValue: string | undefined,
+  ): Promise<void> {
+    const userUpdated = this.#valueUpdateContext === "user";
+    this.#valueUpdateContext = null;
+
+    if (userUpdated) {
+      // value and selectedTimeZoneItem are already in sync, so we can skip the rest of the logic in this method which is meant to handle external changes to value
+      return;
+    }
+
+    const normalized = this.normalizeValue(value);
+
+    if (!normalized) {
+      if (this.clearable) {
+        this._value = normalized;
+        this.selectedTimeZoneItem = undefined;
+        return;
+      }
+
+      this._value = oldValue;
+      this.selectedTimeZoneItem = this.findTimeZoneItem(oldValue);
+      return;
+    }
+
+    const timeZoneItem = this.findTimeZoneItem(normalized);
+
+    if (!timeZoneItem) {
+      this._value = oldValue;
+      return;
+    }
+
+    this._value = normalized;
+    this.selectedTimeZoneItem = timeZoneItem;
+  }
+
+  onLabelClick(): void {
+    this.setFocus();
+  }
+
+  /**
+   * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
+   *
+   * @param open
+   * @private
+   */
+  private overrideSelectedLabelForRegion(open: boolean): void {
+    if (this.mode !== "region" || !this.selectedTimeZoneItem) {
+      return;
+    }
+
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.selectedItems[0].heading = this.getItemLabel(
+        this.selectedTimeZoneItem,
+        open,
+      );
+    }
+  }
+
+  private onComboboxBeforeClose(event: CustomEvent): void {
+    event.stopPropagation();
+    this.overrideSelectedLabelForRegion(false);
+    this.calciteInputTimeZoneBeforeClose.emit();
+  }
+
+  private onComboboxBeforeOpen(event: CustomEvent): void {
+    event.stopPropagation();
+    this.overrideSelectedLabelForRegion(true);
+    this.calciteInputTimeZoneBeforeOpen.emit();
+  }
+
+  private onComboboxChange(event: CustomEvent): void {
+    event.stopPropagation();
+    const combobox = event.target as Combobox["el"];
+    const selectedItem = combobox.selectedItems[0];
+    const previousValue = this._value;
+
+    if (!selectedItem) {
+      this._value = "";
+      this.requestUpdate("value", previousValue);
+      this.selectedTimeZoneItem = undefined;
+      this.calciteInputTimeZoneChange.emit();
+      return;
+    }
+
+    const selected = this.findTimeZoneItemByLabel(
+      selectedItem.getAttribute("data-label") ?? undefined,
+    );
+
+    const selectedValue = selected?.value === undefined ? undefined : `${selected?.value}`;
+
+    if (this.value === selectedValue && selected?.label === this.selectedTimeZoneItem?.label) {
+      return;
+    }
+
+    this._value = selectedValue;
+    this.requestUpdate("value", previousValue);
+    this.selectedTimeZoneItem = selected;
+    this.#valueUpdateContext = "user";
+    this.calciteInputTimeZoneChange.emit();
+  }
+
+  private onComboboxClose(event: CustomEvent): void {
+    event.stopPropagation();
+    this.open = false;
+    this.calciteInputTimeZoneClose.emit();
+  }
+
+  private onComboboxOpen(event: CustomEvent): void {
+    this.open = true;
+    event.stopPropagation();
+    this.calciteInputTimeZoneOpen.emit();
+  }
+
+  private findTimeZoneItem(value: number | string | undefined): TimeZoneItem | undefined {
+    return findTimeZoneItemByProp(this.timeZoneItems, "value", value);
+  }
+
+  private findTimeZoneItemByLabel(label: string | undefined): TimeZoneItem | undefined {
+    return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
+  }
+
+  private async updateTimeZoneItems(): Promise<void> {
+    this.timeZoneItems = await this.createTimeZoneItems();
+  }
+
+  private updateTimeZoneSelection(): void {
+    if (this.value === "" && this.clearable) {
+      this.selectedTimeZoneItem = undefined;
+      return;
+    }
+
+    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
+    const valueToMatch = this.value === "" || !this.value ? fallbackValue : this.value;
+
+    this.selectedTimeZoneItem =
+      this.findTimeZoneItem(valueToMatch) || this.findTimeZoneItem(fallbackValue);
+  }
+
+  private async createTimeZoneItems(): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
+    if (!this.messages._lang || !this.messages) {
+      return [];
+    }
+
+    return createTimeZoneItems(
+      this.messages._lang,
+      this.messages,
+      this.mode,
+      this.referenceDate instanceof Date
+        ? this.referenceDate
+        : new Date(this.referenceDate ?? Date.now()),
+      this.offsetStyle,
+    );
+  }
+
+  private normalizeValue(value: string | undefined): string {
+    value = value === undefined ? "" : value;
+
+    return value ? this.normalizer(value) : value;
+  }
+
+  private getItemLabel(item: TimeZoneItem, open: boolean = this.open): string {
+    const selected = this.selectedTimeZoneItem === item;
+    const { label, metadata } = item;
+    return !metadata.country || open || !selected
+      ? label
+      : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+  }
+
+  //#endregion
+
+  //#region Rendering
+
+  override render(): JsxNode {
+    return (
+      <this.interactiveContainer disabled={this.disabled}>
+        <calcite-combobox
+          clearDisabled={!this.clearable}
+          disabled={this.disabled}
+          label={this.messages.chooseTimeZone}
+          labelText={this.labelText}
+          lang={this.messages._lang}
+          maxItems={this.maxItems}
+          oncalciteComboboxBeforeClose={this.onComboboxBeforeClose}
+          oncalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
+          oncalciteComboboxChange={this.onComboboxChange}
+          oncalciteComboboxClose={this.onComboboxClose}
+          oncalciteComboboxOpen={this.onComboboxOpen}
+          overlayPositioning={this.overlayPositioning}
+          placeholder={this.placeholder || this.messages[`${this.mode}Placeholder`]}
+          placeholderIcon="search"
+          readOnly={this.readOnly}
+          ref={this.comboboxRef}
+          required={this.required}
+          scale={this.scale}
+          selectionMode={this.clearable ? "single" : "single-persist"}
+          status={this.status}
+          topLayerDisabled={this.topLayerDisabled}
+          validationIcon={this.validationIcon}
+          validationMessage={this.validationMessage}
+        >
+          {this.renderItems()}
+          <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
+        </calcite-combobox>
+      </this.interactiveContainer>
+    );
+  }
+
+  private renderItems(): JsxNode {
+    if (this.mode === "region") {
+      return this.renderRegionItems();
+    }
+
+    return this.timeZoneItems?.map((group) => {
+      const selected = this.selectedTimeZoneItem === group;
+      const { label, metadata, value } = group;
+
+      return (
+        <calcite-combobox-item
+          data-label={label}
+          heading={label}
+          key={label}
+          metadata={metadata}
+          selected={selected}
+          value={value}
+        />
+      );
+    });
+  }
+
+  private renderRegionItems(): JsxNode {
+    return (this.timeZoneItems as TimeZoneItemGroup[]).flatMap(({ label, items }) => (
+      <calcite-combobox-item-group key={label} label={label}>
+        {items.map((item) => {
+          const selected = this.selectedTimeZoneItem === item;
+          const { label, metadata, value } = item;
+          const heading = this.getItemLabel(item);
+          return (
+            <calcite-combobox-item
+              data-label={label}
+              description={metadata.country}
+              heading={heading}
+              key={label}
+              metadata={metadata}
+              selected={selected}
+              value={value}
+            >
+              <span class={CSS.offset} slot="content-end">
+                {metadata.offset}
+              </span>
+            </calcite-combobox-item>
+          );
+        })}
+      </calcite-combobox-item-group>
+    ));
+  }
+
+  //#endregion
+}

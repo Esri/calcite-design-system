@@ -1,0 +1,21 @@
+@use "../../styles/includes";
+
+:host {
+  @apply flex;
+}
+
+@include includes.disabled();
+
+.container {
+  @apply flex flex-auto;
+}
+
+.container--vertical {
+  @apply flex-col;
+}
+
+.container--horizontal {
+  @apply flex-row;
+}
+
+@include includes.base-component();

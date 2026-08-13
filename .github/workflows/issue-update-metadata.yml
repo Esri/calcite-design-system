@@ -1,0 +1,54 @@
+name: Update Issue Metadata
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  product-label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Add Esri Product Label
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addEsriProductLabel.cjs')
+            await action({github, context, core})
+
+      - name: Add Calcite Package Label
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addCalcitePackageLabel.cjs')
+            await action({github, context, core})
+
+      - name: Add Priority Label
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addPriorityLabel.cjs')
+            await action({github, context, core})
+
+      - name: Add Regression Label
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addRegressionLabel.cjs')
+            await action({github, context, core})
+
+      - name: Add Component Label
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addComponentLabel.cjs')
+            await action({github, context, core})
+
+      - name: Add Issues To Backlog
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addIssuesToBacklog.cjs')
+            await action({github, context, core})
