@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding field set row content. */
+/** @slot - A slot for adding row content. */
 export class FieldRow extends LitElement {
   //#region Static Members
 

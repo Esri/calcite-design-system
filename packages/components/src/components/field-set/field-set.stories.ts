@@ -438,11 +438,37 @@ prefixAndSuffixAutoWidthUsingLabels.parameters = {
 
 export const fieldRowWrappers = (): string => html`
   <calcite-field-set legend="Field Set legend">
+    <calcite-field-row layout="columns" columns="6">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
+    <calcite-field-row layout="columns" columns="5">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
+    <calcite-field-row layout="columns" columns="4">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
+    <calcite-field-row layout="columns" columns="3">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
     <calcite-field-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
     </calcite-field-row>
-    <calcite-field-row>
+    <calcite-field-row layout="columns" columns="1">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
     </calcite-field-row>
   </calcite-field-set>
@@ -450,6 +476,32 @@ export const fieldRowWrappers = (): string => html`
 
 export const fieldSetOneRowWrapper = (): string => html`
   <calcite-field-set legend="Field Set legend">
+    <calcite-field-row layout="columns" columns="6">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
+    <calcite-field-row layout="columns" columns="5">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
+    <calcite-field-row layout="columns" columns="4">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
+    <calcite-field-row layout="columns" columns="3">
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+      <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    </calcite-field-row>
     <calcite-field-row layout="columns" columns="2">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>

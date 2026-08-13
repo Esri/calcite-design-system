@@ -274,7 +274,7 @@ const renderNativeFormStory = (
       <calcite-form ${args.disabled ? "disabled" : ""} ${args.readOnly ? "read-only" : ""} scale="${args.scale}">
         ${renderFieldSets(options.requireName)}
       </calcite-form>
-      <div style="display: flex; gap: 1rem; padding: 1rem; border: 1px solid red;">
+      <div style="display: flex; gap: 1rem; padding: 1rem; border: 1px dashed blue;">
         ${options.includePreviewButton
           ? html`
               <calcite-button appearance="outline" data-action="preview" type="button"> Preview data </calcite-button>
