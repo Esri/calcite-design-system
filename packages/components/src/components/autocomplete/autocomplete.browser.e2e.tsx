@@ -377,15 +377,13 @@ describe("keyboard selection", () => {
   });
 
   it("updates listbox option aria-selected from programmatic item selection without emitting change", async () => {
+    const changeSpy = vi.fn();
     const { el, reRender } = await mount<Autocomplete>(
-      <calcite-autocomplete label="Item list" open>
+      <calcite-autocomplete label="Item list" oncalciteAutocompleteChange={changeSpy} open>
         <calcite-autocomplete-item heading="Item one" label="Item one" selected value="one" />
         <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
       </calcite-autocomplete>,
     );
-
-    const changeSpy = vi.fn();
-    el.addEventListener("calciteAutocompleteChange", changeSpy);
 
     const getSecondOption = () =>
       page.elementLocator(el).getByRole("listbox").getByRole("option").nth(1);
@@ -393,7 +391,9 @@ describe("keyboard selection", () => {
     await expect.element(getSecondOption()).toBeInTheDocument();
     await expect.element(getSecondOption()).toHaveAttribute("aria-selected", "false");
 
-    const secondItem = el.children[1] as AutocompleteItem["el"];
+    const secondItem = el.querySelector(
+      'calcite-autocomplete-item[value="two"]',
+    ) as AutocompleteItem["el"];
     secondItem.selected = true;
     await reRender();
 
@@ -415,7 +415,9 @@ describe("keyboard selection", () => {
     let secondOptionText = getSecondOption().element().textContent?.replace(/\s+/g, " ").trim();
     expect(secondOptionText).toContain("Item two");
 
-    const secondItem = el.children[1] as AutocompleteItem["el"];
+    const secondItem = el.querySelector(
+      'calcite-autocomplete-item[value="two"]',
+    ) as AutocompleteItem["el"];
     secondItem.disabled = true;
     secondItem.description = "Updated description";
     secondItem.heading = "Updated heading";
