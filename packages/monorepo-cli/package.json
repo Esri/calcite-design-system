@@ -1,0 +1,31 @@
+{
+  "name": "@esri/monorepo-cli",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Set of commands to manage the monorepo and support CI/CD workflows",
+  "license": "SEE LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/monorepo-cli"
+  },
+  "bin": {
+    "cli": "src/run.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test-watch": "vitest",
+    "test-related": "vitest related --run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@actions/core": "3.0.1",
+    "@actions/github": "9.1.1",
+    "@commander-js/extra-typings": "15.0.0",
+    "@types/node": "26.2.0",
+    "commander": "15.0.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}
