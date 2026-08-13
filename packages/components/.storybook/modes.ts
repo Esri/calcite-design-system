@@ -16,7 +16,7 @@ export const allModes = {
   square: {
     viewport: {
       height: maxAxisSizeInPx / 2,
-      width: maxAxisSizeInPx / 2,
+      width: maxAxisSizeInPx / 2
     },
   },
   squareSmall: {
