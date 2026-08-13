@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.11...@esri/calcite-ui-icons@4.6.0-next.12) (2026-08-11)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.6.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.10...@esri/calcite-ui-icons@4.6.0-next.11) (2026-08-06)
+
+### Bug Fixes
+
+- **icon:** fix icon type regression ([#14964](https://github.com/Esri/calcite-design-system/issues/14964))
+
 ## [4.6.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.9...@esri/calcite-ui-icons@4.6.0-next.10) (2026-08-03)
 
 ### Features
