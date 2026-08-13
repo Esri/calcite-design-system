@@ -136,17 +136,13 @@ export class AutocompleteItem extends LitElement {
         changes.has("label") ||
         changes.has("selected"))
     ) {
-      this.emitItemChange();
+      this.calciteInternalAutocompleteItemChange.emit();
     }
   }
 
   //#endregion
 
   //#region Private Methods
-
-  private emitItemChange(): void {
-    this.calciteInternalAutocompleteItemChange.emit();
-  }
 
   private handleClick(event: MouseEvent): void {
     event.preventDefault();

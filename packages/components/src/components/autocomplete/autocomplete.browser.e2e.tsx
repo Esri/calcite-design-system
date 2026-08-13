@@ -24,7 +24,6 @@ import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Autocomplete } from "./autocomplete";
-import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -291,24 +290,6 @@ function renderAutocomplete(): JsxNode {
   );
 }
 
-class AutocompleteTestWrapper extends LitElement {
-  static tagName = "autocomplete-test-wrapper";
-
-  autocompleteRef = createRef<Autocomplete["el"]>();
-
-  get autocompleteEl(): Autocomplete["el"] | undefined {
-    return this.autocompleteRef.value;
-  }
-
-  override render(): JsxNode {
-    return (
-      <calcite-autocomplete label="Item list" open ref={this.autocompleteRef}>
-        <slot />
-      </calcite-autocomplete>
-    );
-  }
-}
-
 describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(() => mount<Autocomplete>(renderAutocomplete), "open", {
@@ -352,6 +333,24 @@ describe("disabled", () => {
 });
 
 describe("keyboard selection", () => {
+  class AutocompleteTestWrapper extends LitElement {
+    static tagName = "autocomplete-test-wrapper";
+
+    autocompleteRef = createRef<Autocomplete["el"]>();
+
+    get autocompleteEl(): Autocomplete["el"] | undefined {
+      return this.autocompleteRef.value;
+    }
+
+    override render(): JsxNode {
+      return (
+        <calcite-autocomplete label="Item list" open ref={this.autocompleteRef}>
+          <slot />
+        </calcite-autocomplete>
+      );
+    }
+  }
+
   it("toggles active item selection on Enter and emits calciteAutocompleteItemSelect", async () => {
     const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
     const firstItem = el.querySelector("calcite-autocomplete-item")!;
@@ -378,57 +377,49 @@ describe("keyboard selection", () => {
 
   it("updates listbox option aria-selected from programmatic item selection without emitting change", async () => {
     const changeSpy = vi.fn();
-    const { el, reRender } = await mount<Autocomplete>(
+    const { component, reRender } = await mount<Autocomplete>(
       <calcite-autocomplete label="Item list" oncalciteAutocompleteChange={changeSpy} open>
         <calcite-autocomplete-item heading="Item one" label="Item one" selected value="one" />
         <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
       </calcite-autocomplete>,
     );
 
-    const getSecondOption = () =>
-      page.elementLocator(el).getByRole("listbox").getByRole("option").nth(1);
+    const secondOption = page.getByRole("listbox").getByRole("option").nth(1);
 
-    await expect.element(getSecondOption()).toBeInTheDocument();
-    await expect.element(getSecondOption()).toHaveAttribute("aria-selected", "false");
+    await expect.element(secondOption).toBeInTheDocument();
+    await expect.element(secondOption).toHaveAttribute("aria-selected", "false");
 
-    const secondItem = el.querySelector(
-      'calcite-autocomplete-item[value="two"]',
-    ) as AutocompleteItem["el"];
+    const secondItem = component.items.find((item) => item.value === "two")!;
     secondItem.selected = true;
     await reRender();
 
-    await expect.element(getSecondOption()).toHaveAttribute("aria-selected", "true");
+    await expect.element(secondOption).toHaveAttribute("aria-selected", "true");
     expect(changeSpy).toHaveBeenCalledTimes(0);
   });
 
   it("updates listbox option aria metadata and text from programmatic item state changes", async () => {
-    const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
-    el.open = true;
+    const { component, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    component.open = true;
     await reRender();
 
-    const getSecondOption = () =>
-      page.elementLocator(el).getByRole("listbox").getByRole("option").nth(1);
+    const secondOption = page.getByRole("listbox").getByRole("option").nth(1);
 
-    await expect.element(getSecondOption()).toBeInTheDocument();
-    await expect.element(getSecondOption()).toHaveAttribute("aria-disabled", "false");
-    await expect.element(getSecondOption()).toHaveAttribute("aria-label", "Item two");
-    let secondOptionText = getSecondOption().element().textContent?.replace(/\s+/g, " ").trim();
-    expect(secondOptionText).toContain("Item two");
+    await expect.element(secondOption).toBeInTheDocument();
+    await expect.element(secondOption).toHaveAttribute("aria-disabled", "false");
+    await expect.element(secondOption).toHaveAttribute("aria-label", "Item two");
+    await expect.element(secondOption).toHaveTextContent("Item two");
 
-    const secondItem = el.querySelector(
-      'calcite-autocomplete-item[value="two"]',
-    ) as AutocompleteItem["el"];
+    const secondItem = component.items.find((item) => item.value === "two")!;
     secondItem.disabled = true;
     secondItem.description = "Updated description";
     secondItem.heading = "Updated heading";
     secondItem.label = "Updated label";
     await reRender();
 
-    await expect.element(getSecondOption()).toHaveAttribute("aria-disabled", "true");
-    await expect.element(getSecondOption()).toHaveAttribute("aria-label", "Updated label");
-    secondOptionText = getSecondOption().element().textContent?.replace(/\s+/g, " ").trim();
-    expect(secondOptionText).toContain("Updated heading");
-    expect(secondOptionText).toContain("Updated description");
+    await expect.element(secondOption).toHaveAttribute("aria-disabled", "true");
+    await expect.element(secondOption).toHaveAttribute("aria-label", "Updated label");
+    await expect.element(secondOption).toHaveTextContent("Updated heading");
+    await expect.element(secondOption).toHaveTextContent("Updated description");
   });
 
   it("supports keyboard navigation for shadow-projected items", async () => {
@@ -442,7 +433,7 @@ describe("keyboard selection", () => {
 
     await reRender();
 
-    const autocomplete = component.autocompleteEl as Autocomplete["el"];
+    const autocomplete = component.autocompleteEl!;
     const listbox = page.elementLocator(autocomplete).getByRole("listbox");
     const options = listbox.getByRole("option");
 
@@ -454,11 +445,9 @@ describe("keyboard selection", () => {
 
     await autocomplete.setFocus();
     await userEvent.keyboard("{ArrowDown}");
-    await reRender();
 
-    const input = page.elementLocator(autocomplete).getByRole("combobox").element() as HTMLElement;
-
-    expect(input.getAttribute("aria-activedescendant")).toBe(firstOption.id);
+    const input = page.elementLocator(autocomplete).getByRole("combobox");
+    await expect.element(input).toHaveAttribute("aria-activedescendant", firstOption.id);
   });
 });
 
