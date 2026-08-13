@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.48...@esri/calcite-components@5.2.0-next.49) (2026-08-13)
+
+### Bug Fixes
+
+- **autocomplete:** track slotted group items via internal updates ([#14891](https://github.com/Esri/calcite-design-system/issues/14891)), closes [#14849](https://github.com/Esri/calcite-design-system/issues/14849)
+
 ## [5.2.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.47...@esri/calcite-components@5.2.0-next.48) (2026-08-12)
 
 ### Bug Fixes
