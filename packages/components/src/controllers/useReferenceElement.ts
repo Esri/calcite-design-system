@@ -4,6 +4,7 @@ import { nil } from "@arcgis/toolkit/type";
 import { ReferenceElement } from "../utils/floating-ui";
 import { queryElementRoots } from "../utils/dom";
 import type { ReferenceElementComponentManager } from "./useReferenceElement/manager";
+import { logger } from "../utils/logger";
 
 export type ReferenceElementType = "click" | "hover";
 
@@ -132,7 +133,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
 
       const { el, referenceElement, referenceEl } = component;
       if (warn && referenceElement && !referenceEl) {
-        console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+        logger.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
           el,
         });
       }
