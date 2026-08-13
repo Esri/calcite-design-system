@@ -219,9 +219,8 @@ describe("modalDisabled", () => {
     expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
     expect(document.documentElement.style.overflow).not.toBe("hidden");
     expect(getComputedStyle(el).pointerEvents).toBe("none");
-    expect(getComputedStyle(el.shadowRoot.querySelector(`.${CSS.content}`)).pointerEvents).toBe(
-      "auto",
-    );
+    const content = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.content}`)!;
+    expect(getComputedStyle(content).pointerEvents).toBe("auto");
 
     const outsideButton = page.getByRole("button", { name: "outside" });
     await userEvent.click(outsideButton);
