@@ -65,6 +65,22 @@ describe("accessible", () => {
       return renderResult;
     });
   });
+
+  describe("with modalDisabled", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const renderResult = await mount(
+        <>
+          <calcite-sheet label="Non-modal sheet" modalDisabled open>
+            <button type="button">inside</button>
+          </calcite-sheet>
+          <button type="button">outside</button>
+        </>,
+      );
+      await openEvent;
+      return renderResult;
+    });
+  });
 });
 
 describe("defaults", () => {
