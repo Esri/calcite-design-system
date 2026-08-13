@@ -1121,6 +1121,30 @@ it("emits events when value is modified", async () => {
   expect(calciteInputNumberChange).toHaveBeenCalledTimes(3);
 });
 
+describe("aria-live", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-input-number status="invalid" validation-message="Help" />,
+    );
+    const validationMessage = page
+      .getBySelector("calcite-input-number calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-number"), {

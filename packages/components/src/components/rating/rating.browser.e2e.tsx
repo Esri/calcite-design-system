@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   disabled,
@@ -86,6 +87,30 @@ describe("disabled", () => {
 
 describe("is form-associated", () => {
   formAssociated(() => mount("calcite-rating"), { testValue: 3 });
+});
+
+describe("aria-live", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-rating status="invalid" validation-message="Help" />,
+    );
+    const validationMessage = page
+      .getBySelector("calcite-rating calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+  });
 });
 
 describe("theme", () => {

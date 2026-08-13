@@ -283,6 +283,29 @@ describe("auto-close", () => {
   });
 });
 
+describe("aria-live", () => {
+  it("sets host aria-live", async () => {
+    const { reRender } = await mount(
+      <div>
+        <calcite-popover id="aria-live-popover" reference-element="ref">
+          Content
+        </calcite-popover>
+        <button id="ref" type="button">
+          Ref
+        </button>
+      </div>,
+    );
+    const popover = page.getBySelector("#aria-live-popover").first().element() as HTMLElement;
+
+    expect(popover.getAttribute("aria-live")).toBe(null);
+
+    popover.ariaLive = "polite";
+    await reRender();
+
+    expect(popover.getAttribute("aria-live")).toBe("polite");
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(

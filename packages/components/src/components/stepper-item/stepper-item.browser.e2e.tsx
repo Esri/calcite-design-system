@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import { disabled, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
 
 import { CSS } from "./resources";
@@ -23,6 +24,28 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-stepper-item"));
+});
+
+describe("aria-live", () => {
+  it("sets internal control aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(<calcite-stepper-item complete heading="Step 1" />);
+    const assistiveText = page
+      .getBySelector(`calcite-stepper-item .${CSS.visuallyHidden}`)
+      .element() as HTMLElement;
+
+    expect(assistiveText).toBeDefined();
+    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(assistiveText.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+  });
 });
 
 describe("theme", () => {

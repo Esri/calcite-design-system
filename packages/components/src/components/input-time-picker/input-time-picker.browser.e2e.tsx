@@ -881,6 +881,30 @@ describe("l10n", () => {
   });
 });
 
+describe("aria-live", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-input-time-picker status="invalid" validation-message="Help" />,
+    );
+    const validationMessage = page
+      .getBySelector("calcite-input-time-picker calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+  });
+});
+
 describe("theme", () => {
   themed(() => mount(<calcite-input-time-picker open />), {
     "--calcite-input-time-picker-background-color": {

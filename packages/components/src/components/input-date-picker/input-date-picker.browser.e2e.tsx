@@ -403,6 +403,28 @@ function getMonthSelectMenu(): Locator {
   return page.getByRole("combobox", { name: "Month menu" }).first();
 }
 
+describe("aria-live", () => {
+  it("sets internal control aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(<calcite-input-date-picker />);
+    const menu = page
+      .getBySelector(`calcite-input-date-picker .${CSS.menu}`)
+      .element() as HTMLElement;
+
+    expect(menu).toBeDefined();
+    expect(menu.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(menu.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(menu.getAttribute("aria-live")).toBe(null);
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-date-picker"), {

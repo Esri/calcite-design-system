@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import {
@@ -110,6 +110,24 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-tree-item"), SLOTS);
+});
+
+describe("aria-live", () => {
+  it("sets host aria-live", async () => {
+    const { reRender } = await mount(
+      <calcite-tree>
+        <calcite-tree-item id="aria-live-tree-item">Item</calcite-tree-item>
+      </calcite-tree>,
+    );
+    const treeItem = page.getBySelector("#aria-live-tree-item").first().element() as HTMLElement;
+
+    expect(treeItem.getAttribute("aria-live")).toBe(null);
+
+    treeItem.ariaLive = "polite";
+    await reRender();
+
+    expect(treeItem.getAttribute("aria-live")).toBe("polite");
+  });
 });
 
 describe("themed", () => {

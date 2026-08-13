@@ -1306,6 +1306,7 @@ export class Input
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
+            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

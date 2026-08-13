@@ -10,6 +10,7 @@ import {
   JsxNode,
   ToEvents,
 } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
 import { createObserver } from "../../utils/observers";
 import {
   MoveEventDetail,
@@ -604,7 +605,7 @@ export class BlockGroup extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.dragEnabled ? (
-            <span ariaLive="assertive" class={CSS.assistiveText}>
+            <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS.assistiveText}>
               {this.assistiveText}
             </span>
           ) : null}

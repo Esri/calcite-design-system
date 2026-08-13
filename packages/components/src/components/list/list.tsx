@@ -10,6 +10,7 @@ import {
   state,
   ToEvents,
 } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
@@ -1242,6 +1243,8 @@ export class List extends LitElement {
       hasFilterActionsEnd,
       effectiveFilterProps,
     } = this;
+    const ariaLive = resolveAriaLive(this.el.ariaLive);
+
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div
@@ -1254,7 +1257,7 @@ export class List extends LitElement {
           }}
         >
           {this.dragEnabled ? (
-            <span ariaLive="assertive" class={CSS.assistiveText}>
+            <span ariaLive={ariaLive} class={CSS.assistiveText}>
               {this.assistiveText}
             </span>
           ) : null}
@@ -1306,7 +1309,7 @@ export class List extends LitElement {
             </div>
           </div>
           <div
-            ariaLive="polite"
+            ariaLive={ariaLive}
             data-test-id="no-results-container"
             hidden={!this.showNoResultsContainer}
           >
@@ -1335,7 +1338,7 @@ export class List extends LitElement {
     };
 
     return !parentListEl ? (
-      <div ariaLive="polite" class={CSS.assistiveText}>
+      <div ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS.assistiveText}>
         {this.hasActiveFilter ? (
           <div key="aria-filter-enabled">{messages.filterEnabled}</div>
         ) : null}

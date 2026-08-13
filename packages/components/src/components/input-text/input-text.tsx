@@ -727,6 +727,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
+            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

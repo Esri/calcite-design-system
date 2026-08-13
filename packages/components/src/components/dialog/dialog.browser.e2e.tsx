@@ -304,6 +304,58 @@ describe("translation support", () => {
   t9n(() => mount("calcite-dialog"));
 });
 
+describe("keyboard assistive text", () => {
+  it("renders assistive text when resizable without default aria-live", async () => {
+    const messages = await import("./assets/t9n/messages.json");
+    await mount(
+      <calcite-dialog heading="Hello world" open resizable width-scale="m">
+        Hello world!
+      </calcite-dialog>,
+    );
+    const assistiveTextElement = page
+      .getBySelector(`calcite-dialog .${CSS.assistiveText}`)
+      .element() as HTMLElement;
+
+    expect(assistiveTextElement).toBeDefined();
+    expect(assistiveTextElement?.getAttribute("aria-live")).toBe(null);
+    expect(assistiveTextElement?.textContent?.trim()).toBe(messages.resizeEnabled);
+  });
+
+  it("renders assistive text when dragEnabled without default aria-live", async () => {
+    const messages = await import("./assets/t9n/messages.json");
+    await mount(
+      <calcite-dialog drag-enabled heading="Hello world" open width-scale="m">
+        Hello world!
+      </calcite-dialog>,
+    );
+    const assistiveTextElement = page
+      .getBySelector(`calcite-dialog .${CSS.assistiveText}`)
+      .element() as HTMLElement;
+
+    expect(assistiveTextElement).toBeDefined();
+    expect(assistiveTextElement?.getAttribute("aria-live")).toBe(null);
+    expect(assistiveTextElement?.textContent?.trim()).toBe(messages.dragEnabled);
+  });
+
+  it("renders combined assistive text when resizable and dragEnabled without default aria-live", async () => {
+    const messages = await import("./assets/t9n/messages.json");
+    await mount(
+      <calcite-dialog drag-enabled heading="Hello world" open resizable width-scale="m">
+        Hello world!
+      </calcite-dialog>,
+    );
+    const assistiveTextElement = page
+      .getBySelector(`calcite-dialog .${CSS.assistiveText}`)
+      .element() as HTMLElement;
+
+    expect(assistiveTextElement).toBeDefined();
+    expect(assistiveTextElement?.getAttribute("aria-live")).toBe(null);
+    expect(assistiveTextElement?.textContent).toBe(
+      `${messages.dragEnabled} ${messages.resizeEnabled}`,
+    );
+  });
+});
+
 describe("fullscreen disabled", () => {
   it.for([
     { width: 400, height: 400 },

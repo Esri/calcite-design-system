@@ -399,6 +399,33 @@ describe("disabled", () => {
   });
 });
 
+describe("aria-live", () => {
+  it("sets internal control aria-live only when host value is valid", async () => {
+    const { el, reRender } = await mount(
+      <calcite-panel closable focus-trap-enabled heading="Panel heading">
+        Panel body
+      </calcite-panel>,
+    );
+    const container = page
+      .getBySelector(`calcite-panel .${CSS.container}`)
+      .first()
+      .element() as HTMLElement;
+
+    expect(container).toBeDefined();
+    expect(container.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await reRender();
+
+    expect(container.getAttribute("aria-live")).toBe("polite");
+
+    el.ariaLive = "invalid";
+    await reRender();
+
+    expect(container.getAttribute("aria-live")).toBe(null);
+  });
+});
+
 describe("theme", () => {
   themed(
     () =>

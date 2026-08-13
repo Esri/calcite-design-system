@@ -11,6 +11,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
+import { resolveAriaLive } from "../../utils/aria";
 import { getLabelText } from "../../utils/label";
 import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -306,7 +307,7 @@ export class Button extends LitElement {
               : undefined
           }
           ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}
-          ariaLive="polite"
+          ariaLive={resolveAriaLive(this.el.ariaLive)}
           class={{
             [CSS.buttonPadding]: noStartEndIcons,
             [CSS.buttonPaddingShrunk]: !noStartEndIcons,
