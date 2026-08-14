@@ -404,7 +404,7 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.relative.tight}",
+            "lineHeight": "{font.line-height.relative.snug}",
             "fontSize": "{font.size.relative.2xl}"
           }
         },
@@ -486,7 +486,7 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.relative.tight}",
+            "lineHeight": "{font.line-height.relative.snug}",
             "fontSize": "{font.size.relative.2xl}"
           }
         },
@@ -570,7 +570,7 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.relative.tight}",
+            "lineHeight": "{font.line-height.relative.snug}",
             "fontSize": "{font.size.relative.2xl}"
           }
         },
@@ -656,7 +656,7 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.relative.tight}",
+            "lineHeight": "{font.line-height.relative.snug}",
             "fontSize": "{font.size.relative.2xl}"
           }
         },
@@ -696,8 +696,15 @@
           "attributes": {
             "category": "typography"
           },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
           "$type": "typography",
-          "$value": "{typography.wrap.bold.3}"
+          "$value": {
+            "fontSize": "{font.size.relative.2xl}",
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.relative.snug}"
+          }
         },
         "2": {
           "attributes": {
@@ -712,8 +719,15 @@
           "attributes": {
             "category": "typography"
           },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
           "$type": "typography",
-          "$value": "{typography.wrap.medium.3}"
+          "$value": {
+            "fontSize": "{font.size.relative.2xl}",
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.relative.snug}"
+          }
         },
         "2": {
           "attributes": {
@@ -766,9 +780,10 @@
         },
         "$type": "typography",
         "$value": {
-          "lineHeight": "{font.line-height.fixed.sm}",
+          "fontSize": "{font.size.relative.sm}",
           "textCase": "{font.text-case.uppercase}",
-          "fontWeight": "{font.weight.bold}"
+          "fontWeight": "{font.weight.bold}",
+          "lineHeight": "{font.line-height.relative.base}"
         }
       },
       "caption": {
