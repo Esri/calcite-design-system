@@ -5,13 +5,13 @@ import { createRef } from "lit/directives/ref.js";
 import { closestElementCrossShadowBoundary, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../types";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
-import { RequestedItem } from "./interfaces";
+import { RequestedItem } from "./types";
 import { styles } from "./accordion-item.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 

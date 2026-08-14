@@ -1,4 +1,4 @@
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { Chip } from "./chip";
 
 export const CSS = {

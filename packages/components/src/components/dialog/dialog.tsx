@@ -7,7 +7,7 @@ import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { OpenCloseComponentWithEl, toggleOpenClose } from "../../utils/openCloseComponent";
-import { Kind, Scale, Width } from "../interfaces";
+import { Kind, Scale, Width } from "../types";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -18,12 +18,12 @@ import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentSc
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
-import { IconName } from "../icon/interfaces";
-import { ResizeValues } from "../interfaces";
+import { IconName } from "../icon/types";
+import { ResizeValues } from "../types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
-import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 import { styles } from "./dialog.scss";
 
 declare global {

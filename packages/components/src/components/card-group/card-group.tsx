@@ -2,7 +2,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode, ToEvents } from "@arcgis/lumina";
 import { focusElementInGroup } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import type { Card } from "../card/card";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

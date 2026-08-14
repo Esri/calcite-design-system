@@ -2,8 +2,8 @@ import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { Scale } from "../interfaces";
-import { Channels, RGB } from "../color-picker/interfaces";
+import { Scale } from "../types";
+import { Channels, RGB } from "../color-picker/types";
 import {
   alphaToOpacity,
   hexChar,

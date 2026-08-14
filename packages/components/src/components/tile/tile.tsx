@@ -1,8 +1,8 @@
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../types";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Heading, HeadingLevel } from "../functional/Heading";

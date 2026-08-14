@@ -1,5 +1,5 @@
-import { IconName } from "../icon/interfaces";
-import { Scale } from "../interfaces";
+import { IconName } from "../icon/types";
+import { Scale } from "../types";
 
 export const CSS = {
   active: "label--active",

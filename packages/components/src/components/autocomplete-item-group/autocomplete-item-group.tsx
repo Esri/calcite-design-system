@@ -1,7 +1,7 @@
-import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, h, createEvent, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { getSlotAssignedElements } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import { CSS } from "./resources";
 import { styles } from "./autocomplete-item-group.scss";
