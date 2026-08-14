@@ -1,6 +1,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../types";
 import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";

@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { mockConsole } from "../../tests/utils/logging";
 import { BREAKPOINTS, CSS } from "./resources";
 mockConsole();

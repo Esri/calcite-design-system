@@ -1,4 +1,4 @@
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { ActionMenu } from "./action-menu";
 
 export const CSS = {

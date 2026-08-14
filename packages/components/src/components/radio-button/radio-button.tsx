@@ -6,7 +6,7 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { InternalLabel } from "../functional/InternalLabel";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

@@ -10,10 +10,10 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { FlipContext, Layout } from "../interfaces";
+import { FlipContext, Layout } from "../types";
 import { Direction, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";

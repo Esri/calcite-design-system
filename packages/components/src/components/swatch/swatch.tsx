@@ -12,7 +12,7 @@ import {
 } from "@arcgis/lumina";
 import Color, { ColorInstance } from "color";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";

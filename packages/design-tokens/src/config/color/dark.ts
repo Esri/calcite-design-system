@@ -5,7 +5,7 @@ import {
   logVerbosityLevels,
 } from "style-dictionary/enums";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import type { Config } from "../../types/extensions.d.ts";
+import type { Config } from "../../types.ts";
 import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
 import { primitiveValueOutputReferences, stylesheetOutputReferences } from "../../build/utils/output-references.ts";
 

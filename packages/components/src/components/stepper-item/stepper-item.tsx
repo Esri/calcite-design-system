@@ -10,14 +10,14 @@ import {
   setAttribute,
   state,
 } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
   StepperLayout,
-} from "../stepper/interfaces";
+} from "../stepper/types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";

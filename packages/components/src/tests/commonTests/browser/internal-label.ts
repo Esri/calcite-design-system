@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { IntrinsicElementsWithProp } from "../../utils/interfaces";
+import { IntrinsicElementsWithProp } from "../../utils/types";
 
 function hasLabelText(el: HTMLElement): el is IntrinsicElementsWithProp<"labelText"> & HTMLElement {
   return "labelText" in el;
