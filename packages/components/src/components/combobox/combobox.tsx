@@ -1118,7 +1118,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     const composedPath = event.composedPath();
 
-    if (composedPath.some((node) => isChip(node as HTMLElement))) {
+    if (composedPath.some((node) => isChip(node))) {
       this.open = false;
       event.preventDefault();
       return;

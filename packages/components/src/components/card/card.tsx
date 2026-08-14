@@ -145,9 +145,6 @@ export class Card extends LitElement {
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   calciteCardSelect = createEvent({ cancelable: false });
 
-  /** @private */
-  calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
   //#endregion
 
   //#region Private Methods
@@ -181,16 +178,6 @@ export class Card extends LitElement {
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
-      } else {
-        switch (event.key) {
-          case "ArrowRight":
-          case "ArrowLeft":
-          case "Home":
-          case "End":
-            this.calciteInternalCardKeyEvent.emit(event);
-            event.preventDefault();
-            break;
-        }
       }
     }
   }

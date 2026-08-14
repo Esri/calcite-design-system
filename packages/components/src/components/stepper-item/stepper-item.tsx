@@ -14,7 +14,6 @@ import { Scale } from "../types";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail,
   StepperLayout,
 } from "../stepper/types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -28,6 +27,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -163,11 +163,6 @@ export class StepperItem extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalStepperItemKeyEvent = createEvent<StepperItemKeyEventDetail>({
-    cancelable: false,
-  });
-
-  /** @private */
   calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
 
   /** @private */
@@ -252,23 +247,9 @@ export class StepperItem extends LitElement {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (!this.disabled && event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.emitUserRequestedItem();
-          event.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "Home":
-        case "End":
-          this.calciteInternalStepperItemKeyEvent.emit({ item: event });
-          event.preventDefault();
-          break;
-      }
+    if (!this.disabled && event.target === this.el && isActivationKey(event.key)) {
+      this.emitUserRequestedItem();
+      event.preventDefault();
     }
   }
 
