@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, skipAnimations } from "../../tests/utils/puppeteer";
-import { Position } from "../interfaces";
+import { Position } from "../types";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS, POSITION } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";

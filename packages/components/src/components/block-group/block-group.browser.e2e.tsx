@@ -16,7 +16,7 @@ import { Locator, page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
 import { DEBOUNCE } from "../../utils/resources";
 import type { Block } from "../block/block";
-import type { Reorder } from "../sort-handle/interfaces";
+import type { Reorder } from "../sort-handle/types";
 import { IDS as sortHandleIDs } from "../sort-handle/resources";
 import type { BlockGroup } from "./block-group";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";

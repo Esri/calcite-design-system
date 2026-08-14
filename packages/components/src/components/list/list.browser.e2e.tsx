@@ -23,7 +23,7 @@ import type { List } from "./list";
 import { IDS as sortHandleIDs } from "../sort-handle/resources";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
-import type { Reorder } from "../sort-handle/interfaces";
+import type { Reorder } from "../sort-handle/types";
 import { mockConsole } from "../../tests/utils/logging";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 

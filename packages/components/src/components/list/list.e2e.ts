@@ -5,7 +5,7 @@ import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resour
 import { findAll, getFocusedElementProp, isElementFocused, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
 import type { List } from "./list";
 
 mockConsole();
