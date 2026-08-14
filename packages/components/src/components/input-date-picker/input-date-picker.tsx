@@ -44,7 +44,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useToggleTransitionEvents } from "../../controllers/useToggleTransitionEvents";
 import {
   DateLocaleData,
   getLocaleData,
@@ -181,6 +181,26 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
+  })(this);
+
+  toggleTransitionEvents: void = useToggleTransitionEvents<InputDatePicker>({
+    open: {
+      events: {
+        active() {
+          this.onOpen();
+        },
+        beforeActive() {
+          this.onBeforeOpen();
+        },
+        beforeInactive() {
+          this.onBeforeClose();
+        },
+        inactive() {
+          this.onClose();
+        },
+      },
+      isActive: (value) => value && !this.disabled && !this.readOnly,
+    },
   })(this);
 
   //#endregion
@@ -567,7 +587,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    toggleOpenClose(this);
     this.reposition(true);
   }
 

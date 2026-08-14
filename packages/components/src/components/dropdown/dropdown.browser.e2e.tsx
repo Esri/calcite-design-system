@@ -1,6 +1,6 @@
-import { Fragment, h, JsxNode } from "@arcgis/lumina";
+import { h, Fragment, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import {
   accessible,
@@ -16,6 +16,7 @@ import {
   topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { createSelectedItemsAsserter } from "../../tests/utils/assertions";
 import { CSS } from "./resources";
 import type { Dropdown } from "./dropdown";
 
@@ -906,4 +907,262 @@ describe("theme", () => {
       shadowSelector: `.${CSS.content}`,
     },
   });
+});
+
+it("renders multiple selected items when group is in multiple selection mode", async () => {
+  const selectHandler = vi.fn();
+  const { el } = await mount<Dropdown>(
+    <calcite-dropdown oncalciteDropdownSelect={selectHandler}>
+      <calcite-button data-testid="trigger" slot="trigger">
+        Open dropdown
+      </calcite-button>
+      <calcite-dropdown-group data-testid="group-1" selection-mode="multiple">
+        <calcite-dropdown-item data-testid="item-1"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-2" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-3"> Dropdown Item Content </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>,
+  );
+  const trigger = page.getByTestId("trigger");
+  const group1 = page.getByTestId("group-1");
+  const item1 = page.getByTestId("item-1");
+  const item2 = page.getByTestId("item-2");
+  const item3 = page.getByTestId("item-3");
+  const selectedItemAsserter = createSelectedItemsAsserter(el, "calciteDropdownSelect");
+
+  await expect.element(group1).toHaveProperty("selectionMode", "multiple");
+
+  await trigger.click();
+  selectedItemAsserter(["item-2"]);
+
+  await item1.click();
+  selectedItemAsserter(["item-1", "item-2"]);
+
+  await trigger.click();
+  await item2.click();
+
+  selectedItemAsserter(["item-1"]);
+
+  await trigger.click();
+  await item3.click();
+
+  selectedItemAsserter(["item-1", "item-3"]);
+  await expect.element(item1).toHaveProperty("selected", true);
+  await expect.element(item2).toHaveProperty("selected", false);
+  await expect.element(item3).toHaveProperty("selected", true);
+  expect(selectHandler).toHaveBeenCalledTimes(3);
+});
+
+it("renders just one selected item when group is in single selection mode", async () => {
+  const selectHandler = vi.fn();
+  const { el } = await mount(
+    <calcite-dropdown oncalciteDropdownSelect={selectHandler}>
+      <calcite-button data-testid="trigger" slot="trigger">
+        Open dropdown
+      </calcite-button>
+      <calcite-dropdown-group data-testid="group-1" selection-mode="single">
+        <calcite-dropdown-item data-testid="item-1"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-2" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-3"> Dropdown Item Content </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>,
+  );
+  const trigger = page.getByTestId("trigger");
+  const group1 = page.getByTestId("group-1");
+  const item1 = page.getByTestId("item-1");
+  const item2 = page.getByTestId("item-2");
+  const item3 = page.getByTestId("item-3");
+  const selectedItemAsserter = createSelectedItemsAsserter(el, "calciteDropdownSelect");
+
+  expect(group1).toHaveAttribute("selection-mode", "single");
+  selectedItemAsserter(["item-2"]);
+
+  await trigger.click();
+  await item1.click();
+
+  selectedItemAsserter(["item-1"]);
+
+  await trigger.click();
+  await item3.click();
+
+  selectedItemAsserter(["item-3"]);
+
+  expect(item1).not.toHaveAttribute("selected");
+  expect(item2).not.toHaveAttribute("selected");
+  expect(item3).toHaveAttribute("selected");
+  expect(selectHandler).toHaveBeenCalledTimes(2);
+});
+
+it("renders no selected item when group is in none selection mode (and removes any selected state set in dom on load)", async () => {
+  const selectHandler = vi.fn();
+  const { el } = await mount(
+    <calcite-dropdown oncalciteDropdownSelect={selectHandler}>
+      <calcite-button data-testid="trigger" slot="trigger">
+        Open dropdown
+      </calcite-button>
+      <calcite-dropdown-group data-testid="group-1" selection-mode="none">
+        <calcite-dropdown-item data-testid="item-1"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-2" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-3"> Dropdown Item Content </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>,
+  );
+  const trigger = page.getByTestId("trigger");
+  const group1 = page.getByTestId("group-1");
+  const item1 = page.getByTestId("item-1");
+  const item2 = page.getByTestId("item-2");
+  const item3 = page.getByTestId("item-3");
+  const selectedItemAsserter = createSelectedItemsAsserter(el, "calciteDropdownSelect");
+
+  await expect.element(group1).toHaveAttribute("selection-mode", "none");
+
+  await trigger.click();
+  await item1.click();
+
+  selectedItemAsserter([]);
+
+  await trigger.click();
+  await item2.click();
+
+  selectedItemAsserter([]);
+
+  await trigger.click();
+  await item3.click();
+
+  selectedItemAsserter([]);
+  await expect.element(item1).not.toHaveAttribute("selected");
+  await expect.element(item2).not.toHaveAttribute("selected");
+  await expect.element(item3).not.toHaveAttribute("selected");
+  expect(selectHandler).toHaveBeenCalledTimes(3);
+});
+
+it("renders the correct selected state when parent contains groups of assorted selection modes", async () => {
+  const selectHandler = vi.fn();
+  const { el } = await mount(
+    <calcite-dropdown oncalciteDropdownSelect={selectHandler}>
+      <calcite-button data-testid="trigger" slot="trigger">
+        Open dropdown
+      </calcite-button>
+      <calcite-dropdown-group data-testid="group-1" selection-mode="multiple">
+        <calcite-dropdown-item data-testid="item-1"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-2" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-3"> Dropdown Item Content </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group data-testid="group-2" selection-mode="single">
+        <calcite-dropdown-item data-testid="item-4"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-5" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-6"> Dropdown Item Content </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group data-testid="group-3" selection-mode="none">
+        <calcite-dropdown-item data-testid="item-7"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-8"> Dropdown Item Content </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-9"> Dropdown Item Content </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>,
+  );
+
+  const trigger = page.getByTestId("trigger");
+  const group1 = page.getByTestId("group-1");
+  const group2 = page.getByTestId("group-2");
+  const group3 = page.getByTestId("group-3");
+  const item1 = page.getByTestId("item-1");
+  const item2 = page.getByTestId("item-2");
+  const item3 = page.getByTestId("item-3");
+  const item4 = page.getByTestId("item-4");
+  const item5 = page.getByTestId("item-5");
+  const item6 = page.getByTestId("item-6");
+  const item7 = page.getByTestId("item-7");
+  const item8 = page.getByTestId("item-8");
+  const item9 = page.getByTestId("item-9");
+  const selectedItemAsserter = createSelectedItemsAsserter(el, "calciteDropdownSelect");
+
+  await expect.element(group1).toHaveAttribute("selection-mode", "multiple");
+  await expect.element(group2).toHaveAttribute("selection-mode", "single");
+  await expect.element(group3).toHaveAttribute("selection-mode", "none");
+
+  selectedItemAsserter(["item-2", "item-5"]);
+
+  await trigger.click();
+  await item1.click();
+
+  selectedItemAsserter(["item-1", "item-2", "item-5"]);
+
+  await trigger.click();
+  await item2.click();
+
+  selectedItemAsserter(["item-1", "item-5"]);
+
+  await trigger.click();
+  await item3.click();
+
+  selectedItemAsserter(["item-1", "item-3", "item-5"]);
+
+  await trigger.click();
+  await item4.click();
+
+  selectedItemAsserter(["item-1", "item-3", "item-4"]);
+
+  await trigger.click();
+  await item6.click();
+
+  selectedItemAsserter(["item-1", "item-3", "item-6"]);
+
+  await trigger.click();
+  await item7.click();
+
+  selectedItemAsserter(["item-1", "item-3", "item-6"]);
+
+  await trigger.click();
+  await item9.click();
+
+  selectedItemAsserter(["item-1", "item-3", "item-6"]);
+  await expect.element(item1).toHaveAttribute("selected");
+  await expect.element(item2).not.toHaveAttribute("selected");
+  await expect.element(item3).toHaveAttribute("selected");
+  await expect.element(item4).not.toHaveAttribute("selected");
+  await expect.element(item5).not.toHaveAttribute("selected");
+  await expect.element(item6).toHaveAttribute("selected");
+  await expect.element(item7).not.toHaveAttribute("selected");
+  await expect.element(item8).not.toHaveAttribute("selected");
+  await expect.element(item9).not.toHaveAttribute("selected");
+  expect(selectHandler).toHaveBeenCalledTimes(7);
+});
+
+it("focus is returned to trigger after close", async () => {
+  await mount(
+    <calcite-dropdown>
+      <calcite-button data-testid="trigger" slot="trigger">
+        Open dropdown
+      </calcite-button>
+      <calcite-dropdown-group data-testid="group-1" selection-mode="single">
+        <calcite-dropdown-item data-testid="item-1">1</calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-2" selected>
+          2
+        </calcite-dropdown-item>
+        <calcite-dropdown-item data-testid="item-3">3</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>,
+  );
+  const trigger = page.getByTestId("trigger");
+  const item1 = page.getByTestId("item-1");
+  const dropdownWrapper = page.getBySelector(`.${CSS.wrapper}`);
+
+  await expect.element(dropdownWrapper).not.toBeVisible();
+
+  await trigger.click();
+  await expect.element(dropdownWrapper).toBeVisible();
+
+  await item1.click();
+  await expect.element(dropdownWrapper).not.toBeVisible();
+  await expect.element(trigger).toHaveFocus();
 });

@@ -28,7 +28,6 @@ import {
 } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
@@ -37,6 +36,7 @@ import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { useToggleTransitionEvents } from "../../controllers/useToggleTransitionEvents";
 import {
   ReferenceElementComponent,
   ReferenceElementType,
@@ -98,15 +98,32 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   transitionProp = "opacity" as const;
 
+  transitionRef = createRef<HTMLDivElement>();
+
+  toggleTransitionEvents: void = useToggleTransitionEvents<Dropdown>({
+    open: {
+      events: {
+        active() {
+          this.onOpen();
+        },
+        beforeActive() {
+          this.onBeforeOpen();
+        },
+        beforeInactive() {
+          this.onBeforeClose();
+        },
+        inactive() {
+          this.onClose();
+        },
+      },
+    },
+  })(this);
+
   private resizeObserver = createObserver("resize", (entries) =>
     this.resizeObserverCallback(entries),
   );
 
-  private scrollerEl?: HTMLDivElement;
-
   private triggerSlotRef = createRef<HTMLSlotElement>();
-
-  transitionEl: HTMLDivElement | undefined;
 
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
@@ -295,6 +312,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.setFilteredPlacements();
     this.updateItems();
     connectFloatingUI(this);
+    void this.updateComplete.then(() => {
+      if (this.el.isConnected && this.transitionRef.value) {
+        this.resizeObserver?.observe(this.transitionRef.value);
+      }
+    });
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -348,6 +370,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       this.syncActiveDescendantOwnerElement();
       connectFloatingUI(this);
     }
+
+    // might be good to keep as ref callback
+    if (this.el.isConnected && this.transitionRef.value) {
+      this.resizeObserver?.observe(this.transitionRef.value);
+    }
   }
 
   loaded(): void {
@@ -380,7 +407,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
-    toggleOpenClose(this);
     this.reposition(true);
   }
 
@@ -495,14 +521,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     entries.forEach(({ target }) => {
       if (target === this.referenceEl) {
         this.setDropdownWidth();
-      } else if (target === this.scrollerEl) {
+      } else if (target === this.transitionRef.value) {
         this.setMaxScrollerHeight();
       }
     });
   }
 
   private setDropdownWidth(): void {
-    const { referenceEl, scrollerEl } = this;
+    const { referenceEl } = this;
+    const scrollerEl = this.transitionRef.value;
 
     if (!scrollerEl || !(referenceEl instanceof HTMLElement)) {
       return;
@@ -512,7 +539,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private setMaxScrollerHeight(): void {
-    const { maxItems, items, scrollerEl } = this;
+    const { maxItems, items } = this;
+    const scrollerEl = this.transitionRef.value;
 
     if (!scrollerEl) {
       return;
@@ -524,12 +552,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
         : 0;
     scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
-  }
-
-  private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    updateRefObserver(this.resizeObserver, this.scrollerEl, el);
-    this.scrollerEl = el;
-    this.transitionEl = el;
   }
 
   onBeforeOpen(): void {
@@ -830,7 +852,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#region Rendering
 
   override render(): JsxNode {
-    const { open } = this;
+    const { open, transitionRef } = this;
+    const scrollerEl = transitionRef.value;
     return (
       <this.interactiveContainer disabled={this.disabled}>
         {!this.referenceElementType ? (
@@ -843,7 +866,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
             ref={this.setReferenceEl}
           >
             <slot
-              ariaControlsElements={this.scrollerEl ? [this.scrollerEl] : undefined}
+              ariaActiveDescendantElement={this.activeDescendantElement ?? undefined}
+              ariaControlsElements={scrollerEl ? [scrollerEl] : undefined}
               ariaExpanded={open}
               ariaHasPopup="menu"
               name={SLOTS.trigger}
@@ -872,7 +896,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
-            ref={this.setScrollerAndTransitionEl}
+            ref={transitionRef}
             role="menu"
           >
             <slot onSlotChange={this.updateGroups} />

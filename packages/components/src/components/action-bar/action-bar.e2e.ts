@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
-import type { ActionGroup } from "../action-group/action-group";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { ActionBar } from "./action-bar";
@@ -252,48 +251,6 @@ describe("should focus on toggle button", () => {
     await page.mouse.click(actionBarElRect.right / 2, actionBarElRect.y + actionBarElRect.bottom / 2);
     expect(await getFocusedElementProp(page, "tagName", { shadow: true })).not.toBe("CALCITE-ACTION");
   });
-});
-
-it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    html`<calcite-action-bar>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group menu-open>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>`,
-  );
-
-  const groups = await findAll(page, "calcite-action-group");
-
-  expect(groups).toHaveLength(2);
-  expect(await groups[0].getProperty("menuOpen")).toBe(false);
-  expect(await groups[1].getProperty("menuOpen")).toBe(true);
-
-  const calciteActionMenuOpenEventSpy = await page.spyOnEvent("calciteActionMenuOpen");
-  await page.$eval("calcite-action-group", (firstActionGroup: ActionGroup["el"]) => {
-    firstActionGroup.menuOpen = true;
-    const event = new CustomEvent("calciteActionMenuOpen", { bubbles: true });
-    firstActionGroup.dispatchEvent(event);
-  });
-  await page.waitForChanges();
-  await calciteActionMenuOpenEventSpy.next();
-
-  expect(groups).toHaveLength(2);
-  expect(await groups[0].getProperty("menuOpen")).toBe(true);
-  expect(await groups[1].getProperty("menuOpen")).toBe(false);
 });
 
 it("should honor scale of expand icon", async () => {

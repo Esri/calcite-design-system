@@ -1,6 +1,6 @@
 import { Fragment, h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -17,6 +17,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
+import type { ActionGroup } from "../action-group/action-group";
 
 mockConsole();
 
@@ -296,4 +297,39 @@ describe("theme", () => {
       },
     );
   });
+});
+
+it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+  const { el, reRender } = await mount(
+    <calcite-action-pad>
+      <calcite-action-group>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="plus" slot="menu-actions" text="Add" />
+      </calcite-action-group>
+      <calcite-action-group menu-open>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="plus" slot="menu-actions" text="Add" />
+      </calcite-action-group>
+    </calcite-action-pad>,
+  );
+  const actionMenuOpenHandler = vi.fn();
+  el.addEventListener("calciteActionMenuOpen", actionMenuOpenHandler);
+  const groups = page.getBySelector("calcite-action-group");
+
+  await expect.element(groups.nth(0)).toHaveProperty("menuOpen", false);
+  await expect.element(groups.nth(1)).toHaveProperty("menuOpen", true);
+
+  (groups.first().element() as ActionGroup["el"]).menuOpen = true;
+  await reRender();
+
+  expect(actionMenuOpenHandler).toHaveBeenCalledTimes(2);
+  await expect.element(groups.nth(0)).toHaveProperty("menuOpen", true);
+  await expect.element(groups.nth(1)).toHaveProperty("menuOpen", false);
 });
