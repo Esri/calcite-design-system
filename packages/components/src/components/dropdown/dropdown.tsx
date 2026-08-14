@@ -84,6 +84,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private focusLastDropdownItem = false;
 
+  get autoClose(): true {
+    return true;
+  }
+
   private activeItemIndex = -1;
 
   private groups: DropdownGroup["el"][] = [];

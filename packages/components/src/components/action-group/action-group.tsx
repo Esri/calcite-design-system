@@ -134,9 +134,8 @@ export class ActionGroup extends LitElement {
    * Specifies the `calcite-action`s in the group.
    *
    * @internal
-   * @readonly
    */
-  @property({ attribute: false }) get actions(): Action["el"][] {
+  @property() get actions(): Action["el"][] {
     return this._actions;
   }
 

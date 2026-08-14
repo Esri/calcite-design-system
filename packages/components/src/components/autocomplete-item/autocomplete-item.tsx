@@ -1,3 +1,4 @@
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
 import { FlipContext, Scale } from "../types";
 import { getIconScale } from "../../utils/component";
@@ -114,6 +115,30 @@ export class AutocompleteItem extends LitElement {
    * Fires when the item has been selected.
    */
   calciteAutocompleteItemSelect = createEvent({ cancelable: false });
+
+  /**
+   * Fires whenever a property the parent autocomplete needs to know about is changed.
+   *
+   * @private
+   */
+  calciteInternalAutocompleteItemChange = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (
+      this.hasUpdated &&
+      (changes.has("description") ||
+        changes.has("disabled") ||
+        changes.has("heading") ||
+        changes.has("label") ||
+        changes.has("selected"))
+    ) {
+      this.calciteInternalAutocompleteItemChange.emit();
+    }
+  }
 
   //#endregion
 
