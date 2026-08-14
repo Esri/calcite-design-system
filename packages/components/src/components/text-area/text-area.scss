@@ -61,7 +61,7 @@
 }
 
 .wrapper {
-  @apply h-full w-full box-border;
+  @apply flex h-full w-full flex-col box-border;
   box-shadow: var(--calcite-internal-text-area-shadow);
   border-radius: var(--calcite-internal-text-area-corner-radius);
 }
@@ -131,8 +131,9 @@
 }
 
 .loader-container {
+  @apply flex-auto;
   position: relative;
-  block-size: inherit;
+  min-block-size: 0;
 }
 
 .loader {
