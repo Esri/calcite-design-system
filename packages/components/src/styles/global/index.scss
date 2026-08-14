@@ -21,7 +21,7 @@
   font-family: var(--calcite-font-family);
 }
 
-:where(.calcite-mode-auto) {
+.calcite-mode-auto {
   @media (prefers-color-scheme: dark) {
     @include scss.calcite-mode-dark();
   }
