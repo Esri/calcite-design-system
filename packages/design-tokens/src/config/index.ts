@@ -66,6 +66,19 @@ const config: Config = {
             imports: ["semantic", "breakpoints", "mixins"],
           },
         },
+        {
+          destination: "light-dark.scss",
+          format: formats.FormatLightDark,
+          filter: filters.FilterLightOrDarkColorTokens,
+        },
+        {
+          destination: "index-light-dark.scss",
+          format: formats.FormatIndexLightDark,
+          filter: filters.FilterLightOrDarkColorTokens,
+          options: {
+            imports: ["semantic", "breakpoints", "mixins"],
+          },
+        },
       ],
       expand: {
         ...commonExpand,
@@ -116,6 +129,19 @@ const config: Config = {
         {
           destination: "index.css",
           format: formats.FormatIndex,
+          filter: filters.FilterLightOrDarkColorTokens,
+          options: {
+            imports: ["semantic", "classes"],
+          },
+        },
+        {
+          destination: "light-dark.css",
+          format: formats.FormatLightDark,
+          filter: filters.FilterLightOrDarkColorTokens,
+        },
+        {
+          destination: "index-light-dark.css",
+          format: formats.FormatIndexLightDark,
           filter: filters.FilterLightOrDarkColorTokens,
           options: {
             imports: ["semantic", "classes"],
