@@ -1,4 +1,4 @@
-import type { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/types";
 import type { InputNumber } from "./input-number";
 
 export const CSS = {

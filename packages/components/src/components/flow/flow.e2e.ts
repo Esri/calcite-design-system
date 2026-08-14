@@ -8,7 +8,7 @@ import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
-import { FlowItemLikeElement } from "./interfaces";
+import { FlowItemLikeElement } from "./types";
 import type { Flow } from "./flow";
 
 async function slowPageAnimations(page: E2EPage): Promise<void> {

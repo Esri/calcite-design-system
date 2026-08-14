@@ -1,4 +1,4 @@
-import type { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/types";
 import type { StepperItem } from "./stepper-item";
 
 export const CSS = {
