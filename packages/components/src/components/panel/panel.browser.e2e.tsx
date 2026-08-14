@@ -89,6 +89,7 @@ describe("accessible", () => {
             <calcite-action icon="layers" text="Layers" />
           </calcite-action-group>
         </calcite-action-bar>
+        <div slot={SLOTS.headerTop}>test top</div>
         <div slot={SLOTS.headerActionsStart}>test start</div>
         <div slot={SLOTS.headerContent}>test content</div>
         <div slot={SLOTS.headerActionsEnd}>test end</div>
@@ -253,6 +254,28 @@ describe("slots", () => {
 });
 
 describe("header slots", () => {
+  it("renders header-top content above the header actions", async () => {
+    const { component } = await mount(
+      <calcite-panel closable>
+        <div slot={SLOTS.headerTop}>Header top</div>
+      </calcite-panel>,
+    );
+
+    const headerTop = page.getBySelector(`calcite-panel >>> .${CSS.headerTop}`);
+    const headerContainer = page.getBySelector(`calcite-panel >>> .${CSS.headerContainer}`);
+
+    await expect.element(page.getByText("Header top")).toBeVisible();
+    await expect.element(page.getBySelector("calcite-panel >>> #close")).toBeVisible();
+
+    const headerTopRect = headerTop.element().getBoundingClientRect();
+    const headerContainerRect = headerContainer.element().getBoundingClientRect();
+    const panelRect = component.el.getBoundingClientRect();
+
+    expect(headerTopRect.width).toBe(panelRect.width);
+    expect(headerTopRect.bottom).toBeLessThanOrEqual(headerContainerRect.top);
+    expect(getComputedStyle(headerTop.element()).borderBlockEndWidth).toBe("1px");
+  });
+
   it("renders heading and description properties when heading/description slots are empty", async () => {
     await mount(
       <calcite-panel description="test description" heading="test heading">

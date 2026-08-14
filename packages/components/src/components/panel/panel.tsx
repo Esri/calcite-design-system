@@ -51,6 +51,7 @@ declare global {
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
@@ -129,6 +130,8 @@ export class Panel extends LitElement {
   @state() hasHeaderDescription = false;
 
   @state() hasHeaderHeading = false;
+
+  @state() hasHeaderTop = false;
 
   @state() hasMenuItems = false;
 
@@ -433,6 +436,10 @@ export class Panel extends LitElement {
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
   }
 
+  private handleHeaderTopSlotChange(event: Event): void {
+    this.hasHeaderTop = slotChangeHasAssignedElement(event);
+  }
+
   private handleHeaderDescriptionSlotChange(event: Event): void {
     this.hasHeaderDescription =
       slotChangeHasTextContent(event) ||
@@ -568,6 +575,14 @@ export class Panel extends LitElement {
     );
   }
 
+  private renderHeaderTop(): JsxNode {
+    return (
+      <div class={CSS.headerTop} hidden={!this.hasHeaderTop}>
+        <slot name={SLOTS.headerTop} onSlotChange={this.handleHeaderTopSlotChange} />
+      </div>
+    );
+  }
+
   private renderHeaderStartActions(): JsxNode {
     const { hasStartActions } = this;
 
@@ -683,6 +698,7 @@ export class Panel extends LitElement {
       hasHeaderContent,
       hasHeaderDescription,
       hasHeaderHeading,
+      hasHeaderTop,
       hasStartActions,
       hasEndActions,
       closable,
@@ -701,6 +717,7 @@ export class Panel extends LitElement {
     const showHeaderContent =
       hasHeaderContent ||
       hasDefaultHeaderContent ||
+      hasHeaderTop ||
       hasStartActions ||
       hasEndActions ||
       collapsible ||
@@ -713,6 +730,7 @@ export class Panel extends LitElement {
 
     return (
       <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar || hasContentTop)}>
+        {this.renderHeaderTop()}
         <div
           class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
           hidden={!showHeaderContent}

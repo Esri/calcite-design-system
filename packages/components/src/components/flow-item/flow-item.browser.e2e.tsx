@@ -205,6 +205,16 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-flow-item"), SLOTS);
+
+  it("forwards header-top content to the internal panel", async () => {
+    await mount(
+      <calcite-flow-item>
+        <div slot={SLOTS.headerTop}>Header top</div>
+      </calcite-flow-item>,
+    );
+
+    await expect.element(page.getByText("Header top")).toBeVisible();
+  });
 });
 
 describe("delegates to floating-ui-owner component", () => {
