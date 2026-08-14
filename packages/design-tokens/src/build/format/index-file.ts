@@ -1,4 +1,4 @@
-﻿import prettierSync from "@prettier/sync";
+import prettierSync from "@prettier/sync";
 import type { FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";

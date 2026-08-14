@@ -1,4 +1,4 @@
-﻿import type { FormatFnArguments, Dictionary, TransformedToken } from "style-dictionary/types";
+import type { FormatFnArguments, Dictionary, TransformedToken } from "style-dictionary/types";
 import { formattedVariables } from "style-dictionary/utils";
 import type { Stylesheet } from "../../../types/interfaces.d.ts";
 
