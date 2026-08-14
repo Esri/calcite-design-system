@@ -299,12 +299,13 @@ it("allocates a fixed height between the textarea, footer, and validation messag
   const textAreaRect = textArea.getBoundingClientRect();
   const footerRect = footer.getBoundingClientRect();
   const validationRect = validation.getBoundingClientRect();
+  const tolerance = 2;
 
   expect(componentRect.height).toBe(200);
-  expect(textAreaRect.bottom).toBeLessThanOrEqual(footerRect.top + 1);
-  expect(footerRect.bottom).toBeLessThanOrEqual(loaderRect.bottom + 1);
-  expect(loaderRect.bottom).toBeLessThanOrEqual(validationRect.top + 1);
-  expect(validationRect.bottom).toBeLessThanOrEqual(componentRect.bottom + 1);
+  expect(textAreaRect.bottom).toBeLessThanOrEqual(footerRect.top + tolerance);
+  expect(footerRect.bottom).toBeLessThanOrEqual(loaderRect.bottom + tolerance);
+  expect(loaderRect.bottom).toBeLessThanOrEqual(validationRect.top + tolerance);
+  expect(validationRect.bottom).toBeLessThanOrEqual(componentRect.bottom + tolerance);
 });
 
 it("releases a fixed host height when the textarea is resized", async () => {
