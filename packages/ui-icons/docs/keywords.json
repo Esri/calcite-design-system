@@ -12130,8 +12130,8 @@
     "release": "4.6.0"
   },
   "move-and-rotate": {
-    "alias": ["4.6.0", "layers", "features", "scale", "web editor", "values"],
-    "category": "Layers",
+    "alias": ["4.6.0", "generic", "features", "scale", "web editor", "values"],
+    "category": "Generic",
     "release": "4.6.0"
   }
 }
