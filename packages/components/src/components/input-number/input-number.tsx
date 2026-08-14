@@ -628,6 +628,12 @@ export class InputNumber
     });
   }
 
+  private clearButtonPointerDownHandler(event: PointerEvent): void {
+    if (this.hasInlineEditableContext && this.inlineEditableEnabledInContext) {
+      event.preventDefault();
+    }
+  }
+
   private emitChangeIfUserModified(): void {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedNumberValue) {
       this.calciteInputNumberChange.emit();
@@ -1017,6 +1023,7 @@ export class InputNumber
       <div
         class={CSS.clearButton}
         onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
+        onPointerDown={this.clearButtonPointerDownHandler}
       >
         <ClearButton
           ariaLabel={this.messages.clear}

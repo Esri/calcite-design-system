@@ -115,6 +115,18 @@ describe("is focusable", () => {
 });
 
 describe("inline editable", () => {
+  it("clears value on the first clear button click without controls", async () => {
+    const { el } = await mount<InputText>(
+      <calcite-input-text clearable inline-editable value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
+
+    await userEvent.click(input);
+    await userEvent.click(page.getBySelector(`.${ClearButtonCSS.container} calcite-action`));
+
+    await expect.element(el).toHaveValue("");
+  });
+
   it("clears value on first Escape when clearable is set", async () => {
     const { el } = await mount<InputText>(
       <calcite-input-text clearable inline-editable inline-editable-controls value="John Doe" />,

@@ -470,6 +470,12 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     });
   }
 
+  private clearButtonPointerDownHandler(event: PointerEvent): void {
+    if (this.hasInlineEditableContext && this.inlineEditableEnabledInContext) {
+      event.preventDefault();
+    }
+  }
+
   private emitChangeIfUserModified(): void {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputTextChange.emit();
@@ -611,6 +617,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       <div
         class={CSS.clearButton}
         onClick={this.disabled || this.readOnly ? undefined : this.clearInputTextValue}
+        onPointerDown={this.clearButtonPointerDownHandler}
       >
         <ClearButton
           ariaLabel={this.messages.clear}

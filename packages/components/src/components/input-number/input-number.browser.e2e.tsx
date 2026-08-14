@@ -135,6 +135,18 @@ describe("disabled", () => {
 });
 
 describe("inline editable", () => {
+  it("clears value on the first clear button click without controls", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number clearable inline-editable value="123" />,
+    );
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await userEvent.click(page.getBySelector(`.${ClearButtonCSS.container} calcite-action`));
+
+    expect(el.value).toBe("");
+  });
+
   it("clears value on first Escape when clearable is set", async () => {
     const { el } = await mount<InputNumber>(
       <calcite-input-number clearable inline-editable inline-editable-controls value="123" />,
