@@ -8,12 +8,18 @@ import { whenTransitionDone } from "./dom";
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
 interface OpenCloseComponentBase extends LitElement {
+  /** Specifies whether the component is open. */
+  open?: boolean;
+
   /**
    * Specifies property on which active transition is watched for.
    *
    * This should be used if the component uses a property other than `open` to trigger a transition.
    */
   openProp?: string;
+
+  /** Specifies whether the component is opened. */
+  opened?: boolean;
 
   /** Specifies the name of CSS transition property. */
   transitionProp: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
@@ -46,7 +52,7 @@ export type OpenCloseComponent =
   | (OpenCloseComponentWithEl & { transitionRef?: never });
 
 function isOpen(component: OpenCloseComponent): boolean {
-  return component[component.openProp || "open"];
+  return component.openProp === "opened" ? !!component.opened : !!component.open;
 }
 
 /**

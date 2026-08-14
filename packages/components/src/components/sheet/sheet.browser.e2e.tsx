@@ -482,7 +482,15 @@ describe("sheet updateSize public method", () => {
     { axis: "block", dir: "rtl", changeDirAfterMount: false },
   ] as const;
 
-  async function setUpSheet({ axis, dir, changeDirAfterMount }: TestCase) {
+  async function setUpSheet({ axis, dir, changeDirAfterMount }: TestCase): Promise<{
+    sheet: Sheet["el"];
+    content: HTMLElement;
+    resizeHandle: HTMLElement;
+    component: Sheet;
+    sizeProp: "inlineSize" | "blockSize";
+    keyboardKey: "{ArrowRight}" | "{ArrowDown}";
+    mouseDelta: { dx: number; dy: number };
+  }> {
     const position = axis === "inline" ? "inline-start" : "block-start";
     const sizeProp = axis === "inline" ? "inlineSize" : "blockSize";
     const keyboardKey = axis === "inline" ? "{ArrowRight}" : "{ArrowDown}";

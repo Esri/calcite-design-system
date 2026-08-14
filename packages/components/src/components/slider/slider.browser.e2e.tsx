@@ -456,22 +456,14 @@ describe("number locale support", () => {
     const { el, reRender } = await mount<Slider>(renderSlider);
     const valueDisplayEls = await getValueDisplayElements();
 
-    for (const lang in formattedValuesPerLanguageObject) {
+    for (const [lang, formattedValues] of Object.entries(formattedValuesPerLanguageObject)) {
       el.lang = lang;
       await reRender();
 
-      await expect
-        .element(valueDisplayEls.labelMinVal)
-        .toHaveTextContent(formattedValuesPerLanguageObject[lang][0]);
-      await expect
-        .element(valueDisplayEls.labelVal)
-        .toHaveTextContent(formattedValuesPerLanguageObject[lang][1]);
-      await expect
-        .element(valueDisplayEls.tickMin)
-        .toHaveTextContent(formattedValuesPerLanguageObject[lang][2]);
-      await expect
-        .element(valueDisplayEls.tickMax)
-        .toHaveTextContent(formattedValuesPerLanguageObject[lang][3]);
+      await expect.element(valueDisplayEls.labelMinVal).toHaveTextContent(formattedValues[0]);
+      await expect.element(valueDisplayEls.labelVal).toHaveTextContent(formattedValues[1]);
+      await expect.element(valueDisplayEls.tickMin).toHaveTextContent(formattedValues[2]);
+      await expect.element(valueDisplayEls.tickMax).toHaveTextContent(formattedValues[3]);
     }
   });
 });

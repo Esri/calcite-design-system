@@ -749,7 +749,7 @@ describe("when range thumbs overlap", () => {
       const isMinHandleFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
 
       expect(isMinHandleFocused).toBe(true);
-      const newMinValue = await element.getProperty("value")[0];
+      const newMinValue = (await element.getProperty("value"))[0];
       expect(newMinValue).not.toBe(initialMinValue);
     });
   });

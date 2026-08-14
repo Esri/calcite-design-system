@@ -144,7 +144,7 @@ describe("WCAG AA recommended minimum 24px click area", () => {
       document.querySelector("calcite-checkbox")!.getBoundingClientRect().toJSON(),
     );
 
-    const testClick = async (x, y, expected) => {
+    const testClick = async (x: number, y: number, expected: boolean): Promise<void> => {
       await page.mouse.click(x, y);
       await page.waitForChanges();
       expect(await checkbox.getProperty("checked")).toBe(expected);
