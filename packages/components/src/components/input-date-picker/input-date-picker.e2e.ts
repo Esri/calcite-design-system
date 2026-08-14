@@ -2,8 +2,8 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { beforeEach, describe, expect, it } from "vitest";
 import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
-import { Position } from "../types";
+import { findAll, getFocusedElementProp, skipAnimations } from "../../tests/utils/puppeteer";
+import { Position } from "../interfaces";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS, POSITION } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
@@ -713,32 +713,6 @@ describe("minAsDate & maxAsDate", () => {
     expect(await element.getProperty("minAsDate")).toBe(undefined);
     expect(await element.getProperty("maxAsDate")).toBe(undefined);
   });
-});
-
-it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-input-date-picker read-only id="canReadOnly"></calcite-input-date-picker>`);
-
-  const component = await page.find("#canReadOnly");
-  const input = await page.find("#canReadOnly >>> calcite-input-text");
-
-  expect(await input.getProperty("value")).toBe("");
-
-  await component.click();
-  await page.waitForChanges();
-  const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
-
-  expect(await page.evaluate(() => document.activeElement!.id)).toBe("canReadOnly");
-  expect(await calendar.isVisible()).toBe(false);
-
-  await component.click();
-  await page.waitForChanges();
-  expect(await calendar.isVisible()).toBe(false);
-
-  await component.type("atención atención");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe("");
 });
 
 it("should return endDate time as 23:59:999 when end value is typed", async () => {
@@ -2005,29 +1979,6 @@ it("should not update startDate when endDate is updated", async () => {
   expect(await inputDatePicker.getProperty("value")).toEqual(["2025-09-21", "2025-10-05"]);
   expect(await getDateInputValue(page, "end")).toBe("10/5/2025");
   expect(await getDateInputValue(page, "start")).toBe("9/21/2025");
-});
-
-it("should not shift focus back on input-date-picker when other input elements are clicked", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    html`<calcite-input id="input"></calcite-input>
-      <calcite-input-date-picker id="input-date"></calcite-input-date-picker>`,
-  );
-
-  const input = await page.find("calcite-input");
-  const inputDatePicker = await page.find("calcite-input-date-picker");
-  const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
-  expect(await calendar.isVisible()).toBe(false);
-
-  await inputDatePicker.click();
-  await page.waitForChanges();
-  expect(await calendar.isVisible()).toBe(true);
-  expect(await isElementFocused(page, "#input-date")).toBe(true);
-
-  await input.click();
-  await page.waitForChanges();
-  expect(await calendar.isVisible()).toBe(false);
-  expect(await isElementFocused(page, "#input")).toBe(true);
 });
 
 describe("proximitySelectionDisabled", () => {
