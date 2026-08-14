@@ -37,7 +37,7 @@
   @extend %component-host;
   @apply align-top inline-block overflow-visible w-full border-solid border;
   border-color: var(--calcite-date-picker-border-color, var(--calcite-color-border-3));
-  border-radius: var(--calcite-date-picker-corner-radius, 0);
+  border-radius: var(--calcite-date-picker-corner-radius, var(--calcite-corner-radius));
 }
 
 :host([scale="s"]) {
