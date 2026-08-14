@@ -234,7 +234,7 @@ export class Stepper extends LitElement {
   //#region Private Methods
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (!event.composedPath().includes(this.el)) {
+    if (event.defaultPrevented || !event.composedPath().includes(this.el)) {
       return;
     }
 

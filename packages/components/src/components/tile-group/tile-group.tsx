@@ -208,7 +208,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
 
   private keyDownHandler(event: KeyboardEvent): void {
     const composedPath = event.composedPath();
-    if (this.disabled || !composedPath.includes(this.el)) {
+    if (event.defaultPrevented || this.disabled || !composedPath.includes(this.el)) {
       return;
     }
 

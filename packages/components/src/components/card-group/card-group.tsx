@@ -118,7 +118,7 @@ export class CardGroup extends LitElement {
   //#region Private Methods
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (this.disabled || !event.composedPath().includes(this.el)) {
+    if (event.defaultPrevented || this.disabled || !event.composedPath().includes(this.el)) {
       return;
     }
 

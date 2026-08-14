@@ -115,7 +115,7 @@ export class SwatchGroup extends LitElement {
   private keyDownHandler(event: KeyboardEvent): void {
     const target = event.composedPath().find(isSwatch);
 
-    if (!target || !this.el.contains(target)) {
+    if (event.defaultPrevented || !target || !this.el.contains(target)) {
       return;
     }
 

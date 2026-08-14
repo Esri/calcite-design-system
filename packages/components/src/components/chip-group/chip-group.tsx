@@ -131,7 +131,7 @@ export class ChipGroup extends LitElement {
     };
     const destination = destinationFromKey[event.key];
 
-    if (!destination) {
+    if (event.defaultPrevented || !destination) {
       return;
     }
 
