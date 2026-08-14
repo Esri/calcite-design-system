@@ -1,8 +1,3 @@
-import {
-  calciteSize24,
-  calciteSize32,
-  calciteSize44,
-} from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -243,14 +238,6 @@ export class TabNav extends LitElement {
     ).filter((tabTitle) => !tabTitle.closed);
   }
 
-  private get scrollerButtonWidth(): number {
-    const { scale } = this;
-    return parseInt(
-      scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44,
-      10,
-    );
-  }
-
   get tabTitles(): TabTitle["el"][] {
     return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
   }
@@ -473,7 +460,7 @@ export class TabNav extends LitElement {
   }
 
   private scrollToTabTitles(direction: "forward" | "backward"): void {
-    requestAnimationFrame(() => {
+    requestAnimationFrame(async () => {
       const tabTitleContainer = this.tabTitleContainerEl;
 
       if (!tabTitleContainer) {
@@ -481,72 +468,68 @@ export class TabNav extends LitElement {
       }
 
       const containerBounds = tabTitleContainer.getBoundingClientRect();
-      const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
       const { effectiveDir } = this;
 
-      if (direction === "forward") {
-        tabTitles.reverse();
+      const scrollToRightTabTiles =
+        (direction === "forward" && effectiveDir === "ltr") ||
+        (direction === "backward" && effectiveDir === "rtl");
+
+      let tabTitleToScroll: TabTitle["el"] | undefined;
+      const tabTitles = direction === "forward" ? [...this.tabTitles].reverse() : this.tabTitles;
+
+      if (!tabTitles.length) {
+        return;
       }
 
-      let closestToEdge: TabTitle["el"] | null = null;
+      if (scrollToRightTabTiles) {
+        let closestTabTitleAfterContainerEnd: TabTitle["el"] | undefined;
+        const closestTabTitleCrossingContainerEnd = tabTitles.find((tabTitle) => {
+          const tabTitleBounds = tabTitle.getBoundingClientRect();
+          const isHiddenRight = tabTitleBounds.left >= containerBounds.right;
+          const isCrossingRight =
+            tabTitleBounds.left < containerBounds.right &&
+            tabTitleBounds.right > containerBounds.right;
 
-      tabTitles.forEach((tabTitle) => {
-        const tabTitleBounds = tabTitle.getBoundingClientRect();
-        const containerEndX = containerBounds.x + containerBounds.width;
-        const tabTitleEndX = tabTitleBounds.x + tabTitleBounds.width;
-        if (
-          (direction === "forward" && effectiveDir === "ltr") ||
-          (direction === "backward" && effectiveDir === "rtl")
-        ) {
-          const afterContainerEnd = tabTitleBounds.x > containerEndX;
-
-          if (afterContainerEnd) {
-            closestToEdge = tabTitle;
-          } else {
-            const crossingContainerEnd =
-              tabTitleEndX > containerEndX && tabTitleBounds.x > containerBounds.x;
-            if (crossingContainerEnd) {
-              closestToEdge = tabTitle;
-            }
+          if (isHiddenRight) {
+            closestTabTitleAfterContainerEnd = tabTitle;
           }
-        } else {
-          const beforeContainerStart = tabTitleEndX < containerBounds.x;
 
-          if (beforeContainerStart) {
-            closestToEdge = tabTitle;
-          } else {
-            const crossingContainerStart =
-              tabTitleBounds.x < containerBounds.x && tabTitleEndX > containerBounds.x;
+          return isCrossingRight;
+        });
 
-            if (crossingContainerStart) {
-              closestToEdge = tabTitle;
-            }
-          }
-        }
-      });
-
-      let scrollTo: number | undefined;
-      if (closestToEdge) {
-        const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
-        const offsetAdjustment =
-          (direction === "forward" && effectiveDir === "ltr") ||
-          (direction === "backward" && effectiveDir === "rtl")
-            ? -scrollerButtonContainerWidth
-            : (closestToEdge as TabTitle["el"]).offsetWidth -
-              (tabTitleContainer.clientWidth + scrollerButtonContainerWidth);
-        scrollTo = (closestToEdge as TabTitle["el"]).offsetLeft + offsetAdjustment;
+        tabTitleToScroll = closestTabTitleCrossingContainerEnd ?? closestTabTitleAfterContainerEnd;
       } else {
-        const scrollPosition = tabTitleContainer.scrollLeft;
-        const containerWidth = containerBounds.width;
-        const totalContentWidth = tabTitleContainer.scrollWidth;
-        const hiddenContentWidth = totalContentWidth - (containerWidth + Math.abs(scrollPosition));
-        if (hiddenContentWidth > 0) {
-          const directionMultiplier = effectiveDir === "ltr" ? 1 : -1;
-          scrollTo = scrollPosition + directionMultiplier * hiddenContentWidth;
-        }
+        let closestTabTitleBeforeContainerStart: TabTitle["el"] | undefined;
+        const closestTabTitleCrossingContainerStart = tabTitles.find((tabTitle) => {
+          const tabTitleBounds = tabTitle.getBoundingClientRect();
+          const isHiddenLeft = tabTitleBounds.right <= containerBounds.left;
+          const isCrossingLeft =
+            tabTitleBounds.left < containerBounds.left &&
+            tabTitleBounds.right > containerBounds.left;
+
+          if (isHiddenLeft) {
+            closestTabTitleBeforeContainerStart = tabTitle;
+          }
+
+          return isCrossingLeft;
+        });
+
+        tabTitleToScroll =
+          closestTabTitleCrossingContainerStart ?? closestTabTitleBeforeContainerStart;
       }
+
+      if (!tabTitleToScroll) {
+        return;
+      }
+
+      const tabTitleBounds = tabTitleToScroll.getBoundingClientRect();
+      const containerScrollPosition = tabTitleContainer.scrollLeft;
+      const scrollLeft = scrollToRightTabTiles
+        ? Math.ceil(containerScrollPosition + (tabTitleBounds.right - containerBounds.right))
+        : Math.floor(containerScrollPosition + (tabTitleBounds.left - containerBounds.left));
+
       tabTitleContainer.scrollTo({
-        left: scrollTo,
+        left: scrollLeft,
         behavior: "smooth",
       });
     });
