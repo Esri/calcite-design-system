@@ -1,8 +1,6 @@
 {
-  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
-  "compilerOptions": {
-    "moduleResolution": "nodenext"
-  },
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@esri/calcite-typescript-config/tsconfig.node.json",
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

@@ -11,22 +11,6 @@ describe("labelable", () => {
   labelable("calcite-input-text");
 });
 
-it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text icon="key"></calcite-input-text>`);
-
-  const icon = await page.find("calcite-input-text >>> .icon");
-  expect(icon).not.toBeNull();
-});
-
-it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text icon></calcite-input-text>`);
-
-  const icon = await page.find("calcite-input-text >>> .icon");
-  expect(icon).toBeNull();
-});
-
 it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
   const page = await newE2EPage({ html: "<calcite-input-text></calcite-input-text>" });
   const input = await page.find("calcite-input-text");

@@ -1,6 +1,6 @@
 import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
+import { it, expect, beforeAll, afterAll, describe, vi, beforeEach } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import {
   defaults,
@@ -25,6 +25,7 @@ import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 import { html } from "lit";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -54,6 +55,10 @@ class TooltipShadowB extends LitElement {
 }
 
 mockConsole();
+
+beforeEach(() => {
+  vi.spyOn(logger, "warn");
+});
 
 const eventOptions = { bubbles: true, cancelable: true };
 
@@ -1155,7 +1160,7 @@ describe("warning messages", () => {
       </>,
     );
 
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(logger.warn).not.toHaveBeenCalled();
   });
 
   it("does not warn after removal", async () => {
@@ -1168,13 +1173,13 @@ describe("warning messages", () => {
 
     el.remove();
 
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(logger.warn).not.toHaveBeenCalled();
   });
 
   it("warns when the reference element is not present", async () => {
     await mount(<calcite-tooltip reference-element="non-existent-ref">content</calcite-tooltip>);
 
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(logger.warn).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       expect.anything(),
     );

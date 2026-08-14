@@ -75,8 +75,7 @@ export class Swatch extends LitElement {
   @property() interactive = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

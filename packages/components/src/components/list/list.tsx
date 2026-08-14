@@ -45,6 +45,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -253,10 +254,7 @@ export class List extends LitElement {
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
   /**
-   * Specifies an accessible label for the component.
-   *
-   * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -1058,7 +1056,7 @@ export class List extends LitElement {
       this.selectionMode !== "none" &&
       this.selectionAppearance === "border"
     ) {
-      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+      logger.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
     }
   }
 

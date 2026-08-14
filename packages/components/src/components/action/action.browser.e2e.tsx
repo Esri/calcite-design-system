@@ -18,6 +18,10 @@ import { page } from "vitest/browser";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-action text="hello world" />));
+
+  describe("text-enabled", () => {
+    accessible(() => mount(<calcite-action text="hello world" text-enabled />));
+  });
 });
 
 describe("defaults", () => {
@@ -632,4 +636,10 @@ describe("themed", () => {
       },
     });
   });
+});
+
+it("sets single label when text is enabled", async () => {
+  await mount(<calcite-action text="hello world" text-enabled />);
+
+  await expect.element(page.getByRole("button")).toHaveAccessibleName("hello world");
 });
