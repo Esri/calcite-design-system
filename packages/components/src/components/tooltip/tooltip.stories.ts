@@ -2,7 +2,8 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
-import { Tooltip } from "./tooltip";
+import type { Tooltip } from "./tooltip";
+import { allModes } from "../../../.storybook/modes";
 
 const { overlayPositioning, placement, scale } = ATTRIBUTES;
 
@@ -192,7 +193,7 @@ export const smallViewport = (): string => html`
     aliqua</calcite-tooltip
   >
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const open = (): string => html`
   <div style="width: 400px;">

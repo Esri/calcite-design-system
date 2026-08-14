@@ -45,6 +45,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -1055,7 +1056,7 @@ export class List extends LitElement {
       this.selectionMode !== "none" &&
       this.selectionAppearance === "border"
     ) {
-      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+      logger.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
     }
   }
 
