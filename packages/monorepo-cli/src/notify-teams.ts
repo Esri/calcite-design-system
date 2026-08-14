@@ -26,7 +26,7 @@ type CardContent = {
     color?: "Accent";
     wrap?: boolean;
   }[];
-  actions: {
+  actions?: {
     type: "Action.OpenUrl";
     title: string;
     url: string;
@@ -38,7 +38,7 @@ const description = formatDescription(`
 
   Sends a notification to a Microsoft Teams channel using an Adaptive Card.
 `);
-const webhookUsage = "-w, --webhook <WEBHOOK URI>";
+const webhookUsage = "-w, --webhook <WEBHOOK_URI>";
 const titleUsage = "-t, --title <TITLE>";
 
 export const registerCommand = (command: Command) =>
@@ -82,7 +82,7 @@ async function run({ webhook, title, message, action_text, action_url }: Partial
 }
 
 /**
- * Sends an `AdaptiveCard` message to a specifed Microsoft Teams channel via webhook.
+ * Sends an `AdaptiveCard` message to a specified Microsoft Teams channel via webhook.
  * @returns An object with an error message if the request failed, or null if it
  * succeeded.
  */
