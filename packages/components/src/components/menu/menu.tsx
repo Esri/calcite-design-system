@@ -7,6 +7,7 @@ import type { MenuItem } from "../menu-item/menu-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
+import { isMenuItem } from "../menu-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -159,20 +160,15 @@ export class Menu extends LitElement {
   }
 
   private getMenuItemFromEvent(event: KeyboardEvent): MenuItem["el"] | undefined {
-    const target = event
-      .composedPath()
-      .find(
-        (node): node is MenuItem["el"] =>
-          node instanceof HTMLElement && node.tagName === "CALCITE-MENU-ITEM",
-      );
+    const target = event.composedPath().find(isMenuItem);
 
     return target && this.menuItems.includes(target) ? target : undefined;
   }
 
   private getSubmenuItems(menuItem: MenuItem["el"]): MenuItem["el"][] {
-    return Array.from(menuItem.children).filter((child): child is MenuItem["el"] =>
-      child.matches('calcite-menu-item[slot="submenu-item"]'),
-    );
+    return Array.from(menuItem.children)
+      .filter(isMenuItem)
+      .filter((child) => child.matches('[slot="submenu-item"]'));
   }
 
   private handleMenuSlotChange(event: Event): void {

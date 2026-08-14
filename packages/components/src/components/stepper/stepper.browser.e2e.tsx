@@ -171,59 +171,6 @@ describe("inheritable props in shadow DOM", () => {
   });
 });
 
-describe("keyboard navigation", () => {
-  async function mountStepper(
-    layout: Extract<Stepper["layout"], "horizontal" | "vertical">,
-  ): Promise<void> {
-    await mount<"calcite-stepper">(
-      <calcite-stepper layout={layout}>
-        <calcite-stepper-item heading="Step 1" id="step-1" selected>
-          <button id="step-1-button" type="button">
-            Step 1 content
-          </button>
-        </calcite-stepper-item>
-        <calcite-stepper-item disabled heading="Step 2" id="step-2">
-          <div>Step 2 content</div>
-        </calcite-stepper-item>
-        <calcite-stepper-item heading="Step 3" id="step-3">
-          <div>Step 3 content</div>
-        </calcite-stepper-item>
-      </calcite-stepper>,
-    );
-  }
-
-  it("delegates horizontal keyboard navigation from stepper items", async () => {
-    await mountStepper("horizontal");
-
-    const firstItem = page.getBySelector("#step-1");
-    const thirdItem = page.getBySelector("#step-3");
-    const contentButton = page.getBySelector("#step-1-button");
-
-    await userEvent.click(contentButton);
-    await userEvent.keyboard("{ArrowRight}");
-    await expect.element(contentButton).toHaveFocus();
-
-    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
-    await expect.element(firstItem).toHaveFocus();
-
-    await userEvent.keyboard("{ArrowRight}");
-    await expect.element(thirdItem).toHaveFocus();
-  });
-
-  it("delegates vertical keyboard navigation from stepper items", async () => {
-    await mountStepper("vertical");
-
-    const firstItem = page.getBySelector("#step-1");
-    const thirdItem = page.getBySelector("#step-3");
-
-    await userEvent.keyboard("{Tab}");
-    await expect.element(firstItem).toHaveFocus();
-
-    await userEvent.keyboard("{ArrowDown}");
-    await expect.element(thirdItem).toHaveFocus();
-  });
-});
-
 describe("theme", () => {
   describe("horizontal-single", () => {
     themed(
@@ -258,5 +205,58 @@ describe("theme", () => {
         },
       },
     );
+  });
+});
+
+describe("keyboard navigation", () => {
+  async function mountStepper(
+    layout: Extract<Stepper["layout"], "horizontal" | "vertical">,
+  ): Promise<void> {
+    await mount<Stepper>(
+      <calcite-stepper layout={layout}>
+        <calcite-stepper-item heading="Step 1" id="step-1" selected>
+          <button id="step-1-button" type="button">
+            Step 1 content
+          </button>
+        </calcite-stepper-item>
+        <calcite-stepper-item disabled heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 3" id="step-3">
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>,
+    );
+  }
+
+  it("supports keyboard navigation navigation in horizontal layout", async () => {
+    await mountStepper("horizontal");
+
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+    const contentButton = page.getBySelector("#step-1-button");
+
+    await userEvent.click(contentButton);
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(contentButton).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(thirdItem).toHaveFocus();
+  });
+
+  it("supports keyboard navigation navigation in vertical layout", async () => {
+    await mountStepper("vertical");
+
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(thirdItem).toHaveFocus();
   });
 });

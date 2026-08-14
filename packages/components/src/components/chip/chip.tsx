@@ -229,12 +229,6 @@ export class Chip extends LitElement {
             this.close();
           }
           break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          event.preventDefault();
-          break;
       }
     }
   }

@@ -11,6 +11,7 @@ import type { Chip } from "../chip/chip";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./chip-group.scss";
+import { isChip } from "../chip/resources";
 
 declare global {
   interface DeclareElements {
@@ -134,15 +135,13 @@ export class ChipGroup extends LitElement {
       return;
     }
 
-    const chip = event
-      .composedPath()
-      .find((el): el is Chip["el"] => el instanceof HTMLElement && el.matches("calcite-chip"));
+    const chip = event.composedPath().find(isChip);
 
-    if (!chip || !this.items?.includes(chip)) {
+    if (!chip || !this.items.includes(chip)) {
       return;
     }
 
-    const interactiveItems = this.items?.filter((el) => !el.disabled);
+    const interactiveItems = this.items.filter((el) => !el.disabled);
     focusElementInGroup(interactiveItems, chip, destination, true, true, true);
   }
 
@@ -157,7 +156,7 @@ export class ChipGroup extends LitElement {
         focusElementInGroup(this.items, item, "first", false, false);
       }
     }
-    this.items = this.items?.filter((el) => el !== item);
+    this.items = this.items.filter((el) => el !== item);
     event.stopPropagation();
   }
 
@@ -187,9 +186,7 @@ export class ChipGroup extends LitElement {
 
   private updateItems(event?: Event): void {
     const itemsFromSlot =
-      this.slotRef.value
-        ?.assignedElements({ flatten: true })
-        .filter((el): el is Chip["el"] => el?.matches("calcite-chip")) || [];
+      this.slotRef.value?.assignedElements({ flatten: true }).filter(isChip) || [];
 
     this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Chip["el"]>(event);
 
@@ -208,7 +205,7 @@ export class ChipGroup extends LitElement {
   }
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items?.filter((el) => el.selected);
+    this.selectedItems = this.items.filter((el) => el.selected);
   }
 
   private setSelectedItems(emit: boolean, elToMatch?: Chip["el"]): void {

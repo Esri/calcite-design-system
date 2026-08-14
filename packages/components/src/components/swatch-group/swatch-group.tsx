@@ -8,6 +8,7 @@ import type { Swatch } from "../swatch/swatch";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./swatch-group.scss";
+import { isSwatch } from "../swatch/resources";
 
 declare global {
   interface DeclareElements {
@@ -112,18 +113,13 @@ export class SwatchGroup extends LitElement {
   //#region Private Methods
 
   private keyDownHandler(event: KeyboardEvent): void {
-    const target = event
-      .composedPath()
-      .find(
-        (node): node is Swatch["el"] =>
-          node instanceof HTMLElement && node.matches("calcite-swatch"),
-      );
+    const target = event.composedPath().find(isSwatch);
 
     if (!target || !this.el.contains(target)) {
       return;
     }
 
-    const interactiveItems = this.items?.filter((el) => !el.disabled);
+    const interactiveItems = this.items.filter((el) => !el.disabled);
 
     if (!interactiveItems.includes(target)) {
       return;
@@ -195,12 +191,12 @@ export class SwatchGroup extends LitElement {
   }
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items?.filter((el) => el.selected);
+    this.selectedItems = this.items.filter((el) => el.selected);
   }
 
   private setSelectedItems(emit: boolean, elToMatch?: Swatch["el"]): void {
     if (elToMatch) {
-      this.items?.forEach((el) => {
+      this.items.forEach((el) => {
         const matchingEl = elToMatch === el;
         switch (this.selectionMode) {
           case "multiple":

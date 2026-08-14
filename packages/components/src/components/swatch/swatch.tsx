@@ -19,6 +19,7 @@ import { hexify } from "../color-picker/utils";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS, IDS, CHECKER_DIMENSIONS } from "./resources";
 import { styles } from "./swatch.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -170,20 +171,9 @@ export class Swatch extends LitElement {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.handleEmittingEvent();
-          event.preventDefault();
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          event.preventDefault();
-          break;
-      }
+    if (event.target === this.el && isActivationKey(event.key)) {
+      this.handleEmittingEvent();
+      event.preventDefault();
     }
   }
 
