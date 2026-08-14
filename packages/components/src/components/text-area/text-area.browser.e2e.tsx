@@ -247,24 +247,24 @@ it("does not grow textarea height on repeated key presses", async () => {
 });
 
 it("does not grow textarea height in a zero-height flex container", async () => {
-  const { el: component } = await mount<TextArea>(
+  const { component, el } = await mount<TextArea>(
     <calcite-text-area label-text="Description" max-length="600" />,
   );
-  component.parentElement!.style.display = "flex";
-  component.parentElement!.style.height = "0";
-  const textArea = page.elementLocator(component).getByRole("textbox").first();
+  el.parentElement!.style.display = "flex";
+  el.parentElement!.style.height = "0";
+  const textArea = page.elementLocator(el).getByRole("textbox").first();
   const initialHeight = textArea.element().getBoundingClientRect().height;
 
-  component.loading = true;
-  component.placeholder = "Add a description";
-  component.readOnly = true;
-  component.status = "valid";
+  el.loading = true;
+  el.placeholder = "Add a description";
+  el.readOnly = true;
+  el.status = "valid";
   await component.updateComplete;
 
   const heightAfterPropertyUpdates = textArea.element().getBoundingClientRect().height;
   expect(Math.abs(heightAfterPropertyUpdates - initialHeight)).toBeLessThanOrEqual(1);
 
-  component.readOnly = false;
+  el.readOnly = false;
   await component.updateComplete;
   await userEvent.click(textArea);
 
@@ -273,11 +273,11 @@ it("does not grow textarea height in a zero-height flex container", async () => 
 
   const finalHeight = textArea.element().getBoundingClientRect().height;
   expect(Math.abs(finalHeight - heightAfterPropertyUpdates)).toBeLessThanOrEqual(1);
-  expect(component.value).toBe("aaaaaaaaaa");
+  expect(el.value).toBe("aaaaaaaaaa");
 });
 
 it("allocates a fixed height between the textarea, footer, and validation message", async () => {
-  const { el: component } = await mount<TextArea>(
+  const { el } = await mount<TextArea>(
     <calcite-text-area
       label-text="Description"
       max-length="600"
@@ -286,15 +286,15 @@ it("allocates a fixed height between the textarea, footer, and validation messag
       validation-message="Enter a description"
     />,
   );
-  const componentLocator = page.elementLocator(component);
-  const loader = componentLocator.locator(`.${CSS.loaderContainer}`).element();
+  const componentLocator = page.elementLocator(el);
+  const loader = componentLocator.getBySelector(`.${CSS.loaderContainer}`).element();
   const textArea = componentLocator.getByRole("textbox").first().element();
   const footer = componentLocator.getByRole("contentinfo").element();
   const validation = componentLocator.getByText("Enter a description").element();
 
   await afterNextFrame();
 
-  const componentRect = component.getBoundingClientRect();
+  const componentRect = el.getBoundingClientRect();
   const loaderRect = loader.getBoundingClientRect();
   const textAreaRect = textArea.getBoundingClientRect();
   const footerRect = footer.getBoundingClientRect();
@@ -308,12 +308,12 @@ it("allocates a fixed height between the textarea, footer, and validation messag
 });
 
 it("releases a fixed host height when the textarea is resized", async () => {
-  const { el: component } = await mount<TextArea>(
+  const { el } = await mount<TextArea>(
     <calcite-text-area max-length="600" style={{ height: "200px" }} />,
   );
-  const textArea = page.elementLocator(component).getByRole("textbox").first().element();
+  const textArea = page.elementLocator(el).getByRole("textbox").first().element();
 
   textArea.style.height = "220px";
 
-  await expect.poll(() => component.style.height).toBe("auto");
+  await expect.poll(() => el.style.height).toBe("auto");
 });
