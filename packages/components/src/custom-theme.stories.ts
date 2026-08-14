@@ -1,4 +1,5 @@
 import { html } from "../support/formatting";
+import { allModes } from "../.storybook/modes";
 import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
@@ -30,7 +31,7 @@ import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
-import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
+import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import { input, inputTokens } from "./custom-theme/input";
 import {
   inputDatePicker,
@@ -135,7 +136,7 @@ const globalTokens = {
   calciteUiIconColor: "currentColor",
 };
 
-function convertToParamCase(str) {
+function convertToParamCase(str: string): string {
   return str.replace(/([A-Z])/g, "-$1").toLowerCase();
 }
 
@@ -355,6 +356,7 @@ export default {
 export const themingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
+themingInteractive.parameters = { chromatic: { modes: { large: allModes.squareLarge } } };
 
 export const theming = (): string => {
   return kitchenSink(
@@ -364,3 +366,4 @@ export const theming = (): string => {
     true,
   );
 };
+theming.parameters = { chromatic: { modes: { large: allModes.squareLarge } } };

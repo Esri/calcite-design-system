@@ -2,12 +2,13 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import type { Swatch } from "../swatch/swatch";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./swatch-group.scss";
+import { isSwatch } from "../swatch/resources";
 
 declare global {
   interface DeclareElements {
@@ -40,8 +41,7 @@ export class SwatchGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -57,15 +57,12 @@ export class SwatchGroup extends LitElement {
   @property() selectedItems: Swatch["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -99,7 +96,7 @@ export class SwatchGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalSwatchKeyEvent", this.calciteInternalSwatchKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteSwatchSelect", this.calciteSwatchSelectListener);
     this.listen("calciteInternalSwatchSelect", this.calciteInternalSwatchSelectListener);
     this.listen("calciteInternalSyncSelectedSwatches", this.calciteInternalSyncSelectedSwatches);
@@ -115,25 +112,37 @@ export class SwatchGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalSwatchKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
-          break;
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
-          break;
-      }
+  private keyDownHandler(event: KeyboardEvent): void {
+    const target = event.composedPath().find(isSwatch);
+
+    if (event.defaultPrevented || !target || !this.el.contains(target)) {
+      return;
     }
-    event.stopPropagation();
+
+    const interactiveItems = this.items.filter((el) => !el.disabled);
+
+    if (!interactiveItems.includes(target)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+        focusElementInGroup(interactiveItems, target, "next");
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        focusElementInGroup(interactiveItems, target, "previous");
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(interactiveItems, target, "first");
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(interactiveItems, target, "last");
+        event.preventDefault();
+        break;
+    }
   }
 
   private calciteSwatchSelectListener(event: CustomEvent): void {
@@ -182,12 +191,12 @@ export class SwatchGroup extends LitElement {
   }
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items?.filter((el) => el.selected);
+    this.selectedItems = this.items.filter((el) => el.selected);
   }
 
   private setSelectedItems(emit: boolean, elToMatch?: Swatch["el"]): void {
     if (elToMatch) {
-      this.items?.forEach((el) => {
+      this.items.forEach((el) => {
         const matchingEl = elToMatch === el;
         switch (this.selectionMode) {
           case "multiple":

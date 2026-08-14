@@ -98,7 +98,7 @@
   border-inline-end-width: 0;
   line-height: var(--calcite-internal-select-line-height, normal);
   background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-1));
-  border-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-select-shadow, var(--calcite-shadow-none));
   &:focus {
     @apply focus-inset;
@@ -113,10 +113,10 @@ select:disabled {
 .icon-container {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
-  border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
-  border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
-  border-end-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
-  border-end-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
+  border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
+  border-end-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
+  border-end-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-inline-width: 0 var(--calcite-select-internal-icon-border-inline-end-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
@@ -144,5 +144,4 @@ select:disabled {
 
 @include includes.form-internal-label();
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.base-component();

@@ -26,12 +26,12 @@ import {
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { CollapseDirection, Scale } from "../interfaces";
+import { CollapseDirection, Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
@@ -180,7 +180,7 @@ export class Panel extends LitElement {
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -195,13 +195,13 @@ export class Panel extends LitElement {
   @property({ reflect: true }) focusTrapEnabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component, where
+   * Specifies custom focus trap configuration on the component.
    *
-   * `"allowOutsideClick"` allows outside clicks,
-   * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active,
-   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
-   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * - `"allowOutsideClick"` allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    * @private
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;

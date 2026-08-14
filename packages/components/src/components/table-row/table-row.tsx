@@ -2,13 +2,13 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { Alignment, Scale, SelectionMode } from "../interfaces";
+import { Alignment, Scale, SelectionMode } from "../types";
 import {
   focusElementInGroup,
   FocusElementInGroupDestination,
   getSlotAssignedElements,
 } from "../../utils/dom";
-import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
+import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -71,10 +71,11 @@ export class TableRow extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the vertical alignment of content within child `calcite-table-cell`s, where:
-   * `"start"` positions content at the top of a `calcite-table-cell`,
-   * `"center"` positions content in the middle of a `calcite-table-cell`, and
-   * `"end"` positions content at the bottom of a `calcite-table-cell`.
+   * Specifies the vertical alignment of content within child `calcite-table-cell`s.
+   *
+   * - `"start"` positions content at the top of a `calcite-table-cell`.
+   * - `"center"` positions content in the middle of a `calcite-table-cell`.
+   * - `"end"` positions content at the bottom of a `calcite-table-cell`.
    */
   @property({ reflect: true }) alignment!: Alignment;
 

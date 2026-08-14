@@ -3,6 +3,7 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { allModes } from "../../../.storybook/modes";
 import { InputDatePicker } from "./input-date-picker";
 
 const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, supportedNlsLocale } = ATTRIBUTES;
@@ -10,7 +11,9 @@ const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, s
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
   | "calendars"
+  | "clearable"
   | "disabled"
+  | "labelText"
   | "layout"
   | "max"
   | "min"
@@ -19,6 +22,7 @@ interface InputDatePickerStoryArgs extends Pick<
   | "placement"
   | "range"
   | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "validationIcon"
@@ -33,9 +37,11 @@ export default {
   args: {
     calendars: calendarCount.defaultValue,
     disabled: false,
+    labelText: "Label text",
     layout: horizontalVerticalLayout.defaultValue,
     scale: scale.defaultValue,
     status: status.defaultValue,
+    clearable: false,
     value: "2020-12-12",
     min: "2016-08-09",
     max: "2023-12-18",
@@ -45,6 +51,7 @@ export default {
     placement: menuPlacement.defaultValue,
     range: false,
     readOnly: false,
+    required: false,
     validationMessage: "",
     validationIcon: "",
   },
@@ -91,9 +98,11 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
     <calcite-input-date-picker
       scale="${args.scale}"
       status="${args.status}"
+      ${boolean("clearable", args.clearable)}
       value="${args.value}"
       calendars="${args.calendars}"
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("label-text", args.labelText)}
       lang="${args.lang}"
       layout="${args.layout}"
       min="${args.min}"
@@ -103,6 +112,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       placement="${args.placement}"
       ${boolean("range", args.range)}
       ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       validation-message="${args.validationMessage}"
       ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input-date-picker>
@@ -262,12 +272,7 @@ export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizon
 allScalesRangeHorizontal.parameters = {
   chromatic: {
     modes: {
-      largeScreen: {
-        viewport: {
-          width: 2500,
-          height: 800,
-        },
-      },
+      extraWide: allModes.landscapeLarge,
     },
     cropToViewport: true,
   },
@@ -457,3 +462,49 @@ localized.parameters = {
     delay: 1000,
   },
 };
+
+export const clearableSingle = (): string => html`
+  <div>
+    <calcite-input-date-picker clearable value="2020-12-12" open></calcite-input-date-picker>
+  </div>
+`;
+
+export const clearableRangeHorizontalAndVertical = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      gap: 32px;
+      width: 1200px;
+      height: 500px;
+    }
+
+    .picker {
+      width: 660px;
+      height: 460px;
+    }
+  </style>
+  <div class="container">
+    <div class="picker">
+      <calcite-input-date-picker
+        id="clearable-range-horizontal"
+        clearable
+        range
+        layout="horizontal"
+        open
+      ></calcite-input-date-picker>
+    </div>
+    <div class="picker">
+      <calcite-input-date-picker
+        id="clearable-range-vertical"
+        clearable
+        range
+        layout="vertical"
+        open
+      ></calcite-input-date-picker>
+    </div>
+  </div>
+  <script>
+    document.querySelector("#clearable-range-horizontal").value = ["2020-12-12", "2020-12-14"];
+    document.querySelector("#clearable-range-vertical").value = ["2020-12-12", "2020-12-14"];
+  </script>
+`;

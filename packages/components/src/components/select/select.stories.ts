@@ -9,7 +9,10 @@ const { status, width, scale } = ATTRIBUTES;
 
 interface SelectStoryArgs
   extends
-    Pick<Select, "disabled" | "status" | "width" | "scale" | "validationIcon" | "validationMessage">,
+    Pick<
+      Select,
+      "disabled" | "labelText" | "required" | "status" | "width" | "scale" | "validationIcon" | "validationMessage"
+    >,
     Pick<Option, "label" | "selected" | "value"> {
   optionDisabled: Option["disabled"];
 }
@@ -23,6 +26,8 @@ export default {
     scale: scale.defaultValue,
     validationMessage: "",
     validationIcon: "",
+    labelText: "Label text",
+    required: false,
     optionDisabled: false,
     label: "fancy label",
     selected: false,
@@ -55,6 +60,8 @@ export const simple = (args: SelectStoryArgs): string => html`
       status="${args.status}"
       width="${args.width}"
       scale="${args.scale}"
+      ${optionalAttribute("label-text", args.labelText)}
+      ${boolean("required", args.required)}
       validation-message="${args.validationMessage}"
       ${optionalAttribute("validation-icon", args.validationIcon)}
     >

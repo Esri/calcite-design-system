@@ -10,8 +10,8 @@ import {
 } from "@arcgis/lumina";
 import { focusElement, nodeListToArray, slotChangeGetAssignedElements } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { Scale, SelectionMode } from "../interfaces";
-import { TreeItemSelectDetail } from "../tree-item/interfaces";
+import { Scale, SelectionMode } from "../types";
+import { TreeItemSelectDetail } from "../tree-item/types";
 import type { TreeItem } from "../tree-item/tree-item";
 import { getTraversableItems, isTreeItem } from "./utils";
 import { styles } from "./tree.scss";
@@ -58,21 +58,15 @@ export class Tree extends LitElement {
   @property() selectedItems: TreeItem["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,
-   *
-   * `"children"` allows any number of selections from one parent from corresponding parent and child selections,
-   *
-   * `"multichildren"` allows any number of selections from corresponding parent and child selections,
-   *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"none"` allows no selections,
-   *
-   * `"single"` allows one selection, and
-   *
-   * `"single-persist"` allows and requires one selection.
+   * - `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections.
+   * - `"children"` allows any number of selections from one parent from corresponding parent and child selections.
+   * - `"multichildren"` allows any number of selections from corresponding parent and child selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"none"` allows no selections.
+   * - `"single"` allows one selection.
+   * - `"single-persist"` allows and requires one selection.
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 

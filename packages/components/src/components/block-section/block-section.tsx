@@ -11,14 +11,14 @@ import {
 import { PropertyValues } from "lit";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { FlipContext, Scale, Status } from "../interfaces";
+import { FlipContext, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { BlockSectionToggleDisplay } from "./interfaces";
+import { BlockSectionToggleDisplay } from "./types";
 import { CSS, ICONS, IDS } from "./resources";
 import { styles } from "./block-section.scss";
 
@@ -28,7 +28,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @slot - A slot for adding custom content.
+ */
 export class BlockSection extends LitElement {
   //#region Static Members
 
@@ -61,13 +64,13 @@ export class BlockSection extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -105,11 +108,10 @@ export class BlockSection extends LitElement {
   @property() text?: string;
 
   /**
-   * Specifies how the component's toggle is displayed, where:
+   * Specifies how the component's toggle is displayed.
    *
-   * `"button"` sets the toggle to a selectable header, and
-   *
-   * `"switch"` sets the toggle to a switch.
+   * - `"button"` sets the toggle to a selectable header.
+   * - `"switch"` sets the toggle to a switch.
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 

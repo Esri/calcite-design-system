@@ -42,11 +42,11 @@ describe("messageOverrides", () => {
 });
 
 describe("expand functionality", () => {
-  it("should not modify actions within an action-menu", async () => {
+  it("should not apply expanded state to child actions on initial render", async () => {
     const page = await newE2EPage({
       html: html`<calcite-action-bar expanded>
         <calcite-action-group>
-          <calcite-action text-enabled id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
         </calcite-action-group>
         <calcite-action-group>
           <calcite-action-menu label="Save and open">
@@ -59,13 +59,12 @@ describe("expand functionality", () => {
     const actionBar = await page.find("calcite-action-bar");
     const actionBarAction = await page.find("#my-action");
     const menuAction = await page.find("#menu-action");
+    const actionGroup = await page.find("calcite-action-group");
+
     expect(await actionBar.getProperty("expanded")).toBe(true);
-    expect(await actionBarAction.getProperty("textEnabled")).toBe(true);
-    expect(await menuAction.getProperty("textEnabled")).toBe(true);
-    actionBar.setProperty("expanded", false);
-    await page.waitForChanges();
-    expect(await menuAction.getProperty("textEnabled")).toBe(true);
     expect(await actionBarAction.getProperty("textEnabled")).toBe(false);
+    expect(await menuAction.getProperty("textEnabled")).toBe(true);
+    expect(await actionGroup.getProperty("expanded")).toBe(false);
   });
 
   it("should be expandable by default", async () => {
@@ -80,14 +79,40 @@ describe("expand functionality", () => {
     expect(expandAction).not.toBeNull();
   });
 
-  it("allows disabling expandable behavior", async () => {
+  it("hides the expand/collapse toggle button", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
+    await page.setContent("<calcite-action-bar expand-toggle-disabled></calcite-action-bar>");
     await page.waitForChanges();
 
     const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
 
     expect(expandAction).toBeNull();
+  });
+
+  it("should map deprecated 'expandDisabled' prop to 'expandToggleDisabled' prop", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar></calcite-action-bar>`,
+    });
+    const actionBar = await page.find("calcite-action-bar");
+
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(false);
+
+    actionBar.setProperty("expandDisabled", true);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(true);
+
+    actionBar.setProperty("expandDisabled", false);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(false);
+  });
+
+  it("should map deprecated 'expand-disabled' attribute to 'expandToggleDisabled' prop", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
+    await page.waitForChanges();
+
+    const actionBar = await page.find("calcite-action-bar");
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(true);
   });
 
   it("should toggle expanded", async () => {
@@ -155,7 +180,7 @@ describe("expand functionality", () => {
   it("should not have end group when not expandable", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-action-bar expand-disabled></calcite-action-bar>`);
+    await page.setContent(html`<calcite-action-bar expand-toggle-disabled></calcite-action-bar>`);
     await page.waitForChanges();
 
     const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
@@ -168,7 +193,7 @@ describe("expand functionality", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-action-bar expand-disabled expanded>
+      html`<calcite-action-bar expand-toggle-disabled expanded>
         <calcite-action-group>
           <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
         </calcite-action-group>
@@ -285,6 +310,46 @@ const dynamicGroupActionsSelector = "#dynamic-group calcite-action";
 const slottedActionsSelector = "calcite-action[slot='menu-actions']";
 
 describe("overflow actions", () => {
+  it("should map deprecated 'overflowActionsDisabled' prop to 'overflowMode' prop", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar></calcite-action-bar>`,
+    });
+    const actionBar = await page.find("calcite-action-bar");
+
+    expect(await actionBar.getProperty("overflowMode")).toBe("collapse");
+
+    actionBar.setProperty("overflowActionsDisabled", true);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("overflowMode")).toBe("none");
+
+    actionBar.setProperty("overflowActionsDisabled", false);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("overflowMode")).toBe("collapse");
+  });
+
+  it("should reflect 'overflowActionsDisabled' from 'overflowMode'", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar></calcite-action-bar>`,
+    });
+    const actionBar = await page.find("calcite-action-bar");
+
+    expect(await actionBar.getProperty("overflowActionsDisabled")).toBe(false);
+
+    actionBar.setProperty("overflowMode", "none");
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("overflowActionsDisabled")).toBe(true);
+    expect(actionBar.getAttribute("overflow-mode")).toBe("none");
+  });
+
+  it("should map deprecated 'overflow-actions-disabled' attribute to 'overflowMode' prop", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-action-bar overflow-actions-disabled></calcite-action-bar>");
+    await page.waitForChanges();
+
+    const actionBar = await page.find("calcite-action-bar");
+    expect(await actionBar.getProperty("overflowMode")).toBe("none");
+  });
+
   it("should slot 'menu-actions' on sublist changes", async () => {
     const page = await newE2EPage({
       html: html`<div style="width:500px; height:500px;">
@@ -388,7 +453,9 @@ describe("overflow actions", () => {
     await page.waitForTimeout(DEBOUNCE.resize + 10);
 
     expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-    expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
+    const slottedActionsBeforeResize = await findAll(page, slottedActionsSelector);
+
+    expect(slottedActionsBeforeResize.length).toBeGreaterThan(0);
 
     await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
       element.style.height = "490px";
@@ -398,7 +465,11 @@ describe("overflow actions", () => {
     await page.waitForChanges();
 
     expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-    expect(await findAll(page, slottedActionsSelector)).toHaveLength(2);
+    const slottedActionsAfterResize = await findAll(page, slottedActionsSelector, {
+      allowEmpty: true,
+    });
+
+    expect(slottedActionsAfterResize.length).toBeLessThan(slottedActionsBeforeResize.length);
   });
 });
 

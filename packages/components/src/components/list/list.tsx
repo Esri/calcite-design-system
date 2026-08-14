@@ -12,8 +12,8 @@ import {
 } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { InteractionMode, Scale, SelectionMode } from "../interfaces";
-import { ItemData } from "../list-item/interfaces";
+import { InteractionMode, Scale, SelectionMode } from "../types";
+import { ItemData } from "../list-item/types";
 import {
   expandedAncestors,
   isListItem,
@@ -29,7 +29,7 @@ import {
   MoveEventDetail,
   ReorderEventDetail,
   SortMenuItem,
-} from "../sort-handle/interfaces";
+} from "../sort-handle/types";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -42,9 +42,10 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
+import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -245,21 +246,15 @@ export class List extends LitElement {
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies the interaction mode of the component, where
+   * Specifies the interaction mode of the component.
    *
-   * `"interactive"` allows interaction styling and pointer changes on hover,
-   *
-   * `"static"` does not allow interaction styling and pointer changes on hover -
-   *
-   * the `"static"` value should only be used when `selectionMode` is `"none"`.
+   * - `"interactive"` allows interaction styling and pointer changes on hover.
+   * - `"static"` does not allow interaction styling and pointer changes on hover. Should only be used when `selectionMode` is `"none"`.
    */
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
   /**
-   * Specifies an accessible label for the component.
-   *
-   * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -271,14 +266,12 @@ export class List extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the nesting behavior of `calcite-list-item`s, where
+   * Specifies the nesting behavior of `calcite-list-item`s.
    *
-   * `"flat"` displays `calcite-list-item`s in a uniform list, and
-   *
-   * `"nested"` displays `calcite-list-item`s under their parent element.
+   * - `"flat"` displays `calcite-list-item`s in a uniform list.
+   * - `"nested"` displays `calcite-list-item`s under their parent element.
    *
    *  The parent component's behavior should follow throughout its child elements.
-   *
    */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
@@ -296,14 +289,11 @@ export class List extends LitElement {
   @property() selectedItems: ListItem["el"][] = [];
 
   /**
-   * Specifies the selection appearance, where
+   * Specifies the selection appearance.
    *
-   * `"icon"` displays a checkmark or dot,
-   *
-   * `"border"` [Deprecated] - Use `"highlight"` instead - displays a border, or
-   *
-   * `"highlight"` displays background highlight.
-   *
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` displays background highlight.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "border" | "highlight",
@@ -311,15 +301,12 @@ export class List extends LitElement {
   > = "icon";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -1069,7 +1056,7 @@ export class List extends LitElement {
       this.selectionMode !== "none" &&
       this.selectionAppearance === "border"
     ) {
-      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+      logger.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
     }
   }
 
