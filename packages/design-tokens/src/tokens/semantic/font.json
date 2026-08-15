@@ -53,7 +53,7 @@
         "$description": "Replaces `--calcite-font-weight-normal`",
         "$extensions": {
           "calcite.outputReference": true,
-          "calcite.replaces": "--calcite-font-weight-normal"
+          "calcite.replaces": "{font.weight.normal}"
         }
       },
       "medium": {

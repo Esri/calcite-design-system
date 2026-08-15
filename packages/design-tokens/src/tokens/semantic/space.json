@@ -201,7 +201,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-none"
+        "calcite.replaces": "{spacing.default.none}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.none}",
@@ -213,7 +213,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-px"
+        "calcite.replaces": "{spacing.default.px}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.px}",
@@ -225,7 +225,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-base"
+        "calcite.replaces": "{spacing.default.base}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.base}",
@@ -237,7 +237,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-xxs"
+        "calcite.replaces": "{spacing.default.xxs}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.xxs}",
@@ -249,7 +249,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-xs"
+        "calcite.replaces": "{spacing.default.xs}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.xs}",
@@ -261,7 +261,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-sm"
+        "calcite.replaces": "{spacing.default.sm}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.sm}",
@@ -273,7 +273,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-sm-plus"
+        "calcite.replaces": "{spacing.default.sm-plus}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.sm-plus}",
@@ -285,7 +285,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-md"
+        "calcite.replaces": "{spacing.default.md}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.md}",
@@ -297,7 +297,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-md-plus"
+        "calcite.replaces": "{spacing.default.md-plus}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.md-plus}",
@@ -309,7 +309,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-lg"
+        "calcite.replaces": "{spacing.default.lg}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.lg}",
@@ -321,7 +321,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-xl"
+        "calcite.replaces": "{spacing.default.xl}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.xl}",
@@ -333,7 +333,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-xxl"
+        "calcite.replaces": "{spacing.default.xxl}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.xxl}",
@@ -345,7 +345,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-spacing-xxxl"
+        "calcite.replaces": "{spacing.default.xxxl}"
       },
       "$type": "spacing",
       "$value": "{spacing.default.xxxl}",

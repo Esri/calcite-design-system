@@ -28,7 +28,7 @@
       "$description": "Replaces `--calcite-corner-radius-sharp`",
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-corner-radius-sharp"
+        "calcite.replaces": "{corner-radius.sharp}"
       }
     },
     "xs": {
@@ -47,7 +47,7 @@
       "$description": "Replaces `--calcite-corner-radius-round`",
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-corner-radius-round"
+        "calcite.replaces": "{corner-radius.round}"
       }
     },
     "round": {
