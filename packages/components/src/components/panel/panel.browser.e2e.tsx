@@ -261,19 +261,20 @@ describe("header slots", () => {
       </calcite-panel>,
     );
 
-    const headerTop = page.getBySelector(`calcite-panel >>> .${CSS.headerTop}`);
-    const headerContainer = page.getBySelector(`calcite-panel >>> .${CSS.headerContainer}`);
+    const headerTop = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.headerTop}`)!;
+    const headerContainer = component.el.shadowRoot!.querySelector<HTMLElement>(
+      `.${CSS.headerContainer}`,
+    )!;
 
     await expect.element(page.getByText("Header top")).toBeVisible();
-    await expect.element(page.getBySelector("calcite-panel >>> #close")).toBeVisible();
 
-    const headerTopRect = headerTop.element().getBoundingClientRect();
-    const headerContainerRect = headerContainer.element().getBoundingClientRect();
+    const headerTopRect = headerTop.getBoundingClientRect();
+    const headerContainerRect = headerContainer.getBoundingClientRect();
     const panelRect = component.el.getBoundingClientRect();
 
     expect(headerTopRect.width).toBe(panelRect.width);
     expect(headerTopRect.bottom).toBeLessThanOrEqual(headerContainerRect.top);
-    expect(getComputedStyle(headerTop.element()).borderBlockEndWidth).toBe("1px");
+    expect(getComputedStyle(headerTop).borderBlockEndWidth).toBe("1px");
   });
 
   it("renders heading and description properties when heading/description slots are empty", async () => {

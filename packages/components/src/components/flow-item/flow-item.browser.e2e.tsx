@@ -208,7 +208,7 @@ describe("slots", () => {
 
   it("forwards header-top content to the internal panel", async () => {
     await mount(
-      <calcite-flow-item>
+      <calcite-flow-item selected>
         <div slot={SLOTS.headerTop}>Header top</div>
       </calcite-flow-item>,
     );
