@@ -18,6 +18,7 @@ import { Dir } from "../types";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
+import type { Panel } from "../panel/panel";
 
 mockConsole();
 
@@ -517,7 +518,9 @@ describe("shell-panel updateSize public method", () => {
     );
     const panel = getShellPanelBySlot("panel-bottom");
     const siblingPanel = getShellPanelBySlot("panel-top");
-    const centerPanel = page.getBySelector("calcite-shell > calcite-panel:not([slot])");
+    const centerPanel = page
+      .getBySelector("calcite-shell > calcite-panel:not([slot])")
+      .element() as Panel["el"];
     const { actionBarContainer, content, handle } = getShellPanelElements(panel);
 
     await dragPanelToMax({
