@@ -929,7 +929,9 @@
     "$figmaVariableReferences": {},
     "selectedTokenSets": {
       "core/font": "source",
-      "semantic/typography": "enabled"
+      "semantic/typography": "enabled",
+      "semantic/font": "source",
+      "core/size": "source"
     },
     "group": "_styles"
   }
