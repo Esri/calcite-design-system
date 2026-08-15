@@ -1,30 +1,34 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { Slider } from "./slider";
 
-const { scale, status } = ATTRIBUTES;
+const { scale, sliderFillPlacement, status } = ATTRIBUTES;
 
 interface SliderStoryArgs extends Pick<
   Slider,
   | "min"
   | "max"
+  | "maxLabel"
   | "value"
   | "step"
+  | "fillPlacement"
   | "minLabel"
   | "disabled"
+  | "labelText"
   | "labelHandles"
   | "labelTicks"
   | "ticks"
   | "pageStep"
   | "precise"
+  | "required"
   | "mirrored"
   | "snap"
   | "scale"
   | "status"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 > {
   temperature: string;
 }
@@ -36,13 +40,17 @@ export default {
     max: 100,
     value: 50,
     step: 1,
+    maxLabel: "",
+    fillPlacement: "all",
     minLabel: "Temperature",
     disabled: false,
+    labelText: "Label text",
     labelHandles: false,
     labelTicks: false,
     ticks: 0,
     pageStep: 5,
     precise: false,
+    required: false,
     mirrored: false,
     snap: true,
     scale: scale.defaultValue,
@@ -63,6 +71,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    fillPlacement: {
+      options: sliderFillPlacement.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -77,21 +89,25 @@ export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"
+    max-label="${args.maxLabel}"
     value="${args.value}"
     step="${args.step}"
+    fill-placement="${args.fillPlacement}"
     min-label="${args.minLabel}"
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
     ${boolean("label-handles", args.labelHandles)}
     ${boolean("label-ticks", args.labelTicks)}
     ticks="${args.ticks}"
     page-step="${args.pageStep}"
     ${boolean("precise", args.precise)}
+    ${boolean("required", args.required)}
     ${boolean("mirrored", args.mirrored)}
     ${boolean("snap", args.snap)}
     scale="${args.scale}"
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-slider>
 `;
 

@@ -1,5 +1,12 @@
 import { h } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders, accessible } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -39,6 +46,23 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-icon"), { display: "inline-flex" });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-icon"), {
+      "--calcite-icon-color": {
+        targetProp: "color",
+      },
+    });
+  });
+  describe("deprecated", () => {
+    themed(() => mount("calcite-icon"), {
+      "--calcite-ui-icon-color": {
+        targetProp: "color",
+      },
+    });
+  });
 });
 
 it("flips icon when enabled and in RTL", async () => {
@@ -117,4 +141,88 @@ describe("rendering", () => {
       }),
     );
   });
+});
+
+it("supports, incorrect legacy kebab-icon names (deprecated)", async () => {
+  const { el } = await mount("calcite-icon");
+
+  const legacyIconNames = [
+    "arcgis-survey123",
+    "arrow-double-diagonal1",
+    "arrow-double-diagonal2",
+    "arrow-left10",
+    "arrow-right10",
+    "battery1",
+    "battery2",
+    "battery3",
+    "battery4",
+    "graph-bar100-stacked",
+    "hexagon2",
+    "hexagon2-inset-large",
+    "hexagon2-inset-medium",
+    "hexagon2-inset-small",
+    "i12x",
+    "i14x",
+    "i18x",
+    "i1x",
+    "i2d",
+    "i2d-explore",
+    "i2x",
+    "i360-view",
+    "i3d",
+    "i3d-building",
+    "i3d-building-parameter",
+    "i3d-glasses",
+    "i3d-search",
+    "i4x",
+    "i8x",
+    "language2",
+    "launch2",
+    "layer3d",
+    "merge2",
+    "number-circle1",
+    "number-circle1f",
+    "number-circle2",
+    "number-circle2f",
+    "number-circle3",
+    "number-circle3f",
+    "number-circle4",
+    "number-circle4f",
+    "number-circle5",
+    "number-circle5f",
+    "number-circle6",
+    "number-circle6f",
+    "number-circle7",
+    "number-circle7f",
+    "number-circle8",
+    "number-circle8f",
+    "number-circle9",
+    "number-circle9f",
+    "person2",
+    "pop-up1",
+    "satellite0",
+    "satellite0f",
+    "satellite1",
+    "satellite1f",
+    "satellite2",
+    "satellite2f",
+    "satellite3",
+    "satellite3f",
+    "shapes2d3d",
+    "subheading1",
+    "subheading1-rtl",
+    "subheading2",
+    "subheading2-rtl",
+    "subheading3",
+    "subheading3-rtl",
+    "subheading4",
+    "subheading4-rtl",
+    "subheading5",
+    "subheading5-rtl",
+    "summarize-center-and-dispersion1",
+    "summarize-center-and-dispersion2",
+    "summarize-center-and-dispersion3",
+  ] as const;
+
+  legacyIconNames.forEach((iconName) => (el.icon = iconName));
 });

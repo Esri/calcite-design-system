@@ -1,15 +1,15 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
 
-const { scale } = ATTRIBUTES;
+const { alignment, scale } = ATTRIBUTES;
 
 interface TileStoryArgs extends Pick<
   Tile,
-  "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"
+  "active" | "alignment" | "description" | "disabled" | "embed" | "heading" | "href" | "icon" | "scale" | "selected"
 > {
   hidden: boolean;
 }
@@ -18,16 +18,23 @@ export default {
   title: "Components/Tiles/Tile",
   args: {
     active: false,
+    alignment: alignment.defaultValue,
     description:
       "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
     disabled: false,
+    embed: false,
     heading: "Tile heading lorem ipsum",
     hidden: false,
     href: "#",
     icon: "layer",
     scale: scale.defaultValue,
+    selected: false,
   },
   argTypes: {
+    alignment: {
+      options: alignment.values.filter((option) => option !== "end"),
+      control: { type: "select" },
+    },
     icon: {
       options: iconNames,
       control: { type: "select" },
@@ -42,13 +49,16 @@ export default {
 export const simple = (args: TileStoryArgs): string => html`
   <calcite-tile
     ${boolean("active", args.active)}
+    alignment="${args.alignment}"
     description="${args.description}"
     ${boolean("disabled", args.disabled)}
+    ${boolean("embed", args.embed)}
     heading="${args.heading}"
     ${boolean("hidden", args.hidden)}
     href="${args.href}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     scale="${args.scale}"
+    ${boolean("selected", args.selected)}
   >
   </calcite-tile>
 `;

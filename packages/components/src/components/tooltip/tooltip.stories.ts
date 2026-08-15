@@ -1,8 +1,11 @@
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { placements } from "../../utils/floating-ui";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
-import { Tooltip } from "./tooltip";
+import type { Tooltip } from "./tooltip";
+import { allModes } from "../../../.storybook/modes";
+
+const { overlayPositioning, placement, scale } = ATTRIBUTES;
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
@@ -10,26 +13,41 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 
 type TooltipStoryArgs = Pick<
   Tooltip,
-  "placement" | "offsetDistance" | "offsetSkidding" | "open" | "pointerDisabled" | "scale"
+  | "closeOnClick"
+  | "offsetDistance"
+  | "offsetSkidding"
+  | "open"
+  | "overlayPositioning"
+  | "placement"
+  | "pointerDisabled"
+  | "scale"
+  | "topLayerDisabled"
 >;
 
 export default {
   title: "Components/Tooltip",
   args: {
-    placement: placements[0],
+    placement: placement.defaultValue,
     offsetDistance: 6,
     offsetSkidding: 0,
     open: false,
+    closeOnClick: false,
+    overlayPositioning: overlayPositioning.defaultValue,
     pointerDisabled: false,
-    scale: "m",
+    scale: scale.defaultValue,
+    topLayerDisabled: false,
   },
   argTypes: {
     placement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     scale: {
-      options: ["s", "m", "l"],
+      options: scale.values,
+      control: { type: "select" },
+    },
+    overlayPositioning: {
+      options: overlayPositioning.values,
       control: { type: "select" },
     },
   },
@@ -41,10 +59,13 @@ export const simple = (args: TooltipStoryArgs): string => html`
     <calcite-tooltip
       reference-element="reference-element"
       placement="${args.placement}"
+      ${boolean("close-on-click", args.closeOnClick)}
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
+      overlay-positioning="${args.overlayPositioning}"
       ${boolean("pointer-disabled", args.pointerDisabled)}
       scale="${args.scale}"
+      ${boolean("top-layer-disabled", args.topLayerDisabled)}
       ${boolean("open", args.open)}
     >
       <span> ${contentHTML} </span>
@@ -172,7 +193,7 @@ export const smallViewport = (): string => html`
     aliqua</calcite-tooltip
   >
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const open = (): string => html`
   <div style="width: 400px;">

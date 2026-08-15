@@ -1,25 +1,29 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { hourFormats } from "../../utils/time";
 import { InputTimePicker } from "./input-time-picker";
 
-const { scale, status } = ATTRIBUTES;
+const { hourFormat, menuPlacement, scale, status } = ATTRIBUTES;
 
 interface InputTimePickerStoryArgs extends Pick<
   InputTimePicker,
+  | "clearable"
   | "disabled"
   | "hourFormat"
-  | "name"
+  | "labelText"
+  | "max"
+  | "min"
+  | "open"
   | "placeholder"
   | "placement"
+  | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "step"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
   | "value"
 > {
   hidden: boolean;
@@ -28,11 +32,17 @@ interface InputTimePickerStoryArgs extends Pick<
 export default {
   title: "Components/Controls/Time/Input Time Picker",
   args: {
+    clearable: false,
     disabled: false,
     hidden: false,
     hourFormat: undefined,
-    name: "simple",
-    placement: defaultMenuPlacement,
+    labelText: "Label text",
+    max: "",
+    min: "",
+    open: false,
+    placement: menuPlacement.defaultValue,
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     step: 1,
@@ -42,11 +52,11 @@ export default {
   },
   argTypes: {
     hourFormat: {
-      options: hourFormats,
+      options: hourFormat.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     scale: {
@@ -66,17 +76,22 @@ export default {
 
 export const simple = (args: InputTimePickerStoryArgs): string => html`
   <calcite-input-time-picker
+    ${boolean("clearable", args.clearable)}
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
     hour-format="${args.hourFormat}"
-    name="${args.name}"
+    ${optionalAttribute("label-text", args.labelText)}
+    max="${args.max}"
+    min="${args.min}"
     placeholder="${args.placeholder}"
     placement="${args.placement}"
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     scale="${args.scale}"
     status="${args.status}"
     step="${args.step}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     value="${args.value}"
   >
   </calcite-input-time-picker>
@@ -256,3 +271,18 @@ export const Focus = (): string =>
 Focus.parameters = {
   chromatic: { delay: 2000 },
 };
+
+export const clearable = (): string => html`
+  <calcite-input-time-picker clearable value="10:37"></calcite-input-time-picker>
+`;
+
+export const timePartsAlignedInBothDirectionsWhenWide = (): string => html`
+  <style>
+    calcite-input-time-picker {
+      width: 300px;
+    }
+  </style>
+  <calcite-input-time-picker value="22:37"></calcite-input-time-picker>
+  <br />
+  <calcite-input-time-picker dir="rtl" lang="ar" numbering-system="arab" value="22:37"></calcite-input-time-picker>
+`;

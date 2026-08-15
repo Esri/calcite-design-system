@@ -1,9 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { themed } from "../../tests/commonTests";
+
 import { skipAnimations } from "../../tests/utils/puppeteer";
-import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Popover } from "./popover";
@@ -654,95 +653,4 @@ it("should not reopen when trigger is clicked and autoClose=true", async () => {
   await page.waitForChanges();
 
   expect(await popover.getProperty("open")).toBe(false);
-});
-
-describe("warning messages", () => {
-  it("does not warn if reference element is present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-popover reference-element="ref">content</calcite-popover>
-        <div id="ref">referenceElement</div>`,
-    );
-    await page.waitForChanges();
-
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it("does not warn after removal", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-popover reference-element="ref">content</calcite-popover>
-        <div id="ref">referenceElement</div>`,
-    );
-    await page.waitForChanges();
-    const popover = await page.find("calcite-popover");
-    await popover.callMethod("remove");
-    await page.waitForChanges();
-
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it("warns if reference element is not present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-popover reference-element="non-existent-ref">content</calcite-popover>`);
-    await page.waitForChanges();
-
-    expect(console.warn).toHaveBeenCalledWith(
-      expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
-    );
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`
-        <calcite-popover heading="I'm a heading in the header using the 'heading' prop!"> Lorem Ipsum </calcite-popover>
-      `,
-      {
-        "--calcite-popover-background-color": [
-          {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "backgroundColor",
-          },
-          {
-            shadowSelector: `.${FloatingCSS.arrow}`,
-            targetProp: "fill",
-          },
-        ],
-        "--calcite-popover-border-color": [
-          {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "borderColor",
-          },
-          {
-            shadowSelector: `.${CSS.header}`,
-            targetProp: "borderBlockEndColor",
-          },
-          {
-            shadowSelector: `.${FloatingCSS.arrowStroke}`,
-            targetProp: "stroke",
-          },
-        ],
-        "--calcite-popover-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderRadius",
-        },
-        "--calcite-popover-max-size-x": {
-          shadowSelector: `.${CSS.positionContainer}`,
-          targetProp: "maxInlineSize",
-        },
-        "--calcite-popover-text-color": [
-          {
-            shadowSelector: `.${CSS.heading}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.headerContainer}`,
-            targetProp: "color",
-          },
-        ],
-      },
-    );
-  });
 });

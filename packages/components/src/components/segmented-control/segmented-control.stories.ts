@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SegmentedControl } from "./segmented-control";
@@ -8,7 +8,16 @@ const { layout, appearance, scale, width, status } = ATTRIBUTES;
 
 type SegmentedControlStoryArgs = Pick<
   SegmentedControl,
-  "layout" | "appearance" | "scale" | "width" | "disabled" | "status" | "validationIcon" | "validationMessage"
+  | "layout"
+  | "appearance"
+  | "scale"
+  | "width"
+  | "disabled"
+  | "labelText"
+  | "required"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -19,6 +28,8 @@ export default {
     scale: scale.defaultValue,
     width: width.defaultValue,
     disabled: false,
+    labelText: "Label text",
+    required: false,
     status: status.defaultValue,
     validationIcon: "",
     validationMessage: "",
@@ -67,8 +78,10 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
     scale="${args.scale}"
     width="${args.width}"
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
+    ${boolean("required", args.required)}
     status="${args.status}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     validation-message="${args.validationMessage}"
   >
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>

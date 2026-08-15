@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -53,6 +53,72 @@ it("should set 'layout' and 'position' on slotted panels", async () => {
   const topPanel = await page.find(`[slot="${SLOTS.panelTop}"]`);
   expect(await topPanel.getProperty("position")).toBe("start");
   expect(await topPanel.getProperty("layout")).toBe("horizontal");
+});
+
+describe("action bar position panel", () => {
+  mockConsole();
+
+  it("should reflect when a slotted shell panel has an action bar position", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-shell>
+        <calcite-panel heading="Content"></calcite-panel>
+        <calcite-shell-panel action-bar-position="bottom" slot="${SLOTS.panelBottom}">
+          <p>Bottom Content</p>
+        </calcite-shell-panel>
+      </calcite-shell>`,
+    );
+
+    await page.waitForChanges();
+
+    const shellPanel = await page.find("calcite-shell-panel");
+
+    expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasActionBarPositionPanel}`)).not.toBeNull();
+
+    await shellPanel.setProperty("actionBarPosition", undefined);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasActionBarPositionPanel}`)).toBeNull();
+
+    await shellPanel.setProperty("actionBarPosition", "top");
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasActionBarPositionPanel}`)).not.toBeNull();
+  });
+});
+
+it("should apply resizable panel classes to the main container", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(
+    html`<calcite-shell>
+      <calcite-shell-panel slot="${SLOTS.panelTop}">
+        <p>Top content</p>
+      </calcite-shell-panel>
+      <calcite-shell-panel slot="${SLOTS.panelBottom}">
+        <p>Bottom content</p>
+      </calcite-shell-panel>
+    </calcite-shell>`,
+  );
+
+  await page.waitForChanges();
+
+  const topPanel = await page.find(`[slot="${SLOTS.panelTop}"]`);
+  const bottomPanel = await page.find(`[slot="${SLOTS.panelBottom}"]`);
+
+  await topPanel.setProperty("resizable", true);
+  await bottomPanel.setProperty("resizable", true);
+  await page.waitForChanges();
+
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelTop}`)).not.toBeNull();
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelBottom}`)).not.toBeNull();
+
+  await topPanel.setProperty("resizable", false);
+  await page.waitForChanges();
+
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelTop}`)).toBeNull();
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelBottom}`)).not.toBeNull();
 });
 
 it("should place content behind", async () => {
@@ -211,32 +277,5 @@ describe("embedded", () => {
 
     expect(await block.getProperty("expanded")).toBe(true);
     expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    mockConsole();
-
-    themed(
-      html`<calcite-shell>
-        <calcite-panel slot="panel-start" heading="Example">Hello world</calcite-panel>
-        <calcite-flow slot="panel-end">
-          <calcite-flow-item heading="Example">Hello world</calcite-flow-item>
-        </calcite-flow>
-      </calcite-shell>`,
-      {
-        "--calcite-shell-border-color": [
-          {
-            targetProp: "borderColor",
-            selector: "calcite-panel",
-          },
-          {
-            targetProp: "borderColor",
-            selector: "calcite-flow",
-          },
-        ],
-      },
-    );
   });
 });

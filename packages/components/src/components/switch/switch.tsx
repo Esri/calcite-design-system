@@ -1,8 +1,9 @@
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { Scale } from "../interfaces";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale } from "../types";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -44,6 +45,8 @@ export class Switch extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   //#endregion
 
   //#region Public Properties
@@ -69,8 +72,21 @@ export class Switch extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property({ reflect: true }) name?: string;
 
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
+  @property({ reflect: true }) required = false;
+
   /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value: any;
@@ -106,14 +122,6 @@ export class Switch extends LitElement implements LabelableComponent {
     super();
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion

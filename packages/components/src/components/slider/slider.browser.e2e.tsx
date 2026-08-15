@@ -3,7 +3,9 @@ import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
+
 import {
+  accessible,
   defaults,
   disabled,
   formAssociated,
@@ -12,6 +14,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Slider } from "./slider";
@@ -39,6 +42,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "labelFormatter",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "label",
         defaultValue: undefined,
       },
       {
@@ -98,6 +105,59 @@ describe("reflects", () => {
       },
     ],
   );
+});
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-slider
+        label="hello world"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    ),
+  );
+
+  it("applies min and max labels to the corresponding thumbs", async () => {
+    await mount<Slider>(
+      <calcite-slider
+        label="Group label"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    );
+
+    const container = page.getByLabelText("Group label");
+    await expect.element(container).toHaveAttribute("aria-label", "Group label");
+
+    const [minThumb, maxThumb] = page.getByRole("slider").all();
+
+    await expect.element(minThumb).toHaveAttribute("aria-label", "Minimum");
+    await expect.element(maxThumb).toHaveAttribute("aria-label", "Maximum");
+  });
+
+  it("uses label as fallback aria-label for single-value thumb", async () => {
+    await mount(<calcite-slider label="Single fallback label" value={25} />);
+
+    const thumb = page.getByRole("slider");
+
+    await expect.element(thumb).toHaveAttribute("aria-label", "Single fallback label");
+  });
+
+  it("uses label as fallback aria-label for range thumbs and labels container as group", async () => {
+    await mount(<calcite-slider label="Range fallback label" max-value="75" min-value="50" />);
+
+    const container = page.getByRole("group", { name: "Range fallback label" });
+    const [minThumb, maxThumb] = page.getByRole("slider").all();
+
+    await expect.element(container).toHaveAttribute("aria-label", "Range fallback label");
+    await expect.element(minThumb).toHaveAttribute("aria-label", "Range fallback label");
+    await expect.element(maxThumb).toHaveAttribute("aria-label", "Range fallback label");
+  });
 });
 
 describe("honors hidden attribute", () => {
@@ -413,5 +473,134 @@ describe("number locale support", () => {
         .element(valueDisplayEls.tickMax)
         .toHaveTextContent(formattedValuesPerLanguageObject[lang][3]);
     }
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-slider value={30} />), {
+      "--calcite-slider-track-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-slider-track-fill-color": {
+        shadowSelector: `.${CSS.trackRange}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-slider-handle-fill-color": {
+        shadowSelector: `.${CSS.handle}`,
+        targetProp: "backgroundColor",
+      },
+    });
+  });
+
+  describe("text color", () => {
+    describe("should apply handle label", () => {
+      themed(
+        () => mount(<calcite-slider label-handles max-label="100" min-label="0" value={30} />),
+        {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.handleLabel}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+    describe("should apply tick labels", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.tickLabel}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+  });
+
+  describe("handle extension", () => {
+    describe("should apply handle extension", () => {
+      themed(() => mount(<calcite-slider precise value={30} />), {
+        "--calcite-slider-handle-extension-color": {
+          shadowSelector: `.${CSS.handleExtension}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+  });
+
+  describe("ticks", () => {
+    describe("should apply ticks", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-color": {
+            shadowSelector: `.${CSS.tick}:not(.${CSS.tickActive})`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+    describe("should apply ticks border", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-border-color": {
+            shadowSelector: `.${CSS.tick}`,
+            targetProp: "borderColor",
+          },
+        },
+      );
+    });
+    describe("should apply ticks in selected range", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-selected-color": {
+            shadowSelector: `.${CSS.tickActive}`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+  });
+
+  describe("--calcite-slider-graph-color", () => {
+    describe("should apply graph", () => {
+      themed(
+        () =>
+          mount(
+            <calcite-slider
+              histogram={[
+                [0, 0],
+                [20, 12],
+                [40, 35],
+                [60, 65],
+                [80, 25],
+                [90, 10],
+                [100, 0],
+              ]}
+              id="basicHistogram"
+              label-handles
+              max={100}
+              min={0}
+              scale="m"
+              step={1}
+              value={60}
+            />,
+          ),
+        {
+          "--calcite-slider-graph-color": {
+            shadowSelector: `.${CSS.graph}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 });

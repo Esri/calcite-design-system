@@ -12103,5 +12103,25 @@
     "alias": ["5.0.0", "people", "progress", "browser", "web", "maintain", "safeguard"],
     "category": "People",
     "release": "5.0.0"
+  },
+  "arcgis-enterprise": {
+    "alias": ["5.0.0", "brand", "logo", "product"],
+    "category": "Brand",
+    "release": "5.0.0"
+  },
+  "tree-map": {
+    "alias": ["4.6.0", "charts and graphs", "data", "analytics", "plants", "visualization", "forestry", "urban"],
+    "category": "Charts and Graphs",
+    "release": "4.6.0"
+  },
+  "radar-chart": {
+    "alias": ["4.6.0", "charts and graphs", "variables", "data", "two-dimensional", "quantitative"],
+    "category": "Charts and Graphs",
+    "release": "4.6.0"
+  },
+  "load-configuration": {
+    "alias": ["4.6.0", "knowledge graph", "table", "custom", "file", "command", "template"],
+    "category": "Knowledge Graph",
+    "release": "4.6.0"
   }
 }

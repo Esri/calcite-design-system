@@ -1,9 +1,11 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { placements } from "../../utils/floating-ui";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { allModes } from "../../../.storybook/modes";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
-import { Popover } from "./popover";
+import type { Popover } from "./popover";
+
+const { placement, scale } = ATTRIBUTES;
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -18,7 +20,15 @@ const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-butto
 
 interface PopoverStoryArgs extends Pick<
   Popover,
-  "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
+  | "autoClose"
+  | "closable"
+  | "flipDisabled"
+  | "offsetDistance"
+  | "offsetSkidding"
+  | "open"
+  | "placement"
+  | "pointerDisabled"
+  | "scale"
 > {
   textClose: string;
 }
@@ -26,6 +36,7 @@ interface PopoverStoryArgs extends Pick<
 export default {
   title: "Components/Popover",
   args: {
+    autoClose: false,
     closable: false,
     flipDisabled: false,
     pointerDisabled: false,
@@ -33,11 +44,16 @@ export default {
     offsetDistance: 6,
     offsetSkidding: 0,
     open: true,
+    scale: scale.defaultValue,
     textClose: "Close",
   },
   argTypes: {
     placement: {
-      options: placements,
+      options: placement.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
   },
@@ -53,10 +69,12 @@ export const simple = (args: PopoverStoryArgs): string => html`
     ${referenceElementHTML}
     <calcite-popover
       ${boolean("closable", args.closable)}
+      ${boolean("auto-close", args.autoClose)}
       ${boolean("flip-disabled", args.flipDisabled)}
       ${boolean("pointer-disabled", args.pointerDisabled)}
       reference-element="reference-element"
       placement="${args.placement}"
+      scale="${args.scale}"
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
       ${boolean("open", args.open)}
@@ -78,7 +96,7 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const darkModeRTL = (): string =>
   html` <div style="width: 400px;">

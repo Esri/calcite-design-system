@@ -1,7 +1,8 @@
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
-import { FlipContext, Scale } from "../interfaces";
+import { FlipContext, Scale } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { guid } from "../../utils/guid";
 import { highlightText } from "../../utils/text";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -60,13 +61,13 @@ export class AutocompleteItem extends LitElement {
   @property() heading!: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Pattern for highlighting text matches.
@@ -114,6 +115,30 @@ export class AutocompleteItem extends LitElement {
    * Fires when the item has been selected.
    */
   calciteAutocompleteItemSelect = createEvent({ cancelable: false });
+
+  /**
+   * Fires whenever a property the parent autocomplete needs to know about is changed.
+   *
+   * @private
+   */
+  calciteInternalAutocompleteItemChange = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (
+      this.hasUpdated &&
+      (changes.has("description") ||
+        changes.has("disabled") ||
+        changes.has("heading") ||
+        changes.has("label") ||
+        changes.has("selected"))
+    ) {
+      this.calciteInternalAutocompleteItemChange.emit();
+    }
+  }
 
   //#endregion
 

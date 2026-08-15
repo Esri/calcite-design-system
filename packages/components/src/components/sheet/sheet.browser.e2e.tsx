@@ -3,6 +3,7 @@ import { h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
+
 import {
   defaults,
   focusable,
@@ -13,10 +14,11 @@ import {
   renders,
   topLayer,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { Dir } from "../interfaces";
-import { CSS } from "./resources";
+import { Dir } from "../types";
+import { CSS, IDS } from "./resources";
 import { Sheet } from "./sheet";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
@@ -327,4 +329,68 @@ describe("sheet updateSize public method", () => {
 
 describe("top layer placement", () => {
   topLayer(() => mount("calcite-sheet"));
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-sheet
+            display-mode="float"
+            height="m"
+            open
+            position="inline-start"
+            resizable
+            width="l"
+          >
+            <calcite-panel heading="hello world">test!</calcite-panel>
+          </calcite-sheet>,
+        ),
+      {
+        "--calcite-sheet-background-color": {
+          shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-sheet-border-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "borderInlineStartColor",
+        },
+        "--calcite-sheet-corner-radius": [
+          {
+            shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.contentContainer}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.resizeHandleBar}`,
+            targetProp: "borderStartEndRadius",
+          },
+        ],
+        "--calcite-sheet-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-sheet-shadow": {
+          shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-sheet-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-sheet-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
+      },
+    );
+  });
 });

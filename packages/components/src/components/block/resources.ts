@@ -1,4 +1,4 @@
-import type { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/types";
 import type { Block } from "./block";
 
 export const IDS = {
@@ -15,6 +15,7 @@ export const CSS = {
   contentEnd: "content-end",
   contentStart: "content-start",
   description: "description",
+  hasSlottedContent: "has-slotted-content",
   header: "header",
   headerContainer: "header-container",
   headerHasContent: "header--has-content",
@@ -37,6 +38,7 @@ export const SLOTS = {
   actionsEnd: "actions-end",
   contentEnd: "content-end",
   contentStart: "content-start",
+  children: "children",
   headerMenuActions: "header-menu-actions",
 };
 

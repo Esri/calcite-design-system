@@ -4,7 +4,7 @@ import { html } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ModeName } from "../components/interfaces";
 import { createControlledPromise } from "../tests/utils/promises";
-import type { IconName } from "../components/icon/interfaces";
+import type { IconName } from "../components/icon/types";
 import { guidPattern } from "./guid.browser.spec";
 import {
   ensureId,

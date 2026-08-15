@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+
 import {
   defaults,
   focusable,
@@ -9,6 +10,7 @@ import {
   renders,
   t9n,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -142,4 +144,52 @@ describe("renders", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-block-section"));
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-block-section expanded icon-end="pen" icon-start="pen" text="a block-section">
+            <p>Block section content</p>
+          </calcite-block-section>,
+        ),
+      {
+        "--calcite-block-section-border-color": {
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-block-section-background-color": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-block-section-header-text-color": [
+          {
+            targetProp: "color",
+          },
+        ],
+        "--calcite-block-section-text-color": [
+          { shadowSelector: `.${CSS.chevronIcon}`, targetProp: "color" },
+          { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+          { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
+        ],
+        "--calcite-block-section-text-color-hover": [
+          {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "color",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.chevronIcon}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        ],
+        "--calcite-block-section-content-space": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "paddingBlock",
+        },
+      },
+    );
+  });
 });

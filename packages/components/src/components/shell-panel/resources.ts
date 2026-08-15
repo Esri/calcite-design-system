@@ -1,10 +1,11 @@
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   container: "container",
   actionBarContainer: "action-bar-container",
   contentContainer: "content-container",
   content: "content",
+  contentActionBarExpanded: "content--action-bar-expanded",
   contentHeader: "content__header",
   contentBody: "content__body",
   contentOverlay: "content--overlay",

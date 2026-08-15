@@ -1395,6 +1395,8 @@
     "building-index": 61932,
     "smart-search": 61933,
     "weather-radar": 61934,
-    "user-save": 61935
+    "user-save": 61935,
+    "arcgis-enterprise": 61936,
+    "load-configuration": 61937
   }
 }

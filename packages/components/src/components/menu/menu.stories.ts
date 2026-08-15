@@ -4,11 +4,12 @@ import { Menu } from "./menu";
 
 const { layout } = ATTRIBUTES;
 
-type MenuStoryArgs = Pick<Menu, "layout">;
+type MenuStoryArgs = Pick<Menu, "label" | "layout">;
 
 export default {
   title: "Components/Menu",
   args: {
+    label: "Menu",
     layout: layout.defaultValue,
   },
   argTypes: {
@@ -29,7 +30,7 @@ export default {
 };
 
 export const simple = (args: MenuStoryArgs): string => html`
-  <calcite-menu layout="${args.layout}">
+  <calcite-menu label="${args.label}" layout="${args.layout}">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>

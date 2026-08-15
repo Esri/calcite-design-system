@@ -4,12 +4,14 @@ import { testTimeZones } from "../src/components/input-time-zone/time-zone-fixtu
 const [mode, ...testArgs] = process.argv.slice(2);
 
 if (mode !== "run" && mode !== "watch") {
+  // eslint-disable-next-line no-console -- script logging
   console.error(`Expected mode to be "run" or "watch", received "${mode ?? ""}".`);
   process.exit(1);
 }
 
 const vitestArgs = [mode, "--config", "vite.time-zone.config.ts", ...testArgs];
 const childProcesses = testTimeZones.map(({ name }) => {
+  // eslint-disable-next-line no-console -- script logging
   console.log(`[time-zone:${name}] vitest ${vitestArgs.join(" ")}`);
 
   return spawn("vitest", vitestArgs, {
@@ -17,7 +19,6 @@ const childProcesses = testTimeZones.map(({ name }) => {
       ...process.env,
       BROWSER_TIME_ZONE: name,
     },
-    shell: true,
     stdio: "inherit",
   });
 });

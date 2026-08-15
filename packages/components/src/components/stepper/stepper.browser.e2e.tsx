@@ -1,11 +1,12 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { LitElement } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -167,5 +168,95 @@ describe("inheritable props in shadow DOM", () => {
       expect(item).toHaveProperty("scale", "l");
       expect(item).toHaveProperty("numberingSystem", "arab");
     }
+  });
+});
+
+describe("theme", () => {
+  describe("horizontal-single", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-stepper layout="horizontal-single" scale="m">
+            <calcite-stepper-item heading="Item 1" selected />
+            <calcite-stepper-item complete heading="Item 2" />
+            <calcite-stepper-item error heading="Item 3" />
+          </calcite-stepper>,
+        ),
+      {
+        "--calcite-stepper-bar-gap": {
+          shadowSelector: `.${CSS.stepBarContainer}`,
+          targetProp: "gap",
+        },
+        "--calcite-stepper-bar-inactive-fill-color": {
+          shadowSelector: `.${CSS.stepBarInactive}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-bar-active-fill-color": {
+          shadowSelector: `.${CSS.stepBarActive}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-bar-complete-fill-color": {
+          shadowSelector: `.${CSS.stepBarComplete}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-bar-error-fill-color": {
+          shadowSelector: `.${CSS.stepBarError}`,
+          targetProp: "fill",
+        },
+      },
+    );
+  });
+});
+
+describe("keyboard navigation", () => {
+  async function mountStepper(
+    layout: Extract<Stepper["layout"], "horizontal" | "vertical">,
+  ): Promise<void> {
+    await mount<Stepper>(
+      <calcite-stepper layout={layout}>
+        <calcite-stepper-item heading="Step 1" id="step-1" selected>
+          <button id="step-1-button" type="button">
+            Step 1 content
+          </button>
+        </calcite-stepper-item>
+        <calcite-stepper-item disabled heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 3" id="step-3">
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>,
+    );
+  }
+
+  it("supports keyboard navigation navigation in horizontal layout", async () => {
+    await mountStepper("horizontal");
+
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+    const contentButton = page.getBySelector("#step-1-button");
+
+    await userEvent.click(contentButton);
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(contentButton).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(thirdItem).toHaveFocus();
+  });
+
+  it("supports keyboard navigation navigation in vertical layout", async () => {
+    await mountStepper("vertical");
+
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(thirdItem).toHaveFocus();
   });
 });

@@ -16,7 +16,7 @@ import type { NavigationLogo as HTMLCalciteNavigationLogoElement } from "../navi
 import type { NavigationUser as HTMLCalciteNavigationUserElement } from "../navigation-user/navigation-user";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./navigation.scss";
 
@@ -82,7 +82,7 @@ export class Navigation extends LitElement {
 
   // #region Public Properties
 
-  /** When `navigationAction` is `true`, specifies an accessible label for the `calcite-action`. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */

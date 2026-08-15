@@ -7,6 +7,7 @@ import type { MenuItem } from "../menu-item/menu-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
+import { isMenuItem } from "../menu-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -45,8 +46,7 @@ export class Menu extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -79,7 +79,7 @@ export class Menu extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalMenuItemKeyEvent", this.calciteInternalNavMenuItemKeyEvent);
+    this.listen("keydown", this.calciteInternalNavMenuItemKeyEvent);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -101,48 +101,74 @@ export class Menu extends LitElement {
     this.setMenuItemLayout(this.menuItems, this.layout);
   }
 
-  private calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
-    const target = event.target as MenuItem["el"];
-    const submenuItems = event.detail.children;
-    const key = event.detail.event.key;
-    event.stopPropagation();
+  private calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    const target = this.getMenuItemFromEvent(event);
+
+    if (!target) {
+      return;
+    }
+
+    const submenuItems = this.getSubmenuItems(target);
+    const hasSubmenu = submenuItems.length > 0;
+    const key = event.key;
+    let handled = false;
 
     if (key === "ArrowDown") {
       if (target.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "next", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          submenuItems[0].setFocus();
-        }
+        handled = true;
+      } else if (target.open && hasSubmenu) {
+        submenuItems[0].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowUp") {
-      if (this.layout === "vertical") {
+      if (target.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          submenuItems[submenuItems.length - 1].setFocus();
-        }
+        handled = true;
+      } else if (target.open && hasSubmenu) {
+        submenuItems[submenuItems.length - 1].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowRight") {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "next", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          submenuItems[0].setFocus();
-        }
+        handled = true;
+      } else if (target.open && hasSubmenu) {
+        submenuItems[0].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowLeft") {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          this.focusParentElement(event.target as MenuItem["el"]);
-        }
+        handled = true;
+      } else if (target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
+        this.focusParentElement(target);
+        handled = true;
       }
-    } else if (key === "Escape") {
-      this.focusParentElement(event.target as MenuItem["el"]);
+    } else if (key === "Escape" && target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
+      this.focusParentElement(target);
+      handled = true;
     }
-    event.preventDefault();
+
+    if (handled) {
+      event.preventDefault();
+    }
+  }
+
+  private getMenuItemFromEvent(event: KeyboardEvent): MenuItem["el"] | undefined {
+    const target = event.composedPath().find(isMenuItem);
+
+    return target && this.menuItems.includes(target) ? target : undefined;
+  }
+
+  private getSubmenuItems(menuItem: MenuItem["el"]): MenuItem["el"][] {
+    return Array.from(menuItem.children)
+      .filter(isMenuItem)
+      .filter((child) => child.matches('[slot="submenu-item"]'));
   }
 
   private handleMenuSlotChange(event: Event): void {

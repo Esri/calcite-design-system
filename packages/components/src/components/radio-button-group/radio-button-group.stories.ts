@@ -1,11 +1,15 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButtonGroup } from "./radio-button-group";
 
-const { layout, scale } = ATTRIBUTES;
+const { layout, scale, status } = ATTRIBUTES;
 
-interface RadioButtonGroupStoryArgs extends Pick<RadioButtonGroup, "disabled" | "layout" | "scale"> {
+interface RadioButtonGroupStoryArgs extends Pick<
+  RadioButtonGroup,
+  "disabled" | "labelText" | "layout" | "required" | "scale" | "status" | "validationIcon" | "validationMessage"
+> {
   hidden: boolean;
 }
 
@@ -14,8 +18,13 @@ export default {
   args: {
     disabled: false,
     hidden: false,
+    labelText: "Label text",
     layout: layout.defaultValue,
+    required: false,
     scale: scale.defaultValue,
+    status: status.defaultValue,
+    validationIcon: "",
+    validationMessage: "",
   },
   argTypes: {
     layout: {
@@ -35,6 +44,14 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -43,8 +60,13 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
     name="simple"
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
+    ${optionalAttribute("label-text", args.labelText)}
     layout="${args.layout}"
+    ${boolean("required", args.required)}
     scale="${args.scale}"
+    status="${args.status}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
+    validation-message="${args.validationMessage}"
   >
     <calcite-label layout="inline">
       <calcite-radio-button value="react"></calcite-radio-button>

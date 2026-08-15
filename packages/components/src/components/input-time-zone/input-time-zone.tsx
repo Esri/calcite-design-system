@@ -10,10 +10,10 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { Scale, Status } from "../interfaces";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale, Status } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
@@ -31,7 +31,7 @@ import {
   getUserTimeZoneOffset,
 } from "./utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
 import { styles } from "./input-time-zone.scss";
 
 declare global {
@@ -80,6 +80,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   /**
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
@@ -133,11 +135,11 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) name?: string;
 
   /**
-   * When `mode` is `"offset"`, specifies how the offset will be displayed, where
+   * When `mode` is `"offset"`, specifies how the offset will be displayed.
    *
-   * `"user"` uses `UTC` or `GMT` depending on the user's locale,
-   * `"gmt"` always uses `GMT`, and
-   * `"utc"` always uses `UTC`.
+   * - `"user"` uses `UTC` or `GMT` depending on the user's locale.
+   * - `"gmt"` always uses `GMT`.
+   * - `"utc"` always uses `UTC`.
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
@@ -146,6 +148,13 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
 
   /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -181,9 +190,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -191,7 +198,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -251,10 +257,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
   async load(): Promise<void> {
     this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
@@ -291,10 +293,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   loaded(): void {
     this.openChanged();
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -507,13 +505,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
           oncalciteComboboxClose={this.onComboboxClose}
           oncalciteComboboxOpen={this.onComboboxOpen}
           overlayPositioning={this.overlayPositioning}
-          placeholder={
-            this.mode === "name"
-              ? this.messages.namePlaceholder
-              : this.mode === "offset"
-                ? this.messages.offsetPlaceholder
-                : this.messages.regionPlaceholder
-          }
+          placeholder={this.placeholder || this.messages[`${this.mode}Placeholder`]}
           placeholderIcon="search"
           readOnly={this.readOnly}
           ref={this.comboboxRef}

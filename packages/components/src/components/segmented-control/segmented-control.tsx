@@ -12,16 +12,12 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import {
-  connectLabel,
-  disconnectLabel,
-  type LabelableComponent,
-  getLabelText,
-} from "../../utils/label";
-import type { Appearance, Layout, Scale, Status, Width } from "../interfaces";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import type { Appearance, Layout, Scale, Status, Width } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import type { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/types";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
@@ -74,6 +70,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   //#endregion
 
   //#region Public Properties
@@ -122,9 +120,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -132,7 +128,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -141,7 +136,11 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //#endregion
@@ -181,10 +180,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     this.listen("click", this.handleClick);
   }
 
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -209,10 +204,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   loaded(): void {
     this.formSupport.overrideDefaultValue(this.value);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion

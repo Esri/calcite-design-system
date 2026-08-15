@@ -1,4 +1,5 @@
 import { camelCase } from "es-toolkit";
+import dedent from "dedent";
 import fsExtra from "fs-extra";
 import { globby } from "globby";
 import { parse } from "svgson";
@@ -81,14 +82,27 @@ function readSVG(fileName) {
 }
 export default (function generatePathFile() {
   const banner = "// File generated automatically by path-data.js, do not edit directly\n";
+  let kebabCaseIconNames = new Set();
+  let camelCaseIconNames = new Set();
   let jsFile = `${banner}`;
-  let tsFile = `
-${banner}
-interface CalciteMultiPathEntry {
-  d: string;
-  opacity?: string;
-}
-export type CalciteIconPath = string | CalciteMultiPathEntry[];
+  let tsFile = dedent`
+  ${banner}
+  interface MultiPathEntry {
+      d: string;
+      opacity?: string;
+  }
+  export type IconPath = string | MultiPathEntry[];
+
+  /**
+   * @deprecated use IconPath type instead
+   */
+  export type CalciteIconPath = IconPath;
+
+  /**
+   * @deprecated use MultiPathEntry type instead
+   */
+  export type CalciteMultiPathEntry = MultiPathEntry;
+  \n
 `;
   return globby("icons/*.svg")
     .then((filePaths) => Promise.all(filePaths.map(readSVG)))
@@ -117,6 +131,8 @@ export type CalciteIconPath = string | CalciteMultiPathEntry[];
         // add to ts and js files
         const variant = file.variant.match(/^\d/) ? `i${file.variant}` : file.variant;
         const camelCaseName = camelCase(`${file.filled ? base : variant}-${file.size}${file.filled ? "-f" : ""}`);
+        kebabCaseIconNames.add(file.variant);
+        camelCaseIconNames.add(camelCase(`${file.filled ? base : variant}${file.filled ? "-f" : ""}`));
         jsFile += `export {${camelCaseName}} from "./js/${camelCaseName}.js";\n`;
         let contents, tsContents;
         if (typeof paths === "string") {
@@ -133,6 +149,12 @@ export type CalciteIconPath = string | CalciteMultiPathEntry[];
         promises.push(writeFile(`js/${camelCaseName}.d.ts`, tsContents, "utf8"));
         promises.push(writeFile(`js/${camelCaseName}.json`, JSON.stringify(paths), "utf8"));
       });
+
+      tsFile += dedent.withOptions({ trimWhitespace: false })`
+      export type CamelCaseIcon = "${Array.from(camelCaseIconNames).join('" | "')}";
+      export type KebabCaseIcon = "${Array.from(kebabCaseIconNames).join('" | "')}";
+      `;
+
       promises.push(writeFile("docs/icons.json", JSON.stringify({ version, icons }), "utf8"));
       promises.push(writeFile("index.d.ts", tsFile, "utf8"));
       promises.push(writeFile("index.js", jsFile, "utf8"));

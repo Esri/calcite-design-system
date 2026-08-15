@@ -1,14 +1,24 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Button } from "./button";
 
-const { appearance, kind, scale, width } = ATTRIBUTES;
+const { alignment, appearance, kind, scale, width } = ATTRIBUTES;
 
 interface ButtonStoryArgs extends Pick<
   Button,
-  "appearance" | "kind" | "scale" | "round" | "href" | "loading" | "disabled" | "width"
+  | "alignment"
+  | "appearance"
+  | "disabled"
+  | "href"
+  | "iconEnd"
+  | "iconStart"
+  | "kind"
+  | "loading"
+  | "round"
+  | "scale"
+  | "width"
 > {
   text: string;
 }
@@ -16,17 +26,24 @@ interface ButtonStoryArgs extends Pick<
 export default {
   title: "Components/Buttons/Button",
   args: {
+    alignment: "center",
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
     round: false,
     href: "",
+    iconEnd: "",
+    iconStart: "",
     loading: false,
     disabled: false,
     width: width.defaultValue,
     text: "button text here",
   },
   argTypes: {
+    alignment: {
+      options: alignment.values,
+      control: { type: "select" },
+    },
     appearance: {
       options: appearance.values,
       control: { type: "select" },
@@ -43,16 +60,27 @@ export default {
       options: width.values,
       control: { type: "select" },
     },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: ButtonStoryArgs): string => html`
   <calcite-button
+    alignment="${args.alignment}"
     appearance="${args.appearance}"
     kind="${args.kind}"
     scale="${args.scale}"
     ${boolean("round", args.round)}
     href="${args.href}"
+    ${optionalAttribute("icon-start", args.iconStart)}
+    ${optionalAttribute("icon-end", args.iconEnd)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     width="${args.width}"

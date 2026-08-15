@@ -1,10 +1,10 @@
-import { h, JsxNode } from "@arcgis/lumina";
+import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { createRef } from "lit/directives/ref.js";
 import {
   focusable,
-  cancelable,
   defaults,
   reflects,
   hidden,
@@ -18,6 +18,7 @@ import {
   openClose,
   topLayer,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -58,10 +59,6 @@ describe("accessible", () => {
       ),
     );
   });
-});
-
-describe("cancelable", () => {
-  cancelable("calcite-autocomplete");
 });
 
 describe("defaults", () => {
@@ -336,6 +333,24 @@ describe("disabled", () => {
 });
 
 describe("keyboard selection", () => {
+  class AutocompleteTestWrapper extends LitElement {
+    static tagName = "autocomplete-test-wrapper";
+
+    autocompleteRef = createRef<Autocomplete["el"]>();
+
+    get autocompleteEl(): Autocomplete["el"] | undefined {
+      return this.autocompleteRef.value;
+    }
+
+    override render(): JsxNode {
+      return (
+        <calcite-autocomplete label="Item list" open ref={this.autocompleteRef}>
+          <slot />
+        </calcite-autocomplete>
+      );
+    }
+  }
+
   it("toggles active item selection on Enter and emits calciteAutocompleteItemSelect", async () => {
     const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
     const firstItem = el.querySelector("calcite-autocomplete-item")!;
@@ -358,5 +373,177 @@ describe("keyboard selection", () => {
 
     expect(firstItem.selected).toBe(false);
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("updates listbox option aria-selected from programmatic item selection without emitting change", async () => {
+    const changeSpy = vi.fn();
+    const { component, reRender } = await mount<Autocomplete>(
+      <calcite-autocomplete label="Item list" oncalciteAutocompleteChange={changeSpy} open>
+        <calcite-autocomplete-item heading="Item one" label="Item one" selected value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+      </calcite-autocomplete>,
+    );
+
+    const secondOption = page.getByRole("listbox").getByRole("option").nth(1);
+
+    await expect.element(secondOption).toBeInTheDocument();
+    await expect.element(secondOption).toHaveAttribute("aria-selected", "false");
+
+    const secondItem = component.items.find((item) => item.value === "two")!;
+    secondItem.selected = true;
+    await reRender();
+
+    await expect.element(secondOption).toHaveAttribute("aria-selected", "true");
+    expect(changeSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it("updates listbox option aria metadata and text from programmatic item state changes", async () => {
+    const { component, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    component.open = true;
+    await reRender();
+
+    const secondOption = page.getByRole("listbox").getByRole("option").nth(1);
+
+    await expect.element(secondOption).toBeInTheDocument();
+    await expect.element(secondOption).toHaveAttribute("aria-disabled", "false");
+    await expect.element(secondOption).toHaveAttribute("aria-label", "Item two");
+    await expect.element(secondOption).toHaveTextContent("Item two");
+
+    const secondItem = component.items.find((item) => item.value === "two")!;
+    secondItem.disabled = true;
+    secondItem.description = "Updated description";
+    secondItem.heading = "Updated heading";
+    secondItem.label = "Updated label";
+    await reRender();
+
+    await expect.element(secondOption).toHaveAttribute("aria-disabled", "true");
+    await expect.element(secondOption).toHaveAttribute("aria-label", "Updated label");
+    await expect.element(secondOption).toHaveTextContent("Updated heading");
+    await expect.element(secondOption).toHaveTextContent("Updated description");
+  });
+
+  it("supports keyboard navigation for shadow-projected items", async () => {
+    const { component, el, reRender } = await mount(AutocompleteTestWrapper);
+
+    el.innerHTML = `
+      <calcite-autocomplete-item heading="Item one" label="Item one" value="one"></calcite-autocomplete-item>
+      <calcite-autocomplete-item heading="Item two" label="Item two" value="two"></calcite-autocomplete-item>
+      <calcite-autocomplete-item heading="Item three" label="Item three" value="three"></calcite-autocomplete-item>
+    `;
+
+    await reRender();
+
+    const autocomplete = component.autocompleteEl!;
+    const listbox = page.elementLocator(autocomplete).getByRole("listbox");
+    const options = listbox.getByRole("option");
+
+    await expect.element(options.first()).toBeInTheDocument();
+    await expect.element(options.nth(1)).toBeInTheDocument();
+    await expect.element(options.nth(2)).toBeInTheDocument();
+
+    const firstOption = options.first().element() as HTMLElement;
+
+    await autocomplete.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+
+    const input = page.elementLocator(autocomplete).getByRole("combobox");
+    await expect.element(input).toHaveAttribute("aria-activedescendant", firstOption.id);
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-autocomplete open />), {
+    "--calcite-autocomplete-background-color": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-autocomplete-corner-radius": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "borderRadius",
+    },
+    "--calcite-autocomplete-text-color": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "color",
+    },
+    "--calcite-autocomplete-menu-max-size-y": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "maxBlockSize",
+    },
+    "--calcite-autocomplete-input-prefix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-prefix-size",
+    },
+    "--calcite-autocomplete-input-suffix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-suffix-size",
+    },
+    "--calcite-autocomplete-input-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-background-color",
+    },
+    "--calcite-autocomplete-input-border-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-border-color",
+    },
+    "--calcite-autocomplete-input-corner-radius": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-corner-radius",
+    },
+    "--calcite-autocomplete-input-shadow": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-shadow",
+    },
+    "--calcite-autocomplete-input-icon-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-icon-color",
+    },
+    "--calcite-autocomplete-input-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-text-color",
+    },
+    "--calcite-autocomplete-input-placeholder-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-placeholder-text-color",
+    },
+    "--calcite-autocomplete-input-actions-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color",
+    },
+    "--calcite-autocomplete-input-actions-background-color-hover": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color-hover",
+    },
+    "--calcite-autocomplete-input-actions-background-color-press": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color-press",
+    },
+    "--calcite-autocomplete-input-actions-icon-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color",
+    },
+    "--calcite-autocomplete-input-actions-icon-color-hover": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color-hover",
+    },
+    "--calcite-autocomplete-input-actions-icon-color-press": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color-press",
+    },
+    "--calcite-autocomplete-input-loading-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-loading-background-color",
+    },
+    "--calcite-autocomplete-input-loading-fill-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-loading-fill-color",
+    },
+    "--calcite-autocomplete-input-prefix-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-prefix-text-color",
+    },
+    "--calcite-autocomplete-input-suffix-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-suffix-text-color",
+    },
   });
 });

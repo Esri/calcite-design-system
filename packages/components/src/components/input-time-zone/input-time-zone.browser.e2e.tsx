@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { CSS as ComboboxCSS } from "../combobox/resources";
 import {
   accessible,
   defaults,
@@ -10,7 +11,9 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
   openClose,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
@@ -36,6 +39,7 @@ describe("defaults", () => {
       { propertyName: "mode", defaultValue: "offset" },
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
+      { propertyName: "placeholder", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
@@ -80,6 +84,10 @@ describe("openClose", () => {
   openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
 });
 
+describe("top layer placement", () => {
+  topLayer(() => mount("calcite-input-time-zone"));
+});
+
 describe("translation support", () => {
   t9n(() => mount("calcite-input-time-zone"));
 });
@@ -92,5 +100,20 @@ describe("is form-associated", () => {
   formAssociated(() => mount("calcite-input-time-zone"), {
     testValue: "-360",
     clearable: false,
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-input-time-zone"), {
+    "--calcite-input-time-zone-corner-radius": [
+      {
+        shadowSelector: "calcite-combobox",
+        targetProp: "--calcite-combobox-corner-radius",
+      },
+      {
+        shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+    ],
   });
 });

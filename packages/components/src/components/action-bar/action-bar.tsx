@@ -13,28 +13,32 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
+  filterDirectChildren,
   focusElementInGroup,
+  getSlotAssignedElements,
   getStylePixelValue,
   slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale, SelectionAppearance } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
+import { logger } from "../../utils/logger";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
+import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { isActionMenu, SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions } from "./utils";
+import { ActionBarItem, getWrapItemCrossOffset, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -62,24 +66,60 @@ export class ActionBar extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private actionsStartSlotRef = createRef<HTMLSlotElement>();
+
+  private actionsEndSlotRef = createRef<HTMLSlotElement>();
+
+  private actionsStartGroupRef = createRef<ActionGroup["el"]>();
+
+  private actionsEndGroupRef = createRef<ActionGroup["el"]>();
+
   private direction = useDirection();
 
   private expandToggleEl?: Action["el"];
 
+  private defaultSlotItems: ActionBarItem[] = [];
+
   private actionGroups: ActionGroup["el"][] = [];
 
-  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
+  private actionMenus: ActionMenu["el"][] = [];
+
+  private actionsStart: ActionBarItem[] = [];
+
+  private actionsStartGroups: ActionGroup["el"][] = [];
+
+  private actionsEnd: ActionBarItem[] = [];
+
+  private actionsEndGroups: ActionGroup["el"][] = [];
+
+  private overflowPassId = 0;
+
+  // Suppresses the temporary actions-change event emitted while an overflow pass is mutating a group.
+  private suppressedActionGroupActionsChange = new WeakMap<ActionGroup["el"], number>();
+
+  private lineMeasureFrame?: number;
 
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { expanded, expandDisabled, layout, overflowActionsDisabled, expandPosition } = this;
+    const { expanded, expandToggleDisabled, layout, expandPosition } = this;
+
+    // resize is debounced, so the container ref may be empty when it runs — the action-bar can be torn down (or not yet rendered) between scheduling and execution.
+    if (!this.containerRef.value) {
+      return;
+    }
+
+    if (this.usesWrap) {
+      this.scheduleLineMeasure();
+      return;
+    }
 
     if (
-      overflowActionsDisabled ||
+      this.overflowMode !== "collapse" ||
       (layout === "vertical" && !height) ||
-      (layout === "horizontal" && !width) ||
-      !this.containerRef.value
+      (layout === "horizontal" && !width)
     ) {
       return;
     }
@@ -88,17 +128,29 @@ export class ActionBar extends LitElement {
 
     const itemSizes = this.getItemSizes();
 
-    const { actionGroups } = this;
+    const {
+      actionGroups: defaultActionGroups,
+      actionsEnd,
+      actionsEndGroups,
+      actionsStart,
+      actionsStartGroups,
+      defaultSlotItems,
+    } = this;
+    const slottedActionGroups = [
+      ...actionsStartGroups,
+      ...defaultActionGroups,
+      ...actionsEndGroups,
+    ];
 
     const actionsEndCount =
-      this.hasActionsEnd || (!expandDisabled && expandPosition === "end") ? 1 : 0;
+      this.hasActionsEnd || (!expandToggleDisabled && expandPosition === "end") ? 1 : 0;
 
     const actionsStartCount =
-      this.hasActionsStart || (!expandDisabled && expandPosition === "start") ? 1 : 0;
+      this.hasActionsStart || (!expandToggleDisabled && expandPosition === "start") ? 1 : 0;
 
-    const groupCount = actionGroups.length + actionsEndCount + actionsStartCount;
+    const visibleSectionCount = defaultSlotItems.length + actionsEndCount + actionsStartCount;
 
-    let bufferSize = groupCount;
+    let bufferSize = visibleSectionCount;
     const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
 
     bufferSize +=
@@ -113,13 +165,17 @@ export class ActionBar extends LitElement {
           : actionBarContainerStyle.paddingBlockEnd,
       );
 
-    if (actionGroups.length > 0) {
-      actionGroups.forEach((actionGroup, i) => {
+    if (slottedActionGroups.length > 0) {
+      const lastSlottedActionGroupIndex = slottedActionGroups.length - 1;
+
+      slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        const actionGroupItemCount = this.getVisibleActionGroupItemCount(actionGroup);
+        const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
         bufferSize += actionGroupGap * actionGroupGapQuantity;
-        if (i < actionGroups.length - 1) {
+
+        if (index !== lastSlottedActionGroupIndex) {
           bufferSize += getStylePixelValue(
             layout === "horizontal"
               ? actionGroupStyle.paddingInlineEnd
@@ -134,10 +190,30 @@ export class ActionBar extends LitElement {
       });
     }
 
-    if (groupCount > 0) {
-      for (let i = 1; i < groupCount; i++) {
-        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
+    const addWrappedSectionGap = (
+      items: ActionBarItem[],
+      wrapper: ActionGroup["el"] | undefined,
+      hasExpandToggle: boolean,
+    ): void => {
+      if (!wrapper || items.length < 1) {
+        return;
       }
+
+      const wrapperStyle = getComputedStyle(wrapper);
+      const wrapperGap = getStylePixelValue(wrapperStyle.gap);
+      const wrapperItemCount = items.length + (hasExpandToggle ? 1 : 0);
+
+      bufferSize += wrapperGap * Math.max(wrapperItemCount - 1, 0);
+    };
+
+    const hasExpandToggleAtStart = !expandToggleDisabled && expandPosition === "start";
+    const hasExpandToggleAtEnd = !expandToggleDisabled && expandPosition === "end";
+
+    addWrappedSectionGap(actionsStart, this.actionsStartGroupRef.value, hasExpandToggleAtStart);
+    addWrappedSectionGap(actionsEnd, this.actionsEndGroupRef.value, hasExpandToggleAtEnd);
+
+    if (visibleSectionCount > 1) {
+      bufferSize += getStylePixelValue(actionBarContainerStyle.gap) * (visibleSectionCount - 1);
     }
 
     const overflowCount = getOverflowCount({
@@ -146,14 +222,19 @@ export class ActionBar extends LitElement {
       itemSizes,
     });
 
-    overflowActions({
-      actionGroups,
+    this.runOverflowActions({
+      actionGroups: slottedActionGroups,
       expanded,
       overflowCount,
     });
   }, DEBOUNCE.resize);
 
   private resizeHandler = (entry: ResizeObserverEntry): void => {
+    if (this.usesWrap) {
+      this.scheduleLineMeasure();
+      return;
+    }
+
     const { width, height } = entry.contentRect;
     this.resize({ width, height });
   };
@@ -190,6 +271,12 @@ export class ActionBar extends LitElement {
 
   @state() hasActionsStart = false;
 
+  /** Whether any action groups are slotted in the default slot; enables wrap-mode group dividers. */
+  @state() hasActionGroups = false;
+
+  /** Cross-axis offsets (px) of each wrapped line after the first; drives the divider overlay. */
+  @state() lineOffsets: number[] = [];
+
   //#endregion
 
   //#region Public Properties
@@ -205,11 +292,32 @@ export class ActionBar extends LitElement {
    */
   @property({ reflect: true }) floating = false;
 
-  /** When `true`, the expand-toggling behavior is disabled. */
-  @property({ reflect: true }) expandDisabled = false;
+  /** When `true`, the expand/collapse toggle button is not shown. */
+  @property({ reflect: true }) expandToggleDisabled = false;
 
   /**
-   * When `true`, expands the component and its contents.
+   * When `true`, the expand/collapse toggle button is not shown.
+   *
+   * @deprecated in v5.2.0, removal target v6.0.0 - Use `expandToggleDisabled` instead.
+   */
+  @property({ reflect: true })
+  get expandDisabled(): boolean {
+    return this.expandToggleDisabled;
+  }
+  set expandDisabled(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "expandDisabled",
+      removalVersion: 6,
+      suggested: "expandToggleDisabled",
+    });
+    this.expandToggleDisabled = value;
+  }
+
+  /**
+   * When `true`, expands the component.
+   *
+   * The `expanded` or `textEnabled` state of `calcite-action`, `calcite-action-group`, and `calcite-action-menu` children is synced when this property is toggled, not during initialization.
    * When a child `calcite-action` specifies `textEnabled` as `true`, its `text` initially displays adjacent to its `icon` regardless of expansion.
    */
   @property({ reflect: true }) expanded = false;
@@ -221,20 +329,48 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
+  /**
+   * Specifies how the component handles `calcite-action`s that overflow the available space, where:
+   *
+   * `"collapse"` overflows actions that won't fit into menus,
+   *
+   * `"wrap"` allows the actions to wrap onto multiple lines, adding dividers between the wrapped rows
+   * or columns (has no effect when `layout` is `"grid"`), and
+   *
+   * `"none"` applies no overflow handling.
+   */
+  @property({ reflect: true }) overflowMode: "collapse" | "wrap" | "none" = "collapse";
+
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
-  @property({ reflect: true }) overflowActionsDisabled = false;
+  /**
+   * When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus.
+   *
+   * @deprecated in v5.2.0, removal target v7.0.0 - Use `overflowMode="none"` instead.
+   */
+  @property({ reflect: true })
+  get overflowActionsDisabled(): boolean {
+    return this.overflowMode === "none";
+  }
+  set overflowActionsDisabled(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "overflowActionsDisabled",
+      removalVersion: 7,
+      suggested: 'overflowMode="none"',
+    });
+    this.overflowMode = value ? "none" : "collapse";
+  }
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * When `expandDisabled` is `false`, specifies the expand toggle's chevron direction, where:
+   * When `expandToggleDisabled` is `false`, specifies the expand toggle's chevron direction.
    *
-   * `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`, and
-   * `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
+   * - `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`.
+   * - `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
    *
    * When `expanded` is `true`, the chevron direction is reversed.
    */
@@ -260,6 +396,14 @@ export class ActionBar extends LitElement {
    */
   @method()
   async overflowActions(): Promise<void> {
+    if (this.overflowMode !== "collapse") {
+      if (this.usesWrap) {
+        this.scheduleLineMeasure();
+      }
+
+      return;
+    }
+
     this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
@@ -298,15 +442,19 @@ export class ActionBar extends LitElement {
       "calciteActionMenuOpen",
       this.actionMenuOpenHandler,
     );
+    this.listen<CustomEvent<void>>(
+      "calciteInternalActionGroupActionsChange",
+      this.handleActionGroupActionsChange,
+    );
+    this.listen<CustomEvent<void>>(
+      "calciteInternalActionMenuActionsChange",
+      this.handleActionMenuActionsChange,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
-    this.updateGroups();
-    this.overflowActions();
-    this.updateActions();
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    this.overflowModeHandler();
     this.cancelable.add(this.resize);
   }
 
@@ -317,6 +465,8 @@ export class ActionBar extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) ||
+      (changes.has("expandToggleDisabled") &&
+        (this.hasUpdated || this.expandToggleDisabled !== false)) ||
       (changes.has("expandPosition") && (this.hasUpdated || this.expandPosition !== "end"))
     ) {
       this.overflowActions();
@@ -324,13 +474,25 @@ export class ActionBar extends LitElement {
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
+      this.overflowModeHandler();
+
+      if (!this.usesWrap) {
+        this.updateLines();
+      }
     }
 
-    if (
-      changes.has("overflowActionsDisabled") &&
-      (this.hasUpdated || this.overflowActionsDisabled !== false)
-    ) {
-      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    if (changes.has("overflowMode") && (this.hasUpdated || this.overflowMode !== "collapse")) {
+      if (!this.usesWrap && this.lineMeasureFrame != null) {
+        cancelAnimationFrame(this.lineMeasureFrame);
+        this.lineMeasureFrame = undefined;
+      }
+
+      if (this.usesWrap) {
+        this.scheduleLineMeasure();
+      } else {
+        this.updateLines();
+      }
+      this.overflowModeHandler();
     }
 
     if (changes.has("expanded") && this.hasUpdated) {
@@ -351,12 +513,25 @@ export class ActionBar extends LitElement {
   }
 
   loaded(): void {
+    this.syncDefaultSlot();
+    this.syncActionsStartSlot();
+    this.syncActionsEndSlot();
+    this.syncActionsState();
     this.overflowActions();
   }
 
+  override updated(): void {
+    if (this.usesWrap && this.lineMeasureFrame == null) {
+      this.scheduleLineMeasure();
+    }
+  }
+
   override disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+    if (this.lineMeasureFrame != null) {
+      cancelAnimationFrame(this.lineMeasureFrame);
+      this.lineMeasureFrame = undefined;
+    }
   }
 
   //#endregion
@@ -364,80 +539,269 @@ export class ActionBar extends LitElement {
   //#region Private Methods
 
   private getItemSizes(): number[] {
-    const { el, layout, expandToggleEl } = this;
+    const { layout, expandToggleEl } = this;
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
 
-    const actions = queryActions(el);
+    const itemSizes = this.actions.map((action) => action[clientSize] || 0);
+    const slottedActionGroupMenus = this.getTrackedActionGroups().flatMap((group) =>
+      filterDirectChildren<ActionMenu["el"]>(group, "calcite-action-menu"),
+    );
+
+    slottedActionGroupMenus.forEach((menu) => {
+      const triggerAction = menu.actions.find(
+        (action) => action.slot === ACTION_MENU_SLOTS.trigger,
+      );
+
+      // Use the host element size when no custom trigger is slotted.
+      itemSizes.push((triggerAction ?? menu)[clientSize] || 0);
+    });
 
     if (expandToggleEl) {
-      actions.push(expandToggleEl);
+      itemSizes.push(expandToggleEl[clientSize] || 0);
     }
 
-    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
-    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
-    return actions.map((action) => action[clientSize] || fallbackSize);
+    const fallbackSize = Math.max(...itemSizes, 0);
+    return itemSizes.map((size) => size || fallbackSize);
+  }
+
+  private getVisibleActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
+    const directActionGroupActions = actionGroup.actions.filter(
+      (action) => action.parentElement === actionGroup,
+    );
+    const directActionMenusCount = filterDirectChildren<ActionMenu["el"]>(
+      actionGroup,
+      "calcite-action-menu",
+    ).length;
+    const defaultActionsCount =
+      directActionGroupActions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions)
+        .length + directActionMenusCount;
+    const hasMenuActions = directActionGroupActions.some(
+      (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
+    );
+
+    return defaultActionsCount + (hasMenuActions ? 1 : 0);
   }
 
   private expandedHandler(): void {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
+    this.syncActionsState(true);
     this.overflowActions();
   }
 
-  private overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
-    if (overflowActionsDisabled) {
+  private overflowModeHandler(): void {
+    if (this.overflowMode === "none") {
       this.resizeObserver?.disconnect();
-      return;
+    } else {
+      this.resizeObserver?.observe(this.el);
     }
 
-    this.resizeObserver?.observe(this.el);
     this.overflowActions();
   }
 
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
-    if ((event.target as ActionGroup["el"]).menuOpen) {
-      const composedPath = event.composedPath();
-      this.actionGroups?.forEach((group) => {
-        if (!composedPath.includes(group)) {
-          group.menuOpen = false;
-        }
-      });
+    const composedPath = event.composedPath();
+    const source = composedPath.find(
+      (element): element is ActionGroup["el"] | ActionMenu["el"] =>
+        isActionGroup(element as Element) || isActionMenu(element as Element),
+    );
+
+    if (!source) {
+      return;
     }
+
+    if ((isActionGroup(source) && !source.menuOpen) || (isActionMenu(source) && !source.open)) {
+      return;
+    }
+
+    this.getTrackedActionGroups().forEach((group) => {
+      if (!composedPath.includes(group)) {
+        group.menuOpen = false;
+      }
+    });
+
+    this.getTrackedActionMenus().forEach((menu) => {
+      if (!composedPath.includes(menu)) {
+        menu.open = false;
+      }
+    });
   }
 
-  private mutationObserverHandler(): void {
-    this.updateGroups();
-    this.overflowActions();
-    this.queryAndStoreActions();
-    this.updateActions();
+  // Overflow is a two-step pass: capture each group's current direct-action slot state,
+  // run the overflow mutation, then suppress any transient actions-change event emitted
+  // by groups whose direct children were just moved.
+  private runOverflowActions({
+    actionGroups,
+    expanded,
+    overflowCount,
+  }: {
+    actionGroups: ActionGroup["el"][];
+    expanded: boolean;
+    overflowCount: number;
+  }): void {
+    const overflowPassId = ++this.overflowPassId;
+
+    const slotStateByGroup = new Map<ActionGroup["el"], string>();
+    actionGroups.forEach((group) => {
+      const directActions = group.actions.filter((action) => action.parentElement === group);
+      slotStateByGroup.set(group, directActions.map((action) => action.slot ?? "").join("|"));
+    });
+
+    overflowActions({
+      actionGroups,
+      expanded,
+      overflowCount,
+    });
+
+    actionGroups.forEach((group) => {
+      const directActions = group.actions.filter((action) => action.parentElement === group);
+      const nextSlotState = directActions.map((action) => action.slot ?? "").join("|");
+
+      if (slotStateByGroup.get(group) !== nextSlotState) {
+        this.suppressedActionGroupActionsChange.set(group, overflowPassId);
+        this.queueSuppressedActionGroupActionsChangeCleanup(group, overflowPassId);
+      }
+    });
+  }
+
+  private queueSuppressedActionGroupActionsChangeCleanup(
+    group: ActionGroup["el"],
+    overflowPassId: number,
+  ): void {
+    // Defer cleanup until the overflow mutation has finished propagating so the next actions-change event from this pass is still suppressed.
+    queueMicrotask(() => {
+      if (this.suppressedActionGroupActionsChange.get(group) === overflowPassId) {
+        this.suppressedActionGroupActionsChange.delete(group);
+      }
+    });
   }
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
     entries.forEach(this.resizeHandler);
   }
 
+  private getSectionWrapperGroups(): ActionGroup["el"][] {
+    return [this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
+      (group): group is ActionGroup["el"] => !!group,
+    );
+  }
+
   private updateGroups(): void {
-    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
-    this.actionGroups = groups;
+    const groups = [
+      ...this.actionGroups,
+      ...this.actionsStartGroups,
+      ...this.actionsEndGroups,
+      ...this.getSectionWrapperGroups(),
+    ];
+
+    this.hasActionGroups = this.actionGroups.length > 0;
+
     groups.forEach((group) => {
       group.layout = this.layout;
       group.scale = this.scale;
     });
   }
 
+  /**
+   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
+   * `"wrap"`.
+   */
+  private get usesWrap(): boolean {
+    return this.overflowMode === "wrap" && this.layout !== "grid";
+  }
+
+  /**
+   * Coalesces line measurement into a single animation frame so repeated renders/resizes don't each
+   * force a synchronous layout read. A frame-aligned update avoids the latency a time-based debounce
+   * would add for this visual measurement.
+   */
+  private scheduleLineMeasure(): void {
+    if (this.lineMeasureFrame != null) {
+      cancelAnimationFrame(this.lineMeasureFrame);
+    }
+
+    this.lineMeasureFrame = requestAnimationFrame(() => {
+      this.lineMeasureFrame = undefined;
+      this.updateLines();
+    });
+  }
+
+  /** Returns the flex items that participate in wrapping, in flow order. */
+  private getWrapItems(): HTMLElement[] {
+    const items: HTMLElement[] = [];
+
+    const start = this.actionsStartGroupRef.value;
+    if (start && !start.hidden) {
+      items.push(start);
+    }
+
+    this.defaultSlotItems.forEach((el) => {
+      if (!el.hidden) {
+        items.push(el);
+      }
+    });
+
+    const end = this.actionsEndGroupRef.value;
+    if (end && !end.hidden) {
+      items.push(end);
+    }
+
+    return items;
+  }
+
+  /**
+   * Measures where the content wraps and records the cross-axis offset of each wrapped line (after
+   * the first) so the overlay can draw a full-length divider there.
+   */
+  private updateLines(): void {
+    const container = this.containerRef.value;
+
+    if (!container || !this.usesWrap) {
+      if (this.lineOffsets.length > 0) {
+        this.lineOffsets = [];
+      }
+      return;
+    }
+
+    const horizontal = this.layout === "horizontal";
+    const rtl = this.direction === "rtl";
+    const containerRect = container.getBoundingClientRect();
+    const items = this.getWrapItems();
+
+    const lineOffsets: number[] = [];
+    let previousOffset: number | null = null;
+
+    items.forEach((item) => {
+      const offset = getWrapItemCrossOffset({ item, containerRect, horizontal, rtl });
+
+      if (previousOffset !== null && Math.abs(offset - previousOffset) > 1) {
+        lineOffsets.push(offset);
+      }
+
+      previousOffset = offset;
+    });
+
+    const changed =
+      lineOffsets.length !== this.lineOffsets.length ||
+      lineOffsets.some((value, index) => value !== this.lineOffsets[index]);
+
+    if (changed) {
+      this.lineOffsets = lineOffsets;
+    }
+  }
+
   private handleDefaultSlotChange(): void {
-    this.updateGroups();
-    this.queryAndStoreActions();
-    this.updateActions();
+    this.syncSlotAndActions(() => this.syncDefaultSlot());
+
+    if (this.usesWrap) {
+      this.scheduleLineMeasure();
+    }
   }
 
-  private handleActionsEndSlotChange(event: Event): void {
-    this.hasActionsEnd = slotChangeHasAssignedElement(event);
-    this.overflowActions();
+  private handleActionsEndSlotChange(): void {
+    this.syncSlotAndActions(() => this.syncActionsEndSlot());
   }
 
-  private handleActionsStartSlotChange(event: Event): void {
-    this.hasActionsStart = slotChangeHasAssignedElement(event);
-    this.overflowActions();
+  private handleActionsStartSlotChange(): void {
+    this.syncSlotAndActions(() => this.syncActionsStartSlot());
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -449,18 +813,134 @@ export class ActionBar extends LitElement {
   }
 
   private updateActions(): void {
-    this.actions.forEach((action) => {
+    const actions = new Set<Action["el"]>(this.actions);
+
+    this.getTrackedActionMenus().forEach((menu) => {
+      menu.actions.forEach((action) => actions.add(action));
+    });
+
+    actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
     });
   }
 
-  private queryAndStoreActions(): void {
-    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
+  private syncActions(): void {
+    this.actions = queryActions([
+      ...this.actionsStart,
+      ...this.defaultSlotItems,
+      ...this.actionsEnd,
+    ]);
+  }
+
+  private syncActionsAndOverflow(): void {
+    this.syncActionsState();
+    this.overflowActions();
+  }
+
+  private syncSlotAndActions(syncSlot: () => void): void {
+    syncSlot();
+    this.syncActionsAndOverflow();
+  }
+
+  private syncActionsState(syncExpandedState = false): void {
+    this.syncActions();
+    this.updateActions();
+
+    if (!syncExpandedState) {
+      return;
+    }
+
+    toggleActionBarChildActionText({
+      actions: this.actions,
+      expandables: [
+        ...this.getTrackedActionGroups(),
+        ...this.getTrackedActionMenus(),
+        ...this.getSectionWrapperGroups(),
+      ],
+      expanded: this.expanded,
+    });
+  }
+
+  private getTrackedActionGroups(): ActionGroup["el"][] {
+    return [...this.actionGroups, ...this.actionsStartGroups, ...this.actionsEndGroups];
+  }
+
+  private getTrackedActionMenus(): ActionMenu["el"][] {
+    return [...this.actionMenus, ...this.actionsStart, ...this.actionsEnd].filter(
+      (item): item is ActionMenu["el"] => isActionMenu(item),
+    );
+  }
+
+  private getAssignedActionBarItems(slot?: HTMLSlotElement | null): ActionBarItem[] {
+    if (!slot) {
+      return [];
+    }
+
+    return getSlotAssignedElements(slot).filter(
+      (element): element is ActionBarItem =>
+        isAction(element) || isActionGroup(element) || isActionMenu(element),
+    );
+  }
+
+  private syncDefaultSlot(): void {
+    this.defaultSlotItems = this.getAssignedActionBarItems(this.defaultSlotRef.value);
+    this.actionGroups = this.defaultSlotItems.filter((item) => isActionGroup(item));
+    this.actionMenus = this.defaultSlotItems.filter((item) => isActionMenu(item));
+    this.updateGroups();
+  }
+
+  private syncActionsStartSlot(): void {
+    this.actionsStart = this.getAssignedActionBarItems(this.actionsStartSlotRef.value);
+    this.actionsStartGroups = this.actionsStart.filter((item): item is ActionGroup["el"] =>
+      isActionGroup(item),
+    );
+    this.hasActionsStart = this.actionsStart.length > 0;
+    this.updateGroups();
+  }
+
+  private syncActionsEndSlot(): void {
+    this.actionsEnd = this.getAssignedActionBarItems(this.actionsEndSlotRef.value);
+    this.actionsEndGroups = this.actionsEnd.filter((item): item is ActionGroup["el"] =>
+      isActionGroup(item),
+    );
+    this.hasActionsEnd = this.actionsEnd.length > 0;
+    this.updateGroups();
+  }
+
+  private handleActionGroupActionsChange(event: CustomEvent<void>): void {
+    const group = event.target as ActionGroup["el"];
+
+    const trackedGroups = this.getTrackedActionGroups();
+
+    if (!trackedGroups.includes(group)) {
+      return;
+    }
+
+    if (this.suppressedActionGroupActionsChange.has(group)) {
+      return;
+    }
+
+    this.syncActionsAndOverflow();
+  }
+
+  private handleActionMenuActionsChange(event: CustomEvent<void>): void {
+    const menu = event.target as ActionMenu["el"];
+
+    if (!this.getTrackedActionMenus().includes(menu)) {
+      return;
+    }
+
+    this.syncActionsAndOverflow();
+  }
+
+  private getNavigableActions(): Action["el"][] {
+    return this.actions.filter(
+      (action) => !action.disabled && action.slot !== ACTION_GROUP_SLOTS.menuActions,
+    );
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
-    this.queryAndStoreActions();
-    const actions = this.actions.filter((action) => !action.disabled);
+    const actions = this.getNavigableActions();
     const current = document.activeElement;
 
     if (!isAction(current) || !actions.includes(current)) {
@@ -535,47 +1015,69 @@ export class ActionBar extends LitElement {
   }
 
   private renderActionsGroup(position: Extract<"start" | "end", Position>): JsxNode {
-    const { expandDisabled, scale, layout, overlayPositioning, expandPosition } = this;
+    const { expandToggleDisabled, scale, layout, overlayPositioning, expandPosition } = this;
 
     const isStart = position === "start";
-    const hasExpandToggle = !expandDisabled && expandPosition === position;
+    const hasExpandToggle = !expandToggleDisabled && expandPosition === position;
+    const hasActions = isStart ? this.hasActionsStart : this.hasActionsEnd;
 
     const slotName = isStart ? SLOTS.actionsStart : SLOTS.actionsEnd;
     const onSlotChange = isStart
       ? this.handleActionsStartSlotChange
       : this.handleActionsEndSlotChange;
     const label = isStart ? this.actionsStartGroupLabel : this.actionsEndGroupLabel;
-    const hidden = !hasExpandToggle && !(isStart ? this.hasActionsStart : this.hasActionsEnd);
-    const className = isStart ? CSS.actionGroupStart : CSS.actionGroupEnd;
+    const hidden = !hasExpandToggle && !hasActions;
+    const actionGroupRef = isStart ? this.actionsStartGroupRef : this.actionsEndGroupRef;
+    const slotRef = isStart ? this.actionsStartSlotRef : this.actionsEndSlotRef;
+    const expandToggle = hasExpandToggle ? this.renderExpandToggle() : null;
 
     return (
       <calcite-action-group
-        class={className}
+        class={{
+          [CSS.actionGroupStart]: isStart,
+          [CSS.actionGroupEnd]: !isStart,
+        }}
         hidden={hidden}
         label={label}
         layout={layout}
         overlayPositioning={overlayPositioning}
+        ref={actionGroupRef}
         scale={scale}
       >
-        {isStart && hasExpandToggle ? this.renderExpandToggle() : null}
-        <slot name={slotName} onSlotChange={onSlotChange} />
+        {isStart ? expandToggle : null}
+        <slot name={slotName} onSlotChange={onSlotChange} ref={slotRef} />
         {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
-        {!isStart && hasExpandToggle ? this.renderExpandToggle() : null}
+        {isStart ? null : expandToggle}
       </calcite-action-group>
     );
   }
 
   override render(): JsxNode {
+    const ariaOrientation = this.layout === "horizontal" ? "horizontal" : "vertical";
+
     return (
       <div
-        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
-        class={CSS.container}
+        ariaOrientation={ariaOrientation}
+        class={{
+          [CSS.container]: true,
+          [CSS.hasActionGroups]: this.hasActionGroups,
+        }}
         ref={this.containerRef}
         role="toolbar"
       >
         {this.renderActionsGroup("start")}
-        <slot onSlotChange={this.handleDefaultSlotChange} />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         {this.renderActionsGroup("end")}
+        {this.usesWrap ? (
+          <div ariaHidden="true" class={CSS.lineOverlay}>
+            {this.lineOffsets.map((offset) => (
+              <div
+                class={CSS.line}
+                style={`--calcite-internal-action-bar-line-offset: ${offset}px`}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
     );
   }

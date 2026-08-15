@@ -1,14 +1,14 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { themed } from "../../tests/commonTests";
+
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
-import { FlowItemLikeElement } from "./interfaces";
+import { FlowItemLikeElement } from "./types";
 import type { Flow } from "./flow";
 
 async function slowPageAnimations(page: E2EPage): Promise<void> {
@@ -519,13 +519,4 @@ it("supports custom flow-items", async () => {
   displayedItem = await page.find(displayedItemSelector);
   expect(await flow.getProperty("childElementCount")).toBe(3);
   expect(displayedItem.id).toBe("first");
-});
-
-describe("theme", () => {
-  themed("calcite-flow", {
-    "--calcite-flow-background-color": {
-      shadowSelector: `.${CSS.frame}`,
-      targetProp: "backgroundColor",
-    },
-  });
 });

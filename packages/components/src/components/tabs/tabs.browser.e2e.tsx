@@ -1,14 +1,22 @@
-import { h, Fragment } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
-import { accessible, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  accessible,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  themed,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
 import type { Tabs } from "./tabs";
+import { CSS } from "./resources";
 
 mockConsole("error");
 
@@ -60,6 +68,7 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-tabs"),
     [
+      { propertyName: "bordered", value: true },
       { propertyName: "layout", value: "inline" },
       { propertyName: "position", value: "top" },
       { propertyName: "scale", value: "m" },
@@ -192,5 +201,44 @@ describe("closing tabs", () => {
     await afterNextFrame();
 
     expect(loneTitle.closable).toBe(true);
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-tabs"), {
+      "--calcite-tab-border-color": {
+        shadowSelector: `.${CSS.section}`,
+        targetProp: "borderBlockStartColor",
+      },
+      "--calcite-tab-background-color": {
+        targetProp: "backgroundColor",
+      },
+    });
+  });
+
+  describe("bordered", () => {
+    themed(() => mount(<calcite-tabs bordered />), {
+      "--calcite-tab-background-color": {
+        targetProp: "backgroundColor",
+      },
+      "--calcite-tab-border-color": [
+        {
+          targetProp: "boxShadow",
+        },
+        {
+          shadowSelector: `.${CSS.section}`,
+          targetProp: "borderColor",
+        },
+      ],
+    });
+
+    describe("bottom position", () => {
+      themed(() => mount(<calcite-tabs bordered position="bottom" />), {
+        "--calcite-tab-border-color": {
+          targetProp: "boxShadow",
+        },
+      });
+    });
   });
 });

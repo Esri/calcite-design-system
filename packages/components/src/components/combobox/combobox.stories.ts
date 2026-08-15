@@ -1,7 +1,33 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import type { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import type { Combobox } from "./combobox";
+import { allModes } from "../../../.storybook/modes";
+
+const { menuPlacement, overlayPositioning, scale, selectionMode, status } = ATTRIBUTES;
+
+type ComboboxStoryArgs = Pick<
+  Combobox,
+  | "clearDisabled"
+  | "disabled"
+  | "label"
+  | "labelText"
+  | "maxItems"
+  | "open"
+  | "overlayPositioning"
+  | "placeholder"
+  | "placement"
+  | "readOnly"
+  | "required"
+  | "scale"
+  | "selectionDisplay"
+  | "selectionMode"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+>;
 
 /**
  * This decorator takes HTML for items and will create a composite story for all scales for each specified selection mode.
@@ -67,18 +93,79 @@ function allScaleComboboxBuilder(
 
 export default {
   title: "Components/Controls/Combobox",
+  args: {
+    clearDisabled: false,
+    disabled: false,
+    label: "demo",
+    labelText: "Label text",
+    maxItems: 0,
+    open: false,
+    overlayPositioning: overlayPositioning.defaultValue,
+    placeholder: "placeholder",
+    placement: menuPlacement.defaultValue,
+    readOnly: false,
+    required: false,
+    scale: scale.defaultValue,
+    selectionDisplay: "all",
+    selectionMode: "single",
+    status: status.defaultValue,
+    validationIcon: "",
+    validationMessage: "",
+  },
+  argTypes: {
+    overlayPositioning: {
+      options: overlayPositioning.values,
+      control: { type: "select" },
+    },
+    placement: {
+      options: menuPlacement.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    selectionDisplay: {
+      options: ["all", "fit", "single"],
+      control: { type: "select" },
+    },
+    selectionMode: {
+      options: selectionMode.values.filter(
+        (mode) => mode !== "children" && mode !== "multichildren" && mode !== "none",
+      ),
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const single = (): string => html`
+export const simple = (args: ComboboxStoryArgs): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
-      selection-display="all"
-      selection-mode="single"
-      label="demo"
-      max-items="0"
-      placeholder="placeholder"
-      scale="m"
-      status="idle"
+      ${boolean("clear-disabled", args.clearDisabled)}
+      ${boolean("disabled", args.disabled)}
+      label="${args.label}"
+      ${optionalAttribute("label-text", args.labelText)}
+      max-items="${args.maxItems}"
+      ${boolean("open", args.open)}
+      overlay-positioning="${args.overlayPositioning}"
+      placeholder="${args.placeholder}"
+      placement="${args.placement}"
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
+      scale="${args.scale}"
+      selection-display="${args.selectionDisplay}"
+      selection-mode="${args.selectionMode}"
+      status="${args.status}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
+      validation-message="${args.validationMessage}"
     >
       <calcite-combobox-item icon="altitude" value="altitude" heading="Altitude" selected></calcite-combobox-item>
       <calcite-combobox-item icon="article" value="article" heading="Article"></calcite-combobox-item>
@@ -123,7 +210,7 @@ export const smallViewport = (): string => html`
     <calcite-combobox-item icon="clock" value="clock" heading="Clock"></calcite-combobox-item>
   </calcite-combobox>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">

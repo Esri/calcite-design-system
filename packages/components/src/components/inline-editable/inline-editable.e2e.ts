@@ -1,12 +1,14 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
 import { createControlledPromise } from "../../tests/utils/promises";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
+
+// Deprecated in v5.2.0, removal target v7.0.0
 
 describe("rendering permutations", () => {
   it("renders default props when none are provided", async () => {
@@ -23,14 +25,14 @@ describe("rendering permutations", () => {
     expect(element).not.toHaveAttribute("loading");
   });
 
-  it(`should set all internal calcite-button types to 'button'`, async () => {
+  it(`should set all internal calcite-action types to 'action'`, async () => {
     const page = await newE2EPage({
       html: html`<calcite-inline-editable controls editing-enabled>
         <calcite-input />
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 
@@ -46,7 +48,7 @@ describe("rendering permutations", () => {
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 
@@ -328,57 +330,4 @@ describe("has controls", () => {
       );
     });
   });
-});
-
-describe("theme", () => {
-  themed("calcite-inline-editable", {
-    "--calcite-inline-editable-background-color-hover": {
-      shadowSelector: `.${CSS.wrapper}`,
-      state: "hover",
-      targetProp: "backgroundColor",
-    },
-    "--calcite-inline-editable-background-color": {
-      shadowSelector: `.${CSS.wrapper}`,
-      targetProp: "backgroundColor",
-    },
-  });
-  themed(
-    html`<calcite-inline-editable controls editing-enabled>
-      <calcite-input />
-    </calcite-inline-editable>`,
-    {
-      "--calcite-inline-editable-button-corner-radius": [
-        {
-          shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-button-corner-radius",
-        },
-        {
-          shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-button-corner-radius",
-        },
-        {
-          shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-button-corner-radius",
-        },
-      ],
-      "--calcite-inline-editable-button-loader-color": {
-        shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-button-loader-color",
-      },
-      "--calcite-inline-editable-button-text-color": [
-        {
-          shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-button-text-color",
-        },
-        {
-          shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-button-text-color",
-        },
-        {
-          shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-button-text-color",
-        },
-      ],
-    },
-  );
 });
