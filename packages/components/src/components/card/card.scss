@@ -88,7 +88,7 @@
     overflow-hidden;
   border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
-  background-color: var(--calcite-card-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-card-background-color, var(--calcite-color-surface-2));
   box-shadow: var(--calcite-card-shadow, var(--calcite-shadow-none));
   pointer-events: none;
 }
@@ -204,7 +204,7 @@
   color: var(--calcite-card-selection-color, var(--calcite-color-text-3));
 
   &:hover {
-    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-surface-3));
     color: var(
       --calcite-card-selection-color-hover,
       var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
@@ -227,7 +227,7 @@
   margin: var(--calcite-internal-card-checkbox-wrapper-margin);
 
   &:hover {
-    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-surface-3));
     color: var(
       --calcite-card-selection-color-hover,
       var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
@@ -254,7 +254,7 @@
 :host(:not([selectable])) .content-wrapper:not(.non-interactive):focus {
   .checkbox-wrapper-deprecated,
   .checkbox-wrapper {
-    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-surface-3));
     color: var(
       --calcite-card-selection-color-hover,
       var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))

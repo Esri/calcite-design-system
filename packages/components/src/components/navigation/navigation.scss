@@ -56,7 +56,7 @@
   margin-inline: auto;
   background-color: var(
     --calcite-navigation-background-color,
-    var(--calcite-navigation-background, var(--calcite-color-foreground-1))
+    var(--calcite-navigation-background, var(--calcite-color-surface-2))
   );
   &.primary,
   &.secondary,

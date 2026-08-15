@@ -99,7 +99,7 @@
     outline-none;
 
   &:active {
-    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-surface-4));
   }
 }
 
@@ -126,7 +126,7 @@
   padding-block: var(--calcite-internal-stepper-item-header-padding);
 
   &:active {
-    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-surface-4));
   }
 }
 

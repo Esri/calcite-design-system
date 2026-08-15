@@ -115,7 +115,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
 .content-bottom {
   @apply flex items-start self-stretch;
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-  background-color: var(--calcite-panel-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-panel-background-color, var(--calcite-color-surface-2));
 }
 
 .content-top {
@@ -142,7 +142,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
 .header {
   @apply flex flex-col z-header;
 
-  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-surface-2));
   border-block-end: 1px solid
     var(--calcite-panel-border-color, var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3)));
 }
@@ -245,7 +245,7 @@ calcite-action-menu {
   text-color-2
   relative;
   padding: var(--calcite-panel-space, var(--calcite-panel-content-space, 0));
-  background: var(--calcite-panel-background-color, var(--calcite-color-background));
+  background: var(--calcite-panel-background-color, var(--calcite-color-surface-1));
 }
 
 .content-wrapper:focus-visible {
@@ -278,7 +278,7 @@ calcite-action-menu {
     --calcite-panel-footer-space,
     var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-space))
   );
-  background-color: var(--calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-panel-footer-background-color, var(--calcite-color-surface-2));
 }
 
 .footer-content {

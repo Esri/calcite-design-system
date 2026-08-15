@@ -68,7 +68,7 @@ calcite-time-picker {
     var(--calcite-ui-icon-color, var(--calcite-color-text-3))
   );
   align-items: center;
-  background-color: var(--calcite-input-time-picker-input-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-input-time-picker-input-background-color, var(--calcite-color-surface-2));
   border: 1px solid var(--calcite-input-time-picker-input-border-color, var(--calcite-color-border-input));
   border-radius: var(--calcite-input-time-picker-input-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-input-time-picker-input-shadow, var(--calcite-shadow-none));
@@ -87,7 +87,7 @@ calcite-time-picker {
   }
 
   &.read-only {
-    background-color: var(--calcite-color-background);
+    background-color: var(--calcite-color-surface-1);
     font-weight: var(--calcite-font-weight-medium);
   }
 }

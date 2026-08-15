@@ -97,7 +97,7 @@
     ease-in-out;
   inset-block-start: var(--calcite-spacing-base);
   inset-inline: var(--calcite-spacing-base) auto;
-  background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-surface-2));
   border-color: var(--calcite-switch-handle-border-color);
   border-radius: var(--calcite-switch-corner-radius, 9999px);
   box-shadow: var(--calcite-switch-handle-shadow);

@@ -46,7 +46,7 @@
     flex
     justify-between;
 
-  background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-surface-2));
 
   .input-wrapper {
     @apply flex-1;
@@ -56,7 +56,7 @@
 :host(:not([editing-enabled]):not([disabled])) {
   .wrapper {
     &:hover {
-      background-color: var(--calcite-inline-editable-background-color-hover, var(--calcite-color-foreground-2));
+      background-color: var(--calcite-inline-editable-background-color-hover, var(--calcite-color-surface-3));
     }
   }
 }

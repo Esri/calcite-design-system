@@ -155,7 +155,7 @@ table {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
     --calcite-table-row-background-color: var(
       --calcite-table-row-background-color-striped,
-      var(--calcite-color-foreground-2)
+      var(--calcite-color-surface-3)
     );
   }
 }
