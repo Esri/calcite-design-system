@@ -71,11 +71,11 @@
 
 // scales
 :host([scale="s"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-space-sm);
 
   & input {
-    padding-inline-start: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
+    padding-inline-start: var(--calcite-space-sm);
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-space-sm));
   }
 
   & input,
@@ -85,8 +85,8 @@
   }
 
   @include input-affix-spacing(
-    var(--calcite-spacing-sm),
-    var(--calcite-spacing-xxs),
+    var(--calcite-space-sm),
+    var(--calcite-space-2xs),
     var(--calcite-internal-input-text-input-padding-inline-end)
   );
 
@@ -95,16 +95,16 @@
   }
 
   & .clear-button {
-    block-size: var(--calcite-spacing-xxl);
+    block-size: var(--calcite-space-2xl);
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-md);
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-space-md);
 
   & input {
-    padding-inline-start: var(--calcite-spacing-md);
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-md));
+    padding-inline-start: var(--calcite-space-md);
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-space-md));
   }
 
   & input,
@@ -114,8 +114,8 @@
   }
 
   @include input-affix-spacing(
-    var(--calcite-spacing-md),
-    var(--calcite-spacing-xs),
+    var(--calcite-space-md),
+    var(--calcite-space-xs),
     var(--calcite-internal-input-text-input-padding-inline-end)
   );
 
@@ -125,11 +125,11 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-space-md-plus);
 
   & input {
-    padding-inline-start: var(--calcite-spacing-lg);
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-lg));
+    padding-inline-start: var(--calcite-space-lg);
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-space-lg));
   }
 
   & input,
@@ -139,8 +139,8 @@
   }
 
   @include input-affix-spacing(
-    var(--calcite-spacing-lg),
-    var(--calcite-spacing-sm),
+    var(--calcite-space-lg),
+    var(--calcite-space-sm),
     var(--calcite-internal-input-text-input-padding-inline-end)
   );
 

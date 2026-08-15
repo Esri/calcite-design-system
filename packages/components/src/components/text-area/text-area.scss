@@ -138,8 +138,8 @@
 .loader {
   position: absolute;
   inset-block-start: 0;
-  inset-block-start: var(--calcite-spacing-px);
-  inset-inline: var(--calcite-spacing-px);
+  inset-block-start: var(--calcite-space-px);
+  inset-inline: var(--calcite-space-px);
 }
 
 .footer {
@@ -156,7 +156,7 @@
   font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
   font-weight: var(--calcite-font-weight-regular);
   color: var(--calcite-text-area-character-limit-text-color, var(--calcite-color-text-2));
-  padding-inline-start: var(--calcite-spacing-md);
+  padding-inline-start: var(--calcite-space-md);
 }
 
 .character--over-limit {
@@ -208,8 +208,8 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-text-area-padding-block: var(--calcite-spacing-xxs);
-  --calcite-internal-text-area-padding-inline: var(--calcite-spacing-sm);
+  --calcite-internal-text-area-padding-block: var(--calcite-space-2xs);
+  --calcite-internal-text-area-padding-inline: var(--calcite-space-sm);
   --calcite-internal-text-area-footer-min-height: 1.75rem;
 
   .text-area,
@@ -219,19 +219,19 @@
   }
 
   .character-limit {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-space-sm);
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-text-area-padding-block: var(--calcite-spacing-sm);
-  --calcite-internal-text-area-padding-inline: var(--calcite-spacing-md);
+  --calcite-internal-text-area-padding-block: var(--calcite-space-sm);
+  --calcite-internal-text-area-padding-inline: var(--calcite-space-md);
   --calcite-internal-text-area-footer-min-height: 2.25rem;
 }
 
 :host([scale="l"]) {
-  --calcite-internal-text-area-padding-block: var(--calcite-spacing-md);
-  --calcite-internal-text-area-padding-inline: var(--calcite-spacing-lg);
+  --calcite-internal-text-area-padding-block: var(--calcite-space-md);
+  --calcite-internal-text-area-padding-inline: var(--calcite-space-lg);
   --calcite-internal-text-area-footer-min-height: 2.75rem;
 
   .text-area,
@@ -241,7 +241,7 @@
   }
 
   .character-limit {
-    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-start: var(--calcite-space-lg);
   }
 }
 

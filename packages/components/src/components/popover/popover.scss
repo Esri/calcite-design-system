@@ -45,7 +45,7 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-popover-close-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-popover-close-spacing: var(--calcite-space-xs);
 }
 
 :host([scale="m"]) {
@@ -57,7 +57,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-popover-close-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-popover-close-spacing: var(--calcite-space-sm);
 
   .heading {
     @apply text-1-wrap

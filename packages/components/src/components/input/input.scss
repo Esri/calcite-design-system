@@ -79,7 +79,7 @@
 
 // scales
 :host([scale="s"]) {
-  --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+  --calcite-internal-input-icon-padding-inline: var(--calcite-space-sm);
 
   & input,
   & .prefix,
@@ -87,9 +87,9 @@
     @apply text-n2h h-6;
   }
   & input {
-    padding-inline: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-space-sm);
   }
-  @include input-affix-spacing(var(--calcite-spacing-sm), var(--calcite-spacing-xxs));
+  @include input-affix-spacing(var(--calcite-space-sm), var(--calcite-space-2xs));
   & input[type="file"] {
     min-block-size: theme("spacing.6");
   }
@@ -98,20 +98,20 @@
     @apply h-6;
   }
   & .clear-button {
-    block-size: var(--calcite-spacing-xxl);
+    block-size: var(--calcite-space-2xl);
   }
   &:host([number-button-type="horizontal"]) {
-    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
+    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-space-2xs);
   }
   &:host([number-button-type="vertical"]) {
     --calcite-internal-input-number-button-item-height: 8px;
-    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
+    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-space-2xs);
     --calcite-internal-input-number-button-item-vertical-padding: 3px;
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-md);
+  --calcite-internal-input-icon-padding-inline: var(--calcite-space-md);
 
   & input,
   & .prefix,
@@ -119,9 +119,9 @@
     @apply text-n1h h-8;
   }
   & input {
-    padding-inline: var(--calcite-spacing-md);
+    padding-inline: var(--calcite-space-md);
   }
-  @include input-affix-spacing(var(--calcite-spacing-md), var(--calcite-spacing-xs));
+  @include input-affix-spacing(var(--calcite-space-md), var(--calcite-space-xs));
   & input[type="file"] {
     min-block-size: theme("spacing.8");
   }
@@ -140,7 +140,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+  --calcite-internal-input-icon-padding-inline: var(--calcite-space-md-plus);
 
   & input,
   & .prefix,
@@ -148,9 +148,9 @@
     @apply text-0h h-11;
   }
   & input {
-    padding-inline: var(--calcite-spacing-lg);
+    padding-inline: var(--calcite-space-lg);
   }
-  @include input-affix-spacing(var(--calcite-spacing-lg), var(--calcite-spacing-sm));
+  @include input-affix-spacing(var(--calcite-space-lg), var(--calcite-space-sm));
   & input[type="file"] {
     min-block-size: theme("spacing.11");
   }
@@ -159,11 +159,11 @@
     @apply h-11;
   }
   &:host([number-button-type="horizontal"]) {
-    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
+    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-space-sm-plus);
   }
   &:host([number-button-type="vertical"]) {
     --calcite-internal-input-number-button-item-height: 16px;
-    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
+    --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-space-sm-plus);
     --calcite-internal-input-number-button-item-vertical-padding: 5px;
   }
 }
@@ -581,8 +581,8 @@ input[type="number"] {
 
   calcite-action {
     --calcite-internal-action-height: var(--calcite-internal-input-number-button-item-height);
-    --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
-    --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+    --calcite-internal-action-padding-inline: var(--calcite-space-none);
+    --calcite-internal-action-padding-block: var(--calcite-space-none);
 
     --calcite-action-background-color: var(--calcite-input-actions-background-color);
     --calcite-action-text-color: var(--calcite-input-actions-icon-color);

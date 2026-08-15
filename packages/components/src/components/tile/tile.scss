@@ -162,7 +162,7 @@ calcite-link {
 }
 
 :host([scale="s"]) {
-  --calcite-internal-tile-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-tile-spacing: var(--calcite-space-sm);
 
   max-inline-size: 400px;
   min-inline-size: 100px;
@@ -177,7 +177,7 @@ calcite-link {
 }
 
 :host([scale="m"]) {
-  --calcite-internal-tile-spacing: var(--calcite-spacing-md);
+  --calcite-internal-tile-spacing: var(--calcite-space-md);
 
   max-inline-size: 460px;
   min-inline-size: 140px;
@@ -192,7 +192,7 @@ calcite-link {
 }
 
 :host([scale="l"]) {
-  --calcite-internal-tile-spacing: var(--calcite-spacing-lg);
+  --calcite-internal-tile-spacing: var(--calcite-space-lg);
 
   max-inline-size: 520px;
   min-inline-size: 160px;

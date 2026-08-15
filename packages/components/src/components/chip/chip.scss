@@ -178,23 +178,23 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-chip-close-padding: var(--calcite-spacing-none);
+  --calcite-internal-chip-close-padding: var(--calcite-space-none);
 
   .container {
     --calcite-internal-chip-block-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
-    --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-    --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+    --calcite-internal-chip-container-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+    --calcite-internal-chip-container-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
     --calcite-internal-chip-font-size: var(--calcite-font-size--2);
     --calcite-internal-chip-icon-size: var(--calcite-size-xs, 1rem) /* 16px */;
-    --calcite-internal-chip-icon-space: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-    --calcite-internal-chip-image-size: var(--calcite-spacing-xl, 1.25rem) /* 20px */;
-    --calcite-internal-chip-title-space: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+    --calcite-internal-chip-icon-space: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+    --calcite-internal-chip-image-size: var(--calcite-space-xl, 1.25rem) /* 20px */;
+    --calcite-internal-chip-title-space: var(--calcite-space-2xs, 0.25rem) /* 4px */;
     --calcite-internal-close-size: var(--calcite-size-xs, 1rem) /* 16px */;
 
     &:not(.closable) {
       &.is-circle {
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
-        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-px);
+        --calcite-internal-chip-container-space-x-end: var(--calcite-space-px);
       }
     }
 
@@ -202,21 +202,21 @@
       &:has(.chip-icon),
       &.text--slotted,
       &.closable {
-        --calcite-internal-chip-image-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-image-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
       }
       &:not(.text--slotted, :has(.chip-icon)),
       &:not(.selectable) {
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-px);
       }
     }
 
     &.selectable.single:not(.is-circle) {
       &.image--slotted {
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-px);
       }
       &.selected {
-        --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
-        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-none, 0);
+        --calcite-internal-chip-select-space-x-end: var(--calcite-space-xs, 0.375rem) /* 6px */;
+        --calcite-internal-chip-select-space-x-start: var(--calcite-space-none, 0);
 
         &.image--slotted {
           --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
@@ -226,17 +226,17 @@
     }
 
     &.multiple:not(.is-circle) {
-      --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-      --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-      --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-container-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-select-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-select-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
 
       &.image--slotted {
         --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-select-space-x-start: var(--calcite-space-xs, 0.375rem) /* 6px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-px);
 
         &:not(.text--slotted) {
-          --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+          --calcite-internal-chip-select-space-x-start: var(--calcite-space-xs, 0.375rem) /* 6px */;
         }
       }
     }
@@ -244,49 +244,49 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-chip-close-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-close-padding: var(--calcite-space-2xs);
 
   .container {
     --calcite-internal-chip-block-size: var(--calcite-size-md, 2rem) /* 32px */;
-    --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
-    --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    --calcite-internal-chip-container-space-x-end: var(--calcite-space-xs, 0.375rem) /* 6px */;
+    --calcite-internal-chip-container-space-x-start: var(--calcite-space-xs, 0.375rem) /* 6px */;
     --calcite-internal-chip-font-size: var(--calcite-font-size--1);
     --calcite-internal-chip-icon-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
-    --calcite-internal-chip-icon-space: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    --calcite-internal-chip-icon-space: var(--calcite-space-xs, 0.375rem) /* 6px */;
     --calcite-internal-chip-image-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
-    --calcite-internal-chip-title-space: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    --calcite-internal-chip-title-space: var(--calcite-space-xs, 0.375rem) /* 6px */;
     --calcite-internal-close-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
 
     &:not(.closable) {
       &.is-circle {
-        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-end: var(--calcite-space-px);
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-px);
       }
     }
 
     &.image--slotted {
       &:not(.is-circle) {
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
       }
 
       &:has(.chip-icon),
       &.text--slotted,
       &.closable {
-        --calcite-internal-chip-image-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+        --calcite-internal-chip-image-space-x-end: var(--calcite-space-xs, 0.375rem) /* 6px */;
       }
     }
 
     &.selectable.single:not(.is-circle) {
       &.image--slotted {
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
       }
       &.selected {
-        --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-px);
-        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-none, 0);
+        --calcite-internal-chip-select-space-x-end: var(--calcite-space-px);
+        --calcite-internal-chip-select-space-x-start: var(--calcite-space-none, 0);
 
         &.image--slotted {
-          --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-          --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+          --calcite-internal-chip-select-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+          --calcite-internal-chip-select-space-x-start: var(--calcite-space-xs, 0.375rem) /* 6px */;
         }
       }
     }
@@ -297,18 +297,18 @@
 
       &.image--slotted {
         --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
-        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-select-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
       }
     }
 
     &.closable:not(.is-circle) {
-      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-container-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
     }
   }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-chip-close-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-close-padding: var(--calcite-space-2xs);
 
   .container {
     --calcite-internal-chip-block-size: 2.75rem /* 44px */;
@@ -323,14 +323,14 @@
 
     &:not(.closable) {
       &.is-circle {
-        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-container-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
       }
     }
 
     &.image--slotted {
       &:not(.is-circle) {
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-xs, 0.375rem) /* 6px */;
       }
 
       &:has(.chip-icon),
@@ -342,14 +342,14 @@
 
     &.selectable.single:not(.is-circle) {
       &.image--slotted {
-        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-space-xs, 0.375rem) /* 6px */;
       }
       &.selected {
-        --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-none, 0);
+        --calcite-internal-chip-select-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-select-space-x-start: var(--calcite-space-none, 0);
 
         &.image--slotted {
-          --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+          --calcite-internal-chip-select-space-x-end: var(--calcite-space-xs, 0.375rem) /* 6px */;
           --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
         }
       }
@@ -358,8 +358,8 @@
     &.multiple:not(.is-circle) {
       --calcite-internal-chip-container-space-x-start: 0.5rem /* 8px */;
 
-      --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
-      --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-select-space-x-end: var(--calcite-space-2xs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-select-space-x-start: var(--calcite-space-2xs, 0.25rem) /* 4px */;
 
       &.image--slotted {
         --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
@@ -367,7 +367,7 @@
     }
 
     &.closable:not(.is-circle) {
-      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+      --calcite-internal-chip-container-space-x-end: var(--calcite-space-xs, 0.375rem) /* 6px */;
     }
   }
 }
@@ -427,7 +427,7 @@
   &.is-circle {
     .chip-icon,
     .image-container {
-      padding: var(--calcite-spacing-none, 0);
+      padding: var(--calcite-space-none, 0);
     }
   }
 }
@@ -441,9 +441,9 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  block-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
-  inline-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
-  padding-inline-start: var(--calcite-spacing-none, 0);
+  block-size: var(--calcite-internal-chip-image-size, var(--calcite-space-2xl, 1.5rem) /* 24px */);
+  inline-size: var(--calcite-internal-chip-image-size, var(--calcite-space-2xl, 1.5rem) /* 24px */);
+  padding-inline-start: var(--calcite-space-none, 0);
   padding-inline-end: var(--calcite-internal-chip-image-space-x-end, 0);
 }
 
@@ -453,7 +453,7 @@
     --calcite-chip-icon-color,
     var(--calcite-chip-text-color, var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor)))
   );
-  padding-inline: var(--calcite-internal-chip-icon-space, var(--calcite-spacing-xs, 0.375rem) /* 6px */);
+  padding-inline: var(--calcite-internal-chip-icon-space, var(--calcite-space-xs, 0.375rem) /* 6px */);
 }
 
 .select-icon {
@@ -490,8 +490,8 @@
 .single .select-icon--active {
   padding-inline-start: var(--calcite-internal-chip-select-space-x-start);
   padding-inline-end: var(--calcite-internal-chip-select-space-x-end);
-  block-size: var(--calcite-internal-chip-icon-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
-  inline-size: var(--calcite-internal-chip-icon-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
+  block-size: var(--calcite-internal-chip-icon-size, var(--calcite-space-2xl, 1.5rem) /* 24px */);
+  inline-size: var(--calcite-internal-chip-icon-size, var(--calcite-space-2xl, 1.5rem) /* 24px */);
 }
 
 .close {

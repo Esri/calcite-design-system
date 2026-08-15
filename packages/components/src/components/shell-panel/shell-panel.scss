@@ -197,8 +197,8 @@
   }
 
   &.float-all {
-    margin-block: var(--calcite-spacing-sm);
-    margin-inline: var(--calcite-spacing-sm);
+    margin-block: var(--calcite-space-sm);
+    margin-inline: var(--calcite-space-sm);
   }
 
   :host([action-bar-position]) & {
@@ -605,8 +605,8 @@
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 
   border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-  margin-inline: var(--calcite-spacing-sm);
-  margin-block-start: var(--calcite-spacing-sm);
+  margin-inline: var(--calcite-space-sm);
+  margin-block-start: var(--calcite-space-sm);
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
@@ -615,7 +615,7 @@
 }
 
 :host([layout="horizontal"]) .float--content {
-  margin-block: var(--calcite-spacing-sm);
+  margin-block: var(--calcite-space-sm);
 }
 
 :host([position="start"]) .float--content,
