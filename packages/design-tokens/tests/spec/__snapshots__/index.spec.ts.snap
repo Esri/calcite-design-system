@@ -1085,8 +1085,14 @@ exports[`CSS > global should match 1`] = `
   --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
   --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
   --calcite-size-px: 1px;
+  --calcite-size-4xs: 0.625rem;
   --calcite-size-xxxs: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-3xs: 0.75rem;
   --calcite-size-xxs: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-2xs: 0.875rem;
+  --calcite-size-xs: 1rem;
+  --calcite-size-sm: 1.5rem;
+  --calcite-size-md: 2rem;
   --calcite-size-lg: 2.75rem;
   --calcite-size-xl: 3rem;
   --calcite-size-xxl: 4rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
@@ -1127,12 +1133,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
   --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
   --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
   --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
   --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
   --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
@@ -1697,8 +1697,14 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
   --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
   --calcite-size-px: 1px;
+  --calcite-size-4xs: 0.625rem;
   --calcite-size-xxxs: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-3xs: 0.75rem;
   --calcite-size-xxs: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-2xs: 0.875rem;
+  --calcite-size-xs: 1rem;
+  --calcite-size-sm: 1.5rem;
+  --calcite-size-md: 2rem;
   --calcite-size-lg: 2.75rem;
   --calcite-size-xl: 3rem;
   --calcite-size-xxl: 4rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
@@ -1747,24 +1753,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-size-2xl: var(
     --calcite-font-size-xxl
   ); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(
-    --calcite-size-fixed-sm-plus
-  ); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(
-    --calcite-size-fixed-md
-  ); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(
-    --calcite-size-fixed-md-plus
-  ); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(
-    --calcite-size-fixed-lg
-  ); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(
-    --calcite-size-fixed-xxl
-  ); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(
-    --calcite-size-fixed-xxxl
-  ); /** Replaces \`--calcite-size-fixed-xxxl\` */
   --calcite-size-2xl: var(
     --calcite-size-xxl
   ); /** Replaces \`--calcite-size-xxl\` */
@@ -21938,7 +21926,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-size-fixed-sm-plus\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 4xs",
@@ -21987,7 +21974,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-size-fixed-md\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
@@ -22036,7 +22022,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-size-fixed-md-plus\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
@@ -22060,7 +22045,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1rem",
-      "$description": "Replaces \`--calcite-size-fixed-lg\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
@@ -22084,7 +22068,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxl\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
@@ -22108,7 +22091,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxxl\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
@@ -28150,7 +28132,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-size-fixed-sm-plus\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 4xs",
@@ -28199,7 +28180,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-size-fixed-md\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
@@ -28248,7 +28228,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-size-fixed-md-plus\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
@@ -28272,7 +28251,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1rem",
-      "$description": "Replaces \`--calcite-size-fixed-lg\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
@@ -28296,7 +28274,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxl\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
@@ -28320,7 +28297,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxxl\`",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
@@ -31209,14 +31185,14 @@ export const calciteSizeFixedXl = "20px"; // Deprecated in v3.0.0, removal targe
 export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
 export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
 export const calciteSizePx = "1px";
-export const calciteSize4xs = "0.625rem"; // Replaces \`--calcite-size-fixed-sm-plus\`
+export const calciteSize4xs = "0.625rem";
 export const calciteSizeXxxs = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-export const calciteSize3xs = "0.75rem"; // Replaces \`--calcite-size-fixed-md\`
+export const calciteSize3xs = "0.75rem";
 export const calciteSizeXxs = "0.875rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-export const calciteSize2xs = "0.875rem"; // Replaces \`--calcite-size-fixed-md-plus\`
-export const calciteSizeXs = "1rem"; // Replaces \`--calcite-size-fixed-lg\`
-export const calciteSizeSm = "1.5rem"; // Replaces \`--calcite-size-fixed-xxl\`
-export const calciteSizeMd = "2rem"; // Replaces \`--calcite-size-fixed-xxxl\`
+export const calciteSize2xs = "0.875rem";
+export const calciteSizeXs = "1rem";
+export const calciteSizeSm = "1.5rem";
+export const calciteSizeMd = "2rem";
 export const calciteSizeLg = "2.75rem";
 export const calciteSizeXl = "3rem";
 export const calciteSizeXxl = "4rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead.
@@ -31810,21 +31786,15 @@ export const calciteSizeFixedXxl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
-/** Replaces \`--calcite-size-fixed-sm-plus\` */
 export const calciteSize4xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
 export const calciteSizeXxxs: string;
-/** Replaces \`--calcite-size-fixed-md\` */
 export const calciteSize3xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
 export const calciteSizeXxs: string;
-/** Replaces \`--calcite-size-fixed-md-plus\` */
 export const calciteSize2xs: string;
-/** Replaces \`--calcite-size-fixed-lg\` */
 export const calciteSizeXs: string;
-/** Replaces \`--calcite-size-fixed-xxl\` */
 export const calciteSizeSm: string;
-/** Replaces \`--calcite-size-fixed-xxxl\` */
 export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
@@ -32328,14 +32298,14 @@ export const calciteSizeFixedXl = "20px"; // Deprecated in v3.0.0, removal targe
 export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
 export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
 export const calciteSizePx = "1px";
-export const calciteSize4xs = "0.625rem"; // Replaces \`--calcite-size-fixed-sm-plus\`
+export const calciteSize4xs = "0.625rem";
 export const calciteSizeXxxs = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-export const calciteSize3xs = "0.75rem"; // Replaces \`--calcite-size-fixed-md\`
+export const calciteSize3xs = "0.75rem";
 export const calciteSizeXxs = "0.875rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-export const calciteSize2xs = "0.875rem"; // Replaces \`--calcite-size-fixed-md-plus\`
-export const calciteSizeXs = "1rem"; // Replaces \`--calcite-size-fixed-lg\`
-export const calciteSizeSm = "1.5rem"; // Replaces \`--calcite-size-fixed-xxl\`
-export const calciteSizeMd = "2rem"; // Replaces \`--calcite-size-fixed-xxxl\`
+export const calciteSize2xs = "0.875rem";
+export const calciteSizeXs = "1rem";
+export const calciteSizeSm = "1.5rem";
+export const calciteSizeMd = "2rem";
 export const calciteSizeLg = "2.75rem";
 export const calciteSizeXl = "3rem";
 export const calciteSizeXxl = "4rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead.
@@ -32576,21 +32546,15 @@ export const calciteSizeFixedXxl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
-/** Replaces \`--calcite-size-fixed-sm-plus\` */
 export const calciteSize4xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
 export const calciteSizeXxxs: string;
-/** Replaces \`--calcite-size-fixed-md\` */
 export const calciteSize3xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
 export const calciteSizeXxs: string;
-/** Replaces \`--calcite-size-fixed-md-plus\` */
 export const calciteSize2xs: string;
-/** Replaces \`--calcite-size-fixed-lg\` */
 export const calciteSizeXs: string;
-/** Replaces \`--calcite-size-fixed-xxl\` */
 export const calciteSizeSm: string;
-/** Replaces \`--calcite-size-fixed-xxxl\` */
 export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
@@ -33482,8 +33446,14 @@ $calcite-size-fixed-xl: 20px; // Deprecated in v3.0.0, removal target v5.0.0 - N
 $calcite-size-fixed-xxl: 24px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
 $calcite-size-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
 $calcite-size-px: 1px;
+$calcite-size-4xs: 0.625rem;
 $calcite-size-xxxs: 0.75rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
+$calcite-size-3xs: 0.75rem;
 $calcite-size-xxs: 0.875rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
+$calcite-size-2xs: 0.875rem;
+$calcite-size-xs: 1rem;
+$calcite-size-sm: 1.5rem;
+$calcite-size-md: 2rem;
 $calcite-size-lg: 2.75rem;
 $calcite-size-xl: 3rem;
 $calcite-size-xxl: 4rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead.
@@ -33524,12 +33494,6 @@ $calcite-corner-radius-none: $calcite-corner-radius-sharp; // Replaces \`--calci
 $calcite-corner-radius-sm: $calcite-corner-radius-round; // Replaces \`--calcite-corner-radius-round\`
 $calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
 $calcite-font-size-2xl: $calcite-font-size-xxl; // Replaces \`--calcite-font-size-xxl\`
-$calcite-size-4xs: $calcite-size-fixed-sm-plus; // Replaces \`--calcite-size-fixed-sm-plus\`
-$calcite-size-3xs: $calcite-size-fixed-md; // Replaces \`--calcite-size-fixed-md\`
-$calcite-size-2xs: $calcite-size-fixed-md-plus; // Replaces \`--calcite-size-fixed-md-plus\`
-$calcite-size-xs: $calcite-size-fixed-lg; // Replaces \`--calcite-size-fixed-lg\`
-$calcite-size-sm: $calcite-size-fixed-xxl; // Replaces \`--calcite-size-fixed-xxl\`
-$calcite-size-md: $calcite-size-fixed-xxxl; // Replaces \`--calcite-size-fixed-xxxl\`
 $calcite-size-2xl: $calcite-size-xxl; // Replaces \`--calcite-size-xxl\`
 $calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
 $calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
@@ -34195,8 +34159,14 @@ $calcite-size-fixed-xl: 20px; // Deprecated in v3.0.0, removal target v5.0.0 - N
 $calcite-size-fixed-xxl: 24px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
 $calcite-size-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
 $calcite-size-px: 1px;
+$calcite-size-4xs: 0.625rem;
 $calcite-size-xxxs: 0.75rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
+$calcite-size-3xs: 0.75rem;
 $calcite-size-xxs: 0.875rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
+$calcite-size-2xs: 0.875rem;
+$calcite-size-xs: 1rem;
+$calcite-size-sm: 1.5rem;
+$calcite-size-md: 2rem;
 $calcite-size-lg: 2.75rem;
 $calcite-size-xl: 3rem;
 $calcite-size-xxl: 4rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead.
@@ -34237,12 +34207,6 @@ $calcite-corner-radius-none: $calcite-corner-radius-sharp; // Replaces \`--calci
 $calcite-corner-radius-sm: $calcite-corner-radius-round; // Replaces \`--calcite-corner-radius-round\`
 $calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
 $calcite-font-size-2xl: $calcite-font-size-xxl; // Replaces \`--calcite-font-size-xxl\`
-$calcite-size-4xs: $calcite-size-fixed-sm-plus; // Replaces \`--calcite-size-fixed-sm-plus\`
-$calcite-size-3xs: $calcite-size-fixed-md; // Replaces \`--calcite-size-fixed-md\`
-$calcite-size-2xs: $calcite-size-fixed-md-plus; // Replaces \`--calcite-size-fixed-md-plus\`
-$calcite-size-xs: $calcite-size-fixed-lg; // Replaces \`--calcite-size-fixed-lg\`
-$calcite-size-sm: $calcite-size-fixed-xxl; // Replaces \`--calcite-size-fixed-xxl\`
-$calcite-size-md: $calcite-size-fixed-xxxl; // Replaces \`--calcite-size-fixed-xxxl\`
 $calcite-size-2xl: $calcite-size-xxl; // Replaces \`--calcite-size-xxl\`
 $calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
 $calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
