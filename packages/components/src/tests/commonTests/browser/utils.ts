@@ -1,5 +1,5 @@
 import { camelCase } from "change-case";
-import type { PascalCase } from "type-fest";
+import { PascalCase } from "type-fest";
 
 type CalciteEventNamePrefix = `calcite${PascalCase<string>}`;
 
