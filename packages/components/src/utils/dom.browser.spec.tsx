@@ -613,16 +613,14 @@ describe("slot utils", () => {
     });
   });
 
-  describer(hasVisibleContent, () => {
+  describe(hasVisibleContent, () => {
     it("should return true if element has visible content", async () => {
       const { el } = await mount(html`<div><p>hello</p></div>`);
       expect(hasVisibleContent(el)).toBe(true);
     });
 
     it("should return false if element has no visible content", async () => {
-      console.log(document.body.outerHTML, "before");
       const { el } = await mount(html`<div></div>`);
-      console.log(el, "should be div");
       expect(hasVisibleContent(el)).toBe(false);
 
       el.innerHTML = "\n<!-- some comment -->\n";
@@ -638,7 +636,6 @@ describe(focusElement, () => {
 
   it("focuses the element if it is focusable", async () => {
     const { el } = await mount(html`<div tabindex="0"></div>`);
-    console.log(el, "should be div");
     await focusElement(el);
     await expect.element(el).toHaveFocus();
   });
@@ -683,7 +680,6 @@ describe(focusElement, () => {
     const { el } = await mount(
       html`<div tabindex="-1"><div data-testid="child" tabindex="0"></div></div>`,
     );
-    console.log(el);
     await focusElement(el, true, "tabbable");
     await expect.element(page.getByTestId("child")).toHaveFocus();
   });
@@ -973,8 +969,6 @@ describe(isBefore, () => {
       <div class="element"></div>
     `);
     const [el1, el2] = page.getBySelector(".element").elements() as HTMLElement[];
-
-    console.log(el1, el2);
 
     expect(isBefore(el1, el2)).toBe(true);
   });
