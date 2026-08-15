@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { area, range, translate } from "./util";
-import type { DataSeries, Point } from "./interfaces";
+import { area, range, translate } from "./utils";
+import type { DataSeries, Point } from "./types";
 
 describe("translate", () => {
   it("maps points from data space to graph coordinates", () => {
@@ -54,29 +54,23 @@ describe("range", () => {
 });
 
 describe("area", () => {
-  it("returns an empty path string for empty datasets", () => {
+  it("returns an empty path string for datasets with less than 3 entries", () => {
     const t = translate({
       width: 100,
       height: 100,
       min: [0, 0],
       max: [1, 1],
     });
-
-    expect(area({ data: [], min: [0, 0], max: [1, 1], t })).toBe("");
-  });
-
-  it("generates a closed path for two points", () => {
-    const data: DataSeries = [
+    const emptyData = [];
+    const singlePointData: DataSeries = [[0, 2]];
+    const twoPointData: DataSeries = [
       [0, 2],
       [2, 6],
     ];
-    const min: Point = [0, 0];
-    const max: Point = [2, 6];
-    const t = translate({ width: 20, height: 10, min, max });
 
-    expect(area({ data, min, max, t })).toBe(
-      "M 0,10 L 0,6.666666666666667 L 0,6.666666666666667 C 6.666666666666667,4.444444444444445 13.333333333333334,2.2222222222222223 20,0 L 20,10 Z",
-    );
+    expect(area({ data: emptyData, min: [0, 0], max: [1, 1], t })).toBe("");
+    expect(area({ data: singlePointData, min: [0, 0], max: [1, 1], t })).toBe("");
+    expect(area({ data: twoPointData, min: [0, 0], max: [1, 1], t })).toBe("");
   });
 
   it("generates smooth curve commands for datasets with three or more points", () => {
@@ -93,7 +87,7 @@ describe("area", () => {
     const d = area({ data, min, max, t });
 
     expect(d).toContain("M 0,10 L 0,8 L 0,8");
-    expect(d.match(/ C /g)!.length).toBe(3);
+    expect(d.match(/ C /g)).toHaveLength(3);
     expect(d.endsWith(" L 30,10 Z")).toBe(true);
   });
 });

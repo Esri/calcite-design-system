@@ -77,22 +77,8 @@ export function range(data: DataSeries): Extent {
  * returns a string can can be passed directly to a path element's `d` attribute
  */
 export function area({ data, min, max, t }: Graph): string {
-  if (data.length === 0) {
+  if (data.length < 3) {
     return "";
-  }
-
-  const points = data.map((point) => t(point));
-  const baselineY = t([min[0], min[1]])[1];
-
-  if (points.length === 2) {
-    const [[x0, y0], [x1, y1]] = points;
-
-    const c1x = x0 + (x1 - x0) / 3;
-    const c1y = y0 + (y1 - y0) / 3;
-    const c2x = x0 + ((x1 - x0) * 2) / 3;
-    const c2y = y0 + ((y1 - y0) * 2) / 3;
-
-    return `M ${x0},${baselineY} L ${x0},${y0} L ${x0},${y0} C ${c1x},${c1y} ${c2x},${c2y} ${x1},${y1} L ${x1},${baselineY} Z`;
   }
 
   // important points for beginning and ending the path
