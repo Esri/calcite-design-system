@@ -230,7 +230,7 @@
 :host([display-mode="float"]) .content,
 :host([display-mode="float"]) .container,
 :host([display-mode="float"]) .content-container {
-  border-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-sm));
 }
 
 :host([display-mode="float"]) .container {
@@ -349,8 +349,8 @@
   }
 
   &:host([display-mode="float"]) .resize-handle-bar {
-    border-start-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
-    border-end-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
+    border-start-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-sm));
+    border-end-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-sm));
   }
 }
 
@@ -407,8 +407,8 @@
   }
 
   &:host([display-mode="float"]) .resize-handle-bar {
-    border-start-start-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
-    border-start-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-sm));
+    border-start-end-radius: var(--calcite-sheet-corner-radius, var(--calcite-corner-radius-sm));
   }
 }
 

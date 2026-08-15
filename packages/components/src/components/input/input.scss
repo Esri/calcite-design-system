@@ -201,7 +201,7 @@ input {
 
 .element-wrapper,
 input {
-  border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
 }
 
 .has-prefix,
@@ -250,16 +250,16 @@ input {
 .has-prefix :is(.prefix:first-child, .loader + .prefix),
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="down"],
 .element-wrapper:has(.icon) :is(.icon:first-child, .loader + .icon) {
-  border-start-start-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-start-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-start-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
+  border-end-start-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
 }
 
 .has-suffix .suffix,
 :host([number-button-type="vertical"][type="number"][read-only]) .has-suffix .suffix,
 :host([clearable]) .clear-button,
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="up"] {
-  border-end-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
-  border-start-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
+  border-start-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
 }
 
 :host([clearable]) .has-suffix .clear-button {
@@ -537,14 +537,14 @@ input[type="number"] {
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
-  border-start-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
   border-block-end-width: var(--calcite-border-width-none);
   padding-block-start: var(--calcite-internal-input-number-button-item-vertical-padding);
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
   @apply border-t-0;
-  border-end-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
   padding-block-end: var(--calcite-internal-input-number-button-item-vertical-padding);
 }
 
@@ -604,7 +604,7 @@ input[type="number"] {
     flex
     flex-row
     items-center;
-  border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-none));
   box-shadow: var(--calcite-input-shadow, var(--calcite-shadow-none));
 }
 

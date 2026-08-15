@@ -40,7 +40,7 @@
 
 :host {
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
-  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-none));
 }
 
 slot[name="alerts"]::slotted(calcite-alert) {

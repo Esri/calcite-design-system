@@ -190,7 +190,7 @@ input {
 
 .element-wrapper,
 input {
-  border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
 }
 
 .has-prefix,
@@ -230,24 +230,24 @@ input {
 .has-prefix :is(.prefix:first-child, .loader + .prefix),
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="down"],
 .element-wrapper:has(.icon) :is(.icon:first-child, .loader + .icon) {
-  border-start-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
+  border-end-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
 }
 
 :host([read-only]) .suffix,
 :host([read-only]) .wrapper:not(.has-suffix) .clear-button,
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="up"] {
-  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
-  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
+  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
   @apply border-t-0;
-  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
-  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
 }
 
 :host(:not([read-only])[number-button-type="horizontal"]) .prefix,
@@ -500,14 +500,14 @@ input[readonly]:focus {
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
-  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
   border-block-end-width: var(--calcite-border-width-none);
   padding-block-start: var(--calcite-internal-input-number-number-button-item-vertical-padding);
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
   @apply border-t-0;
-  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-none));
   padding-block-end: var(--calcite-internal-input-number-number-button-item-vertical-padding);
 }
 
