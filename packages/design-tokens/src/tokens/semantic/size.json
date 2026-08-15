@@ -114,7 +114,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-fixed-sm-plus"
+        "calcite.replaces": "{size.fixed.sm-plus}"
       },
       "$type": "dimension",
       "$value": "{size.fixed.sm-plus}",
@@ -135,7 +135,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-fixed-md"
+        "calcite.replaces": "{size.fixed.md}"
       },
       "$type": "dimension",
       "$value": "{size.fixed.md}",
@@ -156,7 +156,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-fixed-md-plus"
+        "calcite.replaces": "{size.fixed.md-plus}"
       },
       "$type": "dimension",
       "$value": "{size.fixed.md-plus}",
@@ -168,7 +168,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-fixed-lg"
+        "calcite.replaces": "{size.fixed.lg}"
       },
       "$type": "dimension",
       "$value": "{size.fixed.lg}",
@@ -180,7 +180,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-fixed-xxl"
+        "calcite.replaces": "{size.fixed.xxl}"
       },
       "$type": "dimension",
       "$value": "{size.fixed.xxl}",
@@ -192,7 +192,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-fixed-xxxl"
+        "calcite.replaces": "{size.fixed.xxxl}"
       },
       "$type": "dimension",
       "$value": "{size.fixed.xxxl}",
@@ -227,7 +227,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-xxl"
+        "calcite.replaces": "{size.xxl}"
       },
       "$type": "dimension",
       "$value": "{size.xxl}",
@@ -248,7 +248,7 @@
       },
       "$extensions": {
         "calcite.outputReference": true,
-        "calcite.replaces": "--calcite-size-xxxl"
+        "calcite.replaces": "{size.xxxl}"
       },
       "$type": "dimension",
       "$value": "{size.xxxl}",

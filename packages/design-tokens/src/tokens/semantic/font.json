@@ -150,7 +150,7 @@
         "$description": "Replaces `--calcite-font-size-xxl`",
         "$extensions": {
           "calcite.outputReference": true,
-          "calcite.replaces": "--calcite-font-size-xxl"
+          "calcite.replaces": "{font.size.xxl}"
         }
       },
       "relative": {
