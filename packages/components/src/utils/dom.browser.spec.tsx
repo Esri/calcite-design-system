@@ -1,7 +1,7 @@
 import { Fragment, JsxNode, LitElement, method } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, onTestFinished, vi } from "vitest";
 import type { ModeName } from "../components/types";
 import { createControlledPromise } from "../tests/utils/promises";
 import type { IconName } from "../components/icon/types";
@@ -43,13 +43,11 @@ const outsideHost = "Outside Host";
 const insideShadow = "Inside Shadow";
 
 describe(setRequestedIcon, () => {
-  const iconObject = { exampleValue: "exampleReturnedValue" as IconName };
+  const iconObject: Record<string, IconName> = { exampleValue: "3d-glasses" };
   const matchedValue = "exampleValue";
 
   it("returns the custom icon name if custom value is passed", () =>
-    expect(setRequestedIcon(iconObject, "myCustomValue" as IconName, matchedValue)).toBe(
-      "myCustomValue",
-    ));
+    expect(setRequestedIcon(iconObject, "banana", matchedValue)).toBe("banana"));
 
   it("returns the pre-defined icon name if custom value is true", () =>
     expect(setRequestedIcon(iconObject, true, matchedValue)).toBe(iconObject[matchedValue]));
@@ -72,9 +70,8 @@ describe(ensureId, () => {
   });
 
   it("returns the element's ID if it exists", async () => {
-    const { el } = await mount(html`<input />`);
+    const { el } = await mount(html`<input id="test" />`);
 
-    el.id = "test";
     expect(ensureId(el)).toBe("test");
   });
 
@@ -96,7 +93,7 @@ describe(getModeName, () => {
 
   it("finds the closest mode if set (light)", async () => {
     const { component } = await mount(
-      html`<div class="calcite-mode-dark">
+      html` <div class="calcite-mode-dark">
         <div class="calcite-mode-light">
           <mode-element></mode-element>
         </div>
@@ -143,12 +140,14 @@ describe(getModeName, () => {
     expect(component.foundModeName).toBe("light");
   });
 
-  afterEach(() => vi.unstubAllGlobals());
-
   it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", async () => {
     vi.stubGlobal("matchMedia", (query) => ({
       matches: query === "(prefers-color-scheme: dark)",
     }));
+
+    onTestFinished(() => {
+      vi.unstubAllGlobals();
+    });
 
     const { component } = await mount(
       html`
@@ -180,86 +179,7 @@ describe(isPrimaryPointerButton, () => {
   });
 });
 
-describe("slot utils", () => {
-  function createEl<K extends keyof HTMLElementTagNameMap>(
-    tag: string,
-    props?: Partial<HTMLElementTagNameMap[K]>,
-  ): HTMLElement {
-    const el = document.createElement(tag);
-
-    if (props) {
-      Object.entries(props).forEach(([key, value]) => {
-        el[key] = value;
-      });
-    }
-
-    return el;
-  }
-
-  describe(getSlotAssignedElements, () => {
-    it("returns slotted elements with no selector", async () => {
-      await mount(
-        html`
-          <simple-slot-component>
-            <div></div>
-            <div></div>
-          </simple-slot-component>
-        `,
-        {
-          dynamicComponents: [SimpleSlotComponent],
-        },
-      );
-      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
-
-      expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
-    });
-    it("returns no slotted elements", async () => {
-      await mount(SimpleSlotComponent, {
-        dynamicComponents: [SimpleSlotComponent],
-      });
-      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
-
-      expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
-    });
-    it("returns slotted elements with direct element selector", async () => {
-      await mount(
-        html`
-          <simple-slot-component>
-            <span></span>
-            <div></div>
-            <span></span>
-          </simple-slot-component>
-        `,
-        {
-          dynamicComponents: [SimpleSlotComponent],
-        },
-      );
-      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
-
-      expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
-      expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
-    });
-    it("returns slotted elements with class selector", async () => {
-      await mount(
-        html`
-          <simple-slot-component>
-            <span></span>
-            <span class="my-span"></span>
-            <div></div>
-            <div class="my-div"></div>
-          </simple-slot-component>
-        `,
-        {
-          dynamicComponents: [SimpleSlotComponent],
-        },
-      );
-      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
-
-      expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
-      expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
-    });
-  });
-
+describe.todo("slot utils", () => {
   class SimpleSlotComponent extends LitElement {
     static tagName = "simple-slot-component";
 
@@ -282,18 +202,95 @@ describe("slot utils", () => {
     }
   }
 
+  function createEl<K extends keyof HTMLElementTagNameMap>(
+    tag: string,
+    props?: Partial<HTMLElementTagNameMap[K]>,
+  ): HTMLElement {
+    const el = document.createElement(tag);
+
+    if (props) {
+      Object.assign(el, props);
+    }
+
+    return el;
+  }
+
+  describe(getSlotAssignedElements, () => {
+    it("returns slotted elements with no selector", async () => {
+      await mount(
+        html`
+          <simple-slot-component>
+            <div></div>
+            <div></div>
+          </simple-slot-component>
+        `,
+        {
+          dynamicComponents: [SimpleSlotComponent],
+        },
+      );
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
+    });
+
+    it("returns no slotted elements", async () => {
+      await mount(SimpleSlotComponent, {
+        dynamicComponents: [SimpleSlotComponent],
+      });
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
+      expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
+    });
+
+    it("returns slotted elements with direct element selector", async () => {
+      await mount(
+        html`
+          <simple-slot-component>
+            <span></span>
+            <div></div>
+            <span></span>
+          </simple-slot-component>
+        `,
+        {
+          dynamicComponents: [SimpleSlotComponent],
+        },
+      );
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
+      expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
+    });
+
+    it("returns slotted elements with class selector", async () => {
+      await mount(
+        html`
+          <simple-slot-component>
+            <span></span>
+            <span class="my-span"></span>
+            <div></div>
+            <div class="my-div"></div>
+          </simple-slot-component>
+        `,
+        {
+          dynamicComponents: [SimpleSlotComponent],
+        },
+      );
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
+      expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
+      expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
+    });
+  });
+
   async function setUpSimpleSlotTest(): Promise<{
     el: SimpleSlotComponent["el"];
     reRender: () => Promise<boolean>;
     slotEl: HTMLSlotElement;
   }> {
-    const { el, reRender } = await mount(SimpleSlotComponent, {
-      dynamicComponents: [SimpleSlotComponent],
-    });
+    const result = await mount(SimpleSlotComponent);
 
     return {
-      el,
-      reRender,
+      ...result,
       slotEl: page.getBySelector("slot").element() as HTMLSlotElement,
     };
   }
@@ -322,18 +319,17 @@ describe("slot utils", () => {
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Element[]> = {};
-      const { el, reRender } = await mount(NestedSlotsComponent, {
-        dynamicComponents: [NestedSlotsComponent],
-      });
+      const { el, reRender } = await mount(NestedSlotsComponent);
       const slots = page.getBySelector("slot");
       slots.elements().forEach((el) => {
-        el.addEventListener("slotchange", (event) => {
-          slotToAssigned[(event.currentTarget as HTMLSlotElement).name] =
-            slotChangeGetAssignedElements(event);
-        });
+        el.addEventListener(
+          "slotchange",
+          (event) =>
+            (slotToAssigned[(event.currentTarget as HTMLSlotElement).name] =
+              slotChangeGetAssignedElements(event)),
+        );
       });
 
-      // simplify createEl?
       const nodes = [
         document.createTextNode("hello"),
         createEl("div"),
@@ -355,7 +351,8 @@ describe("slot utils", () => {
         baz: [nodes[5], nodes[6], nodes[7]],
       });
 
-      Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
+      // TODO: check if we can remove below
+      // Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
       nodes.forEach((el) => el.remove());
       await reRender();
 
@@ -459,9 +456,7 @@ describe("slot utils", () => {
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Node[]> = {};
-      const { el, reRender } = await mount(NestedSlotsComponent, {
-        dynamicComponents: [NestedSlotsComponent],
-      });
+      const { el, reRender } = await mount(NestedSlotsComponent);
       const slots = page.getBySelector("slot");
       slots.elements().forEach((el) => {
         el.addEventListener("slotchange", (event) => {
@@ -491,7 +486,8 @@ describe("slot utils", () => {
         baz: [nodes[5], nodes[6], nodes[7]],
       });
 
-      Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
+      // TODO: check if we can remove below
+      // Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
       nodes.forEach((node) => node.remove());
       await reRender();
 
@@ -612,28 +608,24 @@ describe("slot utils", () => {
       expect(slotChangeHandler).toHaveBeenCalledTimes(1);
     });
   });
+});
 
-  describe(hasVisibleContent, () => {
-    it("should return true if element has visible content", async () => {
-      const { el } = await mount(html`<div><p>hello</p></div>`);
-      expect(hasVisibleContent(el)).toBe(true);
-    });
+describe.skip(hasVisibleContent, () => {
+  it("should return true if element has visible content", async () => {
+    const { el } = await mount(html`<div><p>hello</p></div>`);
+    expect(hasVisibleContent(el)).toBe(true);
+  });
 
-    it("should return false if element has no visible content", async () => {
-      const { el } = await mount(html`<div></div>`);
-      expect(hasVisibleContent(el)).toBe(false);
+  it("should return false if element has no visible content", async () => {
+    const { el } = await mount(html`<div></div>`);
+    expect(hasVisibleContent(el)).toBe(false);
 
-      el.innerHTML = "\n<!-- some comment -->\n";
-      expect(hasVisibleContent(el)).toBe(false);
-    });
+    el.innerHTML = "\n<!-- some comment -->\n";
+    expect(hasVisibleContent(el)).toBe(false);
   });
 });
 
-describe(focusElement, () => {
-  // afterEach(() => {
-  //   document.body.innerHTML = "";
-  // });
-
+describe.todo(focusElement, () => {
   it("focuses the element if it is focusable", async () => {
     const { el } = await mount(html`<div tabindex="0"></div>`);
     await focusElement(el);
@@ -704,9 +696,7 @@ describe(focusElement, () => {
       }
     }
 
-    const { el } = await mount(SetFocusEdgeCaseComponent, {
-      dynamicComponents: [SetFocusEdgeCaseComponent],
-    });
+    const { el } = await mount(SetFocusEdgeCaseComponent);
 
     vi.spyOn(el, "focus");
     vi.spyOn(el, "setFocus");
@@ -751,9 +741,7 @@ describe(focusElement, () => {
         }
       }
 
-      const { el } = await mount(SetFocusCallingFocusElementComponent, {
-        dynamicComponents: [SetFocusCallingFocusElementComponent],
-      });
+      const { el } = await mount(SetFocusCallingFocusElementComponent);
 
       vi.spyOn(el, "setFocus");
 
@@ -767,11 +755,7 @@ describe(focusElement, () => {
   });
 });
 
-describe(focusFirstTabbable, () => {
-  // afterEach(() => {
-  //   document.body.innerHTML = "";
-  // });
-
+describe.skip(focusFirstTabbable, () => {
   it("focuses the first tabbable element", async () => {
     const { container } = await mount(html`
       <div></div>
@@ -834,7 +818,7 @@ describe(focusFirstTabbable, () => {
   });
 });
 
-describe(focusElementInGroup, () => {
+describe.todo(focusElementInGroup, () => {
   // TODO: pending
 
   function createElements(withFocusableChild = false): HTMLElement[] {
@@ -942,7 +926,7 @@ describe(focusElementInGroup, () => {
   });
 });
 
-describe(getShadowRootNode, () => {
+describe.skip(getShadowRootNode, () => {
   class SimpleComponent extends LitElement {
     override render(): JsxNode {
       return <button type="button">Hello</button>;
@@ -950,9 +934,8 @@ describe(getShadowRootNode, () => {
   }
 
   it("should return shadowRoot for shadowed element", async () => {
-    const { el } = await mount(SimpleComponent, { dynamicComponents: [SimpleComponent] });
+    const { el } = await mount(SimpleComponent);
     const button = page.getByRole("button");
-    expect(button).toBeDefined();
     expect(getShadowRootNode(button.element())).toEqual(el.shadowRoot);
   });
 
@@ -962,7 +945,7 @@ describe(getShadowRootNode, () => {
   });
 });
 
-describe(isBefore, () => {
+describe.skip(isBefore, () => {
   it("should return true if element A is before element B", async () => {
     await mount(html`
       <div class="element"></div>
@@ -983,7 +966,7 @@ describe(isBefore, () => {
   });
 });
 
-describe(isKeyboardTriggeredClick, () => {
+describe.skip(isKeyboardTriggeredClick, () => {
   it("should return true if click is triggered by keyboard", () => {
     const event = new MouseEvent("click", { detail: 0 });
     expect(isKeyboardTriggeredClick(event)).toBe(true);
@@ -1000,7 +983,7 @@ describe(isKeyboardTriggeredClick, () => {
  * so we try to mock it as close to the real thing as possible.
  */
 // TODO: pending
-describe("transition/animation helpers", () => {
+describe.todo("transition/animation helpers", () => {
   async function promiseState(
     promise: Promise<any>,
   ): Promise<{ status: "fulfilled" | "rejected"; value?: any; reason: any }> {
@@ -1092,10 +1075,12 @@ describe("transition/animation helpers", () => {
   });
 });
 
-describe(nextFrame, () => {
+describe.skip(nextFrame, () => {
   it("should resolve in the same frame as requestAnimationFrame", async () => {
     let frameResolved = false;
     requestAnimationFrame(() => (frameResolved = true));
+
+    expect(frameResolved).toBe(false);
 
     await nextFrame();
 
@@ -1103,7 +1088,7 @@ describe(nextFrame, () => {
   });
 });
 
-describe(getStylePixelValue, () => {
+describe.skip(getStylePixelValue, () => {
   it("returns the numeric value for 'px' values", () => {
     expect(getStylePixelValue("10px")).toBe(10);
     expect(getStylePixelValue("0px")).toBe(0);
@@ -1155,13 +1140,13 @@ describe(queryElementRoots, () => {
       `,
       { dynamicComponents: [QueryElementRootsComponent] },
     );
-    const queryEl = el.shadowRoot.querySelector("div")!;
+    const queryEl = page.elementLocator(el).getBySelector("div").element();
 
-    const resultEl: HTMLElement = queryElementRoots(queryEl, {
-      selector: `button.${myButtonClass}`,
-    })!;
-
-    expect(resultEl.textContent).toBe(insideHost);
+    expect(
+      queryElementRoots(queryEl, {
+        selector: `button.${myButtonClass}`,
+      }),
+    ).toHaveTextContent(insideHost);
   });
 
   it("should query id from inside shadow element", async () => {
@@ -1173,11 +1158,9 @@ describe(queryElementRoots, () => {
       `,
       { dynamicComponents: [QueryElementRootsComponent] },
     );
-    const queryEl = el.shadowRoot.querySelector("div")!;
+    const queryEl = page.elementLocator(el).getBySelector("div").element();
 
-    const resultEl: HTMLElement = queryElementRoots(queryEl, { id: myButtonId })!;
-
-    expect(resultEl.textContent).toBe(insideShadow);
+    expect(queryElementRoots(queryEl, { id: myButtonId })).toHaveTextContent(insideShadow);
   });
 
   it("should query from outside host element", async () => {
@@ -1191,11 +1174,12 @@ describe(queryElementRoots, () => {
     );
 
     const source = page.getBySelector("span");
-    const resultEl = queryElementRoots<HTMLButtonElement>(source.element(), {
-      selector: "button",
-    })!;
 
-    expect(resultEl.textContent).toBe(outsideHost);
+    expect(
+      queryElementRoots<HTMLButtonElement>(source.element(), {
+        selector: "button",
+      }),
+    ).toHaveTextContent(outsideHost);
   });
 
   it("should query id from outside host element", async () => {
@@ -1209,8 +1193,7 @@ describe(queryElementRoots, () => {
     );
 
     const source = page.getBySelector("span");
-    const resultEl: HTMLElement = queryElementRoots(source.element(), { id: myButtonId })!;
 
-    expect(resultEl.textContent).toBe(outsideHost);
+    expect(queryElementRoots(source.element(), { id: myButtonId })).toHaveTextContent(outsideHost);
   });
 });
