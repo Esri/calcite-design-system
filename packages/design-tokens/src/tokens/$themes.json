@@ -875,7 +875,6 @@
       "typography.default.light.2h": "S:100f82b12327c5aac091df8d93bbfdda034c725c,",
       "typography.default.regular.-3h": "S:8ee92c2f694b908bc9a1c8302e0a35c996a8906d,",
       "typography.default.regular.-2h": "S:e3a0e99790e9b0f5a838928ed7317043b192e277,",
-      "typography.default.regular.-1h": "S:fe96d0356bba1a5d1366a66207af1148d869f054,",
       "typography.default.regular.0h": "S:3a02f0494c205b107821cd4a799d9df1e726b186,",
       "typography.default.regular.1h": "S:7688e89a75644707a9aa80851ea1d07122a0ddac,",
       "typography.default.regular.2h": "S:59344e72c684e32f2427868408693c24e2b818ef,",
@@ -925,7 +924,8 @@
       "typography.hierarchy.body.snug": "S:79e1ec32bc7f49a07887c1feb3a3ce6062e291e0,",
       "typography.hierarchy.body.default": "S:eec635acd60f12a16c97725be8a5a4437970c0ad,",
       "typography.hierarchy.overline": "S:57b4ad573b51e08bb846c7e084b8f8987c5b27eb,",
-      "typography.hierarchy.caption": "S:52272399f75fec3d558b521cf1ea227bcf3a7565,"
+      "typography.hierarchy.caption": "S:52272399f75fec3d558b521cf1ea227bcf3a7565,",
+      "typography.default.regular.-1h": "S:8ee92c2f694b908bc9a1c8302e0a35c996a8906d,"
     },
     "$figmaVariableReferences": {},
     "selectedTokenSets": {
