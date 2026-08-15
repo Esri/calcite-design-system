@@ -923,7 +923,9 @@
       "typography.hierarchy.body.snug": "S:79e1ec32bc7f49a07887c1feb3a3ce6062e291e0,",
       "typography.hierarchy.body.default": "S:eec635acd60f12a16c97725be8a5a4437970c0ad,",
       "typography.hierarchy.overline": "S:57b4ad573b51e08bb846c7e084b8f8987c5b27eb,",
-      "typography.hierarchy.caption": "S:52272399f75fec3d558b521cf1ea227bcf3a7565,"
+      "typography.hierarchy.caption": "S:52272399f75fec3d558b521cf1ea227bcf3a7565,",
+      "typography.default.regular.-3h": "S:3acc6323c2afb19b07059993ee2eace82b229634,",
+      "typography.default.regular.-1h": "S:8ee92c2f694b908bc9a1c8302e0a35c996a8906d,"
     },
     "$figmaVariableReferences": {},
     "selectedTokenSets": {
