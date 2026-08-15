@@ -334,9 +334,9 @@ describe("shell-panel updateSize public method", () => {
   }
 
   function getShellPanelBySlot(slot: PanelSlot): ShellPanel["el"] {
-    return getBySelector(
-      `calcite-shell > calcite-shell-panel[slot="${slot}"]`,
-    ).element() as ShellPanel["el"];
+    return page
+      .getBySelector(`calcite-shell > calcite-shell-panel[slot="${slot}"]`)
+      .element() as ShellPanel["el"];
   }
 
   function getShellPanelElements(panel: ShellPanel["el"]): {
