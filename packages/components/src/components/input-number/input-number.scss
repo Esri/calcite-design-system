@@ -77,7 +77,7 @@
 
 // scales
 :host([scale="s"]) {
-  --calcite-internal-input-number-icon-padding-inline: var(--calcite-space-sm);
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-sm);
 
   & input,
   & .prefix,
@@ -107,7 +107,7 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-number-icon-padding-inline: var(--calcite-space-md);
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-md);
 
   & input,
   & .prefix,
@@ -134,7 +134,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-input-number-icon-padding-inline: var(--calcite-space-md-plus);
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-lg);
 
   & input,
   & .prefix,
