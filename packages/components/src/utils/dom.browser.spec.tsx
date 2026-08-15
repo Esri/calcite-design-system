@@ -2,7 +2,7 @@ import { Fragment, JsxNode, LitElement, method } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ModeName } from "../components/interfaces";
+import type { ModeName } from "../components/types";
 import { createControlledPromise } from "../tests/utils/promises";
 import type { IconName } from "../components/icon/types";
 import { guidPattern } from "./guid.browser.spec";
