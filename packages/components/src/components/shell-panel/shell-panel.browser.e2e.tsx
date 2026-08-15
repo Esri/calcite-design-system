@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
-import { locators, page, userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
 import {
   defaults,
@@ -18,18 +18,6 @@ import { Dir } from "../types";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
-
-declare module "vitest/browser" {
-  interface LocatorSelectors {
-    getByCss: (css: string) => import("vitest/browser").Locator;
-  }
-}
-
-locators.extend({
-  getByCss(css: string) {
-    return `css=${css}`;
-  },
-});
 
 mockConsole();
 
@@ -344,7 +332,7 @@ describe("shell-panel updateSize public method", () => {
   }
 
   function getByCssElement<T extends Element>(element: Element, css: string): T {
-    return page.elementLocator(element).getByCss(css).element() as unknown as T;
+    return page.elementLocator(element).getBySelector(css).element() as unknown as T;
   }
 
   function getShellPanelBySlot(shell: Shell["el"], slot: PanelSlot): ShellPanel["el"] {
@@ -360,13 +348,13 @@ describe("shell-panel updateSize public method", () => {
 
     return {
       actionBarContainer: panelLocator
-        .getByCss(`:scope > .${CSS.container} > .${CSS.actionBarContainer}`)
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.actionBarContainer}`)
         .element() as HTMLElement,
       content: panelLocator
-        .getByCss(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
         .element() as HTMLElement,
       handle: panelLocator
-        .getByCss(
+        .getBySelector(
           `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
         )
         .element() as HTMLElement,
@@ -645,7 +633,7 @@ describe("shell-panel updateSize public method", () => {
     );
     const handle = page
       .elementLocator(el)
-      .getByCss(
+      .getBySelector(
         `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
       )
       .element() as HTMLElement;
