@@ -1,4 +1,4 @@
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 
 export const SLOTS = {
   input: "input",

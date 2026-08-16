@@ -5,6 +5,7 @@ import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
 
 import {
+  accessible,
   defaults,
   disabled,
   formAssociated,
@@ -41,6 +42,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "labelFormatter",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "label",
         defaultValue: undefined,
       },
       {
@@ -100,6 +105,59 @@ describe("reflects", () => {
       },
     ],
   );
+});
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-slider
+        label="hello world"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    ),
+  );
+
+  it("applies min and max labels to the corresponding thumbs", async () => {
+    await mount<Slider>(
+      <calcite-slider
+        label="Group label"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    );
+
+    const container = page.getByLabelText("Group label");
+    await expect.element(container).toHaveAttribute("aria-label", "Group label");
+
+    const [minThumb, maxThumb] = page.getByRole("slider").all();
+
+    await expect.element(minThumb).toHaveAttribute("aria-label", "Minimum");
+    await expect.element(maxThumb).toHaveAttribute("aria-label", "Maximum");
+  });
+
+  it("uses label as fallback aria-label for single-value thumb", async () => {
+    await mount(<calcite-slider label="Single fallback label" value={25} />);
+
+    const thumb = page.getByRole("slider");
+
+    await expect.element(thumb).toHaveAttribute("aria-label", "Single fallback label");
+  });
+
+  it("uses label as fallback aria-label for range thumbs and labels container as group", async () => {
+    await mount(<calcite-slider label="Range fallback label" max-value="75" min-value="50" />);
+
+    const container = page.getByRole("group", { name: "Range fallback label" });
+    const [minThumb, maxThumb] = page.getByRole("slider").all();
+
+    await expect.element(container).toHaveAttribute("aria-label", "Range fallback label");
+    await expect.element(minThumb).toHaveAttribute("aria-label", "Range fallback label");
+    await expect.element(maxThumb).toHaveAttribute("aria-label", "Range fallback label");
+  });
 });
 
 describe("honors hidden attribute", () => {

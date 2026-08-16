@@ -1,9 +1,9 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { ModeName } from "../components/interfaces";
+import { ModeName } from "../components/types";
 import { html } from "../../support/formatting";
 import { afterNextFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
-import { IconName } from "../components/icon/interfaces";
+import { IconName } from "../components/icon/types";
 import { guidPattern } from "./guid.browser.spec";
 import {
   ensureId,

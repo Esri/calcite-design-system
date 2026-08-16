@@ -1,11 +1,11 @@
-import { PropertyValues } from "lit";
+import type { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
   associateExplicitLabelToUnlabeledComponent,
   labelConnectedEvent,
   labelDisconnectedEvent,
-} from "../../utils/label";
-import { Alignment, Scale } from "../interfaces";
+} from "../../controllers/useLabel";
+import type { Alignment, Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./label.scss";
 
@@ -31,7 +31,11 @@ export class Label extends LitElement {
   /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @property({ reflect: true }) for?: string;
 
-  /** Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
+  /**
+   * Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.
+   *
+   * [Deprecated] The `"default"` value is deprecated in v3.3.0, removal target v6.0.0 - use `"block"` instead.
+   */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
     "default";
 

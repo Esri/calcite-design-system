@@ -24,11 +24,14 @@ type InputNumberStoryArgs = Pick<
   | "icon"
   | "iconFlipRtl"
   | "integer"
+  | "labelText"
   | "readOnly"
   | "required"
   | "value"
   | "placeholder"
   | "validationIcon"
+  | "inlineEditable"
+  | "inlineEditableControls"
   | "validationMessage"
 >;
 
@@ -51,12 +54,15 @@ export default {
     icon: "",
     iconFlipRtl: false,
     integer: false,
+    labelText: "Label text",
     readOnly: false,
     required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEditable: false,
+    inlineEditableControls: false,
   },
   argTypes: {
     scale: {
@@ -113,11 +119,14 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       ${boolean("integer", args.integer)}
+      ${optionalAttribute("label-text", args.labelText)}
       ${boolean("read-only", args.readOnly)}
       ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
+      ${boolean("inline-editable", args.inlineEditable)}
+      ${boolean("inline-editable-controls", args.inlineEditableControls)}
       ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-number>
@@ -273,3 +282,9 @@ export const overlayDoesNotObscureIcon = (): string =>
     <div class="overlay"></div>`;
 
 export const clearable = (): string => html` <calcite-input-number clearable value="123"> </calcite-input-number> `;
+
+export const inlineEditable = (): string => html`
+  <div>
+    <calcite-input-number inline-editable inline-editable-controls value="42"></calcite-input-number>
+  </div>
+`;

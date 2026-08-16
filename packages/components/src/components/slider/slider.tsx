@@ -16,20 +16,21 @@ import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
-import { ColorStop, DataSeries } from "../graph/interfaces";
-import { Scale, Status } from "../interfaces";
+import { ColorStop, DataSeries } from "../graph/types";
+import { Scale, Status } from "../types";
 import { BigDecimal } from "../../utils/number";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
-import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
+import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
 import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
@@ -184,6 +185,8 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   private _value: number | number[] = defaultValue;
 
   //#endregion
@@ -226,12 +229,15 @@ export class Slider extends LitElement implements LabelableComponent {
   /**
    * Specifies a list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/interfaces.ts#L5).
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/types.ts#L5).
    */
   @property() histogram?: DataSeries;
 
   /** Specifies a list of single color stops for a histogram, sorted by offset in ascending order. */
   @property() histogramStops?: ColorStop[];
+
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When specified, allows users to customize handle labels. */
   @property() labelFormatter?: (
@@ -278,9 +284,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property({ reflect: true }) mirrored = false;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission
+   * @copyDoc
    */
   @property({ reflect: true }) name?: string;
 
@@ -315,9 +319,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property({ reflect: true }) ticks?: number;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -325,7 +327,6 @@ export class Slider extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -400,7 +401,6 @@ export class Slider extends LitElement implements LabelableComponent {
   override connectedCallback(): void {
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
-    connectLabel(this);
     this.previousEmittedValue = this.value;
   }
 
@@ -444,7 +444,6 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.removeDragListeners();
   }
 
@@ -1101,11 +1100,14 @@ export class Slider extends LitElement implements LabelableComponent {
     const maxInterval = this.getUnitInterval(value) * 100;
     const mirror = this.shouldMirror();
     const valueIsRange = isRange(this.value);
+    const containerAriaLabel = getLabelText(this);
+    const useGroupRole = valueIsRange && !!containerAriaLabel;
 
     const thumbTypes = this.buildThumbType("max");
     const thumb = this.renderThumb({
       type: thumbTypes,
       thumbPlacement: thumbTypes.includes("histogram") ? "below" : "above",
+      labelFallback: containerAriaLabel,
       maxInterval,
       minInterval,
       mirror,
@@ -1119,6 +1121,7 @@ export class Slider extends LitElement implements LabelableComponent {
             minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
               ? "below"
               : "above",
+          labelFallback: containerAriaLabel,
           maxInterval,
           minInterval,
           mirror,
@@ -1158,13 +1161,14 @@ export class Slider extends LitElement implements LabelableComponent {
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={containerAriaLabel}
           ariaRequired={this.required}
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,
             [CSS.scale(this.scale)]: true,
           }}
+          role={useGroupRole ? "group" : undefined}
         >
           {this.renderGraph()}
           <div class={CSS.track} ref={this.trackRef}>
@@ -1230,7 +1234,9 @@ export class Slider extends LitElement implements LabelableComponent {
     thumbPlacement,
     minInterval,
     maxInterval,
+    labelFallback,
   }: {
+    labelFallback: string;
     maxInterval: number;
     minInterval: number;
     mirror: boolean;
@@ -1248,7 +1254,11 @@ export class Slider extends LitElement implements LabelableComponent {
         ? this.maxValue
         : (this.value as number);
     const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
-    const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
+    const ariaLabel = isMinThumb
+      ? this.minLabel || labelFallback
+      : valueIsRange
+        ? this.maxLabel || labelFallback
+        : this.minLabel || labelFallback;
     const ariaValuenow = isMinThumb ? this.minValue : value;
     const displayedValue =
       valueProp === "minValue"

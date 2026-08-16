@@ -35,6 +35,7 @@ import {
   getMinMaxSource,
 } from "./utils";
 import { styles } from "./date-picker.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -138,7 +139,7 @@ export class DatePicker extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). */
+  /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). Set to `undefined` or an empty string (`""`) to clear the selection. */
   @property() value?: string | string[];
 
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
@@ -231,7 +232,7 @@ export class DatePicker extends LitElement {
     }
 
     if (changes.has("messages") && this.hasUpdated) {
-      this.loadLocaleData().catch(console.error);
+      this.loadLocaleData().catch(logger.error);
     }
   }
 
@@ -251,23 +252,32 @@ export class DatePicker extends LitElement {
     }
   }
 
-  private valueHandler(value: string | string[] | undefined): void {
+  private valueHandler(value: string | string[] | null | undefined): void {
     if (Array.isArray(value)) {
       // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
-      this.valueAsDate = getValueAsDateRange(value);
+      this.valueAsDate = value.every((rangeValue) => rangeValue === "")
+        ? undefined
+        : getValueAsDateRange(value);
       if (!this.rangeValueChangedByUser) {
         this.resetActiveDates();
       }
     } else if (value) {
       this.valueAsDate = dateFromISO(value);
+    } else {
+      this.valueAsDate = undefined;
+      this.resetActiveDates();
     }
   }
 
   private valueAsDateWatcher(newValueAsDate?: Date | (Date | undefined)[]): void {
     if (this.range && Array.isArray(newValueAsDate) && !this.rangeValueChangedByUser) {
       this.setActiveStartAndEndDates();
-    } else if (!this.range && newValueAsDate && newValueAsDate !== this.activeDate) {
-      this.activeDate = newValueAsDate as Date;
+    } else if (!this.range) {
+      if (newValueAsDate && newValueAsDate !== this.activeDate) {
+        this.activeDate = newValueAsDate as Date;
+      } else if (!newValueAsDate) {
+        this.resetActiveDates();
+      }
     }
   }
 
@@ -421,16 +431,32 @@ export class DatePicker extends LitElement {
   private resetActiveDates(): void {
     const { valueAsDate } = this;
 
-    if (!Array.isArray(valueAsDate) && valueAsDate && valueAsDate !== this.activeDate) {
-      this.activeDate = new Date(valueAsDate);
+    if (!Array.isArray(valueAsDate)) {
+      if (valueAsDate && valueAsDate !== this.activeDate) {
+        this.activeDate = new Date(valueAsDate);
+      } else if (!valueAsDate) {
+        this.activeDate = undefined;
+        const activeDate = this.getActiveDate(undefined, this.minAsDate, this.maxAsDate);
+
+        if (this.range) {
+          this.activeStartDate = activeDate;
+          this.activeEndDate = undefined;
+        } else {
+          this.activeDate = activeDate;
+        }
+      }
     }
 
     if (Array.isArray(valueAsDate)) {
       if (valueAsDate[0] && valueAsDate[0] !== this.activeStartDate) {
         this.activeStartDate = new Date(valueAsDate[0]);
+      } else if (!valueAsDate[0]) {
+        this.activeStartDate = this.getActiveDate(undefined, this.minAsDate, this.maxAsDate);
       }
       if (valueAsDate[1] && valueAsDate[1] !== this.activeEndDate) {
         this.activeEndDate = new Date(valueAsDate[1]);
+      } else if (!valueAsDate[1]) {
+        this.activeEndDate = undefined;
       }
     }
     this.hoverRange = undefined;

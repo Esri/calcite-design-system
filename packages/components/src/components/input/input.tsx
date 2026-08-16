@@ -13,10 +13,11 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
@@ -27,17 +28,23 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
+import {
+  CSS as InlineEditableControlsCSS,
+  InlineEditableControls,
+} from "../functional/InlineEditableControls";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import type { InlineEditable } from "../inline-editable/inline-editable";
+import { UseInlineEditable } from "../../controllers/useInlineEditable";
+import type { Action } from "../action/action";
+import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./types";
 import {
   CSS,
   DIRECTION,
@@ -49,6 +56,7 @@ import {
 } from "./resources";
 import { NumericInputComponent, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -87,6 +95,8 @@ export class Input
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
 
+  private enableInlineEditingButtonRef = createRef<Action["el"]>();
+
   defaultValue?: Input["value"];
 
   private direction = useDirection();
@@ -96,11 +106,14 @@ export class Input
     getValue: () => (this.type === "file" ? (this.childRef.value?.files ?? null) : this.value),
   })(this);
 
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
   private inlineEditableEl?: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   private maxString?: string;
 
@@ -132,6 +145,39 @@ export class Input
 
   private interactiveContainer = useInteractive(this);
 
+  private inlineEditableManager = new UseInlineEditable({
+    getEditingEnabled: () => this.editingEnabled,
+    setEditingEnabled: (editingEnabled) => {
+      this.editingEnabled = editingEnabled;
+    },
+    getValue: () => this.value,
+    setValue: (value) => {
+      this.setValue({ origin: "direct", value });
+    },
+    setFocus: () => {
+      void this.setFocus();
+    },
+    emitCancel: () => {
+      this.calciteInputInlineEditableCancel.emit();
+    },
+    emitConfirm: () => {
+      this.calciteInputInlineEditableConfirm.emit();
+    },
+    emitEnableEditingChange: () => {
+      this.calciteInputInlineEditableChange.emit();
+    },
+  });
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
+  private get selfManagedInlineEditable(): boolean {
+    return this.inlineEditable && !this.inlineEditableEl;
+  }
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !!this.inlineEditableEl)
+  private get hasInlineEditableContext(): boolean {
+    return this.inlineEditable || !!this.inlineEditableEl;
+  }
+
   get isClearable(): boolean {
     return (this.clearable || this.type === "search") && this.value?.length > 0;
   }
@@ -141,6 +187,8 @@ export class Input
   //#region State Properties
 
   @state() displayedValue!: string;
+
+  @state() inlineEditableLoading = false;
 
   @state() slottedActionElDisabledInternally = false;
 
@@ -177,8 +225,21 @@ export class Input
    */
   @property({ reflect: true }) disabled = false;
 
-  /** @private */
+  /**
+   * When `true`, the component displays its inline editable mode.
+   *
+   * @private
+   */
   @property({ reflect: true }) editingEnabled = false;
+
+  /** When `true`, enables the component's built-in inline editable behavior. */
+  @property({ reflect: true }) inlineEditable = false;
+
+  /** When `true` and `inlineEditable` is `true`, displays the component's built-in inline editable save and cancel controls. */
+  @property({ reflect: true }) inlineEditableControls = false;
+
+  /** Specifies a callback to be executed when saving inline editable changes */
+  @property() inlineEditableAfterConfirm!: () => Promise<void>;
 
   /**
    * When `type` is `"file"`, specifies the component's selected files.
@@ -194,7 +255,7 @@ export class Input
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `true`, displays a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -259,9 +320,7 @@ export class Input
   @property() multiple = false;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -344,9 +403,7 @@ export class Input
     | "week" = "text";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -354,7 +411,6 @@ export class Input
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -420,6 +476,15 @@ export class Input
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
+  /** Fires when built-in inline editable is cancelled. */
+  calciteInputInlineEditableCancel = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is confirmed. */
+  calciteInputInlineEditableConfirm = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is enabled. */
+  calciteInputInlineEditableChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -431,11 +496,11 @@ export class Input
   }
 
   override connectedCallback(): void {
+    // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
     this.inlineEditableEl = this.el.closest("calcite-inline-editable") ?? undefined;
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -486,7 +551,6 @@ export class Input
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.stopNudging();
   }
 
@@ -532,7 +596,26 @@ export class Input
       return;
     }
 
-    if (this.isClearable && event.key === "Escape") {
+    if (this.selfManagedInlineEditable && this.editingEnabled && event.key === "Escape") {
+      event.preventDefault();
+
+      if (this.clearable && this.value?.length > 0) {
+        this.clearInputValue(event);
+        return;
+      }
+
+      this.inlineEditableManager.cancelEditing();
+      requestAnimationFrame(() => {
+        this.enableInlineEditingButtonRef.value?.setFocus();
+      });
+      return;
+    }
+
+    if (
+      this.isClearable &&
+      event.key === "Escape" &&
+      (!this.hasInlineEditableContext || this.editingEnabled)
+    ) {
       this.clearInputValue(event);
       event.preventDefault();
     }
@@ -543,6 +626,11 @@ export class Input
   }
 
   onLabelClick(): void {
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
+      this.inlineEditableManager.enable();
+      return;
+    }
+
     this.setFocus();
   }
 
@@ -596,6 +684,18 @@ export class Input
     });
   }
 
+  private clearButtonPointerDownHandler(event: PointerEvent): void {
+    event.preventDefault();
+  }
+
+  private clearButtonClickHandler(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.clearInputValue(event);
+    const target = this.type === "number" ? this.childNumberRef.value : this.childRef.value;
+    target?.focus();
+  }
+
   private emitChangeIfUserModified(): void {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputChange.emit();
@@ -606,6 +706,11 @@ export class Input
   private inputBlurHandler() {
     this.stopNudging();
     this.calciteInternalInputBlur.emit();
+
+    if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
+      this.inlineEditableManager.disable();
+    }
+
     this.emitChangeIfUserModified();
   }
 
@@ -615,11 +720,23 @@ export class Input
     }
 
     const composedPath = event.composedPath();
+    const clickedInlineEditableControls = composedPath.some(
+      (element) =>
+        element instanceof HTMLElement &&
+        element.classList.contains(InlineEditableControlsCSS.container),
+    );
 
     if (
       !composedPath.includes(this.inputWrapperRef.value!) ||
-      composedPath.includes(this.actionWrapperRef.value!)
+      composedPath.includes(this.actionWrapperRef.value!) ||
+      clickedInlineEditableControls
     ) {
+      return;
+    }
+
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
+      event.preventDefault();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -929,7 +1046,7 @@ export class Input
 
   private warnAboutInvalidNumberValue(value: string): void {
     if (this.type === "number" && value && !isValidNumber(value)) {
-      console.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
+      logger.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
     }
   }
 
@@ -948,7 +1065,10 @@ export class Input
     const clearButton = (
       <div
         class={CSS.clearButton}
-        onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
+        onClick={this.disabled || this.readOnly ? undefined : this.clearButtonClickHandler}
+        onPointerDown={
+          this.disabled || this.readOnly ? undefined : this.clearButtonPointerDownHandler
+        }
       >
         <ClearButton
           ariaLabel={this.messages.clear}
@@ -1040,6 +1160,11 @@ export class Input
           ariaLabel={getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
+          class={{
+            [CSS.editingEnabled]: this.editingEnabled,
+            [CSS.inlineChild]: this.hasInlineEditableContext,
+            [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+          }}
           defaultValue={this.defaultValue}
           disabled={this.disabled}
           enterKeyHint={enterKeyHint}
@@ -1059,6 +1184,11 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childNumberRef}
           required={this.required}
+          tabIndex={
+            this.disabled || (this.hasInlineEditableContext && !this.editingEnabled)
+              ? -1
+              : undefined
+          }
           type="text"
           value={this.displayedValue}
         />
@@ -1075,7 +1205,8 @@ export class Input
           autofocus={autofocus}
           class={{
             [CSS.editingEnabled]: this.editingEnabled,
-            [CSS.inlineChild]: !!this.inlineEditableEl,
+            [CSS.inlineChild]: this.hasInlineEditableContext,
+            [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
           }}
           defaultValue={this.defaultValue}
           disabled={this.disabled}
@@ -1101,7 +1232,9 @@ export class Input
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={
-            this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : undefined
+            this.disabled || (this.hasInlineEditableContext && !this.editingEnabled)
+              ? -1
+              : undefined
           }
           type={this.type}
           value={this.value}
@@ -1146,6 +1279,27 @@ export class Input
               ? numberButtonsVertical
               : null}
           </div>
+          {this.selfManagedInlineEditable && (
+            <div class={CSS.inlineEditable}>
+              <InlineEditableControls
+                cancelEditingLabel={this.messages.cancelInlineEditing}
+                confirmChangesLabel={this.messages.confirmInlineEditingChanges}
+                editingEnabled={this.editingEnabled}
+                enableEditingButtonRef={this.enableInlineEditingButtonRef}
+                enableEditingLabel={this.messages.enableInlineEditing}
+                loading={this.inlineEditableLoading}
+                onCancelEditing={() => this.inlineEditableManager.cancelEditing()}
+                onConfirmChanges={() =>
+                  this.inlineEditableManager.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                    this.inlineEditableLoading = loading;
+                  })
+                }
+                onEnableEditing={() => this.inlineEditableManager.enable()}
+                scale={this.scale}
+                showControls={this.editingEnabled && this.inlineEditableControls}
+              />
+            </div>
+          )}
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>

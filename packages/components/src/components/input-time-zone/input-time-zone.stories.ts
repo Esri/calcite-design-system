@@ -10,9 +10,11 @@ type InputTimeZoneStoryArgs = Pick<
   InputTimeZone,
   | "clearable"
   | "disabled"
+  | "labelText"
   | "mode"
   | "offsetStyle"
   | "open"
+  | "placeholder"
   | "readOnly"
   | "required"
   | "scale"
@@ -27,9 +29,11 @@ export default {
   args: {
     clearable: false,
     disabled: false,
+    labelText: "Label text",
     mode: mode.defaultValue,
     offsetStyle: "user",
     open: false,
+    placeholder: "Enter a time zone",
     readOnly: false,
     required: false,
     scale: scale.defaultValue,
@@ -73,9 +77,11 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
   <calcite-input-time-zone
     ${boolean("clearable", args.clearable)}
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
     mode="${args.mode}"
     offset-style="${args.offsetStyle}"
     ${boolean("open", args.open)}
+    placeholder="${args.placeholder}"
     ${boolean("read-only", args.readOnly)}
     ${boolean("required", args.required)}
     scale="${args.scale}"

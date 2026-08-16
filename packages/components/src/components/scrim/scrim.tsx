@@ -1,7 +1,7 @@
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { slotChangeHasContent } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Loader } from "../loader/loader";

@@ -10,16 +10,15 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { FlipContext, Layout, Scale } from "../interfaces";
+import { FlipContext, Layout, Scale } from "../types";
 import { Direction, slotChangeGetAssignedElements } from "../../utils/dom";
 import { getIconScale } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { MenuItemCustomEvent } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu-item.scss";
 
@@ -78,20 +77,19 @@ export class MenuItem extends LitElement {
   @property() href?: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @private */
   @property() isTopLevelItem = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -147,9 +145,6 @@ export class MenuItem extends LitElement {
   //#endregion
 
   //#region Events
-
-  /** @private */
-  calciteInternalMenuItemKeyEvent = createEvent<MenuItemCustomEvent>();
 
   /** Emits when the component is selected. */
   calciteMenuItemSelect = createEvent();
@@ -223,7 +218,7 @@ export class MenuItem extends LitElement {
   }
 
   private async keyDownHandler(event: KeyboardEvent): Promise<void> {
-    const { hasSubmenu, href, layout, open, submenuItems } = this;
+    const { hasSubmenu, href, layout, open } = this;
     const key = event.key;
     const targetIsDropdown = event.target === this.dropdownActionRef.value;
 
@@ -244,39 +239,21 @@ export class MenuItem extends LitElement {
     } else if (key === "Escape") {
       if (open) {
         this.open = false;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({ event });
-      event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "horizontal") {
         this.open = true;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: open && hasSubmenu,
-      });
-    } else if (key === "ArrowLeft") {
-      event.preventDefault();
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: true,
-      });
     } else if (key === "ArrowRight") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "vertical") {
         this.open = true;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: open && hasSubmenu,
-      });
     }
   }
 

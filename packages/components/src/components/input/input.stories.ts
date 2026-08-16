@@ -21,6 +21,7 @@ type InputStoryArgs = Pick<
   | "disabled"
   | "icon"
   | "iconFlipRtl"
+  | "labelText"
   | "value"
   | "readOnly"
   | "required"
@@ -28,6 +29,8 @@ type InputStoryArgs = Pick<
   | "status"
   | "placeholder"
   | "validationIcon"
+  | "inlineEditable"
+  | "inlineEditableControls"
   | "validationMessage"
 >;
 
@@ -47,6 +50,7 @@ export default {
     disabled: false,
     icon: "",
     iconFlipRtl: false,
+    labelText: "Label text",
     value: "",
     readOnly: false,
     required: false,
@@ -55,6 +59,8 @@ export default {
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEditable: false,
+    inlineEditableControls: false,
   },
   argTypes: {
     type: {
@@ -113,6 +119,7 @@ export const simple = (args: InputStoryArgs): string => html`
       ${boolean("disabled", args.disabled)}
       ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("label-text", args.labelText)}
       value="${args.value}"
       ${boolean("read-only", args.readOnly)}
       ${boolean("required", args.required)}
@@ -120,6 +127,8 @@ export const simple = (args: InputStoryArgs): string => html`
       status="${args.status}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
+      ${boolean("inline-editable", args.inlineEditable)}
+      ${boolean("inline-editable-controls", args.inlineEditableControls)}
       ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input>
   </div>
@@ -276,4 +285,10 @@ export const overlayDoesNotObscureIcon = (): string =>
 
 export const numberHorizontal = (): string => html`
   <calcite-input type="number" number-button-type="horizontal" value="123" clearable> </calcite-input>
+`;
+
+export const inlineEditable = (): string => html`
+  <div>
+    <calcite-input inline-editable inline-editable-controls value="Editable value"></calcite-input>
+  </div>
 `;

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode } from "../types";
 import { mockConsole } from "../../tests/utils/logging";
 
 /**

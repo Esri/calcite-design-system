@@ -1,12 +1,15 @@
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { Scale } from "../interfaces";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale } from "../types";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import type { Action } from "../action/action";
 import type { Input } from "../input/input";
+import type { InputNumber } from "../input-number/input-number";
+import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
-import type { Button } from "../button/button";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./inline-editable.scss";
@@ -19,7 +22,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding a `calcite-input`. */
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline editable (`inline-editable` and `inline-editable-controls` props) instead.
+ * @slot - A slot for adding a `calcite-input`.
+ */
 export class InlineEditable extends LitElement implements LabelableComponent {
   //#region Static Members
 
@@ -31,13 +37,15 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   //#region Private Properties
 
-  private cancelEditingButtonRef = createRef<Button["el"]>();
+  private cancelEditingButtonRef = createRef<Action["el"]>();
+
+  private confirmChangesButtonRef = createRef<Action["el"]>();
 
   private _editingEnabled = false;
 
-  private enableEditingButtonRef = createRef<Button["el"]>();
+  private enableEditingButtonRef = createRef<Action["el"]>();
 
-  private inputEl?: Input["el"];
+  private inputEl?: (Input | InputNumber | InputText)["el"];
 
   labelEl?: Label["el"];
 
@@ -55,6 +63,8 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
@@ -131,14 +141,9 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   constructor() {
     super();
     this.listen("calciteInternalInputBlur", this.blurHandler);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
+    this.listen("calciteInternalInputNumberBlur", this.blurHandler);
+    this.listen("calciteInternalInputTextBlur", this.blurHandler);
+    this.listen("keydown", this.escapeKeyHandler);
   }
 
   //#endregion
@@ -161,8 +166,9 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   }
 
   private async handleDefaultSlotChange(event: Event): Promise<void> {
-    const inputElement = slotChangeGetAssignedElements(event).filter((el): el is Input["el"] =>
-      el.matches("calcite-input"),
+    const inputElement = slotChangeGetAssignedElements(event).filter(
+      (el): el is (Input | InputNumber | InputText)["el"] =>
+        el.matches("calcite-input, calcite-input-number, calcite-input-text"),
     )[0];
 
     this.inputEl = inputElement;
@@ -213,11 +219,33 @@ export class InlineEditable extends LitElement implements LabelableComponent {
     }
 
     if (event.key === "Tab" && this.shouldShowControls) {
-      if (!event.shiftKey && event.target === this.inputEl) {
+      const confirmChangesButton = this.confirmChangesButtonRef.value;
+      const cancelEditingButton = this.cancelEditingButtonRef.value;
+      const composedPath = event.composedPath();
+      const tabFromInput = this.inputEl ? composedPath.includes(this.inputEl) : false;
+      const tabFromConfirm = confirmChangesButton
+        ? composedPath.includes(confirmChangesButton)
+        : false;
+      const tabFromCancel = cancelEditingButton
+        ? composedPath.includes(cancelEditingButton)
+        : false;
+
+      if (!event.shiftKey && tabFromConfirm) {
         event.preventDefault();
-        this.cancelEditingButtonRef.value?.setFocus();
+        cancelEditingButton?.setFocus();
       }
-      if (!!event.shiftKey && event.target === this.cancelEditingButtonRef.value) {
+
+      if (!event.shiftKey && (tabFromInput || (!tabFromConfirm && !tabFromCancel))) {
+        event.preventDefault();
+        confirmChangesButton?.setFocus();
+      }
+
+      if (!!event.shiftKey && tabFromCancel) {
+        event.preventDefault();
+        confirmChangesButton?.setFocus();
+      }
+
+      if (!!event.shiftKey && tabFromConfirm) {
         event.preventDefault();
         this.inputEl?.setFocus();
       }
@@ -267,57 +295,51 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   override render(): JsxNode {
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        <div
-          class={CSS.wrapper}
-          onClick={this.enableEditingHandler}
-          onKeyDown={this.escapeKeyHandler}
-        >
+        <div class={CSS.wrapper} onClick={this.enableEditingHandler}>
           <div class={CSS.inputWrapper}>
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
           <div class={CSS.controlsWrapper}>
-            <calcite-button
-              appearance="transparent"
+            <calcite-action
+              ariaLabel={this.messages.enableEditing}
               class={{
                 [CSS.enableEditingButton]: true,
                 [CSS.enableEditingButtonHidden]: this.editingEnabled,
               }}
-              iconStart={ICONS.pencil}
-              kind="neutral"
-              label={this.messages.enableEditing}
+              icon={ICONS.pencil}
               onClick={this.enableEditingHandler}
               ref={this.enableEditingButtonRef}
               scale={this.scale}
+              text={this.messages.enableEditing}
               title={this.messages.enableEditing}
               type="button"
             />
             {this.shouldShowControls && [
+              <calcite-action
+                ariaLabel={this.messages.confirmChanges}
+                class={CSS.confirmChangesButton}
+                icon={ICONS.check}
+                loading={this.loading}
+                onClick={this.confirmChangesHandler}
+                ref={this.confirmChangesButtonRef}
+                scale={this.scale}
+                text={this.messages.confirmChanges}
+                title={this.messages.confirmChanges}
+                type="button"
+              />,
               <div class={CSS.cancelEditingButtonWrapper}>
-                <calcite-button
-                  appearance="transparent"
+                <calcite-action
+                  ariaLabel={this.messages.cancelEditing}
                   class={CSS.cancelEditingButton}
-                  iconStart={ICONS.close}
-                  kind="neutral"
-                  label={this.messages.cancelEditing}
+                  icon={ICONS.close}
                   onClick={this.cancelEditingHandler}
                   ref={this.cancelEditingButtonRef}
                   scale={this.scale}
+                  text={this.messages.cancelEditing}
                   title={this.messages.cancelEditing}
                   type="button"
                 />
               </div>,
-              <calcite-button
-                appearance="solid"
-                class={CSS.confirmChangesButton}
-                iconStart={ICONS.check}
-                kind="brand"
-                label={this.messages.confirmChanges}
-                loading={this.loading}
-                onClick={this.confirmChangesHandler}
-                scale={this.scale}
-                title={this.messages.confirmChanges}
-                type="button"
-              />,
             ]}
           </div>
         </div>

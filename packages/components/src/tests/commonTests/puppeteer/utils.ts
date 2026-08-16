@@ -8,7 +8,7 @@ import type {
   BeforeContent,
   WithBeforeContent,
   ComponentTestContent,
-} from "../interfaces";
+} from "../types";
 
 export { propToAttr } from "../utils";
 
