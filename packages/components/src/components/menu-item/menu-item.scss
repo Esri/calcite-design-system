@@ -16,12 +16,19 @@
 //
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
+// --calcite-internal-menu-item-content-min-block-size
 // --calcite-internal-menu-item-icon-color
+// --calcite-internal-menu-item-icon-spacing-end
+// --calcite-internal-menu-item-icon-spacing-start
 // --calcite-internal-menu-text-color
 
 @use "../../styles/includes";
 
 :host {
+  --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-xl);
+  --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-md);
+  --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-md);
+
   --calcite-internal-menu-item-border: 1px solid
     var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
 
@@ -33,7 +40,7 @@
   & .container,
   & .item-content,
   & .content {
-    min-block-size: var(--calcite-size-xl);
+    min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
   }
 }
 
@@ -111,7 +118,9 @@
 }
 
 :host([scale="s"]) {
-  min-block-size: theme("spacing.9");
+  --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
+  --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
+  --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-sm);
 
   .content {
     font-size: var(--calcite-font-size);
@@ -120,22 +129,16 @@
 }
 
 :host([scale="s"]:not([layout="vertical"])) {
-  & .container,
-  & .item-content,
-  & .content {
-    min-block-size: theme("spacing.9");
-  }
-
   .content {
     padding-inline: var(--calcite-space-md);
   }
 
   .icon--start {
-    margin-inline-end: var(--calcite-space-sm);
+    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-space-sm);
+    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
   }
 
   .icon--breadcrumb {
@@ -163,7 +166,7 @@
   & .container,
   & .item-content,
   & .content {
-    min-block-size: var(--calcite-size-md);
+    --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-md);
   }
 
   .content {
@@ -171,7 +174,7 @@
   }
 
   .icon--start {
-    margin-inline-end: var(--calcite-space-sm);
+    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
   }
 
   .text-container {
@@ -179,7 +182,7 @@
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-space-sm);
+    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
     padding-inline-start: 0;
   }
 
@@ -207,7 +210,7 @@
   }
 
   .content {
-    min-block-size: theme("spacing.9");
+    --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
   }
 }
 
@@ -217,7 +220,7 @@
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-space-sm);
+    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
   }
 
   .icon--breadcrumb {
@@ -232,7 +235,7 @@
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-space-sm);
+    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
   }
 
   .dropdown-action {
@@ -259,7 +262,9 @@
 }
 
 :host([scale="l"]) {
-  min-block-size: var(--calcite-size-2xl);
+  --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-2xl);
+  --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-lg);
+  --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-lg);
 
   .content {
     font-size: var(--calcite-font-size-lg);
@@ -279,11 +284,11 @@
   }
 
   .icon--start {
-    margin-inline-end: var(--calcite-space-lg);
+    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-space-lg);
+    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
   }
 
   .icon--breadcrumb {
@@ -312,7 +317,7 @@
   & .container,
   & .item-content,
   & .content {
-    min-block-size: theme("spacing.14");
+    --calcite-internal-menu-item-content-min-block-size: theme("spacing.14");
   }
 
   .content {
@@ -321,7 +326,7 @@
   }
 
   .icon--start {
-    margin-inline-end: var(--calcite-space-lg);
+    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
   }
 
   .text-container {
@@ -329,7 +334,8 @@
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-space-lg);
+    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
+
     padding-inline-start: 0;
   }
 
@@ -417,15 +423,17 @@
 }
 
 .icon--start {
-  @apply me-3;
+  margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
 }
 
 .icon--end {
-  @apply ms-3;
+  margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
 }
 
 :host([layout="vertical"]) .icon--end {
-  @apply ms-auto ps-3;
+  @apply ps-3;
+
+  --calcite-internal-menu-item-icon-spacing-end: auto;
 }
 
 .icon--dropdown {
@@ -441,7 +449,7 @@
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
-  @apply ms-2;
+  --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--breadcrumb {
