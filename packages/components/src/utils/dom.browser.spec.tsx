@@ -1,9 +1,8 @@
 import { Fragment, JsxNode, LitElement, method } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
-import { beforeEach, describe, expect, it, onTestFinished, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 import type { ModeName } from "../components/types";
-import { createControlledPromise } from "../tests/utils/promises";
 import type { IconName } from "../components/icon/types";
 import { guidPattern } from "./guid.browser.spec";
 import {
@@ -34,7 +33,7 @@ import {
   whenTransitionDone,
 } from "./dom";
 import { page } from "vitest/browser";
-import { afterNextFrame } from "../tests/utils/timing";
+import { css } from "../../support/formatting";
 
 const myButtonId = "my.id";
 const myButtonClass = "my-class";
@@ -610,7 +609,7 @@ describe.todo("slot utils", () => {
   });
 });
 
-describe.skip(hasVisibleContent, () => {
+describe(hasVisibleContent, () => {
   it("should return true if element has visible content", async () => {
     const { el } = await mount(html`<div><p>hello</p></div>`);
     expect(hasVisibleContent(el)).toBe(true);
@@ -755,7 +754,7 @@ describe.todo(focusElement, () => {
   });
 });
 
-describe.skip(focusFirstTabbable, () => {
+describe(focusFirstTabbable, () => {
   it("focuses the first tabbable element", async () => {
     const { container } = await mount(html`
       <div></div>
@@ -819,8 +818,6 @@ describe.skip(focusFirstTabbable, () => {
 });
 
 describe.todo(focusElementInGroup, () => {
-  // TODO: pending
-
   function createElements(withFocusableChild = false): HTMLElement[] {
     const totalItems = 3;
 
@@ -926,7 +923,7 @@ describe.todo(focusElementInGroup, () => {
   });
 });
 
-describe.skip(getShadowRootNode, () => {
+describe(getShadowRootNode, () => {
   class SimpleComponent extends LitElement {
     override render(): JsxNode {
       return <button type="button">Hello</button>;
@@ -945,7 +942,7 @@ describe.skip(getShadowRootNode, () => {
   });
 });
 
-describe.skip(isBefore, () => {
+describe(isBefore, () => {
   it("should return true if element A is before element B", async () => {
     await mount(html`
       <div class="element"></div>
@@ -966,7 +963,7 @@ describe.skip(isBefore, () => {
   });
 });
 
-describe.skip(isKeyboardTriggeredClick, () => {
+describe(isKeyboardTriggeredClick, () => {
   it("should return true if click is triggered by keyboard", () => {
     const event = new MouseEvent("click", { detail: 0 });
     expect(isKeyboardTriggeredClick(event)).toBe(true);
@@ -978,104 +975,109 @@ describe.skip(isKeyboardTriggeredClick, () => {
   });
 });
 
-/*
- * These tests depend on the `getAnimations` method which is not available in happy-dom,
- * so we try to mock it as close to the real thing as possible.
- */
-// TODO: pending
-describe.todo("transition/animation helpers", () => {
-  async function promiseState(
-    promise: Promise<any>,
-  ): Promise<{ status: "fulfilled" | "rejected"; value?: any; reason: any }> {
-    const pendingState = { status: "pending" };
-
-    return Promise.race([promise, pendingState]).then(
-      (value) => (value === pendingState ? value : { status: "fulfilled", value }),
-      (reason) => ({ status: "rejected", reason }),
-    );
-  }
+describe("transition/animation helpers", () => {
+  const duration = 100;
+  const animationName = "fade";
+  const transitionProperty = "opacity";
+  type Type = "animation" | "transition";
 
   let element: HTMLDivElement;
 
-  beforeEach(() => {
-    element = window.document.createElement("div");
-  });
+  async function setUp(type: Type, effectDuration = duration): Promise<void> {
+    const styles =
+      type === "transition"
+        ? css`
+            .effect {
+              opacity: 0;
+              transition: ${transitionProperty} ${effectDuration}ms linear;
+            }
+
+            .effect--start {
+              opacity: 1;
+            }
+          `
+        : css`
+            .effect {
+              animation-duration: ${effectDuration}ms;
+              animation-timing-function: linear;
+            }
+
+            .effect--start {
+              animation-name: ${animationName};
+            }
+
+            @keyframes ${animationName} {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: 1;
+              }
+            }
+          `;
+
+    const { container } = await mount(html`
+      <style>
+        ${styles}
+      </style>
+      <div class="effect" data-testid="target"></div>
+    `);
+    element = container.querySelector("div")!;
+  }
+
+  async function triggerEffect(): Promise<void> {
+    element.classList.add("effect--start");
+    await nextFrame();
+  }
+
+  async function assertResolution(promise: Promise<void>): Promise<void> {
+    let resolved = false;
+    void promise.then(() => (resolved = true));
+
+    expect(resolved).toBe(false);
+
+    await nextFrame();
+    expect(resolved).toBe(false);
+
+    await promise;
+    expect(resolved).toBe(true);
+  }
 
   const helpers = [whenTransitionDone, whenAnimationDone] as const;
 
   helpers.forEach((helper) => {
-    const type = helper === whenTransitionDone ? "transition" : "animation";
-    const animationPropName =
-      helper === whenTransitionDone ? "transitionProperty" : "animationName";
-    const testTransitionOrAnimationName = helper === whenTransitionDone ? "opacity" : "fade";
+    const type: Type = helper === whenTransitionDone ? "transition" : "animation";
+    const effectName = type === "transition" ? transitionProperty : animationName;
 
     describe(`${helper.name}`, () => {
       it(`should return a promise that resolves after the ${type} (running at call time)`, async () => {
-        const controlledPromise = createControlledPromise<void>();
-        const animationsPerCall = [
-          [
-            {
-              [animationPropName]: testTransitionOrAnimationName,
-              finished: controlledPromise.promise,
-            } as unknown as Animation | CSSTransition,
-          ],
-        ];
-        element.getAnimations = () => animationsPerCall.shift()!;
+        await setUp(type);
+        const promise = helper(element, effectName);
+        await triggerEffect();
 
-        const promise = helper(element, testTransitionOrAnimationName);
-        expect(await promiseState(promise)).toHaveProperty("status", "pending");
-
-        controlledPromise.resolve();
-
-        expect(await promiseState(promise)).toHaveProperty("status", "pending");
-
-        expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+        await assertResolution(promise);
       });
 
       it(`should return a promise that resolves after the ${type} (running frame after call time)`, async () => {
-        const controlledPromise = createControlledPromise<void>();
-        const animationsPerCall = [
-          [],
-          [
-            {
-              [animationPropName]: testTransitionOrAnimationName,
-              finished: controlledPromise.promise,
-            } as unknown as Animation | CSSTransition,
-          ],
-        ];
-        element.getAnimations = () => animationsPerCall.shift()!;
+        await setUp(type);
 
-        const promise = helper(element, testTransitionOrAnimationName);
+        const promise = helper(element, effectName);
+        await triggerEffect();
 
-        expect(await promiseState(promise)).toHaveProperty("status", "pending");
-
-        await afterNextFrame();
-
-        expect(await promiseState(promise)).toHaveProperty("status", "pending");
-
-        controlledPromise.resolve();
-
-        expect(await promiseState(promise)).toHaveProperty("status", "pending");
-
-        expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+        await assertResolution(promise);
       });
 
       it(`should return a promise that resolves after 0s ${type} or has not started when expected (fallback cases)`, async () => {
-        const animationsPerCall = [[], []];
-        element.getAnimations = () => animationsPerCall.shift()!;
+        await setUp(type, 0);
+        await triggerEffect();
 
-        const promise = helper(element, testTransitionOrAnimationName);
-        expect(await promiseState(promise)).toHaveProperty("status", "pending");
-
-        await afterNextFrame();
-
-        expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+        await expect(helper(element, effectName)).resolves.toBeUndefined();
       });
     });
   });
 });
 
-describe.skip(nextFrame, () => {
+describe(nextFrame, () => {
   it("should resolve in the same frame as requestAnimationFrame", async () => {
     let frameResolved = false;
     requestAnimationFrame(() => (frameResolved = true));
@@ -1088,7 +1090,7 @@ describe.skip(nextFrame, () => {
   });
 });
 
-describe.skip(getStylePixelValue, () => {
+describe(getStylePixelValue, () => {
   it("returns the numeric value for 'px' values", () => {
     expect(getStylePixelValue("10px")).toBe(10);
     expect(getStylePixelValue("0px")).toBe(0);
