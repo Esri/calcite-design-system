@@ -80,8 +80,8 @@
   h-full
   w-full;
   text-decoration: none;
-  padding-block-start: theme("spacing[0.5]");
-  border-block-end: theme("spacing[0.5]") solid var(--calcite-color-transparent);
+  padding-block-start: var(--calcite-space-base);
+  border-block-end: var(--calcite-space-base) solid var(--calcite-color-transparent);
   font-size: var(--calcite-internal-menu-item-font-size);
   line-height: var(--calcite-internal-menu-item-line-height, inherit);
   padding-inline: var(--calcite-internal-menu-item-padding-inline);
@@ -98,8 +98,8 @@
 
   &:focus {
     @apply focus-inset border-b-4;
-    padding-block-start: theme("spacing.1");
-    border-block-end-width: theme("spacing.1");
+    padding-block-start: var(--calcite-space-2xs);
+    border-block-end-width: var(--calcite-space-2xs);
   }
 
   &:active {
@@ -115,7 +115,7 @@
     @apply flex w-full justify-start;
     padding-block: var(--calcite-space-md);
     border-block-end: 0;
-    border-inline-end: theme("spacing.1") solid var(--calcite-color-transparent);
+    border-inline-end: var(--calcite-space-2xs) solid var(--calcite-color-transparent);
   }
 }
 
@@ -244,12 +244,12 @@
     block-size: theme("spacing.9");
     flex: 0 0 var(--calcite-size-md);
     margin-inline: 0;
-    margin-inline-start: theme("spacing.px");
+    margin-inline-start: var(--calcite-space-px);
     padding-inline: var(--calcite-space-2xs);
 
     &::after {
       inset-block: var(--calcite-space-sm);
-      inset-inline-start: calc(-1 * theme("spacing.px"));
+      inset-inline-start: calc(-1 * var(--calcite-space-px));
     }
   }
 }
@@ -266,7 +266,7 @@
   --calcite-internal-menu-item-font-size: var(--calcite-font-size-lg);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-lg);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-lg);
-  --calcite-internal-menu-item-line-height: theme("spacing.6");
+  --calcite-internal-menu-item-line-height: var(--calcite-space-2xl);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
@@ -309,7 +309,7 @@
 :host([scale="l"][layout="vertical"]) {
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
 
-  border-inline-end: theme("spacing.1") solid var(--calcite-color-transparent);
+  border-inline-end: var(--calcite-space-2xs) solid var(--calcite-color-transparent);
   padding-block: var(--calcite-space-2xs);
 
   & .container,
@@ -363,12 +363,12 @@
     block-size: var(--calcite-size-lg);
     flex: 0 0 3.125rem;
     margin-inline: 0;
-    margin-inline-start: theme("spacing.px");
+    margin-inline-start: var(--calcite-space-px);
     padding-inline-start: var(--calcite-space-xs);
 
     &::after {
       inset-block: var(--calcite-space-xs);
-      inset-inline-start: calc(-1 * theme("spacing.px"));
+      inset-inline-start: calc(-1 * var(--calcite-space-px));
     }
   }
 }
