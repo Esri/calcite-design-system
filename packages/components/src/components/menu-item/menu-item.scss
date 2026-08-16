@@ -17,9 +17,11 @@
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
 // --calcite-internal-menu-item-content-min-block-size
+// --calcite-internal-menu-item-font-size
 // --calcite-internal-menu-item-icon-color
 // --calcite-internal-menu-item-icon-spacing-end
 // --calcite-internal-menu-item-icon-spacing-start
+// --calcite-internal-menu-item-line-height
 // --calcite-internal-menu-item-padding-inline
 // --calcite-internal-menu-text-color
 
@@ -27,6 +29,7 @@
 
 :host {
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-xl);
+  --calcite-internal-menu-item-font-size: var(--calcite-font-size-relative-md);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-md);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-md);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
@@ -73,13 +76,14 @@
   justify-center
   cursor-pointer
   outline-none
-  text-0
   box-border
   h-full
   w-full;
   text-decoration: none;
   padding-block-start: theme("spacing[0.5]");
   border-block-end: theme("spacing[0.5]") solid var(--calcite-color-transparent);
+  font-size: var(--calcite-internal-menu-item-font-size);
+  line-height: var(--calcite-internal-menu-item-line-height, inherit);
   padding-inline: var(--calcite-internal-menu-item-padding-inline);
 
   background-color: var(
@@ -117,16 +121,13 @@
 
 :host([scale="s"]) {
   --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
+  --calcite-internal-menu-item-font-size: var(--calcite-font-size);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-sm);
+  --calcite-internal-menu-item-line-height: var(--calcite-space-lg);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
-
-  .content {
-    font-size: var(--calcite-font-size);
-    line-height: theme("spacing.4");
-  }
 }
 
 :host([scale="s"]:not([layout="vertical"])) {
@@ -262,16 +263,13 @@
 
 :host([scale="l"]) {
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-2xl);
+  --calcite-internal-menu-item-font-size: var(--calcite-font-size-lg);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-lg);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-lg);
+  --calcite-internal-menu-item-line-height: theme("spacing.6");
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
-
-  .content {
-    font-size: var(--calcite-font-size-lg);
-    line-height: theme("spacing.6");
-  }
 }
 
 :host([scale="l"]:not([layout="vertical"])) {
