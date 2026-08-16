@@ -233,9 +233,7 @@ describe.todo("slot utils", () => {
     });
 
     it("returns no slotted elements", async () => {
-      await mount(SimpleSlotComponent, {
-        dynamicComponents: [SimpleSlotComponent],
-      });
+      await mount(SimpleSlotComponent);
       const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
 
       expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
