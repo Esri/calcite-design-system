@@ -91,7 +91,7 @@ describe(getModeName, () => {
   }
 
   it("finds the closest mode if set (light)", async () => {
-    const { component } = await mount(
+    const { el } = await mount(
       html` <div class="calcite-mode-dark">
         <div class="calcite-mode-light">
           <mode-element></mode-element>
@@ -102,11 +102,11 @@ describe(getModeName, () => {
       },
     );
 
-    expect(component.foundModeName).toBe("light");
+    expect(el.foundModeName).toBe("light");
   });
 
   it("finds the closest mode if set (dark)", async () => {
-    const { component } = await mount(
+    const { el } = await mount(
       html`
         <div class="calcite-mode-light">
           <div class="calcite-mode-dark">
@@ -119,11 +119,11 @@ describe(getModeName, () => {
       },
     );
 
-    expect(component.foundModeName).toBe("dark");
+    expect(el.foundModeName).toBe("dark");
   });
 
   it("sets to default (light) if no mode is set", async () => {
-    const { component } = await mount(
+    const { el } = await mount(
       html`
         <div>
           <div>
@@ -136,7 +136,7 @@ describe(getModeName, () => {
       },
     );
 
-    expect(component.foundModeName).toBe("light");
+    expect(el.foundModeName).toBe("light");
   });
 
   it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", async () => {
@@ -148,7 +148,7 @@ describe(getModeName, () => {
       vi.unstubAllGlobals();
     });
 
-    const { component } = await mount(
+    const { el } = await mount(
       html`
         <div class="calcite-mode-auto">
           <div>
@@ -160,7 +160,7 @@ describe(getModeName, () => {
         dynamicComponents: [ModeComponent],
       },
     );
-    expect(component.foundModeName).toBe("dark");
+    expect(el.foundModeName).toBe("dark");
   });
 });
 
