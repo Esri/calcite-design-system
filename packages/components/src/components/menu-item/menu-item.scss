@@ -22,6 +22,7 @@
 // --calcite-internal-menu-item-icon-spacing-end
 // --calcite-internal-menu-item-icon-spacing-start
 // --calcite-internal-menu-item-line-height
+// --calcite-internal-menu-item-padding-block
 // --calcite-internal-menu-item-padding-inline
 // --calcite-internal-menu-text-color
 
@@ -50,6 +51,8 @@
 }
 
 :host([layout="vertical"]) {
+  --calcite-internal-menu-item-padding-block: var(--calcite-space-md);
+
   @apply w-full;
 }
 
@@ -113,7 +116,7 @@
 
   &.layout--vertical {
     @apply flex w-full justify-start;
-    padding-block: var(--calcite-space-md);
+    padding-block: var(--calcite-internal-menu-item-padding-block);
     border-block-end: 0;
     border-inline-end: var(--calcite-space-2xs) solid var(--calcite-color-transparent);
   }
@@ -161,16 +164,13 @@
 }
 
 :host([scale="s"][layout="vertical"]) {
+  --calcite-internal-menu-item-padding-block: var(--calcite-space-sm);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
 
   & .container,
   & .item-content,
   & .content {
     --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-md);
-  }
-
-  .content {
-    padding-block: var(--calcite-space-sm);
   }
 
   .icon--start {
@@ -307,6 +307,7 @@
 }
 
 :host([scale="l"][layout="vertical"]) {
+  --calcite-internal-menu-item-padding-block: var(--calcite-space-lg);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
 
   border-inline-end: var(--calcite-space-2xs) solid var(--calcite-color-transparent);
@@ -320,7 +321,6 @@
 
   .content {
     border-inline-end: 0;
-    padding-block: var(--calcite-space-lg);
   }
 
   .icon--start {
