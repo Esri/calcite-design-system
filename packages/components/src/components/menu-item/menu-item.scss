@@ -122,6 +122,8 @@
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-sm);
 
+  min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
+
   .content {
     font-size: var(--calcite-font-size);
     line-height: theme("spacing.4");
@@ -265,6 +267,8 @@
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-2xl);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-lg);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-lg);
+
+  min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
 
   .content {
     font-size: var(--calcite-font-size-lg);
