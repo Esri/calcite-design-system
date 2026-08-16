@@ -20,6 +20,7 @@
 // --calcite-internal-menu-item-icon-color
 // --calcite-internal-menu-item-icon-spacing-end
 // --calcite-internal-menu-item-icon-spacing-start
+// --calcite-internal-menu-item-padding-inline
 // --calcite-internal-menu-text-color
 
 @use "../../styles/includes";
@@ -28,6 +29,7 @@
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-xl);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-md);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-md);
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
 
   --calcite-internal-menu-item-border: 1px solid
     var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
@@ -73,12 +75,12 @@
   outline-none
   text-0
   box-border
-  px-4
   h-full
   w-full;
   text-decoration: none;
   padding-block-start: theme("spacing[0.5]");
   border-block-end: theme("spacing[0.5]") solid var(--calcite-color-transparent);
+  padding-inline: var(--calcite-internal-menu-item-padding-inline);
 
   background-color: var(
     --calcite-menu-background-color,
@@ -113,14 +115,11 @@
   }
 }
 
-:host([layout="vertical"]) .content {
-  @apply px-3;
-}
-
 :host([scale="s"]) {
   --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-sm);
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
 
@@ -131,10 +130,6 @@
 }
 
 :host([scale="s"]:not([layout="vertical"])) {
-  .content {
-    padding-inline: var(--calcite-space-md);
-  }
-
   .icon--start {
     margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
   }
@@ -165,6 +160,8 @@
 }
 
 :host([scale="s"][layout="vertical"]) {
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
+
   & .container,
   & .item-content,
   & .content {
@@ -172,7 +169,7 @@
   }
 
   .content {
-    padding: var(--calcite-space-sm);
+    padding-block: var(--calcite-space-sm);
   }
 
   .icon--start {
@@ -267,6 +264,7 @@
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-2xl);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-lg);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-lg);
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
 
@@ -281,10 +279,6 @@
   & .item-content,
   & .content {
     min-block-size: var(--calcite-size-2xl);
-  }
-
-  .content {
-    padding-inline: var(--calcite-space-xl);
   }
 
   .icon--start {
@@ -315,6 +309,8 @@
 }
 
 :host([scale="l"][layout="vertical"]) {
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
+
   border-inline-end: theme("spacing.1") solid var(--calcite-color-transparent);
   padding-block: var(--calcite-space-2xs);
 
@@ -326,7 +322,7 @@
 
   .content {
     border-inline-end: 0;
-    padding: var(--calcite-space-lg);
+    padding-block: var(--calcite-space-lg);
   }
 
   .icon--start {
@@ -351,7 +347,7 @@
 
 :host([scale="l"][layout="vertical"]) .content:not([href]) {
   margin-inline-end: var(--calcite-space-2xs);
-  padding-inline: var(--calcite-space-xl);
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-xl);
 }
 
 :host([scale="l"][layout="vertical"]) .dropdown-action {
@@ -541,6 +537,8 @@
 }
 
 :host([layout="vertical"]) {
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-md);
+
   .dropdown--vertical.dropdown-menu-items {
     border: none;
 
