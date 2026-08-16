@@ -815,65 +815,59 @@ describe(focusFirstTabbable, () => {
   });
 });
 
-describe.todo(focusElementInGroup, () => {
-  function createElements(withFocusableChild = false): HTMLElement[] {
-    const totalItems = 3;
+describe(focusElementInGroup, () => {
+  let elements: HTMLElement[];
 
-    return Array.from({ length: totalItems }, (_, index) => {
-      const el = document.createElement("div");
-      el.id = `item-${index}`;
-      el.tabIndex = 0;
+  async function setUp(withFocusableChild = false): Promise<void> {
+    await mount(html`
+      ${Array.from(
+        { length: 3 },
+        () => html`
+          <div class="item" tabindex="0">
+            ${withFocusableChild ? html`<div class="child" tabindex="0"></div>` : null}
+          </div>
+        `,
+      )}
+    `);
 
-      if (withFocusableChild) {
-        const child = document.createElement("div");
-        child.id = `child-${index}`;
-        child.tabIndex = 0;
-        el.append(child);
-      }
-
-      return el;
-    });
+    elements = page.getBySelector(".item").elements() as HTMLElement[];
   }
 
-  it("cycles through the array by default", () => {
-    const elements = createElements();
-    document.body.append(...elements);
+  it("cycles through the array by default", async () => {
+    await setUp();
 
     expect(focusElementInGroup(elements, elements[0], "previous")).toBe(elements[2]);
-    expect(document.activeElement).toBe(elements[2]);
+    await expect.element(elements[2]).toHaveFocus();
     expect(focusElementInGroup(elements, elements[2], "next")).toBe(elements[0]);
-    expect(document.activeElement).toBe(elements[0]);
+    await expect.element(elements[0]).toHaveFocus();
   });
 
-  it("supports not cycling through the array", () => {
-    const elements = createElements();
-    document.body.append(...elements);
+  it("supports not cycling through the array", async () => {
+    await setUp();
 
     expect(focusElementInGroup(elements, elements[0], "previous", false)).toBe(elements[0]);
-    expect(document.activeElement).toBe(elements[0]);
+    await expect.element(elements[0]).toHaveFocus();
     expect(focusElementInGroup(elements, elements[2], "next", false)).toBe(elements[2]);
-    expect(document.activeElement).toBe(elements[2]);
+    await expect.element(elements[2]).toHaveFocus();
   });
 
   describe("when item and first child are both focusable", () => {
-    it("focus item (default)", () => {
-      const elements = createElements(true);
-      document.body.append(...elements);
+    it("focus item (default)", async () => {
+      await setUp(true);
 
       expect(focusElementInGroup(elements, elements[0], "previous")).toBe(elements[2]);
-      expect(document.activeElement).toBe(elements[2]);
+      await expect.element(elements[2]).toHaveFocus();
       expect(focusElementInGroup(elements, elements[2], "next")).toBe(elements[0]);
-      expect(document.activeElement).toBe(elements[0]);
+      await expect.element(elements[0]).toHaveFocus();
     });
 
-    it("focus item's first focusable", () => {
-      const elements = createElements(true);
-      document.body.append(...elements);
+    it("focus item's first focusable", async () => {
+      await setUp(true);
 
       expect(focusElementInGroup(elements, elements[0], "previous", true, false)).toBe(elements[2]);
-      expect(document.activeElement).toBe(elements[2].firstElementChild);
+      await expect.element(elements[2].firstElementChild).toHaveFocus();
       expect(focusElementInGroup(elements, elements[2], "next", true, false)).toBe(elements[0]);
-      expect(document.activeElement).toBe(elements[0].firstElementChild);
+      await expect.element(elements[0].firstElementChild).toHaveFocus();
     });
   });
 
@@ -888,11 +882,11 @@ describe.todo(focusElementInGroup, () => {
       }
 
       override render(): JsxNode {
-        return <div id="inner" tabIndex={0} />;
+        return <div data-testid="inner" tabIndex={0} />;
       }
     }
 
-    const { container } = await mount(
+    await mount(
       html`
         <test-focus-context id="item-1" tabindex="0"></test-focus-context>
         <test-focus-context id="item-2" tabindex="0"></test-focus-context>
@@ -903,21 +897,23 @@ describe.todo(focusElementInGroup, () => {
       },
     );
 
-    const elements = Array.from(
-      container.querySelectorAll<SetFocusCallingFocusComponent["el"]>("test-focus-context"),
-    );
+    const focusContextItems = page.getBySelector("test-focus-context");
+    const elements = focusContextItems.elements() as SetFocusCallingFocusComponent["el"][];
 
     // assertions only cover the focus context portion, the rest is covered by the previous tests
 
     expect(focusElementInGroup(elements, elements[0], "next", true, false)).toBe(elements[1]);
-    expect(document.activeElement).toBe(elements[1]);
-    expect(document.activeElement!.shadowRoot!.activeElement).toBe(null);
+    await expect.element(elements[1]).toHaveFocus();
+    await expect.element(elements[1]).toHaveProperty("shadowRoot.activeElement", null);
 
     expect(focusElementInGroup(elements, elements[0], "next", true, false, true)).toBe(elements[1]);
-    expect(document.activeElement).toBe(elements[1]);
-    expect(document.activeElement!.shadowRoot!.activeElement).toBe(
-      elements[1].shadowRoot!.querySelector("#inner"),
-    );
+    await expect.element(elements[1]).toHaveFocus();
+    await expect
+      .element(elements[1])
+      .toHaveProperty(
+        "shadowRoot.activeElement",
+        focusContextItems.nth(1).getByTestId("inner").element(),
+      );
   });
 });
 
