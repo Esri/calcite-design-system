@@ -148,8 +148,12 @@ slot[name="alerts"]::slotted(calcite-alert) {
     var(--calcite-panel-border-color, var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3)));
 }
 
-.header--only-top {
+.header--no-row {
   border-block-end: 0;
+}
+
+.header--no-row .content-top {
+  border-block-start: 0;
 }
 
 .header-container {

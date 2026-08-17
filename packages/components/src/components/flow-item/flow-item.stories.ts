@@ -157,7 +157,7 @@ export const withRichHeaderSlots = (): string => html`
 
 export const withHeaderTop = (): string => html`
   <calcite-flow-item selected closable heading="Flow item heading">
-    <div slot="header-top" style="padding: 12px;">Header top content</div>
+    <div slot="header-top">Header top content</div>
     <p>Flow item content</p>
   </calcite-flow-item>
 `;

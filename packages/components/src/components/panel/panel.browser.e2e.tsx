@@ -268,6 +268,42 @@ describe("header slots", () => {
     expect(getComputedStyle(headerTop).borderBlockEndWidth).toBe("1px");
   });
 
+  it("renders one border when header-top is combined with action-bar", async () => {
+    const { component } = await mount(
+      <calcite-panel>
+        <div slot={SLOTS.headerTop}>Header top</div>
+        <calcite-action-bar slot={SLOTS.actionBar} />
+      </calcite-panel>,
+    );
+
+    const header = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.header}`)!;
+    const headerTop = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.headerTop}`)!;
+    const headerContainer = component.el.shadowRoot!.querySelector<HTMLElement>(
+      `.${CSS.headerContainer}`,
+    )!;
+
+    expect(getComputedStyle(header).borderBlockEndWidth).toBe("0px");
+    expect(getComputedStyle(headerTop).borderBlockEndWidth).toBe("1px");
+    expect(getComputedStyle(headerContainer).borderBlockEndWidth).toBe("0px");
+  });
+
+  it("renders one border when header-top is combined with content-top", async () => {
+    const { component } = await mount(
+      <calcite-panel>
+        <div slot={SLOTS.headerTop}>Header top</div>
+        <div slot={SLOTS.contentTop}>Content top</div>
+      </calcite-panel>,
+    );
+
+    const header = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.header}`)!;
+    const headerTop = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.headerTop}`)!;
+    const contentTop = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.contentTop}`)!;
+
+    expect(getComputedStyle(header).borderBlockEndWidth).toBe("0px");
+    expect(getComputedStyle(headerTop).borderBlockEndWidth).toBe("1px");
+    expect(getComputedStyle(contentTop).borderBlockStartWidth).toBe("0px");
+  });
+
   it("renders header-top content above the header actions", async () => {
     const { component } = await mount(
       <calcite-panel closable>

@@ -714,6 +714,15 @@ export class Panel extends LitElement {
     const hasDefaultHeaderContent =
       !!heading || !!description || hasHeaderHeading || hasHeaderDescription;
 
+    const hasHeaderRow =
+      hasHeaderContent ||
+      hasDefaultHeaderContent ||
+      hasStartActions ||
+      hasEndActions ||
+      collapsible ||
+      closable ||
+      hasMenuItems;
+
     const showHeaderContent =
       hasHeaderContent ||
       hasDefaultHeaderContent ||
@@ -728,26 +737,17 @@ export class Panel extends LitElement {
 
     this.showHeaderContent = showHeaderContent;
 
-    const hasOnlyHeaderTop =
-      hasHeaderTop &&
-      !hasHeaderContent &&
-      !hasDefaultHeaderContent &&
-      !hasStartActions &&
-      !hasEndActions &&
-      !collapsible &&
-      !closable &&
-      !hasMenuItems &&
-      !hasActionBar &&
-      !hasContentTop;
-
     return (
       <header
-        class={{ [CSS.header]: true, [CSS.headerOnlyTop]: hasOnlyHeaderTop }}
+        class={{ [CSS.header]: true, [CSS.headerNoRow]: hasHeaderTop && !hasHeaderRow }}
         hidden={!(showHeaderContent || hasActionBar || hasContentTop)}
       >
         {this.renderHeaderTop()}
         <div
-          class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
+          class={{
+            [CSS.headerContainer]: true,
+            [CSS.headerContainerBorderEnd]: hasActionBar && hasHeaderRow,
+          }}
           hidden={!showHeaderContent}
         >
           {this.renderHeaderStartActions()}
