@@ -485,16 +485,16 @@ export class TabNav extends LitElement {
         let closestTabTitleAfterContainerEnd: TabTitle["el"] | undefined;
         const closestTabTitleCrossingContainerEnd = tabTitles.find((tabTitle) => {
           const tabTitleBounds = tabTitle.getBoundingClientRect();
-          const isHiddenRight = tabTitleBounds.left >= containerBounds.right;
-          const isCrossingRight =
+          const isAfterContainerEnd = tabTitleBounds.left >= containerBounds.right;
+          const isClippingContainerEnd =
             tabTitleBounds.left < containerBounds.right &&
             tabTitleBounds.right > containerBounds.right;
 
-          if (isHiddenRight) {
+          if (isAfterContainerEnd) {
             closestTabTitleAfterContainerEnd = tabTitle;
           }
 
-          return isCrossingRight;
+          return isClippingContainerEnd;
         });
 
         tabTitleToScroll = closestTabTitleCrossingContainerEnd ?? closestTabTitleAfterContainerEnd;
@@ -502,16 +502,16 @@ export class TabNav extends LitElement {
         let closestTabTitleBeforeContainerStart: TabTitle["el"] | undefined;
         const closestTabTitleCrossingContainerStart = tabTitles.find((tabTitle) => {
           const tabTitleBounds = tabTitle.getBoundingClientRect();
-          const isHiddenLeft = tabTitleBounds.right <= containerBounds.left;
-          const isCrossingLeft =
+          const isBeforeContainerStart = tabTitleBounds.right <= containerBounds.left;
+          const isClippingContainerStart =
             tabTitleBounds.left < containerBounds.left &&
             tabTitleBounds.right > containerBounds.left;
 
-          if (isHiddenLeft) {
+          if (isBeforeContainerStart) {
             closestTabTitleBeforeContainerStart = tabTitle;
           }
 
-          return isCrossingLeft;
+          return isClippingContainerStart;
         });
 
         tabTitleToScroll =
