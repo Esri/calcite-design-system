@@ -1,13 +1,11 @@
 import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
-  disabled: boolean;
   legend: string;
   legendTextColor?: string;
   inputGap?: string;
   gap?: string;
   columnGap?: string;
-  readOnly: boolean;
   scale: "s" | "m" | "l";
   layout: "vertical" | "horizontal" | "columns";
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -16,17 +14,10 @@ type FieldSetStoryArgs = {
 };
 
 const hiddenCustomSpacingArgTypes = Object.fromEntries(
-  [
-    "columns",
-    "disabled",
-    "layout",
-    "legend",
-    "legendTextColor",
-    "prefixAutoWidth",
-    "readOnly",
-    "scale",
-    "suffixAutoWidth",
-  ].map((key) => [key, { table: { disable: true }, control: false }]),
+  ["columns", "layout", "legend", "legendTextColor", "prefixAutoWidth", "scale", "suffixAutoWidth"].map((key) => [
+    key,
+    { table: { disable: true }, control: false },
+  ]),
 ) as Partial<Record<keyof FieldSetStoryArgs, { table: { disable: true }; control: false }>>;
 
 export default {
@@ -35,10 +26,8 @@ export default {
     layout: "padded",
   },
   args: {
-    disabled: false,
     legend: "Field Set legend",
     legendTextColor: "",
-    readOnly: false,
     scale: "m",
     layout: "vertical",
     columns: 1,
@@ -47,9 +36,6 @@ export default {
     suffixAutoWidth: false,
   },
   argTypes: {
-    disabled: {
-      control: { type: "boolean" },
-    },
     columnGap: {
       name: "columnSpace",
       control: { type: "text" },
@@ -77,10 +63,6 @@ export default {
     },
     legendTextColor: {
       control: { type: "text" },
-    },
-    readOnly: {
-      name: "read-only",
-      control: { type: "boolean" },
     },
     prefixAutoWidth: {
       control: { type: "boolean" },
@@ -113,9 +95,7 @@ export const simple = (args: FieldSetStoryArgs): string => {
   return html`
     <calcite-field-set
       ${args.layout === "columns" && args.columns ? `columns="${args.columns}"` : ""}
-      ${args.disabled ? "disabled" : ""}
       legend="${args.legend}"
-      ${args.readOnly ? "read-only" : ""}
       layout="${args.layout}"
       scale="${args.scale}"
       ${style ? `style="${style}"` : ""}
@@ -183,14 +163,6 @@ export const layouts = (args: FieldSetStoryArgs): string => html`
 `;
 layouts.parameters = { controls: { disable: true } };
 
-export const disabled = (args: FieldSetStoryArgs): string => simple(args);
-disabled.args = { disabled: true };
-disabled.parameters = { controls: { disable: true } };
-
-export const readOnly = (args: FieldSetStoryArgs): string => simple(args);
-readOnly.args = { readOnly: true };
-readOnly.parameters = { controls: { disable: true } };
-
 export const customSpacing = (args: FieldSetStoryArgs): string => simple(args);
 customSpacing.args = { columnGap: "50px", inputGap: "40px", gap: "80px", layout: "columns" };
 customSpacing.argTypes = {
@@ -257,9 +229,7 @@ const labels = (args: FieldSetStoryArgs): string => {
   return html`
     <calcite-field-set
       ${args.layout === "columns" && args.columns ? `columns="${args.columns}"` : ""}
-      ${args.disabled ? "disabled" : ""}
       legend="${args.legend}"
-      ${args.readOnly ? "read-only" : ""}
       layout="${args.layout}"
       scale="${args.scale}"
       ${style ? `style="${style}"` : ""}
@@ -375,14 +345,6 @@ export const layoutsUsingLabels = (args: FieldSetStoryArgs): string => html`
   </div>
 `;
 layoutsUsingLabels.parameters = { controls: { disable: true } };
-
-export const disabledUsingLabels = (args: FieldSetStoryArgs): string => labels(args);
-disabledUsingLabels.args = { disabled: true };
-disabledUsingLabels.parameters = { controls: { disable: true } };
-
-export const readOnlyUsingLabels = (args: FieldSetStoryArgs): string => labels(args);
-readOnlyUsingLabels.args = { readOnly: true };
-readOnlyUsingLabels.parameters = { controls: { disable: true } };
 
 export const customSpacingUsingLabels = (args: FieldSetStoryArgs): string => labels(args);
 customSpacingUsingLabels.args = {

@@ -29,10 +29,6 @@
   border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
-::slotted(calcite-notice) {
-  inline-size: 100%;
-}
-
 :host([scale="s"]) {
   --calcite-internal-form-gap: var(--calcite-space-xs);
 }
@@ -43,6 +39,10 @@
 
 :host([scale="l"]) {
   --calcite-internal-form-gap: var(--calcite-space-md);
+}
+
+::slotted(calcite-notice) {
+  inline-size: 100%;
 }
 
 @include includes.base-component();

@@ -116,10 +116,4 @@
   }
 }
 
-@include includes.disabled() {
-  .legend {
-    color: var(--calcite-color-text-3);
-  }
-}
-
 @include includes.base-component();

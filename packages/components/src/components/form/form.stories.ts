@@ -1,8 +1,6 @@
 import { html } from "../../../support/formatting";
 
 type FormStoryArgs = {
-  disabled: boolean;
-  readOnly: boolean;
   scale: "s" | "m" | "l";
   showNotice: boolean;
   noticeOpen: boolean;
@@ -24,21 +22,12 @@ export default {
     layout: "padded",
   },
   args: {
-    disabled: false,
-    readOnly: false,
     scale: "m",
     showNotice: true,
     noticeOpen: true,
     space: "",
   },
   argTypes: {
-    disabled: {
-      control: { type: "boolean" },
-    },
-    readOnly: {
-      name: "read-only",
-      control: { type: "boolean" },
-    },
     scale: {
       options: ["s", "m", "l"],
       control: {
@@ -64,12 +53,7 @@ export default {
 };
 
 export const simple = (args: FormStoryArgs): string => html`
-  <calcite-form
-    ${args.disabled ? "disabled" : ""}
-    ${args.readOnly ? "read-only" : ""}
-    scale="${args.scale}"
-    ${args.space ? `style="--calcite-form-space: ${args.space};"` : ""}
-  >
+  <calcite-form scale="${args.scale}" ${args.space ? `style="--calcite-form-space: ${args.space};"` : ""}>
     <calcite-field-set legend="Field Set legend">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
@@ -271,9 +255,7 @@ const renderNativeFormStory = (
   <div style="display: flex; flex-direction: column; gap: 1rem; max-inline-size: 42rem;">
     <div style="color: var(--calcite-color-text-2);">${options.description}</div>
     <form id="${options.formId}" style="display: flex; flex-direction: column; gap: 1rem;">
-      <calcite-form ${args.disabled ? "disabled" : ""} ${args.readOnly ? "read-only" : ""} scale="${args.scale}">
-        ${renderFieldSets(options.requireName)}
-      </calcite-form>
+      <calcite-form scale="${args.scale}"> ${renderFieldSets(options.requireName)} </calcite-form>
       <div style="display: flex; gap: 1rem; padding: 1rem; border: 1px dashed blue;">
         ${options.includePreviewButton
           ? html`
@@ -395,21 +377,8 @@ export const inFlow = (args: FormStoryArgs): string => html`
 inFlow.args = { scale: "m" };
 inFlow.parameters = { controls: { disable: true } };
 
-export const Disabled = (args: FormStoryArgs): string => simple(args);
-Disabled.args = { disabled: true };
-Disabled.parameters = { controls: { disable: true } };
-
-export const ReadOnly = (args: FormStoryArgs): string => simple(args);
-ReadOnly.args = { readOnly: true };
-ReadOnly.parameters = { controls: { disable: true } };
-
 const renderControlsForm = (args: FormStoryArgs, style = ""): string => html`
-  <calcite-form
-    ${args.disabled ? "disabled" : ""}
-    ${args.readOnly ? "read-only" : ""}
-    scale="${args.scale}"
-    ${style ? `style="${style}"` : ""}
-  >
+  <calcite-form scale="${args.scale}" ${style ? `style="${style}"` : ""}>
     <calcite-field-set columns="2" layout="columns" legend="Field Set legend">
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
@@ -440,12 +409,7 @@ const renderControlsForm = (args: FormStoryArgs, style = ""): string => html`
 `;
 
 const renderControlsFormUsingLabels = (args: FormStoryArgs, style = ""): string => html`
-  <calcite-form
-    ${args.disabled ? "disabled" : ""}
-    ${args.readOnly ? "read-only" : ""}
-    scale="${args.scale}"
-    ${style ? `style="${style}"` : ""}
-  >
+  <calcite-form scale="${args.scale}" ${style ? `style="${style}"` : ""}>
     <calcite-field-set columns="2" layout="columns" legend="Field Set legend">
       <calcite-label>
         Label
@@ -537,12 +501,7 @@ nativeButtonTypes.parameters = {
 };
 
 export const simpleUsingLabels = (args: FormStoryArgs): string => html`
-  <calcite-form
-    ${args.disabled ? "disabled" : ""}
-    ${args.readOnly ? "read-only" : ""}
-    scale="${args.scale}"
-    ${args.space ? `style="--calcite-form-space: ${args.space};"` : ""}
-  >
+  <calcite-form scale="${args.scale}" ${args.space ? `style="--calcite-form-space: ${args.space};"` : ""}>
     ${renderLabelFieldSets()}
     ${args.showNotice
       ? html`
@@ -581,14 +540,6 @@ export const inPanelUsingLabels = (args: FormStoryArgs): string => html`
 `;
 inPanelUsingLabels.args = { scale: "m" };
 inPanelUsingLabels.parameters = { controls: { disable: true } };
-
-export const disabledUsingLabels = (args: FormStoryArgs): string => simpleUsingLabels(args);
-disabledUsingLabels.args = { disabled: true };
-disabledUsingLabels.parameters = { controls: { disable: true } };
-
-export const readOnlyUsingLabels = (args: FormStoryArgs): string => simpleUsingLabels(args);
-readOnlyUsingLabels.args = { readOnly: true };
-readOnlyUsingLabels.parameters = { controls: { disable: true } };
 
 export const controlsUsingLabels = (args: FormStoryArgs): string => html`
   <div style="display: flex; flex-direction: column; gap: 50px;">

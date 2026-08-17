@@ -14,20 +14,10 @@ const internalSuffixWidthVar = "--calcite-internal-input-suffix-width";
 const prefixSizeVar = "--calcite-input-prefix-size";
 const suffixSizeVar = "--calcite-input-suffix-size";
 
-type DisabledElement = HTMLElement & { disabled: boolean };
-type ReadOnlyElement = HTMLElement & { readOnly: boolean };
 type ScaledElement = HTMLElement & { scale: Scale };
 
 const controlBoundarySelector =
   "calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
-
-function hasDisabledProperty(element: HTMLElement): element is DisabledElement {
-  return "disabled" in element;
-}
-
-function hasReadOnlyProperty(element: HTMLElement): element is ReadOnlyElement {
-  return "readOnly" in element;
-}
 
 function hasScaleProperty(element: HTMLElement): element is ScaledElement {
   return "scale" in element;
@@ -51,10 +41,6 @@ export class FieldSet extends LitElement {
 
   //#region Private Properties
 
-  private controlDisabledState = new WeakMap<DisabledElement, boolean>();
-
-  private controlReadOnlyState = new WeakMap<ReadOnlyElement, boolean>();
-
   private get inputs(): Input["el"][] {
     return this.controlElements.filter((element): element is Input["el"] =>
       element.matches("calcite-input"),
@@ -70,14 +56,6 @@ export class FieldSet extends LitElement {
       const closestBoundary = element.closest(controlBoundarySelector);
       return closestBoundary === this.el || closestBoundary === element;
     });
-  }
-
-  private get disabledElements(): DisabledElement[] {
-    return this.controlElements.filter(hasDisabledProperty);
-  }
-
-  private get readOnlyElements(): ReadOnlyElement[] {
-    return this.controlElements.filter(hasReadOnlyProperty);
   }
 
   private get scaledElements(): ScaledElement[] {
@@ -100,13 +78,10 @@ export class FieldSet extends LitElement {
   /** Specifies the field set legend. */
   @property() legend?: string;
 
-  /** When `true`, sets slotted controls to read-only. */
-  @property({ reflect: true }) readOnly = false;
-
   /** When `true`, slotted input prefixes share the same width. */
   @property({ reflect: true }) prefixAutoWidth = false;
 
-  /** Specifies the scale of slotted controls. */
+  /** Specifies the scale of legend text and gaps between controls. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, slotted input suffixes share the same width. */
@@ -121,18 +96,6 @@ export class FieldSet extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (changes.has("disabled")) {
-      this.syncControlsDisabledState(changes.get("disabled"));
-    }
-
-    if (changes.has("scale")) {
-      this.syncControlsScale();
-    }
-
-    if (changes.has("readOnly")) {
-      this.syncControlsReadOnlyState(changes.get("readOnly"));
-    }
-
     if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
       void this.syncInputsAffixWidths();
     }
@@ -141,14 +104,6 @@ export class FieldSet extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  private getControlDisabledState(control: DisabledElement): boolean {
-    return control.hasAttribute("disabled") || control.disabled;
-  }
-
-  private getControlReadOnlyState(control: ReadOnlyElement): boolean {
-    return control.hasAttribute("read-only") || control.readOnly;
-  }
 
   private async getInputAffixWidth(
     input: Input["el"],
@@ -165,38 +120,7 @@ export class FieldSet extends LitElement {
     return getStylePixelValue(getComputedStyle(input).getPropertyValue(affixWidthProperty).trim());
   }
 
-  private syncControlsDisabledState(previousDisabled = this.disabled): void {
-    const wasDisabled = previousDisabled;
-
-    this.disabledElements.forEach((control) => {
-      if (this.disabled) {
-        if (!wasDisabled || !this.controlDisabledState.has(control)) {
-          this.controlDisabledState.set(control, this.getControlDisabledState(control));
-        }
-
-        control.toggleAttribute("disabled", true);
-        control.disabled = true;
-        return;
-      }
-
-      if (!wasDisabled) {
-        this.controlDisabledState.set(control, this.getControlDisabledState(control));
-        return;
-      }
-
-      const controlDisabled = this.controlDisabledState.get(control);
-      const nextDisabled = controlDisabled ?? this.getControlDisabledState(control);
-
-      control.toggleAttribute("disabled", nextDisabled);
-      control.disabled = nextDisabled;
-      this.controlDisabledState.set(control, nextDisabled);
-    });
-  }
-
   private handleInputSlotChange(): void {
-    this.syncControlsDisabledState();
-    this.syncControlsReadOnlyState();
-    this.syncControlsScale();
     void this.syncInputsAffixWidths();
   }
 
@@ -243,48 +167,13 @@ export class FieldSet extends LitElement {
     await this.syncInputAffixWidth(internalPrefixWidthVar, this.prefixAutoWidth, prefixSizeVar);
     await this.syncInputAffixWidth(internalSuffixWidthVar, this.suffixAutoWidth, suffixSizeVar);
   }
-
-  private syncControlsScale(): void {
-    this.scaledElements.forEach((control) => {
-      control.scale = this.scale;
-    });
-  }
-
-  private syncControlsReadOnlyState(previousReadOnly = this.readOnly): void {
-    const wasReadOnly = previousReadOnly;
-
-    this.readOnlyElements.forEach((control) => {
-      if (this.readOnly) {
-        if (!wasReadOnly || !this.controlReadOnlyState.has(control)) {
-          this.controlReadOnlyState.set(control, this.getControlReadOnlyState(control));
-        }
-
-        control.toggleAttribute("read-only", true);
-        control.readOnly = true;
-        return;
-      }
-
-      if (!wasReadOnly) {
-        this.controlReadOnlyState.set(control, this.getControlReadOnlyState(control));
-        return;
-      }
-
-      const controlReadOnly = this.controlReadOnlyState.get(control);
-      const nextReadOnly = controlReadOnly ?? this.getControlReadOnlyState(control);
-
-      control.toggleAttribute("read-only", nextReadOnly);
-      control.readOnly = nextReadOnly;
-      this.controlReadOnlyState.set(control, nextReadOnly);
-    });
-  }
-
   //#endregion
 
   //#region Rendering
 
   override render(): JsxNode {
     return (
-      <fieldset class={CSS.container} disabled={this.disabled}>
+      <fieldset class={CSS.container}>
         <div class={CSS.legendWrapper} hidden={!this.legend}>
           <legend class={CSS.legend}>{this.legend}</legend>
         </div>
