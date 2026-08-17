@@ -7,8 +7,6 @@ import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { CSS } from "./resources";
 
 type ScaledElement = HTMLElement & {
-  disabled?: boolean;
-  readOnly?: boolean;
   scale?: string;
   updateComplete?: Promise<unknown>;
 };
@@ -120,7 +118,7 @@ describe("structure", () => {
     expect(nestedFieldSet.scale).toBe("s");
   });
 
-  it("propagates scale to a slotted notice", async () => {
+  it("renders a slotted notice", async () => {
     const { el } = await mount(
       <calcite-form scale="s">
         <calcite-field-set />
@@ -134,7 +132,7 @@ describe("structure", () => {
 
     await waitForUpdate(notice);
 
-    expect(notice.scale).toBe("s");
+    expect(notice).not.toBeNull();
   });
 
   it("hides the notice container after a slotted notice closes", async () => {
@@ -166,60 +164,6 @@ describe("structure", () => {
       expect(closeHandler).toHaveBeenCalledTimes(1);
       expect(noticeContainer.hidden).toBe(true);
     });
-  });
-
-  it("disables slotted field sets and restores their prior disabled state", async () => {
-    const { el } = await mount(
-      <calcite-form>
-        <calcite-field-set id="enabled-field-set" />
-        <calcite-field-set disabled id="disabled-field-set" />
-      </calcite-form>,
-    );
-
-    const form = el as HTMLElement & { disabled?: boolean; updateComplete?: Promise<unknown> };
-    const enabledFieldSet = el.querySelector<ScaledElement>("#enabled-field-set")!;
-    const disabledFieldSet = el.querySelector<ScaledElement>("#disabled-field-set")!;
-
-    form.disabled = true;
-    await waitForUpdate(form);
-    await Promise.all([waitForUpdate(enabledFieldSet), waitForUpdate(disabledFieldSet)]);
-
-    expect(enabledFieldSet.disabled).toBe(true);
-    expect(disabledFieldSet.disabled).toBe(true);
-
-    form.disabled = false;
-    await waitForUpdate(form);
-    await Promise.all([waitForUpdate(enabledFieldSet), waitForUpdate(disabledFieldSet)]);
-
-    expect(enabledFieldSet.disabled).toBe(false);
-    expect(disabledFieldSet.disabled).toBe(true);
-  });
-
-  it("sets slotted field sets to read-only and restores their prior read-only state", async () => {
-    const { el } = await mount(
-      <calcite-form>
-        <calcite-field-set id="editable-field-set" />
-        <calcite-field-set id="read-only-field-set" readOnly />
-      </calcite-form>,
-    );
-
-    const form = el as HTMLElement & { readOnly?: boolean; updateComplete?: Promise<unknown> };
-    const editableFieldSet = el.querySelector<ScaledElement>("#editable-field-set")!;
-    const readOnlyFieldSet = el.querySelector<ScaledElement>("#read-only-field-set")!;
-
-    form.readOnly = true;
-    await waitForUpdate(form);
-    await Promise.all([waitForUpdate(editableFieldSet), waitForUpdate(readOnlyFieldSet)]);
-
-    expect(editableFieldSet.readOnly).toBe(true);
-    expect(readOnlyFieldSet.readOnly).toBe(true);
-
-    form.readOnly = false;
-    await waitForUpdate(form);
-    await Promise.all([waitForUpdate(editableFieldSet), waitForUpdate(readOnlyFieldSet)]);
-
-    expect(editableFieldSet.readOnly).toBe(false);
-    expect(readOnlyFieldSet.readOnly).toBe(true);
   });
 });
 

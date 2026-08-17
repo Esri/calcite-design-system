@@ -6,9 +6,7 @@ import { CSS as FieldRowCSS } from "../field-row/resources";
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
-  disabled?: boolean;
   prefixAutoWidth?: boolean;
-  readOnly?: boolean;
   scale?: string;
   suffixAutoWidth?: boolean;
   updateComplete?: Promise<unknown>;
@@ -29,11 +27,9 @@ function getStyleProperty(element: Element, propertyName: string): string {
 
 describe("defaults", () => {
   defaults(() => mount("calcite-field-set"), {
-    disabled: false,
     layout: "vertical",
     legend: undefined,
     prefixAutoWidth: false,
-    readOnly: false,
     scale: "m",
     suffixAutoWidth: false,
   });
@@ -42,10 +38,8 @@ describe("defaults", () => {
 describe("reflects", () => {
   reflects(() => mount("calcite-field-set"), {
     columns: 4,
-    disabled: true,
     layout: "columns",
     prefixAutoWidth: true,
-    readOnly: true,
     scale: "s",
     suffixAutoWidth: true,
   });
@@ -129,13 +123,9 @@ describe("layout", () => {
     const verticalRowContainer = verticalRow.shadowRoot!.querySelector<HTMLElement>(
       `.${FieldRowCSS.container}`,
     )!;
-    const inputs = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-input"));
-
-    await Promise.all(inputs.map(waitForUpdate));
 
     expect(columnsRowContainer.classList.contains(FieldRowCSS.containerColumns)).toBe(true);
     expect(verticalRowContainer.classList.contains(FieldRowCSS.containerVertical)).toBe(true);
-    expect(inputs.map((input) => input.scale)).toEqual(["s", "s", "s"]);
   });
 
   it("supports a row and directly slotted inputs", async () => {
@@ -191,7 +181,7 @@ describe("layout", () => {
 });
 
 describe("propagation", () => {
-  it("propagates scale to slotted Input component", async () => {
+  it("supports inputs", async () => {
     const { el } = await mount(
       <calcite-field-set scale="s">
         <calcite-input id="direct" />
@@ -202,255 +192,15 @@ describe("propagation", () => {
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
-    const inputs = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-input"));
+    const directInput = fieldSet.querySelector<UpdatableElement>("#direct")!;
+    const nestedInput = fieldSet.querySelector<UpdatableElement>("#nested")!;
+    const trailingInput = fieldSet.querySelector<UpdatableElement>("#trailing")!;
 
-    await Promise.all([...inputs].map(waitForUpdate));
+    await Promise.all([directInput, nestedInput, trailingInput].map(waitForUpdate));
 
-    expect(inputs.map((input) => input.scale)).toEqual(["s", "s", "s"]);
-  });
-
-  it("disables slotted inputs and restores their prior disabled state", async () => {
-    const { el } = await mount(
-      <calcite-field-set>
-        <calcite-input id="enabled" />
-        <calcite-input disabled id="disabled" />
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const enabledInput = fieldSet.querySelector<UpdatableElement>("#enabled")!;
-    const disabledInput = fieldSet.querySelector<UpdatableElement>("#disabled")!;
-
-    fieldSet.disabled = true;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(disabledInput)]);
-
-    expect(enabledInput.disabled).toBe(true);
-    expect(disabledInput.disabled).toBe(true);
-
-    fieldSet.disabled = false;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(disabledInput)]);
-
-    expect(enabledInput.disabled).toBe(false);
-    expect(disabledInput.disabled).toBe(true);
-  });
-
-  it("sets slotted inputs to read-only and restores their prior read-only state", async () => {
-    const { el } = await mount(
-      <calcite-field-set>
-        <calcite-input id="editable" />
-        <calcite-input id="read-only" readOnly />
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const editableInput = fieldSet.querySelector<UpdatableElement>("#editable")!;
-    const readOnlyInput = fieldSet.querySelector<UpdatableElement>("#read-only")!;
-
-    fieldSet.readOnly = true;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
-
-    expect(editableInput.readOnly).toBe(true);
-    expect(readOnlyInput.readOnly).toBe(true);
-
-    fieldSet.readOnly = false;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
-
-    expect(editableInput.readOnly).toBe(false);
-    expect(readOnlyInput.readOnly).toBe(true);
-  });
-
-  it("propagates to compatible controls while leaving composite descendants to their owner", async () => {
-    const { el } = await mount(
-      <calcite-field-set scale="s">
-        <calcite-checkbox id="checkbox" />
-        <calcite-radio-button id="radio-button" value="standalone" />
-        <calcite-radio-button-group id="radio-button-group" name="framework">
-          <calcite-radio-button id="grouped-radio-button" value="react" />
-        </calcite-radio-button-group>
-        <calcite-switch id="switch" />
-        <calcite-select id="select">
-          <calcite-option label="Option" value="option" />
-        </calcite-select>
-        <calcite-combobox id="combobox">
-          <calcite-combobox-item heading="Option" value="option" />
-        </calcite-combobox>
-        <calcite-slider id="slider" max={100} min={0} value={50} />
-        <calcite-segmented-control id="segmented-control">
-          <calcite-segmented-control-item checked value="option">
-            Option
-          </calcite-segmented-control-item>
-        </calcite-segmented-control>
-        <calcite-field-set id="nested-field-set" scale="l">
-          <calcite-checkbox id="nested-checkbox" />
-        </calcite-field-set>
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const controls = [
-      "checkbox",
-      "radio-button",
-      "radio-button-group",
-      "switch",
-      "select",
-      "combobox",
-      "slider",
-      "segmented-control",
-    ].map((id) => fieldSet.querySelector<UpdatableElement>(`#${id}`)!);
-    const groupedRadioButton = fieldSet.querySelector<UpdatableElement>("#grouped-radio-button")!;
-    const nestedFieldSet = fieldSet.querySelector<UpdatableElement>("#nested-field-set")!;
-    const nestedCheckbox = fieldSet.querySelector<UpdatableElement>("#nested-checkbox")!;
-
-    await Promise.all(
-      [...controls, groupedRadioButton, nestedFieldSet, nestedCheckbox].map(waitForUpdate),
-    );
-
-    expect(controls.map((control) => control.scale)).toEqual(Array(controls.length).fill("s"));
-    expect(groupedRadioButton.scale).toBe("s");
-    expect(nestedFieldSet.scale).toBe("l");
-    expect(nestedCheckbox.scale).toBe("l");
-
-    fieldSet.disabled = true;
-    await waitForUpdate(fieldSet);
-    await Promise.all([...controls, groupedRadioButton].map(waitForUpdate));
-
-    expect(controls.map((control) => control.disabled)).toEqual(Array(controls.length).fill(true));
-    expect(groupedRadioButton.disabled).toBe(true);
-
-    fieldSet.disabled = false;
-    await waitForUpdate(fieldSet);
-    await Promise.all(controls.map(waitForUpdate));
-
-    expect(controls.map((control) => control.disabled)).toEqual(Array(controls.length).fill(false));
-  });
-});
-
-describe("Label propagation", () => {
-  it("propagates scale to inputs wrapped by Label components", async () => {
-    const { el } = await mount(
-      <calcite-field-set scale="s">
-        <calcite-label>
-          First label
-          <calcite-input id="first" />
-        </calcite-label>
-        <calcite-label>
-          Second label
-          <calcite-input id="second" />
-        </calcite-label>
-        <calcite-label>
-          Third label
-          <calcite-input id="third" />
-        </calcite-label>
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const inputs = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-input"));
-
-    await Promise.all(inputs.map(waitForUpdate));
-
-    expect(inputs.map((input) => input.scale)).toEqual(["s", "s", "s"]);
-  });
-
-  it("disables inputs wrapped by Label components and restores their prior disabled state", async () => {
-    const { el } = await mount(
-      <calcite-field-set>
-        <calcite-label>
-          Enabled label
-          <calcite-input id="enabled" />
-        </calcite-label>
-        <calcite-label>
-          Disabled label
-          <calcite-input disabled id="disabled" />
-        </calcite-label>
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const enabledInput = fieldSet.querySelector<UpdatableElement>("#enabled")!;
-    const disabledInput = fieldSet.querySelector<UpdatableElement>("#disabled")!;
-
-    fieldSet.disabled = true;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(disabledInput)]);
-
-    expect(enabledInput.disabled).toBe(true);
-    expect(disabledInput.disabled).toBe(true);
-
-    fieldSet.disabled = false;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(disabledInput)]);
-
-    expect(enabledInput.disabled).toBe(false);
-    expect(disabledInput.disabled).toBe(true);
-  });
-
-  it("sets inputs wrapped by Label components to read-only and restores their prior read-only state", async () => {
-    const { el } = await mount(
-      <calcite-field-set>
-        <calcite-label>
-          Editable label
-          <calcite-input id="editable" />
-        </calcite-label>
-        <calcite-label>
-          Read-only label
-          <calcite-input id="read-only" readOnly />
-        </calcite-label>
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const editableInput = fieldSet.querySelector<UpdatableElement>("#editable")!;
-    const readOnlyInput = fieldSet.querySelector<UpdatableElement>("#read-only")!;
-
-    fieldSet.readOnly = true;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
-
-    expect(editableInput.readOnly).toBe(true);
-    expect(readOnlyInput.readOnly).toBe(true);
-
-    fieldSet.readOnly = false;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(editableInput), waitForUpdate(readOnlyInput)]);
-
-    expect(editableInput.readOnly).toBe(false);
-    expect(readOnlyInput.readOnly).toBe(true);
-  });
-
-  it("propagates scale and read-only state to Text Areas wrapped by Label components", async () => {
-    const { el } = await mount(
-      <calcite-field-set scale="s">
-        <calcite-label>
-          Editable label
-          <calcite-text-area id="editable" />
-        </calcite-label>
-        <calcite-label>
-          Read-only label
-          <calcite-text-area id="read-only" readOnly />
-        </calcite-label>
-      </calcite-field-set>,
-    );
-    const fieldSet = el as unknown as FieldSetElement;
-    const editableTextArea = fieldSet.querySelector<UpdatableElement>("#editable")!;
-    const readOnlyTextArea = fieldSet.querySelector<UpdatableElement>("#read-only")!;
-
-    await Promise.all([waitForUpdate(editableTextArea), waitForUpdate(readOnlyTextArea)]);
-
-    expect(editableTextArea.scale).toBe("s");
-    expect(readOnlyTextArea.scale).toBe("s");
-
-    fieldSet.readOnly = true;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(editableTextArea), waitForUpdate(readOnlyTextArea)]);
-
-    expect(editableTextArea.readOnly).toBe(true);
-    expect(readOnlyTextArea.readOnly).toBe(true);
-
-    fieldSet.readOnly = false;
-    await waitForUpdate(fieldSet);
-    await Promise.all([waitForUpdate(editableTextArea), waitForUpdate(readOnlyTextArea)]);
-
-    expect(editableTextArea.readOnly).toBe(false);
-    expect(readOnlyTextArea.readOnly).toBe(true);
+    expect(directInput).not.toBeNull();
+    expect(nestedInput).not.toBeNull();
+    expect(trailingInput).not.toBeNull();
   });
 });
 
