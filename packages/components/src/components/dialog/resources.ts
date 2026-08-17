@@ -1,4 +1,4 @@
-import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 
 export const CSS = {
   dialog: "dialog",

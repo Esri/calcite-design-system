@@ -1,6 +1,6 @@
 import { getDateTimeFormat, Locale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
-import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
 
 const hourToMinutes = 60;
 

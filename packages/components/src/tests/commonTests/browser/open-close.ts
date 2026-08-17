@@ -2,7 +2,7 @@ import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type SetRequired } from "type-fest";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
-import { type ComponentTag } from "../interfaces";
+import { type ComponentTag } from "../types";
 import { afterNextTask } from "../../utils/timing";
 import { waitForEvent } from "./utils";
 

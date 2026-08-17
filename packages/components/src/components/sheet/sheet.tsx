@@ -17,7 +17,7 @@ import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, LogicalFlowPosition, ResizeValues, Scale, Width } from "../interfaces";
+import { Height, LogicalFlowPosition, ResizeValues, Scale, Width } from "../types";
 import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
@@ -25,10 +25,10 @@ import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentSc
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { CSS, ICONS, IDS } from "./resources";
-import { DisplayMode } from "./interfaces";
+import { DisplayMode } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
 

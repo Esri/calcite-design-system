@@ -17,7 +17,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { Dir } from "../interfaces";
+import { Dir } from "../types";
 import { CSS, IDS } from "./resources";
 import { Sheet } from "./sheet";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
