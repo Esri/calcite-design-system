@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.49...@esri/calcite-components@5.2.0-next.50) (2026-08-13)
+
+### Bug Fixes
+
+- **navigation-logo, navigation-user:** remove transitions ([#15013](https://github.com/Esri/calcite-design-system/issues/15013)), closes [#11706](https://github.com/Esri/calcite-design-system/issues/11706)
+
 ## [5.2.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.48...@esri/calcite-components@5.2.0-next.49) (2026-08-13)
 
 ### Bug Fixes

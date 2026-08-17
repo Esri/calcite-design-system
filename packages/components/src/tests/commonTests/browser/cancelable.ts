@@ -1,6 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
-import { ComponentTag } from "../interfaces";
+import { ComponentTag } from "../types";
 import { UseCancelable } from "../../../controllers/useCancelable";
 
 /**

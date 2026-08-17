@@ -12,8 +12,8 @@ import {
 } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { InteractionMode, Scale, SelectionMode } from "../interfaces";
-import { ItemData } from "../list-item/interfaces";
+import { InteractionMode, Scale, SelectionMode } from "../types";
+import { ItemData } from "../list-item/types";
 import {
   expandedAncestors,
   isListItem,
@@ -29,7 +29,7 @@ import {
   MoveEventDetail,
   ReorderEventDetail,
   SortMenuItem,
-} from "../sort-handle/interfaces";
+} from "../sort-handle/types";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -42,7 +42,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
+import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { logger } from "../../utils/logger";

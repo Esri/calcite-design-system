@@ -1,6 +1,6 @@
 import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
-import { IconName } from "../components/icon/interfaces";
+import { IconName } from "../components/icon/types";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
