@@ -13,7 +13,7 @@ it("renders default props when none are provided", async () => {
     `);
 
   const element = await page.find("calcite-label");
-  expect(element).toEqualAttribute("layout", "default");
+  expect(element).toEqualAttribute("layout", "block");
 });
 
 it("renders requested props when valid props are provided", async () => {
