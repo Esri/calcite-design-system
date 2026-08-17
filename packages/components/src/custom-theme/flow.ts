@@ -19,6 +19,7 @@ export const flowTokens = {
   calciteFlowHeaderActionTextColorPress: "",
   calciteFlowHeaderBackgroundColor: "",
   calciteFlowHeaderContentSpace: "",
+  calciteFlowHeaderTopSpace: "",
   calciteFlowSpace: "",
   calcitePopoverBorderColor: "",
 };
@@ -44,6 +45,7 @@ export const flow = html`
         label="View Layers"
         icon="layers"
       ></calcite-action>
+      <div slot="header-top">Header top</div>
       <div slot="content-top">Slot for a content-top.</div>
       Hello world!
       <div slot="content-bottom">Content bottom!</div>

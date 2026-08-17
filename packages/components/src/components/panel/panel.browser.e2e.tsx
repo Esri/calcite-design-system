@@ -254,6 +254,20 @@ describe("slots", () => {
 });
 
 describe("header slots", () => {
+  it("renders one border when header-top is the only header content", async () => {
+    const { component } = await mount(
+      <calcite-panel>
+        <div slot={SLOTS.headerTop}>Header top</div>
+      </calcite-panel>,
+    );
+
+    const header = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.header}`)!;
+    const headerTop = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.headerTop}`)!;
+
+    expect(getComputedStyle(header).borderBlockEndWidth).toBe("0px");
+    expect(getComputedStyle(headerTop).borderBlockEndWidth).toBe("1px");
+  });
+
   it("renders header-top content above the header actions", async () => {
     const { component } = await mount(
       <calcite-panel closable>
@@ -437,6 +451,7 @@ describe("theme", () => {
           <calcite-action icon="banana" slot="header-menu-actions" text="banana" text-enabled />
           <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
           <calcite-action icon="question" slot="header-actions-end" text="Layers" />
+          <div slot="header-top">Header top</div>
           <div slot="content-top">To continue), you must agree to the terms</div>
           <calcite-label
             layout="inline-space-between"
@@ -564,6 +579,10 @@ describe("theme", () => {
       },
       "--calcite-panel-content-bottom-space": {
         shadowSelector: `.${CSS.contentBottom}`,
+        targetProp: "padding",
+      },
+      "--calcite-panel-header-top-space": {
+        shadowSelector: `.${CSS.headerTop}`,
         targetProp: "padding",
       },
     },

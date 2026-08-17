@@ -190,7 +190,14 @@ export const closableWithActions = (): string => html`
 
 export const withHeaderTop = (): string => html`
   <calcite-panel closable heading="Panel heading" style="width: 300px;">
-    <div slot="header-top" style="padding: 12px;">Header top content</div>
+    <div slot="header-top">Header top content</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
+
+export const withOnlyHeaderTop = (): string => html`
+  <calcite-panel style="width: 300px;">
+    <div slot="header-top">Header top content</div>
     <p>Panel content</p>
   </calcite-panel>
 `;
@@ -219,7 +226,7 @@ export const withPaginationHeaderTop = (): string => html`
       flex: 1;
     }
   </style>
-  <calcite-panel closable heading="Header top demo" style="width: 360px">
+  <calcite-panel closable heading="Header top demo" style="--calcite-panel-header-top-space: 0; width: 360px">
     <div class="header" slot="header-top">
       <calcite-action-bar
         class="pagination-action-bar"
