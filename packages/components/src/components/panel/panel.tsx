@@ -489,6 +489,21 @@ export class Panel extends LitElement {
     });
   }
 
+  private get hasHeaderRow(): boolean {
+    return (
+      this.hasHeaderContent ||
+      !!this.heading ||
+      !!this.description ||
+      this.hasHeaderHeading ||
+      this.hasHeaderDescription ||
+      this.hasStartActions ||
+      this.hasEndActions ||
+      this.collapsible ||
+      this.closable ||
+      this.hasMenuItems
+    );
+  }
+
   //#endregion
 
   //#region Rendering
@@ -714,15 +729,6 @@ export class Panel extends LitElement {
     const hasDefaultHeaderContent =
       !!heading || !!description || hasHeaderHeading || hasHeaderDescription;
 
-    const hasHeaderRow =
-      hasHeaderContent ||
-      hasDefaultHeaderContent ||
-      hasStartActions ||
-      hasEndActions ||
-      collapsible ||
-      closable ||
-      hasMenuItems;
-
     const showHeaderContent =
       hasHeaderContent ||
       hasDefaultHeaderContent ||
@@ -739,14 +745,17 @@ export class Panel extends LitElement {
 
     return (
       <header
-        class={{ [CSS.header]: true, [CSS.headerNoRow]: hasHeaderTop && !hasHeaderRow }}
+        class={{
+          [CSS.header]: true,
+          [CSS.headerNoRow]: hasHeaderTop && !this.hasHeaderRow && !hasActionBar && !hasContentTop,
+        }}
         hidden={!(showHeaderContent || hasActionBar || hasContentTop)}
       >
         {this.renderHeaderTop()}
         <div
           class={{
             [CSS.headerContainer]: true,
-            [CSS.headerContainerBorderEnd]: hasActionBar && hasHeaderRow,
+            [CSS.headerContainerBorderEnd]: hasActionBar && this.hasHeaderRow,
           }}
           hidden={!showHeaderContent}
         >
@@ -805,7 +814,13 @@ export class Panel extends LitElement {
 
   private renderContentTop(): JsxNode {
     return (
-      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+      <div
+        class={{
+          [CSS.contentTop]: true,
+          [CSS.contentTopNoBorder]: this.hasHeaderTop && !this.hasHeaderRow && !this.hasActionBar,
+        }}
+        hidden={!this.hasContentTop}
+      >
         <slot name={SLOTS.contentTop} onSlotChange={this.contentTopSlotChangeHandler} />
       </div>
     );

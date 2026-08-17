@@ -211,12 +211,6 @@ export const withPaginationHeaderTop = (): string => html`
       background-color: var(--calcite-color-foreground-1);
     }
 
-    .pagination-text {
-      padding-inline: var(--calcite-spacing-sm);
-      color: var(--calcite-color-text-3);
-      font-size: var(--calcite-font-size-sm);
-    }
-
     .pagination-menu-button {
       padding-inline: var(--calcite-spacing-xxs);
       border-inline-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
