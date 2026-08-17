@@ -1,7 +1,7 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Input } from "../input/input";
-import type { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import { getStylePixelValue } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";

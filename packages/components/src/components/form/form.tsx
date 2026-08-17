@@ -1,5 +1,5 @@
 import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
-import type { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import { getSlotAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./form.scss";
