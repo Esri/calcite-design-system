@@ -76,6 +76,10 @@ export class ActionBar extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
+  private actionsStartGroupRef = createRef<ActionGroup["el"]>();
+
+  private actionsEndGroupRef = createRef<ActionGroup["el"]>();
+
   private direction = useDirection();
 
   private expandToggleEl?: Action["el"];
@@ -333,7 +337,7 @@ export class ActionBar extends LitElement {
 
   override connectedCallback(): void {
     this.updateGroups();
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
     this.syncActiveDescendant();
     this.overflowActions();
     this.updateActions();
@@ -453,7 +457,7 @@ export class ActionBar extends LitElement {
   private mutationObserverHandler(): void {
     this.updateGroups();
     this.overflowActions();
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
     this.syncActiveDescendant();
     this.updateActions();
   }
@@ -483,14 +487,14 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
     this.syncActiveDescendant();
     this.updateActions();
   }
 
   private handleDefaultSlotChange(): void {
     this.updateGroups();
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
     this.syncActiveDescendant();
     this.updateActions();
   }
@@ -520,18 +524,14 @@ export class ActionBar extends LitElement {
     this.updateActiveDescendantElements();
   }
 
-  private queryAndStoreNavigableItems(): void {
+  private updateNavigationItems(): void {
     this.ensureActionBarChildIds();
 
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
 
     const navigationItems: Array<Action["el"] | ActionMenu["el"]> = [];
-    const internalStartGroup = this.el.shadowRoot?.querySelector(`.${CSS.actionGroupStart}`) as
-      | ActionGroup["el"]
-      | null;
-    const internalEndGroup = this.el.shadowRoot?.querySelector(`.${CSS.actionGroupEnd}`) as
-      | ActionGroup["el"]
-      | null;
+    const internalStartGroup = this.actionsStartGroupRef.value;
+    const internalEndGroup = this.actionsEndGroupRef.value;
 
     if (internalStartGroup) {
       navigationItems.push(...this.getActionGroupNavigationItems(internalStartGroup));
@@ -641,7 +641,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
 
     const current = this.getNavigationItemFromEvent(event) ?? this.getCurrentNavigationItem();
 
@@ -698,7 +698,7 @@ export class ActionBar extends LitElement {
   }
 
   private handleFocusIn(event: FocusEvent): void {
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
 
     const focusedItem = this.getNavigationItemFromEvent(event);
     const actionMenu = this.getEventActionMenu(event) || this.getOpenActionMenu();
@@ -962,7 +962,7 @@ export class ActionBar extends LitElement {
   }
 
   private syncClosedActionMenu(actionMenu: ActionMenu["el"]): void {
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
     const navigationActionMenu = this.navigationItems.find(
       (item) => item === actionMenu || item.id === actionMenu.id,
     );
@@ -1051,7 +1051,7 @@ export class ActionBar extends LitElement {
   }
 
   private syncActiveDescendant(activeItem?: Action["el"] | ActionMenu["el"]): void {
-    this.queryAndStoreNavigableItems();
+    this.updateNavigationItems();
 
     const activeItemInNavigation = activeItem
       ? this.navigationItems.find((item) => item === activeItem || item.id === activeItem.id)
@@ -1189,6 +1189,7 @@ export class ActionBar extends LitElement {
     const label = isStart ? this.actionsStartGroupLabel : this.actionsEndGroupLabel;
     const hidden = !hasExpandToggle && !(isStart ? this.hasActionsStart : this.hasActionsEnd);
     const className = isStart ? CSS.actionGroupStart : CSS.actionGroupEnd;
+    const actionGroupRef = isStart ? this.actionsStartGroupRef : this.actionsEndGroupRef;
 
     return (
       <calcite-action-group
@@ -1197,6 +1198,7 @@ export class ActionBar extends LitElement {
         label={label}
         layout={layout}
         overlayPositioning={overlayPositioning}
+        ref={actionGroupRef}
         scale={scale}
       >
         {isStart && hasExpandToggle ? this.renderExpandToggle() : null}
