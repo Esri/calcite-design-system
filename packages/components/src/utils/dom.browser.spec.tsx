@@ -32,7 +32,7 @@ import {
   whenAnimationDone,
   whenTransitionDone,
 } from "./dom";
-import { page } from "vitest/browser";
+import { Locator, page } from "vitest/browser";
 import { css } from "../../support/formatting";
 
 const myButtonId = "my.id";
@@ -178,10 +178,23 @@ describe(isPrimaryPointerButton, () => {
   });
 });
 
-describe.todo("slot utils", () => {
-  class SimpleSlotComponent extends LitElement {
-    static tagName = "simple-slot-component";
+describe("slot utils", () => {
+  describe(hasVisibleContent, () => {
+    it("should return true if element has visible content", async () => {
+      const { el } = await mount(html`<div><p>hello</p></div>`);
+      expect(hasVisibleContent(el)).toBe(true);
+    });
 
+    it("should return false if element has no visible content", async () => {
+      const { el } = await mount(html`<div></div>`);
+      expect(hasVisibleContent(el)).toBe(false);
+
+      el.innerHTML = "\n<!-- some comment -->\n";
+      expect(hasVisibleContent(el)).toBe(false);
+    });
+  });
+
+  class SimpleSlotComponent extends LitElement {
     override render(): JsxNode {
       return <slot />;
     }
@@ -199,19 +212,6 @@ describe.todo("slot utils", () => {
         </>
       );
     }
-  }
-
-  function createEl<K extends keyof HTMLElementTagNameMap>(
-    tag: string,
-    props?: Partial<HTMLElementTagNameMap[K]>,
-  ): HTMLElement {
-    const el = document.createElement(tag);
-
-    if (props) {
-      Object.assign(el, props);
-    }
-
-    return el;
   }
 
   describe(getSlotAssignedElements, () => {
@@ -329,13 +329,13 @@ describe.todo("slot utils", () => {
 
       const nodes = [
         document.createTextNode("hello"),
-        createEl("div"),
-        createEl("div", { slot: "foo" }),
-        createEl("div", { slot: "bar" }),
-        createEl("div", { slot: "bar" }),
-        createEl("div", { slot: "baz" }),
-        createEl("div", { slot: "baz" }),
-        createEl("div", { slot: "baz" }),
+        document.createElement("div"),
+        Object.assign(document.createElement("div"), { slot: "foo" }),
+        Object.assign(document.createElement("div"), { slot: "bar" }),
+        Object.assign(document.createElement("div"), { slot: "bar" }),
+        Object.assign(document.createElement("div"), { slot: "baz" }),
+        Object.assign(document.createElement("div"), { slot: "baz" }),
+        Object.assign(document.createElement("div"), { slot: "baz" }),
       ];
 
       el.append(...nodes);
@@ -435,7 +435,7 @@ describe.todo("slot utils", () => {
       });
       const nodes = [
         document.createTextNode("hello"),
-        createEl("div"),
+        document.createElement("div"),
         document.createTextNode("world"),
       ];
 
@@ -464,13 +464,13 @@ describe.todo("slot utils", () => {
 
       const nodes = [
         document.createTextNode("hello"),
-        createEl("div"),
-        createEl("div", { slot: "foo" }),
-        createEl("div", { slot: "bar" }),
-        createEl("div", { slot: "bar" }),
-        createEl("div", { slot: "baz" }),
-        createEl("div", { slot: "baz" }),
-        createEl("div", { slot: "baz" }),
+        document.createElement("div"),
+        Object.assign(document.createElement("div"), { slot: "foo" }),
+        Object.assign(document.createElement("div"), { slot: "bar" }),
+        Object.assign(document.createElement("div"), { slot: "bar" }),
+        Object.assign(document.createElement("div"), { slot: "baz" }),
+        Object.assign(document.createElement("div"), { slot: "baz" }),
+        Object.assign(document.createElement("div"), { slot: "baz" }),
       ];
 
       el.append(...nodes);
@@ -607,22 +607,7 @@ describe.todo("slot utils", () => {
   });
 });
 
-describe(hasVisibleContent, () => {
-  it("should return true if element has visible content", async () => {
-    const { el } = await mount(html`<div><p>hello</p></div>`);
-    expect(hasVisibleContent(el)).toBe(true);
-  });
-
-  it("should return false if element has no visible content", async () => {
-    const { el } = await mount(html`<div></div>`);
-    expect(hasVisibleContent(el)).toBe(false);
-
-    el.innerHTML = "\n<!-- some comment -->\n";
-    expect(hasVisibleContent(el)).toBe(false);
-  });
-});
-
-describe.todo(focusElement, () => {
+describe(focusElement, () => {
   it("focuses the element if it is focusable", async () => {
     const { el } = await mount(html`<div tabindex="0"></div>`);
     await focusElement(el);
@@ -816,6 +801,7 @@ describe(focusFirstTabbable, () => {
 });
 
 describe(focusElementInGroup, () => {
+  let items: Locator;
   let elements: HTMLElement[];
 
   async function setUp(withFocusableChild = false): Promise<void> {
@@ -830,7 +816,8 @@ describe(focusElementInGroup, () => {
       )}
     `);
 
-    elements = page.getBySelector(".item").elements() as HTMLElement[];
+    items = page.getBySelector(".item");
+    elements = items.elements() as HTMLElement[];
   }
 
   it("cycles through the array by default", async () => {
@@ -865,9 +852,9 @@ describe(focusElementInGroup, () => {
       await setUp(true);
 
       expect(focusElementInGroup(elements, elements[0], "previous", true, false)).toBe(elements[2]);
-      await expect.element(elements[2].firstElementChild).toHaveFocus();
+      await expect.element(items.nth(2).getBySelector(".child")).toHaveFocus();
       expect(focusElementInGroup(elements, elements[2], "next", true, false)).toBe(elements[0]);
-      await expect.element(elements[0].firstElementChild).toHaveFocus();
+      await expect.element(items.nth(0).getBySelector(".child")).toHaveFocus();
     });
   });
 
