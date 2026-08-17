@@ -14,14 +14,8 @@ const internalSuffixWidthVar = "--calcite-internal-input-suffix-width";
 const prefixSizeVar = "--calcite-input-prefix-size";
 const suffixSizeVar = "--calcite-input-suffix-size";
 
-type ScaledElement = HTMLElement & { scale: Scale };
-
 const controlBoundarySelector =
   "calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
-
-function hasScaleProperty(element: HTMLElement): element is ScaledElement {
-  return "scale" in element;
-}
 
 declare global {
   interface DeclareElements {
@@ -56,10 +50,6 @@ export class FieldSet extends LitElement {
       const closestBoundary = element.closest(controlBoundarySelector);
       return closestBoundary === this.el || closestBoundary === element;
     });
-  }
-
-  private get scaledElements(): ScaledElement[] {
-    return this.controlElements.filter(hasScaleProperty);
   }
 
   //#endregion
