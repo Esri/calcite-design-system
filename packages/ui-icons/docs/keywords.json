@@ -12125,7 +12125,7 @@
     "release": "4.6.0"
   },
   "delete-and-replace-features": {
-    "alias": ["4.6.0", "layers", "dataset", "remove", "automated workflows", "attribute"],
+    "alias": ["4.6.0", "layers", "dataset", "remove", "automated workflows", "attribute", "truncate"],
     "category": "Layers",
     "release": "4.6.0"
   },
