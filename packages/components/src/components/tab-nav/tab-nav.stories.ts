@@ -27,8 +27,12 @@ export const slottedTabTilesInNarrowLayout: StoryObj = {
     const canvas = within(canvasElement);
     const container = await canvas.findByShadowTestId("tab-title-container");
     const nextButton = await canvas.findByShadowLabelText("Next tab titles");
-    expect(await waitFor(() => canvas.findByShadowText("Body začátku a konce"))).toBeInTheDocument();
 
+    await step("Wait for firs tab title to render", async () => {
+      const scrollEndPromise = waitForScrollEnd(container);
+      expect(await waitFor(() => canvas.findByShadowText("Body začátku a konce"))).toBeInTheDocument();
+      await scrollEndPromise;
+    });
     await step("Click the next button", async () => {
       const scrollEndPromise = waitForScrollEnd(container);
       await userEvent.click(nextButton);
