@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.51...@esri/calcite-components@5.2.0-next.52) (2026-08-18)
+
+### Features
+
+- add non-modal behavior to Sheet ([#15012](https://github.com/Esri/calcite-design-system/issues/15012)), closes [#12114](https://github.com/Esri/calcite-design-system/issues/12114) [#15011](https://github.com/Esri/calcite-design-system/issues/15011)
+- **panel, flow-item, dialog:** add header-top slot ([#15028](https://github.com/Esri/calcite-design-system/issues/15028)), closes [#14987](https://github.com/Esri/calcite-design-system/issues/14987)
+
 ## [5.2.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.50...@esri/calcite-components@5.2.0-next.51) (2026-08-18)
 
 ### Bug Fixes
