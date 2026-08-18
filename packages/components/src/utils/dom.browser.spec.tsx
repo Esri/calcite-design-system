@@ -63,15 +63,17 @@ describe(setRequestedIcon, () => {
 
 describe(ensureId, () => {
   it("generates unique ID on an element", async () => {
-    const { el } = await mount(html`<input />`);
+    await mount(html`<input />`);
+    const input = page.getByRole("textbox").element();
 
-    expect(ensureId(el)).toMatch(new RegExp(`input-${guidPattern.source}`));
+    expect(ensureId(input)).toMatch(new RegExp(`input-${guidPattern.source}`));
   });
 
   it("returns the element's ID if it exists", async () => {
-    const { el } = await mount(html`<input id="test" />`);
+    await mount(html`<input id="test" />`);
+    const input = page.getByRole("textbox").element();
 
-    expect(ensureId(el)).toBe("test");
+    expect(ensureId(input)).toBe("test");
   });
 
   it("returns empty string if invoked without element", () => {
@@ -181,16 +183,20 @@ describe(isPrimaryPointerButton, () => {
 describe("slot utils", () => {
   describe(hasVisibleContent, () => {
     it("should return true if element has visible content", async () => {
-      const { el } = await mount(html`<div><p>hello</p></div>`);
-      expect(hasVisibleContent(el)).toBe(true);
+      await mount(html`<div data-testid="container"><p>hello</p></div>`);
+      const container = page.getByTestId("container").element() as HTMLElement;
+
+      expect(hasVisibleContent(container)).toBe(true);
     });
 
     it("should return false if element has no visible content", async () => {
-      const { el } = await mount(html`<div></div>`);
-      expect(hasVisibleContent(el)).toBe(false);
+      await mount(html`<div data-testid="container"></div>`);
+      const container = page.getByTestId("container").element() as HTMLElement;
 
-      el.innerHTML = "\n<!-- some comment -->\n";
-      expect(hasVisibleContent(el)).toBe(false);
+      expect(hasVisibleContent(container)).toBe(false);
+
+      container.innerHTML = "\n<!-- some comment -->\n";
+      expect(hasVisibleContent(container)).toBe(false);
     });
   });
 
@@ -609,52 +615,71 @@ describe("slot utils", () => {
 
 describe(focusElement, () => {
   it("focuses the element if it is focusable", async () => {
-    const { el } = await mount(html`<div tabindex="0"></div>`);
-    await focusElement(el);
-    await expect.element(el).toHaveFocus();
+    await mount(html`<div data-testid="container" tabindex="0"></div>`);
+    const container = page.getByTestId("container");
+
+    await focusElement(container.element() as HTMLElement);
+    await expect.element(container).toHaveFocus();
   });
 
   it("does not focus the element if it is not focusable", async () => {
-    const { el } = await mount(html`<div></div>`);
-    await focusElement(el);
-    await expect.element(el).not.toHaveFocus();
+    await mount(html`<div data-testid="container"></div>`);
+    const container = page.getByTestId("container");
+
+    await focusElement(container.element() as HTMLElement);
+    await expect.element(container).not.toHaveFocus();
   });
 
   it("focuses first focusable child if includeContainer = false", async () => {
-    const { el } = await mount(
-      html`<div tabindex="-1"><div data-testid="child" tabindex="0"></div></div>`,
+    await mount(
+      html`<div data-testid="container" tabindex="-1">
+        <div data-testid="child" tabindex="0"></div>
+      </div>`,
     );
-    await focusElement(el, false);
+
+    await focusElement(page.getByTestId("container").element() as HTMLElement, false);
     await expect.element(page.getByTestId("child")).toHaveFocus();
   });
 
   it("focuses element if focusable and includeContainer = true (default)", async () => {
-    const { el } = await mount(
-      html`<div tabindex="0"><div data-testid="child" tabindex="0"></div></div>`,
+    await mount(
+      html`<div data-testid="container" tabindex="0">
+        <div data-testid="child" tabindex="0"></div>
+      </div>`,
     );
-    await focusElement(el, true);
-    await expect.element(el).toHaveFocus();
+    const container = page.getByTestId("container");
+
+    await focusElement(container.element() as HTMLElement, true);
+    await expect.element(container).toHaveFocus();
   });
 
   it("does not focus if element has no focusable child and includeContainer = false", async () => {
-    const { el } = await mount(html`<div></div>`);
-    await focusElement(el, false);
-    await expect.element(el).not.toHaveFocus();
+    await mount(html`<div data-testid="container"></div>`);
+    const container = page.getByTestId("container");
+
+    await focusElement(container.element() as HTMLElement, false);
+    await expect.element(container).not.toHaveFocus();
   });
 
   it("focuses first focusable when strategy='focusable'", async () => {
-    const { el } = await mount(
-      html`<div tabindex="0"><div data-testid="child" tabindex="-1"></div></div>`,
+    await mount(
+      html`<div data-testid="container" tabindex="0">
+        <div data-testid="child" tabindex="-1"></div>
+      </div>`,
     );
-    await focusElement(el, false, "focusable");
+
+    await focusElement(page.getByTestId("container").element() as HTMLElement, false, "focusable");
     await expect.element(page.getByTestId("child")).toHaveFocus();
   });
 
   it("focuses first tabbable when strategy='tabbable'", async () => {
-    const { el } = await mount(
-      html`<div tabindex="-1"><div data-testid="child" tabindex="0"></div></div>`,
+    await mount(
+      html`<div data-testid="container" tabindex="-1">
+        <div data-testid="child" tabindex="0"></div>
+      </div>`,
     );
-    await focusElement(el, true, "tabbable");
+
+    await focusElement(page.getByTestId("container").element() as HTMLElement, true, "tabbable");
     await expect.element(page.getByTestId("child")).toHaveFocus();
   });
 
@@ -700,13 +725,15 @@ describe(focusElement, () => {
 
   describe("focus options", () => {
     it("supports focus options", async () => {
-      const { el } = await mount(html`<div tabindex="0"></div>`);
+      await mount(html`<div data-testid="container" tabindex="0"></div>`);
+      const container = page.getByTestId("container");
+      const element = container.element() as HTMLElement;
       const focusOptions = { preventScroll: true };
-      const focusSpy = vi.spyOn(el, "focus");
+      const focusSpy = vi.spyOn(element, "focus");
 
-      await focusElement(el, true, "tabbable", undefined, focusOptions);
+      await focusElement(element, true, "tabbable", undefined, focusOptions);
 
-      await expect.element(el).toHaveFocus();
+      await expect.element(container).toHaveFocus();
       expect(focusSpy).toHaveBeenCalledWith(focusOptions);
       expect(focusSpy).toHaveBeenCalledTimes(1);
     });
@@ -739,25 +766,29 @@ describe(focusElement, () => {
 
 describe(focusFirstTabbable, () => {
   it("focuses the first tabbable element", async () => {
-    const { container } = await mount(html`
-      <div></div>
-      <div data-testid="target" tabindex="0"></div>
-      <div></div>
+    await mount(html`
+      <div data-testid="container">
+        <div></div>
+        <div data-testid="target" tabindex="0"></div>
+        <div></div>
+      </div>
     `);
 
-    focusFirstTabbable(container);
+    focusFirstTabbable(page.getByTestId("container").element() as HTMLElement);
 
     await expect.element(page.getByTestId("target")).toHaveFocus();
   });
 
   it("does not focus if no tabbable elements are found", async () => {
-    const { container } = await mount(html`
-      <div></div>
-      <div></div>
-      <div></div>
+    await mount(html`
+      <div data-testid="container">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     `);
 
-    focusFirstTabbable(container);
+    focusFirstTabbable(page.getByTestId("container").element() as HTMLElement);
 
     await expect.element(document.body).toHaveFocus();
   });
@@ -782,17 +813,19 @@ describe(focusFirstTabbable, () => {
   });
 
   it("supports passing focus options", async () => {
-    const { container } = await mount(html`
-      <div></div>
-      <div data-testid="target" tabindex="0"></div>
-      <div></div>
+    await mount(html`
+      <div data-testid="container">
+        <div></div>
+        <div data-testid="target" tabindex="0"></div>
+        <div></div>
+      </div>
     `);
     const target = page.getByTestId("target").element() as HTMLElement;
 
     const focusSpy = vi.spyOn(target, "focus");
     const focusOptions = { preventScroll: true };
 
-    focusFirstTabbable(container, false, focusOptions);
+    focusFirstTabbable(page.getByTestId("container").element() as HTMLElement, false, focusOptions);
 
     await expect.element(target).toHaveFocus();
     expect(focusSpy).toHaveBeenCalledWith(focusOptions);
@@ -918,8 +951,9 @@ describe(getShadowRootNode, () => {
   });
 
   it("should return null for non shadowed element", async () => {
-    const { el } = await mount(html`<div></div>`);
-    expect(getShadowRootNode(el)).toBe(null);
+    await mount(html`<div data-testid="container"></div>`);
+
+    expect(getShadowRootNode(page.getByTestId("container").element() as HTMLElement)).toBe(null);
   });
 });
 
@@ -997,13 +1031,13 @@ describe("transition/animation helpers", () => {
             }
           `;
 
-    const { container } = await mount(html`
+    await mount(html`
       <style>
         ${styles}
       </style>
       <div class="effect" data-testid="target"></div>
     `);
-    element = container.querySelector("div")!;
+    element = page.getByTestId("target").element() as HTMLDivElement;
   }
 
   async function triggerEffect(): Promise<void> {
