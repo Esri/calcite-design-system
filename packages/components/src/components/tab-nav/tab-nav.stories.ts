@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { within } from "shadow-dom-testing-library";
+import { waitFor, expect } from "storybook/test";
 const meta: Meta = {
   title: "Components/TabNav",
 };
@@ -26,7 +27,8 @@ export const slottedTabTilesInNarrowLayout: StoryObj = {
     const canvas = within(canvasElement);
     const container = await canvas.findByShadowTestId("tab-title-container");
     const nextButton = await canvas.findByShadowLabelText("Next tab titles");
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    expect(await waitFor(() => canvas.findByShadowText("Body začátku a konce"))).toBeInTheDocument();
+
     await step("Click the next button", async () => {
       const scrollEndPromise = waitForScrollEnd(container);
       await userEvent.click(nextButton);
