@@ -174,4 +174,5 @@ calcite-switch {
   color: theme("colors.danger");
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();

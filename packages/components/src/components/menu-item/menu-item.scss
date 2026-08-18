@@ -143,18 +143,26 @@
 
 :host([layout="vertical"]) .icon--end {
   @apply ms-auto ps-3;
+  inline-size: theme("spacing.7");
+  min-inline-size: theme("spacing.7");
 }
 
 .icon--dropdown {
   @apply ms-auto me-0 ps-2 relative;
+  inline-size: theme("spacing.6");
+  min-inline-size: theme("spacing.6");
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
   @apply ms-3;
 }
 
+:host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
+  @apply ms-2;
+}
+
 :host([layout="vertical"]) .hover-href-icon {
-  @apply ps-2;
+  @apply ms-2;
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
@@ -167,14 +175,12 @@
 
 .icon--breadcrumb {
   @apply ps-2 me-0;
+  inline-size: theme("spacing.6");
+  min-inline-size: theme("spacing.6");
 }
 
 :host([layout="vertical"]) .icon--breadcrumb {
   @apply ms-auto;
-}
-
-:host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
-  @apply ms-2;
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
@@ -210,6 +216,7 @@
 
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
+  min-inline-size: calc(100% + 2px);
   box-shadow: var(--calcite-shadow-md);
   border: var(--calcite-internal-menu-item-border);
   border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
@@ -221,7 +228,8 @@
   &.nested {
     @apply absolute;
     inset-block-start: -1px;
-    transform: translateX(calc(100% - 2px));
+    inset-inline-start: 100%;
+    transform: none;
   }
 }
 
@@ -264,7 +272,9 @@
 }
 
 .dropdown-menu-items.nested.calcite--rtl {
-  transform: translateX(calc(-100% + 2px));
+  inset-inline-start: auto;
+  inset-inline-end: 100%;
+  transform: none;
 }
 
 .dropdown--vertical.dropdown-menu-items.nested.calcite--rtl {
@@ -282,3 +292,4 @@
 }
 
 @include includes.base-component();
+@include includes.base-component-sizing();

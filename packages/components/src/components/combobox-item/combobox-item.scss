@@ -27,6 +27,7 @@
 @use "../../styles/includes";
 
 @include includes.base-component();
+@include includes.base-component-sizing();
 
 .scale--s {
   @apply text-n2h;

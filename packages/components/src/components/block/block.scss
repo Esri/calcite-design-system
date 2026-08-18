@@ -343,6 +343,7 @@ calcite-action-menu {
   margin-block: var(--calcite-spacing-md);
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();
 
 slot[name="children"]::slotted(calcite-block) {

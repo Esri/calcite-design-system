@@ -130,7 +130,7 @@
   inline-block
   bg-transparent
   text-center;
-  inline-size: #{core.$calcite-size-44};
+  inline-size: calc(#{core.$calcite-size-44} + var(--calcite-spacing-base) + var(--calcite-spacing-base));
   &:hover {
     @apply ease-in-out;
     transition-property: outline-color;
@@ -169,7 +169,7 @@
   }
 
   .year {
-    inline-size: #{core.$calcite-size-40};
+    inline-size: calc(#{core.$calcite-size-40} + var(--calcite-spacing-base) + var(--calcite-spacing-base));
   }
 
   .year,
@@ -190,7 +190,7 @@
     --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }
   .year {
-    inline-size: #{core.$calcite-size-48};
+    inline-size: calc(#{core.$calcite-size-48} + var(--calcite-spacing-base) + var(--calcite-spacing-base));
   }
   .year,
   .suffix {
@@ -200,3 +200,4 @@
 }
 
 @include includes.base-component();
+@include includes.base-component-sizing();

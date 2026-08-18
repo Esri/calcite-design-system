@@ -264,4 +264,5 @@
 @include includes.form-validation-message();
 @include includes.disabled();
 @include includes.base-component();
+@include includes.base-component-sizing();
 @include includes.input-placeholder-text("--calcite-text-area-placeholder-text-color");

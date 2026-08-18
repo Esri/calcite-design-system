@@ -31,7 +31,6 @@
 
 :host {
   @apply text-1
-  box-border
   flex
   flex-col;
 }
@@ -65,7 +64,8 @@
   max-h-menu;
 
   gap: var(--calcite-internal-action-menu-gap);
-  padding: var(--calcite-internal-action-menu-padding);
+  margin: var(--calcite-internal-action-menu-padding);
 }
 
 @include includes.base-component();
+@include includes.base-component-sizing();

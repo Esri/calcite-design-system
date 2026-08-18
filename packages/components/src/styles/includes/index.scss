@@ -157,6 +157,18 @@
   }
 }
 
+@mixin base-component-sizing() {
+  :host {
+    box-sizing: border-box !important; // Required to override ancestor shadow-root universal inheritance rules on nested component hosts.
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+}
+
 @mixin base-component() {
   /* stylelint-disable selector-attribute-name-disallowed-list -- base component mixin needs to use [hidden] */
   :host([hidden]) {

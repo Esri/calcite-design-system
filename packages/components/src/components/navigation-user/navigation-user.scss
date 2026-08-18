@@ -82,7 +82,7 @@
 calcite-avatar {
   --calcite-avatar-corner-radius: var(--calcite-navigation-user-avatar-corner-radius);
   --calcite-avatar-color: var(--calcite-navigation-user-avatar-color);
-  padding-inline: var(--calcite-internal-navigation-user-padding-inline);
+  margin-inline: var(--calcite-internal-navigation-user-padding-inline);
 }
 
 calcite-avatar ~ .text-container {
@@ -125,3 +125,4 @@ calcite-avatar ~ .text-container {
 }
 
 @include includes.base-component();
+@include includes.base-component-sizing();

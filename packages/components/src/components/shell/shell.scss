@@ -124,7 +124,6 @@ slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float
   @apply shadow-2
   animate-in-up
   absolute
-  box-border
   rounded
   z-toast;
   inset-block-end: theme("spacing.2");
@@ -164,3 +163,4 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
 }
 
 @include includes.base-component();
+@include includes.base-component-sizing();

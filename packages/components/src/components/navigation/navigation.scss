@@ -21,6 +21,7 @@
 @use "../../styles/includes";
 
 @include includes.base-component();
+@include includes.base-component-sizing();
 
 :host {
   @apply block;
@@ -76,15 +77,15 @@
 }
 
 .primary {
-  block-size: var(--calcite-internal-navigation-primary-height);
+  block-size: calc(var(--calcite-internal-navigation-primary-height) + 1px);
 }
 
 .secondary {
-  block-size: var(--calcite-internal-navigation-secondary-height);
+  block-size: calc(var(--calcite-internal-navigation-secondary-height) + 1px);
 }
 
 .tertiary {
-  block-size: var(--calcite-internal-navigation-tertiary-height);
+  block-size: calc(var(--calcite-internal-navigation-tertiary-height) + 1px);
 }
 
 .container-content {
@@ -113,6 +114,14 @@ slot[name="content-start"]::slotted(*),
 slot[name="content-center"]::slotted(*),
 slot[name="content-end"]::slotted(*) {
   @apply flex flex-row items-center;
+}
+
+slot[name="content-start"]::slotted(calcite-action),
+slot[name="content-center"]::slotted(calcite-action),
+slot[name="content-end"]::slotted(calcite-action),
+slot[name="navigation-action"]::slotted(calcite-action) {
+  @apply flex-none;
+  min-inline-size: max-content;
 }
 
 slot[name="progress"],
@@ -150,6 +159,7 @@ slot[name="content-end"] ~ slot[name="user"] {
 }
 
 slot[name="navigation-action"] calcite-action {
-  @apply self-center;
+  @apply self-center flex-none;
+  min-inline-size: max-content;
   margin-inline-start: var(--calcite-internal-navigation-navigation-action-margin-inline);
 }

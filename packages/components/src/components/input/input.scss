@@ -174,7 +174,6 @@ input {
   @apply font-inherit
     relative
     m-0
-    box-border
     flex
     max-h-full
     w-full
@@ -326,7 +325,6 @@ input[readonly]:focus {
 }
 
 .icon {
-  box-sizing: border-box;
   display: flex;
   align-self: stretch;
   border-width: var(--calcite-border-width-sm);
@@ -363,7 +361,6 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .clear-button {
-  box-sizing: border-box;
   display: flex;
   align-self: stretch;
   order: 4;
@@ -406,8 +403,7 @@ input[type="time"]::-webkit-clear-button {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply box-border
-    flex
+  @apply flex
     h-auto
     min-h-full
     select-none
@@ -476,7 +472,6 @@ input[type="number"] {
 .number-button-wrapper {
   @apply transition-default
     pointer-events-none
-    box-border
     flex
     flex-col;
 
@@ -551,7 +546,6 @@ input[type="number"] {
   max-block-size: 50%;
   min-block-size: 50%;
   pointer-events: initial;
-  box-sizing: border-box;
   display: flex;
   cursor: pointer;
   align-items: center;
@@ -720,6 +714,7 @@ input {
 @include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.base-component();
+@include includes.base-component-sizing();
 @include includes.input-placeholder-text();
 @include includes.clear-button(
   $background-color: "--calcite-input-actions-background-color",

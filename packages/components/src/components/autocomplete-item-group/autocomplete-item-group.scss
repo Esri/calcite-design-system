@@ -84,8 +84,7 @@
 }
 
 .heading {
-  @apply box-border
-    w-full
+  @apply w-full
     min-w-0
     max-w-full
     word-break
@@ -95,4 +94,5 @@
   padding-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();

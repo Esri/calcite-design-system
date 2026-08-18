@@ -17,6 +17,7 @@
 // --calcite-internal-navigation-logo-heading-font-size
 // --calcite-internal-navigation-logo-heading-line-height
 // --calcite-internal-navigation-logo-heading-standalone-font-size
+// --calcite-internal-navigation-logo-icon-size
 // --calcite-internal-navigation-logo-image-size
 // --calcite-internal-navigation-logo-padding-inline
 // --calcite-internal-navigation-logo-text-color
@@ -25,11 +26,13 @@
 
 :host {
   @apply inline-flex;
+  --calcite-internal-navigation-logo-icon-size: 2rem;
 }
 
 :host([scale="s"]) {
   --calcite-internal-navigation-logo-padding-inline: var(--calcite-space-md);
   --calcite-internal-navigation-logo-image-size: 1.75rem;
+  --calcite-internal-navigation-logo-icon-size: 1.5rem;
   --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-base);
   --calcite-internal-navigation-logo-heading-standalone-font-size: var(--calcite-font-size-1);
   --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size-relative-sm);
@@ -98,8 +101,23 @@
   padding-inline: var(--calcite-internal-navigation-logo-padding-inline);
 }
 
+.icon {
+  inline-size: calc(
+    var(--calcite-internal-navigation-logo-icon-size) + (var(--calcite-internal-navigation-logo-padding-inline) * 2)
+  );
+  min-inline-size: calc(
+    var(--calcite-internal-navigation-logo-icon-size) + (var(--calcite-internal-navigation-logo-padding-inline) * 2)
+  );
+}
+
 .image ~ .icon {
   @apply ps-0;
+  inline-size: calc(
+    var(--calcite-internal-navigation-logo-icon-size) + var(--calcite-internal-navigation-logo-padding-inline)
+  );
+  min-inline-size: calc(
+    var(--calcite-internal-navigation-logo-icon-size) + var(--calcite-internal-navigation-logo-padding-inline)
+  );
 }
 
 .image ~ .text-container,
@@ -158,3 +176,4 @@
 }
 
 @include includes.base-component();
+@include includes.base-component-sizing();

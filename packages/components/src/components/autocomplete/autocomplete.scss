@@ -83,8 +83,7 @@
 @include includes.disabled();
 
 .content-container {
-  @apply w-full
-    box-border;
+  @apply w-full;
 }
 
 .floating-ui-container {
@@ -123,4 +122,5 @@
 
 @include includes.form-internal-label();
 @include includes.form-validation-message();
+@include includes.base-component-sizing();
 @include includes.base-component();

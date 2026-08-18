@@ -110,7 +110,6 @@
     items-center
     justify-start
     border-none;
-  box-sizing: border-box;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
   border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
@@ -304,4 +303,5 @@
 }
 
 @include includes.base-component();
+@include includes.base-component-sizing();
 @include includes.disabled();
