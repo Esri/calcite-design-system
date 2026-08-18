@@ -176,6 +176,10 @@
   --calcite-internal-menu-item-padding-block: var(--calcite-space-sm);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
 
+  .parent--vertical {
+    block-size: theme("spacing.9");
+  }
+
   & .container,
   & .item-content,
   & .content {
@@ -211,7 +215,6 @@
 
 :host(.is-child[scale="s"][layout="vertical"]) {
   .parent--vertical {
-    block-size: theme("spacing.9");
     box-sizing: border-box;
     padding-inline-start: var(--calcite-space-xl);
   }
@@ -223,10 +226,6 @@
 
 :host([breadcrumb][scale="s"][layout="vertical"]) {
   --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: var(--calcite-space-xs);
-
-  .parent--vertical {
-    block-size: theme("spacing.9");
-  }
 
   .icon--end {
     margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
@@ -241,10 +240,6 @@
   --calcite-internal-menu-item-dropdown-action-block-size: theme("spacing.9");
   --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-sm);
   --calcite-internal-menu-item-dropdown-action-flex: 0 0 var(--calcite-size-md);
-
-  .parent--vertical {
-    block-size: theme("spacing.9");
-  }
 
   .icon--end {
     margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
