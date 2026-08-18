@@ -16,6 +16,7 @@
 //
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
+// --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start
 // --calcite-internal-menu-item-content-min-block-size
 // --calcite-internal-menu-item-dropdown-action-block-size
 // --calcite-internal-menu-item-dropdown-action-divider-inset-block
@@ -32,6 +33,7 @@
 @use "../../styles/includes";
 
 :host {
+  --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: 0;
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-xl);
   --calcite-internal-menu-item-dropdown-action-block-size: auto;
   --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-spacing-xxs);
@@ -57,6 +59,7 @@
 }
 
 :host([layout="vertical"]) {
+  --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: auto;
   --calcite-internal-menu-item-padding-block: var(--calcite-space-md);
 
   @apply w-full;
@@ -153,7 +156,6 @@
   }
 
   .icon--breadcrumb {
-    margin-inline-start: var(--calcite-space-sm);
     padding-inline-start: 0;
   }
 
@@ -200,12 +202,10 @@
 }
 
 :host([breadcrumb][scale="s"]:not([layout="vertical"])) {
+  --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: var(--calcite-space-xs);
+
   .content {
     padding-inline-end: var(--calcite-space-sm);
-  }
-
-  .icon--breadcrumb {
-    margin-inline-start: var(--calcite-space-xs);
   }
 }
 
@@ -222,6 +222,8 @@
 }
 
 :host([breadcrumb][scale="s"][layout="vertical"]) {
+  --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: var(--calcite-space-xs);
+
   .parent--vertical {
     block-size: theme("spacing.9");
   }
@@ -231,7 +233,6 @@
   }
 
   .icon--breadcrumb {
-    margin-inline-start: var(--calcite-space-xs);
     padding-inline-start: 0;
   }
 }
@@ -281,6 +282,8 @@
 }
 
 :host([scale="l"]:not([layout="vertical"])) {
+  --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: var(--calcite-space-sm-plus);
+
   & .container,
   & .item-content,
   & .content {
@@ -296,7 +299,6 @@
   }
 
   .icon--breadcrumb {
-    margin-inline-start: var(--calcite-space-sm-plus);
     padding-inline-start: 0;
   }
 
@@ -464,11 +466,9 @@
 }
 
 .icon--breadcrumb {
-  @apply ps-2 me-0;
-}
+  margin-inline-start: var(--calcite-internal-menu-item-breadcrumb-icon-margin-inline-start);
 
-:host([layout="vertical"]) .icon--breadcrumb {
-  @apply ms-auto;
+  @apply ps-2 me-0;
 }
 
 :host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
