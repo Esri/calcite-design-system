@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { within } from "shadow-dom-testing-library";
-
 const meta: Meta = {
   title: "Components/TabNav",
 };
@@ -27,13 +26,13 @@ export const slottedTabTilesInNarrowLayout: StoryObj = {
     const canvas = within(canvasElement);
     const container = await canvas.findByShadowTestId("tab-title-container");
     const nextButton = await canvas.findByShadowLabelText("Next tab titles");
-
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     await step("Click the next button", async () => {
       const scrollEndPromise = waitForScrollEnd(container);
       await userEvent.click(nextButton);
       await scrollEndPromise;
     });
-    await step("Click the next button again", async () => {
+    await step("Click the next button to scroll to the second title", async () => {
       const scrollEndPromise = waitForScrollEnd(container);
       await userEvent.click(nextButton);
       await scrollEndPromise;
