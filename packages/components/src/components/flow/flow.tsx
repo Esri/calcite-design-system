@@ -5,7 +5,7 @@ import { createObserver } from "../../utils/observers";
 import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { FlowDirection, FlowItemLikeElement } from "./interfaces";
+import { FlowDirection, FlowItemLikeElement } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./flow.scss";
 

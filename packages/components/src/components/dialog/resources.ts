@@ -1,4 +1,4 @@
-import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 
 export const CSS = {
   dialog: "dialog",
@@ -22,6 +22,7 @@ export const SLOTS = {
   heading: "heading",
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
+  headerTop: "header-top",
   fab: "fab",
   footer: "footer",
   footerStart: "footer-start",

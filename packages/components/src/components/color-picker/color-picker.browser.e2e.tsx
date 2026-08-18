@@ -28,7 +28,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { mockConsole } from "../../tests/utils/logging";
-import type { ColorValue, HSV } from "./interfaces";
+import type { ColorValue, HSV } from "./types";
 import {
   CSS,
   DEFAULT_COLOR,

@@ -1,4 +1,4 @@
-import { Dimensions } from "../interfaces";
+import { Dimensions } from "../types";
 
 /** x,y coordinate set */
 export type Point = [number, number];

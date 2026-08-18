@@ -1,4 +1,4 @@
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   button: "button",

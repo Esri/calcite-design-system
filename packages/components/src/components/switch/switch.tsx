@@ -3,7 +3,7 @@ import { createRef } from "lit/directives/ref.js";
 import { isActivationKey } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";

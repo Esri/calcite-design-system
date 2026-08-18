@@ -1,7 +1,7 @@
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { expect, it } from "vitest";
-import type { TestSetup } from "./interfaces";
+import type { TestSetup } from "./types";
 
 expect.extend(toHaveNoViolations);
 

@@ -2,7 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { Direction } from "../../utils/dom";
 import { findAll } from "../../tests/utils/puppeteer";
 

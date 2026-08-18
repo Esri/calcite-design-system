@@ -6,11 +6,12 @@ import {
   FocusElementInGroupDestination,
   slotChangeGetAssignedElements,
 } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import type { Chip } from "../chip/chip";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./chip-group.scss";
+import { isChip } from "../chip/resources";
 
 declare global {
   interface DeclareElements {
@@ -100,7 +101,7 @@ export class ChipGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalChipKeyEvent", this.calciteInternalChipKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteChipClose", this.calciteChipCloseListener);
     this.listen("calciteChipSelect", this.calciteChipSelectListener);
     this.listen("calciteInternalChipSelect", this.calciteInternalChipSelectListener);
@@ -121,22 +122,27 @@ export class ChipGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalChipKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
-        ArrowRight: "next",
-        ArrowLeft: "previous",
-        Home: "first",
-        End: "last",
-      };
-      const destination = destinationFromKey[event.detail.key];
+  private keyDownHandler(event: KeyboardEvent): void {
+    const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
+      ArrowRight: "next",
+      ArrowLeft: "previous",
+      Home: "first",
+      End: "last",
+    };
+    const destination = destinationFromKey[event.key];
 
-      if (destination) {
-        const interactiveItems = this.items?.filter((el) => !el.disabled);
-        focusElementInGroup(interactiveItems, event.detail.target, destination, true, true, true);
-      }
+    if (event.defaultPrevented || !destination) {
+      return;
     }
-    event.stopPropagation();
+
+    const chip = event.composedPath().find(isChip);
+
+    if (!chip || !this.items.includes(chip)) {
+      return;
+    }
+
+    const interactiveItems = this.items.filter((el) => !el.disabled);
+    focusElementInGroup(interactiveItems, chip, destination, true, true, true);
   }
 
   private calciteChipCloseListener(event: CustomEvent): void {
@@ -150,7 +156,7 @@ export class ChipGroup extends LitElement {
         focusElementInGroup(this.items, item, "first", false, false);
       }
     }
-    this.items = this.items?.filter((el) => el !== item);
+    this.items = this.items.filter((el) => el !== item);
     event.stopPropagation();
   }
 
@@ -180,9 +186,7 @@ export class ChipGroup extends LitElement {
 
   private updateItems(event?: Event): void {
     const itemsFromSlot =
-      this.slotRef.value
-        ?.assignedElements({ flatten: true })
-        .filter((el): el is Chip["el"] => el?.matches("calcite-chip")) || [];
+      this.slotRef.value?.assignedElements({ flatten: true }).filter(isChip) || [];
 
     this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Chip["el"]>(event);
 
@@ -201,7 +205,7 @@ export class ChipGroup extends LitElement {
   }
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items?.filter((el) => el.selected);
+    this.selectedItems = this.items.filter((el) => el.selected);
   }
 
   private setSelectedItems(emit: boolean, elToMatch?: Chip["el"]): void {
