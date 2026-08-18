@@ -645,6 +645,7 @@ export class TabNav extends LitElement {
           class={{
             [CSS.tabTitleSlotWrapper]: true,
           }}
+          data-testid="tab-title-container"
           onScroll={this.onTabTitleScroll}
           onWheel={this.onTabTitleWheel}
           ref={this.setTabTitleContainerEl}
