@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.50...@esri/calcite-components@5.2.0-next.51) (2026-08-18)
+
+### Bug Fixes
+
+- **input:** remove Microsoft Edge `type="password"` reveal icon ([#15038](https://github.com/Esri/calcite-design-system/issues/15038)), closes [#13973](https://github.com/Esri/calcite-design-system/issues/13973) [#12080](https://github.com/Esri/calcite-design-system/issues/12080)
+
 ## [5.2.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.49...@esri/calcite-components@5.2.0-next.50) (2026-08-13)
 
 ### Bug Fixes
