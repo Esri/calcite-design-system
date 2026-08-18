@@ -17,6 +17,9 @@
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
 // --calcite-internal-menu-item-content-min-block-size
+// --calcite-internal-menu-item-dropdown-action-block-size
+// --calcite-internal-menu-item-dropdown-action-divider-inset-block
+// --calcite-internal-menu-item-dropdown-action-flex
 // --calcite-internal-menu-item-font-size
 // --calcite-internal-menu-item-icon-color
 // --calcite-internal-menu-item-icon-spacing-end
@@ -30,6 +33,9 @@
 
 :host {
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-xl);
+  --calcite-internal-menu-item-dropdown-action-block-size: auto;
+  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-spacing-xxs);
+  --calcite-internal-menu-item-dropdown-action-flex: initial;
   --calcite-internal-menu-item-font-size: var(--calcite-font-size-relative-md);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-md);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-md);
@@ -134,6 +140,10 @@
 }
 
 :host([scale="s"]:not([layout="vertical"])) {
+  --calcite-internal-menu-item-dropdown-action-block-size: var(--calcite-space-2xl);
+  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-base);
+  --calcite-internal-menu-item-dropdown-action-flex: 0 0 theme("spacing.7");
+
   .icon--start {
     margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
   }
@@ -148,8 +158,6 @@
   }
 
   .dropdown-action {
-    block-size: var(--calcite-space-2xl);
-    flex: 0 0 theme("spacing.7");
     margin-inline: 0;
     margin-inline-start: var(--calcite-space-px);
     padding-block: 0;
@@ -157,7 +165,6 @@
     padding-inline-start: var(--calcite-space-2xs);
 
     &::after {
-      inset-block: var(--calcite-space-base);
       inset-inline-start: calc(-1 * var(--calcite-space-px));
     }
   }
@@ -230,6 +237,10 @@
 }
 
 :host([scale="s"][layout="vertical"]):has(.dropdown-action) {
+  --calcite-internal-menu-item-dropdown-action-block-size: theme("spacing.9");
+  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-sm);
+  --calcite-internal-menu-item-dropdown-action-flex: 0 0 var(--calcite-size-md);
+
   .parent--vertical {
     block-size: theme("spacing.9");
   }
@@ -241,14 +252,11 @@
   .dropdown-action {
     align-items: center;
     box-sizing: border-box;
-    block-size: theme("spacing.9");
-    flex: 0 0 var(--calcite-size-md);
     margin-inline: 0;
     margin-inline-start: var(--calcite-space-px);
     padding-inline: var(--calcite-space-2xs);
 
     &::after {
-      inset-block: var(--calcite-space-sm);
       inset-inline-start: calc(-1 * var(--calcite-space-px));
     }
   }
@@ -354,20 +362,21 @@
 }
 
 :host([scale="l"]:not([layout="vertical"])):has(.dropdown-action) {
+  --calcite-internal-menu-item-dropdown-action-block-size: var(--calcite-size-lg);
+  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-xs);
+  --calcite-internal-menu-item-dropdown-action-flex: 0 0 3.125rem;
+
   .content {
     padding-inline-end: var(--calcite-space-xl);
   }
 
   .dropdown-action {
     box-sizing: border-box;
-    block-size: var(--calcite-size-lg);
-    flex: 0 0 3.125rem;
     margin-inline: 0;
     margin-inline-start: var(--calcite-space-px);
     padding-inline-start: var(--calcite-space-xs);
 
     &::after {
-      inset-block: var(--calcite-space-xs);
       inset-inline-start: calc(-1 * var(--calcite-space-px));
     }
   }
@@ -478,13 +487,15 @@
   @apply relative self-center;
   --calcite-action-background-color: var(--calcite-menu-background-color);
   --calcite-action-text-color: var(--calcite-menu-text-color);
+  block-size: var(--calcite-internal-menu-item-dropdown-action-block-size);
+  flex: var(--calcite-internal-menu-item-dropdown-action-flex);
   margin-inline-start: var(--calcite-spacing-xxs);
 
   &::after {
     @apply block w-px  absolute;
     content: "";
     inset-inline-start: calc(-1 * var(--calcite-spacing-xxs));
-    inset-block: var(--calcite-spacing-xxs);
+    inset-block: var(--calcite-internal-menu-item-dropdown-action-divider-inset-block);
     background-color: var(--calcite-color-border-3);
   }
 
