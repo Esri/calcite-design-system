@@ -147,14 +147,6 @@
   --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-base);
   --calcite-internal-menu-item-dropdown-action-flex: 0 0 theme("spacing.7");
 
-  .icon--start {
-    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
-  }
-
-  .icon--end {
-    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
-  }
-
   .icon--breadcrumb {
     padding-inline-start: 0;
   }
@@ -186,16 +178,11 @@
     --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-md);
   }
 
-  .icon--start {
-    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
-  }
-
   .text-container {
     flex: 1;
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
     padding-inline-start: 0;
   }
 
@@ -227,10 +214,6 @@
 :host([breadcrumb][scale="s"][layout="vertical"]) {
   --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: var(--calcite-space-xs);
 
-  .icon--end {
-    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
-  }
-
   .icon--breadcrumb {
     padding-inline-start: 0;
   }
@@ -240,10 +223,6 @@
   --calcite-internal-menu-item-dropdown-action-block-size: theme("spacing.9");
   --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-sm);
   --calcite-internal-menu-item-dropdown-action-flex: 0 0 var(--calcite-size-md);
-
-  .icon--end {
-    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
-  }
 
   .dropdown-action {
     align-items: center;
@@ -285,14 +264,6 @@
     min-block-size: var(--calcite-size-2xl);
   }
 
-  .icon--start {
-    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
-  }
-
-  .icon--end {
-    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
-  }
-
   .icon--breadcrumb {
     padding-inline-start: 0;
   }
@@ -328,17 +299,11 @@
     border-inline-end: 0;
   }
 
-  .icon--start {
-    margin-inline-end: var(--calcite-internal-menu-item-icon-spacing-start);
-  }
-
   .text-container {
     flex: 1;
   }
 
   .icon--end {
-    margin-inline-start: var(--calcite-internal-menu-item-icon-spacing-end);
-
     padding-inline-start: 0;
   }
 
