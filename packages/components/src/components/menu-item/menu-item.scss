@@ -241,6 +241,14 @@
   }
 }
 
+:host([scale="s"][layout="vertical"]) .content:not([href]) {
+  padding-inline-end: var(--calcite-space-2xs);
+}
+
+:host([scale="m"][layout="vertical"]) .content:not([href]) {
+  padding-inline-end: var(--calcite-space-sm);
+}
+
 :host(.is-child[scale="m"][layout="vertical"]) {
   .parent--vertical {
     box-sizing: border-box;
@@ -313,6 +321,7 @@
 
 :host([scale="l"][layout="vertical"]) .content:not([href]) {
   margin-inline-end: var(--calcite-space-2xs);
+  padding-inline-end: var(--calcite-space-md);
 }
 
 :host([scale="l"][layout="vertical"]) .dropdown-action {
