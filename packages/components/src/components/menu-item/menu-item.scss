@@ -151,6 +151,10 @@
     padding-inline-start: 0;
   }
 
+  .icon--dropdown {
+    padding-inline-start: var(--calcite-space-xs);
+  }
+
   .dropdown-action {
     margin-inline: 0;
     margin-inline-start: var(--calcite-space-px);
@@ -289,12 +293,6 @@
   border-inline-end: var(--calcite-space-2xs) solid var(--calcite-color-transparent);
   padding-block: var(--calcite-space-2xs);
 
-  & .container,
-  & .item-content,
-  & .content {
-    --calcite-internal-menu-item-content-min-block-size: theme("spacing.14");
-  }
-
   .content {
     border-inline-end: 0;
   }
@@ -315,7 +313,6 @@
 
 :host([scale="l"][layout="vertical"]) .content:not([href]) {
   margin-inline-end: var(--calcite-space-2xs);
-  --calcite-internal-menu-item-padding-inline: var(--calcite-space-xl);
 }
 
 :host([scale="l"][layout="vertical"]) .dropdown-action {
