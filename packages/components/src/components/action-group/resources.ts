@@ -1,5 +1,5 @@
 import { IconName } from "../icon/types";
-import { ActionGroup } from "./action-group";
+import type { ActionGroup } from "./action-group";
 
 export const SLOTS = {
   menuActions: "menu-actions",
@@ -14,6 +14,9 @@ export const CSS = {
   container: "container",
 };
 
-export function isActionGroup(el: Element | null): el is ActionGroup["el"] {
-  return el?.tagName === "CALCITE-ACTION-GROUP";
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isActionGroup(el: Element | null | EventTarget): el is ActionGroup["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-ACTION-GROUP";
 }

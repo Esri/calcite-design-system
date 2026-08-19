@@ -1,3 +1,5 @@
+import type { ColorPicker } from "./color-picker";
+
 import Color from "color";
 import {
   calciteSpacingFixedSm,
@@ -110,3 +112,10 @@ export const ICONS: Record<string, IconName> = {
   minus: "minus",
   plus: "plus",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isColorPicker(el: Element | null | EventTarget): el is ColorPicker["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-COLOR-PICKER";
+}

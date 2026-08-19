@@ -1,3 +1,5 @@
+import type { ShellPanel } from "./shell-panel";
+
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -26,3 +28,10 @@ export const ICONS: Record<string, IconName> = {
   dragVertical: "drag-resize-vertical",
   dragHorizontal: "drag-resize-horizontal",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isShellPanel(el: Element | null | EventTarget): el is ShellPanel["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-SHELL-PANEL";
+}

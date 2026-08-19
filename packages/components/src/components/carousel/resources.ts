@@ -1,3 +1,5 @@
+import type { Carousel } from "./carousel";
+
 import { IconName } from "../icon/types";
 
 export const DURATION = 6000;
@@ -45,3 +47,10 @@ const idPrefix = "calcite-carousel-container";
 export const IDS = {
   host: (id: string) => `${idPrefix}-${id}` as const,
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isCarousel(el: Element | null | EventTarget): el is Carousel["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-CAROUSEL";
+}

@@ -49,6 +49,9 @@ export const ICONS: Record<string, IconName> = {
   invalid: "exclamation-mark-triangle",
 };
 
-export function isBlock(el?: Element | null): el is Block["el"] {
-  return el?.tagName === "CALCITE-BLOCK";
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isBlock(el: Element | null | EventTarget): el is Block["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-BLOCK";
 }

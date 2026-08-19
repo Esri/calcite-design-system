@@ -1,3 +1,5 @@
+import type { List } from "./list";
+
 export const CSS = {
   container: "container",
   table: "table",
@@ -17,3 +19,10 @@ export const SLOTS = {
   filterActionsStart: "filter-actions-start",
   filterActionsEnd: "filter-actions-end",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isList(el: Element | null | EventTarget): el is List["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-LIST";
+}

@@ -1,3 +1,5 @@
+import type { TableHeader } from "./table-header";
+
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -21,3 +23,10 @@ export const ICONS: Record<string, IconName> = {
   indeterminate: "minus-square-f",
   unchecked: "square",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isTableHeader(el: Element | null | EventTarget): el is TableHeader["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-TABLE-HEADER";
+}

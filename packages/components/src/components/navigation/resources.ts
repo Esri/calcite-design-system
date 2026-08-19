@@ -1,3 +1,5 @@
+import type { Navigation } from "./navigation";
+
 export const CSS = {
   container: "container",
   containerContent: "container-content",
@@ -23,3 +25,10 @@ export const SLOTS = {
 export const ICONS = {
   hamburger: "hamburger",
 } as const;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isNavigation(el: Element | null | EventTarget): el is Navigation["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-NAVIGATION";
+}

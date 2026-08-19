@@ -31,6 +31,9 @@ export const ICONS: Record<string, IconName> = {
   checkedMultiple: "check-square-f",
 };
 
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
 export function isChip(el: Element | null | EventTarget): el is Chip["el"] {
-  return (el as Element)?.tagName === "CALCITE-CHIP";
+  return (el as Element | null)?.tagName === "CALCITE-CHIP";
 }

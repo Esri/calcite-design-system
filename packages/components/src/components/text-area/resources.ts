@@ -1,3 +1,5 @@
+import type { TextArea } from "./text-area";
+
 export const CSS = {
   assistiveText: "assistive-text",
   characterLimit: "character-limit",
@@ -32,3 +34,10 @@ export const SLOTS = {
 export const RESIZE_TIMEOUT = 100;
 
 export const NO_DIMENSIONS = Object.freeze({ height: 0, width: 0 });
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isTextArea(el: Element | null | EventTarget): el is TextArea["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-TEXT-AREA";
+}

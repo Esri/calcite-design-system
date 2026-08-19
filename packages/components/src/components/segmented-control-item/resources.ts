@@ -1,3 +1,5 @@
+import type { SegmentedControlItem } from "./segmented-control-item";
+
 import { Scale } from "../types";
 
 export const SLOTS = {
@@ -13,3 +15,10 @@ export const CSS = {
   icon: "icon",
   iconSolo: "icon--solo",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isSegmentedControlItem(el: Element | null | EventTarget): el is SegmentedControlItem["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-SEGMENTED-CONTROL-ITEM";
+}

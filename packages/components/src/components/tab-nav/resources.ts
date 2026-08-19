@@ -1,3 +1,5 @@
+import type { TabNav } from "./tab-nav";
+
 import { TabPosition } from "../tabs/types";
 import { Scale } from "../types";
 
@@ -16,3 +18,10 @@ export const CSS = {
   scale: (scale: Scale) => `scale-${scale}` as const,
   position: (position: TabPosition) => `position-${position}` as const,
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isTabNav(el: Element | null | EventTarget): el is TabNav["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-TAB-NAV";
+}

@@ -1,3 +1,5 @@
+import type { ListItem } from "./list-item";
+
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -61,3 +63,10 @@ export const ICONS: Record<string, IconName> = {
 };
 
 export const activeCellTestAttribute = "data-test-active";
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isListItem(el: Element | null | EventTarget): el is ListItem["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-LIST-ITEM";
+}

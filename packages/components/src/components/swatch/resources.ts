@@ -34,6 +34,9 @@ export const IDS = {
   swatchTransparent: "swatch-transparent",
 };
 
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
 export function isSwatch(el: Element | null | EventTarget): el is Swatch["el"] {
-  return (el as Element)?.tagName === "CALCITE-SWATCH";
+  return (el as Element | null)?.tagName === "CALCITE-SWATCH";
 }

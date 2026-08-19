@@ -21,6 +21,9 @@ export const ICONS: Record<string, IconName> = {
   checkCircleF: "checkCircleF",
 };
 
-export function isStepperItem(el?: Element | null): el is StepperItem["el"] {
-  return el?.tagName === "CALCITE-STEPPER-ITEM";
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isStepperItem(el: Element | null | EventTarget): el is StepperItem["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-STEPPER-ITEM";
 }

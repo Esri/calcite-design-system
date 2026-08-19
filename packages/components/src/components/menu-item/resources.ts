@@ -34,6 +34,9 @@ export const ICONS: Record<string, IconName> = {
   chevronDown: "chevron-down",
 };
 
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
 export function isMenuItem(el: Element | null | EventTarget): el is MenuItem["el"] {
-  return (el as Element)?.tagName === "CALCITE-MENU-ITEM";
+  return (el as Element | null)?.tagName === "CALCITE-MENU-ITEM";
 }

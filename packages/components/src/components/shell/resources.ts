@@ -1,3 +1,5 @@
+import type { Shell } from "./shell";
+
 export const CSS = {
   main: "main",
   content: "content",
@@ -24,3 +26,10 @@ export const SLOTS = {
   sheets: "sheets",
   dialogs: "dialogs",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isShell(el: Element | null | EventTarget): el is Shell["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-SHELL";
+}

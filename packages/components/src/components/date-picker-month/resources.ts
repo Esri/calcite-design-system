@@ -1,3 +1,5 @@
+import type { DatePickerMonth } from "./date-picker-month";
+
 export const CSS = {
   calendar: "calendar",
   calendarContainer: "calendar-container",
@@ -10,3 +12,10 @@ export const CSS = {
   weekHeader: "week-header",
   weekHeaderContainer: "week-header-container",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isDatePickerMonth(el: Element | null | EventTarget): el is DatePickerMonth["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-DATE-PICKER-MONTH";
+}

@@ -1,4 +1,4 @@
-import { Action } from "./action";
+import type { Action } from "./action";
 
 export const CSS = {
   button: "button",
@@ -21,6 +21,9 @@ export const IDS = {
   indicator: (id: string) => `${prefixId}-${id}-indicator`,
 } as const;
 
-export function isAction(el: Element | null): el is Action["el"] {
-  return el?.tagName === "CALCITE-ACTION";
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isAction(el: Element | null | EventTarget): el is Action["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-ACTION";
 }

@@ -1,3 +1,5 @@
+import type { Pagination } from "./pagination";
+
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -17,3 +19,10 @@ export const ICONS: Record<string, IconName> = {
   first: "chevron-start",
   last: "chevron-end",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isPagination(el: Element | null | EventTarget): el is Pagination["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-PAGINATION";
+}

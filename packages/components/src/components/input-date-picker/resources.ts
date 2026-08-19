@@ -1,3 +1,5 @@
+import type { InputDatePicker } from "./input-date-picker";
+
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -38,3 +40,10 @@ export const ICONS: Record<string, IconName> = {
   chevronDown: "chevron-down",
   chevronUp: "chevron-up",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isInputDatePicker(el: Element | null | EventTarget): el is InputDatePicker["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-INPUT-DATE-PICKER";
+}

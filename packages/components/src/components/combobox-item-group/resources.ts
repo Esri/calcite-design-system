@@ -1,3 +1,5 @@
+import type { ComboboxItemGroup } from "./combobox-item-group";
+
 import { Scale } from "../types";
 
 export const CSS = {
@@ -10,3 +12,10 @@ export const CSS = {
 };
 
 export const itemSpacingMultiplier = "--calcite-combobox-item-spacing-indent-multiplier";
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isComboboxItemGroup(el: Element | null | EventTarget): el is ComboboxItemGroup["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-COMBOBOX-ITEM-GROUP";
+}

@@ -44,6 +44,9 @@ export const DIRECTION = {
 
 export const NUDGE_DELAY_IN_MS = 150;
 
-export function isInputNumber(el: Element | null): el is InputNumber["el"] {
-  return el?.tagName === "CALCITE-INPUT-NUMBER";
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isInputNumber(el: Element | null | EventTarget): el is InputNumber["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-INPUT-NUMBER";
 }

@@ -23,6 +23,9 @@ export const ICONS: Record<string, IconName> = {
   menu: "ellipsis",
 };
 
-export function isActionMenu(el: Element | null): el is ActionMenu["el"] {
-  return el?.tagName === "CALCITE-ACTION-MENU";
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isActionMenu(el: Element | null | EventTarget): el is ActionMenu["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-ACTION-MENU";
 }

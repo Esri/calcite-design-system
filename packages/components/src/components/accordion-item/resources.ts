@@ -1,3 +1,5 @@
+import type { AccordionItem } from "./accordion-item";
+
 import { IconName } from "../icon/types";
 import { Appearance, Position, IconType } from "../types";
 
@@ -42,3 +44,10 @@ export const ICONS: Record<string, IconName> = {
   plus: "plus",
   minus: "minus",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export function isAccordionItem(el: Element | null | EventTarget): el is AccordionItem["el"] {
+  return (el as Element | null)?.tagName === "CALCITE-ACCORDION-ITEM";
+}
