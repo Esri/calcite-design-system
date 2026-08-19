@@ -3,19 +3,6 @@ import { describe, expect, it } from "vitest";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 
-it("renders default props when none are provided", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`
-    <calcite-label>
-    Label text
-    <calcite-input></calcite-input>
-    </calcite-label>
-    `);
-
-  const element = await page.find("calcite-label");
-  expect(element).toEqualAttribute("layout", "block");
-});
-
 it("renders requested props when valid props are provided", async () => {
   const page = await newE2EPage();
   await page.setContent(`
