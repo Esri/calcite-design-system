@@ -7,7 +7,7 @@ import { whenTransitionDone } from "./dom";
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
-interface OpenCloseComponentBase extends LitElement {
+interface OpenCloseComponentBase<OpenProp extends PropertyKey = "open"> extends LitElement {
   /** Specifies whether the component is open. */
   open?: boolean;
 
@@ -16,10 +16,7 @@ interface OpenCloseComponentBase extends LitElement {
    *
    * This should be used if the component uses a property other than `open` to trigger a transition.
    */
-  openProp?: string;
-
-  /** Specifies whether the component is opened. */
-  opened?: boolean;
+  openProp?: OpenProp;
 
   /** Specifies the name of CSS transition property. */
   transitionProp: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
@@ -37,22 +34,45 @@ interface OpenCloseComponentBase extends LitElement {
   onClose: () => void;
 }
 
-export interface OpenCloseComponentWithEl extends OpenCloseComponentBase {
+export interface OpenCloseComponentWithEl<
+  OpenProp extends PropertyKey = "open",
+> extends OpenCloseComponentBase<OpenProp> {
   /** Specifies element that the transition is allowed to emit on. */
   transitionEl: HTMLElement | undefined;
 }
 
-export interface OpenCloseComponentWithRef extends OpenCloseComponentBase {
+export interface OpenCloseComponentWithRef<
+  OpenProp extends PropertyKey = "open",
+> extends OpenCloseComponentBase<OpenProp> {
   /** Specifies a Ref to the element that the transition is allowed to emit on. */
   transitionRef: Ref<HTMLElement>;
 }
 
-export type OpenCloseComponent =
-  | (OpenCloseComponentWithRef & { transitionEl?: never })
-  | (OpenCloseComponentWithEl & { transitionRef?: never });
+export type OpenCloseComponent<OpenProp extends PropertyKey = "open"> =
+  | (OpenCloseComponentWithRef<OpenProp> & { transitionEl?: never })
+  | (OpenCloseComponentWithEl<OpenProp> & { transitionRef?: never });
 
-function isOpen(component: OpenCloseComponent): boolean {
-  return component.openProp === "opened" ? !!component.opened : !!component.open;
+type CustomOpenCloseComponent<OpenProp extends PropertyKey> = OpenCloseComponent<OpenProp> &
+  Record<OpenProp, boolean | undefined> & {
+    openProp: OpenProp;
+  };
+
+type DefaultOpenCloseComponent = OpenCloseComponent & {
+  openProp?: undefined;
+};
+
+type OpenCloseComponentState<OpenProp extends PropertyKey> =
+  | DefaultOpenCloseComponent
+  | CustomOpenCloseComponent<OpenProp>;
+
+function isOpen<OpenProp extends PropertyKey>(component: OpenCloseComponentState<OpenProp>): boolean | undefined {
+  return hasCustomOpenProp(component) ? component[component.openProp] : component.open;
+}
+
+function hasCustomOpenProp<OpenProp extends PropertyKey>(
+  component: OpenCloseComponentState<OpenProp>,
+): component is CustomOpenCloseComponent<OpenProp> {
+  return component.openProp !== undefined;
 }
 
 /**
@@ -71,7 +91,13 @@ function isOpen(component: OpenCloseComponent): boolean {
  * }
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
-export async function toggleOpenClose(component: OpenCloseComponent): Promise<void> {
+export function toggleOpenClose(component: DefaultOpenCloseComponent): Promise<void>;
+export function toggleOpenClose<OpenProp extends PropertyKey>(
+  component: CustomOpenCloseComponent<OpenProp>,
+): Promise<void>;
+export async function toggleOpenClose<OpenProp extends PropertyKey>(
+  component: OpenCloseComponentState<OpenProp>,
+): Promise<void> {
   await component.updateComplete;
 
   if (isOpen(component)) {
@@ -81,7 +107,7 @@ export async function toggleOpenClose(component: OpenCloseComponent): Promise<vo
   }
 
   await component.updateComplete;
-  const transitionNode = hasRef(component) ? component.transitionRef.value : component.transitionEl;
+  const transitionNode = component.transitionRef?.value ?? component.transitionEl;
 
   if (transitionNode) {
     await whenTransitionDone(transitionNode, component.transitionProp);
@@ -92,8 +118,4 @@ export async function toggleOpenClose(component: OpenCloseComponent): Promise<vo
   } else {
     component.onClose();
   }
-}
-
-function hasRef(component: OpenCloseComponent): component is OpenCloseComponentWithRef {
-  return "transitionRef" in component;
 }
