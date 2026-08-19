@@ -60,7 +60,7 @@ export const disabled = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;">
-    <calcite-label class="calcite-mode-dark" status="idle" scale="m" layout="block">
+    <calcite-label class="calcite-mode-dark" status="idle" scale="m">
       My great label
       <calcite-inline-editable>
         <calcite-input alignment="start" placeholder="Placeholder text"> </calcite-input>
