@@ -54,18 +54,19 @@ In descending order when rules conflict:
 ## Component Conventions
 
 - Follow `packages/components/BOILERPLATE_COMPONENT.md` for new component structure and file layout.
-- Treat `packages/components/conventions/README.md` as the source of truth for component responsibilities, event naming, property reflection, focus APIs, styling, and accessibility expectations.
+- Treat [component conventions reference docs](#component-conventions-reference-docs) as the source of truth for component responsibilities, event naming, property reflection, focus APIs, styling, and accessibility expectations.
 - Calcite components should stay minimal and reusable. Do not add network requests, routing, or application-specific state management unless an existing convention explicitly supports it.
 - Public APIs need explicit typing and JSDoc. Avoid `any`.
 - Match existing component patterns. Avoid introducing new abstractions unless they clearly improve reuse, correctness, or maintainability.
 
 ### Component Conventions Reference Docs
 
-- `packages/components/conventions/Accessibility.md`
-- `packages/components/conventions/Documentation.md`
-- `packages/components/conventions/Internationalization.md`
-- `packages/components/conventions/Styling.md`
-- `packages/components/conventions/Testing.md`
+- [Coding conventions][Coding conventions]
+- [Accessibility][Accessibility]
+- [Documentation][Documentation]
+- [Internationalization][Internationalization]
+- [Styling][Styling]
+- [Testing][Testing]
 
 ## Platform Behavior
 
@@ -75,7 +76,7 @@ In descending order when rules conflict:
 
 ## Styling
 
-- Follow `packages/components/conventions/Styling.md` for class naming and host attribute patterns.
+- Follow [Styling reference doc][Styling] for class naming and host attribute patterns.
 - Prefer existing resources/constants patterns such as `resources.ts` instead of scattering strings and class names through render code.
 
 ## UI and Frontend Guidelines
@@ -99,7 +100,7 @@ In descending order when rules conflict:
 - If changes are visual, prefer updating stories in addition to tests when behavior also changes.
 - If a change is purely visual, prefer updating stories over adding end-to-end tests unless new interaction coverage is needed.
 - If you’re unsure whether a story or test is warranted, propose the smallest useful one and explain why.
-- Follow `packages/components/conventions/Testing.md` for story and test expectations.
+- Follow [Testing reference doc][Testing] for story and test expectations.
 - Prefer focused behavioral tests over implementation detail tests.
 - Do not add unrelated test coverage in the same change.
 - Always use CSS classes when adding/updating stories instead of repeating styles.
@@ -163,3 +164,12 @@ Before finalizing code, verify:
 - Tests cover the change and favor behavioral assertions over implementation details.
 - JSDoc, examples, and docs remain accurate and are not stale.
 - The diff is tightly scoped with no unrelated changes mixed in.
+
+<!-- references -->
+
+[Coding conventions]: https://github.com/Esri/calcite-design-system/wiki/coding-conventions
+[Accessibility]: https://github.com/Esri/calcite-design-system/wiki/accessibility-conventions
+[Documentation]: https://github.com/Esri/calcite-design-system/wiki/Documentation-conventions
+[Internationalization]: https://github.com/Esri/calcite-design-system/wiki/Internationalization
+[Styling]: https://github.com/Esri/calcite-design-system/wiki/styling-conventions
+[Testing]: https://github.com/Esri/calcite-design-system/wiki/testing-conventions

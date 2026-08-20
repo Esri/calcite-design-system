@@ -3,7 +3,7 @@ import { expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterNextFrame, afterNextTask } from "../../utils/timing";
-import { IntrinsicElementsWithProp } from "../../utils/interfaces";
+import { IntrinsicElementsWithProp } from "../../utils/types";
 
 /** This interface is used to specify focus targets for different interactions. */
 export interface TabAndClickFocusTargets {

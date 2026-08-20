@@ -1,11 +1,11 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
-import { TabLayout, TabPosition } from "./interfaces";
+import { TabLayout, TabPosition } from "./types";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./tabs.scss";
 

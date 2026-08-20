@@ -1,4 +1,4 @@
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 
 export const ComboboxItemSelector = "CALCITE-COMBOBOX-ITEM";
 export const ComboboxItemGroupSelector = "CALCITE-COMBOBOX-ITEM-GROUP";

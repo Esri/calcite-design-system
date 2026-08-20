@@ -13,6 +13,7 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
+  filterDirectChildren,
   focusElementInGroup,
   getSlotAssignedElements,
   getStylePixelValue,
@@ -20,7 +21,7 @@ import {
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import { Layout, Position, Scale, SelectionAppearance } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
@@ -32,7 +33,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
-import { isActionMenu } from "../action-menu/resources";
+import { isActionMenu, SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -170,13 +171,7 @@ export class ActionBar extends LitElement {
       slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const defaultActionsCount = actionGroup.actions.filter(
-          (action) => action.slot !== ACTION_GROUP_SLOTS.menuActions,
-        ).length;
-        const hasMenuActions = actionGroup.actions.some(
-          (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
-        );
-        const actionGroupItemCount = defaultActionsCount + (hasMenuActions ? 1 : 0);
+        const actionGroupItemCount = this.getVisibleActionGroupItemCount(actionGroup);
         const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
         bufferSize += actionGroupGap * actionGroupGapQuantity;
 
@@ -545,16 +540,46 @@ export class ActionBar extends LitElement {
 
   private getItemSizes(): number[] {
     const { layout, expandToggleEl } = this;
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
 
-    const actions = [...this.actions];
+    const itemSizes = this.actions.map((action) => action[clientSize] || 0);
+    const slottedActionGroupMenus = this.getTrackedActionGroups().flatMap((group) =>
+      filterDirectChildren<ActionMenu["el"]>(group, "calcite-action-menu"),
+    );
+
+    slottedActionGroupMenus.forEach((menu) => {
+      const triggerAction = menu.actions.find(
+        (action) => action.slot === ACTION_MENU_SLOTS.trigger,
+      );
+
+      // Use the host element size when no custom trigger is slotted.
+      itemSizes.push((triggerAction ?? menu)[clientSize] || 0);
+    });
 
     if (expandToggleEl) {
-      actions.push(expandToggleEl);
+      itemSizes.push(expandToggleEl[clientSize] || 0);
     }
 
-    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
-    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
-    return actions.map((action) => action[clientSize] || fallbackSize);
+    const fallbackSize = Math.max(...itemSizes, 0);
+    return itemSizes.map((size) => size || fallbackSize);
+  }
+
+  private getVisibleActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
+    const directActionGroupActions = actionGroup.actions.filter(
+      (action) => action.parentElement === actionGroup,
+    );
+    const directActionMenusCount = filterDirectChildren<ActionMenu["el"]>(
+      actionGroup,
+      "calcite-action-menu",
+    ).length;
+    const defaultActionsCount =
+      directActionGroupActions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions)
+        .length + directActionMenusCount;
+    const hasMenuActions = directActionGroupActions.some(
+      (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
+    );
+
+    return defaultActionsCount + (hasMenuActions ? 1 : 0);
   }
 
   private expandedHandler(): void {

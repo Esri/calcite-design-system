@@ -8,7 +8,7 @@ import {
   filterInWorker,
   shouldFilterInWorker,
 } from "../../utils/filter-worker";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { DEBOUNCE } from "../../utils/resources";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useT9n } from "../../controllers/useT9n";

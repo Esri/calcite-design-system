@@ -11,7 +11,7 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Scale } from "../types";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { getSlotAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
@@ -19,8 +19,8 @@ import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { SelectionMode } from "../interfaces";
-import { Columns } from "./interfaces";
+import { SelectionMode } from "../types";
+import { Columns } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-group.scss";
@@ -134,9 +134,8 @@ export class ActionGroup extends LitElement {
    * Specifies the `calcite-action`s in the group.
    *
    * @internal
-   * @readonly
    */
-  @property({ attribute: false }) get actions(): Action["el"][] {
+  @property() get actions(): Action["el"][] {
     return this._actions;
   }
 
