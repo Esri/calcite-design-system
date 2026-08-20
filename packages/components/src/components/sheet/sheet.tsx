@@ -56,7 +56,7 @@ export class Sheet extends LitElement {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: () => this.embedded,
+      clickOutsideDeactivates: () => this.modalDisabled || this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -75,6 +75,8 @@ export class Sheet extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver = createObserver("mutation", () => this.handleMutationObserver());
+
+  private _modalDisabled = false;
 
   private _open = false;
 
@@ -133,7 +135,7 @@ export class Sheet extends LitElement {
   };
 
   get preventDocumentScroll(): boolean {
-    return !this.embedded;
+    return !this.embedded && !this.modalDisabled;
   }
 
   //#endregion
@@ -195,6 +197,21 @@ export class Sheet extends LitElement {
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
+  /** When `true`, disables the default modal behavior, allowing interaction with content outside the component. */
+  @property({ reflect: true })
+  get modalDisabled(): boolean {
+    return this._modalDisabled;
+  }
+  set modalDisabled(value: boolean) {
+    if (value === this._modalDisabled) {
+      return;
+    }
+
+    const oldPreventDocumentScroll = this.preventDocumentScroll;
+    this._modalDisabled = value;
+    this.requestUpdate("preventDocumentScroll", oldPreventDocumentScroll);
+  }
+
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
@@ -214,7 +231,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables closing the component when the area outside of the component is clicked. */
+  /** When `true` and `modalDisabled` is `false`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
@@ -567,7 +584,7 @@ export class Sheet extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = this.label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaModal = "true";
+    this.el.ariaModal = this.modalDisabled ? "false" : "true";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 
@@ -588,7 +605,9 @@ export class Sheet extends LitElement {
         popover={!this.embedded ? "manual" : undefined}
         ref={this.transitionRef}
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+        {this.modalDisabled ? null : (
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+        )}
         <div class={CSS.content} id={IDS.sheetContent} ref={this.contentRef}>
           <div class={CSS.contentContainer}>
             <slot />
