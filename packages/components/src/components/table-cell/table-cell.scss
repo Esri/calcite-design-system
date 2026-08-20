@@ -29,7 +29,8 @@
 }
 
 .cell {
-  @apply text-start align-middle  whitespace-normal;
+  @apply text-start whitespace-normal;
+  align-content: center;
   grid-column: var(--calcite-internal-table-cell-grid-column-start) / span
     var(--calcite-internal-table-cell-grid-column-span, 1);
   grid-row: 1 / span var(--calcite-internal-table-cell-grid-row-span, 1);
@@ -55,11 +56,11 @@
 }
 
 .cell.start.content-cell {
-  @apply align-top;
+  align-content: start;
 }
 
 .cell.end.content-cell {
-  @apply align-bottom;
+  align-content: end;
 }
 
 .cell.last-cell {
@@ -137,7 +138,7 @@
 }
 
 .selection-cell {
-  @apply align-middle;
+  align-content: center;
   & ::slotted(calcite-icon) {
     @apply pointer-events-none mt-1;
   }
