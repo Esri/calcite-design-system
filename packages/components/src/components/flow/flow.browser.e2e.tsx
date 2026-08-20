@@ -5,7 +5,7 @@ import { html } from "lit";
 import { page } from "vitest/browser";
 import { accessible, hidden, renders, focusable, themed } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import type { FlowItemLikeElement } from "./interfaces";
+import type { FlowItemLikeElement } from "./types";
 import { CSS } from "./resources";
 
 class CustomFlowItem extends HTMLElement implements FlowItemLikeElement {
