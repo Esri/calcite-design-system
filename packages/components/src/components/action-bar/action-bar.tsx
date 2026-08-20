@@ -93,7 +93,8 @@ export class ActionBar extends LitElement {
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { expanded, expandDisabled, layout, overflowActionsDisabled, expandPosition } = this;
+    const { expanded, expandDisabled, layout, expandPosition } = this;
+    const overflowActionsDisabled = this.effectiveOverflowActionsDisabled;
 
     if (
       overflowActionsDisabled ||
@@ -211,6 +212,8 @@ export class ActionBar extends LitElement {
   @state() hasActionsStart = false;
 
   @state() activeDescendantId?: string;
+
+  @state() selectionOverflowDisabled = false;
 
   //#endregion
 
@@ -341,8 +344,13 @@ export class ActionBar extends LitElement {
     this.syncActiveDescendant();
     this.overflowActions();
     this.updateActions();
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    this.mutationObserver?.observe(this.el, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["selection-mode", "overflow-actions-disabled"],
+    });
+    this.overflowActionsDisabledHandler(this.effectiveOverflowActionsDisabled);
     this.cancelable.add(this.resize);
   }
 
@@ -366,7 +374,11 @@ export class ActionBar extends LitElement {
       changes.has("overflowActionsDisabled") &&
       (this.hasUpdated || this.overflowActionsDisabled !== false)
     ) {
-      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+      this.overflowActionsDisabledHandler(this.effectiveOverflowActionsDisabled);
+    }
+
+    if (changes.has("selectionOverflowDisabled") && this.hasUpdated) {
+      this.overflowActionsDisabledHandler(this.effectiveOverflowActionsDisabled);
     }
 
     if (changes.has("expanded") && this.hasUpdated) {
@@ -419,6 +431,10 @@ export class ActionBar extends LitElement {
     this.overflowActions();
   }
 
+  private get effectiveOverflowActionsDisabled(): boolean {
+    return this.overflowActionsDisabled || this.selectionOverflowDisabled;
+  }
+
   private overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
     if (overflowActionsDisabled) {
       this.resizeObserver?.disconnect();
@@ -469,6 +485,8 @@ export class ActionBar extends LitElement {
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
+    this.selectionOverflowDisabled = groups.some((group) => group.selectionMode !== "none");
+
     groups.forEach((group) => {
       group.layout = this.layout;
       group.scale = this.scale;
@@ -651,10 +669,17 @@ export class ActionBar extends LitElement {
 
     const isVertical = this.layout !== "horizontal";
 
+    if (this.handleSecondaryArrowActionMenuOpen(event, current, isVertical)) {
+      return;
+    }
+
     switch (event.key) {
       case "ArrowDown":
         if (isVertical) {
           this.focusNavigationItem("next", current);
+          event.preventDefault();
+          event.stopPropagation();
+        } else if (this.focusActionGroupItem("next", current)) {
           event.preventDefault();
           event.stopPropagation();
         }
@@ -664,6 +689,9 @@ export class ActionBar extends LitElement {
           this.focusNavigationItem("previous", current);
           event.preventDefault();
           event.stopPropagation();
+        } else if (this.focusActionGroupItem("previous", current)) {
+          event.preventDefault();
+          event.stopPropagation();
         }
         break;
       case "ArrowRight":
@@ -671,11 +699,17 @@ export class ActionBar extends LitElement {
           this.focusNavigationItem("next", current);
           event.preventDefault();
           event.stopPropagation();
+        } else if (this.focusActionGroupItem("next", current)) {
+          event.preventDefault();
+          event.stopPropagation();
         }
         break;
       case "ArrowLeft":
         if (!isVertical) {
           this.focusNavigationItem("previous", current);
+          event.preventDefault();
+          event.stopPropagation();
+        } else if (this.focusActionGroupItem("previous", current)) {
           event.preventDefault();
           event.stopPropagation();
         }
@@ -695,6 +729,61 @@ export class ActionBar extends LitElement {
         this.syncActiveDescendant(current);
         break;
     }
+  }
+
+  private handleSecondaryArrowActionMenuOpen(
+    event: KeyboardEvent,
+    current: Action["el"] | ActionMenu["el"],
+    isVertical: boolean,
+  ): boolean {
+    if (!current.matches("calcite-action-menu") || current.open) {
+      return false;
+    }
+
+    const menuFirstItemOpenKey = isVertical ? "ArrowRight" : "ArrowUp";
+    const menuLastItemOpenKey = isVertical ? "ArrowLeft" : "ArrowDown";
+
+    if (event.key !== menuFirstItemOpenKey && event.key !== menuLastItemOpenKey) {
+      return false;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    this.openActionMenuAndFocusBoundaryItem(
+      current,
+      event.key === menuFirstItemOpenKey ? "first" : "last",
+    );
+
+    return true;
+  }
+
+  private openActionMenuAndFocusBoundaryItem(
+    actionMenu: ActionMenu["el"],
+    boundary: "first" | "last",
+  ): void {
+    actionMenu.open = true;
+    void this.focusActionMenuBoundaryItem(actionMenu, boundary);
+  }
+
+  private async focusActionMenuBoundaryItem(
+    actionMenu: ActionMenu["el"],
+    boundary: "first" | "last",
+  ): Promise<void> {
+    await actionMenu.componentOnReady();
+
+    if (!actionMenu.open) {
+      return;
+    }
+
+    await actionMenu.setFocus();
+
+    actionMenu.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        bubbles: true,
+        composed: true,
+        key: boundary === "first" ? "Home" : "End",
+      }),
+    );
   }
 
   private handleFocusIn(event: FocusEvent): void {
@@ -789,6 +878,52 @@ export class ActionBar extends LitElement {
     }
 
     this.syncActiveDescendant(nextItem);
+  }
+
+  private focusActionGroupItem(
+    direction: "next" | "previous",
+    current: Action["el"] | ActionMenu["el"],
+  ): boolean {
+    const currentGroup = this.getNavigationItemActionGroup(current);
+
+    if (!currentGroup) {
+      return false;
+    }
+
+    const groupItems = this.navigationItems.filter(
+      (item) => this.getNavigationItemActionGroup(item) === currentGroup,
+    );
+    const currentIndex = groupItems.findIndex((item) => item === current || item.id === current.id);
+
+    if (groupItems.length < 2 || currentIndex === -1) {
+      return false;
+    }
+
+    const nextIndex =
+      direction === "next"
+        ? (currentIndex + 1) % groupItems.length
+        : (currentIndex - 1 + groupItems.length) % groupItems.length;
+
+    const nextItem = groupItems[nextIndex];
+
+    if (!nextItem || nextItem === current) {
+      return false;
+    }
+
+    if (nextItem.matches("calcite-action-menu")) {
+      this.setActiveDescendantId(this.getActionMenuId(nextItem));
+    }
+
+    this.focusItem(nextItem);
+    this.syncActiveDescendant(nextItem);
+
+    return true;
+  }
+
+  private getNavigationItemActionGroup(
+    item: Action["el"] | ActionMenu["el"],
+  ): ActionGroup["el"] | null {
+    return closestElementCrossShadowBoundary(item, "calcite-action-group");
   }
 
   private focusItem(item: Action["el"] | ActionMenu["el"]): void {

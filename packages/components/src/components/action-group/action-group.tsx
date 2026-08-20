@@ -60,6 +60,8 @@ export class ActionGroup extends LitElement {
 
   private menuActions: Action["el"][] = [];
 
+  private _overflowActionsDisabled = false;
+
   //#endregion
 
   //#region State Properties
@@ -109,7 +111,13 @@ export class ActionGroup extends LitElement {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`. */
-  @property({ reflect: true }) overflowActionsDisabled = false;
+  @property({ reflect: true })
+  get overflowActionsDisabled(): boolean {
+    return this.selectionMode === "none" ? this._overflowActionsDisabled : true;
+  }
+  set overflowActionsDisabled(value: boolean) {
+    this._overflowActionsDisabled = value;
+  }
 
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -375,7 +383,7 @@ export class ActionGroup extends LitElement {
         flipPlacements={
           menuFlipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
         }
-        hidden={!hasMenuActions}
+        hidden={!hasMenuActions || this.overflowActionsDisabled}
         label={messages.more}
         oncalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
