@@ -351,7 +351,7 @@ describe("keyboard selection", () => {
     }
   }
 
-  it("toggles active item selection on Enter and emits calciteAutocompleteItemSelect", async () => {
+  it("selects active item on Enter and emits calciteAutocompleteItemSelect", async () => {
     const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
     const firstItem = el.querySelector("calcite-autocomplete-item")!;
     const itemSelectSpy = vi.fn();
@@ -371,7 +371,7 @@ describe("keyboard selection", () => {
     await userEvent.keyboard("{ArrowDown}{Enter}");
     await reRender();
 
-    expect(firstItem.selected).toBe(false);
+    expect(firstItem.selected).toBe(true);
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
   });
 

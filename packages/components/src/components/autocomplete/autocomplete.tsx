@@ -690,7 +690,6 @@ export class Autocomplete
         break;
       case "Enter":
         if (open && activeItem) {
-          this.value = activeItem.value;
           activeItem.toggleSelection();
           this.open = false;
           event.preventDefault();
