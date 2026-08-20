@@ -86,7 +86,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
-  /** When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its `value`. */
+  /** When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its non-empty `value`; when no value is provided, declarative selection is preserved. */
   @property({ reflect: true }) selected = false;
 
   /** Specifies the component's value. */
@@ -102,7 +102,7 @@ export class AutocompleteItem extends LitElement {
    * @private
    */
   @method()
-  toggleSelection(): void {
+  requestSelection(): void {
     this.calciteAutocompleteItemSelect.emit();
   }
 
@@ -111,7 +111,7 @@ export class AutocompleteItem extends LitElement {
   //#region Events
 
   /**
-   * Fires when the item has been selected.
+   * Fires when selection is requested.
    */
   calciteAutocompleteItemSelect = createEvent({ cancelable: false });
 
@@ -151,7 +151,7 @@ export class AutocompleteItem extends LitElement {
       return;
     }
 
-    this.toggleSelection();
+    this.requestSelection();
   }
 
   //#endregion

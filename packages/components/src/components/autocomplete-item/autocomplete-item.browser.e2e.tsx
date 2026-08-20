@@ -75,7 +75,7 @@ describe("disabled", () => {
   });
 });
 
-describe("toggleSelection", () => {
+describe("requestSelection", () => {
   it("emits calciteAutocompleteItemSelect without changing selected", async () => {
     const { el, reRender } = await mount("calcite-autocomplete-item");
     const selectSpy = vi.fn();
@@ -84,13 +84,13 @@ describe("toggleSelection", () => {
     expect(el.selected).toBe(false);
     expect(typeof (el as any).emitSelectEvent).toBe("undefined");
 
-    (el as any).toggleSelection();
+    (el as any).requestSelection();
     await reRender();
 
     expect(el.selected).toBe(false);
     expect(selectSpy).toHaveBeenCalledTimes(1);
 
-    (el as any).toggleSelection();
+    (el as any).requestSelection();
     await reRender();
 
     expect(el.selected).toBe(false);
