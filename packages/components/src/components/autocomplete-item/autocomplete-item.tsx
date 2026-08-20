@@ -86,7 +86,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /** When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its `value`. */
   @property({ reflect: true }) selected = false;
 
   /** Specifies the component's value. */
@@ -97,13 +97,12 @@ export class AutocompleteItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Toggles selection and emits the `calciteAutocompleteItemSelect` event.
+   * Requests selection by emitting the `calciteAutocompleteItemSelect` event. Selection state is managed by the parent `calcite-autocomplete`.
    *
    * @private
    */
   @method()
   toggleSelection(): void {
-    this.selected = !this.selected;
     this.calciteAutocompleteItemSelect.emit();
   }
 
@@ -134,7 +133,8 @@ export class AutocompleteItem extends LitElement {
         changes.has("disabled") ||
         changes.has("heading") ||
         changes.has("label") ||
-        changes.has("selected"))
+        changes.has("selected") ||
+        changes.has("value"))
     ) {
       this.calciteInternalAutocompleteItemChange.emit();
     }

@@ -302,7 +302,7 @@ export class Autocomplete
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
+  /** Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
 
   //#endregion
@@ -423,6 +423,10 @@ export class Autocomplete
       this.openHandler();
     }
 
+    if (changes.has("value") && this.hasUpdated) {
+      this.selectedItemsHandler();
+    }
+
     if (
       changes.has("flipPlacements") ||
       (changes.has("overlayPositioning") &&
@@ -490,6 +494,10 @@ export class Autocomplete
     if (!value) {
       this.open = false;
     }
+  }
+
+  private selectedItemsHandler(): void {
+    this.items.forEach((item) => (item.selected = item.value === this.value));
   }
 
   private openHandler(): void {
@@ -578,6 +586,10 @@ export class Autocomplete
 
   private updateItems(): void {
     let activeDescendant = "";
+
+    if (this.value) {
+      this.selectedItemsHandler();
+    }
 
     this.items.forEach((item) => {
       item.scale = this.scale;

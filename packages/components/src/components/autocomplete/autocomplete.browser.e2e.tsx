@@ -375,6 +375,65 @@ describe("keyboard selection", () => {
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
   });
 
+  it("updates item selection when value changes", async () => {
+    const { component, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const firstItem = component.items[0];
+    const secondItem = component.items[1];
+
+    component.value = secondItem.value;
+    await reRender();
+
+    expect(firstItem.selected).toBe(false);
+    expect(secondItem.selected).toBe(true);
+  });
+
+  it("applies initial value to item selection", async () => {
+    const { component } = await mount<Autocomplete>(
+      <calcite-autocomplete label="Item list" open value="two">
+        <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+      </calcite-autocomplete>,
+    );
+
+    expect(component.items[0].selected).toBe(false);
+    expect(component.items[1].selected).toBe(true);
+    await expect
+      .element(page.getByRole("listbox").getByRole("option").nth(1))
+      .toHaveAttribute("aria-selected", "true");
+  });
+
+  it("applies value to items added after initialization", async () => {
+    const { component, el, reRender } = await mount<Autocomplete>(
+      <calcite-autocomplete label="Item list" value="two">
+        <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+      </calcite-autocomplete>,
+    );
+
+    const item = document.createElement("calcite-autocomplete-item");
+    item.heading = "Item two";
+    item.label = "Item two";
+    item.value = "two";
+    el.append(item);
+    await reRender();
+
+    expect(component.items[1].selected).toBe(true);
+  });
+
+  it("updates selection when an item value changes", async () => {
+    const { component, reRender } = await mount<Autocomplete>(
+      <calcite-autocomplete label="Item list" value="two">
+        <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+      </calcite-autocomplete>,
+    );
+
+    const selectedItem = component.items[1];
+    selectedItem.value = "three";
+    await reRender();
+
+    expect(selectedItem.selected).toBe(false);
+  });
+
   it("updates listbox option aria-selected from programmatic item selection without emitting change", async () => {
     const changeSpy = vi.fn();
     const { component, reRender } = await mount<Autocomplete>(
