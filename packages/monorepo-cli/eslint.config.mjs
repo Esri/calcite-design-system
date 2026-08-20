@@ -10,8 +10,4 @@ export default tseslint.config({
       project: ["tsconfig.eslint.json"],
     },
   },
-
-  rules: {
-    "no-console": "off",
-  },
 });

@@ -43,11 +43,8 @@ Promise.all(
         // It is not a command not found error if the error reports for a file
         // that was imported by the command file, rathe than the command file itself.
         error.url.endsWith(file);
-      if (isCommandNotFound) {
-        console.error(`error: unknown command: ${file.slice(0, -".ts".length)}`);
-      } else {
-        console.error(error);
-      }
+      // eslint-disable-next-line no-console
+      console.error(isCommandNotFound ? `error: unknown command: ${file.slice(0, -".ts".length)}` : error);
       process.exit(1);
     }
     if (typeof command.registerCommand === "function") {
@@ -61,6 +58,7 @@ Promise.all(
     program.parse();
   })
   .catch((error) => {
+    // eslint-disable-next-line no-console
     console.error(error);
     process.exit(1);
   });
