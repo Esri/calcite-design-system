@@ -1,10 +1,10 @@
 import { LitElement, property, h, method, state, JsxNode, setAttribute } from "@arcgis/lumina";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { Tabs } from "../tabs/tabs";
 import { CSS, IDS } from "./resources";
-import { TabChangeEventDetail } from "./interfaces";
+import { TabChangeEventDetail } from "./types";
 import { styles } from "./tab.scss";
 
 declare global {

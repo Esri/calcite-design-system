@@ -1396,6 +1396,9 @@
     "smart-search": 61933,
     "weather-radar": 61934,
     "user-save": 61935,
-    "arcgis-enterprise": 61936
+    "arcgis-enterprise": 61936,
+    "load-configuration": 61937,
+    "move-and-rotate": 61938,
+    "delete-and-replace-features": 61939
   }
 }

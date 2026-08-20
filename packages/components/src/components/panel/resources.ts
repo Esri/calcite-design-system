@@ -1,11 +1,13 @@
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   actionBarContainer: "action-bar-container",
   container: "container",
   contentBottom: "content-bottom",
   contentTop: "content-top",
+  contentTopNoBorder: "content-top--no-border",
   header: "header",
+  headerNoRow: "header--no-row",
   headerContainer: "header-container",
   headerContainerBorderEnd: "header-container--border-end",
   headingTextContent: "heading-text-content",
@@ -13,6 +15,7 @@ export const CSS = {
   summary: "summary",
   description: "description",
   headerContent: "header-content",
+  headerTop: "header-top",
   headerActions: "header-actions",
   headerActionsEnd: "header-actions--end",
   headerActionsStart: "header-actions--start",
@@ -53,6 +56,7 @@ export const SLOTS = {
   heading: "heading",
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
+  headerTop: "header-top",
   fab: "fab",
   footer: "footer",
   footerEnd: "footer-end",

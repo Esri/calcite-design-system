@@ -1,7 +1,7 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
@@ -14,7 +14,7 @@ import {
   TableLayout,
   TableRowFocusEvent,
   TableSelectionDisplay,
-} from "./interfaces";
+} from "./types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";

@@ -33,5 +33,5 @@ jobs:
         with:
           github-token: ${{ secrets.ADMIN_TOKEN }}
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/iconTeamDiffCheck.js')
+            const action = require('${{ github.workspace }}/.github/scripts/iconTeamDiffCheck.cjs')
             await action({github, context, core})
