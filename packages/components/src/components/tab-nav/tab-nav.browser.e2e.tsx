@@ -55,7 +55,7 @@ describe("theme", () => {
   });
 
   describe("prev/next buttons", () => {
-    const scrollEndPromise = (container: HTMLElement): Promise<void> =>
+    const waitForScrollEnd = (container: HTMLElement): Promise<void> =>
       new Promise((resolve) => {
         const handleScrollEnd = () => {
           container.removeEventListener("scrollend", handleScrollEnd);
@@ -70,12 +70,12 @@ describe("theme", () => {
       event: typeof userEvent,
       button: Element,
     ): Promise<void> => {
-      const scrollEnd = scrollEndPromise(container);
+      const scrollEnd = waitForScrollEnd(container);
       await event.click(button);
       await scrollEnd;
     };
-    // eslint-disable-next-line vitest/no-focused-tests
-    it.only("should scroll adjacent tab title into view when next button is clicked", async () => {
+
+    it("should scroll adjacent tab title into view when next button is clicked", async () => {
       await mount(
         <calcite-tab-nav layout="center" style={{ width: "200px" }}>
           <calcite-tab-title layout="center" selected>
