@@ -293,18 +293,13 @@ export class TabNav extends LitElement {
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
       const scrollPosition = tabTitleContainer.scrollLeft;
 
-      if (
-        tabTitleBounds.left > containerBounds.left &&
-        tabTitleBounds.left < containerBounds.right
-      ) {
-        return;
-      }
-
-      if (tabTitleBounds.left < containerBounds.left) {
-        const left = scrollPosition + (tabTitleBounds.left - containerBounds.left);
+      const offsetLeft = tabTitleBounds.left - containerBounds.left;
+      if (offsetLeft < 0) {
+        const left = scrollPosition + offsetLeft;
         tabTitleContainer.scrollTo({ left, behavior });
       } else if (tabTitleBounds.right > containerBounds.right) {
-        const left = scrollPosition + (tabTitleBounds.right - containerBounds.right);
+        const left =
+          scrollPosition + Math.min(tabTitleBounds.right - containerBounds.right, offsetLeft);
         tabTitleContainer.scrollTo({ left, behavior });
       }
     });
@@ -427,7 +422,6 @@ export class TabNav extends LitElement {
   private setTabTitleContainerEl(el: HTMLDivElement) {
     this.tabTitleContainerEl = el;
     this.intersectionObserver?.disconnect();
-
     if (el) {
       this.intersectionObserver = createObserver(
         "intersection",
@@ -467,7 +461,7 @@ export class TabNav extends LitElement {
   }
 
   private scrollToTabTitles(direction: "forward" | "backward"): void {
-    requestAnimationFrame(async () => {
+    requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
 
       if (!tabTitleContainer) {
