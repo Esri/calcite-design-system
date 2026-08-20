@@ -387,6 +387,21 @@ describe("keyboard selection", () => {
     expect(secondItem.selected).toBe(true);
   });
 
+  it("updates item selection before emitting change", async () => {
+    const { component, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    let selectedItemsAtChange: boolean[] | undefined;
+
+    component.addEventListener("calciteAutocompleteChange", () => {
+      selectedItemsAtChange = component.items.map((item) => item.selected);
+    });
+
+    await component.setFocus();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await reRender();
+
+    expect(selectedItemsAtChange).toEqual([true, false]);
+  });
+
   it("applies initial value to item selection", async () => {
     const { component } = await mount<Autocomplete>(
       <calcite-autocomplete label="Item list" open value="two">

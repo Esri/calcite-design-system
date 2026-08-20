@@ -525,6 +525,7 @@ export class Autocomplete
 
   private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
+    this.selectedItemsHandler();
     this.emitChange();
     await this.setFocus();
     this.open = false;
