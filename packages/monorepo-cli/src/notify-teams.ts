@@ -41,7 +41,7 @@ const description = formatDescription(`
 const webhookUsage = "-w, --webhook <WEBHOOK_URI>";
 const titleUsage = "-t, --title <TITLE>";
 
-export const registerCommand = (command: Command) =>
+export const registerCommand = (command: Command): void =>
   void command
     .command("notify-teams")
     .summary(getSummary(description))
@@ -83,10 +83,17 @@ async function run({ webhook, title, message, action_text, action_url }: Partial
 
 /**
  * Sends an `AdaptiveCard` message to a specified Microsoft Teams channel via webhook.
+ *
  * @returns An object with an error message if the request failed, or null if it
  * succeeded.
  */
-export async function notifyTeams({ webhook, title, message, action_text, action_url }: NotifyTeamsOptions) {
+export async function notifyTeams({
+  webhook,
+  title,
+  message,
+  action_text,
+  action_url,
+}: NotifyTeamsOptions): Promise<{ error: string | null }> {
   const teamsCard = {
     type: "message",
     attachments: [

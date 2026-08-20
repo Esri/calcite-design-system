@@ -5,11 +5,7 @@ import { setGithubError } from "./github-actions.ts";
  */
 export function getSummary(description: string): string {
   const newLineIndex = description.indexOf("\n");
-  if (newLineIndex === -1) {
-    return description.trim();
-  } else {
-    return description.slice(0, newLineIndex);
-  }
+  return newLineIndex === -1 ? description.trim() : description.slice(0, newLineIndex);
 }
 
 /**
@@ -41,25 +37,23 @@ export function formatDescription(text: string): string {
 
 /**
  * Asserts that the provided option is not undefined or null, otherwise exits with an error message.
+ *
  * @param option The option to check.
  * @param name The name of the option. Used to generate a useful error message.
  * @param errorMessage Optional custom error message to display if the option is not specified.
  * @returns The non-nullable value of the option.
  */
-export function assertRequiredOption<T extends unknown>(
-  option: T,
-  name: string,
-  errorMessage?: string,
-): NonNullable<T> {
+export function assertRequiredOption<T>(option: T, name: string, errorMessage?: string): NonNullable<T> {
   if (option === undefined || option === null) {
     errorAndExit(errorMessage || `error: required option ${name} not specified`);
   }
 
-  return option as NonNullable<T>;
+  return option;
 }
 
 /**
  * Logs the error message and exits the process with the provided exit code.
+ *
  * @param message The error message to log.
  * @param code The process exit code (default: 1).
  */
