@@ -40,6 +40,10 @@
   );
   --calcite-internal-table-row-border-block-end-width: var(--calcite-border-width-sm);
   --calcite-internal-table-row-border-block-end-color: var(--calcite-table-row-border-color, transparent);
+  background-color: var(
+    --calcite-table-row-background-color,
+    var(--calcite-table-row-background, var(--calcite-color-foreground-1))
+  );
   display: grid;
   grid-column: 1 / -1;
   grid-row: var(--calcite-internal-table-row-grid-position) / span var(--calcite-internal-table-row-grid-span, 1);
