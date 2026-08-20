@@ -61,12 +61,12 @@ In descending order when rules conflict:
 
 ### Component Conventions Reference Docs
 
-- [Coding conventions](https://github.com/Esri/calcite-design-system/wiki/coding-conventions)
-- [Accessibility](https://github.com/Esri/calcite-design-system/wiki/Accessibility)
-- [Documentation](https://github.com/Esri/calcite-design-system/wiki/Documentation)
-- [Internationalization](https://github.com/Esri/calcite-design-system/wiki/Internationalization)
-- [Styling](https://github.com/Esri/calcite-design-system/wiki/Styling)
-- [Testing](https://github.com/Esri/calcite-design-system/wiki/Testing)
+- [Coding conventions][Coding conventions]
+- [Accessibility][Accessibility]
+- [Documentation][Documentation]
+- [Internationalization][Internationalization]
+- [Styling][Styling]
+- [Testing][Testing]
 
 ## Platform Behavior
 
@@ -76,7 +76,7 @@ In descending order when rules conflict:
 
 ## Styling
 
-- Follow Styling reference doc for class naming and host attribute patterns.
+- Follow [Styling reference doc][Styling] for class naming and host attribute patterns.
 - Prefer existing resources/constants patterns such as `resources.ts` instead of scattering strings and class names through render code.
 
 ## UI and Frontend Guidelines
@@ -100,7 +100,7 @@ In descending order when rules conflict:
 - If changes are visual, prefer updating stories in addition to tests when behavior also changes.
 - If a change is purely visual, prefer updating stories over adding end-to-end tests unless new interaction coverage is needed.
 - If you’re unsure whether a story or test is warranted, propose the smallest useful one and explain why.
-- Follow Testing reference doc for story and test expectations.
+- Follow [Testing reference doc][Testing] for story and test expectations.
 - Prefer focused behavioral tests over implementation detail tests.
 - Do not add unrelated test coverage in the same change.
 - Always use CSS classes when adding/updating stories instead of repeating styles.
@@ -164,3 +164,12 @@ Before finalizing code, verify:
 - Tests cover the change and favor behavioral assertions over implementation details.
 - JSDoc, examples, and docs remain accurate and are not stale.
 - The diff is tightly scoped with no unrelated changes mixed in.
+
+<!-- references -->
+
+[Coding conventions]: https://github.com/Esri/calcite-design-system/wiki/coding-conventions
+[Accessibility]: https://github.com/Esri/calcite-design-system/wiki/accessibility-conventions
+[Documentation]: https://github.com/Esri/calcite-design-system/wiki/Documentation-conventions
+[Internationalization]: https://github.com/Esri/calcite-design-system/wiki/Internationalization
+[Styling]: https://github.com/Esri/calcite-design-system/wiki/styling-conventions
+[Testing]: https://github.com/Esri/calcite-design-system/wiki/testing-conventions
