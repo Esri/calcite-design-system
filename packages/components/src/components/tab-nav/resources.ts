@@ -1,5 +1,5 @@
-import { TabPosition } from "../tabs/interfaces";
-import { Scale } from "../interfaces";
+import { TabPosition } from "../tabs/types";
+import { Scale } from "../types";
 
 export const ICON = {
   chevronRight: "chevron-right",

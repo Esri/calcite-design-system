@@ -2,7 +2,7 @@ import { Decorator } from "@storybook/web-components-vite";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import type { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import type { Tree } from "./tree";
 
 const { scale, selectionMode } = ATTRIBUTES;

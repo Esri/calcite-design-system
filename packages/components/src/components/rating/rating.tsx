@@ -11,10 +11,10 @@ import {
 import { guid } from "../../utils/guid";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -22,7 +22,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
-import { Star } from "./interfaces";
+import { Star } from "./types";
 import { IDS, CSS } from "./resources";
 import { styles } from "./rating.scss";
 

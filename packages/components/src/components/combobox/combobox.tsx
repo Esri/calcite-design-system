@@ -36,12 +36,12 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode, Status } from "../types";
 import { getIconScale, isHidden } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
@@ -58,7 +58,7 @@ import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
+import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./types";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
 import {
   getItemAncestors,
@@ -70,6 +70,7 @@ import {
   orderValuesByPrevious,
 } from "./utils";
 import { styles } from "./combobox.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -1117,7 +1118,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     const composedPath = event.composedPath();
 
-    if (composedPath.some((node) => isChip(node as HTMLElement))) {
+    if (composedPath.some((node) => isChip(node))) {
       this.open = false;
       event.preventDefault();
       return;
@@ -1835,7 +1836,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private handleSelectionModeWarning(): void {
     if (this.selectionMode === "single-persist" && this.clearDisabled) {
-      console.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
+      logger.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
     }
   }
 

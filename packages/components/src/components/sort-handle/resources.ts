@@ -1,4 +1,4 @@
-import { Reorder } from "./interfaces";
+import { Reorder } from "./types";
 
 export const CSS = {
   handle: "handle",
