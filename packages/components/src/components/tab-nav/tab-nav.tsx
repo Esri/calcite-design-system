@@ -293,6 +293,13 @@ export class TabNav extends LitElement {
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
       const scrollPosition = tabTitleContainer.scrollLeft;
 
+      if (
+        tabTitleBounds.left > containerBounds.left &&
+        tabTitleBounds.left < containerBounds.right
+      ) {
+        return;
+      }
+
       if (tabTitleBounds.left < containerBounds.left) {
         const left = scrollPosition + (tabTitleBounds.left - containerBounds.left);
         tabTitleContainer.scrollTo({ left, behavior });

@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   accessible,
@@ -10,6 +10,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
+import { userEvent, page } from "vitest/browser";
 
 describe("accessible: checked", () => {
   accessible(() => mount("calcite-tab-nav"));
@@ -50,6 +51,71 @@ describe("theme", () => {
       "--calcite-tab-background-color": {
         targetProp: "backgroundColor",
       },
+    });
+  });
+
+  describe("prev/next buttons", () => {
+    const scrollEndPromise = (container: HTMLElement): Promise<void> =>
+      new Promise((resolve) => {
+        const handleScrollEnd = () => {
+          container.removeEventListener("scrollend", handleScrollEnd);
+          resolve();
+        };
+
+        container.addEventListener("scrollend", handleScrollEnd);
+      });
+
+    const clickAndWaitForScrollEnd = async (
+      container: HTMLElement,
+      event: typeof userEvent,
+      button: Element,
+    ): Promise<void> => {
+      const scrollEnd = scrollEndPromise(container);
+      await event.click(button);
+      await scrollEnd;
+    };
+    // eslint-disable-next-line vitest/no-focused-tests
+    it.only("should scroll adjacent tab title into view when next button is clicked", async () => {
+      await mount(
+        <calcite-tab-nav layout="center" style={{ width: "200px" }}>
+          <calcite-tab-title layout="center" selected>
+            Body začátku a konce
+          </calcite-tab-title>
+          <calcite-tab-title layout="center">Časový interval</calcite-tab-title>
+          <calcite-tab-title layout="center">Přehrávání</calcite-tab-title>
+        </calcite-tab-nav>,
+      );
+
+      const container = (await page.getByTestId("tab-title-container").element()) as HTMLElement;
+      const tabTitle1 = page.getByText("Body začátku a konce");
+      const tabTitle2 = page.getByText("Časový interval");
+      const tabTitle3 = page.getByText("Přehrávání");
+      const [prevButton, nextButton] = page.getByRole("button").elements();
+
+      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await expect.element(tabTitle1).toBeInViewport();
+      await expect.element(tabTitle2).not.toBeInViewport();
+      await expect.element(tabTitle3).not.toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await expect.element(tabTitle1).toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
+      await expect.element(tabTitle3).not.toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await expect.element(tabTitle1).not.toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
+      await expect.element(tabTitle3).toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await expect.element(tabTitle1).not.toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
+      await expect.element(tabTitle3).toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await expect.element(tabTitle1).toBeInViewport();
+      await expect.element(tabTitle2).not.toBeInViewport();
+      await expect.element(tabTitle3).not.toBeInViewport();
     });
   });
 });
