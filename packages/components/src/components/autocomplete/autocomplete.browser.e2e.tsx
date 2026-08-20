@@ -402,6 +402,37 @@ describe("keyboard selection", () => {
       .toHaveAttribute("aria-selected", "true");
   });
 
+  it("preserves declarative selection without an initial value", async () => {
+    const { component } = await mount<Autocomplete>(
+      <calcite-autocomplete label="Item list" open>
+        <calcite-autocomplete-item heading="Item one" label="Item one" selected value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+      </calcite-autocomplete>,
+    );
+
+    expect(component.items[0].selected).toBe(true);
+    await expect
+      .element(page.getByRole("listbox").getByRole("option").nth(0))
+      .toHaveAttribute("aria-selected", "true");
+  });
+
+  it("clears selection when a controlled value is reset", async () => {
+    const { component, reRender } = await mount<Autocomplete>(
+      <calcite-autocomplete label="Item list" open value="one">
+        <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+      </calcite-autocomplete>,
+    );
+
+    component.value = "";
+    await reRender();
+
+    expect(component.items[0].selected).toBe(false);
+    await expect
+      .element(page.getByRole("listbox").getByRole("option").nth(0))
+      .toHaveAttribute("aria-selected", "false");
+  });
+
   it("applies value to items added after initialization", async () => {
     const { component, el, reRender } = await mount<Autocomplete>(
       <calcite-autocomplete label="Item list" value="two">

@@ -86,7 +86,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
-  /** When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its non-empty `value`; when no value is provided, declarative selection is preserved. */
+  /** When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its non-empty `value`; declarative selection is preserved when no initial value is provided, but is cleared when a controlled value is explicitly reset. */
   @property({ reflect: true }) selected = false;
 
   /** Specifies the component's value. */
