@@ -164,7 +164,7 @@ export class Sheet extends LitElement {
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** When `true` and `modalDisabled` is `true`, prevents focus trapping. */
+  /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -362,11 +362,6 @@ export class Sheet extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
-  focusTrapDisabledOverride(): boolean {
-    return this.modalDisabled && this.focusTrapDisabled;
-  }
 
   private async setOpenState(value: boolean): Promise<void> {
     if (this.beforeClose && !value) {

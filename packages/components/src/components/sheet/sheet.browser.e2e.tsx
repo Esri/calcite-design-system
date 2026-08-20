@@ -233,7 +233,7 @@ describe("modalDisabled", () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     await mount<Sheet>(
       <>
-        <calcite-sheet focusTrapDisabled label="Non-modal sheet" modalDisabled open>
+        <calcite-sheet focus-trap-disabled label="Non-modal sheet" modalDisabled open>
           <button type="button">inside</button>
         </calcite-sheet>
         <button type="button">outside</button>
@@ -241,6 +241,28 @@ describe("modalDisabled", () => {
     );
     await openEvent;
 
+    const insideButton = page.getByRole("button", { name: "inside" });
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(insideButton);
+
+    await userEvent.tab();
+
+    await expect.element(outsideButton).toHaveFocus();
+  });
+
+  it("allows focus to leave when focusTrapDisabled is true for a modal sheet", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <>
+        <calcite-sheet focus-trap-disabled label="Modal sheet" open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button type="button">outside</button>
+      </>,
+    );
+    await openEvent;
+
+    expect(el.ariaModal).toBe("true");
     const insideButton = page.getByRole("button", { name: "inside" });
     const outsideButton = page.getByRole("button", { name: "outside" });
     await userEvent.click(insideButton);
