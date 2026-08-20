@@ -15,6 +15,351 @@
       <!-- you can add a demo snippet by running `npx snippet` -->
 
       <!-- demo snippet end -->
+      <style>
+        body {
+          margin: 30px;
+        }
+
+        .demo-stack {
+          display: grid;
+          gap: 1rem;
+          max-width: 36rem;
+        }
+
+        .demo-row {
+          display: grid;
+          gap: 0.35rem;
+        }
+
+        .demo-label {
+          font: 600 0.875rem/1.4 sans-serif;
+        }
+
+        .keyboard-nav-action-bar {
+          inline-size: 14rem;
+        }
+
+        .narrow-action-bar {
+          inline-size: 16rem;
+        }
+
+        .vertical-overflow-action-bar {
+          block-size: 18rem;
+          inline-size: 8rem;
+        }
+
+        .tool-group {
+          display: flex;
+          align-items: stretch;
+          overflow: hidden;
+        }
+
+        .tool-group:hover {
+          background: var(--calcite-color-foreground-2);
+        }
+
+        .tool-group:hover calcite-action {
+          --calcite-action-background-color: var(--calcite-color-foreground-2);
+          --calcite-action-background-color-hover: var(--calcite-color-foreground-2);
+        }
+
+        /* Dropdown open state */
+        .tool-group:has(calcite-dropdown[open]) {
+          background: transparent;
+          outline: none;
+        }
+
+        /* Disable action highlight while menu is open */
+        .tool-group:has(calcite-dropdown[open]) calcite-action {
+          --calcite-action-background-color: transparent;
+          --calcite-action-background-color-hover: transparent;
+        }
+
+        #text-example {
+          padding: 1rem;
+          font-weight: var(--calcite-font-weight-bold);
+          font-style: var(--calcite-font-style-normal);
+          text-decoration: none;
+          text-align: left;
+        }
+      </style>
+
+      <div class="demo-stack">
+        <div class="demo-row">
+          <span class="demo-label">Vertical multiple selection</span>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
+            <calcite-action-group selection-mode="multiple">
+              <calcite-action text="Add" icon="plus"></calcite-action>
+              <calcite-action text="Layers" icon="layers"></calcite-action>
+              <calcite-action text="Save" icon="save"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Vertical single selection</span>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
+            <calcite-action-group selection-mode="single">
+              <calcite-action text="Draw" icon="pencil"></calcite-action>
+              <calcite-action text="Measure" icon="measure"></calcite-action>
+              <calcite-action text="Select" icon="cursor"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Vertical single selection (automatic overflow disabled)</span>
+          <calcite-action-bar
+            class="keyboard-nav-action-bar narrow-action-bar vertical-overflow-action-bar"
+            expand-disabled
+            layout="vertical"
+          >
+            <calcite-action-group selection-mode="single" label="Edit actions">
+              <calcite-action text="Identify" icon="information"></calcite-action>
+              <calcite-action text="Filter" icon="filter"></calcite-action>
+              <calcite-action text="Refresh" icon="refresh"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group selection-mode="multiple" label="Share actions">
+              <calcite-action text="Bookmark" icon="bookmark"></calcite-action>
+              <calcite-action text="Settings" icon="gear"></calcite-action>
+              <calcite-action text="Configure" icon="sliders"></calcite-action>
+              <calcite-action text="Share" icon="share"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Horizontal multiple selection (automatic overflow disabled)</span>
+          <calcite-action-bar class="keyboard-nav-action-bar narrow-action-bar" expand-disabled layout="horizontal">
+            <calcite-action-group selection-mode="multiple" label="View actions">
+              <calcite-action text="Identify" icon="information"></calcite-action>
+              <calcite-action text="Filter" icon="filter"></calcite-action>
+              <calcite-action text="Refresh" icon="refresh"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group selection-mode="single" label="Project actions">
+              <calcite-action text="Bookmark" icon="bookmark"></calcite-action>
+              <calcite-action text="Settings" icon="gear"></calcite-action>
+              <calcite-action text="Configure" icon="sliders"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Horizontal non-selection group (overflow menu allowed)</span>
+          <calcite-action-bar class="keyboard-nav-action-bar narrow-action-bar" expand-disabled layout="horizontal">
+            <calcite-action-group>
+              <calcite-action text="Identify" icon="information"></calcite-action>
+              <calcite-action text="Filter" icon="filter"></calcite-action>
+              <calcite-action text="Refresh" icon="refresh"></calcite-action>
+              <calcite-action text="Bookmark" icon="bookmark"></calcite-action>
+              <calcite-action text="Settings" icon="gear"></calcite-action>
+              <calcite-action text="Configure" icon="sliders"></calcite-action>
+              <calcite-action text="Share" icon="share"></calcite-action>
+              <calcite-action text="Export" icon="download"></calcite-action>
+              <calcite-action text="Print" icon="print"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Vertical non-selection group (overflow menu allowed)</span>
+          <calcite-action-bar
+            class="keyboard-nav-action-bar narrow-action-bar vertical-overflow-action-bar"
+            expand-disabled
+            layout="vertical"
+          >
+            <calcite-action-group>
+              <calcite-action text="Identify" icon="information"></calcite-action>
+              <calcite-action text="Filter" icon="filter"></calcite-action>
+              <calcite-action text="Refresh" icon="refresh"></calcite-action>
+              <calcite-action text="Bookmark" icon="bookmark"></calcite-action>
+              <calcite-action text="Settings" icon="gear"></calcite-action>
+              <calcite-action text="Configure" icon="sliders"></calcite-action>
+              <calcite-action text="Share" icon="share"></calcite-action>
+              <calcite-action text="Export" icon="download"></calcite-action>
+              <calcite-action text="Print" icon="print"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Horizontal single-persist selection</span>
+          <calcite-action-bar
+            class="keyboard-nav-action-bar"
+            expand-disabled
+            layout="horizontal"
+            overflow-actions-disabled
+          >
+            <calcite-action-group selection-mode="single-persist">
+              <calcite-action active text="Pan" icon="pan"></calcite-action>
+              <calcite-action text="Zoom in" icon="zoom-in-fixed"></calcite-action>
+              <calcite-action text="Zoom out" icon="zoom-out-fixed"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Multiple selection - overflow disabled</span>
+          <calcite-action-bar
+            class="keyboard-nav-action-bar narrow-action-bar"
+            expand-disabled
+            overflow-actions-disabled
+          >
+            <calcite-action-group selection-mode="multiple">
+              <calcite-action text="Add" icon="plus"></calcite-action>
+              <calcite-action text="Undo" icon="undo"></calcite-action>
+              <calcite-action text="Redo" icon="redo"></calcite-action>
+              <calcite-action text="Save" icon="save"></calcite-action>
+              <calcite-action text="Delete" icon="trash"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Single selection - overflow disabled</span>
+          <calcite-action-bar
+            class="keyboard-nav-action-bar narrow-action-bar"
+            expand-disabled
+            overflow-actions-disabled
+          >
+            <calcite-action-group selection-mode="single">
+              <calcite-action text="Point" icon="pin"></calcite-action>
+              <calcite-action text="Line" icon="line"></calcite-action>
+              <calcite-action text="Area" icon="polygon"></calcite-action>
+              <calcite-action text="Circle" icon="circle"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Single-persist selection - overflow disabled</span>
+          <calcite-action-bar
+            class="keyboard-nav-action-bar narrow-action-bar"
+            expand-disabled
+            overflow-actions-disabled
+          >
+            <calcite-action-group selection-mode="single-persist">
+              <calcite-action active text="Pan" icon="pan"></calcite-action>
+              <calcite-action text="Zoom in" icon="zoom-in-fixed"></calcite-action>
+              <calcite-action text="Zoom out" icon="zoom-out-fixed"></calcite-action>
+              <calcite-action text="Full extent" icon="extent"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Two vertical bars for Tab then ArrowDown</span>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
+            <calcite-action-group selection-mode="multiple">
+              <calcite-action text="First add" icon="plus"></calcite-action>
+              <calcite-action text="First save" icon="save"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
+            <calcite-action-group selection-mode="multiple">
+              <calcite-action text="Second layers" icon="layers"></calcite-action>
+              <calcite-action text="Second basemaps" icon="layer-basemap"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div>
+          <calcite-action-bar layout="horizontal" expand-disabled floating>
+            <calcite-action-group selection-mode="single-persist">
+              <calcite-action text="Curve" icon="curve"></calcite-action>
+              <calcite-action text="Right angle" icon="right-angle"></calcite-action>
+              <calcite-action text="Line" icon="line"></calcite-action>
+              <calcite-action text="Line straight" icon="line-straight"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group selection-mode="multiple">
+              <calcite-action text="Split geometry" icon="split-geometry"></calcite-action>
+              <calcite-action text="Stretch" icon="stretch"></calcite-action>
+              <calcite-action text="Trace" icon="trace"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Floating text formatting toolbar</span>
+          <calcite-action-bar
+            id="font-configuration-settings"
+            layout="horizontal"
+            floating
+            expand-disabled
+            overflow-actions-disabled
+          >
+            <calcite-action-group label="Text formatting" selection-mode="multiple">
+              <calcite-action id="bold" active context text="Bold" icon="bold"></calcite-action>
+              <calcite-tooltip reference-element="bold" placement="bottom">
+                <span>Bold</span>
+              </calcite-tooltip>
+              <calcite-action id="italic" text="Italicize" icon="italicize"></calcite-action>
+              <calcite-tooltip reference-element="italic" placement="bottom">
+                <span>Italic</span>
+              </calcite-tooltip>
+              <calcite-action id="underline" text="Underline" icon="underline"></calcite-action>
+              <calcite-tooltip reference-element="underline" placement="bottom">
+                <span>Underline</span>
+              </calcite-tooltip>
+            </calcite-action-group>
+            <calcite-action-group label="Text alignment" selection-mode="single-persist">
+              <calcite-action id="left-text" active text="Left align text" icon="left-align"></calcite-action>
+              <calcite-tooltip reference-element="left-text" placement="bottom">
+                <span>Left align text</span>
+              </calcite-tooltip>
+              <calcite-action id="center-text" text="Center align text" icon="center-align"></calcite-action>
+              <calcite-tooltip reference-element="center-text" placement="bottom">
+                <span>Center align text</span>
+              </calcite-tooltip>
+              <calcite-action id="right-text" text="Right align text" icon="right-align"></calcite-action>
+              <calcite-tooltip reference-element="right-text" placement="bottom">
+                <span>Right align text</span>
+              </calcite-tooltip>
+            </calcite-action-group>
+            <calcite-action-group label="Text lists - disabled" selection-mode="single">
+              <calcite-action id="list-bullet" disabled text="Bullet list" icon="list-bullet"></calcite-action>
+              <calcite-tooltip reference-element="list-bullet" placement="bottom">
+                <span>Bullet list - disabled</span>
+              </calcite-tooltip>
+              <calcite-action id="numb-list" disabled text="Numbered list" icon="list-number"></calcite-action>
+              <calcite-tooltip reference-element="numb-list" placement="bottom">
+                <span>Numbered list - disabled</span>
+              </calcite-tooltip>
+            </calcite-action-group>
+            <calcite-action-group label="Align items - disabled" selection-mode="single">
+              <calcite-action
+                id="align-items-left"
+                disabled
+                text="Align items left"
+                icon="ltr-elements-align"
+              ></calcite-action>
+              <calcite-tooltip reference-element="align-items-left" placement="bottom">
+                <span>Align items left - disabled</span>
+              </calcite-tooltip>
+              <calcite-action
+                id="align-items-right"
+                disabled
+                text="Align items right"
+                icon="rtl-elements-align"
+              ></calcite-action>
+              <calcite-tooltip reference-element="align-items-right" placement="bottom">
+                <span>Align items right - disabled</span>
+              </calcite-tooltip>
+              <calcite-action
+                id="add-config"
+                disabled
+                text="Additional configurations"
+                icon="ellipsis"
+              ></calcite-action>
+              <calcite-tooltip reference-element="add-config" placement="bottom">
+                <span>Additional configurations - disabled</span>
+              </calcite-tooltip>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <p id="text-example">Some great content</p>
+      </div>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>
