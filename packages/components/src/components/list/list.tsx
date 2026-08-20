@@ -13,7 +13,7 @@ import {
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../types";
-import { ItemData } from "../list-item/types";
+import { ItemData, SharedListFilterFields } from "../list-item/types";
 import {
   expandedAncestors,
   isListItem,
