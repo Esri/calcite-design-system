@@ -1,4 +1,4 @@
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { ActionGroup } from "./action-group";
 
 export const SLOTS = {

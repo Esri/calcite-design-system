@@ -139,12 +139,16 @@ export default tseslint.config(
     files: [
       // scoped to allow for progressive adoption
       ".storybook/**/*",
+      "src/*.{ts,tsx}",
+      "src/components/**/*",
       "src/custom-theme/**/*",
       "src/demos/**/*",
       "src/internal-label/**/*",
-      "src/tests/commonTests/browser/**/*",
+      "src/tests/browser/**/*",
+      "src/tests/commonTests/**/*",
       "support/**/*",
     ],
+    ignores: ["src/components/alert/AlertManager*", "src/components/functional/*"],
     rules: {
       "unicorn/filename-case": [
         "error",

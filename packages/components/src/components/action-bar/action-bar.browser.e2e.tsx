@@ -305,6 +305,8 @@ describe("selection-mode", () => {
 });
 
 describe("overflowing actions", () => {
+  const collapseToggleLabel = "Collapse action bar";
+
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -511,6 +513,90 @@ describe("overflowing actions", () => {
     );
 
     expect(overflowedActions.length).toBeGreaterThan(0);
+  });
+
+  it("accounts for action-menus slotted in action-groups when evaluating overflow", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar
+        expanded
+        messageOverrides={{
+          collapseLabel: collapseToggleLabel,
+          expandLabel: "Expand action bar",
+        }}
+        style={{ height: "160px" }}
+      >
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action-menu label="More actions">
+            <calcite-action icon="ellipsis" slot="trigger" text="More" />
+            <calcite-action icon="layers" text="Layers" />
+            <calcite-action icon="layer-basemap" text="Basemaps" />
+          </calcite-action-menu>
+          <calcite-action icon="bookmark" text="Bookmarks" />
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="information" text="Info" />
+          <calcite-action icon="link" text="Share" />
+          <calcite-action icon="table" text="Table" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedActions = page.getBySelector(
+      "calcite-action-bar > calcite-action-group calcite-action[slot='menu-actions']",
+    );
+    const collapseToggle = page.getByRole("button", { name: collapseToggleLabel });
+
+    expect(overflowedActions.length).toBeGreaterThan(0);
+    await expect.element(collapseToggle).toBeInViewport();
+  });
+
+  it("increases overflow when constrained and keeps the collapse toggle visible", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar
+        expanded
+        messageOverrides={{
+          collapseLabel: collapseToggleLabel,
+          expandLabel: "Expand action bar",
+        }}
+        style={{ height: "320px" }}
+      >
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action-menu label="More actions">
+            <calcite-action icon="ellipsis" slot="trigger" text="More" />
+            <calcite-action icon="layers" text="Layers" />
+            <calcite-action icon="layer-basemap" text="Basemaps" />
+          </calcite-action-menu>
+          <calcite-action icon="bookmark" text="Bookmarks" />
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="information" text="Info" />
+          <calcite-action icon="link" text="Share" />
+          <calcite-action icon="table" text="Table" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedActions = page.getBySelector(
+      "calcite-action-bar > calcite-action-group calcite-action[slot='menu-actions']",
+    );
+    const collapseToggle = page.getByRole("button", { name: collapseToggleLabel });
+    const overflowCountAtLargeHeight = overflowedActions.length;
+
+    await expect.element(collapseToggle).toBeInViewport();
+
+    el.style.height = "160px";
+    vi.advanceTimersByTime(DEBOUNCE.resize + 1);
+
+    expect(overflowedActions.length).toBeGreaterThanOrEqual(overflowCountAtLargeHeight);
+    await expect.element(collapseToggle).toBeInViewport();
   });
 
   it("overflows actions from slotted actions-end groups", async () => {
@@ -1308,7 +1394,7 @@ describe("slot-change action tracking", () => {
 
   it("closes default-slot group menu when a slotted actions-start group menu opens", async () => {
     await mount<ActionBar>(
-      <calcite-action-bar>
+      <calcite-action-bar layout="horizontal" overflow-actions-disabled>
         <calcite-action-group id="default-group">
           <calcite-action icon="plus" text="Default" />
           <calcite-action icon="save" slot="menu-actions" text="Save" />
@@ -1320,30 +1406,29 @@ describe("slot-change action tracking", () => {
       </calcite-action-bar>,
     );
 
-    const defaultGroup = page
-      .getBySelector("calcite-action-group#default-group")
-      .element() as ActionGroup["el"];
-    const startGroup = page
-      .getBySelector("calcite-action-group#start-group[slot='actions-start']")
-      .element() as ActionGroup["el"];
-    const defaultTrigger = page
-      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
-    const startTrigger = page
-      .getBySelector("calcite-action-group#start-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
+    const defaultGroup = page.getBySelector("calcite-action-group#default-group");
+    const startGroup = page.getBySelector("calcite-action-group#start-group[slot='actions-start']");
+    const defaultTrigger = page.getBySelector(
+      "calcite-action-group#default-group calcite-action[slot='trigger']",
+    );
+    const startTrigger = page.getBySelector(
+      "calcite-action-group#start-group calcite-action[slot='trigger']",
+    );
 
-    await userEvent.click(defaultTrigger);
-    expect(defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultTrigger).toBeVisible();
+    await expect.element(startTrigger).toBeVisible();
 
-    startTrigger.click();
-    expect(startGroup.menuOpen).toBe(true);
-    expect(defaultGroup.menuOpen).toBe(false);
+    await defaultTrigger.click();
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", true);
+
+    await startTrigger.click();
+    await expect.element(startGroup).toHaveProperty("menuOpen", true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", false);
   });
 
   it("closes default-slot group menu when a slotted actions-end group menu opens", async () => {
     await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal">
+      <calcite-action-bar layout="horizontal" overflow-actions-disabled>
         <calcite-action-group id="default-group">
           <calcite-action icon="plus" text="Default" />
           <calcite-action icon="save" slot="menu-actions" text="Save" />
@@ -1355,25 +1440,24 @@ describe("slot-change action tracking", () => {
       </calcite-action-bar>,
     );
 
-    const defaultGroup = page
-      .getBySelector("calcite-action-group#default-group")
-      .element() as ActionGroup["el"];
-    const endGroup = page
-      .getBySelector("calcite-action-group#end-group[slot='actions-end']")
-      .element() as ActionGroup["el"];
-    const defaultTrigger = page
-      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
-    const endTrigger = page
-      .getBySelector("calcite-action-group#end-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
+    const defaultGroup = page.getBySelector("calcite-action-group#default-group");
+    const endGroup = page.getBySelector("calcite-action-group#end-group[slot='actions-end']");
+    const defaultTrigger = page.getBySelector(
+      "calcite-action-group#default-group calcite-action[slot='trigger']",
+    );
+    const endTrigger = page.getBySelector(
+      "calcite-action-group#end-group calcite-action[slot='trigger']",
+    );
 
-    await userEvent.click(defaultTrigger);
-    expect(defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultTrigger).toBeVisible();
+    await expect.element(endTrigger).toBeVisible();
 
-    endTrigger.click();
-    expect(endGroup.menuOpen).toBe(true);
-    expect(defaultGroup.menuOpen).toBe(false);
+    await defaultTrigger.click();
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", true);
+
+    await endTrigger.click();
+    await expect.element(endGroup).toHaveProperty("menuOpen", true);
+    await expect.element(defaultGroup).toHaveProperty("menuOpen", false);
   });
 
   it("closes other direct action-menus when one opens", async () => {

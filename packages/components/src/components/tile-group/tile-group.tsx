@@ -1,6 +1,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../types";
 import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
@@ -44,8 +44,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -105,7 +104,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
 
   constructor() {
     super();
-    this.listen("calciteInternalTileKeyEvent", this.calciteInternalTileKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteTileSelect", this.calciteTileSelectHandler);
   }
 
@@ -207,27 +206,38 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
     this.updateSelectedItems();
   }
 
-  private calciteInternalTileKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      event.preventDefault();
-      event.stopPropagation();
-      const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowDown":
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next", true, false);
-          break;
-        case "ArrowUp":
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous", true, false);
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first", true, false);
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last", true, false);
-          break;
-      }
+  private keyDownHandler(event: KeyboardEvent): void {
+    const composedPath = event.composedPath();
+    if (event.defaultPrevented || this.disabled || !composedPath.includes(this.el)) {
+      return;
+    }
+
+    const target = this.items.find((item) => item === event.target);
+
+    if (!target || target.disabled) {
+      return;
+    }
+
+    const interactiveItems = this.items?.filter((el) => !el.disabled);
+    switch (event.key) {
+      case "ArrowDown":
+      case "ArrowRight":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "next", true, false);
+        break;
+      case "ArrowUp":
+      case "ArrowLeft":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "previous", true, false);
+        break;
+      case "Home":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "first", true, false);
+        break;
+      case "End":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "last", true, false);
+        break;
     }
   }
 

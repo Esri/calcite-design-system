@@ -5,7 +5,7 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { Direction, isPrimaryPointerButton } from "../../utils/dom";
-import { Dimensions, Scale } from "../interfaces";
+import { Dimensions, Scale } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
@@ -47,9 +47,10 @@ import {
   STATIC_DIMENSIONS,
   ICONS,
 } from "./resources";
-import { Channels, ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Channels, ColorMode, ColorValue, InternalColor } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -347,7 +348,7 @@ export class ColorPicker extends LitElement {
    * The type will be preserved as the color is updated.
    *
    * @see [MDN - CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/types.ts#L10).
    */
   @property()
   get value(): ColorValue | null | undefined {
@@ -495,9 +496,7 @@ export class ColorPicker extends LitElement {
     const { format } = this;
 
     if (alphaChannel && format !== "auto" && !alphaCompatible(format)) {
-      console.warn(
-        `ignoring alphaChannel as the current format (${format}) does not support alpha`,
-      );
+      logger.warn(`ignoring alphaChannel as the current format (${format}) does not support alpha`);
       this.alphaChannel = false;
     }
   }
@@ -845,7 +844,7 @@ export class ColorPicker extends LitElement {
   }
 
   private showIncompatibleColorWarning(value: ColorValue | undefined, format: Format): void {
-    console.warn(
+    logger.warn(
       `ignoring color value (${value}) as it is not compatible with the current format (${format})`,
     );
   }
@@ -863,7 +862,7 @@ export class ColorPicker extends LitElement {
       const alphaMode = toAlphaMode(mode);
 
       if (warn) {
-        console.warn(
+        logger.warn(
           `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
@@ -875,7 +874,7 @@ export class ColorPicker extends LitElement {
       const nonAlphaMode = toNonAlphaMode(mode);
 
       if (warn) {
-        console.warn(
+        logger.warn(
           `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }

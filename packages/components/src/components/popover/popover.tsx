@@ -19,7 +19,7 @@ import {
 } from "../../utils/floating-ui";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { useT9n } from "../../controllers/useT9n";
@@ -148,8 +148,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

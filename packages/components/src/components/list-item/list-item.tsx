@@ -13,16 +13,16 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
-import type { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
+import type { SelectionMode, InteractionMode, Scale, FlipContext } from "../types";
 import type { SelectionAppearance } from "../list/resources";
-import type { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/types";
 import { type SortableComponentItem } from "../../controllers/useSortable";
-import type { SortMenuItem } from "../sort-handle/interfaces";
+import type { SortMenuItem } from "../sort-handle/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
-import { ListDisplayMode } from "../list/interfaces";
+import { ListDisplayMode } from "../list/types";
 import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -172,7 +172,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property({ reflect: true }) interactionMode?: InteractionMode;
 
-  /** Specifies an accessible label for the component, displays above the `description`. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** @copyDoc */
@@ -284,10 +284,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property() value: any;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;

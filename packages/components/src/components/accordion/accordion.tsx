@@ -1,8 +1,8 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { Appearance, Position, IconType, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Position, IconType, Scale, SelectionMode } from "../types";
 import { createObserver } from "../../utils/observers";
-import { RequestedItem } from "./interfaces";
+import { RequestedItem } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./accordion.scss";
 
@@ -11,7 +11,11 @@ declare global {
     "calcite-accordion": Accordion;
   }
 }
-/** @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. */
+
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block-group` component instead.
+ * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
+ */
 export class Accordion extends LitElement {
   // #region Static Members
 

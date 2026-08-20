@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.1.2-next.6...@esri/calcite-tailwind-preset@1.1.2-next.7) (2026-08-18)
+
+**Note:** Version bump only for package @esri/calcite-tailwind-preset
+
+## [1.1.2-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.1.2-next.5...@esri/calcite-tailwind-preset@1.1.2-next.6) (2026-08-11)
+
+**Note:** Version bump only for package @esri/calcite-tailwind-preset
+
+## [1.1.2-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.1.2-next.4...@esri/calcite-tailwind-preset@1.1.2-next.5) (2026-07-30)
+
+**Note:** Version bump only for package @esri/calcite-tailwind-preset
+
 ## [1.1.2-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.1.2-next.3...@esri/calcite-tailwind-preset@1.1.2-next.4) (2026-07-17)
 
 **Note:** Version bump only for package @esri/calcite-tailwind-preset

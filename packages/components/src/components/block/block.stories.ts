@@ -5,7 +5,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { Block } from "./block";
 
 const { headingLevelWithNone, placement, toggleDisplay, scale } = ATTRIBUTES;
@@ -405,5 +405,35 @@ export const emptyHeader = (): string => html`
       <div>Favorite vegetable</div>
       <calcite-icon icon="information" />
     </calcite-label>
+  </calcite-block>
+`;
+
+export const toggleDisplaySwitch = (): string => html`
+  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible> </calcite-block>
+`;
+
+const nestedBlockHTML = (slottedAsChildren = true): string => html`
+  <calcite-block
+    heading="Road network"
+    description="Highways, arterials, and local streets"
+    ${slottedAsChildren ? 'slot="children"' : ""}
+    collapsible
+    expanded
+  >
+    <calcite-block heading="County roads" description="County roads" slot="children"></calcite-block>
+    <calcite-block heading="Local Streets" description="Local streets" slot="children"></calcite-block>
+  </calcite-block>
+`;
+
+export const nestedBlockInChildrenSlot = (): string => html`
+  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
+    ${nestedBlockHTML()}
+  </calcite-block>
+  <calcite-block heading="Hydrology" description="Rivers, lakes, and watershed boundaries"></calcite-block>
+`;
+
+export const nestedBlockGroupInChildrenSlot = (): string => html`
+  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
+    <calcite-block-group slot="children"> ${nestedBlockHTML(false)} </calcite-block-group>
   </calcite-block>
 `;

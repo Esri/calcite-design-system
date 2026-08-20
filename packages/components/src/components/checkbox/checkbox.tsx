@@ -3,7 +3,7 @@ import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/l
 import { useDirection } from "@arcgis/lumina/controllers";
 import { isActivationKey } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -122,7 +122,6 @@ export class Checkbox extends LitElement implements LabelableComponent {
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;

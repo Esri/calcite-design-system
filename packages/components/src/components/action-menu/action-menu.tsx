@@ -16,7 +16,7 @@ import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { Appearance, Scale } from "../interfaces";
+import { Appearance, Scale } from "../types";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -161,8 +161,7 @@ export class ActionMenu extends LitElement {
   @property() flipPlacements?: FlipPlacement[];
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -200,9 +199,8 @@ export class ActionMenu extends LitElement {
    * Specifies the `calcite-action`s in the menu.
    *
    * @internal
-   * @readonly
    */
-  @property({ attribute: false }) get actions(): Action["el"][] {
+  @property() get actions(): Action["el"][] {
     return this._actions;
   }
 

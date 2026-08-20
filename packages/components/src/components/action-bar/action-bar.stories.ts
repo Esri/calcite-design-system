@@ -316,6 +316,88 @@ export const horizontalOverflowPerGroupDisabled = (): string => html`
   </div>
 `;
 
+export const nestedActionMenuOverflow = (): string => html`
+  <style>
+    .nested-action-menu-overflow-story {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .nested-action-menu-overflow-story-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 220px;
+    }
+
+    .nested-action-menu-overflow-story-label {
+      font-family: sans-serif;
+      font-size: 0.75rem;
+      margin: 0;
+    }
+
+    .nested-action-menu-overflow-story-holder {
+      border: 1px dashed var(--calcite-ui-border-3, #999);
+      display: flex;
+      height: 160px;
+      overflow: hidden;
+    }
+
+    .nested-action-menu-overflow-story-bar {
+      height: 100%;
+    }
+  </style>
+  <div class="nested-action-menu-overflow-story">
+    <div class="nested-action-menu-overflow-story-column">
+      <p class="nested-action-menu-overflow-story-label">Baseline</p>
+      <div class="nested-action-menu-overflow-story-holder">
+        <calcite-action-bar expanded class="nested-action-menu-overflow-story-bar">
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add"></calcite-action>
+            <calcite-action icon="save" text="Save"></calcite-action>
+            <calcite-action icon="ellipsis" text="More"></calcite-action>
+            <calcite-action icon="bookmark" text="Bookmarks"></calcite-action>
+            <calcite-action icon="gear" text="Settings"></calcite-action>
+            <calcite-action icon="information" text="Info"></calcite-action>
+            <calcite-action icon="link" text="Share"></calcite-action>
+            <calcite-action icon="table" text="Table"></calcite-action>
+            <calcite-action icon="measure" text="Measure"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+      </div>
+    </div>
+    <div class="nested-action-menu-overflow-story-column">
+      <p class="nested-action-menu-overflow-story-label">Nested action-menu in group</p>
+      <div class="nested-action-menu-overflow-story-holder">
+        <calcite-action-bar expanded class="nested-action-menu-overflow-story-bar">
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add"></calcite-action>
+            <calcite-action icon="save" text="Save"></calcite-action>
+            <calcite-action-menu label="More actions">
+              <calcite-action icon="ellipsis" slot="trigger" text="More"></calcite-action>
+              <calcite-action icon="layers" text="Layers"></calcite-action>
+              <calcite-action icon="layer-basemap" text="Basemaps"></calcite-action>
+            </calcite-action-menu>
+            <calcite-action icon="bookmark" text="Bookmarks"></calcite-action>
+            <calcite-action icon="gear" text="Settings"></calcite-action>
+            <calcite-action icon="information" text="Info"></calcite-action>
+            <calcite-action icon="link" text="Share"></calcite-action>
+            <calcite-action icon="table" text="Table"></calcite-action>
+            <calcite-action icon="measure" text="Measure"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+      </div>
+    </div>
+  </div>
+`;
+
+nestedActionMenuOverflow.parameters = {
+  chromatic: {
+    delay: 500,
+  },
+};
+
 export const shadowSlottedHorizontal = (): string => html`
   <script>
     if (!customElements.get("action-bar-shadow-component")) {

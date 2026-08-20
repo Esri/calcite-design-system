@@ -5,7 +5,8 @@ import { getSlotAssignedElements, whenAnimationDone } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import type { FlowItem } from "../flow-item/flow-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { FlowDirection, FlowItemLikeElement } from "./interfaces";
+import { logger } from "../../utils/logger";
+import { FlowDirection, FlowItemLikeElement } from "./types";
 import { CSS, SELECTORS } from "./resources";
 import { styles } from "./flow.scss";
 
@@ -199,7 +200,7 @@ export class Flow extends LitElement {
     try {
       newItems = slottedItems.filter((flowItem) => flowItem.matches(itemSelectors));
     } catch (error) {
-      console.warn(
+      logger.warn(
         `${this.el.tagName.toLowerCase()}: Error while matching custom-item-selectors ("${customItemSelectors}"). Falling back to "${SELECTORS.item}".`,
         error,
       );
