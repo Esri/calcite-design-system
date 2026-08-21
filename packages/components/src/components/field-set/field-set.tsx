@@ -17,6 +17,13 @@ const suffixSizeVar = "--calcite-input-suffix-size";
 const controlBoundarySelector =
   "calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
 
+const originalDisabledState = Symbol("calciteFieldSetOriginalDisabledState");
+
+type DisabledControl = HTMLElement & {
+  disabled: boolean;
+  [originalDisabledState]?: boolean;
+};
+
 declare global {
   interface DeclareElements {
     "calcite-field-set": FieldSet;
@@ -35,9 +42,17 @@ export class FieldSet extends LitElement {
 
   //#region Private Properties
 
+  private controlsDisabledSyncQueued = false;
+
   private get inputs(): Input["el"][] {
     return this.controlElements.filter((element): element is Input["el"] =>
       element.matches("calcite-input"),
+    );
+  }
+
+  private get disabledControls(): DisabledControl[] {
+    return this.controlElements.filter(
+      (element): element is DisabledControl => "disabled" in element,
     );
   }
 
@@ -86,6 +101,14 @@ export class FieldSet extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
+    if (changes.has("disabled")) {
+      this.syncControlsDisabled();
+
+      if (this.disabled) {
+        void this.queueControlsDisabledResync();
+      }
+    }
+
     if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
       void this.syncInputsAffixWidths();
     }
@@ -111,7 +134,56 @@ export class FieldSet extends LitElement {
   }
 
   private handleInputSlotChange(): void {
+    this.syncControlsDisabled();
+
+    if (this.disabled) {
+      void this.queueControlsDisabledResync();
+    }
+
     void this.syncInputsAffixWidths();
+  }
+
+  private async queueControlsDisabledResync(): Promise<void> {
+    if (this.controlsDisabledSyncQueued) {
+      return;
+    }
+
+    this.controlsDisabledSyncQueued = true;
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve());
+    });
+
+    this.controlsDisabledSyncQueued = false;
+
+    if (this.disabled) {
+      this.syncControlsDisabled();
+    }
+  }
+
+  private syncControlsDisabled(): void {
+    const controls = this.disabledControls;
+
+    if (this.disabled) {
+      controls.forEach((control) => {
+        if (control[originalDisabledState] === undefined) {
+          control[originalDisabledState] = control.disabled;
+        }
+
+        control.disabled = true;
+      });
+
+      return;
+    }
+
+    controls.forEach((control) => {
+      if (control[originalDisabledState] === undefined) {
+        return;
+      }
+
+      control.disabled = control[originalDisabledState];
+      delete control[originalDisabledState];
+    });
   }
 
   private async syncInputAffixWidth(

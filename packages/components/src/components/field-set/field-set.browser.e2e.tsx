@@ -6,6 +6,7 @@ import { CSS as FieldRowCSS } from "../field-row/resources";
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
+  disabled?: boolean;
   prefixAutoWidth?: boolean;
   scale?: string;
   suffixAutoWidth?: boolean;
@@ -201,6 +202,72 @@ describe("propagation", () => {
     expect(directInput).not.toBeNull();
     expect(nestedInput).not.toBeNull();
     expect(trailingInput).not.toBeNull();
+  });
+
+  it("propagates disabled to slotted components and restores each component's original disabled state", async () => {
+    const { el } = await mount(
+      <calcite-field-set disabled>
+        <calcite-input id="enabled-input" />
+        <div>
+          <calcite-input disabled id="pre-disabled-input" />
+        </div>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const enabledInput = fieldSet.querySelector<UpdatableElement>("#enabled-input")!;
+    const preDisabledInput = fieldSet.querySelector<UpdatableElement>("#pre-disabled-input")!;
+
+    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(preDisabledInput)]);
+
+    await vi.waitFor(() => {
+      expect(enabledInput.disabled).toBe(true);
+      expect(preDisabledInput.disabled).toBe(true);
+    });
+
+    fieldSet.disabled = false;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(enabledInput), waitForUpdate(preDisabledInput)]);
+
+    await vi.waitFor(() => {
+      expect(enabledInput.disabled).toBe(false);
+      expect(preDisabledInput.disabled).toBe(true);
+    });
+  });
+
+  it("propagates disabled to controls nested in slotted calcite-labels and restores original disabled state", async () => {
+    const { el } = await mount(
+      <calcite-field-set disabled>
+        <calcite-label>
+          Label
+          <calcite-input id="label-enabled-input" />
+        </calcite-label>
+        <calcite-label>
+          Label
+          <calcite-input disabled id="label-pre-disabled-input" />
+        </calcite-label>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const labelEnabledInput = fieldSet.querySelector<UpdatableElement>("#label-enabled-input")!;
+    const labelPreDisabledInput = fieldSet.querySelector<UpdatableElement>(
+      "#label-pre-disabled-input",
+    )!;
+
+    await Promise.all([waitForUpdate(labelEnabledInput), waitForUpdate(labelPreDisabledInput)]);
+
+    await vi.waitFor(() => {
+      expect(labelEnabledInput.disabled).toBe(true);
+      expect(labelPreDisabledInput.disabled).toBe(true);
+    });
+
+    fieldSet.disabled = false;
+    await waitForUpdate(fieldSet);
+    await Promise.all([waitForUpdate(labelEnabledInput), waitForUpdate(labelPreDisabledInput)]);
+
+    await vi.waitFor(() => {
+      expect(labelEnabledInput.disabled).toBe(false);
+      expect(labelPreDisabledInput.disabled).toBe(true);
+    });
   });
 });
 

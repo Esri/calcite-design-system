@@ -1,6 +1,7 @@
 import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
+  disabled: boolean;
   legend: string;
   legendTextColor?: string;
   inputGap?: string;
@@ -14,10 +15,9 @@ type FieldSetStoryArgs = {
 };
 
 const hiddenCustomSpacingArgTypes = Object.fromEntries(
-  ["columns", "layout", "legend", "legendTextColor", "prefixAutoWidth", "scale", "suffixAutoWidth"].map((key) => [
-    key,
-    { table: { disable: true }, control: false },
-  ]),
+  ["columns", "disabled", "layout", "legend", "legendTextColor", "prefixAutoWidth", "scale", "suffixAutoWidth"].map(
+    (key) => [key, { table: { disable: true }, control: false }],
+  ),
 ) as Partial<Record<keyof FieldSetStoryArgs, { table: { disable: true }; control: false }>>;
 
 export default {
@@ -26,6 +26,7 @@ export default {
     layout: "padded",
   },
   args: {
+    disabled: false,
     legend: "Field Set legend",
     legendTextColor: "",
     scale: "m",
@@ -57,6 +58,9 @@ export default {
       options: [1, 2, 3, 4, 5, 6],
       control: { type: "radio" },
       if: { arg: "layout", eq: "columns" },
+    },
+    disabled: {
+      control: { type: "boolean" },
     },
     legend: {
       control: { type: "text" },
@@ -95,6 +99,7 @@ export const simple = (args: FieldSetStoryArgs): string => {
   return html`
     <calcite-field-set
       ${args.layout === "columns" && args.columns ? `columns="${args.columns}"` : ""}
+      ${args.disabled ? "disabled" : ""}
       legend="${args.legend}"
       layout="${args.layout}"
       scale="${args.scale}"
@@ -137,6 +142,12 @@ export const simple = (args: FieldSetStoryArgs): string => {
   `;
 };
 simple.parameters = {
+  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
+};
+
+export const disabled = (args: FieldSetStoryArgs): string => simple(args);
+disabled.args = { disabled: true };
+disabled.parameters = {
   controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
 
@@ -229,6 +240,7 @@ const labels = (args: FieldSetStoryArgs): string => {
   return html`
     <calcite-field-set
       ${args.layout === "columns" && args.columns ? `columns="${args.columns}"` : ""}
+      ${args.disabled ? "disabled" : ""}
       legend="${args.legend}"
       layout="${args.layout}"
       scale="${args.scale}"
@@ -320,6 +332,12 @@ const labels = (args: FieldSetStoryArgs): string => {
 
 export const simpleUsingLabels = (args: FieldSetStoryArgs): string => labels(args);
 simpleUsingLabels.parameters = {
+  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
+};
+
+export const disabledUsingLabels = (args: FieldSetStoryArgs): string => labels(args);
+disabledUsingLabels.args = { disabled: true };
+disabledUsingLabels.parameters = {
   controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
 
