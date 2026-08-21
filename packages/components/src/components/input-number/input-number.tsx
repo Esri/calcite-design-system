@@ -771,12 +771,16 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      const inputElement = this.childNumberRef.value;
+      if (!this.value && !inputElement?.value) {
+        return;
+      }
+      if (this.value && inputElement?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
       if (
-        this.value &&
-        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
+        inputElement?.selectionStart === 0 &&
+        inputElement?.selectionEnd === inputElement.value.length
       ) {
         return;
       }
@@ -897,6 +901,7 @@ export class InputNumber
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
     const hasTrailingDecimalSeparator =
+      valueHandleInteger.length >= 2 &&
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
 
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";

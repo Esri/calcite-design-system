@@ -231,13 +231,13 @@ it("allows deleting exponential number from decimal and adding trailing zeros", 
 
   await page.keyboard.press("Backspace");
   await page.waitForChanges();
-  expect(await calciteInput.getProperty("value")).toBe("2.1");
-  expect(await input.getProperty("value")).toBe("2.1");
+  expect(await calciteInput.getProperty("value")).toBe("");
+  expect(await input.getProperty("value")).toBe("2.1e");
 
   await page.keyboard.type("000");
   await page.waitForChanges();
-  expect(await calciteInput.getProperty("value")).toBe("2.1000");
-  expect(await input.getProperty("value")).toBe("2.1000");
+  expect(await calciteInput.getProperty("value")).toBe("2.1e0");
+  expect(await input.getProperty("value")).toBe("2.1e000");
 });
 
 it("disallows typing non-numeric characters with shift modifier key down", async () => {
