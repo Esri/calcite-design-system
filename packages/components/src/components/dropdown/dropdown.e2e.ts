@@ -965,45 +965,6 @@ describe("Focus order with Tab key", () => {
   });
 });
 
-it.skip("closes existing open dropdown when opened", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    html` <calcite-dropdown id="dropdown-1">
-        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-      <calcite-dropdown id="dropdown-2">
-        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`,
-  );
-
-  const element1 = await page.find("calcite-dropdown[id='dropdown-1']");
-  const element2 = await page.find("calcite-dropdown[id='dropdown-2']");
-  const trigger1 = await element1.find("#trigger");
-  const trigger2 = await element2.find("#trigger");
-  const dropdownWrapper1 = await page.find("calcite-dropdown[id='dropdown-1'] >>> .wrapper");
-  const dropdownWrapper2 = await page.find("calcite-dropdown[id='dropdown-2'] >>> .wrapper");
-  expect(await dropdownWrapper1.isVisible()).toBe(false);
-  expect(await dropdownWrapper2.isVisible()).toBe(false);
-  await trigger1.click();
-  await page.waitForChanges();
-  expect(await dropdownWrapper1.isVisible()).toBe(true);
-  expect(await dropdownWrapper2.isVisible()).toBe(false);
-  await trigger2.click();
-  await page.waitForChanges();
-  expect(await dropdownWrapper1.isVisible()).toBe(false);
-  expect(await dropdownWrapper2.isVisible()).toBe(true);
-});
-
 it("focus is returned to trigger after close", async () => {
   const page = await newE2EPage();
   await page.setContent(html`
