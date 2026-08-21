@@ -399,7 +399,7 @@ describe("keyboard selection", () => {
     await userEvent.keyboard("{ArrowDown}{Enter}");
     await reRender();
 
-    expect(selectedItemsAtChange).toEqual([true, false]);
+    expect(selectedItemsAtChange).toEqual([true, false, false, false, false]);
   });
 
   it("applies initial value to item selection", async () => {
