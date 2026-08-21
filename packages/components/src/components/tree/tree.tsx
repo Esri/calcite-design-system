@@ -149,7 +149,8 @@ export class Tree extends LitElement {
 
     const target = event.target as TreeItem["el"];
     const childItems = nodeListToArray(target.querySelectorAll("calcite-tree-item"));
-    const previouslySelectedItems = this.getSelectedItems();
+    const isNoneSelectionMode = this.selectionMode === "none";
+    const previouslySelectedItems = isNoneSelectionMode ? [] : this.getSelectedItems();
 
     event.preventDefault();
     event.stopPropagation();
@@ -158,8 +159,6 @@ export class Tree extends LitElement {
       this.updateAncestorTree(event, previouslySelectedItems);
       return;
     }
-
-    const isNoneSelectionMode = this.selectionMode === "none";
 
     const shouldSelect =
       this.selectionMode !== null &&
