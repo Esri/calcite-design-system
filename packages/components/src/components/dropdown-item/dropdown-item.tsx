@@ -63,6 +63,9 @@ interface DropdownItemSlots {
   "": Node[];
 }
 
+/**
+ * @parent calcite-dropdown
+ */
 export class DropdownItem extends LitElement {
   //#region Type-only metadata members
 

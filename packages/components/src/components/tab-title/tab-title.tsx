@@ -109,6 +109,7 @@ interface TabTitleSlots {
 
 /**
  * Tab-titles are optionally individually closable.
+ * @parent calcite-tabs
  */
 export class TabTitle extends LitElement {
   //#region Type-only metadata members

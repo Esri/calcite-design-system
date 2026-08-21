@@ -16,6 +16,9 @@ interface CarouselItemSlots {
   "": Node[];
 }
 
+/**
+ * @parent calcite-carousel
+ */
 export class CarouselItem extends LitElement {
   //#region Type-only metadata members
 
