@@ -12134,7 +12134,7 @@
     "category": "Generic",
     "release": "4.6.0"
   },
-  "explode": {
+  "explode-geometry": {
     "alias": ["4.6.0", "geometry editing", "feature", "disconnect", "split", "polygon", "single-part"],
     "category": "Geometry Editing",
     "release": "4.6.0"
