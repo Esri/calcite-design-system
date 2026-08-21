@@ -86,7 +86,7 @@ describe("theme", () => {
         </calcite-tab-nav>,
       );
 
-      const container = (await page.getByTestId("tab-title-container").element()) as HTMLElement;
+      const container = page.getByTestId("tab-title-container").element() as HTMLElement;
       const tabTitle1 = page.getByText("Body začátku a konce");
       const tabTitle2 = page.getByText("Časový interval");
       const tabTitle3 = page.getByText("Přehrávání");
