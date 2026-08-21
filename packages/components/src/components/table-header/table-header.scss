@@ -17,11 +17,11 @@
 }
 
 :host([alignment="center"]) .cell {
-  align-content: center;
+  @apply text-center;
 }
 
 :host([alignment="end"]) .cell {
-  align-content: end;
+  @apply text-end;
 }
 
 .assistive-text {
@@ -29,8 +29,7 @@
 }
 
 .cell {
-  @apply text-start font-medium whitespace-normal;
-  align-content: start;
+  @apply text-start font-medium align-top whitespace-normal;
   grid-column: var(--calcite-internal-table-cell-grid-column-start) / span
     var(--calcite-internal-table-cell-grid-column-span, 1);
   grid-row: 1 / span var(--calcite-internal-table-cell-grid-row-span, 1);
@@ -59,16 +58,8 @@
   box-shadow: var(--calcite-internal-table-sticky-header-border-shadow, 0 0 0 0 transparent);
 }
 
-.cell:not(.center):not(.end).content-cell {
-  align-content: start;
-}
-
 .cell.center {
   align-content: center;
-}
-
-.cell.end.content-cell {
-  align-content: end;
 }
 
 .cell.body-row,
