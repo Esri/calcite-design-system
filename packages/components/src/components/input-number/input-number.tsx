@@ -952,14 +952,17 @@ export class InputNumber
       const valid = isValidNumber(newValue);
       if (!valid) {
         this.formSupport.setCustomValidity("Please enter a number.");
+        this.status = "invalid";
+        this.validationIcon = true;
       } else {
         this.formSupport.setCustomValidity("");
+        this.status = "valid";
+        this.validationIcon = false;
       }
-      this.status = valid ? "valid" : "invalid";
-      this.validationIcon = !valid;
     } else if (!this.required) {
       this.formSupport.setCustomValidity("");
       this.status = "valid";
+      this.validationIcon = false;
     }
 
     const validNewValue = isValidNumber(newValue) ? newValue : "";
