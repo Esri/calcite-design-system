@@ -360,6 +360,27 @@ it("reconciles textarea height when resize is none and host has fixed height", a
   ).toBeLessThanOrEqual(1);
 });
 
+it("reconciles textarea height when value and max length change together", async () => {
+  const { component, el } = await mount<TextArea>(
+    <calcite-text-area label-text="Description" resize="none" style={{ height: "200px" }} />,
+  );
+
+  const componentLocator = page.elementLocator(el);
+  const loader = componentLocator.getBySelector(`.${CSS.loaderContainer}`).element();
+  const textArea = componentLocator.getByRole("textbox").first().element();
+  const footer = componentLocator.getByRole("contentinfo").element();
+
+  el.value = "a";
+  el.maxLength = 600;
+  await component.updateComplete;
+
+  const loaderHeight = loader.getBoundingClientRect().height;
+  const textAreaHeight = textArea.getBoundingClientRect().height;
+  const footerHeight = footer.getBoundingClientRect().height;
+
+  expect(Math.abs(loaderHeight - (textAreaHeight + footerHeight))).toBeLessThanOrEqual(1);
+});
+
 it("allocates a fixed height between the textarea, footer, and validation message", async () => {
   const { el } = await mount<TextArea>(
     <calcite-text-area

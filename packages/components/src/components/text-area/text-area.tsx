@@ -334,7 +334,7 @@ export class TextArea
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (!(this.resize === "none" && changes.has("value"))) {
+    if (!(this.resize === "none" && changes.size === 1 && changes.has("value"))) {
       this.setTextAreaHeight();
     }
   }
