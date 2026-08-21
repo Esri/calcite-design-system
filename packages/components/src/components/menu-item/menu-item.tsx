@@ -356,6 +356,7 @@ export class MenuItem extends LitElement {
         label={this.messages.submenu}
         layout="vertical"
         role="menu"
+        scale={this.scale}
       >
         <slot name={SLOTS.submenuItem} onSlotChange={this.handleMenuItemSlotChange} />
       </calcite-menu>
