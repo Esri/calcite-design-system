@@ -333,8 +333,10 @@ export class TextArea
     }
   }
 
-  override updated(): void {
-    this.setTextAreaHeight();
+  override updated(changes: PropertyValues<this>): void {
+    if (!(this.resize === "none" && changes.has("value"))) {
+      this.setTextAreaHeight();
+    }
   }
 
   override disconnectedCallback(): void {
@@ -415,7 +417,7 @@ export class TextArea
     const { height: elStyleHeight } = getComputedStyle(this.el);
     const hostHeightIsConstrained = elStyleHeight !== "auto";
 
-    if (this.resize === "none" && loaderHeight >= contentHeight && !hostHeightIsConstrained) {
+    if (this.resize === "none" && !hostHeightIsConstrained) {
       return;
     }
 

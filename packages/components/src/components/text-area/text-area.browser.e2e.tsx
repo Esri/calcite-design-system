@@ -246,7 +246,7 @@ it("does not grow textarea height on repeated key presses", async () => {
   expect(el.value).toBe("aaaaaaaaaa");
 });
 
-it("does not grow textarea height on first input when resize is none", async () => {
+it("does not grow textarea height on repeated input when resize is none", async () => {
   const { el } = await mount<TextArea>(
     <calcite-text-area label-text="text" limit-text max-length="500" resize="none" rows={2} />,
   );
@@ -256,11 +256,13 @@ it("does not grow textarea height on first input when resize is none", async () 
 
   const initialHeight = textArea.element().getBoundingClientRect().height;
 
-  await userEvent.keyboard("a");
+  await userEvent.keyboard("aaaaaaaaaa");
   await afterNextFrame();
 
   const finalHeight = textArea.element().getBoundingClientRect().height;
   expect(Math.abs(finalHeight - initialHeight)).toBeLessThanOrEqual(1);
+  expect(textArea.element().style.height).toBe("");
+  expect(el.value).toBe("aaaaaaaaaa");
 });
 
 it("does not grow textarea height in a zero-height flex container", async () => {
@@ -347,6 +349,15 @@ it("reconciles textarea height when resize is none and host has fixed height", a
   const footerHeight = footer.getBoundingClientRect().height;
 
   expect(Math.abs(loaderHeight - (textAreaHeight + footerHeight))).toBeLessThanOrEqual(1);
+
+  await userEvent.click(textArea);
+  const initialInputHeight = textArea.getBoundingClientRect().height;
+  await userEvent.keyboard("aaaaaaaaaa");
+  await afterNextFrame();
+
+  expect(
+    Math.abs(textArea.getBoundingClientRect().height - initialInputHeight),
+  ).toBeLessThanOrEqual(1);
 });
 
 it("allocates a fixed height between the textarea, footer, and validation message", async () => {
