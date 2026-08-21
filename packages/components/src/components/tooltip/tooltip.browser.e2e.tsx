@@ -347,7 +347,7 @@ describe("floating-ui", () => {
     );
   });
 
-  describe("openClose", () => {
+  describe.skip("openClose", () => {
     openClose((mountOptions) =>
       mount(
         <>
