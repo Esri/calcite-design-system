@@ -23,7 +23,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements. */
+/**
+ * @parent calcite-table
+ * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
+ */
 export class TableRow extends LitElement {
   //#region Static Members
 

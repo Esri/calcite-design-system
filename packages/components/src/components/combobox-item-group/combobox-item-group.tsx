@@ -12,7 +12,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-combobox-item`s. */
+/**
+ * @parent calcite-combobox
+ * @slot - A slot for adding `calcite-combobox-item`s.
+ */
 export class ComboboxItemGroup extends LitElement {
   // #region Static Members
 

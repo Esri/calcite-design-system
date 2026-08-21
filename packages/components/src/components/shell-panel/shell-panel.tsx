@@ -46,6 +46,7 @@ declare global {
 }
 
 /**
+ * @parent calcite-shell
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  */

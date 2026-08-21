@@ -13,7 +13,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+/**
+ * @parent calcite-tabs
+ * @slot - A slot for adding custom content.
+ */
 export class Tab extends LitElement {
   // #region Static Members
 

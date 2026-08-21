@@ -12,6 +12,9 @@ declare global {
 const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
 const whitespaceToReplaceRegexp = /[^\S\u00A0]+/g;
 
+/**
+ * @parent calcite-select
+ */
 export class Option extends LitElement {
   // #endregion
 
