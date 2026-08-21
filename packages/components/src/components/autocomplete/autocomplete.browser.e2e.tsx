@@ -388,10 +388,10 @@ describe("keyboard selection", () => {
   });
 
   it("updates item selection before emitting change", async () => {
-    const { component, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const { component, el, reRender } = await mount<Autocomplete>(renderAutocomplete);
     let selectedItemsAtChange: boolean[] | undefined;
 
-    component.addEventListener("calciteAutocompleteChange", () => {
+    el.addEventListener("calciteAutocompleteChange", () => {
       selectedItemsAtChange = component.items.map((item) => item.selected);
     });
 
