@@ -246,6 +246,23 @@ it("does not grow textarea height on repeated key presses", async () => {
   expect(el.value).toBe("aaaaaaaaaa");
 });
 
+it("does not grow textarea height on first input when resize is none", async () => {
+  const { el } = await mount<TextArea>(
+    <calcite-text-area label-text="text" limit-text max-length="500" resize="none" rows="2" />,
+  );
+
+  const textArea = page.elementLocator(el).getByRole("textbox").first();
+  await userEvent.click(textArea);
+
+  const initialHeight = textArea.element().getBoundingClientRect().height;
+
+  await userEvent.keyboard("a");
+  await afterNextFrame();
+
+  const finalHeight = textArea.element().getBoundingClientRect().height;
+  expect(Math.abs(finalHeight - initialHeight)).toBeLessThanOrEqual(1);
+});
+
 it("does not grow textarea height in a zero-height flex container", async () => {
   const { component, el } = await mount<TextArea>(
     <calcite-text-area label-text="Description" max-length="600" />,
@@ -274,6 +291,38 @@ it("does not grow textarea height in a zero-height flex container", async () => 
   const finalHeight = textArea.element().getBoundingClientRect().height;
   expect(Math.abs(finalHeight - heightAfterPropertyUpdates)).toBeLessThanOrEqual(1);
   expect(el.value).toBe("aaaaaaaaaa");
+});
+
+it("reconciles textarea height when resize is none and host height is constrained by stylesheet", async () => {
+  const styleEl = document.createElement("style");
+  styleEl.textContent = `.resize-none-constrained { display: block; height: 80px; }`;
+  document.head.append(styleEl);
+
+  try {
+    const { el } = await mount<TextArea>(
+      <calcite-text-area
+        class="resize-none-constrained"
+        label-text="Description"
+        max-length="600"
+        resize="none"
+      />,
+    );
+
+    const componentLocator = page.elementLocator(el);
+    const loader = componentLocator.getBySelector(`.${CSS.loaderContainer}`).element();
+    const textArea = componentLocator.getByRole("textbox").first().element();
+    const footer = componentLocator.getByRole("contentinfo").element();
+
+    await afterNextFrame();
+
+    const loaderHeight = loader.getBoundingClientRect().height;
+    const textAreaHeight = textArea.getBoundingClientRect().height;
+    const footerHeight = footer.getBoundingClientRect().height;
+
+    expect(Math.abs(loaderHeight - (textAreaHeight + footerHeight))).toBeLessThanOrEqual(1);
+  } finally {
+    styleEl.remove();
+  }
 });
 
 it("allocates a fixed height between the textarea, footer, and validation message", async () => {

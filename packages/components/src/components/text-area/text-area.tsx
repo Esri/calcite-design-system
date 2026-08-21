@@ -411,7 +411,13 @@ export class TextArea
       return;
     }
 
-    if (this.dimensionsDiffer(textAreaHeight + footerHeight, loaderHeight)) {
+    const contentHeight = textAreaHeight + footerHeight;
+
+    if (this.resize === "none" && loaderHeight >= contentHeight) {
+      return;
+    }
+
+    if (this.dimensionsDiffer(contentHeight, loaderHeight)) {
       this.textAreaEl!.style.height = `${loaderHeight - footerHeight}px`;
     }
   }
