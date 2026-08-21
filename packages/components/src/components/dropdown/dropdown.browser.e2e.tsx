@@ -1046,16 +1046,16 @@ describe("scrolling", () => {
       }
 
       await userEvent.click(el);
-      await assertNoScrollbar();
       await expect.element(menu).toBeVisible();
+      await assertNoScrollbar();
 
       await userEvent.click(el);
-      await assertNoScrollbar();
       await expect.element(menu).not.toBeVisible();
+      await assertNoScrollbar();
 
       await userEvent.click(el);
-      await assertNoScrollbar();
       await expect.element(menu).toBeVisible();
+      await assertNoScrollbar();
     });
 
     it("does not scroll to selected item on open when max-items causes selected item to be beyond scroller", async () => {
