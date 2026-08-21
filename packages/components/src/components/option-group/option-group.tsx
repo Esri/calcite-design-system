@@ -13,6 +13,9 @@ interface OptionGroupSlots {
    */
   "": Node[];
 }
+/**
+ * @parent calcite-select
+ */
 export class OptionGroup extends LitElement {
   //#region Type-only metadata members
 

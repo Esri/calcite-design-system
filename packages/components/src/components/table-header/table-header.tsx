@@ -45,6 +45,9 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @parent calcite-table
+ */
 export class TableHeader extends LitElement {
   //#region Static Members
 

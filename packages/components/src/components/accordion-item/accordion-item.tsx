@@ -133,6 +133,7 @@ interface AccordionItemSlots {
 
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @parent calcite-accordion
  */
 export class AccordionItem extends LitElement {
   //#region Type-only metadata members

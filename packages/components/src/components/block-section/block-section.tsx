@@ -66,6 +66,7 @@ interface BlockSectionSlots {
 
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @parent calcite-block
  */
 export class BlockSection extends LitElement {
   //#region Type-only metadata members

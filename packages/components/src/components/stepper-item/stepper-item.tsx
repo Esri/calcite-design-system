@@ -119,6 +119,9 @@ interface StepperItemSlots {
   "": Node[];
 }
 
+/**
+ * @parent calcite-stepper
+ */
 export class StepperItem extends LitElement {
   //#region Type-only metadata members
 

@@ -39,6 +39,9 @@ interface AutocompleteItemGroupSlots {
   "": Node[];
 }
 
+/**
+ * @parent calcite-autocomplete
+ */
 export class AutocompleteItemGroup extends LitElement {
   //#region Type-only metadata members
 

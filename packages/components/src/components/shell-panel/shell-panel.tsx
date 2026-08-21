@@ -100,6 +100,9 @@ interface ShellPanelSlots {
   "action-bar": Node[];
 }
 
+/**
+ * @parent calcite-shell
+ */
 export class ShellPanel extends LitElement {
   //#region Type-only metadata members
 
