@@ -248,7 +248,7 @@ it("does not grow textarea height on repeated key presses", async () => {
 
 it("does not grow textarea height on first input when resize is none", async () => {
   const { el } = await mount<TextArea>(
-    <calcite-text-area label-text="text" limit-text max-length="500" resize="none" rows="2" />,
+    <calcite-text-area label-text="text" limit-text max-length="500" resize="none" rows={2} />,
   );
 
   const textArea = page.elementLocator(el).getByRole("textbox").first();
