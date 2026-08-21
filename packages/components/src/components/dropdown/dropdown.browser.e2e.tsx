@@ -909,6 +909,58 @@ describe("theme", () => {
   });
 });
 
+it("closes existing open dropdown when opened", async () => {
+  await mount<Dropdown>(
+    <>
+      <calcite-dropdown id="dropdown-1">
+        <calcite-button id="trigger" slot="trigger">
+          Open dropdown
+        </calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="single">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>
+            {" "}
+            Dropdown Item Content{" "}
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-dropdown id="dropdown-2">
+        <calcite-button id="trigger" slot="trigger">
+          Open dropdown
+        </calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="single">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>
+            {" "}
+            Dropdown Item Content{" "}
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </>,
+  );
+  const element1 = page.getBySelector("calcite-dropdown[id='dropdown-1']");
+  const element2 = page.getBySelector("calcite-dropdown[id='dropdown-2']");
+  const trigger1 = element1.getBySelector("#trigger");
+  const trigger2 = element2.getBySelector("#trigger");
+  const dropdownWrapper1 = page.getBySelector(`calcite-dropdown[id='dropdown-1'] .${CSS.wrapper}`);
+  const dropdownWrapper2 = page.getBySelector(`calcite-dropdown[id='dropdown-2'] .${CSS.wrapper}`);
+
+  await expect.element(dropdownWrapper1).not.toBeVisible();
+  await expect.element(dropdownWrapper2).not.toBeVisible();
+
+  await trigger1.click();
+
+  await expect.element(dropdownWrapper1).toBeVisible();
+  await expect.element(dropdownWrapper2).not.toBeVisible();
+
+  await trigger2.click();
+
+  await expect.element(dropdownWrapper1).not.toBeVisible();
+  await expect.element(dropdownWrapper2).toBeVisible();
+});
+
 describe("scrolling", () => {
   it("focused item should be in view when long", async () => {
     await mount<Dropdown>(
