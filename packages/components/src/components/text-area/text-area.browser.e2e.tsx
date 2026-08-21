@@ -237,6 +237,7 @@ it("does not grow textarea height on repeated key presses", async () => {
   await userEvent.click(textArea);
 
   const initialHeight = textArea.element().getBoundingClientRect().height;
+  expect(textArea.element().style.height).toBe("");
 
   await userEvent.keyboard("aaaaaaaaaa");
   await afterNextFrame();

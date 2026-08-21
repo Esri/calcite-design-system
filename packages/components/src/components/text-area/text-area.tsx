@@ -422,7 +422,10 @@ export class TextArea
     }
 
     if (this.dimensionsDiffer(contentHeight, loaderHeight)) {
-      this.textAreaEl!.style.height = `${loaderHeight - footerHeight}px`;
+      const height = `${loaderHeight - footerHeight}px`;
+      if (this.textAreaEl!.style.height !== height) {
+        this.textAreaEl!.style.height = height;
+      }
     }
   }
 
