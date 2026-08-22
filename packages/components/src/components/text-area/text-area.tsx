@@ -414,8 +414,7 @@ export class TextArea
     }
 
     const contentHeight = textAreaHeight + footerHeight;
-    const { height: elStyleHeight } = getComputedStyle(this.el);
-    const hostHeightIsConstrained = elStyleHeight !== "auto";
+    const hostHeightIsConstrained = this.dimensionsDiffer(contentHeight, loaderHeight);
 
     if (this.resize === "none" && !hostHeightIsConstrained) {
       return;

@@ -247,8 +247,8 @@ it("does not grow textarea height on repeated key presses", async () => {
   expect(el.value).toBe("aaaaaaaaaa");
 });
 
-it("does not grow textarea height on repeated input when resize is none", async () => {
-  const { el } = await mount<TextArea>(
+it("does not grow textarea height on non-value updates when resize is none", async () => {
+  const { component, el } = await mount<TextArea>(
     <calcite-text-area label-text="text" limit-text max-length="500" resize="none" rows={2} />,
   );
 
@@ -256,6 +256,11 @@ it("does not grow textarea height on repeated input when resize is none", async 
   await userEvent.click(textArea);
 
   const initialHeight = textArea.element().getBoundingClientRect().height;
+  expect(textArea.element().style.height).toBe("");
+
+  el.status = "valid";
+  await component.updateComplete;
+  expect(textArea.element().style.height).toBe("");
 
   await userEvent.keyboard("aaaaaaaaaa");
   await afterNextFrame();
@@ -369,12 +374,12 @@ it("reconciles textarea height when value and max length change together", async
   const componentLocator = page.elementLocator(el);
   const loader = componentLocator.getBySelector(`.${CSS.loaderContainer}`).element();
   const textArea = componentLocator.getByRole("textbox").first().element();
-  const footer = componentLocator.getByRole("contentinfo").element();
 
   el.value = "a";
   el.maxLength = 600;
   await component.updateComplete;
 
+  const footer = componentLocator.getByRole("contentinfo").element();
   const loaderHeight = loader.getBoundingClientRect().height;
   const textAreaHeight = textArea.getBoundingClientRect().height;
   const footerHeight = footer.getBoundingClientRect().height;
