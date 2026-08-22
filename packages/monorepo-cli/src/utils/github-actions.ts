@@ -14,9 +14,9 @@ export function setGithubError(text: string, properties?: githubCore.AnnotationP
     githubCore.error(text, properties);
   }
   if (properties?.file) {
-    // eslint-disable-next-line no-console
+    /* eslint-disable-next-line no-console -- Required for CLI output outside of GitHub. */
     console.error(styleText("red", `In ${properties.file}:`));
   }
-  // eslint-disable-next-line no-console
+  /* eslint-disable-next-line no-console -- Required for CLI output outside of GitHub. */
   console.error(styleText("red", text));
 }
