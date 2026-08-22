@@ -43,7 +43,7 @@ Promise.all(
         // It is not a command not found error if the error reports for a file
         // that was imported by the command file, rathe than the command file itself.
         error.url.endsWith(file);
-      // eslint-disable-next-line no-console
+      /* eslint-disable-next-line no-console -- Required for CLI output. */
       console.error(isCommandNotFound ? `error: unknown command: ${file.slice(0, -".ts".length)}` : error);
       process.exit(1);
     }
@@ -58,7 +58,7 @@ Promise.all(
     program.parse();
   })
   .catch((error) => {
-    // eslint-disable-next-line no-console
+    /* eslint-disable-next-line no-console -- Required for CLI output. */
     console.error(error);
     process.exit(1);
   });
