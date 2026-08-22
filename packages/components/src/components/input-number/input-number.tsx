@@ -895,7 +895,7 @@ export class InputNumber
       useGrouping: this.groupSeparator,
     };
 
-    const isValueDeleted =
+    const isValueLengthShortened =
       this.previousValue?.length > value.length || this.value?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
@@ -903,14 +903,10 @@ export class InputNumber
     const hasTrailingDecimalSeparator =
       valueHandleInteger.length >= 2 &&
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
-
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
+    const sanitizedValue = sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
@@ -930,8 +926,8 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
-      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    if (hasTrailingDecimalSeparator && isValueLengthShortened) {
+      newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
     }
 
     // adds localized leading zeros
@@ -957,15 +953,19 @@ export class InputNumber
       } else {
         this.formSupport.setCustomValidity("");
         this.status = "valid";
-        this.validationIcon = false;
+        this.validationIcon = undefined;
       }
     } else if (!this.required) {
       this.formSupport.setCustomValidity("");
       this.status = "valid";
-      this.validationIcon = false;
+      this.validationIcon = undefined;
     }
 
-    const validNewValue = isValidNumber(newValue) ? newValue : "";
+    const validNewValue = isValidNumber(newValue)
+      ? newValue
+      : newValue.endsWith(".")
+        ? String(Number(newValue))
+        : "";
     this.value = validNewValue;
 
     const localizedCharAllowlist = new Set([

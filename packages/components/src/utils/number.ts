@@ -101,7 +101,7 @@ export class BigDecimal {
 }
 
 export function isValidNumber(numberString?: string | null): boolean {
-  return !(!numberString || isNaN(Number(numberString)));
+  return !(!numberString || numberString.endsWith(".") || isNaN(Number(numberString)));
 }
 
 export function parseNumberString(numberString?: string): string {
