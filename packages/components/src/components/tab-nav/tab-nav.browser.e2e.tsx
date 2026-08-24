@@ -11,6 +11,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 import { userEvent, page } from "vitest/browser";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 describe("accessible: checked", () => {
   accessible(() => mount("calcite-tab-nav"));
@@ -68,53 +69,100 @@ describe("theme", () => {
     const clickAndWaitForScrollEnd = async (
       container: HTMLElement,
       event: typeof userEvent,
-      button: Element,
+      button: HTMLButtonElement,
     ): Promise<void> => {
       const scrollEnd = waitForScrollEnd(container);
       await event.click(button);
       await scrollEnd;
     };
 
-    it("should scroll adjacent tab title into view when next button is clicked", async () => {
+    it("should scroll tab title into view when next/previous button is clicked in a centered layout and host has a narrow width", async () => {
       await mount(
         <calcite-tab-nav layout="center" style={{ width: "200px" }}>
+          <calcite-tab-title layout="center">Body začátku a konce</calcite-tab-title>
           <calcite-tab-title layout="center" selected>
-            Body začátku a konce
+            Časový interval
           </calcite-tab-title>
-          <calcite-tab-title layout="center">Časový interval</calcite-tab-title>
           <calcite-tab-title layout="center">Přehrávání</calcite-tab-title>
         </calcite-tab-nav>,
       );
 
-      const container = page.getByTestId("tab-title-container").element() as HTMLElement;
+      const container = page.getByTestId("tab-title-container").element() as HTMLDivElement;
       const tabTitle1 = page.getByText("Body začátku a konce");
       const tabTitle2 = page.getByText("Časový interval");
       const tabTitle3 = page.getByText("Přehrávání");
-      const [prevButton, nextButton] = page.getByRole("button").elements();
+      const [prevButton, nextButton] = page.getByRole("button").elements() as HTMLButtonElement[];
 
-      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
-      await expect.element(tabTitle1).toBeInViewport();
-      await expect.element(tabTitle2).not.toBeInViewport();
-      await expect.element(tabTitle3).not.toBeInViewport();
-
-      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).not.toBeInViewport();
 
       await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await afterNextFrame();
       await expect.element(tabTitle1).not.toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).toBeInViewport();
 
       await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await afterNextFrame();
       await expect.element(tabTitle1).not.toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).toBeInViewport();
 
       await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
       await expect.element(tabTitle2).not.toBeInViewport();
+      await expect.element(tabTitle3).not.toBeInViewport();
+    });
+
+    it("should scroll tab title into view when next/previous button is clicked in an inline layout and host has a narrow width", async () => {
+      await mount(
+        <calcite-tabs bordered position="bottom" style={{ width: "300px" }}>
+          <calcite-tab-nav slot="title-group">
+            <calcite-tab-title selected> First tab: watercraft </calcite-tab-title>
+            <calcite-tab-title>Second tab: automobiles</calcite-tab-title>
+            <calcite-tab-title>Third tab: aircraft</calcite-tab-title>
+          </calcite-tab-nav>
+        </calcite-tabs>,
+      );
+
+      const container = page.getByTestId("tab-title-container").element() as HTMLDivElement;
+      const tabTitle1 = page.getByText("First tab: watercraft");
+      const tabTitle2 = page.getByText("Second tab: automobiles");
+      const tabTitle3 = page.getByText("Third tab: aircraft");
+      const [prevButton, nextButton] = page.getByRole("button").elements() as HTMLButtonElement[];
+
+      await afterNextFrame();
+      await expect.element(tabTitle1).toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
+      await expect.element(tabTitle3).not.toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await afterNextFrame();
+      await expect.element(tabTitle1).toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
+      // tabTitle3 being visible is a side effect of rounding off while scrolling
+      await expect.element(tabTitle3).toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await afterNextFrame();
+      await expect.element(tabTitle1).not.toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
+      await expect.element(tabTitle3).toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await afterNextFrame();
+      // tabTitle1 being visible is a side effect of rounding off while scrolling
+      await expect.element(tabTitle1).toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
+      await expect.element(tabTitle3).toBeInViewport();
+
+      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await afterNextFrame();
+      await expect.element(tabTitle1).toBeInViewport();
+      await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).not.toBeInViewport();
     });
   });
