@@ -6,7 +6,7 @@ import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../
 import { IDS as PanelIDS } from "../panel/resources";
 import { resizeShiftStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
 import { CSS } from "./resources";
 import type { Dialog } from "./dialog";
 

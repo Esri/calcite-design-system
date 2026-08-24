@@ -1,11 +1,11 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { createObserver } from "../../utils/observers";
 import { CSS as ItemCSS } from "../dropdown-item/resources";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import { CSS } from "./resources";
-import { RequestedItem } from "./interfaces";
+import { RequestedItem } from "./types";
 import { styles } from "./dropdown-group.scss";
 
 declare global {

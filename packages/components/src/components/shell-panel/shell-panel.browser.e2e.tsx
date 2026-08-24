@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
-import { locators, page, userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
 import {
   defaults,
@@ -14,23 +14,11 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { Dir } from "../interfaces";
+import { Dir } from "../types";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
-import type { ActionBar } from "../action-bar/action-bar";
-
-declare module "vitest/browser" {
-  interface LocatorSelectors {
-    getByCss: (css: string) => import("vitest/browser").Locator;
-  }
-}
-
-locators.extend({
-  getByCss(css: string) {
-    return `css=${css}`;
-  },
-});
+import type { Panel } from "../panel/panel";
 
 function getByCssElement<T extends Element>(element: Element, css: string): T {
   return page.elementLocator(element).getByCss(css).element() as unknown as T;
@@ -323,7 +311,9 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
       </calcite-shell>,
     );
-    const panel = getByCssElement<ShellPanel["el"]>(el, ":scope > calcite-shell-panel");
+    const panel = page
+      .getBySelector("calcite-shell > calcite-shell-panel")
+      .element() as ShellPanel["el"];
     const { content, handle } = getShellPanelElements(panel);
     const sizeCssProp =
       layout === "horizontal" ? "--calcite-shell-panel-height" : "--calcite-shell-panel-width";
@@ -400,8 +390,10 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
-  function getShellPanelBySlot(shell: Shell["el"], slot: PanelSlot): ShellPanel["el"] {
-    return getByCssElement<ShellPanel["el"]>(shell, `:scope > calcite-shell-panel[slot="${slot}"]`);
+  function getShellPanelBySlot(slot: PanelSlot): ShellPanel["el"] {
+    return page
+      .getBySelector(`calcite-shell > calcite-shell-panel[slot="${slot}"]`)
+      .element() as ShellPanel["el"];
   }
 
   function getShellPanelElements(panel: ShellPanel["el"]): {
@@ -413,13 +405,13 @@ describe("shell-panel updateSize public method", () => {
 
     return {
       actionBarContainer: panelLocator
-        .getByCss(`:scope > .${CSS.container} > .${CSS.actionBarContainer}`)
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.actionBarContainer}`)
         .element() as HTMLElement,
       content: panelLocator
-        .getByCss(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
         .element() as HTMLElement,
       handle: panelLocator
-        .getByCss(
+        .getBySelector(
           `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
         )
         .element() as HTMLElement,
@@ -433,7 +425,7 @@ describe("shell-panel updateSize public method", () => {
     panel,
     shellSize,
   }: {
-    component: { updateComplete: Promise<unknown> };
+    component: Shell;
     handle: HTMLElement;
     layout: PanelLayout;
     panel: ShellPanel["el"];
@@ -455,7 +447,7 @@ describe("shell-panel updateSize public method", () => {
 
   it("accounts for action bar width when applying max width to vertical panels", async () => {
     const shellWidth = 700;
-    const { el, component } = await mount<"calcite-shell">(
+    const { component } = await mount<"calcite-shell">(
       <calcite-shell style={`inline-size: ${shellWidth}px; block-size: 400px; position: relative;`}>
         <calcite-shell-panel slot="panel-start">
           <calcite-action-bar slot="action-bar">
@@ -476,7 +468,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
       </calcite-shell>,
     );
-    const panel = getShellPanelBySlot(el, "panel-end");
+    const panel = getShellPanelBySlot("panel-end");
     const { actionBarContainer, content, handle } = getShellPanelElements(panel);
 
     await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
@@ -511,7 +503,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
       </calcite-shell>,
     );
-    const panel = getShellPanelBySlot(el, "panel-end");
+    const panel = getShellPanelBySlot("panel-end");
     const { actionBarContainer, handle } = getShellPanelElements(panel);
 
     await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
@@ -545,7 +537,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
       </calcite-shell>,
     );
-    const panel = getShellPanelBySlot(el, "panel-end");
+    const panel = getShellPanelBySlot("panel-end");
     const { actionBarContainer, handle } = getShellPanelElements(panel);
 
     await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
@@ -557,7 +549,7 @@ describe("shell-panel updateSize public method", () => {
 
   it("accounts for action bar height when applying max height to horizontal panels", async () => {
     const shellHeight = 700;
-    const { el, component } = await mount<"calcite-shell">(
+    const { component } = await mount<"calcite-shell">(
       <calcite-shell
         style={`inline-size: 700px; block-size: ${shellHeight}px; position: relative;`}
       >
@@ -580,9 +572,11 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
       </calcite-shell>,
     );
-    const panel = getShellPanelBySlot(el, "panel-bottom");
-    const siblingPanel = getShellPanelBySlot(el, "panel-top");
-    const centerPanel = getByCssElement<HTMLElement>(el, ":scope > calcite-panel:not([slot])");
+    const panel = getShellPanelBySlot("panel-bottom");
+    const siblingPanel = getShellPanelBySlot("panel-top");
+    const centerPanel = page
+      .getBySelector("calcite-shell > calcite-panel:not([slot])")
+      .element() as Panel["el"];
     const { actionBarContainer, content, handle } = getShellPanelElements(panel);
 
     await dragPanelToMax({
@@ -632,7 +626,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
       </calcite-shell>,
     );
-    const panel = getShellPanelBySlot(el, "panel-bottom");
+    const panel = getShellPanelBySlot("panel-bottom");
     const { actionBarContainer, handle } = getShellPanelElements(panel);
 
     await dragPanelToMax({
@@ -674,7 +668,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
       </calcite-shell>,
     );
-    const panel = getShellPanelBySlot(el, "panel-bottom");
+    const panel = getShellPanelBySlot("panel-bottom");
     const { actionBarContainer, handle } = getShellPanelElements(panel);
 
     await dragPanelToMax({
@@ -698,7 +692,7 @@ describe("shell-panel updateSize public method", () => {
     );
     const handle = page
       .elementLocator(el)
-      .getByCss(
+      .getBySelector(
         `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
       )
       .element() as HTMLElement;
