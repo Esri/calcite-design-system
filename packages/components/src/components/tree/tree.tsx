@@ -149,16 +149,16 @@ export class Tree extends LitElement {
 
     const target = event.target as TreeItem["el"];
     const childItems = nodeListToArray(target.querySelectorAll("calcite-tree-item"));
+    const isNoneSelectionMode = this.selectionMode === "none";
+    const previouslySelectedItems = isNoneSelectionMode ? [] : this.getSelectedItems();
 
     event.preventDefault();
     event.stopPropagation();
 
     if (this.selectionMode === "ancestors") {
-      this.updateAncestorTree(event);
+      this.updateAncestorTree(event, previouslySelectedItems);
       return;
     }
-
-    const isNoneSelectionMode = this.selectionMode === "none";
 
     const shouldSelect =
       this.selectionMode !== null &&
@@ -237,11 +237,11 @@ export class Tree extends LitElement {
       });
     }
 
-    this.selectedItems = isNoneSelectionMode
-      ? []
-      : nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter((i) => i.selected);
+    this.selectedItems = isNoneSelectionMode ? [] : this.getSelectedItems();
 
-    this.calciteTreeSelect.emit();
+    if (this.selectionChanged(previouslySelectedItems)) {
+      this.calciteTreeSelect.emit();
+    }
 
     event.stopPropagation();
   }
@@ -335,7 +335,10 @@ export class Tree extends LitElement {
     }
   }
 
-  private updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
+  private updateAncestorTree(
+    event: CustomEvent<TreeItemSelectDetail>,
+    previouslySelectedItems: TreeItem["el"][],
+  ): void {
     const item = event.target as TreeItem["el"];
     const updateItem = event.detail.updateItem;
 
@@ -407,13 +410,24 @@ export class Tree extends LitElement {
       ancestor.selected = !indeterminate;
     });
 
-    this.selectedItems = nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
-      (i) => i.selected,
-    );
+    this.selectedItems = this.getSelectedItems();
 
-    if (updateItem) {
+    if (updateItem && this.selectionChanged(previouslySelectedItems)) {
       this.calciteTreeSelect.emit();
     }
+  }
+
+  private getSelectedItems(): TreeItem["el"][] {
+    return nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
+      (item) => item.selected,
+    );
+  }
+
+  private selectionChanged(previouslySelectedItems: TreeItem["el"][]): boolean {
+    return (
+      previouslySelectedItems.length !== this.selectedItems.length ||
+      this.selectedItems.some((item) => !previouslySelectedItems.includes(item))
+    );
   }
 
   private updateItems(): void {
