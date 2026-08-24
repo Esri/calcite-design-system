@@ -303,33 +303,33 @@ export const activeVerticalOpenAllScales = (): string => html`
   <div class="active-vertical-scales">
     <section>
       <h2>Small</h2>
-      <calcite-menu label="Small active vertical menu" layout="vertical">
-        <calcite-menu-item scale="s" text="Default"></calcite-menu-item>
-        <calcite-menu-item active scale="s" text="Active"></calcite-menu-item>
-        <calcite-menu-item active href="#small" scale="s" text="Linked active" open>
-          <calcite-menu-item scale="s" slot="submenu-item" text="Submenu item"></calcite-menu-item>
+      <calcite-menu label="Small active vertical menu" layout="vertical" scale="s">
+        <calcite-menu-item text="Default"></calcite-menu-item>
+        <calcite-menu-item active text="Active"></calcite-menu-item>
+        <calcite-menu-item active href="#small" text="Linked active" open>
+          <calcite-menu-item slot="submenu-item" text="Submenu item"></calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>
     </section>
 
     <section>
       <h2>Medium</h2>
-      <calcite-menu label="Medium active vertical menu" layout="vertical">
-        <calcite-menu-item scale="m" text="Default"></calcite-menu-item>
-        <calcite-menu-item active scale="m" text="Active"></calcite-menu-item>
-        <calcite-menu-item active href="#medium" scale="m" text="Linked active" open>
-          <calcite-menu-item scale="m" slot="submenu-item" text="Submenu item"></calcite-menu-item>
+      <calcite-menu label="Medium active vertical menu" layout="vertical" scale="m">
+        <calcite-menu-item text="Default"></calcite-menu-item>
+        <calcite-menu-item active text="Active"></calcite-menu-item>
+        <calcite-menu-item active href="#medium" text="Linked active" open>
+          <calcite-menu-item slot="submenu-item" text="Submenu item"></calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>
     </section>
 
     <section>
       <h2>Large</h2>
-      <calcite-menu label="Large active vertical menu" layout="vertical">
-        <calcite-menu-item scale="l" text="Default"></calcite-menu-item>
-        <calcite-menu-item active scale="l" text="Active"></calcite-menu-item>
-        <calcite-menu-item active href="#large" scale="l" text="Linked active" open>
-          <calcite-menu-item scale="l" slot="submenu-item" text="Submenu item"></calcite-menu-item>
+      <calcite-menu label="Large active vertical menu" layout="vertical" scale="l">
+        <calcite-menu-item text="Default"></calcite-menu-item>
+        <calcite-menu-item active text="Active"></calcite-menu-item>
+        <calcite-menu-item active href="#large" text="Linked active" open>
+          <calcite-menu-item slot="submenu-item" text="Submenu item"></calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>
     </section>
@@ -376,37 +376,37 @@ export const WithSubmenuOpenInVerticalLayoutAllScales = (): string =>
     <div class="vertical-submenu-scales">
       <section>
         <h2>Small</h2>
-        <calcite-menu layout="vertical">
-          <calcite-menu-item href="#item" open scale="s" text="Item">
-            <calcite-menu-item active scale="s" slot="submenu-item" text="item1"></calcite-menu-item>
-            <calcite-menu-item scale="s" slot="submenu-item" text="item2"></calcite-menu-item>
+        <calcite-menu layout="vertical" scale="s">
+          <calcite-menu-item href="#item" open text="Item">
+            <calcite-menu-item active slot="submenu-item" text="item1"></calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="item2"></calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item href="#item" scale="s" text="Item 2"></calcite-menu-item>
-          <calcite-menu-item href="#item" scale="s" text="Item 3"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 2"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 3"></calcite-menu-item>
         </calcite-menu>
       </section>
 
       <section>
         <h2>Medium</h2>
-        <calcite-menu layout="vertical">
-          <calcite-menu-item href="#item" open scale="m" text="Item">
-            <calcite-menu-item active scale="m" slot="submenu-item" text="item1"></calcite-menu-item>
-            <calcite-menu-item scale="m" slot="submenu-item" text="item2"></calcite-menu-item>
+        <calcite-menu layout="vertical" scale="m">
+          <calcite-menu-item href="#item" open text="Item">
+            <calcite-menu-item active slot="submenu-item" text="item1"></calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="item2"></calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item href="#item" scale="m" text="Item 2"></calcite-menu-item>
-          <calcite-menu-item href="#item" scale="m" text="Item 3"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 2"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 3"></calcite-menu-item>
         </calcite-menu>
       </section>
 
       <section>
         <h2>Large</h2>
-        <calcite-menu layout="vertical">
-          <calcite-menu-item href="#item" open scale="l" text="Item">
-            <calcite-menu-item active scale="l" slot="submenu-item" text="item1"></calcite-menu-item>
-            <calcite-menu-item scale="l" slot="submenu-item" text="item2"></calcite-menu-item>
+        <calcite-menu layout="vertical" scale="l">
+          <calcite-menu-item href="#item" open text="Item">
+            <calcite-menu-item active slot="submenu-item" text="item1"></calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="item2"></calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item href="#item" scale="l" text="Item 2"></calcite-menu-item>
-          <calcite-menu-item href="#item" scale="l" text="Item 3"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 2"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 3"></calcite-menu-item>
         </calcite-menu>
       </section>
     </div>`;
