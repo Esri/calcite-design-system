@@ -2,7 +2,7 @@ import {
   calciteSize24,
   calciteSize32,
   calciteSize44,
-} from "@esri/calcite-design-tokens/dist/es6/core";
+} from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -14,9 +14,9 @@ import {
   FocusElementInGroupDestination,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
-import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { Scale } from "../types";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/types";
+import { TabID, TabLayout, TabPosition } from "../tabs/types";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { TabTitle } from "../tab-title/tab-title";

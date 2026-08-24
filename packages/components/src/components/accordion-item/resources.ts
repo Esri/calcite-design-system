@@ -1,5 +1,5 @@
-import { IconName } from "../icon/interfaces";
-import { Appearance, Position, IconType } from "../interfaces";
+import { IconName } from "../icon/types";
+import { Appearance, Position, IconType } from "../types";
 
 export const SLOTS = {
   actionsStart: "actions-start",

@@ -9,12 +9,12 @@ import {
 } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { CSS_UTILITY } from "../../utils/resources";
-import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { Tree } from "../tree/tree";
 import { useInteractive } from "../../controllers/useInteractive";
-import { TreeItemSelectDetail } from "./interfaces";
+import { TreeItemSelectDetail } from "./types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tree-item.scss";
 

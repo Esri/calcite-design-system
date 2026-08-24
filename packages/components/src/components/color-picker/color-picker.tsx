@@ -5,7 +5,7 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { Direction, isPrimaryPointerButton } from "../../utils/dom";
-import { Dimensions, Scale } from "../interfaces";
+import { Dimensions, Scale } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
@@ -47,7 +47,7 @@ import {
   STATIC_DIMENSIONS,
   ICONS,
 } from "./resources";
-import { Channels, ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Channels, ColorMode, ColorValue, InternalColor } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
 import { logger } from "../../utils/logger";
@@ -348,7 +348,7 @@ export class ColorPicker extends LitElement {
    * The type will be preserved as the color is updated.
    *
    * @see [MDN - CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/types.ts#L10).
    */
   @property()
   get value(): ColorValue | null | undefined {
