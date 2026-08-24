@@ -48,13 +48,13 @@ interface LuminaContent {
       }),
     );
 
-    references.forEach((reference: string) => {
-      const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(reference);
+    const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(relativePath);
 
-      if (storybookItemIndex !== -1) {
-        storybookContents.modules[storybookItemIndex].reasons.push({ moduleName: relativePath });
-      }
-    });
+    if (storybookItemIndex !== -1) {
+      references.forEach((reference: string) => {
+        storybookContents.modules[storybookItemIndex].reasons.push({ moduleName: reference });
+      });
+    }
   }
 
   await writeFile(storybookPath, JSON.stringify(storybookContents, null, 2));
