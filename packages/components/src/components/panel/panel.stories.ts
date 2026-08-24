@@ -188,6 +188,63 @@ export const closableWithActions = (): string => html`
   </calcite-panel>
 `;
 
+export const withHeaderTop = (): string => html`
+  <calcite-panel closable heading="Panel heading" style="width: 300px;">
+    <div slot="header-top">Header top content</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
+
+export const withOnlyHeaderTop = (): string => html`
+  <calcite-panel style="width: 300px;">
+    <div slot="header-top">Header top content</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
+
+export const withPaginationHeaderTop = (): string => html`
+  <style>
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      background-color: var(--calcite-color-foreground-1);
+    }
+
+    .pagination-menu-button {
+      padding-inline: var(--calcite-spacing-xxs);
+      border-inline-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    }
+
+    .pagination-action-bar {
+      flex: 1;
+    }
+  </style>
+  <calcite-panel closable heading="Header top demo" style="--calcite-panel-header-top-space: 0; width: 360px">
+    <div class="header" slot="header-top">
+      <calcite-action-bar
+        class="pagination-action-bar"
+        expand-disabled
+        layout="horizontal"
+        overflow-actions-disabled
+        scale="s"
+      >
+        <calcite-action-group scale="s">
+          <calcite-action
+            class="pagination-previous"
+            icon="chevron-left"
+            icon-flip-rtl
+            label="Previous page"
+          ></calcite-action>
+          <calcite-action icon="chevron-right" icon-flip-rtl label="Next page"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-action class="pagination-menu-button" icon="list" text="1 of 2" text-enabled></calcite-action>
+    </div>
+    <div style="padding: 16px">Content below the header-top slot.</div>
+  </calcite-panel>
+`;
+
 export const collapsibleWithoutActions = (): string => html`
   <calcite-panel
     style="height: 100%;"

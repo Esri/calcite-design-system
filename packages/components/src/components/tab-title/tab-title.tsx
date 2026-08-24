@@ -15,11 +15,11 @@ import { nodeListToArray } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { FlipContext, Scale } from "../interfaces";
-import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { FlipContext, Scale } from "../types";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/types";
+import { TabID, TabLayout, TabPosition } from "../tabs/types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -208,16 +208,12 @@ export class TabTitle extends LitElement {
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts#L1).
    * @private
    */
   calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
 
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts).
    * @private
    */
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });

@@ -55,10 +55,10 @@ import {
 import { ClearButton } from "../functional/ClearButton";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
-import { Status } from "../interfaces";
+import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
@@ -72,6 +72,7 @@ import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -1077,7 +1078,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   private warnAboutInvalidValue(value: string): void {
-    console.warn(
+    logger.warn(
       `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`,
     );
   }

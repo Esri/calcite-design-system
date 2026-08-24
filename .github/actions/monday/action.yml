@@ -27,7 +27,7 @@ runs:
       with:
         script: |
           core.startGroup("Create Task");
-          const action = require('${{ github.action_path }}/../../scripts/monday/createTask.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/createTask.cjs')
           await action({github, context, core})
           core.endGroup();
 
@@ -42,7 +42,7 @@ runs:
       with:
         script: |
           core.startGroup("Update Label on Task");
-          const action = require('${{ github.action_path }}/../../scripts/monday/updateLabels.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateLabels.cjs')
           await action({github, context, core})
           core.endGroup();
 
@@ -57,7 +57,7 @@ runs:
       with:
         script: |
           core.startGroup("Remove Label from Task");
-          const action = require('${{ github.action_path }}/../../scripts/monday/removeLabel.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/removeLabel.cjs')
           await action({github, context, core})
           core.endGroup();
 
@@ -72,7 +72,7 @@ runs:
       with:
         script: |
           core.startGroup("Update Milestone");
-          const action = require('${{ github.action_path }}/../../scripts/monday/updateMilestone.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateMilestone.cjs')
           await action({github, context, core})
           core.endGroup();
 
@@ -87,7 +87,7 @@ runs:
       with:
         script: |
           core.startGroup("Update Task Title");
-          const action = require('${{ github.action_path }}/../../scripts/monday/updateTitle.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateTitle.cjs')
           await action({github, context, core})
           core.endGroup();
 
@@ -102,7 +102,7 @@ runs:
       with:
         script: |
           core.startGroup("Update Task Assignee");
-          const action = require('${{ github.action_path }}/../../scripts/monday/updateAssignee.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateAssignee.cjs')
           await action({github, context, core})
           core.endGroup();
 
@@ -117,7 +117,7 @@ runs:
       with:
         script: |
           core.startGroup("Update Task Status");
-          const action = require('${{ github.action_path }}/../../scripts/monday/updateState.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateState.cjs')
           await action({github, context, core})
           core.endGroup();
 
@@ -132,6 +132,6 @@ runs:
       with:
         script: |
           core.startGroup("Sync Action Changes");
-          const action = require('${{ github.action_path }}/../../scripts/monday/syncActionChanges.js')
+          const action = require('${{ github.action_path }}/../../scripts/monday/syncActionChanges.cjs')
           await action({github, context, core})
           core.endGroup();

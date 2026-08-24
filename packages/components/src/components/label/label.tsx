@@ -5,7 +5,7 @@ import {
   labelConnectedEvent,
   labelDisconnectedEvent,
 } from "../../controllers/useLabel";
-import type { Alignment, Scale } from "../interfaces";
+import type { Alignment, Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./label.scss";
 

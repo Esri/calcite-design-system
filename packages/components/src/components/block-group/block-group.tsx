@@ -16,19 +16,19 @@ import {
   SortMenuItem,
   ReorderEventDetail,
   AddEventDetail,
-} from "../sort-handle/interfaces";
+} from "../sort-handle/types";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
-import type { BlockDragDetail } from "./interfaces";
+import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
