@@ -250,6 +250,21 @@ describe("modalDisabled", () => {
     await expect.element(outsideButton).toHaveFocus();
   });
 
+  it("closes when Escape is pressed with focusTrapDisabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet focus-trap-disabled label="Non-modal sheet" open>
+        <button type="button">inside</button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await userEvent.click(page.getByRole("button", { name: "inside" }));
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.open).toBe(false);
+  });
+
   it("allows focus to leave when focusTrapDisabled is true for a modal sheet", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el } = await mount<Sheet>(
