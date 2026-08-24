@@ -208,7 +208,7 @@ export const withPaginationHeaderTop = (): string => html`
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      background-color: var(--calcite-color-foreground-1);
+      background-color: var(--calcite-color-surface-2);
     }
 
     .pagination-menu-button {

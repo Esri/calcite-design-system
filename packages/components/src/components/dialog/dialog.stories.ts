@@ -161,7 +161,7 @@ const customContent = html` <div
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: var(--calcite-color-background);
+        background-color: var(--calcite-color-surface-1);
         border: 1px solid var(--calcite-color-brand);
         border-radius: 5px;"
   slot="custom-content"
