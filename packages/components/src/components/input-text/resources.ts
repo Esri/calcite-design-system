@@ -1,4 +1,4 @@
-import type { InputText } from "./input-text";
+import { isTag } from "../resources";
 
 export const CSS = {
   loader: "loader",
@@ -30,6 +30,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isInputText(el: Element | null | EventTarget): el is InputText["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-INPUT-TEXT";
-}
+export const isInputText = isTag("calcite-input-text");

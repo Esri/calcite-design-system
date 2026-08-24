@@ -1,5 +1,4 @@
-import type { Carousel } from "./carousel";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const DURATION = 6000;
@@ -51,6 +50,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isCarousel(el: Element | null | EventTarget): el is Carousel["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-CAROUSEL";
-}
+export const isCarousel = isTag("calcite-carousel");

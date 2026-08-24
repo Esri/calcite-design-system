@@ -1,4 +1,4 @@
-import type { CarouselItem } from "./carousel-item";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -14,6 +14,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isCarouselItem(el: Element | null | EventTarget): el is CarouselItem["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-CAROUSEL-ITEM";
-}
+export const isCarouselItem = isTag("calcite-carousel-item");

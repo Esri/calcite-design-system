@@ -1,5 +1,4 @@
-import type { FlowItem } from "./flow-item";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -31,6 +30,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isFlowItem(el: Element | null | EventTarget): el is FlowItem["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-FLOW-ITEM";
-}
+export const isFlowItem = isTag("calcite-flow-item");

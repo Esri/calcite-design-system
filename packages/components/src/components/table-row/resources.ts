@@ -1,5 +1,4 @@
-import type { TableRow } from "./table-row";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -16,6 +15,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isTableRow(el: Element | null | EventTarget): el is TableRow["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-TABLE-ROW";
-}
+export const isTableRow = isTag("calcite-table-row");

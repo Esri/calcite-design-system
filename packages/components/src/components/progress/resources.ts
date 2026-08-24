@@ -1,4 +1,4 @@
-import type { Progress } from "./progress";
+import { isTag } from "../resources";
 
 export const CSS = {
   track: "track",
@@ -9,6 +9,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isProgress(el: Element | null | EventTarget): el is Progress["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-PROGRESS";
-}
+export const isProgress = isTag("calcite-progress");

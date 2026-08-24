@@ -1,6 +1,5 @@
+import { isTag } from "../resources";
 import type { IconName } from "../icon/types";
-import type { Block } from "./block";
-
 export const IDS = {
   content: "content",
   toggle: "toggle",
@@ -52,6 +51,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isBlock(el: Element | null | EventTarget): el is Block["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-BLOCK";
-}
+export const isBlock = isTag("calcite-block");

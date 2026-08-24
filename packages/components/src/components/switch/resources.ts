@@ -1,4 +1,4 @@
-import type { Switch } from "./switch";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -9,6 +9,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isSwitch(el: Element | null | EventTarget): el is Switch["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SWITCH";
-}
+export const isSwitch = isTag("calcite-switch");

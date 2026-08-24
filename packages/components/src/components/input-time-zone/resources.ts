@@ -1,4 +1,4 @@
-import type { InputTimeZone } from "./input-time-zone";
+import { isTag } from "../resources";
 
 export const CSS = {
   offset: "offset",
@@ -11,6 +11,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isInputTimeZone(el: Element | null | EventTarget): el is InputTimeZone["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-INPUT-TIME-ZONE";
-}
+export const isInputTimeZone = isTag("calcite-input-time-zone");

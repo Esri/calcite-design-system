@@ -1,5 +1,4 @@
-import type { Tile } from "./tile";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -34,6 +33,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isTile(el: Element | null | EventTarget): el is Tile["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-TILE";
-}
+export const isTile = isTag("calcite-tile");

@@ -1,4 +1,4 @@
-import type { Filter } from "./filter";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -12,6 +12,4 @@ export const ICONS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isFilter(el: Element | null | EventTarget): el is Filter["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-FILTER";
-}
+export const isFilter = isTag("calcite-filter");

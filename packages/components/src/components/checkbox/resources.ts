@@ -1,4 +1,4 @@
-import type { Checkbox } from "./checkbox";
+import { isTag } from "../resources";
 
 export const CSS = {
   toggle: "toggle",
@@ -8,6 +8,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isCheckbox(el: Element | null | EventTarget): el is Checkbox["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-CHECKBOX";
-}
+export const isCheckbox = isTag("calcite-checkbox");

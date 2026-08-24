@@ -1,4 +1,4 @@
-import type { DatePickerMonthHeader } from "./date-picker-month-header";
+import { isTag } from "../resources";
 
 export const CSS = {
   header: "header",
@@ -24,6 +24,4 @@ export const ICON_WIDTH_M = 16;
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isDatePickerMonthHeader(el: Element | null | EventTarget): el is DatePickerMonthHeader["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-DATE-PICKER-MONTH-HEADER";
-}
+export const isDatePickerMonthHeader = isTag("calcite-date-picker-month-header");

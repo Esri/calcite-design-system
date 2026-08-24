@@ -1,5 +1,4 @@
-import type { InputTimePicker } from "./input-time-picker";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -40,6 +39,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isInputTimePicker(el: Element | null | EventTarget): el is InputTimePicker["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-INPUT-TIME-PICKER";
-}
+export const isInputTimePicker = isTag("calcite-input-time-picker");

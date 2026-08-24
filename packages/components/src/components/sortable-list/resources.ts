@@ -1,4 +1,4 @@
-import type { SortableList } from "./sortable-list";
+import { isTag } from "../resources";
 
 export const CSS = {
   sortItem: "sort-item",
@@ -10,6 +10,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isSortableList(el: Element | null | EventTarget): el is SortableList["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SORTABLE-LIST";
-}
+export const isSortableList = isTag("calcite-sortable-list");

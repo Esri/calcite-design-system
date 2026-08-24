@@ -1,6 +1,5 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
-import type { MenuItem } from "./menu-item";
-
 export const CSS = {
   container: "container",
   content: "content",
@@ -37,6 +36,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isMenuItem(el: Element | null | EventTarget): el is MenuItem["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-MENU-ITEM";
-}
+export const isMenuItem = isTag("calcite-menu-item");

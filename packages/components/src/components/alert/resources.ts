@@ -1,4 +1,4 @@
-import type { Alert } from "./alert";
+import { isTag } from "../resources";
 
 export const DURATIONS = {
   slow: 14000,
@@ -39,6 +39,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isAlert(el: Element | null | EventTarget): el is Alert["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-ALERT";
-}
+export const isAlert = isTag("calcite-alert");

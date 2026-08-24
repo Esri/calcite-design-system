@@ -1,4 +1,4 @@
-import type { ColorPickerSwatch } from "./color-picker-swatch";
+import { isTag } from "../resources";
 
 export const CSS = {
   swatch: "swatch",
@@ -26,6 +26,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isColorPickerSwatch(el: Element | null | EventTarget): el is ColorPickerSwatch["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-COLOR-PICKER-SWATCH";
-}
+export const isColorPickerSwatch = isTag("calcite-color-picker-swatch");

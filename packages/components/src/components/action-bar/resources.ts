@@ -1,4 +1,4 @@
-import type { ActionBar } from "./action-bar";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -18,6 +18,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isActionBar(el: Element | null | EventTarget): el is ActionBar["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-ACTION-BAR";
-}
+export const isActionBar = isTag("calcite-action-bar");

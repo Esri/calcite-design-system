@@ -1,4 +1,4 @@
-import type { CardGroup } from "./card-group";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -8,6 +8,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isCardGroup(el: Element | null | EventTarget): el is CardGroup["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-CARD-GROUP";
-}
+export const isCardGroup = isTag("calcite-card-group");

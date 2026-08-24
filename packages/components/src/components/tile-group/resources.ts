@@ -1,4 +1,4 @@
-import type { TileGroup } from "./tile-group";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -7,6 +7,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isTileGroup(el: Element | null | EventTarget): el is TileGroup["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-TILE-GROUP";
-}
+export const isTileGroup = isTag("calcite-tile-group");

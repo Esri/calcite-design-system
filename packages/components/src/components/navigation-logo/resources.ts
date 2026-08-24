@@ -1,4 +1,4 @@
-import type { NavigationLogo } from "./navigation-logo";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -14,6 +14,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isNavigationLogo(el: Element | null | EventTarget): el is NavigationLogo["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-NAVIGATION-LOGO";
-}
+export const isNavigationLogo = isTag("calcite-navigation-logo");

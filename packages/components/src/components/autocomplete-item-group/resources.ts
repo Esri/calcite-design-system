@@ -1,5 +1,4 @@
-import type { AutocompleteItemGroup } from "./autocomplete-item-group";
-
+import { isTag } from "../resources";
 import { Scale } from "../types";
 
 export const CSS = {
@@ -14,6 +13,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isAutocompleteItemGroup(el: Element | null | EventTarget): el is AutocompleteItemGroup["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-AUTOCOMPLETE-ITEM-GROUP";
-}
+export const isAutocompleteItemGroup = isTag("calcite-autocomplete-item-group");

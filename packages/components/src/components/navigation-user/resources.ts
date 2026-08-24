@@ -1,4 +1,4 @@
-import type { NavigationUser } from "./navigation-user";
+import { isTag } from "../resources";
 
 export const CSS = {
   button: "button",
@@ -11,6 +11,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isNavigationUser(el: Element | null | EventTarget): el is NavigationUser["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-NAVIGATION-USER";
-}
+export const isNavigationUser = isTag("calcite-navigation-user");

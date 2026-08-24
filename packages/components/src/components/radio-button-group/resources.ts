@@ -1,4 +1,4 @@
-import type { RadioButtonGroup } from "./radio-button-group";
+import { isTag } from "../resources";
 
 export const CSS = {
   itemWrapper: "item-wrapper",
@@ -11,6 +11,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isRadioButtonGroup(el: Element | null | EventTarget): el is RadioButtonGroup["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-RADIO-BUTTON-GROUP";
-}
+export const isRadioButtonGroup = isTag("calcite-radio-button-group");

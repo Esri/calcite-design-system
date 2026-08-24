@@ -1,6 +1,5 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
-import type { Chip } from "./chip";
-
 export const CSS = {
   title: "title",
   close: "close",
@@ -34,6 +33,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isChip(el: Element | null | EventTarget): el is Chip["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-CHIP";
-}
+export const isChip = isTag("calcite-chip");

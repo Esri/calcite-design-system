@@ -1,4 +1,4 @@
-import type { Icon } from "./icon";
+import { isTag } from "../resources";
 
 export const CSS = {
   icon: "icon",
@@ -9,6 +9,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isIcon(el: Element | null | EventTarget): el is Icon["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-ICON";
-}
+export const isIcon = isTag("calcite-icon");

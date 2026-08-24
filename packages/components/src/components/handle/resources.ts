@@ -1,4 +1,4 @@
-import type { Handle } from "./handle";
+import { isTag } from "../resources";
 
 export const CSS = {
   handle: "handle",
@@ -18,6 +18,4 @@ export const SUBSTITUTIONS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isHandle(el: Element | null | EventTarget): el is Handle["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-HANDLE";
-}
+export const isHandle = isTag("calcite-handle");

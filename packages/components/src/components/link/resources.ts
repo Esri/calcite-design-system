@@ -1,4 +1,4 @@
-import type { Link } from "./link";
+import { isTag } from "../resources";
 
 export const CSS = {
   calciteLinkIcon: "calcite-link--icon",
@@ -9,6 +9,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isLink(el: Element | null | EventTarget): el is Link["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-LINK";
-}
+export const isLink = isTag("calcite-link");

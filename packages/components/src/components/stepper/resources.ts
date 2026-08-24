@@ -1,5 +1,4 @@
-import type { Stepper } from "./stepper";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -30,6 +29,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isStepper(el: Element | null | EventTarget): el is Stepper["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-STEPPER";
-}
+export const isStepper = isTag("calcite-stepper");

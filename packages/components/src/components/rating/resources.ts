@@ -1,4 +1,4 @@
-import type { Rating } from "./rating";
+import { isTag } from "../resources";
 
 export const CSS = {
   fieldSet: "fieldset",
@@ -24,6 +24,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isRating(el: Element | null | EventTarget): el is Rating["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-RATING";
-}
+export const isRating = isTag("calcite-rating");

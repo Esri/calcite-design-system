@@ -1,5 +1,4 @@
-import type { SegmentedControlItem } from "./segmented-control-item";
-
+import { isTag } from "../resources";
 import { Scale } from "../types";
 
 export const SLOTS = {
@@ -19,6 +18,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isSegmentedControlItem(el: Element | null | EventTarget): el is SegmentedControlItem["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SEGMENTED-CONTROL-ITEM";
-}
+export const isSegmentedControlItem = isTag("calcite-segmented-control-item");

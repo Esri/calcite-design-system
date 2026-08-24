@@ -1,4 +1,4 @@
-import type { TextArea } from "./text-area";
+import { isTag } from "../resources";
 
 export const CSS = {
   assistiveText: "assistive-text",
@@ -38,6 +38,4 @@ export const NO_DIMENSIONS = Object.freeze({ height: 0, width: 0 });
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isTextArea(el: Element | null | EventTarget): el is TextArea["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-TEXT-AREA";
-}
+export const isTextArea = isTag("calcite-text-area");

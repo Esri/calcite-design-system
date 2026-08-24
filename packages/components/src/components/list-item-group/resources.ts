@@ -1,4 +1,4 @@
-import type { ListItemGroup } from "./list-item-group";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -8,6 +8,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isListItemGroup(el: Element | null | EventTarget): el is ListItemGroup["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-LIST-ITEM-GROUP";
-}
+export const isListItemGroup = isTag("calcite-list-item-group");

@@ -1,4 +1,4 @@
-import type { Scrim } from "./scrim";
+import { isTag } from "../resources";
 
 export const CSS = {
   scrim: "scrim",
@@ -14,6 +14,4 @@ export const BREAKPOINTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isScrim(el: Element | null | EventTarget): el is Scrim["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SCRIM";
-}
+export const isScrim = isTag("calcite-scrim");

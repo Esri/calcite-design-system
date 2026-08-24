@@ -1,4 +1,4 @@
-import type { Notice } from "./notice";
+import { isTag } from "../resources";
 
 export const SLOTS = {
   title: "title",
@@ -18,6 +18,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isNotice(el: Element | null | EventTarget): el is Notice["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-NOTICE";
-}
+export const isNotice = isTag("calcite-notice");

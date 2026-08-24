@@ -1,6 +1,5 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
-import type { ActionMenu } from "./action-menu";
-
 export const CSS = {
   menu: "menu",
   defaultTrigger: "default-trigger",
@@ -26,6 +25,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isActionMenu(el: Element | null | EventTarget): el is ActionMenu["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-ACTION-MENU";
-}
+export const isActionMenu = isTag("calcite-action-menu");

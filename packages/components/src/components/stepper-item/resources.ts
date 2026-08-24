@@ -1,6 +1,5 @@
+import { isTag } from "../resources";
 import type { IconName } from "../icon/types";
-import type { StepperItem } from "./stepper-item";
-
 export const CSS = {
   container: "container",
   hasSlottedContent: "has-slotted-content",
@@ -24,6 +23,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isStepperItem(el: Element | null | EventTarget): el is StepperItem["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-STEPPER-ITEM";
-}
+export const isStepperItem = isTag("calcite-stepper-item");

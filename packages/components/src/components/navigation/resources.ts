@@ -1,4 +1,4 @@
-import type { Navigation } from "./navigation";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -29,6 +29,4 @@ export const ICONS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isNavigation(el: Element | null | EventTarget): el is Navigation["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-NAVIGATION";
-}
+export const isNavigation = isTag("calcite-navigation");

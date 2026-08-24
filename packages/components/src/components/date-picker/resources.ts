@@ -1,4 +1,4 @@
-import type { DatePicker } from "./date-picker";
+import { isTag } from "../resources";
 
 export const HEADING_LEVEL = 2;
 
@@ -11,6 +11,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isDatePicker(el: Element | null | EventTarget): el is DatePicker["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-DATE-PICKER";
-}
+export const isDatePicker = isTag("calcite-date-picker");

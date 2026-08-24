@@ -1,5 +1,4 @@
-import type { Panel } from "./panel";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -66,6 +65,4 @@ export const HEADING_LEVEL = 3;
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isPanel(el: Element | null | EventTarget): el is Panel["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-PANEL";
-}
+export const isPanel = isTag("calcite-panel");

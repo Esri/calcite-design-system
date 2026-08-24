@@ -1,4 +1,4 @@
-import type { Stack } from "./stack";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -19,6 +19,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isStack(el: Element | null | EventTarget): el is Stack["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-STACK";
-}
+export const isStack = isTag("calcite-stack");

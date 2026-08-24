@@ -1,5 +1,4 @@
-import type { Fab } from "./fab";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -13,6 +12,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isFab(el: Element | null | EventTarget): el is Fab["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-FAB";
-}
+export const isFab = isTag("calcite-fab");

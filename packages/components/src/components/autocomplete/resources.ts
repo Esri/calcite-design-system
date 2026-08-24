@@ -1,4 +1,4 @@
-import type { Autocomplete } from "./autocomplete";
+import { isTag } from "../resources";
 
 export const SLOTS = {
   contentBottom: "content-bottom",
@@ -28,6 +28,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isAutocomplete(el: Element | null | EventTarget): el is Autocomplete["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-AUTOCOMPLETE";
-}
+export const isAutocomplete = isTag("calcite-autocomplete");

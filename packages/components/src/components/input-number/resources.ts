@@ -1,6 +1,5 @@
+import { isTag } from "../resources";
 import type { IconName } from "../icon/types";
-import type { InputNumber } from "./input-number";
-
 export const CSS = {
   loader: "loader",
   clearButton: "clear-button",
@@ -47,6 +46,4 @@ export const NUDGE_DELAY_IN_MS = 150;
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isInputNumber(el: Element | null | EventTarget): el is InputNumber["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-INPUT-NUMBER";
-}
+export const isInputNumber = isTag("calcite-input-number");

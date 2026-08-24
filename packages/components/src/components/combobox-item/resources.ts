@@ -1,5 +1,4 @@
-import type { ComboboxItem } from "./combobox-item";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 import { Scale } from "../types";
 
@@ -37,6 +36,4 @@ export const itemSpacingMultiplier = "--calcite-combobox-item-spacing-indent-mul
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isComboboxItem(el: Element | null | EventTarget): el is ComboboxItem["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-COMBOBOX-ITEM";
-}
+export const isComboboxItem = isTag("calcite-combobox-item");

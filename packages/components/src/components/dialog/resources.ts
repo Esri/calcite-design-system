@@ -1,5 +1,4 @@
-import type { Dialog } from "./dialog";
-
+import { isTag } from "../resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 
 export const CSS = {
@@ -47,6 +46,4 @@ export const initialResizePosition: DialogResizePosition = { top: 0, right: 0, b
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isDialog(el: Element | null | EventTarget): el is Dialog["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-DIALOG";
-}
+export const isDialog = isTag("calcite-dialog");

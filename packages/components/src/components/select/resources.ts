@@ -1,4 +1,4 @@
-import type { Select } from "./select";
+import { isTag } from "../resources";
 
 export const CSS = {
   icon: "icon",
@@ -14,6 +14,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isSelect(el: Element | null | EventTarget): el is Select["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SELECT";
-}
+export const isSelect = isTag("calcite-select");

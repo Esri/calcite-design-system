@@ -1,4 +1,4 @@
-import type { Tabs } from "./tabs";
+import { isTag } from "../resources";
 
 export const CSS = {
   section: "section",
@@ -11,6 +11,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isTabs(el: Element | null | EventTarget): el is Tabs["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-TABS";
-}
+export const isTabs = isTag("calcite-tabs");

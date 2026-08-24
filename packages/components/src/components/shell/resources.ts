@@ -1,4 +1,4 @@
-import type { Shell } from "./shell";
+import { isTag } from "../resources";
 
 export const CSS = {
   main: "main",
@@ -30,6 +30,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isShell(el: Element | null | EventTarget): el is Shell["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SHELL";
-}
+export const isShell = isTag("calcite-shell");

@@ -1,4 +1,4 @@
-import type { ActionPad } from "./action-pad";
+import { isTag } from "../resources";
 
 export const CSS = {
   actionGroupEnd: "action-group--end",
@@ -12,6 +12,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isActionPad(el: Element | null | EventTarget): el is ActionPad["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-ACTION-PAD";
-}
+export const isActionPad = isTag("calcite-action-pad");

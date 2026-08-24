@@ -1,5 +1,4 @@
-import type { SortHandle } from "./sort-handle";
-
+import { isTag } from "../resources";
 import { Reorder } from "./types";
 
 export const CSS = {
@@ -33,6 +32,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isSortHandle(el: Element | null | EventTarget): el is SortHandle["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SORT-HANDLE";
-}
+export const isSortHandle = isTag("calcite-sort-handle");

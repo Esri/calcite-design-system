@@ -1,4 +1,4 @@
-import type { BlockGroup } from "./block-group";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -14,6 +14,4 @@ export const blockSelector = "calcite-block";
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isBlockGroup(el: Element | null | EventTarget): el is BlockGroup["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-BLOCK-GROUP";
-}
+export const isBlockGroup = isTag("calcite-block-group");

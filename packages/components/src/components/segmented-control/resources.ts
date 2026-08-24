@@ -1,4 +1,4 @@
-import type { SegmentedControl } from "./segmented-control";
+import { isTag } from "../resources";
 
 export const CSS = {
   itemWrapper: "item-wrapper",
@@ -11,6 +11,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isSegmentedControl(el: Element | null | EventTarget): el is SegmentedControl["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-SEGMENTED-CONTROL";
-}
+export const isSegmentedControl = isTag("calcite-segmented-control");

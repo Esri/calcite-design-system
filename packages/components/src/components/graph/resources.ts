@@ -1,4 +1,4 @@
-import type { Graph } from "./graph";
+import { isTag } from "../resources";
 
 export const CSS = {
   svg: "svg",
@@ -17,6 +17,4 @@ export const IDS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isGraph(el: Element | null | EventTarget): el is Graph["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-GRAPH";
-}
+export const isGraph = isTag("calcite-graph");

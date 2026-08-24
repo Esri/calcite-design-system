@@ -1,4 +1,4 @@
-import type { Tooltip } from "./tooltip";
+import { isTag } from "../resources";
 
 export const CSS = {
   positionContainer: "position-container",
@@ -8,6 +8,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isTooltip(el: Element | null | EventTarget): el is Tooltip["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-TOOLTIP";
-}
+export const isTooltip = isTag("calcite-tooltip");

@@ -1,4 +1,4 @@
-import type { Meter } from "./meter";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -19,6 +19,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isMeter(el: Element | null | EventTarget): el is Meter["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-METER";
-}
+export const isMeter = isTag("calcite-meter");

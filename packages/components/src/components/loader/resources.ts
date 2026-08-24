@@ -1,4 +1,4 @@
-import type { Loader } from "./loader";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -14,6 +14,4 @@ export const CSS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isLoader(el: Element | null | EventTarget): el is Loader["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-LOADER";
-}
+export const isLoader = isTag("calcite-loader");

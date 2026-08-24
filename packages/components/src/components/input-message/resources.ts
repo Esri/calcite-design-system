@@ -1,4 +1,4 @@
-import type { InputMessage } from "./input-message";
+import { isTag } from "../resources";
 
 export const CSS = {
   inputMessageIcon: "calcite-input-message-icon",
@@ -13,6 +13,4 @@ export const StatusIconDefaults = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isInputMessage(el: Element | null | EventTarget): el is InputMessage["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-INPUT-MESSAGE";
-}
+export const isInputMessage = isTag("calcite-input-message");

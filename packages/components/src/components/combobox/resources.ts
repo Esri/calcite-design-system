@@ -1,5 +1,4 @@
-import type { Combobox } from "./combobox";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const ComboboxItemSelector = "CALCITE-COMBOBOX-ITEM";
@@ -63,6 +62,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isCombobox(el: Element | null | EventTarget): el is Combobox["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-COMBOBOX";
-}
+export const isCombobox = isTag("calcite-combobox");

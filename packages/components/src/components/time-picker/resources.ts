@@ -1,5 +1,4 @@
-import type { TimePicker } from "./time-picker";
-
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 import { Scale } from "../types";
 
@@ -47,6 +46,4 @@ export const ICONS: Record<string, IconName> = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isTimePicker(el: Element | null | EventTarget): el is TimePicker["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-TIME-PICKER";
-}
+export const isTimePicker = isTag("calcite-time-picker");

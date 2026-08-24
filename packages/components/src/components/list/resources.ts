@@ -1,4 +1,4 @@
-import type { List } from "./list";
+import { isTag } from "../resources";
 
 export const CSS = {
   container: "container",
@@ -23,6 +23,4 @@ export const SLOTS = {
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
-export function isList(el: Element | null | EventTarget): el is List["el"] {
-  return (el as Element | null)?.tagName === "CALCITE-LIST";
-}
+export const isList = isTag("calcite-list");
