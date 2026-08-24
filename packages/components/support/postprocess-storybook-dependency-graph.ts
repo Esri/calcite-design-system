@@ -35,21 +35,25 @@ interface LuminaContent {
       (referencePath: string) => `.${referencePath.substring(referencePath.indexOf("/src/"), referencePath.length)}`,
     );
 
-    references.push(
+    const tagReferences: string[] = [
       ...dependencies.referencedTagNames.map((tag: string) => {
         const componentName = tag.replace("calcite-", "");
         return `./src/components/${componentName}/${componentName}.tsx`;
       }),
-    );
-    references.push(
       ...dependencies.referencedDeferredTagNames.map((tag: string) => {
         const componentName = tag.replace("calcite-", "");
         return `./src/components/${componentName}/${componentName}.tsx`;
       }),
-    );
+    ];
+
+    tagReferences.forEach((reference: string) => {
+      const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(reference);
+      if (storybookItemIndex !== -1) {
+        storybookContents.modules[storybookItemIndex].reasons.push({ moduleName: relativePath });
+      }
+    });
 
     const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(relativePath);
-
     if (storybookItemIndex !== -1) {
       references.forEach((reference: string) => {
         storybookContents.modules[storybookItemIndex].reasons.push({ moduleName: reference });
