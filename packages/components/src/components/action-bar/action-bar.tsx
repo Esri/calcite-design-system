@@ -493,10 +493,10 @@ export class ActionBar extends LitElement {
     });
 
     this.ensureActionBarChildIds();
-    void this.syncNavigationItemsAfterActionGroupsRender();
+    void this.syncNavItemsAfterRender();
   }
 
-  private async syncNavigationItemsAfterActionGroupsRender(): Promise<void> {
+  private async syncNavItemsAfterRender(): Promise<void> {
     const { actionGroups } = this;
 
     await Promise.all(actionGroups.map((group) => group.componentOnReady()));
@@ -668,6 +668,19 @@ export class ActionBar extends LitElement {
     }
 
     const isVertical = this.layout !== "horizontal";
+
+    const currentGroup = this.getNavigationItemActionGroup(current);
+    const secondaryNextKey = isVertical ? "ArrowRight" : "ArrowDown";
+    const secondaryPreviousKey = isVertical ? "ArrowLeft" : "ArrowUp";
+
+    if (
+      (currentGroup?.selectionMode === "multiple" || currentGroup?.selectionMode === "none") &&
+      (event.key === secondaryNextKey || event.key === secondaryPreviousKey)
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
 
     if (this.handleSecondaryArrowActionMenuOpen(event, current, isVertical)) {
       return;
@@ -887,6 +900,10 @@ export class ActionBar extends LitElement {
     const currentGroup = this.getNavigationItemActionGroup(current);
 
     if (!currentGroup) {
+      return false;
+    }
+
+    if (currentGroup.selectionMode === "multiple" || currentGroup.selectionMode === "none") {
       return false;
     }
 
