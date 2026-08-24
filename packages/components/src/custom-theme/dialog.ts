@@ -6,8 +6,8 @@ export const dialogTokens = {
   calciteDialogBackgroundColor: "",
   calciteDialogBorderColor: "",
   calciteDialogContentBottomSpace: "",
-  calciteDialogContentTopSpace: "",
   calciteDialogContentSpace: "",
+  calciteDialogContentTopSpace: "",
   calciteDialogCornerRadius: "",
   calciteDialogDescriptionTextColor: "",
   calciteDialogFooterBackgroundColor: "",
@@ -19,6 +19,7 @@ export const dialogTokens = {
   calciteDialogHeaderActionTextColorPress: "",
   calciteDialogHeaderBackgroundColor: "",
   calciteDialogHeaderContentSpace: "",
+  calciteDialogHeaderTopSpace: "",
   calciteDialogHeadingTextColor: "",
   calciteDialogIconColor: "",
   calciteDialogMaxSizeX: "",
@@ -48,6 +49,7 @@ export const dialog = html`
       <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
       <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
       <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
+      <div slot="header-top">Header top</div>
       <div slot="content-top">To continue, you must agree to the terms</div>
       <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
         <calcite-checkbox></calcite-checkbox>I agree to the terms

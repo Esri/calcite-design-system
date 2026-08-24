@@ -450,14 +450,21 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/JamesClayPatton">
+      <img src="https://avatars.githubusercontent.com/u/18559362?v=4" width="100;" alt="JamesClayPatton"/>
+      <br />
+      <sub><b>James Patton</b></sub>
+    </a>
+  </td>
+</tr>
+<tr>
+  <td align="center">
     <a href="https://github.com/ptmdmusique">
       <img src="https://avatars.githubusercontent.com/u/37349324?v=4" width="100;" alt="ptmdmusique"/>
       <br />
       <sub><b>Duc Phan</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/dasa">
       <img src="https://avatars.githubusercontent.com/u/828058?v=4" width="100;" alt="dasa"/>

@@ -12123,5 +12123,30 @@
     "alias": ["4.6.0", "knowledge graph", "table", "custom", "file", "command", "template"],
     "category": "Knowledge Graph",
     "release": "4.6.0"
+  },
+  "delete-and-replace-features": {
+    "alias": ["4.6.0", "layers", "dataset", "remove", "automated workflows", "attribute", "truncate"],
+    "category": "Layers",
+    "release": "4.6.0"
+  },
+  "move-and-rotate": {
+    "alias": ["4.6.0", "generic", "features", "scale", "web editor", "values"],
+    "category": "Generic",
+    "release": "4.6.0"
+  },
+  "explode-geometry": {
+    "alias": ["4.6.0", "geometry editing", "feature", "disconnect", "split", "polygon", "single-part"],
+    "category": "Geometry Editing",
+    "release": "4.6.0"
+  },
+  "spatiotemporal-catalog": {
+    "alias": ["4.6.0", "technology", "open standard", "organize", "describe", "geospatial data", "imagery"],
+    "category": "Technology",
+    "release": "4.6.0"
+  },
+  "integration": {
+    "alias": ["4.6.0", "technology", "align", "third-party", "tool", "feature", "vertices", "insert"],
+    "category": "Technology",
+    "release": "4.6.0"
   }
 }
