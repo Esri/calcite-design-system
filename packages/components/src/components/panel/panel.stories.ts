@@ -212,7 +212,7 @@ export const withPaginationHeaderTop = (): string => html`
     }
 
     .pagination-menu-button {
-      padding-inline: var(--calcite-spacing-xxs);
+      padding-inline: var(--calcite-space-2xs);
       border-inline-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
     }
 
