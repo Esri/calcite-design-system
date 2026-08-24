@@ -77,6 +77,9 @@ export function createConfig({
       {
         name: "custom-element-dependencies",
         buildEnd: async () => {
+          if (!process.env.STORYBOOK_SCREENSHOT_TEST_BUILD) {
+            return;
+          }
           const outFile = resolve(import.meta.dirname, "build", "custom-element-dependencies.json");
           await writeFile(outFile, JSON.stringify((lumina.context as any)._customElementDependencies));
         },
