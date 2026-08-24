@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.55...@esri/calcite-components@5.2.0-next.56) (2026-08-21)
+
+### Features
+
+- **menu:** propagate scale to menu items ([#15056](https://github.com/Esri/calcite-design-system/issues/15056)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+## [5.2.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.54...@esri/calcite-components@5.2.0-next.55) (2026-08-21)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.53...@esri/calcite-components@5.2.0-next.54) (2026-08-21)
+
+### Bug Fixes
+
+- **dropdown:** avoid scrollbar when max-items matches item count ([#14985](https://github.com/Esri/calcite-design-system/issues/14985)), closes [#14979](https://github.com/Esri/calcite-design-system/issues/14979)
+
+## [5.2.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.52...@esri/calcite-components@5.2.0-next.53) (2026-08-20)
+
+### Features
+
+- **menu, menu-item:** add scales, update padding, spacing, font-sizes ([#14797](https://github.com/Esri/calcite-design-system/issues/14797)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+### Bug Fixes
+
+- **sheet:** allow Sheet focus trap to be disabled for modal sheets ([#15045](https://github.com/Esri/calcite-design-system/issues/15045)), closes [#12114](https://github.com/Esri/calcite-design-system/issues/12114)
+
+## [5.2.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.51...@esri/calcite-components@5.2.0-next.52) (2026-08-18)
+
+### Features
+
+- add non-modal behavior to Sheet ([#15012](https://github.com/Esri/calcite-design-system/issues/15012)), closes [#12114](https://github.com/Esri/calcite-design-system/issues/12114) [#15011](https://github.com/Esri/calcite-design-system/issues/15011)
+- **panel, flow-item, dialog:** add header-top slot ([#15028](https://github.com/Esri/calcite-design-system/issues/15028)), closes [#14987](https://github.com/Esri/calcite-design-system/issues/14987)
+
+## [5.2.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.50...@esri/calcite-components@5.2.0-next.51) (2026-08-18)
+
+### Bug Fixes
+
+- **input:** remove Microsoft Edge `type="password"` reveal icon ([#15038](https://github.com/Esri/calcite-design-system/issues/15038)), closes [#13973](https://github.com/Esri/calcite-design-system/issues/13973) [#12080](https://github.com/Esri/calcite-design-system/issues/12080)
+
 ## [5.2.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.49...@esri/calcite-components@5.2.0-next.50) (2026-08-13)
 
 ### Bug Fixes

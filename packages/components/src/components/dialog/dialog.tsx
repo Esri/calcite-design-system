@@ -42,6 +42,7 @@ declare global {
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
  * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
@@ -842,6 +843,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
               <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
               <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+              <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
               <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
               <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
               <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
