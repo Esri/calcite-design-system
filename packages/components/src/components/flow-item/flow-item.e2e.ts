@@ -6,7 +6,7 @@ import { findAll } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
 import { CSS } from "./resources";
 import type { FlowItem } from "./flow-item";
 

@@ -16,7 +16,7 @@ import type { NavigationLogo as HTMLCalciteNavigationLogoElement } from "../navi
 import type { NavigationUser as HTMLCalciteNavigationUserElement } from "../navigation-user/navigation-user";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./navigation.scss";
 
