@@ -443,17 +443,18 @@ export class TabNav extends LitElement {
 
     let isOverflowStart: boolean;
     let isOverflowEnd: boolean;
+    const scrollThreshold = 1;
 
     const scrollPosition = tabTitleContainer.scrollLeft;
     const visibleWidth = tabTitleContainer.clientWidth;
     const totalContentWidth = tabTitleContainer.scrollWidth;
 
     if (this.effectiveDir === "ltr") {
-      isOverflowStart = scrollPosition > 0;
-      isOverflowEnd = scrollPosition + visibleWidth < totalContentWidth;
+      isOverflowStart = scrollPosition > scrollThreshold;
+      isOverflowEnd = totalContentWidth - (scrollPosition + visibleWidth) > scrollThreshold;
     } else {
-      isOverflowStart = scrollPosition < 0;
-      isOverflowEnd = scrollPosition !== -(totalContentWidth - visibleWidth);
+      isOverflowStart = scrollPosition < -scrollThreshold;
+      isOverflowEnd = totalContentWidth - visibleWidth + scrollPosition > scrollThreshold;
     }
 
     this.hasOverflowingStartTabTitle = isOverflowStart;
@@ -463,7 +464,7 @@ export class TabNav extends LitElement {
   private scrollToTabTitles(direction: "forward" | "backward"): void {
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
-      const minThreshold = 1;
+      const scrollThreshold = 1;
       if (!tabTitleContainer) {
         return;
       }
@@ -490,7 +491,7 @@ export class TabNav extends LitElement {
           const isClippingContainerEnd =
             tabTitleBounds.left < containerBounds.right &&
             tabTitleBounds.right > containerBounds.right &&
-            tabTitleBounds.right - containerBounds.right > minThreshold;
+            tabTitleBounds.right - containerBounds.right > scrollThreshold;
 
           if (isAfterContainerEnd) {
             closestTabTitleAfterContainerEnd = tabTitle;
@@ -508,7 +509,7 @@ export class TabNav extends LitElement {
           const isClippingContainerStart =
             tabTitleBounds.left < containerBounds.left &&
             tabTitleBounds.right > containerBounds.left &&
-            containerBounds.left - tabTitleBounds.left > minThreshold;
+            containerBounds.left - tabTitleBounds.left > scrollThreshold;
 
           if (isBeforeContainerStart) {
             closestTabTitleBeforeContainerStart = tabTitle;
