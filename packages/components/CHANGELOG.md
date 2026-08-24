@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.57...@esri/calcite-components@5.2.0-next.58) (2026-08-24)
+
+### Bug Fixes
+
+- **label:** set default layout to `block` ([#15037](https://github.com/Esri/calcite-design-system/issues/15037)), closes [#14713](https://github.com/Esri/calcite-design-system/issues/14713)
+
 ## [5.2.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.56...@esri/calcite-components@5.2.0-next.57) (2026-08-24)
 
 ### Bug Fixes
