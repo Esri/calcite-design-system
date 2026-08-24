@@ -22,6 +22,10 @@ interface LuminaContent {
 }
 
 (async function () {
+  if (!process.env.STORYBOOK_SCREENSHOT_TEST_BUILD) {
+    return;
+  }
+
   const luminaPath = resolve(import.meta.dirname, "../build/custom-element-dependencies.json");
   const storybookPath = resolve(import.meta.dirname, "../docs/preview-stats.json");
 
@@ -31,10 +35,12 @@ interface LuminaContent {
   for (const [absolutePath, dependencies] of Object.entries(luminaContents)) {
     const relativePath = `.${absolutePath.substring(absolutePath.indexOf("/src/"), absolutePath.length)}`;
 
-    const references: string[] = dependencies.referencedBy.map(
+    // other modules that import the file
+    const importReferences: string[] = dependencies.referencedBy.map(
       (referencePath: string) => `.${referencePath.substring(referencePath.indexOf("/src/"), referencePath.length)}`,
     );
 
+    // component tags used in the file's code
     const tagReferences: string[] = [
       ...dependencies.referencedTagNames.map((tag: string) => {
         const componentName = tag.replace("calcite-", "");
@@ -46,6 +52,7 @@ interface LuminaContent {
       }),
     ];
 
+    // the file needs to be added to the "reasons" for the tags that are referenced in its code
     tagReferences.forEach((reference: string) => {
       const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(reference);
       if (storybookItemIndex !== -1) {
@@ -53,9 +60,10 @@ interface LuminaContent {
       }
     });
 
+    // the modules that import the file need to be added to its "reasons"
     const storybookItemIndex = storybookContents.modules.map((item) => item.id).indexOf(relativePath);
     if (storybookItemIndex !== -1) {
-      references.forEach((reference: string) => {
+      importReferences.forEach((reference: string) => {
         storybookContents.modules[storybookItemIndex].reasons.push({ moduleName: reference });
       });
     }
