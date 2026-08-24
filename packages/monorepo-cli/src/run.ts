@@ -41,7 +41,7 @@ Promise.all(
         "url" in error &&
         typeof error.url === "string" &&
         // It is not a command not found error if the error reports for a file
-        // that was imported by the command file, rathe than the command file itself.
+        // that was imported by the command file, rather than the command file itself.
         error.url.endsWith(file);
       /* eslint-disable-next-line no-console -- Required for CLI output. */
       console.error(isCommandNotFound ? `error: unknown command: ${file.slice(0, -".ts".length)}` : error);
