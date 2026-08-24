@@ -16,3 +16,5 @@ export const CSS = {
   scale: (scale: Scale) => `scale-${scale}` as const,
   position: (position: TabPosition) => `position-${position}` as const,
 };
+
+export const SCROLL_THRESHOLD = 1;

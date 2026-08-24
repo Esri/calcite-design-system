@@ -16,7 +16,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tabs } from "../tabs/tabs";
-import { CSS, ICON } from "./resources";
+import { CSS, ICON, SCROLL_THRESHOLD } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./tab-nav.scss";
 
@@ -443,18 +443,17 @@ export class TabNav extends LitElement {
 
     let isOverflowStart: boolean;
     let isOverflowEnd: boolean;
-    const scrollThreshold = 1;
 
     const scrollPosition = tabTitleContainer.scrollLeft;
     const visibleWidth = tabTitleContainer.clientWidth;
     const totalContentWidth = tabTitleContainer.scrollWidth;
 
     if (this.effectiveDir === "ltr") {
-      isOverflowStart = scrollPosition > scrollThreshold;
-      isOverflowEnd = totalContentWidth - (scrollPosition + visibleWidth) > scrollThreshold;
+      isOverflowStart = scrollPosition > SCROLL_THRESHOLD;
+      isOverflowEnd = totalContentWidth - (scrollPosition + visibleWidth) > SCROLL_THRESHOLD;
     } else {
-      isOverflowStart = scrollPosition < -scrollThreshold;
-      isOverflowEnd = totalContentWidth - visibleWidth + scrollPosition > scrollThreshold;
+      isOverflowStart = scrollPosition < -SCROLL_THRESHOLD;
+      isOverflowEnd = totalContentWidth - visibleWidth + scrollPosition > SCROLL_THRESHOLD;
     }
 
     this.hasOverflowingStartTabTitle = isOverflowStart;
@@ -464,7 +463,6 @@ export class TabNav extends LitElement {
   private scrollToTabTitles(direction: "forward" | "backward"): void {
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
-      const scrollThreshold = 1;
       if (!tabTitleContainer) {
         return;
       }
@@ -491,7 +489,7 @@ export class TabNav extends LitElement {
           const isClippingContainerEnd =
             tabTitleBounds.left < containerBounds.right &&
             tabTitleBounds.right > containerBounds.right &&
-            tabTitleBounds.right - containerBounds.right > scrollThreshold;
+            tabTitleBounds.right - containerBounds.right > SCROLL_THRESHOLD;
 
           if (isAfterContainerEnd) {
             closestTabTitleAfterContainerEnd = tabTitle;
@@ -509,7 +507,7 @@ export class TabNav extends LitElement {
           const isClippingContainerStart =
             tabTitleBounds.left < containerBounds.left &&
             tabTitleBounds.right > containerBounds.left &&
-            containerBounds.left - tabTitleBounds.left > scrollThreshold;
+            containerBounds.left - tabTitleBounds.left > SCROLL_THRESHOLD;
 
           if (isBeforeContainerStart) {
             closestTabTitleBeforeContainerStart = tabTitle;
