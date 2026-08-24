@@ -6424,31 +6424,6 @@ export const dragEnabledNestedLists = (): string =>
     <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
   </calcite-list>`;
 
-export const dragEnabledNestedListsIndirectChildren = (): string =>
-  html`<calcite-list display-mode="nested" id="root" drag-enabled label="List 1" group="my-list">
-    <div>
-      <calcite-list-item expanded label="Depth 1" description="Item 1">
-        <calcite-list display-mode="nested" group="my-list">
-          <div>
-            <calcite-list-item expanded label="Depth 2" description="Item 2">
-              <calcite-list display-mode="nested" drag-enabled label="List 2" group="my-list">
-                <div>
-                  <calcite-list-item label="Depth 3" description="Item 3">
-                    <calcite-list display-mode="nested" drag-enabled label="List 3" group="my-list"></calcite-list>
-                  </calcite-list-item>
-                </div>
-                <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
-              </calcite-list>
-            </calcite-list-item>
-          </div>
-          <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
-        </calcite-list>
-      </calcite-list-item>
-    </div>
-    <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
-    <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
-  </calcite-list>`;
-
 export const interactiveMode = (): string => html`
   <h2>interaction-mode="static" and selection-mode="none" (non-interactive)</h2>
 

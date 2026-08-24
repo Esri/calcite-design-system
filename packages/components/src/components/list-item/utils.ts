@@ -1,4 +1,5 @@
 import { isServer } from "lit";
+import { closestElementCrossShadowBoundary, getRootNode } from "../../utils/dom";
 import type { List } from "../list/list";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "./list-item";
@@ -7,8 +8,85 @@ export const listSelector = "calcite-list";
 export const listItemGroupSelector = "calcite-list-item-group";
 export const listItemSelector = "calcite-list-item";
 
+export function getClosestAncestorInComposedTree<T extends Element>(element: Element, selector: string): T | null {
+  const rootNode = getRootNode(element);
+  const rootHost = "host" in rootNode ? rootNode.host : null;
+  const startingElement = (element as Slottable).assignedSlot || element.parentElement || rootHost;
+
+  return startingElement ? closestElementCrossShadowBoundary<T>(startingElement, selector) : null;
+}
+
+export function getListStructureFromElements(elements: Element[]): {
+  groups: ListItemGroup["el"][];
+  lists: List["el"][];
+  items: ListItem["el"][];
+} {
+  // Intentionally only supports direct descendants and slot assignments. Neutral wrappers
+  // are not traversed unless they are themselves calcite-list/list-item/list-item-group.
+  return elements.reduce(
+    (acc, element) => {
+      if (element.matches(listSelector)) {
+        acc.lists.push(element);
+
+        const nestedChildren = getListStructureFromElements(Array.from(element.children));
+
+        acc.groups.push(...nestedChildren.groups);
+        acc.lists.push(...nestedChildren.lists);
+        acc.items.push(...nestedChildren.items);
+
+        return acc;
+      }
+
+      if (isListItem(element)) {
+        acc.items.push(element);
+
+        const nestedChildren = getListStructureFromElements(Array.from(element.children));
+
+        acc.groups.push(...nestedChildren.groups);
+        acc.lists.push(...nestedChildren.lists);
+        acc.items.push(...nestedChildren.items);
+
+        return acc;
+      }
+
+      if (element.matches(listItemGroupSelector)) {
+        const group = element;
+        const nestedChildren = getListStructureFromElements(Array.from(group.children));
+
+        acc.groups.push(group);
+        acc.groups.push(...nestedChildren.groups);
+        acc.lists.push(...nestedChildren.lists);
+        acc.items.push(...nestedChildren.items);
+
+        return acc;
+      }
+
+      if (element instanceof HTMLSlotElement) {
+        const nestedChildren = getListStructureFromElements(element.assignedElements({ flatten: true }));
+
+        acc.groups.push(...nestedChildren.groups);
+        acc.lists.push(...nestedChildren.lists);
+        acc.items.push(...nestedChildren.items);
+
+        return acc;
+      }
+
+      return acc;
+    },
+    {
+      groups: [],
+      lists: [],
+      items: [],
+    } as {
+      groups: ListItemGroup["el"][];
+      lists: List["el"][];
+      items: ListItem["el"][];
+    },
+  );
+}
+
 export function expandedAncestors(el: ListItem["el"]): void {
-  const ancestor = el.parentElement?.closest(listItemSelector);
+  const ancestor = getClosestAncestorInComposedTree<ListItem["el"]>(el, listItemSelector);
 
   if (!ancestor) {
     return;
@@ -22,34 +100,37 @@ export function getListItemChildren(slotEl: HTMLSlotElement): {
   lists: List["el"][];
   items: ListItem["el"][];
 } {
-  const assignedElements = slotEl.assignedElements({ flatten: true });
-
-  const groupChildren = assignedElements
-    .filter((el): el is ListItemGroup["el"] => el?.matches(listItemGroupSelector))
-    .map((group) => Array.from(group.querySelectorAll<ListItem["el"]>(listItemSelector)))
-    .flat();
-
-  const listItemChildren = assignedElements.filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
-
-  const listChildren = assignedElements.filter((el): el is List["el"] => el?.matches(listSelector));
+  const { lists, items } = getListStructureFromElements(slotEl.assignedElements({ flatten: true }));
 
   return {
-    lists: listChildren,
-    items: groupChildren.concat(listItemChildren),
+    lists,
+    items,
   };
 }
 
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {
-  const listItemChildren = slotEl
-    .assignedElements({ flatten: true })
-    .filter((el): el is ListItem["el"] => el.matches(listItemSelector));
+  const listEl = getClosestAncestorInComposedTree<List["el"]>(slotEl, listSelector);
+  const listItemChildren: ListItem["el"][] = [];
 
-  const filteredListItemChildren = listItemChildren.filter((listItem) => !listItem.filterHidden);
+  getListStructureFromElements(slotEl.assignedElements({ flatten: true })).items.forEach((listItem) => {
+    if (getClosestAncestorInComposedTree<List["el"]>(listItem, listSelector) === listEl) {
+      listItemChildren.push(listItem);
+    }
+  });
+
+  const visibleCount = listItemChildren.filter((listItem) => !listItem.filterHidden).length;
+  let visiblePosition = 0;
 
   listItemChildren.forEach((listItem) => {
-    const index = filteredListItemChildren.indexOf(listItem);
-    listItem.setPosition = index === -1 ? undefined : index + 1;
-    listItem.setSize = index === -1 ? undefined : filteredListItemChildren.length;
+    if (listItem.filterHidden) {
+      listItem.setPosition = undefined;
+      listItem.setSize = undefined;
+      return;
+    }
+
+    visiblePosition += 1;
+    listItem.setPosition = visiblePosition;
+    listItem.setSize = visibleCount;
   });
 }
 
@@ -58,13 +139,17 @@ export function getDepth(element: HTMLElement, includeGroup = false): number {
     return 0;
   }
 
-  const expression = includeGroup
-    ? "ancestor::calcite-list-item | ancestor::calcite-list-item-group"
-    : "ancestor::calcite-list-item";
+  const selector = includeGroup ? `${listItemSelector}, ${listItemGroupSelector}` : listItemSelector;
 
-  const result = document.evaluate(expression, element, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+  let depth = 0;
+  let currentAncestor = getClosestAncestorInComposedTree<Element>(element, selector);
 
-  return result.snapshotLength;
+  while (currentAncestor) {
+    depth += 1;
+    currentAncestor = getClosestAncestorInComposedTree<Element>(currentAncestor, selector);
+  }
+
+  return depth;
 }
 
 export function isListItem(element: Element): element is ListItem["el"] {

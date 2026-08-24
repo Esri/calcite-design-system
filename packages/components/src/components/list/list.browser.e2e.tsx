@@ -23,6 +23,33 @@ import { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 
+declare global {
+  interface DeclareElements {
+    "list-test-wrapper": ListTestWrapper;
+  }
+}
+
+class ListTestWrapper extends HTMLElement {
+  listEl: List["el"];
+
+  constructor() {
+    super();
+    const root = this.attachShadow({ mode: "open" });
+
+    this.listEl = document.createElement("calcite-list");
+    this.listEl.selectionMode = "single";
+
+    const defaultSlot = document.createElement("slot");
+
+    this.listEl.append(defaultSlot);
+    root.append(this.listEl);
+  }
+}
+
+if (!customElements.get("list-test-wrapper")) {
+  customElements.define("list-test-wrapper", ListTestWrapper);
+}
+
 const scrollTopValue = 120;
 
 const placeholder = placeholderImage({
@@ -376,6 +403,54 @@ describe("sticky group heading with filter", () => {
   });
 });
 
+describe("shadow slot projection", () => {
+  function getMountedWrapper(mountedEl: Element): HTMLElement & {
+    listEl: List["el"];
+  } {
+    if (mountedEl.tagName === "LIST-TEST-WRAPPER") {
+      return mountedEl as HTMLElement & {
+        listEl: List["el"];
+      };
+    }
+
+    const rootNode = mountedEl.getRootNode();
+    const rootHost = rootNode instanceof ShadowRoot ? rootNode.host : null;
+
+    if (rootHost?.tagName === "LIST-TEST-WRAPPER") {
+      return rootHost as HTMLElement & {
+        listEl: List["el"];
+      };
+    }
+
+    throw new Error("Could not resolve list-test-wrapper from mount result");
+  }
+
+  it("tracks projected grouped list-items without query-based discovery", async () => {
+    const { el: mountedEl } = await mount("list-test-wrapper");
+    const listTestWrapper = getMountedWrapper(mountedEl);
+
+    listTestWrapper.innerHTML = `
+      <calcite-list-item-group heading="Group A">
+        <calcite-list-item label="Alpha" value="a"></calcite-list-item>
+        <calcite-list-item label="Beta" value="b"></calcite-list-item>
+      </calcite-list-item-group>
+      <calcite-list-item label="Gamma" value="c"></calcite-list-item>
+    `;
+
+    await vi.waitUntil(async () => {
+      if (listTestWrapper.listEl.filteredItems.length === 3) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return listTestWrapper.listEl.filteredItems.length === 3;
+    });
+
+    expect(listTestWrapper.listEl.filteredItems).toHaveLength(3);
+  });
+});
+
 describe("group filtering", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -708,9 +783,213 @@ describe("filter item data updates", () => {
       (item) => item.el === listItem && !!item.heading?.includes(headingToken),
     );
   });
+
+  it("collects nested group headings from outermost to innermost", async () => {
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item-group heading="Outer heading">
+          <calcite-list-item-group heading="Inner heading">
+            <calcite-list-item
+              id="prop-watch-item-nested-heading"
+              label="Label"
+              value="prop-watch-nested-heading"
+            />
+          </calcite-list-item-group>
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const listItem = page
+      .getBySelector("#prop-watch-item-nested-heading")
+      .element() as ListItem["el"];
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      items?: { el?: Element; heading?: string[] }[];
+    };
+
+    el.filterProps = ["heading"];
+    el.filterText = "inner";
+    await waitForFilteredLength(el, 1);
+    await waitForFilterItemsMatch(
+      filterEl,
+      (item) => item.el === listItem && item.heading?.join("|") === "Outer heading|Inner heading",
+    );
+
+    const matchingFilterItem = filterEl.items?.find((item) => item.el === listItem);
+    expect(matchingFilterItem?.heading).toEqual(["Outer heading", "Inner heading"]);
+  });
 });
 
 describe("nested selection modes", () => {
+  it("navigates to items added to nested groups after load", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item display-mode="nested" id="dynamic-group-parent" label="Parent">
+          <calcite-list-item-group>
+            <calcite-list-item-group id="dynamic-nested-group" />
+          </calcite-list-item-group>
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page.getBySelector("#dynamic-group-parent").element() as ListItem["el"];
+    const nestedGroup = page.getBySelector("#dynamic-nested-group").element() as HTMLElement;
+
+    await vi.waitUntil(() => parentItem.displayMode === "nested");
+
+    const childItem = document.createElement("calcite-list-item");
+    childItem.id = "dynamic-nested-group-child";
+    childItem.label = "Child";
+    nestedGroup.append(childItem);
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(parentItem.expanded).toBe(false);
+
+    await userEvent.keyboard("{ArrowRight}");
+
+    await vi.waitUntil(async () => {
+      if (parentItem.expanded) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return parentItem.expanded;
+    });
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    await vi.waitUntil(async () => {
+      if (childItem.active) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return childItem.active;
+    });
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
+  });
+
+  it("does not navigate to wrapped non-direct child list-items with ArrowDown", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item expanded id="keyboard-wrapped-parent-item" label="Parent">
+          <div>
+            <calcite-list-item id="keyboard-wrapped-child-item" label="Child" />
+          </div>
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page
+      .getBySelector("#keyboard-wrapped-parent-item")
+      .element() as ListItem["el"];
+    const childItem = page
+      .getBySelector("#keyboard-wrapped-child-item")
+      .element() as ListItem["el"];
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+
+    await userEvent.keyboard("{ArrowDown}");
+    await afterNextTask();
+    await afterNextFrame();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+  });
+
+  it("navigates to nested child list-items with ArrowDown", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item expanded id="keyboard-parent-item" label="Parent">
+          <calcite-list-item id="keyboard-child-item" label="Child" />
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page.getBySelector("#keyboard-parent-item").element() as ListItem["el"];
+    const childItem = page.getBySelector("#keyboard-child-item").element() as ListItem["el"];
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    await vi.waitUntil(async () => {
+      if (childItem.active) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return childItem.active;
+    });
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
+  });
+
+  it("navigates to child items inside nested lists with ArrowDown", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item expanded id="keyboard-nested-list-parent" label="Parent">
+          <calcite-list display-mode="flat" label="Nested list">
+            <calcite-list-item id="keyboard-nested-list-child" label="Nested child" />
+          </calcite-list>
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page
+      .getBySelector("#keyboard-nested-list-parent")
+      .element() as ListItem["el"];
+    const childItem = page.getBySelector("#keyboard-nested-list-child").element() as ListItem["el"];
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    await vi.waitUntil(async () => {
+      if (childItem.active) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return childItem.active;
+    });
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
+  });
+
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
       <>
@@ -724,7 +1003,11 @@ describe("nested selection modes", () => {
           selection-appearance="icon"
           selection-mode="single-persist"
         >
-          <calcite-list-item expanded label="Top-level list-item">
+          <calcite-list-item
+            data-testid="root-list-one-top-item"
+            expanded
+            label="Top-level list-item"
+          >
             <calcite-list
               data-testid="nested-list-none-drag-enabled"
               display-mode="flat"
@@ -754,7 +1037,11 @@ describe("nested selection modes", () => {
           selection-appearance="icon"
           selection-mode="single-persist"
         >
-          <calcite-list-item expanded label="Top-level list-item">
+          <calcite-list-item
+            data-testid="root-list-two-top-item"
+            expanded
+            label="Top-level list-item"
+          >
             <calcite-list
               data-testid="nested-list-none"
               display-mode="flat"
@@ -783,7 +1070,11 @@ describe("nested selection modes", () => {
           selection-appearance="icon"
           selection-mode="single-persist"
         >
-          <calcite-list-item expanded label="Top-level list-item">
+          <calcite-list-item
+            data-testid="root-list-three-top-item"
+            expanded
+            label="Top-level list-item"
+          >
             <calcite-list
               data-testid="nested-list-multiple"
               display-mode="flat"
@@ -810,6 +1101,15 @@ describe("nested selection modes", () => {
     const nestedNoneDragEnabledItem = page
       .getByTestId("nested-none-item-drag-enabled")
       .element() as ListItem["el"];
+    const rootListOneTopItem = page
+      .getByTestId("root-list-one-top-item")
+      .element() as ListItem["el"];
+    const rootListTwoTopItem = page
+      .getByTestId("root-list-two-top-item")
+      .element() as ListItem["el"];
+    const rootListThreeTopItem = page
+      .getByTestId("root-list-three-top-item")
+      .element() as ListItem["el"];
     const nestedNoneItem = page.getByTestId("nested-none-item").element() as ListItem["el"];
     const nestedMultipleItem = page.getByTestId("nested-multiple-item").element() as ListItem["el"];
 
@@ -828,8 +1128,29 @@ describe("nested selection modes", () => {
       expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
     };
 
+    const assertRootItemSetProperties = (): void => {
+      expect(rootListOneTopItem).toHaveProperty("setPosition", 1);
+      expect(rootListOneTopItem).toHaveProperty("setSize", 1);
+      expect(rootListTwoTopItem).toHaveProperty("setPosition", 1);
+      expect(rootListTwoTopItem).toHaveProperty("setSize", 1);
+      expect(rootListThreeTopItem).toHaveProperty("setPosition", 1);
+      expect(rootListThreeTopItem).toHaveProperty("setSize", 1);
+    };
+
+    const rootItemSetPropertiesSettled = (): boolean => {
+      return (
+        rootListOneTopItem.setPosition === 1 &&
+        rootListOneTopItem.setSize === 1 &&
+        rootListTwoTopItem.setPosition === 1 &&
+        rootListTwoTopItem.setSize === 1 &&
+        rootListThreeTopItem.setPosition === 1 &&
+        rootListThreeTopItem.setSize === 1
+      );
+    };
+
     const assertAllNestedProperties = (): void => {
       assertSelectionModes();
+      assertRootItemSetProperties();
 
       expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
       expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
@@ -863,18 +1184,20 @@ describe("nested selection modes", () => {
 
     const waitForNestedPropertiesToSettle = async (): Promise<void> => {
       await vi.waitUntil(async () => {
-        if (nestedPropertiesSettled()) {
+        if (nestedPropertiesSettled() && rootItemSetPropertiesSettled()) {
           return true;
         }
 
         await afterNextTask();
         await afterNextFrame();
-        return nestedPropertiesSettled();
+        return nestedPropertiesSettled() && rootItemSetPropertiesSettled();
       });
     };
 
     // Assert immediately after initial render.
+    await waitForNestedPropertiesToSettle();
     assertSelectionModes();
+    assertRootItemSetProperties();
 
     // Establish nested list-item baselines from nested list updates.
     nestedListNoneDragEnabled.scale = "l";

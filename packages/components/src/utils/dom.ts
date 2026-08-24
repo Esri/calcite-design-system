@@ -180,6 +180,50 @@ export function queryElementRoots<T extends Element = Element>(
 }
 
 /**
+ * This helper queries an element's rootNode and any ancestor rootNodes for all elements matching the selector.
+ */
+export function queryElementRootsAll<T extends Element = Element>(
+  el: Element,
+  selector: string,
+  filter?: (element: T) => boolean,
+): T[] {
+  if (!el || !selector) {
+    return [];
+  }
+
+  if ((el as Slottable).assignedSlot) {
+    el = el.assignedSlot!;
+  }
+
+  const matches: T[] = [];
+  const visited = new Set<T>();
+
+  let rootNode = getRootNode(el);
+
+  while (rootNode) {
+    const rootMatches = Array.from(rootNode.querySelectorAll<T>(selector));
+
+    rootMatches.forEach((match) => {
+      if (visited.has(match) || (filter && !filter(match))) {
+        return;
+      }
+
+      visited.add(match);
+      matches.push(match);
+    });
+
+    const host = getHost(rootNode);
+    if (!host) {
+      break;
+    }
+
+    rootNode = getRootNode(host);
+  }
+
+  return matches;
+}
+
+/**
  * This helper returns the closest element matching the selector by crossing he shadow boundary if necessary.
  *
  * Based on https://stackoverflow.com/q/54520554/194216

@@ -115,6 +115,31 @@ it("should set the setSize and setPosition properties on nested items", async ()
   expect(await items[3].getProperty("setSize")).toBe(4);
 });
 
+it("should set setSize and setPosition from direct parent list items only", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    html`<calcite-list id="root" display-mode="nested" drag-enabled group="nested-lists">
+      <calcite-list-item id="root-item" open label="Top-level list-item">
+        <calcite-list id="nested" display-mode="flat" drag-enabled group="nested-lists">
+          <calcite-list-item id="nested-item" label="Sub-level list-item"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>`,
+  );
+
+  await page.waitForChanges();
+  await page.waitForTimeout(DEBOUNCE.filter);
+
+  const rootItem = await page.find("#root-item");
+  const nestedItem = await page.find("#nested-item");
+
+  expect(await rootItem.getProperty("setPosition")).toBe(1);
+  expect(await rootItem.getProperty("setSize")).toBe(1);
+
+  expect(await nestedItem.getProperty("setPosition")).toBe(1);
+  expect(await nestedItem.getProperty("setSize")).toBe(1);
+});
+
 it("should set the dragHandle property on items", async () => {
   const page = await newE2EPage();
   await page.setContent(
@@ -192,62 +217,6 @@ it("should set the sortDisabled property on items", async () => {
 
   for (let i = 0; i < items.length; i++) {
     expect(await items[i].getProperty("sortDisabled")).toBe(false);
-  }
-});
-
-it("should set the dragHandle property on items which are not direct children", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    html`<calcite-list id="root" drag-enabled group="my-list">
-      <div>
-        <calcite-list-item open label="Depth 1" description="Item 1">
-          <calcite-list group="my-list">
-            <div>
-              <calcite-list-item open label="Depth 2" description="Item 2">
-                <calcite-list drag-enabled group="my-list">
-                  <div>
-                    <calcite-list-item label="Depth 3" description="Item 3">
-                      <calcite-list drag-enabled group="my-list"></calcite-list>
-                    </calcite-list-item>
-                  </div>
-                  <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
-                </calcite-list>
-              </calcite-list-item>
-            </div>
-            <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
-          </calcite-list>
-        </calcite-list-item>
-      </div>
-      <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
-      <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
-    </calcite-list>`,
-  );
-
-  await page.waitForChanges();
-  await page.waitForTimeout(DEBOUNCE.filter);
-
-  let dragHandleValues = [true, false, true, true, false, true, true];
-
-  const items = await findAll(page, "calcite-list-item");
-
-  expect(items.length).toBe(dragHandleValues.length);
-
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
-  }
-
-  const rootList = await page.find("#root");
-
-  rootList.setProperty("dragEnabled", false);
-  await page.waitForChanges();
-  await page.waitForTimeout(DEBOUNCE.filter);
-
-  dragHandleValues = [false, false, true, true, false, false, false];
-
-  expect(items.length).toBe(dragHandleValues.length);
-
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
   }
 });
 
