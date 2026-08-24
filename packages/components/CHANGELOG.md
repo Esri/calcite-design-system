@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.59...@esri/calcite-components@5.2.0-next.60) (2026-08-24)
+
+### Bug Fixes
+
+- **menu-item:** fix item layout ([#15060](https://github.com/Esri/calcite-design-system/issues/15060)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+## [5.2.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.58...@esri/calcite-components@5.2.0-next.59) (2026-08-24)
+
+### Bug Fixes
+
+- **autocomplete:** synchronize item selection with value ([#15049](https://github.com/Esri/calcite-design-system/issues/15049)), closes [#14907](https://github.com/Esri/calcite-design-system/issues/14907)
+
 ## [5.2.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.57...@esri/calcite-components@5.2.0-next.58) (2026-08-24)
 
 ### Bug Fixes
