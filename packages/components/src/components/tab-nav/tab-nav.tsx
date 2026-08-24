@@ -463,7 +463,7 @@ export class TabNav extends LitElement {
   private scrollToTabTitles(direction: "forward" | "backward"): void {
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
-
+      const minThreshold = 1;
       if (!tabTitleContainer) {
         return;
       }
@@ -489,7 +489,8 @@ export class TabNav extends LitElement {
           const isAfterContainerEnd = tabTitleBounds.left >= containerBounds.right;
           const isClippingContainerEnd =
             tabTitleBounds.left < containerBounds.right &&
-            tabTitleBounds.right > containerBounds.right;
+            tabTitleBounds.right > containerBounds.right &&
+            tabTitleBounds.right - containerBounds.right > minThreshold;
 
           if (isAfterContainerEnd) {
             closestTabTitleAfterContainerEnd = tabTitle;
@@ -506,7 +507,8 @@ export class TabNav extends LitElement {
           const isBeforeContainerStart = tabTitleBounds.right <= containerBounds.left;
           const isClippingContainerStart =
             tabTitleBounds.left < containerBounds.left &&
-            tabTitleBounds.right > containerBounds.left;
+            tabTitleBounds.right > containerBounds.left &&
+            containerBounds.left - tabTitleBounds.left > minThreshold;
 
           if (isBeforeContainerStart) {
             closestTabTitleBeforeContainerStart = tabTitle;
@@ -526,11 +528,11 @@ export class TabNav extends LitElement {
       const tabTitleBounds = tabTitleToScroll.getBoundingClientRect();
       const containerScrollPosition = tabTitleContainer.scrollLeft;
       const scrollLeft = scrollToRightTabTiles
-        ? Math.ceil(containerScrollPosition + (tabTitleBounds.right - containerBounds.right))
-        : Math.floor(containerScrollPosition + (tabTitleBounds.left - containerBounds.left));
+        ? containerScrollPosition + (tabTitleBounds.right - containerBounds.right)
+        : containerScrollPosition + (tabTitleBounds.left - containerBounds.left);
 
       tabTitleContainer.scrollTo({
-        left: scrollLeft,
+        left: Math.round(scrollLeft),
         behavior: "smooth",
       });
     });
@@ -646,7 +648,6 @@ export class TabNav extends LitElement {
           class={{
             [CSS.tabTitleSlotWrapper]: true,
           }}
-          data-testid="tab-title-container"
           onScroll={this.onTabTitleScroll}
           onWheel={this.onTabTitleWheel}
           ref={this.setTabTitleContainerEl}

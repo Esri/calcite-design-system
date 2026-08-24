@@ -86,12 +86,14 @@ describe("theme", () => {
           <calcite-tab-title layout="center">Přehrávání</calcite-tab-title>
         </calcite-tab-nav>,
       );
-
-      const container = page.getByTestId("tab-title-container").element() as HTMLDivElement;
+      const container = page
+        .getBySelector(`.${CSS.tabTitleSlotWrapper}`)
+        .element() as HTMLDivElement;
       const tabTitle1 = page.getByText("Body začátku a konce");
       const tabTitle2 = page.getByText("Časový interval");
       const tabTitle3 = page.getByText("Přehrávání");
-      const [prevButton, nextButton] = page.getByRole("button").elements() as HTMLButtonElement[];
+      const prevButton = page.getByLabelText(`Previous tab titles`).element() as HTMLButtonElement;
+      const nextButton = page.getByLabelText(`Next tab titles`).element() as HTMLButtonElement;
 
       await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
@@ -128,11 +130,14 @@ describe("theme", () => {
         </calcite-tabs>,
       );
 
-      const container = page.getByTestId("tab-title-container").element() as HTMLDivElement;
+      const container = page
+        .getBySelector(`.${CSS.tabTitleSlotWrapper}`)
+        .element() as HTMLDivElement;
       const tabTitle1 = page.getByText("First tab: watercraft");
       const tabTitle2 = page.getByText("Second tab: automobiles");
       const tabTitle3 = page.getByText("Third tab: aircraft");
-      const [prevButton, nextButton] = page.getByRole("button").elements() as HTMLButtonElement[];
+      const prevButton = page.getByLabelText(`Previous tab titles`).element() as HTMLButtonElement;
+      const nextButton = page.getByLabelText(`Next tab titles`).element() as HTMLButtonElement;
 
       await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
@@ -143,8 +148,6 @@ describe("theme", () => {
       await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
-      // tabTitle3 being visible is a side effect of rounding off while scrolling
-      await expect.element(tabTitle3).toBeInViewport();
 
       await clickAndWaitForScrollEnd(container, userEvent, nextButton);
       await afterNextFrame();
@@ -154,8 +157,6 @@ describe("theme", () => {
 
       await clickAndWaitForScrollEnd(container, userEvent, prevButton);
       await afterNextFrame();
-      // tabTitle1 being visible is a side effect of rounding off while scrolling
-      await expect.element(tabTitle1).toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).toBeInViewport();
 
