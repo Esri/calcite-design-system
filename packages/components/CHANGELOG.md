@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.55...@esri/calcite-components@5.2.0-next.56) (2026-08-21)
+
+### Features
+
+- **menu:** propagate scale to menu items ([#15056](https://github.com/Esri/calcite-design-system/issues/15056)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+## [5.2.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.54...@esri/calcite-components@5.2.0-next.55) (2026-08-21)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.53...@esri/calcite-components@5.2.0-next.54) (2026-08-21)
+
+### Bug Fixes
+
+- **dropdown:** avoid scrollbar when max-items matches item count ([#14985](https://github.com/Esri/calcite-design-system/issues/14985)), closes [#14979](https://github.com/Esri/calcite-design-system/issues/14979)
+
 ## [5.2.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.52...@esri/calcite-components@5.2.0-next.53) (2026-08-20)
 
 ### Features
