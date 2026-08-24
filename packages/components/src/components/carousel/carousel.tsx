@@ -18,7 +18,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ArrowType, AutoplayType, PaginationPosition } from "./interfaces";
+import { ArrowType, AutoplayType, PaginationPosition } from "./types";
 import { styles } from "./carousel.scss";
 
 declare global {

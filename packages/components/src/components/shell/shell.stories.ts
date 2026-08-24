@@ -1,7 +1,7 @@
 import type { Decorator } from "@storybook/web-components-vite";
 import { Shell } from "./shell";
 import { ShellPanel } from "../shell-panel/shell-panel";
-import type { Position } from "../interfaces";
+import type { Position } from "../types";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";

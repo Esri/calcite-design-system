@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { labelable } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import type { GlobalTestProps } from "../../tests/utils/interfaces";
+import type { GlobalTestProps } from "../../tests/utils/types";
 import type { SegmentedControl } from "./segmented-control";
 
 describe("labelable", () => {

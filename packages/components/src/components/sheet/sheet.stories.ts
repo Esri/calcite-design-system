@@ -11,11 +11,15 @@ import "./sheet"; // Force Vite to statically trace the file for Chromatic's Tur
 
 const { logicalFlowPosition, displayMode, scale } = ATTRIBUTES;
 
-type SheetStoryArgs = Pick<Sheet, "displayMode" | "heightScale" | "open" | "position" | "resizable" | "width">;
+type SheetStoryArgs = Pick<
+  Sheet,
+  "displayMode" | "heightScale" | "modalDisabled" | "open" | "position" | "resizable" | "width"
+>;
 
 export default {
   title: "Components/Sheet",
   args: {
+    modalDisabled: false,
     open: true,
     resizable: false,
     position: logicalFlowPosition.values[0],
@@ -59,9 +63,35 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 </calcite-panel>`;
 
+const nonModalPageContent = html`
+  <style>
+    .non-modal-page-content {
+      box-sizing: border-box;
+      display: grid;
+      gap: var(--calcite-spacing-md);
+      min-block-size: 100vh;
+      padding: var(--calcite-spacing-xl);
+    }
+
+    .non-modal-page-content__actions {
+      display: flex;
+      gap: var(--calcite-spacing-sm);
+    }
+  </style>
+  <main class="non-modal-page-content">
+    <h1>Page content remains available</h1>
+    <p>The controls and content outside the Sheet remain visible and interactive.</p>
+    <div class="non-modal-page-content__actions">
+      <calcite-button>Primary action</calcite-button>
+      <calcite-button appearance="outline">Secondary action</calcite-button>
+    </div>
+  </main>
+`;
+
 export const simple = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
+    ${boolean("modal-disabled", args.modalDisabled)}
     ${boolean("open", args.open)}
     ${boolean("resizable", args.resizable)}
     position="${args.position}"
@@ -82,6 +112,16 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
   >
 `;
 simpleDarkMode.parameters = { themes: modesDarkDefault };
+
+export const modalDisabledInlineEnd = (): string => html`
+  ${nonModalPageContent}
+  <calcite-sheet label="Non-modal inline sheet" modal-disabled open position="inline-end">${panelHTML}</calcite-sheet>
+`;
+
+export const modalDisabledBlockEnd = (): string => html`
+  ${nonModalPageContent}
+  <calcite-sheet label="Non-modal block sheet" modal-disabled open position="block-end">${panelHTML}</calcite-sheet>
+`;
 
 export const resizable = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;

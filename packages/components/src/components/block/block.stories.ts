@@ -5,7 +5,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { Block } from "./block";
 import "./block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../block-section/block-section"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature

@@ -10,12 +10,12 @@ import {
   newProgrammaticE2EPage,
 } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
-import { Reorder } from "../sort-handle/interfaces";
+import { Reorder } from "../sort-handle/types";
 import type { ListItem } from "../list-item/list-item";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { ListDragDetail } from "./interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
+import { ListDragDetail } from "./types";
 import type { List } from "./list";
 
 mockConsole();

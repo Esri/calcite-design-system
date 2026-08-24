@@ -166,6 +166,13 @@ export const withRichHeaderSlots = (): string => html`
   </calcite-flow-item>
 `;
 
+export const withHeaderTop = (): string => html`
+  <calcite-flow-item selected closable heading="Flow item heading">
+    <div slot="header-top">Header top content</div>
+    <p>Flow item content</p>
+  </calcite-flow-item>
+`;
+
 export const collapsed = (): string => html`
   <calcite-flow-item selected collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
