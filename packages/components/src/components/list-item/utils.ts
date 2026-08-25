@@ -1,7 +1,9 @@
 import { isServer } from "lit";
 import type { List } from "../list/list";
-import type { ListItemGroup } from "../list-item-group/list-item-group";
+import { isList } from "../list/resources";
+import { isListItemGroup } from "../list-item-group/resources";
 import type { ListItem } from "./list-item";
+import { isListItem } from "./resources";
 
 export const listSelector = "calcite-list";
 export const listItemGroupSelector = "calcite-list-item-group";
@@ -25,13 +27,13 @@ export function getListItemChildren(slotEl: HTMLSlotElement): {
   const assignedElements = slotEl.assignedElements({ flatten: true });
 
   const groupChildren = assignedElements
-    .filter((el): el is ListItemGroup["el"] => el?.matches(listItemGroupSelector))
+    .filter(isListItemGroup)
     .map((group) => Array.from(group.querySelectorAll<ListItem["el"]>(listItemSelector)))
     .flat();
 
-  const listItemChildren = assignedElements.filter((el): el is ListItem["el"] => el?.matches(listItemSelector));
+  const listItemChildren = assignedElements.filter(isListItem);
 
-  const listChildren = assignedElements.filter((el): el is List["el"] => el?.matches(listSelector));
+  const listChildren = assignedElements.filter(isList);
 
   return {
     lists: listChildren,
@@ -40,9 +42,7 @@ export function getListItemChildren(slotEl: HTMLSlotElement): {
 }
 
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {
-  const listItemChildren = slotEl
-    .assignedElements({ flatten: true })
-    .filter((el): el is ListItem["el"] => el.matches(listItemSelector));
+  const listItemChildren = slotEl.assignedElements({ flatten: true }).filter(isListItem);
 
   const filteredListItemChildren = listItemChildren.filter((listItem) => !listItem.filterHidden);
 
@@ -65,8 +65,4 @@ export function getDepth(element: HTMLElement, includeGroup = false): number {
   const result = document.evaluate(expression, element, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
 
   return result.snapshotLength;
-}
-
-export function isListItem(element: Element): element is ListItem["el"] {
-  return element.tagName === "CALCITE-LIST-ITEM";
 }

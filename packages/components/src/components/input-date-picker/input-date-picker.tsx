@@ -73,6 +73,7 @@ import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 import { logger } from "../../utils/logger";
+import { isSelect } from "../select/resources";
 
 declare global {
   interface DeclareElements {
@@ -787,9 +788,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    const targetHasSelect = event
-      .composedPath()
-      .some((el) => (el as HTMLElement).tagName === "CALCITE-SELECT");
+    const targetHasSelect = event.composedPath().some(isSelect);
 
     if (key === "Enter") {
       const preCommitValue = this.value;

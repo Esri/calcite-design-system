@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { TabPosition } from "../tabs/types";
 import { Scale } from "../types";
 
@@ -18,3 +19,8 @@ export const CSS = {
 };
 
 export const SCROLL_THRESHOLD = 1;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTabNav = isTag("calcite-tab-nav");

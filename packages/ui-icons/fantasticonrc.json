@@ -1399,6 +1399,11 @@
     "arcgis-enterprise": 61936,
     "load-configuration": 61937,
     "move-and-rotate": 61938,
-    "delete-and-replace-features": 61939
+    "delete-and-replace-features": 61939,
+    "spatiotemporal-catalog": 61940,
+    "integration": 61941,
+    "explode-geometry": 61942,
+    "ai-agents": 61943,
+    "ai-agent": 61944
   }
 }
