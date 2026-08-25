@@ -79,8 +79,6 @@ export class Button extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region State Properties
@@ -198,6 +196,11 @@ export class Button extends LitElement {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   override connectedCallback(): void {
     this.setupTextContentObserver();

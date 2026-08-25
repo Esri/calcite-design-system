@@ -71,8 +71,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region Public Properties
@@ -173,6 +171,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen<ToEvents<SegmentedControlItem>["calciteInternalSegmentedControlItemChange"]>(
       "calciteInternalSegmentedControlItemChange",
       this.handleSelected,

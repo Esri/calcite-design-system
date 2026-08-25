@@ -77,8 +77,6 @@ export class Select extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region Public Properties
@@ -176,6 +174,7 @@ export class Select extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("calciteInternalOptionChange", this.handleOptionOrGroupChange);
     this.listen("calciteInternalOptionGroupChange", this.handleOptionOrGroupChange);
   }
