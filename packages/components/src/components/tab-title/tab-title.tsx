@@ -22,10 +22,11 @@ import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
+import { isTabs } from "../tabs/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, isTabTitle } from "./resources";
 import { styles } from "./tab-title.scss";
 
 declare global {
@@ -176,9 +177,7 @@ export class TabTitle extends LitElement {
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement!.children).filter((el) =>
-        el.matches("calcite-tab-title"),
-      ),
+      nodeListToArray(this.el.parentElement!.children).filter(isTabTitle),
       this.el,
     );
   }
@@ -311,9 +310,7 @@ export class TabTitle extends LitElement {
   }
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const targetTabsEl = event
-      .composedPath()
-      .find((el) => (el as HTMLElement).tagName === "CALCITE-TABS");
+    const targetTabsEl = event.composedPath().find(isTabs);
 
     if (targetTabsEl !== this.parentTabsEl) {
       return;

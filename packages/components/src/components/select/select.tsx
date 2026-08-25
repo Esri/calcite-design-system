@@ -19,7 +19,9 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/types";
 import type { Option } from "../option/option";
+import { isOption } from "../option/resources";
 import type { OptionGroup } from "../option-group/option-group";
+import { isOptionGroup } from "../option-group/resources";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -36,14 +38,6 @@ declare global {
 
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
-
-function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is Option["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION";
-}
-
-function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGroup["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
-}
 
 /**
  * @slot - A slot for adding `calcite-option`s.
@@ -282,9 +276,7 @@ export class Select extends LitElement implements LabelableComponent {
   private populateInternalSelect(): void {
     const optionsAndGroups = Array.from(
       this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>,
-    ).filter(
-      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP",
-    ) as OptionOrGroup[];
+    ).filter((child) => isOption(child) || isOptionGroup(child));
 
     this.clearInternalSelect();
 

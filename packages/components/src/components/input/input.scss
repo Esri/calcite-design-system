@@ -346,13 +346,12 @@ input[readonly]:focus {
   }
 }
 
-// hide browser default clear
-
-input[type="text"]::-ms-clear,
-input[type="text"]::-ms-reveal {
-  @apply hidden
-    h-0
-    w-0;
+// hide browser default icons/buttons
+input:is([type="text"], [type="password"])::-ms-clear,
+input:is([type="text"], [type="password"])::-ms-reveal {
+  display: none;
+  inline-size: 0;
+  block-size: 0;
 }
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
