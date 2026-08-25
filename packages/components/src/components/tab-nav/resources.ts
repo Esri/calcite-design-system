@@ -18,6 +18,8 @@ export const CSS = {
   position: (position: TabPosition) => `position-${position}` as const,
 };
 
+export const SCROLL_THRESHOLD = 1;
+
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */
