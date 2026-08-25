@@ -6,7 +6,7 @@ export const runtime = makeRuntime();
 const originalSetAssetPath = runtime.setAssetPath;
 runtime.setAssetPath = (path) => {
   assetPathChanged = true;
-  originalSetAssetPath(path);
+  return originalSetAssetPath.call(runtime, path);
 };
 
 /** @internal */
