@@ -16,7 +16,6 @@ import { InteractionMode, Scale, SelectionMode } from "../types";
 import { ItemData } from "../list-item/types";
 import {
   expandedAncestors,
-  isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
@@ -46,6 +45,7 @@ import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { logger } from "../../utils/logger";
+import { isListItem } from "../list-item/resources";
 
 declare global {
   interface DeclareElements {
