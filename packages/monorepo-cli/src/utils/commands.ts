@@ -44,11 +44,7 @@ export function formatDescription(text: string): string {
  * @returns The non-nullable value of the option.
  */
 export function assertRequiredOption<T>(option: T, name: string, errorMessage?: string): NonNullable<T> {
-  if (option === undefined || option === null) {
-    errorAndExit(errorMessage || `error: required option ${name} not specified`);
-  }
-
-  return option;
+  return option ?? errorAndExit(errorMessage || `error: required option ${name} not specified`);
 }
 
 /**

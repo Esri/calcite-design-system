@@ -1,9 +1,6 @@
 import * as githubCore from "@actions/core";
 import { styleText } from "node:util";
 
-/**
- * Check if the current environment is running under GitHub Actions.
- */
 export const isUnderGitHubActions = process.env.GITHUB_ACTIONS === "true";
 
 /**
