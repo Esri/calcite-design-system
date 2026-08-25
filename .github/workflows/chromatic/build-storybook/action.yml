@@ -6,7 +6,7 @@ runs:
   steps:
     - uses: actions/setup-node@v6
       with:
-        node-version-file: package.json
+        node-version-file: mise.toml
 
     - shell: bash
       env:

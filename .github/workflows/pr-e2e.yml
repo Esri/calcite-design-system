@@ -29,7 +29,7 @@ jobs:
       - if: steps.diff-check.outputs.SKIP == 'false'
         uses: actions/setup-node@v6
         with:
-          node-version-file: package.json
+          node-version-file: mise.toml
       - if: steps.diff-check.outputs.SKIP == 'false'
         name: Run tests for testable changes
         run: npm install && npm run build && npm run test:ci
