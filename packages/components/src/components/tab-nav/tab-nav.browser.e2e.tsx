@@ -12,6 +12,7 @@ import {
 import { CSS } from "./resources";
 import { userEvent, page } from "vitest/browser";
 import { afterNextFrame } from "../../tests/utils/timing";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 describe("accessible: checked", () => {
   accessible(() => mount("calcite-tab-nav"));
@@ -56,23 +57,12 @@ describe("theme", () => {
   });
 
   describe("prev/next buttons", () => {
-    const waitForScrollEnd = (container: HTMLElement): Promise<void> =>
-      new Promise((resolve) => {
-        const handleScrollEnd = () => {
-          container.removeEventListener("scrollend", handleScrollEnd);
-          resolve();
-        };
-
-        container.addEventListener("scrollend", handleScrollEnd);
-      });
-
     const clickAndWaitForScrollEnd = async (
       container: HTMLElement,
-      event: typeof userEvent,
       button: HTMLButtonElement,
     ): Promise<void> => {
-      const scrollEnd = waitForScrollEnd(container);
-      await event.click(button);
+      const scrollEnd = waitForEvent(container, "scrollend");
+      await userEvent.click(button);
       await scrollEnd;
     };
 
@@ -100,19 +90,19 @@ describe("theme", () => {
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).not.toBeInViewport();
 
-      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await clickAndWaitForScrollEnd(container, nextButton);
       await afterNextFrame();
       await expect.element(tabTitle1).not.toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).toBeInViewport();
 
-      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await clickAndWaitForScrollEnd(container, prevButton);
       await afterNextFrame();
       await expect.element(tabTitle1).not.toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).toBeInViewport();
 
-      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await clickAndWaitForScrollEnd(container, prevButton);
       await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
       await expect.element(tabTitle2).not.toBeInViewport();
@@ -144,23 +134,23 @@ describe("theme", () => {
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).not.toBeInViewport();
 
-      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await clickAndWaitForScrollEnd(container, nextButton);
       await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
 
-      await clickAndWaitForScrollEnd(container, userEvent, nextButton);
+      await clickAndWaitForScrollEnd(container, nextButton);
       await afterNextFrame();
       await expect.element(tabTitle1).not.toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).toBeInViewport();
 
-      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await clickAndWaitForScrollEnd(container, prevButton);
       await afterNextFrame();
       await expect.element(tabTitle2).toBeInViewport();
       await expect.element(tabTitle3).toBeInViewport();
 
-      await clickAndWaitForScrollEnd(container, userEvent, prevButton);
+      await clickAndWaitForScrollEnd(container, prevButton);
       await afterNextFrame();
       await expect.element(tabTitle1).toBeInViewport();
       await expect.element(tabTitle2).toBeInViewport();
