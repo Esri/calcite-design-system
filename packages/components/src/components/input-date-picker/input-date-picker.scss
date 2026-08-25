@@ -73,6 +73,7 @@
     align-top;
 
   box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
+  border-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
 
   .menu-container .calcite-floating-ui-anim {
     box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-md));
@@ -115,7 +116,9 @@
 @include includes.disabled();
 
 .calendar-wrapper {
+  border-radius: var(--calcite-input-date-picker-calendar-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
+  overflow: hidden;
   transform: translate3d(0, 0, 0);
 }
 
@@ -175,6 +178,8 @@
   border-style: solid;
   background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-surface-2));
   border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
+  border-end-end-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
+  border-start-end-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
   padding-inline: var(--calcite-space-md);
   padding-inline-start: var(--calcite-space-none);
   border-inline-start-width: var(--calcite-border-width-none);
@@ -360,7 +365,7 @@
 .input {
   --calcite-input-text-background-color: var(--calcite-input-date-picker-background-color);
   --calcite-input-text-border-color: var(--calcite-input-date-picker-border-color);
-  --calcite-input-text-corner-radius: var(--calcite-input-date-picker-corner-radius);
+  --calcite-input-text-corner-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
   --calcite-input-text-shadow: var(--calcite-input-date-picker-shadow);
   --calcite-input-text-icon-color: var(--calcite-input-date-picker-icon-color);
   --calcite-input-text-text-color: var(--calcite-input-date-picker-text-color);
