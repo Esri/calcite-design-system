@@ -16,6 +16,9 @@ import { slider } from "./custom-theme/slider";
 import { splitButton } from "./custom-theme/split-button";
 import { table } from "./custom-theme/table";
 import { tile } from "./custom-theme/tile";
+import { filter } from "./custom-theme/filter";
+import { inputDatePicker } from "./custom-theme/input-date-picker";
+import { timePicker } from "./custom-theme/time-picker";
 
 const kitchenSink = () =>
   html`<div style="--calcite-corner-radius: 24px; padding: 1rem;">
@@ -49,6 +52,8 @@ const kitchenSink = () =>
       <div class="fallback-row">${colorPicker} ${datePicker} ${inputNumber}</div>
 
       <div class="fallback-row">${inputText} ${inputTimePicker} ${inputTimeZone} ${input} ${select}</div>
+
+      <div class="fallback-row">${inputDatePicker} ${filter} ${timePicker}</div>
 
       <div class="fallback-row">${defaultCombobox}</div>
 
