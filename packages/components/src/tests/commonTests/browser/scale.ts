@@ -5,9 +5,10 @@ import type { Scale } from "../../../components/types";
 const scales: Scale[] = ["s", "l"];
 
 /**
- * Verifies that scale-controlled elements match their parent's scale initially and after each remaining scale change.
+ * Verifies that scale-controlled elements match their parent's scale initially and after scale change.
  *
- * Targets are selected from the document and the mounted parent's shadow root.
+ * Callers provide a selector for scale-controlled elements. The selector is searched in the document and the mounted
+ * parent's shadow root.
  *
  * Note that this helper should be used within a describe block.
  *
@@ -26,7 +27,10 @@ const scales: Scale[] = ["s", "l"];
  */
 export function scalePropagates(
   setup: () => ReturnType<typeof mount>,
-  { targetSelector }: { targetSelector: string },
+  {
+    /** Selector for the elements whose scale should match the parent. */
+    targetSelector,
+  }: { targetSelector: string },
 ): void {
   it("propagates scale to targets", async () => {
     const { el, reRender } = await setup();
