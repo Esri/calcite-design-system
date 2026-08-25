@@ -1402,6 +1402,8 @@
     "delete-and-replace-features": 61939,
     "spatiotemporal-catalog": 61940,
     "integration": 61941,
-    "explode-geometry": 61942
+    "explode-geometry": 61942,
+    "ai-agents": 61943,
+    "ai-agent": 61944
   }
 }
