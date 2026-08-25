@@ -4,7 +4,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
+import { CSS, isDropdownGroup } from "./resources";
 
 mockConsole();
 
@@ -90,10 +90,7 @@ describe("accessibility wiring", () => {
     const groupOneEl = page.getBySelector("#group-one").element() as HTMLElement;
     const groupTwoEl = page.getBySelector("#group-two").element() as HTMLElement;
     const itemEl = page.getBySelector("#move-me").element() as HTMLElement;
-    const getGroupDescription = (): Element | undefined =>
-      itemEl.ariaDescribedByElements!.find(
-        (descriptionEl) => descriptionEl.tagName.toLowerCase() === "calcite-dropdown-group",
-      );
+    const getGroupDescription = () => itemEl.ariaDescribedByElements!.find(isDropdownGroup);
 
     expect(getGroupDescription()!.id).toBe(groupOneEl.id);
 
@@ -117,10 +114,7 @@ describe("accessibility wiring", () => {
       groupTitle?: string;
     };
     const itemEl = page.getBySelector("#item-one").element() as HTMLElement;
-    const getGroupDescription = (): Element | undefined =>
-      itemEl.ariaDescribedByElements!.find(
-        (descriptionEl) => descriptionEl.tagName.toLowerCase() === "calcite-dropdown-group",
-      );
+    const getGroupDescription = () => itemEl.ariaDescribedByElements!.find(isDropdownGroup);
 
     expect(getGroupDescription()!.id).toBe(groupEl.id);
 

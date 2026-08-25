@@ -145,11 +145,11 @@ export class Menu extends LitElement {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
         handled = true;
-      } else if (target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
+      } else if (isMenuItem(target.parentElement)) {
         this.focusParentElement(target);
         handled = true;
       }
-    } else if (key === "Escape" && target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
+    } else if (key === "Escape" && isMenuItem(target.parentElement)) {
       this.focusParentElement(target);
       handled = true;
     }

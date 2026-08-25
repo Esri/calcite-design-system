@@ -29,7 +29,7 @@ import {
 import { CollapseDirection, Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
-import type { ActionBar } from "../action-bar/action-bar";
+import { isActionBar } from "../action-bar/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/types";
 import { styles as headerStyles } from "../../styles/component/header.scss";
@@ -420,9 +420,7 @@ export class Panel extends LitElement {
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
-      el?.matches("calcite-action-bar"),
-    );
+    const actionBars = slotChangeGetAssignedElements(event).filter(isActionBar);
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 

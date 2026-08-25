@@ -422,9 +422,7 @@ export class Tree extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const items = slotChangeGetAssignedElements(event).filter((el): el is TreeItem["el"] =>
-      el.matches("calcite-tree-item"),
-    );
+    const items = slotChangeGetAssignedElements(event).filter(isTreeItem);
 
     this.items = items;
     this.updateItems();
