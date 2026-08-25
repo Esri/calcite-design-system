@@ -14,7 +14,7 @@ export const KindIconsFilled = {
 } as const;
 
 /**
- * Use this type guard to narrow an element or event target to this component's element type.
+ * Generates a type guard to narrow an element or event target to the element type for the given Calcite component tag name.
  */
 /*#__NO_SIDE_EFFECTS__*/
 export function isTag<K extends keyof HTMLElementTagNameMap>(tagName: K) {
