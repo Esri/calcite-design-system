@@ -304,7 +304,7 @@ export class Autocomplete
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
+  /** Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
 
   //#endregion
@@ -425,6 +425,10 @@ export class Autocomplete
       this.openHandler();
     }
 
+    if (changes.has("value") && this.hasUpdated) {
+      this.selectedItemsHandler();
+    }
+
     if (
       changes.has("flipPlacements") ||
       (changes.has("overlayPositioning") &&
@@ -494,6 +498,10 @@ export class Autocomplete
     }
   }
 
+  private selectedItemsHandler(): void {
+    this.items.forEach((item) => (item.selected = item.value === this.value));
+  }
+
   private openHandler(): void {
     if (this.disabled) {
       this.open = false;
@@ -519,6 +527,7 @@ export class Autocomplete
 
   private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
+    this.selectedItemsHandler();
     this.emitChange();
     await this.setFocus();
     this.open = false;
@@ -580,6 +589,10 @@ export class Autocomplete
 
   private updateItems(): void {
     let activeDescendant = "";
+
+    if (this.value) {
+      this.selectedItemsHandler();
+    }
 
     this.items.forEach((item) => {
       item.scale = this.scale;
@@ -672,8 +685,7 @@ export class Autocomplete
         break;
       case "Enter":
         if (open && activeItem) {
-          this.value = activeItem.value;
-          activeItem.toggleSelection();
+          activeItem.requestSelection();
           this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented && this.formSupport.active) {

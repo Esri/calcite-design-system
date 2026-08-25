@@ -15,6 +15,7 @@ export const SLOTS = {
   alerts: "alerts",
   contentTop: "content-top",
   contentBottom: "content-bottom",
+  headerTop: "header-top",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
   description: "description",

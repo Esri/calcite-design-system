@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
@@ -65,6 +65,22 @@ describe("accessible", () => {
       return renderResult;
     });
   });
+
+  describe("with modalDisabled", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const renderResult = await mount(
+        <>
+          <calcite-sheet label="Non-modal sheet" modalDisabled open>
+            <button type="button">inside</button>
+          </calcite-sheet>
+          <button type="button">outside</button>
+        </>,
+      );
+      await openEvent;
+      return renderResult;
+    });
+  });
 });
 
 describe("defaults", () => {
@@ -85,6 +101,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "focusTrapDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "modalDisabled",
         defaultValue: false,
       },
       {
@@ -127,7 +147,9 @@ describe("is focusable", () => {
       () =>
         mount(
           <calcite-sheet open>
-            <button class={focusableContentTargetClass}>test</button>
+            <button class={focusableContentTargetClass} type="button">
+              test
+            </button>
           </calcite-sheet>,
         ),
       {
@@ -152,6 +174,105 @@ describe("focus-trap", () => {
   );
 });
 
+describe("modalDisabled", () => {
+  it("updates modal behavior when toggled while open", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(<calcite-sheet label="Sheet" open />);
+    await openEvent;
+
+    expect(document.documentElement.style.overflow).toBe("hidden");
+    expect(el.ariaModal).toBe("true");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).not.toBeNull();
+
+    el.modalDisabled = true;
+
+    await expect.poll(() => document.documentElement.style.overflow).not.toBe("hidden");
+    expect(el.ariaModal).toBe("false");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
+
+    el.modalDisabled = false;
+
+    await expect.poll(() => document.documentElement.style.overflow).toBe("hidden");
+    expect(el.ariaModal).toBe("true");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).not.toBeNull();
+
+    el.open = false;
+
+    await expect.poll(() => document.documentElement.style.overflow).not.toBe("hidden");
+  });
+
+  it("allows interaction outside without rendering a scrim or blocking document scroll", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <>
+        <calcite-sheet label="Non-modal sheet" modalDisabled open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button style={{ insetInlineEnd: 0, position: "fixed" }} type="button">
+          outside
+        </button>
+      </>,
+    );
+    await openEvent;
+
+    expect(el.ariaModal).toBe("false");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
+    expect(document.documentElement.style.overflow).not.toBe("hidden");
+    expect(getComputedStyle(el).pointerEvents).toBe("none");
+    const content = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.content}`)!;
+    expect(getComputedStyle(content).pointerEvents).toBe("auto");
+
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(outsideButton);
+
+    await expect.element(outsideButton).toHaveFocus();
+    expect(el.open).toBe(true);
+  });
+
+  it("allows focus to leave when focusTrapDisabled is true", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount<Sheet>(
+      <>
+        <calcite-sheet focus-trap-disabled label="Non-modal sheet" modalDisabled open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button type="button">outside</button>
+      </>,
+    );
+    await openEvent;
+
+    const insideButton = page.getByRole("button", { name: "inside" });
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(insideButton);
+
+    await userEvent.tab();
+
+    await expect.element(outsideButton).toHaveFocus();
+  });
+
+  it("allows focus to leave when focusTrapDisabled is true for a modal sheet", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <>
+        <calcite-sheet focus-trap-disabled label="Modal sheet" open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button type="button">outside</button>
+      </>,
+    );
+    await openEvent;
+
+    expect(el.ariaModal).toBe("true");
+    const insideButton = page.getByRole("button", { name: "inside" });
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(insideButton);
+
+    await userEvent.tab();
+
+    await expect.element(outsideButton).toHaveFocus();
+  });
+});
+
 describe("reflects", () => {
   reflects(
     () => mount("calcite-sheet"),
@@ -163,6 +284,10 @@ describe("reflects", () => {
       {
         propertyName: "heightScale",
         value: "m",
+      },
+      {
+        propertyName: "modalDisabled",
+        value: true,
       },
       {
         propertyName: "resizable",
