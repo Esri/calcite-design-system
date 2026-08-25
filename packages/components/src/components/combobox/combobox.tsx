@@ -1048,9 +1048,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         if (notDeletable) {
           return;
         }
-        const deleteTargetChip = event
-          .composedPath()
-          .find((node): node is Chip["el"] => isChip(node as Element));
+        const deleteTargetChip = event.composedPath().find(isChip);
         if (this.activeChipIndex > -1 && deleteTargetChip) {
           event.preventDefault();
           this.removeActiveChip(deleteTargetChip);

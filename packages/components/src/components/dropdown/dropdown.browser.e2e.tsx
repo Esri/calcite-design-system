@@ -2,6 +2,7 @@ import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
+import { isDropdownGroup } from "../dropdown-group/resources";
 import {
   accessible,
   defaults,
@@ -423,9 +424,7 @@ describe("ariaActiveDescendantElement", () => {
     await userEvent.click(trigger);
 
     const activeItem = page.getBySelector("#grouped-item-1").element() as HTMLElement | null;
-    const groupDescription = activeItem?.ariaDescribedByElements?.find(
-      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
-    );
+    const groupDescription = activeItem?.ariaDescribedByElements?.find(isDropdownGroup);
 
     expect(groupDescription?.getAttribute("aria-label")).toBe("Group one");
   });
@@ -437,9 +436,7 @@ describe("ariaActiveDescendantElement", () => {
     await userEvent.click(trigger);
 
     const activeItem = page.getBySelector("#grouped-item-1").element() as HTMLElement | null;
-    const groupDescription = activeItem?.ariaDescribedByElements?.find(
-      (el) => el.tagName.toLowerCase() === "calcite-dropdown-group",
-    );
+    const groupDescription = activeItem?.ariaDescribedByElements?.find(isDropdownGroup);
 
     expect(groupDescription?.getAttribute("aria-label")).toBe("Group one");
   });
