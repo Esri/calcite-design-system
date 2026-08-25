@@ -8,6 +8,7 @@ import {
   hidden,
   renders,
   focusable,
+  scalePropagates,
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
@@ -82,58 +83,21 @@ describe("is focusable", () => {
 });
 
 describe("scale propagation", () => {
-  it("applies initial navigation scale to slotted navigation-logo, navigation-user, and nested navigation", async () => {
-    await mount<Navigation>(
-      <calcite-navigation scale="l">
-        <calcite-navigation-logo heading="Heading text" slot="logo" />
-        <calcite-navigation-user full-name="John Doe" slot="user" username="jdoe" />
-        <calcite-navigation slot="navigation-secondary" />
-        <calcite-navigation slot="navigation-tertiary" />
-      </calcite-navigation>,
-    );
-
-    const logo = page.getBySelector("calcite-navigation-logo");
-    const user = page.getBySelector("calcite-navigation-user");
-    const secondaryNavigation = page.getBySelector(
-      'calcite-navigation[slot="navigation-secondary"]',
-    );
-    const tertiaryNavigation = page.getBySelector('calcite-navigation[slot="navigation-tertiary"]');
-
-    await expect.element(logo).toHaveProperty("scale", "l");
-    await expect.element(user).toHaveProperty("scale", "l");
-    await expect.element(secondaryNavigation).toHaveProperty("scale", "l");
-    await expect.element(tertiaryNavigation).toHaveProperty("scale", "l");
-  });
-
-  it("updates slotted navigation-logo, navigation-user, and nested navigation scale when navigation scale changes", async () => {
-    const { el } = await mount<Navigation>(
-      <calcite-navigation>
-        <calcite-navigation-logo heading="Heading text" slot="logo" />
-        <calcite-navigation-user full-name="John Doe" slot="user" username="jdoe" />
-        <calcite-navigation slot="navigation-secondary" />
-        <calcite-navigation slot="navigation-tertiary" />
-      </calcite-navigation>,
-    );
-
-    const logo = page.getBySelector("calcite-navigation-logo");
-    const user = page.getBySelector("calcite-navigation-user");
-    const secondaryNavigation = page.getBySelector(
-      'calcite-navigation[slot="navigation-secondary"]',
-    );
-    const tertiaryNavigation = page.getBySelector('calcite-navigation[slot="navigation-tertiary"]');
-
-    await expect.element(logo).toHaveProperty("scale", "m");
-    await expect.element(user).toHaveProperty("scale", "m");
-    await expect.element(secondaryNavigation).toHaveProperty("scale", "m");
-    await expect.element(tertiaryNavigation).toHaveProperty("scale", "m");
-
-    el.scale = "l";
-
-    await expect.element(logo).toHaveProperty("scale", "l");
-    await expect.element(user).toHaveProperty("scale", "l");
-    await expect.element(secondaryNavigation).toHaveProperty("scale", "l");
-    await expect.element(tertiaryNavigation).toHaveProperty("scale", "l");
-  });
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-navigation>
+          <calcite-navigation-logo slot="logo" />
+          <calcite-navigation-user slot="user" />
+          <calcite-navigation slot="navigation-secondary" />
+          <calcite-navigation slot="navigation-tertiary" />
+        </calcite-navigation>,
+      ),
+    {
+      targetSelector:
+        'calcite-navigation-logo, calcite-navigation-user, calcite-navigation[slot="navigation-secondary"], calcite-navigation[slot="navigation-tertiary"]',
+    },
+  );
 
   it("updates nested navigation scale when slot is reassigned to navigation-secondary", async () => {
     await mount<Navigation>(

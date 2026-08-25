@@ -3,14 +3,14 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import {
+  defaults,
   focusable,
   hidden,
   renders,
+  scalePropagates,
   t9n,
   accessible,
-  defaults,
 } from "../../tests/commonTests/browser";
-import type { MenuItem } from "../menu-item/menu-item";
 
 describe("accessible", () => {
   accessible(() =>
@@ -46,6 +46,20 @@ describe("renders", () => {
   );
 });
 
+describe("focusable", () => {
+  focusable(
+    () =>
+      mount(
+        <calcite-menu>
+          <calcite-menu-item text="calcite" />
+        </calcite-menu>,
+      ),
+    {
+      focusTargetSelector: "calcite-menu-item",
+    },
+  );
+});
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-menu"),
@@ -58,39 +72,17 @@ describe("defaults", () => {
   );
 });
 
-describe("scale", () => {
-  it("propagates scale to direct and nested menu items", async () => {
-    const { el } = await mount<"calcite-menu">(
-      <calcite-menu scale="s">
-        <calcite-menu-item id="parent-item" text="Parent item">
-          <calcite-menu-item id="child-item" slot="submenu-item" text="Child item" />
-        </calcite-menu-item>
-      </calcite-menu>,
-    );
-    const parentItem = el.querySelector<MenuItem["el"]>("#parent-item")!;
-    const childItem = el.querySelector<MenuItem["el"]>("#child-item")!;
-
-    await expect.element(parentItem).toHaveProperty("scale", "s");
-    await expect.element(childItem).toHaveProperty("scale", "s");
-
-    el.scale = "l";
-
-    await expect.element(parentItem).toHaveProperty("scale", "l");
-    await expect.element(childItem).toHaveProperty("scale", "l");
-  });
-});
-
-describe("focusable", () => {
-  focusable(
+describe("scale propagation", () => {
+  scalePropagates(
     () =>
       mount(
         <calcite-menu>
-          <calcite-menu-item text="calcite" />
+          <calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" />
+          </calcite-menu-item>
         </calcite-menu>,
       ),
-    {
-      focusTargetSelector: "calcite-menu-item",
-    },
+    { targetSelector: "calcite-menu-item" },
   );
 });
 

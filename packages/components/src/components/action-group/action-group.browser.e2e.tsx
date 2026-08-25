@@ -10,6 +10,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   slots,
   t9n,
   accessible,
@@ -232,11 +233,17 @@ describe("selection change event and selectedActions state", () => {
   });
 });
 
-it("should honor scale of expand icon", async () => {
-  await mount(renderActionGroup);
-  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
-
-  await expect.element(menu).toHaveProperty("scale", "l");
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-action-group>
+          <calcite-action icon="plus" slot="menu-actions" text="Add" />
+          <calcite-action icon="banana" slot="menu-actions" text="Banana" />
+        </calcite-action-group>,
+      ),
+    { targetSelector: "calcite-action-menu" },
+  );
 });
 
 it("should honor overlayPositioning", async () => {
