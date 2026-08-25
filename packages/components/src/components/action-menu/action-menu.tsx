@@ -104,19 +104,21 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     }
 
     const placementOrientation = !open ? this.placementOrientation : undefined;
-    const supportedOpenKeys =
-      placementOrientation === "horizontal"
+    const supportedOpenKeys = !open
+      ? placementOrientation === "horizontal"
         ? HORIZONTAL_MENU_OPEN_KEYS
-        : placementOrientation === "vertical"
+        : placementOrientation === "vertical" || !placementOrientation
           ? VERTICAL_MENU_OPEN_KEYS
-          : undefined;
+          : undefined
+      : undefined;
 
     if (supportedOpenKeys && this.isValidKey(key, supportedOpenKeys)) {
       event.preventDefault();
       event.stopPropagation();
       this.toggleOpen(true);
+      const opensVertically = placementOrientation !== "horizontal";
       this.activeMenuItemIndex =
-        placementOrientation === "vertical" && key === "ArrowUp" ? actionElements.length - 1 : 0;
+        opensVertically && key === "ArrowUp" ? actionElements.length - 1 : 0;
       this.updateActions(actionElements);
       this.emitInternalActiveDescendantChange();
       return;
@@ -298,7 +300,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => (this.open ? this.menuEl : this.el), options);
+    return this.focusSetter(() => this.menuButtonEl || this.el, options);
   }
 
   //#endregion
@@ -395,6 +397,10 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     this.activeMenuItemIndex = this.open ? 0 : -1;
     this.calciteActionMenuOpen.emit();
     this.setTooltipReferenceElement();
+
+    if (open) {
+      void this.setFocus();
+    }
   }
 
   private connectMenuButtonEl(): void {
@@ -497,8 +503,17 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     }
 
     this.activeMenuItemIndex = this.actionElements.indexOf(action);
-    action.active = !action.active;
     this.focusMenuButtonOnClose = false;
+
+    const actionGroup = action.closest("calcite-action-group") as { selectionMode?: string } | null;
+    const keepSelectableActionGroupOpen =
+      !!actionGroup?.selectionMode && actionGroup.selectionMode !== "none";
+
+    if (keepSelectableActionGroupOpen) {
+      void this.setFocus();
+      return;
+    }
+
     this.open = false;
     void this.setFocus();
   }
