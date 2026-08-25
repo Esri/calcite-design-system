@@ -4,8 +4,8 @@ import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
-import type { AddEventDetail, MoveEventDetail } from "./interfaces";
-import type { ReorderEventDetail } from "./interfaces";
+import type { AddEventDetail, MoveEventDetail } from "./types";
+import type { ReorderEventDetail } from "./types";
 
 mockConsole();
 

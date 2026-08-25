@@ -12,7 +12,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
-import type { Layout } from "./interfaces";
+import type { Layout } from "./types";
 
 describe("accessible", () => {
   accessible(() =>

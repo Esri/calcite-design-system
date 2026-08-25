@@ -7,7 +7,7 @@ import {
   getClearValidationEventName,
   type ValidationProps,
 } from "../../../controllers/useForm";
-import type { TestSetup } from "./interfaces";
+import type { TestSetup } from "./types";
 import type { RadioButtonGroup } from "../../../components/radio-button-group/radio-button-group";
 
 interface FormAssociatedOptions {

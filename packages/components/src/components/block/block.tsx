@@ -2,7 +2,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { FlipContext, Position, Scale, Status } from "../interfaces";
+import { FlipContext, Position, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
@@ -11,20 +11,20 @@ import {
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
-import { SortMenuItem } from "../sort-handle/interfaces";
+import { SortMenuItem } from "../sort-handle/types";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
-import type { BlockToggleDisplay } from "./interface";
+import type { BlockToggleDisplay } from "./types";
 import type { BlockGroup } from "../block-group/block-group";
 
 declare global {
