@@ -1,7 +1,8 @@
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
-import { FlipContext, Scale } from "../interfaces";
+import { FlipContext, Scale } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { guid } from "../../utils/guid";
 import { highlightText } from "../../utils/text";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -85,7 +86,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /** When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its non-empty `value`; declarative selection is preserved when no initial value is provided, but is cleared when a controlled value is explicitly reset. */
   @property({ reflect: true }) selected = false;
 
   /** Specifies the component's value. */
@@ -96,13 +97,12 @@ export class AutocompleteItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Toggles selection and emits the `calciteAutocompleteItemSelect` event.
+   * Requests selection by emitting the `calciteAutocompleteItemSelect` event. Selection state is managed by the parent `calcite-autocomplete`.
    *
    * @private
    */
   @method()
-  toggleSelection(): void {
-    this.selected = !this.selected;
+  requestSelection(): void {
     this.calciteAutocompleteItemSelect.emit();
   }
 
@@ -111,9 +111,34 @@ export class AutocompleteItem extends LitElement {
   //#region Events
 
   /**
-   * Fires when the item has been selected.
+   * Fires when selection is requested.
    */
   calciteAutocompleteItemSelect = createEvent({ cancelable: false });
+
+  /**
+   * Fires whenever a property the parent autocomplete needs to know about is changed.
+   *
+   * @private
+   */
+  calciteInternalAutocompleteItemChange = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (
+      this.hasUpdated &&
+      (changes.has("description") ||
+        changes.has("disabled") ||
+        changes.has("heading") ||
+        changes.has("label") ||
+        changes.has("selected") ||
+        changes.has("value"))
+    ) {
+      this.calciteInternalAutocompleteItemChange.emit();
+    }
+  }
 
   //#endregion
 
@@ -126,7 +151,7 @@ export class AutocompleteItem extends LitElement {
       return;
     }
 
-    this.toggleSelection();
+    this.requestSelection();
   }
 
   //#endregion

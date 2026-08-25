@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   buttonLoader: "calcite-button--loader",
   content: "content",
@@ -12,3 +14,8 @@ export const CSS = {
   buttonPadding: "button-padding",
   buttonPaddingShrunk: "button-padding--shrunk",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isButton = isTag("calcite-button");

@@ -21,7 +21,7 @@ import {
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import { Layout, Position, Scale, SelectionAppearance } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";

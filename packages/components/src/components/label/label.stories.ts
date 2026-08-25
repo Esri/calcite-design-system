@@ -11,7 +11,7 @@ export default {
   title: "Components/Label",
   args: {
     alignment: alignment.defaultValue,
-    layout: "default",
+    layout: "block",
     scale: scale.defaultValue,
   },
   argTypes: {
