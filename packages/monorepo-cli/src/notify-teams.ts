@@ -68,24 +68,21 @@ async function run({ webhook, title, message, action_text, action_url }: Partial
   const validatedWebhook = assertRequiredOption(webhook || TEAMS_WEBHOOK, webhookUsage);
   const validatedTitle = assertRequiredOption(title || TEAMS_TITLE, titleUsage);
 
-  const { error } = await notifyTeams({
-    webhook: validatedWebhook,
-    title: validatedTitle,
-    message: message || TEAMS_MESSAGE,
-    action_text: action_text || TEAMS_ACTION_TEXT,
-    action_url: action_url || TEAMS_ACTION_URL,
-  });
-
-  if (error) {
-    errorAndExit(error);
+  try {
+    await notifyTeams({
+      webhook: validatedWebhook,
+      title: validatedTitle,
+      message: message || TEAMS_MESSAGE,
+      action_text: action_text || TEAMS_ACTION_TEXT,
+      action_url: action_url || TEAMS_ACTION_URL,
+    });
+  } catch (error) {
+    errorAndExit(`Failed to send Teams notification. ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
 /**
  * Sends an `AdaptiveCard` message to a specified Microsoft Teams channel via webhook.
- *
- * @returns An object with an error message if the request failed, or null if it
- * succeeded.
  */
 export async function notifyTeams({
   webhook,
@@ -93,33 +90,25 @@ export async function notifyTeams({
   message,
   action_text,
   action_url,
-}: NotifyTeamsOptions): Promise<{ error: string | null }> {
-  const teamsCard = {
-    type: "message",
-    attachments: [
+}: NotifyTeamsOptions): Promise<void> {
+  const cardContent: CardContent = {
+    type: "AdaptiveCard",
+    $schema: "https://adaptivecards.io/schemas/adaptive-card.json",
+    version: "1.2",
+    body: [
       {
-        contentType: "application/vnd.microsoft.card.adaptive",
-        content: {
-          type: "AdaptiveCard",
-          $schema: "https://adaptivecards.io/schemas/adaptive-card.json",
-          version: "1.2",
-          body: [
-            {
-              type: "TextBlock",
-              text: title,
-              size: "Large",
-              weight: "Bolder",
-              color: "Accent",
-              wrap: true,
-            },
-          ],
-        } as CardContent,
+        type: "TextBlock",
+        text: title,
+        size: "Large",
+        weight: "Bolder",
+        color: "Accent",
+        wrap: true,
       },
     ],
   };
 
   if (message) {
-    teamsCard.attachments[0].content.body.push({
+    cardContent.body.push({
       type: "TextBlock",
       text: message,
       wrap: true,
@@ -127,7 +116,7 @@ export async function notifyTeams({
   }
 
   if (action_text && action_url) {
-    teamsCard.attachments[0].content.actions = [
+    cardContent.actions = [
       {
         type: "Action.OpenUrl",
         title: action_text,
@@ -136,17 +125,23 @@ export async function notifyTeams({
     ];
   }
 
-  return fetch(webhook, {
+  const response = await fetch(webhook, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(teamsCard),
-  })
-    .then(async (response) => {
-      return { error: !response.ok ? `${response.status}: ${await response.text()}` : null };
-    })
-    .catch((error) => {
-      return { error: `Failed to send Teams notification. ${error}` };
-    });
+    body: JSON.stringify({
+      type: "message",
+      attachments: [
+        {
+          contentType: "application/vnd.microsoft.card.adaptive",
+          content: cardContent,
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`${response.status}: ${await response.text()}`);
+  }
 }
