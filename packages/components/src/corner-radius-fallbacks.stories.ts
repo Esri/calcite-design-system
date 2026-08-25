@@ -6,7 +6,6 @@ import { defaultCombobox } from "./custom-theme/combobox";
 import { datePicker } from "./custom-theme/date-picker";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
-import { inputTimePicker } from "./custom-theme/input-time-picker";
 import { inputTimeZone } from "./custom-theme/input-time-zone";
 import { input } from "./custom-theme/input";
 import { menuItem } from "./custom-theme/menu-item";
@@ -16,8 +15,6 @@ import { slider } from "./custom-theme/slider";
 import { splitButton } from "./custom-theme/split-button";
 import { table } from "./custom-theme/table";
 import { tile } from "./custom-theme/tile";
-import { filter } from "./custom-theme/filter";
-import { inputDatePicker } from "./custom-theme/input-date-picker";
 import { timePicker } from "./custom-theme/time-picker";
 
 const kitchenSink = () =>
@@ -39,6 +36,10 @@ const kitchenSink = () =>
         flex: 0 0 auto;
       }
 
+      .fallback-popup-row {
+        min-block-size: 24rem;
+      }
+
       .fallback-card {
         inline-size: 260px;
       }
@@ -51,11 +52,22 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${colorPicker} ${datePicker} ${inputNumber}</div>
 
-      <div class="fallback-row">${inputText} ${inputTimePicker} ${inputTimeZone} ${input} ${select}</div>
+      <div class="fallback-row">${inputText} ${inputTimeZone} ${input} ${select}</div>
 
-      <div class="fallback-row">${inputDatePicker} ${filter} ${timePicker}</div>
+      <div class="fallback-popup-row">
+        <calcite-input-time-picker label-text="Input Time Picker" open></calcite-input-time-picker>
+      </div>
 
-      <div class="fallback-row">${defaultCombobox}</div>
+      <div class="fallback-popup-row">
+        <calcite-input-date-picker label-text="Input Date Picker" open></calcite-input-date-picker>
+      </div>
+
+      <div class="fallback-row">
+        <calcite-filter label="Filter"></calcite-filter>
+        ${timePicker}
+      </div>
+
+      <div class="fallback-popup-row">${defaultCombobox}</div>
 
       <div class="fallback-row">${segmentedControl}</div>
 
@@ -70,9 +82,9 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${slider}</div>
 
-      <div class="fallback-row">${splitButton}</div>
+      <div class="fallback-popup-row">${splitButton}</div>
 
-      <div class="fallback-row">${menuItem}</div>
+      <div class="fallback-popup-row">${menuItem}</div>
 
       <div class="fallback-row">${table}</div>
     </div>
