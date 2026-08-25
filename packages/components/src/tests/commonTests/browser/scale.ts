@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { type mount } from "@arcgis/lumina-compiler/testing";
+import { mount } from "@arcgis/lumina-compiler/testing";
 import type { Scale } from "../../../components/types";
 
 const scales: Scale[] = ["s", "l"];
@@ -7,8 +7,7 @@ const scales: Scale[] = ["s", "l"];
 /**
  * Verifies that scale-controlled elements match their parent's scale initially and after scale change.
  *
- * Callers provide a selector for scale-controlled elements. The selector is searched in the document and the mounted
- * parent's shadow root.
+ * Callers provide a selector for scale-controlled elements. The selector is searched in the document and the mounted parent's shadow root.
  *
  * Note that this helper should be used within a describe block.
  *
