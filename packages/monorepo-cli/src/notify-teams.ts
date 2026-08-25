@@ -1,5 +1,6 @@
 import { Command } from "@commander-js/extra-typings";
-import { assertRequiredOption, errorAndExit, formatDescription, getSummary } from "./utils/commands.ts";
+import { assertRequiredOption, errorAndExit, getSummary } from "./utils/commands.ts";
+import dedent from "dedent";
 
 type NotifyTeamsOptions = {
   /** The Microsoft Teams incoming webhook URI to notify. */
@@ -33,11 +34,11 @@ type CardContent = {
   }[];
 };
 
-const description = formatDescription(`
+const description = dedent`
   Notify Teams via webhook.
 
   Sends a notification to a Microsoft Teams channel using an Adaptive Card.
-`);
+`;
 const webhookUsage = "-w, --webhook <WEBHOOK_URI>";
 const titleUsage = "-t, --title <TITLE>";
 

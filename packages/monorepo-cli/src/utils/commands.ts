@@ -9,33 +9,6 @@ export function getSummary(description: string): string {
 }
 
 /**
- * Normalizes multiline command descriptions by removing leading/trailing blank lines
- * and stripping shared indentation while preserving internal formatting.
- */
-export function formatDescription(text: string): string {
-  const normalized = text.replace(/\r\n/gu, "\n");
-  const lines = normalized.split("\n");
-
-  while (lines.length > 0 && lines[0]?.trim() === "") {
-    lines.shift();
-  }
-
-  while (lines.length > 0 && lines[lines.length - 1]?.trim() === "") {
-    lines.pop();
-  }
-
-  const indents = lines
-    .filter((line) => line.trim() !== "")
-    .map((line) => {
-      const match = line.match(/^[\t ]*/u);
-      return match ? match[0].length : 0;
-    });
-
-  const minIndent = indents.length > 0 ? Math.min(...indents) : 0;
-  return lines.map((line) => line.slice(minIndent)).join("\n");
-}
-
-/**
  * Asserts that the provided option is not undefined or null, otherwise exits with an error message.
  *
  * @param option The option to check.
