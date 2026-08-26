@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable, hidden, renders, accessible } from "../../tests/commonTests/browser";
+import {
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  scalePropagates,
+  accessible,
+} from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
   describe("selection mode none (default)", () => {
@@ -64,6 +71,19 @@ describe("renders", () => {
     {
       display: "flex",
     },
+  );
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-chip-group>
+          <calcite-chip />
+          <calcite-chip />
+        </calcite-chip-group>,
+      ),
+    { targetSelector: "calcite-chip" },
   );
 });
 

@@ -10,6 +10,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
   openClose,
@@ -74,6 +75,12 @@ describe("hidden", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-input-time-zone"), { display: "block" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-input-time-zone"), {
+    targetSelector: "calcite-combobox",
+  });
 });
 
 describe("focusable", () => {

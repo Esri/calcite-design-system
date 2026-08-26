@@ -276,8 +276,8 @@ describe("scale propagation", () => {
     () =>
       mount(
         <calcite-autocomplete>
-          <calcite-autocomplete-item-group heading="Group">
-            <calcite-autocomplete-item heading="Item" label="Item" value="item" />
+          <calcite-autocomplete-item-group>
+            <calcite-autocomplete-item value="item" />
           </calcite-autocomplete-item-group>
         </calcite-autocomplete>,
       ),

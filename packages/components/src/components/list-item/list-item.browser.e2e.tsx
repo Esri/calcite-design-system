@@ -9,6 +9,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   slots,
   topLayer,
   themed,
@@ -95,6 +96,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount(<calcite-list-item closable />), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("reflects", () => {

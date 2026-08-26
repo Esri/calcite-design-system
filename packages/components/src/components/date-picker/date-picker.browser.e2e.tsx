@@ -2,7 +2,15 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page } from "vitest/browser";
-import { defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  scalePropagates,
+  t9n,
+  themed,
+} from "../../tests/commonTests/browser";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { DatePicker } from "./date-picker";
@@ -35,6 +43,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-date-picker"), { display: "inline-block" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-date-picker"), {
+    targetSelector: "calcite-date-picker-month",
+  });
 });
 
 describe("focusable", () => {

@@ -14,6 +14,7 @@ import {
   topLayer,
   openClose,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -140,6 +141,12 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-popover open />));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount(<calcite-popover closable />), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {

@@ -9,6 +9,7 @@ import {
   t9n,
   openClose,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -102,6 +103,12 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-notice"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount(<calcite-notice closable />), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {

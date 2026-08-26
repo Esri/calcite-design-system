@@ -15,6 +15,7 @@ import {
   openClose,
   formAssociated,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -66,6 +67,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-input-time-picker"), {
+    targetSelector: "calcite-time-picker",
+  });
 });
 
 describe("is focusable", () => {

@@ -130,12 +130,10 @@ describe("scale propagation", () => {
       mount(
         <calcite-radio-button-group>
           <calcite-label>
-            <calcite-radio-button value="one" />
-            One
+            <calcite-radio-button />
           </calcite-label>
           <calcite-label>
-            <calcite-radio-button value="two" />
-            Two
+            <calcite-radio-button />
           </calcite-label>
         </calcite-radio-button-group>,
       ),

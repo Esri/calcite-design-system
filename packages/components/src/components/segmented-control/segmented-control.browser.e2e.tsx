@@ -203,8 +203,8 @@ describe("scale propagation", () => {
     () =>
       mount(
         <calcite-segmented-control>
-          <calcite-segmented-control-item value="1">One</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="2">Two</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="1" />
+          <calcite-segmented-control-item value="2" />
         </calcite-segmented-control>,
       ),
     { targetSelector: "calcite-segmented-control-item" },

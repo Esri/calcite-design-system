@@ -11,6 +11,7 @@ import {
   renders,
   disabled,
   focusable,
+  scalePropagates,
 } from "../../tests/commonTests/browser";
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
@@ -116,6 +117,22 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount(<calcite-block-group>content</calcite-block-group>), { display: "block" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-block-group>
+          <calcite-block />
+          <calcite-block-group />
+        </calcite-block-group>,
+      ),
+    {
+      targetSelector:
+        "calcite-block-group > calcite-block, calcite-block-group > calcite-block-group",
+    },
+  );
 });
 
 function renderBlock(): JsxNode {

@@ -234,16 +234,7 @@ describe("selection change event and selectedActions state", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(
-    () =>
-      mount(
-        <calcite-action-group>
-          <calcite-action icon="plus" slot="menu-actions" text="Add" />
-          <calcite-action icon="banana" slot="menu-actions" text="Banana" />
-        </calcite-action-group>,
-      ),
-    { targetSelector: "calcite-action-menu" },
-  );
+  scalePropagates(() => mount("calcite-action-group"), { targetSelector: "calcite-action-menu" });
 });
 
 it("should honor overlayPositioning", async () => {

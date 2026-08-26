@@ -14,6 +14,7 @@ import {
   t9n,
   disabled,
   accessible,
+  scalePropagates,
   topLayer,
   themed,
 } from "../../tests/commonTests/browser";
@@ -243,6 +244,12 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-panel"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount(<calcite-panel closable />), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {

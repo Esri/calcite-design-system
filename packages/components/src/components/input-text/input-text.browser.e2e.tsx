@@ -11,6 +11,7 @@ import {
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
@@ -62,6 +63,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount(<calcite-input-text clearable value="value" />), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("reflects", () => {

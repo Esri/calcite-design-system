@@ -13,6 +13,7 @@ import {
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
@@ -70,6 +71,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-input-number"), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("reflects", () => {

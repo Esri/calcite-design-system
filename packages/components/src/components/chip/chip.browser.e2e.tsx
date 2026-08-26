@@ -10,6 +10,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   t9n,
   themed,
@@ -73,6 +74,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount(<calcite-chip>doritos</calcite-chip>), { display: "inline-flex" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount(<calcite-chip closable />), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("slots", () => {

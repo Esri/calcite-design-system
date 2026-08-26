@@ -9,6 +9,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
@@ -428,6 +429,20 @@ describe("renders", () => {
         </calcite-table>,
       ),
     { display: "flex" },
+  );
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-table>
+          <calcite-table-row>
+            <calcite-table-cell />
+          </calcite-table-row>
+        </calcite-table>,
+      ),
+    { targetSelector: "calcite-table-row" },
   );
 });
 

@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   t9n,
   accessible,
   themed,
@@ -42,6 +43,12 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-menu-item"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-menu-item"), {
+    targetSelector: "calcite-menu",
+  });
 });
 
 describe("renders", () => {

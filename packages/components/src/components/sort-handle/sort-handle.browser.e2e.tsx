@@ -9,6 +9,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   openClose,
   accessible,
@@ -84,6 +85,18 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-sort-handle"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-sort-handle
+          addToItems={[{ element: document.createElement("div"), id: "item", label: "Item" }]}
+        />,
+      ),
+    { targetSelector: "calcite-dropdown-group" },
+  );
 });
 
 describe("renders", () => {

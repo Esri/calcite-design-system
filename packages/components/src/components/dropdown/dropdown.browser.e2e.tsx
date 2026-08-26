@@ -12,6 +12,7 @@ import {
   openClose,
   reflects,
   renders,
+  scalePropagates,
   themed,
   topLayer,
 } from "../../tests/commonTests/browser";
@@ -65,6 +66,20 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-dropdown"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-dropdown>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item />
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      ),
+    { targetSelector: "calcite-dropdown-group, calcite-dropdown-item" },
+  );
 });
 
 function renderDropdown(): JsxNode {

@@ -11,6 +11,7 @@ import {
   focusable,
   hidden,
   renders,
+  scalePropagates,
   t9n,
   accessible,
   themed,
@@ -86,6 +87,12 @@ describe("defaults", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-inline-editable"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-inline-editable"), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {

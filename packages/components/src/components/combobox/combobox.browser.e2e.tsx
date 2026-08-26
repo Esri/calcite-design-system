@@ -221,8 +221,8 @@ describe("scale propagation", () => {
     () =>
       mount(
         <calcite-combobox>
-          <calcite-combobox-item-group label="Group">
-            <calcite-combobox-item heading="Item" value="item" />
+          <calcite-combobox-item-group>
+            <calcite-combobox-item value="item" />
           </calcite-combobox-item-group>
         </calcite-combobox>,
       ),

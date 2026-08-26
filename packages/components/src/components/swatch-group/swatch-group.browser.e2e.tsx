@@ -1,7 +1,13 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, disabled, accessible } from "../../tests/commonTests/browser";
+import {
+  hidden,
+  renders,
+  disabled,
+  accessible,
+  scalePropagates,
+} from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
   describe("selection mode single-persist", () => {
@@ -51,6 +57,19 @@ describe("accessible", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-swatch-group"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-swatch-group>
+          <calcite-swatch />
+          <calcite-swatch />
+        </calcite-swatch-group>,
+      ),
+    { targetSelector: "calcite-swatch" },
+  );
 });
 
 describe("renders", () => {

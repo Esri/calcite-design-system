@@ -9,6 +9,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   disabled,
   accessible,
   topLayer,
@@ -152,6 +153,12 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-split-button"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-split-button"), {
+    targetSelector: "calcite-button, calcite-dropdown",
+  });
 });
 
 describe("renders", () => {

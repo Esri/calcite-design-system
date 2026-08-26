@@ -14,6 +14,7 @@ import {
   openClose,
   accessible,
   renders,
+  scalePropagates,
   t9n,
   themed,
   topLayer,
@@ -91,6 +92,12 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-input-date-picker"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-input-date-picker"), {
+    targetSelector: "calcite-date-picker, calcite-input-text",
+  });
 });
 
 describe("internal label", () => {
