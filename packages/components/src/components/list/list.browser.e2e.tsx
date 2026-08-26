@@ -198,7 +198,7 @@ describe("scale propagation", () => {
           <calcite-list-item label="Three" />
         </calcite-list>,
       ),
-    { targetSelector: "calcite-list > calcite-list-item" },
+    { targetSelector: "calcite-list > calcite-list-item, calcite-list-item-group" },
   );
 });
 
