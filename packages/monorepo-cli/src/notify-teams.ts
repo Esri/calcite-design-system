@@ -10,9 +10,9 @@ type NotifyTeamsOptions = {
   /** The message. Supports simple Markdown formatting. */
   message?: string;
   /** The text for a clickable link action on the message card. Requires `action_url` to also be provided. */
-  action_text?: string;
+  actionText?: string;
   /** The URL for the clickable link action on the message card. Requires `action_text` to also be provided. */
-  action_url?: string;
+  actionUrl?: string;
 };
 
 type CardContent = {
@@ -63,7 +63,7 @@ export const registerCommand = (command: Command): void =>
 /**
  * Runs the `notify-teams` command using the provided options or environment variables.
  */
-async function run({ webhook, title, message, action_text, action_url }: Partial<NotifyTeamsOptions>) {
+async function run({ webhook, title, message, actionText, actionUrl }: Partial<NotifyTeamsOptions>) {
   const { TEAMS_WEBHOOK, TEAMS_TITLE, TEAMS_MESSAGE, TEAMS_ACTION_TEXT, TEAMS_ACTION_URL } = process.env;
 
   const validatedWebhook = assertRequiredOption(webhook || TEAMS_WEBHOOK, webhookUsage);
@@ -74,8 +74,8 @@ async function run({ webhook, title, message, action_text, action_url }: Partial
       webhook: validatedWebhook,
       title: validatedTitle,
       message: message || TEAMS_MESSAGE,
-      action_text: action_text || TEAMS_ACTION_TEXT,
-      action_url: action_url || TEAMS_ACTION_URL,
+      actionText: actionText || TEAMS_ACTION_TEXT,
+      actionUrl: actionUrl || TEAMS_ACTION_URL,
     });
   } catch (error) {
     errorAndExit(`Failed to send Teams notification. ${error instanceof Error ? error.message : String(error)}`);
@@ -89,8 +89,8 @@ export async function notifyTeams({
   webhook,
   title,
   message,
-  action_text,
-  action_url,
+  actionText,
+  actionUrl,
 }: NotifyTeamsOptions): Promise<void> {
   const cardContent: CardContent = {
     type: "AdaptiveCard",
@@ -116,12 +116,12 @@ export async function notifyTeams({
     });
   }
 
-  if (action_text && action_url) {
+  if (actionText && actionUrl) {
     cardContent.actions = [
       {
         type: "Action.OpenUrl",
-        title: action_text,
-        url: action_url,
+        title: actionText,
+        url: actionUrl,
       },
     ];
   }
