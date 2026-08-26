@@ -36,7 +36,18 @@ const kitchenSink = () =>
       }
 
       .fallback-popup-row {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        gap: 1rem;
         min-block-size: 24rem;
+        padding-block-end: 1rem;
+      }
+
+      .fallback-popup-row > * {
+        flex: 0 1 11rem;
+        max-inline-size: 11rem;
+        min-inline-size: 0;
       }
 
       .fallback-card {
@@ -53,24 +64,10 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${inputText} ${input} ${select}</div>
 
-      <div class="fallback-popup-row">
-        <calcite-input-time-zone open reference-date="2020-01-01" value="-60"></calcite-input-time-zone>
-      </div>
-
-      <div class="fallback-popup-row">
-        <calcite-input-time-picker label-text="Input Time Picker" open></calcite-input-time-picker>
-      </div>
-
-      <div class="fallback-popup-row">
-        <calcite-input-date-picker label-text="Input Date Picker" open></calcite-input-date-picker>
-      </div>
-
       <div class="fallback-row">
         <calcite-filter label="Filter"></calcite-filter>
         ${timePicker}
       </div>
-
-      <div class="fallback-popup-row">${defaultCombobox}</div>
 
       <div class="fallback-row">${segmentedControl}</div>
 
@@ -87,7 +84,13 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${progress}</div>
 
+      <div class="fallback-row">${table}</div>
+
       <div class="fallback-popup-row">
+        <calcite-input-time-zone open reference-date="2020-01-01" value="-60"></calcite-input-time-zone>
+        <calcite-input-time-picker label-text="Input Time Picker" open></calcite-input-time-picker>
+        <calcite-input-date-picker label-text="Input Date Picker" open></calcite-input-date-picker>
+        ${defaultCombobox}
         <calcite-split-button active primary-text="Button">
           <calcite-dropdown-group selection-mode="none">
             <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -95,11 +98,8 @@ const kitchenSink = () =>
             <calcite-dropdown-item>Option 4</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-split-button>
+        ${menuItem}
       </div>
-
-      <div class="fallback-popup-row">${menuItem}</div>
-
-      <div class="fallback-row">${table}</div>
     </div>
   </div>`;
 
