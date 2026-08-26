@@ -174,6 +174,150 @@ describe("focus-trap", () => {
   );
 });
 
+describe("Escape key closing", () => {
+  type EscapeCloseCase = {
+    focusTrapDisabled: boolean;
+    modalDisabled: boolean;
+    outsideCloseDisabled: boolean;
+    testName: string;
+  };
+
+  const defaultCases: EscapeCloseCase[] = [
+    {
+      focusTrapDisabled: false,
+      modalDisabled: false,
+      outsideCloseDisabled: false,
+      testName: "modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: false,
+      outsideCloseDisabled: false,
+      testName: "modal sheet with focus trap disabled",
+    },
+    {
+      focusTrapDisabled: false,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap disabled",
+    },
+  ];
+
+  const modalOutsideClickCases: EscapeCloseCase[] = [
+    {
+      focusTrapDisabled: false,
+      modalDisabled: false,
+      outsideCloseDisabled: true,
+      testName: "modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: false,
+      outsideCloseDisabled: true,
+      testName: "modal sheet with focus trap disabled",
+    },
+  ];
+
+  const nonModalOutsideClickCases: EscapeCloseCase[] = [
+    {
+      focusTrapDisabled: false,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap disabled",
+    },
+  ];
+
+  async function setUpEscapeCloseTest({
+    focusTrapDisabled,
+    modalDisabled,
+    outsideCloseDisabled,
+  }: EscapeCloseCase) {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <>
+        <calcite-sheet
+          focusTrapDisabled={focusTrapDisabled}
+          label="Sheet"
+          modalDisabled={modalDisabled}
+          open
+          outsideCloseDisabled={outsideCloseDisabled}
+        >
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button style={{ insetInlineEnd: 0, position: "fixed" }} type="button">
+          outside
+        </button>
+      </>,
+    );
+    await openEvent;
+
+    return {
+      el,
+      insideButton: page.getByRole("button", { name: "inside" }),
+      outsideButton: page.getByRole("button", { name: "outside" }),
+    };
+  }
+
+  async function expectEscapeClosesFromInside({
+    el,
+    insideButton,
+  }: Awaited<ReturnType<typeof setUpEscapeCloseTest>>) {
+    expect(el.open).toBe(true);
+
+    await userEvent.click(insideButton);
+    await expect.element(insideButton).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.open).toBe(false);
+  }
+
+  it.each(defaultCases)("closes from inside for $testName", async (testCase) => {
+    await expectEscapeClosesFromInside(await setUpEscapeCloseTest(testCase));
+  });
+
+  it.each(modalOutsideClickCases)(
+    "closes from inside after prevented outside close for $testName",
+    async (testCase) => {
+      const testSetup = await setUpEscapeCloseTest(testCase);
+      const { el } = testSetup;
+      const content = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.content}`)!;
+      const { height, right, top } = content.getBoundingClientRect();
+
+      await commands.mouseMove(right + 10, top + height / 2);
+      await commands.mouseDown();
+      await commands.mouseUp();
+
+      await expectEscapeClosesFromInside(testSetup);
+    },
+  );
+
+  it.each(nonModalOutsideClickCases)(
+    "closes from inside after focus leaves and returns for $testName",
+    async (testCase) => {
+      const testSetup = await setUpEscapeCloseTest(testCase);
+      const { outsideButton } = testSetup;
+
+      await userEvent.click(outsideButton);
+      await expect.element(outsideButton).toHaveFocus();
+
+      await expectEscapeClosesFromInside(testSetup);
+    },
+  );
+});
+
 describe("modalDisabled", () => {
   it("updates modal behavior when toggled while open", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
@@ -248,21 +392,6 @@ describe("modalDisabled", () => {
     await userEvent.tab();
 
     await expect.element(outsideButton).toHaveFocus();
-  });
-
-  it("closes when Escape is pressed with focusTrapDisabled", async () => {
-    const openEvent = waitForEvent(document, "calciteSheetOpen");
-    const { el } = await mount<Sheet>(
-      <calcite-sheet focus-trap-disabled label="Non-modal sheet" open>
-        <button type="button">inside</button>
-      </calcite-sheet>,
-    );
-    await openEvent;
-
-    await userEvent.click(page.getByRole("button", { name: "inside" }));
-    await userEvent.keyboard("{Escape}");
-
-    expect(el.open).toBe(false);
   });
 
   it("allows focus to leave when focusTrapDisabled is true for a modal sheet", async () => {
