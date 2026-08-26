@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.60...@esri/calcite-components@5.2.0-next.61) (2026-08-26)
+
+### Bug Fixes
+
+- assetPathChanged must be true after defineCustomElement's resourcesUrl ([#15068](https://github.com/Esri/calcite-design-system/issues/15068))
+- **tab-nav:** keep navigation chevron actions up to date ([#15025](https://github.com/Esri/calcite-design-system/issues/15025)), closes [#9680](https://github.com/Esri/calcite-design-system/issues/9680)
+
 ## [5.2.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.59...@esri/calcite-components@5.2.0-next.60) (2026-08-24)
 
 ### Bug Fixes
