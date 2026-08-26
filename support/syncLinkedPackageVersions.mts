@@ -26,7 +26,7 @@ import { gt } from "semver";
       location: string;
     }
 
-    const packagesData: Array<PackageData> = JSON.parse((await execAsync("npx lerna ls --json")).stdout.trim());
+    const packagesData: Array<PackageData> = JSON.parse((await execAsync("npx lerna ls --json --all")).stdout.trim());
     const headPackageData = packagesData.find((data: PackageData) => data.name === LINKED_VERSIONS_HEAD_PACKAGE);
 
     if (!headPackageData) {

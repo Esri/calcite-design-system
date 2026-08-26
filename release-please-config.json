@@ -94,6 +94,15 @@
     },
     "packages/monorepo-cli": {
       "component": "@esri/monorepo-cli"
+    },
+    "packages/components-snippets": {
+      "component": "@esri/calcite-components-snippets"
+    },
+    "packages/eslint-config": {
+      "component": "@esri/eslint-config-calcite"
+    },
+    "packages/typescript-config": {
+      "component": "@esri/calcite-typescript-config"
     }
   },
   "plugins": [

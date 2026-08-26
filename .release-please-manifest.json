@@ -6,5 +6,8 @@
   "packages/eslint-plugin-components": "2.0.3",
   "packages/tailwind-preset": "1.1.1",
   "packages/stylelint-plugin-components": "0.1.0",
-  "packages/monorepo-cli": "0.1.0"
+  "packages/monorepo-cli": "0.1.0",
+  "packages/components-snippets": "0.1.0",
+  "packages/eslint-config": "0.0.1",
+  "packages/typescript-config": "0.0.1"
 }
