@@ -94,6 +94,10 @@ describe("defaults", () => {
         propertyName: "sortDisabled",
         defaultValue: false,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });

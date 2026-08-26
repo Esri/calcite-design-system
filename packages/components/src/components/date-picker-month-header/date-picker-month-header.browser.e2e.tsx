@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { renders, scalePropagates } from "../../tests/commonTests/browser";
+import { defaults, renders, scalePropagates } from "../../tests/commonTests/browser";
 import { DateLocaleData } from "../date-picker/utils";
 import { DatePickerMonthHeader } from "./date-picker-month-header";
 
@@ -55,6 +55,13 @@ const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader["el"]) => {
   el.messages = messages;
   el.monthStyle = "wide";
 };
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-date-picker-month-header"),
+    [{ propertyName: "scale", defaultValue: "m" }],
+  );
+});
 
 describe("renders", () => {
   renders(

@@ -2,6 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
   hidden,
   renders,
   disabled,
@@ -53,6 +54,10 @@ describe("accessible", () => {
       ),
     );
   });
+});
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-swatch-group"), [{ propertyName: "scale", defaultValue: "m" }]);
 });
 
 describe("honors hidden attribute", () => {

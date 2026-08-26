@@ -59,6 +59,10 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "status",
         defaultValue: "idle",
       },

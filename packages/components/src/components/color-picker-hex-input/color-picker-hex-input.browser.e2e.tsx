@@ -40,6 +40,10 @@ describe("defaults", () => {
         propertyName: "value",
         defaultValue: "#000000",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });

@@ -119,6 +119,10 @@ describe("defaults", () => {
         propertyName: "target",
         defaultValue: undefined,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });

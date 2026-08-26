@@ -2,6 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
   hidden,
   renders,
   disabled,
@@ -10,6 +11,10 @@ import {
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-tab-title"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-tab-title"));

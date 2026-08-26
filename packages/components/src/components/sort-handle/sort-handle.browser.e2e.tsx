@@ -63,6 +63,10 @@ describe("defaults", () => {
         propertyName: "placement",
         defaultValue: "bottom-start",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });

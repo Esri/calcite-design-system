@@ -101,6 +101,10 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },

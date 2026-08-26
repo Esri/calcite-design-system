@@ -2,6 +2,7 @@ import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
   focusable,
   hidden,
   renders,
@@ -62,6 +63,10 @@ describe("accessible", () => {
       ),
     );
   });
+});
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-notice"), [{ propertyName: "scale", defaultValue: "m" }]);
 });
 
 describe("is focusable", () => {

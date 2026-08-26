@@ -97,6 +97,10 @@ describe("defaults", () => {
         defaultValue: "none",
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "interactionMode",
         defaultValue: "interactive",
       },

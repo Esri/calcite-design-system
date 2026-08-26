@@ -3,6 +3,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   focusable,
+  defaults,
   type ComponentTestTokens,
   reflects,
   hidden,
@@ -23,6 +24,10 @@ describe("accessible", () => {
       </calcite-menu>,
     ),
   );
+});
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-menu-item"), [{ propertyName: "scale", defaultValue: "m" }]);
 });
 
 describe("reflects", () => {

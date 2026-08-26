@@ -16,6 +16,10 @@ describe("defaults", () => {
         propertyName: "selectionMode",
         defaultValue: "single",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });
