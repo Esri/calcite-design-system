@@ -218,13 +218,14 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-combobox scale={scale}>
+        <calcite-combobox>
           <calcite-combobox-item-group>
             <calcite-combobox-item value="item" />
           </calcite-combobox-item-group>
         </calcite-combobox>,
+        mountOptions,
       ),
     { targetSelector: "calcite-combobox-item, calcite-combobox-item-group" },
   );

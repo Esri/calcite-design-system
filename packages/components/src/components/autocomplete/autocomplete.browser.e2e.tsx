@@ -273,13 +273,14 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-autocomplete scale={scale}>
+        <calcite-autocomplete>
           <calcite-autocomplete-item-group>
             <calcite-autocomplete-item value="item" />
           </calcite-autocomplete-item-group>
         </calcite-autocomplete>,
+        mountOptions,
       ),
     { targetSelector: "calcite-autocomplete-item, calcite-autocomplete-item-group" },
   );

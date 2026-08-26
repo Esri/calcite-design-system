@@ -66,12 +66,13 @@ describe("honors hidden attribute", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-swatch-group scale={scale}>
+        <calcite-swatch-group>
           <calcite-swatch />
           <calcite-swatch />
         </calcite-swatch-group>,
+        mountOptions,
       ),
     { targetSelector: "calcite-swatch" },
   );

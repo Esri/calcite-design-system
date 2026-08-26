@@ -121,12 +121,13 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-block-group scale={scale}>
+        <calcite-block-group>
           <calcite-block />
           <calcite-block-group />
         </calcite-block-group>,
+        mountOptions,
       ),
     {
       targetSelector:

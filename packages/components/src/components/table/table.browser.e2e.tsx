@@ -434,13 +434,14 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-table scale={scale}>
+        <calcite-table>
           <calcite-table-row>
             <calcite-table-cell />
           </calcite-table-row>
         </calcite-table>,
+        mountOptions,
       ),
     { targetSelector: "calcite-table-row" },
   );

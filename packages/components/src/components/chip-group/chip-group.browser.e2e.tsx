@@ -81,12 +81,13 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-chip-group scale={scale}>
+        <calcite-chip-group>
           <calcite-chip />
           <calcite-chip />
         </calcite-chip-group>,
+        mountOptions,
       ),
     { targetSelector: "calcite-chip" },
   );

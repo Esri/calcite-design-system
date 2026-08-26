@@ -74,13 +74,14 @@ describe("defaults", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-menu scale={scale}>
+        <calcite-menu>
           <calcite-menu-item>
             <calcite-menu-item slot="submenu-item" />
           </calcite-menu-item>
         </calcite-menu>,
+        mountOptions,
       ),
     { targetSelector: "calcite-menu-item" },
   );

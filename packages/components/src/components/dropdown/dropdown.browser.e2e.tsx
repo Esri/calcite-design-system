@@ -70,13 +70,14 @@ describe("honors hidden attribute", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-dropdown scale={scale}>
+        <calcite-dropdown>
           <calcite-dropdown-group>
             <calcite-dropdown-item />
           </calcite-dropdown-group>
         </calcite-dropdown>,
+        mountOptions,
       ),
     { targetSelector: "calcite-dropdown-group, calcite-dropdown-item" },
   );

@@ -1,9 +1,12 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import type { Scale } from "../../../components/types";
+import type { IntrinsicElementsWithProp } from "../../utils/types";
 
 const initialScale: Scale = "s";
 const scales: Scale[] = ["m", "l"];
+type ScaleComponent = IntrinsicElementsWithProp<"scale">;
 
 interface TestSetupMountOptions {
   /** Helper required for initializing scale propagation testing. */
@@ -13,7 +16,7 @@ interface TestSetupMountOptions {
 /**
  * Verifies that scale-controlled elements match their parent's scale initially and after scale change.
  *
- * Callers provide a selector for scale-controlled elements. The selector is searched in the document and the mounted parent's shadow root.
+ * Callers provide a selector for scale-controlled elements.
  *
  * Note that this helper should be used within a describe block.
  *
@@ -33,31 +36,26 @@ interface TestSetupMountOptions {
  */
 export function scalePropagates(
   setup: (mountOptions: TestSetupMountOptions) => ReturnType<typeof mount>,
-  {
-    /** Selector for the elements whose scale should match the parent. */
-    targetSelector,
-  }: { targetSelector: string },
+  { targetSelector }: { targetSelector: string },
 ): void {
   it("propagates scale to targets", async () => {
     const { el, reRender } = await setup({
       afterConnect: (el) => {
-        (el as typeof el & { scale: Scale }).scale = initialScale;
+        (el as ScaleComponent).scale = initialScale;
       },
     });
-    const parent = el as typeof el & { scale: Scale };
+    const parent = el as ScaleComponent;
 
     expect(parent.scale).toBe(initialScale);
 
     const assertTargetsMatchParent = async (): Promise<void> => {
-      const targets = [
-        ...document.querySelectorAll<HTMLElement>(targetSelector),
-        ...(parent.shadowRoot?.querySelectorAll<HTMLElement>(targetSelector) ?? []),
-      ];
+      const targets = page.getBySelector(targetSelector);
+      const targetCount = targets.elements().length;
 
-      expect(targets.length).toBeGreaterThan(0);
+      expect(targetCount).toBeGreaterThan(0);
 
-      for (const target of targets) {
-        await expect.element(target).toHaveProperty("scale", parent.scale);
+      for (let index = 0; index < targetCount; index++) {
+        await expect.element(targets.nth(index)).toHaveProperty("scale", parent.scale);
       }
     };
 

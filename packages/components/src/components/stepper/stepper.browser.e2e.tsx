@@ -97,12 +97,13 @@ describe("translation support", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-stepper scale={scale}>
+        <calcite-stepper>
           <calcite-stepper-item heading="Step 1" />
           <calcite-stepper-item heading="Step 2" />
         </calcite-stepper>,
+        mountOptions,
       ),
     { targetSelector: "calcite-stepper-item" },
   );

@@ -190,13 +190,14 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-list scale={scale}>
+        <calcite-list>
           <calcite-list-item label="One" />
           <calcite-list-item label="Two" />
           <calcite-list-item label="Three" />
         </calcite-list>,
+        mountOptions,
       ),
     { targetSelector: "calcite-list > calcite-list-item, calcite-list-item-group" },
   );

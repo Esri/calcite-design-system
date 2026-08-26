@@ -188,11 +188,12 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-block scale={scale}>
+        <calcite-block>
           <calcite-block-section />
         </calcite-block>,
+        mountOptions,
       ),
     { targetSelector: "calcite-block-section" },
   );

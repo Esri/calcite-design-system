@@ -145,7 +145,7 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) => mount(<calcite-block-section scale={scale} toggle-display="switch" />),
+    (mountOptions) => mount(<calcite-block-section toggle-display="switch" />, mountOptions),
     { targetSelector: "calcite-switch" },
   );
 });

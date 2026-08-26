@@ -138,12 +138,13 @@ describe("disabled", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
+    (mountOptions) =>
       mount(
-        <calcite-card-group scale={scale}>
+        <calcite-card-group>
           <calcite-card />
           <calcite-card />
         </calcite-card-group>,
+        mountOptions,
       ),
     { targetSelector: "calcite-card" },
   );

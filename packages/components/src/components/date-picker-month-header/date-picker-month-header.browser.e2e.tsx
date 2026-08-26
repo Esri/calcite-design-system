@@ -69,11 +69,11 @@ describe("renders", () => {
 describe("scale propagation", () => {
   scalePropagates(
     (mountOptions) =>
-      mount(<calcite-date-picker-month-header />, {
+      mount<"calcite-date-picker-month-header">(<calcite-date-picker-month-header />, {
         ...mountOptions,
         afterConnect: async (el) => {
           await setupDatePickerMonthHeader(el);
-          await mountOptions.afterConnect(el);
+          await mountOptions.afterConnect?.(el);
         },
       }),
     { targetSelector: ".chevron" },
