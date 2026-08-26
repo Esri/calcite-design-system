@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { renders, scalePropagates } from "../../tests/commonTests/browser";
@@ -67,8 +68,8 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
-      mount("calcite-date-picker-month-header", {
+    (scale) =>
+      mount(<calcite-date-picker-month-header scale={scale} />, {
         afterConnect: setupDatePickerMonthHeader,
       }),
     { targetSelector: ".chevron" },

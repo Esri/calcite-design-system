@@ -84,9 +84,9 @@ describe("is focusable", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-navigation>
+        <calcite-navigation scale={scale}>
           <calcite-navigation-logo slot="logo" />
           <calcite-navigation-user slot="user" />
           <calcite-navigation slot="navigation-secondary" />

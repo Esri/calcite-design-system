@@ -218,9 +218,9 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-combobox>
+        <calcite-combobox scale={scale}>
           <calcite-combobox-item-group>
             <calcite-combobox-item value="item" />
           </calcite-combobox-item-group>

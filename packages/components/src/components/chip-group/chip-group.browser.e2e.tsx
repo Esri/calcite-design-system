@@ -76,9 +76,9 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-chip-group>
+        <calcite-chip-group scale={scale}>
           <calcite-chip />
           <calcite-chip />
         </calcite-chip-group>,

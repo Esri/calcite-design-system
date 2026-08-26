@@ -133,7 +133,7 @@ describe("defaults", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-dialog"), {
+  scalePropagates((scale) => mount(<calcite-dialog scale={scale} />), {
     targetSelector: "calcite-panel",
   });
 });

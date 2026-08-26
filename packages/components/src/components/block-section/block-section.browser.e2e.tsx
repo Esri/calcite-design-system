@@ -144,9 +144,10 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount(<calcite-block-section toggle-display="switch" />), {
-    targetSelector: "calcite-switch",
-  });
+  scalePropagates(
+    (scale) => mount(<calcite-block-section scale={scale} toggle-display="switch" />),
+    { targetSelector: "calcite-switch" },
+  );
 });
 
 describe("translation support", () => {

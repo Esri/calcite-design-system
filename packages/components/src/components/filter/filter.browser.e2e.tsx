@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -79,7 +80,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-filter"), {
+  scalePropagates((scale) => mount(<calcite-filter scale={scale} />), {
     targetSelector: "calcite-input",
   });
 });

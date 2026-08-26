@@ -97,9 +97,9 @@ describe("translation support", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-stepper>
+        <calcite-stepper scale={scale}>
           <calcite-stepper-item heading="Step 1" />
           <calcite-stepper-item heading="Step 2" />
         </calcite-stepper>,

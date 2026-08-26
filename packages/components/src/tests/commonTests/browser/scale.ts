@@ -2,7 +2,8 @@ import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import type { Scale } from "../../../components/types";
 
-const scales: Scale[] = ["s", "l"];
+const initialScale: Scale = "s";
+const scales: Scale[] = ["m", "l"];
 
 /**
  * Verifies that scale-controlled elements match their parent's scale initially and after scale change.
@@ -14,8 +15,8 @@ const scales: Scale[] = ["s", "l"];
  * @example
  * describe("scale propagation", () => {
  *   scalePropagates(
- *     () => mount(
- *         <calcite-card-group>
+ *     (scale) => mount(
+ *         <calcite-card-group scale={scale}>
  *           <calcite-card />
  *           <calcite-card />
  *         </calcite-card-group>,
@@ -25,15 +26,17 @@ const scales: Scale[] = ["s", "l"];
  * });
  */
 export function scalePropagates(
-  setup: () => ReturnType<typeof mount>,
+  setup: (initialScale: Scale) => ReturnType<typeof mount>,
   {
     /** Selector for the elements whose scale should match the parent. */
     targetSelector,
   }: { targetSelector: string },
 ): void {
   it("propagates scale to targets", async () => {
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setup(initialScale);
     const parent = el as typeof el & { scale: Scale };
+
+    expect(parent.scale).toBe(initialScale);
 
     const assertTargetsMatchParent = async (): Promise<void> => {
       const targets = [

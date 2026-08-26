@@ -138,9 +138,9 @@ describe("disabled", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-card-group>
+        <calcite-card-group scale={scale}>
           <calcite-card />
           <calcite-card />
         </calcite-card-group>,

@@ -234,7 +234,9 @@ describe("selection change event and selectedActions state", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-action-group"), { targetSelector: "calcite-action-menu" });
+  scalePropagates((scale) => mount(<calcite-action-group scale={scale} />), {
+    targetSelector: "calcite-action-menu",
+  });
 });
 
 it("should honor overlayPositioning", async () => {

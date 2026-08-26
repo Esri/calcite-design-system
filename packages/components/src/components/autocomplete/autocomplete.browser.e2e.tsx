@@ -273,9 +273,9 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-autocomplete>
+        <calcite-autocomplete scale={scale}>
           <calcite-autocomplete-item-group>
             <calcite-autocomplete-item value="item" />
           </calcite-autocomplete-item-group>

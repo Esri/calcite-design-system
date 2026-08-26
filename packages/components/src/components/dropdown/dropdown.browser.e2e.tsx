@@ -70,9 +70,9 @@ describe("honors hidden attribute", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-dropdown>
+        <calcite-dropdown scale={scale}>
           <calcite-dropdown-group>
             <calcite-dropdown-item />
           </calcite-dropdown-group>

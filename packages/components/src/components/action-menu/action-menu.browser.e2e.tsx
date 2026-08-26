@@ -230,7 +230,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-action-menu"), {
+  scalePropagates((scale) => mount(<calcite-action-menu scale={scale} />), {
     targetSelector: `.${CSS.defaultTrigger}`,
   });
 });

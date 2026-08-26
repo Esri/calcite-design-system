@@ -110,9 +110,9 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-tile-group>
+        <calcite-tile-group scale={scale}>
           <calcite-tile label="Tile 1" />
           <calcite-tile label="Tile 2" />
           <calcite-tile label="Tile 3" />

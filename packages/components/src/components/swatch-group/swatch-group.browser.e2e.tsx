@@ -61,9 +61,9 @@ describe("honors hidden attribute", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-swatch-group>
+        <calcite-swatch-group scale={scale}>
           <calcite-swatch />
           <calcite-swatch />
         </calcite-swatch-group>,

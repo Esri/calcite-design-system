@@ -132,7 +132,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-action-pad"), {
+  scalePropagates((scale) => mount(<calcite-action-pad scale={scale} />), {
     targetSelector: "calcite-action-group calcite-action",
   });
 });

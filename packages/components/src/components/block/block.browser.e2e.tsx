@@ -188,9 +188,9 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-block>
+        <calcite-block scale={scale}>
           <calcite-block-section />
         </calcite-block>,
       ),

@@ -89,10 +89,11 @@ describe("honors hidden attribute", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
         <calcite-sort-handle
           addToItems={[{ element: document.createElement("div"), id: "item", label: "Item" }]}
+          scale={scale}
         />,
       ),
     { targetSelector: "calcite-dropdown-group" },

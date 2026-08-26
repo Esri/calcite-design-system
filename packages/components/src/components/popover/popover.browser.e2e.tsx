@@ -144,7 +144,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount(<calcite-popover closable />), {
+  scalePropagates((scale) => mount(<calcite-popover closable scale={scale} />), {
     targetSelector: "calcite-action",
   });
 });

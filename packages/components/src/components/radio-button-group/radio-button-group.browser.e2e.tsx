@@ -126,9 +126,9 @@ describe("honors hidden attribute", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-radio-button-group>
+        <calcite-radio-button-group scale={scale}>
           <calcite-label>
             <calcite-radio-button />
           </calcite-label>

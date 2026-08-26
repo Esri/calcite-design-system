@@ -94,9 +94,9 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-accordion>
+        <calcite-accordion scale={scale}>
           <calcite-accordion-item heading="Item 1" />
           <calcite-accordion-item heading="Item 2" />
         </calcite-accordion>,

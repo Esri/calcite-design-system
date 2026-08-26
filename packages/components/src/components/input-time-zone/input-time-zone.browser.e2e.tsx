@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { CSS as ComboboxCSS } from "../combobox/resources";
@@ -78,7 +79,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-input-time-zone"), {
+  scalePropagates((scale) => mount(<calcite-input-time-zone scale={scale} />), {
     targetSelector: "calcite-combobox",
   });
 });

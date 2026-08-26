@@ -99,7 +99,7 @@ describe("defaults", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount(<calcite-list-item closable />), {
+  scalePropagates((scale) => mount(<calcite-list-item closable scale={scale} />), {
     targetSelector: "calcite-action",
   });
 });

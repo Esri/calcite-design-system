@@ -74,9 +74,9 @@ describe("defaults", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-menu>
+        <calcite-menu scale={scale}>
           <calcite-menu-item>
             <calcite-menu-item slot="submenu-item" />
           </calcite-menu-item>

@@ -90,7 +90,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-inline-editable"), {
+  scalePropagates((scale) => mount(<calcite-inline-editable scale={scale} />), {
     targetSelector: "calcite-action",
   });
 });

@@ -106,7 +106,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount(<calcite-notice closable />), {
+  scalePropagates((scale) => mount(<calcite-notice closable scale={scale} />), {
     targetSelector: "calcite-action",
   });
 });

@@ -186,9 +186,9 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    () =>
+    (scale) =>
       mount(
-        <calcite-list>
+        <calcite-list scale={scale}>
           <calcite-list-item label="One" />
           <calcite-list-item label="Two" />
           <calcite-list-item label="Three" />

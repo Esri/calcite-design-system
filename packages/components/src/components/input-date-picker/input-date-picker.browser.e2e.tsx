@@ -95,7 +95,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates(() => mount("calcite-input-date-picker"), {
+  scalePropagates((scale) => mount(<calcite-input-date-picker scale={scale} />), {
     targetSelector: "calcite-date-picker, calcite-input-text",
   });
 });
