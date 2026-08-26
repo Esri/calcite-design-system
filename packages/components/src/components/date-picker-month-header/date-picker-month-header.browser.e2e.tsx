@@ -58,7 +58,10 @@ const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader["el"]) => {
 
 describe("defaults", () => {
   defaults(
-    () => mount("calcite-date-picker-month-header"),
+    () =>
+      mount("calcite-date-picker-month-header", {
+        afterConnect: setupDatePickerMonthHeader,
+      }),
     [{ propertyName: "scale", defaultValue: "m" }],
   );
 });
