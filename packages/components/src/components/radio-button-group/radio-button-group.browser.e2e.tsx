@@ -545,3 +545,47 @@ it("should focus the first focusable radio-button on setFocus()", async () => {
 
   await expect.element(shrubs).toHaveFocus();
 });
+
+it("syncs disabled states when toggling the group or an individual radio-button", async () => {
+  const { el, reRender } = await mount<RadioButtonGroup>(
+    <calcite-radio-button-group layout="vertical" name="Options">
+      <calcite-label layout="inline">
+        <calcite-radio-button data-testid="trees" value="trees" />
+        Trees
+      </calcite-label>
+      <calcite-label layout="inline">
+        <calcite-radio-button data-testid="shrubs" value="shrubs" />
+        Shrubs
+      </calcite-label>
+    </calcite-radio-button-group>,
+  );
+  const trees = page.getByTestId("trees");
+  const shrubs = page.getByTestId("shrubs");
+
+  async function toggleGroup(): Promise<void> {
+    el.disabled = !el.disabled;
+    await reRender();
+  }
+
+  async function toggleIndividual(): Promise<void> {
+    const radioButton = trees.element() as RadioButton["el"];
+    radioButton.disabled = !radioButton.disabled;
+    await reRender();
+  }
+
+  await toggleGroup();
+  await expect.element(trees).toHaveProperty("disabled", true);
+  await expect.element(shrubs).toHaveProperty("disabled", true);
+
+  await toggleGroup();
+  await expect.element(trees).toHaveProperty("disabled", false);
+  await expect.element(shrubs).toHaveProperty("disabled", false);
+
+  await toggleIndividual();
+  await expect.element(trees).toHaveProperty("disabled", true);
+  await expect.element(shrubs).toHaveProperty("disabled", false);
+
+  await toggleIndividual();
+  await expect.element(trees).toHaveProperty("disabled", false);
+  await expect.element(shrubs).toHaveProperty("disabled", false);
+});
