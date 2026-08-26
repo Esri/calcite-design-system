@@ -55,7 +55,7 @@
     {
       "groupName": "Util Scripts",
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["@inquirer/**", "chalk", "concurrently", "cpy**", "globby", "rimraf", "semver", "yargs"]
+      "matchPackageNames": ["@inquirer/**", "concurrently", "cpy**", "globby", "rimraf", "semver", "yargs"]
     },
     {
       "groupName": "Tests (Browser)",
