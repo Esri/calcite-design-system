@@ -79,7 +79,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-input-time-zone scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-input-time-zone />, mountOptions), {
     targetSelector: "calcite-combobox",
   });
 });

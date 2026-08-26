@@ -77,7 +77,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-chip closable scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-chip closable />, mountOptions), {
     targetSelector: "calcite-action",
   });
 });

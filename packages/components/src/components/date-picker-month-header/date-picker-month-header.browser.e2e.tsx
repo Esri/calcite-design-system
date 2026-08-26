@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { defaults, renders, scalePropagates } from "../../tests/commonTests/browser";
+import { renders, scalePropagates } from "../../tests/commonTests/browser";
 import { DateLocaleData } from "../date-picker/utils";
 import { DatePickerMonthHeader } from "./date-picker-month-header";
 
@@ -56,16 +56,6 @@ const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader["el"]) => {
   el.monthStyle = "wide";
 };
 
-describe("defaults", () => {
-  defaults(
-    () =>
-      mount("calcite-date-picker-month-header", {
-        afterConnect: setupDatePickerMonthHeader,
-      }),
-    [{ propertyName: "scale", defaultValue: "m" }],
-  );
-});
-
 describe("renders", () => {
   renders(
     () =>
@@ -78,9 +68,13 @@ describe("renders", () => {
 
 describe("scale propagation", () => {
   scalePropagates(
-    (scale) =>
-      mount(<calcite-date-picker-month-header scale={scale} />, {
-        afterConnect: setupDatePickerMonthHeader,
+    (mountOptions) =>
+      mount(<calcite-date-picker-month-header />, {
+        ...mountOptions,
+        afterConnect: async (el) => {
+          await setupDatePickerMonthHeader(el);
+          await mountOptions.afterConnect(el);
+        },
       }),
     { targetSelector: ".chevron" },
   );

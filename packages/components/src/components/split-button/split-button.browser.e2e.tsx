@@ -160,7 +160,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-split-button scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-split-button />, mountOptions), {
     targetSelector: "calcite-button, calcite-dropdown",
   });
 });

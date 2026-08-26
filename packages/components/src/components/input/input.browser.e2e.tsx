@@ -81,7 +81,7 @@ describe("defaults", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-input scale={scale} type="number" />), {
+  scalePropagates((mountOptions) => mount(<calcite-input type="number" />, mountOptions), {
     targetSelector: "calcite-action",
   });
 });

@@ -42,7 +42,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-avatar scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-avatar />, mountOptions), {
     targetSelector: "calcite-icon",
   });
 });

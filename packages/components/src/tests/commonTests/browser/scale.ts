@@ -5,6 +5,11 @@ import type { Scale } from "../../../components/types";
 const initialScale: Scale = "s";
 const scales: Scale[] = ["m", "l"];
 
+interface TestSetupMountOptions {
+  /** Helper required for initializing scale propagation testing. */
+  afterConnect: NonNullable<Parameters<typeof mount>[1]>["afterConnect"];
+}
+
 /**
  * Verifies that scale-controlled elements match their parent's scale initially and after scale change.
  *
@@ -15,25 +20,30 @@ const scales: Scale[] = ["m", "l"];
  * @example
  * describe("scale propagation", () => {
  *   scalePropagates(
- *     (scale) => mount(
- *         <calcite-card-group scale={scale}>
+ *     (mountOptions) => mount(
+ *         <calcite-card-group>
  *           <calcite-card />
  *           <calcite-card />
  *         </calcite-card-group>,
+ *         mountOptions,
  *       ),
  *     { targetSelector: "calcite-card" },
  *   );
  * });
  */
 export function scalePropagates(
-  setup: (initialScale: Scale) => ReturnType<typeof mount>,
+  setup: (mountOptions: TestSetupMountOptions) => ReturnType<typeof mount>,
   {
     /** Selector for the elements whose scale should match the parent. */
     targetSelector,
   }: { targetSelector: string },
 ): void {
   it("propagates scale to targets", async () => {
-    const { el, reRender } = await setup(initialScale);
+    const { el, reRender } = await setup({
+      afterConnect: (el) => {
+        (el as typeof el & { scale: Scale }).scale = initialScale;
+      },
+    });
     const parent = el as typeof el & { scale: Scale };
 
     expect(parent.scale).toBe(initialScale);

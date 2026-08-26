@@ -80,7 +80,7 @@ describe("renders", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-filter scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-filter />, mountOptions), {
     targetSelector: "calcite-input",
   });
 });

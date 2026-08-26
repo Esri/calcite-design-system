@@ -21,7 +21,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-tab-title closable scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-tab-title closable />, mountOptions), {
     targetSelector: "calcite-action",
   });
 });

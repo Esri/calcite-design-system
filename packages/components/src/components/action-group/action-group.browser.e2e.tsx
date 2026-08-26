@@ -234,7 +234,7 @@ describe("selection change event and selectedActions state", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-action-group scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-action-group />, mountOptions), {
     targetSelector: "calcite-action-menu",
   });
 });

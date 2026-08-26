@@ -70,7 +70,7 @@ describe("defaults", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-input-time-picker scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-input-time-picker />, mountOptions), {
     targetSelector: "calcite-time-picker",
   });
 });

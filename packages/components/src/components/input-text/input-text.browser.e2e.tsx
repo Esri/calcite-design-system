@@ -66,9 +66,12 @@ describe("defaults", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-input-text clearable scale={scale} value="value" />), {
-    targetSelector: "calcite-action",
-  });
+  scalePropagates(
+    (mountOptions) => mount(<calcite-input-text clearable value="value" />, mountOptions),
+    {
+      targetSelector: "calcite-action",
+    },
+  );
 });
 
 describe("reflects", () => {

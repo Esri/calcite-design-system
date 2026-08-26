@@ -51,7 +51,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-menu-item scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-menu-item />, mountOptions), {
     targetSelector: "calcite-menu",
   });
 });

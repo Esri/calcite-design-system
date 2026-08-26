@@ -59,7 +59,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("scale propagation", () => {
-  scalePropagates((scale) => mount(<calcite-navigation-user scale={scale} />), {
+  scalePropagates((mountOptions) => mount(<calcite-navigation-user />, mountOptions), {
     targetSelector: "calcite-avatar",
   });
 });
