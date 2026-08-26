@@ -1,4 +1,5 @@
 import { html } from "../support/formatting";
+import { autocomplete } from "./custom-theme/autocomplete";
 import { buttons } from "./custom-theme/button";
 import { card } from "./custom-theme/card";
 import { colorPicker } from "./custom-theme/color-picker";
@@ -11,7 +12,6 @@ import { menuItem } from "./custom-theme/menu-item";
 import { progress } from "./custom-theme/progress";
 import { select } from "./custom-theme/select";
 import { segmentedControl } from "./custom-theme/segmented-control";
-import { slider } from "./custom-theme/slider";
 import { table } from "./custom-theme/table";
 import { tile } from "./custom-theme/tile";
 import { timePicker } from "./custom-theme/time-picker";
@@ -44,6 +44,10 @@ const kitchenSink = () =>
         padding-block-end: 1rem;
       }
 
+      .fallback-popup-row--menus {
+        gap: 2rem;
+      }
+
       .fallback-popup-row > * {
         flex: 0 1 11rem;
         max-inline-size: 11rem;
@@ -60,7 +64,7 @@ const kitchenSink = () =>
 
       <div class="fallback-row fallback-card">${card}</div>
 
-      <div class="fallback-row">${colorPicker} ${datePicker} ${inputNumber}</div>
+      <div class="fallback-row">${autocomplete} ${colorPicker} ${datePicker} ${inputNumber}</div>
 
       <div class="fallback-row">${inputText} ${input} ${select}</div>
 
@@ -71,26 +75,17 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${segmentedControl}</div>
 
-      <div class="fallback-row">
-        <calcite-segmented-control>
-          <calcite-segmented-control-item value="alpha" checked>Alpha</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="beta">Beta</calcite-segmented-control-item>
-        </calcite-segmented-control>
-      </div>
-
       <div class="fallback-row">${tile}</div>
 
-      <div class="fallback-row">${slider}</div>
+      <div class="fallback-row">
+        <calcite-slider min="0" max="100" value="50" style="inline-size: 12rem"></calcite-slider>
+      </div>
 
       <div class="fallback-row">${progress}</div>
 
       <div class="fallback-row">${table}</div>
 
-      <div class="fallback-popup-row">
-        <calcite-input-time-zone open reference-date="2020-01-01" value="-60"></calcite-input-time-zone>
-        <calcite-input-time-picker label-text="Input Time Picker" open></calcite-input-time-picker>
-        <calcite-input-date-picker label-text="Input Date Picker" open></calcite-input-date-picker>
-        ${defaultCombobox}
+      <div class="fallback-popup-row fallback-popup-row--menus">
         <calcite-split-button active primary-text="Button">
           <calcite-dropdown-group selection-mode="none">
             <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -99,6 +94,13 @@ const kitchenSink = () =>
           </calcite-dropdown-group>
         </calcite-split-button>
         ${menuItem}
+      </div>
+
+      <div class="fallback-popup-row">
+        <calcite-input-time-zone open reference-date="2020-01-01" value="-60"></calcite-input-time-zone>
+        <calcite-input-time-picker label-text="Input Time Picker" open></calcite-input-time-picker>
+        <calcite-input-date-picker label-text="Input Date Picker" open></calcite-input-date-picker>
+        ${defaultCombobox}
       </div>
     </div>
   </div>`;
