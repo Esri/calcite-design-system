@@ -10,8 +10,8 @@ import {
   Scale,
   SelectionAppearance,
   Width,
-} from "../interfaces";
-import { IconName } from "../icon/interfaces";
+} from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

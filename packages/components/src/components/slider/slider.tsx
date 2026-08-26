@@ -20,17 +20,17 @@ import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
-import { ColorStop, DataSeries } from "../graph/interfaces";
-import { Scale, Status } from "../interfaces";
+import { ColorStop, DataSeries } from "../graph/types";
+import { Scale, Status } from "../types";
 import { BigDecimal } from "../../utils/number";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
-import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
+import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
 import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
@@ -185,8 +185,6 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   private _value: number | number[] = defaultValue;
 
   //#endregion
@@ -229,7 +227,7 @@ export class Slider extends LitElement implements LabelableComponent {
   /**
    * Specifies a list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/interfaces.ts#L5).
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/types.ts#L5).
    */
   @property() histogram?: DataSeries;
 
@@ -393,6 +391,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("pointerdown", this.pointerDownHandler);
     this.listen("keydown", this.handleKeyDown);
     this.listen("touchstart", this.handleTouchStart);

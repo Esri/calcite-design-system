@@ -2,6 +2,7 @@ import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
+import { isDropdownGroup } from "../dropdown-group/resources";
 import {
   accessible,
   defaults,
@@ -18,6 +19,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Dropdown } from "./dropdown";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 mockConsole(["warn", "error"]);
 
@@ -91,6 +93,32 @@ function renderReferenceElementDropdown(): JsxNode {
             Dropdown Item Content
           </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-button id="trigger">Open dropdown</calcite-button>
+    </>
+  );
+}
+
+function renderDropdownWithGroupTitle(): JsxNode {
+  return (
+    <calcite-dropdown>
+      <calcite-button slot="trigger">Open dropdown</calcite-button>
+      <calcite-dropdown-group group-title="Group one" id="group-1">
+        <calcite-dropdown-item id="grouped-item-1">Dropdown Item Content</calcite-dropdown-item>
+        <calcite-dropdown-item id="grouped-item-2">Dropdown Item Content</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  );
+}
+
+function renderReferenceElementDropdownWithGroupTitle(): JsxNode {
+  return (
+    <>
+      <calcite-dropdown reference-element="trigger">
+        <calcite-dropdown-group group-title="Group one" id="group-1">
+          <calcite-dropdown-item id="grouped-item-1">Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="grouped-item-2">Dropdown Item Content</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>
       <calcite-button id="trigger">Open dropdown</calcite-button>
@@ -293,17 +321,16 @@ describe("ariaActiveDescendantElement", () => {
     return page.elementLocator(triggerHost!);
   }
 
-  function getTriggerSlotLocator(): ReturnType<typeof page.elementLocator> {
-    const slot = (getSlottedTriggerLocator().element() as HTMLElement | null)?.assignedSlot;
-
-    expect(slot).toBeTruthy();
-
-    return page.elementLocator(slot!);
+  function getSlottedTriggerElement(): HTMLElement | null {
+    return getSlottedTriggerLocator().element() as HTMLElement | null;
   }
 
-  function getActiveDescendantId(): string | undefined {
-    return (getTriggerSlotLocator().element() as HTMLSlotElement | null)
-      ?.ariaActiveDescendantElement?.id;
+  function getTriggerSlotElement(): HTMLSlotElement | null {
+    return getSlottedTriggerElement()?.assignedSlot as HTMLSlotElement | null;
+  }
+
+  function getTriggerSlotActiveDescendantId(): string | undefined {
+    return getTriggerSlotElement()?.ariaActiveDescendantElement?.id;
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
@@ -312,7 +339,7 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(trigger);
 
-    expect(getActiveDescendantId()).toBe("item-1");
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-1");
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
@@ -324,7 +351,7 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowDown}");
 
-    expect(getActiveDescendantId()).toBe("item-2");
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-2");
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
@@ -336,15 +363,140 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    let activeDescendantId = getActiveDescendantId();
+    let activeDescendantId = getTriggerSlotActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-3");
 
     await userEvent.type(triggerEl, "{ArrowUp}");
 
-    activeDescendantId = getActiveDescendantId();
+    activeDescendantId = getTriggerSlotActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-2");
+  });
+
+  it("sets ariaActiveDescendantElement on the referenceElement trigger", async () => {
+    await mount<Dropdown>(renderReferenceElementDropdown);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
+
+    await userEvent.type(trigger, "{ArrowDown}");
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-2",
+    );
+  });
+
+  it("sets ariaActiveDescendantElement on focused trigger slot node when multiple trigger nodes exist", async () => {
+    await mount<Dropdown>(
+      <calcite-dropdown>
+        <span id="trigger-label" slot="trigger">
+          Label
+        </span>
+        <calcite-button id="trigger-button" slot="trigger">
+          Open dropdown
+        </calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+
+    const triggerButton = page.getBySelector("#trigger-button");
+    const triggerLabel = page.getBySelector("#trigger-label");
+
+    await userEvent.click(triggerButton);
+
+    expect(getTriggerSlotActiveDescendantId()).toBe("item-1");
+    expect((triggerButton.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+    expect((triggerLabel.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+  });
+
+  it("associates grouped items with their title in slotted-trigger mode", async () => {
+    await mount<Dropdown>(renderDropdownWithGroupTitle);
+    const trigger = page.getByText("Open dropdown");
+
+    await userEvent.click(trigger);
+
+    const activeItem = page.getBySelector("#grouped-item-1").element() as HTMLElement | null;
+    const groupDescription = activeItem?.ariaDescribedByElements?.find(isDropdownGroup);
+
+    expect(groupDescription?.getAttribute("aria-label")).toBe("Group one");
+  });
+
+  it("associates grouped items with their title in reference-element mode", async () => {
+    await mount<Dropdown>(renderReferenceElementDropdownWithGroupTitle);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    const activeItem = page.getBySelector("#grouped-item-1").element() as HTMLElement | null;
+    const groupDescription = activeItem?.ariaDescribedByElements?.find(isDropdownGroup);
+
+    expect(groupDescription?.getAttribute("aria-label")).toBe("Group one");
+  });
+
+  it("keeps focus on the referenceElement trigger when opened", async () => {
+    await mount<Dropdown>(renderReferenceElementDropdown);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    await expect.element(trigger).toHaveFocus();
+  });
+
+  it("clears ariaActiveDescendantElement from the referenceElement trigger when dropdown disconnects", async () => {
+    const { el } = await mount<Dropdown>(renderReferenceElementDropdown);
+    const trigger = page.getBySelector("#trigger");
+
+    await userEvent.click(trigger);
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
+
+    el.remove();
+
+    expect((trigger.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+  });
+
+  it("moves ariaActiveDescendantElement to the new referenceElement while open", async () => {
+    const { el } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown reference-element="trigger-one">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">Dropdown Item Content</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger-one">Open dropdown one</calcite-button>
+        <calcite-button id="trigger-two">Open dropdown two</calcite-button>
+      </>,
+    );
+
+    const triggerOne = page.getBySelector("#trigger-one");
+    const triggerTwo = page.getBySelector("#trigger-two");
+    const component = el.manager.component;
+
+    await userEvent.click(triggerOne);
+
+    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
+
+    const updateComplete = component.updateComplete;
+    el.referenceElement = "trigger-two";
+    await waitForSettledUpdate(component, updateComplete);
+
+    expect((triggerOne.element() as HTMLElement | null)?.ariaActiveDescendantElement).toBeNull();
+    expect((triggerTwo.element() as HTMLElement | null)?.ariaActiveDescendantElement?.id).toBe(
+      "item-1",
+    );
   });
 });
 
@@ -367,12 +519,7 @@ describe("referenceElement keydown", () => {
   it("opens when Enter is pressed on referenceElement", async () => {
     const { el } = await mount<Dropdown>(renderReferenceElementDropdownHTML);
     const trigger = page.getByRole("button", { name: "Open dropdown" });
-    const dropdownElement = trigger.element()?.nextElementSibling;
-
-    expect(dropdownElement).toBeTruthy();
-
-    const dropdown = page.elementLocator(dropdownElement!).element() as Dropdown;
-    const component = dropdown.manager.component;
+    const component = el.manager.component;
 
     expect(el.open).toBe(false);
 
@@ -383,6 +530,51 @@ describe("referenceElement keydown", () => {
     await waitForSettledUpdate(component, updateComplete);
 
     expect(el.open).toBe(true);
+  });
+});
+
+describe("autoClose", () => {
+  it("closes an open dropdown when another reference element dropdown opens", async () => {
+    await mount<Dropdown>(
+      <>
+        <calcite-dropdown id="dropdown-1" reference-element="trigger-1">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Item 1</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger-1">Open dropdown 1</calcite-button>
+        <calcite-dropdown id="dropdown-2" reference-element="trigger-2">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Item 2</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger-2">Open dropdown 2</calcite-button>
+        <calcite-button id="outside">Outside</calcite-button>
+      </>,
+    );
+
+    const dropdownOne = page.getBySelector("#dropdown-1").element() as Dropdown;
+    const dropdownTwo = page.getBySelector("#dropdown-2").element() as Dropdown;
+    const triggerOne = page.getByRole("button", { name: "Open dropdown 1" });
+    const triggerTwo = page.getByRole("button", { name: "Open dropdown 2" });
+    const outside = page.getByRole("button", { name: "Outside" });
+
+    expect(dropdownOne.open).toBe(false);
+    expect(dropdownTwo.open).toBe(false);
+
+    await userEvent.click(triggerOne);
+
+    expect(dropdownOne.open).toBe(true);
+    expect(dropdownTwo.open).toBe(false);
+
+    await userEvent.click(triggerTwo);
+
+    expect(dropdownOne.open).toBe(false);
+    expect(dropdownTwo.open).toBe(true);
+
+    await userEvent.click(outside);
+
+    expect(dropdownTwo.open).toBe(false);
   });
 });
 
@@ -711,5 +903,237 @@ describe("theme", () => {
       targetProp: "maxHeight",
       shadowSelector: `.${CSS.content}`,
     },
+  });
+});
+
+it("closes existing open dropdown when opened", async () => {
+  await mount<Dropdown>(
+    <>
+      <calcite-dropdown id="dropdown-1">
+        <calcite-button id="trigger" slot="trigger">
+          Open dropdown
+        </calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="single">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>
+            {" "}
+            Dropdown Item Content{" "}
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-dropdown id="dropdown-2">
+        <calcite-button id="trigger" slot="trigger">
+          Open dropdown
+        </calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="single">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>
+            {" "}
+            Dropdown Item Content{" "}
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </>,
+  );
+  const element1 = page.getBySelector("calcite-dropdown[id='dropdown-1']");
+  const element2 = page.getBySelector("calcite-dropdown[id='dropdown-2']");
+  const trigger1 = element1.getBySelector("#trigger");
+  const trigger2 = element2.getBySelector("#trigger");
+  const dropdownWrapper1 = page.getBySelector(`calcite-dropdown[id='dropdown-1'] .${CSS.wrapper}`);
+  const dropdownWrapper2 = page.getBySelector(`calcite-dropdown[id='dropdown-2'] .${CSS.wrapper}`);
+
+  await expect.element(dropdownWrapper1).not.toBeVisible();
+  await expect.element(dropdownWrapper2).not.toBeVisible();
+
+  await trigger1.click();
+
+  await expect.element(dropdownWrapper1).toBeVisible();
+  await expect.element(dropdownWrapper2).not.toBeVisible();
+
+  await trigger2.click();
+
+  await expect.element(dropdownWrapper1).not.toBeVisible();
+  await expect.element(dropdownWrapper2).toBeVisible();
+});
+
+describe("scrolling", () => {
+  it("focused item should be in view when long", async () => {
+    await mount<Dropdown>(
+      <calcite-dropdown>
+        <calcite-button slot="trigger">Open Dropdown</calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-11">11</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-12">12</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-13">13</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-14">14</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-15">15</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-16">16</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-17">17</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-18">18</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-19">19</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-20">20</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-21">21</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-22">22</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-23">23</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-24">24</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-25">25</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-26">26</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-27">27</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-28">28</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-29">29</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-30">30</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-41">41</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-42">42</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-43">43</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-44">44</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-45">45</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-46">46</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-47">47</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-48">48</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-49">49</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-50">50</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+    const triggerSlot = page.getBySelector("calcite-dropdown slot[name='trigger']");
+    const focusedItem = page.getBySelector("#item-50");
+
+    await userEvent.tab();
+    await userEvent.keyboard("{ArrowUp}");
+
+    await expect.element(triggerSlot).toHaveProperty("ariaActiveDescendantElement.id", "item-50");
+    await expect.element(focusedItem).toBeInViewport();
+  });
+
+  describe("max-items", () => {
+    const maxItems = 7;
+
+    it("control max items displayed", async () => {
+      const { el } = await mount<Dropdown>(
+        <calcite-dropdown max-items={maxItems}>
+          <calcite-button slot="trigger">Open Dropdown</calcite-button>
+          <calcite-dropdown-group group-title="First group">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group group-title="Second group">
+            <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      );
+
+      await userEvent.click(el);
+      const items = page.getBySelector("calcite-dropdown-item").all();
+
+      for (let i = 0; i < items.length; i++) {
+        await (i < maxItems
+          ? /* eslint-disable vitest/no-conditional-expect -- assertion depends on current item */
+            expect.element(items[i]).toBeInViewport()
+          : expect.element(items[i]).not.toBeInViewport());
+        /* eslint-enable vitest/no-conditional-expect */
+      }
+
+      const newMaxItems = 4;
+      el.maxItems = newMaxItems;
+
+      for (let i = 0; i < items.length; i++) {
+        /* eslint-disable vitest/no-conditional-expect -- assertion depends on current item */
+        await (i < newMaxItems
+          ? expect.element(items[i]).toBeInViewport()
+          : expect.element(items[i]).not.toBeInViewport());
+        /* eslint-enable vitest/no-conditional-expect */
+      }
+
+      const totalItems = 10;
+      el.maxItems = totalItems;
+
+      for (let i = 0; i < items.length; i++) {
+        await expect.element(items[i]).toBeInViewport();
+      }
+
+      // no scroller should be present when max-items === items
+      const scroller = page.getByRole("menu").element();
+      expect(scroller.scrollHeight).toBe(scroller.clientHeight);
+    });
+
+    it("does not display a scrollbar on subsequent opens when max-items matches the number of items", async () => {
+      const { el } = await mount<Dropdown>(
+        <calcite-dropdown max-items={maxItems}>
+          <calcite-button slot="trigger">Open Dropdown</calcite-button>
+          <calcite-dropdown-group group-title="First group">
+            {Array.from({ length: maxItems }, (_, index) => index + 1).map((position) => (
+              <calcite-dropdown-item id={`item-${position}`}>{position}</calcite-dropdown-item>
+            ))}
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      );
+      const menu = page.getByRole("menu", { includeHidden: true });
+
+      async function assertNoScrollbar(): Promise<void> {
+        await afterNextFrame();
+        const menuEl = menu.element();
+        expect(menuEl.scrollHeight).toBe(menuEl.clientHeight);
+      }
+
+      await userEvent.click(el);
+      await expect.element(menu).toBeVisible();
+      await assertNoScrollbar();
+
+      await userEvent.click(el);
+      await expect.element(menu).not.toBeVisible();
+      await assertNoScrollbar();
+
+      await userEvent.click(el);
+      await expect.element(menu).toBeVisible();
+      await assertNoScrollbar();
+    });
+
+    it("does not scroll to selected item on open when max-items causes selected item to be beyond scroller", async () => {
+      const { el } = await mount<Dropdown>(
+        <calcite-dropdown max-items={maxItems}>
+          <calcite-button slot="trigger">Open Dropdown</calcite-button>
+          <calcite-dropdown-group group-title="First group">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group group-title="Second group">
+            <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-10" selected>
+              10
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      );
+      const selectedItem = page.getBySelector("#item-10");
+
+      await userEvent.click(el);
+
+      await expect.element(selectedItem).not.toBeInViewport();
+    });
   });
 });

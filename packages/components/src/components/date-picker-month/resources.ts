@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   calendar: "calendar",
   calendarContainer: "calendar-container",
@@ -10,3 +12,8 @@ export const CSS = {
   weekHeader: "week-header",
   weekHeaderContainer: "week-header-container",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isDatePickerMonth = isTag("calcite-date-picker-month");

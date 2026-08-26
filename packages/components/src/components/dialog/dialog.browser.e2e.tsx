@@ -140,7 +140,9 @@ describe("is focusable", () => {
     return (
       <calcite-dialog closeDisabled={closeDisabled} heading="Title" open>
         This is the content
-        <button class={focusableContentTargetClass}>test</button>
+        <button class={focusableContentTargetClass} type="button">
+          test
+        </button>
       </calcite-dialog>
     );
   }
@@ -292,6 +294,16 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-dialog"), SLOTS);
+
+  it("forwards header-top content to the internal panel", async () => {
+    await mount(
+      <calcite-dialog open>
+        <div slot={SLOTS.headerTop}>Header top</div>
+      </calcite-dialog>,
+    );
+
+    await expect.element(page.getByText("Header top")).toBeVisible();
+  });
 });
 
 describe("top layer placement", () => {
@@ -505,6 +517,10 @@ describe("theme appearance", () => {
       "--calcite-dialog-content-bottom-space": {
         shadowSelector: `.${CSS.panel}`,
         targetProp: "--calcite-panel-content-bottom-space",
+      },
+      "--calcite-dialog-header-top-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-top-space",
       },
       "--calcite-dialog-footer-space": {
         shadowSelector: `.${CSS.panel}`,
