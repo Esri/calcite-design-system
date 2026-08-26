@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Fragment, h } from "@arcgis/lumina";
+import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page, userEvent } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
 import {
+  accessible,
   cancelable,
   defaults,
   disabled,
@@ -11,7 +12,6 @@ import {
   reflects,
   renders,
   t9n,
-  accessible,
   themed,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
@@ -19,9 +19,13 @@ import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
-import { List } from "./list";
+import type { List } from "./list";
+import { IDS as sortHandleIDs } from "../sort-handle/resources";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
+import type { Reorder } from "../sort-handle/types";
+import { mockConsole } from "../../tests/utils/logging";
+import type { DropdownItem } from "../dropdown-item/dropdown-item";
 
 const scrollTopValue = 120;
 
@@ -933,5 +937,519 @@ describe("themed", () => {
         targetProp: "backgroundColor",
       },
     });
+  });
+});
+
+describe("drag and drop", () => {
+  mockConsole();
+
+  async function waitForItemUpdateDebounce(): Promise<void> {
+    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.nextTick));
+  }
+
+  function createSimpleList(): JsxNode {
+    return (
+      <calcite-list drag-enabled id="list1">
+        <calcite-action
+          icon="show-all-parameters"
+          id="filter-action-test"
+          scale="s"
+          slot="filter-actions-end"
+        />
+        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test">
+          Mind if I offset your index?
+        </calcite-tooltip>
+        <calcite-list-item data-testid="one" label="One" value="one" />
+        <calcite-list-item data-testid="two" label="Two" value="two" />
+        <calcite-list-item data-testid="three" label="Three" value="three" />
+      </calcite-list>
+    );
+  }
+
+  it("works using a mouse", async () => {
+    const { el } = await mount(createSimpleList);
+    const listOrderChangeHandler = vi.fn();
+    const listDragEndHandler = vi.fn();
+    const listDragStartHandler = vi.fn();
+    el.addEventListener("calciteListOrderChange", listOrderChangeHandler);
+    el.addEventListener("calciteListDragEnd", listDragEndHandler);
+    el.addEventListener("calciteListDragStart", listDragStartHandler);
+
+    const one = page.getByTestId(`one`).getBySelector(`calcite-sort-handle`);
+    const two = page.getByTestId(`two`).getBySelector(`calcite-sort-handle`);
+
+    await userEvent.dragAndDrop(one, two);
+
+    const items = page.getBySelector("calcite-list-item");
+    await expect.element(items.nth(0)).toHaveProperty("value", "two");
+    await expect.element(items.nth(1)).toHaveProperty("value", "one");
+
+    expect(listOrderChangeHandler).toHaveBeenCalledTimes(1);
+    expect(listDragStartHandler).toHaveBeenCalledTimes(1);
+    expect(listDragEndHandler).toHaveBeenCalledTimes(1);
+    expect(listOrderChangeHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        detail: expect.objectContaining({
+          newIndex: 1,
+          oldIndex: 0,
+        }),
+      }),
+    );
+    expect(listDragStartHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        detail: expect.objectContaining({
+          newIndex: null,
+          oldIndex: 0,
+        }),
+      }),
+    );
+    expect(listDragEndHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        detail: expect.objectContaining({
+          newIndex: 1,
+          oldIndex: 0,
+        }),
+      }),
+    );
+  });
+
+  const firstLettersId = "first-letters";
+  const secondLettersId = "second-letters";
+
+  it("supports dragging items between lists", async () => {
+    await mount(
+      <>
+        <calcite-list drag-enabled group="letters" id={firstLettersId}>
+          <calcite-action
+            icon="show-all-parameters"
+            id="filter-action-test"
+            scale="s"
+            slot="filter-actions-end"
+          />
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test">
+            Mind if I offset your index?
+          </calcite-tooltip>
+          <calcite-list-item label="A" value="a" />
+          <calcite-list-item label="B" value="b" />
+        </calcite-list>
+
+        <calcite-list drag-enabled group="numbers" id="numbers">
+          <calcite-action
+            icon="show-all-parameters"
+            id="filter-action-test"
+            scale="s"
+            slot="filter-actions-end"
+          />
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test">
+            Mind if I offset your index?
+          </calcite-tooltip>
+          <calcite-list-item label="One" value="1" />
+          <calcite-list-item label="Two" value="2" />
+        </calcite-list>
+
+        <calcite-list drag-enabled id="no-group">
+          <calcite-action
+            icon="show-all-parameters"
+            id="filter-action-test"
+            scale="s"
+            slot="filter-actions-end"
+          />
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test">
+            Mind if I offset your index?
+          </calcite-tooltip>
+          <calcite-list-item label="No group" value="no-group" />
+        </calcite-list>
+
+        <calcite-list drag-enabled group="letters" id={secondLettersId}>
+          <calcite-action
+            icon="show-all-parameters"
+            id="filter-action-test"
+            scale="s"
+            slot="filter-actions-end"
+          />
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test">
+            Mind if I offset your index?
+          </calcite-tooltip>
+          <calcite-list-item data-testid="c" label="C" value="c" />
+          <calcite-list-item data-testid="d" label="D" value="d" />
+          <calcite-list-item data-testid="e" label="E" value="e" />
+          <calcite-list-item data-testid="f" label="F" value="f" />
+        </calcite-list>
+      </>,
+    );
+    await waitForItemUpdateDebounce();
+
+    const letterItemSelector = `calcite-list[group="letters"] calcite-list-item`;
+    const letterItems = page.getBySelector(letterItemSelector);
+
+    expect(letterItems).toHaveLength(6);
+
+    const moveToItemIds = page
+      .getBySelector(letterItemSelector)
+      .elements()
+      .map((item) => (item as ListItem["el"]).moveToItems.map((moveToItem) => moveToItem.id))
+      .flat();
+
+    expect(moveToItemIds).toHaveLength(6);
+
+    const moveToItemElementIds = page
+      .getBySelector(letterItemSelector)
+      .elements()
+      .map((item) =>
+        (item as ListItem["el"]).moveToItems.map((moveToItem) => moveToItem.element.id),
+      )
+      .flat();
+
+    expect(moveToItemElementIds).toHaveLength(6);
+    expect(moveToItemElementIds[0]).toBe(secondLettersId);
+    expect(moveToItemElementIds[1]).toBe(secondLettersId);
+
+    expect(moveToItemElementIds[2]).toBe(firstLettersId);
+    expect(moveToItemElementIds[3]).toBe(firstLettersId);
+    expect(moveToItemElementIds[4]).toBe(firstLettersId);
+    expect(moveToItemElementIds[5]).toBe(firstLettersId);
+
+    const listOrderChangeHandler = vi.fn();
+    const lists = page.getBySelector("calcite-list").elements() as List["el"][];
+    lists.forEach((list) =>
+      list.addEventListener("calciteListOrderChange", listOrderChangeHandler),
+    );
+
+    await userEvent.dragAndDrop(
+      page.getByTestId("d").getBySelector(`calcite-sort-handle`),
+      page.getBySelector(`#first-letters`),
+      { targetPosition: { x: 4, y: 52 }, steps: 10 },
+    );
+
+    await userEvent.dragAndDrop(
+      page.getByTestId("e").getBySelector(`calcite-sort-handle`),
+      page.getBySelector(`#numbers`),
+    );
+
+    await userEvent.dragAndDrop(
+      page.getByTestId("e").getBySelector(`calcite-sort-handle`),
+      page.getBySelector(`#no-group`),
+    );
+
+    const items = page.getBySelector("calcite-list-item");
+    await expect.element(items.nth(0)).toHaveProperty("value", "a");
+    await expect.element(items.nth(1)).toHaveProperty("value", "b");
+    await expect.element(items.nth(2)).toHaveProperty("value", "d");
+    await expect.element(items.nth(3)).toHaveProperty("value", "1");
+    await expect.element(items.nth(4)).toHaveProperty("value", "2");
+    await expect.element(items.nth(5)).toHaveProperty("value", "no-group");
+    await expect.element(items.nth(6)).toHaveProperty("value", "c");
+    await expect.element(items.nth(7)).toHaveProperty("value", "e");
+    await expect.element(items.nth(8)).toHaveProperty("value", "f");
+
+    expect(listOrderChangeHandler).toHaveBeenCalledTimes(2);
+  });
+
+  it("calls canPull and canPut for move items", async () => {
+    const { reRender } = await mount(
+      <>
+        <calcite-list drag-enabled group="letters" id="first-letters" label="First Letters">
+          <calcite-list-item id="a" label="A" />
+          <calcite-list-item id="b" label="B" />
+        </calcite-list>
+        <calcite-list drag-enabled group="letters" id="second-letters" label="Second Letters">
+          <calcite-list-item id="c" label="C" />
+          <calcite-list-item id="d" label="D" />
+        </calcite-list>
+      </>,
+    );
+
+    const lists = page.getBySelector("calcite-list");
+    const firstLetters = lists.first().element() as List["el"];
+    firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
+    firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+    const secondLetters = lists.last().element() as List["el"];
+    secondLetters.canPull = () => true;
+    secondLetters.canPut = () => true;
+    await reRender();
+    await waitForItemUpdateDebounce();
+
+    function getMoveItems(id: string): Locator {
+      return page.getBySelector(
+        `#${id} calcite-dropdown-group#${sortHandleIDs.move} calcite-dropdown-item`,
+      );
+    }
+
+    const aMoveItems = getMoveItems("a");
+    expect(aMoveItems).toHaveLength(0);
+
+    const bMoveItems = getMoveItems("b");
+    expect(bMoveItems).toHaveLength(1);
+    await expect.element(bMoveItems.first()).toHaveProperty("label", "Second Letters");
+
+    const cMoveItems = getMoveItems("c");
+    expect(cMoveItems).toHaveLength(1);
+    await expect.element(cMoveItems.first()).toHaveProperty("label", "First Letters");
+
+    const dMoveItems = getMoveItems("d");
+    expect(dMoveItems).toHaveLength(0);
+
+    firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
+    firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+    secondLetters.canPull = () => true;
+    secondLetters.canPut = () => false;
+    await reRender();
+    await waitForItemUpdateDebounce();
+
+    expect(aMoveItems).toHaveLength(0);
+    expect(bMoveItems).toHaveLength(0);
+  });
+
+  it("supports cloning with canPull", async () => {
+    const { reRender } = await mount(
+      <>
+        <calcite-list drag-enabled group="letters" id="first-letters" label="First Letters">
+          <calcite-list-item id="a" label="A" />
+          <calcite-list-item id="b" label="B" />
+        </calcite-list>
+        <calcite-list drag-enabled group="letters" id="second-letters" label="Second Letters">
+          <calcite-list-item id="c" label="C" />
+          <calcite-list-item id="d" label="D" />
+        </calcite-list>
+      </>,
+    );
+
+    const firstLetters = document.getElementById(firstLettersId) as List["el"];
+    firstLetters.canPull = () => "clone";
+    await reRender();
+    await waitForItemUpdateDebounce();
+
+    function getAddToItems(id: string): Locator {
+      return page.getBySelector(
+        `#${id} calcite-dropdown-group#${sortHandleIDs.add} calcite-dropdown-item`,
+      );
+    }
+
+    const aAddToItems = getAddToItems("a");
+    expect(aAddToItems).toHaveLength(1);
+    await expect.element(aAddToItems.first()).toHaveProperty("label", "Second Letters");
+
+    const bAddToItems = getAddToItems("b");
+    expect(bAddToItems).toHaveLength(1);
+    await expect.element(bAddToItems.first()).toHaveProperty("label", "Second Letters");
+
+    const cAddToItems = getAddToItems("c");
+    expect(cAddToItems).toHaveLength(0);
+
+    const dAddToItems = getAddToItems("d");
+    expect(dAddToItems).toHaveLength(0);
+  });
+
+  it("reorders using a keyboard", async () => {
+    const { el, reRender } = await mount(createSimpleList);
+    let totalMoves = 0;
+    const listOrderChangeHandler = vi.fn();
+    el.addEventListener("calciteListOrderChange", listOrderChangeHandler);
+
+    async function assertReorder(
+      reorder: Reorder,
+      expectedValueOrder: string[],
+      newIndex: number,
+      oldIndex: number,
+    ): Promise<void> {
+      const item1 = page.getByTestId(`one`);
+      const item1Handle = item1.getBySelector(`calcite-sort-handle`);
+      await userEvent.type(item1Handle, "{Space}");
+      await reRender();
+      const handleItems = page
+        .getByTestId(`one`)
+        .getBySelector(`calcite-sort-handle calcite-dropdown-item`)
+        .elements() as DropdownItem["el"][];
+
+      const topDisabled = handleItems[0].disabled;
+      const upDisabled = handleItems[1].disabled;
+      const downDisabled = handleItems[2].disabled;
+      const bottomDisabled = handleItems[3].disabled;
+
+      const reorderDisabled =
+        (reorder === "top" && topDisabled) ||
+        (reorder === "up" && upDisabled) ||
+        (reorder === "down" && downDisabled) ||
+        (reorder === "bottom" && bottomDisabled);
+
+      if (reorderDisabled) {
+        await userEvent.keyboard("{Escape}");
+        return;
+      }
+
+      if (reorder !== "top" && !topDisabled) {
+        await userEvent.keyboard("{ArrowDown}");
+      }
+
+      if (["down", "bottom"].includes(reorder) && !upDisabled) {
+        await userEvent.keyboard("{ArrowDown}");
+      }
+
+      if (reorder === "bottom" && !downDisabled) {
+        await userEvent.keyboard("{ArrowDown}");
+      }
+
+      await userEvent.keyboard("{Enter}");
+
+      const items = page.getBySelector("calcite-list-item");
+      expect(items).toHaveLength(3);
+
+      for (let i = 0; i < items.length; i++) {
+        await expect.element(items.nth(i)).toHaveProperty("value", expectedValueOrder[i]);
+      }
+
+      expect(listOrderChangeHandler).toHaveBeenCalledTimes(++totalMoves);
+      expect(listOrderChangeHandler).toHaveBeenCalledWith(
+        expect.objectContaining({
+          detail: expect.objectContaining({
+            newIndex,
+            oldIndex,
+            fromEl: el,
+            toEl: el,
+            dragEl: item1.element(),
+          }),
+        }),
+      );
+    }
+
+    await userEvent.keyboard("{Tab>2/}");
+
+    await assertReorder("down", ["two", "one", "three"], 1, 0);
+    await assertReorder("down", ["two", "three", "one"], 2, 1);
+    await assertReorder("down", ["two", "three", "one"], 2, 2);
+
+    await assertReorder("up", ["two", "one", "three"], 1, 2);
+    await assertReorder("up", ["one", "two", "three"], 0, 1);
+    await assertReorder("up", ["one", "two", "three"], 0, 0);
+
+    await assertReorder("bottom", ["two", "three", "one"], 2, 0);
+    await assertReorder("top", ["one", "two", "three"], 0, 2);
+  });
+
+  it("moves using a keyboard", async () => {
+    const group = "my-group";
+    const listOrderChangeHandler = vi.fn();
+    await mount(
+      <>
+        <calcite-list
+          drag-enabled
+          group={group}
+          id="list1"
+          oncalciteListOrderChange={listOrderChangeHandler}
+        >
+          <calcite-action
+            icon="show-all-parameters"
+            id="filter-action-test"
+            scale="s"
+            slot="filter-actions-end"
+          />
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test">
+            Mind if I offset your index?
+          </calcite-tooltip>
+          <calcite-list-item id="one" label="One" value="one" />
+          <calcite-list-item id="two" label="Two" value="two" />
+        </calcite-list>
+        <calcite-list drag-enabled group={group} id="list2">
+          <calcite-action
+            icon="show-all-parameters"
+            id="filter-action-test"
+            scale="s"
+            slot="filter-actions-end"
+          />
+          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test">
+            Mind if I offset your index?
+          </calcite-tooltip>
+          <calcite-list-item id="three" label="Three" value="three" />
+        </calcite-list>
+      </>,
+    );
+
+    let listMoves = 0;
+
+    async function assertMove(
+      listItemId: string,
+      moveFromListId: string,
+      moveToListId: string,
+      list1Order: string[],
+      list2Order: string[],
+      newIndex: number,
+      oldIndex: number,
+    ): Promise<void> {
+      // move to other list is last option, so we open menu, and round robin to the last option, then select it
+      await userEvent.keyboard("{Space}{ArrowUp}{Enter}");
+
+      const list1Id = "list1";
+      const list2Id = "list2";
+      const list1After = page.getBySelector(`#${list1Id} calcite-list-item`);
+      expect(list1After).toHaveLength(list1Order.length);
+
+      for (let i = 0; i < list1After.length; i++) {
+        await expect.element(list1After.nth(i)).toHaveProperty("value", list1Order[i]);
+      }
+
+      const list2After = page.getBySelector(`#${list2Id} calcite-list-item`);
+      expect(list2After).toHaveLength(list2Order.length);
+
+      for (let i = 0; i < list2After.length; i++) {
+        await expect.element(list2After.nth(i)).toHaveProperty("value", list2Order[i]);
+      }
+
+      ++listMoves;
+
+      expect(listOrderChangeHandler).toHaveBeenCalledTimes(listMoves);
+      expect(listOrderChangeHandler).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          detail: expect.objectContaining({
+            newIndex,
+            oldIndex,
+            fromEl: page.getBySelector(`#${moveFromListId}`).element(),
+            toEl: page.getBySelector(`#${moveToListId}`).element(),
+            dragEl: page.getBySelector(`#${listItemId}`).element(),
+          }),
+        }),
+      );
+    }
+
+    await userEvent.keyboard("{Tab>2/}");
+    await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
+
+    await userEvent.keyboard("{Tab}");
+    await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
+  });
+
+  it("updates moveToItems label when menu is opened", async () => {
+    const group = "my-group";
+    const { reRender } = await mount(
+      <>
+        <calcite-list data-testid="component1" drag-enabled group={group} label="Group 1">
+          <calcite-list-item label="One" />
+          <calcite-list-item label="Two" />
+        </calcite-list>
+        <calcite-list data-testid="component2" drag-enabled group={group} label="Group 2">
+          <calcite-list-item data-testid="three" label="Three" />
+        </calcite-list>
+      </>,
+    );
+
+    const component1 = page.getByTestId("component1").element() as List["el"];
+    const three = page.getByTestId("three").element() as ListItem["el"];
+    three.sortHandleOpen = true;
+    await reRender();
+    await waitForItemUpdateDebounce();
+    let moveToItems = three.moveToItems.map((moveToItem) => moveToItem.label);
+
+    expect(moveToItems).toHaveLength(1);
+    expect(moveToItems[0]).toBe("Group 1");
+
+    three.sortHandleOpen = false;
+    const newLabel = "New label";
+    component1.label = newLabel;
+    three.sortHandleOpen = true;
+    await reRender();
+    await waitForItemUpdateDebounce();
+    moveToItems = three.moveToItems.map((moveToItem) => moveToItem.label);
+
+    expect(moveToItems).toHaveLength(1);
+    expect(moveToItems[0]).toBe(newLabel);
   });
 });

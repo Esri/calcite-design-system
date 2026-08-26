@@ -1,9 +1,8 @@
-import { JsxNode, LitElement } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
   defaults,
   floatingUIOwner,
@@ -644,4 +643,49 @@ describe("theme", () => {
       },
     });
   });
+});
+
+it("should not shift focus back on input-date-picker when other input elements are clicked", async () => {
+  await mount(
+    <>
+      <input data-testid="input" />
+      <calcite-input-date-picker data-testid="input-date" />
+    </>,
+  );
+  const input = page.getByTestId("input");
+  const inputDatePicker = page.getByTestId("input-date");
+  const calendar = page.getBySelector(`calcite-input-date-picker .${CSS.calendarWrapper}`);
+
+  await expect.element(calendar).not.toBeVisible();
+
+  await inputDatePicker.click();
+
+  await expect.element(calendar).toBeVisible();
+  await expect.element(inputDatePicker).toHaveFocus();
+
+  await input.click();
+
+  await expect.element(calendar).not.toBeVisible();
+  await expect.element(input).toHaveFocus();
+});
+
+it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
+  const { el } = await mount(<calcite-input-date-picker read-only />);
+  const input = page.getBySelector("calcite-input-text");
+  const calendar = page.getBySelector(`.${CSS.menu}`);
+
+  await expect.element(input).toHaveValue("");
+
+  await userEvent.click(el);
+
+  await expect.element(el).toHaveFocus();
+  await expect.element(calendar).not.toBeVisible();
+
+  await userEvent.click(el);
+
+  await expect.element(calendar).not.toBeVisible();
+
+  await userEvent.keyboard("atención atención");
+
+  await expect.element(input).toHaveValue("");
 });

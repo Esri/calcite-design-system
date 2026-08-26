@@ -5,16 +5,16 @@ import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
 
 import {
+  accessible,
   defaults,
+  floatingUIOwner,
   focusable,
   hidden,
-  renders,
-  floatingUIOwner,
-  t9n,
-  topLayer,
   openClose,
-  accessible,
+  renders,
+  t9n,
   themed,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -379,4 +379,84 @@ describe("warning messages", () => {
       { el },
     );
   });
+});
+
+it("do not autoClose popovers when clicked outside", async () => {
+  const { el } = await mount<Popover>(
+    <>
+      <div id="outsideNode">Outside node</div>
+      <calcite-popover open reference-element="ref">
+        Content
+      </calcite-popover>
+      <div id="ref">Button</div>
+    </>,
+  );
+
+  const outsideNode = page.getBySelector("#outsideNode");
+  await outsideNode.click();
+
+  await expect.element(el).toHaveProperty("open", true);
+});
+
+it("autoClose popovers when clicked outside", async () => {
+  const { el } = await mount<Popover>(
+    <>
+      <div id="outsideNode">Outside node</div>
+      <calcite-popover auto-close open reference-element="ref">
+        <div id="insideNode">Inside node</div>
+      </calcite-popover>
+      <div id="ref">Button</div>
+    </>,
+  );
+  const insideNode = page.getBySelector("#insideNode");
+  const outsideNode = page.getBySelector("#outsideNode");
+
+  await expect.element(el).toHaveProperty("open", true);
+
+  await insideNode.click();
+
+  await expect.element(el).toHaveProperty("open", true);
+
+  await outsideNode.click();
+
+  await expect.element(el).toHaveProperty("open", false);
+});
+
+it("should autoClose popovers when clicked on another referenceElement", async () => {
+  await mount<Popover>(
+    <>
+      <p>
+        Some text
+        <button id="ref1">Button</button>
+      </p>
+      <p>
+        Some more text
+        <button id="ref2">Button</button>
+      </p>
+      <calcite-popover auto-close id="popover1" open reference-element="ref1">
+        Content 1
+      </calcite-popover>
+      <calcite-popover auto-close id="popover2" reference-element="ref2">
+        Content 2
+      </calcite-popover>
+    </>,
+  );
+
+  const popover1 = page.getBySelector("#popover1");
+  const popover2 = page.getBySelector("#popover2");
+  const ref1 = page.getBySelector("#ref1");
+  const ref2 = page.getBySelector("#ref2");
+
+  await expect.element(popover1).toHaveProperty("open", true);
+  await expect.element(popover2).toHaveProperty("open", false);
+
+  await ref2.click();
+
+  await expect.element(popover1).toHaveProperty("open", false);
+  await expect.element(popover2).toHaveProperty("open", true);
+
+  await ref1.click();
+
+  await expect.element(popover1).toHaveProperty("open", true);
+  await expect.element(popover2).toHaveProperty("open", false);
 });

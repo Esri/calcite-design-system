@@ -1,9 +1,10 @@
-import { Fragment, h, JsxNode } from "@arcgis/lumina";
+import { h, Fragment, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it, test, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
 import {
+  accessible,
   cancelable,
   defaults,
   disabled,
@@ -18,16 +19,15 @@ import {
   t9n,
   themed,
   topLayer,
-  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
+import { CSS } from "./resources";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import type { ComboboxItem } from "../combobox-item/combobox-item";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
 
 mockConsole();
@@ -2039,5 +2039,59 @@ describe("theme", () => {
         targetProp: "backgroundColor",
       },
     });
+  });
+});
+
+describe("custom icons", () => {
+  it("should use icons if set on items", async () => {
+    const { el } = await mount(
+      <calcite-combobox>
+        <calcite-combobox-item heading="One" icon="banana" id="one" value="one" />
+        <calcite-combobox-item heading="Two" icon="beaker" id="two" value="two" />
+        <calcite-combobox-item heading="Three" id="three" value="three" />
+      </calcite-combobox>,
+    );
+    const chips = page.getBySelector("calcite-combobox calcite-chip");
+    const items = page.getBySelector("calcite-combobox-item");
+
+    await expect(chips).toHaveLength(0);
+
+    await userEvent.click(el);
+    await items.nth(0).click();
+    await items.nth(1).click();
+    await items.nth(2).click();
+
+    await expect.element(chips.nth(0)).toHaveProperty("icon", "banana");
+    await expect.element(chips.nth(1)).toHaveProperty("icon", "beaker");
+    await expect.element(chips.nth(2)).toHaveProperty("icon", undefined);
+  });
+
+  it("should use icon in single select", async () => {
+    const { el } = await mount(
+      <calcite-combobox selection-mode="single">
+        <calcite-combobox-item heading="One" icon="banana" id="one" value="one" />
+        <calcite-combobox-item heading="Two" icon="beaker" id="two" value="two" />
+        <calcite-combobox-item heading="Three" id="three" value="three" />
+      </calcite-combobox>,
+    );
+    const selected = page.getBySelector(`calcite-combobox .${CSS.selectedIcon}`);
+    const items = page.getBySelector("calcite-combobox-item");
+
+    await expect.element(selected).not.toBeInTheDocument();
+
+    await userEvent.click(el);
+    await items.first().click();
+
+    await expect.element(selected).toHaveProperty("icon", "banana");
+
+    await userEvent.click(el);
+    await items.nth(1).click();
+
+    await expect.element(selected).toHaveProperty("icon", "beaker");
+
+    await userEvent.click(el);
+    await items.nth(2).click();
+
+    await expect.element(selected).not.toBeInTheDocument();
   });
 });
