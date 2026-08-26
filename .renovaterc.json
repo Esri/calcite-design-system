@@ -26,7 +26,7 @@
       "matchPackageNames": [
         "@cspell/**",
         "@morev/stylelint-testing-library",
-        "@prettier",
+        "@prettier/**",
         "globals",
         "husky",
         "lint-staged",
@@ -69,7 +69,7 @@
     {
       "groupName": "Tests (Browser)",
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["@vitest/**", "happy-dom", "playwright", "vitest"]
+      "matchPackageNames": ["!@vitest/eslint-plugin", "@vitest/**", "happy-dom", "playwright", "vitest"]
     },
     {
       "groupName": "Tests (A11y)",
