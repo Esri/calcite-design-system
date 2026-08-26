@@ -6,13 +6,12 @@ import { defaultCombobox } from "./custom-theme/combobox";
 import { datePicker } from "./custom-theme/date-picker";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
-import { inputTimeZone } from "./custom-theme/input-time-zone";
 import { input } from "./custom-theme/input";
 import { menuItem } from "./custom-theme/menu-item";
+import { progress } from "./custom-theme/progress";
 import { select } from "./custom-theme/select";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { slider } from "./custom-theme/slider";
-import { splitButton } from "./custom-theme/split-button";
 import { table } from "./custom-theme/table";
 import { tile } from "./custom-theme/tile";
 import { timePicker } from "./custom-theme/time-picker";
@@ -52,7 +51,11 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${colorPicker} ${datePicker} ${inputNumber}</div>
 
-      <div class="fallback-row">${inputText} ${inputTimeZone} ${input} ${select}</div>
+      <div class="fallback-row">${inputText} ${input} ${select}</div>
+
+      <div class="fallback-popup-row">
+        <calcite-input-time-zone open reference-date="2020-01-01" value="-60"></calcite-input-time-zone>
+      </div>
 
       <div class="fallback-popup-row">
         <calcite-input-time-picker label-text="Input Time Picker" open></calcite-input-time-picker>
@@ -82,7 +85,17 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${slider}</div>
 
-      <div class="fallback-popup-row">${splitButton}</div>
+      <div class="fallback-row">${progress}</div>
+
+      <div class="fallback-popup-row">
+        <calcite-split-button active primary-text="Button">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
 
       <div class="fallback-popup-row">${menuItem}</div>
 
