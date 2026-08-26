@@ -119,7 +119,6 @@
 .calendar-wrapper {
   border-radius: var(--calcite-input-date-picker-calendar-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
-  overflow: hidden;
   transform: translate3d(0, 0, 0);
 }
 
