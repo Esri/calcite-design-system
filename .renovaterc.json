@@ -43,7 +43,7 @@
     {
       "groupName": "Build (Monorepo)",
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["lerna", "turbo", "@nx/nx-*"]
+      "matchPackageNames": ["lerna", "turbo"]
     },
     {
       "groupName": "Build (Tokens)",
