@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.61...@esri/calcite-components@5.2.0-next.62) (2026-08-26)
+
+### Bug Fixes
+
+- **sheet:** close on Escape when focus trapping is disabled ([#15061](https://github.com/Esri/calcite-design-system/issues/15061)), closes [#12114](https://github.com/Esri/calcite-design-system/issues/12114)
+
 ## [5.2.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.60...@esri/calcite-components@5.2.0-next.61) (2026-08-26)
 
 ### Bug Fixes
