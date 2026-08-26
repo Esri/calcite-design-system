@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -128,6 +129,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-action-pad"), { display: "block" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-action-pad"), {
+    targetSelector: "calcite-action-group calcite-action",
+  });
 });
 
 describe("slots", () => {

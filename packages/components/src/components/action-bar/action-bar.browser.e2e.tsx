@@ -10,6 +10,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   t9n,
   delegatesToFloatingUiOwningComponent,
@@ -183,6 +184,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-action-bar"), { display: "inline-flex" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-action-bar"), {
+    targetSelector: "calcite-action-group calcite-action",
+  });
 });
 
 describe("slots", () => {

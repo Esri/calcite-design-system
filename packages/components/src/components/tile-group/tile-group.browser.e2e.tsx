@@ -6,6 +6,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   disabled,
   accessible,
 } from "../../tests/commonTests/browser";
@@ -104,6 +105,20 @@ describe("renders", () => {
         </calcite-tile-group>,
       ),
     { display: "inline-block" },
+  );
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-tile-group>
+          <calcite-tile label="Tile 1" />
+          <calcite-tile label="Tile 2" />
+          <calcite-tile label="Tile 3" />
+        </calcite-tile-group>,
+      ),
+    { targetSelector: "calcite-tile" },
   );
 });
 

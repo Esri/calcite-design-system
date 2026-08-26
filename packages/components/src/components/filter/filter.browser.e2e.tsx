@@ -12,6 +12,7 @@ import {
   disabled,
   accessible,
   themed,
+  scalePropagates,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -75,6 +76,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-filter"), { display: "flex" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(() => mount("calcite-filter"), {
+    targetSelector: "calcite-input",
+  });
 });
 
 describe("translation support", () => {

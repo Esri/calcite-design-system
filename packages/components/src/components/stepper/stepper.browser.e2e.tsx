@@ -3,7 +3,15 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import { LitElement } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  scalePropagates,
+  t9n,
+  themed,
+} from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
 import { CSS } from "./resources";
@@ -85,6 +93,19 @@ describe("renders", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-stepper"));
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-stepper>
+          <calcite-stepper-item heading="Step 1" />
+          <calcite-stepper-item heading="Step 2" />
+        </calcite-stepper>,
+      ),
+    { targetSelector: "calcite-stepper-item" },
+  );
 });
 
 describe("fixed height sizing", () => {

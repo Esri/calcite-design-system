@@ -15,6 +15,7 @@ import {
   openClose,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
   topLayer,
@@ -213,6 +214,20 @@ describe("internal label", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-combobox"), { display: "block" });
+});
+
+describe("scale propagation", () => {
+  scalePropagates(
+    () =>
+      mount(
+        <calcite-combobox>
+          <calcite-combobox-item-group label="Group">
+            <calcite-combobox-item heading="Item" value="item" />
+          </calcite-combobox-item-group>
+        </calcite-combobox>,
+      ),
+    { targetSelector: "calcite-combobox-item, calcite-combobox-item-group" },
+  );
 });
 
 describe("focusable", () => {
