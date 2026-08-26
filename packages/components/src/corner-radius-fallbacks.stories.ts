@@ -8,7 +8,6 @@ import { datePicker } from "./custom-theme/date-picker";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
 import { input } from "./custom-theme/input";
-import { menuItem } from "./custom-theme/menu-item";
 import { progress } from "./custom-theme/progress";
 import { select } from "./custom-theme/select";
 import { segmentedControl } from "./custom-theme/segmented-control";
@@ -44,10 +43,6 @@ const kitchenSink = () =>
         padding-block-end: 1rem;
       }
 
-      .fallback-popup-row--menus {
-        gap: 2rem;
-      }
-
       .fallback-popup-row > * {
         flex: 0 1 11rem;
         max-inline-size: 11rem;
@@ -57,51 +52,78 @@ const kitchenSink = () =>
       .fallback-card {
         inline-size: 260px;
       }
+
+      .fallback-slider {
+        inline-size: 12rem;
+      }
     </style>
 
     <div class="fallback-grid">
-      <div class="fallback-row">${buttons}</div>
-
-      <div class="fallback-row fallback-card">${card}</div>
-
-      <div class="fallback-row">${autocomplete} ${colorPicker} ${datePicker} ${inputNumber}</div>
-
-      <div class="fallback-row">${inputText} ${input} ${select}</div>
-
-      <div class="fallback-row">
-        <calcite-filter label="Filter"></calcite-filter>
-        ${timePicker}
-      </div>
-
-      <div class="fallback-row">${segmentedControl}</div>
-
-      <div class="fallback-row">${tile}</div>
-
-      <div class="fallback-row">
-        <calcite-slider min="0" max="100" value="50" style="inline-size: 12rem"></calcite-slider>
-      </div>
-
-      <div class="fallback-row">${progress}</div>
-
-      <div class="fallback-row">${table}</div>
-
-      <div class="fallback-popup-row fallback-popup-row--menus">
+      <div class="fallback-popup-row">
         <calcite-split-button active primary-text="Button">
           <calcite-dropdown-group selection-mode="none">
             <calcite-dropdown-item>Option 2</calcite-dropdown-item>
             <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-split-button>
-        ${menuItem}
+        <calcite-menu layout="horizontal">
+          <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers" open>
+            <calcite-menu-item
+              href="#calcite-navigation-slots"
+              icon-start="add-in"
+              slot="submenu-item"
+              text="Slots"
+              active
+            ></calcite-menu-item>
+            <calcite-menu-item
+              href="#calcite-navigation-css-vars"
+              icon-start="multiple-variables"
+              slot="submenu-item"
+              text="Css vars"
+            ></calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu layout="vertical">
+          <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers" open>
+            <calcite-menu-item
+              href="#calcite-navigation-slots"
+              icon-start="add-in"
+              slot="submenu-item"
+              text="Slots"
+              active
+            ></calcite-menu-item>
+            <calcite-menu-item
+              href="#calcite-navigation-css-vars"
+              icon-start="multiple-variables"
+              slot="submenu-item"
+              text="Css vars"
+            ></calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu>
       </div>
 
       <div class="fallback-popup-row">
-        <calcite-input-time-zone open reference-date="2020-01-01" value="-60"></calcite-input-time-zone>
+        <calcite-input-time-zone max-items="7" open reference-date="2020-01-01" value="-60"></calcite-input-time-zone>
         <calcite-input-time-picker label-text="Input Time Picker" open></calcite-input-time-picker>
         <calcite-input-date-picker label-text="Input Date Picker" open></calcite-input-date-picker>
         ${defaultCombobox}
       </div>
+
+      <div class="fallback-row">${inputText} ${inputNumber} ${input} ${select}</div>
+
+      <div class="fallback-row">${buttons} ${autocomplete} ${segmentedControl}</div>
+
+      <div class="fallback-row">
+        <calcite-slider class="fallback-slider" min="0" max="100" value="50"></calcite-slider>
+      </div>
+
+      <div class="fallback-row">${progress}</div>
+
+      <div class="fallback-row">${colorPicker} ${datePicker} ${tile} ${timePicker}</div>
+
+      <div class="fallback-row fallback-card">${card}</div>
+
+      <div class="fallback-row">${table}</div>
     </div>
   </div>`;
 
