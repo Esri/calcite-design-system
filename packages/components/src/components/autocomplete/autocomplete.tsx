@@ -103,8 +103,6 @@ export class Autocomplete
 
   labelEl?: Label["el"];
 
-  labelable = useLabel(this);
-
   private listId = IDS.list(this.guid);
 
   /**
@@ -403,6 +401,7 @@ export class Autocomplete
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
     this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);

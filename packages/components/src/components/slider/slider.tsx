@@ -185,8 +185,6 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   private _value: number | number[] = defaultValue;
 
   //#endregion
@@ -393,6 +391,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("pointerdown", this.pointerDownHandler);
     this.listen("keydown", this.handleKeyDown);
     this.listen("touchstart", this.handleTouchStart);

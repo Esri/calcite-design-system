@@ -201,8 +201,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   labelEl?: Label["el"];
 
-  labelable = useLabel(this);
-
   private listContainerEl?: HTMLDivElement;
 
   private maxCompactBreakpoint?: number;
@@ -600,6 +598,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen<ToEvents<ComboboxItem>["calciteComboboxItemChange"]>(
       "calciteComboboxItemChange",
