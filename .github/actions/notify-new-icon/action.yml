@@ -1,0 +1,28 @@
+name: Notify Icon Team of new icon request
+description: Notifies the Icon Team via Microsoft Teams when a new icon request is created in the repository.
+
+inputs:
+  webhook:
+    description: The Microsoft Teams incoming webhook URI to notify.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v6
+      with:
+        node-version-file: ./package.json
+
+    - name: Install CLI dependencies
+      shell: bash
+      run: npm ci --workspace=@esri/monorepo-cli
+
+    - name: Send notification
+      shell: bash
+      env:
+        TEAMS_WEBHOOK: ${{ inputs.webhook }}
+        TEAMS_TITLE: "Icon Request - #${{ github.event.issue.number }}"
+        TEAMS_MESSAGE: ${{ github.event.issue.title }}
+        TEAMS_ACTION_TEXT: "View issue"
+        TEAMS_ACTION_URL: ${{ github.event.issue.html_url }}
+      run: node cli notify-teams
