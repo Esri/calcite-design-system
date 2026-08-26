@@ -55,7 +55,6 @@
       "matchDepTypes": ["devDependencies"],
       "matchPackageNames": [
         "@inquirer/**",
-        "chalk",
         "concurrently",
         "cpy",
         "cpy-cli",

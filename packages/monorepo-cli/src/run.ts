@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from "@commander-js/extra-typings";
 import fs from "node:fs";
+import { styleText } from "node:util";
 
 interface CommandModule {
   registerCommand: (program: Command) => void;
@@ -10,7 +11,25 @@ const program = new Command();
 
 program
   .name("node cli")
-  .description(`CLI for managing monorepo tasks. Use node cli <command> --help to see more details about a command.`);
+  .description(`CLI for managing monorepo tasks. Use node cli <command> --help to see more details about a command.`)
+  .configureHelp({
+    helpWidth: Math.min(process.stdout.columns ?? 120, 120),
+    styleSubcommandText: (text) => styleText("green", text, { stream: process.stdout }),
+    formatItem(term, _termWidth, description, helper) {
+      const termIndent = 2;
+      const descriptionIndent = 6;
+      const lines = [`${" ".repeat(termIndent)}${term}`];
+
+      if (description) {
+        const descriptionIndentText = " ".repeat(descriptionIndent);
+        const wrappedDescription = helper.boxWrap(description, (helper.helpWidth ?? 120) - descriptionIndent);
+        lines.push(`${descriptionIndentText}${wrappedDescription.replaceAll("\n", `\n${descriptionIndentText}`)}`);
+      }
+
+      lines.push("");
+      return lines.join("\n");
+    },
+  });
 
 const commandsDirectory = import.meta.dirname;
 
@@ -22,7 +41,7 @@ const commandName = process.argv[2];
 const commandsToLoad =
   commandName !== undefined && commandName !== "help" && !commandName.startsWith("-")
     ? [`${commandName}.ts`]
-    : fs.readdirSync(commandsDirectory);
+    : fs.readdirSync(commandsDirectory).filter((file) => !file.endsWith(".test.ts"));
 
 // Load all commands in the ./commands directory
 Promise.all(
