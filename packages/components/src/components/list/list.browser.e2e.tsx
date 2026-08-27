@@ -19,6 +19,7 @@ import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
+import { terminateFilterWorker } from "../../utils/filter-worker";
 import { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -572,6 +573,80 @@ describe("group filtering", () => {
   });
 });
 
+describe("filter loading state", () => {
+  afterEach(() => {
+    terminateFilterWorker();
+  });
+
+  it("does not trigger an extra worker request when filterText is set programmatically", async () => {
+    const nativeWorker = globalThis.Worker;
+    let postMessageCallCount = 0;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: {
+        requestId: number;
+        data: Array<{ label?: string }>;
+        value: string;
+      }): void {
+        postMessageCallCount++;
+        const filterValue = message.value.toLowerCase();
+        const filteredIndexes = message.data
+          .map((item, index) => ({
+            index,
+            label: (item.label ?? "").toLowerCase(),
+          }))
+          .filter((item) => item.label.includes(filterValue))
+          .map((item) => item.index);
+
+        this.messageListeners.forEach((listener) =>
+          listener(
+            new MessageEvent("message", {
+              data: {
+                requestId: message.requestId,
+                filteredIndexes,
+              },
+            }),
+          ),
+        );
+      }
+
+      terminate(): void {
+        this.messageListeners.length = 0;
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const itemCount = 120;
+      const items = Array.from({ length: itemCount }, (_, index) => (
+        <calcite-list-item label={`Item ${index}`} value={`item-${index}`} />
+      ));
+
+      const { el } = await mount<List>(<calcite-list filter-enabled>{items}</calcite-list>);
+
+      await vi.waitUntil(() => el.filteredItems.length === itemCount);
+
+      el.filterText = "Item 11";
+
+      await vi.waitUntil(() => el.filteredItems.length === 11);
+      await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
+
+      expect(postMessageCallCount).toBe(1);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+});
+
 describe("filter item data updates", () => {
   async function waitForFilteredLength(el: List["el"], expectedLength: number): Promise<void> {
     await vi.waitUntil(async () => {
@@ -590,8 +665,8 @@ describe("filter item data updates", () => {
   }
 
   async function waitForFilterItemsMatch(
-    filterEl: HTMLElement & { items?: { el?: Element; label?: string; heading?: string[] }[] },
-    predicate: (item: { el?: Element; label?: string; heading?: string[] }) => boolean,
+    filterEl: HTMLElement & { items?: { label?: string; heading?: string[] }[] },
+    predicate: (item: { label?: string; heading?: string[] }) => boolean,
   ): Promise<void> {
     await vi.waitUntil(async () => {
       if (filterEl.items?.some(predicate)) {
@@ -692,9 +767,8 @@ describe("filter item data updates", () => {
       .element() as HTMLElement & {
       heading: string;
     };
-    const listItem = page.getBySelector("#prop-watch-item-heading").element() as ListItem["el"];
     const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
-      items?: { el?: Element; heading?: string[] }[];
+      items?: { heading?: string[] }[];
     };
 
     el.filterProps = ["heading"];
@@ -703,10 +777,7 @@ describe("filter item data updates", () => {
 
     listItemGroup.heading = headingToken;
     await waitForFilteredLength(el, 1);
-    await waitForFilterItemsMatch(
-      filterEl,
-      (item) => item.el === listItem && !!item.heading?.includes(headingToken),
-    );
+    await waitForFilterItemsMatch(filterEl, (item) => !!item.heading?.includes(headingToken));
   });
 });
 

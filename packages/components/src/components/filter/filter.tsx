@@ -2,7 +2,12 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { filter } from "../../utils/filter";
+import { getFilteredIndexes } from "../../utils/filter";
+import {
+  DEFAULT_FILTER_WORKER_MIN_ITEMS,
+  filterInWorker,
+  shouldFilterInWorker,
+} from "../../utils/filter-worker";
 import { Scale } from "../types";
 import { DEBOUNCE } from "../../utils/resources";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -33,11 +38,13 @@ export class Filter extends LitElement {
 
   private cancelable = useCancelable<this>()(this);
 
-  private filterDebounced = debounce(
-    (value: string, emit = false, onFilter?: () => void): void =>
-      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), emit, onFilter),
-    DEBOUNCE.filter,
-  );
+  private filterRequestId = 0;
+
+  private _filtering = false;
+
+  private filterDebounced = debounce((value: string, emit = false, onFilter?: () => void): void => {
+    this.filterItems(value, emit, onFilter);
+  }, DEBOUNCE.filter);
 
   private textInputRef = createRef<Input["el"]>();
 
@@ -80,6 +87,12 @@ export class Filter extends LitElement {
    */
   @property() items: object[] = [];
 
+  /** Whether filtering is currently in progress. */
+  @property({ attribute: false })
+  get filtering(): boolean {
+    return this._filtering;
+  }
+
   /** @copyDoc */
   @property() label?: string;
 
@@ -119,9 +132,18 @@ export class Filter extends LitElement {
   @method()
   async filter(value: string = this.value): Promise<void> {
     return new Promise((resolve) => {
-      this.value = value;
-      /** TODO: [MIGRATION] we bypass the debounced function to work around an issue with debounce using the last args passed when invoking the debounced fn, causing the promise to not resolve */
-      this.updateFiltered(filter(this.items ?? [], value, this.filterProps), false, resolve);
+      const oldValue = this._value;
+
+      this.cancelable.cancelResource(this.filterDebounced);
+      this.cancelable.add(this.filterDebounced);
+
+      if (value !== oldValue) {
+        this._value = value;
+        this.requestUpdate("value", oldValue);
+      }
+
+      /** We intentionally avoid the value setter to prevent scheduling an extra debounced filter pass. */
+      this.filterItems(value, false, resolve);
     });
   }
 
@@ -144,16 +166,24 @@ export class Filter extends LitElement {
   /** Fires when the filter text changes. */
   calciteFilterChange = createEvent({ cancelable: false });
 
+  /**
+   * Fires when filtering starts and completes.
+   *
+   * Use the `filtering` property to determine the current filtering state.
+   */
+  calciteFilterStatusChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
+  constructor() {
+    super();
     this.cancelable.add(this.filterDebounced);
   }
 
   async load(): Promise<void> {
-    this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
+    this.filterItems(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -206,9 +236,80 @@ export class Filter extends LitElement {
     this.setFocus();
   }
 
+  private setFiltering(filtering: boolean): void {
+    if (this._filtering === filtering) {
+      return;
+    }
+
+    const oldFiltering = this._filtering;
+    this._filtering = filtering;
+    this.requestUpdate("filtering", oldFiltering);
+
+    if (this.el.isConnected) {
+      this.calciteFilterStatusChange.emit();
+    }
+  }
+
+  private filterItems(value: string, emit = false, callback?: () => void): void {
+    const items = this.items ?? [];
+    const requestId = ++this.filterRequestId;
+
+    if (value === "") {
+      this.setFiltering(false);
+      this.updateFiltered(items, emit, callback);
+      return;
+    }
+
+    if (!shouldFilterInWorker(items, DEFAULT_FILTER_WORKER_MIN_ITEMS)) {
+      this.setFiltering(false);
+      const resultIndexes = getFilteredIndexes(items, value, this.filterProps);
+      const filtered = resultIndexes.map((index) => items[index]).filter((item) => item != null);
+
+      this.updateFiltered(filtered, emit, callback);
+      return;
+    }
+
+    void this.updateFilteredFromWorker(requestId, items, value, emit, callback);
+  }
+
+  private async updateFilteredFromWorker(
+    requestId: number,
+    items: object[],
+    value: string,
+    emit = false,
+    callback?: () => void,
+  ): Promise<void> {
+    const filteredIndexesPromise = filterInWorker(items, value, this.filterProps);
+    let settledBeforeAwait = false;
+
+    void filteredIndexesPromise.then(() => {
+      settledBeforeAwait = true;
+    });
+
+    await Promise.resolve();
+
+    if (!settledBeforeAwait && requestId === this.filterRequestId) {
+      this.setFiltering(true);
+    }
+
+    const filteredIndexes = await filteredIndexesPromise;
+
+    if (requestId !== this.filterRequestId) {
+      callback?.();
+      return;
+    }
+
+    const resultIndexes = filteredIndexes ?? getFilteredIndexes(items, value, this.filterProps);
+
+    const filtered = resultIndexes.map((index) => items[index]).filter((item) => item != null);
+
+    this.setFiltering(false);
+    this.updateFiltered(filtered, emit, callback);
+  }
+
   private updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
     this.filteredItems = filtered;
-    if (emit) {
+    if (emit && this.el.isConnected) {
       this.calciteFilterChange.emit();
     }
     callback?.();

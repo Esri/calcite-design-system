@@ -27,3 +27,25 @@ it("should cancel all resources added by the component during connectedCallback 
     expect(cancelSpy).toHaveBeenCalledTimes(1);
   });
 });
+
+it("should cancel a managed resource through the controller", async () => {
+  const { component } = await mount(TestComponent);
+  const resource = Array.from(component.cancelable.resources)[0];
+  const cancelSpy = vi.spyOn(resource, "cancel");
+
+  component.cancelable.cancelResource(resource);
+
+  expect(cancelSpy).toHaveBeenCalledTimes(1);
+  expect(component.cancelable.resources.has(resource)).toBe(false);
+});
+
+it("should not re-cancel manually canceled resources on disconnect", async () => {
+  const { component, el } = await mount(TestComponent);
+  const resource = Array.from(component.cancelable.resources)[0];
+  const cancelSpy = vi.spyOn(resource, "cancel");
+
+  component.cancelable.cancelResource(resource);
+  el.remove();
+
+  expect(cancelSpy).toHaveBeenCalledTimes(1);
+});

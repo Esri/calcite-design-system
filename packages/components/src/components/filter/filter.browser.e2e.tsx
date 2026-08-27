@@ -1,6 +1,8 @@
-import { describe, expect, it } from "vitest";
-import { userEvent } from "vitest/browser";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { terminateFilterWorker } from "../../utils/filter-worker";
+import { DEBOUNCE } from "../../utils/resources";
 import {
   cancelable,
   defaults,
@@ -183,5 +185,353 @@ describe("theme", () => {
         shadowSelector: "calcite-input",
       },
     });
+  });
+});
+
+describe("worker filtering", () => {
+  afterEach(() => {
+    terminateFilterWorker();
+  });
+
+  it("returns expected filtered items when worker creation fails", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      constructor() {
+        throw new DOMException("worker creation blocked by policy", "SecurityError");
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+
+      el.items = [
+        { label: "One", value: "one" },
+        { label: "Two", value: "two" },
+        { label: "Twenty", value: "twenty" },
+      ];
+
+      await el.filter("tw");
+
+      expect(el.filteredItems).toEqual([
+        { label: "Two", value: "two" },
+        { label: "Twenty", value: "twenty" },
+      ]);
+      expect(el.filtering).toBe(false);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
+  it("does not emit calciteFilterStatusChange when worker filtering falls back synchronously", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      constructor() {
+        throw new Error("worker unavailable");
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+      const statusChangeSpy = vi.fn();
+
+      el.items = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+
+      el.addEventListener("calciteFilterStatusChange", statusChangeSpy);
+
+      const filterInput = page.getByLabelText("Filter");
+
+      await userEvent.click(filterInput);
+      await userEvent.type(filterInput, "one");
+
+      await vi.waitUntil(() => el.filteredItems.length === 60);
+
+      expect(el.filtering).toBe(false);
+      expect(statusChangeSpy).toHaveBeenCalledTimes(0);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
+  it("does not toggle filtering for stale worker requests after clearing", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: {
+        requestId: number;
+        data: Array<{ label?: string }>;
+        value: string;
+      }): void {
+        const filterValue = message.value.toLowerCase();
+        const filteredIndexes = message.data
+          .map((item, index) => ({
+            index,
+            label: (item.label ?? "").toLowerCase(),
+          }))
+          .filter((item) => item.label.includes(filterValue))
+          .map((item) => item.index);
+
+        setTimeout(() => {
+          this.messageListeners.forEach((listener) =>
+            listener(
+              new MessageEvent("message", {
+                data: {
+                  requestId: message.requestId,
+                  filteredIndexes,
+                },
+              }),
+            ),
+          );
+        }, 50);
+      }
+
+      terminate(): void {
+        this.messageListeners.length = 0;
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+      const statusChangeSpy = vi.fn();
+
+      el.items = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+
+      el.addEventListener("calciteFilterStatusChange", statusChangeSpy);
+
+      const firstFilter = el.filter("one");
+      const secondFilter = el.filter("");
+
+      await Promise.all([firstFilter, secondFilter]);
+      await new Promise((resolve) => setTimeout(resolve, 60));
+
+      expect(el.filtering).toBe(false);
+      expect(statusChangeSpy).toHaveBeenCalledTimes(0);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+
+  it("emits calciteFilterStatusChange while filtering with a web worker", async () => {
+    const nativeWorker = globalThis.Worker;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: {
+        requestId: number;
+        data: Array<{ label?: string }>;
+        value: string;
+      }): void {
+        const filterValue = message.value.toLowerCase();
+        const filteredIndexes = message.data
+          .map((item, index) => ({
+            index,
+            label: (item.label ?? "").toLowerCase(),
+          }))
+          .filter((item) => item.label.includes(filterValue))
+          .map((item) => item.index);
+
+        setTimeout(() => {
+          this.messageListeners.forEach((listener) =>
+            listener(
+              new MessageEvent("message", {
+                data: {
+                  requestId: message.requestId,
+                  filteredIndexes,
+                },
+              }),
+            ),
+          );
+        }, 50);
+      }
+
+      terminate(): void {
+        this.messageListeners.length = 0;
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+      const filteringStates: boolean[] = [];
+      const statusChangeSpy = vi.fn();
+
+      el.items = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+
+      el.addEventListener("calciteFilterStatusChange", () => {
+        statusChangeSpy();
+        filteringStates.push(el.filtering);
+      });
+
+      const filterInput = page.getByLabelText("Filter");
+
+      await userEvent.click(filterInput);
+      await userEvent.type(filterInput, "o");
+
+      await vi.waitUntil(() => statusChangeSpy.mock.calls.length === 2);
+
+      expect(filteringStates).toEqual([true, false]);
+      expect(el.filtering).toBe(false);
+      expect(statusChangeSpy).toHaveBeenCalledTimes(2);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
+  });
+});
+
+describe("filter method", () => {
+  it("cancels pending debounced filtering after disconnection", async () => {
+    const { el } = await mount("calcite-filter");
+
+    el.remove();
+
+    el.items = [
+      { label: "Harry", value: "harry" },
+      { label: "Matt", value: "matt" },
+    ];
+
+    el.value = "Har";
+
+    await el.filter("Matt");
+
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+
+    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
+
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+  });
+
+  it("cancels pending debounced input filtering before immediate filtering", async () => {
+    const { el } = await mount("calcite-filter");
+    const filterChangeSpy = vi.fn();
+
+    el.items = [
+      { label: "Harry", value: "harry" },
+      { label: "Matt", value: "matt" },
+    ];
+
+    el.addEventListener("calciteFilterChange", filterChangeSpy);
+
+    const filterInput = page.getByLabelText("Filter");
+
+    await userEvent.click(filterInput);
+    await userEvent.type(filterInput, "Har");
+
+    await el.filter("Matt");
+
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+
+    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
+
+    expect(el.filteredItems).toEqual([{ label: "Matt", value: "matt" }]);
+    expect(filterChangeSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it("cancels pending debounced items-change filtering when filter is called with the same value", async () => {
+    const nativeWorker = globalThis.Worker;
+    let postMessageCallCount = 0;
+
+    class MockWorker {
+      private readonly messageListeners: Array<(event: MessageEvent) => void> = [];
+
+      addEventListener(type: string, listener: (event: MessageEvent) => void): void {
+        if (type === "message") {
+          this.messageListeners.push(listener);
+        }
+      }
+
+      postMessage(message: {
+        requestId: number;
+        data: Array<{ label?: string }>;
+        value: string;
+      }): void {
+        postMessageCallCount++;
+
+        const filterValue = message.value.toLowerCase();
+        const filteredIndexes = message.data
+          .map((item, index) => ({
+            index,
+            label: (item.label ?? "").toLowerCase(),
+          }))
+          .filter((item) => item.label.includes(filterValue))
+          .map((item) => item.index);
+
+        this.messageListeners.forEach((listener) =>
+          listener(
+            new MessageEvent("message", {
+              data: {
+                requestId: message.requestId,
+                filteredIndexes,
+              },
+            }),
+          ),
+        );
+      }
+
+      terminate(): void {
+        this.messageListeners.length = 0;
+      }
+    }
+
+    globalThis.Worker = MockWorker as unknown as typeof Worker;
+
+    try {
+      const { el } = await mount("calcite-filter");
+      const initialItems = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One ${index}` : `Two ${index}`,
+        value: `${index}`,
+      }));
+
+      el.items = initialItems;
+      await el.filter("one");
+
+      postMessageCallCount = 0;
+
+      const nextItems = Array.from({ length: 120 }, (_, index) => ({
+        label: index % 2 === 0 ? `One Updated ${index}` : `Two Updated ${index}`,
+        value: `${index}`,
+      }));
+
+      el.items = nextItems;
+      await Promise.resolve();
+
+      await el.filter("one");
+      await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 10));
+
+      expect(postMessageCallCount).toBe(1);
+    } finally {
+      globalThis.Worker = nativeWorker;
+    }
   });
 });

@@ -14,6 +14,13 @@ export interface UseCancelable {
   add: (resource: Arrayable<Cancelable>) => void;
 
   /**
+   * Cancels a managed resource.
+   *
+   * @param resource - Resource with a `cancel` method.
+   */
+  cancelResource: (resource: Cancelable) => void;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @private
@@ -34,14 +41,26 @@ export const useCancelable = <T extends LitElement>(): ReturnType<typeof makeGen
   return makeGenericController<UseCancelable, T>((_, controller) => {
     const resources = new Set<Cancelable>();
 
-    controller.onDisconnected(() => {
+    const cancelManagedResource = (resource: Cancelable): void => {
       // eslint-disable-next-line no-restricted-properties -- this controller manages cancel calls
-      resources.forEach((resource) => resource.cancel());
+      resource.cancel();
+    };
+
+    controller.onDisconnected(() => {
+      resources.forEach((resource) => cancelManagedResource(resource));
     });
 
     return {
       add: (resourceOrResources) => {
         [resourceOrResources].flat().forEach((resource) => resources.add(resource));
+      },
+      cancelResource: (resource) => {
+        if (!resources.has(resource)) {
+          return;
+        }
+
+        resources.delete(resource);
+        cancelManagedResource(resource);
       },
       resources,
     };

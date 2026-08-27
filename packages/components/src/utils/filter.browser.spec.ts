@@ -6,8 +6,10 @@ describe("filter function", () => {
   mockConsole();
 
   it("returns empty array for empty data", () => {
-    const result = filter([], "test");
+    const data: Array<object> = [];
+    const result = filter(data, "test");
     expect(result).toEqual([]);
+    expect(result).toBe(data);
   });
 
   it("returns empty array when no objects match", () => {
@@ -71,5 +73,6 @@ describe("filter function", () => {
     ];
     const result = filter(data, "");
     expect(result).toEqual(data);
+    expect(result).toBe(data);
   });
 });

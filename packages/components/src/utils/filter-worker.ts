@@ -1,0 +1,173 @@
+import FilterWorker from "./filter.worker?worker&inline";
+
+type FilterWorkerRequest = {
+  requestId: number;
+  data: object[];
+  value: string;
+  filterProps?: string[];
+};
+
+export const DEFAULT_FILTER_WORKER_MIN_ITEMS = 100;
+
+type FilterWorkerResponse = {
+  requestId: number;
+  filteredIndexes: number[];
+};
+
+type PendingRequest = {
+  resolve: (filteredIndexes: number[] | null) => void;
+};
+
+let filterWorker: Worker | null = null;
+let currentRequestId = 0;
+const pendingRequests = new Map<number, PendingRequest>();
+const cloneableRecordCache = new WeakMap<object, boolean>();
+
+function isDataCloneError(error: unknown): boolean {
+  return !!error && typeof error === "object" && "name" in error && error.name === "DataCloneError";
+}
+
+function isStructuredCloneable(value: unknown): boolean {
+  const structuredCloneFn = globalThis.structuredClone;
+
+  if (typeof structuredCloneFn !== "function") {
+    return false;
+  }
+
+  try {
+    structuredCloneFn(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function hasCloneableWorkerData(data: object[]): boolean {
+  const hasStructuredClone = typeof globalThis.structuredClone === "function";
+
+  for (const item of data) {
+    const cachedCloneable = cloneableRecordCache.get(item);
+
+    if (cachedCloneable !== undefined) {
+      if (!cachedCloneable) {
+        if (!hasStructuredClone) {
+          return false;
+        }
+
+        const cloneable = isStructuredCloneable(item);
+        cloneableRecordCache.set(item, cloneable);
+
+        if (!cloneable) {
+          return false;
+        }
+      }
+
+      continue;
+    }
+
+    if (!hasStructuredClone) {
+      continue;
+    }
+  }
+
+  return true;
+}
+
+function resolvePendingRequests(filteredIndexes: number[] | null): void {
+  pendingRequests.forEach(({ resolve }) => resolve(filteredIndexes));
+  pendingRequests.clear();
+}
+
+function terminateWorker(): void {
+  filterWorker?.terminate();
+  filterWorker = null;
+}
+
+function initializeWorker(): Worker | null {
+  if (typeof Worker === "undefined") {
+    return null;
+  }
+
+  if (filterWorker) {
+    return filterWorker;
+  }
+
+  try {
+    filterWorker = new FilterWorker();
+  } catch {
+    return null;
+  }
+
+  filterWorker.addEventListener("message", (event: MessageEvent<FilterWorkerResponse>) => {
+    const { requestId, filteredIndexes } = event.data;
+    const pendingRequest = pendingRequests.get(requestId);
+
+    if (!pendingRequest) {
+      return;
+    }
+
+    pendingRequest.resolve(filteredIndexes);
+    pendingRequests.delete(requestId);
+  });
+
+  filterWorker.addEventListener("error", () => {
+    resolvePendingRequests(null);
+    terminateWorker();
+  });
+
+  return filterWorker;
+}
+
+export function filterInWorker(data: object[], value: string, filterProps?: string[]): Promise<number[] | null> {
+  if (!hasCloneableWorkerData(data)) {
+    return Promise.resolve(null);
+  }
+
+  const worker = initializeWorker();
+
+  if (!worker) {
+    return Promise.resolve(null);
+  }
+
+  const requestId = ++currentRequestId;
+
+  return new Promise<number[] | null>((resolve) => {
+    pendingRequests.set(requestId, { resolve });
+
+    try {
+      worker.postMessage({ requestId, data, value, filterProps } satisfies FilterWorkerRequest);
+    } catch (error) {
+      const isCloneError = isDataCloneError(error);
+      const hasStructuredClone = typeof globalThis.structuredClone === "function";
+      let hasNonCloneableData = false;
+
+      if (isCloneError) {
+        data.forEach((item) => {
+          const cloneable = hasStructuredClone ? isStructuredCloneable(item) : false;
+          cloneableRecordCache.set(item, cloneable);
+          hasNonCloneableData ||= !cloneable;
+        });
+      }
+
+      if (!isCloneError || !hasNonCloneableData) {
+        resolvePendingRequests(null);
+        terminateWorker();
+      }
+
+      pendingRequests.delete(requestId);
+      resolve(null);
+    }
+  });
+}
+
+export function shouldFilterInWorker(
+  items: object[] | undefined,
+  workerMinItems = DEFAULT_FILTER_WORKER_MIN_ITEMS,
+): items is object[] {
+  return !!items && items.length >= workerMinItems;
+}
+
+export function terminateFilterWorker(): void {
+  resolvePendingRequests(null);
+  terminateWorker();
+}
