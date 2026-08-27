@@ -89,9 +89,6 @@ export class Block extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is collapsible. */
-  @property({ reflect: true }) collapsible = false;
-
   /** @copyDoc */
   @property() description?: string;
 
@@ -110,6 +107,28 @@ export class Block extends LitElement {
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
+
+  /** When `true`, the component can be expanded and collapsed. */
+  @property({ reflect: true }) expandable = false;
+
+  /**
+   * When `true`, the component can be expanded and collapsed.
+   *
+   * @deprecated in v5.2.0, removal target v7.0.0 - Use the `expandable` property instead.
+   */
+  @property({ reflect: true })
+  get collapsible(): boolean {
+    return this.expandable;
+  }
+  set collapsible(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "collapsible",
+      removalVersion: 7,
+      suggested: "expandable",
+    });
+    this.expandable = value;
+  }
 
   /** @copyDoc */
   @property() heading?: string;
@@ -489,7 +508,7 @@ export class Block extends LitElement {
   private renderContentEnd(): JsxNode {
     return (
       <div
-        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.collapsible }}
+        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.expandable }}
         hidden={!this.hasContentEnd}
       >
         <div class={CSS.contentEnd}>
@@ -547,7 +566,7 @@ export class Block extends LitElement {
 
   override render(): JsxNode {
     const {
-      collapsible,
+      expandable,
       loading,
       expanded,
       label,
@@ -619,11 +638,11 @@ export class Block extends LitElement {
             topLayerDisabled={this.topLayerDisabled}
           />
         ) : null}
-        {collapsible ? (
+        {expandable ? (
           <button
             aria-controls={IDS.content}
             aria-describedby={IDS.header}
-            ariaExpanded={collapsible ? expanded : undefined}
+            ariaExpanded={expandable ? expanded : undefined}
             class={CSS.toggle}
             id={IDS.toggle}
             onClick={this.onHeaderClick}
@@ -654,12 +673,12 @@ export class Block extends LitElement {
         ) : (
           headerContent
         )}
-        {iconEnd && !collapsible ? (
+        {iconEnd && !expandable ? (
           <div class={CSS.iconEndContainer}>
             {this.renderContentEnd()}
             {this.renderIcon("end")}
           </div>
-        ) : !iconEnd && !collapsible ? (
+        ) : !iconEnd && !expandable ? (
           this.renderContentEnd()
         ) : null}
         <calcite-action-menu
