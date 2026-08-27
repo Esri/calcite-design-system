@@ -15,8 +15,8 @@ import { getLabelText } from "../../utils/label";
 import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
@@ -24,7 +24,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ButtonAlignment } from "./interfaces";
+import { ButtonAlignment } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";
 
@@ -79,8 +79,6 @@ export class Button extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region State Properties
@@ -122,13 +120,13 @@ export class Button extends LitElement {
   @property({ reflect: true }) href?: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
@@ -198,6 +196,11 @@ export class Button extends LitElement {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   override connectedCallback(): void {
     this.setupTextContentObserver();

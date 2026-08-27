@@ -17,8 +17,8 @@ import { useForm } from "../../controllers/useForm";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
-import { SetValueOrigin } from "../input/interfaces";
-import { Alignment, Scale, Status } from "../interfaces";
+import { SetValueOrigin } from "../input/types";
+import { Alignment, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -28,7 +28,7 @@ import {
 } from "../functional/InlineEditableControls";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { UseInlineEditable } from "../../controllers/useInlineEditable";
 import type { Action } from "../action/action";
@@ -134,8 +134,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     },
   });
 
-  labelable = useLabel(this);
-
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEditable(): boolean {
     return this.inlineEditable && !this.inlineEditableEl;
@@ -212,12 +210,12 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies an accessible label for the component's button or hyperlink. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** @copyDoc */
@@ -246,9 +244,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -296,9 +292,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -306,7 +300,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -380,6 +373,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

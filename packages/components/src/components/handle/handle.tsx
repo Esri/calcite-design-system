@@ -6,7 +6,7 @@ import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { HandleChange, HandleNudge } from "./interfaces";
+import { HandleChange, HandleNudge } from "./types";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import { styles } from "./handle.scss";
 
@@ -59,7 +59,7 @@ export class Handle extends LitElement {
   @property({ reflect: true }) dragHandle?: string;
 
   /**
-   *
+   * @copyDoc
    * @private
    */
   @property() label?: string;

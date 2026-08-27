@@ -9,12 +9,13 @@ import {
 } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { CSS_UTILITY } from "../../utils/resources";
-import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { Tree } from "../tree/tree";
+import { isTree } from "../tree/resources";
 import { useInteractive } from "../../controllers/useInteractive";
-import { TreeItemSelectDetail } from "./interfaces";
+import { TreeItemSelectDetail } from "./types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tree-item.scss";
 
@@ -88,7 +89,7 @@ export class TreeItem extends LitElement {
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
@@ -282,9 +283,7 @@ export class TreeItem extends LitElement {
   }
 
   private handleChildrenSlotChange(event: Event): void {
-    const childTree = slotChangeGetAssignedElements(event).filter((el): el is Tree["el"] =>
-      el.matches("calcite-tree"),
-    )[0];
+    const childTree = slotChangeGetAssignedElements(event).find(isTree) ?? null;
 
     this.childTree = childTree;
     this.requestUpdate("hasChildren");

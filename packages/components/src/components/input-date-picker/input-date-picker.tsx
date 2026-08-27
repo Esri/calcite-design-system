@@ -55,10 +55,10 @@ import {
 import { ClearButton } from "../functional/ClearButton";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
-import { Status } from "../interfaces";
+import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
@@ -72,6 +72,8 @@ import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
+import { logger } from "../../utils/logger";
+import { isSelect } from "../select/resources";
 
 declare global {
   interface DeclareElements {
@@ -144,8 +146,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   })(this);
 
   labelEl?: Label["el"];
-
-  labelable = useLabel(this);
 
   transitionProp = "opacity" as const;
 
@@ -310,9 +310,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -320,7 +318,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -411,6 +408,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
     this.handleDateTimeFormatChange();
@@ -789,9 +787,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    const targetHasSelect = event
-      .composedPath()
-      .some((el) => (el as HTMLElement).tagName === "CALCITE-SELECT");
+    const targetHasSelect = event.composedPath().some(isSelect);
 
     if (key === "Enter") {
       const preCommitValue = this.value;
@@ -1080,7 +1076,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   private warnAboutInvalidValue(value: string): void {
-    console.warn(
+    logger.warn(
       `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`,
     );
   }

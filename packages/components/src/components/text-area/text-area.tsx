@@ -18,18 +18,18 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
-import { Status } from "../interfaces";
+import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
-import { CharacterLengthObj } from "./interfaces";
+import { CharacterLengthObj } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
@@ -139,8 +139,6 @@ export class TextArea
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region State Properties
@@ -208,7 +206,7 @@ export class TextArea
   @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component. Required to pass the component's value on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
@@ -256,9 +254,7 @@ export class TextArea
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -266,7 +262,6 @@ export class TextArea
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -317,6 +312,11 @@ export class TextArea
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   override connectedCallback(): void {
     this.cancelable.add(this.updateSizeToAuto);

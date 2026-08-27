@@ -9,10 +9,10 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { toAriaBoolean } from "../../utils/aria";
-import { RequestedItem } from "../dropdown-group/interfaces";
-import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/types";
+import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -72,13 +72,13 @@ export class DropdownItem extends LitElement {
   @property({ reflect: true }) href?: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @copyDoc */
   @property() label?: string;

@@ -1428,3 +1428,15 @@ describe("theme", () => {
     });
   });
 });
+
+it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
+  await mount(<calcite-input-number icon="key" />);
+  const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
+  await expect.element(icon).toBeInTheDocument();
+});
+
+it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
+  await mount(<calcite-input-number icon />);
+  const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
+  await expect.element(icon).not.toBeInTheDocument();
+});

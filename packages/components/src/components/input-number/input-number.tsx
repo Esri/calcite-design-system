@@ -13,7 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -26,7 +26,7 @@ import {
   sanitizeNumberString,
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/types";
 import { getIconScale } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -36,7 +36,7 @@ import {
 } from "../functional/InlineEditableControls";
 import { Validation } from "../functional/Validation";
 import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { UseInlineEditable } from "../../controllers/useInlineEditable";
 import type { Action } from "../action/action";
@@ -48,6 +48,7 @@ import { useForm } from "../../controllers/useForm";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -153,8 +154,6 @@ export class InputNumber
     },
   });
 
-  labelable = useLabel(this);
-
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEditable(): boolean {
     return this.inlineEditable && !this.inlineEditableEl;
@@ -236,7 +235,7 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -244,7 +243,7 @@ export class InputNumber
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
   @property() integer = false;
 
-  /** Specifies an accessible label for the component's button or hyperlink. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** @copyDoc */
@@ -350,9 +349,7 @@ export class InputNumber
   @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -360,7 +357,6 @@ export class InputNumber
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -437,6 +433,7 @@ export class InputNumber
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }
@@ -999,7 +996,7 @@ export class InputNumber
 
   private warnAboutInvalidNumberValue(value: string): void {
     if (value && !isValidNumber(value)) {
-      console.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
+      logger.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
     }
   }
 

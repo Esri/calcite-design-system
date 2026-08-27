@@ -11,11 +11,11 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
-import { Layout, Scale, Status } from "../interfaces";
+import { Layout, Scale, Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { useT9n } from "../../controllers/useT9n";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { RadioButton } from "../radio-button/radio-button";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
@@ -102,9 +102,7 @@ export class RadioButtonGroup extends LitElement {
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;

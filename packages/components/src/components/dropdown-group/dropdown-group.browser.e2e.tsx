@@ -1,9 +1,10 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
+import { CSS, isDropdownGroup } from "./resources";
 
 mockConsole();
 
@@ -73,4 +74,54 @@ describe("theme", () => {
       },
     },
   );
+});
+
+describe("accessibility wiring", () => {
+  it("removes stale group descriptions when an item moves to another group", async () => {
+    await mount(
+      <calcite-dropdown open>
+        <calcite-dropdown-group group-title="Group one" id="group-one">
+          <calcite-dropdown-item id="move-me">A</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group group-title="Group two" id="group-two" />
+      </calcite-dropdown>,
+    );
+
+    const groupOneEl = page.getBySelector("#group-one").element() as HTMLElement;
+    const groupTwoEl = page.getBySelector("#group-two").element() as HTMLElement;
+    const itemEl = page.getBySelector("#move-me").element() as HTMLElement;
+    const getGroupDescription = () => itemEl.ariaDescribedByElements!.find(isDropdownGroup);
+
+    expect(getGroupDescription()!.id).toBe(groupOneEl.id);
+
+    groupTwoEl.append(itemEl);
+
+    await vi.waitUntil(() => getGroupDescription()?.id === groupTwoEl.id);
+
+    expect(getGroupDescription()!.id).toBe(groupTwoEl.id);
+  });
+
+  it("removes group description when group-title is cleared", async () => {
+    await mount(
+      <calcite-dropdown open>
+        <calcite-dropdown-group group-title="Group one" id="group-one">
+          <calcite-dropdown-item id="item-one">A</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+
+    const groupEl = page.getBySelector("#group-one").element() as HTMLElement & {
+      groupTitle?: string;
+    };
+    const itemEl = page.getBySelector("#item-one").element() as HTMLElement;
+    const getGroupDescription = () => itemEl.ariaDescribedByElements!.find(isDropdownGroup);
+
+    expect(getGroupDescription()!.id).toBe(groupEl.id);
+
+    groupEl.groupTitle = undefined;
+
+    await vi.waitUntil(() => !getGroupDescription());
+
+    expect(getGroupDescription()).toBeUndefined();
+  });
 });

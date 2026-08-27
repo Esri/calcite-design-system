@@ -1,14 +1,14 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
-import { Appearance, Scale } from "../interfaces";
+import { Appearance, Scale } from "../types";
 import { Locale, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CSS } from "./resources";
-import { MeterFillType, MeterLabelType } from "./interfaces";
+import { MeterFillType, MeterLabelType } from "./types";
 import { styles } from "./meter.scss";
 
 declare global {
@@ -106,8 +106,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) high?: number;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

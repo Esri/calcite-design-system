@@ -214,6 +214,13 @@ export const withIcon = (): string => html`
   </calcite-dialog>
 `;
 
+export const withHeaderTop = (): string => html`
+  <calcite-dialog heading="Dialog heading" open scale="m" width-scale="s">
+    <div slot="${SLOTS.headerTop}">Header top content</div>
+    <p>Dialog content</p>
+  </calcite-dialog>
+`;
+
 export const withRichHeaderSlots = (): string => html`
   <calcite-dialog
     heading="Plain heading fallback"
