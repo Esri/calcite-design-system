@@ -1,13 +1,13 @@
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   Fragment,
-  h,
-  method,
-  state,
   JsxNode,
+  h,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
@@ -53,6 +53,10 @@ export class RadioButtonGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _disabled = false;
+
+  private disabledWasSet = false;
+
   // #endregion
 
   // #region State Properties
@@ -64,7 +68,14 @@ export class RadioButtonGroup extends LitElement {
   // #region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @property({ reflect: true }) disabled = false;
+  @property({ reflect: true })
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(value: boolean) {
+    this._disabled = value;
+    this.disabledWasSet = true;
+  }
 
   /** @copyDoc */
   @property() labelText?: string;
@@ -120,13 +131,11 @@ export class RadioButtonGroup extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(
-      () =>
-        this.selectedItem && !this.selectedItem.disabled
-          ? this.selectedItem
-          : this.getFocusableRadioButton(),
-      options,
-    );
+    return this.focusSetter(() => {
+      return this.selectedItem && !this.selectedItem.disabled
+        ? this.selectedItem
+        : this.getFocusableRadioButton();
+    }, options);
   }
 
   // #endregion
@@ -152,7 +161,6 @@ export class RadioButtonGroup extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.passPropsToRadioButtons();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -200,17 +208,17 @@ export class RadioButtonGroup extends LitElement {
       Array.from(this.radioButtons)
         .reverse()
         .find((radioButton) => radioButton.checked) ?? null;
-    if (this.radioButtons.length > 0) {
-      this.radioButtons.forEach((radioButton) => {
-        if (this.hasUpdated) {
-          radioButton.disabled = this.disabled || radioButton.disabled;
-        }
-        radioButton.name = this.name;
-        radioButton.required = this.required;
-        radioButton.scale = this.scale;
-        radioButton.status = this.status;
-      });
-    }
+
+    this.radioButtons.forEach((radioButton) => {
+      if (this.disabledWasSet) {
+        radioButton.disabled = this.disabled;
+      }
+
+      radioButton.name = this.name;
+      radioButton.required = this.required;
+      radioButton.scale = this.scale;
+      radioButton.status = this.status;
+    });
   }
 
   private getFocusableRadioButton(): RadioButton["el"] | undefined {
