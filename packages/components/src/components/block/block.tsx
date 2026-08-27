@@ -1,4 +1,5 @@
 import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -50,9 +51,9 @@ export class Block extends LitElement {
 
   //#region Private Properties
 
-  transitionProp = "margin-top" as const;
+  transitionProp = "opacity" as const;
 
-  transitionEl: HTMLElement | undefined;
+  transitionRef = createRef<HTMLElement>();
 
   private blockSectionChildren: BlockSection["el"][] = [];
 
@@ -322,7 +323,6 @@ export class Block extends LitElement {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.transitionEl = this.el;
     this.setParentBlockGroupElement();
   }
 
@@ -714,6 +714,7 @@ export class Block extends LitElement {
             }}
             hidden={!expanded}
             id={IDS.content}
+            ref={this.transitionRef}
           >
             {this.renderScrim()}
           </section>

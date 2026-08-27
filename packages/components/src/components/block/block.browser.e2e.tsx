@@ -134,7 +134,9 @@ describe("setFocus", () => {
   });
 
   describe("openClose", () => {
-    openClose((mountOptions) => mount("calcite-block", mountOptions));
+    openClose((mountOptions) => mount("calcite-block", mountOptions), {
+      willUseFallbackOnClose: true,
+    });
   });
 });
 

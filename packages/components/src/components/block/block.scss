@@ -126,7 +126,7 @@
 
 :host {
   @extend %component-host;
-  @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
+  @apply flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0;
   flex-basis: auto;
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
@@ -280,7 +280,7 @@ calcite-sort-handle {
 
 .content {
   @apply flex-1 relative min-h-0 opacity-0;
-  transition: opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+  transition: opacity var(--calcite-animation-timing) animation.$easing-function;
 }
 
 .has-slotted-content {
@@ -303,8 +303,6 @@ calcite-action-menu {
 }
 
 :host([expanded]) {
-  @apply my-2;
-
   .header .title .heading {
     color: var(
       --calcite-block-heading-text-color,
@@ -327,20 +325,11 @@ calcite-action-menu {
 
   .content {
     opacity: 1;
+
+    @starting-style {
+      opacity: 0;
+    }
   }
-
-  @starting-style {
-    margin-block-start: 0;
-    opacity: 0;
-  }
-}
-
-:host([expanded][scale="s"]) {
-  margin-block: var(--calcite-spacing-xxs);
-}
-
-:host([expanded][scale="l"]) {
-  margin-block: var(--calcite-spacing-md);
 }
 
 @include includes.base-component();
