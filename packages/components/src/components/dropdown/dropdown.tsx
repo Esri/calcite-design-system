@@ -34,6 +34,7 @@ import { RequestedItem } from "../dropdown-group/types";
 import { Scale, Width } from "../types";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
+import { isDropdownGroup } from "../dropdown-group/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
@@ -476,7 +477,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private updateGroups(event: Event): void {
     const groups = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
-      .filter((el): el is DropdownGroup["el"] => el?.matches("calcite-dropdown-group"));
+      .filter(isDropdownGroup);
 
     this.groups = groups;
 
@@ -656,11 +657,20 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private getYDistanceFromScroller(last: HTMLElement | undefined): number {
-    if (!last) {
+    const { scrollerEl } = this;
+
+    if (!last || !scrollerEl) {
       return NaN;
     }
-    const style = last.getBoundingClientRect();
-    return last.offsetTop + style.height;
+
+    // we measure relative to the scroller instead of using `offsetTop` because the latter is relative to an ancestor
+    // outside of the scroller (`offsetParent` is unreliable across shadow boundaries), which would include the
+    // floating-ui open/close animation offset applied to the scroller
+    return (
+      last.getBoundingClientRect().bottom -
+      scrollerEl.getBoundingClientRect().top +
+      scrollerEl.scrollTop
+    );
   }
 
   private closeCalciteDropdown(): void {

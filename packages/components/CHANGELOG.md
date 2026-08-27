@@ -3,6 +3,85 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.64...@esri/calcite-components@5.2.0-next.65) (2026-08-27)
+
+### Features
+
+- **block:** deprecate `collapsible` in favor of `expandable` ([#15091](https://github.com/Esri/calcite-design-system/issues/15091)), closes [#11671](https://github.com/Esri/calcite-design-system/issues/11671)
+
+## [5.2.0-next.64](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.63...@esri/calcite-components@5.2.0-next.64) (2026-08-27)
+
+### Bug Fixes
+
+- **radio-button-group:** sync group `disabled` only when set ([#15084](https://github.com/Esri/calcite-design-system/issues/15084)), closes [#12209](https://github.com/Esri/calcite-design-system/issues/12209) [/github.com/Esri/calcite-design-system/pull/15084/changes#diff-36750643f10b2a5ec1e5906248b08138e2e72ad73708b350b53eddf409080b98L8-L36](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/15084/changes/issues/diff-36750643f10b2a5ec1e5906248b08138e2e72ad73708b350b53eddf409080b98L8-L36)
+
+## [5.2.0-next.63](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.62...@esri/calcite-components@5.2.0-next.63) (2026-08-27)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.61...@esri/calcite-components@5.2.0-next.62) (2026-08-26)
+
+### Bug Fixes
+
+- **sheet:** close on Escape when focus trapping is disabled ([#15061](https://github.com/Esri/calcite-design-system/issues/15061)), closes [#12114](https://github.com/Esri/calcite-design-system/issues/12114)
+
+## [5.2.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.60...@esri/calcite-components@5.2.0-next.61) (2026-08-26)
+
+### Bug Fixes
+
+- assetPathChanged must be true after defineCustomElement's resourcesUrl ([#15068](https://github.com/Esri/calcite-design-system/issues/15068))
+- **tab-nav:** keep navigation chevron actions up to date ([#15025](https://github.com/Esri/calcite-design-system/issues/15025)), closes [#9680](https://github.com/Esri/calcite-design-system/issues/9680)
+
+## [5.2.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.59...@esri/calcite-components@5.2.0-next.60) (2026-08-24)
+
+### Bug Fixes
+
+- **menu-item:** fix item layout ([#15060](https://github.com/Esri/calcite-design-system/issues/15060)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+## [5.2.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.58...@esri/calcite-components@5.2.0-next.59) (2026-08-24)
+
+### Bug Fixes
+
+- **autocomplete:** synchronize item selection with value ([#15049](https://github.com/Esri/calcite-design-system/issues/15049)), closes [#14907](https://github.com/Esri/calcite-design-system/issues/14907)
+
+## [5.2.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.57...@esri/calcite-components@5.2.0-next.58) (2026-08-24)
+
+### Bug Fixes
+
+- **label:** set default layout to `block` ([#15037](https://github.com/Esri/calcite-design-system/issues/15037)), closes [#14713](https://github.com/Esri/calcite-design-system/issues/14713)
+
+## [5.2.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.56...@esri/calcite-components@5.2.0-next.57) (2026-08-24)
+
+### Bug Fixes
+
+- **tree:** only emit calciteTreeSelect when selection changes ([#15051](https://github.com/Esri/calcite-design-system/issues/15051)), closes [#14413](https://github.com/Esri/calcite-design-system/issues/14413)
+
+## [5.2.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.55...@esri/calcite-components@5.2.0-next.56) (2026-08-21)
+
+### Features
+
+- **menu:** propagate scale to menu items ([#15056](https://github.com/Esri/calcite-design-system/issues/15056)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+## [5.2.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.54...@esri/calcite-components@5.2.0-next.55) (2026-08-21)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.53...@esri/calcite-components@5.2.0-next.54) (2026-08-21)
+
+### Bug Fixes
+
+- **dropdown:** avoid scrollbar when max-items matches item count ([#14985](https://github.com/Esri/calcite-design-system/issues/14985)), closes [#14979](https://github.com/Esri/calcite-design-system/issues/14979)
+
+## [5.2.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.52...@esri/calcite-components@5.2.0-next.53) (2026-08-20)
+
+### Features
+
+- **menu, menu-item:** add scales, update padding, spacing, font-sizes ([#14797](https://github.com/Esri/calcite-design-system/issues/14797)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+### Bug Fixes
+
+- **sheet:** allow Sheet focus trap to be disabled for modal sheets ([#15045](https://github.com/Esri/calcite-design-system/issues/15045)), closes [#12114](https://github.com/Esri/calcite-design-system/issues/12114)
+
 ## [5.2.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.51...@esri/calcite-components@5.2.0-next.52) (2026-08-18)
 
 ### Features

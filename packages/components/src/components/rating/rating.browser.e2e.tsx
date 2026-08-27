@@ -10,6 +10,7 @@ import {
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   formAssociated,
   accessible,
@@ -66,6 +67,12 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-rating"));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-rating count={1} show-chip />, mountOptions), {
+    targetSelector: "calcite-chip",
+  });
 });
 
 describe("internal label", () => {

@@ -26,7 +26,7 @@ import { useCancelable } from "../../controllers/useCancelable";
 import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
-import { blockGroupSelector, blockSelector, CSS } from "./resources";
+import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resources";
 import { styles } from "./block-group.scss";
 import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
@@ -372,8 +372,9 @@ export class BlockGroup extends LitElement {
       (el): el is Block["el"] | BlockGroup["el"] => {
         if (isBlock(el)) {
           blockChildren.push(el);
+          return true;
         }
-        return el.matches(blockSelector) || el.matches(blockGroupSelector);
+        return isBlockGroup(el);
       },
     );
 

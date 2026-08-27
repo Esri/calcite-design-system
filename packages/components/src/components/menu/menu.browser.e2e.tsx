@@ -2,7 +2,15 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
-import { focusable, hidden, renders, t9n, accessible } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  scalePropagates,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
   accessible(() =>
@@ -49,6 +57,33 @@ describe("focusable", () => {
     {
       focusTargetSelector: "calcite-menu-item",
     },
+  );
+});
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-menu"),
+    [
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ],
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-menu>
+          <calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" />
+          </calcite-menu-item>
+        </calcite-menu>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-menu-item" },
   );
 });
 
