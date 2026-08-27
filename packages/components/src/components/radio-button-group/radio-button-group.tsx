@@ -34,13 +34,13 @@ declare global {
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class RadioButtonGroup extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   /**
    * Made into a prop for testing purposes only
@@ -57,15 +57,15 @@ export class RadioButtonGroup extends LitElement {
 
   private disabledWasSet = false;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() radioButtons: RadioButton["el"][] = [];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true })
@@ -118,9 +118,9 @@ export class RadioButtonGroup extends LitElement {
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the fist focusable `calcite-radio-button` element in the component.
@@ -138,16 +138,16 @@ export class RadioButtonGroup extends LitElement {
     }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component has changed. */
   calciteRadioButtonGroupChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -187,9 +187,9 @@ export class RadioButtonGroup extends LitElement {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleInvalidFormEvent(event: CustomEvent): void {
     const message =
@@ -233,9 +233,9 @@ export class RadioButtonGroup extends LitElement {
     this.calciteRadioButtonGroupChange.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -270,5 +270,5 @@ export class RadioButtonGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }
