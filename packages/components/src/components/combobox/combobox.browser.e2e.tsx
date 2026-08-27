@@ -222,12 +222,12 @@ describe("propagates", () => {
       mount(
         <calcite-combobox>
           <calcite-combobox-item-group>
-            <calcite-combobox-item value="item" />
+            <calcite-combobox-item selected value="item" />
           </calcite-combobox-item-group>
         </calcite-combobox>,
         mountOptions,
       ),
-    { targetSelector: "calcite-combobox-item, calcite-combobox-item-group" },
+    { targetSelector: "calcite-combobox-item, calcite-combobox-item-group, calcite-chip" },
   );
 });
 

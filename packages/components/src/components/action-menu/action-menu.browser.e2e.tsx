@@ -231,7 +231,7 @@ describe("renders", () => {
 
 describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-action-menu />, mountOptions), {
-    targetSelector: `.${CSS.defaultTrigger}`,
+    targetSelector: `.${CSS.defaultTrigger}, calcite-popover`,
   });
 });
 

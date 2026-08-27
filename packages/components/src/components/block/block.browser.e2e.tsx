@@ -195,7 +195,7 @@ describe("propagates", () => {
         </calcite-block>,
         mountOptions,
       ),
-    { targetSelector: "calcite-block-section" },
+    { targetSelector: "calcite-block-section, calcite-action-menu" },
   );
 });
 

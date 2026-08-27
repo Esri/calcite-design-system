@@ -100,7 +100,7 @@ describe("propagates", () => {
         />,
         mountOptions,
       ),
-    { targetSelector: "calcite-dropdown-group" },
+    { targetSelector: "calcite-dropdown-group, calcite-dropdown, calcite-action" },
   );
 });
 

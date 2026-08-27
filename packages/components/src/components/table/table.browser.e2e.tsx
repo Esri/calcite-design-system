@@ -436,14 +436,14 @@ describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(
-        <calcite-table>
+        <calcite-table selection-mode="multiple">
           <calcite-table-row>
             <calcite-table-cell />
           </calcite-table-row>
         </calcite-table>,
         mountOptions,
       ),
-    { targetSelector: "calcite-table-row" },
+    { targetSelector: "calcite-table-row, calcite-chip" },
   );
 });
 

@@ -51,9 +51,16 @@ describe("honors hidden attribute", () => {
 });
 
 describe("propagates", () => {
-  scalePropagates((mountOptions) => mount(<calcite-menu-item />, mountOptions), {
-    targetSelector: "calcite-menu",
-  });
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-menu-item href="#" text="Parent">
+          <calcite-menu-item slot={SLOTS.submenuItem} text="Child" />
+        </calcite-menu-item>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-menu, calcite-action" },
+  );
 });
 
 describe("renders", () => {

@@ -248,7 +248,7 @@ describe("honors hidden attribute", () => {
 
 describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-panel closable />, mountOptions), {
-    targetSelector: "calcite-action",
+    targetSelector: "calcite-action, calcite-action-menu",
   });
 });
 

@@ -99,13 +99,13 @@ describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(
-        <calcite-stepper>
+        <calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" />
           <calcite-stepper-item heading="Step 2" />
         </calcite-stepper>,
         mountOptions,
       ),
-    { targetSelector: "calcite-stepper-item" },
+    { targetSelector: "calcite-stepper-item, calcite-action" },
   );
 });
 
