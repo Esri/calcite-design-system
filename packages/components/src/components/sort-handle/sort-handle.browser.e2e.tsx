@@ -91,7 +91,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-sort-handle"));
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

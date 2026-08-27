@@ -95,7 +95,7 @@ describe("translation support", () => {
   t9n(() => mount("calcite-stepper"));
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

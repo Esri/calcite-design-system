@@ -66,7 +66,7 @@ describe("renders", () => {
   );
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount<"calcite-date-picker-month-header">(<calcite-date-picker-month-header />, {

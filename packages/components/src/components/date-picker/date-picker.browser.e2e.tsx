@@ -45,7 +45,7 @@ describe("renders", () => {
   renders(() => mount("calcite-date-picker"), { display: "inline-block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-date-picker />, mountOptions), {
     targetSelector: "calcite-date-picker-month",
   });

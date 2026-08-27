@@ -41,7 +41,7 @@ describe("renders", () => {
   renders(() => mount("calcite-avatar"), { display: "inline-block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-avatar />, mountOptions), {
     targetSelector: "calcite-icon",
   });

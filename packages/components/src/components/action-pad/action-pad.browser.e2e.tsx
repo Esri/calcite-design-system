@@ -131,7 +131,7 @@ describe("renders", () => {
   renders(() => mount("calcite-action-pad"), { display: "block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-action-pad />, mountOptions), {
     targetSelector: "calcite-action-group, calcite-action",
   });

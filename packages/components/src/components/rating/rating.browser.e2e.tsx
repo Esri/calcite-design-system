@@ -69,7 +69,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-rating"));
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-rating count={1} show-chip />, mountOptions), {
     targetSelector: "calcite-chip",
   });

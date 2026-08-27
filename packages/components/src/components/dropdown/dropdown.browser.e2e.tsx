@@ -68,7 +68,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-dropdown"));
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

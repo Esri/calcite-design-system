@@ -246,7 +246,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-panel"));
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-panel closable />, mountOptions), {
     targetSelector: "calcite-action",
   });

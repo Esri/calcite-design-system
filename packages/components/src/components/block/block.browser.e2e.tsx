@@ -186,7 +186,7 @@ describe("renders", () => {
   renders(() => mount("calcite-block"), { display: "flex" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

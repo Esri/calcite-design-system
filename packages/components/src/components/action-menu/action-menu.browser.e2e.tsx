@@ -229,7 +229,7 @@ describe("renders", () => {
   renders(() => mount("calcite-action-menu"), { display: "flex" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-action-menu />, mountOptions), {
     targetSelector: `.${CSS.defaultTrigger}`,
   });

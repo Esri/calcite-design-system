@@ -119,7 +119,7 @@ describe("renders", () => {
   renders(() => mount(<calcite-block-group>content</calcite-block-group>), { display: "block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

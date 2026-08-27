@@ -216,7 +216,7 @@ describe("renders", () => {
   renders(() => mount("calcite-combobox"), { display: "block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

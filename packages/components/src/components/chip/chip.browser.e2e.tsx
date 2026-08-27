@@ -76,7 +76,7 @@ describe("renders", () => {
   renders(() => mount(<calcite-chip>doritos</calcite-chip>), { display: "inline-flex" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-chip closable />, mountOptions), {
     targetSelector: "calcite-action",
   });

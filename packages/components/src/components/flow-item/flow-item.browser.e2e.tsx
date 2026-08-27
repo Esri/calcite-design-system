@@ -204,7 +204,7 @@ describe("renders", () => {
   });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-flow-item show-back-button />, mountOptions), {
     targetSelector: "calcite-panel, calcite-action",
   });

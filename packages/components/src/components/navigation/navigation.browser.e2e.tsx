@@ -82,7 +82,7 @@ describe("is focusable", () => {
   });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

@@ -21,7 +21,7 @@ interface TestSetupMountOptions {
  * Note that this helper should be used within a describe block.
  *
  * @example
- * describe("scale propagation", () => {
+ * describe("propagates", () => {
  *   scalePropagates(
  *     (mountOptions) => mount(
  *         <calcite-card-group>

@@ -124,7 +124,7 @@ describe("honors hidden attribute", () => {
   });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

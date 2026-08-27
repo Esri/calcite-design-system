@@ -188,7 +188,7 @@ describe("renders", () => {
   );
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

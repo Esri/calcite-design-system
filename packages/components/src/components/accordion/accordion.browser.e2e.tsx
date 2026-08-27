@@ -92,7 +92,7 @@ describe("renders", () => {
   renders(() => mount("calcite-accordion"), { display: "block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(

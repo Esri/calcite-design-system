@@ -147,7 +147,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-popover open />));
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-popover closable />, mountOptions), {
     targetSelector: "calcite-action",
   });

@@ -186,7 +186,7 @@ describe("renders", () => {
   renders(() => mount("calcite-action-bar"), { display: "inline-flex" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates((mountOptions) => mount(<calcite-action-bar />, mountOptions), {
     targetSelector: "calcite-action-group, calcite-action",
   });

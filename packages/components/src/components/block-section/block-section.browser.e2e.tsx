@@ -143,7 +143,7 @@ describe("renders", () => {
   renders(() => mount("calcite-block-section"), { display: "block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) => mount(<calcite-block-section toggle-display="switch" />, mountOptions),
     { targetSelector: "calcite-switch" },

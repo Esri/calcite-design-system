@@ -65,7 +65,7 @@ describe("defaults", () => {
   );
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) => mount(<calcite-input-text clearable value="value" />, mountOptions),
     {

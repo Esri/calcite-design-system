@@ -271,7 +271,7 @@ describe("renders", () => {
   renders(() => mount("calcite-autocomplete"), { display: "block" });
 });
 
-describe("scale propagation", () => {
+describe("propagates", () => {
   scalePropagates(
     (mountOptions) =>
       mount(
