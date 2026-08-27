@@ -341,10 +341,8 @@ it("radio-buttons receive necessary props", async () => {
 
   const radio = await page.find("calcite-radio-button");
   const name = await radio.getProperty("name");
-  const scale = await radio.getProperty("scale");
   const required = await radio.getProperty("required");
   expect(name).toBe("radio");
-  expect(scale).toBe("m");
   expect(required).toBe(false);
 });
 

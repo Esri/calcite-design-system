@@ -8,15 +8,6 @@ import type { Filter } from "./filter";
 
 mockConsole();
 
-it("sets scale on the input", async () => {
-  const scale = "s";
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-filter scale="${scale}"></calcite-filter>`);
-
-  const input = await page.find(`calcite-filter >>> calcite-input`);
-  expect(await input.getProperty("scale")).toBe(scale);
-});
-
 it("honors label property", async () => {
   const page = await newE2EPage();
   const label = "hello world";

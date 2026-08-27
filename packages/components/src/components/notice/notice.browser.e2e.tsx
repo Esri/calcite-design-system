@@ -2,6 +2,7 @@ import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
   focusable,
   hidden,
   renders,
@@ -9,6 +10,7 @@ import {
   t9n,
   openClose,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -63,6 +65,10 @@ describe("accessible", () => {
   });
 });
 
+describe("defaults", () => {
+  defaults(() => mount("calcite-notice"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
+
 describe("is focusable", () => {
   describe("with link and closable => focuses on link", () => {
     focusable(
@@ -102,6 +108,12 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-notice"));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-notice closable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {

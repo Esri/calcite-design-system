@@ -8,6 +8,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   t9n,
   accessible,
   themed,
@@ -140,6 +141,13 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-block-section"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) => mount(<calcite-block-section toggle-display="switch" />, mountOptions),
+    { targetSelector: "calcite-switch" },
+  );
 });
 
 describe("translation support", () => {

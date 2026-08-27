@@ -1,12 +1,29 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, disabled, themed } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  hidden,
+  renders,
+  disabled,
+  themed,
+  scalePropagates,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
 
+describe("defaults", () => {
+  defaults(() => mount("calcite-tab-title"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
+
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-tab-title"));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-tab-title closable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {

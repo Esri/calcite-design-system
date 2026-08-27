@@ -16,6 +16,7 @@ import {
   disabled,
   openClose,
   accessible,
+  scalePropagates,
   topLayer,
   themed,
 } from "../../tests/commonTests/browser";
@@ -183,6 +184,19 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-block"), { display: "flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-block>
+          <calcite-block-section />
+        </calcite-block>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-block-section, calcite-action-menu" },
+  );
 });
 
 describe("slots", () => {

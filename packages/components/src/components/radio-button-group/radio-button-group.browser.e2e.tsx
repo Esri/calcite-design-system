@@ -11,6 +11,7 @@ import {
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
@@ -121,6 +122,24 @@ describe("honors hidden attribute", () => {
     expect(name).toBe("third");
     expect(value).toBe("first");
   });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-radio-button-group>
+          <calcite-label>
+            <calcite-radio-button />
+          </calcite-label>
+          <calcite-label>
+            <calcite-radio-button />
+          </calcite-label>
+        </calcite-radio-button-group>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-radio-button" },
+  );
 });
 
 describe("internal label", () => {
