@@ -15,7 +15,7 @@ runs:
 
     - name: Install CLI dependencies
       shell: bash
-      run: npm ci --workspace=@esri/monorepo-cli
+      run: npm ci --workspace=@esri/monorepo-cli --ignore-scripts
 
     - name: Send notification
       shell: bash
