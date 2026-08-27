@@ -86,7 +86,7 @@
     "cpy-cli": "6.0.0",
     "dedent": "1.7.2",
     "es-toolkit": "^1.39.8",
-    "eslint": "10.8.0",
+    "eslint": "10.9.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-jsdoc": "62.9.0",
     "eslint-plugin-perfectionist": "5.9.1",
