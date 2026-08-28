@@ -11,9 +11,9 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
@@ -31,7 +31,7 @@ import {
   getUserTimeZoneOffset,
 } from "./utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
 import { styles } from "./input-time-zone.scss";
 
 declare global {
@@ -80,8 +80,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   /**
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
@@ -256,6 +254,11 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   async load(): Promise<void> {
     this.normalizer = await getNormalizer(this.mode);

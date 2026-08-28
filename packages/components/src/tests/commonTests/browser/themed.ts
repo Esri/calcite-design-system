@@ -4,7 +4,7 @@ import { type RequireExactlyOne } from "type-fest";
 import { commands } from "../../browser/commands";
 import { getTokenValue } from "../../utils/cssTokenValues";
 import "./utils";
-import { TestSetup } from "./interfaces";
+import { TestSetup } from "./types";
 import { focusElement } from "../../../utils/dom";
 
 const pseudoElementPattern =

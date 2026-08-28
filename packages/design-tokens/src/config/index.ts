@@ -5,7 +5,7 @@ import {
   logVerbosityLevels,
 } from "style-dictionary/enums";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import type { Config } from "../types/extensions.d.ts";
+import type { Config } from "../types.ts";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.ts";
 import { isBreakpointExpand } from "../build/utils/token-types.ts";
 import { stylesheetOutputReferences } from "../build/utils/output-references.ts";

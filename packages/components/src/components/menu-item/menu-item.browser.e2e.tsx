@@ -3,16 +3,18 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   focusable,
+  defaults,
   type ComponentTestTokens,
   reflects,
   hidden,
   renders,
+  scalePropagates,
   t9n,
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
-import type { Layout } from "./interfaces";
+import type { Layout } from "./types";
 
 describe("accessible", () => {
   accessible(() =>
@@ -22,6 +24,10 @@ describe("accessible", () => {
       </calcite-menu>,
     ),
   );
+});
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-menu-item"), [{ propertyName: "scale", defaultValue: "m" }]);
 });
 
 describe("reflects", () => {
@@ -42,6 +48,19 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-menu-item"));
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-menu-item href="#" text="Parent">
+          <calcite-menu-item slot={SLOTS.submenuItem} text="Child" />
+        </calcite-menu-item>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-menu, calcite-action" },
+  );
 });
 
 describe("renders", () => {

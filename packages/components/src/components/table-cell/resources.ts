@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   contentCell: "content-cell",
   numberCell: "number-cell",
@@ -8,3 +10,8 @@ export const CSS = {
   lastCell: "last-cell",
   staticCell: "static-cell",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTableCell = isTag("calcite-table-cell");
