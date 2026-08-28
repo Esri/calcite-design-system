@@ -52,6 +52,20 @@ type TestTarget = {
   token: CalciteCSSCustomProp;
 };
 
+type ThemeAssertion = TestTarget & {
+  hoverBeforeInteraction: boolean;
+  interactionElement?: HTMLElement;
+  pseudoElement?: string;
+  targetElement: HTMLElement;
+};
+
+type InteractionGroup = {
+  assertions: ThemeAssertion[];
+  element: HTMLElement;
+  hoverBeforeInteraction: boolean;
+  state: State;
+};
+
 /**
  * Helper to test custom theming of a component's associated tokens.
  *
@@ -102,8 +116,6 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
   it("is themeable", async () => {
     const { el, container } = await setup();
     const elLocator = page.elementLocator(el);
-    await userEvent.unhover(el);
-
     preventClicks(container);
 
     const styleTargets = new Map<HTMLElement, Map<string, string>>();
@@ -121,10 +133,7 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
       }
 
       for (const selectorConfig of selectors) {
-        const selector =
-          typeof selectorConfig.selector === "string"
-            ? page.getBySelector(selectorConfig.selector)
-            : (selectorConfig.selector ?? elLocator);
+        const selector = selectorConfig.selector ?? elLocator;
         const shadowSelector = selectorConfig.shadowSelector;
         const targetProp = selectorConfig.targetProp;
 
@@ -138,18 +147,13 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
           );
         }
 
-        const selectorLocator =
-          selector === elLocator ? elLocator : getScopedLocator(page.elementLocator(document.body), el, selector);
-        const selectorElement = getRequiredElement(
-          selectorLocator,
-          `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
-        );
+const selectorLocator =
+  selector === elLocator ? elLocator : getScopedLocator(page.elementLocator(document.body), el, selector);
+const errorMessage = `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`;
+        const selectorElement = getRequiredElement(selectorLocator, errorMessage);
         const targetLocator = shadowSelector ? getNestedLocator(selectorLocator, shadowSelector) : selectorLocator;
 
-        getRequiredElement(
-          targetLocator,
-          `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
-        );
+        getRequiredElement(targetLocator, errorMessage);
 
         if (!styleTargets.has(selectorElement)) {
           styleTargets.set(selectorElement, new Map());
@@ -193,10 +197,18 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
       }
     }
 
-    await waitForStyleUpdates();
+    const themeAssertions = testTargets.map((testTarget) => createThemeAssertion(el, elLocator, testTarget));
 
-    for (const testTarget of testTargets) {
-      await assertThemedProps(el, elLocator, testTarget);
+    for (const themeAssertion of themeAssertions) {
+      if (!themeAssertion.state) {
+        assertThemedProp(themeAssertion);
+      }
+    }
+
+    const interactionGroups = groupInteractionTargets(themeAssertions);
+
+    for (const interactionGroup of interactionGroups) {
+      await assertInteractionGroup(interactionGroup);
     }
   });
 }
@@ -276,10 +288,6 @@ function preventClicks(root: HTMLElement): void {
   });
 }
 
-async function waitForStyleUpdates(): Promise<void> {
-  await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-}
-
 async function resetInteractionState(): Promise<void> {
   await userEvent.unhover(document.body);
 }
@@ -288,62 +296,109 @@ async function hoverElement(element: HTMLElement): Promise<void> {
   await userEvent.hover(element, { force: true });
 }
 
-async function assertThemedProps(host: HTMLElement, hostLocator: Locator, options: TestTarget): Promise<void> {
-  const { target, interactionSelector, targetProp, state, expectedValue, token } = options;
+function createThemeAssertion(host: HTMLElement, hostLocator: Locator, options: TestTarget): ThemeAssertion {
+  const { target, interactionSelector, token } = options;
   const targetElement = getRequiredElement(
     target.locator,
     `[${token}] target (${target.selectorText}${target.shadowSelectorText ? ` >>> ${target.shadowSelectorText}` : ""}) not found`,
   );
   const pseudoElement =
     typeof target.shadowSelector === "string" ? target.shadowSelector.match(pseudoElementPattern)?.[0] : undefined;
+  const interactionElement = interactionSelector
+    ? getInteractionTarget(host, hostLocator, targetElement, interactionSelector, token).element
+    : options.state
+      ? targetElement
+      : undefined;
 
+  return {
+    ...options,
+    hoverBeforeInteraction: Boolean(interactionSelector) || options.state === "hover" || options.state === "press",
+    interactionElement,
+    pseudoElement,
+    targetElement,
+  };
+}
+
+function groupInteractionTargets(themeAssertions: ThemeAssertion[]): InteractionGroup[] {
+  const groups: InteractionGroup[] = [];
+
+  for (const themeAssertion of themeAssertions) {
+    const { hoverBeforeInteraction, interactionElement, state } = themeAssertion;
+
+    if (!state || !interactionElement) {
+      continue;
+    }
+
+    let group = groups.find(
+      (candidate) =>
+        candidate.element === interactionElement &&
+        candidate.state === state &&
+        candidate.hoverBeforeInteraction === hoverBeforeInteraction,
+    );
+
+    if (!group) {
+      group = {
+        assertions: [],
+        element: interactionElement,
+        hoverBeforeInteraction,
+        state,
+      };
+      groups.push(group);
+    }
+
+    group.assertions.push(themeAssertion);
+  }
+
+  return groups;
+}
+
+async function assertInteractionGroup(group: InteractionGroup): Promise<void> {
+  const { assertions, element, hoverBeforeInteraction, state } = group;
   await resetInteractionState();
 
   try {
-    if (interactionSelector) {
-      const interactionTarget = getInteractionTarget(host, hostLocator, targetElement, interactionSelector, token);
-      await hoverElement(interactionTarget.element);
+    if (hoverBeforeInteraction) {
+      await hoverElement(element);
+    }
 
-      if (state === "press") {
-        await commands.mouseDown();
-      } else if (state === "focus") {
-        await focusElement(interactionTarget.element);
-      }
-    } else if (state === "hover") {
-      await hoverElement(targetElement);
-    } else if (state === "press") {
-      await hoverElement(targetElement);
+    if (state === "press") {
       await commands.mouseDown();
     } else if (state === "focus") {
-      await focusElement(targetElement);
+      await focusElement(element);
     }
 
-    await waitForStyleUpdates();
-
-    if (targetProp.startsWith("--calcite-")) {
-      const customPropValue = getComputedStylePropertyValue(targetElement, targetProp, pseudoElement);
-      expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
-      return;
+    for (const themeAssertion of assertions) {
+      assertThemedProp(themeAssertion);
     }
-
-    const styles = getComputedStyle(targetElement, pseudoElement);
-    const actualValue = styles[targetProp];
-    const isFakeBorderColorToken =
-      token.includes("-color") &&
-      (targetProp === "boxShadow" || targetProp === "outline" || targetProp === "outlineColor");
-    const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
-
-    if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
-      expect(getStyleString(token, targetProp, actualValue)).toMatch(expectedValue);
-      return;
-    }
-
-    expect(getStyleString(token, targetProp, actualValue)).toBe(getStyleString(token, targetProp, expectedValue));
   } finally {
     if (state === "press") {
       await commands.mouseUp();
     }
   }
+}
+
+function assertThemedProp(options: ThemeAssertion): void {
+  const { targetElement, targetProp, pseudoElement, expectedValue, token } = options;
+
+  if (targetProp.startsWith("--calcite-")) {
+    const customPropValue = getComputedStylePropertyValue(targetElement, targetProp, pseudoElement);
+    expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
+    return;
+  }
+
+  const styles = getComputedStyle(targetElement, pseudoElement);
+  const actualValue = styles[targetProp];
+  const isFakeBorderColorToken =
+    token.includes("-color") &&
+    (targetProp === "boxShadow" || targetProp === "outline" || targetProp === "outlineColor");
+  const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
+
+  if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
+    expect(getStyleString(token, targetProp, actualValue)).toMatch(expectedValue);
+    return;
+  }
+
+  expect(getStyleString(token, targetProp, actualValue)).toBe(getStyleString(token, targetProp, expectedValue));
 }
 
 function getInteractionTarget(
