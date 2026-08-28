@@ -1,4 +1,4 @@
-﻿import { resolve } from "node:path";
+import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { Platform } from "../../src/types";
