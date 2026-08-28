@@ -26,9 +26,13 @@
           max-width: 36rem;
         }
 
+        .demo-stack-wide {
+          max-width: min(100%, 90rem);
+        }
+
         .demo-row {
           display: grid;
-          gap: 0.35rem;
+          gap: 0.645rem;
         }
 
         .demo-label {
@@ -36,16 +40,26 @@
         }
 
         .keyboard-nav-action-bar {
-          inline-size: 14rem;
+          justify-self: start;
+          inline-size: clamp(8rem, 40vw, 14rem);
         }
 
         .narrow-action-bar {
-          inline-size: 16rem;
+          inline-size: clamp(8rem, 45vw, 16rem);
+        }
+
+        .toolbar-action-bar {
+          inline-size: min(100%, 72rem);
         }
 
         .vertical-overflow-action-bar {
-          block-size: 18rem;
-          inline-size: 8rem;
+          block-size: clamp(10rem, 55vh, 18rem);
+          inline-size: clamp(6rem, 25vw, 8rem);
+        }
+
+        .vertical-expanded-action-bar {
+          inline-size: clamp(14rem, 45vw, 18rem);
+          min-block-size: clamp(12rem, 50vh, 20rem);
         }
 
         .tool-group {
@@ -84,10 +98,12 @@
         }
       </style>
 
+      <h3>Vertical Action bars</h3>
+
       <div class="demo-stack">
         <div class="demo-row">
           <span class="demo-label">Vertical multiple selection</span>
-          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled>
             <calcite-action-group selection-mode="multiple">
               <calcite-action text="Add" icon="plus"></calcite-action>
               <calcite-action text="Layers" icon="layers"></calcite-action>
@@ -98,7 +114,7 @@
 
         <div class="demo-row">
           <span class="demo-label">Vertical single selection</span>
-          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled>
             <calcite-action-group selection-mode="single">
               <calcite-action text="Draw" icon="pencil"></calcite-action>
               <calcite-action text="Measure" icon="measure"></calcite-action>
@@ -108,7 +124,20 @@
         </div>
 
         <div class="demo-row">
-          <span class="demo-label">Vertical single selection (automatic overflow disabled)</span>
+          <span class="demo-label">Vertical single persist selection</span>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled>
+            <calcite-action-group selection-mode="single-persist">
+              <calcite-action text="Draw" icon="pencil"></calcite-action>
+              <calcite-action text="Measure" icon="measure"></calcite-action>
+              <calcite-action text="Select" icon="cursor"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label"
+            >Vertical action-bar with different selection-modes (single, multiple, single-persist)</span
+          >
           <calcite-action-bar
             class="keyboard-nav-action-bar narrow-action-bar vertical-overflow-action-bar"
             expand-disabled
@@ -117,19 +146,62 @@
             <calcite-action-group selection-mode="single" label="Edit actions">
               <calcite-action text="Identify" icon="information"></calcite-action>
               <calcite-action text="Filter" icon="filter"></calcite-action>
-              <calcite-action text="Refresh" icon="refresh"></calcite-action>
+              <!-- <calcite-action text="Refresh" icon="refresh"></calcite-action> -->
             </calcite-action-group>
             <calcite-action-group selection-mode="multiple" label="Share actions">
               <calcite-action text="Bookmark" icon="bookmark"></calcite-action>
               <calcite-action text="Settings" icon="gear"></calcite-action>
-              <calcite-action text="Configure" icon="sliders"></calcite-action>
-              <calcite-action text="Share" icon="share"></calcite-action>
+              <!-- <calcite-action text="Configure" icon="sliders"></calcite-action> -->
+              <!-- <calcite-action text="Share" icon="share"></calcite-action> -->
+            </calcite-action-group>
+            <calcite-action-group selection-mode="single-persist">
+              <calcite-action text="Draw" icon="pencil"></calcite-action>
+              <calcite-action text="Measure" icon="measure"></calcite-action>
+              <!-- <calcite-action text="Select" icon="cursor"></calcite-action> -->
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+      </div>
+
+      <h3>Horizontal Action bars</h3>
+      <div class="demo-stack">
+        <div class="demo-row">
+          <span class="demo-label">Horizontal multiple selection</span>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled layout="horizontal">
+            <calcite-action-group selection-mode="multiple">
+              <calcite-action text="Add" icon="plus"></calcite-action>
+              <calcite-action text="Layers" icon="layers"></calcite-action>
+              <calcite-action text="Save" icon="save"></calcite-action>
             </calcite-action-group>
           </calcite-action-bar>
         </div>
 
         <div class="demo-row">
-          <span class="demo-label">Horizontal multiple selection (automatic overflow disabled)</span>
+          <span class="demo-label">Horizontal single selection</span>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled layout="horizontal">
+            <calcite-action-group selection-mode="single">
+              <calcite-action text="Draw" icon="pencil"></calcite-action>
+              <calcite-action text="Measure" icon="measure"></calcite-action>
+              <calcite-action text="Select" icon="cursor"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label">Horizontal single persist selection</span>
+          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled layout="horizontal">
+            <calcite-action-group selection-mode="single-persist">
+              <calcite-action text="Draw" icon="pencil"></calcite-action>
+              <calcite-action text="Measure" icon="measure"></calcite-action>
+              <calcite-action text="Select" icon="cursor"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>
+
+        <div class="demo-row">
+          <span class="demo-label"
+            >Horizontal action-bar with different selection-modes (multiple, single, single-persist)</span
+          >
           <calcite-action-bar class="keyboard-nav-action-bar narrow-action-bar" expand-disabled layout="horizontal">
             <calcite-action-group selection-mode="multiple" label="View actions">
               <calcite-action text="Identify" icon="information"></calcite-action>
@@ -141,11 +213,16 @@
               <calcite-action text="Settings" icon="gear"></calcite-action>
               <calcite-action text="Configure" icon="sliders"></calcite-action>
             </calcite-action-group>
+            <calcite-action-group selection-mode="single-persist">
+              <calcite-action text="Draw" icon="pencil"></calcite-action>
+              <calcite-action text="Measure" icon="measure"></calcite-action>
+              <calcite-action text="Select" icon="cursor"></calcite-action>
+            </calcite-action-group>
           </calcite-action-bar>
         </div>
 
         <div class="demo-row">
-          <span class="demo-label">Horizontal non-selection group (overflow menu allowed)</span>
+          <span class="demo-label">Horizontal with selection-mode none (default)</span>
           <calcite-action-bar class="keyboard-nav-action-bar narrow-action-bar" expand-disabled layout="horizontal">
             <calcite-action-group>
               <calcite-action text="Identify" icon="information"></calcite-action>
@@ -160,118 +237,20 @@
             </calcite-action-group>
           </calcite-action-bar>
         </div>
+      </div>
 
+      <h3>Other examples</h3>
+      <div class="demo-stack">
         <div class="demo-row">
-          <span class="demo-label">Vertical non-selection group (overflow menu allowed)</span>
-          <calcite-action-bar
-            class="keyboard-nav-action-bar narrow-action-bar vertical-overflow-action-bar"
-            expand-disabled
-            layout="vertical"
-          >
-            <calcite-action-group>
-              <calcite-action text="Identify" icon="information"></calcite-action>
-              <calcite-action text="Filter" icon="filter"></calcite-action>
-              <calcite-action text="Refresh" icon="refresh"></calcite-action>
-              <calcite-action text="Bookmark" icon="bookmark"></calcite-action>
-              <calcite-action text="Settings" icon="gear"></calcite-action>
-              <calcite-action text="Configure" icon="sliders"></calcite-action>
-              <calcite-action text="Share" icon="share"></calcite-action>
-              <calcite-action text="Export" icon="download"></calcite-action>
-              <calcite-action text="Print" icon="print"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-        </div>
-
-        <div class="demo-row">
-          <span class="demo-label">Horizontal single-persist selection</span>
-          <calcite-action-bar
-            class="keyboard-nav-action-bar"
-            expand-disabled
-            layout="horizontal"
-            overflow-actions-disabled
-          >
-            <calcite-action-group selection-mode="single-persist">
-              <calcite-action active text="Pan" icon="pan"></calcite-action>
-              <calcite-action text="Zoom in" icon="zoom-in-fixed"></calcite-action>
-              <calcite-action text="Zoom out" icon="zoom-out-fixed"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-        </div>
-
-        <div class="demo-row">
-          <span class="demo-label">Multiple selection - overflow disabled</span>
-          <calcite-action-bar
-            class="keyboard-nav-action-bar narrow-action-bar"
-            expand-disabled
-            overflow-actions-disabled
-          >
-            <calcite-action-group selection-mode="multiple">
-              <calcite-action text="Add" icon="plus"></calcite-action>
-              <calcite-action text="Undo" icon="undo"></calcite-action>
-              <calcite-action text="Redo" icon="redo"></calcite-action>
-              <calcite-action text="Save" icon="save"></calcite-action>
-              <calcite-action text="Delete" icon="trash"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-        </div>
-
-        <div class="demo-row">
-          <span class="demo-label">Single selection - overflow disabled</span>
-          <calcite-action-bar
-            class="keyboard-nav-action-bar narrow-action-bar"
-            expand-disabled
-            overflow-actions-disabled
-          >
-            <calcite-action-group selection-mode="single">
-              <calcite-action text="Point" icon="pin"></calcite-action>
-              <calcite-action text="Line" icon="line"></calcite-action>
-              <calcite-action text="Area" icon="polygon"></calcite-action>
-              <calcite-action text="Circle" icon="circle"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-        </div>
-
-        <div class="demo-row">
-          <span class="demo-label">Single-persist selection - overflow disabled</span>
-          <calcite-action-bar
-            class="keyboard-nav-action-bar narrow-action-bar"
-            expand-disabled
-            overflow-actions-disabled
-          >
-            <calcite-action-group selection-mode="single-persist">
-              <calcite-action active text="Pan" icon="pan"></calcite-action>
-              <calcite-action text="Zoom in" icon="zoom-in-fixed"></calcite-action>
-              <calcite-action text="Zoom out" icon="zoom-out-fixed"></calcite-action>
-              <calcite-action text="Full extent" icon="extent"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-        </div>
-
-        <div class="demo-row">
-          <span class="demo-label">Two vertical bars for Tab then ArrowDown</span>
-          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
-            <calcite-action-group selection-mode="multiple">
-              <calcite-action text="First add" icon="plus"></calcite-action>
-              <calcite-action text="First save" icon="save"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-          <calcite-action-bar class="keyboard-nav-action-bar" expand-disabled overflow-actions-disabled>
-            <calcite-action-group selection-mode="multiple">
-              <calcite-action text="Second layers" icon="layers"></calcite-action>
-              <calcite-action text="Second basemaps" icon="layer-basemap"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-        </div>
-
-        <div>
-          <calcite-action-bar layout="horizontal" expand-disabled floating>
-            <calcite-action-group selection-mode="single-persist">
+          <span class="demo-label">Vertical action bar with selection mode none</span>
+          <calcite-action-bar class="vertical-expanded-action-bar" layout="vertical" expand-disabled floating>
+            <calcite-action-group selection-mode="none">
               <calcite-action text="Curve" icon="curve"></calcite-action>
-              <calcite-action text="Right angle" icon="right-angle"></calcite-action>
+              <calcite-action text="Configure" icon="sliders"></calcite-action>
               <calcite-action text="Line" icon="line"></calcite-action>
               <calcite-action text="Line straight" icon="line-straight"></calcite-action>
             </calcite-action-group>
-            <calcite-action-group selection-mode="multiple">
+            <calcite-action-group>
               <calcite-action text="Split geometry" icon="split-geometry"></calcite-action>
               <calcite-action text="Stretch" icon="stretch"></calcite-action>
               <calcite-action text="Trace" icon="trace"></calcite-action>
@@ -280,13 +259,13 @@
         </div>
 
         <div class="demo-row">
-          <span class="demo-label">Floating text formatting toolbar</span>
+          <span class="demo-label">Toolbar example (multiple, single-persist, none, none)</span>
           <calcite-action-bar
             id="font-configuration-settings"
+            class="toolbar-action-bar"
             layout="horizontal"
             floating
             expand-disabled
-            overflow-actions-disabled
           >
             <calcite-action-group label="Text formatting" selection-mode="multiple">
               <calcite-action id="bold" active context text="Bold" icon="bold"></calcite-action>
@@ -316,7 +295,7 @@
                 <span>Right align text</span>
               </calcite-tooltip>
             </calcite-action-group>
-            <calcite-action-group label="Text lists - disabled" selection-mode="single">
+            <calcite-action-group label="Text lists - disabled">
               <calcite-action id="list-bullet" disabled text="Bullet list" icon="list-bullet"></calcite-action>
               <calcite-tooltip reference-element="list-bullet" placement="bottom">
                 <span>Bullet list - disabled</span>
@@ -326,40 +305,60 @@
                 <span>Numbered list - disabled</span>
               </calcite-tooltip>
             </calcite-action-group>
-            <calcite-action-group label="Align items - disabled" selection-mode="single">
-              <calcite-action
-                id="align-items-left"
-                disabled
-                text="Align items left"
-                icon="ltr-elements-align"
-              ></calcite-action>
+            <calcite-action-group label="Align items - disabled">
+              <calcite-action id="align-items-left" text="Align items left" icon="ltr-elements-align"></calcite-action>
               <calcite-tooltip reference-element="align-items-left" placement="bottom">
                 <span>Align items left - disabled</span>
               </calcite-tooltip>
               <calcite-action
                 id="align-items-right"
-                disabled
                 text="Align items right"
                 icon="rtl-elements-align"
               ></calcite-action>
               <calcite-tooltip reference-element="align-items-right" placement="bottom">
                 <span>Align items right - disabled</span>
               </calcite-tooltip>
-              <calcite-action
-                id="add-config"
-                disabled
-                text="Additional configurations"
-                icon="ellipsis"
-              ></calcite-action>
+              <calcite-action id="add-config" text="Additional configurations" icon="ellipsis"></calcite-action>
               <calcite-tooltip reference-element="add-config" placement="bottom">
                 <span>Additional configurations - disabled</span>
               </calcite-tooltip>
             </calcite-action-group>
           </calcite-action-bar>
         </div>
-
-        <p id="text-example">Some great content</p>
       </div>
+
+      <p id="text-example">Some great content</p>
+
+      <script>
+        const actionEls = [...document.getElementsByTagName("calcite-action")];
+        const textExample = document.getElementById("text-example");
+
+        actionEls.forEach((actionEl) => {
+          actionEl.addEventListener("click", () => {
+            requestAnimationFrame(() => {
+              if (actionEl.text == "Bold" && actionEl.active) {
+                textExample.style.setProperty("font-weight", "var(--calcite-font-weight-bold)");
+              } else if (actionEl.text == "Bold" && !actionEl.active) {
+                textExample.style.setProperty("font-weight", "var(--calcite-font-weight-normal)");
+              } else if (actionEl.text == "Italicize" && actionEl.active) {
+                textExample.style.setProperty("font-style", "var(--calcite-font-style-emphasis)");
+              } else if (actionEl.text == "Italicize" && !actionEl.active) {
+                textExample.style.setProperty("font-style", "var(--calcite-font-style-normal)");
+              } else if (actionEl.text == "Underline" && actionEl.active) {
+                textExample.style.setProperty("text-decoration", "underline");
+              } else if (actionEl.text == "Underline" && !actionEl.active) {
+                textExample.style.setProperty("text-decoration", "none");
+              } else if (actionEl.text == "Left align text" && actionEl.active) {
+                textExample.style.setProperty("text-align", "left");
+              } else if (actionEl.text == "Center align text" && actionEl.active) {
+                textExample.style.setProperty("text-align", "center");
+              } else if (actionEl.text == "Right align text" && actionEl.active) {
+                textExample.style.setProperty("text-align", "right");
+              }
+            });
+          });
+        });
+      </script>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>
