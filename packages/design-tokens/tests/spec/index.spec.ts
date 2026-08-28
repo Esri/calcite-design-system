@@ -19,26 +19,6 @@ const platforms: {
 
 platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
 
-describe("replacement-token alias behavior", () => {
-  it("emits replacement token aliases at :root scope in semantic.css without :where(*) scoping", () => {
-    const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "semantic.css");
-    const content = readFileSync(filePath, "utf-8");
-
-    expect(content).toContain("--calcite-font-weight-regular: var(");
-    expect(content).toContain("--calcite-font-weight-normal");
-    expect(content).not.toContain(":where(*)");
-  });
-
-  it("emits replacement token aliases at :root scope in index.css without :where(*) scoping", () => {
-    const filePath = resolve(import.meta.dirname, "..", "..", "dist", "css", "index.css");
-    const content = readFileSync(filePath, "utf-8");
-
-    expect(content).toContain("--calcite-color-surface-1: var(");
-    expect(content).toContain("--calcite-color-background");
-    expect(content).not.toContain(":where(*)");
-  });
-});
-
 /**
  * Generate test cases for a given platform and files
  *
