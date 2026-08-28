@@ -113,7 +113,8 @@ export class ActionGroup extends LitElement {
   /** When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`. */
   @property({ reflect: true })
   get overflowActionsDisabled(): boolean {
-    return this.selectionMode === "none" ? this._overflowActionsDisabled : true;
+    const selectionMode = this.selectionMode || "none";
+    return selectionMode === "none" ? this._overflowActionsDisabled : true;
   }
   set overflowActionsDisabled(value: boolean) {
     this._overflowActionsDisabled = value;

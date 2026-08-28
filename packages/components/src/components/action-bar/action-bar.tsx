@@ -94,6 +94,9 @@ export class ActionBar extends LitElement {
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, expandPosition } = this;
+
+    this.updateGroups();
+
     const overflowActionsDisabled = this.effectiveOverflowActionsDisabled;
 
     if (
@@ -104,8 +107,6 @@ export class ActionBar extends LitElement {
     ) {
       return;
     }
-
-    this.updateGroups();
 
     const itemSizes = this.getItemSizes();
 
@@ -442,6 +443,9 @@ export class ActionBar extends LitElement {
     }
 
     this.resizeObserver?.observe(this.el);
+    if (this.containerRef.value) {
+      this.resizeObserver?.observe(this.containerRef.value);
+    }
     this.overflowActions();
   }
 
@@ -485,7 +489,12 @@ export class ActionBar extends LitElement {
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
-    this.selectionOverflowDisabled = groups.some((group) => group.selectionMode !== "none");
+    this.selectionOverflowDisabled =
+      groups.length > 0 &&
+      groups.every((group) => {
+        const selectionMode = group.selectionMode || "none";
+        return selectionMode !== "none";
+      });
 
     groups.forEach((group) => {
       group.layout = this.layout;
@@ -672,10 +681,12 @@ export class ActionBar extends LitElement {
     const currentGroup = this.getNavigationItemActionGroup(current);
     const secondaryNextKey = isVertical ? "ArrowRight" : "ArrowDown";
     const secondaryPreviousKey = isVertical ? "ArrowLeft" : "ArrowUp";
+    const isClosedActionMenu = current.matches("calcite-action-menu") && !current.open;
 
     if (
       (currentGroup?.selectionMode === "multiple" || currentGroup?.selectionMode === "none") &&
-      (event.key === secondaryNextKey || event.key === secondaryPreviousKey)
+      (event.key === secondaryNextKey || event.key === secondaryPreviousKey) &&
+      !isClosedActionMenu
     ) {
       event.preventDefault();
       event.stopPropagation();
