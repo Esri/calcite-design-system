@@ -17,9 +17,6 @@ interface OpenCloseOptions {
 
   /** When `true`, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
-
-  /** When `true`, the close direction is expected to use the animation-disabled delays even when animations are enabled (e.g. component only animates on open). */
-  willUseFallbackOnClose?: boolean;
 }
 
 const defaultOptions: SetRequired<OpenCloseOptions, "openPropName" | "willUseFallback"> = {
@@ -64,7 +61,6 @@ export function openClose(
           collapsedOnClose: effectiveOptions.collapsedOnClose,
           openPropName: effectiveOptions.openPropName,
           startOpen: false,
-          willUseFallbackOnClose: effectiveOptions.willUseFallbackOnClose,
         });
       } finally {
         style.remove();
@@ -95,7 +91,6 @@ export function openClose(
           collapsedOnClose: effectiveOptions.collapsedOnClose,
           openPropName: effectiveOptions.openPropName,
           startOpen: true,
-          willUseFallbackOnClose: effectiveOptions.willUseFallbackOnClose,
         });
       } finally {
         style.remove();
@@ -131,9 +126,6 @@ interface TestOpenCloseEventsParams {
 
   /** Whether the component should start in the open state. */
   startOpen: boolean;
-
-  /** Whether the close direction should use the animation-disabled delays even when animations are enabled. */
-  willUseFallbackOnClose?: boolean;
 }
 
 async function testOpenCloseEvents({
@@ -142,7 +134,6 @@ async function testOpenCloseEvents({
   openPropName,
   collapsedOnClose,
   startOpen,
-  willUseFallbackOnClose,
 }: TestOpenCloseEventsParams): Promise<void> {
   const timestamps: Record<OpenCloseName, number | undefined> = {
     beforeOpen: undefined,
@@ -240,10 +231,9 @@ async function testOpenCloseEvents({
   const delayBetweenBeforeCloseAndClose = timestamps.close! - timestamps.beforeClose!;
 
   const matcherName = animationsEnabled ? "toBeGreaterThan" : "toBeLessThanOrEqual";
-  const closeMatcherName = animationsEnabled && !willUseFallbackOnClose ? "toBeGreaterThan" : "toBeLessThanOrEqual";
 
   expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
-  expect(delayBetweenBeforeCloseAndClose)[closeMatcherName](delayDeltaThreshold);
+  expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
 }
 
 function getEventSequence(componentTag: ComponentTag): string[] {

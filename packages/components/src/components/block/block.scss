@@ -280,7 +280,10 @@ calcite-sort-handle {
 
 .content {
   @apply flex-1 relative min-h-0 opacity-0;
-  transition: opacity var(--calcite-animation-timing) animation.$easing-function;
+  display: none;
+  transition:
+    opacity var(--calcite-animation-timing) animation.$easing-function,
+    display var(--calcite-animation-timing) animation.$easing-function allow-discrete;
 }
 
 .has-slotted-content {
@@ -324,6 +327,7 @@ calcite-action-menu {
   }
 
   .content {
+    display: block;
     opacity: 1;
 
     @starting-style {

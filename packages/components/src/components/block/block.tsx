@@ -712,7 +712,6 @@ export class Block extends LitElement {
               [CSS.content]: true,
               [CSS.hasSlottedContent]: this.hasContent || loading,
             }}
-            hidden={!expanded}
             id={IDS.content}
             ref={this.transitionRef}
           >
