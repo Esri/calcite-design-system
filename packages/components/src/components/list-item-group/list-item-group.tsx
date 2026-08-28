@@ -11,7 +11,26 @@ declare global {
     "calcite-list-item-group": ListItemGroup;
   }
 }
-/** @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements. */
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-list-background-color": "*";
+    /**
+     * Specifies the component's color.
+     */
+    "--calcite-list-color": "*";
+  }
+}
+
+interface ListItemGroupSlots {
+  /**
+   * A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+   */
+  "": Node[];
+}
 export class ListItemGroup extends LitElement {
   //#region Static Members
 
@@ -20,6 +39,8 @@ export class ListItemGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ListItemGroupSlots;
 
   private interactiveContainer = useInteractive(this);
 
@@ -52,18 +73,18 @@ export class ListItemGroup extends LitElement {
   //#region Events
 
   /**
-   * Fires when changes occur in the default slot, notifying parent lists of the changes.
-   *
-   * @private
-   */
-  calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
-
-  /**
    * Fires when group property changes should notify parent lists.
    *
    * @private
    */
   calciteInternalListItemGroupChange = createEvent({ cancelable: false });
+
+  /**
+   * Fires when changes occur in the default slot, notifying parent lists of the changes.
+   *
+   * @private
+   */
+  calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
 
   //#endregion
 

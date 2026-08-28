@@ -22,9 +22,74 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-background-color-hover": "*";
+    /**
+     * Specifies the component's background color.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-background-color": "*";
+    /**
+     * Specifies the background color of the component's button element.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-button-background-color": "*";
+    /**
+     * Specifies the background color of the component's button element when hovered.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-button-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's button element when pressed.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-button-background-color-press": "*";
+    /**
+     * Specifies the corner radius of the component's button element.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-button-corner-radius": "*";
+    /**
+     * Specifies the loader color of the component's button element.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-button-loader-color": "*";
+    /**
+     * Specifies the text color of the component's button element.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-button-text-color": "*";
+    /**
+     * Specifies the text color of the component's button element when hovered or pressed.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline editable tokens instead.
+     */
+    "--calcite-inline-editable-button-text-color-press": "*";
+  }
+}
+
+interface InlineEditableSlots {
+  /**
+   * A slot for adding a `calcite-input`.
+   */
+  "": Node[];
+}
+
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline editable (`inline-editable` and `inline-editable-controls` props) instead.
- * @slot - A slot for adding a `calcite-input`.
  */
 export class InlineEditable extends LitElement implements LabelableComponent {
   //#region Static Members
@@ -36,6 +101,8 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: InlineEditableSlots;
 
   private cancelEditingButtonRef = createRef<Action["el"]>();
 

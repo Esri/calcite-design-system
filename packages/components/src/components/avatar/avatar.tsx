@@ -12,6 +12,23 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-avatar-corner-radius": "*";
+    /**
+     * Specifies the component's icon or initial color.
+     */
+    "--calcite-avatar-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-avatar-background-color": "*";
+  }
+}
+
 export class Avatar extends LitElement {
   // #region Static Members
 

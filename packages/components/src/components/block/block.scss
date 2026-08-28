@@ -1,26 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-block-border-color: Specifies the component's border color.
- * @prop --calcite-block-content-space: Specifies the space of the component's `default` slot.
- * @prop --calcite-block-header-background-color: Specifies the component's `heading` background color.
- * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
- * @prop --calcite-block-header-background-color-press: Specifies the component's `heading` background color when pressed.
- * @prop --calcite-block-heading-text-color: Specifies the component's `heading` text color.
- * @prop --calcite-block-heading-text-color-press: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-block-heading-text-color` instead. When the component is `expanded`, specifies the `heading` text color.
- * @prop --calcite-block-padding: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead. Specifies the padding of the component's `default` slot.
- * @prop --calcite-block-text-color: [Deprecated] in v3.3.0, removal target v6.0.0. Specifies the component's text color.
- * @prop --calcite-block-description-text-color: Specifies the component's `description` text color.
- * @prop --calcite-block-icon-color: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `--calcite-block-collapsible-icon-color`, `--calcite-block-icon-start-color` and `--calcite-block-icon-end-color` instead. Specifies the component's `collapsible` icon, `iconStart` and `iconEnd` color.
- * @prop --calcite-block-icon-color-hover: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `--calcite-block-collapsible-icon-color-hover` instead. Specifies the component's `collapsible` icon color when hovered.
- * @prop --calcite-block-icon-start-color: Specifies the component's `iconStart` color.
- * @prop --calcite-block-icon-end-color: Specifies the component's `iconEnd` color.
- * @prop --calcite-block-collapsible-icon-color: Specifies the component's `collapsible` icon color.
- * @prop --calcite-block-collapsible-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.

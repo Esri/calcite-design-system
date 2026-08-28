@@ -48,12 +48,50 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
- * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
- * @slot actions-start - A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
- * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-action-bar-background-color": "*";
+    /**
+     * Specifies the component's border radius when `floating` is `true`.
+     */
+    "--calcite-action-bar-corner-radius": "*";
+    /**
+     * When `layout` is `"vertical"`, specifies the component's maximum width.
+     */
+    "--calcite-action-bar-expanded-max-width": "*";
+    /**
+     * Specifies the space between slotted components in the component.
+     */
+    "--calcite-action-bar-items-space": "*";
+    /**
+     * Specifies the component's shadow when `floating` is `true`.
+     */
+    "--calcite-action-bar-shadow": "*";
+  }
+}
+
+interface ActionBarSlots {
+  /**
+   * A slot for adding `calcite-action`s that will appear at the top of the component.
+   */
+  "": Node[];
+  /**
+   * A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
+   */
+  "actions-end": Node[];
+  /**
+   * A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
+   */
+  "actions-start": Node[];
+  /**
+   * A slot to set the `calcite-tooltip` for the expand toggle.
+   */
+  "expand-tooltip": Node[];
+}
+
 export class ActionBar extends LitElement {
   //#region Static Members
 
@@ -62,6 +100,8 @@ export class ActionBar extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ActionBarSlots;
 
   private actions: Action["el"][] = [];
 
@@ -261,6 +301,14 @@ export class ActionBar extends LitElement {
   private setExpandToggleEl = (el: Action["el"] | undefined): void => {
     this.expandToggleEl = el;
   };
+
+  /**
+   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
+   * `"wrap"`.
+   */
+  private get usesWrap(): boolean {
+    return this.overflowMode === "wrap" && this.layout !== "grid";
+  }
 
   //#endregion
 
@@ -513,18 +561,18 @@ export class ActionBar extends LitElement {
     }
   }
 
+  override updated(): void {
+    if (this.usesWrap && this.lineMeasureFrame == null) {
+      this.scheduleLineMeasure();
+    }
+  }
+
   loaded(): void {
     this.syncDefaultSlot();
     this.syncActionsStartSlot();
     this.syncActionsEndSlot();
     this.syncActionsState();
     this.overflowActions();
-  }
-
-  override updated(): void {
-    if (this.usesWrap && this.lineMeasureFrame == null) {
-      this.scheduleLineMeasure();
-    }
   }
 
   override disconnectedCallback(): void {
@@ -699,14 +747,6 @@ export class ActionBar extends LitElement {
       group.layout = this.layout;
       group.scale = this.scale;
     });
-  }
-
-  /**
-   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
-   * `"wrap"`.
-   */
-  private get usesWrap(): boolean {
-    return this.overflowMode === "wrap" && this.layout !== "grid";
   }
 
   /**

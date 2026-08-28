@@ -27,9 +27,22 @@ declare global {
   }
 }
 
-/**
- * @slot image - A slot for adding an image or pattern.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-swatch-corner-radius": "*";
+  }
+}
+
+interface SwatchSlots {
+  /**
+   * A slot for adding an image or pattern.
+   */
+  image: Node[];
+}
+
 export class Swatch extends LitElement {
   //#region Static Members
 
@@ -38,6 +51,8 @@ export class Swatch extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: SwatchSlots;
 
   private internalColor?: ColorInstance;
 

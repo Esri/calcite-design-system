@@ -14,17 +14,38 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-dropdown-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-dropdown-group-border-color": "*";
+    /**
+     * Specifies the component's `groupTitle` color.
+     */
+    "--calcite-dropdown-group-title-text-color": "*";
+  }
+}
+
+interface DropdownGroupSlots {
+  /**
+   * A slot for adding `calcite-dropdown-item`s.
+   */
+  "": Node[];
+}
+
 export class DropdownGroup extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  override ["@slots"]!: DropdownGroupSlots;
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -40,9 +61,9 @@ export class DropdownGroup extends LitElement {
 
   private currentItems = new Set<DropdownItem["el"]>();
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When specified, displays a group title. */
   @property({ reflect: true }) groupTitle?: string;
@@ -73,16 +94,16 @@ export class DropdownGroup extends LitElement {
     SelectionMode
   > = "single";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalDropdownItemChange = createEvent<RequestedItem>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -123,9 +144,10 @@ export class DropdownGroup extends LitElement {
     this.items = [];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
@@ -184,9 +206,9 @@ export class DropdownGroup extends LitElement {
     this.items = items;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const groupTitle = this.groupTitle ? (
@@ -215,5 +237,5 @@ export class DropdownGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

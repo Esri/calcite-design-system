@@ -28,7 +28,38 @@ declare global {
   }
 }
 
-/** @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `active`, specifies the component's border color.
+     */
+    "--calcite-menu-item-accent-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-menu-background-color": "*";
+    /**
+     * Specifies the submenu's border color.
+     */
+    "--calcite-menu-item-sub-menu-border-color": "*";
+    /**
+     * Specifies the submenu's border radius.
+     */
+    "--calcite-menu-item-sub-menu-corner-radius": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-menu-text-color": "*";
+  }
+}
+
+interface MenuItemSlots {
+  /**
+   * A slot for adding `calcite-menu-item`s in a submenu.
+   */
+  "submenu-item": Node[];
+}
+
 export class MenuItem extends LitElement {
   //#region Static Members
 
@@ -37,6 +68,8 @@ export class MenuItem extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: MenuItemSlots;
 
   private anchorRef = createRef<HTMLAnchorElement>();
 

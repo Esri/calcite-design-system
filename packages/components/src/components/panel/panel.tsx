@@ -45,24 +45,176 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
- * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
- * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
- * @slot header-top - A slot for adding custom content above the header actions and content.
- * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
- * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
- * @slot header-content - A slot for adding custom content to the header.
- * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
- * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
- * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
- * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-panel-corner-radius": "*";
+    /**
+     * Specifies the text color of the component's `heading`.
+     */
+    "--calcite-panel-heading-text-color": "*";
+    /**
+     * Specifies the color of the component's icon.
+     */
+    "--calcite-panel-icon-color": "*";
+    /**
+     * Specifies the text color of the component's `description`.
+     */
+    "--calcite-panel-description-text-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-panel-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-panel-background-color": "*";
+    /**
+     * Specifies the padding of the component's `content-top` slot.
+     */
+    "--calcite-panel-content-top-space": "*";
+    /**
+     * Specifies the padding of the component's `content-bottom` slot.
+     */
+    "--calcite-panel-content-bottom-space": "*";
+    /**
+     * Specifies the padding of the component's `header-top` slot.
+     */
+    "--calcite-panel-header-top-space": "*";
+    /**
+     * Specifies the background color of the component's header.
+     */
+    "--calcite-panel-header-background-color": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+     */
+    "--calcite-panel-header-action-background-color": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+     */
+    "--calcite-panel-header-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+     */
+    "--calcite-panel-header-action-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+     */
+    "--calcite-panel-header-action-text-color": "*";
+    /**
+     * Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+     */
+    "--calcite-panel-header-action-text-color-press": "*";
+    /**
+     * Specifies the background color of the component's footer.
+     */
+    "--calcite-panel-footer-background-color": "*";
+    /**
+     * Specifies the padding of the component's `unnamed (default)` slot.
+     */
+    "--calcite-panel-space": "*";
+    /**
+     * Specifies the padding of the component's `header-content` slot.
+     */
+    "--calcite-panel-header-content-space": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     */
+    "--calcite-panel-footer-space": "*";
+    /**
+     * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+     */
+    "--calcite-popover-border-color": "*";
+    /**
+     * Specifies the padding of the component's content.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-space` instead.
+     */
+    "--calcite-panel-content-space": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-footer-space` instead.
+     */
+    "--calcite-panel-footer-padding": "*";
+    /**
+     * Specifies the component header's block end border.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-border-color` instead.
+     */
+    "--calcite-panel-header-border-block-end": "*";
+  }
+}
+
+interface PanelSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a `calcite-action-bar` to the component.
+   */
+  "action-bar": Node[];
+  /**
+   * A slot for adding `calcite-alert`s to the component.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
+   */
+  "content-bottom": Node[];
+  /**
+   * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding custom content above the header actions and content.
+   */
+  "header-top": Node[];
+  /**
+   * A slot for adding actions or content to the start side of the header.
+   */
+  "header-actions-start": Node[];
+  /**
+   * A slot for adding actions or content to the end side of the header.
+   */
+  "header-actions-end": Node[];
+  /**
+   * A slot for adding custom content to the header.
+   */
+  "header-content": Node[];
+  /**
+   * A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+   */
+  "header-menu-actions": Node[];
+  /**
+   * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   */
+  description: Node[];
+  /**
+   * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   */
+  fab: Node[];
+  /**
+   * A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
+   */
+  "footer-end": Node[];
+  /**
+   * A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
+   */
+  "footer-start": Node[];
+}
+
 export class Panel extends LitElement {
   //#region Static Members
 
@@ -71,6 +223,8 @@ export class Panel extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: PanelSlots;
 
   private containerRef = createRef<HTMLDivElement>();
 
@@ -104,6 +258,21 @@ export class Panel extends LitElement {
   })(this);
 
   private interactiveContainer = useInteractive(this);
+
+  private get hasHeaderRow(): boolean {
+    return (
+      this.hasHeaderContent ||
+      !!this.heading ||
+      !!this.description ||
+      this.hasHeaderHeading ||
+      this.hasHeaderDescription ||
+      this.hasStartActions ||
+      this.hasEndActions ||
+      this.collapsible ||
+      this.closable ||
+      this.hasMenuItems
+    );
+  }
 
   //#endregion
 
@@ -485,21 +654,6 @@ export class Panel extends LitElement {
         (el as Alert["el"]).embedded = true;
       }
     });
-  }
-
-  private get hasHeaderRow(): boolean {
-    return (
-      this.hasHeaderContent ||
-      !!this.heading ||
-      !!this.description ||
-      this.hasHeaderHeading ||
-      this.hasHeaderDescription ||
-      this.hasStartActions ||
-      this.hasEndActions ||
-      this.collapsible ||
-      this.closable ||
-      this.hasMenuItems
-    );
   }
 
   //#endregion

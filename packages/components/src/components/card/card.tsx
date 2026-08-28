@@ -28,14 +28,92 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding content.
- * @slot thumbnail - A slot for adding a thumbnail.
- * @slot heading - A slot for adding a heading.
- * @slot description - A slot for adding a description.
- * @slot footer-start - A slot for adding a leading footer.
- * @slot footer-end - A slot for adding a trailing footer.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's accent color when `selected`.
+     */
+    "--calcite-card-accent-color-selected": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-card-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-card-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-card-corner-radius": "*";
+    /**
+     * Specifies the component's selection element background color when hovered.
+     */
+    "--calcite-card-selection-background-color-hover": "*";
+    /**
+     * Specifies the component's selection element background color when active.
+     */
+    "--calcite-card-selection-background-color-press": "*";
+    /**
+     * Specifies the component's selection element background color.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-background-color` instead.
+     */
+    "--calcite-card-selection-background-color": "*";
+    /**
+     * Specifies the component's selection element color when hovered or focused.
+     */
+    "--calcite-card-selection-color-hover": "*";
+    /**
+     * Specifies the component's selection element color.
+     */
+    "--calcite-card-selection-color": "*";
+    /**
+     * Specifies the component's selection element icon color when hovered.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-selection-color-hover` instead.
+     */
+    "--calcite-card-selection-icon-color-hover": "*";
+    /**
+     * Specifies the component's selection element icon color when `selected`.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-accent-color-selected` instead.
+     */
+    "--calcite-card-selection-icon-color-selected": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-card-shadow": "*";
+  }
+}
+
+interface CardSlots {
+  /**
+   * A slot for adding content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a thumbnail.
+   */
+  thumbnail: Node[];
+  /**
+   * A slot for adding a heading.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding a description.
+   */
+  description: Node[];
+  /**
+   * A slot for adding a leading footer.
+   */
+  "footer-start": Node[];
+  /**
+   * A slot for adding a trailing footer.
+   */
+  "footer-end": Node[];
+}
+
 export class Card extends LitElement {
   //#region Static Members
 
@@ -44,6 +122,8 @@ export class Card extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: CardSlots;
 
   private containerRef = createRef<HTMLDivElement>();
 

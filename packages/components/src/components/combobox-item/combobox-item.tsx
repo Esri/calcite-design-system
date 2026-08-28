@@ -18,11 +18,68 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding nested `calcite-combobox-item`s.
- * @slot content-end - A slot for adding non-actionable elements after the component's content.
- * @slot content-start - A slot for adding non-actionable elements before the component's content.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0.
+     */
+    "--calcite-combobox-item-border-color": "*";
+    /**
+     * Specifies the component's text and `icon` color.
+     */
+    "--calcite-combobox-text-color": "*";
+    /**
+     * Specifies the component's text and `icon` color when hovered.
+     */
+    "--calcite-combobox-text-color-hover": "*";
+    /**
+     * When `active`, specifies the component's background color.
+     */
+    "--calcite-combobox-item-background-color-active": "*";
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-combobox-item-background-color-hover": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-combobox-item-shadow": "*";
+    /**
+     * Specifies the component's `selected` indicator icon color.
+     */
+    "--calcite-combobox-selected-icon-color": "*";
+    /**
+     * Specifies the component's `description` and `shortHeading` text color.
+     */
+    "--calcite-combobox-description-text-color": "*";
+    /**
+     * Specifies the component's `description` and `shortHeading` text color when hovered.
+     */
+    "--calcite-combobox-description-text-color-press": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-combobox-heading-text-color": "*";
+  }
+}
+
+interface ComboboxItemSlots {
+  /**
+   * A slot for adding nested `calcite-combobox-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for adding non-actionable elements after the component's content.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding non-actionable elements before the component's content.
+   */
+  "content-start": Node[];
+}
+
 export class ComboboxItem extends LitElement {
   //#region Static Members
 
@@ -31,6 +88,8 @@ export class ComboboxItem extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ComboboxItemSlots;
 
   private _selected = false;
 

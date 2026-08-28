@@ -12,6 +12,15 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the fill color of the `highlight` element, when present.
+     */
+    "--calcite-graph-highlight-fill-color": "*";
+  }
+}
+
 export class Graph extends LitElement {
   // #region Static Members
 

@@ -29,16 +29,91 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `appearance="outline-fill"`, specifies the component's background color.
+     */
+    "--calcite-notice-background-color": "*";
+    /**
+     * When `appearance="outline-fill"`, specifies the component's border color.
+     */
+    "--calcite-notice-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-notice-corner-radius": "*";
+    /**
+     * Specifies the background color of the component's close element.
+     */
+    "--calcite-notice-close-background-color": "*";
+    /**
+     * Specifies the background color of the component's close element when hovered.
+     */
+    "--calcite-notice-close-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's close element when hovered.
+     *
+     * @deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-notice-close-background-color-hover` instead.
+     */
+    "--calcite-notice-close-background-color-focus": "*";
+    /**
+     * Specifies the background color of the component's close element when active.
+     */
+    "--calcite-notice-close-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's close element when hovered or active.
+     */
+    "--calcite-notice-close-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's close element.
+     */
+    "--calcite-notice-close-icon-color": "*";
+    /**
+     * Specifies the component's slotted `"title"` content text color.
+     */
+    "--calcite-notice-title-text-color": "*";
+    /**
+     * Specifies the component's slotted `"message"` content text color.
+     */
+    "--calcite-notice-content-text-color": "*";
+    /**
+     * Specifies the component's width.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0.
+     */
+    "--calcite-notice-width": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-notice-shadow": "*";
+  }
+}
+
+interface NoticeSlots {
+  /**
+   * A slot for adding a title.
+   */
+  title: Node[];
+  /**
+   * A slot for adding a message.
+   */
+  message: Node[];
+  /**
+   * A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
+   */
+  link: Node[];
+  /**
+   * A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
+   */
+  "actions-end": Node[];
+}
+
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
- *
- * @slot title - A slot for adding a title.
- * @slot message - A slot for adding a message.
- * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
  */
 export class Notice extends LitElement {
   //#region Static Members
@@ -48,6 +123,8 @@ export class Notice extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: NoticeSlots;
 
   /** The close button element. */
   private closeButtonRef = createRef<Action["el"]>();

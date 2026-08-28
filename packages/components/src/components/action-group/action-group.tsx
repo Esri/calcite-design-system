@@ -31,11 +31,42 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-action`s.
- * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
- * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-action-background-color": "*";
+    /**
+     * Specifies the component's border color when used in a `calcite-action-bar` or `calcite-action-menu`.
+     */
+    "--calcite-action-group-border-color": "*";
+    /**
+     * When `layout` is `"grid"`, specifies the component's `grid-template-columns`.
+     */
+    "--calcite-action-group-columns": "*";
+    /**
+     * When `layout` is `"grid"`, specifies the component's gap.
+     */
+    "--calcite-action-group-gap": "*";
+  }
+}
+
+interface ActionGroupSlots {
+  /**
+   * A slot for adding `calcite-action`s.
+   */
+  "": Node[];
+  /**
+   * A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+   */
+  "menu-actions": Node[];
+  /**
+   * A slot for adding a `calcite-tooltip` for the menu.
+   */
+  "menu-tooltip": Node[];
+}
+
 export class ActionGroup extends LitElement {
   //#region Static Members
 
@@ -46,6 +77,8 @@ export class ActionGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ActionGroupSlots;
 
   /**
    * Made into a prop for testing purposes only
@@ -166,14 +199,14 @@ export class ActionGroup extends LitElement {
 
   //#region Events
 
+  /** Fires after an action's active state changes. */
+  calciteActionGroupChange = createEvent({ cancelable: false });
+
   /** Fires when the component's content area is collapsed. */
   calciteActionGroupCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
   calciteActionGroupExpand = createEvent({ cancelable: false });
-
-  /** Fires after an action's active state changes. */
-  calciteActionGroupChange = createEvent({ cancelable: false });
 
   /** Fires after the component's slotted `calcite-action`s change. */
   calciteInternalActionGroupActionsChange = createEvent({ cancelable: false });

@@ -46,10 +46,70 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-shell-panel-background-color": "*";
+    /**
+     * When `displayMode` is `"float-all"`, specifies the component's border color.
+     */
+    "--calcite-shell-panel-border-color": "*";
+    /**
+     * When `displayMode` is `"float-all"`, specifies the component's corner radius.
+     */
+    "--calcite-shell-panel-corner-radius": "*";
+    /**
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the component's height.
+     */
+    "--calcite-shell-panel-height": "*";
+    /**
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's maximum height.
+     */
+    "--calcite-shell-panel-max-height": "*";
+    /**
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's minimum height.
+     */
+    "--calcite-shell-panel-min-height": "*";
+    /**
+     * Specifies the component's maximum width.
+     */
+    "--calcite-shell-panel-max-width": "*";
+    /**
+     * Specifies the resize handle's text color.
+     */
+    "--calcite-shell-panel-resize-icon-color": "*";
+    /**
+     * When `displayMode` is `float-all`, `float-content`, or `overlay`, specifies the component's shadow.
+     */
+    "--calcite-shell-panel-shadow": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-shell-panel-text-color": "*";
+    /**
+     * Specifies the component's width.
+     */
+    "--calcite-shell-panel-width": "*";
+    /**
+     * Specifies the component's z-index value.
+     */
+    "--calcite-shell-panel-z-index": "*";
+  }
+}
+
+interface ShellPanelSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a `calcite-action-bar` to the component.
+   */
+  "action-bar": Node[];
+}
+
 export class ShellPanel extends LitElement {
   //#region Static Members
 
@@ -58,6 +118,8 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ShellPanelSlots;
 
   direction = useDirection();
 
