@@ -659,7 +659,7 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   private getDragPropValue(prop: ActiveSliderProperty): number | number[] | undefined {
-    return prop === "minMaxValue" ? undefined : this[prop];
+    return prop === "minMaxValue" ? this.value : this[prop];
   }
 
   private focusActiveHandle(valueX: number): void {
