@@ -33,6 +33,7 @@ import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
 import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import { isEqual } from "es-toolkit";
 
 declare global {
   interface DeclareElements {
@@ -71,7 +72,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
     this.removeDragListeners();
     this.focusActiveHandle(event.clientX);
-    if (this.dragProp && this.lastDragPropValue != this.getDragPropValue(this.dragProp)) {
+    if (this.dragProp && !isEqual(this.lastDragPropValue, this.getDragPropValue(this.dragProp))) {
       this.emitChange();
     }
     this.dragProp = undefined;
