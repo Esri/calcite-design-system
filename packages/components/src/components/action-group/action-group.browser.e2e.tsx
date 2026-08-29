@@ -205,6 +205,13 @@ it("should honor scale of expand icon", async () => {
   await expect.element(menu).toHaveProperty("scale", "l");
 });
 
+it("should set side flip placements on vertical action menu", async () => {
+  await mount(renderActionGroup);
+  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+
+  await expect.element(menu).toHaveProperty("flipPlacements", ["left", "right"]);
+});
+
 it("should honor overlayPositioning", async () => {
   await mount(
     <calcite-action-group overlay-positioning="fixed" scale="l">
@@ -229,6 +236,20 @@ it("should honor label", async () => {
   await expect.element(menu).toBeVisible();
 });
 
+it("hides overflow menu when selection mode is enabled", async () => {
+  await mount(
+    <calcite-action-group selection-mode="multiple">
+      <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+      <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+      <calcite-action icon="save" text="Save" />
+    </calcite-action-group>,
+  );
+
+  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+
+  await expect.element(menu).toHaveAttribute("hidden");
+});
+
 it("should emit expanded/collapsed events when toggled", async () => {
   const { el, reRender } = await mount<ActionGroup>(<calcite-action-group label="Test" />);
   const expandEventHandler = vi.fn();
@@ -247,4 +268,46 @@ it("should emit expanded/collapsed events when toggled", async () => {
 
   expect(expandEventHandler).toHaveBeenCalledTimes(1);
   expect(collapseEventHandler).toHaveBeenCalledTimes(1);
+});
+
+describe("overflowActionsDisabled semantics", () => {
+  it("honors overflowActionsDisabled when selectionMode is none", async () => {
+    const { el, reRender } = await mount<ActionGroup>(
+      <calcite-action-group label="Overflow test">
+        <calcite-action icon="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="save" slot="menu-actions" text="Save" />
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-group>,
+    );
+
+    const menu = page.getBySelector("calcite-action-group calcite-action-menu");
+
+    el.overflowActionsDisabled = true;
+    await reRender();
+    expect(el.overflowActionsDisabled).toBe(true);
+    await expect.element(menu).toHaveAttribute("hidden");
+
+    el.overflowActionsDisabled = false;
+    await reRender();
+    expect(el.overflowActionsDisabled).toBe(false);
+    await expect.element(menu).not.toHaveAttribute("hidden");
+  });
+
+  it("forces overflowActionsDisabled when selectionMode is not none", async () => {
+    const { el, reRender } = await mount<ActionGroup>(
+      <calcite-action-group label="Overflow test" selection-mode="multiple">
+        <calcite-action icon="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="save" slot="menu-actions" text="Save" />
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-group>,
+    );
+
+    const menu = page.getBySelector("calcite-action-group calcite-action-menu");
+
+    el.overflowActionsDisabled = false;
+    await reRender();
+
+    expect(el.overflowActionsDisabled).toBe(true);
+    await expect.element(menu).toHaveAttribute("hidden");
+  });
 });
