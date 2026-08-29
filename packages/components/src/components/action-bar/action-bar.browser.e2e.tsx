@@ -19,6 +19,7 @@ import { SLOTS } from "./resources";
 import { ActionBar } from "./action-bar";
 import type { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
+import type { ActionMenu } from "../action-menu/action-menu";
 import { overflowActions } from "./utils";
 import { html } from "lit";
 
@@ -145,6 +146,26 @@ describe("translation support", () => {
 });
 
 describe("selection-mode", () => {
+  it("automatically disables overflow layout and hides the overflow menu when selection mode is enabled", async () => {
+    const { el } = await mount<"calcite-action-bar">(
+      <calcite-action-bar expand-disabled layout="horizontal">
+        <calcite-action-group selection-mode="multiple">
+          <calcite-action icon="information" text="Identify" />
+          <calcite-action icon="filter" text="Filter" />
+          <calcite-action icon="refresh" text="Refresh" />
+          <calcite-action icon="bookmark" text="Bookmark" />
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="sliders" text="Configure" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const actionGroup = el.querySelector("calcite-action-group");
+    const actionMenu = actionGroup?.shadowRoot?.querySelector("calcite-action-menu");
+
+    expect(actionMenu?.hidden).toBe(true);
+  });
+
   it("supports toolbar pattern keyboard navigation", async () => {
     await mount<"calcite-action-bar">(
       <calcite-action-bar expand-disabled layout="horizontal" overflow-actions-disabled>
@@ -177,6 +198,37 @@ describe("selection-mode", () => {
 
     await userEvent.keyboard("{Enter}");
     expect(action1.active).toBe(true);
+  });
+
+  it("does not use secondary arrow keys within multiple-selection action group", async () => {
+    await mount<"calcite-action-bar">(
+      <calcite-action-bar expand-disabled layout="horizontal" overflow-actions-disabled>
+        <calcite-action-group selection-mode="multiple">
+          <calcite-action
+            data-testid="secondary-nav-add"
+            icon="plus"
+            label="Secondary nav add"
+            text="add"
+          />
+          <calcite-action icon="save" label="Secondary nav save" text="save" />
+          <calcite-action icon="trash" label="Secondary nav delete" text="delete" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const action1 = page.getByTestId("secondary-nav-add");
+
+    await userEvent.click(action1);
+    await expect.element(action1).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(action1).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(action1).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(action1).toHaveFocus();
   });
 
   it("has single-persist and multiple selection modes", async () => {
@@ -548,6 +600,219 @@ describe("per-group overflow-actions-disabled", () => {
 
     await userEvent.keyboard("{ArrowDown}");
     await expect.element(secondNextAction).toHaveFocus();
+  });
+
+  it("tabs backward from the current action when multiple action bars are present", async () => {
+    await mount(html`
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group>
+          <calcite-action
+            data-testid="first-bar-action"
+            icon="number-circle1"
+            text="first"
+          ></calcite-action>
+          <calcite-action
+            data-testid="first-bar-next-action"
+            icon="number-circle2"
+            text="second"
+          ></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group>
+          <calcite-action
+            data-testid="second-bar-action"
+            icon="number-circle3"
+            text="third"
+          ></calcite-action>
+          <calcite-action
+            data-testid="second-bar-next-action"
+            icon="number-circle4"
+            text="fourth"
+          ></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    `);
+
+    const firstAction = page.getByTestId("first-bar-action");
+    const firstNextAction = page.getByTestId("first-bar-next-action");
+    const secondAction = page.getByTestId("second-bar-action");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(firstNextAction).toHaveFocus();
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(secondAction).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+    await expect.element(firstNextAction).toHaveFocus();
+  });
+
+  it("opens a focused action menu with Enter", async () => {
+    await mount(html`
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group>
+          <calcite-action
+            data-testid="first-action"
+            icon="number-circle1"
+            text="first"
+          ></calcite-action>
+        </calcite-action-group>
+        <calcite-action-menu data-testid="action-menu" label="more">
+          <calcite-action icon="number-circle2" text="second"></calcite-action>
+        </calcite-action-menu>
+      </calcite-action-bar>
+    `);
+
+    const firstAction = page.getByTestId("first-action");
+    const actionMenu = page.getByTestId("action-menu").element() as HTMLElement & {
+      open: boolean;
+    };
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(actionMenu).toHaveFocus();
+
+    await userEvent.keyboard("{Enter}");
+    expect(actionMenu.open).toBe(true);
+  });
+
+  it("opens a focused overflow action menu at its last item in a vertical action bar", async () => {
+    await mount<"calcite-action-bar">(
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group data-testid="overflow-action-group">
+          <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
+          <calcite-action
+            icon="number-circle2"
+            id="second-action"
+            slot="menu-actions"
+            text="second"
+          />
+          <calcite-action
+            data-testid="third-action"
+            icon="number-circle3"
+            id="third-action"
+            slot="menu-actions"
+            text="third"
+          />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const firstAction = page.getByTestId("first-action");
+    const actionGroup = page.getByTestId("overflow-action-group").element() as ActionGroup["el"];
+    const actionMenu = actionGroup.shadowRoot?.querySelector(
+      "calcite-action-menu",
+    ) as ActionMenu["el"];
+    const thirdAction = page.getByTestId("third-action").element();
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{ArrowLeft}");
+
+    expect(actionMenu.open).toBe(true);
+    expect(actionMenu.ariaActiveDescendantElement).toBe(thirdAction);
+  });
+
+  it("opens a focused overflow action menu at its first item in a vertical action bar", async () => {
+    await mount<"calcite-action-bar">(
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group data-testid="overflow-action-group">
+          <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
+          <calcite-action
+            data-testid="second-action"
+            icon="number-circle2"
+            id="second-action"
+            slot="menu-actions"
+            text="second"
+          />
+          <calcite-action
+            icon="number-circle3"
+            id="third-action"
+            slot="menu-actions"
+            text="third"
+          />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const firstAction = page.getByTestId("first-action");
+    const actionGroup = page.getByTestId("overflow-action-group").element() as ActionGroup["el"];
+    const actionMenu = actionGroup.shadowRoot?.querySelector(
+      "calcite-action-menu",
+    ) as ActionMenu["el"];
+    const secondAction = page.getByTestId("second-action").element();
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{ArrowRight}");
+
+    expect(actionMenu.open).toBe(true);
+    expect(actionMenu.ariaActiveDescendantElement).toBe(secondAction);
+  });
+
+  it("tabs backward to the previous action menu when multiple action bars are present", async () => {
+    await mount(html`
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group>
+          <calcite-action
+            data-testid="first-bar-action"
+            icon="number-circle1"
+            text="first"
+          ></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group>
+          <calcite-action
+            data-testid="second-bar-action"
+            icon="number-circle2"
+            text="second"
+          ></calcite-action>
+        </calcite-action-group>
+        <calcite-action-menu data-testid="second-bar-menu" label="more">
+          <calcite-action icon="number-circle3" text="third"></calcite-action>
+        </calcite-action-menu>
+      </calcite-action-bar>
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group>
+          <calcite-action
+            data-testid="third-bar-action"
+            icon="number-circle4"
+            text="fourth"
+          ></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    `);
+
+    const firstAction = page.getByTestId("first-bar-action");
+    const secondAction = page.getByTestId("second-bar-action");
+    const actionMenu = page.getByTestId("second-bar-menu").element() as HTMLElement;
+    const thirdAction = page.getByTestId("third-bar-action");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstAction).toHaveFocus();
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(secondAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(actionMenu).toHaveFocus();
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(thirdAction).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+    await expect.element(actionMenu).toHaveFocus();
   });
 });
 

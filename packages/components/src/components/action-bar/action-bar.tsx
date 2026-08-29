@@ -175,14 +175,7 @@ export class ActionBar extends LitElement {
     });
   }, DEBOUNCE.resize);
 
-  private resizeHandler = (entry: ResizeObserverEntry): void => {
-    const { width, height } = entry.contentRect;
-    this.resize({ width, height });
-  };
-
-  private resizeObserver = createObserver("resize", (entries) =>
-    this.resizeHandlerEntries(entries),
-  );
+  private resizeObserver = createObserver("resize", () => this.resizeHandlerEntries());
 
   private toggleExpand = (): void => {
     this.expanded = !this.expanded;
@@ -482,8 +475,8 @@ export class ActionBar extends LitElement {
     this.updateActions();
   }
 
-  private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
-    entries.forEach(this.resizeHandler);
+  private resizeHandlerEntries(): void {
+    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
   private updateGroups(): void {
