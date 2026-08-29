@@ -514,6 +514,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       return;
     }
 
+    action.active = !action.active;
     this.open = false;
     void this.setFocus();
   }
