@@ -160,8 +160,8 @@ export const transparentAppearance = (): string => html`
     }
   </style>
   <calcite-block-group>
-    <calcite-block heading="Heading" description="Description" collapsible> Block content </calcite-block>
-    <calcite-block heading="Heading" description="Description" collapsible expanded> Block content </calcite-block>
+    <calcite-block heading="Heading" description="Description" expandable> Block content </calcite-block>
+    <calcite-block heading="Heading" description="Description" expandable expanded> Block content </calcite-block>
   </calcite-block-group>
 `;
 
