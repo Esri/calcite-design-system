@@ -131,7 +131,7 @@
     flex-col border-0 border-b border-solid p-0;
   flex-basis: auto;
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
-  background-color: var(--calcite-block-background-color);
+  background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
 }
 
 @include includes.disabled();
