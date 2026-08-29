@@ -217,7 +217,7 @@ describe("interactions", () => {
       const track = page.getBySelector(".track");
       const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
       const dragTargetValue = 5;
-      const dragTargetX = trackX + (dragTargetValue / (el.max - el.min)) * trackWidth;
+      const dragTargetX = trackX + ((dragTargetValue - el.min) / (el.max - el.min)) * trackWidth;
 
       await commands.mouseMove(trackX, trackY);
       await commands.mouseDown();
