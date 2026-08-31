@@ -196,6 +196,10 @@ export const readOnlyHasNoDropdownAffordance = (): string => html`
   <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
+export const readOnlyVerticalRangeHasNoDropdownAffordance = (): string => html`
+  <calcite-input-date-picker layout="vertical" range read-only value="2020-12-12"></calcite-input-date-picker>
+`;
+
 export const validationMessageAllScales = (): string => html`
   <style>
     .container {
