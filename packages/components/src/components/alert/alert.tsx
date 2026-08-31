@@ -251,7 +251,7 @@ export class Alert extends LitElement {
       this.numberingSystemChange();
     }
 
-    if (changes.has("messages")) {
+    if (changes.has("messagesCommon")) {
       this.effectiveLocaleChange();
     }
   }
