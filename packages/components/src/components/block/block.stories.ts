@@ -150,6 +150,21 @@ export const darkModeRTL = (): string => html`
   </calcite-block>
 `;
 
+export const transparentAppearance = (): string => html`
+  <style>
+    calcite-block {
+      --calcite-block-background-color: var(--calcite-color-transparent);
+      --calcite-block-border-color: var(--calcite-color-transparent);
+      --calcite-block-header-background-color-hover: var(--calcite-color-transparent-hover);
+      --calcite-block-header-background-color-press: var(--calcite-color-transparent-press);
+    }
+  </style>
+  <calcite-block-group>
+    <calcite-block heading="Heading" description="Description" expandable> Block content </calcite-block>
+    <calcite-block heading="Heading" description="Description" expandable expanded> Block content </calcite-block>
+  </calcite-block-group>
+`;
+
 export const contentCanTakeFullHeight = (): string =>
   html`<calcite-block expanded heading="Heading" description="description" style="height: 250px">
     <div style="background: red; height: 100%;">should take full width of the content area</div>
