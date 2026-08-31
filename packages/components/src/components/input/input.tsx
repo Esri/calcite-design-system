@@ -11,7 +11,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
@@ -83,11 +83,6 @@ export class Input
   //#region Private Properties
 
   private actionWrapperRef = createRef<HTMLDivElement>();
-
-  attributeWatch = useWatchAttributes(
-    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
-    this.handleGlobalAttributesChanged,
-  );
 
   /** keep track of the rendered child type */
   private childRef = createRef<HTMLInputElement>();
@@ -193,6 +188,22 @@ export class Input
   //#endregion
 
   //#region Public Properties
+
+  /** @internal */
+  @property({ attribute: "autofocus", reflect: false, type: Boolean })
+  internalAutofocus = false;
+
+  /** @internal */
+  @property({ attribute: "enterkeyhint", reflect: false })
+  internalEnterKeyHint: HTMLElement["enterKeyHint"] = "";
+
+  /** @internal */
+  @property({ attribute: "inputmode", reflect: false })
+  internalInputMode: HTMLElement["inputMode"] = "";
+
+  /** @internal */
+  @property({ attribute: "spellcheck", reflect: false })
+  internalSpellcheck: string | null = null;
 
   /**
    * When `type` is `"file"`, specifies a comma separated list of unique file type specifiers for limiting accepted file types.
@@ -559,10 +570,6 @@ export class Input
 
   private stopNudging() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
-  }
-
-  private handleGlobalAttributesChanged(): void {
-    this.requestUpdate();
   }
 
   private valueWatcher(newValue: string, previousValue: string): void {
@@ -1146,9 +1153,10 @@ export class Input
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
-    const autofocus = this.el.autofocus;
-    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
-    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
+    const autofocus = this.internalAutofocus;
+    const enterKeyHint = this
+      .internalEnterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.internalInputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     const localeNumberInput =
       this.type === "number" ? (
@@ -1228,7 +1236,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childRef}
           required={this.required}
-          spellcheck={this.el.spellcheck}
+          spellcheck={this.internalSpellcheck?.toLowerCase() !== "false"}
           step={this.step}
           tabIndex={
             this.disabled || (this.hasInlineEditableContext && !this.editingEnabled)

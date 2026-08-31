@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { CSS } from "./resources";
 import {
   defaults,
@@ -12,6 +12,7 @@ import {
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -55,6 +56,19 @@ describe("accessible", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-button"), { display: "inline-block" });
+});
+
+it("propagates aria-expanded attribute changes to the internal button", async () => {
+  const { el } = await mount<"calcite-button">(<calcite-button>Continue</calcite-button>);
+  const button = el.shadowRoot.querySelector("button")!;
+
+  el.setAttribute("aria-expanded", "true");
+  await afterNextFrame();
+  expect(button.getAttribute("aria-expanded")).toBe("true");
+
+  el.removeAttribute("aria-expanded");
+  await afterNextFrame();
+  expect(button).not.toHaveAttribute("aria-expanded");
 });
 
 describe("defaults", () => {

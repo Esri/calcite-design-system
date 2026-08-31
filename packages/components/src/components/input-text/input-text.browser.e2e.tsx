@@ -18,8 +18,29 @@ import {
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { afterNextFrame } from "../../tests/utils/timing";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
+
+it("propagates global input attribute changes", async () => {
+  const { el } = await mount<InputText>(<calcite-input-text />);
+  const input = el.shadowRoot.querySelector("input")!;
+
+  el.setAttribute("autofocus", "");
+  el.setAttribute("enterkeyhint", "go");
+  el.setAttribute("inputmode", "email");
+  el.setAttribute("spellcheck", "false");
+  await afterNextFrame();
+
+  expect(input.autofocus).toBe(true);
+  expect(input.enterKeyHint).toBe("go");
+  expect(input.inputMode).toBe("email");
+  expect(input.spellcheck).toBe(false);
+
+  el.removeAttribute("spellcheck");
+  await afterNextFrame();
+  expect(input.spellcheck).toBe(true);
+});
 
 describe("defaults", () => {
   defaults(

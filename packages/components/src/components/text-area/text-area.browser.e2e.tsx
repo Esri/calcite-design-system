@@ -21,6 +21,22 @@ import { CSS } from "./resources";
 import type { TextArea } from "./text-area";
 import { afterNextFrame } from "../../tests/utils/timing";
 
+it("propagates global textarea attribute changes", async () => {
+  const { el } = await mount<TextArea>(<calcite-text-area />);
+  const textarea = el.shadowRoot.querySelector("textarea")!;
+
+  el.setAttribute("autofocus", "");
+  el.setAttribute("spellcheck", "false");
+  await afterNextFrame();
+
+  expect(textarea.autofocus).toBe(true);
+  expect(textarea.spellcheck).toBe(false);
+
+  el.removeAttribute("spellcheck");
+  await afterNextFrame();
+  expect(textarea.spellcheck).toBe(true);
+});
+
 describe("cancelable", () => {
   cancelable("calcite-text-area");
 });

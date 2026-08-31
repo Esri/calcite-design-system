@@ -1,6 +1,5 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import { Scale } from "../types";
@@ -29,8 +28,6 @@ export class Menu extends LitElement {
 
   //#region Private Properties
 
-  attributeWatch = useWatchAttributes(["role"], this.handleGlobalAttributesChanged);
-
   private menuItems: MenuItem["el"][] = [];
 
   /**
@@ -45,6 +42,10 @@ export class Menu extends LitElement {
   //#endregion
 
   //#region Public Properties
+
+  /** @internal */
+  @property({ attribute: "role", reflect: false })
+  internalRole: HTMLElement["role"] = null;
 
   /**
    * @copyDoc
@@ -93,7 +94,8 @@ export class Menu extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      changes.has("internalRole")
     ) {
       this.setMenuItemProperties(this.menuItems);
     }
@@ -102,11 +104,6 @@ export class Menu extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  private handleGlobalAttributesChanged(): void {
-    this.requestUpdate();
-    this.setMenuItemProperties(this.menuItems);
-  }
 
   private calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
     if (event.defaultPrevented) {
@@ -203,7 +200,7 @@ export class Menu extends LitElement {
   }
 
   private getEffectiveRole(): LuminaJsx.AriaAttributes["role"] {
-    return (this.el.role || "menubar") as LuminaJsx.AriaAttributes["role"];
+    return (this.internalRole || "menubar") as LuminaJsx.AriaAttributes["role"];
   }
 
   //#endregion

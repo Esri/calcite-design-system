@@ -10,7 +10,6 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -59,11 +58,6 @@ export class TextArea
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(
-    ["autofocus", "spellcheck"],
-    this.handleGlobalAttributesChanged,
-  );
 
   defaultValue?: TextArea["value"];
 
@@ -144,6 +138,14 @@ export class TextArea
   //#endregion
 
   //#region Public Properties
+
+  /** @internal */
+  @property({ attribute: "autofocus", reflect: false, type: Boolean })
+  internalAutofocus = false;
+
+  /** @internal */
+  @property({ attribute: "spellcheck", reflect: false })
+  internalSpellcheck: string | null = null;
 
   /**
    * Specifies the component's number of columns.
@@ -362,10 +364,6 @@ export class TextArea
     };
   }
 
-  private handleGlobalAttributesChanged(): void {
-    this.requestUpdate();
-  }
-
   onLabelClick(): void {
     this.setFocus();
   }
@@ -487,7 +485,7 @@ export class TextArea
               aria-errormessage={IDS.validationMessage}
               ariaInvalid={this.status === "invalid" || this.isCharacterLimitExceeded()}
               ariaLabel={getLabelText(this)}
-              autofocus={this.el.autofocus}
+              autofocus={this.internalAutofocus}
               class={{
                 [CSS.textArea]: true,
                 [CSS.readOnly]: this.readOnly,
@@ -506,7 +504,7 @@ export class TextArea
               ref={this.setTextAreaEl}
               required={this.required}
               rows={this.rows}
-              spellcheck={this.el.spellcheck}
+              spellcheck={this.internalSpellcheck?.toLowerCase() !== "false"}
               value={this.value}
               wrap={this.wrap}
             />

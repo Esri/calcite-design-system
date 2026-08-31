@@ -11,6 +11,7 @@ import {
   t9n,
   accessible,
 } from "../../tests/commonTests/browser";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 describe("accessible", () => {
   accessible(() =>
@@ -85,6 +86,25 @@ describe("propagates", () => {
       ),
     { targetSelector: "calcite-menu-item" },
   );
+});
+
+it("propagates role attribute changes to the internal menu and menu items", async () => {
+  const { el } = await mount<"calcite-menu">(
+    <calcite-menu role="menu">
+      <calcite-menu-item text="Item" />
+    </calcite-menu>,
+  );
+  const menu = el.shadowRoot.querySelector("ul")!;
+  const item = el.querySelector("calcite-menu-item")!;
+
+  expect(menu.role).toBe("menu");
+  expect(item.isTopLevelItem).toBe(false);
+
+  el.setAttribute("role", "menubar");
+  await afterNextFrame();
+
+  expect(menu.role).toBe("menubar");
+  expect(item.isTopLevelItem).toBe(true);
 });
 
 describe("keyboard navigation", () => {

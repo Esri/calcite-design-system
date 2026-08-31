@@ -11,7 +11,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
@@ -75,11 +75,6 @@ export class InputNumber
   //#region Private Properties
 
   private actionWrapperRef = createRef<HTMLDivElement>();
-
-  attributeWatch = useWatchAttributes(
-    ["autofocus", "enterkeyhint", "inputmode"],
-    this.handleGlobalAttributesChanged,
-  );
 
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
@@ -186,6 +181,18 @@ export class InputNumber
   //#endregion
 
   //#region Public Properties
+
+  /** @internal */
+  @property({ attribute: "autofocus", reflect: false, type: Boolean })
+  internalAutofocus = false;
+
+  /** @internal */
+  @property({ attribute: "enterkeyhint", reflect: false })
+  internalEnterKeyHint: HTMLElement["enterKeyHint"] = "";
+
+  /** @internal */
+  @property({ attribute: "inputmode", reflect: false })
+  internalInputMode: HTMLElement["inputMode"] = "";
 
   /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -503,10 +510,6 @@ export class InputNumber
 
   private stopNudging() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
-  }
-
-  private handleGlobalAttributesChanged(): void {
-    this.requestUpdate();
   }
 
   private valueWatcher(newValue: string, previousValue: string): void {
@@ -1100,7 +1103,7 @@ export class InputNumber
         ariaInvalid={this.status === "invalid"}
         ariaLabel={getLabelText(this)}
         autocomplete={this.autocomplete}
-        autofocus={this.el.autofocus}
+        autofocus={this.internalAutofocus}
         class={{
           [CSS.editingEnabled]: this.inlineEditableEnabledInContext,
           [CSS.inlineChild]: this.hasInlineEditableContext,
@@ -1108,9 +1111,11 @@ export class InputNumber
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled}
-        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+        enterKeyHint={
+          this.internalEnterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]
+        }
         inputMode={
-          (this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
+          (this.internalInputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
         }
         key="localized-input"
         maxLength={this.maxLength}

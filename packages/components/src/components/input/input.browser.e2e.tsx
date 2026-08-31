@@ -23,10 +23,31 @@ import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { afterNextFrame } from "../../tests/utils/timing";
 import { Input } from "./input";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 
 const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
+
+it("propagates global input attribute changes", async () => {
+  const { el } = await mount<Input>(<calcite-input />);
+  const input = el.shadowRoot.querySelector("input")!;
+
+  el.setAttribute("autofocus", "");
+  el.setAttribute("enterkeyhint", "next");
+  el.setAttribute("inputmode", "numeric");
+  el.setAttribute("spellcheck", "false");
+  await afterNextFrame();
+
+  expect(input.autofocus).toBe(true);
+  expect(input.enterKeyHint).toBe("next");
+  expect(input.inputMode).toBe("numeric");
+  expect(input.spellcheck).toBe(false);
+
+  el.removeAttribute("spellcheck");
+  await afterNextFrame();
+  expect(input.spellcheck).toBe(true);
+});
 
 describe("defaults", () => {
   defaults(

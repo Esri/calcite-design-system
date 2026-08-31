@@ -10,7 +10,7 @@ import {
   stringOrBoolean,
   LuminaJsx,
 } from "@arcgis/lumina";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { escapeRegExp } from "es-toolkit/compat";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -81,11 +81,6 @@ export class Autocomplete
   //#region Private Properties
 
   private guid = guid();
-
-  attributeWatch = useWatchAttributes(
-    ["autofocus", "enterkeyhint", "inputmode"],
-    this.handleGlobalAttributesChanged,
-  );
 
   defaultValue!: Autocomplete["value"];
 
@@ -161,6 +156,18 @@ export class Autocomplete
   //#endregion
 
   //#region Public Properties
+
+  /** @internal */
+  @property({ attribute: "autofocus", reflect: false, type: Boolean })
+  internalAutofocus = false;
+
+  /** @internal */
+  @property({ attribute: "enterkeyhint", reflect: false })
+  internalEnterKeyHint: HTMLElement["enterKeyHint"] = "";
+
+  /** @internal */
+  @property({ attribute: "inputmode", reflect: false })
+  internalInputMode: HTMLElement["inputMode"] = "";
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -487,10 +494,6 @@ export class Autocomplete
     floatingEl.style.inlineSize = `${referenceEl.clientWidth}px`;
   }
 
-  private handleGlobalAttributesChanged(): void {
-    this.requestUpdate();
-  }
-
   private handleDisabledChange(value: boolean): void {
     if (!value) {
       this.open = false;
@@ -766,9 +769,10 @@ export class Autocomplete
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
 
-    const autofocus = this.el.autofocus;
-    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
-    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
+    const autofocus = this.internalAutofocus;
+    const enterKeyHint = this
+      .internalEnterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.internalInputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     return (
       <this.interactiveContainer disabled={disabled}>

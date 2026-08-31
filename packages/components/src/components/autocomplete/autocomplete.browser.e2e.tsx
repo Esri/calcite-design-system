@@ -24,10 +24,25 @@ import {
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { afterNextFrame } from "../../tests/utils/timing";
 import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+it("propagates global input attribute changes", async () => {
+  const { el } = await mount<Autocomplete>(<calcite-autocomplete label="Items" />);
+  const input = el.shadowRoot.querySelector("calcite-input")!;
+
+  el.setAttribute("autofocus", "");
+  el.setAttribute("enterkeyhint", "search");
+  el.setAttribute("inputmode", "search");
+  await afterNextFrame();
+
+  expect(input.autofocus).toBe(true);
+  expect(input.enterKeyHint).toBe("search");
+  expect(input.inputMode).toBe("search");
+});
 
 describe("accessible", () => {
   describe("default", () => {

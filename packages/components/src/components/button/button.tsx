@@ -10,7 +10,6 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getLabelText } from "../../utils/label";
 import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -52,8 +51,6 @@ export class Button extends LitElement {
 
   //#region Private Properties
 
-  attributeWatch = useWatchAttributes(["aria-expanded"], this.handleGlobalAttributesChanged);
-
   /** the rendered child element */
   private childEl?: HTMLElement;
 
@@ -90,6 +87,10 @@ export class Button extends LitElement {
   //#endregion
 
   //#region Public Properties
+
+  /** @internal */
+  @property({ attribute: "aria-expanded", reflect: false })
+  internalAriaExpanded: HTMLElement["ariaExpanded"] = null;
 
   /** When `width` is not `"auto"`, specifies the alignment of the component's elements. */
   @property({ reflect: true }) alignment: ButtonAlignment = "center";
@@ -222,10 +223,6 @@ export class Button extends LitElement {
 
   //#region Private Methods
 
-  private handleGlobalAttributesChanged(): void {
-    this.requestUpdate();
-  }
-
   private updateHasContent() {
     this.hasContent = hasVisibleContent(this.el);
   }
@@ -303,8 +300,8 @@ export class Button extends LitElement {
         <DynamicHtmlTag
           ariaBusy={this.loading}
           ariaExpanded={
-            this.el.ariaExpanded
-              ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
+            this.internalAriaExpanded
+              ? (this.internalAriaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
               : undefined
           }
           ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}

@@ -11,7 +11,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { setRequestedIcon } from "../../utils/dom";
 import { useForm } from "../../controllers/useForm";
 import { getLabelText } from "../../utils/label";
@@ -62,11 +62,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   //#region Private Properties
 
   private actionWrapperRef = createRef<HTMLDivElement>();
-
-  attributeWatch = useWatchAttributes(
-    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
-    this.handleGlobalAttributesChanged,
-  );
 
   private childRef = createRef<HTMLInputElement>();
 
@@ -164,6 +159,22 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   //#endregion
 
   //#region Public Properties
+
+  /** @internal */
+  @property({ attribute: "autofocus", reflect: false, type: Boolean })
+  internalAutofocus = false;
+
+  /** @internal */
+  @property({ attribute: "enterkeyhint", reflect: false })
+  internalEnterKeyHint: HTMLElement["enterKeyHint"] = "";
+
+  /** @internal */
+  @property({ attribute: "inputmode", reflect: false })
+  internalInputMode: HTMLElement["inputMode"] = "";
+
+  /** @internal */
+  @property({ attribute: "spellcheck", reflect: false })
+  internalSpellcheck: string | null = null;
 
   /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -402,10 +413,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   //#region Private Methods
 
-  private handleGlobalAttributesChanged(): void {
-    this.requestUpdate();
-  }
-
   private valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
       this.setValue({
@@ -638,7 +645,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         ariaInvalid={this.status === "invalid"}
         ariaLabel={getLabelText(this)}
         autocomplete={this.autocomplete}
-        autofocus={this.el.autofocus}
+        autofocus={this.internalAutofocus}
         class={{
           [CSS.editingEnabled]: this.inlineEditableEnabledInContext,
           [CSS.inlineChild]: this.hasInlineEditableContext,
@@ -646,8 +653,10 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled}
-        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
-        inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+        enterKeyHint={
+          this.internalEnterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]
+        }
+        inputMode={this.internalInputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}
@@ -660,7 +669,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         readOnly={this.readOnly}
         ref={this.childRef}
         required={this.required}
-        spellcheck={this.el.spellcheck}
+        spellcheck={this.internalSpellcheck?.toLowerCase() !== "false"}
         tabIndex={
           this.disabled || (this.hasInlineEditableContext && !this.inlineEditableEnabledInContext)
             ? -1

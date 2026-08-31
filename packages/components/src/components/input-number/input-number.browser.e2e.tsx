@@ -22,8 +22,27 @@ import { numberStringFormatter } from "../../utils/locale";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { afterNextFrame } from "../../tests/utils/timing";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
+
+it("propagates global input attributes and preserves the decimal input mode fallback", async () => {
+  const { el } = await mount<InputNumber>(<calcite-input-number />);
+  const input = el.shadowRoot.querySelector("input")!;
+
+  el.setAttribute("autofocus", "");
+  el.setAttribute("enterkeyhint", "done");
+  el.setAttribute("inputmode", "numeric");
+  await afterNextFrame();
+
+  expect(input.autofocus).toBe(true);
+  expect(input.enterKeyHint).toBe("done");
+  expect(input.inputMode).toBe("numeric");
+
+  el.removeAttribute("inputmode");
+  await afterNextFrame();
+  expect(input.inputMode).toBe("decimal");
+});
 
 describe("defaults", () => {
   defaults(
