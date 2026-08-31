@@ -12170,7 +12170,7 @@
     "release": "4.6.0"
   },
   "hand-draw": {
-    "alias": ["4.6.0", "generic", "freehand", "stream", "edit", "sketch,"],
+    "alias": ["4.6.0", "generic", "freehand", "stream", "edit", "sketch"],
     "category": "Generic",
     "release": "4.6.0"
   },
