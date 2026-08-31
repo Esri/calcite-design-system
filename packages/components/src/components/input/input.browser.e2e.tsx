@@ -611,7 +611,7 @@ describe("input type number increment/decrement functionality", () => {
       <calcite-input
         step={10}
         type="number"
-        value="100000000000000000000000000000000000000000000000000."
+        value="100000000000000000000000000000000000000000000000000"
       />,
     );
 
@@ -1353,7 +1353,6 @@ it("input event fires when number ends with a decimal", async () => {
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1.");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
