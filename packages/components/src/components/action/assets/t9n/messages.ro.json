@@ -1,12 +1,4 @@
 {
-  "required": "Obligatoriu",
-  "loading": "Se încarcă",
-  "close": "Închidere",
-  "clearValue": "Golire valoare",
-  "collapse": "Restrângere",
-  "expand": "Extindere",
-  "cancel": "Anulare",
-  "edit": "Editare",
-  "save": "Salvare",
-  "options": "Opţiuni"
+  "indicator": "Indicator prezent",
+  "indicatorLabel": "{label} (indicator prezent)"
 }

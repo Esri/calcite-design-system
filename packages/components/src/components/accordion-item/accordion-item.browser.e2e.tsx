@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { CSS, IDS, SLOTS } from "./resources";
-import messages from "./assets/t9n/messages.json";
+import messages from "../../../assets/common/t9n/messages.json";
 import type { AccordionItem } from "./accordion-item";
 
 describe("accessible", () => {

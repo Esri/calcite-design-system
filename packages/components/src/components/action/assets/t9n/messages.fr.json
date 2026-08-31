@@ -1,12 +1,4 @@
 {
-  "required": "Obligatoire",
-  "loading": "Chargement",
-  "close": "Fermer",
-  "clearValue": "Effacer la valeur",
-  "collapse": "Réduire",
-  "expand": "Développer",
-  "cancel": "Annuler",
-  "edit": "Modifier",
-  "save": "Enregistrer",
-  "options": "Options"
+  "indicator": "Indicateur présent",
+  "indicatorLabel": "{label} (Indicateur présent)"
 }

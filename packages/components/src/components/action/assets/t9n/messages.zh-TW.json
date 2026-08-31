@@ -1,12 +1,4 @@
 {
-  "required": "必填資訊",
-  "loading": "正在載入",
-  "close": "關閉",
-  "clearValue": "清除值",
-  "collapse": "摺疊",
-  "expand": "展開",
-  "cancel": "取消",
-  "edit": "編輯",
-  "save": "儲存",
-  "options": "選項"
+  "indicator": "指標呈現",
+  "indicatorLabel": "{label} (指標呈現)"
 }

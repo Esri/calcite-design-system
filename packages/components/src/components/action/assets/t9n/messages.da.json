@@ -1,12 +1,4 @@
 {
-  "required": "Obligatorisk",
-  "loading": "Indlæser",
-  "close": "Luk",
-  "clearValue": "Ryd værdi",
-  "collapse": "Skjul",
-  "expand": "Udvid",
-  "cancel": "Annullér",
-  "edit": "Redigér",
-  "save": "Gem",
-  "options": "Indstillinger"
+  "indicator": "Indikator til stede",
+  "indicatorLabel": "{label} (Indikator til stede)"
 }

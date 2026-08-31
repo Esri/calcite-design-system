@@ -1,6 +1,5 @@
 {
   "chooseTime": "Odaberite vrijeme",
-  "clear": "Očisti vrijednost",
   "fractionalSecond": "Djelić sekunde",
   "fractionalSecondDown": "Smanji djelić sekunde",
   "fractionalSecondUp": "Povećaj djelić sekunde",
@@ -13,7 +12,6 @@
   "minute": "Minuta",
   "minuteDown": "Smanji minutu",
   "minuteUp": "Povećaj minutu",
-  "required": "Potrebno",
   "second": "Sekunda",
   "secondDown": "Smanji sekundu",
   "secondUp": "Povećaj sekundu"

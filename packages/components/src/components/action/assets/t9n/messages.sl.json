@@ -1,12 +1,4 @@
 {
-  "required": "Zahtevano",
-  "loading": "Nalaganje",
-  "close": "Zapri",
-  "clearValue": "Počisti vrednost",
-  "collapse": "Strni",
-  "expand": "Razširi",
-  "cancel": "Prekliči",
-  "edit": "Uredi",
-  "save": "Shrani",
-  "options": "Možnosti"
+  "indicator": "Indikator je prisoten",
+  "indicatorLabel": "{label} (indikator je prisoten)"
 }

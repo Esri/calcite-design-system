@@ -63,7 +63,7 @@ it("allows toggling its content", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
   await skipAnimations(page);
-  const messages = await import("./assets/t9n/messages.json");
+  const messages = await import("../../../assets/common/t9n/messages.json");
 
   const element = await page.find("calcite-block");
   const toggleSpy = await element.spyOnEvent("calciteBlockToggle");

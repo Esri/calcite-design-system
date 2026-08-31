@@ -21,7 +21,7 @@ import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./types";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 import AlertManager from "./AlertManager";
@@ -74,7 +74,7 @@ export class Alert extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -141,7 +141,7 @@ export class Alert extends LitElement {
   @property() label!: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "close">;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
@@ -217,7 +217,7 @@ export class Alert extends LitElement {
     }
 
     this.numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
+      locale: this.messagesCommon._lang,
       numberingSystem: this.numberingSystem,
       signDisplay: "always",
     };
@@ -317,7 +317,7 @@ export class Alert extends LitElement {
 
   private effectiveLocaleChange(): void {
     this.numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
+      locale: this.messagesCommon._lang,
       numberingSystem: this.numberingSystem,
       signDisplay: "always",
     };
@@ -325,7 +325,7 @@ export class Alert extends LitElement {
 
   private numberingSystemChange(): void {
     this.numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
+      locale: this.messagesCommon._lang,
       numberingSystem: this.numberingSystem,
       signDisplay: "always",
     };
@@ -453,12 +453,12 @@ export class Alert extends LitElement {
       <calcite-action
         class={CSS.close}
         icon="x"
-        label={this.messages.close}
+        label={this.messagesCommon.close}
         onClick={this.closeAlert}
         onFocusIn={this.autoClose ? this.handleKeyBoardFocus : undefined}
         onFocusOut={this.autoClose ? this.handleKeyBoardBlur : undefined}
         scale={this.scale}
-        text={this.messages.close}
+        text={this.messagesCommon.close}
       />
     );
   }

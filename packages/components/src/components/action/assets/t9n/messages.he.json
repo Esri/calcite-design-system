@@ -1,12 +1,4 @@
 {
-  "required": "נדרש",
-  "loading": "טוען",
-  "close": "סגירה",
-  "clearValue": "נקה ערך",
-  "collapse": "צמצם",
-  "expand": "הרחב",
-  "cancel": "ביטול",
-  "edit": "עריכה",
-  "save": "שמור",
-  "options": "אפשרויות"
+  "indicator": "אינדיקטור נמצא",
+  "indicatorLabel": "{label} (אינדיקטור נמצא)"
 }

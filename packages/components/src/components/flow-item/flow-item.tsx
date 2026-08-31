@@ -12,6 +12,7 @@ import type { Action } from "../action/action";
 import { IconName } from "../icon/types";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
 import { FocusTrapOptions } from "../../controllers/useFocusTrap";
@@ -61,6 +62,11 @@ export class FlowItem extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private interactiveContainer = useInteractive(this);
 
@@ -132,7 +138,9 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) menuOpen = false;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "close" | "options"> &
+    Panel["messageOverrides"];
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";

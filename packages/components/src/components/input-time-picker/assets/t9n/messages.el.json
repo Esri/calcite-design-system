@@ -1,6 +1,5 @@
 {
   "chooseTime": "Επιλογή ώρας",
-  "clear": "Απαλοιφή τιμής",
   "fractionalSecond": "Κλάσμα δευτερολέπτου",
   "fractionalSecondDown": "Μείωση κλάσματος δευτερολέπτου",
   "fractionalSecondUp": "Αύξηση κλάσματος δευτερολέπτου",
@@ -13,7 +12,6 @@
   "minute": "Λεπτό",
   "minuteDown": "Μείωση λεπτού",
   "minuteUp": "Αύξηση λεπτού",
-  "required": "Απαιτείται",
   "second": "Δεύτερο",
   "secondDown": "Μείωση δευτερολέπτου",
   "secondUp": "Αύξηση δευτερολέπτου"

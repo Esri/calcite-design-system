@@ -1,12 +1,4 @@
 {
-  "required": "Obligatorisk",
-  "loading": "Laster inn",
-  "close": "Lukk",
-  "clearValue": "Fjern verdi",
-  "collapse": "Skjul",
-  "expand": "Utvid",
-  "cancel": "Avbryt",
-  "edit": "Rediger",
-  "save": "Lagre",
-  "options": "Alternativer"
+  "indicator": "Indikator til stede",
+  "indicatorLabel": "{label} (Indikator til stede)"
 }

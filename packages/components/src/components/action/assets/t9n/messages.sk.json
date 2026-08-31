@@ -1,12 +1,4 @@
 {
-  "required": "Vyžadované",
-  "loading": "Načítava sa",
-  "close": "Zatvoriť",
-  "clearValue": "Vymazať hodnotu",
-  "collapse": "Zbaliť",
-  "expand": "Rozbaliť",
-  "cancel": "Zrušiť",
-  "edit": "Editovať",
-  "save": "Uložiť",
-  "options": "Možnosti"
+  "indicator": "Indikátor prítomný",
+  "indicatorLabel": "{label} (Indikátor prítomný)"
 }

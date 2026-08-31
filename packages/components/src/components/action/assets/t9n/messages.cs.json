@@ -1,12 +1,4 @@
 {
-  "required": "Povinné",
-  "loading": "Načítání",
-  "close": "Zavřít",
-  "clearValue": "Vymazat hodnotu",
-  "collapse": "Sbalit",
-  "expand": "Rozbalit",
-  "cancel": "Storno",
-  "edit": "Upravit",
-  "save": "Uložit",
-  "options": "Možnosti"
+  "indicator": "Přítomný ukazatel",
+  "indicatorLabel": "{label} (přítomný ukazatel)"
 }

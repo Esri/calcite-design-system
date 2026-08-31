@@ -1,12 +1,4 @@
 {
-  "required": "Bắt buộc",
-  "loading": "Đang tải",
-  "close": "Đóng",
-  "clearValue": "Xóa giá trị",
-  "collapse": "Thu gọn",
-  "expand": "Mở rộng",
-  "cancel": "Hủy bỏ",
-  "edit": "Chỉnh sửa",
-  "save": "Lưu",
-  "options": "Tùy chọn"
+  "indicator": "Chỉ báo hiện hữu",
+  "indicatorLabel": "{label} (Chỉ báo hiện hữu)"
 }

@@ -21,6 +21,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./types";
 import { IDS, CSS } from "./resources";
@@ -78,6 +79,11 @@ export class Rating extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
+
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
@@ -108,7 +114,8 @@ export class Rating extends LitElement implements LabelableComponent {
   @property() labelText?: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "required">;
 
   /** @copyDoc */
   @property({ reflect: true }) name?: string;
@@ -371,7 +378,7 @@ export class Rating extends LitElement implements LabelableComponent {
               labelText={this.labelText}
               onClick={this.onLabelClick}
               required={this.required}
-              tooltipText={this.messages.required}
+              tooltipText={this.messagesCommon.required}
             />
           )}
           <fieldset class={CSS.fieldSet} disabled={this.disabled}>

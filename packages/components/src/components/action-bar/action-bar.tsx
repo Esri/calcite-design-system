@@ -38,6 +38,7 @@ import { isActionMenu, SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resourc
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { ActionBarItem, getWrapItemCrossOffset, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
@@ -256,6 +257,11 @@ export class ActionBar extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
+
   private focusSetter = useSetFocus<this>()(this);
 
   private setExpandToggleEl = (el: Action["el"] | undefined): void => {
@@ -343,7 +349,8 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) overflowMode: "collapse" | "wrap" | "none" = "collapse";
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "expand" | "collapse">;
 
   /**
    * When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus.
@@ -993,17 +1000,17 @@ export class ActionBar extends LitElement {
   }
 
   private renderExpandToggle(): JsxNode {
-    const { el, expanded, toggleExpand, messages, position, scale } = this;
+    const { el, expanded, toggleExpand, messages, messagesCommon, position, scale } = this;
 
     return (
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
-        collapseText={messages.collapse}
+        collapseText={messagesCommon.collapse || ""}
         direction={this.direction}
         el={el}
         expanded={expanded}
         expandLabel={messages.expandLabel}
-        expandText={messages.expand}
+        expandText={messagesCommon.expand || ""}
         position={position}
         ref={this.setExpandToggleEl}
         scale={scale}

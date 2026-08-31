@@ -1,12 +1,4 @@
 {
-  "required": "Obligatoriskt",
-  "loading": "Läser in",
-  "close": "Stäng",
-  "clearValue": "Rensa värde",
-  "collapse": "Dölj",
-  "expand": "Expandera",
-  "cancel": "Avbryt",
-  "edit": "Redigera",
-  "save": "Spara",
-  "options": "Alternativ"
+  "indicator": "Indikator finns",
+  "indicatorLabel": "{label} (Indikator finns)"
 }

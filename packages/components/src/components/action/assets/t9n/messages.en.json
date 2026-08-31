@@ -1,12 +1,4 @@
 {
-  "required": "Required",
-  "loading": "Loading",
-  "close": "Close",
-  "clearValue": "Clear value",
-  "collapse": "Collapse",
-  "expand": "Expand",
-  "cancel": "Cancel",
-  "edit": "Edit",
-  "save": "Save",
-  "options": "Options"
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

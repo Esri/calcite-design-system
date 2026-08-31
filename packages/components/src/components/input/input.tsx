@@ -44,6 +44,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./types";
 import {
   CSS,
@@ -138,6 +139,11 @@ export class Input
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -291,7 +297,8 @@ export class Input
   @property({ reflect: true }) maxLength?: number;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "loading" | "required">;
 
   /**
    * When the component resides in a form,
@@ -1057,7 +1064,7 @@ export class Input
     const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.messages.loading} type="indeterminate" />
+        <calcite-progress label={this.messagesCommon.loading} type="indeterminate" />
       </div>
     );
 
@@ -1247,7 +1254,7 @@ export class Input
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
 

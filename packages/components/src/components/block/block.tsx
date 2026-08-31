@@ -22,7 +22,7 @@ import { SortMenuItem } from "../sort-handle/types";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { styles } from "./block.scss";
 import type { BlockToggleDisplay } from "./types";
 import type { BlockGroup } from "../block-group/block-group";
@@ -65,7 +65,7 @@ export class Block extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -139,7 +139,10 @@ export class Block extends LitElement {
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<
+    typeof this.messagesCommon._overrides,
+    "collapse" | "expand" | "loading" | "options"
+  >;
 
   /**
    * Defines the "Add to" items.
@@ -457,11 +460,11 @@ export class Block extends LitElement {
   }
 
   private renderLoaderStatusIcon(): JsxNode {
-    const { loading, messages, status } = this;
+    const { loading, status } = this;
 
     return loading ? (
       <div class={CSS.icon} key="loader">
-        <calcite-loader inline label={messages.loading} scale={this.scale} />
+        <calcite-loader inline label={this.messagesCommon.loading} scale={this.scale} />
       </div>
     ) : status ? (
       <div class={CSS.icon} key="status-icon">
@@ -552,7 +555,6 @@ export class Block extends LitElement {
       expanded,
       label,
       heading,
-      messages,
       description,
       menuFlipPlacements,
       menuPlacement,
@@ -569,7 +571,7 @@ export class Block extends LitElement {
       status,
     } = this;
 
-    const toggleLabel = expanded ? messages.collapse : messages.expand;
+    const toggleLabel = expanded ? this.messagesCommon.collapse : this.messagesCommon.expand;
     const headerHasContent = !!(
       heading ||
       description ||
@@ -665,7 +667,7 @@ export class Block extends LitElement {
         <calcite-action-menu
           flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
           hidden={!this.hasMenuActions}
-          label={messages.options}
+          label={this.messagesCommon.options}
           overlayPositioning={this.overlayPositioning}
           placement={menuPlacement}
           scale={this.scale}

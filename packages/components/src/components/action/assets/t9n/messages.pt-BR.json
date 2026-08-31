@@ -1,12 +1,4 @@
 {
-  "required": "Necessário",
-  "loading": "Carregando",
-  "close": "Fechar",
-  "clearValue": "Apagar valor",
-  "collapse": "Recolher",
-  "expand": "Expandir",
-  "cancel": "Cancelar",
-  "edit": "Editar",
-  "save": "Salvar",
-  "options": "Opções"
+  "indicator": "Indicador presente",
+  "indicatorLabel": "{label} (Indicador presente)"
 }

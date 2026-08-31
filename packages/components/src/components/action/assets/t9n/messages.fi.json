@@ -1,12 +1,4 @@
 {
-  "required": "Pakollinen",
-  "loading": "Ladataan",
-  "close": "Sulje",
-  "clearValue": "Tyhjennä arvo",
-  "collapse": "Kutista",
-  "expand": "Laajenna",
-  "cancel": "Peruuta",
-  "edit": "Muokkaa",
-  "save": "Tallenna",
-  "options": "Asetukset"
+  "indicator": "Ilmaisin on läsnä",
+  "indicatorLabel": "{label} (ilmaisin läsnä)"
 }

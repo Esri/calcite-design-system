@@ -1,12 +1,4 @@
 {
-  "required": "Būtina",
-  "loading": "Kraunama",
-  "close": "Uždaryti",
-  "clearValue": "Išvalyti reikšmę",
-  "collapse": "Suskleisti",
-  "expand": "Išskleisti",
-  "cancel": "Atšaukti",
-  "edit": "Redaguoti",
-  "save": "Įrašyti",
-  "options": "Parinktys"
+  "indicator": "Yra indikatorius",
+  "indicatorLabel": "{label} (yra indikatorius)"
 }

@@ -2,7 +2,5 @@
   "cancelInlineEditing": "Cancel·la",
   "clear": "Esborra el valor",
   "confirmInlineEditingChanges": "Desa",
-  "enableInlineEditing": "Edita",
-  "loading": "S'està carregant...",
-  "required": "Obligatori"
+  "enableInlineEditing": "Edita"
 }

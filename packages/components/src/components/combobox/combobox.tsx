@@ -58,6 +58,7 @@ import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./types";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
 import {
@@ -254,6 +255,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
+
   private focusSetter = useSetFocus<this>()(this);
 
   private get effectiveFilterProps(): string[] {
@@ -399,7 +405,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) maxItems = 0;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "clearValue" | "required">;
 
   /** @copyDoc */
   @property({ reflect: true }) name?: string;
@@ -2352,7 +2359,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div
@@ -2396,11 +2403,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           </div>
           {!readOnly && isClearable ? (
             <ClearButton
-              ariaLabel={this.messages.clear}
+              ariaLabel={this.messagesCommon.clearValue}
               disabled={this.disabled}
               ref={this.clearButtonRef}
               scale={this.scale}
-              title={this.messages.clear}
+              title={this.messagesCommon.clearValue}
             />
           ) : null}
           {!readOnly && this.renderChevronIcon()}

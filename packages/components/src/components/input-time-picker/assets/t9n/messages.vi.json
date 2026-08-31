@@ -1,6 +1,5 @@
 {
   "chooseTime": "Chọn thời gian",
-  "clear": "Xóa bỏ giá trị",
   "fractionalSecond": "Giây phân đoạn",
   "fractionalSecondDown": "Giảm giây phân đoạn",
   "fractionalSecondUp": "Tăng giây phân đoạn",
@@ -13,7 +12,6 @@
   "minute": "Phút",
   "minuteDown": "Giảm phút",
   "minuteUp": "Tăng phút",
-  "required": "Bắt buộc",
   "second": "Giây",
   "secondDown": "Giảm giây",
   "secondUp": "Tăng giây"
