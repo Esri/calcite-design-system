@@ -17,6 +17,35 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's item color.
+     */
+    "--calcite-pagination-color": "*";
+    /**
+     * Specifies the component's item color when hovered or selected.
+     */
+    "--calcite-pagination-color-hover": "*";
+    /**
+     * Specifies the component's item bottom border color when hovered.
+     */
+    "--calcite-pagination-color-border-hover": "*";
+    /**
+     * Specifies the component's item bottom border color when selected.
+     */
+    "--calcite-pagination-color-border-active": "*";
+    /**
+     * Specifies the component's item background color when active.
+     */
+    "--calcite-pagination-background-color": "*";
+    /**
+     * Specifies the component's chevron item background color when hovered.
+     */
+    "--calcite-pagination-icon-color-background-hover": "*";
+  }
+}
+
 export interface PaginationDetail {
   start: number;
   totalItems: number;

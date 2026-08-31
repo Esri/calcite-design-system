@@ -15,7 +15,30 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-autocomplete-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-autocomplete-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-autocomplete-border-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-autocomplete-text-color": "*";
+  }
+}
+
+interface AutocompleteItemGroupSlots {
+  /**
+   * A slot for adding `calcite-autocomplete-item`s.
+   */
+  "": Node[];
+}
+
 export class AutocompleteItemGroup extends LitElement {
   //#region Static Members
 
@@ -24,6 +47,8 @@ export class AutocompleteItemGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: AutocompleteItemGroupSlots;
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 

@@ -22,7 +22,74 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-dropdown` content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-split-button-background-color": "*";
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-split-button-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when focused.
+     */
+    "--calcite-split-button-background-color-focus": "*";
+    /**
+     * Specifies the component's background color when active.
+     */
+    "--calcite-split-button-background-color-press": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-split-button-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-split-button-corner-radius": "*";
+    /**
+     * Specifies the component's `iconStart` and `iconEnd` color.
+     */
+    "--calcite-split-button-icon-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-split-button-loader-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-split-button-text-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-split-button-shadow": "*";
+    /**
+     * Specifies the component's divider border color.
+     */
+    "--calcite-split-button-divider-border-color": "*";
+    /**
+     * Specifies the component's divider color.
+     */
+    "--calcite-split-button-divider-color": "*";
+    /**
+     * Specifies the width of the component's dropdown.
+     */
+    "--calcite-split-button-dropdown-width": "*";
+    /**
+     * Specifies the component's dropdown background color.
+     */
+    "--calcite-split-button-dropdown-background-color": "*";
+  }
+}
+
+interface SplitButtonSlots {
+  /**
+   * A slot for adding `calcite-dropdown` content.
+   */
+  "": Node[];
+}
+
 export class SplitButton extends LitElement {
   //#region Static Members
 
@@ -33,6 +100,8 @@ export class SplitButton extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: SplitButtonSlots;
 
   private get dropdownIcon(): IconName {
     return this.dropdownIconType === "chevron"

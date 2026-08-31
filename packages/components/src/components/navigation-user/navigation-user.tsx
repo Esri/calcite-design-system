@@ -10,6 +10,35 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `active`, specifies the component's border color.
+     */
+    "--calcite-navigation-accent-color": "*";
+    /**
+     * Specifies the component's avatar corner radius.
+     */
+    "--calcite-navigation-user-avatar-corner-radius": "*";
+    /**
+     * Specifies the component's avatar icon color.
+     */
+    "--calcite-navigation-user-avatar-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-navigation-background-color": "*";
+    /**
+     * Specifies the component's `fullName` text color.
+     */
+    "--calcite-navigation-user-full-name-text-color": "*";
+    /**
+     * Specifies the component's `username` text color.
+     */
+    "--calcite-navigation-user-name-text-color": "*";
+  }
+}
+
 export class NavigationUser extends LitElement {
   // #region Static Members
 

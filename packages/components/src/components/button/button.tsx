@@ -34,12 +34,50 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-button-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-button-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-button-corner-radius": "*";
+    /**
+     * Specifies the component's `iconStart` and `iconEnd` color.
+     */
+    "--calcite-button-icon-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-button-loader-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-button-text-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-button-shadow": "*";
+  }
+}
+
+interface ButtonSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
- *
- * @slot - A slot for adding text.
  */
 export class Button extends LitElement {
   //#region Static Members
@@ -51,6 +89,8 @@ export class Button extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ButtonSlots;
 
   attributeWatch = useWatchAttributes(["aria-expanded"], this.handleGlobalAttributesChanged);
 

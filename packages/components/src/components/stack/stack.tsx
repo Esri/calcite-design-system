@@ -9,21 +9,56 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding content.
- * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
- * @slot content-start - A slot for adding non-actionable elements before content of the component.
- * @slot content-end - A slot for adding non-actionable elements after content of the component.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the inline padding of the component's content.
+     */
+    "--calcite-stack-padding-inline": "*";
+    /**
+     * Specifies the block padding of the component's content.
+     */
+    "--calcite-stack-padding-block": "*";
+  }
+}
+
+interface StackSlots {
+  /**
+   * A slot for adding content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements before the content of the component.
+   */
+  "actions-start": Node[];
+  /**
+   * A slot for adding non-actionable elements before content of the component.
+   */
+  "content-start": Node[];
+  /**
+   * A slot for adding non-actionable elements after content of the component.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements after the content of the component.
+   */
+  "actions-end": Node[];
+}
+
 export class Stack extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region Private Properties
+
+  override ["@slots"]!: StackSlots;
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionsEnd = false;
 
@@ -33,16 +68,16 @@ export class Stack extends LitElement {
 
   @state() hasContentStart = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, content interaction is prevented and displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleActionsStartSlotChange(event: Event): void {
     this.hasActionsStart = slotChangeHasAssignedElement(event);
@@ -60,9 +95,9 @@ export class Stack extends LitElement {
     this.hasContentEnd = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderActionsStart(): JsxNode {
     const { hasActionsStart } = this;
@@ -120,5 +155,5 @@ export class Stack extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

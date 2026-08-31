@@ -53,12 +53,36 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the width of the component's wrapper.
+     */
+    "--calcite-dropdown-width": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-dropdown-background-color": "*";
+    /**
+     * Specifies the maximum height of the component's wrapper.
+     */
+    "--calcite-dropdown-max-height": "*";
+  }
+}
+
+interface DropdownSlots {
+  /**
+   * A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
+   */
+  "": Node[];
+  /**
+   * [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
+   */
+  trigger: Node[];
+}
+
 const manager = referenceElementManager({ click: true, hover: true });
 
-/**
- * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
- */
 export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
@@ -69,6 +93,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: DropdownSlots;
 
   get referenceElementType(): ReferenceElementType | undefined {
     return this.referenceElement ? this.type : undefined;

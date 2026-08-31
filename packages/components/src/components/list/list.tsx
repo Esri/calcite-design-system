@@ -53,16 +53,42 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-list-background-color": "*";
+  }
+}
+
+interface ListSlots {
+  /**
+   * A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+   */
+  "": Node[];
+  /**
+   * A slot for adding content to display when the component has no `calcite-list-item`s.
+   */
+  "empty-content": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements before the filter component.
+   */
+  "filter-actions-start": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements after the filter component.
+   */
+  "filter-actions-end": Node[];
+  /**
+   * When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
+   */
+  "filter-no-results": Node[];
+}
+
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
- *
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
- * @slot empty-content - A slot for adding content to display when the component has no `calcite-list-item`s.
- * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
- * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
- * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
 export class List extends LitElement {
   //#region Static Members
@@ -72,6 +98,8 @@ export class List extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ListSlots;
 
   dragSelector = listItemSelector;
 

@@ -16,14 +16,28 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-link-text-color": "*";
+  }
+}
+
+interface LinkSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
  * Passing a 'href' allows the component to behave like a link
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
- *
- * @slot - A slot for adding text.
  */
 export class Link extends LitElement {
   //#region Static Members
@@ -33,6 +47,8 @@ export class Link extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: LinkSlots;
 
   private anchorRef = createRef<HTMLAnchorElement>();
 

@@ -34,17 +34,50 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tooltip-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-tooltip-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-tooltip-corner-radius": "*";
+    /**
+     * Specifies the component's maximum width.
+     */
+    "--calcite-tooltip-max-size-x": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-tooltip-text-color": "*";
+  }
+}
+
+interface TooltipSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 const manager = referenceElementManager({ hover: true });
 
-/** @slot - A slot for adding text. */
 export class Tooltip extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  override ["@slots"]!: TooltipSlots;
 
   private arrowEl?: SVGSVGElement;
 
@@ -65,17 +98,17 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     target: () => this.floatingEl,
   })(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
   @state() referenceEl?: ReferenceElement;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Closes the component when the `referenceElement` is clicked. */
   @property({ reflect: true }) closeOnClick = false;
@@ -119,9 +152,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -157,9 +190,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     );
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteTooltipBeforeClose = createEvent({ cancelable: false });
@@ -173,9 +206,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** Fires when the component is open and animation is complete. */
   calciteTooltipOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -212,9 +245,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private openHandler(): void {
     toggleOpenClose(this);
@@ -249,9 +282,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.reposition(true);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { referenceEl, label, open, pointerDisabled, floatingLayout } = this;
@@ -287,5 +320,5 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     );
   }
 
-  // #endregion
+  //#endregion
 }

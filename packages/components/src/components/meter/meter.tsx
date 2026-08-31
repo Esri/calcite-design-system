@@ -17,6 +17,39 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component.
+     */
+    "--calcite-meter-background-color": "*";
+    /**
+     * Specifies the border color of the component and displayed step lines.
+     */
+    "--calcite-meter-border-color": "*";
+    /**
+     * Specifies the box shadow of the component.
+     */
+    "--calcite-meter-shadow": "*";
+    /**
+     * Specifies the corner radius of the component.
+     */
+    "--calcite-meter-corner-radius": "*";
+    /**
+     * Specifies the color of the component's fill.
+     */
+    "--calcite-meter-fill-color": "*";
+    /**
+     * Specifies the color of the component's range labels.
+     */
+    "--calcite-meter-range-text-color": "*";
+    /**
+     * Specifies the color of the component's value label.
+     */
+    "--calcite-meter-value-text-color": "*";
+  }
+}
+
 export class Meter extends LitElement {
   // #region Static Members
 

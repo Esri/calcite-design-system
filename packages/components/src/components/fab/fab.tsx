@@ -14,6 +14,35 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-fab-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-fab-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-fab-corner-radius": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-fab-text-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-fab-loader-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-fab-shadow": "*";
+  }
+}
+
 export class Fab extends LitElement {
   //#region Static Members
 

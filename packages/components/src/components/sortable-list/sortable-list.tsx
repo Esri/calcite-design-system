@@ -16,9 +16,15 @@ declare global {
   }
 }
 
+interface SortableListSlots {
+  /**
+   * A slot for adding sortable items.
+   */
+  "": Node[];
+}
+
 /**
  * @deprecated Use the `calcite-block-group` component instead.
- * @slot - A slot for adding sortable items.
  */
 export class SortableList extends LitElement {
   //#region Static Members
@@ -28,6 +34,8 @@ export class SortableList extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: SortableListSlots;
 
   dragEnabled = true;
 

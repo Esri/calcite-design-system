@@ -35,10 +35,80 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-tab-text-color": "*";
+    /**
+     * Specifies the component's text color when hovered, pressed, or selected.
+     */
+    "--calcite-tab-text-color-press": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-tab-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tab-background-color": "*";
+    /**
+     * When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
+     */
+    "--calcite-tab-background-color-hover": "*";
+    /**
+     * When `selected` or active, specifies the component's accent color.
+     */
+    "--calcite-tab-accent-color-press": "*";
+    /**
+     * Specifies the component's `iconStart` color.
+     */
+    "--calcite-tab-icon-color-start": "*";
+    /**
+     * When `selected`, hovered, or pressed, specifies the component's `iconStart` color.
+     */
+    "--calcite-tab-icon-color-start-press": "*";
+    /**
+     * Specifies the component's `iconEnd` color.
+     */
+    "--calcite-tab-icon-color-end": "*";
+    /**
+     * When `selected`, hovered, or pressed, specifies the component's `iconEnd` color.
+     */
+    "--calcite-tab-icon-color-end-press": "*";
+    /**
+     * Specifies the component's close element icon color.
+     */
+    "--calcite-tab-close-icon-color": "*";
+    /**
+     * Specifies the component's close element icon color when hovered, focused, and active.
+     */
+    "--calcite-tab-close-icon-color-press": "*";
+    /**
+     * Specifies the component's close element icon background color.
+     */
+    "--calcite-tab-close-icon-background-color": "*";
+    /**
+     * Specifies the component's close element icon background color when pressed.
+     */
+    "--calcite-tab-close-icon-background-color-press": "*";
+    /**
+     * Specifies the component's close element icon background color when hovered.
+     */
+    "--calcite-tab-close-icon-background-color-hover": "*";
+  }
+}
+
+interface TabTitleSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * Tab-titles are optionally individually closable.
- *
- * @slot - A slot for adding text.
  */
 export class TabTitle extends LitElement {
   //#region Static Members
@@ -48,6 +118,8 @@ export class TabTitle extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: TabTitleSlots;
 
   private closeButtonRef = createRef<Action["el"]>();
 
@@ -200,10 +272,10 @@ export class TabTitle extends LitElement {
   calciteInternalTabIconChanged = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
+  calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
+  calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).

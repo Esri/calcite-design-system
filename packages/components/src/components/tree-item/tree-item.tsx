@@ -25,11 +25,38 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding text.
- * @slot children - A slot for adding nested `calcite-tree` elements.
- * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-tree-text-color": "*";
+    /**
+     * When 'selected', specifies the component's text color.
+     */
+    "--calcite-tree-text-color-selected": "*";
+    /**
+     * Specifies the component's selection icon color.
+     */
+    "--calcite-tree-selected-icon-color": "*";
+  }
+}
+
+interface TreeItemSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+  /**
+   * A slot for adding nested `calcite-tree` elements.
+   */
+  children: Node[];
+  /**
+   * A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
+   */
+  "actions-end": Node[];
+}
+
 export class TreeItem extends LitElement {
   //#region Static Members
 
@@ -38,6 +65,8 @@ export class TreeItem extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: TreeItemSlots;
 
   private actionSlotWrapperRef = createRef<HTMLDivElement>();
 

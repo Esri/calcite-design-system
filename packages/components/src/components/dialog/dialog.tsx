@@ -32,25 +32,206 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding content.
- * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
- * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
- * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
- * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
- * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
- * @slot header-content - A slot for adding custom content to the component's header.
- * @slot header-top - A slot for adding custom content above the header actions and content.
- * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
- * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
- * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
- * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component's scrim.
+     */
+    "--calcite-dialog-scrim-background-color": "*";
+    /**
+     * When `placement` is `"cover"`, specifies the component's width, using `px`, `em`, `rem`, `vw`, or `%`. Does not exceed the viewport's width.
+     */
+    "--calcite-dialog-size-x": "*";
+    /**
+     * Specifies the component's minimum width, using `px`, `em`, `rem`, `vw`, or `%`.
+     */
+    "--calcite-dialog-min-size-x": "*";
+    /**
+     * Specifies the component's maximum width, using `px`, `em`, `rem`, `vw`, or `%`.
+     */
+    "--calcite-dialog-max-size-x": "*";
+    /**
+     * When `placement` is `"cover"`, specifies the component's height, using `px`, `em`, `rem`, `vh`, or `%`. Does not exceed the viewport's height.
+     */
+    "--calcite-dialog-size-y": "*";
+    /**
+     * Specifies the component's minimum height, using `px`, `em`, `rem`, `vh`, or `%`.
+     */
+    "--calcite-dialog-min-size-y": "*";
+    /**
+     * Specifies the component's maximum height, using `px`, `em`, `rem`, `vh`, or `%`.
+     */
+    "--calcite-dialog-max-size-y": "*";
+    /**
+     * Specifies the padding of the component's content.
+     */
+    "--calcite-dialog-content-space": "*";
+    /**
+     * Specifies the padding of the component's `content-top` slot.
+     */
+    "--calcite-dialog-content-top-space": "*";
+    /**
+     * Specifies the padding of the component's `content-bottom` slot.
+     */
+    "--calcite-dialog-content-bottom-space": "*";
+    /**
+     * Specifies the padding of the component's `header-top` slot.
+     */
+    "--calcite-dialog-header-top-space": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     */
+    "--calcite-dialog-footer-space": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-dialog-border-color": "*";
+    /**
+     * Specifies the component's horizontal offset.
+     */
+    "--calcite-dialog-offset-x": "*";
+    /**
+     * Specifies the component's vertical offset.
+     */
+    "--calcite-dialog-offset-y": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-dialog-background-color": "*";
+    /**
+     * Specifies the color of the component's icon.
+     */
+    "--calcite-dialog-icon-color": "*";
+    /**
+     * When `kind` is specified, specifies the component's accent color.
+     */
+    "--calcite-dialog-accent-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-dialog-corner-radius": "*";
+    /**
+     * Specifies the text color of the component's `heading`.
+     */
+    "--calcite-dialog-heading-text-color": "*";
+    /**
+     * Specifies the text color of the component's `description`.
+     */
+    "--calcite-dialog-description-text-color": "*";
+    /**
+     * Specifies the background color of the component's header.
+     */
+    "--calcite-dialog-header-background-color": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+     */
+    "--calcite-dialog-header-action-background-color": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when hovered.
+     */
+    "--calcite-dialog-header-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed.
+     */
+    "--calcite-dialog-header-action-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+     */
+    "--calcite-dialog-header-action-text-color": "*";
+    /**
+     * Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed or hovered.
+     */
+    "--calcite-dialog-header-action-text-color-press": "*";
+    /**
+     * Specifies the background color of the component's footer.
+     */
+    "--calcite-dialog-footer-background-color": "*";
+    /**
+     * Specifies the padding of the component's `unnamed (default)` slot.
+     */
+    "--calcite-dialog-space": "*";
+    /**
+     * Specifies the padding of the component's `header-content` slot.
+     */
+    "--calcite-dialog-header-content-space": "*";
+    /**
+     * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+     */
+    "--calcite-dialog-action-menu-border-color": "*";
+  }
+}
+
+interface DialogSlots {
+  /**
+   * A slot for adding content.
+   */
+  "": Node[];
+  /**
+   * A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
+   */
+  "custom-content": Node[];
+  /**
+   * A slot for adding a `calcite-action-bar` to the component.
+   */
+  "action-bar": Node[];
+  /**
+   * A slot for adding `calcite-alert`s to the component.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
+   */
+  "content-bottom": Node[];
+  /**
+   * A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding actions or content to the starting side of the component's header.
+   */
+  "header-actions-start": Node[];
+  /**
+   * A slot for adding actions or content to the ending side of the component's header.
+   */
+  "header-actions-end": Node[];
+  /**
+   * A slot for adding custom content to the component's header.
+   */
+  "header-content": Node[];
+  /**
+   * A slot for adding custom content above the header actions and content.
+   */
+  "header-top": Node[];
+  /**
+   * A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+   */
+  "header-menu-actions": Node[];
+  /**
+   * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   */
+  description: Node[];
+  /**
+   * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   */
+  fab: Node[];
+  /**
+   * A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
+   */
+  "footer-end": Node[];
+  /**
+   * A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
+   */
+  "footer-start": Node[];
+}
+
 export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   //#region Static Members
 
@@ -59,6 +240,8 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: DialogSlots;
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
@@ -124,6 +307,10 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     target: this.popoverRef,
   })(this);
 
+  get preventDocumentScroll(): boolean {
+    return !this.embedded && this.modal;
+  }
+
   //#endregion
 
   //#region State Properties
@@ -146,10 +333,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     maxInlineSize: null,
     maxBlockSize: null,
   };
-
-  get preventDocumentScroll(): boolean {
-    return !this.embedded && this.modal;
-  }
 
   //#endregion
 

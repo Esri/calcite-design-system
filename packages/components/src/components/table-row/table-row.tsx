@@ -25,7 +25,44 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-row-background-color` instead.
+     */
+    "--calcite-table-row-background": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-table-row-background-color": "*";
+    /**
+     * When `striped` is `true` on `calcite-table`, specifies the background color of the component's `striped` rows.
+     */
+    "--calcite-table-row-background-color-striped": "*";
+    /**
+     * When `selected`, specifies the background color of the component's `selected` rows.
+     */
+    "--calcite-table-row-background-color-selected": "*";
+    /**
+     * Specifies the component's selected accent color.
+     */
+    "--calcite-table-row-accent-color-selected": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-table-row-border-color": "*";
+  }
+}
+
+interface TableRowSlots {
+  /**
+   * A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
+   */
+  "": Node[];
+}
+
 export class TableRow extends LitElement {
   //#region Static Members
 
@@ -34,6 +71,8 @@ export class TableRow extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: TableRowSlots;
 
   messages;
 

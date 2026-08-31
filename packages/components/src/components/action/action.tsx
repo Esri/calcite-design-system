@@ -28,9 +28,86 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-action-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when active.
+     */
+    "--calcite-action-background-color-press": "*";
+    /**
+     * Specifies the component's background color when active.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-background-color-press` instead.
+     */
+    "--calcite-action-background-color-pressed": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-action-background-color": "*";
+    /**
+     * Specifies the component's corner radius end end.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-end-end": "*";
+    /**
+     * Specifies the component's corner radius end start.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-end-start": "*";
+    /**
+     * Specifies the component's corner radius start end.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-start-end": "*";
+    /**
+     * Specifies the component's corner radius start start.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-start-start": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-action-corner-radius": "*";
+    /**
+     * Specifies the component's indicator color.
+     */
+    "--calcite-action-indicator-color": "*";
+    /**
+     * Specifies the component's text color when pressed or hovered.
+     */
+    "--calcite-action-text-color-press": "*";
+    /**
+     * Specifies the component's text color when hovered.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-text-color-press` instead.
+     */
+    "--calcite-action-text-color-pressed": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-action-text-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-action-loader-color": "*";
+  }
+}
+
+interface ActionSlots {
+  /**
+   * A slot for adding non-interactive content, such as a `calcite-icon`.
+   */
+  "": Node[];
+}
+
 export class Action extends LitElement {
   //#region Static Members
 
@@ -41,6 +118,8 @@ export class Action extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ActionSlots;
 
   private guid = guid();
 

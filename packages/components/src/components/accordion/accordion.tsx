@@ -12,24 +12,57 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-accordion-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-accordion-background-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-accordion-text-color": "*";
+    /**
+     * Specifies the component's main text color on hover.
+     */
+    "--calcite-accordion-text-color-hover": "*";
+    /**
+     * Specifies the component's main text color when pressed.
+     */
+    "--calcite-accordion-text-color-press": "*";
+  }
+}
+
+interface AccordionSlots {
+  /**
+   * A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
+   */
+  "": Node[];
+}
+
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block-group` component instead.
- * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
  */
 export class Accordion extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  override ["@slots"]!: AccordionSlots;
 
   private mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
@@ -56,16 +89,16 @@ export class Accordion extends LitElement {
     SelectionMode
   > = "multiple";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   private calciteInternalAccordionChange = createEvent<RequestedItem>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -97,9 +130,10 @@ export class Accordion extends LitElement {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private updateActiveItemOnChange(event: CustomEvent): void {
     this.calciteInternalAccordionChange.emit({
       requestedAccordionItem: event.detail.requestedAccordionItem,
@@ -119,9 +153,9 @@ export class Accordion extends LitElement {
     document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const transparent = this.appearance === "transparent";
@@ -137,5 +171,5 @@ export class Accordion extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

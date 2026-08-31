@@ -15,10 +15,38 @@ declare global {
   }
 }
 
-/**
- * @slot content-end - A slot for adding non-actionable elements after content of the component.
- * @slot content-start - A slot for adding non-actionable elements before content of the component.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-autocomplete-background-color": "*";
+    /**
+     * Specifies the text color of the component's `description`.
+     */
+    "--calcite-autocomplete-description-text-color": "*";
+    /**
+     * Specifies the text color of the component's `heading`.
+     */
+    "--calcite-autocomplete-heading-text-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-autocomplete-text-color": "*";
+  }
+}
+
+interface AutocompleteItemSlots {
+  /**
+   * A slot for adding non-actionable elements after content of the component.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding non-actionable elements before content of the component.
+   */
+  "content-start": Node[];
+}
+
 export class AutocompleteItem extends LitElement {
   //#region Static Members
 
@@ -27,6 +55,8 @@ export class AutocompleteItem extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: AutocompleteItemSlots;
 
   private interactiveContainer = useInteractive(this);
 

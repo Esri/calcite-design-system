@@ -40,9 +40,22 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-input-time-zone-corner-radius": "*";
+  }
+}
+
+interface InputTimeZoneSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputTimeZone extends LitElement implements LabelableComponent {
   //#region Static Members
 
@@ -55,6 +68,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: InputTimeZoneSlots;
 
   private comboboxRef = createRef<Combobox["el"]>();
 
