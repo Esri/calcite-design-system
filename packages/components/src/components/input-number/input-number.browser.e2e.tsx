@@ -466,7 +466,7 @@ describe("increment/decrement functionality", () => {
     const { el } = await mount<InputNumber>(
       <calcite-input-number
         step={10}
-        value="100000000000000000000000000000000000000000000000000."
+        value="100000000000000000000000000000000000000000000000000"
       />,
     );
 
