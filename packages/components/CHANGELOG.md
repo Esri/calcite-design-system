@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.64...@esri/calcite-components@5.2.0-next.65) (2026-08-27)
+
+### Features
+
+- **block:** deprecate `collapsible` in favor of `expandable` ([#15091](https://github.com/Esri/calcite-design-system/issues/15091)), closes [#11671](https://github.com/Esri/calcite-design-system/issues/11671)
+
+## [5.2.0-next.64](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.63...@esri/calcite-components@5.2.0-next.64) (2026-08-27)
+
+### Bug Fixes
+
+- **radio-button-group:** sync group `disabled` only when set ([#15084](https://github.com/Esri/calcite-design-system/issues/15084)), closes [#12209](https://github.com/Esri/calcite-design-system/issues/12209) [/github.com/Esri/calcite-design-system/pull/15084/changes#diff-36750643f10b2a5ec1e5906248b08138e2e72ad73708b350b53eddf409080b98L8-L36](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/15084/changes/issues/diff-36750643f10b2a5ec1e5906248b08138e2e72ad73708b350b53eddf409080b98L8-L36)
+
+## [5.2.0-next.63](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.62...@esri/calcite-components@5.2.0-next.63) (2026-08-27)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.2.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.61...@esri/calcite-components@5.2.0-next.62) (2026-08-26)
 
 ### Bug Fixes

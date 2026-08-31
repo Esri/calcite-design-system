@@ -21,7 +21,7 @@ export const block = html` <calcite-block
   heading="heading"
   description="description"
   open
-  collapsible
+  expandable
   icon-end="pen"
   icon-start="pen"
 >

@@ -1,13 +1,13 @@
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   Fragment,
-  h,
-  method,
-  state,
   JsxNode,
+  h,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
@@ -35,13 +35,13 @@ declare global {
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class RadioButtonGroup extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   /**
    * Made into a prop for testing purposes only
@@ -59,18 +59,29 @@ export class RadioButtonGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private _disabled = false;
 
-  // #region State Properties
+  private disabledWasSet = false;
+
+  //#endregion
+
+  //#region State Properties
 
   @state() radioButtons: RadioButton["el"][] = [];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @property({ reflect: true }) disabled = false;
+  @property({ reflect: true })
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(value: boolean) {
+    this._disabled = value;
+    this.disabledWasSet = true;
+  }
 
   /** @copyDoc */
   @property() labelText?: string;
@@ -113,9 +124,9 @@ export class RadioButtonGroup extends LitElement {
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the fist focusable `calcite-radio-button` element in the component.
@@ -126,25 +137,23 @@ export class RadioButtonGroup extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(
-      () =>
-        this.selectedItem && !this.selectedItem.disabled
-          ? this.selectedItem
-          : this.getFocusableRadioButton(),
-      options,
-    );
+    return this.focusSetter(() => {
+      return this.selectedItem && !this.selectedItem.disabled
+        ? this.selectedItem
+        : this.getFocusableRadioButton();
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component has changed. */
   calciteRadioButtonGroupChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -158,7 +167,6 @@ export class RadioButtonGroup extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.passPropsToRadioButtons();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -185,9 +193,9 @@ export class RadioButtonGroup extends LitElement {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleInvalidFormEvent(event: CustomEvent): void {
     const message =
@@ -206,17 +214,17 @@ export class RadioButtonGroup extends LitElement {
       Array.from(this.radioButtons)
         .reverse()
         .find((radioButton) => radioButton.checked) ?? null;
-    if (this.radioButtons.length > 0) {
-      this.radioButtons.forEach((radioButton) => {
-        if (this.hasUpdated) {
-          radioButton.disabled = this.disabled || radioButton.disabled;
-        }
-        radioButton.name = this.name;
-        radioButton.required = this.required;
-        radioButton.scale = this.scale;
-        radioButton.status = this.status;
-      });
-    }
+
+    this.radioButtons.forEach((radioButton) => {
+      if (this.disabledWasSet) {
+        radioButton.disabled = this.disabled;
+      }
+
+      radioButton.name = this.name;
+      radioButton.required = this.required;
+      radioButton.scale = this.scale;
+      radioButton.status = this.status;
+    });
   }
 
   private getFocusableRadioButton(): RadioButton["el"] | undefined {
@@ -231,9 +239,9 @@ export class RadioButtonGroup extends LitElement {
     this.calciteRadioButtonGroupChange.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -268,5 +276,5 @@ export class RadioButtonGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

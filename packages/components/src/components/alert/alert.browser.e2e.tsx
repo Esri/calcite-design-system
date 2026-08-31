@@ -76,6 +76,10 @@ describe("defaults", () => {
         propertyName: "queue",
         defaultValue: "last",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });

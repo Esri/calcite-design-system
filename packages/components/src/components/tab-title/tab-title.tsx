@@ -116,9 +116,9 @@ export class TabTitle extends LitElement {
   @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "close">;
 
   /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`.
    *
-   *  @internal
+   * @internal
    */
   @property() position: TabPosition = "top";
 

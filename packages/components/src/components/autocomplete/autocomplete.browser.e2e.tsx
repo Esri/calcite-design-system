@@ -18,6 +18,7 @@ import {
   openClose,
   topLayer,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -268,6 +269,21 @@ describe("internal label", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-autocomplete"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-autocomplete>
+          <calcite-autocomplete-item-group>
+            <calcite-autocomplete-item value="item" />
+          </calcite-autocomplete-item-group>
+        </calcite-autocomplete>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-autocomplete-item, calcite-autocomplete-item-group" },
+  );
 });
 
 describe("slots", () => {

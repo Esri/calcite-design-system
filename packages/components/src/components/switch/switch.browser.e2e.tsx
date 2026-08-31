@@ -42,6 +42,10 @@ describe("defaults", () => {
         propertyName: "required",
         defaultValue: false,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });
