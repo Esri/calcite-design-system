@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.65...@esri/calcite-components@5.2.0-next.66) (2026-08-31)
+
+### Features
+
+- **block:** add background color token ([#15099](https://github.com/Esri/calcite-design-system/issues/15099)), closes [#14006](https://github.com/Esri/calcite-design-system/issues/14006)
+
+### Bug Fixes
+
+- **tile:** restore top/bottom slot spacing ([#15101](https://github.com/Esri/calcite-design-system/issues/15101)), closes [#15100](https://github.com/Esri/calcite-design-system/issues/15100)
+
 ## [5.2.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.64...@esri/calcite-components@5.2.0-next.65) (2026-08-27)
 
 ### Features
