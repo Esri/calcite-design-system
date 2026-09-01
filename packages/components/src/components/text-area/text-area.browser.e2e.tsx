@@ -21,22 +21,6 @@ import { CSS } from "./resources";
 import type { TextArea } from "./text-area";
 import { afterNextFrame } from "../../tests/utils/timing";
 
-it("propagates global textarea attribute changes", async () => {
-  const { el } = await mount<TextArea>(<calcite-text-area />);
-  const textarea = el.shadowRoot.querySelector("textarea")!;
-
-  el.setAttribute("autofocus", "");
-  el.setAttribute("spellcheck", "false");
-  await afterNextFrame();
-
-  expect(textarea.autofocus).toBe(true);
-  expect(textarea.spellcheck).toBe(false);
-
-  el.removeAttribute("spellcheck");
-  await afterNextFrame();
-  expect(textarea.spellcheck).toBe(true);
-});
-
 describe("cancelable", () => {
   cancelable("calcite-text-area");
 });
@@ -260,4 +244,22 @@ it("does not grow textarea height on repeated key presses", async () => {
   const finalHeight = textArea.element().getBoundingClientRect().height;
   expect(Math.abs(finalHeight - initialHeight)).toBeLessThanOrEqual(1);
   expect(el.value).toBe("aaaaaaaaaa");
+});
+
+it("propagates global textarea attribute changes", async () => {
+  const { el, reRender } = await mount<TextArea>(<calcite-text-area />);
+  const textarea = page.getBySelector("textarea");
+
+  el.setAttribute("autofocus", "");
+  el.setAttribute("spellcheck", "false");
+  await reRender();
+
+  await expect.element(textarea).toHaveProperty("autofocus", true);
+  await expect.element(textarea).toHaveProperty("spellcheck", false);
+
+  el.removeAttribute("autofocus");
+  el.removeAttribute("spellcheck");
+  await reRender();
+  await expect.element(textarea).toHaveProperty("autofocus", false);
+  await expect.element(textarea).toHaveProperty("spellcheck", true);
 });

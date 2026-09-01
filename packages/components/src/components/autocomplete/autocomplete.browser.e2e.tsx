@@ -24,24 +24,32 @@ import {
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-import { afterNextFrame } from "../../tests/utils/timing";
 import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
 
 it("propagates global input attribute changes", async () => {
-  const { el } = await mount<Autocomplete>(<calcite-autocomplete label="Items" />);
-  const input = el.shadowRoot.querySelector("calcite-input")!;
+  const { el, reRender } = await mount<Autocomplete>(<calcite-autocomplete label="Items" />);
+  const input = page.getBySelector("calcite-input");
 
   el.setAttribute("autofocus", "");
   el.setAttribute("enterkeyhint", "search");
   el.setAttribute("inputmode", "search");
-  await afterNextFrame();
+  await reRender();
 
-  expect(input.autofocus).toBe(true);
-  expect(input.enterKeyHint).toBe("search");
-  expect(input.inputMode).toBe("search");
+  await expect.element(input).toHaveProperty("autofocus", true);
+  await expect.element(input).toHaveProperty("enterKeyHint", "search");
+  await expect.element(input).toHaveProperty("inputMode", "search");
+
+  el.autofocus = false;
+  el.enterKeyHint = "";
+  el.inputMode = "";
+  await reRender();
+
+  await expect.element(input).toHaveProperty("autofocus", false);
+  await expect.element(input).toHaveProperty("enterKeyHint", "");
+  await expect.element(input).toHaveProperty("inputMode", "");
 });
 
 describe("accessible", () => {

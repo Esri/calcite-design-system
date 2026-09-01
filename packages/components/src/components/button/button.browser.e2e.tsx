@@ -12,7 +12,7 @@ import {
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
-import { afterNextFrame } from "../../tests/utils/timing";
+import { page } from "vitest/browser";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -56,19 +56,6 @@ describe("accessible", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-button"), { display: "inline-block" });
-});
-
-it("propagates aria-expanded attribute changes to the internal button", async () => {
-  const { el } = await mount<"calcite-button">(<calcite-button>Continue</calcite-button>);
-  const button = el.shadowRoot.querySelector("button")!;
-
-  el.setAttribute("aria-expanded", "true");
-  await afterNextFrame();
-  expect(button.getAttribute("aria-expanded")).toBe("true");
-
-  el.removeAttribute("aria-expanded");
-  await afterNextFrame();
-  expect(button).not.toHaveAttribute("aria-expanded");
 });
 
 describe("defaults", () => {
@@ -372,4 +359,17 @@ describe("theme", () => {
       ],
     });
   });
+});
+
+it("propagates aria-expanded attribute changes to the internal button", async () => {
+  const { el, reRender } = await mount<"calcite-button">(<calcite-button>Continue</calcite-button>);
+  const button = page.getBySelector("button");
+
+  el.setAttribute("aria-expanded", "true");
+  await reRender();
+  await expect.element(button).toHaveProperty("ariaExpanded", "true");
+
+  el.removeAttribute("aria-expanded");
+  await reRender();
+  await expect.element(button).toHaveProperty("ariaExpanded", "false");
 });

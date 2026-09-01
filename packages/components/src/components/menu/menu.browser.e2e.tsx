@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
@@ -11,7 +11,6 @@ import {
   t9n,
   accessible,
 } from "../../tests/commonTests/browser";
-import { afterNextFrame } from "../../tests/utils/timing";
 
 describe("accessible", () => {
   accessible(() =>
@@ -88,25 +87,6 @@ describe("propagates", () => {
   );
 });
 
-it("propagates role attribute changes to the internal menu and menu items", async () => {
-  const { el } = await mount<"calcite-menu">(
-    <calcite-menu role="menu">
-      <calcite-menu-item text="Item" />
-    </calcite-menu>,
-  );
-  const menu = el.shadowRoot.querySelector("ul")!;
-  const item = el.querySelector("calcite-menu-item")!;
-
-  expect(menu.role).toBe("menu");
-  expect(item.isTopLevelItem).toBe(false);
-
-  el.setAttribute("role", "menubar");
-  await afterNextFrame();
-
-  expect(menu.role).toBe("menubar");
-  expect(item.isTopLevelItem).toBe(true);
-});
-
 describe("keyboard navigation", () => {
   it("bubbles native keydown events and only prevents handled keys", async () => {
     const { el } = await mount<"calcite-menu">(
@@ -130,4 +110,23 @@ describe("keyboard navigation", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-menu"));
+});
+
+it("propagates role attribute changes to the internal menu and menu items", async () => {
+  const { el, reRender } = await mount<"calcite-menu">(
+    <calcite-menu role="menu">
+      <calcite-menu-item data-testid="menu-item" text="Item" />
+    </calcite-menu>,
+  );
+  const menu = page.getBySelector("ul");
+  const item = page.getByTestId("menu-item");
+
+  await expect.element(menu).toHaveProperty("role", "menu");
+  await expect.element(item).toHaveProperty("isTopLevelItem", false);
+
+  el.setAttribute("role", "menubar");
+  await reRender();
+
+  await expect.element(menu).toHaveProperty("role", "menubar");
+  await expect.element(item).toHaveProperty("isTopLevelItem", true);
 });

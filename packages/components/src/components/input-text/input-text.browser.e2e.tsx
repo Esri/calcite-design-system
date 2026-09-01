@@ -18,28 +18,34 @@ import {
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-import { afterNextFrame } from "../../tests/utils/timing";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
 
 it("propagates global input attribute changes", async () => {
-  const { el } = await mount<InputText>(<calcite-input-text />);
-  const input = el.shadowRoot.querySelector("input")!;
+  const { el, reRender } = await mount<InputText>(<calcite-input-text />);
+  const input = page.getByRole("textbox");
 
   el.setAttribute("autofocus", "");
   el.setAttribute("enterkeyhint", "go");
   el.setAttribute("inputmode", "email");
   el.setAttribute("spellcheck", "false");
-  await afterNextFrame();
+  await reRender();
 
-  expect(input.autofocus).toBe(true);
-  expect(input.enterKeyHint).toBe("go");
-  expect(input.inputMode).toBe("email");
-  expect(input.spellcheck).toBe(false);
+  await expect.element(input).toHaveProperty("autofocus", true);
+  await expect.element(input).toHaveProperty("enterKeyHint", "go");
+  await expect.element(input).toHaveProperty("inputMode", "email");
+  await expect.element(input).toHaveProperty("spellcheck", false);
 
-  el.removeAttribute("spellcheck");
-  await afterNextFrame();
-  expect(input.spellcheck).toBe(true);
+  el.autofocus = false;
+  el.enterKeyHint = "";
+  el.inputMode = "";
+  el.spellcheck = true;
+  await reRender();
+
+  await expect.element(input).toHaveProperty("autofocus", false);
+  await expect.element(input).toHaveProperty("enterKeyHint", "");
+  await expect.element(input).toHaveProperty("inputMode", "");
+  await expect.element(input).toHaveProperty("spellcheck", true);
 });
 
 describe("defaults", () => {

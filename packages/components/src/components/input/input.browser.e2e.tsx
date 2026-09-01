@@ -23,30 +23,36 @@ import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-import { afterNextFrame } from "../../tests/utils/timing";
 import { Input } from "./input";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 
 const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
 
 it("propagates global input attribute changes", async () => {
-  const { el } = await mount<Input>(<calcite-input />);
-  const input = el.shadowRoot.querySelector("input")!;
+  const { el, reRender } = await mount<Input>(<calcite-input />);
+  const input = page.getByRole("textbox");
 
   el.setAttribute("autofocus", "");
   el.setAttribute("enterkeyhint", "next");
   el.setAttribute("inputmode", "numeric");
   el.setAttribute("spellcheck", "false");
-  await afterNextFrame();
+  await reRender();
 
-  expect(input.autofocus).toBe(true);
-  expect(input.enterKeyHint).toBe("next");
-  expect(input.inputMode).toBe("numeric");
-  expect(input.spellcheck).toBe(false);
+  await expect.element(input).toHaveProperty("autofocus", true);
+  await expect.element(input).toHaveProperty("enterKeyHint", "next");
+  await expect.element(input).toHaveProperty("inputMode", "numeric");
+  await expect.element(input).toHaveProperty("spellcheck", false);
 
-  el.removeAttribute("spellcheck");
-  await afterNextFrame();
-  expect(input.spellcheck).toBe(true);
+  el.autofocus = false;
+  el.enterKeyHint = "";
+  el.inputMode = "";
+  el.spellcheck = true;
+  await reRender();
+
+  await expect.element(input).toHaveProperty("autofocus", false);
+  await expect.element(input).toHaveProperty("enterKeyHint", "");
+  await expect.element(input).toHaveProperty("inputMode", "");
+  await expect.element(input).toHaveProperty("spellcheck", true);
 });
 
 describe("defaults", () => {
