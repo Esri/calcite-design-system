@@ -5,6 +5,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { allModes } from "../../../.storybook/modes";
 import { InputDatePicker } from "./input-date-picker";
+import "./input-date-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, supportedNlsLocale } = ATTRIBUTES;
 
