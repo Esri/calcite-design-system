@@ -283,6 +283,9 @@ calcite-sort-handle {
 .content {
   @apply flex-1 relative min-h-0 opacity-0;
   transition: opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+}
+
+.has-slotted-content {
   padding-block: var(--calcite-internal-block-padding-block);
   padding-inline: var(--calcite-internal-block-padding-inline);
 }
