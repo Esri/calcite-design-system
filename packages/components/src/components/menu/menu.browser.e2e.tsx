@@ -118,7 +118,7 @@ it("propagates role attribute changes to the internal menu and menu items", asyn
       <calcite-menu-item data-testid="menu-item" text="Item" />
     </calcite-menu>,
   );
-  const menu = page.getBySelector("ul");
+  const menu = page.getBySelector("ul").first();
   const item = page.getByTestId("menu-item");
 
   await expect.element(menu).toHaveProperty("role", "menu");
