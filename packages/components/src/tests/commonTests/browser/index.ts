@@ -5,6 +5,7 @@ export { disabled } from "./disabled";
 export { focusable } from "./focusable";
 export { focusTrap } from "./focus-trap";
 export { formAssociated } from "./form-associated";
+export { globalProps } from "./global-props";
 export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent, handlesActionMenuPlacements } from "./floating-ui";
 export { internalLabel } from "./internal-label";

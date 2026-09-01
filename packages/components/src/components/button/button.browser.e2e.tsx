@@ -5,6 +5,7 @@ import { CSS } from "./resources";
 import {
   defaults,
   focusable,
+  globalProps,
   hidden,
   t9n,
   disabled,
@@ -12,6 +13,7 @@ import {
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
+import { page } from "vitest/browser";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -55,6 +57,16 @@ describe("accessible", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-button"), { display: "inline-block" });
+});
+
+describe("global props", () => {
+  globalProps(
+    () => mount<"calcite-button">(<calcite-button>Continue</calcite-button>),
+    () => page.getBySelector("button"),
+    {
+      ariaExpanded: "true",
+    },
+  );
 });
 
 describe("defaults", () => {
