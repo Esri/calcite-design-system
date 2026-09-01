@@ -35,8 +35,6 @@ export class TableRow extends LitElement {
 
   //#region Private Properties
 
-  messages;
-
   private numberedCellRef = createRef<TableCell["el"]>();
 
   private numberedHeaderRef = createRef<TableHeader["el"]>();

@@ -33,6 +33,7 @@ import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
 import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import { isEqual } from "es-toolkit";
 
 declare global {
   interface DeclareElements {
@@ -71,7 +72,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
     this.removeDragListeners();
     this.focusActiveHandle(event.clientX);
-    if (this.dragProp && this.lastDragPropValue != this[this.dragProp]) {
+    if (this.dragProp && !isEqual(this.lastDragPropValue, this.getDragPropValue(this.dragProp))) {
       this.emitChange();
     }
     this.dragProp = undefined;
@@ -112,6 +113,7 @@ export class Slider extends LitElement implements LabelableComponent {
         }
       } else if (
         isRange(this.value) &&
+        this.previousEmittedValue !== undefined &&
         isRange(this.previousEmittedValue) &&
         this.dragProp === "maxValue"
       ) {
@@ -156,7 +158,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private lastDragProp?: ActiveSliderProperty;
 
-  private lastDragPropValue?: number;
+  private lastDragPropValue?: number | number[];
 
   private maxHandle?: HTMLDivElement;
 
@@ -177,7 +179,7 @@ export class Slider extends LitElement implements LabelableComponent {
     this.dragEnd(event);
   };
 
-  private previousEmittedValue;
+  private previousEmittedValue?: Slider["value"];
 
   private trackRef = createRef<HTMLDivElement>();
 
@@ -517,7 +519,7 @@ export class Slider extends LitElement implements LabelableComponent {
         prop = closerToMax || position >= this.maxValue ? "maxValue" : "minValue";
       }
     }
-    this.lastDragPropValue = this[prop];
+    this.lastDragPropValue = this.getDragPropValue(prop);
     this.dragStart(prop);
     const isThumbActive = this.el.shadowRoot!.querySelector(`.${CSS.thumb}:active`);
     if (!isThumbActive) {
@@ -657,6 +659,10 @@ export class Slider extends LitElement implements LabelableComponent {
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
+  private getDragPropValue(prop: ActiveSliderProperty): number | number[] | undefined {
+    return prop === "minMaxValue" ? this.value : this[prop];
+  }
+
   private focusActiveHandle(valueX: number): void {
     if (this.dragProp === "minValue") {
       this.minHandle!.focus();
@@ -699,8 +705,12 @@ export class Slider extends LitElement implements LabelableComponent {
   ): void {
     let valueChanged = false;
 
-    Object.keys(values).forEach((propName) => {
+    (Object.keys(values) as SetValueProperty[]).forEach((propName) => {
       const newValue = values[propName];
+
+      if (newValue === undefined) {
+        return;
+      }
 
       if (!valueChanged) {
         const oldValue = this[propName];
