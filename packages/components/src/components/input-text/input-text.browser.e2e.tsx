@@ -7,6 +7,7 @@ import {
   disabled,
   focusable,
   formAssociated,
+  globalPropsAndAttributes,
   hidden,
   internalLabel,
   reflects,
@@ -21,32 +22,16 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
 
-it("propagates global input attribute changes", async () => {
-  const { el, reRender } = await mount<InputText>(<calcite-input-text />);
-  const input = page.getByRole("textbox");
-
-  el.setAttribute("autofocus", "");
-  el.setAttribute("enterkeyhint", "go");
-  el.setAttribute("inputmode", "email");
-  el.setAttribute("spellcheck", "false");
-  await reRender();
-
-  await expect.element(input).toHaveProperty("autofocus", true);
-  await expect.element(input).toHaveProperty("enterKeyHint", "go");
-  await expect.element(input).toHaveProperty("inputMode", "email");
-  await expect.element(input).toHaveProperty("spellcheck", false);
-
-  el.autofocus = false;
-  el.enterKeyHint = "";
-  el.inputMode = "";
-  el.spellcheck = true;
-  await reRender();
-
-  await expect.element(input).toHaveProperty("autofocus", false);
-  await expect.element(input).toHaveProperty("enterKeyHint", "");
-  await expect.element(input).toHaveProperty("inputMode", "");
-  await expect.element(input).toHaveProperty("spellcheck", true);
-});
+globalPropsAndAttributes(
+  () => mount<InputText>(<calcite-input-text />),
+  () => page.getByRole("textbox"),
+  {
+    autofocus: true,
+    enterKeyHint: "go",
+    inputMode: "email",
+    spellcheck: false,
+  },
+);
 
 describe("defaults", () => {
   defaults(

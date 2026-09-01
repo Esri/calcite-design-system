@@ -15,6 +15,7 @@ import {
   t9n,
   disabled,
   formAssociated,
+  globalPropsAndAttributes,
   openClose,
   topLayer,
   accessible,
@@ -29,28 +30,15 @@ import { CSS, SLOTS } from "./resources";
 
 mockConsole();
 
-it("propagates global input attribute changes", async () => {
-  const { el, reRender } = await mount<Autocomplete>(<calcite-autocomplete label="Items" />);
-  const input = page.getBySelector("calcite-input");
-
-  el.setAttribute("autofocus", "");
-  el.setAttribute("enterkeyhint", "search");
-  el.setAttribute("inputmode", "search");
-  await reRender();
-
-  await expect.element(input).toHaveProperty("autofocus", true);
-  await expect.element(input).toHaveProperty("enterKeyHint", "search");
-  await expect.element(input).toHaveProperty("inputMode", "search");
-
-  el.autofocus = false;
-  el.enterKeyHint = "";
-  el.inputMode = "";
-  await reRender();
-
-  await expect.element(input).toHaveProperty("autofocus", false);
-  await expect.element(input).toHaveProperty("enterKeyHint", "");
-  await expect.element(input).toHaveProperty("inputMode", "");
-});
+globalPropsAndAttributes(
+  () => mount<Autocomplete>(<calcite-autocomplete label="Items" />),
+  () => page.getBySelector("calcite-input"),
+  {
+    autofocus: true,
+    enterKeyHint: "search",
+    inputMode: "search",
+  },
+);
 
 describe("accessible", () => {
   describe("default", () => {

@@ -9,6 +9,7 @@ import {
   disabled,
   focusable,
   formAssociated,
+  globalPropsAndAttributes,
   hidden,
   internalLabel,
   reflects,
@@ -28,32 +29,16 @@ import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 
 const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
 
-it("propagates global input attribute changes", async () => {
-  const { el, reRender } = await mount<Input>(<calcite-input />);
-  const input = page.getByRole("textbox");
-
-  el.setAttribute("autofocus", "");
-  el.setAttribute("enterkeyhint", "next");
-  el.setAttribute("inputmode", "numeric");
-  el.setAttribute("spellcheck", "false");
-  await reRender();
-
-  await expect.element(input).toHaveProperty("autofocus", true);
-  await expect.element(input).toHaveProperty("enterKeyHint", "next");
-  await expect.element(input).toHaveProperty("inputMode", "numeric");
-  await expect.element(input).toHaveProperty("spellcheck", false);
-
-  el.autofocus = false;
-  el.enterKeyHint = "";
-  el.inputMode = "";
-  el.spellcheck = true;
-  await reRender();
-
-  await expect.element(input).toHaveProperty("autofocus", false);
-  await expect.element(input).toHaveProperty("enterKeyHint", "");
-  await expect.element(input).toHaveProperty("inputMode", "");
-  await expect.element(input).toHaveProperty("spellcheck", true);
-});
+globalPropsAndAttributes(
+  () => mount<Input>(<calcite-input />),
+  () => page.getByRole("textbox"),
+  {
+    autofocus: true,
+    enterKeyHint: "next",
+    inputMode: "numeric",
+    spellcheck: false,
+  },
+);
 
 describe("defaults", () => {
   defaults(
