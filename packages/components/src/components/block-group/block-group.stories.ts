@@ -38,26 +38,26 @@ export default {
 };
 
 const blockHTML = html`<calcite-block
-    collapsible
+    expandable
     heading="A rubber chicken"
     description="Why did the chicken cross the road? To avoid being squeezed!"
     >My block content!</calcite-block
   >
-  <calcite-block collapsible heading="Invisible ink" description="You can't see me!">My block content!</calcite-block>
-  <calcite-block collapsible heading="Whoopee cushion" description="The sound of laughter!"
+  <calcite-block expandable heading="Invisible ink" description="You can't see me!">My block content!</calcite-block>
+  <calcite-block expandable heading="Whoopee cushion" description="The sound of laughter!"
     >My block content!</calcite-block
   >
-  <calcite-block collapsible heading="Fake mustache" description="Incognito mode activated!"
+  <calcite-block expandable heading="Fake mustache" description="Incognito mode activated!"
     >My block content!</calcite-block
   >
-  <calcite-block collapsible heading="Giant foam finger" description="We're number one!"
+  <calcite-block expandable heading="Giant foam finger" description="We're number one!"
     >My block content!</calcite-block
   >
-  <calcite-block drag-disabled collapsible heading="Clown nose" description="Honk if you love clowns!"
+  <calcite-block drag-disabled expandable heading="Clown nose" description="Honk if you love clowns!"
     >My block content!</calcite-block
   >
   <calcite-block
-    collapsible
+    expandable
     heading="Joke book"
     description="Why don't scientists trust atoms? Because they make up everything!"
     >My block content!</calcite-block
@@ -82,7 +82,7 @@ export const dragEnabled = (): string => html`
 
 export const sortHandleOpen = (): string => html`
   <calcite-block-group drag-enabled label="My Group">
-    <calcite-block sort-handle-open collapsible heading="Invisible ink" description="You can't see me!"
+    <calcite-block sort-handle-open expandable heading="Invisible ink" description="You can't see me!"
       >My block content!</calcite-block
     >
     ${blockHTML}
@@ -114,53 +114,53 @@ export const allScales = (): string =>
 const nestedBlockGroupHTML = (expandMode: BlockGroup["expandMode"]): string => html`
   <calcite-block-group label="Rivers">
     <calcite-block
-      collapsible
+      expandable
       heading="Rivers"
       description="Primary waterways and regional flow lines"
       expanded
     ></calcite-block>
     <calcite-block
-      collapsible
+      expandable
       heading="Gauging Stations"
       description="Monitoring sites reporting water level metrics"
     ></calcite-block>
   </calcite-block-group>
   <calcite-block-group expand-mode="${expandMode}" label="Lakes & Ponds">
-    <calcite-block collapsible heading="Lakes" description="Large standing-water bodies and reservoirs"></calcite-block>
-    <calcite-block collapsible heading="Ponds" description="Small standing-water features and basins"></calcite-block>
+    <calcite-block expandable heading="Lakes" description="Large standing-water bodies and reservoirs"></calcite-block>
+    <calcite-block expandable heading="Ponds" description="Small standing-water features and basins"></calcite-block>
   </calcite-block-group>
 `;
 
 const nestedBlockHTML = (): string => html`
-  <calcite-block collapsible heading="Rivers" description="Primary waterways and regional flow lines" expanded>
+  <calcite-block expandable heading="Rivers" description="Primary waterways and regional flow lines" expanded>
     <calcite-block
-      collapsible
+      expandable
       heading="Gauging Stations"
       description="Monitoring sites reporting water level metrics"
       slot="children"
     ></calcite-block>
     <calcite-block
-      collapsible
+      expandable
       heading="Streams"
       description="Secondary channels feeding larger rivers"
       expanded
       slot="children"
     >
       <calcite-block
-        collapsible
+        expandable
         heading="Sub Streams"
         description="Minor stream branches in local watersheds"
         slot="children"
       ></calcite-block>
       <calcite-block
-        collapsible
+        expandable
         heading="Tributaries"
         description="Contributing flow sources into stream network"
         slot="children"
       ></calcite-block>
     </calcite-block>
   </calcite-block>
-  <calcite-block collapsible heading="Lakes" description="Large standing-water bodies and reservoirs"></calcite-block>
+  <calcite-block expandable heading="Lakes" description="Large standing-water bodies and reservoirs"></calcite-block>
 `;
 
 const expandModeDecorator: Decorator = (storyFn, context) =>

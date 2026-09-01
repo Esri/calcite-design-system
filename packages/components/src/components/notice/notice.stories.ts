@@ -171,7 +171,7 @@ darkModeRTL.parameters = { themes: modesDarkDefault };
 const appearances: Notice["appearance"][] = ["outline-fill", "transparent"];
 const kinds: Notice["kind"][] = ["brand", "neutral", "danger", "info", "success", "warning"];
 
-const allKindsAndAppearancesHTML = (kind, appearance): string => `
+const allKindsAndAppearancesHTML = (kind: Notice["kind"], appearance: Notice["appearance"]): string => `
   <div class="story-container"> 
   <calcite-notice open kind="${kind}" appearance="${appearance}" icon closable>
         <div slot="title">Try this trick next time</div>

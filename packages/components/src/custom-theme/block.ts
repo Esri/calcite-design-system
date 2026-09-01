@@ -5,6 +5,7 @@ import { html } from "../../support/formatting";
 export const blockTokens = {
   calciteBlockBorderColor: "",
   calciteBlockContentSpace: "",
+  calciteBlockBackgroundColor: "",
   calciteBlockHeaderBackgroundColor: "",
   calciteBlockHeaderBackgroundColorHover: "",
   calciteBlockTextColor: "",
@@ -23,7 +24,7 @@ export const block = html` <calcite-block
   heading="heading"
   description="description"
   open
-  collapsible
+  expandable
   icon-end="pen"
   icon-start="pen"
 >

@@ -1,7 +1,14 @@
 import { Fragment, h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, themed } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  scalePropagates,
+  themed,
+} from "../../tests/commonTests/browser";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
 import { CSS } from "./resources";
 
@@ -83,6 +90,20 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-accordion"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-accordion>
+          <calcite-accordion-item heading="Item 1" />
+          <calcite-accordion-item heading="Item 2" />
+        </calcite-accordion>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-accordion-item" },
+  );
 });
 
 describe("theme", () => {

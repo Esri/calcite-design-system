@@ -3,12 +3,12 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { propToAttr } from "../utils";
 
 type ReflectProps<E extends HTMLElement> = Array<{
-  propertyName: keyof E;
-  value: E[keyof E];
+  propertyName: Extract<keyof E, string>;
+  value: E[Extract<keyof E, string>];
 }>;
 
 type ShorthandReflectProps<E extends HTMLElement> = {
-  [K in keyof E]?: E[K];
+  [K in Extract<keyof E, string>]?: E[K];
 };
 
 /**
@@ -44,17 +44,18 @@ export function reflects<
 >(setup: () => RenderResult, propsToTest: ReflectProps<ElementProps> | ShorthandReflectProps<ElementProps>): void {
   const propValuePairs = Array.isArray(propsToTest)
     ? propsToTest
-    : Object.keys(propsToTest).map((propertyName) => ({
+    : (Object.keys(propsToTest) as Extract<keyof ElementProps, string>[]).map((propertyName) => ({
         propertyName,
         value: propsToTest[propertyName],
       }));
-  const cases = propValuePairs.map(({ propertyName, value }) => [propertyName, value]);
+  const cases = propValuePairs.map(({ propertyName, value }) => [propertyName, value] as const);
 
   it.each(cases)("%s", async (propertyName, value) => {
-    const { el, reRender } = await setup();
+    const { el: setupEl, reRender } = await setup();
+    const el = setupEl as ElementProps;
     const attrName = propToAttr(propertyName);
 
-    el[propertyName] = value;
+    Object.assign(el, { [propertyName]: value });
     await reRender();
 
     const matches = el.matches(`[${attrName}]`);
@@ -64,13 +65,13 @@ export function reflects<
       const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
       const negated = !value;
 
-      el[propertyName] = negated;
+      Object.assign(el, { [propertyName]: negated });
       await reRender();
 
       // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
       expect(el.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
-      el[propertyName] = value;
+      Object.assign(el, { [propertyName]: value });
       await reRender();
 
       // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config

@@ -44,6 +44,10 @@ describe("defaults", () => {
         propertyName: "validity",
         defaultValue: defaultValidity,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });

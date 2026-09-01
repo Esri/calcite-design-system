@@ -230,28 +230,28 @@ const contentHTML = html`
 const advancedLeadingPanelHTML = html`
   ${actionBarStartHTML}
   <calcite-panel heading="Advanced panel example">
-    <calcite-block collapsible open heading="Start Content" description="This is the primary.">
+    <calcite-block expandable open heading="Start Content" description="This is the primary.">
       <calcite-block-content>
         <calcite-action text="Play" text-enabled indicator icon="play"></calcite-action>
         <calcite-action text="Extent" text-enabled icon="extent"></calcite-action>
         <calcite-action text="Chart" text-enabled icon="arrow-up-right"></calcite-action>
       </calcite-block-content>
     </calcite-block>
-    <calcite-block collapsible open heading="Another Block" description="This is the primary.">
+    <calcite-block expandable open heading="Another Block" description="This is the primary.">
       <calcite-block-content>
         <div style="height: 300px;">
           <p>Cool thing.</p>
         </div>
       </calcite-block-content>
     </calcite-block>
-    <calcite-block collapsible open heading="Additional Block" description="This is the primary.">
+    <calcite-block expandable open heading="Additional Block" description="This is the primary.">
       <calcite-block-content>
         <div style="height: 300px;">
           <p>Cool thing.</p>
         </div>
       </calcite-block-content>
     </calcite-block>
-    <calcite-block collapsible open heading="More Block" description="This is the primary.">
+    <calcite-block expandable open heading="More Block" description="This is the primary.">
       <calcite-block-content>
         <div style="height: 300px;">
           <p>Cool thing.</p>
@@ -270,7 +270,7 @@ const advancedTrailingPanelHTMl = html`
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
-      <calcite-block collapsible open heading="End Content" description="Select goodness">
+      <calcite-block expandable open heading="End Content" description="Select goodness">
         <calcite-block-content>
           <img alt="demo" src="${placeholderImage({ width: 640, height: 480 })}" width="100%" />
           <calcite-block-section text="Cool things">
@@ -289,7 +289,7 @@ const advancedTrailingPanelHTMl = html`
       <calcite-button slot="footer" width="half">Save</calcite-button>
     </calcite-flow-item>
     <calcite-flow-item heading="Deeper flow item">
-      <calcite-block collapsible open heading="End Content" description="Select goodness">
+      <calcite-block expandable open heading="End Content" description="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
@@ -304,7 +304,7 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-block collapsible open heading="Even more content" description="Select goodness">
+      <calcite-block expandable open heading="Even more content" description="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
@@ -397,27 +397,27 @@ const actionBarHTML = html`
 
 const panelHTML = html`
   <calcite-panel heading="Panel heading">
-    <calcite-block collapsible heading="Block heading" description="Description">
+    <calcite-block expandable heading="Block heading" description="Description">
       <calcite-notice open>
         <div slot="message">The viewers are going to love this</div>
       </calcite-notice>
     </calcite-block>
-    <calcite-block collapsible heading="Block heading" description="Description">
+    <calcite-block expandable heading="Block heading" description="Description">
       <calcite-notice open>
         <div slot="message">The viewers are going to love this</div>
       </calcite-notice>
     </calcite-block>
-    <calcite-block collapsible heading="Block heading" description="Description">
+    <calcite-block expandable heading="Block heading" description="Description">
       <calcite-notice open>
         <div slot="message">The viewers are going to love this</div>
       </calcite-notice>
     </calcite-block>
-    <calcite-block collapsible heading="Block heading" description="Description">
+    <calcite-block expandable heading="Block heading" description="Description">
       <calcite-notice open>
         <div slot="message">The viewers are going to love this</div>
       </calcite-notice>
     </calcite-block>
-    <calcite-block collapsible heading="Block heading" description="Description">
+    <calcite-block expandable heading="Block heading" description="Description">
       <calcite-notice open>
         <div slot="message">The viewers are going to love this</div>
       </calcite-notice>
@@ -838,7 +838,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
             appearance="solid"
             scale="m"
           ></calcite-action>
-          <calcite-block collapsible open heading="End Content" description="Select goodness">
+          <calcite-block expandable open heading="End Content" description="Select goodness">
             <calcite-block-content>
               <img
                 alt="demo"
@@ -865,7 +865,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
           </calcite-button>
         </calcite-flow-item>
         <calcite-flow-item heading="Deeper flow item" show-back-button>
-          <calcite-block collapsible open heading="End Content" description="Select goodness">
+          <calcite-block expandable open heading="End Content" description="Select goodness">
             <calcite-block-content>
               <calcite-block-section text="Cool things" toggle-display="button">
                 <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
@@ -884,7 +884,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
               </calcite-block-section>
             </calcite-block-content>
           </calcite-block>
-          <calcite-block collapsible open heading="Even more content" description="Select goodness">
+          <calcite-block expandable open heading="Even more content" description="Select goodness">
             <calcite-block-content>
               <calcite-block-section text="Cool things" toggle-display="button">
                 <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
@@ -1705,7 +1705,7 @@ position:relative;
           width-scale="m"
         >
           <calcite-action slot="header-actions-end" icon="x" text="Close"> </calcite-action>
-          <calcite-block heading="Title" description="County: {NAME}" collapsible icon-start="title">
+          <calcite-block heading="Title" description="County: {NAME}" expandable icon-start="title">
             <div class="combo-control">
               <div class="combo-button">
                 <button class="combo-button__main">County: {NAME}</button>
@@ -1714,7 +1714,7 @@ position:relative;
             </div>
           </calcite-block>
           <calcite-sortable-list>
-            <calcite-block drag-handle heading="Attributes" description="2/98" collapsible icon-start="feature-details">
+            <calcite-block drag-handle heading="Attributes" description="2/98" expandable icon-start="feature-details">
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <calcite-list drag-enabled>
                 <calcite-list-item
@@ -1734,7 +1734,7 @@ position:relative;
                 >
               </div>
             </calcite-block>
-            <calcite-block drag-handle heading="Image" collapsible icon-start="image">
+            <calcite-block drag-handle heading="Image" expandable icon-start="image">
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <section class="form-section">
                 <label>
@@ -1787,7 +1787,7 @@ position:relative;
               drag-handle
               heading="Text"
               description="Cool. he {expression/..."
-              collapsible
+              expandable
               icon-start="image"
             >
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
@@ -1875,7 +1875,7 @@ export const panelEndWithPositionStart = (): string =>
       <calcite-panel heading="Map Options">
         <calcite-button width="half" slot="footer"> Next </calcite-button>
         <calcite-block
-          collapsible
+          expandable
           heading="Layer effects"
           description="Adjust blur, highlight, and more"
           icon-start="effects"
@@ -1885,7 +1885,7 @@ export const panelEndWithPositionStart = (): string =>
           </calcite-notice>
         </calcite-block>
         <calcite-block
-          collapsible
+          expandable
           heading="Symbology"
           description="Select type, color, and transparency"
           icon-start="map-pin"
@@ -2011,7 +2011,7 @@ export const resizeHandlePositioning = (): string =>
         </calcite-action-group>
       </calcite-action-bar>
       <calcite-panel heading="Panel 1">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-panel heading="Main content"></calcite-panel>
@@ -2023,7 +2023,7 @@ export const resizeHandlePositioning = (): string =>
         </calcite-action-group>
       </calcite-action-bar>
       <calcite-panel heading="Panel 1">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
@@ -2048,7 +2048,7 @@ export const shellPanelWithTabs = (): string =>
       </calcite-action-bar>
       <calcite-panel heading="Layers" id="panel-start" closable>
         <calcite-block
-          collapsible
+          expandable
           heading="Symbology"
           description="Select type, color, and transparency"
           icon-start="map-pin"
@@ -2218,7 +2218,7 @@ export const popoverZIndex = (): string =>
         <calcite-action icon="layer" text="Layer"></calcite-action>
       </calcite-action-bar>
       <calcite-panel heading="Map" id="panel-start">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
 
@@ -2235,7 +2235,7 @@ export const popoverZIndex = (): string =>
         <calcite-action text="Configure" icon="popup"></calcite-action>
       </calcite-action-bar>
       <calcite-panel id="panel-end" closable closed>
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-panel heading="Content"></calcite-panel>

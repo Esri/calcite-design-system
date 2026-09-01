@@ -12148,5 +12148,15 @@
     "alias": ["4.6.0", "technology", "align", "third-party", "tool", "feature", "vertices", "insert"],
     "category": "Technology",
     "release": "4.6.0"
+  },
+  "ai-agent": {
+    "alias": ["4.6.0", "technology", "adaptability", "problem-solving", "actions", "automation", "learning"],
+    "category": "Technology",
+    "release": "4.6.0"
+  },
+  "ai-agents": {
+    "alias": ["4.6.0", "technology", "artificial intelligence", "machine", "multiple", "adaptability", "automation"],
+    "category": "Technology",
+    "release": "4.6.0"
   }
 }

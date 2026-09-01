@@ -24,9 +24,9 @@ interface BlockStoryArgs
       | "heading"
       | "description"
       | "expanded"
+      | "expandable"
       | "iconEnd"
       | "iconStart"
-      | "collapsible"
       | "loading"
       | "disabled"
       | "headingLevel"
@@ -47,7 +47,7 @@ export default {
     heading: "Heading",
     description: "description",
     expanded: true,
-    collapsible: true,
+    expandable: true,
     loading: false,
     disabled: false,
     dragDisabled: false,
@@ -96,7 +96,7 @@ export const simple = (args: BlockStoryArgs): string => html`
     ${optionalAttribute("icon-end", args.iconEnd)}
     menu-placement="${args.menuPlacement}"
     ${boolean("expanded", args.expanded)}
-    ${boolean("collapsible", args.collapsible)}
+    ${boolean("expandable", args.expandable)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     ${boolean("drag-disabled", args.dragDisabled)}
@@ -118,7 +118,7 @@ export const simple = (args: BlockStoryArgs): string => html`
 `;
 
 export const disabled = (): string => html`
-  <calcite-block heading="heading" description="description" expanded collapsible disabled>
+  <calcite-block heading="heading" description="description" expanded expandable disabled>
     <calcite-block-section text="Nature" expanded>
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
@@ -130,7 +130,7 @@ export const paddingDisabled = (): string =>
     <calcite-block
       heading="Example block heading"
       description="example summary heading"
-      collapsible
+      expandable
       expanded
       style="--calcite-block-padding: 0;"
     >
@@ -143,7 +143,7 @@ export const darkModeRTL = (): string => html`
     heading="Heading"
     description="description"
     expanded
-    collapsible
+    expandable
     heading-level="2"
     class="calcite-mode-dark"
     dir="rtl"
@@ -155,6 +155,21 @@ export const darkModeRTL = (): string => html`
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
   </calcite-block>
+`;
+
+export const transparentAppearance = (): string => html`
+  <style>
+    calcite-block {
+      --calcite-block-background-color: var(--calcite-color-transparent);
+      --calcite-block-border-color: var(--calcite-color-transparent);
+      --calcite-block-header-background-color-hover: var(--calcite-color-transparent-hover);
+      --calcite-block-header-background-color-press: var(--calcite-color-transparent-press);
+    }
+  </style>
+  <calcite-block-group>
+    <calcite-block heading="Heading" description="Description" expandable> Block content </calcite-block>
+    <calcite-block heading="Heading" description="Description" expandable expanded> Block content </calcite-block>
+  </calcite-block-group>
 `;
 
 export const contentCanTakeFullHeight = (): string =>
@@ -177,11 +192,11 @@ export const contentSpacing = (): string => html`
 `;
 
 export const loading = (): string => html`
-  <calcite-block collapsible expanded loading heading="Layer effects" description="Adjust blur">
+  <calcite-block expandable expanded loading heading="Layer effects" description="Adjust blur">
     With no status
   </calcite-block>
   <br />
-  <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
+  <calcite-block loading heading="Valid status" description="summary" expandable status="valid">
     With valid status
   </calcite-block>
   <br />
@@ -191,7 +206,7 @@ export const loading = (): string => html`
 export const longWrappingTextInBlockAndBlockSection = (): string => html`
   <calcite-panel style="width:250px">
     <calcite-block
-      collapsible
+      expandable
       expanded
       heading="Planes, trains, and automobiles are some examples of modes of transportation"
       description="Planes, trains, and automobiles are some examples of modes of transportation"
@@ -213,7 +228,7 @@ export const longWrappingTextInBlockAndBlockSection = (): string => html`
       </calcite-block-section>
     </calcite-block>
     <calcite-block
-      collapsible
+      expandable
       heading="Planes, trains, and automobiles are some examples of modes of transportation"
       description="Planes, trains, and automobiles are some examples of modes of transportation"
     >
@@ -276,7 +291,7 @@ export const toggleDisplayWithLongText = (): string =>
   </calcite-block>`;
 
 export const icons = (): string => html`
-  <calcite-block heading="Heading" description="summary" collapsible expanded>
+  <calcite-block heading="Heading" description="summary" expandable expanded>
     <calcite-block-section
       text="Planes, trains, and automobiles are some examples of modes of transportation"
       expanded
@@ -307,7 +322,7 @@ export const iconStartEnd = (): string => html`
   <calcite-block
     heading="Valid status"
     description="summary"
-    collapsible
+    expandable
     icon-start="pen"
     icon-end="pen"
     style="width: 500px"
@@ -333,7 +348,7 @@ export const iconStartEnd = (): string => html`
 
   <calcite-block
     heading="Valid status"
-    collapsible
+    expandable
     status="valid"
     icon-start="pen"
     icon-end="pen"
@@ -349,7 +364,7 @@ const blockHTML = (scale: Scale): string => html`
     heading="Heading"
     description="description"
     expanded
-    collapsible
+    expandable
     scale="${scale}"
     icon-start="layers"
     icon-end="layers"
@@ -416,7 +431,7 @@ export const emptyHeader = (): string => html`
 `;
 
 export const toggleDisplaySwitch = (): string => html`
-  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible> </calcite-block>
+  <calcite-block heading="Heading" description="description" toggle-display="switch" expandable> </calcite-block>
 `;
 
 const nestedBlockHTML = (slottedAsChildren = true): string => html`
@@ -424,7 +439,7 @@ const nestedBlockHTML = (slottedAsChildren = true): string => html`
     heading="Road network"
     description="Highways, arterials, and local streets"
     ${slottedAsChildren ? 'slot="children"' : ""}
-    collapsible
+    expandable
     expanded
   >
     <calcite-block heading="County roads" description="County roads" slot="children"></calcite-block>
@@ -433,14 +448,14 @@ const nestedBlockHTML = (slottedAsChildren = true): string => html`
 `;
 
 export const nestedBlockInChildrenSlot = (): string => html`
-  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
+  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" expandable expanded>
     ${nestedBlockHTML()}
   </calcite-block>
   <calcite-block heading="Hydrology" description="Rivers, lakes, and watershed boundaries"></calcite-block>
 `;
 
 export const nestedBlockGroupInChildrenSlot = (): string => html`
-  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
+  <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" expandable expanded>
     <calcite-block-group slot="children"> ${nestedBlockHTML(false)} </calcite-block-group>
   </calcite-block>
 `;

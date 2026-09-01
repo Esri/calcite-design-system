@@ -13,8 +13,9 @@ import { toAriaBoolean } from "../../utils/aria";
 import { Scale, SelectionMode } from "../types";
 import { TreeItemSelectDetail } from "../tree-item/types";
 import type { TreeItem } from "../tree-item/tree-item";
-import { getTraversableItems, isTreeItem } from "./utils";
+import { getTraversableItems } from "./utils";
 import { styles } from "./tree.scss";
+import { isTreeItem } from "../tree-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -435,9 +436,7 @@ export class Tree extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const items = slotChangeGetAssignedElements(event).filter((el): el is TreeItem["el"] =>
-      el.matches("calcite-tree-item"),
-    );
+    const items = slotChangeGetAssignedElements(event).filter(isTreeItem);
 
     this.items = items;
     this.updateItems();
