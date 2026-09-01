@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { Reorder } from "./types";
 
 export const CSS = {
@@ -27,3 +28,8 @@ export const IDS = {
   move: "move",
   reorder: "reorder",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isSortHandle = isTag("calcite-sort-handle");

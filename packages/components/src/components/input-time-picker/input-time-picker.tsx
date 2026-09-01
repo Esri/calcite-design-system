@@ -103,8 +103,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   private timePickerRef = createRef<TimePicker>();
 
   //#endregion
@@ -270,6 +268,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("focus", this.focusHandler);
     this.listen("focusout", this.focusOutHandler);
