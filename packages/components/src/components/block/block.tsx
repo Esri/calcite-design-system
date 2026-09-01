@@ -3,7 +3,7 @@ import { LitElement, property, createEvent, h, method, state, JsxNode } from "@a
 import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  slotChangeHasAssignedNode,
+  slotChangeHasTextContent,
 } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../types";
@@ -454,7 +454,7 @@ export class Block extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
-    this.hasContent = slotChangeHasAssignedNode(event);
+    this.hasContent = slotChangeHasTextContent(event) || slotChangeHasAssignedElement(event);
     this.updateBlockSectionScale();
   }
 
