@@ -10,6 +10,7 @@ import {
   scalePropagates,
   t9n,
   accessible,
+  globalProps,
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
@@ -112,21 +113,20 @@ describe("translation support", () => {
   t9n(() => mount("calcite-menu"));
 });
 
-it("propagates role attribute changes to the internal menu and menu items", async () => {
-  const { el, reRender } = await mount<"calcite-menu">(
-    <calcite-menu role="menu">
-      <calcite-menu-item data-testid="menu-item" text="Item" />
-    </calcite-menu>,
+describe("global props", () => {
+  globalProps(
+    () =>
+      mount<"calcite-menu">(
+        <calcite-menu role="menu">
+          <calcite-menu-item data-testid="menu-item" text="Item" />
+        </calcite-menu>,
+      ),
+    () => page.getBySelector("ul").first(),
+    {
+      role: "menu",
+    },
+    {
+      role: "menubar",
+    },
   );
-  const menu = page.getBySelector("ul").first();
-  const item = page.getByTestId("menu-item");
-
-  await expect.element(menu).toHaveProperty("role", "menu");
-  await expect.element(item).toHaveProperty("isTopLevelItem", false);
-
-  el.setAttribute("role", "menubar");
-  await reRender();
-
-  await expect.element(menu).toHaveProperty("role", "menubar");
-  await expect.element(item).toHaveProperty("isTopLevelItem", true);
 });
