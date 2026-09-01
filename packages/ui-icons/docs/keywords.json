@@ -12160,12 +12160,12 @@
     "release": "4.6.0"
   },
   "envelope-open": {
-    "alias": ["4.6.0", "objects", "lines", "coordinates", "parcel", "geometry"],
+    "alias": ["4.6.0", "objects", "contact information", "email", "parcel", "send"],
     "category": "Objects",
     "release": "4.6.0"
   },
   "monitor-share": {
-    "alias": ["4.6.0", "technology", "view", "track", "display", "computer"],
+    "alias": ["4.6.0", "technology", "view", "mirror", "display", "computer"],
     "category": "Technology",
     "release": "4.6.0"
   },
@@ -12197,6 +12197,36 @@
   "web-camera": {
     "alias": ["4.6.0", "technology", "monitor", "live-feed", "imagery", "real-time"],
     "category": "Technology",
+    "release": "4.6.0"
+  },
+  "column-group": {
+    "alias": ["4.6.0", "generic", "organize", "fields", "categories", "database", "bundle", "create"],
+    "category": "Generic",
+    "release": "4.6.0"
+  },
+  "column-ungroup": {
+    "alias": ["4.6.0", "generic", "data", "tables", "separate", "unmerge"],
+    "category": "Generic",
+    "release": "4.6.0"
+  },
+  "row-remove": {
+    "alias": ["4.6.0", "generic", "delete", "tables", "data", "tool", "eliminate"],
+    "category": "Generic",
+    "release": "4.6.0"
+  },
+  "column-remove": {
+    "alias": ["4.6.0", "generic", "table", "edit", "delete", "withdraw", "clear"],
+    "category": "Generic",
+    "release": "4.6.0"
+  },
+  "row-group": {
+    "alias": ["4.6.0", "generic", "table", "bundle", "create", "organize"],
+    "category": "Generic",
+    "release": "4.6.0"
+  },
+  "row-ungroup": {
+    "alias": ["4.6.0", "generic", "separate", "values", "table", "data"],
+    "category": "Generic",
     "release": "4.6.0"
   }
 }
