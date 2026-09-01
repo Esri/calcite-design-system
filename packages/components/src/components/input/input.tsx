@@ -190,20 +190,20 @@ export class Input
   //#region Public Properties
 
   /** @internal */
-  @property({ attribute: "autofocus", reflect: false, type: Boolean })
-  internalAutofocus = false;
+  @property({ attribute: "autofocus" })
+  _autofocus = false;
 
   /** @internal */
-  @property({ attribute: "enterkeyhint", reflect: false })
-  internalEnterKeyHint: HTMLElement["enterKeyHint"] = "";
+  @property({ attribute: "enterkeyhint" })
+  _enterKeyHint: HTMLElement["enterKeyHint"] = "";
 
   /** @internal */
-  @property({ attribute: "inputmode", reflect: false })
-  internalInputMode: HTMLElement["inputMode"] = "";
+  @property({ attribute: "inputmode" })
+  _inputMode: HTMLElement["inputMode"] = "";
 
   /** @internal */
-  @property({ attribute: "spellcheck", reflect: false })
-  internalSpellcheck: string | null = null;
+  @property({ attribute: "spellcheck" })
+  _spellcheck: string | null = null;
 
   /**
    * When `type` is `"file"`, specifies a comma separated list of unique file type specifiers for limiting accepted file types.
@@ -1153,10 +1153,9 @@ export class Input
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
-    const autofocus = this.internalAutofocus;
-    const enterKeyHint = this
-      .internalEnterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
-    const inputMode = this.internalInputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
+    const autofocus = this.el.autofocus;
+    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     const localeNumberInput =
       this.type === "number" ? (
@@ -1236,7 +1235,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childRef}
           required={this.required}
-          spellcheck={this.internalSpellcheck?.toLowerCase() !== "false"}
+          spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={
             this.disabled || (this.hasInlineEditableContext && !this.editingEnabled)

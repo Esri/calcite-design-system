@@ -140,12 +140,12 @@ export class TextArea
   //#region Public Properties
 
   /** @internal */
-  @property({ attribute: "autofocus", reflect: false, type: Boolean })
-  internalAutofocus = false;
+  @property({ attribute: "autofocus" })
+  _autofocus = false;
 
   /** @internal */
-  @property({ attribute: "spellcheck", reflect: false })
-  internalSpellcheck: string | null = null;
+  @property({ attribute: "spellcheck" })
+  _spellcheck: string | null = null;
 
   /**
    * Specifies the component's number of columns.
@@ -485,7 +485,7 @@ export class TextArea
               aria-errormessage={IDS.validationMessage}
               ariaInvalid={this.status === "invalid" || this.isCharacterLimitExceeded()}
               ariaLabel={getLabelText(this)}
-              autofocus={this.internalAutofocus}
+              autofocus={this.el.autofocus}
               class={{
                 [CSS.textArea]: true,
                 [CSS.readOnly]: this.readOnly,
@@ -504,7 +504,7 @@ export class TextArea
               ref={this.setTextAreaEl}
               required={this.required}
               rows={this.rows}
-              spellcheck={this.internalSpellcheck?.toLowerCase() !== "false"}
+              spellcheck={this.el.spellcheck}
               value={this.value}
               wrap={this.wrap}
             />

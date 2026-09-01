@@ -90,7 +90,7 @@ export class Button extends LitElement {
 
   /** @internal */
   @property({ attribute: "aria-expanded", reflect: false })
-  internalAriaExpanded: HTMLElement["ariaExpanded"] = null;
+  _ariaExpanded: HTMLElement["ariaExpanded"] = null;
 
   /** When `width` is not `"auto"`, specifies the alignment of the component's elements. */
   @property({ reflect: true }) alignment: ButtonAlignment = "center";
@@ -300,8 +300,8 @@ export class Button extends LitElement {
         <DynamicHtmlTag
           ariaBusy={this.loading}
           ariaExpanded={
-            this.internalAriaExpanded
-              ? (this.internalAriaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
+            this.el.ariaExpanded
+              ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
               : undefined
           }
           ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}

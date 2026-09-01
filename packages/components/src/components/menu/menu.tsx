@@ -44,8 +44,8 @@ export class Menu extends LitElement {
   //#region Public Properties
 
   /** @internal */
-  @property({ attribute: "role", reflect: false })
-  internalRole: HTMLElement["role"] = null;
+  @property({ attribute: "role" })
+  _role: HTMLElement["role"] = null;
 
   /**
    * @copyDoc
@@ -95,7 +95,7 @@ export class Menu extends LitElement {
     if (
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
-      changes.has("internalRole")
+      changes.has("_role")
     ) {
       this.setMenuItemProperties(this.menuItems);
     }
@@ -200,7 +200,7 @@ export class Menu extends LitElement {
   }
 
   private getEffectiveRole(): LuminaJsx.AriaAttributes["role"] {
-    return (this.internalRole || "menubar") as LuminaJsx.AriaAttributes["role"];
+    return (this.el.role || "menubar") as LuminaJsx.AriaAttributes["role"];
   }
 
   //#endregion

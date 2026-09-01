@@ -161,20 +161,20 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   //#region Public Properties
 
   /** @internal */
-  @property({ attribute: "autofocus", reflect: false, type: Boolean })
-  internalAutofocus = false;
+  @property({ attribute: "autofocus" })
+  _autofocus = false;
 
   /** @internal */
-  @property({ attribute: "enterkeyhint", reflect: false })
-  internalEnterKeyHint: HTMLElement["enterKeyHint"] = "";
+  @property({ attribute: "enterkeyhint" })
+  _enterKeyHint: HTMLElement["enterKeyHint"] = "";
 
   /** @internal */
-  @property({ attribute: "inputmode", reflect: false })
-  internalInputMode: HTMLElement["inputMode"] = "";
+  @property({ attribute: "inputmode" })
+  _inputMode: HTMLElement["inputMode"] = "";
 
   /** @internal */
-  @property({ attribute: "spellcheck", reflect: false })
-  internalSpellcheck: string | null = null;
+  @property({ attribute: "spellcheck" })
+  _spellcheck: string | null = null;
 
   /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -645,7 +645,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         ariaInvalid={this.status === "invalid"}
         ariaLabel={getLabelText(this)}
         autocomplete={this.autocomplete}
-        autofocus={this.internalAutofocus}
+        autofocus={this.el.autofocus}
         class={{
           [CSS.editingEnabled]: this.inlineEditableEnabledInContext,
           [CSS.inlineChild]: this.hasInlineEditableContext,
@@ -653,10 +653,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled}
-        enterKeyHint={
-          this.internalEnterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]
-        }
-        inputMode={this.internalInputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
+        enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+        inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}
@@ -669,7 +667,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         readOnly={this.readOnly}
         ref={this.childRef}
         required={this.required}
-        spellcheck={this.internalSpellcheck?.toLowerCase() !== "false"}
+        spellcheck={this.el.spellcheck}
         tabIndex={
           this.disabled || (this.hasInlineEditableContext && !this.inlineEditableEnabledInContext)
             ? -1

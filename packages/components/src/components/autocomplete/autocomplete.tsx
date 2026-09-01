@@ -158,16 +158,16 @@ export class Autocomplete
   //#region Public Properties
 
   /** @internal */
-  @property({ attribute: "autofocus", reflect: false, type: Boolean })
-  internalAutofocus = false;
+  @property({ attribute: "autofocus" })
+  _autofocus = false;
 
   /** @internal */
-  @property({ attribute: "enterkeyhint", reflect: false })
-  internalEnterKeyHint: HTMLElement["enterKeyHint"] = "";
+  @property({ attribute: "enterkeyhint" })
+  _enterKeyHint: HTMLElement["enterKeyHint"] = "";
 
   /** @internal */
-  @property({ attribute: "inputmode", reflect: false })
-  internalInputMode: HTMLElement["inputMode"] = "";
+  @property({ attribute: "inputmode" })
+  _inputMode: HTMLElement["inputMode"] = "";
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -769,10 +769,9 @@ export class Autocomplete
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
 
-    const autofocus = this.internalAutofocus;
-    const enterKeyHint = this
-      .internalEnterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
-    const inputMode = this.internalInputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
+    const autofocus = this.el.autofocus;
+    const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
+    const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     return (
       <this.interactiveContainer disabled={disabled}>
