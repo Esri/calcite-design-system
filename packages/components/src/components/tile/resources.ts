@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -28,3 +29,8 @@ export const SLOTS = {
   contentBottom: "content-bottom",
   contentTop: "content-top",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTile = isTag("calcite-tile");

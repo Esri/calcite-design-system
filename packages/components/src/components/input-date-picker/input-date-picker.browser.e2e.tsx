@@ -14,6 +14,7 @@ import {
   openClose,
   accessible,
   renders,
+  scalePropagates,
   t9n,
   themed,
   topLayer,
@@ -58,6 +59,10 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "status",
         defaultValue: "idle",
       },
@@ -91,6 +96,12 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-input-date-picker"));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input-date-picker />, mountOptions), {
+    targetSelector: "calcite-date-picker, calcite-input-text",
+  });
 });
 
 describe("internal label", () => {

@@ -10,6 +10,7 @@ import {
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
@@ -194,6 +195,20 @@ describe("renders", () => {
         </calcite-segmented-control>,
       ),
     { display: "flex" },
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-segmented-control>
+          <calcite-segmented-control-item value="1" />
+          <calcite-segmented-control-item value="2" />
+        </calcite-segmented-control>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-segmented-control-item" },
   );
 });
 
