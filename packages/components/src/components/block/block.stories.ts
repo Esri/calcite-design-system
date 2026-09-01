@@ -452,3 +452,7 @@ export const nestedBlockGroupInChildrenSlot = (): string => html`
     <calcite-block-group slot="children"> ${nestedBlockHTML(false)} </calcite-block-group>
   </calcite-block>
 `;
+
+export const defaultSlottedText = (): string => html`
+  <calcite-block heading="Heading" description="description" expandable expanded> Default slotted text </calcite-block>
+`;

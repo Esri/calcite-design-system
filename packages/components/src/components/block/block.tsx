@@ -83,8 +83,6 @@ export class Block extends LitElement {
 
   @state() hasMenuActions = false;
 
-  @state() hasContent = false;
-
   //#endregion
 
   //#region Public Properties
@@ -450,7 +448,6 @@ export class Block extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
-    this.hasContent = slotChangeHasAssignedElement(event);
     this.updateBlockSectionScale();
   }
 
@@ -710,7 +707,6 @@ export class Block extends LitElement {
             aria-labelledby={IDS.toggle}
             class={{
               [CSS.content]: true,
-              [CSS.hasSlottedContent]: this.hasContent || loading,
             }}
             hidden={!expanded}
             id={IDS.content}
