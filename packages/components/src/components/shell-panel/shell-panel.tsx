@@ -26,6 +26,7 @@ import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
+import { isActionBar } from "../action-bar/resources";
 import type { IconName } from "../icon/types";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -633,9 +634,7 @@ export class ShellPanel extends LitElement {
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBar = slotChangeGetAssignedElements(event).find((el): el is ActionBar["el"] =>
-      el.matches("calcite-action-bar"),
-    );
+    const actionBar = slotChangeGetAssignedElements(event).find(isActionBar);
 
     this.actionBar = actionBar;
     this.setActionBarLayout(actionBar);

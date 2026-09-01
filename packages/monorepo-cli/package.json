@@ -1,6 +1,6 @@
 {
   "name": "@esri/monorepo-cli",
-  "version": "0.1.0",
+  "version": "0.2.0-next.0",
   "private": true,
   "type": "module",
   "description": "Set of commands to manage the monorepo and support CI/CD workflows",
@@ -30,6 +30,7 @@
     "@commander-js/extra-typings": "15.0.0",
     "@types/node": "24.10.0",
     "commander": "15.0.0",
+    "dedent": "1.7.2",
     "typescript": "6.0.3",
     "vitest": "4.1.10"
   }

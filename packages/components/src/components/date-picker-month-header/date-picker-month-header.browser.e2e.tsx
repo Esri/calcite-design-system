@@ -1,8 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe, it, expect } from "vitest";
-import { renders } from "../../tests/commonTests/browser";
+import { describe } from "vitest";
+import { renders, scalePropagates } from "../../tests/commonTests/browser";
 import { DateLocaleData } from "../date-picker/utils";
-import { Action } from "../action/action";
 import { DatePickerMonthHeader } from "./date-picker-month-header";
 
 const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader["el"]) => {
@@ -66,20 +66,16 @@ describe("renders", () => {
   );
 });
 
-it("displays the correct scale for actions", async () => {
-  const { el, reRender } = await mount("calcite-date-picker-month-header", {
-    afterConnect: setupDatePickerMonthHeader,
-  });
-
-  const datePickerMonthHeader = el;
-  const [prev, next] = el.shadowRoot.querySelectorAll<Action>(".chevron");
-
-  const scales = ["s", "m", "l"] as const;
-
-  for (const scale of scales) {
-    datePickerMonthHeader.scale = scale;
-    await reRender();
-    expect(prev.scale).toBe(scale);
-    expect(next.scale).toBe(scale);
-  }
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount<"calcite-date-picker-month-header">(<calcite-date-picker-month-header />, {
+        ...mountOptions,
+        afterConnect: async (el) => {
+          await setupDatePickerMonthHeader(el);
+          await mountOptions.afterConnect?.(el);
+        },
+      }),
+    { targetSelector: ".chevron" },
+  );
 });

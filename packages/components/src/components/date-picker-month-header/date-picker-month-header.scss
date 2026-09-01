@@ -64,6 +64,7 @@
 }
 
 .chevron {
+  @include includes.transition-default();
   @apply focus-base
     box-content
     flex
@@ -72,7 +73,6 @@
     items-center
     justify-center
     border-none
-    transition-default
     w-full
     h-full;
   --calcite-internal-action-padding-block: 0;
