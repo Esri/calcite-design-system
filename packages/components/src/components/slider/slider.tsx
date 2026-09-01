@@ -123,7 +123,7 @@ export class Slider extends LitElement implements LabelableComponent {
           value < previousEmittedMinValue
         ) {
           this.dragProp = "minValue";
-          this.minHandle!.focus();
+          this.minHandleRef.value!.focus();
         } else {
           this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
         }
@@ -160,7 +160,15 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private lastDragPropValue?: number | number[];
 
-  private maxHandle?: HTMLDivElement;
+  private maxHandleRef = createRef<HTMLDivElement>();
+
+  private maxValueLabelRefs = {
+    label: createRef<HTMLSpanElement>(),
+    static: createRef<HTMLSpanElement>(),
+    transformed: createRef<HTMLSpanElement>(),
+  };
+
+  private maxTickLabelRef = createRef<HTMLSpanElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -169,7 +177,15 @@ export class Slider extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private minHandle?: HTMLDivElement;
+  private minHandleRef = createRef<HTMLDivElement>();
+
+  private minValueLabelRefs = {
+    label: createRef<HTMLSpanElement>(),
+    static: createRef<HTMLSpanElement>(),
+    transformed: createRef<HTMLSpanElement>(),
+  };
+
+  private minTickLabelRef = createRef<HTMLSpanElement>();
 
   private pointerUpDragEnd = (event: PointerEvent): void => {
     if (this.disabled || !isPrimaryPointerButton(event)) {
@@ -363,7 +379,7 @@ export class Slider extends LitElement implements LabelableComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.minHandle || this.maxHandle, options);
+    return this.focusSetter(() => this.minHandleRef.value || this.maxHandleRef.value, options);
   }
 
   //#endregion
@@ -432,6 +448,10 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   override updated(): void {
+    if (!this.isConnected) {
+      return;
+    }
+
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
       if (isRange(this.value)) {
@@ -521,7 +541,10 @@ export class Slider extends LitElement implements LabelableComponent {
     }
     this.lastDragPropValue = this.getDragPropValue(prop);
     this.dragStart(prop);
-    const isThumbActive = this.el.shadowRoot!.querySelector(`.${CSS.thumb}:active`);
+    const eventPath = event.composedPath();
+    const isThumbActive = [this.minHandleRef.value, this.maxHandleRef.value].some(
+      (handle) => handle && eventPath.includes(handle),
+    );
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
@@ -665,9 +688,9 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private focusActiveHandle(valueX: number): void {
     if (this.dragProp === "minValue") {
-      this.minHandle!.focus();
+      this.minHandleRef.value!.focus();
     } else if (this.dragProp === "maxValue" || this.dragProp === "value") {
-      this.maxHandle!.focus();
+      this.maxHandleRef.value!.focus();
     } else if (this.dragProp === "minMaxValue") {
       this.getClosestHandle(valueX).focus();
     }
@@ -736,19 +759,6 @@ export class Slider extends LitElement implements LabelableComponent {
     this.calciteSliderInput.emit();
   }
 
-  private setThumbEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    const valueProp = el.getAttribute("data-value-prop") as ActiveSliderProperty;
-    if (valueProp === "minValue") {
-      this.minHandle = el;
-    } else {
-      this.maxHandle = el;
-    }
-  }
-
   /**
    * If number is outside range, constrain to min or max
    *
@@ -812,9 +822,12 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {
-    return this.getDistanceX(this.maxHandle!, valueX) > this.getDistanceX(this.minHandle!, valueX)
-      ? this.minHandle!
-      : this.maxHandle!;
+    const minHandle = this.minHandleRef.value!;
+    const maxHandle = this.maxHandleRef.value!;
+
+    return this.getDistanceX(maxHandle, valueX) > this.getDistanceX(minHandle, valueX)
+      ? minHandle
+      : maxHandle;
   }
 
   private getDistanceX(el: HTMLDivElement, valueX: number): number {
@@ -839,14 +852,10 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
-    const shadowRoot = this.el.shadowRoot!;
-    const label: HTMLSpanElement = shadowRoot.querySelector(`.handle__label--${name}`)!;
-    const labelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${name}.static`,
-    )!;
-    const labelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${name}.transformed`,
-    )!;
+    const labelRefs = name === "minValue" ? this.minValueLabelRefs : this.maxValueLabelRefs;
+    const label = labelRefs.label.value!;
+    const labelStatic = labelRefs.static.value!;
+    const labelTransformed = labelRefs.transformed.value!;
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
     label.style.transform = `translateX(${labelStaticOffset}px)`;
@@ -854,35 +863,20 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
-    const shadowRoot = this.el.shadowRoot!;
-
     const mirror = this.shouldMirror();
-    const leftModifier = mirror ? "value" : "minValue";
-    const rightModifier = mirror ? "minValue" : "value";
-
-    const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}`,
-    )!;
-    const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.static`,
-    )!;
-    const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.transformed`,
-    )!;
+    const leftValueLabelRefs = mirror ? this.maxValueLabelRefs : this.minValueLabelRefs;
+    const rightValueLabelRefs = mirror ? this.minValueLabelRefs : this.maxValueLabelRefs;
+    const leftValueLabel = leftValueLabelRefs.label.value!;
+    const leftValueLabelStatic = leftValueLabelRefs.static.value!;
+    const leftValueLabelTransformed = leftValueLabelRefs.transformed.value!;
     const leftValueLabelStaticHostOffset = this.getHostOffset(
       leftValueLabelStatic.getBoundingClientRect().left,
       leftValueLabelStatic.getBoundingClientRect().right,
     );
 
-    const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}`,
-    )!;
-    const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.static`,
-    )!;
-    const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.transformed`,
-    )!;
+    const rightValueLabel = rightValueLabelRefs.label.value!;
+    const rightValueLabelStatic = rightValueLabelRefs.static.value!;
+    const rightValueLabelTransformed = rightValueLabelRefs.transformed.value!;
     const rightValueLabelStaticHostOffset = this.getHostOffset(
       rightValueLabelStatic.getBoundingClientRect().left,
       rightValueLabelStatic.getBoundingClientRect().right,
@@ -993,12 +987,10 @@ export class Slider extends LitElement implements LabelableComponent {
       return;
     }
 
-    const shadowRoot = this.el.shadowRoot!;
-    const minHandle = shadowRoot.querySelector<HTMLDivElement>(`.${CSS.thumbMinValue}`);
-    const maxHandle = shadowRoot.querySelector<HTMLDivElement>(`.${CSS.thumbValue}`);
-
-    const minTickLabel = shadowRoot.querySelector<HTMLSpanElement>(`.${CSS.tickMin}`);
-    const maxTickLabel = shadowRoot.querySelector<HTMLSpanElement>(`.${CSS.tickMax}`);
+    const minHandle = this.minHandleRef.value;
+    const maxHandle = this.maxHandleRef.value;
+    const minTickLabel = this.minTickLabelRef.value;
+    const maxTickLabel = this.maxTickLabelRef.value;
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
@@ -1281,16 +1273,25 @@ export class Slider extends LitElement implements LabelableComponent {
     const thumbLabelClasses = `${CSS.handleLabel} ${
       isMinThumb ? CSS.handleLabelMinValue : CSS.handleLabelValue
     }`;
+    const labelRefs = isMinThumb ? this.minValueLabelRefs : this.maxValueLabelRefs;
 
     const labels = isLabeled
       ? [
-          <span ariaHidden="true" class={thumbLabelClasses}>
+          <span ariaHidden="true" class={thumbLabelClasses} ref={labelRefs.label}>
             {displayedValue}
           </span>,
-          <span ariaHidden="true" class={`${thumbLabelClasses} ${CSS.static}`}>
+          <span
+            ariaHidden="true"
+            class={`${thumbLabelClasses} ${CSS.static}`}
+            ref={labelRefs.static}
+          >
             {displayedValue}
           </span>,
-          <span ariaHidden="true" class={`${thumbLabelClasses} ${CSS.transformed}`}>
+          <span
+            ariaHidden="true"
+            class={`${thumbLabelClasses} ${CSS.transformed}`}
+            ref={labelRefs.transformed}
+          >
             {displayedValue}
           </span>,
         ]
@@ -1325,7 +1326,7 @@ export class Slider extends LitElement implements LabelableComponent {
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
-        ref={this.setThumbEl}
+        ref={isMinThumb ? this.minHandleRef : this.maxHandleRef}
         role="slider"
         style={thumbStyle}
         tabIndex={0}
@@ -1361,17 +1362,34 @@ export class Slider extends LitElement implements LabelableComponent {
       ((!hasHistogram && (isAtEdge || !precise || !valueIsRange)) ||
         (hasHistogram && (isAtEdge || (!precise && !labelHandles))));
 
-    return shouldDisplayLabel ? (
-      <span
-        class={{
-          [CSS.tickLabel]: true,
-          [CSS.tickMin]: isMinTickLabel,
-          [CSS.tickMax]: isMaxTickLabel,
-        }}
-      >
-        {this.internalLabelFormatter(tick, "tick")}
-      </span>
-    ) : null;
+    if (!shouldDisplayLabel) {
+      return null;
+    }
+
+    const tickLabelClasses = {
+      [CSS.tickLabel]: true,
+      [CSS.tickMin]: isMinTickLabel,
+      [CSS.tickMax]: isMaxTickLabel,
+    };
+    const tickLabel = this.internalLabelFormatter(tick, "tick");
+
+    if (isMinTickLabel) {
+      return (
+        <span class={tickLabelClasses} ref={this.minTickLabelRef}>
+          {tickLabel}
+        </span>
+      );
+    }
+
+    if (isMaxTickLabel) {
+      return (
+        <span class={tickLabelClasses} ref={this.maxTickLabelRef}>
+          {tickLabel}
+        </span>
+      );
+    }
+
+    return <span class={tickLabelClasses}>{tickLabel}</span>;
   }
 
   //#endregion
