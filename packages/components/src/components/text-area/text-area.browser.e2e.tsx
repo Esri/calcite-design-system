@@ -8,7 +8,7 @@ import {
   defaults,
   disabled,
   focusable,
-  globalPropsAndAttributes,
+  globalProps,
   reflects,
   hidden,
   internalLabel,
@@ -22,14 +22,16 @@ import { CSS } from "./resources";
 import type { TextArea } from "./text-area";
 import { afterNextFrame } from "../../tests/utils/timing";
 
-globalPropsAndAttributes(
-  () => mount<TextArea>(<calcite-text-area />),
-  () => page.getBySelector("textarea"),
-  {
-    autofocus: true,
-    spellcheck: false,
-  },
-);
+describe("global props", () => {
+  globalProps(
+    () => mount<TextArea>(<calcite-text-area />),
+    () => page.getBySelector("textarea"),
+    {
+      autofocus: true,
+      spellcheck: false,
+    },
+  );
+});
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");

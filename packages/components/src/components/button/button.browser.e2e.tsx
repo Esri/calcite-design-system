@@ -5,7 +5,7 @@ import { CSS } from "./resources";
 import {
   defaults,
   focusable,
-  globalPropsAndAttributes,
+  globalProps,
   hidden,
   t9n,
   disabled,
@@ -59,13 +59,15 @@ describe("renders", () => {
   renders(() => mount("calcite-button"), { display: "inline-block" });
 });
 
-globalPropsAndAttributes(
-  () => mount<"calcite-button">(<calcite-button>Continue</calcite-button>),
-  () => page.getBySelector("button"),
-  {
-    ariaExpanded: "true",
-  },
-);
+describe("global props", () => {
+  globalProps(
+    () => mount<"calcite-button">(<calcite-button>Continue</calcite-button>),
+    () => page.getBySelector("button"),
+    {
+      ariaExpanded: "true",
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(

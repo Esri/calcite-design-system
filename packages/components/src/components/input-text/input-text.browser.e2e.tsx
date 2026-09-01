@@ -7,7 +7,7 @@ import {
   disabled,
   focusable,
   formAssociated,
-  globalPropsAndAttributes,
+  globalProps,
   hidden,
   internalLabel,
   reflects,
@@ -22,16 +22,18 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
 
-globalPropsAndAttributes(
-  () => mount<InputText>(<calcite-input-text />),
-  () => page.getByRole("textbox"),
-  {
-    autofocus: true,
-    enterKeyHint: "go",
-    inputMode: "email",
-    spellcheck: false,
-  },
-);
+describe("global props", () => {
+  globalProps(
+    () => mount<InputText>(<calcite-input-text />),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "go",
+      inputMode: "email",
+      spellcheck: false,
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(

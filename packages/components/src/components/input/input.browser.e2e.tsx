@@ -9,7 +9,7 @@ import {
   disabled,
   focusable,
   formAssociated,
-  globalPropsAndAttributes,
+  globalProps,
   hidden,
   internalLabel,
   reflects,
@@ -29,16 +29,18 @@ import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 
 const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
 
-globalPropsAndAttributes(
-  () => mount<Input>(<calcite-input />),
-  () => page.getByRole("textbox"),
-  {
-    autofocus: true,
-    enterKeyHint: "next",
-    inputMode: "numeric",
-    spellcheck: false,
-  },
-);
+describe("global props", () => {
+  globalProps(
+    () => mount<Input>(<calcite-input />),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "next",
+      inputMode: "numeric",
+      spellcheck: false,
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(

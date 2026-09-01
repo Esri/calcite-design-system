@@ -9,7 +9,7 @@ import {
   disabled,
   focusable,
   formAssociated,
-  globalPropsAndAttributes,
+  globalProps,
   hidden,
   internalLabel,
   reflects,
@@ -26,18 +26,20 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import type { InputNumber } from "./input-number";
 
-globalPropsAndAttributes(
-  () => mount("calcite-input-number"),
-  () => page.getByRole("textbox"),
-  {
-    autofocus: true,
-    enterKeyHint: "done",
-    inputMode: "numeric",
-  },
-  {
-    inputMode: "decimal",
-  },
-);
+describe("global props", () => {
+  globalProps(
+    () => mount("calcite-input-number"),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "done",
+      inputMode: "numeric",
+    },
+    {
+      inputMode: "decimal",
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(

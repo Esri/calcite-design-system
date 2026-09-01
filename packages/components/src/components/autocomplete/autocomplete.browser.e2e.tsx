@@ -15,7 +15,7 @@ import {
   t9n,
   disabled,
   formAssociated,
-  globalPropsAndAttributes,
+  globalProps,
   openClose,
   topLayer,
   accessible,
@@ -30,15 +30,17 @@ import { CSS, SLOTS } from "./resources";
 
 mockConsole();
 
-globalPropsAndAttributes(
-  () => mount<Autocomplete>(<calcite-autocomplete label="Items" />),
-  () => page.getBySelector("calcite-input"),
-  {
-    autofocus: true,
-    enterKeyHint: "search",
-    inputMode: "search",
-  },
-);
+describe("global props", () => {
+  globalProps(
+    () => mount<Autocomplete>(<calcite-autocomplete label="Items" />),
+    () => page.getBySelector("calcite-input"),
+    {
+      autofocus: true,
+      enterKeyHint: "search",
+      inputMode: "search",
+    },
+  );
+});
 
 describe("accessible", () => {
   describe("default", () => {
