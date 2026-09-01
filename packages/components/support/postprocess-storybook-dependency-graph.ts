@@ -26,7 +26,7 @@ interface LuminaContent {
     return;
   }
 
-  const luminaPath = resolve(import.meta.dirname, "../build/custom-element-dependencies.json");
+  const luminaPath = resolve(import.meta.dirname, "../build/plugins/custom-element-dependencies.json");
   const storybookPath = resolve(import.meta.dirname, "../docs/preview-stats.json");
 
   const luminaContents: LuminaContent = JSON.parse(await readFile(luminaPath, { encoding: "utf-8" }));

@@ -3,5 +3,5 @@ docs/
 *.js
 !/lint-staged.config.mjs
 src/components/icon/assets
-build/custom-element-dependencies.json
+build/plugins/custom-element-dependencies.json
 node_modules

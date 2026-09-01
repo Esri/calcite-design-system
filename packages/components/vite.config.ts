@@ -1,6 +1,4 @@
 import { execSync } from "child_process";
-import { writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import stylelint from "stylelint";
@@ -10,6 +8,7 @@ import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
 import { playwrightCommands as customBrowserModeCommandsPlugin } from "vitest-browser-commands";
+import customElementDependenciesPlugin from "./build/plugins/custom-element-dependencies";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
@@ -71,20 +70,7 @@ export function createConfig({
       noExternal: nonEsmDependencies,
     },
 
-    plugins: [
-      lumina,
-      customBrowserModeCommandsPlugin(),
-      {
-        name: "custom-element-dependencies",
-        buildEnd: async () => {
-          if (!process.env.STORYBOOK_SCREENSHOT_TEST_BUILD) {
-            return;
-          }
-          const outFile = resolve(import.meta.dirname, "build", "custom-element-dependencies.json");
-          await writeFile(outFile, JSON.stringify((lumina.context as any)._customElementDependencies));
-        },
-      },
-    ],
+    plugins: [lumina, customBrowserModeCommandsPlugin(), customElementDependenciesPlugin(lumina)],
 
     css: {
       postcss: {
