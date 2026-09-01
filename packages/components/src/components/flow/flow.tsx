@@ -5,15 +5,12 @@ import { getSlotAssignedElements, whenAnimationDone } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import type { FlowItem } from "../flow-item/flow-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { logger } from "../../utils/logger";
 import { FlowDirection, FlowItemLikeElement } from "./types";
 import { CSS, SELECTORS } from "./resources";
 import { styles } from "./flow.scss";
 
 function getFlowItemSelectors(customItemSelectors?: string): string {
-  const customSelectors = customItemSelectors?.trim();
-
-  return customSelectors ? `${SELECTORS.item},${customSelectors}` : SELECTORS.item;
+  return customItemSelectors ? `${SELECTORS.item},${customItemSelectors}` : SELECTORS.item;
 }
 
 declare global {
@@ -55,7 +52,7 @@ export class Flow extends LitElement {
   // #region Public Properties
 
   /**
-   * This property enables the component to consider other custom elements implementing flow-item's interface.
+   * This property enables the component to consider additional custom elements implementing flow-item's interface.
    *
    * @private
    */
@@ -189,23 +186,11 @@ export class Flow extends LitElement {
   }
 
   private updateItemsAndProps(): void {
-    const { customItemSelectors } = this;
-    const itemSelectors = getFlowItemSelectors(customItemSelectors);
+    const itemSelectors = getFlowItemSelectors(this.customItemSelectors);
     const slottedItems = this.defaultSlotRef.value
       ? getSlotAssignedElements<FlowItemLikeElement>(this.defaultSlotRef.value)
       : [];
-
-    let newItems: FlowItemLikeElement[] = [];
-
-    try {
-      newItems = slottedItems.filter((flowItem) => flowItem.matches(itemSelectors));
-    } catch (error) {
-      logger.warn(
-        `${this.el.tagName.toLowerCase()}: Error while matching custom-item-selectors ("${customItemSelectors}"). Falling back to "${SELECTORS.item}".`,
-        error,
-      );
-      newItems = slottedItems.filter((flowItem) => flowItem.matches(SELECTORS.item));
-    }
+    const newItems = slottedItems.filter((flowItem) => flowItem.matches(itemSelectors));
 
     this.items = newItems;
 

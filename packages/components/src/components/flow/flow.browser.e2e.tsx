@@ -1,37 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
+import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { accessible, hidden, renders, focusable, themed } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import type { FlowItemLikeElement } from "./types";
 import { CSS } from "./resources";
 
-class CustomFlowItem extends HTMLElement implements FlowItemLikeElement {
-  get selected(): boolean {
-    return this.hasAttribute("selected");
-  }
+class CustomFlowItem extends LitElement implements FlowItemLikeElement {
+  static tagName = "custom-flow-item";
 
-  set selected(value: boolean) {
-    this.toggleAttribute("selected", value);
-  }
+  @property({ reflect: true, type: Boolean }) menuOpen = false;
 
-  get showBackButton(): boolean {
-    return this.hasAttribute("show-back-button");
-  }
+  @property({ reflect: true, type: Boolean }) selected = false;
 
-  set showBackButton(value: boolean) {
-    this.toggleAttribute("show-back-button", value);
-  }
-
-  get menuOpen(): boolean {
-    return this.hasAttribute("menu-open");
-  }
-
-  set menuOpen(value: boolean) {
-    this.toggleAttribute("menu-open", value);
-  }
+  @property({ reflect: true, type: Boolean }) showBackButton = false;
 
   async beforeBack(): Promise<void> {
     // no op
@@ -40,32 +24,30 @@ class CustomFlowItem extends HTMLElement implements FlowItemLikeElement {
   async setFocus(): Promise<void> {
     // no op
   }
+
+  override render(): JsxNode {
+    return this.showBackButton ? (
+      <button onClick={this.handleBackButtonClick} type="button">
+        Back
+      </button>
+    ) : null;
+  }
+
+  private handleBackButtonClick(): void {
+    this.el.dispatchEvent(
+      new CustomEvent("calciteFlowItemBack", { bubbles: true, cancelable: true, composed: true }),
+    );
+  }
 }
 
-class CustomNonFlowItem extends HTMLElement implements FlowItemLikeElement {
-  get selected(): boolean {
-    return this.hasAttribute("selected");
-  }
+class CustomNonFlowItem extends LitElement implements FlowItemLikeElement {
+  static tagName = "custom-non-flow-item";
 
-  set selected(value: boolean) {
-    this.toggleAttribute("selected", value);
-  }
+  @property({ reflect: true, type: Boolean }) menuOpen = false;
 
-  get showBackButton(): boolean {
-    return this.hasAttribute("show-back-button");
-  }
+  @property({ reflect: true, type: Boolean }) selected = false;
 
-  set showBackButton(value: boolean) {
-    this.toggleAttribute("show-back-button", value);
-  }
-
-  get menuOpen(): boolean {
-    return this.hasAttribute("menu-open");
-  }
-
-  set menuOpen(value: boolean) {
-    this.toggleAttribute("menu-open", value);
-  }
+  @property({ reflect: true, type: Boolean }) showBackButton = false;
 
   async beforeBack(): Promise<void> {
     // no op
@@ -159,46 +141,88 @@ describe("theme", () => {
 });
 
 describe("slotted item tracking", () => {
+  it("uses custom-item-selectors in addition to calcite-flow-item", async () => {
+    await mount(
+      html`
+        <calcite-flow id="flow-host" custom-item-selectors="custom-flow-item">
+          <calcite-flow-item id="ignored">Default item</calcite-flow-item>
+          <custom-flow-item id="selected">Custom item</custom-flow-item>
+        </calcite-flow>
+      `,
+      { dynamicComponents: [CustomFlowItem] },
+    );
+
+    const ignoredItem = page.getBySelector("#flow-host #ignored");
+    const selectedItem = page.getBySelector("#flow-host #selected");
+
+    await expect.element(selectedItem).toHaveProperty("selected", true);
+
+    await expect.element(ignoredItem).toHaveProperty("selected", false);
+    await expect.element(ignoredItem).toHaveProperty("showBackButton", false);
+    await expect.element(selectedItem).toHaveProperty("showBackButton", true);
+  });
+
+  it("supports navigating through custom flow items", async () => {
+    await mount(
+      html`
+        <calcite-flow custom-item-selectors=":is(calcite-flow-item, custom-flow-item)">
+          <calcite-flow-item id="first">Default item</calcite-flow-item>
+          <custom-flow-item id="second">Custom item</custom-flow-item>
+        </calcite-flow>
+      `,
+      { dynamicComponents: [CustomFlowItem] },
+    );
+
+    const first = page.getBySelector("#first");
+    const secondItem = page.getBySelector("#second");
+    const secondItemBackButton = page.elementLocator(secondItem.element()).getBySelector("button");
+
+    await expect.element(secondItem).toHaveProperty("selected", true);
+    await expect.element(secondItem).toHaveProperty("showBackButton", true);
+
+    await userEvent.click(secondItemBackButton);
+
+    await expect.element(first).toHaveProperty("selected", true);
+    await expect.element(first).toHaveProperty("showBackButton", false);
+    await expect.element(secondItem).toHaveProperty("selected", false);
+    await expect.element(secondItem).toHaveProperty("showBackButton", false);
+  });
+
   it("tracks only top-level matching slotted items", async () => {
-    if (!customElements.get("custom-flow-item")) {
-      customElements.define("custom-flow-item", CustomFlowItem);
-    }
+    await mount(
+      html`
+        <calcite-flow
+          id="flow-host"
+          custom-item-selectors=":is(calcite-flow-item, custom-flow-item, custom-flow-item-alt)"
+        >
+          <calcite-flow-item id="first">Top-level item</calcite-flow-item>
+          <custom-flow-item id="second">
+            Top-level item
+            <custom-flow-item id="nested">Nested descendant item</custom-flow-item>
+          </custom-flow-item>
+          <custom-non-flow-item id="ignored"></custom-non-flow-item>
+        </calcite-flow>
+      `,
+      { dynamicComponents: [CustomFlowItem, CustomNonFlowItem] },
+    );
 
-    if (!customElements.get("custom-non-flow-item")) {
-      customElements.define("custom-non-flow-item", CustomNonFlowItem);
-    }
+    const first = page.getBySelector("#flow-host #first");
+    const secondItem = page.getBySelector("#flow-host #second");
+    const nestedItem = page.getBySelector("#flow-host #nested");
+    const ignoredItem = page.getBySelector("#flow-host #ignored");
 
-    await mount(html`
-      <calcite-flow
-        id="flow-host"
-        custom-item-selectors=":is(custom-flow-item, custom-flow-item-alt)"
-      >
-        <calcite-flow-item id="first">Top-level item</calcite-flow-item>
-        <custom-flow-item id="second">
-          Top-level item
-          <custom-flow-item id="nested">Nested descendant item</custom-flow-item>
-        </custom-flow-item>
-        <custom-non-flow-item id="ignored"></custom-non-flow-item>
-      </calcite-flow>
-    `);
+    await expect.element(secondItem).toHaveProperty("selected", true);
 
-    const first = page.getBySelector("#flow-host #first").element() as FlowItemLikeElement;
-    const secondItem = page.getBySelector("#flow-host #second").element() as FlowItemLikeElement;
-    const nestedItem = page.getBySelector("#flow-host #nested").element() as FlowItemLikeElement;
-    const ignoredItem = page.getBySelector("#flow-host #ignored").element() as FlowItemLikeElement;
+    await expect.element(first).toHaveProperty("selected", false);
+    await expect.element(first).toHaveProperty("showBackButton", false);
 
-    await expect.poll(() => secondItem.selected).toBe(true);
+    await expect.element(secondItem).toHaveProperty("selected", true);
+    await expect.element(secondItem).toHaveProperty("showBackButton", true);
 
-    expect(first.selected).toBe(false);
-    expect(first.showBackButton).toBe(false);
+    await expect.element(nestedItem).toHaveProperty("selected", false);
+    await expect.element(nestedItem).toHaveProperty("showBackButton", false);
 
-    expect(secondItem.selected).toBe(true);
-    expect(secondItem.showBackButton).toBe(true);
-
-    expect(nestedItem.selected).toBe(false);
-    expect(nestedItem.showBackButton).toBe(false);
-
-    expect(ignoredItem.selected).toBe(false);
-    expect(ignoredItem.showBackButton).toBe(false);
+    await expect.element(ignoredItem).toHaveProperty("selected", false);
+    await expect.element(ignoredItem).toHaveProperty("showBackButton", false);
   });
 });
