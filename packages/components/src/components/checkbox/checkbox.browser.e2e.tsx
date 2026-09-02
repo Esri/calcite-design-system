@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   accessible,
   defaults,
@@ -20,7 +21,7 @@ import { CSS } from "./resources";
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-checkbox", mountOptions), {
     propertyToToggle: "checked",
-    shadowFocusTargetSelector: ".toggle",
+    shadowFocusTarget: (el) => page.elementLocator(el.shadowRoot!.querySelector(".toggle")!),
   });
 });
 

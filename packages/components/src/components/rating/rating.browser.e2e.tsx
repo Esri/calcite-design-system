@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   disabled,
@@ -25,13 +26,13 @@ describe("labelable", () => {
 
   describe("focuses the first star when the label is clicked and no-rating value exists", () => {
     labelable((mountOptions) => mount("calcite-rating", mountOptions), {
-      shadowFocusTargetSelector: "label[data-value='1']",
+      shadowFocusTarget: (el) => page.elementLocator(el).getBySelector("label[data-value='1']"),
     });
   });
 
   describe("focuses the value-matching star when the label is clicked", () => {
     labelable((mountOptions) => mount(<calcite-rating value={3} />, mountOptions), {
-      shadowFocusTargetSelector: "label[data-value='3']",
+      shadowFocusTarget: (el) => page.elementLocator(el).getBySelector("label[data-value='3']"),
     });
   });
 });

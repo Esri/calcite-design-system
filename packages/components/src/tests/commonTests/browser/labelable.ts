@@ -1,8 +1,8 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, onTestFinished } from "vitest";
+import { type Locator, page } from "vitest/browser";
 import type { Label } from "../../../components/label/label";
 import { afterNextFrame } from "../../utils/timing";
-import type { FocusableOptions } from "./focusable";
 
 type BooleanPropertyElement = HTMLElement & Record<string, boolean>;
 
@@ -15,7 +15,13 @@ interface LabelableMountOptions {
   afterConnect: NonNullable<Parameters<typeof mount>[1]>["afterConnect"];
 }
 
-export interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" | "shadowFocusTargetSelector"> {
+export interface LabelableOptions {
+  /** Locator used to assert the focused DOM element. */
+  focusTarget?: (el: HTMLElement) => Locator;
+
+  /** Locator used to assert the focused shadow DOM element. */
+  shadowFocusTarget?: (el: HTMLElement) => Locator;
+
   /** If clicking on a label toggles the labelable component, use this prop to specify the name of the toggled prop. */
   propertyToToggle?: string;
 }
@@ -61,7 +67,6 @@ export function labelable(
   options?: LabelableOptions,
 ): void {
   const id = "labelable-id";
-  const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
 
   const mountLabelable = (parent: HTMLElement, elementId = id) =>
     setup({
@@ -71,12 +76,10 @@ export function labelable(
       },
     });
 
-  async function assertLabelable(
-    result: Awaited<ReturnType<typeof mount>>,
-    label: Label["el"],
-    expectedFocusTargetSelector = focusTargetSelector,
-  ): Promise<void> {
+  async function assertLabelable(result: Awaited<ReturnType<typeof mount>>, label: Label["el"]): Promise<void> {
     const { el, reRender } = result;
+    const focusTarget = options?.focusTarget?.(el) ?? page.elementLocator(el);
+    const shadowFocusTarget = options?.shadowFocusTarget?.(el);
     const propertyToToggle = options?.propertyToToggle;
     const toggleableElement = propertyToToggle && hasBooleanProperty(el, propertyToToggle) ? el : undefined;
 
@@ -97,10 +100,10 @@ export function labelable(
     await afterNextFrame();
     await reRender();
 
-    expect(Boolean(document.activeElement?.closest(expectedFocusTargetSelector))).toBe(true);
+    await expect.element(focusTarget).toHaveFocus();
 
-    if (options?.shadowFocusTargetSelector) {
-      expect(el.shadowRoot.activeElement?.matches(options.shadowFocusTargetSelector)).toBe(true);
+    if (shadowFocusTarget) {
+      expect(el.shadowRoot.activeElement).toBe(shadowFocusTarget.element());
     }
 
     if (toggleState) {
@@ -119,7 +122,7 @@ export function labelable(
     el.click();
     await reRender();
 
-    expect(Boolean(document.activeElement?.closest(expectedFocusTargetSelector))).toBe(true);
+    await expect.element(focusTarget).toHaveFocus();
   }
 
   describe("label wraps labelables", () => {
@@ -162,9 +165,7 @@ export function labelable(
       await mountLabelable(label, `${id}-3`);
       await waitForLabelConnection(firstResult, label);
 
-      const firstFocusTargetSelector = focusTargetSelector === `#${id}` ? `#${id}` : `#${id} ${focusTargetSelector}`;
-
-      await assertLabelable(firstResult, label, firstFocusTargetSelector);
+      await assertLabelable(firstResult, label);
     });
   });
 

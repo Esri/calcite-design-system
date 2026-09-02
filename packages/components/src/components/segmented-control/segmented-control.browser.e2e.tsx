@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -29,7 +30,9 @@ describe("labelable", () => {
         </calcite-segmented-control>,
         mountOptions,
       ),
-    { focusTargetSelector: "calcite-segmented-control-item" },
+    {
+      focusTarget: (el) => page.elementLocator(el.querySelector("calcite-segmented-control-item")!),
+    },
   );
 });
 

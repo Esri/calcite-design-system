@@ -30,7 +30,7 @@ describe("labelable", () => {
           </calcite-inline-editable>,
           mountOptions,
         ),
-      { focusTargetSelector: "calcite-input" },
+      { focusTarget: (el) => page.elementLocator(el).getBySelector("calcite-input") },
     );
   });
 
@@ -43,7 +43,7 @@ describe("labelable", () => {
           </calcite-inline-editable>,
           mountOptions,
         ),
-      { focusTargetSelector: "calcite-input" },
+      { focusTarget: (el) => page.elementLocator(el).getBySelector("calcite-input") },
     );
   });
 });

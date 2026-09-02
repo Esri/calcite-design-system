@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   focusable,
@@ -24,7 +25,8 @@ describe("labelable", () => {
 
   labelable((mountOptions) => mount(<calcite-radio-button name="group-name" />, mountOptions), {
     propertyToToggle: "checked",
-    shadowFocusTargetSelector: ".container",
+    shadowFocusTarget: (el) =>
+      page.elementLocator(el.shadowRoot!.querySelector(`.${CSS.container}`)!),
   });
 });
 
