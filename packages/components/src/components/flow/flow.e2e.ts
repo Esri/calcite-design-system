@@ -8,7 +8,6 @@ import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
-import { FlowItemLikeElement } from "./interfaces";
 import type { Flow } from "./flow";
 
 async function slowPageAnimations(page: E2EPage): Promise<void> {
@@ -323,200 +322,33 @@ describe("works with flow-items", () => {
     expect(await items[2].getProperty("showBackButton")).toBe(true);
   });
 
-  it("should also work with descendant slotted items", async () => {
+  it("should ignore descendant flow items and only track top-level slotted items", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
       html`<calcite-flow>
-        <calcite-flow-item>Assigned item</calcite-flow-item>
-        <calcite-flow-item>Assigned item</calcite-flow-item>
-        <div>
-          <calcite-flow-item>
-            Assigned item
-            <calcite-flow-item>Assigned item</calcite-flow-item>
-            <calcite-flow>
-              <calcite-flow-item>Unassigned item</calcite-flow-item>
-            </calcite-flow>
-          </calcite-flow-item>
-        </div>
+        <calcite-flow-item id="first">Top-level item</calcite-flow-item>
+        <calcite-flow-item id="second"
+          >Top-level item
+          <calcite-flow-item id="nested">Nested descendant item</calcite-flow-item>
+        </calcite-flow-item>
       </calcite-flow>`,
     );
 
-    const items = await findAll(page, "calcite-flow-item");
+    const first = await page.find("#first");
+    const second = await page.find("#second");
+    const nested = await page.find("#nested");
 
-    expect(items).toHaveLength(5);
+    expect(await first.getProperty("selected")).toBe(false);
+    expect(await first.getProperty("showBackButton")).toBe(false);
+    expect(await first.isVisible()).toBe(false);
 
-    expect(await items[0].getProperty("selected")).toBe(false);
-    expect(await items[0].getProperty("showBackButton")).toBe(false);
-    expect(await items[0].isVisible()).toBe(false);
+    expect(await second.getProperty("selected")).toBe(true);
+    expect(await second.getProperty("showBackButton")).toBe(true);
+    expect(await second.isVisible()).toBe(true);
 
-    expect(await items[1].getProperty("selected")).toBe(false);
-    expect(await items[1].getProperty("showBackButton")).toBe(false);
-    expect(await items[1].isVisible()).toBe(false);
-
-    expect(await items[2].getProperty("selected")).toBe(false);
-    expect(await items[2].getProperty("showBackButton")).toBe(false);
-    expect(await items[2].isVisible()).toBe(false);
-
-    expect(await items[3].getProperty("selected")).toBe(true);
-    expect(await items[3].getProperty("showBackButton")).toBe(true);
-    expect(await items[3].isVisible()).toBe(true);
-
-    expect(await items[4].getProperty("selected")).toBe(true);
-    expect(await items[4].getProperty("showBackButton")).toBe(false);
-    expect(await items[4].isVisible()).toBe(true);
+    expect(await nested.getProperty("selected")).toBe(false);
+    expect(await nested.getProperty("showBackButton")).toBe(false);
+    expect(await nested.isVisible()).toBe(false);
   });
-});
-
-it("supports custom flow-items", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`
-    <calcite-flow custom-item-selectors="custom-flow-item">
-      <calcite-flow-item heading="flow-item-1" id="first">
-        <p>😃</p>
-      </calcite-flow-item>
-      <custom-flow-item heading="custom-flow-item" id="second">
-        <p>🥸</p>
-      </custom-flow-item>
-      <calcite-flow-item heading="flow-item-2" id="third">
-        <p>😃</p>
-      </calcite-flow-item>
-    </calcite-flow>
-  `);
-
-  await page.evaluate(async () => {
-    class CustomFlowItem extends HTMLElement implements FlowItemLikeElement {
-      private flowItemEl: FlowItem["el"];
-
-      constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: "open" });
-
-        shadow.innerHTML = `
-                <style>
-                  :host {
-                    display: none;
-                    background: #bdf2c4;
-                  }
-                  :host([selected]) {
-                    @apply flex;
-                  }
-
-                </style>
-                <calcite-flow-item id="internalFlowItem">
-                  <slot></slot>
-                </calcite-flow-item>
-              `;
-
-        this.flowItemEl = shadow.getElementById("internalFlowItem") as FlowItem["el"];
-      }
-
-      connectedCallback(): void {
-        this.flowItemEl.setAttribute("heading", this.getAttribute("heading")!);
-        this.flowItemEl.setAttribute("selected", this.getAttribute("selected")!);
-        this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button")!);
-        this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open")!);
-        this.flowItemEl.setAttribute("selected", this.getAttribute("selected")!);
-        this.selected = this.hasAttribute("selected");
-        this.showBackButton = this.hasAttribute("show-back-button");
-        this.menuOpen = this.hasAttribute("menu-open");
-        this.heading = this.getAttribute("heading")!;
-      }
-
-      get heading(): string {
-        return this.getAttribute("heading")!;
-      }
-
-      set heading(value: string) {
-        this.flowItemEl.heading = value;
-      }
-
-      get hidden(): boolean {
-        return this.hasAttribute("hidden");
-      }
-
-      set hidden(value: boolean) {
-        this.toggleAttribute("hidden", value);
-        this.flowItemEl.toggleAttribute("hidden", value);
-      }
-
-      get selected(): boolean {
-        return this.hasAttribute("selected");
-      }
-
-      set selected(value: boolean) {
-        this.toggleAttribute("selected", value);
-        this.flowItemEl.toggleAttribute("selected", value);
-      }
-
-      get menuOpen(): boolean {
-        return this.hasAttribute("menu-open");
-      }
-
-      set menuOpen(value: boolean) {
-        this.toggleAttribute("menu-open", value);
-        this.flowItemEl.menuOpen = value;
-      }
-
-      get showBackButton(): boolean {
-        return this.hasAttribute("show-back-button");
-      }
-
-      set showBackButton(value: boolean) {
-        this.toggleAttribute("show-back-button", value);
-        this.flowItemEl.showBackButton = value;
-      }
-
-      async beforeBack(): Promise<void> {
-        // no op
-      }
-
-      async setFocus(options?: FocusOptions): Promise<void> {
-        await this.flowItemEl.setFocus(options);
-      }
-    }
-
-    customElements.define("custom-flow-item", CustomFlowItem);
-  });
-  await page.waitForChanges();
-
-  const flow = await page.find("calcite-flow");
-  const displayedItemSelector = "calcite-flow > [selected]";
-  let displayedItem = await page.find(displayedItemSelector);
-
-  expect(await flow.getProperty("childElementCount")).toBe(3);
-  expect(displayedItem.id).toBe("third");
-
-  await page.evaluate(
-    async (displayedItemSelector: string, ITEM_CSS) => {
-      document
-        .querySelector(displayedItemSelector)!
-        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
-        .click();
-    },
-    displayedItemSelector,
-    ITEM_CSS,
-  );
-  await page.waitForChanges();
-
-  displayedItem = await page.find(displayedItemSelector);
-  expect(await flow.getProperty("childElementCount")).toBe(3);
-  expect(displayedItem.id).toBe("second");
-
-  await page.evaluate(
-    async (displayedItemSelector: string, ITEM_CSS) => {
-      document
-        .querySelector(displayedItemSelector)!
-        .shadowRoot!.querySelector("calcite-flow-item")!
-        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
-        .click();
-    },
-    displayedItemSelector,
-    ITEM_CSS,
-  );
-  await page.waitForChanges();
-
-  displayedItem = await page.find(displayedItemSelector);
-  expect(await flow.getProperty("childElementCount")).toBe(3);
-  expect(displayedItem.id).toBe("first");
 });

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { labelable } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import type { GlobalTestProps } from "../../tests/utils/interfaces";
+import type { GlobalTestProps } from "../../tests/utils/types";
 import type { SegmentedControl } from "./segmented-control";
 
 describe("labelable", () => {
@@ -311,18 +311,17 @@ it("renders requested props", async () => {
   expect(element).toEqualAttribute("width", "full");
 });
 
-it("inheritable props: `appearance`, `layout`, and `scale` modified on the parent get passed to items", async () => {
+it("inheritable props: `appearance` and `layout` modified on the parent get passed to items", async () => {
   async function inheritsProps(segmentedControlItems: E2EElement[]): Promise<void> {
     for (const item of segmentedControlItems) {
       expect(await item.getProperty("appearance")).toBe("outline");
       expect(await item.getProperty("layout")).toBe("vertical");
-      expect(await item.getProperty("scale")).toBe("l");
     }
   }
 
   const page = await newE2EPage();
   await page.setContent(html`
-    <calcite-segmented-control appearance="outline" layout="vertical" scale="l">
+    <calcite-segmented-control appearance="outline" layout="vertical">
       <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
       <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
       <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>

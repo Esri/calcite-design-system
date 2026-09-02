@@ -3,6 +3,20 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "./dialog";
 import { SLOTS } from "./resources";
+import "./dialog"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../inline-editable/inline-editable"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell/shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { dialogPlacement, kind, scale, overlayPositioning } = ATTRIBUTES;
 
@@ -211,6 +225,13 @@ export const customContentSlot = (): string => html`
 export const withIcon = (): string => html`
   <calcite-dialog icon="banana" heading="Banana" description="This is bananas" open scale="m" width-scale="s" modal>
     Hello world!
+  </calcite-dialog>
+`;
+
+export const withHeaderTop = (): string => html`
+  <calcite-dialog heading="Dialog heading" open scale="m" width-scale="s">
+    <div slot="${SLOTS.headerTop}">Header top content</div>
+    <p>Dialog content</p>
   </calcite-dialog>
 `;
 

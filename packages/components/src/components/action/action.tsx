@@ -10,8 +10,8 @@ import {
   Scale,
   SelectionAppearance,
   Width,
-} from "../interfaces";
-import { IconName } from "../icon/interfaces";
+} from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -62,8 +62,6 @@ export class Action extends LitElement {
   private indicatorRef = createRef<HTMLDivElement>();
 
   private interactiveContainer = useInteractive(this);
-
-  formTrigger = useFormTrigger()(this);
 
   private labelElRef = createRef<HTMLSpanElement>();
 
@@ -210,6 +208,11 @@ export class Action extends LitElement {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useFormTrigger()(this);
+  }
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });

@@ -11,6 +11,7 @@ import {
   renders,
   disabled,
   focusable,
+  scalePropagates,
 } from "../../tests/commonTests/browser";
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
@@ -22,7 +23,7 @@ describe("accessible", () => {
   accessible(() =>
     mount(
       <calcite-block-group>
-        <calcite-block collapsible description="description" heading="heading" open>
+        <calcite-block description="description" expandable heading="heading" open>
           <div>content</div>
         </calcite-block>
       </calcite-block-group>,
@@ -118,9 +119,26 @@ describe("renders", () => {
   renders(() => mount(<calcite-block-group>content</calcite-block-group>), { display: "block" });
 });
 
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-block-group>
+          <calcite-block />
+          <calcite-block-group />
+        </calcite-block-group>,
+        mountOptions,
+      ),
+    {
+      targetSelector:
+        "calcite-block-group > calcite-block, calcite-block-group > calcite-block-group",
+    },
+  );
+});
+
 function renderBlock(): JsxNode {
   return (
-    <calcite-block collapsible description="description" heading="heading" open>
+    <calcite-block description="description" expandable heading="heading" open>
       <div>content</div>
     </calcite-block>
   );
@@ -142,11 +160,11 @@ describe("expandMode", () => {
   const nestedBlockHTML = (expandMode: BlockGroup["expandMode"]): TemplateResult => {
     return (
       <calcite-block-group expandMode={expandMode}>
-        <calcite-block collapsible heading="Asia">
-          <calcite-block collapsible heading="Himalayas" slot="children" />
-          <calcite-block collapsible heading="Karakoram" slot="children" />
+        <calcite-block expandable heading="Asia">
+          <calcite-block expandable heading="Himalayas" slot="children" />
+          <calcite-block expandable heading="Karakoram" slot="children" />
         </calcite-block>
-        <calcite-block collapsible heading="Africa" />
+        <calcite-block expandable heading="Africa" />
       </calcite-block-group>
     );
   };
@@ -155,12 +173,12 @@ describe("expandMode", () => {
     return (
       <calcite-block-group expandMode={expandMode} label="Water Layers">
         <calcite-block-group label="Rivers">
-          <calcite-block collapsible heading="Rivers" />
-          <calcite-block collapsible heading="Gauging Stations" />
+          <calcite-block expandable heading="Rivers" />
+          <calcite-block expandable heading="Gauging Stations" />
         </calcite-block-group>
         <calcite-block-group expandMode={expandMode} label="Lakes & Ponds">
-          <calcite-block collapsible heading="Lakes" />
-          <calcite-block collapsible heading="Ponds" />
+          <calcite-block expandable heading="Lakes" />
+          <calcite-block expandable heading="Ponds" />
         </calcite-block-group>
       </calcite-block-group>
     );

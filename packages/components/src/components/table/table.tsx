@@ -2,11 +2,12 @@ import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
+import { isTableRow } from "../table-row/resources";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
@@ -15,7 +16,7 @@ import {
   TableLayout,
   TableRowFocusEvent,
   TableSelectionDisplay,
-} from "./interfaces";
+} from "./types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -331,7 +332,7 @@ export class Table extends LitElement {
       return [];
     }
 
-    return el.assignedElements({ flatten: true }).filter((el) => el.matches("calcite-table-row"));
+    return el.assignedElements({ flatten: true }).filter(isTableRow);
   }
 
   private observeTableContainer(): void {

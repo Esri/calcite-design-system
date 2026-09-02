@@ -1,9 +1,21 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests/browser";
 
 import { CSS } from "./resources";
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-stepper-item"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-stepper-item"));

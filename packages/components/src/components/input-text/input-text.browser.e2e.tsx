@@ -8,10 +8,12 @@ import {
   disabled,
   focusable,
   formAssociated,
+  globalProps,
   hidden,
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
@@ -20,6 +22,19 @@ import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
+
+describe("global props", () => {
+  globalProps(
+    () => mount<InputText>(<calcite-input-text />),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "go",
+      inputMode: "email",
+      spellcheck: false,
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -62,6 +77,15 @@ describe("defaults", () => {
         defaultValue: defaultValidity,
       },
     ],
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) => mount(<calcite-input-text clearable value="value" />, mountOptions),
+    {
+      targetSelector: "calcite-action",
+    },
   );
 });
 

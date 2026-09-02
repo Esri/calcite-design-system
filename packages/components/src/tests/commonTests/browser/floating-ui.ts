@@ -2,7 +2,7 @@ import { describe, expect, it, onTestFinished } from "vitest";
 import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { css } from "../../../../support/formatting";
-import type { IntrinsicElementsWithProp } from "../../utils/interfaces";
+import type { IntrinsicElementsWithProp } from "../../utils/types";
 import type { FlipPlacement, FloatingUIComponent } from "../../../utils/floating-ui";
 import { afterNextFrame } from "../../utils/timing";
 import type { LitElement } from "@arcgis/lumina";
@@ -80,7 +80,7 @@ export function floatingUIOwner(
       await afterNextFrame();
     }
 
-    el[togglePropName] = false;
+    setBooleanProperty(el, togglePropName, false);
     await reRender();
 
     const initialClosedTransform = getTransform();
@@ -105,7 +105,7 @@ export function floatingUIOwner(
     expect(getTransform()).toBe(initialClosedTransform);
     await expect.element(floatingUiEl).not.toBeVisible();
 
-    el[togglePropName] = true;
+    setBooleanProperty(el, togglePropName, true);
     await reRender();
     await afterNextFrame();
 
@@ -179,6 +179,14 @@ export function floatingUIOwner(
       await testOverlayPositioning("fixed");
     });
   });
+}
+
+function setBooleanProperty<Element extends HTMLElement, PropertyName extends string>(
+  element: Element,
+  propertyName: PropertyName,
+  value: boolean,
+): void {
+  Object.assign(element, { [propertyName]: value });
 }
 
 /**

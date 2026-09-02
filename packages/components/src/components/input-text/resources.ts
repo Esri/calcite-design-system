@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   loader: "loader",
   clearable: "clearable",
@@ -24,3 +26,8 @@ export const IDS = {
 export const SLOTS = {
   action: "action",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isInputText = isTag("calcite-input-text");

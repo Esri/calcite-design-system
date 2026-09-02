@@ -13,7 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -26,14 +26,14 @@ import {
   sanitizeNumberString,
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/types";
 import { getIconScale, inlineEditConverter } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
 import { Validation } from "../functional/Validation";
 import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { UseInlineEdit } from "../../controllers/useInlineEdit";
 import type { Action } from "../action/action";
@@ -153,8 +153,6 @@ export class InputNumber
       this.calciteInputNumberInlineEditingChange.emit();
     },
   });
-
-  labelable = useLabel(this);
 
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEdit(): boolean {
@@ -444,6 +442,7 @@ export class InputNumber
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

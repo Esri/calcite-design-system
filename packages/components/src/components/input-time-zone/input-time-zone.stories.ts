@@ -3,6 +3,8 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputTimeZone } from "./input-time-zone";
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./input-time-zone"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { mode, scale, status, timeZoneOffsetStyle } = ATTRIBUTES;
 

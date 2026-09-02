@@ -203,7 +203,7 @@ it("should not set width and height to auto when resizing viewport to narrow hei
   await page.evaluate((resizableContainerRect) => {
     const resizableContainer = document.getElementById("resizable-container");
     const resizer = document.getElementById("resizer")!;
-    let resizableContainerY;
+    let resizableContainerY: number;
 
     resizer.addEventListener("mousedown", (event) => {
       resizableContainerY = event.clientY;
@@ -211,7 +211,7 @@ it("should not set width and height to auto when resizing viewport to narrow hei
       document.addEventListener("mouseup", onMouseUp);
     });
 
-    function onMouseMove(event) {
+    function onMouseMove(event: MouseEvent) {
       const dy = event.clientY - resizableContainerY;
       resizableContainer!.style.height = `${resizableContainerRect.height - dy}px`;
       resizableContainer!.style.top = `${resizableContainerRect.top + dy}px`;

@@ -441,8 +441,8 @@ input[readonly]:focus {
 }
 
 .number-button-wrapper {
-  @apply transition-default
-    pointer-events-none
+  @include includes.transition-default();
+  @apply pointer-events-none
     box-border
     flex
     flex-col;
@@ -580,7 +580,7 @@ input[readonly]:focus {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default;
+    @include includes.transition-default();
 
     // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
     &.inline-editable-child {
@@ -619,7 +619,7 @@ input {
       input,
       .inline-edit,
       .action-wrapper {
-        @apply transition-default;
+        @include includes.transition-default();
         background-color: var(
           --calcite-input-number-inline-edit-background-color-hover,
           var(--calcite-color-foreground-2)
@@ -633,7 +633,7 @@ input {
   input,
   .inline-edit,
   .action-wrapper {
-    @apply transition-default;
+    @include includes.transition-default();
     background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
   }
 }

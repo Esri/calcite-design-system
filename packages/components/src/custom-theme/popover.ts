@@ -1,3 +1,6 @@
+import "../components/button/button";
+import "../components/label/label";
+import "../components/popover/popover";
 import { html } from "../../support/formatting";
 
 export const popoverTokens = {

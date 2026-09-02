@@ -1,6 +1,6 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
-import { IntrinsicElementsWithProp } from "../../utils/interfaces";
+import { IntrinsicElementsWithProp } from "../../utils/types";
 import { LitElement } from "@arcgis/lumina";
 
 type TagName = keyof DeclareElements;
@@ -74,7 +74,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
         const subComponentEl = findSubComponentElement(el, subComponentTag);
         expect(subComponentEl).not.toBeNull();
         // Assert whether parent component passed the override value to the sub-component
-        expect(subComponentEl.messageOverrides![firstMessageProp]).toBe(overrideValue);
+        expect(subComponentEl.messageOverrides).toMatchObject(messageOverride);
       }
     }
 

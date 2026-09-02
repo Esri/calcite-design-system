@@ -8,6 +8,7 @@ import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
 import { playwrightCommands as customBrowserModeCommandsPlugin } from "vitest-browser-commands";
+import customElementDependenciesPlugin from "./build/plugins/custom-element-dependencies";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
@@ -69,7 +70,7 @@ export function createConfig({
       noExternal: nonEsmDependencies,
     },
 
-    plugins: [lumina, customBrowserModeCommandsPlugin()],
+    plugins: [lumina, customBrowserModeCommandsPlugin(), customElementDependenciesPlugin(lumina)],
 
     css: {
       postcss: {
@@ -102,7 +103,7 @@ export function createConfig({
       include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
       exclude: runBrowserTests ? [...defaultExclude, timeZoneBrowserTestMatch] : [...defaultExclude, browserTestMatch],
       passWithNoTests: true,
-      setupFiles: "./src/tests/browser/setup.ts",
+      setupFiles: runBrowserTests ? "./src/tests/browser/setup.ts" : undefined,
     },
     /*
      * While useLumina() pre-configures everything for you, you can still

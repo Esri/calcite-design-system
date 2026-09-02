@@ -6,7 +6,7 @@ import { findAll } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
 import { CSS } from "./resources";
 import type { FlowItem } from "./flow-item";
 
@@ -105,22 +105,22 @@ it("allows scrolling content", async () => {
   await page.setContent(html`
     <calcite-flow style="height: 300px">
       <calcite-flow-item heading="Flow heading" id="flowOrPanel">
-        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+        <calcite-block heading="Block example" summary="Some subtext" expandable open>
           <calcite-notice open>
             <div slot="message">An excellent assortment of content.</div>
           </calcite-notice>
         </calcite-block>
-        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+        <calcite-block heading="Block example" summary="Some subtext" expandable open>
           <calcite-notice open>
             <div slot="message">An excellent assortment of content.</div>
           </calcite-notice>
         </calcite-block>
-        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+        <calcite-block heading="Block example" summary="Some subtext" expandable open>
           <calcite-notice open>
             <div slot="message">An excellent assortment of content.</div>
           </calcite-notice>
         </calcite-block>
-        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+        <calcite-block heading="Block example" summary="Some subtext" expandable open>
           <calcite-notice open>
             <div slot="message">An excellent assortment of content.</div>
           </calcite-notice>

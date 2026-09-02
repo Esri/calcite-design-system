@@ -10,10 +10,12 @@ import {
   disabled,
   focusable,
   formAssociated,
+  globalProps,
   hidden,
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
@@ -27,6 +29,19 @@ import { Input } from "./input";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 
 const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
+
+describe("global props", () => {
+  globalProps(
+    () => mount<Input>(<calcite-input />),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "next",
+      inputMode: "numeric",
+      spellcheck: false,
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -78,6 +93,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input type="number" />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("reflects", () => {

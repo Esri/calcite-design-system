@@ -13,7 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -30,7 +30,7 @@ import { getIconScale, inlineEditConverter } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { UseInlineEdit } from "../../controllers/useInlineEdit";
 import type { Action } from "../action/action";
@@ -41,7 +41,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./types";
 import {
   CSS,
   DIRECTION,
@@ -109,8 +109,6 @@ export class Input
   private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl?: Label["el"];
-
-  labelable = useLabel(this);
 
   private maxString?: string;
 
@@ -505,6 +503,7 @@ export class Input
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

@@ -346,13 +346,12 @@ input[readonly]:focus {
   }
 }
 
-// hide browser default clear
-
-input[type="text"]::-ms-clear,
-input[type="text"]::-ms-reveal {
-  @apply hidden
-    h-0
-    w-0;
+// hide browser default icons/buttons
+input:is([type="text"], [type="password"])::-ms-clear,
+input:is([type="text"], [type="password"])::-ms-reveal {
+  display: none;
+  inline-size: 0;
+  block-size: 0;
 }
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
@@ -475,8 +474,8 @@ input[type="number"] {
 }
 
 .number-button-wrapper {
-  @apply transition-default
-    pointer-events-none
+  @include includes.transition-default();
+  @apply pointer-events-none
     box-border
     flex
     flex-col;
@@ -650,7 +649,7 @@ input[type="date"]::-webkit-input-placeholder {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default;
+    @include includes.transition-default();
 
     // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
     &.inline-editable-child {
@@ -689,7 +688,7 @@ input {
       input,
       .inline-edit,
       .action-wrapper {
-        @apply transition-default;
+        @include includes.transition-default();
         background-color: var(--calcite-input-inline-edit-background-color-hover, var(--calcite-color-foreground-2));
       }
     }
@@ -699,7 +698,7 @@ input {
 :host([inline-edit]) {
   .inline-edit,
   .action-wrapper {
-    @apply transition-default;
+    @include includes.transition-default();
     background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   }
 }

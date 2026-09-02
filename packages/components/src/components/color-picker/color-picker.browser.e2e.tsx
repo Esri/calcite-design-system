@@ -28,7 +28,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { mockConsole } from "../../tests/utils/logging";
-import type { ColorValue, HSV } from "./interfaces";
+import type { ColorValue, HSV } from "./types";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -765,17 +765,15 @@ describe("color format", () => {
   it("allows specifying the color value format", async () => {
     const { el, reRender } = await mount("calcite-color-picker");
 
-    for (const format in supportedFormatToSampleValue) {
-      const expectedValue = supportedFormatToSampleValue[format];
-
+    for (const [format, expectedValue] of Object.entries(supportedFormatToSampleValue)) {
       // set base format and value to test setting different format values
       el.format = format as ColorPicker["format"];
       await reRender();
       el.value = expectedValue;
       await reRender();
 
-      for (const format in supportedFormatToSampleValue) {
-        el.value = supportedFormatToSampleValue[format];
+      for (const value of Object.values(supportedFormatToSampleValue)) {
+        el.value = value;
         await reRender();
 
         // non-matching formats are ignored
@@ -789,11 +787,11 @@ describe("color format", () => {
       <calcite-color-picker value={supportedFormatToSampleValue["hex"]} />,
     );
 
-    for (const format in supportedFormatToSampleValue) {
+    for (const [format, value] of Object.entries(supportedFormatToSampleValue)) {
       el.format = format as ColorPicker["format"];
       await reRender();
 
-      expect(el.value).toEqual(supportedFormatToSampleValue[format]);
+      expect(el.value).toEqual(value);
     }
   });
 });
@@ -2518,7 +2516,7 @@ it("allows hiding sections", async () => {
 
     hiddenSections.forEach((section) => (sectionVisibility[section] = false));
 
-    const sections = Object.keys(sectionVisibility);
+    const sections: HiddenSection[] = ["hex", "channels", "saved", "field"];
 
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];

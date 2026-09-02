@@ -18,7 +18,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ArrowType, AutoplayType, PaginationPosition } from "./interfaces";
+import { ArrowType, AutoplayType, PaginationPosition } from "./types";
 import { styles } from "./carousel.scss";
 
 declare global {
@@ -58,9 +58,9 @@ export class Carousel extends LitElement {
     entries.forEach(this.resizeHandler),
   );
 
-  private slideDurationInterval?;
+  private slideDurationInterval?: ReturnType<typeof setInterval>;
 
-  private slideInterval?;
+  private slideInterval?: ReturnType<typeof setInterval>;
 
   private tabListRef = createRef<HTMLDivElement>();
 

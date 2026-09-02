@@ -10,10 +10,12 @@ import {
   disabled,
   focusable,
   formAssociated,
+  globalProps,
   hidden,
   internalLabel,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
@@ -23,7 +25,22 @@ import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
-import { InputNumber } from "./input-number";
+import type { InputNumber } from "./input-number";
+
+describe("global props", () => {
+  globalProps(
+    () => mount("calcite-input-number"),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "done",
+      inputMode: "numeric",
+    },
+    {
+      inputMode: "decimal",
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -71,6 +88,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input-number />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("reflects", () => {

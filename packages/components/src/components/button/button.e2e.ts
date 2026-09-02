@@ -1,7 +1,7 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { labelable } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -482,5 +482,5 @@ it("renders child element with same width as host", async () => {
   expect(elementHost).not.toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(elementHost).toEqualAttribute("width", "full");
-  expect(await elementAsButton.getComputedStyle()["width"]).toEqual(await elementHost.getComputedStyle()["width"]);
+  expect((await elementAsButton.getComputedStyle())["width"]).toEqual((await elementHost.getComputedStyle())["width"]);
 });

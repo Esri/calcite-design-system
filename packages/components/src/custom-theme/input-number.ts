@@ -1,3 +1,4 @@
+import "../components/input-number/input-number";
 import { html } from "../../support/formatting";
 
 export const inputNumberTokens = {

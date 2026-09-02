@@ -7,7 +7,6 @@ import { assertCaretPosition, findAll, isElementFocused, selectText } from "../.
 import { DEBOUNCE } from "../../utils/resources";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
-import { testWorkaroundForGlobalPropRemoval } from "./common/tests";
 import type { Input } from "./input";
 
 const delayFor2UpdatesInMs = 200;
@@ -549,5 +548,3 @@ it("should not focus when clicking validation message", async () => {
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
 });
-
-testWorkaroundForGlobalPropRemoval("calcite-input");

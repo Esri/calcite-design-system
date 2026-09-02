@@ -17,15 +17,15 @@ import { useForm } from "../../controllers/useForm";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
-import { SetValueOrigin } from "../input/interfaces";
-import { Alignment, Scale, Status } from "../interfaces";
+import { SetValueOrigin } from "../input/types";
+import { Alignment, Scale, Status } from "../types";
 import { getIconScale, inlineEditConverter } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { UseInlineEdit } from "../../controllers/useInlineEdit";
 import type { Action } from "../action/action";
@@ -133,8 +133,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       this.calciteInputTextInlineEditingChange.emit();
     },
   });
-
-  labelable = useLabel(this);
 
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEdit(): boolean {
@@ -384,6 +382,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

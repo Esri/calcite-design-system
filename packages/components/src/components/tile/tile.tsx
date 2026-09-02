@@ -1,13 +1,14 @@
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../types";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -165,9 +166,6 @@ export class Tile extends LitElement implements SelectableComponent {
 
   // #region Events
 
-  /** @private */
-  calciteInternalTileKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
   /** Fires when the selected state of the component changes. */
   calciteTileSelect = createEvent();
 
@@ -203,32 +201,24 @@ export class Tile extends LitElement implements SelectableComponent {
   }
 
   private handleSlotChange(event: Event): void {
-    const slotName = (event.target as HTMLSlotElement).dataset.name;
-    this[`has${slotName}`] = slotChangeHasAssignedElement(event);
+    const hasAssignedElement = slotChangeHasAssignedElement(event);
+    const slotName = (event.target as HTMLSlotElement).name;
+
+    if (slotName === SLOTS.contentBottom) {
+      this.hasContentBottom = hasAssignedElement;
+    } else if (slotName === SLOTS.contentTop) {
+      this.hasContentTop = hasAssignedElement;
+    }
   }
 
-  private setContainerEl(el): void {
+  private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.handleSelectEvent();
-          event.preventDefault();
-          break;
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "ArrowUp":
-        case "Home":
-        case "End":
-          this.calciteInternalTileKeyEvent.emit(event);
-          event.preventDefault();
-          break;
-      }
+    if (event.target === this.el && isActivationKey(event.key)) {
+      this.handleSelectEvent();
+      event.preventDefault();
     }
   }
 
