@@ -976,11 +976,11 @@ export class Input
         signDisplay: "never",
       };
 
-      const isValueDeleted =
+      const isValueLengthShortened =
         this.previousValue?.length > value.length || this.value?.length > value.length;
       const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
       const sanitizedValue =
-        hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
+        hasTrailingDecimalSeparator && isValueLengthShortened ? value : sanitizeNumberString(value);
 
       const newValue =
         value && !sanitizedValue
@@ -1000,11 +1000,11 @@ export class Input
       }
 
       // adds localized trailing decimal separator
-      this.displayedValue =
-        hasTrailingDecimalSeparator && isValueDeleted
-          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-          : newLocalizedValue;
+      if (hasTrailingDecimalSeparator && isValueLengthShortened) {
+        newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
+      }
 
+      this.displayedValue = newLocalizedValue;
       this.userChangedValue = origin === "user" && this.value !== newValue;
       this.value = isValidNumber(newValue) ? newValue : "";
     } else {
