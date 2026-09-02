@@ -963,7 +963,7 @@ export class InputNumber
 
     const validNewValue = isValidNumber(newValue)
       ? newValue
-      : newValue.endsWith(".")
+      : newValue.endsWith(".") && !isNaN(Number(newValue))
         ? String(Number(newValue))
         : "";
     this.value = validNewValue;

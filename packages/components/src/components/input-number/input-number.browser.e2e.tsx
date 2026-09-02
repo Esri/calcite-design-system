@@ -1440,3 +1440,44 @@ it("does not render an icon when requested without an explicit Calcite UI, and i
   const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
   await expect.element(icon).not.toBeInTheDocument();
 });
+
+it("selecting all input content replaces everything with the allowed non-digit characters when pressed", async () => {
+  const { el } = await mount(<calcite-input-number label="calciteInputNumber" value="123.45" />);
+  const input = page.getByLabelText("calciteInputNumber");
+
+  await userEvent.fill(input, ".");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue(".");
+
+  await userEvent.keyboard("12345");
+  expect(el).toHaveProperty("value", "0.12345");
+  expect(input).toHaveDisplayValue("0.12345");
+
+  await userEvent.fill(input, "e");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("e");
+
+  await userEvent.fill(input, "12345");
+  expect(el).toHaveProperty("value", "12345");
+  expect(input).toHaveDisplayValue("12345");
+
+  await userEvent.fill(input, "-");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("-");
+
+  await userEvent.keyboard("123.45");
+  expect(el).toHaveProperty("value", "-123.45");
+  expect(input).toHaveDisplayValue("-123.45");
+
+  await userEvent.fill(input, ".");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue(".");
+
+  await userEvent.fill(input, "-123.45");
+  expect(el).toHaveProperty("value", "-123.45");
+  expect(input).toHaveDisplayValue("-123.45");
+
+  await userEvent.fill(input, "-");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("-");
+});
