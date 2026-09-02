@@ -22,14 +22,14 @@ export const inputTokens = {
   calciteInputPrefixTextColor: "",
   calciteInputSuffixBackgroundColor: "",
   calciteInputSuffixTextColor: "",
-  calciteInputInlineEditableBackgroundColorHover: "",
-  calciteInputInlineEditableControlBackgroundColor: "",
-  calciteInputInlineEditableControlBackgroundColorHover: "",
-  calciteInputInlineEditableControlBackgroundColorPress: "",
-  calciteInputInlineEditableControlCornerRadius: "",
-  calciteInputInlineEditableControlLoaderColor: "",
-  calciteInputInlineEditableControlTextColor: "",
-  calciteInputInlineEditableControlTextColorPress: "",
+  calciteInputInlineEditBackgroundColorHover: "",
+  calciteInputInlineEditControlBackgroundColor: "",
+  calciteInputInlineEditControlBackgroundColorHover: "",
+  calciteInputInlineEditControlBackgroundColorPress: "",
+  calciteInputInlineEditControlCornerRadius: "",
+  calciteInputInlineEditControlLoaderColor: "",
+  calciteInputInlineEditControlTextColor: "",
+  calciteInputInlineEditControlTextColorPress: "",
 };
 
 export const input = html`<calcite-input

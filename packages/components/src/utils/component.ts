@@ -52,3 +52,12 @@ export async function componentFocusable(component: LitElement): Promise<void> {
   await component.componentOnReady();
   await component.updateComplete;
 }
+
+export const inlineEditConverter = {
+  fromAttribute(value: string | null): boolean | "controls-disabled" {
+    return value === null ? false : value === "controls-disabled" ? value : true;
+  },
+  toAttribute(value: boolean | "controls-disabled"): string | null {
+    return value === false ? null : value === true ? "" : value;
+  },
+};
