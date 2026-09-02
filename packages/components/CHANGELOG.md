@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.68...@esri/calcite-components@5.2.0-next.69) (2026-09-02)
+
+### Bug Fixes
+
+- **input-date-picker:** make vertical dropdown toggle not visible in readOnly mode ([#15106](https://github.com/Esri/calcite-design-system/issues/15106)), closes [#14838](https://github.com/Esri/calcite-design-system/issues/14838)
+
 ## [5.2.0-next.68](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.67...@esri/calcite-components@5.2.0-next.68) (2026-09-02)
 
 ### Bug Fixes
