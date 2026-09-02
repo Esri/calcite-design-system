@@ -53,8 +53,8 @@ type ExpectedDefaults<Props extends GlobalProps> = Partial<{
 /**
  * Verifies that global properties and attributes sync to a target element.
  *
- * The configured properties are set on the component first. Their matching attributes are then removed to verify
- * that the target properties reset to their initial values or configured defaults.
+ * The configured properties and matching attributes are set on the component. The attributes are then removed to
+ * verify that the target properties reset to their initial values or configured defaults.
  *
  * Note that this helper should be used within a describe block.
  *
@@ -104,6 +104,15 @@ export function globalProps<Props extends GlobalProps>(
         : initialValues.get(propertyName);
 
       await expect.element(targetLocator).toHaveProperty(propertyName, expectedDefault);
+    }
+
+    for (const propertyName of propertyNames) {
+      el.setAttribute(globalPropToAttribute[propertyName], String(props[propertyName]));
+    }
+    await reRender();
+
+    for (const propertyName of propertyNames) {
+      await expect.element(targetLocator).toHaveProperty(propertyName, props[propertyName]);
     }
   });
 }
