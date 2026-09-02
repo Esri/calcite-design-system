@@ -26,13 +26,13 @@ describe("labelable", () => {
 
   describe("focuses the first star when the label is clicked and no-rating value exists", () => {
     labelable((mountOptions) => mount("calcite-rating", mountOptions), {
-      shadowFocusTarget: (el) => page.elementLocator(el).getBySelector("label[data-value='1']"),
+      focusTarget: () => page.getByRole("radio").first(),
     });
   });
 
   describe("focuses the value-matching star when the label is clicked", () => {
     labelable((mountOptions) => mount(<calcite-rating value={3} />, mountOptions), {
-      shadowFocusTarget: (el) => page.elementLocator(el).getBySelector("label[data-value='3']"),
+      focusTarget: () => page.getByRole("radio").nth(2),
     });
   });
 });

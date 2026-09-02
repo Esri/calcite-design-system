@@ -21,7 +21,7 @@ import { CSS } from "./resources";
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-checkbox", mountOptions), {
     propertyToToggle: "checked",
-    shadowFocusTarget: (el) => page.elementLocator(el.shadowRoot!.querySelector(".toggle")!),
+    focusTarget: () => page.getByRole("checkbox").first(),
   });
 });
 

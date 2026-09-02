@@ -25,8 +25,7 @@ describe("labelable", () => {
 
   labelable((mountOptions) => mount(<calcite-radio-button name="group-name" />, mountOptions), {
     propertyToToggle: "checked",
-    shadowFocusTarget: (el) =>
-      page.elementLocator(el.shadowRoot!.querySelector(`.${CSS.container}`)!),
+    focusTarget: () => page.getByRole("radio").first(),
   });
 });
 

@@ -16,11 +16,8 @@ interface LabelableMountOptions {
 }
 
 export interface LabelableOptions {
-  /** Locator used to assert the focused DOM element. */
-  focusTarget?: (el: HTMLElement) => Locator;
-
-  /** Locator used to assert the focused shadow DOM element. */
-  shadowFocusTarget?: (el: HTMLElement) => Locator;
+  /** Locator used to assert the focused element. */
+  focusTarget?: () => Locator;
 
   /** If clicking on a label toggles the labelable component, use this prop to specify the name of the toggled prop. */
   propertyToToggle?: string;
@@ -78,8 +75,7 @@ export function labelable(
 
   async function assertLabelable(result: Awaited<ReturnType<typeof mount>>, label: Label["el"]): Promise<void> {
     const { el, reRender } = result;
-    const focusTarget = options?.focusTarget?.(el) ?? page.elementLocator(el);
-    const shadowFocusTarget = options?.shadowFocusTarget?.(el);
+    const focusTarget = options?.focusTarget?.() ?? page.elementLocator(el);
     const propertyToToggle = options?.propertyToToggle;
     const toggleableElement = propertyToToggle && hasBooleanProperty(el, propertyToToggle) ? el : undefined;
 
@@ -100,11 +96,7 @@ export function labelable(
     await afterNextFrame();
     await reRender();
 
-    await expect.element(focusTarget).toHaveFocus();
-
-    if (shadowFocusTarget) {
-      expect(el.shadowRoot.activeElement).toBe(shadowFocusTarget.element());
-    }
+    assertFocus(focusTarget);
 
     if (toggleState) {
       const toggledPropertyValue = !toggleState.initialValue;
@@ -122,7 +114,18 @@ export function labelable(
     el.click();
     await reRender();
 
-    await expect.element(focusTarget).toHaveFocus();
+    assertFocus(focusTarget);
+  }
+
+  function assertFocus(focusTarget: Locator): void {
+    const focusTargetElement = focusTarget.element();
+    const focusRoot = focusTargetElement.getRootNode();
+
+    if (focusRoot instanceof ShadowRoot) {
+      expect(focusRoot.activeElement?.contains(focusTargetElement)).toBe(true);
+    } else {
+      expect(focusTargetElement).toHaveFocus();
+    }
   }
 
   describe("label wraps labelables", () => {

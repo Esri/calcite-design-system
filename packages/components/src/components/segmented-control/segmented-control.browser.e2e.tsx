@@ -31,7 +31,7 @@ describe("labelable", () => {
         mountOptions,
       ),
     {
-      focusTarget: (el) => page.elementLocator(el.querySelector("calcite-segmented-control-item")!),
+      focusTarget: () => page.getBySelector("calcite-segmented-control-item").first(),
     },
   );
 });
