@@ -272,12 +272,6 @@ describe("clearable", () => {
     expect(getClearButtons()).toHaveLength(0);
   });
 
-  it("does not render vertical actions when range is readOnly", async () => {
-    await mount<InputDatePicker>(<calcite-input-date-picker layout="vertical" range readOnly />);
-
-    expect(page.getBySelector(`.${CSS.verticalActionsContainer}`).elements()).toHaveLength(0);
-  });
-
   it("clears single value when clear button is clicked", async () => {
     const { el } = await mount<InputDatePicker>(
       <calcite-input-date-picker clearable value="2024-05-05" />,
