@@ -489,6 +489,9 @@
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-border-input);
     }
+    &:focus {
+      --calcite-internal-button-border-color: var(--calcite-color-foreground-3);
+    }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-text-3);
     }
