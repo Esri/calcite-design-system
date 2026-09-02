@@ -247,6 +247,9 @@ describe("inline edit", () => {
     expect(changeSpy).toHaveBeenCalledTimes(1);
     expect(el.inlineEditing).toBe(false);
     await expect.element(input).not.toHaveFocus();
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
   });
 
   it("commits inline editing on Enter when controls are not present", async () => {

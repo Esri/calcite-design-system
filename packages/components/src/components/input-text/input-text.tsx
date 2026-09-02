@@ -608,7 +608,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
             .confirm(this.inlineEditingBeforeConfirm, (loading) => {
               this.inlineEditingLoading = loading;
             })
-            .then(() => input.blur());
+            .then(() => this.focusEnableInlineEditingButton());
         } else {
           input.blur();
         }

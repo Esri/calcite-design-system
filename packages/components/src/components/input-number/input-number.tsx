@@ -825,7 +825,7 @@ export class InputNumber
               .confirm(this.inlineEditingBeforeConfirm, (loading) => {
                 this.inlineEditingLoading = loading;
               })
-              .then(() => input.blur());
+              .then(() => this.focusEnableInlineEditingButton());
           } else {
             input.blur();
           }
