@@ -6,7 +6,6 @@ import { labelable } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { DIRECTION } from "./resources";
@@ -804,8 +803,6 @@ it("should not focus when clicking validation message", async () => {
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
 });
-
-testWorkaroundForGlobalPropRemoval("calcite-input-number");
 
 it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
   const page = await newE2EPage();

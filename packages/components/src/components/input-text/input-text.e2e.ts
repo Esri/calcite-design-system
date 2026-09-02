@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { labelable } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
-import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
 import type { InputText } from "./input-text";
 
@@ -234,5 +233,3 @@ it("should not focus when clicking validation message", async () => {
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
 });
-
-testWorkaroundForGlobalPropRemoval("calcite-input-text");
