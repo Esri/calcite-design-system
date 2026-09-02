@@ -210,7 +210,7 @@ export const readOnlyVerticalRangeHasNoDropdownAffordance = (): string => html`
 `;
 
 readOnlyVerticalRangeHasNoDropdownAffordance.parameters = {
-  chromatic: { diffThreshold: 0.063 },
+  chromatic: { diffThreshold: 0.01 },
 };
 
 export const validationMessageAllScales = (): string => html`
