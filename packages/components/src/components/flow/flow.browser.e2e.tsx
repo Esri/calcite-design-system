@@ -34,7 +34,7 @@ class CustomFlowItem extends LitElement implements FlowItemLikeElement {
   }
 
   private handleBackButtonClick(): void {
-    this.el.dispatchEvent(
+    this.dispatchEvent(
       new CustomEvent("calciteFlowItemBack", { bubbles: true, cancelable: true, composed: true }),
     );
   }

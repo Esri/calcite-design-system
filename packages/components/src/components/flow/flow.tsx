@@ -188,11 +188,10 @@ export class Flow extends LitElement {
   private updateItemsAndProps(): void {
     const itemSelectors = getFlowItemSelectors(this.customItemSelectors);
     const slottedItems = this.defaultSlotRef.value
-      ? getSlotAssignedElements<FlowItemLikeElement>(this.defaultSlotRef.value)
+      ? getSlotAssignedElements<FlowItemLikeElement>(this.defaultSlotRef.value, itemSelectors)
       : [];
-    const newItems = slottedItems.filter((flowItem) => flowItem.matches(itemSelectors));
 
-    this.items = newItems;
+    this.items = slottedItems;
 
     this.ensureSelectedFlowItemExists();
     this.updateFlowProps();
