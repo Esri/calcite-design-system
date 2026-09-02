@@ -86,7 +86,7 @@ export function globalProps<Props extends GlobalProps>(
       propertyNames.map((propertyName) => [propertyName, Reflect.get(targetElement, propertyName)]),
     );
 
-    Object.assign(el, propertyNames);
+    Object.assign(el, props);
     await reRender();
 
     for (const propertyName of propertyNames) {
