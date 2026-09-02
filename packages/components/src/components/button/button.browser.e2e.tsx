@@ -6,12 +6,17 @@ import {
   defaults,
   focusable,
   hidden,
+  labelable,
   t9n,
   disabled,
   renders,
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-button", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {

@@ -9,6 +9,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  labelable,
   reflects,
   renders,
   scalePropagates,
@@ -21,6 +22,10 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-time-zone", mountOptions));
+});
 
 describe("accessible", () => {
   accessible(() => mount("calcite-input-time-zone"));

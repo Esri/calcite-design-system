@@ -10,6 +10,7 @@ import {
   disabled,
   focusable,
   hidden,
+  labelable,
   renders,
   scalePropagates,
   t9n,
@@ -18,6 +19,34 @@ import {
 } from "../../tests/commonTests/browser";
 
 // Deprecated in v5.2.0, removal target v7.0.0
+
+describe("labelable", () => {
+  describe("default", () => {
+    labelable(
+      (mountOptions) =>
+        mount(
+          <calcite-inline-editable controls>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>,
+          mountOptions,
+        ),
+      { focusTargetSelector: "calcite-input" },
+    );
+  });
+
+  describe("when editing is enabled", () => {
+    labelable(
+      (mountOptions) =>
+        mount(
+          <calcite-inline-editable controls editing-enabled>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>,
+          mountOptions,
+        ),
+      { focusTargetSelector: "calcite-input" },
+    );
+  });
+});
 
 describe("accessible", () => {
   describe("default", () => {

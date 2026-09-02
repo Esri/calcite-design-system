@@ -9,6 +9,7 @@ import {
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   slots,
   floatingUIOwner,
@@ -28,6 +29,10 @@ import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-autocomplete", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {

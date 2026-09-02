@@ -1,6 +1,5 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils/types";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -50,10 +49,6 @@ it("renders as a button with default props", async () => {
   expect(iconStart).toBeNull();
   expect(iconEnd).toBeNull();
   expect(loader).toBeNull();
-});
-
-describe("labelable", () => {
-  labelable("calcite-button");
 });
 
 it("should have aria-live attribute set to polite by default", async () => {

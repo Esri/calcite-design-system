@@ -8,6 +8,7 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   scalePropagates,
@@ -16,6 +17,21 @@ import {
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable(
+    (mountOptions) =>
+      mount(
+        <calcite-segmented-control>
+          <calcite-segmented-control-item value="1" />
+          <calcite-segmented-control-item value="2" />
+          <calcite-segmented-control-item value="3" />
+        </calcite-segmented-control>,
+        mountOptions,
+      ),
+    { focusTargetSelector: "calcite-segmented-control-item" },
+  );
+});
 
 describe("defaults", () => {
   defaults(

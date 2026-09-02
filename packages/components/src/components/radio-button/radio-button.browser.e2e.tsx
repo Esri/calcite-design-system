@@ -12,10 +12,21 @@ import {
   reflects,
   hidden,
   accessible,
+  labelable,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  mockConsole();
+
+  labelable((mountOptions) => mount(<calcite-radio-button name="group-name" />, mountOptions), {
+    propertyToToggle: "checked",
+    shadowFocusTargetSelector: ".container",
+  });
+});
 
 describe("accessible", () => {
   accessible(() =>

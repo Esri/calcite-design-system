@@ -14,10 +14,27 @@ import {
   t9n,
   formAssociated,
   accessible,
+  labelable,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-rating", mountOptions));
+
+  describe("focuses the first star when the label is clicked and no-rating value exists", () => {
+    labelable((mountOptions) => mount("calcite-rating", mountOptions), {
+      shadowFocusTargetSelector: "label[data-value='1']",
+    });
+  });
+
+  describe("focuses the value-matching star when the label is clicked", () => {
+    labelable((mountOptions) => mount(<calcite-rating value={3} />, mountOptions), {
+      shadowFocusTargetSelector: "label[data-value='3']",
+    });
+  });
+});
 
 describe("accessible", () => {
   accessible(() => mount(`calcite-rating`));

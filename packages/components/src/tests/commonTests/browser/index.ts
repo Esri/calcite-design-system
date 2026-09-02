@@ -8,6 +8,7 @@ export { formAssociated } from "./form-associated";
 export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent, handlesActionMenuPlacements } from "./floating-ui";
 export { internalLabel } from "./internal-label";
+export { labelable } from "./labelable";
 export { openClose } from "./open-close";
 export { reflects } from "./reflects";
 export { renders } from "./renders";

@@ -9,12 +9,20 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   renders,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-checkbox", mountOptions), {
+    propertyToToggle: "checked",
+    shadowFocusTargetSelector: ".toggle",
+  });
+});
 
 describe("accessible", () => {
   accessible(() =>

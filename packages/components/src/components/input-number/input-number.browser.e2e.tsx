@@ -11,6 +11,7 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   scalePropagates,
@@ -24,6 +25,10 @@ import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableCo
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-number", mountOptions));
+});
 
 describe("defaults", () => {
   defaults(

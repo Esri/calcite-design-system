@@ -11,6 +11,7 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   openClose,
   accessible,
   renders,
@@ -29,6 +30,14 @@ import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-date-picker", mountOptions));
+
+  describe("range", () => {
+    labelable((mountOptions) => mount(<calcite-input-date-picker range />, mountOptions));
+  });
+});
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-input-date-picker label="Input Date Picker" />));
