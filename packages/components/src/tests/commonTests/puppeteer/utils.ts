@@ -1,16 +1,4 @@
-import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import type {
-  ComponentTag,
-  TagOrHTML,
-  ComponentTestSetup,
-  TagAndPage,
-  TagOrHTMLWithBeforeContent,
-  BeforeContent,
-  WithBeforeContent,
-  ComponentTestContent,
-} from "../types";
-
-export { propToAttr } from "../utils";
+import type { ComponentTag, TagOrHTML, TagOrHTMLWithBeforeContent, BeforeContent } from "../types";
 
 export function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
@@ -32,40 +20,6 @@ export function getTag(tagOrHTML: string): ComponentTag {
   }
 
   return tagOrHTML as ComponentTag;
-}
-
-export async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
-  const componentTag = getTag(componentTagOrHTML);
-  const page = await newE2EPage();
-  await page.setContent(isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`);
-  return page;
-}
-
-export async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<TagAndPage> {
-  if (typeof componentTestSetup === "function") {
-    componentTestSetup = await componentTestSetup();
-  }
-
-  if (typeof componentTestSetup === "string") {
-    const page = await simplePageSetup(componentTestSetup);
-    const tag = getTag(componentTestSetup);
-
-    return { page, tag };
-  }
-
-  return componentTestSetup;
-}
-
-export async function noopBeforeContent(): Promise<void> {
-  /* noop */
-}
-
-export function getBeforeContent<TestContent = ComponentTestContent>(
-  componentTestSetup: WithBeforeContent<TestContent>,
-): BeforeContent {
-  return typeof componentTestSetup === "string"
-    ? noopBeforeContent
-    : componentTestSetup?.beforeContent || noopBeforeContent;
 }
 
 export function getTagOrHTMLWithBeforeContent(componentTestSetup: TagOrHTML | TagOrHTMLWithBeforeContent): {
