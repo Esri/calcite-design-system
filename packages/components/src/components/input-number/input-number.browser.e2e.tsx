@@ -326,6 +326,27 @@ describe("inline edit", () => {
     expect(confirmSpy).toHaveBeenCalledTimes(1);
     expect(el.value).toBe("1234");
     expect(el.inlineEditing).toBe(false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("focuses enable editing action after cancel is clicked", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-edit value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+    const cancelButton = page.getBySelector(
+      `calcite-input-number .${InlineEditControlsCSS.cancelEditing}`,
+    );
+
+    await userEvent.click(input);
+    await userEvent.keyboard("4");
+    await userEvent.click(cancelButton);
+
+    expect(el.value).toBe("123");
+    expect(el.inlineEditing).toBe(false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
   });
 
   it("disables editing when inlineEditingBeforeConfirm resolves successfully", async () => {

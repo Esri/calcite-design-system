@@ -314,6 +314,27 @@ describe("inline edit", () => {
     expect(confirmSpy).toHaveBeenCalledTimes(1);
     expect(el.value).toBe("John DoeX");
     await expect.element(el).toHaveProperty("inlineEditing", false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("focuses enable editing action after cancel is clicked", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text inline-edit value="John Doe" />);
+    const input = page.getByRole("textbox");
+    const cancelButton = page.getBySelector(
+      `calcite-input-text .${InlineEditControlsCSS.cancelEditing}`,
+    );
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.click(cancelButton);
+
+    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("inlineEditing", false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
   });
 
   it("disables editing when inlineEditingBeforeConfirm resolves successfully", async () => {

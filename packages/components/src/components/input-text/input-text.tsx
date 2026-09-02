@@ -563,6 +563,27 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     });
   }
 
+  private focusEnableInlineEditingButton(): void {
+    void this.updateComplete.then(() => {
+      requestAnimationFrame(() => {
+        void this.enableInlineEditingButtonRef.value?.setFocus();
+      });
+    });
+  }
+
+  private inlineEditCancelEditingHandler(): void {
+    this.inlineEditManager.cancelEditing();
+    this.focusEnableInlineEditingButton();
+  }
+
+  private inlineEditConfirmChangesHandler(): void {
+    void this.inlineEditManager
+      .confirm(this.inlineEditingBeforeConfirm, (loading) => {
+        this.inlineEditingLoading = loading;
+      })
+      .then(() => this.focusEnableInlineEditingButton());
+  }
+
   private inputTextInputHandler(nativeEvent: InputEvent): void {
     if (this.disabled || this.readOnly) {
       return;
@@ -775,12 +796,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
                 enableEditingLabel={this.messages.enableInlineEditing}
                 inlineEditing={this.inlineEditing}
                 loading={this.inlineEditingLoading}
-                onCancelEditing={() => this.inlineEditManager.cancelEditing()}
-                onConfirmChanges={() =>
-                  this.inlineEditManager.confirm(this.inlineEditingBeforeConfirm, (loading) => {
-                    this.inlineEditingLoading = loading;
-                  })
-                }
+                onCancelEditing={this.inlineEditCancelEditingHandler}
+                onConfirmChanges={this.inlineEditConfirmChangesHandler}
                 onEnableEditing={() => this.inlineEditManager.enable()}
                 scale={this.scale}
                 showControls={this.inlineEditing && !this.inlineEditControlsDisabled}
