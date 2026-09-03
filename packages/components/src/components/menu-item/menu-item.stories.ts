@@ -3,6 +3,8 @@ import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
 import type { MenuItem } from "./menu-item";
+import "../menu/menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./menu-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 interface MenuItemStoryArgs extends Pick<
   MenuItem,

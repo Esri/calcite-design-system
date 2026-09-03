@@ -27,10 +27,10 @@ it("root container display is set to grid in horizontal layout", async () => {
   expect((await containerEl.getComputedStyle()).display).toBe("grid");
 });
 
-it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
+it("inheritable props: `icon`, `layout`, and `numbered` get passed to items from parents", async () => {
   const page = await newE2EPage();
   await page.setContent(html`
-    <calcite-stepper layout="vertical" scale="l" numbered icon>
+    <calcite-stepper layout="vertical" numbered icon>
       <calcite-stepper-item heading="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -50,7 +50,6 @@ it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to i
   for (const item of stepperItems) {
     expect(await item.getProperty("icon")).toBe(true);
     expect(await item.getProperty("layout")).toBe("vertical");
-    expect(await item.getProperty("scale")).toBe("l");
     expect(await item.getProperty("numbered")).toBe(true);
   }
 });

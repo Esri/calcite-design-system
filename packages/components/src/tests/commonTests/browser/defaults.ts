@@ -2,12 +2,12 @@ import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 
 type DefaultProps<E extends HTMLElement> = Array<{
-  propertyName: keyof E;
-  defaultValue: E[keyof E];
+  propertyName: Extract<keyof E, string>;
+  defaultValue: E[Extract<keyof E, string>];
 }>;
 
 type ShorthandDefaultProps<E extends HTMLElement> = {
-  [K in keyof E]?: E[K];
+  [K in Extract<keyof E, string>]?: E[K];
 };
 
 /**
@@ -43,19 +43,19 @@ export function defaults<
 >(setup: () => RenderResult, propsToTest: DefaultProps<ElementProps> | ShorthandDefaultProps<ElementProps>): void {
   const propValuePairs = Array.isArray(propsToTest)
     ? propsToTest
-    : Object.keys(propsToTest).map((propertyName) => ({
+    : (Object.keys(propsToTest) as Extract<keyof ElementProps, string>[]).map((propertyName) => ({
         propertyName,
         defaultValue: propsToTest[propertyName],
       }));
 
-  it.each(propValuePairs.map(({ propertyName, defaultValue }) => [propertyName, defaultValue]))(
+  it.each(propValuePairs.map(({ propertyName, defaultValue }) => [propertyName, defaultValue] as const))(
     "%s",
     async (propertyName, defaultValue) => {
-      const { el } = await setup();
+      const el = (await setup()).el as ElementProps;
       const propValue = el[propertyName];
 
       if (propertyName === "validity") {
-        expectValidityEqual(propValue, defaultValue);
+        expectValidityEqual(propValue as ValidityState, defaultValue as ValidityState);
         return;
       }
 

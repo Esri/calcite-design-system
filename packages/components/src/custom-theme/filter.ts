@@ -1,3 +1,4 @@
+import "../components/filter/filter";
 import { html } from "../../support/formatting";
 
 export const filterTokens = {

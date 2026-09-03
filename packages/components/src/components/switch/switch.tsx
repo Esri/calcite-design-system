@@ -45,8 +45,6 @@ export class Switch extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region Public Properties
@@ -120,6 +118,7 @@ export class Switch extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

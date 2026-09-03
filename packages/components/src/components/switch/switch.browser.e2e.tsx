@@ -8,6 +8,7 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   defaults,
   renders,
   accessible,
@@ -15,6 +16,12 @@ import {
   reflects,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-switch", mountOptions), {
+    propertyToToggle: "checked",
+  });
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -41,6 +48,10 @@ describe("defaults", () => {
       {
         propertyName: "required",
         defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ],
   );
