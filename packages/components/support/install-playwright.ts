@@ -1,6 +1,7 @@
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 
-const isHeadless = process.env.HEADLESS !== "false";
-const target = isHeadless ? "chromium-headless-shell" : "chromium";
-
-execSync(`npx playwright install ${target}`, { stdio: "inherit" });
+if (process.env.SKIP_PLAYWRIGHT_INSTALL !== "true") {
+  execFileSync("npx", ["playwright", "install", "chromium", "--with-deps", "--no-shell"], {
+    stdio: "inherit",
+  });
+}
