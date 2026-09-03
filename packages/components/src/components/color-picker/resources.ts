@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import Color from "color";
 import {
   calciteSpacingFixedSm,
@@ -110,3 +111,8 @@ export const ICONS: Record<string, IconName> = {
   minus: "minus",
   plus: "plus",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isColorPicker = isTag("calcite-color-picker");

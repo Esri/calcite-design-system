@@ -10,6 +10,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   accessible,
   themed,
@@ -96,6 +97,10 @@ describe("defaults", () => {
         defaultValue: "none",
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "interactionMode",
         defaultValue: "interactive",
       },
@@ -180,6 +185,21 @@ describe("renders", () => {
         </calcite-list>,
       ),
     { display: "block" },
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-list>
+          <calcite-list-item label="One" />
+          <calcite-list-item label="Two" />
+          <calcite-list-item label="Three" />
+        </calcite-list>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-list > calcite-list-item, calcite-list-item-group" },
   );
 });
 

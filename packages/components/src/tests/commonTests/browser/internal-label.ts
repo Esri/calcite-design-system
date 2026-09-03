@@ -82,12 +82,13 @@ export function internalLabel(setup: () => ReturnType<typeof mount>): void {
 
       type T9nComponent = IntrinsicElementsWithProp<"messages">;
       const t9nComponent = component as T9nComponent;
+      const { messages } = t9nComponent;
 
       // required indicator has associated tooltip, so we need to ensure messages are loaded
-      if (t9nComponent.messages._loading) {
+      if ("_loading" in messages && messages._loading) {
         await new Promise<void>((resolve) => {
           const intervalId = setInterval(async () => {
-            if (!t9nComponent.messages._loading) {
+            if (!messages._loading) {
               clearInterval(intervalId);
               resolve();
             }

@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -200,6 +201,12 @@ describe("honors hidden attribute", () => {
 describe("renders", () => {
   renders(() => mount(<calcite-flow-item selected>content</calcite-flow-item>), {
     display: "flex",
+  });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-flow-item show-back-button />, mountOptions), {
+    targetSelector: "calcite-panel, calcite-action",
   });
 });
 
