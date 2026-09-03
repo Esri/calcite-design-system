@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
+import {
+  accessible,
+  defaults,
+  hidden,
+  renders,
+  scalePropagates,
+  themed,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
 describe("accessible", () => {
@@ -32,6 +39,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-avatar"), { display: "inline-block" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-avatar />, mountOptions), {
+    targetSelector: "calcite-icon",
+  });
 });
 
 describe("theme", () => {

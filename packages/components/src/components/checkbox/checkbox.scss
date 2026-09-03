@@ -42,6 +42,7 @@
   -webkit-tap-highlight-color: transparent;
 
   .check-svg {
+    @include includes.transition-default();
     @apply bg-foreground-1
       pointer-events-none
       box-border
@@ -49,8 +50,7 @@
       overflow-hidden
       fill-current
       stroke-current
-      stroke-1
-      transition-default;
+      stroke-1;
     box-shadow: inset 0 0 0 1px var(--calcite-checkbox-border-color, var(--calcite-color-border-input));
     color: var(--calcite-checkbox-icon-color, theme("backgroundColor.background"));
   }

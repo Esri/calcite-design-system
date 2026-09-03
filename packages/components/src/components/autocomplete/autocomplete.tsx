@@ -34,7 +34,9 @@ import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
+import { isAutocompleteItem } from "../autocomplete-item/resources";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
+import { isAutocompleteItemGroup } from "../autocomplete-item-group/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
@@ -100,8 +102,6 @@ export class Autocomplete
   private inputId = IDS.input(this.guid);
 
   labelEl?: Label["el"];
-
-  labelable = useLabel(this);
 
   private listId = IDS.list(this.guid);
 
@@ -401,6 +401,7 @@ export class Autocomplete
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
     this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);
@@ -637,23 +638,15 @@ export class Autocomplete
           this.defaultSlotRef.value,
           groupItemSelector,
         )
-      : Array.from(this.el.children).filter((child): child is AutocompleteItemGroup["el"] =>
-          child.matches(groupItemSelector),
-        );
+      : Array.from(this.el.children).filter(isAutocompleteItemGroup);
 
     const rootItems = this.defaultSlotRef.value
       ? getSlotAssignedElements<AutocompleteItem["el"]>(this.defaultSlotRef.value, itemSelector)
-      : Array.from(this.el.children).filter((child): child is AutocompleteItem["el"] =>
-          child.matches(itemSelector),
-        );
+      : Array.from(this.el.children).filter(isAutocompleteItem);
 
     const groupedItems = groups.flatMap((group) => group.items ?? []);
     const items = Array.from(
-      new Set<AutocompleteItem["el"]>(
-        [...rootItems, ...groupedItems].filter(
-          (item): item is AutocompleteItem["el"] => !!item && item.matches(itemSelector),
-        ),
-      ),
+      new Set<AutocompleteItem["el"]>([...rootItems, ...groupedItems].filter(isAutocompleteItem)),
     );
 
     this.groups = groups;

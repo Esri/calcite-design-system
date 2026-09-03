@@ -1,6 +1,10 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../panel/resources";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./flow"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow-item/flow-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 interface FlowStoryArgs {
   disabled: boolean;

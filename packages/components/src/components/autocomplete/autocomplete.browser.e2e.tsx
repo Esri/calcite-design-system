@@ -9,15 +9,18 @@ import {
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   slots,
   floatingUIOwner,
   t9n,
   disabled,
   formAssociated,
+  globalProps,
   openClose,
   topLayer,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -27,6 +30,22 @@ import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("global props", () => {
+  globalProps(
+    () => mount<Autocomplete>(<calcite-autocomplete label="Items" />),
+    () => page.getBySelector("calcite-input"),
+    {
+      autofocus: true,
+      enterKeyHint: "search",
+      inputMode: "search",
+    },
+  );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-autocomplete", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -268,6 +287,21 @@ describe("internal label", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-autocomplete"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-autocomplete>
+          <calcite-autocomplete-item-group>
+            <calcite-autocomplete-item value="item" />
+          </calcite-autocomplete-item-group>
+        </calcite-autocomplete>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-autocomplete-item, calcite-autocomplete-item-group" },
+  );
 });
 
 describe("slots", () => {

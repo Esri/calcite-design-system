@@ -1,3 +1,6 @@
+import "../components/label/label";
+import "../components/segmented-control-item/segmented-control-item";
+import "../components/segmented-control/segmented-control";
 import { html } from "../../support/formatting";
 
 export const segmentedControlTokens = {

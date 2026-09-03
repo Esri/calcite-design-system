@@ -91,6 +91,9 @@
     },
     "packages/stylelint-plugin-components": {
       "component": "@esri/stylelint-plugin-calcite-components"
+    },
+    "packages/monorepo-cli": {
+      "component": "@esri/monorepo-cli"
     }
   },
   "plugins": [

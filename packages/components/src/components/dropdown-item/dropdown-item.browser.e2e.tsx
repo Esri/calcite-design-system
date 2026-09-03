@@ -2,11 +2,15 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
-import { focusable, hidden, renders, themed } from "../../tests/commonTests/browser";
+import { defaults, focusable, hidden, renders, themed } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
 mockConsole();
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-dropdown-item"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
 
 describe("is focusable", () => {
   focusable(() => mount(`calcite-dropdown-item`));
