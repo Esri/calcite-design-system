@@ -69,8 +69,6 @@ export class Action extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  formTrigger = useFormTrigger()(this);
-
   private labelElRef = createRef<HTMLSpanElement>();
 
   //#endregion
@@ -217,6 +215,11 @@ export class Action extends LitElement {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useFormTrigger()(this);
+  }
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });

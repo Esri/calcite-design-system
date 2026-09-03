@@ -443,7 +443,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     }
   }
 
-  private mouseDownHandler(event): void {
+  private mouseDownHandler(event: MouseEvent): void {
     if (this.showPlaceholder) {
       event.preventDefault();
       this.setFocus();

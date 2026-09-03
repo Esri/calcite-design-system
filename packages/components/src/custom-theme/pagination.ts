@@ -1,3 +1,4 @@
+import "../components/pagination/pagination";
 import { html } from "../../support/formatting";
 
 export const paginationTokens = {

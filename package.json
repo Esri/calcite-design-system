@@ -93,7 +93,7 @@
     "eslint-plugin-storybook": "10.5.10",
     "eslint-plugin-unicorn": "61.0.2",
     "eslint-plugin-unused-imports": "4.4.1",
-    "generate-license-file": "4.2.1",
+    "generate-license-file": "4.2.5",
     "gh-pages": "6.3.0",
     "globals": "17.6.0",
     "globby": "16.2.0",

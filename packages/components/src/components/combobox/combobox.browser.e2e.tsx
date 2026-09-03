@@ -12,6 +12,7 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   openClose,
   reflects,
   renders,
@@ -32,6 +33,10 @@ import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-combobox", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {

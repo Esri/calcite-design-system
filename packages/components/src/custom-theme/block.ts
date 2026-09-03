@@ -1,8 +1,11 @@
+import "../components/block/block";
+import "../components/icon/icon";
 import { html } from "../../support/formatting";
 
 export const blockTokens = {
   calciteBlockBorderColor: "",
   calciteBlockContentSpace: "",
+  calciteBlockBackgroundColor: "",
   calciteBlockHeaderBackgroundColor: "",
   calciteBlockHeaderBackgroundColorHover: "",
   calciteBlockTextColor: "",

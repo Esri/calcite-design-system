@@ -1404,6 +1404,14 @@
     "integration": 61941,
     "explode-geometry": 61942,
     "ai-agents": 61943,
-    "ai-agent": 61944
+    "ai-agent": 61944,
+    "web-camera": 61945,
+    "sd-card": 61946,
+    "row-group": 61947,
+    "pi": 61948,
+    "monitor-share": 61949,
+    "hand-draw": 61950,
+    "envelope-open": 61951,
+    "column-group": 61952
   }
 }

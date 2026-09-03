@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   disabled,
@@ -14,10 +15,27 @@ import {
   t9n,
   formAssociated,
   accessible,
+  labelable,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-rating", mountOptions));
+
+  describe("focuses the first star when the label is clicked and no-rating value exists", () => {
+    labelable((mountOptions) => mount("calcite-rating", mountOptions), {
+      focusTarget: () => page.getByRole("radio").first(),
+    });
+  });
+
+  describe("focuses the value-matching star when the label is clicked", () => {
+    labelable((mountOptions) => mount(<calcite-rating value={3} />, mountOptions), {
+      focusTarget: () => page.getByRole("radio").nth(2),
+    });
+  });
+});
 
 describe("accessible", () => {
   accessible(() => mount(`calcite-rating`));

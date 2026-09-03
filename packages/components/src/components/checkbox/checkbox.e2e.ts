@@ -1,14 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../types";
 import { Direction } from "../../utils/dom";
 import { findAll } from "../../tests/utils/puppeteer";
-
-describe("labelable", () => {
-  labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" });
-});
 
 it("renders with correct default attributes", async () => {
   const page = await newE2EPage();
@@ -144,7 +139,7 @@ describe("WCAG AA recommended minimum 24px click area", () => {
       document.querySelector("calcite-checkbox")!.getBoundingClientRect().toJSON(),
     );
 
-    const testClick = async (x, y, expected) => {
+    const testClick = async (x: number, y: number, expected: boolean): Promise<void> => {
       await page.mouse.click(x, y);
       await page.waitForChanges();
       expect(await checkbox.getProperty("checked")).toBe(expected);
