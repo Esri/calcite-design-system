@@ -47,6 +47,10 @@ export class TableRow extends LitElement {
 
   private selectionHeaderRef = createRef<TableHeader["el"]>();
 
+  private deferSelectedCellSync = false;
+
+  private suppressSelectedChangeEvent = false;
+
   private userTriggered = false;
 
   private _selected = false;
@@ -134,7 +138,9 @@ export class TableRow extends LitElement {
     const oldValue = this._selected;
     if (value !== oldValue) {
       this._selected = value;
-      this.handleCellChanges();
+      if (!this.deferSelectedCellSync) {
+        this.handleCellChanges();
+      }
     }
   }
 
@@ -202,15 +208,21 @@ export class TableRow extends LitElement {
     if (
       changes.has("selected") &&
       (this.hasUpdated || this.selected !== false) &&
-      !this.userTriggered
+      !this.userTriggered &&
+      !this.suppressSelectedChangeEvent
     ) {
       this.calciteInternalTableRowSelect.emit();
     }
   }
 
   loaded(): void {
-    if (this.rowCells.length > 0) {
-      this.updateCells();
+    this.refreshCells();
+    this.syncCells();
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("selected")) {
+      this.suppressSelectedChangeEvent = false;
     }
   }
 
@@ -219,19 +231,21 @@ export class TableRow extends LitElement {
   //#region Private Methods
 
   private handleSlotChange(): void {
-    this.updateCells();
+    this.refreshCells();
+    this.syncCells();
   }
 
   private handleCellChanges(): void {
     if (this.rowCells.length > 0) {
-      this.updateCells();
+      this.syncCells();
     }
   }
 
   private handleDelayedCellChanges(): void {
-    if (this.rowCells.length > 0) {
-      requestAnimationFrame(() => this.updateCells());
-    }
+    requestAnimationFrame(() => {
+      this.refreshCells();
+      this.syncCells();
+    });
   }
 
   private calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {
@@ -329,12 +343,7 @@ export class TableRow extends LitElement {
     });
   }
 
-  private updateCells(): void {
-    const alignment = this.alignment
-      ? this.alignment
-      : this.rowType !== "head"
-        ? "center"
-        : "start";
+  private refreshCells(): void {
     const slottedCells = this.rowSlotRef.value
       ? getSlotAssignedElements<TableCell["el"] | TableHeader["el"]>(
           this.rowSlotRef.value,
@@ -349,32 +358,60 @@ export class TableRow extends LitElement {
     ].filter((cell) => cell != null);
     const cells = renderedCells.concat(slottedCells);
 
-    if (cells.length > 0) {
-      cells?.forEach((cell, index) => {
-        cell.interactionMode = this.interactionMode;
-        cell.lastCell = index === cells.length - 1;
-        cell.parentRowAlignment = alignment;
-        cell.parentRowIsSelected = this.selected;
-        cell.parentRowType = this.rowType;
-        cell.positionInRow = index + 1;
-        cell.scale = this.scale;
+    this.rowCells = cells;
+    this.cellCount = cells.length;
+  }
 
-        if (cell.nodeName === "CALCITE-TABLE-CELL") {
-          const rowSpan = cell.rowSpan || 1;
-          const reachesBodyEnd =
-            this.rowType === "body" &&
-            rowSpan > 1 &&
-            this.positionSection + rowSpan >= this.bodyRowCount;
+  private syncCells(): void {
+    const alignment = this.alignment
+      ? this.alignment
+      : this.rowType !== "head"
+        ? "center"
+        : "start";
+    const cells = this.rowCells;
 
-          (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
-          (cell as TableCell["el"]).disabled = this.disabled;
-          (cell as TableCell["el"]).reachesBodyEnd = reachesBodyEnd;
-        }
-      });
+    if (cells.length === 0) {
+      return;
     }
 
-    this.rowCells = cells || [];
-    this.cellCount = cells?.length;
+    cells.forEach((cell, index) => {
+      cell.interactionMode = this.interactionMode;
+      cell.lastCell = index === cells.length - 1;
+      cell.parentRowAlignment = alignment;
+      cell.parentRowIsSelected = this.selected;
+      cell.parentRowType = this.rowType;
+      cell.positionInRow = index + 1;
+      cell.scale = this.scale;
+
+      if (cell.nodeName === "CALCITE-TABLE-CELL") {
+        const rowSpan = cell.rowSpan || 1;
+        const reachesBodyEnd =
+          this.rowType === "body" &&
+          rowSpan > 1 &&
+          this.positionSection + rowSpan >= this.bodyRowCount;
+
+        (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
+        (cell as TableCell["el"]).disabled = this.disabled;
+        (cell as TableCell["el"]).reachesBodyEnd = reachesBodyEnd;
+      }
+    });
+  }
+
+  setSelectedFromTable(value: boolean): boolean {
+    if (value === this.selected) {
+      return false;
+    }
+
+    this.deferSelectedCellSync = true;
+    this.suppressSelectedChangeEvent = true;
+    this.selected = value;
+    this.deferSelectedCellSync = false;
+
+    return true;
+  }
+
+  syncSelectionCells(): void {
+    this.handleCellChanges();
   }
 
   private async handleRowSelection(): Promise<void> {
