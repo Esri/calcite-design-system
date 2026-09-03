@@ -1,6 +1,10 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Menu } from "./menu";
+import "./menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../menu-item/menu-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout } = ATTRIBUTES;
 
@@ -286,6 +290,56 @@ export const allScales = (): string => html`
   </div>
 `;
 
+export const activeVerticalOpenAllScales = (): string => html`
+  <style>
+    .active-vertical-scales {
+      align-items: start;
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(3, minmax(14.5rem, 1fr));
+    }
+
+    .active-vertical-scales calcite-menu {
+      inline-size: 100%;
+    }
+  </style>
+
+  <div class="active-vertical-scales">
+    <section>
+      <h2>Small</h2>
+      <calcite-menu label="Small active vertical menu" layout="vertical" scale="s">
+        <calcite-menu-item text="Default"></calcite-menu-item>
+        <calcite-menu-item active text="Active"></calcite-menu-item>
+        <calcite-menu-item active href="#small" text="Linked active" open>
+          <calcite-menu-item slot="submenu-item" text="Submenu item"></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu>
+    </section>
+
+    <section>
+      <h2>Medium</h2>
+      <calcite-menu label="Medium active vertical menu" layout="vertical" scale="m">
+        <calcite-menu-item text="Default"></calcite-menu-item>
+        <calcite-menu-item active text="Active"></calcite-menu-item>
+        <calcite-menu-item active href="#medium" text="Linked active" open>
+          <calcite-menu-item slot="submenu-item" text="Submenu item"></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu>
+    </section>
+
+    <section>
+      <h2>Large</h2>
+      <calcite-menu label="Large active vertical menu" layout="vertical" scale="l">
+        <calcite-menu-item text="Default"></calcite-menu-item>
+        <calcite-menu-item active text="Active"></calcite-menu-item>
+        <calcite-menu-item active href="#large" text="Linked active" open>
+          <calcite-menu-item slot="submenu-item" text="Submenu item"></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu>
+    </section>
+  </div>
+`;
+
 export const withNesting = (): string =>
   html`<calcite-panel>
     <calcite-menu layout="horizontal">
@@ -313,15 +367,53 @@ export const WithSubmenuOpen = (): string =>
     <calcite-menu-item text="Item 3" href="#item"></calcite-menu-item>
   </calcite-menu>`;
 
-export const WithSubmenuOpenInVerticalLayout = (): string =>
-  html`<calcite-menu layout="vertical">
-    <calcite-menu-item text="Item" href="#item" open>
-      <calcite-menu-item text="item1" slot="submenu-item" active></calcite-menu-item>
-      <calcite-menu-item text="item2" slot="submenu-item"></calcite-menu-item>
-    </calcite-menu-item>
-    <calcite-menu-item text="Item 2" href="#item"></calcite-menu-item>
-    <calcite-menu-item text="Item 3" href="#item"></calcite-menu-item>
-  </calcite-menu>`;
+export const WithSubmenuOpenInVerticalLayoutAllScales = (): string =>
+  html`<style>
+      .vertical-submenu-scales {
+        align-items: start;
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(3, minmax(14.5rem, 1fr));
+      }
+    </style>
+
+    <div class="vertical-submenu-scales">
+      <section>
+        <h2>Small</h2>
+        <calcite-menu layout="vertical" scale="s">
+          <calcite-menu-item href="#item" open text="Item">
+            <calcite-menu-item active slot="submenu-item" text="item1"></calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="item2"></calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 2"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 3"></calcite-menu-item>
+        </calcite-menu>
+      </section>
+
+      <section>
+        <h2>Medium</h2>
+        <calcite-menu layout="vertical" scale="m">
+          <calcite-menu-item href="#item" open text="Item">
+            <calcite-menu-item active slot="submenu-item" text="item1"></calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="item2"></calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 2"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 3"></calcite-menu-item>
+        </calcite-menu>
+      </section>
+
+      <section>
+        <h2>Large</h2>
+        <calcite-menu layout="vertical" scale="l">
+          <calcite-menu-item href="#item" open text="Item">
+            <calcite-menu-item active slot="submenu-item" text="item1"></calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="item2"></calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 2"></calcite-menu-item>
+          <calcite-menu-item href="#item" text="Item 3"></calcite-menu-item>
+        </calcite-menu>
+      </section>
+    </div>`;
 
 export const darkModeRTL = (): string =>
   html`<calcite-menu dir="rtl" class="calcite-mode-dark">

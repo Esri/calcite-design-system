@@ -73,6 +73,7 @@ import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 import { logger } from "../../utils/logger";
+import { isSelect } from "../select/resources";
 
 declare global {
   interface DeclareElements {
@@ -145,8 +146,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   })(this);
 
   labelEl?: Label["el"];
-
-  labelable = useLabel(this);
 
   transitionProp = "opacity" as const;
 
@@ -409,6 +408,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
     this.handleDateTimeFormatChange();
@@ -787,9 +787,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    const targetHasSelect = event
-      .composedPath()
-      .some((el) => (el as HTMLElement).tagName === "CALCITE-SELECT");
+    const targetHasSelect = event.composedPath().some(isSelect);
 
     if (key === "Enter") {
       const preCommitValue = this.value;
@@ -1322,7 +1320,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
               </div>
             )}
           </div>
-          {this.range && this.layout === "vertical" ? (
+          {this.range && this.layout === "vertical" && !this.readOnly ? (
             <div
               class={CSS.verticalActionsContainer}
               onClick={this.onVerticalActionsContainerClick}

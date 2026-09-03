@@ -74,7 +74,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
         const subComponentEl = findSubComponentElement(el, subComponentTag);
         expect(subComponentEl).not.toBeNull();
         // Assert whether parent component passed the override value to the sub-component
-        expect(subComponentEl.messageOverrides![firstMessageProp]).toBe(overrideValue);
+        expect(subComponentEl.messageOverrides).toMatchObject(messageOverride);
       }
     }
 

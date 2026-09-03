@@ -4,6 +4,7 @@ import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/l
 import { focusElementInGroup } from "../../utils/dom";
 import { Scale, SelectionMode } from "../types";
 import type { Card } from "../card/card";
+import { isCard } from "../card/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./card-group.scss";
@@ -167,10 +168,7 @@ export class CardGroup extends LitElement {
   }
 
   private updateSlottedItems(target?: HTMLSlotElement): void {
-    this.items =
-      target
-        ?.assignedElements({ flatten: true })
-        .filter((el): el is Card["el"] => el?.matches("calcite-card")) || [];
+    this.items = target?.assignedElements({ flatten: true }).filter(isCard) || [];
   }
 
   private updateItemsScale(): void {
