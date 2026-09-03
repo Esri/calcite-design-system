@@ -1,3 +1,4 @@
+import "../components/input-text/input-text";
 import { html } from "../../support/formatting";
 
 export const inputTextTokens = {

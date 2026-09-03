@@ -13,6 +13,8 @@ import { select } from "./custom-theme/select";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { table } from "./custom-theme/table";
 import { tile } from "./custom-theme/tile";
+import "./components/segmented-control/segmented-control";
+import "./components/segmented-control-item/segmented-control-item";
 import { timePicker } from "./custom-theme/time-picker";
 
 const kitchenSink = () =>

@@ -147,8 +147,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   labelEl?: Label["el"];
 
-  labelable = useLabel(this);
-
   transitionProp = "opacity" as const;
 
   private placeholderTextId = IDS.placeholder(guid());
@@ -410,6 +408,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
     this.handleDateTimeFormatChange();
@@ -1321,7 +1320,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
               </div>
             )}
           </div>
-          {this.range && this.layout === "vertical" ? (
+          {this.range && this.layout === "vertical" && !this.readOnly ? (
             <div
               class={CSS.verticalActionsContainer}
               onClick={this.onVerticalActionsContainerClick}

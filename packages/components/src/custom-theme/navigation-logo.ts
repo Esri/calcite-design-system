@@ -1,3 +1,4 @@
+import "../components/navigation-logo/navigation-logo";
 import { html } from "../../support/formatting";
 import { boolean } from "../../.storybook/utils";
 

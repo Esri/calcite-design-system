@@ -201,11 +201,17 @@ export class Tile extends LitElement implements SelectableComponent {
   }
 
   private handleSlotChange(event: Event): void {
-    const slotName = (event.target as HTMLSlotElement).dataset.name;
-    this[`has${slotName}`] = slotChangeHasAssignedElement(event);
+    const hasAssignedElement = slotChangeHasAssignedElement(event);
+    const slotName = (event.target as HTMLSlotElement).name;
+
+    if (slotName === SLOTS.contentBottom) {
+      this.hasContentBottom = hasAssignedElement;
+    } else if (slotName === SLOTS.contentTop) {
+      this.hasContentTop = hasAssignedElement;
+    }
   }
 
-  private setContainerEl(el): void {
+  private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
   }
 

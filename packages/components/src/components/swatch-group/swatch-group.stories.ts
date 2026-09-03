@@ -3,6 +3,8 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { SwatchGroup } from "./swatch-group";
+import "../swatch/swatch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./swatch-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { selectionMode, scale } = ATTRIBUTES;
 

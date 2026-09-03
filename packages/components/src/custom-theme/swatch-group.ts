@@ -1,3 +1,5 @@
+import "../components/swatch-group/swatch-group";
+import "../components/swatch/swatch";
 import { html } from "../../support/formatting";
 
 export const swatchGroupTokens = {

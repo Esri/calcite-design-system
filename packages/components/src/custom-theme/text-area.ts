@@ -1,3 +1,4 @@
+import "../components/text-area/text-area";
 import { html } from "../../support/formatting";
 
 export const textAreaTokens = {

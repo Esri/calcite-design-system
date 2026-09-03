@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -226,6 +227,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-action-menu"), { display: "flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-action-menu />, mountOptions), {
+    targetSelector: `.${CSS.defaultTrigger}, calcite-popover`,
+  });
 });
 
 describe("slots", () => {
