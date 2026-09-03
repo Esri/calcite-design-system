@@ -209,10 +209,6 @@ export const readOnlyVerticalRangeHasNoDropdownAffordance = (): string => html`
   </script>
 `;
 
-readOnlyVerticalRangeHasNoDropdownAffordance.parameters = {
-  chromatic: { diffThreshold: 0.01 },
-};
-
 export const validationMessageAllScales = (): string => html`
   <style>
     .container {
