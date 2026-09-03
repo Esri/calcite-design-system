@@ -200,6 +200,38 @@ describe("interactions", () => {
     expect(el.value).toEqual([el.minValue, el.maxValue]);
   }
 
+  describe("slider taking the precision of the provided step", () => {
+    it("takes the precision of the decimal step when controlled through keyboard", async () => {
+      await mount(<calcite-slider max={100} min={0} step={1.12} value={30} />);
+      const thumb = page.getByRole("slider");
+
+      await userEvent.click(thumb);
+      await userEvent.keyboard("{ArrowRight}");
+      await expect.element(thumb).toHaveAttribute("aria-valuenow", "31.12");
+      await userEvent.keyboard("{ArrowLeft}");
+      await expect.element(thumb).toHaveAttribute("aria-valuenow", "30");
+      await userEvent.keyboard("{ArrowUp}");
+      await expect.element(thumb).toHaveAttribute("aria-valuenow", "31.12");
+      await userEvent.keyboard("{ArrowDown}");
+      await expect.element(thumb).toHaveAttribute("aria-valuenow", "30");
+    });
+
+    it("takes the precision of the decimal step when clicking and dragging the track", async () => {
+      const { el } = await mount<Slider>(<calcite-slider snap step={1.12} />);
+      const track = page.getBySelector(`.${CSS.track}`);
+      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+      const targetValue = 5;
+      const targetX = trackX + ((targetValue - el.min) / (el.max - el.min)) * trackWidth;
+
+      await commands.mouseMove(trackX, trackY);
+      await commands.mouseDown();
+      await commands.mouseMove(targetX, trackY);
+      await commands.mouseUp();
+
+      await expect.element(el).toHaveValue(4.48);
+    });
+  });
+
   describe("thumb focus", () => {
     async function clickTrackAtValue(
       el: Slider["el"],
