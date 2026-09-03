@@ -1420,6 +1420,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     chipContainerElWidth,
     inputWidth,
     largestSelectedIndicatorChipWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    inputWidth: number;
+    largestSelectedIndicatorChipWidth: number;
   }): void {
     const newCompactBreakpoint = Math.round(
       largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,

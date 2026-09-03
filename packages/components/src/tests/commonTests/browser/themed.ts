@@ -10,7 +10,12 @@ import { focusElement } from "../../../utils/dom";
 const pseudoElementPattern =
   /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
 
-type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
+type CSSProp = Extract<
+  {
+    [Property in keyof CSSStyleDeclaration]: CSSStyleDeclaration[Property] extends string ? Property : never;
+  }[keyof CSSStyleDeclaration],
+  string
+>;
 type State = "press" | "hover" | "focus";
 type CalciteCSSCustomProp = `--calcite-${string}`;
 type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
@@ -320,7 +325,7 @@ async function assertThemedProps(host: HTMLElement, hostLocator: Locator, option
 
     await waitForStyleUpdates();
 
-    if (targetProp.startsWith("--calcite-")) {
+    if (isCalciteCSSCustomProp(targetProp)) {
       const customPropValue = getComputedStylePropertyValue(targetElement, targetProp, pseudoElement);
       expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
       return;
@@ -344,6 +349,12 @@ async function assertThemedProps(host: HTMLElement, hostLocator: Locator, option
       await commands.mouseUp();
     }
   }
+}
+
+function isCalciteCSSCustomProp(
+  property: CSSProp | MappedCalciteCSSCustomProp,
+): property is MappedCalciteCSSCustomProp {
+  return property.startsWith("--calcite-");
 }
 
 function getInteractionTarget(

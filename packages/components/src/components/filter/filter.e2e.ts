@@ -29,7 +29,7 @@ describe("strings", () => {
 });
 
 describe("clear button", () => {
-  let page;
+  let page: E2EPage;
 
   beforeEach(async () => {
     page = await newE2EPage();

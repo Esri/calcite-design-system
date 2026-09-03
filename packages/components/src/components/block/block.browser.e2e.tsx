@@ -272,6 +272,9 @@ describe("theme", () => {
           </calcite-block>,
         ),
       {
+        "--calcite-block-background-color": {
+          targetProp: "backgroundColor",
+        },
         "--calcite-block-border-color": {
           targetProp: "borderColor",
         },
@@ -285,10 +288,6 @@ describe("theme", () => {
             targetProp: "paddingInline",
           },
         ],
-        "--calcite-block-header-background-color": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-        },
         "--calcite-block-header-background-color-hover": {
           shadowSelector: `.${CSS.toggle}`,
           targetProp: "backgroundColor",
@@ -356,6 +355,10 @@ describe("theme", () => {
           </calcite-block>,
         ),
       {
+        "--calcite-block-header-background-color": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "backgroundColor",
+        },
         "--calcite-block-padding": [
           {
             shadowSelector: `section.${CSS.content}`,

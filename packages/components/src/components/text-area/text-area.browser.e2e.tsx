@@ -8,9 +8,11 @@ import {
   defaults,
   disabled,
   focusable,
+  globalProps,
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   t9n,
   formAssociated,
@@ -20,6 +22,21 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
 import type { TextArea } from "./text-area";
 import { afterNextFrame } from "../../tests/utils/timing";
+
+describe("global props", () => {
+  globalProps(
+    () => mount<TextArea>(<calcite-text-area />),
+    () => page.getBySelector("textarea"),
+    {
+      autofocus: true,
+      spellcheck: false,
+    },
+  );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-text-area", mountOptions));
+});
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");

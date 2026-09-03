@@ -7,6 +7,13 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Scale } from "../types";
 import { Block } from "./block";
+import "./block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block-section/block-section"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { headingLevelWithNone, placement, toggleDisplay, scale } = ATTRIBUTES;
 
@@ -148,6 +155,21 @@ export const darkModeRTL = (): string => html`
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
   </calcite-block>
+`;
+
+export const transparentAppearance = (): string => html`
+  <style>
+    calcite-block {
+      --calcite-block-background-color: var(--calcite-color-transparent);
+      --calcite-block-border-color: var(--calcite-color-transparent);
+      --calcite-block-header-background-color-hover: var(--calcite-color-transparent-hover);
+      --calcite-block-header-background-color-press: var(--calcite-color-transparent-press);
+    }
+  </style>
+  <calcite-block-group>
+    <calcite-block heading="Heading" description="Description" expandable> Block content </calcite-block>
+    <calcite-block heading="Heading" description="Description" expandable expanded> Block content </calcite-block>
+  </calcite-block-group>
 `;
 
 export const contentCanTakeFullHeight = (): string =>

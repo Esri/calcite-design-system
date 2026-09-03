@@ -1,6 +1,5 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import {
@@ -19,10 +18,6 @@ import { Combobox } from "./combobox";
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 mockConsole();
-
-describe("labelable", () => {
-  labelable("calcite-combobox");
-});
 
 it("should update screen reader list items", async () => {
   const page = await newE2EPage();

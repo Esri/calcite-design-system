@@ -59,8 +59,6 @@ export class Button extends LitElement {
 
   private contentRef = createRef<HTMLSpanElement>();
 
-  formTrigger = useFormTrigger({ disabled: () => !!this.href })(this);
-
   labelEl?: Label["el"];
 
   /** watches for changing text content */
@@ -199,6 +197,7 @@ export class Button extends LitElement {
 
   constructor() {
     super();
+    useFormTrigger({ disabled: () => !!this.href })(this);
     useLabel(this);
   }
 

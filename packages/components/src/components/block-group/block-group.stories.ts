@@ -3,6 +3,8 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { BlockGroup } from "./block-group";
 import { Decorator } from "@storybook/web-components-vite";
+import "./block-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block/block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale } = ATTRIBUTES;
 
