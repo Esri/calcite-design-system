@@ -1,3 +1,4 @@
+import "../components/graph/graph";
 import { html } from "../../support/formatting";
 
 export const graphTokens = {

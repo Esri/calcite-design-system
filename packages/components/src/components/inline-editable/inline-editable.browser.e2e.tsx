@@ -10,13 +10,43 @@ import {
   disabled,
   focusable,
   hidden,
+  labelable,
   renders,
+  scalePropagates,
   t9n,
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
 
 // Deprecated in v5.2.0, removal target v7.0.0
+
+describe("labelable", () => {
+  describe("default", () => {
+    labelable(
+      (mountOptions) =>
+        mount(
+          <calcite-inline-editable controls>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>,
+          mountOptions,
+        ),
+      { focusTarget: () => page.getBySelector("calcite-input").first() },
+    );
+  });
+
+  describe("when editing is enabled", () => {
+    labelable(
+      (mountOptions) =>
+        mount(
+          <calcite-inline-editable controls editing-enabled>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>,
+          mountOptions,
+        ),
+      { focusTarget: () => page.getBySelector("calcite-input").first() },
+    );
+  });
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -86,6 +116,12 @@ describe("defaults", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-inline-editable"));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-inline-editable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {

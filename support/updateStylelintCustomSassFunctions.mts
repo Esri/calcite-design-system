@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { globby } from "globby";
+import { format } from "prettier";
 
 (async () => {
   console.info("Scanning custom functions for Stylelint config update.");
@@ -15,7 +16,7 @@ import { globby } from "globby";
   const sassFiles = await globby(["**/*.scss"], {
     cwd: rootDirectory,
     gitignore: true,
-    absolute: true
+    absolute: true,
   });
 
   const customFunctionPattern = /@function\s+([a-zA-Z0-9_-]+)/g;
@@ -41,10 +42,14 @@ import { globby } from "globby";
 
     const updatedConfigContent = stylelintConfigContent.replace(
       customFunctionsPattern,
-      `const customFunctions = ${JSON.stringify(Array.from(customFunctions).sort(), null, 2)};`
+      `const customFunctions = ${JSON.stringify(Array.from(customFunctions).sort())};`,
     );
 
-    writeFileSync(stylelintConfigPath, updatedConfigContent);
+    const formattedConfigContent = await format(updatedConfigContent, {
+      parser: "babel",
+    });
+
+    writeFileSync(stylelintConfigPath, formattedConfigContent);
     console.info("Stylelint configuration updated successfully");
   } catch (err) {
     console.error(`Error updating Stylelint configuration: ${stylelintConfigPath}`, err);
