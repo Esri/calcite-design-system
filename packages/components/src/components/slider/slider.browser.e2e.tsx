@@ -11,6 +11,7 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   t9n,
@@ -21,6 +22,10 @@ import type { Slider } from "./slider";
 import { CSS } from "./resources";
 
 const sliderWidthFor1To1PixelValueTrack = "114px";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-slider", mountOptions));
+});
 
 describe("defaults", () => {
   defaults(

@@ -2,7 +2,6 @@ import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
@@ -22,10 +21,6 @@ const delayFor2UpdatesInMs = 200;
 async function typeNumberValue(page: E2EPage, numberAsText: string): Promise<void> {
   await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);
 }
-
-describe("labelable", () => {
-  labelable("calcite-input-number");
-});
 
 it("when disabled, spinner buttons  should not be interactive/should not nudge the number", async () => {
   const page = await newE2EPage();

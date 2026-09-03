@@ -12,6 +12,7 @@ import {
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   t9n,
   formAssociated,
@@ -31,6 +32,10 @@ describe("global props", () => {
       spellcheck: false,
     },
   );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-text-area", mountOptions));
 });
 
 describe("cancelable", () => {

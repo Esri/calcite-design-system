@@ -1,16 +1,11 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Slider } from "./slider";
 
 const sliderWidthFor1To1PixelValueTrack = "114px";
-
-describe("labelable", () => {
-  labelable("calcite-slider");
-});
 
 it("sets aria attributes properly for single value", async () => {
   const page = await newE2EPage();
