@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Calcite Design System
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:String x:Key="calcite-container-size-content-fixed">1440px</x:String>
+  <x:String x:Key="calcite-container-size-content-fluid">100%</x:String>
+  <x:String x:Key="calcite-container-size-gutter">16px</x:String>
+  <x:String x:Key="calcite-container-size-margin">24px</x:String>
+  <!-- Small handheld devices and mini-windows -->
+  <x:String x:Key="calcite-container-size-height-2xs-min">0</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-width-2xs-min|max`
+  instead. -->
+  <x:String x:Key="calcite-container-size-width-xxs-min">0</x:String>
+  <!-- Small handheld devices and mini-windows -->
+  <x:String x:Key="calcite-container-size-width-2xs-min">0</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-height-2xs-min|max`
+  instead. -->
+  <x:String x:Key="calcite-container-size-height-xxs-max">154px</x:String>
+  <!-- Small handheld devices and mini-windows -->
+  <x:String x:Key="calcite-container-size-height-2xs-max">154px</x:String>
+  <!-- Handheld devices -->
+  <x:String x:Key="calcite-container-size-height-xs-min">155px</x:String>
+  <!-- Handheld devices -->
+  <x:String x:Key="calcite-container-size-height-xs-max">328px</x:String>
+  <!-- Small tablets -->
+  <x:String x:Key="calcite-container-size-height-sm-min">329px</x:String>
+  <!-- Small tablets -->
+  <x:String x:Key="calcite-container-size-height-sm-max">504px</x:String>
+  <!-- Small laptops -->
+  <x:String x:Key="calcite-container-size-height-md-min">505px</x:String>
+  <!-- Small laptops -->
+  <x:String x:Key="calcite-container-size-height-md-max">678px</x:String>
+  <!-- Large laptops and desktop computers -->
+  <x:String x:Key="calcite-container-size-height-lg-min">679px</x:String>
+  <!-- Large laptops and desktop computers -->
+  <x:String x:Key="calcite-container-size-height-lg-max">854px</x:String>
+  <!-- Projectors and televisions -->
+  <x:String x:Key="calcite-container-size-height-xl-min">855px</x:String>
+  <!-- Small handheld devices and mini-windows -->
+  <x:String x:Key="calcite-container-size-width-2xs-max">320px</x:String>
+  <!-- Handheld devices -->
+  <x:String x:Key="calcite-container-size-width-xs-min">321px</x:String>
+  <!-- Handheld devices -->
+  <x:String x:Key="calcite-container-size-width-xs-max">476px</x:String>
+  <!-- Small tablets -->
+  <x:String x:Key="calcite-container-size-width-sm-min">477px</x:String>
+  <!-- Small tablets -->
+  <x:String x:Key="calcite-container-size-width-sm-max">768px</x:String>
+  <!-- Small laptops -->
+  <x:String x:Key="calcite-container-size-width-md-min">769px</x:String>
+  <!-- Small laptops -->
+  <x:String x:Key="calcite-container-size-width-md-max">1152px</x:String>
+  <!-- Large laptops and desktop computers -->
+  <x:String x:Key="calcite-container-size-width-lg-min">1153px</x:String>
+  <!-- Large laptops and desktop computers -->
+  <x:String x:Key="calcite-container-size-width-lg-max">1440px</x:String>
+  <!-- Projectors and televisions -->
+  <x:String x:Key="calcite-container-size-width-xl-min">1441px</x:String>
+
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-height-2xs-min|max`
+  instead. -->
+  <x:String x:Key="calcite-container-size-height-xxs-min">0</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-width-2xs-min|max`
+  instead. -->
+  <x:String x:Key="calcite-container-size-width-xxs-max">320px</x:String>
+</ResourceDictionary>
