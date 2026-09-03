@@ -16,6 +16,7 @@ import {
   disabled,
   openClose,
   accessible,
+  scalePropagates,
   topLayer,
   themed,
 } from "../../tests/commonTests/browser";
@@ -29,7 +30,7 @@ mockConsole();
 describe("accessible", () => {
   accessible(() =>
     mount(
-      <calcite-block collapsible description="description" expanded heading="heading">
+      <calcite-block description="description" expandable expanded heading="heading">
         <div>content</div>
       </calcite-block>,
     ),
@@ -42,6 +43,10 @@ describe("defaults", () => {
     [
       {
         propertyName: "collapsible",
+        defaultValue: false,
+      },
+      {
+        propertyName: "expandable",
         defaultValue: false,
       },
       {
@@ -93,7 +98,7 @@ describe("setFocus", () => {
     focusable(
       () =>
         mount(
-          <calcite-block collapsible description="summary" expanded heading="Heading">
+          <calcite-block description="summary" expandable expanded heading="Heading">
             <calcite-block-section expanded text="input block-section">
               <calcite-input
                 icon="form-field"
@@ -142,6 +147,10 @@ describe("reflects", () => {
         value: true,
       },
       {
+        propertyName: "expandable",
+        value: true,
+      },
+      {
         propertyName: "headingLevel",
         value: 2,
       },
@@ -183,6 +192,19 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-block"), { display: "flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-block>
+          <calcite-block-section />
+        </calcite-block>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-block-section, calcite-action-menu" },
+  );
 });
 
 describe("slots", () => {
@@ -228,7 +250,7 @@ describe("top layer placement", () => {
 });
 
 describe("disabled", () => {
-  disabled(() => mount(<calcite-block collapsible description="description" heading="heading" />));
+  disabled(() => mount(<calcite-block description="description" expandable heading="heading" />));
 });
 
 describe("theme", () => {
@@ -237,8 +259,8 @@ describe("theme", () => {
       () =>
         mount(
           <calcite-block
-            collapsible
             description="description"
+            expandable
             expanded
             heading="heading"
             icon-end="pen"
@@ -250,6 +272,9 @@ describe("theme", () => {
           </calcite-block>,
         ),
       {
+        "--calcite-block-background-color": {
+          targetProp: "backgroundColor",
+        },
         "--calcite-block-border-color": {
           targetProp: "borderColor",
         },
@@ -263,10 +288,6 @@ describe("theme", () => {
             targetProp: "paddingInline",
           },
         ],
-        "--calcite-block-header-background-color": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-        },
         "--calcite-block-header-background-color-hover": {
           shadowSelector: `.${CSS.toggle}`,
           targetProp: "backgroundColor",
@@ -321,8 +342,8 @@ describe("theme", () => {
       () =>
         mount(
           <calcite-block
-            collapsible
             description="description"
+            expandable
             expanded
             heading="heading"
             icon-end="pen"
@@ -334,6 +355,10 @@ describe("theme", () => {
           </calcite-block>,
         ),
       {
+        "--calcite-block-header-background-color": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "backgroundColor",
+        },
         "--calcite-block-padding": [
           {
             shadowSelector: `section.${CSS.content}`,
@@ -379,7 +404,7 @@ describe("theme", () => {
   describe("toggleDisplay", () => {
     it("should toggle the expanded state when the toggleDisplay is switch", async () => {
       const { el } = await mount(
-        <calcite-block collapsible heading="heading" toggle-display="switch">
+        <calcite-block expandable heading="heading" toggle-display="switch">
           <div>content</div>
         </calcite-block>,
       );

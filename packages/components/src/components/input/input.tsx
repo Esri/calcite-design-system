@@ -113,8 +113,6 @@ export class Input
 
   labelEl?: Label["el"];
 
-  labelable = useLabel(this);
-
   private maxString?: string;
 
   private minString?: string;
@@ -491,6 +489,7 @@ export class Input
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

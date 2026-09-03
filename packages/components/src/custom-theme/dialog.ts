@@ -1,3 +1,9 @@
+import "../components/action/action";
+import "../components/button/button";
+import "../components/checkbox/checkbox";
+import "../components/dialog/dialog";
+import "../components/label/label";
+import "../components/shell/shell";
 import { html } from "../../support/formatting";
 
 export const dialogTokens = {

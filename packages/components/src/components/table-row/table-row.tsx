@@ -12,7 +12,9 @@ import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/type
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
+import { isTableHeader } from "../table-header/resources";
 import type { TableCell } from "../table-cell/table-cell";
+import { isTableCell } from "../table-cell/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-row.scss";
@@ -32,8 +34,6 @@ export class TableRow extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  messages;
 
   private numberedCellRef = createRef<TableCell["el"]>();
 
@@ -263,11 +263,11 @@ export class TableRow extends LitElement {
     if (this.interactionMode !== "interactive") {
       return;
     }
-    const el = event.target as TableCell["el"] | TableHeader["el"];
+    const el = event.target;
     const key = event.key;
     const isControl = event.ctrlKey;
     const cells = this.rowCells;
-    if (el.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
+    if (isTableCell(el) || isTableHeader(el)) {
       switch (key) {
         case "ArrowUp":
           this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "previous");

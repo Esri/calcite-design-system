@@ -194,7 +194,7 @@ export class Card extends LitElement {
     this.calciteCardSelect.emit();
   }
 
-  private cardSelectClick(event): void {
+  private cardSelectClick(event: PointerEvent): void {
     if (!this.disabled) {
       event.preventDefault();
       this.calciteCardSelect.emit();
