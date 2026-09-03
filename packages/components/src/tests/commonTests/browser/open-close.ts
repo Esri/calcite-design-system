@@ -169,7 +169,7 @@ async function testOpenCloseEvents({
         };
       });
 
-      el[openPropName] = startOpen;
+      setBooleanProperty(el, openPropName, startOpen);
     },
   });
 
@@ -197,7 +197,7 @@ async function testOpenCloseEvents({
   }
 
   if (!startOpen) {
-    el[openPropName] = true;
+    setBooleanProperty(el, openPropName, true);
   }
 
   await reRender();
@@ -206,7 +206,7 @@ async function testOpenCloseEvents({
 
   assertEventSequence([1, 1, 0, 0]);
 
-  el[openPropName] = false;
+  setBooleanProperty(el, openPropName, false);
 
   await reRender();
   await captureEventTimestamp(beforeCloseEvent!.promise, eventSequence.at(2)!);
@@ -245,11 +245,19 @@ function getEventSequence(componentTag: ComponentTag): string[] {
 
 function setUpEventListeners(componentTag: ComponentTag, receivedEvents: string[]): void {
   getEventSequence(componentTag).forEach((eventType) => {
-    const listener = (event) => receivedEvents.push(event.type);
+    const listener = (event: Event) => receivedEvents.push(event.type);
 
     document.addEventListener(eventType, listener);
     onTestFinished(() => document.removeEventListener(eventType, listener));
   });
+}
+
+function setBooleanProperty<Element extends HTMLElement, PropertyName extends string>(
+  element: Element,
+  propertyName: PropertyName,
+  value: boolean,
+): void {
+  Object.assign(element, { [propertyName]: value });
 }
 
 type OpenCloseName = "beforeOpen" | "open" | "beforeClose" | "close";

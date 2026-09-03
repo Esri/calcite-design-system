@@ -2,9 +2,11 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compil
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { labelable } from "../../tests/commonTests";
-import { findAll, getElementRect, isElementFocused } from "../../tests/utils/puppeteer";
+import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Slider } from "./slider";
+
+const sliderWidthFor1To1PixelValueTrack = "114px";
 
 describe("labelable", () => {
   labelable("calcite-slider");
@@ -195,6 +197,137 @@ it("key press should change the value and emit input and change events", async (
   expect(changeEvent).toHaveReceivedEventTimes(1);
 });
 
+describe("thumb focus for single value", () => {
+  const sliderForThumbFocusTests = html`<calcite-slider
+    style="width:${sliderWidthFor1To1PixelValueTrack}"
+    min="0"
+    max="100"
+    snap
+    ticks="10"
+    value="50"
+  ></calcite-slider>`;
+
+  it("should focus thumb when clicked near", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`${sliderForThumbFocusTests}`);
+    const slider = await page.find("calcite-slider");
+    const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+    await page.mouse.move(trackX + 50, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
+    );
+
+    expect(isThumbFocused).toBe(true);
+    expect(await slider.getProperty("value")).toBe(50);
+
+    await page.mouse.move(trackX + 40, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
+    );
+
+    expect(isThumbFocused).toBe(true);
+    expect(await slider.getProperty("value")).toBe(40);
+
+    await page.mouse.move(trackX + 60, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
+    );
+
+    expect(isThumbFocused).toBe(true);
+    expect(await slider.getProperty("value")).toBe(60);
+  });
+});
+
+describe("thumb focus in range", () => {
+  const sliderForThumbFocusTests = html`<calcite-slider
+    style="width:${sliderWidthFor1To1PixelValueTrack}"
+    min="0"
+    max="100"
+    min-value="0"
+    max-value="100"
+    ticks="10"
+  ></calcite-slider>`;
+
+  it("should focus the min thumb when clicked on track close to minValue", async () => {
+    const page = await newE2EPage({
+      html: `${sliderForThumbFocusTests}`,
+    });
+    await page.waitForChanges();
+    const slider = await page.find("calcite-slider");
+    const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+    await page.mouse.move(trackX + 30, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const isMinThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--minValue"),
+    );
+
+    expect(await slider.getProperty("minValue")).toBe(0);
+    expect(await slider.getProperty("maxValue")).toBe(100);
+    expect(isMinThumbFocused).toBe(true);
+  });
+
+  it("should focus the max thumb when clicked on track close to maxValue", async () => {
+    const page = await newE2EPage({
+      html: `${sliderForThumbFocusTests}`,
+    });
+    await page.waitForChanges();
+    const slider = await page.find("calcite-slider");
+    const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+    await page.mouse.move(trackX + 60, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
+    );
+
+    expect(await slider.getProperty("minValue")).toBe(0);
+    expect(await slider.getProperty("maxValue")).toBe(100);
+    expect(isMaxThumbFocused).toBe(true);
+  });
+
+  it("should focus the max thumb when clicked on middle of the track", async () => {
+    const page = await newE2EPage({
+      html: `${sliderForThumbFocusTests}`,
+    });
+    await page.waitForChanges();
+    const slider = await page.find("calcite-slider");
+    const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+    await page.mouse.move(trackX + 50, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
+    );
+
+    expect(await slider.getProperty("minValue")).toBe(0);
+    expect(await slider.getProperty("maxValue")).toBe(100);
+    expect(isMaxThumbFocused).toBe(true);
+  });
+});
+
 describe("histogram", () => {
   it("creates calcite-graph with color stops", async () => {
     const page = await newE2EPage({ html: `<calcite-slider></calcite-slider>` });
@@ -354,7 +487,7 @@ describe("when range thumbs overlap", () => {
       const isMinHandleFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
 
       expect(isMinHandleFocused).toBe(true);
-      const newMinValue = await element.getProperty("value")[0];
+      const newMinValue = (await element.getProperty("value"))[0];
       expect(newMinValue).not.toBe(initialMinValue);
     });
   });

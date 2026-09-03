@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.68](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.67...@esri/calcite-components@5.2.0-next.68) (2026-09-02)
+
+### Bug Fixes
+
+- **flow:** track only top-level slotted items and harden custom selector fallback ([#14880](https://github.com/Esri/calcite-design-system/issues/14880)), closes [#14854](https://github.com/Esri/calcite-design-system/issues/14854)
+
+## [5.2.0-next.67](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.66...@esri/calcite-components@5.2.0-next.67) (2026-09-01)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.65...@esri/calcite-components@5.2.0-next.66) (2026-08-31)
+
+### Features
+
+- **block:** add background color token ([#15099](https://github.com/Esri/calcite-design-system/issues/15099)), closes [#14006](https://github.com/Esri/calcite-design-system/issues/14006)
+
+### Bug Fixes
+
+- **tile:** restore top/bottom slot spacing ([#15101](https://github.com/Esri/calcite-design-system/issues/15101)), closes [#15100](https://github.com/Esri/calcite-design-system/issues/15100)
+
+## [5.2.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.64...@esri/calcite-components@5.2.0-next.65) (2026-08-27)
+
+### Features
+
+- **block:** deprecate `collapsible` in favor of `expandable` ([#15091](https://github.com/Esri/calcite-design-system/issues/15091)), closes [#11671](https://github.com/Esri/calcite-design-system/issues/11671)
+
 ## [5.2.0-next.64](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.63...@esri/calcite-components@5.2.0-next.64) (2026-08-27)
 
 ### Bug Fixes
