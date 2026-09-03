@@ -41,7 +41,7 @@ type ShorthandReflectProps<E extends HTMLElement> = {
 export function reflects<
   RenderResult extends ReturnType<typeof mount>,
   ElementProps extends Awaited<RenderResult>["el"],
->(setup: () => RenderResult, propsToTest: ReflectProps<ElementProps> | ShorthandReflectProps<ElementProps>): void {
+>(setUp: () => RenderResult, propsToTest: ReflectProps<ElementProps> | ShorthandReflectProps<ElementProps>): void {
   const propValuePairs = Array.isArray(propsToTest)
     ? propsToTest
     : (Object.keys(propsToTest) as Extract<keyof ElementProps, string>[]).map((propertyName) => ({
@@ -51,7 +51,7 @@ export function reflects<
   const cases = propValuePairs.map(({ propertyName, value }) => [propertyName, value] as const);
 
   it.each(cases)("%s", async (propertyName, value) => {
-    const { el: setupEl, reRender } = await setup();
+    const { el: setupEl, reRender } = await setUp();
     const el = setupEl as ElementProps;
     const attrName = propToAttr(propertyName);
 

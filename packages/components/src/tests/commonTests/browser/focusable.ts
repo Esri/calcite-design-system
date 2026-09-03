@@ -20,7 +20,7 @@ export interface FocusableOptions {
  *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
  */
-export function focusable(setup: () => ReturnType<typeof mount>, options?: FocusableOptions): void {
+export function focusable(setUp: () => ReturnType<typeof mount>, options?: FocusableOptions): void {
   beforeEach(() => {
     vi.doMock("focus-trap");
   });
@@ -31,7 +31,7 @@ export function focusable(setup: () => ReturnType<typeof mount>, options?: Focus
   });
 
   it("is focusable", async () => {
-    const { el } = await setup();
+    const { el } = await setUp();
 
     if (!isCalciteFocusable(el)) {
       // eslint-disable-next-line vitest/no-conditional-expect -- we want to fail the test if the component is not focusable

@@ -43,9 +43,9 @@ async function expectRequiredIndicator(): Promise<void> {
  *   internalLabel(`calcite-input`);
  * });
  */
-export function internalLabel(setup: () => ReturnType<typeof mount>): void {
+export function internalLabel(setUp: () => ReturnType<typeof mount>): void {
   it("renders an internal label", async () => {
-    const { el, component, reRender } = await setup();
+    const { el, component, reRender } = await setUp();
 
     if (hasLabelText(el)) {
       el.labelText = "Test Label";

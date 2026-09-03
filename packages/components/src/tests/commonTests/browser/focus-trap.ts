@@ -33,12 +33,12 @@ async function toggleComponent(el: FocusTrapTestElement, toggleProp: string): Pr
  *
  * Note: this assumes the component under test is closed and will be opened before running assertions.
  */
-export function focusTrap(setup: () => ReturnType<typeof mount>, options: FocusTrapOptions): void {
+export function focusTrap(setUp: () => ReturnType<typeof mount>, options: FocusTrapOptions): void {
   const { focusTarget, toggleProp } = options;
 
   describe("initialFocus", () => {
     async function setUpTest(): Promise<{ el: FocusTrapTestElement; target: Locator }> {
-      const { el } = await setup();
+      const { el } = await setUp();
       const component = el as FocusTrapTestElement;
       const target = focusTarget?.() ?? page.elementLocator(el);
 

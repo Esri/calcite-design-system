@@ -13,7 +13,7 @@ import { type Locator, page } from "vitest/browser";
  * });
  */
 export async function renders(
-  setup: () => ReturnType<typeof mount>,
+  setUp: () => ReturnType<typeof mount>,
   options?: {
     /**
      * The expected display style of the component. Defaults to "inline".
@@ -39,7 +39,7 @@ export async function renders(
   },
 ): Promise<void> {
   it(`renders`, async () => {
-    const { el } = await setup();
+    const { el } = await setUp();
 
     await expect.element(el).toHaveAttribute("calcite-hydrated");
     expect(getComputedStyle(el).display).toBe(options?.display ?? "inline");

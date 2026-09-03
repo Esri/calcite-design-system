@@ -25,7 +25,7 @@ import { waitForEvent } from "./utils";
  * });
  */
 export function floatingUIOwner(
-  setup: () => Promise<RenderResult<FloatingUIComponent & LitElement>>,
+  setUp: () => Promise<RenderResult<FloatingUIComponent & LitElement>>,
   togglePropName: string,
   options?: {
     /** Use this to specify the selector in the shadow DOM for the floating-ui element. */
@@ -38,7 +38,7 @@ export function floatingUIOwner(
     const viewportSizeInPx = 800;
     const pageScrollDistanceInPx = viewportSizeInPx * 4;
     const scrollablePageSizeInPx = pageScrollDistanceInPx + viewportSizeInPx;
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setUp();
 
     el.overlayPositioning = overlayPositioning;
     await reRender();
@@ -202,11 +202,11 @@ function setBooleanProperty<Element extends HTMLElement, PropertyName extends st
  * });
  */
 export async function delegatesToFloatingUiOwningComponent(
-  setup: () => ReturnType<typeof mount>,
+  setUp: () => ReturnType<typeof mount>,
   floatingUiOwnerComponentTag: keyof DeclareElements,
 ): Promise<void> {
   it("delegates to floating-ui owning component", async () => {
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setUp();
     // we assume if `overlay-positioning` is used by an internal component that it is a floating-ui component
     const floatingUiOwningComponent = el.shadowRoot.querySelector(
       floatingUiOwnerComponentTag,
@@ -237,9 +237,9 @@ export async function delegatesToFloatingUiOwningComponent(
  *   });
  * });
  */
-export async function handlesActionMenuPlacements(setup: () => ReturnType<typeof mount>): Promise<void> {
+export async function handlesActionMenuPlacements(setUp: () => ReturnType<typeof mount>): Promise<void> {
   it("handles placement and flipPlacements", async () => {
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setUp();
     const flipPlacements: FlipPlacement[] = ["top", "bottom"];
     const actionMenu = el.shadowRoot.querySelector("calcite-action-menu")!;
 
