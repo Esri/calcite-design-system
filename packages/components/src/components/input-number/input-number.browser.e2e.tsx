@@ -12,6 +12,7 @@ import {
   globalProps,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   scalePropagates,
@@ -39,6 +40,10 @@ describe("global props", () => {
       inputMode: "decimal",
     },
   );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-number", mountOptions));
 });
 
 describe("defaults", () => {

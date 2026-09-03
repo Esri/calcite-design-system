@@ -7,6 +7,7 @@ import {
   focusable,
   globalProps,
   hidden,
+  labelable,
   t9n,
   disabled,
   renders,
@@ -14,6 +15,10 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { page } from "vitest/browser";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-button", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {

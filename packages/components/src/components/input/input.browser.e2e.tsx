@@ -12,6 +12,7 @@ import {
   globalProps,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   scalePropagates,
@@ -40,6 +41,10 @@ describe("global props", () => {
       spellcheck: false,
     },
   );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input", mountOptions));
 });
 
 describe("defaults", () => {

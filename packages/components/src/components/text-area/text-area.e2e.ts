@@ -1,12 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
-
-describe("labelable", () => {
-  labelable("calcite-text-area");
-});
 
 it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
   const page = await newE2EPage();

@@ -1,6 +1,5 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { numberStringFormatter } from "../../utils/locale";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
@@ -20,10 +19,6 @@ const delayFor2UpdatesInMs = 200;
 async function typeNumberValue(page: E2EPage, numberAsText: string): Promise<void> {
   await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);
 }
-
-describe("labelable", () => {
-  labelable("calcite-input");
-});
 
 describe("emits events when value is modified", () => {
   type CodeBranchingTypes = Extract<Input["el"]["type"], "text" | "number">;

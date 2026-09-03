@@ -1,1 +1,0 @@
-export { labelable } from "./labelable";

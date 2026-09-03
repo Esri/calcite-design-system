@@ -9,6 +9,7 @@ import {
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   slots,
   floatingUIOwner,
@@ -40,6 +41,10 @@ describe("global props", () => {
       inputMode: "search",
     },
   );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-autocomplete", mountOptions));
 });
 
 describe("accessible", () => {

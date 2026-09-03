@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   focusable,
@@ -12,10 +13,21 @@ import {
   reflects,
   hidden,
   accessible,
+  labelable,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  mockConsole();
+
+  labelable((mountOptions) => mount(<calcite-radio-button name="group-name" />, mountOptions), {
+    propertyToToggle: "checked",
+    focusTarget: () => page.getByRole("radio").first(),
+  });
+});
 
 describe("accessible", () => {
   accessible(() =>

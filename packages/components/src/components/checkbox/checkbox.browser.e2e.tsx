@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   accessible,
   defaults,
@@ -9,12 +10,20 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   renders,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-checkbox", mountOptions), {
+    propertyToToggle: "checked",
+    focusTarget: () => page.getByRole("checkbox").first(),
+  });
+});
 
 describe("accessible", () => {
   accessible(() =>
