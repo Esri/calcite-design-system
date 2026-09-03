@@ -1481,3 +1481,25 @@ it("selecting all input content replaces everything with the allowed non-digit c
   expect(el).toHaveProperty("value", "");
   expect(input).toHaveDisplayValue("-");
 });
+
+it("should not focus when clicking validation message", async () => {
+  const { el } = await mount(
+    <form>
+      <calcite-input-number label="calciteInputNumber" required />
+      <button type="submit">Submit</button>
+    </form>,
+  );
+  const button = page.getByRole("button");
+  const inputMessage = page.getBySelector("calcite-input-message");
+
+  expect(el).not.toHaveFocus();
+
+  await button.click();
+  await userEvent.click(inputMessage);
+
+  expect(el).not.toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}");
+
+  expect(el).toHaveFocus();
+});

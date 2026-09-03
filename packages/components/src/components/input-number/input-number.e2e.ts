@@ -3,11 +3,10 @@ import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { labelable } from "../../tests/commonTests";
-import { assertCaretPosition, findAll, isElementFocused } from "../../tests/utils/puppeteer";
+import { assertCaretPosition, findAll } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
-import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { DIRECTION } from "./resources";
 import type { InputNumber } from "./input-number";
@@ -780,29 +779,6 @@ describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of tex
 
     expect(cursorHomeCount).toBe(0);
   });
-});
-
-it("should not focus when clicking validation message", async () => {
-  const page = await newE2EPage();
-  const componentTag = "calcite-input-number";
-  await page.setContent(
-    html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
-  );
-  await page.waitForChanges();
-
-  expect(await isElementFocused(page, componentTag)).toBe(false);
-
-  await page.$eval(`${componentTag} >>> calcite-input-message`, (element: InputMessage["el"]) => {
-    element.click();
-  });
-  await page.waitForChanges();
-
-  expect(await isElementFocused(page, componentTag)).toBe(false);
-
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-
-  expect(await isElementFocused(page, componentTag)).toBe(true);
 });
 
 testWorkaroundForGlobalPropRemoval("calcite-input-number");
