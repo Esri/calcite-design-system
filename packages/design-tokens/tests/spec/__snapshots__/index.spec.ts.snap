@@ -1528,6 +1528,109 @@ exports[`CSS > index should match 1`] = `
 "
 `;
 
+exports[`CSS > index-light-dark should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+@import url("./semantic.css");
+@import url("./classes.css");
+:root {
+  color-scheme: light dark;
+  --calcite-color-surface-1: light-dark(#f7f7f7, #212121);
+  --calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
+  --calcite-color-surface-3: light-dark(#f2f2f2, #363636);
+  --calcite-color-surface-4: light-dark(#ebebeb, #404040);
+  --calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
+  --calcite-color-background: light-dark(#f7f7f7, #212121);
+  --calcite-color-background-none: light-dark(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
+  --calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
+  --calcite-color-foreground-3: light-dark(#ebebeb, #404040);
+  --calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+  --calcite-color-text-1: light-dark(#141414, #ffffff);
+  --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+  --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+  --calcite-color-text-inverse: light-dark(#ffffff, #141414);
+  --calcite-color-text-link: light-dark(#00619b, #00a0ff);
+  --calcite-color-text-highlight: light-dark(#004874, #d6efff);
+  --calcite-color-border-1: light-dark(#d4d4d4, #545454);
+  --calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+  --calcite-color-border-3: light-dark(#ebebeb, #404040);
+  --calcite-color-border-input: light-dark(#949494, #757575);
+  --calcite-color-border-ghost: light-dark(
+    rgba(0, 0, 0, 0.3),
+    rgba(117, 117, 117, 0.3)
+  );
+  --calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+  --calcite-color-brand: light-dark(#007ac2, #009af2);
+  --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+  --calcite-color-brand-press: light-dark(#004874, #80d1ff);
+  --calcite-color-brand-underline: light-dark(
+    rgba(0, 97, 155, 0.4),
+    rgba(0, 160, 255, 0.4)
+  );
+  --calcite-color-inverse: light-dark(#363636, #f7f7f7);
+  --calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+  --calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+  --calcite-color-status-info: light-dark(#00619b, #00a0ff);
+  --calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+  --calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+  --calcite-color-status-success: light-dark(#288835, #36da43);
+  --calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+  --calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+  --calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+  --calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+  --calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+  --calcite-color-status-danger: light-dark(#d83020, #fe583e);
+  --calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+  --calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+  --calcite-color-transparent: light-dark(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-transparent-hover: light-dark(
+    rgba(0, 0, 0, 0.04),
+    rgba(255, 255, 255, 0.12)
+  );
+  --calcite-color-transparent-press: light-dark(
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0.16)
+  );
+  --calcite-color-transparent-scrim: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(0, 0, 0, 0.85)
+  );
+  --calcite-color-transparent-tint: light-dark(
+    rgba(255, 255, 255, 0.8),
+    rgba(43, 43, 43, 0.8)
+  );
+  --calcite-color-transparent-inverse-hover: light-dark(
+    rgba(255, 255, 255, 0.12),
+    rgba(0, 0, 0, 0.04)
+  );
+  --calcite-color-transparent-inverse-press: light-dark(
+    rgba(255, 255, 255, 0.16),
+    rgba(0, 0, 0, 0.08)
+  );
+  --calcite-color-focus: light-dark(#007ac2, #009af2);
+}
+.calcite-mode-auto {
+  color-scheme: light dark;
+}
+.calcite-mode-dark {
+  color-scheme: dark;
+}
+.calcite-mode-light {
+  color-scheme: light;
+}
+"
+`;
+
 exports[`CSS > light should match 1`] = `
 "/**
  * Calcite Design System
@@ -1585,6 +1688,98 @@ exports[`CSS > light should match 1`] = `
   --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
   --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
+}
+"
+`;
+
+exports[`CSS > light-dark should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  color-scheme: light dark;
+  --calcite-color-surface-1: light-dark(#f7f7f7, #212121);
+  --calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
+  --calcite-color-surface-3: light-dark(#f2f2f2, #363636);
+  --calcite-color-surface-4: light-dark(#ebebeb, #404040);
+  --calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
+  --calcite-color-background: light-dark(#f7f7f7, #212121);
+  --calcite-color-background-none: light-dark(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
+  --calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
+  --calcite-color-foreground-3: light-dark(#ebebeb, #404040);
+  --calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+  --calcite-color-text-1: light-dark(#141414, #ffffff);
+  --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+  --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+  --calcite-color-text-inverse: light-dark(#ffffff, #141414);
+  --calcite-color-text-link: light-dark(#00619b, #00a0ff);
+  --calcite-color-text-highlight: light-dark(#004874, #d6efff);
+  --calcite-color-border-1: light-dark(#d4d4d4, #545454);
+  --calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+  --calcite-color-border-3: light-dark(#ebebeb, #404040);
+  --calcite-color-border-input: light-dark(#949494, #757575);
+  --calcite-color-border-ghost: light-dark(
+    rgba(0, 0, 0, 0.3),
+    rgba(117, 117, 117, 0.3)
+  );
+  --calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+  --calcite-color-brand: light-dark(#007ac2, #009af2);
+  --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+  --calcite-color-brand-press: light-dark(#004874, #80d1ff);
+  --calcite-color-brand-underline: light-dark(
+    rgba(0, 97, 155, 0.4),
+    rgba(0, 160, 255, 0.4)
+  );
+  --calcite-color-inverse: light-dark(#363636, #f7f7f7);
+  --calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+  --calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+  --calcite-color-status-info: light-dark(#00619b, #00a0ff);
+  --calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+  --calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+  --calcite-color-status-success: light-dark(#288835, #36da43);
+  --calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+  --calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+  --calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+  --calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+  --calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+  --calcite-color-status-danger: light-dark(#d83020, #fe583e);
+  --calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+  --calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+  --calcite-color-transparent: light-dark(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-transparent-hover: light-dark(
+    rgba(0, 0, 0, 0.04),
+    rgba(255, 255, 255, 0.12)
+  );
+  --calcite-color-transparent-press: light-dark(
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0.16)
+  );
+  --calcite-color-transparent-scrim: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(0, 0, 0, 0.85)
+  );
+  --calcite-color-transparent-tint: light-dark(
+    rgba(255, 255, 255, 0.8),
+    rgba(43, 43, 43, 0.8)
+  );
+  --calcite-color-transparent-inverse-hover: light-dark(
+    rgba(255, 255, 255, 0.12),
+    rgba(0, 0, 0, 0.04)
+  );
+  --calcite-color-transparent-inverse-press: light-dark(
+    rgba(255, 255, 255, 0.16),
+    rgba(0, 0, 0, 0.08)
+  );
+  --calcite-color-focus: light-dark(#007ac2, #009af2);
 }
 "
 `;
@@ -33651,6 +33846,112 @@ exports[`SCSS > index should match 1`] = `
 "
 `;
 
+exports[`SCSS > index-light-dark should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+@use "./semantic.scss";
+@use "./breakpoints.scss";
+@use "./mixins.scss";
+@mixin calcite-light-dark-tokens {
+  --calcite-color-surface-1: light-dark(#f7f7f7, #212121);
+  --calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
+  --calcite-color-surface-3: light-dark(#f2f2f2, #363636);
+  --calcite-color-surface-4: light-dark(#ebebeb, #404040);
+  --calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
+  --calcite-color-background: light-dark(#f7f7f7, #212121);
+  --calcite-color-background-none: light-dark(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
+  --calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
+  --calcite-color-foreground-3: light-dark(#ebebeb, #404040);
+  --calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+  --calcite-color-text-1: light-dark(#141414, #ffffff);
+  --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+  --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+  --calcite-color-text-inverse: light-dark(#ffffff, #141414);
+  --calcite-color-text-link: light-dark(#00619b, #00a0ff);
+  --calcite-color-text-highlight: light-dark(#004874, #d6efff);
+  --calcite-color-border-1: light-dark(#d4d4d4, #545454);
+  --calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+  --calcite-color-border-3: light-dark(#ebebeb, #404040);
+  --calcite-color-border-input: light-dark(#949494, #757575);
+  --calcite-color-border-ghost: light-dark(
+    rgba(0, 0, 0, 0.3),
+    rgba(117, 117, 117, 0.3)
+  );
+  --calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+  --calcite-color-brand: light-dark(#007ac2, #009af2);
+  --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+  --calcite-color-brand-press: light-dark(#004874, #80d1ff);
+  --calcite-color-brand-underline: light-dark(
+    rgba(0, 97, 155, 0.4),
+    rgba(0, 160, 255, 0.4)
+  );
+  --calcite-color-inverse: light-dark(#363636, #f7f7f7);
+  --calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+  --calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+  --calcite-color-status-info: light-dark(#00619b, #00a0ff);
+  --calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+  --calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+  --calcite-color-status-success: light-dark(#288835, #36da43);
+  --calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+  --calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+  --calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+  --calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+  --calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+  --calcite-color-status-danger: light-dark(#d83020, #fe583e);
+  --calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+  --calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+  --calcite-color-transparent: light-dark(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-transparent-hover: light-dark(
+    rgba(0, 0, 0, 0.04),
+    rgba(255, 255, 255, 0.12)
+  );
+  --calcite-color-transparent-press: light-dark(
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0.16)
+  );
+  --calcite-color-transparent-scrim: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(0, 0, 0, 0.85)
+  );
+  --calcite-color-transparent-tint: light-dark(
+    rgba(255, 255, 255, 0.8),
+    rgba(43, 43, 43, 0.8)
+  );
+  --calcite-color-transparent-inverse-hover: light-dark(
+    rgba(255, 255, 255, 0.12),
+    rgba(0, 0, 0, 0.04)
+  );
+  --calcite-color-transparent-inverse-press: light-dark(
+    rgba(255, 255, 255, 0.16),
+    rgba(0, 0, 0, 0.08)
+  );
+  --calcite-color-focus: light-dark(#007ac2, #009af2);
+}
+@mixin calcite-mode-auto {
+  color-scheme: light dark;
+  @include calcite-light-dark-tokens;
+}
+@mixin calcite-mode-dark {
+  color-scheme: dark;
+  @include calcite-light-dark-tokens;
+}
+@mixin calcite-mode-light {
+  color-scheme: light;
+  @include calcite-light-dark-tokens;
+}
+"
+`;
+
 exports[`SCSS > light should match 1`] = `
 "
 // Calcite Design System
@@ -33706,6 +34007,95 @@ $calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-c
 $calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
 $calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
+"
+`;
+
+exports[`SCSS > light-dark should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+$calcite-color-surface-1: light-dark(#f7f7f7, #212121);
+$calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
+$calcite-color-surface-3: light-dark(#f2f2f2, #363636);
+$calcite-color-surface-4: light-dark(#ebebeb, #404040);
+$calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
+$calcite-color-background: light-dark(#f7f7f7, #212121);
+$calcite-color-background-none: light-dark(
+  rgba(255, 255, 255, 0),
+  rgba(255, 255, 255, 0)
+);
+$calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
+$calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
+$calcite-color-foreground-3: light-dark(#ebebeb, #404040);
+$calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+$calcite-color-text-1: light-dark(#141414, #ffffff);
+$calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+$calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+$calcite-color-text-inverse: light-dark(#ffffff, #141414);
+$calcite-color-text-link: light-dark(#00619b, #00a0ff);
+$calcite-color-text-highlight: light-dark(#004874, #d6efff);
+$calcite-color-border-1: light-dark(#d4d4d4, #545454);
+$calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+$calcite-color-border-3: light-dark(#ebebeb, #404040);
+$calcite-color-border-input: light-dark(#949494, #757575);
+$calcite-color-border-ghost: light-dark(
+  rgba(0, 0, 0, 0.3),
+  rgba(117, 117, 117, 0.3)
+);
+$calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+$calcite-color-brand: light-dark(#007ac2, #009af2);
+$calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+$calcite-color-brand-press: light-dark(#004874, #80d1ff);
+$calcite-color-brand-underline: light-dark(
+  rgba(0, 97, 155, 0.4),
+  rgba(0, 160, 255, 0.4)
+);
+$calcite-color-inverse: light-dark(#363636, #f7f7f7);
+$calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+$calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+$calcite-color-status-info: light-dark(#00619b, #00a0ff);
+$calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+$calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+$calcite-color-status-success: light-dark(#288835, #36da43);
+$calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+$calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+$calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+$calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+$calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+$calcite-color-status-danger: light-dark(#d83020, #fe583e);
+$calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+$calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+$calcite-color-transparent: light-dark(
+  rgba(0, 0, 0, 0),
+  rgba(255, 255, 255, 0)
+);
+$calcite-color-transparent-hover: light-dark(
+  rgba(0, 0, 0, 0.04),
+  rgba(255, 255, 255, 0.12)
+);
+$calcite-color-transparent-press: light-dark(
+  rgba(0, 0, 0, 0.08),
+  rgba(255, 255, 255, 0.16)
+);
+$calcite-color-transparent-scrim: light-dark(
+  rgba(255, 255, 255, 0.85),
+  rgba(0, 0, 0, 0.85)
+);
+$calcite-color-transparent-tint: light-dark(
+  rgba(255, 255, 255, 0.8),
+  rgba(43, 43, 43, 0.8)
+);
+$calcite-color-transparent-inverse-hover: light-dark(
+  rgba(255, 255, 255, 0.12),
+  rgba(0, 0, 0, 0.04)
+);
+$calcite-color-transparent-inverse-press: light-dark(
+  rgba(255, 255, 255, 0.16),
+  rgba(0, 0, 0, 0.08)
+);
+$calcite-color-focus: light-dark(#007ac2, #009af2);
 "
 `;
 

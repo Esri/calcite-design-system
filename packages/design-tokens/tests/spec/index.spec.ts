@@ -10,9 +10,34 @@ const platforms: {
 }[] = [
   {
     name: "css",
-    files: ["breakpoints", "classes", "core", "dark", "global", "index", "light", "semantic"],
+    files: [
+      "breakpoints",
+      "classes",
+      "core",
+      "dark",
+      "global",
+      "index",
+      "index-light-dark",
+      "light",
+      "light-dark",
+      "semantic",
+    ],
   },
-  { name: "scss", files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
+  {
+    name: "scss",
+    files: [
+      "breakpoints",
+      "core",
+      "dark",
+      "global",
+      "index",
+      "index-light-dark",
+      "light",
+      "light-dark",
+      "mixins",
+      "semantic",
+    ],
+  },
   { name: "es6", files: ["breakpoints", "core", "global", "semantic"] },
   { name: "docs", files: ["core", "global", "semantic"], internal: true },
 ];
