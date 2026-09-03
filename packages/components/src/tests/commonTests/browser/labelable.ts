@@ -1,5 +1,5 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe, expect, it, onTestFinished } from "vitest";
+import { describe, expect, it } from "vitest";
 import { type Locator, page } from "vitest/browser";
 import type { Label } from "../../../components/label/label";
 import { afterNextFrame } from "../../utils/timing";
@@ -7,7 +7,7 @@ import { afterNextFrame } from "../../utils/timing";
 type BooleanPropertyElement = HTMLElement & Record<string, boolean>;
 
 interface LabelableMountOptions {
-  readonly parent: HTMLElement;
+  readonly parent?: HTMLElement;
 
   /**
    * Helper required for test setup.
@@ -25,11 +25,6 @@ export interface LabelableOptions {
 
 function createLabel(): Label["el"] {
   return document.createElement("calcite-label");
-}
-
-function connectLabel(label: Label["el"]): void {
-  document.body.append(label);
-  onTestFinished(() => label.remove());
 }
 
 function hasBooleanProperty(element: HTMLElement, property: string): element is BooleanPropertyElement {
@@ -64,14 +59,35 @@ export function labelable(
   options?: LabelableOptions,
 ): void {
   const id = "labelable-id";
+  const labelTitle = "My Component";
 
-  const mountLabelable = (parent: HTMLElement, elementId = id) =>
-    setup({
+  async function mountLabelable({
+    afterConnect,
+    elementId = id,
+    parent,
+  }: {
+    afterConnect?: (el: HTMLElement) => Promise<void> | void;
+    elementId?: string;
+    parent?: HTMLElement;
+  } = {}): Promise<Awaited<ReturnType<typeof mount>>> {
+    let afterConnectCalled = false;
+    const result = await setup({
       parent,
-      afterConnect: (el) => {
+      afterConnect: async (el) => {
+        afterConnectCalled = true;
         el.id = elementId;
+        await afterConnect?.(el);
       },
     });
+
+    if (!afterConnectCalled) {
+      throw new Error(
+        "Test `afterConnect` was not set on `mount` options. This test requires mount options to be passed to `mount`.",
+      );
+    }
+
+    return result;
+  }
 
   async function assertLabelable(result: Awaited<ReturnType<typeof mount>>, label: Label["el"]): Promise<void> {
     const { el, reRender } = result;
@@ -130,28 +146,40 @@ export function labelable(
 
   describe("label wraps labelables", () => {
     it("is labelable when component is wrapped in a label", async () => {
-      const label = createLabel();
-      connectLabel(label);
-      const result = await mountLabelable(label);
+      let label!: Label["el"];
+      const result = await mountLabelable({
+        afterConnect: async (el) => {
+          label = createLabel();
+          label.textContent = labelTitle;
+          el.parentElement!.append(label);
+          label.append(el);
+          await label.componentOnReady();
+        },
+      });
       await waitForLabelConnection(result, label);
 
       await assertLabelable(result, label);
     });
 
     it("is labelable when wrapping label is set prior to component", async () => {
-      const label = createLabel();
-      connectLabel(label);
-      await label.componentOnReady();
-      const result = await mountLabelable(label);
+      let label!: Label["el"];
+      const result = await mountLabelable({
+        afterConnect: async (el) => {
+          label = createLabel();
+          el.parentElement!.insertBefore(label, el);
+          await label.componentOnReady();
+          label.append(el);
+        },
+      });
       await waitForLabelConnection(result, label);
 
       await assertLabelable(result, label);
     });
 
     it("is labelable when a component is set first before being wrapped in a label", async () => {
-      const result = await mountLabelable(document.body);
+      const result = await mountLabelable();
       const label = createLabel();
-      connectLabel(label);
+      result.container.append(label);
       label.append(result.el);
       await label.componentOnReady();
       await result.reRender();
@@ -161,11 +189,17 @@ export function labelable(
     });
 
     it("only sets focus on the first labelable when label is clicked", async () => {
-      const label = createLabel();
-      connectLabel(label);
-      const firstResult = await mountLabelable(label);
-      await mountLabelable(label, `${id}-2`);
-      await mountLabelable(label, `${id}-3`);
+      let label!: Label["el"];
+      const firstResult = await mountLabelable({
+        afterConnect: async (el) => {
+          label = createLabel();
+          el.parentElement!.append(label);
+          label.append(el);
+          await label.componentOnReady();
+        },
+      });
+      await mountLabelable({ elementId: `${id}-2`, parent: label });
+      await mountLabelable({ elementId: `${id}-3`, parent: label });
       await waitForLabelConnection(firstResult, label);
 
       await assertLabelable(firstResult, label);
@@ -174,42 +208,54 @@ export function labelable(
 
   describe("label is sibling to labelables", () => {
     it("is labelable with label set as a sibling to the component", async () => {
-      const label = createLabel();
-      label.for = id;
-      connectLabel(label);
-      const result = await mountLabelable(document.body);
+      let label!: Label["el"];
+      const result = await mountLabelable({
+        afterConnect: async (el) => {
+          label = createLabel();
+          label.for = id;
+          el.parentElement!.insertBefore(label, el);
+          await label.componentOnReady();
+        },
+      });
       await waitForExplicitLabelAssociation(label);
 
       await assertLabelable(result, label);
     });
 
     it("is labelable when sibling label is set prior to component", async () => {
-      const label = createLabel();
-      label.for = id;
-      connectLabel(label);
-      await label.componentOnReady();
-      const result = await mountLabelable(document.body);
-      label.for = undefined;
-      label.for = id;
+      let label!: Label["el"];
+      const result = await mountLabelable({
+        afterConnect: async (el) => {
+          label = createLabel();
+          label.for = id;
+          el.parentElement!.insertBefore(label, el);
+          await label.componentOnReady();
+        },
+      });
       await waitForExplicitLabelAssociation(label);
 
       await assertLabelable(result, label);
     });
 
     it("is labelable for a component set before sibling label", async () => {
-      const result = await mountLabelable(document.body);
+      const result = await mountLabelable();
       const label = createLabel();
       label.for = id;
-      connectLabel(label);
+      result.container.append(label);
       await waitForExplicitLabelAssociation(label);
 
       await assertLabelable(result, label);
     });
 
     it("is labelable when label's for is set after initialization", async () => {
-      const label = createLabel();
-      connectLabel(label);
-      const result = await mountLabelable(document.body);
+      let label!: Label["el"];
+      const result = await mountLabelable({
+        afterConnect: async (el) => {
+          label = createLabel();
+          el.parentElement!.insertBefore(label, el);
+          await label.componentOnReady();
+        },
+      });
       await label.componentOnReady();
       label.for = id;
       await waitForExplicitLabelAssociation(label);
