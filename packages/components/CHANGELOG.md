@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.70](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.69...@esri/calcite-components@5.2.0-next.70) (2026-09-03)
+
+### Bug Fixes
+
+- **input-date-picker:** revert padding regression ([#15120](https://github.com/Esri/calcite-design-system/issues/15120)), closes [#14838](https://github.com/Esri/calcite-design-system/issues/14838) [#15106](https://github.com/Esri/calcite-design-system/issues/15106)
+
 ## [5.2.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.68...@esri/calcite-components@5.2.0-next.69) (2026-09-02)
 
 ### Bug Fixes
