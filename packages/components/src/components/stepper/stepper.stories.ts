@@ -3,6 +3,9 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Stepper } from "./stepper";
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./stepper"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../stepper-item/stepper-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, numberingSystem, scale } = ATTRIBUTES;
 

@@ -9,12 +9,14 @@ import {
   focusable,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   t9n,
   openClose,
   formAssociated,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -33,6 +35,10 @@ import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-time-picker", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -66,6 +72,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input-time-picker />, mountOptions), {
+    targetSelector: "calcite-time-picker",
+  });
 });
 
 describe("is focusable", () => {

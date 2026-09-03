@@ -1,3 +1,4 @@
+import "../components/input/input";
 import { html } from "../../support/formatting";
 
 export const inputTokens = {

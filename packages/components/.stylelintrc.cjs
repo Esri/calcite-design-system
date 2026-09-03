@@ -1,10 +1,7 @@
 // @ts-check
 
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
-const customFunctions = [
-  "get-trailing-text-input-padding",
-  "scale-duration"
-];
+const customFunctions = ["get-trailing-text-input-padding", "scale-duration"];
 // ⚠️ END OF AUTO-GENERATED CODE
 
 const scssPatternRules = [
@@ -27,21 +24,24 @@ const rules = {
   "selector-attribute-name-disallowed-list": [
     ["hidden"],
     {
-      message: "hidden styles are included in the `base-component` mixin, so make sure it's used",
+      message:
+        "hidden styles are included in the `base-component` mixin, so make sure it's used",
       severity: "error",
     },
   ],
   "selector-disallowed-list": [
     ["/:host-context/"],
     {
-      message: ":host-context is not supported in all browsers, so it should be avoided",
+      message:
+        ":host-context is not supported in all browsers, so it should be avoided",
       severity: "error",
     },
   ],
   "selector-max-specificity": [
     "0,5,5",
     {
-      message: "selector is too complex, consider applying multiple classes dynamically during rendering",
+      message:
+        "selector is too complex, consider applying multiple classes dynamically during rendering",
     },
   ],
   "selector-pseudo-element-colon-notation": [
@@ -89,7 +89,10 @@ scssPatternRules.forEach((rule) => {
 const config = {
   defaultSeverity: "warning",
   extends: "stylelint-config-recommended-scss",
-  plugins: ["stylelint-use-logical-spec", "@esri/stylelint-plugin-calcite-components"],
+  plugins: [
+    "stylelint-use-logical-spec",
+    "@esri/stylelint-plugin-calcite-components",
+  ],
   rules,
 };
 

@@ -19,6 +19,7 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import type { IconName } from "../icon/types";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
+import { isSegmentedControlItem } from "../segmented-control-item/resources";
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -69,8 +70,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
@@ -172,6 +171,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen<ToEvents<SegmentedControlItem>["calciteInternalSegmentedControlItemChange"]>(
       "calciteInternalSegmentedControlItemChange",
       this.handleSelected,
@@ -238,8 +238,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
       return;
     }
 
-    if ((event.target as HTMLElement).localName === "calcite-segmented-control-item") {
-      this.selectItem(event.target as SegmentedControlItem["el"], true);
+    if (isSegmentedControlItem(event.target)) {
+      this.selectItem(event.target, true);
     }
   }
 
@@ -328,9 +328,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   }
 
   private async handleDefaultSlotChange(event: Event): Promise<void> {
-    const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is SegmentedControlItem["el"] => el.matches("calcite-segmented-control-item"),
-    );
+    const items = slotChangeGetAssignedElements(event).filter(isSegmentedControlItem);
 
     await Promise.all(items.map((item) => item.componentOnReady()));
     this.items = items;

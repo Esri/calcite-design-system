@@ -11,7 +11,8 @@
 @use "../../styles/includes";
 
 :host {
-  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
+  @include includes.transition-default();
+  @apply text-color-1 box-border flex h-auto w-full items-center font-medium opacity-100;
 
   margin-block-start: var(
     --calcite-input-message-spacing,
@@ -20,7 +21,8 @@
 }
 
 .calcite-input-message-icon {
-  @apply transition-default pointer-events-none inline-flex flex-shrink-0;
+  @include includes.transition-default();
+  @apply pointer-events-none inline-flex flex-shrink-0;
   margin-inline-end: var(--calcite-space-sm);
 }
 

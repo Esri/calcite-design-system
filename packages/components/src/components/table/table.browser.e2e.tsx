@@ -9,6 +9,7 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
@@ -428,6 +429,21 @@ describe("renders", () => {
         </calcite-table>,
       ),
     { display: "flex" },
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-table selection-mode="multiple">
+          <calcite-table-row>
+            <calcite-table-cell />
+          </calcite-table-row>
+        </calcite-table>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-table-row, calcite-chip" },
   );
 });
 
