@@ -1,6 +1,5 @@
 {
   "chooseTime": "Pasirinkite laiką",
-  "clear": "Išvalyti reikšmę",
   "fractionalSecond": "Sekundės dalis",
   "fractionalSecondDown": "Sumažinti sekundės dalimi",
   "fractionalSecondUp": "Padidinti sekundės dalimi",
@@ -13,7 +12,6 @@
   "minute": "Minutė",
   "minuteDown": "Mažinti minutę",
   "minuteUp": "Didinti minutę",
-  "required": "Būtina",
   "second": "Antras",
   "secondDown": "Mažinti sekundę",
   "secondUp": "Didinti sekundę"

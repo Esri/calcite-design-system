@@ -6,7 +6,7 @@ import { slotChangeHasContent } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Loader } from "../loader/loader";
 import { CSS, BREAKPOINTS } from "./resources";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { styles } from "./scrim.scss";
 
 declare global {
@@ -34,7 +34,7 @@ export class Scrim extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   //#endregion
 
@@ -52,7 +52,7 @@ export class Scrim extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "loading">;
 
   //#endregion
 
@@ -95,12 +95,16 @@ export class Scrim extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { hasContent, loading, loaderScale, messages } = this;
+    const { hasContent, loading, loaderScale } = this;
 
     return (
       <div class={CSS.scrim}>
         {loading && loaderScale ? (
-          <calcite-loader label={messages.loading} ref={this.loaderRef} scale={loaderScale} />
+          <calcite-loader
+            label={this.messagesCommon.loading}
+            ref={this.loaderRef}
+            scale={loaderScale}
+          />
         ) : null}
         <div class={CSS.content} hidden={!hasContent}>
           <slot onSlotChange={this.handleDefaultSlotChange} />

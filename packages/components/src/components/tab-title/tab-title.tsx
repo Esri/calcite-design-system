@@ -25,7 +25,7 @@ import type { Tabs } from "../tabs/tabs";
 import { isTabs } from "../tabs/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Action } from "../action/action";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, IDS, isTabTitle } from "./resources";
 import { styles } from "./tab-title.scss";
 
@@ -71,7 +71,7 @@ export class TabTitle extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private interactiveContainer = useInteractive(this);
 
@@ -113,7 +113,7 @@ export class TabTitle extends LitElement {
   @property({ reflect: true }) layout!: TabLayout;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "close">;
 
   /**
    * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`.
@@ -453,7 +453,7 @@ export class TabTitle extends LitElement {
   }
 
   private renderCloseButton(): JsxNode {
-    const { closable, messages } = this;
+    const { closable } = this;
 
     return closable ? (
       <calcite-action
@@ -463,7 +463,7 @@ export class TabTitle extends LitElement {
         onClick={this.closeClickHandler}
         ref={this.closeButtonRef}
         scale={this.scale}
-        text={messages.close}
+        text={this.messagesCommon.close}
       />
     ) : null;
   }

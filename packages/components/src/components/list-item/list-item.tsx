@@ -27,7 +27,7 @@ import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
@@ -80,7 +80,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -176,7 +176,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property() label?: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<
+    typeof this.messagesCommon._overrides,
+    "close" | "expand" | "collapse"
+  >;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
   @property() metadata?: Record<string, unknown>;
@@ -852,7 +855,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   private renderExpanded(): JsxNode {
-    const { expanded, expandable, messages, displayMode, scale } = this;
+    const { expanded, expandable, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -870,7 +873,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
     const iconScale = getIconScale(scale);
 
-    const tooltip = expandable ? (expanded ? messages.collapse : messages.expand) : undefined;
+    const tooltip = expandable
+      ? expanded
+        ? this.messagesCommon.collapse
+        : this.messagesCommon.expand
+      : undefined;
 
     const expandedClickHandler = expandable ? this.handleToggleClick : undefined;
 
@@ -903,7 +910,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   private renderActionsEnd(): JsxNode {
-    const { label, hasActionsEnd, closable, messages } = this;
+    const { label, hasActionsEnd, closable } = this;
     return (
       <div
         ariaLabel={label}
@@ -919,10 +926,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
             class={CSS.close}
             icon={ICONS.close}
             key="close-action"
-            label={messages.close}
+            label={this.messagesCommon.close}
             onClick={this.handleCloseClick}
             scale={this.scale}
-            text={messages.close}
+            text={this.messagesCommon.close}
           />
         ) : null}
       </div>

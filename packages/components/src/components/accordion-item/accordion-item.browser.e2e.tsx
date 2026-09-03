@@ -14,7 +14,6 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { CSS, IDS, SLOTS } from "./resources";
-import messages from "./assets/t9n/messages.json";
 import type { AccordionItem } from "./accordion-item";
 
 describe("accessible", () => {
@@ -268,6 +267,9 @@ it("properly uses ARIA and types", async () => {
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
+  const { collapse, expand } = await (
+    await fetch("../../../assets/common/t9n/messages.en.json")
+  ).json();
   const { el, reRender } = await mount<AccordionItem>(<calcite-accordion-item heading="Test" />);
 
   const expandIcon = page.getBySelector(`calcite-accordion-item .${CSS.expandIcon}`);
@@ -281,11 +283,11 @@ it("should emit expanded/collapsed events when toggled", async () => {
   await reRender();
   expect(expandHandler).toHaveBeenCalledTimes(1);
   expect(collapseHandler).toHaveBeenCalledTimes(0);
-  await expect.element(expandIcon).toHaveAttribute("title", messages.collapse);
+  await expect.element(expandIcon).toHaveAttribute("title", collapse);
 
   el.expanded = false;
   await reRender();
   expect(expandHandler).toHaveBeenCalledTimes(1);
   expect(collapseHandler).toHaveBeenCalledTimes(1);
-  await expect.element(expandIcon).toHaveAttribute("title", messages.expand);
+  await expect.element(expandIcon).toHaveAttribute("title", expand);
 });

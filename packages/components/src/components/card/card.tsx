@@ -20,6 +20,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { styles } from "./card.scss";
 
 declare global {
@@ -53,6 +54,11 @@ export class Card extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -88,7 +94,8 @@ export class Card extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "loading">;
 
   /**
    * Specifies the size of the component. When contained in a parent `calcite-card-group`, inherits the parent's `scale` value, but can be overridden if needed.
@@ -291,7 +298,7 @@ export class Card extends LitElement {
         >
           {this.loading ? (
             <div ariaLive="polite" class="calcite-card-loader-container">
-              <calcite-loader label={this.messages.loading} />
+              <calcite-loader label={this.messagesCommon.loading} />
             </div>
           ) : null}
           {thumbnailStart && this.renderThumbnail()}

@@ -23,7 +23,7 @@ import { hasVisibleContent } from "../../utils/dom";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { ButtonAlignment } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";
@@ -73,7 +73,7 @@ export class Button extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private interactiveContainer = useInteractive(this);
 
@@ -137,7 +137,7 @@ export class Button extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "loading">;
 
   /** @copyDoc */
   @property({ reflect: true }) name?: string;
@@ -267,7 +267,7 @@ export class Button extends LitElement {
         <calcite-loader
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
-          label={this.messages.loading}
+          label={this.messagesCommon.loading}
           scale={this.scale === "l" ? "m" : "s"}
         />
       </div>
@@ -307,7 +307,7 @@ export class Button extends LitElement {
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
               : undefined
           }
-          ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}
+          ariaLabel={!this.loading ? getLabelText(this) : this.messagesCommon.loading}
           ariaLive="polite"
           class={{
             [CSS.buttonPadding]: noStartEndIcons,

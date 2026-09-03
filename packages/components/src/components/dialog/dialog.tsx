@@ -22,6 +22,7 @@ import { IconName } from "../icon/types";
 import { ResizeValues } from "../types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 import { styles } from "./dialog.scss";
@@ -104,6 +105,11 @@ export class Dialog extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -223,7 +229,8 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) menuOpen = false;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "close">;
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;

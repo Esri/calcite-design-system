@@ -1,6 +1,5 @@
 {
   "chooseTime": "Izvēlieties laiku",
-  "clear": "Notīrīt vērtību",
   "fractionalSecond": "Sekundes daļa",
   "fractionalSecondDown": "Samazināt sekundes daļu",
   "fractionalSecondUp": "Palielināt sekundes daļu",
@@ -13,7 +12,6 @@
   "minute": "Minūte",
   "minuteDown": "Samazināt minūtes",
   "minuteUp": "Palielināt minūtes",
-  "required": "Obligāts",
   "second": "Sekunde",
   "secondDown": "Samazināt sekundes",
   "secondUp": "Palielināt sekundes"

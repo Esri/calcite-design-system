@@ -17,6 +17,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
@@ -56,6 +57,11 @@ export class Action extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -143,7 +149,8 @@ export class Action extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "loading">;
 
   /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
   @property({ reflect: true }) overflowDisabled = false;
@@ -281,7 +288,7 @@ export class Action extends LitElement {
     const { loading, icon, scale, el, iconFlipRtl, indicator } = this;
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
-      <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
+      <calcite-loader inline label={this.messagesCommon.loading} scale={loaderScale} />
     ) : null;
     const calciteIconNode = icon ? (
       <calcite-icon
