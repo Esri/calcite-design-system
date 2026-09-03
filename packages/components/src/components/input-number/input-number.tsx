@@ -954,7 +954,7 @@ export class InputNumber
         this.status = "valid";
         this.validationIcon = undefined;
       }
-    } else if (!this.required) {
+    } else if (!this.required && origin !== "connected") {
       this.formSupport.setCustomValidity("");
       this.status = "valid";
       this.validationIcon = undefined;
