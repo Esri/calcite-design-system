@@ -21,8 +21,6 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Slider } from "./slider";
 import { CSS } from "./resources";
 
-const sliderWidthFor1To1PixelValueTrack = "114px";
-
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-slider", mountOptions));
 });
@@ -202,25 +200,107 @@ describe("interactions", () => {
     expect(el.value).toEqual([el.minValue, el.maxValue]);
   }
 
+  describe("thumb focus", () => {
+    async function clickTrackAtValue(
+      el: Slider["el"],
+      value: number,
+      trackX: number,
+      trackY: number,
+      trackWidth: number,
+    ): Promise<void> {
+      const x = trackX + ((value - el.min) / (el.max - el.min)) * trackWidth;
+
+      await commands.mouseMove(x, trackY);
+      await commands.mouseDown();
+      await commands.mouseUp();
+    }
+
+    it("focuses the single-value thumb when clicked near", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider max={100} min={0} snap ticks={10} value={50} />,
+      );
+      const thumb = page.getByRole("slider");
+      const track = page.getBySelector(`.${CSS.track}`);
+      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+
+      await clickTrackAtValue(el, 50, trackX, trackY, trackWidth);
+      await expect.element(thumb).toBe(el.shadowRoot.activeElement);
+      await expect.element(el).toHaveValue(50);
+
+      await clickTrackAtValue(el, 40, trackX, trackY, trackWidth);
+      await expect.element(thumb).toBe(el.shadowRoot.activeElement);
+      await expect.element(el).toHaveValue(40);
+
+      await clickTrackAtValue(el, 60, trackX, trackY, trackWidth);
+      await expect.element(thumb).toBe(el.shadowRoot.activeElement);
+      await expect.element(el).toHaveValue(60);
+    });
+
+    it("focuses the min thumb when clicking closer to minValue", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
+      );
+      const [minThumb] = page.getByRole("slider").all();
+      const track = page.getBySelector(`.${CSS.track}`);
+      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+
+      await clickTrackAtValue(el, 30, trackX, trackY, trackWidth);
+
+      await expect.element(minThumb).toBe(el.shadowRoot.activeElement);
+      expect(el.minValue).toBe(0);
+      expect(el.maxValue).toBe(100);
+    });
+
+    it("focuses the max thumb when clicking closer to maxValue", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
+      );
+      const [, maxThumb] = page.getByRole("slider").all();
+      const track = page.getBySelector(`.${CSS.track}`);
+      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+
+      await clickTrackAtValue(el, 60, trackX, trackY, trackWidth);
+
+      await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
+      expect(el.minValue).toBe(0);
+      expect(el.maxValue).toBe(100);
+    });
+
+    it("focuses the max thumb when clicking in the middle of the track", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
+      );
+      const [, maxThumb] = page.getByRole("slider").all();
+      const track = page.getBySelector(`.${CSS.track}`);
+      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+
+      await clickTrackAtValue(el, 50, trackX, trackY, trackWidth);
+
+      await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
+      expect(el.minValue).toBe(0);
+      expect(el.maxValue).toBe(100);
+    });
+  });
+
   describe("mouse interaction", () => {
     describe("single handle", () => {
       it("clicking the track changes value on mousedown, emits on mouseup", async () => {
         const inputEvent = vi.fn();
         const changeEvent = vi.fn();
-        const { el } = await mount(
+        const { el } = await mount<Slider>(
           <calcite-slider
             oncalciteSliderChange={changeEvent}
             oncalciteSliderInput={inputEvent}
             snap
-            style={{ width: sliderWidthFor1To1PixelValueTrack }}
           />,
         );
         const track = page.getBySelector(`.${CSS.track}`);
-        const { x: trackX, y: trackY } = track.element().getBoundingClientRect();
+        const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+        const pixelsPerValue = trackWidth / (el.max - el.min);
 
         await expect.element(el).toHaveValue(0);
 
-        await commands.mouseMove(trackX + 50, trackY);
+        await commands.mouseMove(trackX + pixelsPerValue * 50, trackY);
         await commands.mouseDown();
         await commands.mouseUp();
 
@@ -232,26 +312,26 @@ describe("interactions", () => {
       it("clicking and dragging the track changes and emits the value", async () => {
         const inputEvent = vi.fn();
         const changeEvent = vi.fn();
-        const { el } = await mount(
+        const { el } = await mount<Slider>(
           <calcite-slider
             oncalciteSliderChange={changeEvent}
             oncalciteSliderInput={inputEvent}
             snap
-            style={{ width: sliderWidthFor1To1PixelValueTrack }}
           />,
         );
         const track = page.getBySelector(`.${CSS.track}`);
-        const { x: trackX, y: trackY } = track.element().getBoundingClientRect();
+        const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+        const pixelsPerValue = trackWidth / (el.max - el.min);
 
         await expect.element(el).toHaveValue(0);
 
         await commands.mouseMove(trackX, trackY);
         await commands.mouseDown();
-        await commands.mouseMove(trackX + 1, trackY);
-        await commands.mouseMove(trackX + 2, trackY);
-        await commands.mouseMove(trackX + 3, trackY);
-        await commands.mouseMove(trackX + 4, trackY);
-        await commands.mouseMove(trackX + 5, trackY);
+        await commands.mouseMove(trackX + pixelsPerValue * 1, trackY);
+        await commands.mouseMove(trackX + pixelsPerValue * 2, trackY);
+        await commands.mouseMove(trackX + pixelsPerValue * 3, trackY);
+        await commands.mouseMove(trackX + pixelsPerValue * 4, trackY);
+        await commands.mouseMove(trackX + pixelsPerValue * 5, trackY);
         await commands.mouseUp();
 
         await expect.element(el).toHaveValue(5);
