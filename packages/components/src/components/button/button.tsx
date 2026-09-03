@@ -59,8 +59,6 @@ export class Button extends LitElement {
 
   private contentRef = createRef<HTMLSpanElement>();
 
-  formTrigger = useFormTrigger({ disabled: () => !!this.href })(this);
-
   labelEl?: Label["el"];
 
   /** watches for changing text content */
@@ -78,8 +76,6 @@ export class Button extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
@@ -198,6 +194,12 @@ export class Button extends LitElement {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useFormTrigger({ disabled: () => !!this.href })(this);
+    useLabel(this);
+  }
 
   override connectedCallback(): void {
     this.setupTextContentObserver();

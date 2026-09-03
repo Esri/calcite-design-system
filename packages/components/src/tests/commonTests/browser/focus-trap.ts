@@ -23,7 +23,7 @@ type FocusTrapTestElement = FocusTrapComponent;
 async function toggleComponent(el: FocusTrapTestElement, toggleProp: string): Promise<void> {
   const openEvent = waitForEvent(el, `${getEventPrefix(el)}Open`);
 
-  el[toggleProp] = true;
+  Object.assign(el, { [toggleProp]: true });
   await openEvent;
   await afterFocusShiftDelay();
 }

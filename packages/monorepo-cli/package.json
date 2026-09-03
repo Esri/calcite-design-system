@@ -1,0 +1,37 @@
+{
+  "name": "@esri/monorepo-cli",
+  "version": "0.2.0-next.0",
+  "private": true,
+  "type": "module",
+  "description": "Set of commands to manage the monorepo and support CI/CD workflows",
+  "license": "SEE LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/monorepo-cli"
+  },
+  "bin": {
+    "cli": "src/run.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "concurrently npm:lint:*",
+    "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
+    "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,mjs}\" >/dev/null",
+    "test": "vitest run",
+    "test:ci": "npm test -- --passWithNoTests",
+    "test:related": "vitest related --run --passWithNoTests",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@actions/core": "3.0.1",
+    "@actions/github": "9.1.1",
+    "@commander-js/extra-typings": "15.0.0",
+    "@types/node": "24.10.0",
+    "commander": "15.0.0",
+    "dedent": "1.7.2",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}

@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -8,13 +9,32 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable(
+    (mountOptions) =>
+      mount(
+        <calcite-segmented-control>
+          <calcite-segmented-control-item value="1" />
+          <calcite-segmented-control-item value="2" />
+          <calcite-segmented-control-item value="3" />
+        </calcite-segmented-control>,
+        mountOptions,
+      ),
+    {
+      focusTarget: () => page.getBySelector("calcite-segmented-control-item").first(),
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -194,6 +214,20 @@ describe("renders", () => {
         </calcite-segmented-control>,
       ),
     { display: "flex" },
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-segmented-control>
+          <calcite-segmented-control-item value="1" />
+          <calcite-segmented-control-item value="2" />
+        </calcite-segmented-control>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-segmented-control-item" },
   );
 });
 

@@ -5,6 +5,11 @@ import { html } from "../../../support/formatting";
 import type { Scale } from "../types";
 import type { Combobox } from "./combobox";
 import { allModes } from "../../../.storybook/modes";
+import "./combobox"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../combobox-item/combobox-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../combobox-item-group/combobox-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { menuPlacement, overlayPositioning, scale, selectionMode, status } = ATTRIBUTES;
 

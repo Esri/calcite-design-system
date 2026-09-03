@@ -1,6 +1,5 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
+import { expect, it } from "vitest";
 import type { Switch } from "./switch";
 
 it("renders with correct default attributes", async () => {
@@ -10,10 +9,6 @@ it("renders with correct default attributes", async () => {
   const calciteSwitch = await page.find("calcite-switch");
 
   expect(calciteSwitch).toHaveAttribute("checked");
-});
-
-describe("labelable", () => {
-  labelable("calcite-switch", { propertyToToggle: "checked" });
 });
 
 it("toggles the checked attributes appropriately when clicked", async () => {

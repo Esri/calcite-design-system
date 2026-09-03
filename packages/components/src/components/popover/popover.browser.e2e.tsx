@@ -14,6 +14,7 @@ import {
   topLayer,
   openClose,
   accessible,
+  scalePropagates,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -100,6 +101,10 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
@@ -140,6 +145,12 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-popover open />));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-popover closable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("renders", () => {
