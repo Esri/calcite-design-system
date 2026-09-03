@@ -57,7 +57,7 @@
   .container {
     @apply animate-in
     overflow-hidden;
-    border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-round));
+    border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-sm));
     box-shadow: var(--calcite-action-bar-shadow, var(--calcite-shadow-md));
   }
 }
