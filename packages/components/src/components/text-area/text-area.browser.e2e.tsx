@@ -44,12 +44,7 @@ describe("cancelable", () => {
 
 describe("accessible", () => {
   accessible(() =>
-    mount(
-      <calcite-label>
-        add notes
-        <calcite-text-area max-length="50" name="something" required />
-      </calcite-label>,
-    ),
+    mount(<calcite-text-area label="test-label" max-length="50" name="something" required />),
   );
 });
 
