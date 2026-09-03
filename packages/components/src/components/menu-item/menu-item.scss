@@ -163,16 +163,6 @@
   --calcite-internal-menu-item-padding-block: var(--calcite-space-sm);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
 
-  .parent--vertical {
-    block-size: theme("spacing.9");
-  }
-
-  & .container,
-  & .item-content,
-  & .content {
-    --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-md);
-  }
-
   .icon--end ~ .icon--dropdown {
     margin-inline-start: var(--calcite-space-sm);
     padding-inline-start: var(--calcite-space-xs);
@@ -190,6 +180,10 @@
 }
 
 :host(.is-child[scale="s"][layout="vertical"]) {
+  .parent--vertical {
+    block-size: theme("spacing.9");
+  }
+
   .content {
     --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
   }
@@ -263,13 +257,6 @@
   --calcite-internal-menu-item-padding-block: var(--calcite-space-lg);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
 
-  border-inline-end: var(--calcite-space-2xs) solid var(--calcite-color-transparent);
-  padding-block: var(--calcite-space-2xs);
-
-  .content {
-    border-inline-end: 0;
-  }
-
   .content:has(.icon--end):has(.icon--dropdown) .icon--end ~ .icon--dropdown {
     margin-inline-start: var(--calcite-space-lg);
     padding-inline-start: var(--calcite-space-sm-plus);
@@ -277,7 +264,6 @@
 }
 
 :host([scale="l"][layout="vertical"]) .content:not([href]) {
-  margin-inline-end: var(--calcite-space-2xs);
   padding-inline-end: var(--calcite-space-md);
 }
 
@@ -318,7 +304,7 @@
   }
 }
 
-:host([active][scale="l"][layout="vertical"]) {
+:host([active][scale="l"][layout="vertical"]) .content {
   border-inline-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
 }
 

@@ -28,6 +28,7 @@ describe("defaults", () => {
       { propertyName: "selected", defaultValue: false },
       { propertyName: "shortHeading", defaultValue: undefined },
       { propertyName: "value", defaultValue: undefined },
+      { propertyName: "scale", defaultValue: "m" },
     ],
   );
 });

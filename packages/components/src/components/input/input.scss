@@ -474,8 +474,8 @@ input[type="number"] {
 }
 
 .number-button-wrapper {
-  @apply transition-default
-    pointer-events-none
+  @include includes.transition-default();
+  @apply pointer-events-none
     box-border
     flex
     flex-col;
@@ -649,7 +649,7 @@ input[type="date"]::-webkit-input-placeholder {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default;
+    @include includes.transition-default();
 
     // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
     &.inline-editable-child {
@@ -688,7 +688,7 @@ input {
       input,
       .inline-editable,
       .action-wrapper {
-        @apply transition-default;
+        @include includes.transition-default();
         background-color: var(--calcite-input-inline-editable-background-color-hover, var(--calcite-color-surface-3));
       }
     }
@@ -698,7 +698,7 @@ input {
 :host([inline-editable]) {
   .inline-editable,
   .action-wrapper {
-    @apply transition-default;
+    @include includes.transition-default();
     background-color: var(--calcite-input-background-color, var(--calcite-color-surface-2));
   }
 }

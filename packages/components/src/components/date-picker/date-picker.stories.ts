@@ -3,6 +3,7 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { DatePicker } from "./date-picker";
+import "./date-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { calendarCount, horizontalVerticalLayout, monthStyle, numberingSystemWithNone, scale, supportedNlsLocale } =
   ATTRIBUTES;
