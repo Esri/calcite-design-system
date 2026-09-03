@@ -13,6 +13,12 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - name: Check if on release branch
+        run: |
+          if [[ ! "${GITHUB_REF_NAME}" =~ ^releases/ ]]; then
+            echo "::warning::Not on a release branch (releases/**). Skipping deployment."
+            exit 0
+          fi
       - uses: googleapis/release-please-action@v4
         id: release
         with:
