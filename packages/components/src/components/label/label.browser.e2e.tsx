@@ -1,12 +1,32 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, themed } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
 
 import { CSS } from "./resources";
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-label"));
+});
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-label"),
+    [
+      {
+        propertyName: "alignment",
+        defaultValue: "start",
+      },
+      {
+        propertyName: "layout",
+        defaultValue: "block",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ],
+  );
 });
 
 describe("renders", () => {

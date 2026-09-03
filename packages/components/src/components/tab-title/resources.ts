@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { Scale } from "../types";
 
 export const CSS = {
@@ -19,3 +20,8 @@ const idPrefix = "calcite-tab-title";
 export const IDS = {
   host: (id: any) => `${idPrefix}-${id}`,
 } as const;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTabTitle = isTag("calcite-tab-title");

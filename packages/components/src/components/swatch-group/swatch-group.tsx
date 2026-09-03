@@ -103,7 +103,10 @@ export class SwatchGroup extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) {
+    if (
+      (changes.has("scale") || changes.has("selectionMode")) &&
+      (this.hasUpdated || this.selectionMode !== "none")
+    ) {
       this.updateItems();
     }
   }

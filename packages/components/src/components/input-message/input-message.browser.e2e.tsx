@@ -2,10 +2,14 @@ import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
-import { accessible, hidden, renders, themed } from "../../tests/commonTests/browser";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 import { StatusIconDefaults } from "./resources";
 import type { InputMessage } from "./input-message";
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-input-message"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-input-message>Text</calcite-input-message>));

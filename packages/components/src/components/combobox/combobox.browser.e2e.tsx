@@ -12,9 +12,11 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   openClose,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
   topLayer,
@@ -31,6 +33,10 @@ import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-combobox", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -213,6 +219,21 @@ describe("internal label", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-combobox"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-combobox>
+          <calcite-combobox-item-group>
+            <calcite-combobox-item selected value="item" />
+          </calcite-combobox-item-group>
+        </calcite-combobox>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-combobox-item, calcite-combobox-item-group, calcite-chip" },
+  );
 });
 
 describe("focusable", () => {

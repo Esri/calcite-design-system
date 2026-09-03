@@ -64,8 +64,6 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
   }
@@ -140,6 +138,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("calciteInternalInputBlur", this.blurHandler);
     this.listen("calciteInternalInputNumberBlur", this.blurHandler);
     this.listen("calciteInternalInputTextBlur", this.blurHandler);
