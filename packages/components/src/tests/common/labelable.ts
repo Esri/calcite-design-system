@@ -1,7 +1,7 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { type Locator, page } from "vitest/browser";
-import type { Label } from "../../components/label/label";
+import { Label } from "../../components/label/label";
 import { afterNextFrame } from "../utils/timing";
 
 type BooleanPropertyElement = HTMLElement & Record<string, boolean>;
@@ -223,14 +223,12 @@ export function labelable(
     });
 
     it("is labelable when sibling label is set prior to component", async () => {
-      let label!: Label["el"];
+      const { el: label } = await mount(Label);
+      label.for = id;
+      await label.componentOnReady();
+
       const result = await mountLabelable({
-        afterConnect: async (el) => {
-          label = createLabel();
-          label.for = id;
-          el.parentElement!.insertBefore(label, el);
-          await label.componentOnReady();
-        },
+        parent: label,
       });
       await waitForExplicitLabelAssociation(label);
 
