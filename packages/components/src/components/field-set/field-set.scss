@@ -54,7 +54,6 @@
 
 .field-wrapper {
   display: flex;
-  flex-wrap: wrap;
   gap: var(--calcite-field-set-input-gap, var(--calcite-space-md));
 
   &--vertical {
@@ -63,6 +62,7 @@
 
   &--horizontal {
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
   &--columns {
@@ -82,10 +82,7 @@
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-sm);
   --calcite-field-set-input-gap: var(--calcite-space-sm);
-  --calcite-internal-field-set-column-gap: var(
-    --calcite-field-set-column-gap,
-    var(--calcite-field-set-input-gap, var(--calcite-space-sm))
-  );
+  --calcite-internal-field-set-column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap));
 }
 
 :host([scale="m"]) {
@@ -93,21 +90,15 @@
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-md);
   --calcite-field-set-input-gap: var(--calcite-space-md);
-  --calcite-internal-field-set-column-gap: var(
-    --calcite-field-set-column-gap,
-    var(--calcite-field-set-input-gap, var(--calcite-space-md))
-  );
+  --calcite-internal-field-set-column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap));
 }
 
 :host([scale="l"]) {
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-md);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-lg);
-  --calcite-internal-field-set-legend-min-block-size: 2.5rem; // TODO: we don't have a variable for this; should we do math on two other (e.g., calc(var(--calcite-size-sm) + var(--calcite-size-sm))
+  --calcite-internal-field-set-legend-min-block-size: 2.5rem; // TODO: we don't have a variable for this; should we do math on two others? (e.g., calc(var(--calcite-size-sm) + var(--calcite-size-sm))
   --calcite-field-set-input-gap: var(--calcite-space-lg);
-  --calcite-internal-field-set-column-gap: var(
-    --calcite-field-set-column-gap,
-    var(--calcite-field-set-input-gap, var(--calcite-space-lg))
-  );
+  --calcite-internal-field-set-column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap));
 }
 
 @for $i from 1 through 6 {

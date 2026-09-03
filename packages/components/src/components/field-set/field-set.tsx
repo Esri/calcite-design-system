@@ -1,5 +1,5 @@
 import type { PropertyValues } from "lit";
-import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
+import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
 import type { Input } from "../input/input";
 import type { Scale } from "../types";
 import { getStylePixelValue } from "../../utils/dom";
@@ -32,6 +32,7 @@ declare global {
 
 /**
  * @slot - A slot for adding content to the field set.
+ * @slot legend - A slot for adding legend content to the field set.
  */
 export class FieldSet extends LitElement {
   //#region Static Members
@@ -66,6 +67,12 @@ export class FieldSet extends LitElement {
       return closestBoundary === this.el || closestBoundary === element;
     });
   }
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() private hasLegendSlot = false;
 
   //#endregion
 
@@ -141,6 +148,10 @@ export class FieldSet extends LitElement {
     }
 
     void this.syncInputsAffixWidths();
+  }
+
+  private handleLegendSlotChange(event: Event): void {
+    this.hasLegendSlot = (event.target as HTMLSlotElement).assignedElements().length > 0;
   }
 
   private async queueControlsDisabledResync(): Promise<void> {
@@ -236,8 +247,12 @@ export class FieldSet extends LitElement {
   override render(): JsxNode {
     return (
       <fieldset class={CSS.container}>
-        <div class={CSS.legendWrapper} hidden={!this.legend}>
-          <legend class={CSS.legend}>{this.legend}</legend>
+        <div class={CSS.legendWrapper} hidden={!this.legend && !this.hasLegendSlot}>
+          <legend class={CSS.legend}>
+            <slot name="legend" onSlotChange={this.handleLegendSlotChange}>
+              {this.legend}
+            </slot>
+          </legend>
         </div>
         <div
           class={{

@@ -2,7 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
-import { CSS as FieldRowCSS } from "../field-row/resources";
+import { CSS as FieldGroupCSS } from "../field-group/resources";
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
@@ -83,6 +83,33 @@ describe("structure", () => {
       expect(legend.parentElement!.hidden).toBe(false);
     });
   });
+
+  it("updates the native legend when the legend property changes", async () => {
+    const { el } = await mount<"calcite-field-set">(<calcite-field-set legend="Initial legend" />);
+    const fieldSet = el as unknown as FieldSetElement;
+    const legend = fieldSet.shadowRoot.querySelector<HTMLElement>(".legend")!;
+
+    fieldSet.legend = "Updated legend";
+    await waitForUpdate(fieldSet);
+
+    expect(legend.textContent).toBe("Updated legend");
+  });
+
+  it("renders a slotted legend", async () => {
+    const { el } = await mount(
+      <calcite-field-set>
+        <div slot="legend">Slotted legend</div>
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const legendWrapper = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.legendWrapper}`)!;
+    const legend = fieldSet.querySelector<HTMLElement>('[slot="legend"]')!;
+
+    await vi.waitFor(() => {
+      expect(legend.textContent).toBe("Slotted legend");
+      expect(legendWrapper.hidden).toBe(false);
+    });
+  });
 });
 
 describe("layout", () => {
@@ -103,39 +130,53 @@ describe("layout", () => {
     expect(getStyleProperty(fieldSet, "--calcite-internal-field-set-columns")).toBe("4");
   });
 
+  it("uses the public columns custom property", async () => {
+    const { el } = await mount(
+      <calcite-field-set layout="columns" style={{ "--calcite-field-set-columns": "3" }}>
+        <calcite-input />
+        <calcite-input />
+        <calcite-input />
+      </calcite-field-set>,
+    );
+    const fieldSet = el as unknown as FieldSetElement;
+    const fieldWrapper = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
+
+    expect(getComputedStyle(fieldWrapper).gridTemplateColumns.split(" ")).toHaveLength(3);
+  });
+
   it("supports rows that control the layout of their slotted inputs", async () => {
     const { el } = await mount(
       <calcite-field-set scale="s">
-        <calcite-field-row columns={2} id="columns-row" layout="columns">
+        <calcite-field-group columns={2} id="columns-row" layout="columns">
           <calcite-input id="first" />
           <calcite-input id="second" />
-        </calcite-field-row>
-        <calcite-field-row id="vertical-row">
+        </calcite-field-group>
+        <calcite-field-group id="vertical-row">
           <calcite-input id="third" />
-        </calcite-field-row>
+        </calcite-field-group>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
     const columnsRow = fieldSet.querySelector<HTMLElement>("#columns-row")!;
     const verticalRow = fieldSet.querySelector<HTMLElement>("#vertical-row")!;
     const columnsRowContainer = columnsRow.shadowRoot!.querySelector<HTMLElement>(
-      `.${FieldRowCSS.container}`,
+      `.${FieldGroupCSS.container}`,
     )!;
     const verticalRowContainer = verticalRow.shadowRoot!.querySelector<HTMLElement>(
-      `.${FieldRowCSS.container}`,
+      `.${FieldGroupCSS.container}`,
     )!;
 
-    expect(columnsRowContainer.classList.contains(FieldRowCSS.containerColumns)).toBe(true);
-    expect(verticalRowContainer.classList.contains(FieldRowCSS.containerVertical)).toBe(true);
+    expect(columnsRowContainer.classList.contains(FieldGroupCSS.containerColumns)).toBe(true);
+    expect(verticalRowContainer.classList.contains(FieldGroupCSS.containerVertical)).toBe(true);
   });
 
   it("supports a row and directly slotted inputs", async () => {
     const { el } = await mount(
       <calcite-field-set>
-        <calcite-field-row columns={2} id="columns-row" layout="columns">
+        <calcite-field-group columns={2} id="columns-row" layout="columns">
           <calcite-input />
           <calcite-input />
-        </calcite-field-row>
+        </calcite-field-group>
         <calcite-input id="direct-input" />
       </calcite-field-set>,
     );
@@ -143,24 +184,24 @@ describe("layout", () => {
     const fieldWrapper = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
     const columnsRow = fieldSet.querySelector<HTMLElement>("#columns-row")!;
     const columnsRowContainer = columnsRow.shadowRoot!.querySelector<HTMLElement>(
-      `.${FieldRowCSS.container}`,
+      `.${FieldGroupCSS.container}`,
     )!;
 
     expect(fieldWrapper.classList.contains(CSS.fieldWrapperVertical)).toBe(true);
-    expect(columnsRowContainer.classList.contains(FieldRowCSS.containerColumns)).toBe(true);
+    expect(columnsRowContainer.classList.contains(FieldGroupCSS.containerColumns)).toBe(true);
     expect(fieldSet.querySelector("#direct-input")).not.toBeNull();
   });
 
   it("supports a columns Field Set containing rows with independent layouts", async () => {
     const { el } = await mount(
       <calcite-field-set columns={2} layout="columns">
-        <calcite-field-row columns={2} id="columns-row" layout="columns">
+        <calcite-field-group columns={2} id="columns-row" layout="columns">
           <calcite-input />
           <calcite-input />
-        </calcite-field-row>
-        <calcite-field-row id="vertical-row">
+        </calcite-field-group>
+        <calcite-field-group id="vertical-row">
           <calcite-input />
-        </calcite-field-row>
+        </calcite-field-group>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
@@ -168,16 +209,16 @@ describe("layout", () => {
     const columnsRow = fieldSet.querySelector<HTMLElement>("#columns-row")!;
     const verticalRow = fieldSet.querySelector<HTMLElement>("#vertical-row")!;
     const columnsRowContainer = columnsRow.shadowRoot!.querySelector<HTMLElement>(
-      `.${FieldRowCSS.container}`,
+      `.${FieldGroupCSS.container}`,
     )!;
     const verticalRowContainer = verticalRow.shadowRoot!.querySelector<HTMLElement>(
-      `.${FieldRowCSS.container}`,
+      `.${FieldGroupCSS.container}`,
     )!;
 
     expect(fieldWrapper.classList.contains(CSS.fieldWrapperColumns)).toBe(true);
     expect(getStyleProperty(fieldSet, "--calcite-internal-field-set-columns")).toBe("2");
-    expect(columnsRowContainer.classList.contains(FieldRowCSS.containerColumns)).toBe(true);
-    expect(verticalRowContainer.classList.contains(FieldRowCSS.containerVertical)).toBe(true);
+    expect(columnsRowContainer.classList.contains(FieldGroupCSS.containerColumns)).toBe(true);
+    expect(verticalRowContainer.classList.contains(FieldGroupCSS.containerVertical)).toBe(true);
   });
 });
 
