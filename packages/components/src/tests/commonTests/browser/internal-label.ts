@@ -80,14 +80,22 @@ export function internalLabel(setup: () => ReturnType<typeof mount>): void {
       el.required = true;
       await reRender();
 
-      type T9nComponent = IntrinsicElementsWithProp<"messages">;
+      type T9nMessages = {
+        _loading?: boolean;
+        [key: string]: unknown;
+      };
+
+      type T9nComponent = IntrinsicElementsWithProp<"messageOverrides"> & {
+        messages?: T9nMessages;
+        messagesCommon?: T9nMessages;
+      };
       const t9nComponent = component as T9nComponent;
 
       // required indicator has associated tooltip, so we need to ensure messages are loaded
-      if (t9nComponent.messages._loading) {
+      if (t9nComponent.messages?._loading || t9nComponent.messagesCommon?._loading) {
         await new Promise<void>((resolve) => {
           const intervalId = setInterval(async () => {
-            if (!t9nComponent.messages._loading) {
+            if (!t9nComponent.messages?._loading && !t9nComponent.messagesCommon?._loading) {
               clearInterval(intervalId);
               resolve();
             }

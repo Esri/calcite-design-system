@@ -34,33 +34,23 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
 
   type T9nComponent = ComponentWithMessageOverrides & {
     messages?: T9nMessages;
-    commonMessages?: T9nMessages;
+    messagesCommon?: T9nMessages;
   };
 
   async function getCurrentMessages(component: T9nComponent): Promise<T9nMessages> {
-    const { messages, commonMessages } = component;
-
-    if (messages?._loading) {
-      await vi.waitUntil(() => !messages._loading);
+    if (component.messages?._loading) {
+      await vi.waitUntil(() => !component.messages?._loading);
     }
 
-    if (commonMessages?._loading) {
-      await vi.waitUntil(() => !commonMessages._loading);
+    if (component.messagesCommon?._loading) {
+      await vi.waitUntil(() => !component.messagesCommon?._loading);
     }
 
-    if (messages && commonMessages) {
-      return { ...messages, ...commonMessages };
+    try {
+      return { ...component.messages, ...component.messagesCommon };
+    } catch {
+      throw new Error("Expected component to have messages or messagesCommon");
     }
-
-    if (messages) {
-      return messages;
-    }
-
-    if (commonMessages) {
-      return commonMessages;
-    }
-
-    throw new Error("Expected component to have messages or commonMessages");
   }
 
   function findSubComponentElement<T extends LitElement["el"] = LitElement["el"]>(host: T, tagName: TagName): T {
