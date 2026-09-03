@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { afterNextFrame } from "../../utils/timing";
+import { afterNextFrame } from "../utils/timing";
 
 /**
  * Helper for asserting slots.

@@ -13,7 +13,7 @@ import {
   renders,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { page } from "vitest/browser";
 import type { Button } from "./button";
 

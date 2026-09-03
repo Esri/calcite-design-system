@@ -13,7 +13,7 @@ import {
   renders,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { page } from "vitest/browser";
 import type { Action } from "./action";
 

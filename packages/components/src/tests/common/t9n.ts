@@ -1,6 +1,6 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
-import { IntrinsicElementsWithProp } from "../../utils/types";
+import { IntrinsicElementsWithProp } from "../utils/types";
 import { LitElement } from "@arcgis/lumina";
 
 type TagName = keyof DeclareElements;

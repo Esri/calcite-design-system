@@ -1,8 +1,8 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import type { Scale } from "../../../components/types";
-import type { IntrinsicElementsWithProp } from "../../utils/types";
+import type { Scale } from "../../components/types";
+import type { IntrinsicElementsWithProp } from "../utils/types";
 
 const initialScale: Scale = "s";
 const scales: Scale[] = ["m", "l"];

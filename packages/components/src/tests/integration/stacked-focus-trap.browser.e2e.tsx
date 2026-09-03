@@ -3,11 +3,11 @@ import { camelCase } from "change-case";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { IDS } from "../components/panel/resources";
-import { CSS } from "../components/input-time-picker/resources";
-import { waitForEvent } from "./commonTests/browser/utils";
-import { mockConsole } from "./utils/logging";
-import { afterFocusShiftDelay } from "./utils/focus-trap";
+import { IDS } from "../../components/panel/resources";
+import { CSS } from "../../components/input-time-picker/resources";
+import { waitForEvent } from "../common/utils";
+import { mockConsole } from "../utils/logging";
+import { afterFocusShiftDelay } from "../utils/focus-trap";
 
 type OpenableElement = HTMLElement & { open: boolean };
 

@@ -13,7 +13,7 @@ import {
   slots,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {

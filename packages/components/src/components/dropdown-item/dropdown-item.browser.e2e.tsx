@@ -2,7 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
-import { defaults, focusable, hidden, renders, themed } from "../../tests/commonTests/browser";
+import { defaults, focusable, hidden, renders, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 

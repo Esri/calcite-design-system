@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, expect, it } from "vitest";
-import { css } from "../../support/formatting";
+import { css } from "../../../support/formatting";
 
 let testStylingOverride: HTMLStyleElement | undefined;
 

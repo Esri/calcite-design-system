@@ -1,6 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, afterEach, expect, it, vi } from "vitest";
-import { isCalciteFocusable } from "../../../utils/dom";
+import { isCalciteFocusable } from "../../utils/dom";
 
 export interface FocusableOptions {
   /** selector used to assert the focused DOM element */

@@ -9,7 +9,7 @@ import {
   renders,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS } from "./resources";
 
 describe("accessible", () => {

@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, afterEach, vi } from "vitest";
-import { css } from "../../../support/formatting";
+import { css } from "../../support/formatting";
 import { type Locator, locators } from "vitest/browser";
 
 locators.extend({

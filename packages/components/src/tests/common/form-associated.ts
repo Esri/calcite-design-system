@@ -6,9 +6,9 @@ import {
   type FormComponent,
   getClearValidationEventName,
   type ValidationProps,
-} from "../../../controllers/useForm";
+} from "../../controllers/useForm";
 import type { TestSetUp } from "./types";
-import type { RadioButtonGroup } from "../../../components/radio-button-group/radio-button-group";
+import type { RadioButtonGroup } from "../../components/radio-button-group/radio-button-group";
 
 interface FormAssociatedOptions {
   /** This value will be set on the component and submitted by the form. */

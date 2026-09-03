@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { Locator, page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { isInTopLayer } from "../../utils/dom";
+import { isInTopLayer } from "../utils/dom";
 import { getEventPrefix, waitForEvent } from "./utils";
 
 type TopLayerOptions = {
