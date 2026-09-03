@@ -232,85 +232,89 @@ describe("interactions", () => {
     });
   });
 
+  async function clickTrackAtValue(
+    el: Slider["el"],
+    value: number,
+    trackX: number,
+    trackY: number,
+    trackWidth: number,
+  ): Promise<void> {
+    const x = trackX + ((value - el.min) / (el.max - el.min)) * trackWidth;
+
+    await commands.mouseMove(x, trackY);
+    await commands.mouseDown();
+    await commands.mouseUp();
+  }
+
   describe("thumb focus", () => {
-    async function clickTrackAtValue(
-      el: Slider["el"],
-      value: number,
-      trackX: number,
-      trackY: number,
-      trackWidth: number,
-    ): Promise<void> {
-      const x = trackX + ((value - el.min) / (el.max - el.min)) * trackWidth;
+    describe("for single value", () => {
+      it("focuses the single-value thumb when clicked near", async () => {
+        const { el } = await mount<Slider>(
+          <calcite-slider max={100} min={0} snap ticks={10} value={50} />,
+        );
+        const thumb = page.getByRole("slider");
+        const track = page.getBySelector(`.${CSS.track}`);
+        const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
 
-      await commands.mouseMove(x, trackY);
-      await commands.mouseDown();
-      await commands.mouseUp();
-    }
+        await clickTrackAtValue(el, 50, trackX, trackY, trackWidth);
+        await expect.element(thumb).toBe(el.shadowRoot.activeElement);
+        await expect.element(el).toHaveValue(50);
 
-    it("focuses the single-value thumb when clicked near", async () => {
-      const { el } = await mount<Slider>(
-        <calcite-slider max={100} min={0} snap ticks={10} value={50} />,
-      );
-      const thumb = page.getByRole("slider");
-      const track = page.getBySelector(`.${CSS.track}`);
-      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+        await clickTrackAtValue(el, 40, trackX, trackY, trackWidth);
+        await expect.element(thumb).toBe(el.shadowRoot.activeElement);
+        await expect.element(el).toHaveValue(40);
 
-      await clickTrackAtValue(el, 50, trackX, trackY, trackWidth);
-      await expect.element(thumb).toBe(el.shadowRoot.activeElement);
-      await expect.element(el).toHaveValue(50);
-
-      await clickTrackAtValue(el, 40, trackX, trackY, trackWidth);
-      await expect.element(thumb).toBe(el.shadowRoot.activeElement);
-      await expect.element(el).toHaveValue(40);
-
-      await clickTrackAtValue(el, 60, trackX, trackY, trackWidth);
-      await expect.element(thumb).toBe(el.shadowRoot.activeElement);
-      await expect.element(el).toHaveValue(60);
+        await clickTrackAtValue(el, 60, trackX, trackY, trackWidth);
+        await expect.element(thumb).toBe(el.shadowRoot.activeElement);
+        await expect.element(el).toHaveValue(60);
+      });
     });
 
-    it("focuses the min thumb when clicking closer to minValue", async () => {
-      const { el } = await mount<Slider>(
-        <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
-      );
-      const [minThumb] = page.getByRole("slider").all();
-      const track = page.getBySelector(`.${CSS.track}`);
-      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+    describe("in range", () => {
+      it("focuses the min thumb when clicking closer to minValue", async () => {
+        const { el } = await mount<Slider>(
+          <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
+        );
+        const [minThumb] = page.getByRole("slider").all();
+        const track = page.getBySelector(`.${CSS.track}`);
+        const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
 
-      await clickTrackAtValue(el, 30, trackX, trackY, trackWidth);
+        await clickTrackAtValue(el, 30, trackX, trackY, trackWidth);
 
-      await expect.element(minThumb).toBe(el.shadowRoot.activeElement);
-      expect(el.minValue).toBe(0);
-      expect(el.maxValue).toBe(100);
-    });
+        await expect.element(minThumb).toBe(el.shadowRoot.activeElement);
+        expect(el.minValue).toBe(0);
+        expect(el.maxValue).toBe(100);
+      });
 
-    it("focuses the max thumb when clicking closer to maxValue", async () => {
-      const { el } = await mount<Slider>(
-        <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
-      );
-      const [, maxThumb] = page.getByRole("slider").all();
-      const track = page.getBySelector(`.${CSS.track}`);
-      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+      it("focuses the max thumb when clicking closer to maxValue", async () => {
+        const { el } = await mount<Slider>(
+          <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
+        );
+        const [, maxThumb] = page.getByRole("slider").all();
+        const track = page.getBySelector(`.${CSS.track}`);
+        const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
 
-      await clickTrackAtValue(el, 60, trackX, trackY, trackWidth);
+        await clickTrackAtValue(el, 60, trackX, trackY, trackWidth);
 
-      await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
-      expect(el.minValue).toBe(0);
-      expect(el.maxValue).toBe(100);
-    });
+        await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
+        expect(el.minValue).toBe(0);
+        expect(el.maxValue).toBe(100);
+      });
 
-    it("focuses the max thumb when clicking in the middle of the track", async () => {
-      const { el } = await mount<Slider>(
-        <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
-      );
-      const [, maxThumb] = page.getByRole("slider").all();
-      const track = page.getBySelector(`.${CSS.track}`);
-      const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
+      it("focuses the max thumb when clicking in the middle of the track", async () => {
+        const { el } = await mount<Slider>(
+          <calcite-slider max={100} max-value="100" min={0} min-value="0" ticks={10} />,
+        );
+        const [, maxThumb] = page.getByRole("slider").all();
+        const track = page.getBySelector(`.${CSS.track}`);
+        const { x: trackX, y: trackY, width: trackWidth } = track.element().getBoundingClientRect();
 
-      await clickTrackAtValue(el, 50, trackX, trackY, trackWidth);
+        await clickTrackAtValue(el, 50, trackX, trackY, trackWidth);
 
-      await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
-      expect(el.minValue).toBe(0);
-      expect(el.maxValue).toBe(100);
+        await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
+        expect(el.minValue).toBe(0);
+        expect(el.maxValue).toBe(100);
+      });
     });
   });
 
