@@ -36,45 +36,45 @@
 :host([scale="s"]) {
   @apply text-n2h;
   .title {
-    padding-block: var(--calcite-spacing-xxs);
-    padding-inline: var(--calcite-spacing-sm);
+    padding-block: var(--calcite-space-2xs);
+    padding-inline: var(--calcite-space-sm);
   }
   .first-title {
-    padding-block-start: var(--calcite-spacing-sm);
+    padding-block-start: var(--calcite-space-sm);
   }
   .separator {
-    margin-block: var(--calcite-spacing-xxs);
-    margin-inline: var(--calcite-spacing-sm);
+    margin-block: var(--calcite-space-2xs);
+    margin-inline: var(--calcite-space-sm);
   }
 }
 
 :host([scale="m"]) {
   @apply text-n1h;
   .title {
-    padding-block: var(--calcite-spacing-sm);
-    padding-inline: var(--calcite-spacing-md);
+    padding-block: var(--calcite-space-sm);
+    padding-inline: var(--calcite-space-md);
   }
   .first-title {
-    padding-block-start: var(--calcite-spacing-lg);
+    padding-block-start: var(--calcite-space-lg);
   }
   .separator {
-    margin-block: var(--calcite-spacing-sm);
-    margin-inline: var(--calcite-spacing-md);
+    margin-block: var(--calcite-space-sm);
+    margin-inline: var(--calcite-space-md);
   }
 }
 
 :host([scale="l"]) {
   @apply text-0h;
   .title {
-    padding-block: var(--calcite-spacing-sm-plus);
-    padding-inline: var(--calcite-spacing-lg);
+    padding-block: var(--calcite-space-sm-plus);
+    padding-inline: var(--calcite-space-lg);
   }
   .first-title {
-    padding-block-start: var(--calcite-spacing-xl);
+    padding-block-start: var(--calcite-space-xl);
   }
   .separator {
-    margin-block: var(--calcite-spacing-sm-plus);
-    margin-inline: var(--calcite-spacing-lg);
+    margin-block: var(--calcite-space-sm-plus);
+    margin-inline: var(--calcite-space-lg);
   }
 }
 

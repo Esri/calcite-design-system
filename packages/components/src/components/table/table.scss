@@ -82,11 +82,11 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-table-selection-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-table-selection-action-spacing: var(--calcite-space-2xs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-table-selection-action-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-table-selection-action-spacing: var(--calcite-space-xs);
   --calcite-internal-table-cell-padding: 1rem;
   --calcite-internal-table-cell-font-size: var(--calcite-font-size-0);
   --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--1);

@@ -36,7 +36,7 @@
   --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: 0;
   --calcite-internal-menu-item-content-min-block-size: var(--calcite-size-xl);
   --calcite-internal-menu-item-dropdown-action-block-size: auto;
-  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-spacing-xxs);
+  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-2xs);
   --calcite-internal-menu-item-dropdown-action-flex: initial;
   --calcite-internal-menu-item-font-size: var(--calcite-font-size-relative-md);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-md);
@@ -406,12 +406,12 @@
   --calcite-action-text-color: var(--calcite-menu-text-color);
   block-size: var(--calcite-internal-menu-item-dropdown-action-block-size);
   flex: var(--calcite-internal-menu-item-dropdown-action-flex);
-  margin-inline-start: var(--calcite-spacing-xxs);
+  margin-inline-start: var(--calcite-space-2xs);
 
   &::after {
     @apply block w-px  absolute;
     content: "";
-    inset-inline-start: calc(-1 * var(--calcite-spacing-xxs));
+    inset-inline-start: calc(-1 * var(--calcite-space-2xs));
     inset-block: var(--calcite-internal-menu-item-dropdown-action-divider-inset-block);
     background-color: var(--calcite-color-border-3);
   }
@@ -422,7 +422,7 @@
 }
 
 :host([layout="vertical"]) .dropdown-action {
-  margin-inline-end: var(--calcite-spacing-xxs);
+  margin-inline-end: var(--calcite-space-2xs);
 }
 
 .dropdown-menu-items {

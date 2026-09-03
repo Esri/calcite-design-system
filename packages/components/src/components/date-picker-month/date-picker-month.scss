@@ -18,8 +18,8 @@
 .week-header-container {
   @apply flex;
   block-size: #{core.$calcite-size-16};
-  padding-inline: var(--calcite-spacing-sm);
-  padding-block: var(--calcite-spacing-md);
+  padding-inline: var(--calcite-space-sm);
+  padding-block: var(--calcite-space-md);
 }
 
 .week-header {
@@ -47,8 +47,8 @@
   @apply grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: 1fr;
-  padding-inline: var(--calcite-spacing-sm);
-  padding-block-end: var(--calcite-spacing-sm);
+  padding-inline: var(--calcite-space-sm);
+  padding-block-end: var(--calcite-space-sm);
 }
 
 .month-header {
@@ -65,12 +65,12 @@
 
 :host([scale="s"]) {
   .week-days {
-    padding-inline: var(--calcite-spacing-xs);
-    padding-block-end: var(--calcite-spacing-xs);
+    padding-inline: var(--calcite-space-xs);
+    padding-block-end: var(--calcite-space-xs);
   }
   .week-header-container {
-    padding-inline: var(--calcite-spacing-xs);
-    padding-block: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-space-xs);
+    padding-block: var(--calcite-space-sm);
   }
   .day {
     font-size: var(--calcite-font-size-sm);
@@ -82,12 +82,12 @@
     @apply text-n1h;
   }
   .week-days {
-    padding-inline: var(--calcite-spacing-md);
-    padding-block-end: var(--calcite-spacing-md);
+    padding-inline: var(--calcite-space-md);
+    padding-block-end: var(--calcite-space-md);
   }
   .week-header-container {
-    padding-inline: var(--calcite-spacing-md);
-    padding-block: var(--calcite-spacing-md-plus);
+    padding-inline: var(--calcite-space-md);
+    padding-block: var(--calcite-space-md-plus);
   }
   .day {
     font-size: var(--calcite-font-size-md);

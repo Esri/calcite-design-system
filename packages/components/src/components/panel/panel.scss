@@ -51,8 +51,8 @@ slot[name="alerts"]::slotted(calcite-alert) {
 @include includes.disabled();
 
 :host([scale="s"]) {
-  --calcite-internal-panel-default-space: var(--calcite-spacing-sm);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-panel-default-space: var(--calcite-space-sm);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-space-sm-plus);
 
   .header-content {
     .heading {
@@ -64,14 +64,14 @@ slot[name="alerts"]::slotted(calcite-alert) {
     }
 
     .icon {
-      margin-inline-end: var(--calcite-spacing-sm);
+      margin-inline-end: var(--calcite-space-sm);
     }
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-panel-default-space: var(--calcite-spacing-md);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-md-plus);
+  --calcite-internal-panel-default-space: var(--calcite-space-md);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-space-md-plus);
 
   .header-content {
     .heading {
@@ -83,19 +83,19 @@ slot[name="alerts"]::slotted(calcite-alert) {
     }
 
     .icon {
-      margin-inline-end: var(--calcite-spacing-md);
+      margin-inline-end: var(--calcite-space-md);
     }
   }
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-panel-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-panel-action-spacing: var(--calcite-space-2xs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-panel-action-spacing: var(--calcite-spacing-xs);
-  --calcite-internal-panel-default-space: var(--calcite-spacing-lg);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xl);
+  --calcite-internal-panel-action-spacing: var(--calcite-space-xs);
+  --calcite-internal-panel-default-space: var(--calcite-space-lg);
+  --calcite-internal-panel-header-vertical-padding: var(--calcite-space-xl);
 
   .header-content {
     .heading {
@@ -107,7 +107,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
     }
 
     .icon {
-      margin-inline-end: var(--calcite-spacing-lg);
+      margin-inline-end: var(--calcite-space-lg);
     }
   }
 }

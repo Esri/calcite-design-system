@@ -162,7 +162,7 @@
 }
 
 :host([selectable]) .header {
-  padding-inline-end: var(--calcite-spacing-xxxl);
+  padding-inline-end: var(--calcite-space-3xl);
 }
 
 @include includes.slotted("heading", "*") {
@@ -197,8 +197,8 @@
 // deprecated
 .checkbox-wrapper-deprecated {
   @apply absolute pointer-events-auto;
-  inset-block-start: var(--calcite-spacing-sm);
-  inset-inline-end: var(--calcite-spacing-sm);
+  inset-block-start: var(--calcite-space-sm);
+  inset-inline-end: var(--calcite-space-sm);
   margin: 0;
   padding: 0;
   color: var(--calcite-card-selection-color, var(--calcite-color-text-3));

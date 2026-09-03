@@ -40,17 +40,17 @@
 
 :host([scale="s"]) {
   --calcite-internal-color-picker-min-width: 200px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-sm);
+  --calcite-color-picker-spacing: var(--calcite-space-sm);
 }
 
 :host([scale="m"]) {
   --calcite-internal-color-picker-min-width: 240px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-md);
+  --calcite-color-picker-spacing: var(--calcite-space-md);
 }
 
 :host([scale="l"]) {
   --calcite-internal-color-picker-min-width: 304px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-lg);
+  --calcite-color-picker-spacing: var(--calcite-space-lg);
 
   @apply text-n1h;
 
@@ -170,7 +170,7 @@ calcite-swatch {
 .sliders {
   @apply flex flex-col justify-between;
   margin-inline-start: var(--calcite-color-picker-spacing);
-  gap: var(--calcite-spacing-xxs);
+  gap: var(--calcite-space-2xs);
 }
 
 .preview-and-sliders {
