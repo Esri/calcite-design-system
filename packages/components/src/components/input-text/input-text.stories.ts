@@ -112,7 +112,8 @@ export const simple = (args: InputTextStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("inline-edit", args.inlineEdit)}
+      ${boolean("inline-edit", args.inlineEdit === true)}
+      ${optionalAttribute("inline-edit", args.inlineEdit === "controls-disabled" ? args.inlineEdit : "")}
       ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-text>
