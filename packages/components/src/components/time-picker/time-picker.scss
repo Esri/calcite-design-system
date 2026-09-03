@@ -30,7 +30,7 @@
   border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
-  background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-time-picker-background-color, var(--calcite-color-surface-2));
   line-height: var(--calcite-font-line-height-md);
   overflow: hidden;
 
@@ -49,17 +49,17 @@
       items-center
       justify-center;
 
-    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-surface-2));
 
     &:hover,
     &:focus {
       @apply outline-none;
       z-index: var(--calcite-z-index-header);
       outline-offset: 0;
-      background-color: var(--calcite-time-picker-button-background-color-hover, var(--calcite-color-foreground-2));
+      background-color: var(--calcite-time-picker-button-background-color-hover, var(--calcite-color-surface-3));
     }
     &:active {
-      background-color: var(--calcite-time-picker-button-background-color-press, var(--calcite-color-foreground-3));
+      background-color: var(--calcite-time-picker-button-background-color-press, var(--calcite-color-surface-4));
     }
     &.top-left {
       border-start-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
@@ -85,10 +85,10 @@
       justify-center;
 
     font-weight: var(--calcite-font-weight-medium);
-    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-surface-2));
 
     &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-time-picker-input-border-color-hover, var(--calcite-color-foreground-2));
+      box-shadow: inset 0 0 0 2px var(--calcite-time-picker-input-border-color-hover, var(--calcite-color-surface-3));
       z-index: var(--calcite-z-index-header);
     }
     &:focus,

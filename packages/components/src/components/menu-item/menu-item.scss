@@ -78,7 +78,7 @@
 .item-content {
   background-color: var(
     --calcite-menu-background-color,
-    var(--calcite-internal-menu-background-color, var(--calcite-color-foreground-1))
+    var(--calcite-internal-menu-background-color, var(--calcite-color-surface-2))
   );
 }
 
@@ -101,12 +101,12 @@
 
   background-color: var(
     --calcite-menu-background-color,
-    var(--calcite-internal-menu-background-color, var(--calcite-color-foreground-1))
+    var(--calcite-internal-menu-background-color, var(--calcite-color-surface-2))
   );
   color: var(--calcite-menu-text-color, var(--calcite-internal-menu-text-color, var(--calcite-color-text-2)));
 
   &:hover {
-    --calcite-internal-menu-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-menu-background-color: var(--calcite-color-surface-3);
   }
 
   &:focus {
@@ -116,7 +116,7 @@
   }
 
   &:active {
-    --calcite-internal-menu-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-menu-background-color: var(--calcite-color-surface-4);
     --calcite-internal-menu-text-color: var(--calcite-color-text-1);
   }
 

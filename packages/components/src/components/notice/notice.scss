@@ -213,7 +213,7 @@ $notice-kinds:
     border-color: var(--calcite-notice-border-color, rgb(from $kind r g b / var(--calcite-opacity-half)));
     background-color: var(
       --calcite-notice-background-color,
-      color-mix(in srgb, $kind 5%, var(--calcite-color-foreground-1))
+      color-mix(in srgb, $kind 5%, var(--calcite-color-surface-2))
     );
   }
 
@@ -225,7 +225,7 @@ $notice-kinds:
 
 :host([kind="neutral"][appearance="outline-fill"]) .container {
   border-color: var(--calcite-color-border-2);
-  background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-notice-background-color, var(--calcite-color-surface-2));
 }
 
 :host([kind="neutral"]) .notice-icon {

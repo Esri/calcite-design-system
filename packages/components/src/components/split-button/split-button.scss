@@ -46,22 +46,22 @@
 
 :host([kind="brand"]) {
   --calcite-internal-split-button-divider-border-color: var(--calcite-color-brand);
-  --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+  --calcite-internal-split-button-divider-color: var(--calcite-color-surface-2);
 }
 
 :host([kind="danger"]) {
   --calcite-internal-split-button-divider-border-color: var(--calcite-color-status-danger);
-  --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+  --calcite-internal-split-button-divider-color: var(--calcite-color-surface-2);
 }
 
 :host([kind="neutral"]) {
-  --calcite-internal-split-button-divider-border-color: var(--calcite-color-foreground-3);
+  --calcite-internal-split-button-divider-border-color: var(--calcite-color-surface-4);
   --calcite-internal-split-button-divider-color: var(--calcite-color-text-1);
 }
 
 :host([kind="inverse"]) {
   --calcite-internal-split-button-divider-border-color: var(--calcite-color-inverse);
-  --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+  --calcite-internal-split-button-divider-color: var(--calcite-color-surface-2);
 }
 
 :host([appearance="transparent"]) {
@@ -76,7 +76,7 @@
     --calcite-internal-split-button-divider-color: var(--calcite-color-text-1);
   }
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+    --calcite-internal-split-button-divider-color: var(--calcite-color-surface-2);
   }
 }
 
@@ -94,7 +94,7 @@
   &:host([kind="danger"]),
   &:host([kind="neutral"]),
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-divider-border-color: var(--calcite-color-background);
+    --calcite-internal-split-button-divider-border-color: var(--calcite-color-surface-1);
   }
 }
 
@@ -210,7 +210,7 @@ calcite-dropdown {
     @apply pointer-events-none;
   }
   &:host([appearance="outline-fill"]) .divider-container {
-    background-color: var(--calcite-color-background);
+    background-color: var(--calcite-color-surface-1);
   }
   &:host([appearance="outline"]) .divider-container {
     background-color: transparent;

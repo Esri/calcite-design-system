@@ -49,7 +49,7 @@
   --calcite-internal-text-area-shadow: var(--calcite-text-area-shadow, var(--calcite-shadow-none));
   --calcite-internal-text-area-footer-background-color: var(
     --calcite-text-area-footer-background-color,
-    var(--calcite-text-area-background-color, var(--calcite-color-foreground-1))
+    var(--calcite-text-area-background-color, var(--calcite-color-surface-2))
   );
 
   // avoids host to shrink beyond the textarea
@@ -92,7 +92,7 @@
   );
   max-inline-size: var(--calcite-text-area-max-width);
   min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
-  background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-surface-2));
   border-radius: var(--calcite-internal-text-area-corner-radius) var(--calcite-internal-text-area-corner-radius) 0 0;
   &::placeholder {
     @apply font-normal;
@@ -165,12 +165,12 @@
 }
 
 .readonly {
-  background-color: var(--calcite-text-area-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-surface-1));
   font-weight: var(--calcite-font-weight-medium);
 }
 
 .footer.readonly {
-  background-color: var(--calcite-internal-text-area-footer-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-internal-text-area-footer-background-color, var(--calcite-color-surface-1));
 }
 
 .content,

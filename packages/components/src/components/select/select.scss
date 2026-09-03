@@ -97,7 +97,7 @@
   padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: 0;
   line-height: var(--calcite-internal-select-line-height, normal);
-  background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-select-background-color, var(--calcite-color-surface-2));
   border-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-select-shadow, var(--calcite-shadow-none));
   &:focus {

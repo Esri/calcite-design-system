@@ -109,7 +109,7 @@ calcite-avatar ~ .text-container {
 
 :host(:hover) .button,
 :host(:focus) .button {
-  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-2);
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-surface-3);
 }
 
 :host(:focus) .button {
@@ -117,7 +117,7 @@ calcite-avatar ~ .text-container {
 }
 
 :host(:active) .button {
-  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-3);
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-surface-4);
 }
 
 :host([active]) .button {

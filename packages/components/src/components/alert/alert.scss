@@ -57,7 +57,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   w-full;
     inset: initial;
     box-shadow: var(--calcite-alert-shadow, var(--calcite-shadow-md));
-    background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
+    background-color: var(--calcite-alert-background-color, var(--calcite-color-surface-2));
     border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
     border-block-start: 0 solid transparent;
     border-inline: $border-style;

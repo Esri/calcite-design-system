@@ -155,7 +155,7 @@
 
 :host([bordered]:not([selected]):hover:not(:focus)) {
   .selected-indicator {
-    background-color: var(--calcite-color-foreground-2);
+    background-color: var(--calcite-color-surface-3);
   }
   .container:not(.container--bottom) .selected-indicator {
     box-shadow: inset 0 1px var(--calcite-color-border-1);
@@ -276,7 +276,7 @@
   }
 
   &:hover {
-    background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-surface-3));
     border-block-end-color: var(--calcite-color-border-1);
   }
 }
@@ -300,7 +300,7 @@
   border-inline-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
 
   &::after {
-    background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+    background-color: var(--calcite-tab-background-color, var(--calcite-color-surface-2));
   }
 
   &:hover,

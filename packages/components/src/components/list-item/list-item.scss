@@ -54,7 +54,7 @@
   flex
   flex-1
   overflow-hidden;
-  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-list-background-color, var(--calcite-color-surface-2));
   * {
     @apply box-border;
   }
@@ -151,11 +151,11 @@
 
   .container--hover:hover {
     cursor: pointer;
-    background-color: var(--calcite-list-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-list-background-color-hover, var(--calcite-color-surface-3));
   }
 
   .container:active {
-    background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-list-background-color-press, var(--calcite-color-surface-4));
   }
 
   .icon {
