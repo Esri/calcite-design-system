@@ -9,6 +9,7 @@ import {
   focusable,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   t9n,
@@ -34,6 +35,10 @@ import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-time-picker", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {

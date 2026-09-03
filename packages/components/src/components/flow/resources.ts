@@ -6,6 +6,10 @@ export const CSS = {
   frameRetreating: "frame--retreating",
 };
 
+export const SELECTORS = {
+  item: "calcite-flow-item",
+};
+
 /**
  * Use this type guard to narrow an element or event target to this component's element type.
  */

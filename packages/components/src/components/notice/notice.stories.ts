@@ -3,6 +3,9 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Notice } from "./notice";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { appearance, scale, width, kind } = ATTRIBUTES;
 

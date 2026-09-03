@@ -3,6 +3,7 @@ import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputMessage } from "./input-message";
+import "./input-message"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status: statusAttribute } = ATTRIBUTES;
 

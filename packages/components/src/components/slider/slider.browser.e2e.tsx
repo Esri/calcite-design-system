@@ -11,6 +11,7 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   t9n,
@@ -19,6 +20,10 @@ import {
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Slider } from "./slider";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-slider", mountOptions));
+});
 
 describe("defaults", () => {
   defaults(
