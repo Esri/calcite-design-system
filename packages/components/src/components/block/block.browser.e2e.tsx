@@ -253,6 +253,32 @@ describe("disabled", () => {
   disabled(() => mount(<calcite-block description="description" expandable heading="heading" />));
 });
 
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount(<calcite-block heading="heading" />);
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("should omit aria-busy on sortable blocks when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount(<calcite-block drag-handle heading="heading" />);
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(

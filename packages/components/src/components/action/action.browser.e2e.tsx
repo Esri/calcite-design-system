@@ -189,6 +189,30 @@ describe("type property", () => {
 });
 
 describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount(<calcite-action text="hello world" />);
+    const button = page.getByRole("button");
+
+    await expect.element(button).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(button).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("should omit aria-busy on drag handle when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount(<calcite-action drag-handle text="hello world" />);
+    const button = page.getByRole("button");
+
+    await expect.element(button).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(button).toHaveAttribute("aria-busy", "true");
+  });
+
   it("should use text prop for a11y attributes when text is not enabled", async () => {
     await mount(<calcite-action text="hello world" />);
 

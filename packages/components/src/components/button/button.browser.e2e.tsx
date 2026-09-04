@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { CSS } from "./resources";
 import {
   defaults,
@@ -176,6 +176,32 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-button"));
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount(<calcite-button>Continue</calcite-button>);
+    const button = page.getByRole("button");
+
+    await expect.element(button).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(button).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("should omit aria-busy on links when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount(<calcite-button href="/">Continue</calcite-button>);
+    const link = page.getByRole("link");
+
+    await expect.element(link).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(link).toHaveAttribute("aria-busy", "true");
+  });
 });
 
 describe("theme", () => {
