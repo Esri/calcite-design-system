@@ -211,7 +211,7 @@ export class Tile extends LitElement implements SelectableComponent {
     }
   }
 
-  private setContainerEl(el): void {
+  private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
   }
 

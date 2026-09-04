@@ -9,12 +9,14 @@ import {
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   slots,
   floatingUIOwner,
   t9n,
   disabled,
   formAssociated,
+  globalProps,
   openClose,
   topLayer,
   accessible,
@@ -28,6 +30,22 @@ import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("global props", () => {
+  globalProps(
+    () => mount<Autocomplete>(<calcite-autocomplete label="Items" />),
+    () => page.getBySelector("calcite-input"),
+    {
+      autofocus: true,
+      enterKeyHint: "search",
+      inputMode: "search",
+    },
+  );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-autocomplete", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {

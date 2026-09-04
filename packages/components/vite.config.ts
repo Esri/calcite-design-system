@@ -8,6 +8,7 @@ import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
 import { playwrightCommands as customBrowserModeCommandsPlugin } from "vitest-browser-commands";
+import customElementDependenciesPlugin from "./build/plugins/custom-element-dependencies";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
@@ -69,7 +70,7 @@ export function createConfig({
       noExternal: nonEsmDependencies,
     },
 
-    plugins: [lumina, customBrowserModeCommandsPlugin()],
+    plugins: [lumina, customBrowserModeCommandsPlugin(), customElementDependenciesPlugin(lumina)],
 
     css: {
       postcss: {
