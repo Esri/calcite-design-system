@@ -55,30 +55,30 @@ describe("disabled", () => {
   });
 });
 
-describe("aria-checked", () => {
+describe("a11y attributes", () => {
   it("reflects selection state only for selectable items", async () => {
-    const { el } = await mount(
+    await mount(
       <calcite-dropdown open>
         <calcite-dropdown-group selectionMode="none">
-          <calcite-dropdown-item id="non-selectable" selected>
+          <calcite-dropdown-item data-testid="non-selectable" selected>
             Non-selectable
           </calcite-dropdown-item>
         </calcite-dropdown-group>
         <calcite-dropdown-group selectionMode="multiple">
-          <calcite-dropdown-item id="unselected">Unselected</calcite-dropdown-item>
-          <calcite-dropdown-item id="selected" selected>
+          <calcite-dropdown-item data-testid="unselected">Unselected</calcite-dropdown-item>
+          <calcite-dropdown-item data-testid="selected" selected>
             Selected
           </calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>,
     );
-    const nonSelectableItem = el.querySelector("#non-selectable");
-    const unselectedItem = el.querySelector("#unselected");
-    const selectedItem = el.querySelector("#selected");
+    const nonSelectableItem = page.getByTestId("#non-selectable");
+    const unselectedItem = page.getByTestId("#unselected");
+    const selectedItem = page.getByTestId("#selected");
 
-    await expect.poll(() => nonSelectableItem?.getAttribute("aria-checked")).toBeNull();
-    await expect.poll(() => unselectedItem?.getAttribute("aria-checked")).toBe("false");
-    await expect.poll(() => selectedItem?.getAttribute("aria-checked")).toBe("true");
+    await expect.element(nonSelectableItem).not.toHaveAttribute("aria-checked");
+    await expect.element(unselectedItem).toHaveAttribute("aria-checked", "false");
+    await expect.element(selectedItem).toHaveAttribute("aria-checked", "true");
   });
 });
 
