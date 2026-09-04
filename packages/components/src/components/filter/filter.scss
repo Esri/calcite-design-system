@@ -61,7 +61,7 @@ calcite-input {
   @apply w-full;
   --calcite-input-background-color: var(--calcite-filter-input-background-color);
   --calcite-input-border-color: var(--calcite-filter-input-border-color);
-  --calcite-input-corner-radius: var(--calcite-filter-input-corner-radius);
+  --calcite-input-corner-radius: var(--calcite-filter-input-corner-radius, var(--calcite-corner-radius));
   --calcite-input-shadow: var(--calcite-filter-input-shadow);
   --calcite-input-icon-color: var(--calcite-filter-input-icon-color);
   --calcite-input-text-color: var(--calcite-filter-input-text-color);
