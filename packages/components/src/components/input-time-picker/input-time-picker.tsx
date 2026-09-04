@@ -584,6 +584,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         <div
           aria-controls={IDS.inputContainer}
           aria-labelledby={IDS.inputContainer}
+          ariaExpanded={this.open}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
