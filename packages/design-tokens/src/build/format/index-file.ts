@@ -47,7 +47,7 @@ export const formatIndexFile: FormatFn = async (args) => {
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";
   const imports = args.options.imports.map((imp: string) => importUrl(imp, options.fileExtension)).join("");
-  const root = format === "css" ? `:where(:root) {${varLists.light}}` : "";
+  const root = format === "css" ? `:root {${varLists.light}}` : "";
   const rootAliases = format === "css" && replacementVarLists.light ? `:where(*) {${replacementVarLists.light}}` : "";
   const atMedia =
     format === "css"
