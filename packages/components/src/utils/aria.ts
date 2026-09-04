@@ -13,14 +13,25 @@ export function ariaValueFromSize(
   return selectedValue != null ? `${selectedValue}` : undefined;
 }
 
+type AriaFalseValue = "false" | undefined | null;
+type AriaBoolean<FalseValue extends AriaFalseValue = "false"> = "true" | FalseValue;
+
 /**
- * This helper makes sure that boolean aria attributes are properly converted to a string.
+ * Converts a boolean to a valid string value for a boolean ARIA attribute.
  *
- * It should only be used for aria attributes that require a string value of "true" or "false".
+ * By default, `false` is converted to `"false"`. A custom false value can be provided when the
+ * attribute should instead be omitted: use `null` for DOM ARIA properties or `undefined` for JSX.
+ * The custom false value does not affect `true`, which is always converted to `"true"`.
  *
- * @param value The value.
- * @returns The string conversion of a boolean value ("true" | "false").
+ * @param value The boolean value to convert.
+ * @param falseValue The value returned when `value` is `false`.
  */
-export function toAriaBoolean(value: boolean): string {
-  return Boolean(value).toString();
+export function toAriaBoolean(value: boolean): AriaBoolean;
+export function toAriaBoolean<FalseValue extends AriaFalseValue>(
+  value: boolean,
+  falseValue: FalseValue,
+): AriaBoolean<FalseValue>;
+export function toAriaBoolean(value: boolean, ...falseValues: [] | [AriaFalseValue]): AriaBoolean<AriaFalseValue> {
+  const falseValue = falseValues.length === 0 ? "false" : falseValues[0];
+  return value ? "true" : falseValue;
 }
