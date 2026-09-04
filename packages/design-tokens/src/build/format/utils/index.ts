@@ -1,4 +1,4 @@
-import type { Dictionary, FormatFnArguments, TransformedToken } from "style-dictionary/types";
+import type { FormatFnArguments, Dictionary, TransformedToken } from "style-dictionary/types";
 import { formattedVariables } from "style-dictionary/utils";
 import type { Stylesheet } from "../../../types.ts";
 import { hasReplacementReferenceExtension } from "../../utils/output-references.ts";
@@ -59,12 +59,7 @@ export function createVarList(
  *
  * @param dictionary
  */
-export function createReplacementVarList(
-  dictionaryOrFormat: Dictionary | Stylesheet,
-  dictionaryOrUndefined?: Dictionary,
-): string {
-  // Support both signatures for backward compatibility
-  const dictionary = (dictionaryOrUndefined ?? dictionaryOrFormat) as Dictionary;
+export function createReplacementVarList(dictionary: Dictionary): string {
   const replacementTokens = dictionary.allTokens.filter(hasReplacementReferenceExtension);
 
   if (!replacementTokens.length) {
@@ -82,6 +77,5 @@ export function createReplacementVarList(
 
       return `--${token.name}: var(--${deprecatedToken.name});`;
     })
-    .filter(Boolean)
     .join("\n");
 }

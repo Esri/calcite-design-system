@@ -41,8 +41,8 @@ export const formatIndexFile: FormatFn = async (args) => {
     dark: createVarList(commonVarFormat, darkDictionaryFiltered, args),
   } as const;
   const replacementVarLists = {
-    light: createReplacementVarList(commonVarFormat, lightDictionaryFiltered, args),
-    dark: createReplacementVarList(commonVarFormat, darkDictionaryFiltered, args),
+    light: createReplacementVarList(lightDictionaryFiltered),
+    dark: createReplacementVarList(darkDictionaryFiltered),
   } as const;
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";

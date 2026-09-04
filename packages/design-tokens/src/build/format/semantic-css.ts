@@ -16,7 +16,7 @@ export const formatSemanticCss: FormatFn = async (args) => {
   const { dictionary, file } = args;
   const header = await fileHeader({ file });
   const root = `:root {${createVarList("css", dictionary, args)}}`;
-  const replacementAliases = createReplacementVarList("css", dictionary, args);
+  const replacementAliases = createReplacementVarList(dictionary);
   const content = `${root}${replacementAliases ? `:where(*) {${replacementAliases}}` : ""}`;
 
   return prettierSync.format(`${header}${content}`, {
