@@ -1161,7 +1161,7 @@ exports[`CSS > index should match 1`] = `
 
 @import url("./semantic.css");
 @import url("./classes.css");
-:where(:root) {
+:root {
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
