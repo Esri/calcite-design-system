@@ -25,6 +25,7 @@ type AriaBoolean<FalseValue extends AriaFalseValue = "false"> = "true" | FalseVa
  *
  * @param value The boolean value to convert.
  * @param falseValue The value returned when `value` is `false`.
+ * @returns A valid ARIA boolean string value: `"true"` or the provided `falseValue`.
  */
 export function toAriaBoolean(value: boolean): AriaBoolean;
 export function toAriaBoolean<FalseValue extends AriaFalseValue>(
