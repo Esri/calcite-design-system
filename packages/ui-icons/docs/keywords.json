@@ -12228,5 +12228,75 @@
     "alias": ["4.6.0", "generic", "separate", "values", "table", "data"],
     "category": "Generic",
     "release": "4.6.0"
+  },
+  "align-bottom": {
+    "alias": ["4.6.0", "arrange", "justify", "content", "adjust", "alignment", "line up", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "align-center-horizontal": {
+    "alias": ["4.6.0", "arrange", "justify", "content", "adjust", "alignment", "line up", "object", "middle"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "align-center-vertical": {
+    "alias": ["4.6.0", "arrange", "justify", "content", "adjust", "alignment", "line up", "object", "middle"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "align-left": {
+    "alias": ["4.6.0", "arrange", "justify", "content", "adjust", "alignment", "line up", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "align-right": {
+    "alias": ["4.6.0", "arrange", "justify", "content", "adjust", "alignment", "line up", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "align-top": {
+    "alias": ["4.6.0", "arrange", "justify", "content", "adjust", "alignment", "line up", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "space-around-horizontal": {
+    "alias": ["4.6.0", "arrange", "distribute", "content", "disperse", "width", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "space-around-vertical": {
+    "alias": ["4.6.0", "arrange", "distribute", "content", "disperse", "height", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "space-between-horizontal": {
+    "alias": ["4.6.0", "arrange", "distribute", "content", "disperse", "width", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "space-between-vertical": {
+    "alias": ["4.6.0", "arrange", "distribute", "content", "disperse", "height", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "spaced-evenly-horizontal": {
+    "alias": ["4.6.0", "arrange", "distribute", "content", "disperse", "width", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "spaced-evenly-vertical": {
+    "alias": ["4.6.0", "arrange", "distribute", "content", "disperse", "height", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "stretch-horizontal": {
+    "alias": ["4.6.0", "arrange", "expand", "content", "width", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
+  },
+  "stretch-vertical": {
+    "alias": ["4.6.0", "arrange", "expand", "content", "height", "object"],
+    "category": "Arrange",
+    "release": "4.6.0"
   }
 }
