@@ -15,6 +15,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { page } from "vitest/browser";
+import type { Action } from "./action";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-action text="hello world" />));
@@ -190,7 +191,7 @@ describe("type property", () => {
 
 describe("a11y attributes", () => {
   it("should omit aria-busy when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount(<calcite-action text="hello world" />);
+    const { reRender, el } = await mount<Action>(<calcite-action text="hello world" />);
     const button = page.getByRole("button");
 
     await expect.element(button).not.toHaveAttribute("aria-busy");
@@ -202,7 +203,7 @@ describe("a11y attributes", () => {
   });
 
   it("should omit aria-busy on drag handle when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount(<calcite-action drag-handle text="hello world" />);
+    const { reRender, el } = await mount<Action>(<calcite-action drag-handle text="hello world" />);
     const button = page.getByRole("button");
 
     await expect.element(button).not.toHaveAttribute("aria-busy");

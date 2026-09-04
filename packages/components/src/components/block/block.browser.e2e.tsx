@@ -24,6 +24,7 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";
+import type { Block } from "./block";
 
 mockConsole();
 
@@ -255,7 +256,7 @@ describe("disabled", () => {
 
 describe("a11y attributes", () => {
   it("should omit aria-busy when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount(<calcite-block heading="heading" />);
+    const { reRender, el } = await mount<Block>(<calcite-block heading="heading" />);
     const container = page.getByRole("article");
 
     await expect.element(container).not.toHaveAttribute("aria-busy");

@@ -15,6 +15,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { page } from "vitest/browser";
+import type { Button } from "./button";
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-button", mountOptions));
@@ -180,7 +181,7 @@ describe("disabled", () => {
 
 describe("a11y attributes", () => {
   it("should omit aria-busy when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount(<calcite-button>Continue</calcite-button>);
+    const { reRender, el } = await mount<Button>(<calcite-button>Continue</calcite-button>);
     const button = page.getByRole("button");
 
     await expect.element(button).not.toHaveAttribute("aria-busy");
@@ -192,7 +193,9 @@ describe("a11y attributes", () => {
   });
 
   it("should omit aria-busy on links when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount(<calcite-button href="/">Continue</calcite-button>);
+    const { reRender, el } = await mount<Button>(
+      <calcite-button href="/">Continue</calcite-button>,
+    );
     const link = page.getByRole("link");
 
     await expect.element(link).not.toHaveAttribute("aria-busy");
