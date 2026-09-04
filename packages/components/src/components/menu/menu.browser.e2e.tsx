@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
@@ -10,6 +10,7 @@ import {
   scalePropagates,
   t9n,
   accessible,
+  globalProps,
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
@@ -110,4 +111,22 @@ describe("keyboard navigation", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-menu"));
+});
+
+describe("global props", () => {
+  globalProps(
+    () =>
+      mount<"calcite-menu">(
+        <calcite-menu role="menu">
+          <calcite-menu-item data-testid="menu-item" text="Item" />
+        </calcite-menu>,
+      ),
+    () => page.getBySelector("ul").first(),
+    {
+      role: "menu",
+    },
+    {
+      role: "menubar",
+    },
+  );
 });

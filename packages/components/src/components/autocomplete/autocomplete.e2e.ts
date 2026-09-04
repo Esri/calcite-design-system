@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -115,10 +114,6 @@ it("should emit calciteAutocompleteItemSelect", async () => {
   await page.waitForChanges();
 
   expect(itemChangeSpy).toHaveReceivedEventTimes(2);
-});
-
-describe("labelable", () => {
-  labelable("calcite-autocomplete");
 });
 
 it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

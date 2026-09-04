@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { propToAttr } from "../utils";
+import { camelToKebab as propToAttr } from "@arcgis/toolkit/string";
 
 type ReflectProps<E extends HTMLElement> = Array<{
   propertyName: Extract<keyof E, string>;
