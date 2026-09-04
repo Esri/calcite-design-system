@@ -19,7 +19,7 @@ import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/types";
 import { Alignment, Scale, Status } from "../types";
-import { getIconScale, inlineEditConverter } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
@@ -27,7 +27,7 @@ import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { UseInlineEdit } from "../../controllers/useInlineEdit";
+import { inlineEditConverter, UseInlineEdit } from "../../controllers/useInlineEdit";
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
@@ -123,11 +123,9 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     },
     emitCancel: () => {
       this.calciteInputTextInlineEditingCancel.emit();
-      this.calciteInputTextInlineEditingChange.emit();
     },
     emitConfirm: () => {
       this.calciteInputTextInlineEditingConfirm.emit();
-      this.calciteInputTextInlineEditingChange.emit();
     },
     emitEnableEditingChange: () => {
       this.calciteInputTextInlineEditingChange.emit();
@@ -576,12 +574,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     this.focusEnableInlineEditingButton();
   }
 
-  private inlineEditConfirmChangesHandler(): void {
-    void this.inlineEditManager
-      .confirm(this.inlineEditingBeforeConfirm, (loading) => {
-        this.inlineEditingLoading = loading;
-      })
-      .then(() => this.focusEnableInlineEditingButton());
+  private async inlineEditConfirmChangesHandler(): Promise<void> {
+    await this.inlineEditManager.confirm(this.inlineEditingBeforeConfirm, (loading) => {
+      this.inlineEditingLoading = loading;
+    });
+    this.focusEnableInlineEditingButton();
   }
 
   private inputTextInputHandler(nativeEvent: InputEvent): void {
@@ -595,7 +592,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     });
   }
 
-  private inputTextKeyDownHandler(event: KeyboardEvent): void {
+  private async inputTextKeyDownHandler(event: KeyboardEvent): Promise<void> {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -604,11 +601,10 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         event.preventDefault();
         const input = event.currentTarget as HTMLInputElement;
         if (!this.inlineEditControlsDisabled) {
-          void this.inlineEditManager
-            .confirm(this.inlineEditingBeforeConfirm, (loading) => {
-              this.inlineEditingLoading = loading;
-            })
-            .then(() => this.focusEnableInlineEditingButton());
+          await this.inlineEditManager.confirm(this.inlineEditingBeforeConfirm, (loading) => {
+            this.inlineEditingLoading = loading;
+          });
+          this.focusEnableInlineEditingButton();
         } else {
           input.blur();
         }

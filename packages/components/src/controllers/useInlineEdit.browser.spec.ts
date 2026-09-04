@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { UseInlineEdit } from "./useInlineEdit";
+import { inlineEditConverter, UseInlineEdit } from "./useInlineEdit";
 
 describe("UseInlineEdit", () => {
   let inlineEditing = false;
@@ -107,6 +107,7 @@ describe("UseInlineEdit", () => {
     expect(setInlineEditingTracker).toHaveBeenLastCalledWith(false);
     expect(inlineEditing).toBe(false);
     expect(emitCancelTracker).toHaveBeenCalledTimes(1);
+    expect(emitEnableEditingChangeTracker).toHaveBeenCalledTimes(2);
   });
 
   it("emits confirm and disables editing after a successful async confirm", async () => {
@@ -123,6 +124,7 @@ describe("UseInlineEdit", () => {
     expect(inlineEditing).toBe(false);
     expect(commitValueTracker).toHaveBeenCalledTimes(1);
     expect(emitConfirmTracker).toHaveBeenCalledTimes(1);
+    expect(emitEnableEditingChangeTracker).toHaveBeenCalledTimes(1);
   });
 
   it("emits confirm and disables editing without an async callback", async () => {
@@ -134,6 +136,7 @@ describe("UseInlineEdit", () => {
     expect(inlineEditing).toBe(false);
     expect(commitValueTracker).toHaveBeenCalledTimes(1);
     expect(emitConfirmTracker).toHaveBeenCalledTimes(1);
+    expect(emitEnableEditingChangeTracker).toHaveBeenCalledTimes(1);
   });
 
   it("does not commit or emit confirm when async confirm throws", async () => {
@@ -150,5 +153,19 @@ describe("UseInlineEdit", () => {
     expect(setInlineEditingTracker).not.toHaveBeenCalledWith(false);
     expect(inlineEditing).toBe(true);
     expect(commitValueTracker).not.toHaveBeenCalled();
+  });
+});
+
+describe("inlineEditConverter", () => {
+  it("converts inline-edit attribute values", () => {
+    expect(inlineEditConverter.fromAttribute(null)).toBe(false);
+    expect(inlineEditConverter.fromAttribute("")).toBe(true);
+    expect(inlineEditConverter.fromAttribute("controls-disabled")).toBe("controls-disabled");
+  });
+
+  it("reflects inline-edit values", () => {
+    expect(inlineEditConverter.toAttribute(false)).toBeNull();
+    expect(inlineEditConverter.toAttribute(true)).toBe("");
+    expect(inlineEditConverter.toAttribute("controls-disabled")).toBe("controls-disabled");
   });
 });

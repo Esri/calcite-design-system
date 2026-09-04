@@ -27,7 +27,7 @@ import {
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/types";
-import { getIconScale, inlineEditConverter } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
@@ -35,7 +35,7 @@ import { Validation } from "../functional/Validation";
 import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { UseInlineEdit } from "../../controllers/useInlineEdit";
+import { inlineEditConverter, UseInlineEdit } from "../../controllers/useInlineEdit";
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
@@ -143,11 +143,9 @@ export class InputNumber
     },
     emitCancel: () => {
       this.calciteInputNumberInlineEditingCancel.emit();
-      this.calciteInputNumberInlineEditingChange.emit();
     },
     emitConfirm: () => {
       this.calciteInputNumberInlineEditingConfirm.emit();
-      this.calciteInputNumberInlineEditingChange.emit();
     },
     emitEnableEditingChange: () => {
       this.calciteInputNumberInlineEditingChange.emit();
@@ -729,12 +727,11 @@ export class InputNumber
     this.focusEnableInlineEditingButton();
   }
 
-  private inlineEditConfirmChangesHandler(): void {
-    void this.inlineEditManager
-      .confirm(this.inlineEditingBeforeConfirm, (loading) => {
-        this.inlineEditingLoading = loading;
-      })
-      .then(() => this.focusEnableInlineEditingButton());
+  private async inlineEditConfirmChangesHandler(): Promise<void> {
+    await this.inlineEditManager.confirm(this.inlineEditingBeforeConfirm, (loading) => {
+      this.inlineEditingLoading = loading;
+    });
+    this.focusEnableInlineEditingButton();
   }
 
   private inputNumberInputHandler(nativeEvent: InputEvent): void {
@@ -777,7 +774,7 @@ export class InputNumber
     }
   }
 
-  private inputNumberKeyDownHandler(event: KeyboardEvent): void {
+  private async inputNumberKeyDownHandler(event: KeyboardEvent): Promise<void> {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -821,11 +818,10 @@ export class InputNumber
           event.preventDefault();
           const input = event.currentTarget as HTMLInputElement;
           if (!this.inlineEditControlsDisabled) {
-            void this.inlineEditManager
-              .confirm(this.inlineEditingBeforeConfirm, (loading) => {
-                this.inlineEditingLoading = loading;
-              })
-              .then(() => this.focusEnableInlineEditingButton());
+            await this.inlineEditManager.confirm(this.inlineEditingBeforeConfirm, (loading) => {
+              this.inlineEditingLoading = loading;
+            });
+            this.focusEnableInlineEditingButton();
           } else {
             input.blur();
           }

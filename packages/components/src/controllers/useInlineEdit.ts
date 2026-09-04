@@ -32,6 +32,7 @@ export class UseInlineEdit {
     this.options.restoreValue(this.valuePriorToEditing);
     this.disable();
     this.options.emitCancel();
+    this.options.emitEnableEditingChange();
   }
 
   async confirm(confirm?: () => Promise<void>, setLoading?: (isLoading: boolean) => void): Promise<void> {
@@ -46,5 +47,15 @@ export class UseInlineEdit {
     this.options.commitValue();
     this.disable();
     this.options.emitConfirm();
+    this.options.emitEnableEditingChange();
   }
 }
+
+export const inlineEditConverter = {
+  fromAttribute(value: string | null): boolean | "controls-disabled" {
+    return value === null ? false : value === "controls-disabled" ? value : true;
+  },
+  toAttribute(value: boolean | "controls-disabled"): string | null {
+    return value === false ? null : value === true ? "" : value;
+  },
+};
