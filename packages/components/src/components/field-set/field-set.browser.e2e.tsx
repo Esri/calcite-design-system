@@ -15,6 +15,7 @@ type UpdatableElement = HTMLElement & {
 
 type FieldSetElement = UpdatableElement & {
   disabled?: boolean;
+  legend?: string;
   shadowRoot: ShadowRoot;
 };
 
