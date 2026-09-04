@@ -3,7 +3,6 @@
   "clear": "Clear value",
   "confirmInlineEditingChanges": "Save",
   "enableInlineEditing": "Edit",
-  "invalidNumber": "Please enter a number.",
   "loading": "Loading",
   "required": "Required"
 }

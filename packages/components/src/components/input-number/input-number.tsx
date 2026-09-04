@@ -946,7 +946,7 @@ export class InputNumber
     if (newValue) {
       const valid = isValidNumber(newValue);
       if (!valid) {
-        this.formSupport.setCustomValidity(this.messages.invalidNumber);
+        this.formSupport.setCustomValidity("Please enter a number.");
         this.status = "invalid";
         this.validationIcon = true;
       } else {
