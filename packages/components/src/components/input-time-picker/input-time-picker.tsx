@@ -32,6 +32,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
+import { toAriaBoolean } from "../../utils/aria";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -583,8 +584,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         )}
         <div
           aria-controls={IDS.inputContainer}
+          aria-expanded={toAriaBoolean(this.open)}
           aria-labelledby={IDS.inputContainer}
-          ariaExpanded={this.open}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
