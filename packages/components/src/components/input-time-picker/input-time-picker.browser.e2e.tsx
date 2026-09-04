@@ -31,7 +31,7 @@ import { letterKeys } from "../../utils/key";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
 mockConsole();
@@ -52,6 +52,14 @@ describe("accessible", () => {
   describe("using seconds", () => {
     accessible(() => mount(<calcite-input-time-picker step={1} value="00:00:00" />));
   });
+});
+
+it("renders the required combobox ARIA attributes", async () => {
+  await mount("calcite-input-time-picker");
+  const combobox = page.getByRole("combobox");
+
+  await expect.element(combobox).toHaveAttribute("aria-expanded", "false");
+  await expect.element(combobox).toHaveAttribute("aria-controls", IDS.inputContainer);
 });
 
 describe("defaults", () => {

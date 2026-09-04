@@ -132,6 +132,28 @@ describe("click manager", () => {
     expect(referenceElement.ariaExpanded).toBe("true");
   });
 
+  it("updates aria controls when trigger disabled changes", async () => {
+    const referenceElement = document.createElement("button");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+
+    component.triggerDisabled = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toBeNull();
+
+    component.triggerDisabled = false;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+  });
+
   it("sets aria-expanded from enabled components sharing a reference element", async () => {
     const referenceElement = document.createElement("button");
     const { component: disabledComponent } = await mount(TestClickComponent);
