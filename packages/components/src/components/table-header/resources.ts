@@ -2,6 +2,7 @@ import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
+  cell: "cell",
   contentCell: "content-cell",
   numberCell: "number-cell",
   selectionCell: "selection-cell",

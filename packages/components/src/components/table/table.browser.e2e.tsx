@@ -16,6 +16,7 @@ import {
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TableCell } from "../table-cell/table-cell";
 import type { TableHeader } from "../table-header/table-header";
+import { CSS as ROW_CSS } from "../table-row/resources";
 import type { TableRow } from "../table-row/table-row";
 import type { Table } from "./table";
 import { CSS, SLOTS } from "./resources";
@@ -54,12 +55,12 @@ function getTableContainer(table: Table["el"]): HTMLElement {
   return table.shadowRoot!.querySelector<HTMLElement>(`.${CSS.tableContainer}`)!;
 }
 
-function getTableRowElement(row: Element): HTMLTableRowElement {
-  return row.shadowRoot!.querySelector<HTMLTableRowElement>("tr")!;
+function getTableRowElement(row: Element): HTMLElement {
+  return row.shadowRoot!.querySelector<HTMLElement>(`.${ROW_CSS.row}`)!;
 }
 
-function getTableCellElement(cell: Element): HTMLTableCellElement {
-  return cell.shadowRoot!.querySelector<HTMLTableCellElement>("td, th")!;
+function getTableCellElement(cell: Element): HTMLElement {
+  return cell.shadowRoot!.querySelector<HTMLElement>(`.${CELL_CSS.cell}`)!;
 }
 
 function getFocusedElementId(): string | null {
@@ -537,7 +538,7 @@ describe("theme", () => {
       {
         "--calcite-table-border-color": {
           selector: `#row-1`,
-          shadowSelector: `tr`,
+          shadowSelector: `.${ROW_CSS.row}`,
           targetProp: "--calcite-table-row-border-color",
         },
         "--calcite-table-corner-radius": {
@@ -550,7 +551,7 @@ describe("theme", () => {
         },
         "--calcite-table-row-background-color-striped": {
           selector: "#row-2",
-          shadowSelector: "tr",
+          shadowSelector: `.${ROW_CSS.row}`,
           targetProp: "--calcite-table-row-background-color",
         },
         "--calcite-table-number-cell-background-color": {
@@ -763,19 +764,19 @@ describe("theme", () => {
     themed(() => mount(<calcite-table-cell>cell</calcite-table-cell>), {
       // `--calcite-table-cell-background` is deprecated
       "--calcite-table-cell-background": {
-        shadowSelector: "td",
+        shadowSelector: `.${CELL_CSS.cell}`,
         targetProp: "backgroundColor",
       },
       "--calcite-table-cell-background-color": {
-        shadowSelector: "td",
+        shadowSelector: `.${CELL_CSS.cell}`,
         targetProp: "backgroundColor",
       },
       "--calcite-table-cell-text-color": {
-        shadowSelector: "td",
+        shadowSelector: `.${CELL_CSS.cell}`,
         targetProp: "color",
       },
       "--calcite-table-cell-border-color": {
-        shadowSelector: "td",
+        shadowSelector: `.${CELL_CSS.cell}`,
         targetProp: "borderInlineEndColor",
       },
     });
@@ -785,15 +786,15 @@ describe("theme", () => {
     themed(() => mount(<calcite-table-header description="Description" heading="Heading" />), {
       // `--calcite-table-header-background` is deprecated
       "--calcite-table-header-background": {
-        shadowSelector: "th",
+        shadowSelector: `.${HEADER_CSS.cell}`,
         targetProp: "backgroundColor",
       },
       "--calcite-table-header-background-color": {
-        shadowSelector: "th",
+        shadowSelector: `.${HEADER_CSS.cell}`,
         targetProp: "backgroundColor",
       },
       "--calcite-table-header-border-color": {
-        shadowSelector: "th",
+        shadowSelector: `.${HEADER_CSS.cell}`,
         targetProp: "borderBlockEndColor",
       },
       "--calcite-table-header-heading-text-color": {
@@ -819,7 +820,7 @@ describe("theme", () => {
             striped
           >
             <calcite-table-row id="row-1">
-              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell id="cell-1-1">cell</calcite-table-cell>
               <calcite-table-cell>cell</calcite-table-cell>
               <calcite-table-cell>cell</calcite-table-cell>
             </calcite-table-row>
@@ -839,22 +840,22 @@ describe("theme", () => {
         // `--calcite-table-row-background` is deprecated
         "--calcite-table-row-background": {
           selector: "#row-1",
-          shadowSelector: "tr",
+          shadowSelector: `#cell-1-1 >>> .${CELL_CSS.cell}`,
           targetProp: "backgroundColor",
         },
         "--calcite-table-row-background-color": {
           selector: "#row-1",
-          shadowSelector: "tr",
+          shadowSelector: `#cell-1-1 >>> .${CELL_CSS.cell}`,
           targetProp: "backgroundColor",
         },
         "--calcite-table-row-background-color-selected": {
           selector: "#cell-3-1",
-          shadowSelector: "td",
+          shadowSelector: `.${CELL_CSS.cell}`,
           targetProp: "backgroundColor",
         },
         "--calcite-table-row-border-color": {
           selector: "#row-1",
-          shadowSelector: "calcite-table-cell >>> td",
+          shadowSelector: `calcite-table-cell >>> .${CELL_CSS.cell}`,
           targetProp: "borderBottomColor",
         },
       },
@@ -1054,6 +1055,26 @@ describe("sticky header", () => {
     expect(getComputedStyle(lastRowCell).borderBottomWidth).toBe("0px");
   });
 
+  it("ignores rowspan occupancy from rows hidden by pagination", async () => {
+    const { el } = await mount<Table>(
+      <calcite-table caption="Paginated row span table" currentPage={2} pageSize={1}>
+        <calcite-table-row>
+          <calcite-table-cell rowSpan={2}>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell id="visible-cell">cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>,
+    );
+
+    const visibleCell = el.querySelector<TableCell["el"]>("#visible-cell")!;
+    const visibleCellElement = getTableCellElement(visibleCell);
+
+    expect(visibleCell.columnStart).toBe(1);
+    expect(visibleCellElement.getAttribute("aria-colindex")).toBe("1");
+  });
+
   it("keeps the multiple-selection header row fixed while the table container scrolls", async () => {
     const { el } = await mount<Table>(
       <calcite-table
@@ -1131,7 +1152,9 @@ describe("keyboard navigation", () => {
 
       const scrollContainer = getTableContainer(el);
       const activeCell = document.activeElement as HTMLElement;
-      const activeCellElement = activeCell.shadowRoot!.querySelector<HTMLElement>("td, th")!;
+      const activeCellElement = activeCell.shadowRoot!.querySelector<HTMLElement>(
+        `.${CELL_CSS.cell}`,
+      )!;
 
       const scrollContainerRect = scrollContainer.getBoundingClientRect();
       const activeCellRect = activeCellElement.getBoundingClientRect();
