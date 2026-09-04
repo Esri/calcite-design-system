@@ -356,7 +356,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /** Fires when built-in inline editing is cancelled. */
   calciteInputTextInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled. */
+  /** Fires when built-in inline editing is enabled or disabled. */
   calciteInputTextInlineEditingChange = createEvent({ cancelable: false });
 
   /** Fires after built-in inline editing confirmation completes. */

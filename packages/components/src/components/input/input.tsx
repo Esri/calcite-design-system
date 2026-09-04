@@ -480,7 +480,7 @@ export class Input
   /** Fires when built-in inline editing is cancelled. */
   calciteInputInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled. */
+  /** Fires when built-in inline editing is enabled or disabled. */
   calciteInputInlineEditingChange = createEvent({ cancelable: false });
 
   /** Fires after built-in inline editing confirmation completes. */

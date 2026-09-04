@@ -419,7 +419,7 @@ export class InputNumber
   /** Fires when built-in inline editing is cancelled. */
   calciteInputNumberInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled. */
+  /** Fires when built-in inline editing is enabled or disabled. */
   calciteInputNumberInlineEditingChange = createEvent({ cancelable: false });
 
   /** Fires after built-in inline editing confirmation completes. */
