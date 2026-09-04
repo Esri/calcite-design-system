@@ -568,14 +568,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if (options.click && "ariaExpanded" in referenceEl) {
-      const hasRegisteredComponents = (updatedComponents?.length ?? 0) > 0;
-
-      if (hasRegisteredComponents) {
-        const existingComponentOpen = updatedComponents?.some((component) => component.open) ?? false;
-        referenceEl.ariaExpanded = toAriaBoolean(existingComponentOpen);
-      } else {
-        referenceEl.ariaExpanded = null;
-      }
+      const hasRegisteredComponents = updatedComponents.length > 0;
+      const existingComponentOpen = updatedComponents.some((component) => component.open);
+      referenceEl.ariaExpanded = toAriaBoolean(
+        hasRegisteredComponents && existingComponentOpen,
+        hasRegisteredComponents ? "false" : null,
+      );
     }
 
     if (options.hover && "ariaDescribedByElements" in referenceEl) {

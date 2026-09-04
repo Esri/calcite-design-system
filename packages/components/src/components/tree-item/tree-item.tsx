@@ -434,6 +434,14 @@ export class TreeItem extends LitElement {
 
     const hidden = !(this.parentExpanded || this.depth === 1);
     const isExpanded = this.updateAfterInitialRender && this.expanded;
+    const usesAriaChecked =
+      this.selectionMode === "multiple" ||
+      this.selectionMode === "multichildren" ||
+      this.selectionMode === "ancestors";
+    const usesAriaSelected =
+      this.selectionMode === "single" ||
+      this.selectionMode === "children" ||
+      this.selectionMode === "single-persist";
     const { hasEndActions } = this;
     const slotNode = (
       <slot
@@ -452,25 +460,24 @@ export class TreeItem extends LitElement {
       />
     );
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaChecked =
-      this.selectionMode === "multiple" ||
-      this.selectionMode === "multichildren" ||
-      this.selectionMode === "ancestors"
-        ? toAriaBoolean(this.selected)
-        : null;
+    this.el.ariaChecked = toAriaBoolean(
+      usesAriaChecked && this.selected,
+      usesAriaChecked ? "false" : null,
+    );
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : null;
+    this.el.ariaExpanded = toAriaBoolean(
+      this.hasChildren && isExpanded,
+      this.hasChildren ? "false" : null,
+    );
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaSelected =
-      this.selectionMode === "single" ||
-      this.selectionMode === "children" ||
-      this.selectionMode === "single-persist"
-        ? toAriaBoolean(this.selected)
-        : null;
+    this.el.ariaSelected = toAriaBoolean(
+      usesAriaSelected && this.selected,
+      usesAriaSelected ? "false" : null,
+    );
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "treeitem";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
