@@ -1,4 +1,7 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/segmented-control/segmented-control";
+import "../components/segmented-control-item/segmented-control-item";
 
 export const segmentedControl = html`<calcite-segmented-control scale="m" label-text="Label text" required>
   <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>

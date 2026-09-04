@@ -1,3 +1,4 @@
+import "../components/checkbox/checkbox";
 import { html } from "../../support/formatting";
 
 export const checkboxTokens = {

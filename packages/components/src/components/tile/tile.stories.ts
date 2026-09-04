@@ -4,6 +4,10 @@ import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tile"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tile-group/tile-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { alignment, scale } = ATTRIBUTES;
 

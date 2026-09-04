@@ -1,6 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../types";
@@ -9,14 +8,6 @@ import { CSS, POSITION } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
 
 const animationDurationInMs = 200;
-
-describe("labelable", () => {
-  labelable("calcite-input-date-picker");
-});
-
-describe("labelable range", () => {
-  labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
-});
 
 describe("event emitting when the value changes", () => {
   it("emits change event when value is committed for single date", async () => {

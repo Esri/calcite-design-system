@@ -28,6 +28,10 @@ describe("defaults", () => {
         propertyName: "startItem",
         defaultValue: 1,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });

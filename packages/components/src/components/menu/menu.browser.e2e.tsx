@@ -1,8 +1,17 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
-import { focusable, hidden, renders, t9n, accessible } from "../../tests/commonTests/browser";
+import { page, userEvent } from "vitest/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  scalePropagates,
+  t9n,
+  accessible,
+  globalProps,
+} from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
   accessible(() =>
@@ -52,6 +61,33 @@ describe("focusable", () => {
   );
 });
 
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-menu"),
+    [
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ],
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-menu>
+          <calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" />
+          </calcite-menu-item>
+        </calcite-menu>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-menu-item" },
+  );
+});
+
 describe("keyboard navigation", () => {
   it("bubbles native keydown events and only prevents handled keys", async () => {
     const { el } = await mount<"calcite-menu">(
@@ -75,4 +111,22 @@ describe("keyboard navigation", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-menu"));
+});
+
+describe("global props", () => {
+  globalProps(
+    () =>
+      mount<"calcite-menu">(
+        <calcite-menu role="menu">
+          <calcite-menu-item data-testid="menu-item" text="Item" />
+        </calcite-menu>,
+      ),
+    () => page.getBySelector("ul").first(),
+    {
+      role: "menu",
+    },
+    {
+      role: "menubar",
+    },
+  );
 });

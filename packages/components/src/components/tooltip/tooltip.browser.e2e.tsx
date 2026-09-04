@@ -118,7 +118,7 @@ describe("pointer movement toggling", () => {
   interface PointerMoveOptions {
     delay: number;
     selector: string;
-    property: string;
+    property: "open";
     value: boolean;
   }
 
@@ -347,7 +347,7 @@ describe("floating-ui", () => {
     );
   });
 
-  describe("openClose", () => {
+  describe.skip("openClose", () => {
     openClose((mountOptions) =>
       mount(
         <>

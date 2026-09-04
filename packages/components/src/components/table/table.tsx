@@ -6,6 +6,7 @@ import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
+import { isTableRow } from "../table-row/resources";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
@@ -382,7 +383,7 @@ export class Table extends LitElement {
       return [];
     }
 
-    return el.assignedElements({ flatten: true }).filter((el) => el.matches("calcite-table-row"));
+    return el.assignedElements({ flatten: true }).filter(isTableRow);
   }
 
   private getColumnTemplate(contentTrack: string): string {
