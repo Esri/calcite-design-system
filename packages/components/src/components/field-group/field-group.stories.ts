@@ -40,8 +40,7 @@ export const simple = (args: FieldGroupStoryArgs): string => {
       scale="${args.scale}"
       ${style ? `style="${style}"` : ""}
     >
-      <calcite-field-set>
-        <div slot="legend">Legend 1</div>
+      <calcite-field-set legend="Legend 1">
         <calcite-field-group layout="columns" columns="2">
           <calcite-input label-text="Label"></calcite-input>
           <calcite-input label-text="Label"></calcite-input>
@@ -55,8 +54,7 @@ export const simple = (args: FieldGroupStoryArgs): string => {
           <calcite-input label-text="Label"></calcite-input>
         </calcite-field-group>
       </calcite-field-set>
-      <calcite-field-set>
-        <div slot="legend">Legend 1</div>
+      <calcite-field-set legend="Legend 1">
         <calcite-field-group layout="columns" columns="2">
           <calcite-input label-text="Label"></calcite-input>
           <calcite-input label-text="Label"></calcite-input>
@@ -70,8 +68,7 @@ export const simple = (args: FieldGroupStoryArgs): string => {
           <calcite-input label-text="Label"></calcite-input>
         </calcite-field-group>
       </calcite-field-set>
-      <calcite-field-set>
-        <div slot="legend">Legend 1</div>
+      <calcite-field-set legend="Legend 1">
         <calcite-field-group layout="columns" columns="2">
           <calcite-input label-text="Label"></calcite-input>
           <calcite-input label-text="Label"></calcite-input>
