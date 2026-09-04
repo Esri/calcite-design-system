@@ -3,6 +3,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
+import { createControlledPromise } from "../../tests/utils/promises";
 
 import {
   defaults,
@@ -23,7 +24,7 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
-import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
+import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { Input } from "./input";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
@@ -60,11 +61,11 @@ describe("defaults", () => {
         defaultValue: "start",
       },
       {
-        propertyName: "inlineEditable",
+        propertyName: "inlineEdit",
         defaultValue: false,
       },
       {
-        propertyName: "inlineEditableControls",
+        propertyName: "inlineEditing",
         defaultValue: false,
       },
       {
@@ -118,11 +119,11 @@ describe("reflects", () => {
         value: "center",
       },
       {
-        propertyName: "inlineEditable",
+        propertyName: "inlineEdit",
         value: true,
       },
       {
-        propertyName: "inlineEditableControls",
+        propertyName: "inlineEditing",
         value: true,
       },
       {
@@ -163,107 +164,289 @@ describe("is focusable", () => {
   });
 });
 
-describe("inline editable", () => {
-  it("clears value on first Escape and restores value on second Escape for built-in inline editable when clearable is set", async () => {
-    const { el } = await mount<Input>(
-      <calcite-input clearable inline-editable inline-editable-controls value="John Doe" />,
-    );
+describe("inline edit", () => {
+  it("clears value on first Escape and restores value on second Escape for built-in inline edit when clearable is set", async () => {
+    const { el } = await mount<Input>(<calcite-input clearable inline-edit value="John Doe" />);
 
     const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
-    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("editing-enabled");
+    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("inline-editing");
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.value).toBe("");
-    expect(el.editingEnabled).toBe(true);
+    await expect.element(input).toHaveValue("");
+    expect(el.value).toBe("John Doe");
+    expect(el.inlineEditing).toBe(true);
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.editingEnabled).toBe(false);
+    expect(el.inlineEditing).toBe(false);
     expect(el.value).toBe("John Doe");
   });
 
   it("cancels built-in inline editing on first Escape when clearable is not set", async () => {
-    const { el } = await mount<Input>(
-      <calcite-input inline-editable inline-editable-controls value="John Doe" />,
-    );
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
 
     const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
-    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("editing-enabled");
+    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("inline-editing");
 
     await userEvent.keyboard("X");
-    expect(el.value).toBe("John DoeX");
+    await expect.element(input).toHaveValue("John DoeX");
+    expect(el.value).toBe("John Doe");
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.editingEnabled).toBe(false);
+    expect(el.inlineEditing).toBe(false);
     expect(el.value).toBe("John Doe");
+    expect(changeSpy).toHaveBeenCalledTimes(2);
   });
 
-  it("emits enable editing change when built-in inline editable is activated", async () => {
-    const { el } = await mount<Input>(
-      <calcite-input inline-editable inline-editable-controls value="John Doe" />,
+  it("emits a change only when inline editing is saved", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+
+    expect(el.value).toBe("John Doe");
+    expect(changeSpy).not.toHaveBeenCalled();
+
+    await userEvent.click(
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
     );
+
+    expect(el.value).toBe("John DoeX");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("commits inline editing on Enter when controls are present", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.value).toBe("John DoeX");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    expect(el.inlineEditing).toBe(false);
+    await expect.element(input).not.toHaveFocus();
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("commits inline editing on Enter when controls are not present", async () => {
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit="controls-disabled" value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    const confirmSpy = vi.fn();
+    el.inlineEditingBeforeConfirm = vi.fn().mockResolvedValue(undefined);
+    el.addEventListener("calciteInputChange", changeSpy);
+    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.value).toBe("John DoeX");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    expect(confirmSpy).not.toHaveBeenCalled();
+    expect(el.inlineEditingBeforeConfirm).not.toHaveBeenCalled();
+    expect(el.inlineEditing).toBe(false);
+    await expect.element(input).not.toHaveFocus();
+  });
+
+  it("does not emit a change when inline editing is cancelled", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("John Doe");
+    expect(changeSpy).not.toHaveBeenCalled();
+  });
+
+  it("does not emit input while built-in inline editing is active", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const inputSpy = vi.fn();
+    el.addEventListener("calciteInputInput", inputSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+
+    expect(inputSpy).not.toHaveBeenCalled();
+  });
+
+  it("nudges a number from its draft value", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit type="number" value="0" />);
+    const input = page.getBySelector("calcite-input input");
+    const nudgeUpButton = page.getByTestId("number-button-up");
+    const nudgeDownButton = page.getByTestId("number-button-down");
+
+    await userEvent.click(input);
+    await userEvent.click(nudgeUpButton);
+    await userEvent.click(nudgeUpButton);
+
+    await expect.element(input).toHaveValue("2");
+    expect(el.value).toBe("0");
+
+    await userEvent.click(nudgeDownButton);
+    await userEvent.click(nudgeDownButton);
+    await userEvent.click(nudgeDownButton);
+    await userEvent.click(nudgeDownButton);
+
+    await expect.element(input).toHaveValue("-2");
+    expect(el.value).toBe("0");
+  });
+
+  it("commits a number inline edit on Enter when controls are present", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit type="number" value="0" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    const confirmSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("1");
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.value).toBe("1");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    expect(el.inlineEditing).toBe(false);
+    await expect.element(input).not.toHaveFocus();
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("emits enable editing change when built-in inline edit is activated", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
     const enableEditingSpy = vi.fn();
-    el.addEventListener("calciteInputInlineEditableChange", enableEditingSpy);
+    el.addEventListener("calciteInputInlineEditingChange", enableEditingSpy);
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
 
     expect(enableEditingSpy).toHaveBeenCalledTimes(1);
-    expect(el.editingEnabled).toBe(true);
+    expect(el.inlineEditing).toBe(true);
   });
 
-  it("emits confirm and keeps editing enabled when save is clicked without inlineEditableAfterConfirm", async () => {
-    const { el } = await mount<Input>(
-      <calcite-input inline-editable inline-editable-controls value="John Doe" />,
-    );
+  it("emits confirm when save is clicked without inlineEditingBeforeConfirm", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
     const confirmSpy = vi.fn();
-    el.addEventListener("calciteInputInlineEditableConfirm", confirmSpy);
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
+    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
+    await userEvent.keyboard("X");
+    expect(el.value).toBe("John Doe");
     await userEvent.click(
-      page.getBySelector(`calcite-input .${InlineEditableControlsCSS.confirmChanges}`),
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
     );
 
     expect(confirmSpy).toHaveBeenCalledTimes(1);
-    expect(el.editingEnabled).toBe(true);
+    expect(changeSpy).toHaveBeenCalledTimes(2);
+    expect(el.value).toBe("John DoeX");
+    expect(el.inlineEditing).toBe(false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
   });
 
-  it("disables editing when inlineEditableAfterConfirm resolves successfully", async () => {
-    const { el } = await mount<Input>(
-      <calcite-input inline-editable inline-editable-controls value="John Doe" />,
+  it("focuses enable editing action after cancel is clicked", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const cancelButton = page.getBySelector(
+      `calcite-input .${InlineEditControlsCSS.cancelEditing}`,
     );
-    el.inlineEditableAfterConfirm = vi.fn().mockResolvedValue(undefined);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.click(cancelButton);
+
+    expect(el.value).toBe("John Doe");
+    expect(el.inlineEditing).toBe(false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("disables editing when inlineEditingBeforeConfirm resolves successfully", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    el.inlineEditingBeforeConfirm = vi.fn().mockResolvedValue(undefined);
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
     await userEvent.click(
-      page.getBySelector(`calcite-input .${InlineEditableControlsCSS.confirmChanges}`),
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
     );
 
-    expect(el.inlineEditableAfterConfirm).toHaveBeenCalledTimes(1);
-    expect(el.editingEnabled).toBe(false);
+    expect(el.inlineEditingBeforeConfirm).toHaveBeenCalledTimes(1);
+    expect(el.inlineEditing).toBe(false);
   });
 
-  it("saves changes on blur and disables editing when inline editable controls are off", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-editable value="John Doe" />);
+  it("disables inline editing controls while inlineEditingBeforeConfirm is pending", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const controlledPromise = createControlledPromise<void>();
+    el.inlineEditingBeforeConfirm = () => controlledPromise.promise;
+    const input = page.getBySelector("calcite-input input");
+    const confirmButton = page.getBySelector(
+      `calcite-input .${InlineEditControlsCSS.confirmChanges}`,
+    );
+    const cancelButton = page.getBySelector(
+      `calcite-input .${InlineEditControlsCSS.cancelEditing}`,
+    );
+
+    await userEvent.click(input);
+    await userEvent.click(confirmButton);
+
+    await expect.element(confirmButton).toHaveProperty("disabled", true);
+    await expect.element(cancelButton).toHaveProperty("disabled", true);
+
+    controlledPromise.resolve();
+
+    await expect.element(el).toHaveProperty("inlineEditing", false);
+  });
+
+  it("saves changes on blur and disables editing when inline edit controls are off", async () => {
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit="controls-disabled" value="John Doe" />,
+    );
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
 
-    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("editing-enabled");
+    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("inline-editing");
 
     await userEvent.keyboard("X");
     await userEvent.tab();
 
     expect(el.value).toBe("John DoeX");
-    expect(el.editingEnabled).toBe(false);
+    expect(el.inlineEditing).toBe(false);
+    expect(changeSpy).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -1689,59 +1872,61 @@ describe("theme", () => {
     });
   });
 
-  describe("inline editable", () => {
-    themed(() => mount(<calcite-input inline-editable value="Forty two" />), {
-      "--calcite-input-inline-editable-background-color-hover": {
-        shadowSelector: `.${CSS.inlineEditable}`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-    });
-
-    themed(
-      async () => {
-        const component = await mount(
-          <calcite-input inline-editable inline-editable-controls value="Forty two" />,
-        );
-
-        const input = page.getBySelector("calcite-input input");
-        await userEvent.click(input);
-
-        return component;
-      },
-      {
-        "--calcite-input-inline-editable-control-background-color": {
-          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
-          targetProp: "--calcite-action-background-color",
-        },
-        "--calcite-input-inline-editable-control-background-color-hover": {
-          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
-          targetProp: "--calcite-action-background-color-hover",
+  describe("inline edit", () => {
+    describe("without controls", () => {
+      themed(() => mount(<calcite-input inline-edit="controls-disabled" value="Forty two" />), {
+        "--calcite-input-inline-edit-background-color-hover": {
+          shadowSelector: `.${CSS.inlineEdit}`,
+          targetProp: "backgroundColor",
           state: "hover",
         },
-        "--calcite-input-inline-editable-control-background-color-press": {
-          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
-          targetProp: "--calcite-action-background-color-press",
-          state: { press: `calcite-input >>> .${InlineEditableControlsCSS.confirmChanges}` },
+      });
+    });
+
+    describe("with controls", () => {
+      themed(
+        async () => {
+          const component = await mount(<calcite-input inline-edit value="Forty two" />);
+
+          const input = page.getBySelector("calcite-input input");
+          await userEvent.click(input);
+
+          return component;
         },
-        "--calcite-input-inline-editable-control-corner-radius": {
-          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
-          targetProp: "--calcite-action-corner-radius",
+        {
+          "--calcite-input-inline-edit-control-background-color": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-background-color",
+          },
+          "--calcite-input-inline-edit-control-background-color-hover": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "hover",
+          },
+          "--calcite-input-inline-edit-control-background-color-press": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-background-color-press",
+            state: { press: `calcite-input >>> .${InlineEditControlsCSS.confirmChanges}` },
+          },
+          "--calcite-input-inline-edit-control-corner-radius": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-corner-radius",
+          },
+          "--calcite-input-inline-edit-control-loader-color": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-loader-color",
+          },
+          "--calcite-input-inline-edit-control-text-color": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-text-color",
+          },
+          "--calcite-input-inline-edit-control-text-color-press": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-text-color-press",
+            state: { press: `calcite-input >>> .${InlineEditControlsCSS.confirmChanges}` },
+          },
         },
-        "--calcite-input-inline-editable-control-loader-color": {
-          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
-          targetProp: "--calcite-action-loader-color",
-        },
-        "--calcite-input-inline-editable-control-text-color": {
-          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
-          targetProp: "--calcite-action-text-color",
-        },
-        "--calcite-input-inline-editable-control-text-color-press": {
-          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
-          targetProp: "--calcite-action-text-color-press",
-          state: { press: `calcite-input >>> .${InlineEditableControlsCSS.confirmChanges}` },
-        },
-      },
-    );
+      );
+    });
   });
 });

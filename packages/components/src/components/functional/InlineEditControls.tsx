@@ -4,10 +4,10 @@ import { h } from "@arcgis/lumina";
 import { Scale } from "../types";
 import type { Action } from "../action/action";
 
-interface InlineEditableControlsProps {
+interface InlineEditControlsProps {
   cancelEditingLabel: string;
   confirmChangesLabel: string;
-  editingEnabled: boolean;
+  inlineEditing: boolean;
   enableEditingLabel: string;
   enableEditingButtonRef?: Ref<Action["el"]>;
   loading: boolean;
@@ -19,16 +19,16 @@ interface InlineEditableControlsProps {
 }
 
 export const CSS = {
-  container: "inline-editable--container",
+  container: "inline-edit--container",
   enableEditing: "enable-editing",
   confirmChanges: "confirm-changes",
   cancelEditing: "cancel-editing",
 };
 
-export const InlineEditableControls = ({
+export const InlineEditControls = ({
   cancelEditingLabel,
   confirmChangesLabel,
-  editingEnabled,
+  inlineEditing,
   enableEditingLabel,
   enableEditingButtonRef,
   loading,
@@ -37,9 +37,9 @@ export const InlineEditableControls = ({
   onEnableEditing,
   scale,
   showControls,
-}: InlineEditableControlsProps): TemplateResult => (
+}: InlineEditControlsProps): TemplateResult => (
   <div class={CSS.container}>
-    {!editingEnabled && (
+    {!inlineEditing && (
       <calcite-action
         ariaLabel={enableEditingLabel}
         class={CSS.enableEditing}
@@ -56,6 +56,7 @@ export const InlineEditableControls = ({
       <calcite-action
         ariaLabel={confirmChangesLabel}
         class={CSS.confirmChanges}
+        disabled={loading}
         icon="check"
         loading={loading}
         onClick={onConfirmChanges}
@@ -67,6 +68,7 @@ export const InlineEditableControls = ({
       <calcite-action
         ariaLabel={cancelEditingLabel}
         class={CSS.cancelEditing}
+        disabled={loading}
         icon="x"
         onClick={onCancelEditing}
         scale={scale}

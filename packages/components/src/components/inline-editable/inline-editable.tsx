@@ -23,7 +23,7 @@ declare global {
 }
 
 /**
- * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline editable (`inline-editable` and `inline-editable-controls` props) instead.
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline edit (`inline-edit` and `inline-edit="controls-disabled"` prop) instead.
  * @slot - A slot for adding a `calcite-input`.
  */
 export class InlineEditable extends LitElement implements LabelableComponent {
@@ -151,7 +151,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   private editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
     if (this.inputEl) {
-      this.inputEl.editingEnabled = newValue;
+      this.inputEl.inlineEditing = newValue;
     }
     if (!newValue && !!oldValue) {
       this.shouldEmitCancel = true;
@@ -177,7 +177,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
     }
 
     await inputElement.componentOnReady();
-    inputElement.editingEnabled = this.editingEnabled;
+    inputElement.inlineEditing = this.editingEnabled;
     inputElement.label = inputElement.label || getLabelText(this);
   }
 
