@@ -436,15 +436,24 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     toggleFocusedComponents(components, true);
   };
 
+  const updateAriaExpanded = (referenceEl: ReferenceElement, components: ReferenceElementComponent[]): void => {
+    if (!("ariaExpanded" in referenceEl)) {
+      return;
+    }
+
+    const enabledComponents = components.filter((component) => !component.triggerDisabled);
+    referenceEl.ariaExpanded = enabledComponents.length
+      ? toAriaBoolean(enabledComponents.some((component) => component.open))
+      : null;
+  };
+
   const updateElement = (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil): void => {
     if (!referenceEl || !component.referenceElementType) {
       return;
     }
 
-    if (options.click && "ariaExpanded" in referenceEl) {
-      const existingComponents = registeredElements.get(referenceEl) ?? [];
-      const existingComponentOpen = existingComponents?.some((component) => component.open) ?? false;
-      referenceEl.ariaExpanded = toAriaBoolean(component.open || existingComponentOpen);
+    if (options.click) {
+      updateAriaExpanded(referenceEl, registeredElements.get(referenceEl) ?? []);
     }
   };
 
@@ -567,15 +576,8 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       referenceEl.ariaControlsElements = newElements.length > 0 ? newElements : null;
     }
 
-    if (options.click && "ariaExpanded" in referenceEl) {
-      const hasRegisteredComponents = (updatedComponents?.length ?? 0) > 0;
-
-      if (hasRegisteredComponents) {
-        const existingComponentOpen = updatedComponents?.some((component) => component.open) ?? false;
-        referenceEl.ariaExpanded = toAriaBoolean(existingComponentOpen);
-      } else {
-        referenceEl.ariaExpanded = null;
-      }
+    if (options.click) {
+      updateAriaExpanded(referenceEl, updatedComponents);
     }
 
     if (options.hover && "ariaDescribedByElements" in referenceEl) {

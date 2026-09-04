@@ -21,6 +21,7 @@ class TestClickComponent extends LitElement {
   @property() open = false;
   @property() referenceElement: string | HTMLElement | undefined;
   @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
+  @property() triggerDisabled = false;
   @state() referenceEl: HTMLElement | undefined;
   referenceElementController = useReferenceElement({ manager: refClickManager })(this);
 
@@ -110,6 +111,51 @@ async function assertSharedReferenceElementRegistration<T extends TestReferenceC
 }
 
 describe("click manager", () => {
+  it("does not set aria-expanded for a disabled trigger", async () => {
+    const referenceElement = document.createElement("button");
+    const { component } = await mount(TestClickComponent);
+
+    component.triggerDisabled = true;
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+
+    component.open = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+
+    component.triggerDisabled = false;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBe("true");
+  });
+
+  it("sets aria-expanded from enabled components sharing a reference element", async () => {
+    const referenceElement = document.createElement("button");
+    const { component: disabledComponent } = await mount(TestClickComponent);
+    const { component: enabledComponent } = await mount(TestClickComponent);
+
+    disabledComponent.triggerDisabled = true;
+    disabledComponent.open = true;
+    disabledComponent.referenceElement = referenceElement;
+    enabledComponent.referenceElement = referenceElement;
+    await Promise.all([disabledComponent.updateComplete, enabledComponent.updateComplete]);
+
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    enabledComponent.open = true;
+    await enabledComponent.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBe("true");
+
+    enabledComponent.referenceElement = undefined;
+    await enabledComponent.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+  });
+
   it("register and resolves reference element", async () => {
     await mount(
       html`<div>

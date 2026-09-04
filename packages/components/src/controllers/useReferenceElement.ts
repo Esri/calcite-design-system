@@ -170,7 +170,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       if (changes.has("referenceEl")) {
         unregisterReferenceElement(changes.get("referenceEl") as ReferenceElement | undefined);
         registerReferenceElement(component.referenceEl);
-      } else if (changes.has("open")) {
+      } else if (changes.has("open") || changes.has("triggerDisabled")) {
         manager.updateElement(component, component.referenceEl);
       }
     });
