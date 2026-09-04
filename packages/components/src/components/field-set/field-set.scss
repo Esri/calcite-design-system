@@ -1,0 +1,110 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-field-set-column-gap: When `layout` is `"columns"`, specifies the component's column gap.
+ * @prop --calcite-field-set-columns: When `layout` is `"columns"`, specifies the component's number of columns.
+ * @prop --calcite-field-set-input-gap: Specifies the gap between the component's slotted elements.
+ * @prop --calcite-field-set-legend-text-color: Specifies the legend text color.
+ * @prop --calcite-field-set-gap: Specifies the gap between the legend, input slot wrapper and notice slot.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-field-set-column-gap
+// --calcite-internal-field-set-columns
+// --calcite-internal-field-set-legend-font-size
+// --calcite-internal-field-set-legend-line-height
+// --calcite-internal-field-set-legend-min-block-size
+// --calcite-internal-text-area-block-size
+
+@use "../../styles/includes";
+
+:host {
+  display: block;
+  inline-size: 100%;
+  --calcite-internal-text-area-block-size: auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--calcite-field-set-gap, var(--calcite-space-md));
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+.legend-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: var(--calcite-internal-field-set-legend-font-size, var(--calcite-font-size));
+  font-weight: var(--calcite-font-weight-bold);
+  line-height: var(--calcite-internal-field-set-legend-line-height, var(--calcite-font-line-height-fixed-base));
+  color: var(--calcite-field-set-legend-text-color, var(--calcite-color-text-1));
+  min-block-size: var(--calcite-internal-field-set-legend-min-block-size);
+}
+
+.legend {
+  padding-inline: 0;
+}
+
+.field-wrapper {
+  display: flex;
+  gap: var(--calcite-field-set-input-gap, var(--calcite-space-md));
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  &--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  &--columns {
+    display: grid;
+    place-content: stretch;
+    align-items: start;
+    column-gap: var(--calcite-internal-field-set-column-gap);
+    grid-template-columns: repeat(
+      var(--calcite-field-set-columns, var(--calcite-internal-field-set-columns, 1)),
+      minmax(0, 1fr)
+    );
+  }
+}
+
+:host([scale="s"]) {
+  --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-xs);
+  --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
+  --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-sm);
+  --calcite-field-set-input-gap: var(--calcite-space-sm);
+  --calcite-internal-field-set-column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap));
+}
+
+:host([scale="m"]) {
+  --calcite-internal-field-set-legend-font-size: var(--calcite-font-size);
+  --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
+  --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-md);
+  --calcite-field-set-input-gap: var(--calcite-space-md);
+  --calcite-internal-field-set-column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap));
+}
+
+:host([scale="l"]) {
+  --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-md);
+  --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-lg);
+  --calcite-internal-field-set-legend-min-block-size: 2.5rem; // TODO: we don't have a variable for this; should we do math on two others? (e.g., calc(var(--calcite-size-sm) + var(--calcite-size-sm))
+  --calcite-field-set-input-gap: var(--calcite-space-lg);
+  --calcite-internal-field-set-column-gap: var(--calcite-field-set-column-gap, var(--calcite-field-set-input-gap));
+}
+
+@for $i from 1 through 6 {
+  :host([columns="#{$i}"]) {
+    --calcite-internal-field-set-columns: #{$i};
+  }
+}
+
+@include includes.base-component();

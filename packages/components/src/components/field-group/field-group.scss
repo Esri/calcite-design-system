@@ -1,0 +1,72 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-field-group-columns: When `layout` is `"columns"`, specifies the component's number of columns.
+ * @prop --calcite-field-group-column-gap: When `layout` is `"columns"`, specifies the component's column gap.
+ * @prop --calcite-field-group-gap: Specifies the gap between the component's slotted elements.
+ */
+
+// AUTO-GENERATED - do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-field-group-gap
+// --calcite-internal-field-group-columns
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-field-group-gap
+
+@use "../../styles/includes";
+
+:host {
+  display: block;
+  inline-size: 100%;
+}
+
+.container {
+  display: flex;
+  gap: var(--calcite-field-group-gap, var(--calcite-internal-field-group-gap, var(--calcite-space-md)));
+
+  &--vertical {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  &--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  &--columns {
+    display: grid;
+    place-content: stretch;
+    align-items: start;
+    column-gap: var(
+      --calcite-field-group-column-gap,
+      var(--calcite-field-group-gap, var(--calcite-field-set-column-gap, var(--calcite-space-md)))
+    );
+    grid-template-columns: repeat(
+      var(--calcite-field-group-columns, var(--calcite-internal-field-group-columns, 1)),
+      minmax(0, 1fr)
+    );
+  }
+}
+
+:host([scale="s"]) {
+  --calcite-internal-field-group-gap: var(--calcite-space-sm);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-field-group-gap: var(--calcite-space-md);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-field-group-gap: var(--calcite-space-lg);
+}
+
+@include includes.base-component();
