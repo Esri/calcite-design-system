@@ -436,15 +436,52 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     toggleFocusedComponents(components, true);
   };
 
+  const updateAriaExpanded = (referenceEl: ReferenceElement, components: ReferenceElementComponent[]): void => {
+    if (!("ariaExpanded" in referenceEl)) {
+      return;
+    }
+
+    const enabledComponents = components.filter((component) => !component.triggerDisabled);
+    referenceEl.ariaExpanded = enabledComponents.length
+      ? toAriaBoolean(enabledComponents.some((component) => component.open))
+      : null;
+  };
+
+  const updateAriaControls = (
+    referenceEl: ReferenceElement,
+    component: ReferenceElementComponent,
+    registerComponent = !component.triggerDisabled,
+  ): void => {
+    if (!("ariaControlsElements" in referenceEl)) {
+      return;
+    }
+
+    const currentElements = referenceEl.ariaControlsElements ?? [];
+    const componentIsRegistered = currentElements.includes(component.el);
+
+    if (!registerComponent) {
+      if (componentIsRegistered) {
+        const updatedElements = currentElements.filter((element) => element !== component.el);
+        referenceEl.ariaControlsElements = updatedElements.length > 0 ? updatedElements : null;
+      }
+      return;
+    }
+
+    if (!componentIsRegistered) {
+      referenceEl.ariaControlsElements = [...currentElements, component.el];
+    }
+  };
+
   const updateElement = (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil): void => {
     if (!referenceEl || !component.referenceElementType) {
       return;
     }
 
-    if (options.click && "ariaExpanded" in referenceEl) {
-      const existingComponents = registeredElements.get(referenceEl) ?? [];
-      const existingComponentOpen = existingComponents?.some((component) => component.open) ?? false;
-      referenceEl.ariaExpanded = toAriaBoolean(component.open || existingComponentOpen);
+    if (options.click) {
+      updateAriaControls(referenceEl, component);
+      if (!component.triggerDisabled) {
+        updateAriaExpanded(referenceEl, registeredElements.get(referenceEl) ?? []);
+      }
     }
   };
 
@@ -496,7 +533,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    if (options.click && "ariaControlsElements" in referenceEl) {
+    if (options.click && !component.triggerDisabled && "ariaControlsElements" in referenceEl) {
       const currentElements = referenceEl.ariaControlsElements ?? [];
 
       if (!currentElements.includes(component.el)) {
@@ -562,20 +599,14 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       clearHoverTimeout();
     }
 
-    if (options.click && "ariaControlsElements" in referenceEl) {
+    if (options.click && !component.triggerDisabled && "ariaControlsElements" in referenceEl) {
       const newElements = (referenceEl.ariaControlsElements ?? []).filter((element) => element !== component.el);
       referenceEl.ariaControlsElements = newElements.length > 0 ? newElements : null;
     }
 
-    if (options.click && "ariaExpanded" in referenceEl) {
-      const hasRegisteredComponents = (updatedComponents?.length ?? 0) > 0;
-
-      if (hasRegisteredComponents) {
-        const existingComponentOpen = updatedComponents?.some((component) => component.open) ?? false;
-        referenceEl.ariaExpanded = toAriaBoolean(existingComponentOpen);
-      } else {
-        referenceEl.ariaExpanded = null;
-      }
+    if (options.click && !component.triggerDisabled) {
+      updateAriaControls(referenceEl, component, false);
+      updateAriaExpanded(referenceEl, updatedComponents);
     }
 
     if (options.hover && "ariaDescribedByElements" in referenceEl) {
