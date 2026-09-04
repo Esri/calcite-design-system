@@ -7,8 +7,10 @@ import {
   disabled,
   focusable,
   formAssociated,
+  globalProps,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   scalePropagates,
@@ -20,6 +22,23 @@ import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableCo
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
+
+describe("global props", () => {
+  globalProps(
+    () => mount<InputText>(<calcite-input-text />),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "go",
+      inputMode: "email",
+      spellcheck: false,
+    },
+  );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-text", mountOptions));
+});
 
 describe("defaults", () => {
   defaults(
