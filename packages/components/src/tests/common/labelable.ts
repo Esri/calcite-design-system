@@ -1,6 +1,7 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { type Locator, page } from "vitest/browser";
+import "../../components/label/label";
 import type { Label } from "../../components/label/label";
 import { afterNextFrame } from "../utils/timing";
 
@@ -213,7 +214,7 @@ export function labelable(
         afterConnect: async (el) => {
           label = createLabel();
           label.for = id;
-          el.parentElement!.insertBefore(label, el);
+          el.parentElement!.append(label);
           await label.componentOnReady();
         },
       });
@@ -232,6 +233,7 @@ export function labelable(
           await label.componentOnReady();
         },
       });
+
       await waitForExplicitLabelAssociation(label);
 
       await assertLabelable(result, label);
