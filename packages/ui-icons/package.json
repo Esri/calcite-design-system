@@ -58,6 +58,8 @@
     "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "spriter": "node bin/spriter.js",
     "start": "npm run copy-assets && node bin/server.js",
+    "util:check-keywords": "node bin/update-keywords.ts",
+    "util:fix-keywords": "node bin/update-keywords.ts --fix",
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "devDependencies": {
