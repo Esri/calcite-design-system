@@ -11,7 +11,7 @@ import {
   scalePropagates,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
 import { CSS } from "./resources";

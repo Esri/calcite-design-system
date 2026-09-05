@@ -6,9 +6,9 @@ import {
   type FormComponent,
   getClearValidationEventName,
   type ValidationProps,
-} from "../../../controllers/useForm";
-import type { TestSetup } from "./types";
-import type { RadioButtonGroup } from "../../../components/radio-button-group/radio-button-group";
+} from "../../controllers/useForm";
+import type { TestSetUp } from "./types";
+import type { RadioButtonGroup } from "../../components/radio-button-group/radio-button-group";
 
 interface FormAssociatedOptions {
   /** This value will be set on the component and submitted by the form. */
@@ -60,22 +60,22 @@ interface FormAssociatedOptions {
  *
  * Note that this helper should be used within a describe block.
  */
-export function formAssociated(setup: TestSetup, options: FormAssociatedOptions): void {
+export function formAssociated(setUp: TestSetUp, options: FormAssociatedOptions): void {
   const inputTypeContext = options?.inputType ? ` (input type="${options.inputType}")` : "";
 
   afterEach(() => {
     document.body.innerHTML = "";
   });
 
-  it(`supports association via ancestry${inputTypeContext}`, () => testAncestorFormAssociated(setup));
-  it(`supports association via form ID${inputTypeContext}`, () => testIdFormAssociated(setup));
+  it(`supports association via ancestry${inputTypeContext}`, () => testAncestorFormAssociated(setUp));
+  it(`supports association via form ID${inputTypeContext}`, () => testIdFormAssociated(setUp));
 
   if (options?.validation && options?.inputType && !["color", "month", "time"].includes(options.inputType)) {
-    it(`supports required property validation${inputTypeContext}`, () => testRequiredPropertyValidation(setup));
+    it(`supports required property validation${inputTypeContext}`, () => testRequiredPropertyValidation(setUp));
   }
 
-  async function testAncestorFormAssociated(setup: TestSetup): Promise<void> {
-    const { el, reRender } = (await setup()) as RenderResult<FormComponent>;
+  async function testAncestorFormAssociated(setUp: TestSetUp): Promise<void> {
+    const { el, reRender } = (await setUp()) as RenderResult<FormComponent>;
 
     ensureName(el);
 
@@ -102,8 +102,8 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     }
   }
 
-  async function testIdFormAssociated(setup: TestSetup): Promise<void> {
-    const { el, reRender } = (await setup()) as RenderResult<FormComponent>;
+  async function testIdFormAssociated(setUp: TestSetUp): Promise<void> {
+    const { el, reRender } = (await setUp()) as RenderResult<FormComponent>;
 
     ensureName(el);
     ensureForm(el);
@@ -133,8 +133,8 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     }
   }
 
-  async function testRequiredPropertyValidation(setup: TestSetup): Promise<void> {
-    const { el, reRender } = (await setup()) as RenderResult<FormComponent>;
+  async function testRequiredPropertyValidation(setUp: TestSetUp): Promise<void> {
+    const { el, reRender } = (await setUp()) as RenderResult<FormComponent>;
 
     ensureName(el);
     ensureRequired(el);

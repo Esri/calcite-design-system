@@ -14,7 +14,7 @@ import {
   accessible,
   themed,
   scalePropagates,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 

@@ -2,7 +2,7 @@ import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { DEBOUNCE } from "../../utils/resources";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as ComboboxCSS } from "../combobox/resources";
 import type { Combobox } from "../combobox/combobox";

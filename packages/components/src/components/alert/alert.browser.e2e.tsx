@@ -13,11 +13,11 @@ import {
   openClose,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 import type { Alert } from "./alert";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import type { Action } from "../action/action";
 
 function renderAlertContent(): JsxNode {

@@ -77,7 +77,7 @@
     "@vitest/eslint-plugin": "1.6.20",
     "@whitespace/storybook-addon-html": "9.0.0",
     "autoprefixer": "10.5.4",
-    "axe-core": "4.12.1",
+    "axe-core": "4.13.0",
     "change-case": "5.4.4",
     "chromatic": "16.6.3",
     "concurrently": "9.2.1",

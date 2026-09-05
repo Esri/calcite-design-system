@@ -10,7 +10,7 @@ import {
   renders,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import type { Link } from "./link";
 
 describe("accessible", () => {

@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { afterNextFrame } from "../../utils/timing";
+import { afterNextFrame } from "../utils/timing";
 
 /**
  * Helper for asserting slots.
@@ -13,12 +13,12 @@ import { afterNextFrame } from "../../utils/timing";
  * })
  */
 export function slots(
-  setup: () => ReturnType<typeof mount>,
+  setUp: () => ReturnType<typeof mount>,
   slots: Record<string, string> | string[],
   includeDefaultSlot = false,
 ): void {
   it("has slots", async () => {
-    const { el } = await setup();
+    const { el } = await setUp();
     const slotNames = Array.isArray(slots) ? slots : Object.values(slots);
 
     async function slotTestElement(testClass: string, slotName?: string): Promise<void> {

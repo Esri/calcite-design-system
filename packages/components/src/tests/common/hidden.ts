@@ -11,9 +11,9 @@ import { mount } from "@arcgis/lumina-compiler/testing";
  *    hidden(() => mount("calcite-accordion"))
  * });
  */
-export async function hidden(setup: () => ReturnType<typeof mount>): Promise<void> {
+export async function hidden(setUp: () => ReturnType<typeof mount>): Promise<void> {
   it("is hidden", async () => {
-    const { el } = await setup();
+    const { el } = await setUp();
 
     el.hidden = true;
 

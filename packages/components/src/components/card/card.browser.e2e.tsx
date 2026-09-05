@@ -12,7 +12,7 @@ import {
   reflects,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { CSS, SLOTS } from "./resources";
 

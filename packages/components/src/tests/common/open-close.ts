@@ -2,8 +2,8 @@ import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type SetRequired } from "type-fest";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
-import { type ComponentTag } from "../types";
-import { afterNextTask } from "../../utils/timing";
+import { type ComponentTag } from "./types";
+import { afterNextTask } from "../utils/timing";
 import { waitForEvent } from "./utils";
 
 type CollapseAxis = "horizontal" | "vertical";
@@ -24,7 +24,7 @@ const defaultOptions: SetRequired<OpenCloseOptions, "openPropName" | "willUseFal
   willUseFallback: false,
 };
 
-interface TestSetupMountOptions {
+interface TestSetUpMountOptions {
   /**
    * Helper required for initializing open/close events testing.
    */
@@ -43,7 +43,7 @@ interface TestSetupMountOptions {
  * });
  */
 export function openClose(
-  setup: (mountOptions: TestSetupMountOptions) => ReturnType<typeof mount>,
+  setUp: (mountOptions: TestSetUpMountOptions) => ReturnType<typeof mount>,
   options?: OpenCloseOptions,
 ): void {
   const effectiveOptions = { ...defaultOptions, ...options };
@@ -56,7 +56,7 @@ export function openClose(
 
       try {
         await testOpenCloseEvents({
-          setup,
+          setUp,
           animationsEnabled: !effectiveOptions.willUseFallback,
           collapsedOnClose: effectiveOptions.collapsedOnClose,
           openPropName: effectiveOptions.openPropName,
@@ -69,7 +69,7 @@ export function openClose(
 
     it(`emits with animations disabled`, async () => {
       await testOpenCloseEvents({
-        setup,
+        setUp,
         animationsEnabled: false,
         collapsedOnClose: effectiveOptions.collapsedOnClose,
         openPropName: effectiveOptions.openPropName,
@@ -86,7 +86,7 @@ export function openClose(
 
       try {
         await testOpenCloseEvents({
-          setup,
+          setUp,
           animationsEnabled: !effectiveOptions.willUseFallback,
           collapsedOnClose: effectiveOptions.collapsedOnClose,
           openPropName: effectiveOptions.openPropName,
@@ -99,7 +99,7 @@ export function openClose(
 
     it(`emits with animations disabled`, async () => {
       await testOpenCloseEvents({
-        setup,
+        setUp,
         animationsEnabled: false,
         collapsedOnClose: effectiveOptions.collapsedOnClose,
         openPropName: effectiveOptions.openPropName,
@@ -122,14 +122,14 @@ interface TestOpenCloseEventsParams {
   /**
    * The test setup function.
    */
-  setup: Parameters<typeof openClose>[0];
+  setUp: Parameters<typeof openClose>[0];
 
   /** Whether the component should start in the open state. */
   startOpen: boolean;
 }
 
 async function testOpenCloseEvents({
-  setup,
+  setUp,
   animationsEnabled,
   openPropName,
   collapsedOnClose,
@@ -150,7 +150,7 @@ async function testOpenCloseEvents({
 
   const receivedEvents: string[] = [];
 
-  const { el, reRender } = await setup({
+  const { el, reRender } = await setUp({
     afterConnect: async (el) => {
       const tag = el.tagName as ComponentTag;
       afterConnectCalled = true;

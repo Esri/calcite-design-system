@@ -16,7 +16,7 @@ import {
   t9n,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 
 // Deprecated in v5.2.0, removal target v7.0.0
 

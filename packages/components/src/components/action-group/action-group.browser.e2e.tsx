@@ -16,7 +16,7 @@ import {
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 import { ActionGroup } from "./action-group";

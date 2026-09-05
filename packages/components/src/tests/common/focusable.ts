@@ -1,6 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, afterEach, expect, it, vi } from "vitest";
-import { isCalciteFocusable } from "../../../utils/dom";
+import { isCalciteFocusable } from "../../utils/dom";
 
 export interface FocusableOptions {
   /** selector used to assert the focused DOM element */
@@ -20,7 +20,7 @@ export interface FocusableOptions {
  *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
  */
-export function focusable(setup: () => ReturnType<typeof mount>, options?: FocusableOptions): void {
+export function focusable(setUp: () => ReturnType<typeof mount>, options?: FocusableOptions): void {
   beforeEach(() => {
     vi.doMock("focus-trap");
   });
@@ -31,7 +31,7 @@ export function focusable(setup: () => ReturnType<typeof mount>, options?: Focus
   });
 
   it("is focusable", async () => {
-    const { el } = await setup();
+    const { el } = await setUp();
 
     if (!isCalciteFocusable(el)) {
       // eslint-disable-next-line vitest/no-conditional-expect -- we want to fail the test if the component is not focusable

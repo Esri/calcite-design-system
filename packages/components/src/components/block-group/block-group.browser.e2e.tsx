@@ -12,7 +12,7 @@ import {
   disabled,
   focusable,
   scalePropagates,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
 import type { BlockGroup } from "./block-group";

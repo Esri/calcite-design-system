@@ -1,8 +1,9 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { type Locator, page } from "vitest/browser";
-import type { Label } from "../../../components/label/label";
-import { afterNextFrame } from "../../utils/timing";
+import "../../components/label/label";
+import type { Label } from "../../components/label/label";
+import { afterNextFrame } from "../utils/timing";
 
 type BooleanPropertyElement = HTMLElement & Record<string, boolean>;
 
@@ -55,7 +56,7 @@ async function waitForLabelConnection(result: Awaited<ReturnType<typeof mount>>,
  * });
  */
 export function labelable(
-  setup: (mountOptions: LabelableMountOptions) => ReturnType<typeof mount>,
+  setUp: (mountOptions: LabelableMountOptions) => ReturnType<typeof mount>,
   options?: LabelableOptions,
 ): void {
   const id = "labelable-id";
@@ -71,7 +72,7 @@ export function labelable(
     parent?: HTMLElement;
   } = {}): Promise<Awaited<ReturnType<typeof mount>>> {
     let afterConnectCalled = false;
-    const result = await setup({
+    const result = await setUp({
       parent,
       afterConnect: async (el) => {
         afterConnectCalled = true;
@@ -213,7 +214,7 @@ export function labelable(
         afterConnect: async (el) => {
           label = createLabel();
           label.for = id;
-          el.parentElement!.insertBefore(label, el);
+          el.parentElement!.append(label);
           await label.componentOnReady();
         },
       });
@@ -232,6 +233,7 @@ export function labelable(
           await label.componentOnReady();
         },
       });
+
       await waitForExplicitLabelAssociation(label);
 
       await assertLabelable(result, label);

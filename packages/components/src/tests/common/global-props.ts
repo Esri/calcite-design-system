@@ -72,13 +72,13 @@ type ExpectedDefaults<Props extends GlobalProps> = Partial<{
  * });
  */
 export function globalProps<Props extends GlobalProps>(
-  setup: () => ReturnType<typeof mount>,
+  setUp: () => ReturnType<typeof mount>,
   target: () => Locator,
   props: Props,
   expectedDefaults?: ExpectedDefaults<Props>,
 ): void {
   it("syncs to the target element", async () => {
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setUp();
     const targetLocator = target();
     const targetElement = targetLocator.element();
     const propertyNames = Object.keys(props) as (keyof Props & GlobalProperty)[];

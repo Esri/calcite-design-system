@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { IntrinsicElementsWithProp } from "../../utils/types";
+import { IntrinsicElementsWithProp } from "../utils/types";
 
 function hasLabelText(el: HTMLElement): el is IntrinsicElementsWithProp<"labelText"> & HTMLElement {
   return "labelText" in el;
@@ -43,9 +43,9 @@ async function expectRequiredIndicator(): Promise<void> {
  *   internalLabel(`calcite-input`);
  * });
  */
-export function internalLabel(setup: () => ReturnType<typeof mount>): void {
+export function internalLabel(setUp: () => ReturnType<typeof mount>): void {
   it("renders an internal label", async () => {
-    const { el, component, reRender } = await setup();
+    const { el, component, reRender } = await setUp();
 
     if (hasLabelText(el)) {
       el.labelText = "Test Label";

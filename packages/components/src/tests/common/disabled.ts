@@ -2,8 +2,8 @@ import { SetFieldType } from "type-fest";
 import { expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { afterNextFrame, afterNextTask } from "../../utils/timing";
-import { IntrinsicElementsWithProp } from "../../utils/types";
+import { afterNextFrame, afterNextTask } from "../utils/timing";
+import { IntrinsicElementsWithProp } from "../utils/types";
 
 /** This interface is used to specify focus targets for different interactions. */
 export interface TabAndClickFocusTargets {
@@ -36,7 +36,7 @@ export interface DisabledOptions {
  *    disabled("calcite-input")
  * });
  */
-export function disabled(setup: () => ReturnType<typeof mount>, options?: DisabledOptions): void {
+export function disabled(setUp: () => ReturnType<typeof mount>, options?: DisabledOptions): void {
   const effectiveOptions = { focusTarget: "host", ...options } as const;
 
   type InteractiveComponent = IntrinsicElementsWithProp<"disabled"> & HTMLElement;
@@ -148,7 +148,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
   };
 
   it("prevents focusing via keyboard and mouse", async () => {
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setUp();
 
     const target = getDisabledTarget(el, effectiveOptions);
 
@@ -269,7 +269,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
   });
 
   it("events are no longer blocked right after enabling", async () => {
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setUp();
     const target = getDisabledTarget(el, effectiveOptions);
 
     addRedirectPrevention(target.localName);

@@ -1,7 +1,7 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
-import { ComponentTag } from "../types";
-import { UseCancelable } from "../../../controllers/useCancelable";
+import { ComponentTag } from "./types";
+import { UseCancelable } from "../../controllers/useCancelable";
 
 /**
  * Helper for testing cancelable behavior in components e.g., debounced or throttled methods.

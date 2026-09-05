@@ -1,14 +1,14 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import type { Scale } from "../../../components/types";
-import type { IntrinsicElementsWithProp } from "../../utils/types";
+import type { Scale } from "../../components/types";
+import type { IntrinsicElementsWithProp } from "../utils/types";
 
 const initialScale: Scale = "s";
 const scales: Scale[] = ["m", "l"];
 type ScaleComponent = IntrinsicElementsWithProp<"scale">;
 
-interface TestSetupMountOptions {
+interface TestSetUpMountOptions {
   /** Helper required for initializing scale propagation testing. */
   afterConnect: NonNullable<Parameters<typeof mount>[1]>["afterConnect"];
 }
@@ -35,11 +35,11 @@ interface TestSetupMountOptions {
  * });
  */
 export function scalePropagates(
-  setup: (mountOptions: TestSetupMountOptions) => ReturnType<typeof mount>,
+  setUp: (mountOptions: TestSetUpMountOptions) => ReturnType<typeof mount>,
   { targetSelector }: { targetSelector: string },
 ): void {
   it("propagates scale to targets", async () => {
-    const { el, reRender } = await setup({
+    const { el, reRender } = await setUp({
       afterConnect: (el) => {
         (el as ScaleComponent).scale = initialScale;
       },
