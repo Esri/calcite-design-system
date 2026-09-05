@@ -1,8 +1,11 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Input } from "./input";
+import "./input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { textType, alignment, layout, scale, status } = ATTRIBUTES;
 
@@ -19,12 +22,19 @@ type InputStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
+  | "iconFlipRtl"
+  | "labelText"
   | "value"
+  | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "inlineEditable"
+  | "inlineEditableControls"
+  | "validationMessage"
 >;
 
 export default {
@@ -41,12 +51,19 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
+    labelText: "Label text",
     value: "",
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEditable: false,
+    inlineEditableControls: false,
   },
   argTypes: {
     type: {
@@ -81,6 +98,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -99,12 +120,19 @@ export const simple = (args: InputStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("label-text", args.labelText)}
       value="${args.value}"
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       scale="${args.scale}"
       status="${args.status}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${boolean("inline-editable", args.inlineEditable)}
+      ${boolean("inline-editable-controls", args.inlineEditableControls)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input>
   </div>
 `;
@@ -128,9 +156,9 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
+export const disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
       My great label
@@ -151,15 +179,14 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const negativeInfinity_TestOnly = (): string =>
-  html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
+export const negativeInfinity = (): string => html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
 
-export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
+export const arabicLocaleWithLatinNumberingSystem = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -196,7 +223,7 @@ export const validationMessageAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -258,3 +285,13 @@ export const overlayDoesNotObscureIcon = (): string =>
     </style>
     <calcite-input icon="check-square-f"></calcite-input>
     <div class="overlay"></div>`;
+
+export const numberHorizontal = (): string => html`
+  <calcite-input type="number" number-button-type="horizontal" value="123" clearable> </calcite-input>
+`;
+
+export const inlineEditable = (): string => html`
+  <div>
+    <calcite-input inline-editable inline-editable-controls value="Editable value"></calcite-input>
+  </div>
+`;

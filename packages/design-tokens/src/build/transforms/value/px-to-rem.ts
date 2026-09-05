@@ -1,15 +1,14 @@
-import type { Config } from "style-dictionary";
-import type { PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
+import type { Filter, PlatformConfig, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 import { isBreakpoint, isBreakpointRelated, isCornerRadius, isFontRelated } from "../../utils/token-types.ts";
 
 function getBasePxFontSize(config: PlatformConfig) {
   return (config && config.basePxFontSize) || 16;
 }
 
-function isDimension(token: TransformedToken, options: Config) {
-  return (options.usesDtcg ? token.$type : token.type) === "dimension";
+function isDimension(token: TransformedToken) {
+  return token.$type === "dimension";
 }
 
 function isSource(token: TransformedToken) {
@@ -18,14 +17,10 @@ function isSource(token: TransformedToken) {
 
 function isPxUnit(token: TransformedToken) {
   const matcher = /(?<number>[\d.]+)(?<unit>[a-z%]*)/g.exec(
-    token.value || token.value.value || token.original.value || token.original.value.value,
+    token.$value || token.$value.value || token.original.$value || token.original.$value.value,
   );
 
-  if (!matcher || !matcher.groups || !matcher.groups.unit || ["", "rem", "%"].includes(matcher.groups.unit)) {
-    return false;
-  }
-
-  return true;
+  return !!matcher?.groups?.unit && !["", "rem", "%"].includes(matcher.groups.unit);
 }
 
 function throwSizeError(name: string, value: string, unitType: string) {
@@ -36,21 +31,18 @@ function isStaticPx(token: TransformedToken) {
   return !token.path.some((path) => ["base", "border", "fixed", "px"].includes(path));
 }
 
-function filter(token: TransformedToken, options: Config) {
-  return (
-    isSource(token) &&
-    !isBreakpoint(token) &&
-    isStaticPx(token) &&
-    isDimension(token, options) &&
-    !isFontRelated(token) &&
-    !isCornerRadius(token) &&
-    !isBreakpointRelated(token) &&
-    isPxUnit(token)
-  );
-}
+const filter: Filter["filter"] = (token) =>
+  isSource(token) &&
+  !isBreakpoint(token) &&
+  isStaticPx(token) &&
+  isDimension(token) &&
+  !isFontRelated(token) &&
+  !isCornerRadius(token) &&
+  !isBreakpointRelated(token) &&
+  isPxUnit(token);
 
-const transformValueSizePxToRem: ValueTransform["transform"] = (token, config, options) => {
-  const value = options.usesDtcg ? token.$value : token.value;
+const transformValueSizePxToRem: ValueTransform["transform"] = (token, config) => {
+  const value = token.$value;
   const parsedVal = parseFloat(value);
   const baseFont = getBasePxFontSize(config);
 

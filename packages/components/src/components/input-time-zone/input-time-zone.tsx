@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   createEvent,
@@ -7,27 +6,21 @@ import {
   LitElement,
   method,
   property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { Scale, Status } from "../interfaces";
+import { createRef } from "lit/directives/ref.js";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale, Status } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
 import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
@@ -38,7 +31,7 @@ import {
   getUserTimeZoneOffset,
 } from "./utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
 import { styles } from "./input-time-zone.scss";
 
 declare global {
@@ -50,8 +43,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimeZone extends LitElement implements FormComponent, LabelableComponent {
+export class InputTimeZone extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -63,19 +58,17 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
 
   private comboboxRef = createRef<Combobox["el"]>();
 
-  defaultValue: InputTimeZone["value"];
+  defaultValue?: InputTimeZone["value"];
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private normalizer: (timeZone: TimeZone) => TimeZone;
+  private normalizer!: (timeZone: TimeZone) => TimeZone;
 
-  private selectedTimeZoneItem: TimeZoneItem;
-
-  private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
-
-  private _value: string;
+  private _value?: string;
 
   /**
    * Made into a prop for testing purposes only
@@ -88,6 +81,19 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
 
   private interactiveContainer = useInteractive(this);
 
+  /**
+   * Note: The `internal` context is reserved for future use to provide more granular update context information.
+   */
+  #valueUpdateContext: "user" | "internal" | null = null;
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() selectedTimeZoneItem?: TimeZoneItem;
+
+  @state() timeZoneItems?: TimeZoneItem[] | TimeZoneItemGroup[];
+
   //#endregion
 
   //#region Public Properties
@@ -99,23 +105,19 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    */
   @property({ reflect: true }) clearable = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
-  /** When provided, displays label text on the component. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -124,44 +126,35 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    * Using `"offset"` will provide options that show timezone offsets.
    *
    * Using `"name"` will provide options that show the IANA time zone names.
-   *
-   * @default "offset"
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
-   * Specifies how the offset will be displayed, where
+   * When `mode` is `"offset"`, specifies how the offset will be displayed.
    *
-   * `"user"` uses `UTC` or `GMT` depending on the user's locale,
-   * `"gmt"` always uses `GMT`, and
-   * `"utc"` always uses `UTC`.
-   *
-   * This only applies to the `offset` mode.
-   *
-   * @default "user"
+   * - `"user"` uses `UTC` or `GMT` depending on the user's locale.
+   * - `"gmt"` always uses `GMT`.
+   * - `"utc"` always uses `UTC`.
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Determines the type of positioning to use for the overlaid content.
-   *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
+
+  /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
@@ -169,13 +162,13 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    *
    * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
-   * @see [Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
+   * @see [MDN - Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
    */
-  @property() referenceDate: Date | string;
+  @property() referenceDate?: Date | string;
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    *
    * @private
    */
@@ -184,36 +177,28 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The current validation state of the component.
+   * @copyDoc
    *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /**
    * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
@@ -223,10 +208,11 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    * @see [Identifying time zones and zone offsets](https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC).
    */
   @property()
-  get value(): string {
+  get value(): string | undefined {
     return this._value;
   }
-  set value(value: string) {
+  set value(value: string | undefined) {
+    this.#valueUpdateContext = "internal";
     this._value = value;
   }
 
@@ -239,7 +225,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -259,19 +245,19 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   /** Fires when the component's `value` changes. */
   calciteInputTimeZoneChange = createEvent({ cancelable: false });
 
-  /** Fires after the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   calciteInputTimeZoneClose = createEvent({ cancelable: false });
 
-  /** Fires after the component is opened and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteInputTimeZoneOpen = createEvent({ cancelable: false });
 
   //#endregion
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    connectForm(this);
-    connectLabel(this);
+  constructor() {
+    super();
+    useLabel(this);
   }
 
   async load(): Promise<void> {
@@ -283,7 +269,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
-    afterConnectDefaultValueSet(this, selectedValue);
     this.value = selectedValue;
   }
 
@@ -313,11 +298,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     this.openChanged();
   }
 
-  override disconnectedCallback(): void {
-    disconnectForm(this);
-    disconnectLabel(this);
-  }
-
   //#endregion
 
   //#region Private Methods
@@ -338,13 +318,24 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     }
   }
 
-  private async handleValueChange(value: string, oldValue: string): Promise<void> {
+  private async handleValueChange(
+    value: string | undefined,
+    oldValue: string | undefined,
+  ): Promise<void> {
+    const userUpdated = this.#valueUpdateContext === "user";
+    this.#valueUpdateContext = null;
+
+    if (userUpdated) {
+      // value and selectedTimeZoneItem are already in sync, so we can skip the rest of the logic in this method which is meant to handle external changes to value
+      return;
+    }
+
     const normalized = this.normalizeValue(value);
 
     if (!normalized) {
       if (this.clearable) {
         this._value = normalized;
-        this.selectedTimeZoneItem = null;
+        this.selectedTimeZoneItem = undefined;
         return;
       }
 
@@ -379,10 +370,12 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
       return;
     }
 
-    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
-      this.selectedTimeZoneItem,
-      open,
-    );
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.selectedItems[0].heading = this.getItemLabel(
+        this.selectedTimeZoneItem,
+        open,
+      );
+    }
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -401,23 +394,30 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     event.stopPropagation();
     const combobox = event.target as Combobox["el"];
     const selectedItem = combobox.selectedItems[0];
+    const previousValue = this._value;
 
     if (!selectedItem) {
       this._value = "";
-      this.selectedTimeZoneItem = null;
+      this.requestUpdate("value", previousValue);
+      this.selectedTimeZoneItem = undefined;
       this.calciteInputTimeZoneChange.emit();
       return;
     }
 
-    const selected = this.findTimeZoneItemByLabel(selectedItem.getAttribute("data-label"));
-    const selectedValue = `${selected.value}`;
+    const selected = this.findTimeZoneItemByLabel(
+      selectedItem.getAttribute("data-label") ?? undefined,
+    );
 
-    if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
+    const selectedValue = selected?.value === undefined ? undefined : `${selected?.value}`;
+
+    if (this.value === selectedValue && selected?.label === this.selectedTimeZoneItem?.label) {
       return;
     }
 
     this._value = selectedValue;
+    this.requestUpdate("value", previousValue);
     this.selectedTimeZoneItem = selected;
+    this.#valueUpdateContext = "user";
     this.calciteInputTimeZoneChange.emit();
   }
 
@@ -433,11 +433,11 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     this.calciteInputTimeZoneOpen.emit();
   }
 
-  private findTimeZoneItem(value: number | string | null): TimeZoneItem | null {
+  private findTimeZoneItem(value: number | string | undefined): TimeZoneItem | undefined {
     return findTimeZoneItemByProp(this.timeZoneItems, "value", value);
   }
 
-  private findTimeZoneItemByLabel(label: string | null): TimeZoneItem | null {
+  private findTimeZoneItemByLabel(label: string | undefined): TimeZoneItem | undefined {
     return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
   }
 
@@ -447,7 +447,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
 
   private updateTimeZoneSelection(): void {
     if (this.value === "" && this.clearable) {
-      this.selectedTimeZoneItem = null;
+      this.selectedTimeZoneItem = undefined;
       return;
     }
 
@@ -474,7 +474,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     );
   }
 
-  private normalizeValue(value: string | null): string {
+  private normalizeValue(value: string | undefined): string {
     value = value === undefined ? "" : value;
 
     return value ? this.normalizer(value) : value;
@@ -508,13 +508,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
           oncalciteComboboxClose={this.onComboboxClose}
           oncalciteComboboxOpen={this.onComboboxOpen}
           overlayPositioning={this.overlayPositioning}
-          placeholder={
-            this.mode === "name"
-              ? this.messages.namePlaceholder
-              : this.mode === "offset"
-                ? this.messages.offsetPlaceholder
-                : this.messages.regionPlaceholder
-          }
+          placeholder={this.placeholder || this.messages[`${this.mode}Placeholder`]}
           placeholderIcon="search"
           readOnly={this.readOnly}
           ref={this.comboboxRef}
@@ -522,13 +516,13 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}
+          topLayerDisabled={this.topLayerDisabled}
           validationIcon={this.validationIcon}
           validationMessage={this.validationMessage}
         >
           {this.renderItems()}
           <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
-        <HiddenFormInputSlot component={this} />
       </this.interactiveContainer>
     );
   }
@@ -538,17 +532,17 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
       return this.renderRegionItems();
     }
 
-    return this.timeZoneItems.map((group) => {
+    return (this.timeZoneItems as TimeZoneItem[] | undefined)?.map((group) => {
       const selected = this.selectedTimeZoneItem === group;
       const { label, metadata, value } = group;
 
       return (
         <calcite-combobox-item
           data-label={label}
+          heading={label}
           key={label}
           metadata={metadata}
           selected={selected}
-          textLabel={label}
           value={value}
         />
       );
@@ -561,15 +555,15 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-          const textLabel = this.getItemLabel(item);
+          const heading = this.getItemLabel(item);
           return (
             <calcite-combobox-item
               data-label={label}
               description={metadata.country}
+              heading={heading}
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={textLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">

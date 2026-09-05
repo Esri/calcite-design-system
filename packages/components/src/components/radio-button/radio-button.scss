@@ -28,9 +28,9 @@
   }
 
   .radio {
+    @include includes.transition-default();
     @apply cursor-pointer
-    focus-base
-    transition-default;
+    focus-base;
     border-radius: var(--calcite-radio-button-corner-radius, var(--calcite-corner-radius-pill));
     background-color: var(--calcite-radio-button-background-color, var(--calcite-color-foreground-1));
     box-shadow: inset 0 0 0 var(--calcite-border-width-sm)
@@ -127,6 +127,15 @@
   }
 }
 
+:host([status="invalid"]:not([checked])) {
+  --calcite-radio-button-border-color: var(--calcite-color-status-danger);
+}
+:host([status="invalid"]:not([checked]):focus) {
+  .radio {
+    @apply focus-outset-danger;
+  }
+}
+
 @media (forced-colors: active) {
   :host([checked]),
   :host([checked][disabled]) {
@@ -141,5 +150,4 @@
 }
 
 @include includes.form-internal-label();
-@include includes.hidden-form-input();
 @include includes.base-component();

@@ -1,7 +1,5 @@
-// @ts-strict-ignore
-import { isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
-import { literal } from "lit-html/static.js";
+import { createRef } from "lit/directives/ref.js";
+import { literal } from "lit/static-html.js";
 import {
   LitElement,
   property,
@@ -13,21 +11,23 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ButtonAlignment } from "./interfaces";
+import { ButtonAlignment } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -42,8 +42,10 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Button extends LitElement implements LabelableComponent, FormOwner {
+export class Button extends LitElement {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -58,9 +60,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
 
   private contentRef = createRef<HTMLSpanElement>();
 
-  formEl: HTMLFormElement;
-
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   /** watches for changing text content */
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
@@ -86,13 +86,13 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   @state() private hasContent = false;
 
   /** keeps track of the tooltipText */
-  @state() tooltipText: string;
+  @state() tooltipText?: string;
 
   //#endregion
 
   //#region Public Properties
 
-  /** Specifies the alignment of the component's elements. */
+  /** When `width` is not `"auto"`, specifies the alignment of the component's elements. */
   @property({ reflect: true }) alignment: ButtonAlignment = "center";
 
   /** Specifies the appearance style of the component. */
@@ -108,51 +108,47 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
-   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
+   * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the name of the component on form submission. */
+  /** @copyDoc */
   @property({ reflect: true }) name?: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
-   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /** When `true`, adds a round style to the component. */
   @property({ reflect: true }) round = false;
@@ -166,14 +162,14 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
-   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   /**
    * Specifies the default behavior of the component.
    *
-   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
@@ -189,7 +185,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -200,16 +196,18 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    useFormTrigger({ disabled: () => !!this.href })(this);
+    useLabel(this);
+  }
+
   override connectedCallback(): void {
     this.setupTextContentObserver();
-    connectLabel(this);
-    this.formEl = findAssociatedForm(this);
   }
 
   async load(): Promise<void> {
-    if (!isServer) {
-      this.updateHasContent();
-    }
+    this.updateHasContent();
   }
 
   loaded(): void {
@@ -218,9 +216,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLabel(this);
     this.resizeObserver?.disconnect();
-    this.formEl = null;
   }
 
   //#endregion
@@ -240,23 +236,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   }
 
   onLabelClick(): void {
-    this.handleClick();
     this.setFocus();
-  }
-
-  private handleClick(): void {
-    const { type } = this;
-
-    if (this.href) {
-      return;
-    }
-
-    // this.type refers to type attribute, not child element type
-    if (type === "submit") {
-      submitForm(this);
-    } else if (type === "reset") {
-      resetForm(this);
-    }
   }
 
   private setTooltipText(): void {
@@ -265,11 +245,11 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
     } = this;
     if (contentEl) {
       this.tooltipText =
-        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
+        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || undefined : undefined;
     }
   }
 
-  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement): void {
+  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement | undefined): void {
     updateRefObserver(this.resizeObserver, this.childEl, el);
     this.childEl = el;
   }
@@ -322,11 +302,11 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <DynamicHtmlTag
-          ariaBusy={this.loading}
+          ariaBusy={toAriaBoolean(this.loading, undefined)}
           ariaExpanded={
             this.el.ariaExpanded
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
-              : null
+              : undefined
           }
           ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}
           ariaLive="polite"
@@ -337,23 +317,22 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
             [CSS.iconStartEmpty]: !this.iconStart,
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
-          disabled={childElType === "button" ? this.disabled : null}
+          disabled={childElType === "button" ? this.disabled : undefined}
           download={
             childElType === "a"
               ? this.download === true || this.download === ""
                 ? ""
-                : this.download || null
-              : null
+                : this.download || undefined
+              : undefined
           }
-          href={childElType === "a" && this.href}
-          name={childElType === "button" && this.name}
-          onClick={this.handleClick}
+          href={childElType === "a" ? this.href : undefined}
+          name={childElType === "button" ? this.name : undefined}
           ref={this.setChildEl}
-          rel={childElType === "a" && this.rel}
-          tabIndex={this.disabled ? -1 : null}
-          target={childElType === "a" && this.target}
+          rel={childElType === "a" ? this.rel : undefined}
+          tabIndex={this.disabled ? -1 : undefined}
+          target={childElType === "a" ? this.target : undefined}
           title={this.tooltipText}
-          type={childElType === "button" ? this.type : null}
+          type={childElType === "button" ? this.type : undefined}
         >
           {loaderNode}
           {this.iconStart ? iconStartEl : null}

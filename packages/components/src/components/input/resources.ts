@@ -1,10 +1,13 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   loader: "loader",
   clearButton: "clear-button",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
+  inlineEditableChild: "inline-editable-child", // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+  inlineEditable: "inline-editable",
   inputIcon: "icon",
   prefix: "prefix",
   suffix: "suffix",
@@ -45,3 +48,10 @@ export const ICONS: Record<string, IconName> = {
   chevronDown: "chevron-down",
   close: "x",
 };
+
+export const NUDGE_DELAY_IN_MS = 150;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isInput = isTag("calcite-input");

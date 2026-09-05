@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { numberKeys } from "./key";
 import { NumberStringFormat } from "./locale";
 
@@ -7,10 +6,10 @@ const trailingZeros = new RegExp("0+$");
 
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
-  value: bigint;
+  value!: bigint;
 
   // BigInt("-0").toString() === "0" which removes the minus sign when typing numbers like -0.1
-  isNegative: boolean;
+  isNegative!: boolean;
 
   // Configuration: constants
   static DECIMALS = 100; // number of decimals on all instances
@@ -101,7 +100,7 @@ export class BigDecimal {
   }
 }
 
-export function isValidNumber(numberString: string): boolean {
+export function isValidNumber(numberString?: string | null): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }
 
@@ -190,8 +189,8 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
  * Converts an exponential notation numberString into decimal notation.
  * BigInt doesn't support exponential notation, so this is required to maintain precision
  *
- * @param {string} numberString - pre-validated exponential or decimal number
- * @returns {string} numberString in decimal notation
+ * @param numberString - pre-validated exponential or decimal number
+ * @returns numberString in decimal notation
  */
 export function expandExponentialNumberString(numberString: string): string {
   const exponentialParts = numberString.split(/[eE]/);
@@ -242,10 +241,10 @@ function stringContainsNumbers(string: string): boolean {
  * Adds localized trailing decimals zero values to the number string.
  * BigInt conversion to string removes the trailing decimal zero values (Ex: 1.000 is returned as 1). This method helps adding them back.
  *
- * @param {string} localizedValue - localized number string value
- * @param {string} value - current value in the input field
- * @param {NumberStringFormat} formatter - numberStringFormatter instance to localize the number value
- * @returns {string} localized number string value
+ * @param localizedValue - localized number string value
+ * @param value - current value in the input field
+ * @param formatter - numberStringFormatter instance to localize the number value
+ * @returns localized number string value
  */
 export function addLocalizedTrailingDecimalZeros(
   localizedValue: string,
@@ -254,7 +253,7 @@ export function addLocalizedTrailingDecimalZeros(
 ): string {
   const decimals = value.split(".")[1];
   if (decimals) {
-    const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
+    const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)?.[0];
     if (
       trailingDecimalZeros &&
       formatter.delocalize(localizedValue).length !== value.length &&

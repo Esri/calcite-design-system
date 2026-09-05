@@ -1,5 +1,4 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -10,10 +9,11 @@ import {
   state,
   ToEvents,
 } from "@arcgis/lumina";
+import { getIconScale } from "../../utils/component";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { LogicalFlowPosition, SelectionMode } from "../interfaces";
+import { LogicalFlowPosition, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -21,6 +21,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./card.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -81,14 +82,19 @@ export class Card extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Specifies the size of the component. When contained in a parent `calcite-card-group`, inherits the parent's `scale` value, but can be overridden if needed.
+   */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, the component is selectable.
@@ -123,12 +129,12 @@ export class Card extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(
-      () => ({ target: this.containerRef.value, includeContainer: true }),
+      () => ({ target: this.containerRef.value!, includeContainer: true }),
       options,
     );
   }
@@ -139,9 +145,6 @@ export class Card extends LitElement {
 
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   calciteCardSelect = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
   //#endregion
 
@@ -176,16 +179,6 @@ export class Card extends LitElement {
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
-      } else {
-        switch (event.key) {
-          case "ArrowRight":
-          case "ArrowLeft":
-          case "Home":
-          case "End":
-            this.calciteInternalCardKeyEvent.emit(event);
-            event.preventDefault();
-            break;
-        }
       }
     }
   }
@@ -202,7 +195,7 @@ export class Card extends LitElement {
     this.calciteCardSelect.emit();
   }
 
-  private cardSelectClick(event): void {
+  private cardSelectClick(event: PointerEvent): void {
     if (!this.disabled) {
       event.preventDefault();
       this.calciteCardSelect.emit();
@@ -246,7 +239,7 @@ export class Card extends LitElement {
 
     return (
       <div class={CSS.checkboxWrapper} onPointerDown={this.cardSelectClick} tabIndex={-1}>
-        <calcite-icon icon={icon} scale="s" />
+        <calcite-icon icon={icon} scale={getIconScale(this.scale)} />
       </div>
     );
   }
@@ -303,7 +296,10 @@ export class Card extends LitElement {
             </div>
           ) : null}
           {thumbnailStart && this.renderThumbnail()}
-          <section ariaBusy={this.loading} class={{ [CSS.container]: true }}>
+          <section
+            ariaBusy={toAriaBoolean(this.loading, undefined)}
+            class={{ [CSS.container]: true }}
+          >
             {this.renderHeader()}
             <div
               class={{

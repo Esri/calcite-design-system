@@ -1,6 +1,15 @@
 # Calcite Components React
 
-This package provides React wrappers for [Calcite components](https://developers.arcgis.com/calcite-design-system/components/). Refer to the [React example](https://github.com/Esri/calcite-design-system/tree/dev/examples/components/react) for a minimal application using this package.
+This package provides React wrappers for [Calcite components](https://developers.arcgis.com/calcite-design-system/components/). Refer to the [React example](https://github.com/Esri/calcite-design-system/tree/dev/examples/components/react-18-and-below) for a minimal application using this package.
+
+## Deprecation Notice
+
+> [!WARNING]
+> Calcite Components React is deprecated as of v5.0.
+
+The `@esri/calcite-components-react` package was originally developed for use with React 18 where wrappers were necessary to use custom elements. With [React 19's custom element support](https://react.dev/blog/2024/12/05/react-19#support-for-custom-elements), these wrappers are no longer needed.
+
+Consider upgrading to React 19+ and using <code>@esri/calcite-components</code> directly.
 
 ## Installation
 
@@ -49,25 +58,19 @@ Since you manually defined the custom elements on the window, you only need to i
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 ```
 
-## Import stylesheet
-
-Import the global stylesheet into your app (only do this once):
-
-```js
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
 ## Copy Assets
 
 Some components (icon, date-picker) rely on assets being available at a particular path. If using assets locally, you'll need to copy these over to your public folder. Something like:
 
 ```sh
-cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public/assets/
+cp -r node_modules/@esri/calcite-components/dist/cdn/assets/* ./public/assets/
 ```
 
 ## Why not just use the web components directly?
 
-Because React uses a synthetic event system, the custom events emitted from Calcite components won't work with JSX in React. For example, say you want to update some value when the `calcite-slider` component changes. When using the standard web components, you need to save a ref to the element, and add a listener:
+With React 19+'s native support for custom elements, you can now use <code>@esri/calcite-components</code> directly. See the [Calcite Components React Deprecation Notice](#deprecation-notice) for additional information.
+
+React 18 and earlier versions use a synthetic event system, where the custom events emitted from Calcite Components won't function with JSX in React. For example, if using standard web components to update a value when changes occur on the `<calcite-slider>`, you will need to save a reference to the element and add a listener:
 
 ```jsx
 const sliderEl = useRef(null);
@@ -102,7 +105,7 @@ We welcome contributions to this project. See the [CONTRIBUTING.md](https://gith
 
 ## License
 
-COPYRIGHT © 2021 Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -114,6 +117,6 @@ For additional information, refer to [Calcite's licensing](https://developers.ar
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

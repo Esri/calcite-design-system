@@ -1,10 +1,13 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TextArea } from "./text-area";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./text-area"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { scale, status } = ATTRIBUTES;
+const { scale, status, textAreaWrap } = ATTRIBUTES;
 
 type TextAreaStoryArgs = Pick<
   TextArea,
@@ -16,9 +19,17 @@ type TextAreaStoryArgs = Pick<
   | "resize"
   | "rows"
   | "label"
-  | "name"
-  | "validationMessage"
+  | "labelText"
+  | "limitText"
+  | "loading"
+  | "maxLength"
+  | "minLength"
+  | "readOnly"
+  | "required"
   | "validationIcon"
+  | "validationMessage"
+  | "value"
+  | "wrap"
 >;
 
 export default {
@@ -32,9 +43,17 @@ export default {
     resize: "both",
     rows: 2,
     label: "",
-    name: "",
+    labelText: "Label text",
+    limitText: false,
+    loading: false,
+    maxLength: undefined,
+    minLength: undefined,
+    readOnly: false,
+    required: false,
     validationMessage: "",
     validationIcon: "",
+    value: "",
+    wrap: "soft",
   },
   argTypes: {
     scale: {
@@ -45,8 +64,18 @@ export default {
       options: status.values,
       control: { type: "select" },
     },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
+    },
     validationIcon: {
       options: iconNames,
+      control: { type: "select" },
+    },
+    wrap: {
+      options: textAreaWrap.values,
       control: { type: "select" },
     },
   },
@@ -58,18 +87,26 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     status="${args.status}"
     placeholder="${args.placeholder}"
     ${boolean("disabled", args.disabled)}
+    ${boolean("loading", args.loading)}
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     columns="${args.columns}"
     resize="${args.resize}"
     rows="${args.rows}"
     label="${args.label}"
-    name="${args.name}"
+    ${optionalAttribute("label-text", args.labelText)}
+    ${optionalAttribute("max-length", args.maxLength)}
+    ${optionalAttribute("min-length", args.minLength)}
+    limit-text="${args.limitText}"
+    value="${args.value}"
+    wrap="${args.wrap}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   >
   </calcite-text-area>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-text-area
     dir="rtl"
     class="calcite-mode-dark"
@@ -85,34 +122,34 @@ export const withSlottedElements = (): string => html`
   </calcite-text-area>
 `;
 
-export const withSlottedElementsDarkModeRTL_TestOnly = (): string => html`
+export const withSlottedElementsDarkModeRTL = (): string => html`
   <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
     <calcite-button slot="footer-start">RESET</calcite-button>
     <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
 
-export const disabled_TestOnly = (): string => html` <calcite-text-area disabled> </calcite-text-area> `;
+export const disabled = (): string => html` <calcite-text-area disabled> </calcite-text-area> `;
 
-export const readonly_TestOnly = (): string => html` <calcite-text-area readonly> </calcite-text-area> `;
+export const readonly = (): string => html` <calcite-text-area readonly> </calcite-text-area> `;
 
-export const resizeDisabled_TestOnly = (): string => html` <calcite-text-area resize="none"> </calcite-text-area> `;
+export const resizeDisabled = (): string => html` <calcite-text-area resize="none"> </calcite-text-area> `;
 
-export const groupSeparator_TestOnly = (): string => html`
+export const groupSeparator = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" lang="fr" max-length="123456" group-separator>
   </calcite-text-area>
 `;
 
-export const exceedingMaxLength_TestOnly = (): string => html`
+export const exceedingMaxLength = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
 `;
 
-export const chineseLang_TestOnly = (): string => html`
+export const chineseLang = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" lang="zh-cn" group-separator max-length="654321">
   </calcite-text-area>
 `;
 
-export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
+export const insideContainerWithHeightAndWidth = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
 /** Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
@@ -128,7 +165,7 @@ const wrapperStyles = html`
   </style>
 `;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-text-area

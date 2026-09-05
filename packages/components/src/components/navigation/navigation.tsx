@@ -1,5 +1,5 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
+import { PropertyValues } from "lit";
 import {
   LitElement,
   property,
@@ -12,8 +12,12 @@ import {
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
+import { isNavigationLogo } from "../navigation-logo/resources";
+import { isNavigationUser } from "../navigation-user/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { Scale } from "../types";
+import { CSS, ICONS, SLOTS, isNavigation } from "./resources";
 import { styles } from "./navigation.scss";
 
 declare global {
@@ -46,37 +50,46 @@ export class Navigation extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private mutationObserver = createObserver("mutation", () => {
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+    this.updateNestedNavigation();
+  });
+
   // #endregion
 
   // #region State Properties
 
-  @state() logoSlotHasElements: boolean;
+  @state() logoSlotHasElements = false;
 
-  @state() navigationActionSlotHasElements: boolean;
+  @state() navigationActionSlotHasElements = false;
 
-  @state() primaryContentCenterSlotHasElements: boolean;
+  @state() primaryContentCenterSlotHasElements = false;
 
-  @state() primaryContentEndSlotHasElements: boolean;
+  @state() primaryContentEndSlotHasElements = false;
 
-  @state() primaryContentStartSlotHasElements: boolean;
+  @state() primaryContentStartSlotHasElements = false;
 
-  @state() progressSlotHasElement: boolean;
+  @state() progressSlotHasElement = false;
 
-  @state() secondarySlotHasElements: boolean;
+  @state() secondarySlotHasElements = false;
 
-  @state() tertiarySlotHasElements: boolean;
+  @state() tertiarySlotHasElements = false;
 
-  @state() userSlotHasElements: boolean;
+  @state() userSlotHasElements = false;
 
   // #endregion
 
   // #region Public Properties
 
-  /** When `navigationAction` is `true`, specifies the label of the `calcite-action`. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
   @property({ reflect: true }) navigationAction = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 
@@ -87,7 +100,7 @@ export class Navigation extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -100,6 +113,35 @@ export class Navigation extends LitElement {
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+    this.updateNestedNavigation();
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (
+      changes.has("scale") ||
+      changes.has("logoSlotHasElements") ||
+      changes.has("userSlotHasElements") ||
+      changes.has("secondarySlotHasElements") ||
+      changes.has("tertiarySlotHasElements")
+    ) {
+      this.updateNavigationLogo();
+      this.updateNavigationUser();
+      this.updateNestedNavigation();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
 
   // #endregion
 
@@ -164,6 +206,43 @@ export class Navigation extends LitElement {
 
   private isPrimaryLevel(): boolean {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
+  }
+
+  private getOwnedNavigationElements<T extends Element>(
+    slotName: string,
+    predicate: (element: Element) => element is T,
+  ): T[] {
+    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
+
+    if (!slot) {
+      return [];
+    }
+
+    return slot.assignedElements({ flatten: true }).filter(predicate);
+  }
+
+  private updateNavigationLogo(): void {
+    this.getOwnedNavigationElements(SLOTS.logo, isNavigationLogo).forEach((item) => {
+      item.scale = this.scale;
+    });
+  }
+
+  private updateNavigationUser(): void {
+    this.getOwnedNavigationElements(SLOTS.user, isNavigationUser).forEach((item) => {
+      item.scale = this.scale;
+    });
+  }
+
+  private updateNestedNavigation(): void {
+    const nestedNavigation = [
+      ...this.getOwnedNavigationElements(SLOTS.navSecondary, isNavigation),
+      ...this.getOwnedNavigationElements(SLOTS.navTertiary, isNavigation),
+    ];
+    nestedNavigation.forEach((item) => {
+      if (item !== this.el) {
+        (item as Navigation).scale = this.scale;
+      }
+    });
   }
 
   // #endregion

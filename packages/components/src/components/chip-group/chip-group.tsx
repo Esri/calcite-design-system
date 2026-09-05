@@ -1,17 +1,17 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import {
   focusElementInGroup,
   FocusElementInGroupDestination,
   slotChangeGetAssignedElements,
 } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import type { Chip } from "../chip/chip";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./chip-group.scss";
+import { isChip } from "../chip/resources";
 
 declare global {
   interface DeclareElements {
@@ -44,11 +44,10 @@ export class ChipGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -61,15 +60,12 @@ export class ChipGroup extends LitElement {
   @property() selectedItems: Chip["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -85,7 +81,7 @@ export class ChipGroup extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -105,7 +101,7 @@ export class ChipGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalChipKeyEvent", this.calciteInternalChipKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteChipClose", this.calciteChipCloseListener);
     this.listen("calciteChipSelect", this.calciteChipSelectListener);
     this.listen("calciteInternalChipSelect", this.calciteInternalChipSelectListener);
@@ -117,7 +113,10 @@ export class ChipGroup extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) {
+    if (
+      (changes.has("scale") || changes.has("selectionMode")) &&
+      (this.hasUpdated || this.selectionMode !== "none")
+    ) {
       this.updateItems();
     }
   }
@@ -126,22 +125,27 @@ export class ChipGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalChipKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
-        ArrowRight: "next",
-        ArrowLeft: "previous",
-        Home: "first",
-        End: "last",
-      };
-      const destination = destinationFromKey[event.detail.key];
+  private keyDownHandler(event: KeyboardEvent): void {
+    const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
+      ArrowRight: "next",
+      ArrowLeft: "previous",
+      Home: "first",
+      End: "last",
+    };
+    const destination = destinationFromKey[event.key];
 
-      if (destination) {
-        const interactiveItems = this.items?.filter((el) => !el.disabled);
-        focusElementInGroup(interactiveItems, event.detail.target, destination, true, true, true);
-      }
+    if (event.defaultPrevented || !destination) {
+      return;
     }
-    event.stopPropagation();
+
+    const chip = event.composedPath().find(isChip);
+
+    if (!chip || !this.items.includes(chip)) {
+      return;
+    }
+
+    const interactiveItems = this.items.filter((el) => !el.disabled);
+    focusElementInGroup(interactiveItems, chip, destination, true, true, true);
   }
 
   private calciteChipCloseListener(event: CustomEvent): void {
@@ -155,7 +159,7 @@ export class ChipGroup extends LitElement {
         focusElementInGroup(this.items, item, "first", false, false);
       }
     }
-    this.items = this.items?.filter((el) => el !== item);
+    this.items = this.items.filter((el) => el !== item);
     event.stopPropagation();
   }
 
@@ -184,9 +188,8 @@ export class ChipGroup extends LitElement {
   }
 
   private updateItems(event?: Event): void {
-    const itemsFromSlot = this.slotRef.value
-      ?.assignedElements({ flatten: true })
-      .filter((el): el is Chip["el"] => el?.matches("calcite-chip"));
+    const itemsFromSlot =
+      this.slotRef.value?.assignedElements({ flatten: true }).filter(isChip) || [];
 
     this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Chip["el"]>(event);
 
@@ -205,7 +208,7 @@ export class ChipGroup extends LitElement {
   }
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items?.filter((el) => el.selected);
+    this.selectedItems = this.items.filter((el) => el.selected);
   }
 
   private setSelectedItems(emit: boolean, elToMatch?: Chip["el"]): void {

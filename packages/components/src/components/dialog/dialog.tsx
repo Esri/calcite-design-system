@@ -1,14 +1,13 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
-import { Kind, Scale, Width } from "../interfaces";
+import { Kind, Scale, Width } from "../types";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -18,10 +17,13 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconName } from "../icon/interfaces";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
+import { IconName } from "../icon/types";
+import { ResizeValues } from "../types";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
-import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 import { styles } from "./dialog.scss";
 
 declare global {
@@ -32,7 +34,7 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
+ * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
@@ -40,11 +42,14 @@ declare global {
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
  */
 export class Dialog extends LitElement {
   //#region Static Members
@@ -75,15 +80,13 @@ export class Dialog extends LitElement {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private interaction: Interactable;
+  private interaction!: Interactable;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.handleMutationObserver());
 
   private _open = false;
 
-  openProp = "opened";
+  openProp = "opened" as const;
 
   transitionProp = "opacity" as const;
 
@@ -93,7 +96,7 @@ export class Dialog extends LitElement {
 
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
-  transitionEl: HTMLDivElement;
+  transitionEl!: HTMLDivElement;
 
   /**
    * Made into a prop for testing purposes only
@@ -103,6 +106,23 @@ export class Dialog extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private sizeOverride = useSizeOverride({
+    targetElement: () => ({ value: this.transitionEl }),
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
+    fullscreenDisabled: () => this.fullscreenDisabled,
+    onResize: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
+  });
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.popoverRef,
+  })(this);
 
   //#endregion
 
@@ -118,6 +138,15 @@ export class Dialog extends LitElement {
 
   @state() opened = false;
 
+  @state() resizeValues: ResizeValues = {
+    inlineSize: null,
+    blockSize: null,
+    minInlineSize: null,
+    minBlockSize: null,
+    maxInlineSize: null,
+    maxBlockSize: null,
+  };
+
   get preventDocumentScroll(): boolean {
     return !this.embedded && this.modal;
   }
@@ -126,14 +155,14 @@ export class Dialog extends LitElement {
 
   //#region Public Properties
 
-  /** Passes a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  /** Specifies a function to run before the component closes. */
+  @property() beforeClose?: () => Promise<void>;
 
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** A description for the component. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
@@ -151,37 +180,40 @@ export class Dialog extends LitElement {
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
-   * @see [Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
+   * @see [MDN - Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
   @property({ reflect: true }) escapeDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component, where
+   * Specifies custom focus trap configuration on the component.
    *
-   * `"allowOutsideClick`" allows outside clicks,
-   * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
-   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * - `"allowOutsideClick`" allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
-  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** The component header text. */
-  @property() heading: string;
+  /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
+  @property({ reflect: true }) fullscreenDisabled: boolean = false;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the kind of the component, which will style the top border. */
-  @property({ reflect: true }) kind: Extract<
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+
+  /** Specifies the component's kind, which determines the top border styling. */
+  @property({ reflect: true }) kind?: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
   >;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */
@@ -190,7 +222,7 @@ export class Dialog extends LitElement {
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
@@ -211,19 +243,13 @@ export class Dialog extends LitElement {
     }
   }
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When `true` and `modal` is `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
-  /**
-   * Determines the type of positioning to use for the overlaid content.
-   *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the placement of the dialog. */
+  /** Specifies the component's placement. */
   @property({ reflect: true }) placement: DialogPlacement = "center";
 
   /** When `true`, the component is resizable. */
@@ -233,14 +259,21 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the width of the component.
+   * @copyDoc
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /**
+   * Specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  /** Specifies the component's width. */
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
@@ -256,7 +289,7 @@ export class Dialog extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -268,8 +301,8 @@ export class Dialog extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @returns A promise that is resolved when the operation has completed.
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -289,6 +322,17 @@ export class Dialog extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  /**
+   * Updates the component's size by setting its inline and/or block dimensions.
+   *
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
+   */
+  @method()
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
+  }
+
   //#endregion
 
   //#region Events
@@ -302,10 +346,10 @@ export class Dialog extends LitElement {
   /** Fires when the component is closed and animation is complete. */
   calciteDialogClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteDialogOpen = createEvent({ cancelable: false });
 
-  /** Fires when the content is scrolled. */
+  /** Fires when the component's content is scrolled. */
   calciteDialogScroll = createEvent({ cancelable: false });
 
   //#endregion
@@ -314,7 +358,7 @@ export class Dialog extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setupInteractions();
+    this.setUpInteractions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -329,7 +373,7 @@ export class Dialog extends LitElement {
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
     ) {
-      this.setupInteractions();
+      this.setUpInteractions();
     }
 
     if (
@@ -341,14 +385,14 @@ export class Dialog extends LitElement {
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      this.handleOpenedChange(this.opened);
+      this.handleOpenedChange();
     }
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
@@ -370,6 +414,7 @@ export class Dialog extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteDialogBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -387,6 +432,7 @@ export class Dialog extends LitElement {
   onClose(): void {
     this.focusTrap.deactivate();
     this.calciteDialogClose.emit();
+    this.topLayer.hide();
   }
 
   private async setOpenState(value: boolean): Promise<void> {
@@ -407,30 +453,8 @@ export class Dialog extends LitElement {
     this.opened = value;
   }
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.popoverRef.value) {
-      return;
-    }
-
-    if (this.open) {
-      this.popoverRef.value.showPopover();
-    } else {
-      this.popoverRef.value.hidePopover();
-    }
-  }
-
-  private handleOpenedChange(value: boolean): void {
-    const { transitionEl } = this;
-
-    if (!transitionEl) {
-      return;
-    }
-
-    transitionEl.classList.toggle(CSS.openingActive, value);
+  private handleOpenedChange(): void {
     toggleOpenClose(this);
-    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -449,7 +473,7 @@ export class Dialog extends LitElement {
     });
   }
 
-  private getTransitionElDOMRect(): DOMRect {
+  private getTransitionRefDOMRect(): DOMRect {
     return this.transitionEl.getBoundingClientRect();
   }
 
@@ -468,15 +492,14 @@ export class Dialog extends LitElement {
         if (shiftKey && resizable && transitionEl) {
           const { minBlockSize } = window.getComputedStyle(transitionEl);
           const minHeight = getStylePixelValue(minBlockSize);
-          const height = this.getTransitionElDOMRect().height;
+          const height = this.getTransitionRefDOMRect().height;
 
           if (height <= minHeight) {
             return;
           }
 
-          this.updateSize({
-            size: height - resizeShiftStep,
-            type: "blockSize",
+          this.updateSizeInternal({
+            block: height - resizeShiftStep,
           });
           resizePosition.bottom -= resizeShiftStep;
           this.updateTransform();
@@ -491,9 +514,8 @@ export class Dialog extends LitElement {
         break;
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
-          this.updateSize({
-            size: this.getTransitionElDOMRect().height + resizeShiftStep,
-            type: "blockSize",
+          this.updateSizeInternal({
+            block: this.getTransitionRefDOMRect().height + resizeShiftStep,
           });
           resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
@@ -510,15 +532,14 @@ export class Dialog extends LitElement {
         if (shiftKey && resizable && transitionEl) {
           const { minInlineSize } = window.getComputedStyle(transitionEl);
           const minWidth = getStylePixelValue(minInlineSize);
-          const width = this.getTransitionElDOMRect().width;
+          const width = this.getTransitionRefDOMRect().width;
 
           if (width <= minWidth) {
             return;
           }
 
-          this.updateSize({
-            size: width - resizeShiftStep,
-            type: "inlineSize",
+          this.updateSizeInternal({
+            inline: width - resizeShiftStep,
           });
           resizePosition.right -= resizeShiftStep;
           this.updateTransform();
@@ -533,9 +554,8 @@ export class Dialog extends LitElement {
         break;
       case "ArrowRight":
         if (shiftKey && resizable && transitionEl) {
-          this.updateSize({
-            size: this.getTransitionElDOMRect().width + resizeShiftStep,
-            type: "inlineSize",
+          this.updateSizeInternal({
+            inline: this.getTransitionRefDOMRect().width + resizeShiftStep,
           });
           resizePosition.right += resizeShiftStep;
           this.updateTransform();
@@ -565,7 +585,7 @@ export class Dialog extends LitElement {
     }
 
     if (!dragEnabled && !resizable) {
-      transitionEl.style.transform = null;
+      transitionEl.style.transform = "";
       return;
     }
 
@@ -574,37 +594,23 @@ export class Dialog extends LitElement {
     const translateX = Math.round(x + left + right);
     const translateY = Math.round(y + top + bottom);
 
-    transitionEl.style.transform =
-      translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
+    this.transitionEl.style.transform =
+      translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : "";
   }
 
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { transitionEl } = this;
-
-    if (!transitionEl) {
-      return;
-    }
-
-    transitionEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
-  }
-
-  private cleanupInteractions(): void {
+  private cleanUpInteractions(): void {
     this.interaction?.unset();
-    this.updateSize({ size: null, type: "inlineSize" });
-    this.updateSize({ size: null, type: "blockSize" });
+    this.updateSizeInternal({
+      inline: null,
+      block: null,
+    });
     this.dragPosition = { ...initialDragPosition };
     this.resizePosition = { ...initialResizePosition };
     this.updateTransform();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private async setUpInteractions(): Promise<void> {
+    this.cleanUpInteractions();
 
     const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
 
@@ -619,8 +625,9 @@ export class Dialog extends LitElement {
     if (resizable) {
       await this.el.componentOnReady();
 
-      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
-        window.getComputedStyle(transitionEl);
+      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } = window.getComputedStyle(
+        this.transitionEl,
+      );
 
       this.interaction.resizable({
         edges: {
@@ -652,8 +659,10 @@ export class Dialog extends LitElement {
               resizePosition.bottom += deltaRect.bottom;
               resizePosition.left += deltaRect.left;
             }
-            this.updateSize({ size: rect.width, type: "inlineSize" });
-            this.updateSize({ size: rect.height, type: "blockSize" });
+            this.updateSizeInternal({
+              inline: rect.width,
+              block: rect.height,
+            });
             this.updateTransform();
           },
         },
@@ -720,8 +729,7 @@ export class Dialog extends LitElement {
     }
 
     this.transitionEl = el;
-    this.setupInteractions();
-    this.handlePopover();
+    this.setUpInteractions();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -761,6 +769,16 @@ export class Dialog extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    const dialogElement = this.transitionEl;
+    if (!dialogElement) {
+      return;
+    }
+
+    this.sizeOverride.resize(size);
+  }
+
   //#endregion
 
   //#region Rendering
@@ -777,7 +795,7 @@ export class Dialog extends LitElement {
           [CSS.containerOpen]: opened,
           [CSS.containerEmbedded]: this.embedded,
         }}
-        popover={!this.embedded ? "manual" : null}
+        popover={!this.embedded ? "manual" : undefined}
         ref={this.popoverRef}
         role="dialog"
       >
@@ -810,18 +828,22 @@ export class Dialog extends LitElement {
               loading={this.loading}
               menuOpen={this.menuOpen}
               messageOverrides={this.messageOverrides}
-              onKeyDown={this.handlePanelKeyDown}
               oncalcitePanelClose={this.handleInternalPanelCloseClick}
               oncalcitePanelScroll={this.handleInternalPanelScroll}
+              onKeyDown={this.handlePanelKeyDown}
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}
+              topLayerDisabled={this.topLayerDisabled}
             >
               <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
               <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
               <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
               <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+              <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
+              <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
               <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+              <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
               <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
               <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
               <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />

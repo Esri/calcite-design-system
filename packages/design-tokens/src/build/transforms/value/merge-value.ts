@@ -1,7 +1,6 @@
 import type { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { PlatformConfig } from "../../../types/extensions.d.ts";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { PlatformConfig, RegisterFn } from "../../../types.ts";
 import { dark, light } from "../../dictionaries/index.ts";
 import { isLightOrDarkColorToken } from "../../filter/light-or-dark.ts";
 import { state } from "../../shared/state.ts";
@@ -37,12 +36,12 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
 
   if (tokenIndex > -1 && lightToken.key && !state.sameValueThemeTokens.has(lightToken.key)) {
     return {
-      light: lightToken.value,
-      dark: darkToken.value,
+      light: lightToken.$value,
+      dark: darkToken.$value,
     };
   }
 
-  return token.value;
+  return token.$value;
 };
 
 export const registerValueMergeValues: RegisterFn = () => {

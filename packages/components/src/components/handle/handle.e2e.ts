@@ -1,183 +1,131 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, disabled, themed, focusable } from "../../tests/commonTests";
+import { expect, it } from "vitest";
+
 import { CSS, SUBSTITUTIONS } from "./resources";
-import type { HandleNudge } from "./interfaces";
+import type { HandleNudge } from "./types";
 import type { Handle } from "./handle";
 
-describe("calcite-handle", () => {
-  describe("disabled", () => {
-    disabled("calcite-handle");
-  });
+it("sets handle tooltip", async () => {
+  const page = await newE2EPage();
+  const label = "Hello World";
+  await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
+  await page.waitForChanges();
 
-  describe("focusable", () => {
-    focusable("calcite-handle");
-  });
+  const handle = await page.find("calcite-handle");
+  await handle.callMethod("setFocus");
+  const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
+  const messages = await import("./assets/t9n/messages.json");
 
-  describe("accessible", () => {
-    accessible(`<calcite-handle></calcite-handle>`);
-  });
+  expect(await button.getProperty("title")).toBe(messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label));
+});
 
-  it("sets handle tooltip", async () => {
-    const page = await newE2EPage();
-    const label = "Hello World";
-    await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
-    await page.waitForChanges();
+it("sets selected to true when focused and space is pressed", async () => {
+  const page = await newE2EPage();
+  await page.setContent("<calcite-handle></calcite-handle>");
 
-    const handle = await page.find("calcite-handle");
-    await handle.callMethod("setFocus");
-    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
-    const messages = await import("./assets/t9n/messages.json");
+  const handle = await page.find("calcite-handle");
+  const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
 
-    expect(await button.getProperty("title")).toBe(messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label));
-  });
+  expect(await handle.getProperty("selected")).toBe(false);
 
-  it("sets selected to true when focused and space is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle></calcite-handle>");
+  await button.focus();
 
-    const handle = await page.find("calcite-handle");
-    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
+  const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
+  await page.keyboard.press(" ");
 
-    expect(await handle.getProperty("selected")).toBe(false);
+  await page.waitForChanges();
 
-    await button.focus();
+  expect(await handle.getProperty("selected")).toBe(true);
+  expect(calciteHandleChange).toHaveReceivedEventTimes(1);
+});
 
-    const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
-    await page.keyboard.press(" ");
+it("sets selected to false when blurred", async () => {
+  const page = await newE2EPage();
+  await page.setContent("<calcite-handle></calcite-handle>");
 
-    await page.waitForChanges();
+  const handle = await page.find("calcite-handle");
+  const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
 
-    expect(await handle.getProperty("selected")).toBe(true);
-    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
-  });
+  expect(await handle.getProperty("selected")).toBe(false);
 
-  it("sets selected to false when blurred", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle></calcite-handle>");
+  await button.focus();
+  const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
+  await page.keyboard.press(" ");
 
-    const handle = await page.find("calcite-handle");
-    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
+  await page.waitForChanges();
 
-    expect(await handle.getProperty("selected")).toBe(false);
+  expect(await handle.getProperty("selected")).toBe(true);
+  expect(calciteHandleChange).toHaveReceivedEventTimes(1);
 
-    await button.focus();
-    const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
-    await page.keyboard.press(" ");
+  await page.$eval("calcite-handle", (handle: Handle["el"]) => handle.blur());
 
-    await page.waitForChanges();
+  expect(await handle.getProperty("selected")).toBe(false);
+  expect(calciteHandleChange).toHaveReceivedEventTimes(2);
+});
 
-    expect(await handle.getProperty("selected")).toBe(true);
-    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
+it("does not set selected to false when blurUnselectDisabled and blurred", async () => {
+  const page = await newE2EPage();
+  await page.setContent("<calcite-handle blur-unselect-disabled></calcite-handle>");
 
-    await page.$eval("calcite-handle", (handle: Handle["el"]) => handle.blur());
+  const handle = await page.find("calcite-handle");
+  const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
 
-    expect(await handle.getProperty("selected")).toBe(false);
-    expect(calciteHandleChange).toHaveReceivedEventTimes(2);
-  });
+  expect(await handle.getProperty("blurUnselectDisabled")).toBe(true);
+  expect(await handle.getProperty("selected")).toBe(false);
 
-  it("does not set selected to false when blurUnselectDisabled and blurred", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle blur-unselect-disabled></calcite-handle>");
+  await button.focus();
+  const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
+  await page.keyboard.press(" ");
 
-    const handle = await page.find("calcite-handle");
-    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
+  await page.waitForChanges();
 
-    expect(await handle.getProperty("blurUnselectDisabled")).toBe(true);
-    expect(await handle.getProperty("selected")).toBe(false);
+  expect(await handle.getProperty("selected")).toBe(true);
+  expect(calciteHandleChange).toHaveReceivedEventTimes(1);
 
-    await button.focus();
-    const calciteHandleChange = await page.spyOnEvent("calciteHandleChange", "window");
-    await page.keyboard.press(" ");
+  await page.$eval("calcite-handle", (handle: Handle["el"]) => handle.blur());
 
-    await page.waitForChanges();
+  expect(await handle.getProperty("selected")).toBe(true);
+  expect(calciteHandleChange).toHaveReceivedEventTimes(1);
+});
 
-    expect(await handle.getProperty("selected")).toBe(true);
-    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
+it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
+  const page = await newE2EPage();
+  await page.setContent("<calcite-handle></calcite-handle>");
+  const handle = await page.find(`calcite-handle`);
+  const nudgeEventSpy = await handle.spyOnEvent("calciteHandleNudge");
+  const calciteHandleNudgeSpy = await page.spyOnEvent<HandleNudge>("calciteHandleNudge");
 
-    await page.$eval("calcite-handle", (handle: Handle["el"]) => handle.blur());
+  await handle.callMethod("setFocus");
+  await page.keyboard.press(" ");
+  await page.waitForChanges();
+  await page.keyboard.press("ArrowUp");
+  await page.waitForChanges();
+  await nudgeEventSpy.next();
 
-    expect(await handle.getProperty("selected")).toBe(true);
-    expect(calciteHandleChange).toHaveReceivedEventTimes(1);
-  });
+  expect(calciteHandleNudgeSpy.lastEvent!.detail.direction).toBe("up");
 
-  it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-handle></calcite-handle>");
-    const handle = await page.find(`calcite-handle`);
-    const nudgeEventSpy = await handle.spyOnEvent("calciteHandleNudge");
-    const calciteHandleNudgeSpy = await page.spyOnEvent<HandleNudge>("calciteHandleNudge");
+  await page.keyboard.press("ArrowDown");
+  await page.waitForChanges();
+  await nudgeEventSpy.next();
 
-    await handle.callMethod("setFocus");
-    await page.keyboard.press(" ");
-    await page.waitForChanges();
-    await page.keyboard.press("ArrowUp");
-    await page.waitForChanges();
-    await nudgeEventSpy.next();
+  expect(calciteHandleNudgeSpy.lastEvent!.detail.direction).toBe("down");
+  expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
+});
 
-    expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
+it("sets radio role properly", async () => {
+  const page = await newE2EPage();
+  const label = "Hello World";
+  await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
+  await page.waitForChanges();
 
-    await page.keyboard.press("ArrowDown");
-    await page.waitForChanges();
-    await nudgeEventSpy.next();
+  const handle = await page.find("calcite-handle");
 
-    expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
-    expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
-  });
+  const internalHandle = await page.find(`calcite-handle >>> .${CSS.handle}`);
+  expect(internalHandle.getAttribute("role")).toBe("radio");
+  expect(internalHandle.getAttribute("aria-checked")).toBe("false");
 
-  it("sets radio role properly", async () => {
-    const page = await newE2EPage();
-    const label = "Hello World";
-    await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
-    await page.waitForChanges();
+  handle.setProperty("selected", true);
 
-    const handle = await page.find("calcite-handle");
-
-    const internalHandle = await page.find(`calcite-handle >>> .${CSS.handle}`);
-    expect(internalHandle.getAttribute("role")).toBe("radio");
-    expect(internalHandle.getAttribute("aria-checked")).toBe("false");
-
-    handle.setProperty("selected", true);
-
-    await page.waitForChanges();
-    expect(internalHandle.getAttribute("aria-checked")).toBe("true");
-  });
-
-  describe("theme", () => {
-    describe("default", () => {
-      themed("calcite-handle", {
-        "--calcite-handle-background-color": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-handle-background-color-hover": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-handle-icon-color": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "color",
-        },
-        "--calcite-handle-icon-color-hover": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "color",
-          state: "hover",
-        },
-      });
-    });
-    describe("selected", () => {
-      themed("<calcite-handle selected></calcite-handle>", {
-        "--calcite-handle-background-color-selected": {
-          shadowSelector: `.${CSS.handleSelected}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-handle-icon-color-selected": {
-          shadowSelector: `.${CSS.handleSelected}`,
-          targetProp: "color",
-        },
-      });
-    });
-  });
+  await page.waitForChanges();
+  expect(internalHandle.getAttribute("aria-checked")).toBe("true");
 });

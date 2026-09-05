@@ -20,6 +20,7 @@
 // --calcite-internal-select-block-size
 // --calcite-internal-select-font-size
 // --calcite-internal-select-icon-container-padding-inline
+// --calcite-internal-select-spacing-inline
 
 @use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
@@ -47,21 +48,21 @@
 
 :host([scale="s"]) {
   --calcite-internal-select-font-size: theme("fontSize.n2h");
-  --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
-  --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
+  --calcite-internal-select-spacing-inline: var(--calcite-space-sm) var(--calcite-space-2xl);
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-space-2xs);
   --calcite-internal-select-block-size: #{core.$calcite-size-24};
 }
 
 :host([scale="m"]) {
   --calcite-internal-select-font-size: theme("fontSize.n1h");
-  --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
-  --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-md);
+  --calcite-internal-select-spacing-inline: var(--calcite-space-md) var(--calcite-space-3xl);
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-space-sm);
 }
 
 :host([scale="l"]) {
   --calcite-internal-select-font-size: theme("fontSize.0h");
-  --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
-  --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-lg);
+  --calcite-internal-select-spacing-inline: var(--calcite-space-lg) var(--calcite-space-4xl);
+  --calcite-internal-select-icon-container-padding-inline: var(--calcite-space-sm-plus);
   --calcite-internal-select-block-size: #{core.$calcite-size-44};
 }
 
@@ -92,13 +93,13 @@
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-width: var(--calcite-select-internal-border-width, var(--calcite-border-width-sm));
-  padding-inline: var(--calcite-select-spacing-inline);
+  padding-inline: var(--calcite-internal-select-spacing-inline);
   padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: 0;
   line-height: var(--calcite-internal-select-line-height, normal);
   background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-1));
-  border-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
-  box-shadow: var(--calcite-select-shadow, var(--calcite-shadow-small));
+  border-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
+  box-shadow: var(--calcite-select-shadow, var(--calcite-shadow-none));
   &:focus {
     @apply focus-inset;
   }
@@ -112,13 +113,14 @@ select:disabled {
 .icon-container {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
-  border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
-  border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
-  border-end-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
-  border-end-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
+  border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
+  border-end-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
+  border-end-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-inline-width: 0 var(--calcite-select-internal-icon-border-inline-end-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
+
   .icon {
     color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
   }
@@ -142,5 +144,4 @@ select:disabled {
 
 @include includes.form-internal-label();
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.base-component();

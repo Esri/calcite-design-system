@@ -1,11 +1,11 @@
-// @ts-strict-ignore
 import Color, { type ColorInstance } from "color";
 import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
-import { Dimensions, Scale } from "../interfaces";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { Direction, isPrimaryPointerButton } from "../../utils/dom";
+import { Dimensions, Scale } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
@@ -47,9 +47,10 @@ import {
   STATIC_DIMENSIONS,
   ICONS,
 } from "./resources";
-import { Channels, ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Channels, ColorMode, ColorValue, InternalColor } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -68,49 +69,49 @@ export class ColorPicker extends LitElement {
 
   //#region Private Properties
 
-  private activeCanvasInfo: {
+  private activeCanvasInfo?: {
     context: CanvasRenderingContext2D;
     bounds: DOMRect;
   };
 
-  private dynamicDimensions:
-    | {
-        colorField: Dimensions;
-        slider: Dimensions;
-      }
-    | undefined;
+  private dynamicDimensions!: {
+    colorField: Dimensions;
+    slider: Dimensions;
+  };
 
-  private checkerPattern: HTMLCanvasElement;
+  private checkerPattern?: HTMLCanvasElement;
 
-  private _color: InternalColor | null = DEFAULT_COLOR;
+  private _color: InternalColor | undefined = DEFAULT_COLOR;
 
-  private colorFieldRenderingContext: CanvasRenderingContext2D;
+  private colorFieldRenderingContext!: CanvasRenderingContext2D;
 
   private colorFieldScopeRef = createRef<HTMLDivElement>();
 
+  private direction = useDirection();
+
   private hueScopeRef = createRef<HTMLDivElement>();
 
-  private hueSliderRenderingContext: CanvasRenderingContext2D;
+  private hueSliderRenderingContext!: CanvasRenderingContext2D;
 
-  private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
+  private internalColorUpdateContext?: "internal" | "initial" | "user-interaction";
 
-  private isActiveChannelInputEmpty: boolean = false;
+  private isActiveChannelInputEmpty = false;
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
   private opacityScopeRef = createRef<HTMLDivElement>();
 
-  private opacitySliderRenderingContext: CanvasRenderingContext2D;
+  private opacitySliderRenderingContext!: CanvasRenderingContext2D;
 
-  private previousColor: InternalColor | null;
+  private previousColor?: InternalColor;
 
   private resizeObserver = createObserver("resize", (entries) => this.resizeCanvas(entries));
 
   private shiftKeyChannelAdjustment = 0;
 
-  private upOrDownArrowKeyTracker: "down" | "up" | null = null;
+  private upOrDownArrowKeyTracker?: "down" | "up";
 
-  private _value: ColorValue | null;
+  private _value?: ColorValue;
 
   private _valueWasSet = false;
 
@@ -207,7 +208,7 @@ export class ColorPicker extends LitElement {
     }
 
     const previouslyDragging = this.activeCanvasInfo;
-    this.activeCanvasInfo = null;
+    this.activeCanvasInfo = undefined;
     this.drawColorControls();
 
     if (previouslyDragging) {
@@ -264,19 +265,19 @@ export class ColorPicker extends LitElement {
 
   @state() channels: Channels = this.toChannels(DEFAULT_COLOR);
 
-  @state() colorFieldScopeLeft: number;
+  @state() colorFieldScopeLeft?: number;
 
-  @state() colorFieldScopeTop: number;
+  @state() colorFieldScopeTop?: number;
 
   @state() staticDimensions = STATIC_DIMENSIONS.m;
 
-  @state() hueScopeLeft: number;
+  @state() hueScopeLeft?: number;
 
-  @state() opacityScopeLeft: number;
+  @state() opacityScopeLeft?: number;
 
   @state() savedColors: string[] = [];
 
-  @state() scopeOrientation: "vertical" | "horizontal";
+  @state() scopeOrientation!: "vertical" | "horizontal";
 
   //#endregion
 
@@ -301,10 +302,10 @@ export class ColorPicker extends LitElement {
    * @private
    */
   @property()
-  get color(): InternalColor | null {
+  get color(): InternalColor | undefined {
     return this._color;
   }
-  set color(color: InternalColor | null) {
+  set color(color: InternalColor | undefined) {
     const oldColor = this._color;
     this._color = color;
     this.handleColorChange(color, oldColor);
@@ -320,19 +321,17 @@ export class ColorPicker extends LitElement {
    * The format of `value`.
    *
    * When `"auto"`, the format will be inferred from `value` when set.
-   *
-   * @default "auto"
    */
   @property({ reflect: true }) format: Format = "auto";
 
   /** When `true`, hides the hex input. */
   @property() hexDisabled = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** When `true`, hides the saved colors section. */
   @property({ reflect: true }) savedDisabled = false;
@@ -341,26 +340,25 @@ export class ColorPicker extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the storage ID for colors. */
-  @property({ reflect: true }) storageId: string;
+  @property({ reflect: true }) storageId?: string;
 
   /**
    * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
    *
-   * @default
-   *
-   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
+   * @see [MDN - CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/types.ts#L10).
    */
   @property()
-  get value(): ColorValue | null {
+  get value(): ColorValue | null | undefined {
     return this._value;
   }
-  set value(value: ColorValue | null) {
+  set value(value: ColorValue | null | undefined) {
     const oldValue = this._value;
-    this._value = value;
-    this.handleValueChange(value, oldValue);
+    const effectiveValue = value || undefined;
+    this._value = effectiveValue;
+    this.handleValueChange(effectiveValue, oldValue);
     this._valueWasSet = true;
   }
 
@@ -373,7 +371,7 @@ export class ColorPicker extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -414,12 +412,13 @@ export class ColorPicker extends LitElement {
       this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
     }
 
-    const { clearable, color, format, value } = this;
+    const { clearable, color, format } = this;
+    const value = this.value as Exclude<this["value"], null>;
     const willSetNoColor = clearable && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = valueIsCompatible ? colorFromValue(value, clearable, parsedMode) : color;
+    const initialColor = valueIsCompatible ? colorFromValue(value, clearable, parsedMode!) : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
@@ -432,8 +431,11 @@ export class ColorPicker extends LitElement {
 
     const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
 
-    if (this.storageId && localStorage.getItem(storageKey)) {
-      this.savedColors = JSON.parse(localStorage.getItem(storageKey));
+    if (this.storageId) {
+      const storedItem = localStorage.getItem(storageKey);
+      if (storedItem) {
+        this.savedColors = JSON.parse(storedItem);
+      }
     }
   }
 
@@ -494,9 +496,7 @@ export class ColorPicker extends LitElement {
     const { format } = this;
 
     if (alphaChannel && format !== "auto" && !alphaCompatible(format)) {
-      console.warn(
-        `ignoring alphaChannel as the current format (${format}) does not support alpha`,
-      );
+      logger.warn(`ignoring alphaChannel as the current format (${format}) does not support alpha`);
       this.alphaChannel = false;
     }
   }
@@ -505,7 +505,10 @@ export class ColorPicker extends LitElement {
     this.drawColorControls();
   }
 
-  private handleColorChange(color: ColorInstance | null, oldColor: ColorInstance | null): void {
+  private handleColorChange(
+    color: ColorInstance | undefined,
+    oldColor: ColorInstance | undefined,
+  ): void {
     this.drawColorControls();
     this.updateChannelsFromColor(color);
     this.previousColor = oldColor;
@@ -522,7 +525,7 @@ export class ColorPicker extends LitElement {
     this.drawColorControls();
   }
 
-  private handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
+  private handleValueChange(value: ColorValue | undefined, oldValue: ColorValue | undefined): void {
     const { clearable, format } = this;
     const checkMode = !clearable || value;
     let modeChanged = false;
@@ -537,7 +540,7 @@ export class ColorPicker extends LitElement {
       }
 
       modeChanged = this.mode !== nextMode;
-      this.setMode(nextMode, this.internalColorUpdateContext === null);
+      this.setMode(nextMode, this.internalColorUpdateContext === undefined);
     }
 
     const dragging = this.activeCanvasInfo;
@@ -578,19 +581,20 @@ export class ColorPicker extends LitElement {
 
   private handleColorFieldScopeKeyDown(event: KeyboardEvent): void {
     const { key } = event;
-    const arrowKeyToXYOffset = {
+    const arrowKeyToXYOffset: Partial<Record<KeyboardEvent["key"], { x: number; y: number }>> = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
       ArrowDown: { x: 0, y: 10 },
       ArrowLeft: { x: -10, y: 0 },
     };
+    const offset = arrowKeyToXYOffset[key];
 
-    if (arrowKeyToXYOffset[key]) {
+    if (offset) {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
-        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
-        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
+        this.colorFieldScopeLeft === undefined ? 0 : this.colorFieldScopeLeft + offset.x,
+        this.colorFieldScopeTop === undefined ? 0 : this.colorFieldScopeTop + offset.y,
         false,
       );
     }
@@ -599,16 +603,17 @@ export class ColorPicker extends LitElement {
   private handleHueScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
-    const arrowKeyToXOffset = {
+    const arrowKeyToXOffset: Partial<Record<KeyboardEvent["key"], number>> = {
       ArrowUp: 1,
       ArrowRight: 1,
       ArrowDown: -1,
       ArrowLeft: -1,
     };
+    const offset = arrowKeyToXOffset[key];
 
-    if (arrowKeyToXOffset[key]) {
+    if (offset) {
       event.preventDefault();
-      const delta = arrowKeyToXOffset[key] * modifier;
+      const delta = offset * modifier;
       const hue = this.baseColorFieldColor.hue();
       const color = this.baseColorFieldColor.hue(hue + delta);
       this.internalColorSet(color, false);
@@ -622,7 +627,7 @@ export class ColorPicker extends LitElement {
     const hex = input.value;
 
     if (clearable && !hex) {
-      this.internalColorSet(null);
+      this.internalColorSet(undefined);
       return;
     }
 
@@ -646,8 +651,8 @@ export class ColorPicker extends LitElement {
     const limit = isAlphaChannel
       ? OPACITY_LIMITS.max
       : this.channelMode === "rgb"
-        ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
-        : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
+        ? Object.values(RGB_LIMITS)[channelIndex]
+        : Object.values(HSV_LIMITS)[channelIndex];
 
     let inputValue: string;
 
@@ -655,7 +660,7 @@ export class ColorPicker extends LitElement {
       inputValue = "";
       this.isActiveChannelInputEmpty = true;
       // reset this to allow typing in new value, when channel input is cleared after ArrowUp or ArrowDown have been pressed
-      this.upOrDownArrowKeyTracker = null;
+      this.upOrDownArrowKeyTracker = undefined;
     } else {
       const value = Number(input.value);
       const adjustedValue = value + this.shiftKeyChannelAdjustment;
@@ -681,7 +686,7 @@ export class ColorPicker extends LitElement {
     const restoreValueDueToEmptyInput = !input.value && !this.clearable;
 
     if (restoreValueDueToEmptyInput) {
-      input.value = channels[channelIndex]?.toString();
+      input.value = channels[channelIndex]?.toString() ?? "";
     }
   }
 
@@ -697,7 +702,7 @@ export class ColorPicker extends LitElement {
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
-      !event.composedPath().some((node: HTMLElement) => node.classList?.contains(CSS.channel))
+      !event.composedPath().some((node) => (node as HTMLElement).classList?.contains(CSS.channel))
     ) {
       return;
     }
@@ -731,23 +736,23 @@ export class ColorPicker extends LitElement {
 
   private getChannelInputLimit(channelIndex: number): number {
     return this.channelMode === "rgb"
-      ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
-      : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
+      ? Object.values(RGB_LIMITS)[channelIndex]
+      : Object.values(HSV_LIMITS)[channelIndex];
   }
 
   private handleChannelChange(event: CustomEvent): void {
     const input = event.currentTarget as InputNumber["el"];
     const channelIndex = Number(input.getAttribute("data-channel-index"));
-    const channels = [...this.channels] as this["channels"];
 
     const shouldClearChannels = this.clearable && !input.value;
 
     if (shouldClearChannels) {
-      this.channels = [null, null, null, null];
-      this.internalColorSet(null);
+      this.channels = [undefined, undefined, undefined, undefined];
+      this.internalColorSet(undefined);
       return;
     }
 
+    const channels = [...this.channels] as [number, number, number, number];
     const isAlphaChannel = channelIndex === 3;
 
     if (this.isActiveChannelInputEmpty && this.upOrDownArrowKeyTracker) {
@@ -759,7 +764,7 @@ export class ColorPicker extends LitElement {
             ).toString()
           : (channels[channelIndex] - 1 >= 0 ? channels[channelIndex] - 1 : 0).toString();
       this.isActiveChannelInputEmpty = false;
-      this.upOrDownArrowKeyTracker = null;
+      this.upOrDownArrowKeyTracker = undefined;
     }
     const value = input.value ? Number(input.value) : channels[channelIndex];
 
@@ -779,7 +784,7 @@ export class ColorPicker extends LitElement {
       event,
       this.colorFieldRenderingContext,
       this.captureColorFieldColor,
-      this.colorFieldScopeRef.value,
+      this.colorFieldScopeRef.value!,
     );
   }
 
@@ -794,7 +799,7 @@ export class ColorPicker extends LitElement {
       event,
       this.hueSliderRenderingContext,
       this.captureHueSliderColor,
-      this.hueScopeRef.value,
+      this.hueScopeRef.value!,
     );
   }
 
@@ -803,14 +808,14 @@ export class ColorPicker extends LitElement {
       event,
       this.opacitySliderRenderingContext,
       this.captureOpacitySliderValue,
-      this.opacityScopeRef.value,
+      this.opacityScopeRef.value!,
     );
   }
 
   private handleCanvasControlPointerDown(
     event: PointerEvent,
     renderingContext: CanvasRenderingContext2D,
-    captureValue: (offsetX: number, offsetY?: number) => void,
+    captureValue: (offsetX: number, offsetY: number) => void,
     scopeNode: HTMLElement,
   ): void {
     if (!isPrimaryPointerButton(event)) {
@@ -840,8 +845,8 @@ export class ColorPicker extends LitElement {
     }
   }
 
-  private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
-    console.warn(
+  private showIncompatibleColorWarning(value: ColorValue | undefined, format: Format): void {
+    logger.warn(
       `ignoring color value (${value}) as it is not compatible with the current format (${format})`,
     );
   }
@@ -851,7 +856,7 @@ export class ColorPicker extends LitElement {
     this.mode = this.ensureCompatibleMode(mode, warn);
   }
 
-  private ensureCompatibleMode(mode: SupportedMode, warn): SupportedMode {
+  private ensureCompatibleMode(mode: SupportedMode, warn: boolean): SupportedMode {
     const { alphaChannel } = this;
     const isAlphaCompatible = alphaCompatible(mode);
 
@@ -859,7 +864,7 @@ export class ColorPicker extends LitElement {
       const alphaMode = toAlphaMode(mode);
 
       if (warn) {
-        console.warn(
+        logger.warn(
           `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
@@ -871,7 +876,7 @@ export class ColorPicker extends LitElement {
       const nonAlphaMode = toNonAlphaMode(mode);
 
       if (warn) {
-        console.warn(
+        logger.warn(
           `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
@@ -895,7 +900,7 @@ export class ColorPicker extends LitElement {
   }
 
   private internalColorSet(
-    color: ColorInstance | null,
+    color: ColorInstance | undefined,
     skipEqual = true,
     context: ColorPicker["internalColorUpdateContext"] = "user-interaction",
   ): void {
@@ -906,15 +911,15 @@ export class ColorPicker extends LitElement {
     this.internalColorUpdateContext = context;
     this.color = color;
     this.value = this.toValue(color);
-    this.internalColorUpdateContext = null;
+    this.internalColorUpdateContext = undefined;
   }
 
   private toValue(
-    color: ColorInstance | null,
+    color: ColorInstance | undefined,
     format: SupportedMode = this.mode,
-  ): ColorValue | null {
+  ): ColorValue | undefined {
     if (!color) {
-      return null;
+      return undefined;
     }
 
     const hexMode = "hex";
@@ -925,7 +930,7 @@ export class ColorPicker extends LitElement {
     }
 
     if (format.includes("-css")) {
-      const value = color[format.replace("-css", "").replace("a", "")]().round().string();
+      const value = (format.startsWith("rgb") ? color.rgb() : color.hsl()).round().string();
 
       // Color omits alpha values when alpha is 1
       const needToInjectAlpha =
@@ -939,15 +944,43 @@ export class ColorPicker extends LitElement {
       return value;
     }
 
-    const colorObject =
+    const nonAlphaMode = toNonAlphaMode(format);
+    const roundedColor =
       /* Color() does not support hsva, hsla nor rgba, so we use the non-alpha mode */
-      color[toNonAlphaMode(format)]().round().object();
+      (
+        nonAlphaMode === "rgb" ? color.rgb() : nonAlphaMode === "hsl" ? color.hsl() : color.hsv()
+      ).round();
+    const colorObject = roundedColor.object();
 
     if (format.endsWith("a")) {
       return normalizeAlpha(colorObject);
     }
 
-    return colorObject;
+    if (nonAlphaMode === "rgb") {
+      const { r, g, b } = colorObject;
+
+      return {
+        r,
+        g,
+        b,
+      };
+    }
+
+    const { h, s } = colorObject;
+
+    if (nonAlphaMode === "hsl") {
+      return {
+        h,
+        s,
+        l: colorObject.l,
+      };
+    }
+
+    return {
+      h,
+      s,
+      v: colorObject.v,
+    };
   }
 
   private getSliderCapSpacing(): number {
@@ -966,7 +999,7 @@ export class ColorPicker extends LitElement {
   }
 
   private deleteColor(): void {
-    const colorToDelete = hexify(this.color, this.alphaChannel);
+    const colorToDelete = hexify(this.color!, this.alphaChannel);
     const inStorage = this.savedColors.indexOf(colorToDelete) > -1;
 
     if (!inStorage) {
@@ -985,7 +1018,7 @@ export class ColorPicker extends LitElement {
   }
 
   private saveColor(): void {
-    const colorToSave = hexify(this.color, this.alphaChannel);
+    const colorToSave = hexify(this.color!, this.alphaChannel);
     const alreadySaved = this.savedColors.indexOf(colorToSave) > -1;
 
     if (alreadySaved) {
@@ -1045,7 +1078,7 @@ export class ColorPicker extends LitElement {
     canvas.style.height = `${height}px`;
     canvas.style.width = `${width}px`;
 
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext("2d")!;
     context.scale(devicePixelRatio, devicePixelRatio);
   }
 
@@ -1054,7 +1087,7 @@ export class ColorPicker extends LitElement {
       return;
     }
 
-    this.colorFieldRenderingContext = canvas.getContext("2d");
+    this.colorFieldRenderingContext = canvas.getContext("2d")!;
     this.updateCanvasSize("color-field");
     this.drawColorControls();
   }
@@ -1063,7 +1096,7 @@ export class ColorPicker extends LitElement {
     if (!canvas) {
       return;
     }
-    this.hueSliderRenderingContext = canvas.getContext("2d");
+    this.hueSliderRenderingContext = canvas.getContext("2d")!;
     this.updateCanvasSize("hue-slider");
     this.drawHueSlider();
   }
@@ -1073,7 +1106,7 @@ export class ColorPicker extends LitElement {
       return;
     }
 
-    this.opacitySliderRenderingContext = canvas.getContext("2d");
+    this.opacitySliderRenderingContext = canvas.getContext("2d")!;
     this.updateCanvasSize("opacity-slider");
     this.drawOpacitySlider();
   }
@@ -1159,7 +1192,7 @@ export class ColorPicker extends LitElement {
     context.stroke();
 
     if (applyAlpha && color.alpha() < 1) {
-      const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
+      const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat")!;
       context.beginPath();
       context.arc(x, y, radius - 3, startAngle, endAngle);
       context.fillStyle = pattern;
@@ -1278,7 +1311,7 @@ export class ColorPicker extends LitElement {
 
     this.drawSliderPath(context, height, width, x, y);
 
-    const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
+    const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat")!;
     context.fillStyle = pattern;
     context.fill();
 
@@ -1321,7 +1354,7 @@ export class ColorPicker extends LitElement {
     const pattern = document.createElement("canvas");
     pattern.width = 10;
     pattern.height = 10;
-    const patternContext = pattern.getContext("2d");
+    const patternContext = pattern.getContext("2d")!;
 
     patternContext.fillStyle = "#ccc";
     patternContext.fillRect(0, 0, 10, 10);
@@ -1374,16 +1407,17 @@ export class ColorPicker extends LitElement {
   private handleOpacityScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
-    const arrowKeyToXOffset = {
+    const arrowKeyToXOffset: Partial<Record<KeyboardEvent["key"], number>> = {
       ArrowUp: 0.01,
       ArrowRight: 0.01,
       ArrowDown: -0.01,
       ArrowLeft: -0.01,
     };
+    const offset = arrowKeyToXOffset[key];
 
-    if (arrowKeyToXOffset[key]) {
+    if (offset) {
       event.preventDefault();
-      const delta = arrowKeyToXOffset[key] * modifier;
+      const delta = offset * modifier;
       const alpha = this.baseColorFieldColor.alpha();
       const color = this.baseColorFieldColor.alpha(alpha + delta);
       this.internalColorSet(color, false);
@@ -1394,13 +1428,13 @@ export class ColorPicker extends LitElement {
     this.internalColorSet(Color(channels, this.channelMode));
   }
 
-  private updateChannelsFromColor(color: ColorInstance | null): void {
-    this.channels = color ? this.toChannels(color) : [null, null, null, null];
+  private updateChannelsFromColor(color: ColorInstance | undefined): void {
+    this.channels = color ? this.toChannels(color) : [undefined, undefined, undefined, undefined];
   }
 
   private toChannels(color: ColorInstance): Channels {
     const { channelMode } = this;
-    const channels = color[channelMode]().round().array();
+    const channels = (channelMode === "rgb" ? color.rgb() : color.hsv()).round().array();
 
     if (channels.length === 3) {
       channels.push(1); // Color omits alpha when 1
@@ -1409,8 +1443,14 @@ export class ColorPicker extends LitElement {
     return channels as Channels;
   }
 
-  private getAdjustedScopePosition(left: number, top: number): [number, number] {
-    return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
+  private getAdjustedScopePosition(
+    left: number | undefined,
+    top: number | undefined,
+  ): [number, number] {
+    return [
+      left === undefined ? NaN : left - SCOPE_SIZE / 2,
+      top === undefined ? NaN : top - SCOPE_SIZE / 2,
+    ];
   }
 
   //#endregion
@@ -1439,7 +1479,7 @@ export class ColorPicker extends LitElement {
     } = this;
 
     const sliderWidth = this.effectiveSliderWidth;
-    const selectedColorInHex = color ? hexify(color, alphaChannel) : null;
+    const selectedColorInHex = color ? hexify(color, alphaChannel) : undefined;
     const hueTop = thumbRadius;
     const hueLeft = hueScopeLeft ?? (sliderWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const opacityTop = thumbRadius;
@@ -1448,6 +1488,7 @@ export class ColorPicker extends LitElement {
       (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === undefined;
     const vertical = scopeOrientation === "vertical";
+
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
       colorFieldScopeTop,
@@ -1667,7 +1708,7 @@ export class ColorPicker extends LitElement {
     const channelAriaLabels = isRgb
       ? [messages.red, messages.green, messages.blue]
       : [messages.hue, messages.saturation, messages.value];
-    const direction = getElementDir(this.el);
+    const direction = this.direction;
     const channelsToRender = alphaChannel ? channels : channels.slice(0, 3);
 
     return (
@@ -1679,7 +1720,8 @@ export class ColorPicker extends LitElement {
 
             if (isAlphaChannel) {
               channelValue =
-                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
+                // channels can only be undefined when clearable
+                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue!);
             }
 
             /* the channel container is ltr, so we apply the host's direction */
@@ -1697,7 +1739,7 @@ export class ColorPicker extends LitElement {
   }
 
   private renderChannel(
-    value: number | null,
+    value: number | undefined,
     index: number,
     ariaLabel: string,
     direction: Direction,
@@ -1713,11 +1755,11 @@ export class ColorPicker extends LitElement {
         lang={this.messages._lang}
         numberButtonType="none"
         numberingSystem={this.numberingSystem}
-        onKeyDown={this.handleKeyDown}
         oncalciteInputNumberChange={this.handleChannelChange}
         oncalciteInputNumberInput={this.handleChannelInput}
         oncalciteInternalInputNumberBlur={this.handleChannelBlur}
         oncalciteInternalInputNumberFocus={this.handleChannelFocus}
+        onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired
         // this is because the build transforms margin-left to its

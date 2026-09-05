@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -12,14 +11,14 @@ import {
 import { PropertyValues } from "lit";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { FlipContext, Scale, Status } from "../interfaces";
+import { FlipContext, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { BlockSectionToggleDisplay } from "./interfaces";
+import { BlockSectionToggleDisplay } from "./types";
 import { CSS, ICONS, IDS } from "./resources";
 import { styles } from "./block-section.scss";
 
@@ -29,7 +28,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @slot - A slot for adding custom content.
+ */
 export class BlockSection extends LitElement {
   //#region Static Members
 
@@ -61,16 +63,16 @@ export class BlockSection extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -84,8 +86,9 @@ export class BlockSection extends LitElement {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: this,
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;
@@ -99,17 +102,16 @@ export class BlockSection extends LitElement {
    *
    * @deprecated in v2.8.1, removal target v6.0.0 - Use `icon-start` instead.
    */
-  @property({ reflect: true }) status: Status;
+  @property({ reflect: true }) status?: Status;
 
   /** The component header text. */
-  @property() text: string;
+  @property() text?: string;
 
   /**
-   * Specifies how the component's toggle is displayed, where:
+   * Specifies how the component's toggle is displayed.
    *
-   * `"button"` sets the toggle to a selectable header, and
-   *
-   * `"switch"` sets the toggle to a switch.
+   * - `"button"` sets the toggle to a selectable header.
+   * - `"switch"` sets the toggle to a switch.
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
@@ -122,7 +124,7 @@ export class BlockSection extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -183,7 +185,7 @@ export class BlockSection extends LitElement {
 
   private renderStatusIcon(): JsxNode {
     const { status } = this;
-    const statusIcon = ICONS[status] ?? false;
+    const statusIcon = status && ICONS[status];
     const statusIconClasses = {
       [CSS.statusIcon]: true,
       [CSS.valid]: status == "valid",

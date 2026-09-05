@@ -1,11 +1,10 @@
-// @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
 import { LitElement, ToElement } from "@arcgis/lumina";
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
-import { ComponentTag } from "../commonTests/interfaces";
-import { waitForAnimationFrame as waitForRaf } from "./timing";
-import { GlobalTestProps } from "./interfaces";
+import { ComponentTag } from "../commonTests/types";
+import { afterNextFrame as waitForRaf } from "./timing";
+import { GlobalTestProps } from "./types";
 
 type DragAndDropSelector = string | SelectorOptions;
 
@@ -29,9 +28,9 @@ type MouseInitEvent = Pick<
 /**
  * Drag and drop utility based on https://github.com/puppeteer/puppeteer/issues/1366#issuecomment-615887204
  *
- * @param {E2EPage} page - the e2e page
- * @param {DragAndDropSelector} dragStartSelector - Selector for the drag's start
- * @param {DragAndDropSelector} dragEndSelector - Selector for the drag's end
+ * @param page - the e2e page
+ * @param dragStartSelector - Selector for the drag's start
+ * @param dragEndSelector - Selector for the drag's end
  */
 export async function dragAndDrop(
   page: E2EPage,
@@ -41,14 +40,14 @@ export async function dragAndDrop(
   async function getBounds(selector: DragAndDropSelector): Promise<BoundingBox> {
     const elementHandle =
       typeof selector === "string"
-        ? await page.waitForSelector(selector)
+        ? (await page.waitForSelector(selector))!
         : await page.evaluateHandle(({ element, shadow }) => {
-            const target = document.querySelector(element);
+            const target = document.querySelector(element)!;
 
-            return shadow ? target.shadowRoot.querySelector(shadow) : target;
+            return shadow ? target.shadowRoot!.querySelector(shadow)! : target;
           }, selector);
 
-    return elementHandle.asElement().boundingBox();
+    return elementHandle.asElement()!.boundingBox() as Promise<BoundingBox>;
   }
 
   async function createEventInitializer(selector: DragAndDropSelector): Promise<MouseInitEvent> {
@@ -85,12 +84,12 @@ export async function dragAndDrop(
   ): Promise<void> {
     function getElement(selector: DragAndDropSelector): Element {
       if (typeof selector === "string") {
-        return document.querySelector(selector);
+        return document.querySelector(selector)!;
       }
 
-      const element = document.querySelector(selector.element);
+      const element = document.querySelector(selector.element)!;
 
-      return selector.shadow ? element.shadowRoot.querySelector(selector.shadow) : element;
+      return selector.shadow ? element.shadowRoot!.querySelector(selector.shadow)! : element;
     }
 
     const dragStart = getElement(dragStartSelector);
@@ -119,8 +118,7 @@ export async function dragAndDrop(
 
 /**
  *
- * @param {E2EElement} input - the element to select text from
- * @returns {Promise<void>}
+ * @param input - the element to select text from
  */
 export function selectText(input: E2EElement): Promise<void> {
   // workaround for selecting text based on https://github.com/puppeteer/puppeteer/issues/1313#issuecomment-436932478
@@ -130,9 +128,9 @@ export function selectText(input: E2EElement): Promise<void> {
 /**
  * Helper to get an E2EElement's x,y coordinates.
  *
- * @param {E2EPage} page - the e2e page
- * @param {string} elementSelector - the element selector
- * @param {string} shadowSelector - the shadowRoot selector
+ * @param page - the e2e page
+ * @param elementSelector - the element selector
+ * @param shadowSelector - the shadowRoot selector
  * @deprecated Use `getElementRect` instead.
  */
 export async function getElementXY(
@@ -142,23 +140,23 @@ export async function getElementXY(
 ): Promise<[number, number]> {
   return page.evaluate(
     ([elementSelector, shadowSelector]): [number, number] => {
-      const element = document.querySelector(elementSelector);
-      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const element = document.querySelector(elementSelector)!;
+      const measureTarget = shadowSelector ? element.shadowRoot!.querySelector(shadowSelector)! : element;
       const { x, y } = measureTarget.getBoundingClientRect();
 
       return [x, y];
     },
-    [elementSelector, shadowSelector],
+    [elementSelector, shadowSelector] as const,
   );
 }
 
 /**
  * Helper to get an E2EElement's DOMRect object.
  *
- * @param {E2EPage} page - the e2e page
- * @param {string} elementSelector - the element selector
- * @param {string} shadowSelector - the shadowRoot selector
- * @returns {Promise<DOMRect>} Promise with DOMRect object.
+ * @param page - the e2e page
+ * @param elementSelector - the element selector
+ * @param shadowSelector - the shadowRoot selector
+ * @returns Promise with DOMRect object.
  */
 export async function getElementRect(
   page: E2EPage,
@@ -167,11 +165,11 @@ export async function getElementRect(
 ): Promise<DOMRect> {
   return page.evaluate(
     ([elementSelector, shadowSelector]): DOMRect => {
-      const element = document.querySelector(elementSelector);
-      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const element = document.querySelector(elementSelector)!;
+      const measureTarget = shadowSelector ? element.shadowRoot!.querySelector(shadowSelector)! : element;
       return measureTarget.getBoundingClientRect().toJSON();
     },
-    [elementSelector, shadowSelector],
+    [elementSelector, shadowSelector] as const,
   );
 }
 
@@ -188,7 +186,7 @@ export async function getElementRect(
  *
  * await visualizeMouseCursor(page);
  * await page.waitForChanges();
- * @param {E2EPage} page - the e2e page
+ * @param page - the e2e page
  */
 export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   await page.evaluate(() => {
@@ -284,7 +282,7 @@ export async function waitForAnimationFrame(page: E2EPage): Promise<void> {
 /**
  * Creates an E2E page for tests that need to create and set up elements programmatically.
  *
- * @returns {Promise<E2EPage>} an e2e page
+ * @returns an e2e page
  */
 export async function newProgrammaticE2EPage(): Promise<E2EPage> {
   const page = await newE2EPage();
@@ -331,7 +329,7 @@ export async function isElementFocused(
   const shadowed = options?.shadowed;
 
   return page.evaluate(
-    (selector: string, shadowed: boolean): boolean => {
+    (selector, shadowed) => {
       const targetDoc = shadowed ? document.activeElement?.shadowRoot : document;
 
       return !!targetDoc?.activeElement?.matches(selector);
@@ -349,9 +347,9 @@ type GetFocusedElementProp = {
 /**
  * This helps get serializable properties from the focused element.
  *
- * @param {E2EPage} page - the E2E test page
- * @param {string} prop - the property to get from the focused element (note: must be serializable)
- * @param {GetFocusedElementProp} options – additional configuration options
+ * @param page - the E2E test page
+ * @param prop - the property to get from the focused element (note: must be serializable)
+ * @param options – additional configuration options
  */
 export async function getFocusedElementProp<T extends HTMLElement = HTMLElement, K extends keyof T = keyof T>(
   page: E2EPage,
@@ -424,7 +422,7 @@ export async function createSelectedItemsAsserter(
 
     const selectedItemIds = await page.evaluate(
       (groupElementTagName) =>
-        document.querySelector<HTMLSelectableElement>(groupElementTagName).selectedItems.map((item) => item.id),
+        document.querySelector<HTMLSelectableElement>(groupElementTagName)!.selectedItems.map((item) => item.id),
       selectableComponentTagName,
     );
 
@@ -441,7 +439,6 @@ export async function createSelectedItemsAsserter(
  * @param options.componentTag  - the component tag
  * @param options.shadowInputTypeSelector - the shadow input type selector
  * @param options.position - the expected caret position
- * @returns {Promise<void>}
  */
 export async function assertCaretPosition({
   page,
@@ -457,8 +454,8 @@ export async function assertCaretPosition({
   expect(
     await page.evaluate(
       (position, componentTag, shadowInputTypeSelector) => {
-        const element = document.querySelector(componentTag);
-        const el = element.shadowRoot.querySelector(shadowInputTypeSelector);
+        const element = document.querySelector(componentTag)!;
+        const el = element.shadowRoot!.querySelector(shadowInputTypeSelector)!;
         return el.selectionStart === (position !== undefined ? position : el.value.length);
       },
       position,
@@ -472,7 +469,7 @@ export async function assertCaretPosition({
  * This utils helps to get the element handle from an E2EElement.
  *
  * @param element - the E2E element
- * @returns {Promise<ElementHandle>} - the element handle
+ * @returns the element handle
  */
 export async function toElementHandle(element: E2EElement): Promise<ElementHandle> {
   return element.handle;
@@ -578,13 +575,14 @@ export async function createEventTimePropValuesAsserter<
   const { selector, eventName, props, eventListenerSelector } = propValuesTarget;
   const callbackAfterEvent = page.$eval(
     selector,
-    (element: El, eventName, props, eventListenerSelector) => {
-      const targetEl = eventListenerSelector ? document.querySelector(eventListenerSelector) : element;
+    (element, eventName, props, eventListenerSelector) => {
+      const el = element as El;
+      const targetEl = eventListenerSelector ? document.querySelector(eventListenerSelector)! : el;
       return new Promise<PropValues>((resolve) => {
         targetEl.addEventListener(
           eventName,
           () => {
-            const propValues = Object.fromEntries(props.map((prop) => [prop, element[prop]]));
+            const propValues = Object.fromEntries(props.map((prop) => [prop, el[prop]]));
             resolve(propValues as PropValues);
           },
           { once: true },

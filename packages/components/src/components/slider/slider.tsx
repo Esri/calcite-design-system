@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -16,30 +15,25 @@ import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
-import { ColorStop, DataSeries } from "../graph/interfaces";
-import { Scale, Status } from "../interfaces";
+import { ColorStop, DataSeries } from "../graph/types";
+import { Scale, Status } from "../types";
 import { BigDecimal } from "../../utils/number";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
-import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
+import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
 import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import { isEqual } from "es-toolkit";
 
 declare global {
   interface DeclareElements {
@@ -51,11 +45,15 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+const defaultValue = 0;
+
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Slider extends LitElement implements LabelableComponent, FormComponent {
+export class Slider extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -65,7 +63,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   //#region Private Properties
 
-  defaultValue: Slider["value"];
+  defaultValue?: Slider["value"];
 
   private dragEnd = (event: PointerEvent): void => {
     if (this.disabled) {
@@ -74,17 +72,17 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
     this.removeDragListeners();
     this.focusActiveHandle(event.clientX);
-    if (this.lastDragPropValue != this[this.dragProp]) {
+    if (this.dragProp && !isEqual(this.lastDragPropValue, this.getDragPropValue(this.dragProp))) {
       this.emitChange();
     }
-    this.dragProp = null;
-    this.lastDragPropValue = null;
-    this.minValueDragRange = null;
-    this.maxValueDragRange = null;
-    this.minMaxValueRange = null;
+    this.dragProp = undefined;
+    this.lastDragPropValue = undefined;
+    this.minValueDragRange = undefined;
+    this.maxValueDragRange = undefined;
+    this.minMaxValueRange = undefined;
   };
 
-  private dragProp: ActiveSliderProperty;
+  private dragProp?: ActiveSliderProperty;
 
   private dragUpdate = (event: PointerEvent): void => {
     if (this.disabled || !this.trackRef.value) {
@@ -115,6 +113,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
         }
       } else if (
         isRange(this.value) &&
+        this.previousEmittedValue !== undefined &&
         isRange(this.previousEmittedValue) &&
         this.dragProp === "maxValue"
       ) {
@@ -124,7 +123,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
           value < previousEmittedMinValue
         ) {
           this.dragProp = "minValue";
-          this.minHandle.focus();
+          this.minHandleRef.value!.focus();
         } else {
           this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
         }
@@ -133,8 +132,6 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       }
     }
   };
-
-  formEl: HTMLFormElement;
 
   /**
    * Returns a string representing the localized label value based if the groupSeparator prop is parsed.
@@ -151,24 +148,44 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     return numberStringFormatter.localize(value.toString());
   };
 
+  formSupport = useForm<this>({
+    inputType: "range",
+  })(this);
+
   private guid = IDS.host(guid());
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private lastDragProp: ActiveSliderProperty;
+  private lastDragProp?: ActiveSliderProperty;
 
-  private lastDragPropValue: number;
+  private lastDragPropValue?: number | number[];
 
-  private maxHandle: HTMLDivElement;
+  private maxHandleRef = createRef<HTMLDivElement>();
+
+  private maxValueLabelRefs = {
+    label: createRef<HTMLSpanElement>(),
+    static: createRef<HTMLSpanElement>(),
+    transformed: createRef<HTMLSpanElement>(),
+  };
+
+  private maxTickLabelRef = createRef<HTMLSpanElement>();
 
   /**
    * Made into a prop for testing purposes only
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private minHandle: HTMLDivElement;
+  private minHandleRef = createRef<HTMLDivElement>();
+
+  private minValueLabelRefs = {
+    label: createRef<HTMLSpanElement>(),
+    static: createRef<HTMLSpanElement>(),
+    transformed: createRef<HTMLSpanElement>(),
+  };
+
+  private minTickLabelRef = createRef<HTMLSpanElement>();
 
   private pointerUpDragEnd = (event: PointerEvent): void => {
     if (this.disabled || !isPrimaryPointerButton(event)) {
@@ -178,7 +195,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     this.dragEnd(event);
   };
 
-  private previousEmittedValue;
+  private previousEmittedValue?: Slider["value"];
 
   private trackRef = createRef<HTMLDivElement>();
 
@@ -186,17 +203,19 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   private interactiveContainer = useInteractive(this);
 
+  private _value: number | number[] = defaultValue;
+
   //#endregion
 
   //#region State Properties
 
-  @state() activeProp: ActiveSliderProperty = "value";
+  @state() activeProp?: ActiveSliderProperty = "value";
 
-  @state() private maxValueDragRange: number = null;
+  @state() private maxValueDragRange?: number;
 
-  @state() private minMaxValueRange: number = null;
+  @state() private minMaxValueRange?: number;
 
-  @state() private minValueDragRange: number = null;
+  @state() private minValueDragRange?: number;
 
   @state() private tickValues: number[] = [];
 
@@ -208,18 +227,14 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   * When `value` is specified for single values, determines the track's fill relative to the component's handle.
    *
-   * Range mode will always display the fill between the min and max handles.
+   * When `minValue` and `maxValue` are specified for multiple values, displays the fill between the `minValue` and `maxValue` handles.
    */
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
@@ -228,23 +243,26 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) hasHistogram = false;
 
   /**
-   * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
+   * Specifies a list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/interfaces.ts#L5).
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/types.ts#L5).
    */
-  @property() histogram: DataSeries;
+  @property() histogram?: DataSeries;
 
-  /** A set of single color stops for a histogram, sorted by offset ascending. */
-  @property() histogramStops: ColorStop[];
+  /** Specifies a list of single color stops for a histogram, sorted by offset in ascending order. */
+  @property() histogramStops?: ColorStop[];
+
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When specified, allows users to customize handle labels. */
-  @property() labelFormatter: (
+  @property() labelFormatter?: (
     value: number,
     type: "value" | "min" | "max" | "tick",
     defaultFormatter: (value: number) => string,
   ) => string | undefined;
 
-  /** When `true`, displays label handles with their numeric value. */
+  /** When `true`, displays numeric value labels on handles. */
   @property({ reflect: true }) labelHandles = false;
 
   /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
@@ -253,26 +271,26 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** The component's maximum selectable value. */
   @property({ reflect: true }) max = 100;
 
-  /** For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`. */
-  @property() maxLabel: string;
+  /** When `minValue` and `maxValue` are specified for multiple values, specifies the accessible name for the `maxValue` handle, such as `"Temperature, upper bound"`. */
+  @property() maxLabel?: string;
 
-  /** For multiple selections, the component's upper value. */
-  @property() maxValue: number;
+  /** For multiple values, specifies the component's upper value. */
+  @property() maxValue!: number;
 
-  /** The component's minimum selectable value. */
+  /** Specifies the component's minimum selectable value. */
   @property({ reflect: true }) min = 0;
 
-  /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
-  @property() minLabel: string;
+  /** Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). For instance, `"Temperature, lower bound"`. */
+  @property() minLabel?: string;
 
-  /** When provided, displays label text on the component. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** For multiple selections, the component's lower value. */
-  @property() minValue: number;
+  /** For multiple values, the component's lower value. */
+  @property() minValue!: number;
 
   /**
    * When `true`, the component will display values from high to low.
@@ -282,17 +300,15 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) mirrored = false;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
-  /** Specifies the interval to move with the page up, or page down keys. */
-  @property({ reflect: true }) pageStep: number;
+  /** Specifies the interval to move with the `Page up` or `Page down` keys. */
+  @property({ reflect: true }) pageStep?: number;
 
   /** When `true`, sets a finer point for handles. */
   @property({ reflect: true }) precise = false;
@@ -303,51 +319,52 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, enables snap selection in coordination with `step` via a mouse. */
+  /** When `true` and `step` is specified, enables snap selection via a mouse. */
   @property({ reflect: true }) snap = false;
 
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the interval to move with the up, or down keys. */
+  /** Specifies the interval to move with the `Arrow up` or `Arrow down` keys. */
   @property({ reflect: true }) step = 1;
 
-  /** Displays tick marks on the number line at a specified interval. */
-  @property({ reflect: true }) ticks: number;
+  /** Specifies the interval between tick marks on the number line. */
+  @property({ reflect: true }) ticks?: number;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The current validation state of the component.
+   * @copyDoc
    *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
-  @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
+  @property({ reflect: true })
+  get value(): number | number[] {
+    return this._value;
+  }
+  set value(value: number | number[]) {
+    if (Array.isArray(value)) {
+      this._value = value;
+      return;
+    }
+
+    if (/* intentional loose null check */ value != null) {
+      this._value = Number(value);
+      return;
+    }
+
+    this._value = Array.isArray(this._value) ? [this.minValue, this.maxValue] : defaultValue;
+  }
 
   //#endregion
 
@@ -358,11 +375,11 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.minHandle || this.maxHandle, options);
+    return this.focusSetter(() => this.minHandleRef.value || this.maxHandleRef.value, options);
   }
 
   //#endregion
@@ -370,7 +387,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   //#region Events
 
   /**
-   * Fires when the thumb is released on the component.
+   * Fires when the component's handle is released.
    *
    * Note: To constantly listen to the drag event,
    * use `calciteSliderInput` instead.
@@ -392,6 +409,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("pointerdown", this.pointerDownHandler);
     this.listen("keydown", this.handleKeyDown);
     this.listen("touchstart", this.handleTouchStart);
@@ -400,16 +418,11 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   override connectedCallback(): void {
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
-    connectLabel(this);
-    connectForm(this);
     this.previousEmittedValue = this.value;
   }
 
   load(): void {
-    if (!isRange(this.value)) {
-      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
-    }
-    afterConnectDefaultValueSet(this, this.value);
+    this.setInitialValue();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -435,6 +448,10 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   override updated(): void {
+    if (!this.isConnected) {
+      return;
+    }
+
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
       if (isRange(this.value)) {
@@ -448,8 +465,6 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
     this.removeDragListeners();
   }
 
@@ -457,10 +472,16 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   //#region Private Methods
 
+  private setInitialValue() {
+    if (!isRange(this.value)) {
+      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
+    }
+  }
+
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
-    const value = this[activeProp];
+    const value = this[activeProp as Exclude<ActiveSliderProperty, "minMaxValue">] as number;
     const { key } = event;
 
     if (isActivationKey(key)) {
@@ -468,7 +489,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       return;
     }
 
-    let adjustment: number;
+    let adjustment: number = NaN;
 
     if (key === "ArrowUp" || key === "ArrowRight") {
       const directionFactor = mirror && key === "ArrowRight" ? -1 : 1;
@@ -518,9 +539,12 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
         prop = closerToMax || position >= this.maxValue ? "maxValue" : "minValue";
       }
     }
-    this.lastDragPropValue = this[prop];
+    this.lastDragPropValue = this.getDragPropValue(prop);
     this.dragStart(prop);
-    const isThumbActive = this.el.shadowRoot.querySelector(`.${CSS.thumb}:active`);
+    const eventPath = event.composedPath();
+    const isThumbActive = [this.minHandleRef.value, this.maxHandleRef.value].some(
+      (handle) => handle && eventPath.includes(handle),
+    );
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
@@ -585,7 +609,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   private getTickDensity(): number {
-    const density = (this.max - this.min) / this.ticks / maxTickElementThreshold;
+    const density = (this.max - this.min) / this.ticks! / maxTickElementThreshold;
 
     return density < 1 ? 1 : density;
   }
@@ -615,7 +639,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   private onThumbBlur() {
-    this.activeProp = null;
+    this.activeProp = undefined;
   }
 
   private onThumbFocus(event: FocusEvent) {
@@ -658,18 +682,18 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
+  private getDragPropValue(prop: ActiveSliderProperty): number | number[] | undefined {
+    return prop === "minMaxValue" ? this.value : this[prop];
+  }
+
   private focusActiveHandle(valueX: number): void {
     if (this.dragProp === "minValue") {
-      this.minHandle.focus();
+      this.minHandleRef.value!.focus();
     } else if (this.dragProp === "maxValue" || this.dragProp === "value") {
-      this.maxHandle.focus();
+      this.maxHandleRef.value!.focus();
     } else if (this.dragProp === "minMaxValue") {
       this.getClosestHandle(valueX).focus();
     }
-  }
-
-  private emitInput(): void {
-    this.calciteSliderInput.emit();
   }
 
   private emitChange(): void {
@@ -695,17 +719,21 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /**
    * Set prop value(s) if changed at the component level
    *
-   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
+   * @param values - a set of key/value pairs delineating what properties in the component to update
    */
   private setValue(
     values: Partial<{
       [Property in keyof Pick<Slider, "maxValue" | "minValue" | "value">]: number;
     }>,
   ): void {
-    let valueChanged: boolean;
+    let valueChanged = false;
 
-    Object.keys(values).forEach((propName) => {
+    (Object.keys(values) as SetValueProperty[]).forEach((propName) => {
       const newValue = values[propName];
+
+      if (newValue === undefined) {
+        return;
+      }
 
       if (!valueChanged) {
         const oldValue = this[propName];
@@ -719,24 +747,16 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       return;
     }
 
+    if (values.minValue || values.maxValue) {
+      this.setValueFromMinMax();
+    }
+
     const dragging = this.dragProp;
     if (!dragging) {
       this.emitChange();
     }
-    this.emitInput();
-  }
 
-  private setThumbEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    const valueProp = el.getAttribute("data-value-prop") as ActiveSliderProperty;
-    if (valueProp === "minValue") {
-      this.minHandle = el;
-    } else {
-      this.maxHandle = el;
-    }
+    this.calciteSliderInput.emit();
   }
 
   /**
@@ -768,7 +788,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackRef.value.getBoundingClientRect() || { left: 0, width: 0 };
+    const { left, width } = this.trackRef.value!.getBoundingClientRect() || { left: 0, width: 0 };
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -802,9 +822,12 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {
-    return this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
-      ? this.minHandle
-      : this.maxHandle;
+    const minHandle = this.minHandleRef.value!;
+    const maxHandle = this.maxHandleRef.value!;
+
+    return this.getDistanceX(maxHandle, valueX) > this.getDistanceX(minHandle, valueX)
+      ? minHandle
+      : maxHandle;
   }
 
   private getDistanceX(el: HTMLDivElement, valueX: number): number {
@@ -812,7 +835,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   private getFontSizeForElement(element: HTMLElement): number {
-    return Number(window.getComputedStyle(element).getPropertyValue("font-size").match(/\d+/)[0]);
+    return Number(window.getComputedStyle(element).getPropertyValue("font-size").match(/\d+/)![0]);
   }
 
   /**
@@ -829,13 +852,10 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
-    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
-    const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.static`,
-    );
-    const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.transformed`,
-    );
+    const labelRefs = name === "minValue" ? this.minValueLabelRefs : this.maxValueLabelRefs;
+    const label = labelRefs.label.value!;
+    const labelStatic = labelRefs.static.value!;
+    const labelTransformed = labelRefs.transformed.value!;
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
     label.style.transform = `translateX(${labelStaticOffset}px)`;
@@ -843,35 +863,20 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
-    const { shadowRoot } = this.el;
-
     const mirror = this.shouldMirror();
-    const leftModifier = mirror ? "value" : "minValue";
-    const rightModifier = mirror ? "minValue" : "value";
-
-    const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}`,
-    );
-    const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.static`,
-    );
-    const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.transformed`,
-    );
+    const leftValueLabelRefs = mirror ? this.maxValueLabelRefs : this.minValueLabelRefs;
+    const rightValueLabelRefs = mirror ? this.minValueLabelRefs : this.maxValueLabelRefs;
+    const leftValueLabel = leftValueLabelRefs.label.value!;
+    const leftValueLabelStatic = leftValueLabelRefs.static.value!;
+    const leftValueLabelTransformed = leftValueLabelRefs.transformed.value!;
     const leftValueLabelStaticHostOffset = this.getHostOffset(
       leftValueLabelStatic.getBoundingClientRect().left,
       leftValueLabelStatic.getBoundingClientRect().right,
     );
 
-    const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}`,
-    );
-    const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.static`,
-    );
-    const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.transformed`,
-    );
+    const rightValueLabel = rightValueLabelRefs.label.value!;
+    const rightValueLabelStatic = rightValueLabelRefs.static.value!;
+    const rightValueLabelTransformed = rightValueLabelRefs.transformed.value!;
     const rightValueLabelStaticHostOffset = this.getHostOffset(
       rightValueLabelStatic.getBoundingClientRect().left,
       rightValueLabelStatic.getBoundingClientRect().right,
@@ -982,17 +987,10 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       return;
     }
 
-    const minHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(
-      `.${CSS.thumbMinValue}`,
-    );
-    const maxHandle: HTMLDivElement | null = this.el.shadowRoot.querySelector(`.${CSS.thumbValue}`);
-
-    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      `.${CSS.tickMin}`,
-    );
-    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      `.${CSS.tickMax}`,
-    );
+    const minHandle = this.minHandleRef.value;
+    const maxHandle = this.maxHandleRef.value;
+    const minTickLabel = this.minTickLabelRef.value;
+    const maxTickLabel = this.maxTickLabelRef.value;
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
@@ -1103,11 +1101,14 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     const maxInterval = this.getUnitInterval(value) * 100;
     const mirror = this.shouldMirror();
     const valueIsRange = isRange(this.value);
+    const containerAriaLabel = getLabelText(this);
+    const useGroupRole = valueIsRange && !!containerAriaLabel;
 
     const thumbTypes = this.buildThumbType("max");
     const thumb = this.renderThumb({
       type: thumbTypes,
       thumbPlacement: thumbTypes.includes("histogram") ? "below" : "above",
+      labelFallback: containerAriaLabel,
       maxInterval,
       minInterval,
       mirror,
@@ -1121,6 +1122,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
             minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
               ? "below"
               : "above",
+          labelFallback: containerAriaLabel,
           maxInterval,
           minInterval,
           mirror,
@@ -1160,13 +1162,14 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={containerAriaLabel}
           ariaRequired={this.required}
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,
             [CSS.scale(this.scale)]: true,
           }}
+          role={useGroupRole ? "group" : undefined}
         >
           {this.renderGraph()}
           <div class={CSS.track} ref={this.trackRef}>
@@ -1211,7 +1214,6 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
           <div class={CSS.thumbContainer}>
             {minThumb}
             {thumb}
-            <HiddenFormInputSlot component={this} />
           </div>
         </div>
         {this.validationMessage && this.status === "invalid" ? (
@@ -1233,7 +1235,9 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     thumbPlacement,
     minInterval,
     maxInterval,
+    labelFallback,
   }: {
+    labelFallback: string;
     maxInterval: number;
     minInterval: number;
     mirror: boolean;
@@ -1251,7 +1255,11 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
         ? this.maxValue
         : (this.value as number);
     const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
-    const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
+    const ariaLabel = isMinThumb
+      ? this.minLabel || labelFallback
+      : valueIsRange
+        ? this.maxLabel || labelFallback
+        : this.minLabel || labelFallback;
     const ariaValuenow = isMinThumb ? this.minValue : value;
     const displayedValue =
       valueProp === "minValue"
@@ -1265,16 +1273,25 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     const thumbLabelClasses = `${CSS.handleLabel} ${
       isMinThumb ? CSS.handleLabelMinValue : CSS.handleLabelValue
     }`;
+    const labelRefs = isMinThumb ? this.minValueLabelRefs : this.maxValueLabelRefs;
 
     const labels = isLabeled
       ? [
-          <span ariaHidden="true" class={thumbLabelClasses}>
+          <span ariaHidden="true" class={thumbLabelClasses} ref={labelRefs.label}>
             {displayedValue}
           </span>,
-          <span ariaHidden="true" class={`${thumbLabelClasses} ${CSS.static}`}>
+          <span
+            ariaHidden="true"
+            class={`${thumbLabelClasses} ${CSS.static}`}
+            ref={labelRefs.static}
+          >
             {displayedValue}
           </span>,
-          <span ariaHidden="true" class={`${thumbLabelClasses} ${CSS.transformed}`}>
+          <span
+            ariaHidden="true"
+            class={`${thumbLabelClasses} ${CSS.transformed}`}
+            ref={labelRefs.transformed}
+          >
             {displayedValue}
           </span>,
         ]
@@ -1309,7 +1326,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
-        ref={this.setThumbEl}
+        ref={isMinThumb ? this.minHandleRef : this.maxHandleRef}
         role="slider"
         style={thumbStyle}
         tabIndex={0}
@@ -1345,17 +1362,34 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       ((!hasHistogram && (isAtEdge || !precise || !valueIsRange)) ||
         (hasHistogram && (isAtEdge || (!precise && !labelHandles))));
 
-    return shouldDisplayLabel ? (
-      <span
-        class={{
-          [CSS.tickLabel]: true,
-          [CSS.tickMin]: isMinTickLabel,
-          [CSS.tickMax]: isMaxTickLabel,
-        }}
-      >
-        {this.internalLabelFormatter(tick, "tick")}
-      </span>
-    ) : null;
+    if (!shouldDisplayLabel) {
+      return null;
+    }
+
+    const tickLabelClasses = {
+      [CSS.tickLabel]: true,
+      [CSS.tickMin]: isMinTickLabel,
+      [CSS.tickMax]: isMaxTickLabel,
+    };
+    const tickLabel = this.internalLabelFormatter(tick, "tick");
+
+    if (isMinTickLabel) {
+      return (
+        <span class={tickLabelClasses} ref={this.minTickLabelRef}>
+          {tickLabel}
+        </span>
+      );
+    }
+
+    if (isMaxTickLabel) {
+      return (
+        <span class={tickLabelClasses} ref={this.maxTickLabelRef}>
+          {tickLabel}
+        </span>
+      );
+    }
+
+    return <span class={tickLabelClasses}>{tickLabel}</span>;
   }
 
   //#endregion

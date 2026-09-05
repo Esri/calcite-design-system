@@ -7,7 +7,7 @@
 // --calcite-internal-animation-timing-slow
 // --calcite-internal-duration-factor
 
-$easing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
+$easing-function: ease-in-out;
 
 @mixin animation-base() {
   --calcite-animation-timing: calc(150ms * var(--calcite-internal-duration-factor));

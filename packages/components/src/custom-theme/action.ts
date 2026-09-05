@@ -1,3 +1,8 @@
+import "../components/action-bar/action-bar";
+import "../components/action-group/action-group";
+import "../components/action-menu/action-menu";
+import "../components/action-pad/action-pad";
+import "../components/action/action";
 import { html } from "../../support/formatting";
 
 export const actionTokens = {
@@ -7,6 +12,7 @@ export const actionTokens = {
   calciteActionBackgroundColorPressed: "",
   calciteActionTextColor: "",
   calciteActionTextColorPressed: "",
+  calciteActionLoaderColor: "",
 };
 
 export const actionBarTokens = {

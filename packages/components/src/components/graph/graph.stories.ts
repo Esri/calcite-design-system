@@ -1,8 +1,7 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { Graph } from "./graph";
-import type { Graph as HTMLCalciteGraphElement } from "./graph";
+import type { Graph } from "./graph";
 
-interface GraphStoryArgs extends Pick<Graph, "min" | "max"> {
+interface GraphStoryArgs extends Pick<Graph, "highlightMax" | "highlightMin" | "max" | "min"> {
   width: number;
   height: number;
 }
@@ -12,12 +11,28 @@ export default {
   args: {
     width: 300,
     height: 100,
+    highlightMin: 25,
+    highlightMax: 75,
     min: 0,
     max: 100,
   },
+  argTypes: {
+    min: {
+      control: { type: "number" },
+    },
+    max: {
+      control: { type: "number" },
+    },
+    highlightMin: {
+      control: { type: "number" },
+    },
+    highlightMax: {
+      control: { type: "number" },
+    },
+  },
 };
 
-const data: HTMLCalciteGraphElement["el"]["el"]["data"] = [
+const data: Graph["el"]["data"] = [
   [0, 0],
   [10, 80],
   [20, 20],
@@ -41,6 +56,8 @@ export const simple = (args: GraphStoryArgs): HTMLDivElement => {
   const graph = document.createElement("calcite-graph");
   graph.min = args.min;
   graph.max = args.max;
+  graph.highlightMin = args.highlightMin;
+  graph.highlightMax = args.highlightMax;
   graph.data = data;
   div.appendChild(graph);
   return div;
@@ -73,7 +90,7 @@ export const withColorStops = (): HTMLDivElement => {
   return div;
 };
 
-export const darkModeRTL_TestOnly = (): HTMLDivElement => {
+export const darkModeRTL = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
@@ -90,4 +107,4 @@ export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   return div;
 };
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

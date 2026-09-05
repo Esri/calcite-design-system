@@ -1,22 +1,30 @@
-import { type Locator, locators } from "vitest/browser";
+import { camelCase } from "change-case";
+import { PascalCase } from "type-fest";
 
-locators.extend({
-  locator(selector: string): string {
-    return selector;
-  },
-});
+type CalciteEventNamePrefix = `calcite${PascalCase<string>}`;
 
-declare module "vitest/browser" {
-  interface LocatorSelectors {
-    /**
-     * Selects an element using a standard CSS selector.
-     *
-     * Note: prefer using more specific locators when possible for better test reliability.
-     */
-    locator: (selector: string) => Locator;
+/**
+ * Generates the event name prefix for a component based on its tag name.
+ */
+export function getEventPrefix(el: HTMLElement): CalciteEventNamePrefix {
+  if (!el.tagName.startsWith("CALCITE-")) {
+    throw new Error("Element is not a Calcite component.");
   }
+
+  return `${camelCase(el.tagName)}` as CalciteEventNamePrefix;
 }
 
-export function shadowQuery(el: HTMLElement, selector: string): HTMLElement {
-  return el.shadowRoot!.querySelector(selector)!;
+/**
+ * Waits for a specific event to be emitted from the given event target.
+ *
+ * @example
+ *
+ * const event = waitForEvent(myElement, "myEvent");
+ * // trigger event
+ * await event;
+ */
+export function waitForEvent(el: EventTarget, eventName: string): Promise<void> {
+  return new Promise<void>((resolve) => {
+    el.addEventListener(eventName, () => resolve(), { once: true });
+  });
 }

@@ -1,33 +1,43 @@
+import "../components/action/action";
+import "../components/button/button";
+import "../components/checkbox/checkbox";
+import "../components/dialog/dialog";
+import "../components/label/label";
+import "../components/shell/shell";
 import { html } from "../../support/formatting";
 
 export const dialogTokens = {
-  calciteDialogScrimBackgroundColor: "",
-  calciteDialogSizeX: "",
-  calciteDialogMinSizeX: "",
-  calciteDialogMaxSizeX: "",
-  calciteDialogSizeY: "",
-  calciteDialogMinSizeY: "",
-  calciteDialogMaxSizeY: "",
-  calciteDialogOffsetX: "",
-  calciteDialogOffsetY: "",
-  calciteDialogBackgroundColor: "",
-  calciteDialogIconColor: "",
   calciteDialogAccentColor: "",
-  calciteDialogCornerRadius: "",
-  calciteDialogHeadingTextColor: "",
-  calciteDialogDescriptionTextColor: "",
+  calciteDialogActionMenuBorderColor: "",
+  calciteDialogBackgroundColor: "",
   calciteDialogBorderColor: "",
-  calciteDialogHeaderBackgroundColor: "",
+  calciteDialogContentBottomSpace: "",
+  calciteDialogContentSpace: "",
+  calciteDialogContentTopSpace: "",
+  calciteDialogCornerRadius: "",
+  calciteDialogDescriptionTextColor: "",
+  calciteDialogFooterBackgroundColor: "",
+  calciteDialogFooterSpace: "",
   calciteDialogHeaderActionBackgroundColor: "",
   calciteDialogHeaderActionBackgroundColorHover: "",
   calciteDialogHeaderActionBackgroundColorPress: "",
   calciteDialogHeaderActionTextColor: "",
   calciteDialogHeaderActionTextColorPress: "",
-  calciteDialogFooterBackgroundColor: "",
-  calciteDialogSpace: "",
+  calciteDialogHeaderBackgroundColor: "",
   calciteDialogHeaderContentSpace: "",
-  calciteDialogFooterSpace: "",
-  calciteDialogActionMenuBorderColor: "",
+  calciteDialogHeaderTopSpace: "",
+  calciteDialogHeadingTextColor: "",
+  calciteDialogIconColor: "",
+  calciteDialogMaxSizeX: "",
+  calciteDialogMaxSizeY: "",
+  calciteDialogMinSizeX: "",
+  calciteDialogMinSizeY: "",
+  calciteDialogOffsetX: "",
+  calciteDialogOffsetY: "",
+  calciteDialogScrimBackgroundColor: "",
+  calciteDialogSizeX: "",
+  calciteDialogSizeY: "",
+  calciteDialogSpace: "",
 };
 
 export const dialog = html`
@@ -45,6 +55,7 @@ export const dialog = html`
       <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
       <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
       <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
+      <div slot="header-top">Header top</div>
       <div slot="content-top">To continue, you must agree to the terms</div>
       <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
         <calcite-checkbox></calcite-checkbox>I agree to the terms

@@ -34,8 +34,8 @@ All token files may be updated by the Figma Token Studio plugin. These can also 
 
 ### Open a PR
 
-Designers working in Figma will need to manually open a PR through GitHub after updating their branch via the Figma plugin. PRs should be opened against main.
+Designers working in Figma will need to manually open a PR through GitHub after updating their branch via the Figma plugin. PRs should be opened against `dev`.
 
 ### Wait for reviewers
 
-All Token PRs require sign-off from a Calcite Designer and Engineer before merging into main.
+All Token PRs require sign-off from a Calcite Designer and Engineer before merging into `dev`.

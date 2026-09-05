@@ -1,14 +1,20 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tile"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tile-group/tile-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { scale } = ATTRIBUTES;
+const { alignment, scale } = ATTRIBUTES;
 
-interface TileStoryArgs
-  extends Pick<Tile, "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"> {
+interface TileStoryArgs extends Pick<
+  Tile,
+  "active" | "alignment" | "description" | "disabled" | "embed" | "heading" | "href" | "icon" | "scale" | "selected"
+> {
   hidden: boolean;
 }
 
@@ -16,16 +22,23 @@ export default {
   title: "Components/Tiles/Tile",
   args: {
     active: false,
+    alignment: alignment.defaultValue,
     description:
       "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
     disabled: false,
+    embed: false,
     heading: "Tile heading lorem ipsum",
     hidden: false,
     href: "#",
     icon: "layer",
     scale: scale.defaultValue,
+    selected: false,
   },
   argTypes: {
+    alignment: {
+      options: alignment.values.filter((option) => option !== "end"),
+      control: { type: "select" },
+    },
     icon: {
       options: iconNames,
       control: { type: "select" },
@@ -40,15 +53,72 @@ export default {
 export const simple = (args: TileStoryArgs): string => html`
   <calcite-tile
     ${boolean("active", args.active)}
+    alignment="${args.alignment}"
     description="${args.description}"
     ${boolean("disabled", args.disabled)}
+    ${boolean("embed", args.embed)}
     heading="${args.heading}"
     ${boolean("hidden", args.hidden)}
     href="${args.href}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     scale="${args.scale}"
+    ${boolean("selected", args.selected)}
   >
   </calcite-tile>
+`;
+
+export const headingLevelAllScales = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      gap: 25px;
+    }
+
+    .scale-container {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+  <div class="container">
+    <div class="scale-container">
+      <h2>Small</h2>
+      <calcite-tile-group scale="s" layout="vertical">
+        <calcite-tile heading="No Heading Level" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 1" heading-level="1" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 2" heading-level="2" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 3" heading-level="3" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 4" heading-level="4" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 5" heading-level="5" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 6" heading-level="6" description="Description for item"></calcite-tile>
+      </calcite-tile-group>
+    </div>
+
+    <div class="scale-container">
+      <h2>Medium</h2>
+      <calcite-tile-group scale="m" layout="vertical">
+        <calcite-tile heading="No Heading Level" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 1" heading-level="1" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 2" heading-level="2" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 3" heading-level="3" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 4" heading-level="4" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 5" heading-level="5" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 6" heading-level="6" description="Description for item"></calcite-tile>
+      </calcite-tile-group>
+    </div>
+
+    <div class="scale-container">
+      <h2>Large</h2>
+      <calcite-tile-group scale="l" layout="vertical">
+        <calcite-tile heading="No Heading Level" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 1" heading-level="1" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 2" heading-level="2" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 3" heading-level="3" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 4" heading-level="4" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 5" heading-level="5" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 6" heading-level="6" description="Description for item"></calcite-tile>
+      </calcite-tile-group>
+    </div>
+  </div>
 `;
 
 export const allVariants = (): string => html`
@@ -621,7 +691,7 @@ export const allVariants = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-tile
     description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     heading="Tile heading lorem ipsum"
@@ -632,16 +702,16 @@ export const darkModeRTL_TestOnly = (): string => html`
   >
   </calcite-tile>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const contentTopButton_TestOnly = (): string => html`
+export const contentTopButton = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" icon="layers">
     <calcite-icon slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon slot="content-bottom" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
 
-export const contentTopFullWidth_TestOnly = (): string => html`
+export const contentTopFullWidth = (): string => html`
   <style>
     .slotted {
       display: inline-flex;
@@ -667,7 +737,7 @@ export const contentTopFullWidth_TestOnly = (): string => html`
   </calcite-tile>
 `;
 
-export const contentBottomFullWidth_TestOnly = (): string => html`
+export const contentBottomFullWidth = (): string => html`
   <style>
     .slotted {
       display: inline-flex;
@@ -693,14 +763,14 @@ export const contentBottomFullWidth_TestOnly = (): string => html`
   </calcite-tile>
 `;
 
-export const contentStartRTL_TestOnly = (): string => html`
+export const contentStartRTL = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" dir="rtl">
     <calcite-icon scale="s" slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon scale="s" slot="content-bottom" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
 
-export const overflowingContent_TestOnly = (): string => html`
+export const overflowingContent = (): string => html`
   <calcite-tile
     icon="2d-explore"
     heading="Example long tile heading........................................................................................................................"
@@ -709,7 +779,7 @@ export const overflowingContent_TestOnly = (): string => html`
   ></calcite-tile>
 `;
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-tile
     description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     disabled
@@ -719,7 +789,7 @@ export const disabled_TestOnly = (): string => html`
   </calcite-tile>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(
     html` <calcite-tile
       description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."

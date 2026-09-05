@@ -7,36 +7,44 @@
  * @prop --calcite-input-date-picker-actions-icon-color-hover: Specifies the component's actions icon color on hover.
  * @prop --calcite-input-date-picker-background-color: Specifies the component's input background color.
  * @prop --calcite-input-date-picker-border-color: Specifies the component's input border color.
- * @prop --calcite-input-date-picker-calendar-actions-background-color: Specifies the background color of actions of the calendar.
- * @prop --calcite-input-date-picker-calendar-actions-background-color-hover: Specifies the background color of actions of the calendar when hovered.
- * @prop --calcite-input-date-picker-calendar-actions-background-color-press: Specifies the background color of actions of the calendar when pressed.
+ * @prop --calcite-input-date-picker-calendar-actions-background-color: Specifies the background color of the component's calendar actions.
+ * @prop --calcite-input-date-picker-calendar-actions-background-color-hover: Specifies the background color of the component's calendar actions when hovered.
+ * @prop --calcite-input-date-picker-calendar-actions-background-color-press: Specifies the background color of the component's calendar actions when pressed.
  * @prop --calcite-input-date-picker-calendar-actions-text-color: Specifies the text color of the component's calendar actions.
  * @prop --calcite-input-date-picker-calendar-actions-text-color-press: Specifies the text color of the component's calendar actions when pressed.
- * @prop --calcite-input-date-picker-calendar-border-color: Specifies the component's calendar border color.
- * @prop --calcite-input-date-picker-calendar-corner-radius: Specifies the component's calendar corner radius.
- * @prop --calcite-input-date-picker-calendar-current-day-text-color: Specifies the text color of current day of the component's date-picker.
- * @prop --calcite-input-date-picker-calendar-day-background-color: Specifies the background color of day of the calendar.
- * @prop --calcite-input-date-picker-calendar-day-background-color-hover: Specifies the background color of day of the calendar when hovered.
- * @prop --calcite-input-date-picker-calendar-day-current-text-color: [Deprecated] Use `--calcite-input-date-picker-calendar-current-day-text-color`. Specifies the text color of current day of the component's date-picker.
- * @prop --calcite-input-date-picker-calendar-day-range-text-color: Specifies the text color of select day range of the component's date-picker.
- * @prop --calcite-input-date-picker-calendar-day-text-color-selected: Specifies the text color of selected day of the component's date-picker.
- * @prop --calcite-input-date-picker-calendar-day-outside-range-background-color-hover: Specifies the background color of day's outside current range of the component's date-picker when hovered.
- * @prop --calcite-input-date-picker-calendar-day-outside-range-text-color-hover: Specifies the text color of day's outside current range of the component's date-picker when hovered.
- * @prop --calcite-input-date-picker-calendar-day-text-color: Specifies the text color of day of the component's date-picker.
- * @prop --calcite-input-date-picker-calendar-day-text-color-hover: Specifies the text color of day of the component's date-picker when hovered.
- * @prop --calcite-input-date-picker-calendar-selected-background-color: Specifies the background color of selected day and day range of the calendar.
- * @prop --calcite-input-date-picker-calendar-shadow: the component's calendar shadow.
+ * @prop --calcite-input-date-picker-calendar-border-color: Specifies the border color of the component's calendar.
+ * @prop --calcite-input-date-picker-calendar-corner-radius: Specifies the corner radius of the component's calendar.
+ * @prop --calcite-input-date-picker-calendar-current-day-text-color: Specifies the text color of the component's calendar current day element.
+ * @prop --calcite-input-date-picker-calendar-day-background-color: Specifies the background color of the component's calendar day elements.
+ * @prop --calcite-input-date-picker-calendar-day-background-color-hover: Specifies the background color of the component's calendar day elements when hovered.
+ * @prop --calcite-input-date-picker-calendar-day-current-text-color: [Deprecated] in v3.3.1, removal target v6.0.0 - Use `--calcite-input-date-picker-calendar-current-day-text-color` instead. Specifies the text color of current day of the component's date-picker.
+ * @prop --calcite-input-date-picker-calendar-day-range-background-color: Specifies the background color of the component's calendar selected day range.
+ * @prop --calcite-input-date-picker-calendar-day-range-text-color: Specifies the text color of the component's calendar selected day range.
+ * @prop --calcite-input-date-picker-calendar-day-text-color-selected: Specifies the text color of component's calendar selected day.
+ * @prop --calcite-input-date-picker-calendar-day-outside-range-background-color-hover: Specifies the background color of the component's calendar day elements outside the current range when hovered.
+ * @prop --calcite-input-date-picker-calendar-day-outside-range-text-color-hover: Specifies the text color of the component's calendar day elements outside the current range when hovered.
+ * @prop --calcite-input-date-picker-calendar-day-text-color: Specifies the text color of the component's calendar day elements.
+ * @prop --calcite-input-date-picker-calendar-day-text-color-hover: Specifies the text color of the component's calendar day elements when hovered.
+ * @prop --calcite-input-date-picker-calendar-selected-background-color: Specifies the background color of the component's calendar selected day.
+ * @prop --calcite-input-date-picker-calendar-shadow: Specifies the component's calendar shadow.
  * @prop --calcite-input-date-picker-calendar-icon-color: Specifies the component's calendar icon color.
- * @prop --calcite-input-date-picker-calendar-icon-color-hover: Specifies the component's calendar icon color.
- * @prop --calcite-input-date-picker-calendar-month-select-text-color: Specifies the text color of month select of the component's date-picker.
- * @prop --calcite-input-date-picker-calendar-range-divider-color: Specifies the divider color between the component's date-picker.
+ * @prop --calcite-input-date-picker-calendar-icon-color-hover: Specifies the component's calendar icon color when hovered.
+ * @prop --calcite-input-date-picker-calendar-month-select-text-color: Specifies the text color of the component's calendar selected month.
+ * @prop --calcite-input-date-picker-calendar-range-divider-color: When `range` is `true`, specifies the divider color between the component's calendars.
  * @prop --calcite-input-date-picker-calendar-text-color: Specifies the text color of the component's calendar week, year & suffix.
  * @prop --calcite-input-date-picker-corner-radius: Specifies the component's input corner radius.
- * @prop --calcite-input-date-picker-divider-color: Specifies the component's divider color between two inputs when in range mode.
- * @prop --calcite-input-date-picker-icon-color: Specifies the component's in-field input icon color.
+ * @prop --calcite-input-date-picker-divider-color: When `range` is `true`, specifies the component's divider color between two inputs.
+ * @prop --calcite-input-date-picker-icon-color: Specifies the component's input icon color.
  * @prop --calcite-input-date-picker-placeholder-text-color: Specifies the component's input placeholder text color.
  * @prop --calcite-input-date-picker-shadow: Specifies the component's input shadow.
  * @prop --calcite-input-date-picker-text-color: Specifies the component's input text color.
+ *
+ * @prop --calcite-input-date-picker-input-action-background-color: Specifies the background color of the input's `clearable` element.
+ * @prop --calcite-input-date-picker-input-action-background-color-hover: Specifies the background color of the input's `clearable` element when hovered.
+ * @prop --calcite-input-date-picker-input-action-background-color-press: Specifies the background color of the input's `clearable` element when pressed.
+ * @prop --calcite-input-date-picker-input-action-icon-color: Specifies the icon color of the input's `clearable` and toggle elements.
+ * @prop --calcite-input-date-picker-input-action-icon-color-hover: Specifies the icon color of the input's `clearable` and toggle elements when hovered.
+ * @prop --calcite-input-date-picker-input-action-icon-color-press: Specifies the icon color of the input's `clearable` and toggle elements when pressed.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -44,6 +52,13 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-date-picker-toggle-spacing
+// --calcite-internal-input-text-focus-outline-color
+// --calcite-internal-input-text-icon-border-block-end-width
+// --calcite-internal-input-text-icon-border-block-start-width
+// --calcite-internal-input-text-icon-border-inline-start-width
+// --calcite-internal-input-text-input-border-block-end-width
+// --calcite-internal-input-text-input-border-block-start-width
+// --calcite-internal-input-text-input-border-inline-end-width
 // --calcite-internal-input-text-input-padding-inline-end
 
 @use "../../styles/includes";
@@ -60,7 +75,7 @@
   box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
 
   .menu-container .calcite-floating-ui-anim {
-    box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-sm));
+    box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-md));
   }
 }
 
@@ -69,20 +84,32 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-2xs);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-lg))};
+
+  .clear-button {
+    block-size: var(--calcite-space-2xl);
+  }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-md);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-sm);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-xxl))};
+
+  .clear-button {
+    block-size: var(--calcite-space-3xl);
+  }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-lg);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-sm-plus);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(
       var(--calcite-spacing-xxxl)
     )};
+
+  .clear-button {
+    block-size: var(--calcite-space-4xl);
+  }
 }
 
 @include includes.disabled();
@@ -92,30 +119,96 @@
   transform: translate3d(0, 0, 0);
 }
 
+.input-container {
+  position: relative;
+}
+
 .input-wrapper {
   @apply relative;
 
   .chevron-icon {
-    color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
+    color: var(
+      --calcite-input-date-picker-actions-icon-color,
+      var(--calcite-input-date-picker-input-action-icon-color, var(--calcite-color-text-3))
+    );
   }
 
-  &:focus-within,
-  &:active,
-  &:hover {
-    .chevron-icon {
-      color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
-    }
+  &:is(:focus-within, :hover) {
+    .chevron-icon,
     ~ .input-wrapper .chevron-icon {
-      color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
+      color: var(
+        --calcite-input-date-picker-actions-icon-color-hover,
+        var(--calcite-input-date-picker-input-action-icon-color-hover, var(--calcite-color-text-1))
+      );
+    }
+  }
+
+  &:is(:focus-within, :active) {
+    .chevron-icon,
+    ~ .input-wrapper .chevron-icon {
+      color: var(
+        --calcite-input-date-picker-actions-icon-color-hover,
+        var(--calcite-input-date-picker-input-action-icon-color-press, var(--calcite-color-text-1))
+      );
     }
   }
 }
 
+.horizontal-actions-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  inset-inline-end: var(--calcite-border-width-sm);
+  inset-block: var(--calcite-space-none);
+
+  .toggle-icon {
+    position: relative;
+    inset: unset;
+    block-size: 100%;
+  }
+}
+
+.vertical-actions-container {
+  display: flex;
+  align-items: center;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-surface-2));
+  border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
+  padding-inline: var(--calcite-space-md);
+  padding-inline-start: var(--calcite-space-none);
+  border-inline-start-width: var(--calcite-border-width-none);
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .toggle-icon {
+    position: relative;
+    inset: unset;
+  }
+}
+
+.vertical-actions-container .chevron-icon {
+  color: var(
+    --calcite-input-date-picker-actions-icon-color,
+    var(--calcite-input-date-picker-input-action-icon-color, var(--calcite-color-text-3))
+  );
+}
+
+.clear-button {
+  display: flex;
+}
+
 .toggle-icon {
-  @apply absolute flex cursor-pointer items-center;
-  inset-inline-end: 0;
-  inset-block: 0;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  inset-inline-end: var(--calcite-space-none);
+  inset-block: var(--calcite-space-none);
   padding-inline: var(--calcite-internal-date-picker-toggle-spacing);
+  padding-inline-start: var(--calcite-space-none);
 }
 
 :host([range]) {
@@ -156,8 +249,11 @@
 }
 
 :host([layout="vertical"]) .divider-container {
-  @apply w-full h-px border-t-0 border-b-0 border-l border-r-0;
-  padding-inline: var(--calcite-spacing-md);
+  @apply h-px border-t-0 border-b-0;
+  border-inline-start-width: var(--calcite-border-width-sm);
+  border-inline-end-width: var(--calcite-border-width-none);
+  inline-size: calc(100% - var(--calcite-space-md));
+  padding-inline: var(--calcite-space-md);
   & .divider {
     @apply w-full h-px my-0;
   }
@@ -170,6 +266,23 @@
 
   .input-container {
     @apply flex-col items-start;
+  }
+
+  .vertical-actions-container {
+    padding-inline-end: var(--calcite-space-none);
+  }
+
+  .vertical-actions-container .toggle-icon {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .vertical-actions-container:not(:has(.clear-button)) .toggle-icon {
+    padding-inline-start: var(--calcite-space-md);
+  }
+
+  .clear-button {
+    margin-inline-start: var(--calcite-space-md);
   }
 }
 
@@ -184,43 +297,63 @@
   @apply mt-0;
 }
 
-.vertical-chevron-container {
-  @apply flex items-center border border-solid border-l-0;
-  padding-inline: var(--calcite-spacing-md);
-  background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-foreground-1));
-  border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
-  calcite-icon {
-    color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
-
-    &:hover {
-      color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
-    }
-  }
-}
-
 :host([range][layout="vertical"][scale="s"]) {
-  .vertical-chevron-container,
+  .vertical-actions-container {
+    padding-inline-end: var(--calcite-space-none);
+  }
+
+  .vertical-actions-container:not(:has(.clear-button)) .toggle-icon {
+    padding-inline-start: var(--calcite-space-sm);
+  }
+
   .divider-container {
-    padding-inline: var(--calcite-spacing-sm);
+    inline-size: calc(100% - var(--calcite-space-sm));
+    padding-inline: var(--calcite-space-sm);
+  }
+
+  .clear-button {
+    margin-inline-start: var(--calcite-space-sm);
   }
 }
 
 :host([range][layout="vertical"][scale="l"]) {
-  .vertical-chevron-container,
+  .vertical-actions-container {
+    padding-inline-end: var(--calcite-space-none);
+  }
+
+  .vertical-actions-container:not(:has(.clear-button)) .toggle-icon {
+    padding-inline-start: var(--calcite-space-lg);
+  }
+
   .divider-container {
-    padding-inline: var(--calcite-spacing-lg);
+    inline-size: calc(100% - var(--calcite-space-lg));
+    padding-inline: var(--calcite-space-lg);
+  }
+
+  .clear-button {
+    margin-inline-start: var(--calcite-space-lg);
   }
 }
 
-.container {
-  &:focus-within,
-  &:active,
-  &:hover {
-    .vertical-chevron-container {
-      calcite-icon {
-        color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
-      }
-    }
+:host([range][layout="vertical"])
+  .input-container:has(.input-wrapper:focus-within, .input-wrapper:hover)
+  + .vertical-actions-container,
+:host([range][layout="vertical"]) .vertical-actions-container:hover {
+  .chevron-icon {
+    color: var(
+      --calcite-input-date-picker-actions-icon-color-hover,
+      var(--calcite-input-date-picker-input-action-icon-color-hover, var(--calcite-color-text-1))
+    );
+  }
+}
+
+:host([range][layout="vertical"]) .input-container:has(.input-wrapper:active) + .vertical-actions-container,
+:host([range][layout="vertical"]) .vertical-actions-container:active {
+  .chevron-icon {
+    color: var(
+      --calcite-input-date-picker-actions-icon-color-hover,
+      var(--calcite-input-date-picker-input-action-icon-color-press, var(--calcite-color-text-1))
+    );
   }
 }
 
@@ -232,6 +365,58 @@
   --calcite-input-text-icon-color: var(--calcite-input-date-picker-icon-color);
   --calcite-input-text-text-color: var(--calcite-input-date-picker-text-color);
   --calcite-input-text-placeholder-text-color: var(--calcite-input-date-picker-placeholder-text-color);
+}
+
+:host([range]) .input--start {
+  --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
+}
+
+:host([layout="vertical"][range]) .input--start {
+  --calcite-internal-input-text-icon-border-block-end-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-input-border-block-end-width: var(--calcite-border-width-none);
+}
+
+:host([layout="horizontal"]) .input--end {
+  --calcite-internal-input-text-icon-border-inline-start-width: var(--calcite-border-width-none);
+}
+
+:host([range][layout="horizontal"])
+  .container:has(.input-wrapper[data-position="end"]:focus-within)
+  .input-wrapper[data-position="end"] {
+  --calcite-input-date-picker-border-color: var(--calcite-color-brand);
+  @apply focus-inset;
+}
+
+:host([range][layout="horizontal"])
+  .container:has(.input-wrapper[data-position="end"]:focus-within)
+  .input-wrapper[data-position="start"]
+  .input--start {
+  --calcite-internal-input-text-focus-outline-color: transparent;
+}
+
+:host([status="invalid"][range][layout="horizontal"])
+  .container:has(.input-wrapper[data-position="end"]:focus-within)
+  .input-wrapper[data-position="end"] {
+  --calcite-input-date-picker-border-color: var(--calcite-color-status-danger);
+  @apply focus-inset-danger;
+}
+
+:host([layout="vertical"]) .input--end {
+  --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-input-border-block-start-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-icon-border-block-start-width: var(--calcite-border-width-none);
+}
+
+:host([range][layout="vertical"][read-only]) {
+  :is(.input--start, .input--end) {
+    --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-sm);
+  }
+
+  .divider-container {
+    box-sizing: border-box;
+    border-inline-end-width: var(--calcite-border-width-sm);
+    inline-size: 100%;
+  }
 }
 
 calcite-date-picker {
@@ -271,7 +456,9 @@ calcite-date-picker {
     var(--calcite-input-date-picker-calendar-day-current-text-color)
   );
   --calcite-date-picker-day-range-text-color: var(--calcite-input-date-picker-calendar-day-range-text-color);
-  --calcite-date-picker-day-range-background-color: var(--calcite-input-date-picker-calendar-selected-background-color);
+  --calcite-date-picker-day-range-background-color: var(
+    --calcite-input-date-picker-calendar-day-range-background-color
+  );
   --calcite-date-picker-day-outside-range-background-color-hover: var(
     --calcite-input-date-picker-calendar-day-outside-range-background-color-hover
   );
@@ -285,6 +472,13 @@ calcite-date-picker {
 }
 
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.form-internal-label();
 @include includes.base-component();
+@include includes.clear-button(
+  $background-color: "--calcite-input-date-picker-input-action-background-color",
+  $background-color-hover: "--calcite-input-date-picker-input-action-background-color-hover",
+  $background-color-press: "--calcite-input-date-picker-input-action-background-color-press",
+  $icon-color: "--calcite-input-date-picker-input-action-icon-color",
+  $icon-color-hover: "--calcite-input-date-picker-input-action-icon-color-hover",
+  $icon-color-press: "--calcite-input-date-picker-input-action-icon-color-press"
+);

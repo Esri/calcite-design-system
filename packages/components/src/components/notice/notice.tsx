@@ -1,6 +1,5 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -12,13 +11,14 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Kind, Scale, Width } from "../interfaces";
-import { KindIcons } from "../resources";
+import { Appearance, Kind, Scale, Width } from "../types";
+import { KindIcons, KindIconsFilled } from "../resources";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
@@ -35,10 +35,10 @@ declare global {
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
  *
- * @slot title - A slot for adding the title.
- * @slot message - A slot for adding the message.
+ * @slot title - A slot for adding a title.
+ * @slot message - A slot for adding a message.
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
  */
 export class Notice extends LitElement {
   //#region Static Members
@@ -50,10 +50,12 @@ export class Notice extends LitElement {
   //#region Private Properties
 
   /** The close button element. */
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   /** The computed icon to render. */
   private requestedIcon?: IconName;
+
+  private kindIcons!: Record<string, IconName>;
 
   transitionProp = "opacity" as const;
 
@@ -78,22 +80,26 @@ export class Notice extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, a close button is added to the component. */
+  /** Specifies the appearance of the component. */
+  @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
+    "outline-fill";
+
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to top border and icon. */
+  /** Specifies the kind of the component, which will apply to the top border and icon. */
   @property({ reflect: true }) kind: Extract<
-    "brand" | "danger" | "info" | "success" | "warning",
+    "brand" | "danger" | "info" | "success" | "warning" | "neutral",
     Kind
   > = "brand";
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is visible. */
@@ -102,7 +108,11 @@ export class Notice extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   //#endregion
@@ -114,7 +124,7 @@ export class Notice extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -145,7 +155,8 @@ export class Notice extends LitElement {
   //#region Lifecycle
 
   async load(): Promise<void> {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    this.kindIcons = { ...KindIconsFilled, brand: KindIcons.brand };
+    this.requestedIcon = setRequestedIcon(this.kindIcons, this.icon, this.kind);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -161,7 +172,7 @@ export class Notice extends LitElement {
       changes.has("icon") ||
       (changes.has("kind") && (this.hasUpdated || this.kind !== "brand"))
     ) {
-      this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+      this.requestedIcon = setRequestedIcon(this.kindIcons, this.icon, this.kind);
     }
   }
 
@@ -199,14 +210,14 @@ export class Notice extends LitElement {
 
   override render(): JsxNode {
     const closeButton = (
-      <button
-        ariaLabel={this.messages.close}
+      <calcite-action
         class={CSS.close}
+        icon="x"
         onClick={this.close}
         ref={this.closeButtonRef}
-      >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+        scale={this.scale}
+        text={this.messages.close}
+      />
     );
 
     return (

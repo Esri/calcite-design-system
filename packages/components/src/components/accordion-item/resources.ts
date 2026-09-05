@@ -1,5 +1,6 @@
-import { IconName } from "../icon/interfaces";
-import { Appearance, Position, IconType } from "../interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
+import { Appearance, Position, IconType } from "../types";
 
 export const SLOTS = {
   actionsStart: "actions-start",
@@ -14,6 +15,7 @@ export const CSS = {
   content: "content",
   description: "description",
   expandIcon: "expand-icon",
+  hasActions: "has-actions",
   header: "header",
   headerContainer: "header-container",
   headerContent: "header-content",
@@ -41,3 +43,8 @@ export const ICONS: Record<string, IconName> = {
   plus: "plus",
   minus: "minus",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isAccordionItem = isTag("calcite-accordion-item");

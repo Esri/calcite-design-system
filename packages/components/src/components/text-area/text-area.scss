@@ -85,6 +85,7 @@
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
   color: var(--calcite-text-area-text-color, var(--calcite-color-text-1));
   font-family: inherit;
+  line-height: var(--calcite-font-line-height-base);
   max-block-size: var(--calcite-text-area-max-height);
   min-block-size: calc(
     var(--calcite-text-area-min-height, 0px) - var(--calcite-internal-text-area-footer-min-height, 0px)
@@ -129,8 +130,21 @@
   }
 }
 
+.loader-container {
+  position: relative;
+  block-size: inherit;
+}
+
+.loader {
+  position: absolute;
+  inset-block-start: 0;
+  inset-block-start: var(--calcite-spacing-px);
+  inset-inline: var(--calcite-spacing-px);
+}
+
 .footer {
   @apply flex box-border items-center;
+  line-height: var(--calcite-font-line-height-base);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-footer-border-color);
   border-block-start: var(--calcite-border-width-none);
   min-block-size: var(--calcite-internal-text-area-footer-min-height);
@@ -248,7 +262,6 @@
 
 @include includes.form-internal-label();
 @include includes.form-validation-message();
-@include includes.hidden-form-input();
 @include includes.disabled();
 @include includes.base-component();
-@include includes.input-placeholder-text();
+@include includes.input-placeholder-text("--calcite-text-area-placeholder-text-color");

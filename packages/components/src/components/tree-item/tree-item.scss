@@ -4,7 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tree-text-color: Specifies the component's text color.
- * @prop --calcite-tree-text-color-selected: Specifies the component's text color when selected.
+ * @prop --calcite-tree-text-color-selected: When 'selected', specifies the component's text color.
  * @prop --calcite-tree-selected-icon-color: Specifies the component's selection icon color.
  */
 
@@ -12,10 +12,12 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-tree-item-action-spacing
 // --calcite-internal-tree-item-children-container-padding
 // --calcite-internal-tree-item-line-left-position
 // --calcite-internal-tree-item-padding-block
 // --calcite-internal-tree-item-spacing-unit
+// --calcite-internal-tree-item-text-color
 
 @use "../../styles/includes";
 @use "../../styles/shared/animation";
@@ -28,6 +30,10 @@
   @apply text-n2h;
 }
 
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xxs);
+}
+
 :host([scale="m"]) {
   --calcite-internal-tree-item-spacing-unit: 0.5rem;
   --calcite-internal-tree-item-padding-block: 0.5rem;
@@ -37,6 +43,7 @@
 }
 
 :host([scale="l"]) {
+  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xs);
   --calcite-internal-tree-item-spacing-unit: 0.75rem;
   --calcite-internal-tree-item-padding-block: 0.625rem;
   --calcite-internal-tree-item-children-container-padding: 2.25rem;
@@ -51,6 +58,7 @@
 
   .children-container ::slotted(*) {
     padding-inline-start: var(--calcite-internal-tree-item-children-container-padding);
+    overflow: hidden;
   }
 }
 
@@ -66,7 +74,11 @@
     padding-block: var(--calcite-internal-tree-item-padding-block);
   }
 
-  color: var(--calcite-tree-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-tree-text-color, var(--calcite-color-text-1));
+}
+
+.icon-start {
+  --calcite-icon-color: var(--calcite-color-text-3);
 }
 
 @include includes.calcite-hydrated-hidden();
@@ -74,8 +86,8 @@
 
 :host([lines]) {
   .children-container::after {
-    @apply transition-default
-        absolute
+    @include includes.transition-default();
+    @apply absolute
         top-0
         w-px
         transition-colors
@@ -133,6 +145,7 @@
 
 .actions-end {
   @apply flex self-stretch flex-row items-center;
+  gap: var(--calcite-internal-tree-item-action-spacing);
 }
 
 .checkbox-container {
@@ -150,26 +163,32 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden opacity-0 origin-top;
-  transform: scaleY(0);
+  display: grid;
+  grid-template-rows: 0fr;
+  max-block-size: max-content;
+  opacity: 1;
+  position: relative;
   transition:
-    var(--calcite-animation-timing) animation.$easing-function,
-    opacity var(--calcite-animation-timing) animation.$easing-function,
-    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    grid-template-rows var(--calcite-internal-animation-timing-medium) animation.$easing-function;
+}
 
-  .item--expanded > & {
-    @apply overflow-visible opacity-100;
-    transform: none;
-    block-size: auto;
+.item--expanded > .children-container {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  max-block-size: max-content;
+
+  @starting-style {
+    opacity: 0;
+    grid-template-rows: 0fr;
   }
 }
 
 .node-container {
   @apply relative flex grow items-center min-w-0;
-
-  .checkmark,
-  .bullet-point {
-    @apply transition-default opacity-0;
+  .selection-icon {
+    @include includes.transition-default();
+    @apply opacity-0;
     color: var(--calcite-color-border-1);
   }
 }
@@ -177,20 +196,23 @@
 .node-container:hover,
 :host([selected]) .node-container:hover,
 :host(:focus:not([disabled])) .node-container {
-  .checkmark,
-  .bullet-point {
+  .selection-icon {
     @apply opacity-100;
   }
 }
 
 :host([selected]) .node-container,
 :host([selected]) .node-container:hover {
+  --calcite-internal-tree-item-text-color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
+
   @apply font-medium;
+  color: var(--calcite-internal-tree-item-text-color);
 
-  color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
+  .icon-start {
+    --calcite-icon-color: var(--calcite-internal-tree-item-text-color);
+  }
 
-  .bullet-point,
-  .checkmark {
+  .selection-icon {
     @apply opacity-100;
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
@@ -198,15 +220,14 @@
 
 // dropdown with children
 :host([has-children]) .node-container {
-  .bullet-point,
-  .checkmark {
+  .selection-icon {
     @apply hidden;
   }
 }
 
 .chevron {
-  @apply transition-default
-    text-color-3
+  @include includes.transition-default();
+  @apply text-color-3
     relative
     self-center;
   flex: 0 0 auto;
@@ -222,8 +243,7 @@
 }
 
 :host([selected]) {
-  .checkmark,
-  .bullet-point {
+  .selection-icon {
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
   .checkbox {

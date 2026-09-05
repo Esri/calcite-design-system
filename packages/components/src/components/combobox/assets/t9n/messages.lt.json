@@ -4,9 +4,10 @@
   "allSelected": "Pasirinkti visi",
   "clear": "Išvalyti reikšmę",
   "noMatches": "Atitikčių nėra",
-  "removeTag": "Pašalinti raktažodį",
+  "removeTag": "Pašalinti {value} raktažodį",
   "required": "Būtina",
   "selectAll": "Pasirinkti viską",
   "selected": "pažymėta",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Tik skaitoma {value}",
+  "disabledSelectedCount": "+{count}"
 }

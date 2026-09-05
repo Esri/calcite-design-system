@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import type { Platform } from "../../src/types/interfaces.d.ts";
+import type { Platform } from "../../src/types";
 
 const platforms: {
   name: Platform;
@@ -10,16 +10,14 @@ const platforms: {
 }[] = [
   {
     name: "css",
-    files: ["breakpoints", "classes", "component", "core", "dark", "global", "index", "light", "semantic"],
+    files: ["breakpoints", "classes", "core", "dark", "global", "index", "light", "semantic"],
   },
   { name: "scss", files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
   { name: "es6", files: ["breakpoints", "core", "global", "semantic"] },
   { name: "docs", files: ["core", "global", "semantic"], internal: true },
 ];
 
-describe("generated tokens", () => {
-  platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
-});
+platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
 
 /**
  * Generate test cases for a given platform and files

@@ -1,9 +1,24 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "./dialog";
-const { kind, scale, overlayPositioning } = ATTRIBUTES;
-import { dialogPlacements, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
+import "./dialog"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../inline-editable/inline-editable"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell/shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+
+const { dialogPlacement, kind, scale, overlayPositioning } = ATTRIBUTES;
 
 type DialogStoryArgs = Pick<
   Dialog,
@@ -14,6 +29,7 @@ type DialogStoryArgs = Pick<
   | "heading"
   | "description"
   | "escapeDisabled"
+  | "fullscreenDisabled"
   | "closeDisabled"
   | "placement"
   | "loading"
@@ -25,6 +41,7 @@ type DialogStoryArgs = Pick<
   | "dragEnabled"
   | "resizable"
   | "outsideCloseDisabled"
+  | "width"
 >;
 
 export default {
@@ -35,7 +52,7 @@ export default {
     escapeDisabled: false,
     scale: scale.defaultValue,
     widthScale: scale.values[0],
-    placement: "center",
+    placement: dialogPlacement.defaultValue,
     heading: "My Dialog",
     description: "My description!",
     closeDisabled: false,
@@ -46,8 +63,10 @@ export default {
     modal: false,
     dragEnabled: false,
     resizable: false,
+    fullscreenDisabled: false,
     overlayPositioning: overlayPositioning.defaultValue,
     outsideCloseDisabled: false,
+    width: scale.values[0],
   },
   argTypes: {
     kind: {
@@ -62,12 +81,16 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    width: {
+      options: scale.values,
+      control: { type: "select" },
+    },
     overlayPositioning: {
       options: overlayPositioning.values,
       control: { type: "select" },
     },
     placement: {
-      options: dialogPlacements,
+      options: dialogPlacement.values,
       control: { type: "select" },
     },
   },
@@ -105,13 +128,15 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("loading", args.loading)}
     ${boolean("close-disabled", args.closeDisabled)}
     ${boolean("escape-disabled", args.escapeDisabled)}
+    ${boolean("fullscreen-disabled", args.fullscreenDisabled)}
     ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
+    width="${args.width}"
     placement="${args.placement}"
     heading="${args.heading}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     icon-flip-rtl="${args.iconFlipRtl}"
     description="${args.description}"
     overlay-positioning="${args.overlayPositioning}"
@@ -200,6 +225,27 @@ export const customContentSlot = (): string => html`
 export const withIcon = (): string => html`
   <calcite-dialog icon="banana" heading="Banana" description="This is bananas" open scale="m" width-scale="s" modal>
     Hello world!
+  </calcite-dialog>
+`;
+
+export const withHeaderTop = (): string => html`
+  <calcite-dialog heading="Dialog heading" open scale="m" width-scale="s">
+    <div slot="${SLOTS.headerTop}">Header top content</div>
+    <p>Dialog content</p>
+  </calcite-dialog>
+`;
+
+export const withRichHeaderSlots = (): string => html`
+  <calcite-dialog
+    heading="Plain heading fallback"
+    description="Plain description fallback"
+    open
+    scale="m"
+    width-scale="s"
+  >
+    <span slot="heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
+    <span slot="description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
+    <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
@@ -318,6 +364,7 @@ withTooltips.parameters = {
   chromatic: { delay: 500 },
 };
 
+// `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline editable (`inline-editable` and `inline-editable-controls` props) instead.
 export const withCustomHeader = (): string => html`
   <style>
     #three-quarters-width-header-content {
@@ -546,3 +593,18 @@ export const themed = (): string =>
     <div slot="footer">Footer!</div>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
   </calcite-dialog>`;
+
+export const fullscreenDisabled = (): string => html`
+  <calcite-dialog
+    heading="fullscreen Disabled"
+    description="This dialog cannot go fullscreen even on small screens."
+    open
+    fullscreen-disabled
+  >
+    <div>
+      This dialog has <b>fullscreenDisabled</b> set to true. Resize the viewport to a small size and verify it does not
+      become fullscreen.
+    </div>
+    <calcite-button slot="footer-end">Close</calcite-button>
+  </calcite-dialog>
+`;

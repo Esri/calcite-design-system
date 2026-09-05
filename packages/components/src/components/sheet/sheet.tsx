@@ -1,32 +1,34 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import {
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
   LitElement,
+  method,
   property,
   setAttribute,
+  state,
 } from "@arcgis/lumina";
-import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
-import { clamp } from "../../utils/math";
+import { Height, LogicalFlowPosition, ResizeValues, Scale, Width } from "../types";
+import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { CSS, ICONS, IDS } from "./resources";
-import { DisplayMode, ResizeValues } from "./interfaces";
+import { DisplayMode } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
 
@@ -46,15 +48,15 @@ export class Sheet extends LitElement {
 
   //#region Private Properties
 
-  private contentEl: HTMLDivElement;
+  private contentRef = createRef<HTMLDivElement>();
 
-  private contentId: string;
+  direction = useDirection();
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: () => this.embedded,
+      clickOutsideDeactivates: () => this.modalDisabled || this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -68,40 +70,50 @@ export class Sheet extends LitElement {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private interaction: Interactable;
+  private interaction?: Interactable;
 
   messages = useT9n<typeof T9nStrings>();
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.handleMutationObserver());
+
+  private _modalDisabled = false;
 
   private _open = false;
 
-  openProp = "opened";
+  openProp = "opened" as const;
 
   transitionProp = "opacity" as const;
 
-  private resizeHandleEl: HTMLDivElement;
+  private resizeHandleEl?: HTMLDivElement;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
-    if (
-      !defaultPrevented &&
-      !this.escapeDisabled &&
-      this.focusTrapDisabled &&
-      this.open &&
-      key === "Escape"
-    ) {
+    if (!defaultPrevented && !this.escapeDisabled && this.open && key === "Escape") {
       event.preventDefault();
       this.open = false;
     }
   };
+
+  private sizeOverride = useSizeOverride({
+    targetElement: this.contentRef,
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
+    onResize: (resizeValues) => {
+      this.resizeValues = { ...resizeValues };
+    },
+  });
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.transitionRef,
+  })(this);
 
   //#endregion
 
@@ -117,7 +129,7 @@ export class Sheet extends LitElement {
   };
 
   get preventDocumentScroll(): boolean {
-    return !this.embedded;
+    return !this.embedded && !this.modalDisabled;
   }
 
   //#endregion
@@ -126,14 +138,12 @@ export class Sheet extends LitElement {
 
   /**
    * Passes a function to run before the component closes.
-   *
-   * @returns {Promise<void>}
    */
-  @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
+  @property() beforeClose?: (el: Sheet["el"]) => Promise<void>;
 
   /**
-   * Specifies the display mode - `"float"` (content is separated detached),
-   * or `"overlay"` (displays on top of center content).
+   * Specifies the display mode - `"float"` separates content from main layout,
+   * and `"overlay"` displays on top of center content.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "overlay";
 
@@ -152,35 +162,49 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component, where
+   * Specifies custom focus trap configuration on the component.
    *
-   * `"allowOutsideClick`" allows outside clicks,
-   * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
-   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * - `"allowOutsideClick"` allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
-  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /**
-   * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** Specifies the height of the component. */
-  @property({ reflect: true }) height: Height;
+  /** @copyDoc */
+  @property({ reflect: true }) height?: Height;
 
   /**
-   * Specifies the label of the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** When `true`, disables the default modal behavior, allowing interaction with content outside the component. */
+  @property({ reflect: true })
+  get modalDisabled(): boolean {
+    return this._modalDisabled;
+  }
+  set modalDisabled(value: boolean) {
+    if (value === this._modalDisabled) {
+      return;
+    }
+
+    const oldPreventDocumentScroll = this.preventDocumentScroll;
+    this._modalDisabled = value;
+    this.requestUpdate("preventDocumentScroll", oldPreventDocumentScroll);
+  }
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
@@ -201,7 +225,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When `true` and `modalDisabled` is `false`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
@@ -210,16 +234,22 @@ export class Sheet extends LitElement {
   /** When `true`, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
   /**
-   * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   * @copyDoc
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /**
+   * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  /** Specifies the component's width. */
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
@@ -230,7 +260,7 @@ export class Sheet extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -238,7 +268,7 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * Updates the element(s) that are included in the focus-trap of the component.
+   * Updates the element(s) that are included in the component's focus-trap.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */
@@ -248,6 +278,17 @@ export class Sheet extends LitElement {
   ): Promise<void> {
     this.focusTrap.setExtraContainers(extraContainers);
     this.focusTrap.updateContainerElements();
+  }
+
+  /**
+   * Updates the component's size by setting its inline and/or block dimensions.
+   *
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
+   */
+  @method()
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
   }
 
   //#endregion
@@ -277,7 +318,10 @@ export class Sheet extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setupInteractions();
+
+    if (this.hasUpdated) {
+      this.refreshResize();
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -285,43 +329,33 @@ export class Sheet extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
+    if (
+      changes.has("opened") &&
+      (this.hasUpdated || this.opened !== false) &&
+      this.transitionRef.value
+    ) {
       toggleOpenClose(this);
-      this.handlePopover();
     }
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
-      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
+      changes.has("direction")
     ) {
-      this.setupInteractions();
+      this.refreshResize();
     }
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
 
   //#region Private Methods
-
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.transitionEl) {
-      return;
-    }
-
-    if (this.opened) {
-      this.transitionEl.showPopover();
-    } else {
-      this.transitionEl.hidePopover();
-    }
-  }
 
   private async setOpenState(value: boolean): Promise<void> {
     if (this.beforeClose && !value) {
@@ -349,17 +383,12 @@ export class Sheet extends LitElement {
       : ICONS.dragHorizontal;
   }
 
-  private getContentElDOMRect(): DOMRect {
-    return this.contentEl.getBoundingClientRect();
-  }
-
   private handleKeyDown(event: KeyboardEvent): void {
     const { key, defaultPrevented, shiftKey } = event;
     const {
+      contentRef,
       position,
       resizable,
-      contentEl,
-      el,
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
 
@@ -370,153 +399,127 @@ export class Sheet extends LitElement {
 
     const keys = [...arrowKeys, "Home", "End"];
 
-    if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
+    if (!resizable || !contentRef.value || defaultPrevented || !keys.includes(key)) {
       return;
     }
 
-    const rect = this.getContentElDOMRect();
-    const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const rect = contentRef.value.getBoundingClientRect();
+    const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
       case "ArrowUp":
-        this.updateSize({
-          size: rect.height + (position === "block-end" ? stepValue : -stepValue),
-          type: "blockSize",
+        this.updateSizeInternal({
+          block: rect.height + (position === "block-end" ? stepValue : -stepValue),
         });
         event.preventDefault();
         break;
       case "ArrowDown":
-        this.updateSize({
-          size: rect.height + (position === "block-end" ? -stepValue : stepValue),
-          type: "blockSize",
+        this.updateSizeInternal({
+          block: rect.height + (position === "block-end" ? -stepValue : stepValue),
         });
         event.preventDefault();
         break;
       case "ArrowLeft":
-        this.updateSize({
-          size: rect.width + (position === "inline-end" ? stepValue : -stepValue) * invertRTL,
-          type: "inlineSize",
+        this.updateSizeInternal({
+          inline: rect.width + (position === "inline-end" ? stepValue : -stepValue) * invertRTL,
         });
         event.preventDefault();
         break;
       case "ArrowRight":
-        this.updateSize({
-          size: rect.width + (position === "inline-end" ? -stepValue : stepValue) * invertRTL,
-          type: "inlineSize",
+        this.updateSizeInternal({
+          inline: rect.width + (position === "inline-end" ? -stepValue : stepValue) * invertRTL,
         });
         event.preventDefault();
         break;
       case "Home":
-        this.updateSize({
-          size:
-            position === "block-start" || position === "block-end" ? minBlockSize : minInlineSize,
-          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          position === "block-start" || position === "block-end"
+            ? { block: minBlockSize }
+            : { inline: minInlineSize },
+        );
         event.preventDefault();
         break;
       case "End":
-        this.updateSize({
-          size:
-            position === "block-start" || position === "block-end" ? maxBlockSize : maxInlineSize,
-          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          position === "block-start" || position === "block-end"
+            ? { block: maxBlockSize }
+            : { inline: maxInlineSize },
+        );
         event.preventDefault();
         break;
     }
   }
 
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { contentEl, resizeValues } = this;
-
-    if (!contentEl) {
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    if (!this.contentRef.value) {
       return;
     }
 
-    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
-    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
+    this.sizeOverride.resize(size);
+  }
 
-    const clamped =
-      resizeValues[resizeMin] && resizeValues[resizeMax]
-        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
-        : size;
+  private cleanUpInteractions(): void {
+    this.interaction?.unset();
+  }
 
-    const rounded = Math.round(clamped);
+  private updateResizeValues(): void {
+    const { contentRef } = this;
+    if (!contentRef.value) {
+      return;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
 
     this.resizeValues = {
-      ...resizeValues,
-      [type]: rounded,
+      inlineSize: getStylePixelValue(computedStyle.inlineSize),
+      blockSize: getStylePixelValue(computedStyle.blockSize),
+      minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
+      minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
+      maxInlineSize: getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight,
     };
-
-    contentEl.style[type] = size !== null ? `${rounded}px` : null;
   }
 
-  private cleanupInteractions(): void {
-    this.interaction?.unset();
-    this.updateSize({ size: null, type: "inlineSize" });
-    this.updateSize({ size: null, type: "blockSize" });
+  private refreshResize(): void {
+    this.updateResizeValues();
+    this.setUpResizeInteractions();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private setUpResizeInteractions(): void {
+    this.cleanUpInteractions();
 
-    const { el, contentEl, resizable, position, open, resizeHandleEl } = this;
+    const { contentRef, el, resizable, position, open, resizeHandleEl } = this;
 
-    if (!contentEl || !open || !resizable || !resizeHandleEl) {
+    if (!contentRef.value || !open || !resizable || !resizeHandleEl) {
       return;
     }
 
-    await this.el.componentOnReady();
+    const rtl = this.direction === "rtl";
 
-    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentEl);
+    const restrictSizeMin =
+      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
 
-    const values: ResizeValues = {
-      inlineSize: getStylePixelValue(inlineSize),
-      blockSize: getStylePixelValue(blockSize),
-      minInlineSize: getStylePixelValue(minInlineSize),
-      minBlockSize: getStylePixelValue(minBlockSize),
-      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
-      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
-    };
+    const restrictSizeMax =
+      this.resizeValues.maxInlineSize === null || this.resizeValues.maxBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.maxInlineSize, height: this.resizeValues.maxBlockSize };
 
-    this.resizeValues = values;
-
-    const rtl = getElementDir(el) === "rtl";
-
-    this.interaction = interact(contentEl, { context: el.ownerDocument }).resizable({
+    this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
         top: position === "block-end" ? resizeHandleEl : false,
         right: position === (rtl ? "inline-end" : "inline-start") ? resizeHandleEl : false,
         bottom: position === "block-start" ? resizeHandleEl : false,
         left: position === (rtl ? "inline-start" : "inline-end") ? resizeHandleEl : false,
       },
-      modifiers: [
-        interact.modifiers.restrictSize({
-          min: {
-            width: values.minInlineSize,
-            height: values.minBlockSize,
-          },
-          max: {
-            width: values.maxInlineSize,
-            height: values.maxBlockSize,
-          },
-        }),
-      ],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin, max: restrictSizeMax })],
       listeners: {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = position === "block-start" || position === "block-end";
-
-          this.updateSize({
-            size: isBlock ? rect.height : rect.width,
-            type: isBlock ? "blockSize" : "inlineSize",
-          });
+          this.updateSizeInternal(isBlock ? { block: rect.height } : { inline: rect.width });
         },
       },
     });
@@ -524,6 +527,7 @@ export class Sheet extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -541,25 +545,12 @@ export class Sheet extends LitElement {
   onClose(): void {
     this.calciteSheetClose.emit();
     this.focusTrap.deactivate();
+    this.topLayer.hide();
   }
 
   private setResizeHandleEl(el: HTMLDivElement): void {
     this.resizeHandleEl = el;
-    this.setupInteractions();
-  }
-
-  private setContentEl(el: HTMLDivElement): void {
-    this.contentEl = el;
-    this.contentId = ensureId(el);
-  }
-
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-    this.handlePopover();
+    this.refreshResize();
   }
 
   private handleOutsideClose(): void {
@@ -580,14 +571,14 @@ export class Sheet extends LitElement {
 
   override render(): JsxNode {
     const { resizable, position, resizeValues } = this;
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const isBlockPosition = position === "block-start" || position === "block-end";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "aria-describedby", this.contentId);
+    setAttribute(this.el, "aria-describedby", IDS.sheetContent);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = this.label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaModal = "true";
+    this.el.ariaModal = this.modalDisabled ? "false" : "true";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 
@@ -605,11 +596,13 @@ export class Sheet extends LitElement {
             this.height || this.heightScale
           ),
         }}
-        popover={!this.embedded ? "manual" : null}
-        ref={this.setTransitionEl}
+        popover={!this.embedded ? "manual" : undefined}
+        ref={this.transitionRef}
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
+        {this.modalDisabled ? null : (
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+        )}
+        <div class={CSS.content} id={IDS.sheetContent} ref={this.contentRef}>
           <div class={CSS.contentContainer}>
             <slot />
           </div>
@@ -617,13 +610,21 @@ export class Sheet extends LitElement {
             <div
               ariaLabel={this.messages.resizeEnabled}
               ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
-              ariaValueMax={
-                isBlockPosition ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
-              }
-              ariaValueMin={
-                isBlockPosition ? resizeValues.minBlockSize : resizeValues.minInlineSize
-              }
-              ariaValueNow={isBlockPosition ? resizeValues.blockSize : resizeValues.inlineSize}
+              ariaValueMax={ariaValueFromSize(
+                isBlockPosition ? "block" : "inline",
+                resizeValues.maxBlockSize,
+                resizeValues.maxInlineSize,
+              )}
+              ariaValueMin={ariaValueFromSize(
+                isBlockPosition ? "block" : "inline",
+                resizeValues.minBlockSize,
+                resizeValues.minInlineSize,
+              )}
+              ariaValueNow={ariaValueFromSize(
+                isBlockPosition ? "block" : "inline",
+                resizeValues.blockSize,
+                resizeValues.inlineSize,
+              )}
               class={CSS.resizeHandle}
               key="resize-handle"
               onKeyDown={this.handleKeyDown}

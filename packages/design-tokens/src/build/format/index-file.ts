@@ -2,8 +2,8 @@ import prettierSync from "@prettier/sync";
 import type { FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
-import type { PlatformConfig } from "../../types/extensions.d.ts";
-import type { Platform, RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import type { PlatformConfig } from "../../types.ts";
+import type { Platform, RegisterFn, Stylesheet } from "../../types.ts";
 import { fromTokens } from "../utils/dictionary.ts";
 import { isThemed } from "../utils/token-types.ts";
 import { dark, light } from "../dictionaries/index.ts";
@@ -37,18 +37,10 @@ export const formatIndexFile: FormatFn = async (args) => {
   const varLists = {
     light: createVarList(
       commonVarFormat,
-      fromTokens(
-        lightDictionary.allTokens.filter((token) => isThemed(token) && token.attributes?.scope !== "component"),
-      ),
+      fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token))),
       args,
     ),
-    dark: createVarList(
-      commonVarFormat,
-      fromTokens(
-        darkDictionary.allTokens.filter((token) => isThemed(token) && token.attributes?.scope !== "component"),
-      ),
-      args,
-    ),
+    dark: createVarList(commonVarFormat, fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token))), args),
   } as const;
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";

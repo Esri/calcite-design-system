@@ -1,11 +1,11 @@
-// @ts-strict-ignore
 import { LitElement, property, h, method, state, JsxNode, setAttribute } from "@arcgis/lumina";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { Tabs } from "../tabs/tabs";
-import { CSS, IDS } from "./resources";
-import { TabChangeEventDetail } from "./interfaces";
+import { isTabs } from "../tabs/resources";
+import { CSS, IDS, isTab } from "./resources";
+import { TabChangeEventDetail } from "./types";
 import { styles } from "./tab.scss";
 
 declare global {
@@ -26,27 +26,27 @@ export class Tab extends LitElement {
 
   private guid = IDS.tabTitleId(guid());
 
-  private parentTabsEl: Tabs["el"];
+  private parentTabsEl: Tabs["el"] | null = null;
 
   // #endregion
 
   // #region State Properties
 
-  @state() labeledBy: string;
+  @state() labeledBy?: string;
 
   // #endregion
 
   // #region Public Properties
 
   /**
-   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   * Specifies the component's size. Inherited from the parent `calcite-tabs`, defaults to `m`.
    *
    * @private
    */
   @property() scale: Scale = "m";
 
   /**
-   * When `true`, the component's contents are selected.
+   * When `true`, the component is selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
@@ -57,7 +57,7 @@ export class Tab extends LitElement {
    *
    * When specified, use the same value on the `calcite-tab-title`.
    */
-  @property({ reflect: true }) tab: string;
+  @property({ reflect: true }) tab?: string;
 
   // #endregion
 
@@ -67,7 +67,7 @@ export class Tab extends LitElement {
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
+      nodeListToArray(this.el.parentElement!.children).filter(isTab),
       this.el,
     );
   }
@@ -79,7 +79,7 @@ export class Tab extends LitElement {
    */
   @method()
   _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {
-    this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
+    this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || undefined;
   }
 
   // #endregion
@@ -113,9 +113,7 @@ export class Tab extends LitElement {
   // #region Private Methods
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const targetTabsEl = event
-      .composedPath()
-      .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
+    const targetTabsEl = event.composedPath().find(isTabs);
 
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a within the same

@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { escapeRegExp } from "es-toolkit/compat";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -13,7 +12,9 @@ import {
   property,
   state,
   stringOrBoolean,
+  ToEvents,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -29,37 +30,35 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
-import { Scale, SelectionMode, Status } from "../interfaces";
-import { CSS as XButtonCSS, XButton } from "../functional/XButton";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale, SelectionAppearance, SelectionMode, Status } from "../types";
 import { getIconScale, isHidden } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
-import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
+import {
+  ComboboxItem,
+  ComboboxItem as HTMLCalciteComboboxItemElement,
+} from "../combobox-item/combobox-item";
 import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
+import { useForm } from "../../controllers/useForm";
+import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
+import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./types";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
 import {
   getItemAncestors,
@@ -67,8 +66,11 @@ import {
   getLabel,
   hasActiveChildren,
   isSingleLike,
+  orderByPrevious,
+  orderValuesByPrevious,
 } from "./utils";
 import { styles } from "./combobox.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -80,11 +82,10 @@ declare global {
  * @slot - A slot for adding `calcite-combobox-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Combobox
-  extends LitElement
-  implements LabelableComponent, FormComponent, FloatingUIComponent
-{
+export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -92,17 +93,21 @@ export class Combobox
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private direction = useDirection();
+
+  private formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
   private allSelectedIndicatorChipRef = createRef<Chip["el"]>();
 
-  private chipContainerEl: HTMLDivElement;
+  private chipContainerEl?: HTMLDivElement;
 
-  private data: ItemData[];
+  private data: ItemData[] = [];
 
-  defaultValue: Combobox["value"];
+  defaultValue?: Combobox["value"];
 
   private cancelable = useCancelable<this>()(this);
 
@@ -128,21 +133,22 @@ export class Combobox
 
         const hidden = !find(item, filteredData);
         item.itemHidden = hidden;
-        const [parent, grandparent] = item.ancestors;
+        const [parent, grandparent] = item.ancestors!;
 
         if (find(parent, filteredData) || find(grandparent, filteredData)) {
           item.itemHidden = false;
         }
 
         if (!hidden) {
-          item.ancestors.forEach((ancestor) => (ancestor.itemHidden = false));
+          item.ancestors!.forEach((ancestor) => (ancestor.itemHidden = false));
         }
       });
 
       this.noMatchesFound = this.filteredItems.length === 0 && !!this.filterText;
 
-      this.filterTextMatchPattern =
-        this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
+      this.filterTextMatchPattern = this.filterText
+        ? new RegExp(`(${escapeRegExp(this.filterText)})`, "i")
+        : undefined;
 
       this.keyboardNavItems.forEach((item) => {
         item.filterTextMatchPattern = this.filterTextMatchPattern;
@@ -160,39 +166,24 @@ export class Combobox
 
   private _filterText = "";
 
-  private filterTextMatchPattern: RegExp;
+  private filterTextMatchPattern?: RegExp;
 
-  private filteredFlipPlacements: FlipPlacement[];
+  private filteredFlipPlacements?: FlipPlacement[];
 
-  floatingEl: HTMLDivElement;
-
-  formEl: HTMLFormElement;
+  floatingEl?: HTMLDivElement;
 
   private getSelectedItems = (): HTMLCalciteComboboxItemElement["el"][] => {
     if (!this.isMulti()) {
-      const match = this.items.find(({ selected }) => selected);
+      const match = this.allItems.find(({ selected }) => selected);
       return match ? [match] : [];
     }
 
-    return (
-      this.items
-        .filter(
-          (item) =>
-            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
-        )
-        /** Preserve order of entered tags */
-        .sort((a, b) => {
-          const aIdx = this.selectedItems.indexOf(a);
-          const bIdx = this.selectedItems.indexOf(b);
-          if (aIdx > -1 && bIdx > -1) {
-            return aIdx - bIdx;
-          }
-          return bIdx - aIdx;
-        })
+    return this.allItems.filter(
+      (item) => item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
     );
   };
 
-  private groupData: GroupData[];
+  private groupData: GroupData[] = [];
 
   private groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
 
@@ -200,15 +191,19 @@ export class Combobox
 
   private ignoreSelectedEventsFlag = false;
 
-  private inputHeight = 0;
-
   private internalValueChangeFlag = false;
 
-  labelEl: Label["el"];
+  private previousAllSelected = false;
 
-  private listContainerEl: HTMLDivElement;
+  private refreshingSelectionDisplay = false;
 
-  private maxCompactBreakpoint: number;
+  private fitFollowUpRefreshPromise?: Promise<void>;
+
+  labelEl?: Label["el"];
+
+  private listContainerEl?: HTMLDivElement;
+
+  private maxCompactBreakpoint?: number;
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -218,37 +213,52 @@ export class Combobox
 
   transitionProp = "opacity" as const;
 
-  placement: LogicalPlacement = defaultMenuPlacement;
+  referenceEl?: HTMLDivElement;
 
-  referenceEl: HTMLDivElement;
+  private resizeObserver = (() => {
+    let resizeWorkQueued = false;
 
-  private resizeObserver = createObserver("resize", () => {
-    this.setMaxScrollerHeight();
-    this.refreshSelectionDisplay();
-  });
+    return createObserver("resize", () => {
+      if (resizeWorkQueued) {
+        return;
+      }
+
+      resizeWorkQueued = true;
+
+      requestAnimationFrame(() => {
+        resizeWorkQueued = false;
+        this.setMaxScrollerHeight();
+        this.refreshSelectionDisplay();
+      });
+    });
+  })();
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
+
+  private selectedChipCountRef = createRef<Chip["el"]>();
+
+  private clearButtonRef = createRef<HTMLDivElement>();
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   private textInputRef = createRef<HTMLInputElement>();
 
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLDivElement | undefined;
 
-  private _value: string | string[] = null;
+  private _value: string | string[] = "";
 
   /**
    * Made into a prop for testing purposes only
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+      return ["description", "label", "metadata", "shortHeading"];
     }
 
     return this.filterProps.filter((prop) => prop !== "el");
@@ -270,11 +280,22 @@ export class Combobox
   };
 
   get allSelected(): boolean {
-    return this.selectedItems.length === this.items.length;
+    const enabledItems = this.allItems.filter((item) => !item.disabled);
+    return enabledItems.length > 0 && enabledItems.every((item) => item.selected);
+  }
+
+  private get hasDisabledSelected(): boolean {
+    return this.allItems.some((item) => item.disabled && item.selected);
   }
 
   get indeterminate(): boolean {
-    return this.selectedItems.length > 0 && !this.allSelected;
+    const hasAnySelected = this.selectedItems.length > 0 || this.hasDisabledSelected;
+
+    if (!this.selectAllEnabled) {
+      return this.selectedItems.length > 0 && !this.allSelected;
+    }
+
+    return !this.allSelected && hasAnySelected;
   }
 
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
@@ -291,6 +312,10 @@ export class Combobox
 
   private interactiveContainer = useInteractive(this);
 
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
+
   //#endregion
 
   //#region State Properties
@@ -303,28 +328,34 @@ export class Combobox
 
   @state() compactSelectionDisplay = false;
 
+  @state() deferFitChipCountRender = false;
+
   @state() selectedHiddenChipsCount = 0;
 
   @state() selectedVisibleChipsCount = 0;
 
+  @state() fitUsingCompactCountLabel = false;
+
+  @state() allItems: HTMLCalciteComboboxItemElement["el"][] = [];
+
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
-  @state() noMatchesFound: boolean;
+  @state() noMatchesFound = false;
 
   //#endregion
 
   //#region Public Properties
 
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
-  @property({ reflect: true }) allowCustomValues: boolean;
+  @property({ reflect: true }) allowCustomValues?: boolean;
 
-  /** When `true`, the value-clearing will be disabled. */
+  /** When `true`, disables value-clearing. */
   @property({ reflect: true }) clearDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Text for the component's filter input field. */
+  /** The component's filter input field text. */
   @property({ reflect: true })
   get filterText(): string {
     return this._filterText;
@@ -338,10 +369,10 @@ export class Combobox
   }
 
   /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, `shortHeading`). */
-  @property() filterProps: string[];
+  @property() filterProps?: string[];
 
   /**
-   * Specifies the component's filtered items.
+   * The component's filtered items.
    *
    * @readonly
    */
@@ -349,59 +380,47 @@ export class Combobox
     return this.items.filter((item) => !isHidden(item));
   }
 
-  /** Specifies the component's fallback slotted content placement when it's initial placement has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
+
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
-
-  /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** When provided, displays label text on the component. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
+  /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Determines the type of positioning to use for the overlaid content.
-   *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the placeholder text for the input. */
-  @property() placeholder: string;
+  /** Specifies the input's placeholder text. */
+  @property() placeholder?: string;
 
-  /** Specifies the placeholder icon for the input. */
-  @property({ reflect: true, type: String }) placeholderIcon: IconName;
+  /** Specifies the input's placeholder icon. */
+  @property({ reflect: true }) placeholderIcon?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`. */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
+
+  /** Specifies the component's position relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -415,11 +434,11 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
+  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, displays a checkbox for selecting all `calcite-combobox-item`s. */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**
-   * Specifies the component's selected items.
+   * The component's selected items.
    *
    * @readonly
    */
@@ -435,62 +454,60 @@ export class Combobox
   }
 
   /**
-   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
+   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections.
    *
-   * `"all"` displays all selections with individual `calcite-chip`s,
-   *
-   * `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and
-   *
-   * `"single"` displays one `calcite-chip` with the total number of selections.
+   * - `"all"` displays all selections with individual `calcite-chip`s.
+   * - `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed.
+   * - `"single"` displays one `calcite-chip` with the total number of selections.
    */
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection appearance.
    *
-   * `"multiple"` allows any number of selections,
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` displays a background highlight.
+   */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "highlight",
+    SelectionAppearance
+  > = "icon";
+
+  /**
+   * Specifies the selection mode of the component.
    *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   > = "multiple";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The current validation state of the component.
+   * @copyDoc
    *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value(s) from the selected `calcite-combobox-item`(s). */
   @property()
@@ -510,7 +527,7 @@ export class Combobox
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed Reposition the component after a delay
    * @returns Promise
@@ -522,6 +539,7 @@ export class Combobox
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,
@@ -538,7 +556,7 @@ export class Combobox
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -580,19 +598,20 @@ export class Combobox
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
-    this.listen("calciteComboboxItemChange", this.calciteComboboxItemChangeHandler);
-    this.listen("calciteInternalComboboxItemChange", this.calciteInternalComboboxItemChangeHandler);
+    this.listen<ToEvents<ComboboxItem>["calciteComboboxItemChange"]>(
+      "calciteComboboxItemChange",
+      this.calciteComboboxItemChangeHandler,
+    );
+    this.listen<ToEvents<ComboboxItem>["calciteInternalComboboxItemChange"]>(
+      "calciteInternalComboboxItemChange",
+      this.calciteInternalComboboxItemChangeHandler,
+    );
     this.listen("click", this.comboboxFocusHandler);
   }
 
   override connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
-
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
@@ -622,13 +641,18 @@ export class Combobox
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
 
-    if (changes.has("selectionMode") || changes.has("scale")) {
+    if (
+      changes.has("selectionMode") ||
+      changes.has("scale") ||
+      changes.has("selectionAppearance")
+    ) {
       this.updateItems();
     }
 
@@ -637,17 +661,7 @@ export class Combobox
     }
   }
 
-  override updated(): void {
-    if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition(true);
-      this.inputHeight = this.el.offsetHeight;
-    }
-
-    this.refreshSelectionDisplay();
-  }
-
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
@@ -656,28 +670,12 @@ export class Combobox
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
   //#endregion
 
   //#region Private Methods
-
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
 
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
@@ -689,14 +687,11 @@ export class Combobox
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
-    this.setMaxScrollerHeight();
-    this.handlePopover();
+    toggleOpenClose(this);
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -707,7 +702,7 @@ export class Combobox
 
   private valueHandler(value: string | string[]): void {
     if (!this.internalValueChangeFlag) {
-      this.getItems().forEach((item) => {
+      this.items.forEach((item) => {
         item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
       });
 
@@ -721,9 +716,43 @@ export class Combobox
   }
 
   private selectedItemsHandler(): void {
+    const wasAllSelected = this.previousAllSelected;
+    const isAllSelected = this.allSelected;
+
+    this.previousAllSelected = isAllSelected;
+
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
+
+    if (this.selectionDisplay === "fit" && this.isMulti()) {
+      const transitioningFromAllSelected = wasAllSelected && !isAllSelected;
+
+      if (wasAllSelected && !isAllSelected) {
+        this.selectedHiddenChipsCount = 0;
+
+        this.selectedItems.forEach((item) => {
+          const chipEl = this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
+          if (chipEl) {
+            this.showChip(chipEl);
+          }
+        });
+      }
+
+      this.updateComplete.then(async () => {
+        if (transitioningFromAllSelected) {
+          await this.updateComplete;
+        }
+
+        await this.refreshSelectionDisplay();
+
+        if (this.fitFollowUpRefreshPromise) {
+          await this.fitFollowUpRefreshPromise;
+        }
+
+        this.deferFitChipCountRender = false;
+      });
+    }
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -747,13 +776,15 @@ export class Combobox
   }
 
   private handleSelectAll(isSelectAllTarget: boolean): void {
-    if (isSelectAllTarget) {
-      this.toggleSelectAll();
+    if (!isSelectAllTarget) {
+      return;
     }
 
-    if (this.allSelected) {
+    this.toggleSelectAll();
+
+    if (this.selectionDisplay !== "fit" && this.allSelected) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
+        const chipEl = this.referenceEl!.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.hideChip(chipEl);
         }
@@ -761,31 +792,29 @@ export class Combobox
     }
   }
 
-  private calciteComboboxItemChangeHandler(
-    event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
-  ): void {
+  private updateSelectedItems(): void {
+    this.selectedItems = this.getOrderedSelectedItems(this.getSelectedItems());
+  }
+
+  private calciteComboboxItemChangeHandler(event: CustomEvent<void>): void {
     if (this.ignoreSelectedEventsFlag) {
       return;
     }
     const target = event.target as HTMLCalciteComboboxItemElement["el"];
-    const isSelectAllTarget = event.composedPath().includes(this.selectAllComboboxItemRef.value);
+    const isSelectAllTarget = event.composedPath().includes(this.selectAllComboboxItemRef.value!);
 
     if (this.selectAllEnabled) {
       this.handleSelectAll(isSelectAllTarget);
     }
 
     const newIndex = this.keyboardNavItems.indexOf(
-      isSelectAllTarget ? this.selectAllComboboxItemRef.value : target,
+      isSelectAllTarget ? this.selectAllComboboxItemRef.value! : target,
     );
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
-
-    this.selectedItems = this.getSelectedItems();
   }
 
-  private calciteInternalComboboxItemChangeHandler(
-    event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
-  ): void {
+  private calciteInternalComboboxItemChangeHandler(event: CustomEvent<void>): void {
     event.stopPropagation();
     if (this.hasUpdated) {
       this.updateItems();
@@ -793,11 +822,16 @@ export class Combobox
   }
 
   private clearValue(): void {
-    this.ignoreSelectedEventsFlag = true;
-    this.items.forEach((el) => (el.selected = false));
-    this.ignoreSelectedEventsFlag = false;
-    this.selectedItems = [];
-    this.emitComboboxChange();
+    const enabledSelectedItems = this.items.filter((item) => item.selected && !item.disabled);
+
+    if (enabledSelectedItems.length) {
+      this.ignoreSelectedEventsFlag = true;
+      enabledSelectedItems.forEach((el) => (el.selected = false));
+      this.ignoreSelectedEventsFlag = false;
+      this.updateSelectedItems();
+      this.emitComboboxChange();
+    }
+
     this.open = false;
     this.updateActiveItemIndex(-1);
     this.resetText();
@@ -817,12 +851,30 @@ export class Combobox
 
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
-      : null;
+      : undefined;
   }
 
   private getValue(): string | string[] {
-    const items = this.selectedItems.map((item) => item.value?.toString());
+    const items = this.getOrderedSelectedValues(
+      this.selectedItems.map((item) => item.value?.toString()),
+    );
+
     return items.length ? (items.length > 1 ? items : items[0]) : "";
+  }
+
+  private getOrderedSelectedValues(selectedValues: string[]): string[] {
+    if (!this.isMulti()) {
+      return selectedValues;
+    }
+
+    const previousValues = Array.isArray(this.value) ? this.value : this.value ? [this.value] : [];
+    return orderValuesByPrevious(selectedValues, previousValues);
+  }
+
+  private getOrderedSelectedItems(
+    selectedItems: HTMLCalciteComboboxItemElement["el"][],
+  ): HTMLCalciteComboboxItemElement["el"][] {
+    return this.isMulti() ? orderByPrevious(selectedItems, this.selectedItems) : selectedItems;
   }
 
   private comboboxInViewport(): boolean {
@@ -837,9 +889,24 @@ export class Combobox
 
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.items.forEach((item) => (item.selected = toggledValue));
-    this.selectedItems = toggledValue ? this.items : [];
+    this.allItems.forEach((item) => {
+      if (item.disabled) {
+        return;
+      }
+      item.selected = toggledValue;
+    });
+    this.updateSelectedItems();
     this.emitComboboxChange();
+  }
+
+  private hasHiddenSelectedFitChips(): boolean {
+    if (this.selectionDisplay !== "fit" || !this.isMulti()) {
+      return false;
+    }
+
+    const hiddenCountChip = this.selectedChipCountRef.value;
+
+    return !!hiddenCountChip && !hiddenCountChip.classList.contains(CSS.chipInvisible);
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -866,7 +933,7 @@ export class Combobox
         }
         break;
       case "ArrowLeft":
-        if (this.activeChipIndex !== -1 || this.textInputRef.value.selectionStart === 0) {
+        if (this.activeChipIndex !== -1 || this.textInputRef.value?.selectionStart === 0) {
           this.previousChip();
           event.preventDefault();
         }
@@ -908,10 +975,10 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInputRef.value.value && !event.defaultPrevented) {
-          if (!this.open) {
+        if (!this.textInputRef.value?.value && !event.defaultPrevented) {
+          if (!this.open && this.keyboardNavItems.length) {
             this.open = true;
-            this.shiftActiveItemIndex(1);
+            this.ensureRecentSelectedItemIsActive();
           }
           event.preventDefault();
         }
@@ -939,12 +1006,22 @@ export class Combobox
         }
         break;
       case "Escape":
-        if (!this.clearDisabled && !this.open) {
-          this.clearValue();
+        if (this.open) {
+          this.open = false;
+          event.preventDefault();
+          break;
         }
 
-        this.open = false;
-        event.preventDefault();
+        if (!this.clearDisabled) {
+          if (this.textInputRef.value!.value.length > 0) {
+            this.resetText();
+            event.preventDefault();
+          } else if (this.selectedItems.length > 0 && this.selectionMode !== "single-persist") {
+            this.clearValue();
+            event.preventDefault();
+          }
+        }
+
         break;
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
@@ -952,28 +1029,28 @@ export class Combobox
           item.toggleSelection();
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
-          this.removeActiveChip();
+          this.removeActiveChip(event.target as Chip["el"]);
           event.preventDefault();
         } else if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
           event.preventDefault();
-        } else if (!event.defaultPrevented) {
-          if (submitForm(this)) {
-            event.preventDefault();
-          }
+        } else if (!event.defaultPrevented && this.formSupport.active) {
+          event.preventDefault();
+          this.formSupport.requestSubmit();
         }
         break;
       case "Delete":
       case "Backspace": {
-        const notDeletable =
-          this.selectionDisplay === "single" ||
-          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
+        const fitDeleteBlockedByOverflow = this.hasHiddenSelectedFitChips();
+        const overflowDeleteBlocked = fitDeleteBlockedByOverflow && this.activeChipIndex === -1;
+        const notDeletable = this.selectionDisplay === "single" || overflowDeleteBlocked;
         if (notDeletable) {
           return;
         }
-        if (this.activeChipIndex > -1) {
+        const deleteTargetChip = event.composedPath().find(isChip);
+        if (this.activeChipIndex > -1 && deleteTargetChip) {
           event.preventDefault();
-          this.removeActiveChip();
+          this.removeActiveChip(deleteTargetChip);
         } else if (!this.filterText && this.isMulti()) {
           event.preventDefault();
           this.removeLastChip();
@@ -984,12 +1061,16 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.scrollToActiveOrSelectedItem();
+    this.topLayer.show();
+    this.reposition();
     this.calciteComboboxBeforeOpen.emit();
+
+    // scrolling at next tick seems to work best to ensure selected item is immediately focused on open
+    // changes from https://github.com/Esri/calcite-design-system/issues/10703 might help improve this
+    setTimeout(() => this.scrollToActiveOrSelectedItem(this.activeItemIndex < 0), 0);
   }
 
   onOpen(): void {
-    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
@@ -1000,20 +1081,19 @@ export class Combobox
   onClose(): void {
     this.calciteComboboxClose.emit();
     hideFloatingUI(this);
+    this.topLayer.hide();
   }
 
   private async setMaxScrollerHeight(): Promise<void> {
     const { listContainerEl, open, referenceEl } = this;
 
-    if (!listContainerEl || !open) {
+    if (!listContainerEl || !open || !referenceEl) {
       return;
     }
 
-    await this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
-    await this.reposition(true);
   }
 
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
@@ -1035,13 +1115,15 @@ export class Combobox
 
     const composedPath = event.composedPath();
 
-    if (composedPath.some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
+    if (composedPath.some((node) => isChip(node))) {
       this.open = false;
       event.preventDefault();
       return;
     }
 
-    if (composedPath.some((node: HTMLElement) => node.classList?.contains(XButtonCSS.button))) {
+    const clearButton = this.clearButtonRef.value;
+
+    if (clearButton && composedPath.includes(clearButton)) {
       this.clearValue();
       event.preventDefault();
       return;
@@ -1052,11 +1134,21 @@ export class Combobox
   }
 
   private ensureRecentSelectedItemIsActive(): void {
-    const { selectedItems } = this;
-    const targetIndex =
-      selectedItems.length === 0 ? 0 : this.items.indexOf(selectedItems[selectedItems.length - 1]);
+    const { activeItemIndex, selectedItems, keyboardNavItems } = this;
 
-    this.updateActiveItemIndex(targetIndex);
+    if (activeItemIndex > -1 && keyboardNavItems[activeItemIndex]) {
+      this.updateActiveItemIndex(activeItemIndex);
+      return;
+    }
+
+    const selectedItem = selectedItems[selectedItems.length - 1];
+    const targetIndex = selectedItem
+      ? keyboardNavItems.indexOf(selectedItem)
+      : keyboardNavItems.length
+        ? 0
+        : -1;
+
+    this.updateActiveItemIndex(targetIndex > -1 ? targetIndex : keyboardNavItems.length ? 0 : -1);
   }
 
   private hideChip(chipEl: Chip["el"]): void {
@@ -1071,34 +1163,67 @@ export class Combobox
     chipEls,
     availableHorizontalChipElSpace,
     chipContainerElGap,
+    hideSelectedChips,
   }: {
     chipEls: Chip["el"][];
     availableHorizontalChipElSpace: number;
     chipContainerElGap: number;
+    hideSelectedChips: boolean;
   }): void {
-    chipEls.forEach((chipEl: Chip["el"]) => {
-      if (!chipEl.selected) {
-        this.hideChip(chipEl);
-      } else {
-        const chipElWidth = getElementWidth(chipEl);
-        if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
-          availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
-          this.showChip(chipEl);
-          return;
-        }
-      }
+    const selectedChipEls = chipEls.filter((chipEl) => chipEl.selected);
+    const enabledSelectedChipEls = selectedChipEls.filter((chipEl) => !chipEl.disabled);
+    const disabledSelectedChipEls = selectedChipEls.filter((chipEl) => chipEl.disabled);
+    const getChipWidth = (chipEl: Chip["el"]): number => {
+      const computedWidth = getElementWidth(chipEl);
+      const fallbackWidth = chipEl.getBoundingClientRect().width;
+
+      return Number.isFinite(computedWidth) && computedWidth > 0 ? computedWidth : fallbackWidth;
+    };
+
+    selectedChipEls.forEach((chipEl) => getChipWidth(chipEl));
+
+    chipEls.forEach((chipEl) => {
       this.hideChip(chipEl);
     });
-  }
 
-  private async refreshSelectionDisplay() {
-    this.componentOnReady();
-
-    if (isSingleLike(this.selectionMode)) {
+    if (hideSelectedChips) {
       return;
     }
 
-    if (!this.textInputRef.value || !this.chipContainerEl) {
+    const renderFittingChips = (chips: Chip["el"][]): number => {
+      let visibleChipsCount = 0;
+
+      chips.forEach((chipEl) => {
+        const chipElWidth = getChipWidth(chipEl);
+
+        if (chipElWidth && chipElWidth <= availableHorizontalChipElSpace) {
+          availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
+          this.showChip(chipEl);
+          visibleChipsCount++;
+        }
+      });
+
+      return visibleChipsCount;
+    };
+
+    const visibleEnabledChipsCount = renderFittingChips(enabledSelectedChipEls);
+
+    if (visibleEnabledChipsCount <= 1) {
+      renderFittingChips(disabledSelectedChipEls);
+    }
+  }
+
+  private async refreshSelectionDisplay(followUpRefresh = true) {
+    if (this.refreshingSelectionDisplay) {
+      return;
+    }
+
+    this.refreshingSelectionDisplay = true;
+
+    await this.componentOnReady();
+
+    if (isSingleLike(this.selectionMode)) {
+      this.refreshingSelectionDisplay = false;
       return;
     }
 
@@ -1111,11 +1236,32 @@ export class Combobox
       textInputRef,
     } = this;
 
-    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
+    if (!textInputRef.value || !chipContainerEl) {
+      this.refreshingSelectionDisplay = false;
+      return;
+    }
+
+    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap, 10);
     const chipContainerElWidth = getElementWidth(chipContainerEl);
-    const { fontSize, fontFamily } = getComputedStyle(textInputRef.value);
-    const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-    const inputWidth = (inputTextWidth || parseInt(calciteSize48)) + chipContainerElGap;
+    const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
+    // Heuristic placeholder width multiplier for stable hidden chip calculations.
+    const placeholderWidthMultiplier = 0.55;
+    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48, 10);
+    const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
+    const placeholderWidth =
+      measuredPlaceholderWidth > 0
+        ? measuredPlaceholderWidth
+        : Math.max(
+            inputMinWidth,
+            Math.round(
+              (placeholder?.length || 0) *
+                (parseFloat(fontSize) || parseInt(calciteSize48, 10)) *
+                placeholderWidthMultiplier,
+            ),
+          );
+    const fitInputWidth = Math.max(inputMinWidth, placeholderWidth);
+    const inputWidth =
+      (selectionDisplay === "fit" ? fitInputWidth : placeholderWidth) + chipContainerElGap;
     const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
     const largestSelectedIndicatorChipWidth = Math.max(
@@ -1130,9 +1276,9 @@ export class Combobox
       largestSelectedIndicatorChipWidth,
     });
 
-    if (this.allSelected && this.selectAllEnabled) {
+    if (selectionDisplay !== "fit" && this.allSelected && this.selectAllEnabled) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
+        const chipEl = this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.hideChip(chipEl);
         }
@@ -1141,7 +1287,7 @@ export class Combobox
 
     if (this.indeterminate) {
       this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
+        const chipEl = this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
         if (chipEl) {
           this.showChip(chipEl);
         }
@@ -1149,27 +1295,124 @@ export class Combobox
     }
 
     if (selectionDisplay === "fit") {
-      const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-        (chipEl) => chipEl.closable,
+      const chipEls = Array.from(this.renderRoot.querySelectorAll("calcite-chip")).filter(
+        (chipEl) => {
+          const chipValue = chipEl.value;
+          const hasValue = chipValue != null && `${chipValue}` !== "";
+          return chipEl.disabled || hasValue;
+        },
       );
+
+      const { hiddenChipIndicatorWidth, hideSelectedChips, reservedPlaceholderInputWidth } =
+        this.getFitCompactDisplayState({
+          chipContainerElGap,
+          chipContainerElWidth,
+          inputMinWidth,
+          placeholderWidth,
+          selectedIndicatorChipElWidth,
+        });
+
+      this.fitUsingCompactCountLabel = hideSelectedChips;
 
       const availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth -
-          ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
+          (hiddenChipIndicatorWidth +
             chipContainerElGap +
-            inputWidth +
+            reservedPlaceholderInputWidth +
             chipContainerElGap),
       );
 
-      this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
-      this.setVisibleAndHiddenChips(chipEls);
+      this.refreshChipDisplay({
+        availableHorizontalChipElSpace,
+        chipContainerElGap,
+        chipEls,
+        hideSelectedChips,
+      });
+      const previousHiddenChipsCount = this.selectedHiddenChipsCount;
+      this.syncChipVisibilityCounts(chipEls);
+      const didHiddenCountChange = previousHiddenChipsCount !== this.selectedHiddenChipsCount;
+
+      if (didHiddenCountChange && followUpRefresh) {
+        this.fitFollowUpRefreshPromise = this.updateComplete
+          .then(() => this.refreshSelectionDisplay(false))
+          .then(() => {
+            this.fitFollowUpRefreshPromise = undefined;
+          });
+      }
     }
+
+    this.refreshingSelectionDisplay = false;
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
+  }
+
+  private shouldUseFitCompactDisplay({
+    chipContainerElGap,
+    chipContainerElWidth,
+    hiddenChipIndicatorWidth,
+    inputMinWidth,
+    placeholderWidth,
+    reservedPlaceholderInputWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    hiddenChipIndicatorWidth: number;
+    inputMinWidth: number;
+    placeholderWidth: number;
+    reservedPlaceholderInputWidth: number;
+  }): boolean {
+    const availableHorizontalChipElSpaceWithPlaceholder = Math.round(
+      chipContainerElWidth -
+        (hiddenChipIndicatorWidth +
+          chipContainerElGap +
+          reservedPlaceholderInputWidth +
+          chipContainerElGap),
+    );
+    const placeholderIsReallyLong = placeholderWidth > inputMinWidth * 2;
+
+    return placeholderIsReallyLong && availableHorizontalChipElSpaceWithPlaceholder <= 0;
+  }
+
+  private getFitCompactDisplayState({
+    chipContainerElGap,
+    chipContainerElWidth,
+    inputMinWidth,
+    placeholderWidth,
+    selectedIndicatorChipElWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    inputMinWidth: number;
+    placeholderWidth: number;
+    selectedIndicatorChipElWidth: number;
+  }): {
+    hiddenChipIndicatorWidth: number;
+    hideSelectedChips: boolean;
+    reservedPlaceholderInputWidth: number;
+  } {
+    const selectedChipCountElWidth = getElementWidth(this.selectedChipCountRef.value);
+    const hiddenChipIndicatorWidth =
+      this.deferFitChipCountRender || this.selectedHiddenChipsCount <= 0
+        ? 0
+        : selectedChipCountElWidth || selectedIndicatorChipElWidth;
+    const reservedPlaceholderInputWidth = Math.max(inputMinWidth, placeholderWidth);
+    const hideSelectedChips = this.shouldUseFitCompactDisplay({
+      chipContainerElGap,
+      chipContainerElWidth,
+      hiddenChipIndicatorWidth,
+      inputMinWidth,
+      placeholderWidth,
+      reservedPlaceholderInputWidth,
+    });
+
+    return {
+      hiddenChipIndicatorWidth,
+      hideSelectedChips,
+      reservedPlaceholderInputWidth,
+    };
   }
 
   private setCompactSelectionDisplay({
@@ -1177,6 +1420,11 @@ export class Combobox
     chipContainerElWidth,
     inputWidth,
     largestSelectedIndicatorChipWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    inputWidth: number;
+    largestSelectedIndicatorChipWidth: number;
   }): void {
     const newCompactBreakpoint = Math.round(
       largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,
@@ -1203,25 +1451,32 @@ export class Combobox
     connectFloatingUI(this);
   }
 
-  private setVisibleAndHiddenChips(chipEls: Chip["el"][]): void {
+  private syncChipVisibilityCounts(chipEls: Chip["el"][]): void {
     let newSelectedVisibleChipsCount = 0;
+    let selectedChipCount = 0;
     chipEls.forEach((chipEl) => {
-      if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
-        newSelectedVisibleChipsCount++;
+      if (chipEl.selected) {
+        selectedChipCount++;
+
+        if (!chipEl.classList.contains(CSS.chipInvisible)) {
+          newSelectedVisibleChipsCount++;
+        }
       }
     });
     if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
       this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
     }
-    const newSelectedHiddenChipsCount =
-      this.getSelectedItems().length - newSelectedVisibleChipsCount;
+    const newSelectedHiddenChipsCount = Math.max(
+      0,
+      selectedChipCount - newSelectedVisibleChipsCount,
+    );
     if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
       this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
     }
   }
 
   private getMaxScrollerHeight(): number {
-    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const allItemsAndGroups = this.getItemsAndGroups(true);
     const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
@@ -1262,8 +1517,16 @@ export class Combobox
     this.filterText = value;
   }
 
-  private getItemsAndGroups(): ComboboxChildElement[] {
-    return [...this.groupItems, ...this.items];
+  private getItemsAndGroups(preserveOrder = false): ComboboxChildElement[] {
+    if (!preserveOrder) {
+      return [...this.groupItems, ...this.items];
+    }
+
+    return Array.from(
+      this.el.querySelectorAll<ComboboxChildElement>(
+        `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`,
+      ),
+    );
   }
 
   private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
@@ -1277,6 +1540,10 @@ export class Combobox
       return;
     }
 
+    if (this.selectionDisplay === "fit" && this.isMulti()) {
+      this.deferFitChipCountRender = true;
+    }
+
     if (this.isMulti()) {
       this.handleMultiSelection(item, value);
     } else {
@@ -1287,7 +1554,7 @@ export class Combobox
   private handleMultiSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
     item.selected = value;
     this.updateAncestors(item);
-    this.selectedItems = this.getSelectedItems();
+    this.updateSelectedItems();
     this.emitComboboxChange();
     this.resetText();
     this.filterItems("");
@@ -1297,7 +1564,7 @@ export class Combobox
     this.ignoreSelectedEventsFlag = true;
     this.items.forEach((el) => (el.selected = el === item ? value : false));
     this.ignoreSelectedEventsFlag = false;
-    this.selectedItems = this.getSelectedItems();
+    this.updateSelectedItems();
     this.emitComboboxChange();
 
     if (this.textInputRef.value) {
@@ -1317,10 +1584,18 @@ export class Combobox
     const children = getItemChildren(item);
     if (item.selected) {
       ancestors.forEach((el) => {
+        if (el.disabled) {
+          return;
+        }
         el.selected = true;
       });
     } else {
-      children.forEach((el) => (el.selected = false));
+      [...children].forEach((el) => {
+        if (el.disabled) {
+          return;
+        }
+        el.selected = false;
+      });
       [...ancestors].forEach((el) => {
         if (!hasActiveChildren(el)) {
           el.selected = false;
@@ -1330,7 +1605,8 @@ export class Combobox
   }
 
   private updateItems(): void {
-    this.items = this.getItems();
+    this.allItems = this.getItems(true);
+    this.items = this.allItems.filter((item) => !item.disabled);
     this.groupItems = this.getGroupItems();
 
     this.data = this.getData();
@@ -1338,12 +1614,14 @@ export class Combobox
 
     this.updateItemProps();
 
-    this.selectedItems = this.getSelectedItems();
+    this.updateSelectedItems();
+    this.previousAllSelected = this.allSelected;
   }
 
   private updateItemProps(): void {
-    this.getItems(true).forEach((item) => {
+    this.allItems.forEach((item) => {
       item.selectionMode = this.selectionMode;
+      item.selectionAppearance = this.selectionAppearance;
       item.scale = this.scale;
     });
 
@@ -1375,7 +1653,6 @@ export class Combobox
       label: item.heading,
       metadata: item.metadata,
       shortHeading: item.shortHeading,
-      textLabel: item.textLabel,
       el: item, // used for matching items to data
     }));
   }
@@ -1407,7 +1684,7 @@ export class Combobox
   }
 
   private addCustomChip(value: string, focus?: boolean): void {
-    const existingItem = this.items.find((el) => (el.heading || el.textLabel) === value);
+    const existingItem = this.items.find((el) => el.heading === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
@@ -1427,13 +1704,22 @@ export class Combobox
     }
   }
 
-  private removeActiveChip(): void {
-    this.toggleSelection(this.selectedItems[this.activeChipIndex], false);
+  private removeActiveChip(chip: Chip["el"]): void {
+    const activeItem = this.selectedItems[this.activeChipIndex];
+    if (activeItem && !activeItem.disabled && `${IDS.chip(activeItem.guid)}` === chip.id) {
+      this.toggleSelection(activeItem, false);
+    }
     this.setFocus();
   }
 
   private removeLastChip(): void {
-    this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
+    const lastEnabledSelectedItem = this.selectedItems.findLast((item) => !item.disabled);
+
+    if (!lastEnabledSelectedItem) {
+      return;
+    }
+
+    this.toggleSelection(lastEnabledSelectedItem, false);
     this.setFocus();
   }
 
@@ -1461,7 +1747,9 @@ export class Combobox
   private focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
 
-    const chip = guid ? this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(guid)}`) : null;
+    const chip = guid
+      ? this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(guid)}`)
+      : undefined;
     chip?.setFocus();
   }
 
@@ -1498,7 +1786,7 @@ export class Combobox
 
   private updateActiveItemIndex(index: number): void {
     this.activeItemIndex = index;
-    let activeDescendant: string = null;
+    let activeDescendant = "";
     this.keyboardNavItems.forEach((el, i) => {
       if (i === index) {
         el.active = true;
@@ -1523,7 +1811,11 @@ export class Combobox
       return;
     }
 
-    this.textInputRef.value.focus();
+    this.activeChipIndex = -1;
+    this.textInputRef.value?.focus();
+    if (this.open && this.selectionDisplay === "fit" && this.isMulti()) {
+      void this.refreshSelectionDisplay();
+    }
   }
 
   private createScreenReaderItem({
@@ -1535,7 +1827,7 @@ export class Combobox
     ariaLabel?: string;
     ariaSelected: boolean;
     id?: string;
-    textContent: string;
+    textContent: string | undefined;
   }): JsxNode {
     return (
       <li aria-label={ariaLabel} aria-selected={ariaSelected} id={id} role="option" tabIndex={-1}>
@@ -1546,60 +1838,186 @@ export class Combobox
 
   private handleSelectionModeWarning(): void {
     if (this.selectionMode === "single-persist" && this.clearDisabled) {
-      console.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
+      logger.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
     }
   }
 
   private getDescriptionMessage(): string {
     const value = Array.isArray(this.value) ? this.value.join(", ") : this.value;
 
-    return this.readOnly ? this.messages.nonEditable?.replace("{value}", `${value}`) : value;
+    return this.readOnly ? this.messages.nonEditable.replace("{value}", `${value}`) : value;
+  }
+
+  private getChipLabel(item: HTMLCalciteComboboxItemElement["el"], isAncestors: boolean): string {
+    if (!isAncestors) {
+      return getLabel(item);
+    }
+
+    const ancestors = [...getItemAncestors(item)].reverse();
+    return [...ancestors, item].map((el) => getLabel(el)).join(" / ");
   }
 
   //#endregion
 
   //#region Rendering
 
-  private renderChips(): JsxNode {
-    const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
+  private renderChip({
+    activeChipIndex,
+    disabled,
+    index,
+    item,
+    messages,
+    readOnly,
+    scale,
+    isAncestors,
+  }: {
+    activeChipIndex: number;
+    disabled: boolean;
+    index: number;
+    item: HTMLCalciteComboboxItemElement["el"];
+    messages: Combobox["messages"];
+    readOnly: boolean;
+    scale: Scale;
+    isAncestors: boolean;
+  }): JsxNode {
+    const label = this.getChipLabel(item, isAncestors);
 
-    if (this.selectAllEnabled && this.allSelected) {
+    return (
+      <calcite-chip
+        appearance={readOnly ? "outline" : "solid"}
+        class={{
+          [CSS.chip]: true,
+          [CSS.disabled]: disabled,
+        }}
+        closable={!disabled && !readOnly}
+        data-testid={`${disabled ? "disabled-chip" : "chip"}-${index}`}
+        disabled={disabled}
+        icon={item.icon}
+        iconFlipRtl={item.iconFlipRtl}
+        id={!disabled && item.guid ? `${IDS.chip(item.guid)}` : undefined}
+        key={item.guid || item.value || label}
+        label={label}
+        messageOverrides={
+          !disabled
+            ? { dismissLabel: messages.removeTag.replace("{value}", `${label}`) }
+            : undefined
+        }
+        oncalciteChipClose={!disabled ? () => this.calciteChipCloseHandler(item) : undefined}
+        onFocusIn={!disabled ? () => (this.activeChipIndex = index) : undefined}
+        scale={scale}
+        selected={item.selected}
+        tabIndex={!disabled && activeChipIndex === index ? 0 : -1}
+        title={label}
+        value={item.value}
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
+  private renderChipCount(count: number, scale: Scale): JsxNode {
+    const label = this.fitUsingCompactCountLabel
+      ? `${count}`
+      : (this.messages.disabledSelectedCount.replace("{count}", `${count}`) ?? `+${count}`);
+
+    return (
+      <calcite-chip
+        appearance="solid"
+        class={{
+          [CSS.chip]: true,
+        }}
+        closable={false}
+        data-testid="selected-chip-count"
+        id="selected-chip-count"
+        label={label}
+        ref={this.selectedChipCountRef}
+        scale={scale}
+        tabIndex={-1}
+        title={label}
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
+  private renderChips(): JsxNode {
+    const { activeChipIndex, readOnly, scale, selectionDisplay, selectionMode, messages } = this;
+    const chips: JsxNode[] = [];
+    const isAncestors = selectionMode === "ancestors";
+    const hideSelectedChipsForSelectAll = this.selectAllEnabled && this.allSelected;
+    const preserveOrder = selectionDisplay === "all";
+
+    if (hideSelectedChipsForSelectAll) {
       return null;
     }
 
-    return this.selectedItems.map((item, i) => {
-      const chipClasses = {
-        [CSS.chip]: true,
-      };
-      const ancestors = [...getItemAncestors(item)].reverse();
-      const itemLabel = getLabel(item);
-      const pathLabel = [...ancestors, item].map((el) => getLabel(el));
-      const label = selectionMode !== "ancestors" ? itemLabel : pathLabel.join(" / ");
+    let selectedIndex = 0;
+    let disabledIndex = 0;
 
-      return (
-        <calcite-chip
-          appearance={readOnly ? "outline" : "solid"}
-          class={chipClasses}
-          closable={!readOnly}
-          data-test-id={`chip-${i}`}
-          icon={item.icon}
-          iconFlipRtl={item.iconFlipRtl}
-          id={item.guid ? `${IDS.chip(item.guid)}` : null}
-          key={itemLabel}
-          label={label}
-          messageOverrides={{ dismissLabel: messages.removeTag }}
-          onFocusIn={() => (this.activeChipIndex = i)}
-          oncalciteChipClose={() => this.calciteChipCloseHandler(item)}
-          scale={scale}
-          selected={item.selected}
-          tabIndex={activeChipIndex === i ? 0 : -1}
-          title={label}
-          value={item.value}
-        >
-          {label}
-        </calcite-chip>
+    if (preserveOrder) {
+      const selectedChipItems = this.allItems.filter(
+        (item) => item.selected && (!isAncestors || !hasActiveChildren(item)),
       );
-    });
+      const orderedSelectedChipItems = orderByPrevious(selectedChipItems, this.selectedItems);
+
+      orderedSelectedChipItems.forEach((item) => {
+        if (item.disabled) {
+          chips.push(
+            this.renderChip({
+              activeChipIndex,
+              disabled: true,
+              index: disabledIndex++,
+              item,
+              messages,
+              readOnly,
+              scale,
+              isAncestors,
+            }),
+          );
+          return;
+        }
+
+        chips.push(
+          this.renderChip({
+            activeChipIndex,
+            disabled: false,
+            index: selectedIndex++,
+            item,
+            messages,
+            readOnly,
+            scale,
+            isAncestors,
+          }),
+        );
+      });
+    } else if (!hideSelectedChipsForSelectAll) {
+      this.selectedItems.forEach((item) => {
+        chips.push(
+          this.renderChip({
+            activeChipIndex,
+            disabled: item.disabled,
+            index: selectedIndex++,
+            item,
+            messages,
+            readOnly,
+            scale,
+            isAncestors,
+          }),
+        );
+      });
+    }
+
+    if (selectionDisplay === "fit") {
+      const hiddenSelectedCount = this.selectedHiddenChipsCount;
+      const countChipValue =
+        this.selectedVisibleChipsCount === 0 ? this.selectedItems.length : hiddenSelectedCount;
+
+      if (hiddenSelectedCount > 0 && !this.deferFitChipCountRender) {
+        chips.push(this.renderChipCount(countChipValue, scale));
+      }
+    }
+
+    return chips.length ? chips : null;
   }
 
   private renderAllSelectedIndicatorChip(): JsxNode {
@@ -1609,16 +2027,53 @@ export class Combobox
       scale,
       selectedVisibleChipsCount,
     } = this;
-    const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
+    let useFitCompactLabel = false;
+
+    if (this.selectionDisplay === "fit" && this.textInputRef.value && this.chipContainerEl) {
+      const chipContainerElGap = parseInt(getComputedStyle(this.chipContainerEl).gap, 10);
+      const chipContainerElWidth = getElementWidth(this.chipContainerEl);
+      const { fontSize, fontFamily, minInlineSize } = getComputedStyle(this.textInputRef.value);
+      // Heuristic placeholder width multiplier for stable hidden chip calculations.
+      const placeholderWidthMultiplier = 0.55;
+      const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48, 10);
+      const measuredPlaceholderWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`);
+      const placeholderWidth =
+        measuredPlaceholderWidth > 0
+          ? measuredPlaceholderWidth
+          : Math.max(
+              inputMinWidth,
+              Math.round(
+                (this.placeholder?.length || 0) *
+                  (parseFloat(fontSize) || parseInt(calciteSize48, 10)) *
+                  placeholderWidthMultiplier,
+              ),
+            );
+      const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipRef.value);
+      useFitCompactLabel = this.getFitCompactDisplayState({
+        chipContainerElGap,
+        chipContainerElWidth,
+        inputMinWidth,
+        placeholderWidth,
+        selectedIndicatorChipElWidth,
+      }).hideSelectedChips;
+    }
+
+    const useCompactAllLabel = compactSelectionDisplay || useFitCompactLabel;
+    const label = useCompactAllLabel ? this.messages.all : this.messages.allSelected;
+    const showAllSelectedChip =
+      this.allSelected &&
+      (this.selectionDisplay === "single" ||
+        !selectedVisibleChipsCount ||
+        this.selectionDisplay === "all");
 
     return (
       <calcite-chip
         class={{
           [CSS.chip]: true,
-          [CSS.chipInvisible]: !(this.allSelected && !selectedVisibleChipsCount),
+          [CSS.chipInvisible]: !showAllSelectedChip,
           [CSS.allSelected]: true,
         }}
-        data-test-id="all-selected-indicator-chip"
+        data-testid="all-selected-indicator-chip"
         label={label}
         ref={allSelectedIndicatorChipRef}
         scale={scale}
@@ -1631,23 +2086,15 @@ export class Combobox
   }
 
   private renderSelectedIndicatorChip(): JsxNode {
-    const {
-      compactSelectionDisplay,
-      selectionDisplay,
-      getSelectedItems,
-      scale,
-      selectedHiddenChipsCount,
-      selectedVisibleChipsCount,
-      selectedIndicatorChipRef,
-    } = this;
-    let chipInvisible: boolean;
-    let label: string;
+    const { compactSelectionDisplay, selectionDisplay, scale, selectedIndicatorChipRef } = this;
+    let chipInvisible = false;
+    let label: string | undefined;
+    const selectedItemsCount = this.getSelectedItems().length;
 
     if (compactSelectionDisplay) {
       chipInvisible = true;
     } else {
       if (selectionDisplay === "single") {
-        const selectedItemsCount = getSelectedItems().length;
         if (this.allSelected) {
           chipInvisible = true;
         } else if (selectedItemsCount > 0) {
@@ -1656,15 +2103,6 @@ export class Combobox
           chipInvisible = true;
         }
         label = `${selectedItemsCount} ${this.messages.selected}`;
-      } else if (selectionDisplay === "fit") {
-        chipInvisible = !!(
-          (this.allSelected && selectedVisibleChipsCount === 0) ||
-          selectedHiddenChipsCount === 0
-        );
-        label =
-          selectedVisibleChipsCount > 0
-            ? `+${selectedHiddenChipsCount}`
-            : `${selectedHiddenChipsCount} ${this.messages.selected}`;
       }
     }
     return (
@@ -1685,23 +2123,14 @@ export class Combobox
   }
 
   private renderSelectedIndicatorChipCompact(): JsxNode {
-    const {
-      compactSelectionDisplay,
-      selectionDisplay,
-      getSelectedItems,
-      scale,
-      selectedHiddenChipsCount,
-    } = this;
-    let chipInvisible: boolean;
-    let label: string;
+    const { compactSelectionDisplay, selectionDisplay, scale } = this;
+    let chipInvisible = false;
+    let label: string | undefined;
+    const selectedItemsCount = this.getSelectedItems().length;
 
     if (compactSelectionDisplay) {
-      const selectedItemsCount = getSelectedItems().length;
       if (this.allSelected) {
         chipInvisible = true;
-      } else if (selectionDisplay === "fit") {
-        chipInvisible = !(selectedHiddenChipsCount > 0);
-        label = `${selectedHiddenChipsCount || 0}`;
       } else if (selectionDisplay === "single") {
         chipInvisible = !(selectedItemsCount > 0);
         label = `${selectedItemsCount}`;
@@ -1766,7 +2195,7 @@ export class Combobox
             [CSS.inputHidden]: showLabel,
             [CSS.inputIcon]: this.showingInlineIcon && !!this.placeholderIcon,
           }}
-          data-test-id="input"
+          data-testid="input"
           disabled={disabled}
           id={`${IDS.input(guid)}`}
           key="input"
@@ -1791,7 +2220,7 @@ export class Combobox
         ariaLabel: item.label,
         ariaSelected: item.selected,
         id: `${IDS.item(item.guid)}`,
-        textContent: item.heading || item.textLabel,
+        textContent: item.heading,
       }),
     );
 
@@ -1822,7 +2251,7 @@ export class Combobox
       [FloatingCSS.animationActive]: open,
     };
 
-    const label = (this.filterText && messages.add?.replace("{text}", `${this.filterText}`)) ?? "";
+    const label = (this.filterText && messages.add.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
@@ -1833,6 +2262,8 @@ export class Combobox
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   class={CSS.selectAll}
+                  data-testid="select-all-item"
+                  heading={messages.selectAll}
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
                   label={messages.selectAll}
@@ -1840,7 +2271,6 @@ export class Combobox
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
-                  text-label={messages.selectAll}
                   value="select-all"
                 />
               )}
@@ -1912,9 +2342,14 @@ export class Combobox
     const allSelectionDisplay = selectionDisplay === "all";
     const singleSelectionDisplay = selectionDisplay === "single";
     const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
+    const showIndicatorChips = !singleSelectionMode && !allSelectionDisplay;
+    const showSingleIndicatorChips = showIndicatorChips && !fitSelectionDisplay;
+    const hasClearableSelection = this.items.some((item) => item.selected && !item.disabled);
     const isClearable =
-      !this.clearDisabled && this.selectionMode !== "single-persist" && !!this.value?.length;
-
+      !this.clearDisabled &&
+      this.selectionMode !== "single-persist" &&
+      !!this.value?.length &&
+      hasClearableSelection;
     return (
       <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
@@ -1950,13 +2385,11 @@ export class Combobox
             {!singleSelectionMode &&
               !singleSelectionDisplay &&
               this.selectAllEnabled &&
+              allSelectionDisplay &&
               this.renderAllSelectedIndicatorChip()}
-            {!singleSelectionMode &&
-              !allSelectionDisplay && [
-                this.renderSelectedIndicatorChip(),
-                this.renderSelectedIndicatorChipCompact(),
-                this.renderAllSelectedIndicatorChip(),
-              ]}
+            {showSingleIndicatorChips && this.renderSelectedIndicatorChip()}
+            {showSingleIndicatorChips && this.renderSelectedIndicatorChipCompact()}
+            {showIndicatorChips && this.renderAllSelectedIndicatorChip()}
             <label
               class={CSS.screenReadersOnly}
               htmlFor={`${IDS.input(guid)}`}
@@ -1967,12 +2400,12 @@ export class Combobox
             {this.renderInput()}
           </div>
           {!readOnly && isClearable ? (
-            <XButton
+            <ClearButton
+              ariaLabel={this.messages.clear}
               disabled={this.disabled}
-              key="close-button"
-              label={this.messages.clear}
-              ref={this.closeButtonRef}
+              ref={this.clearButtonRef}
               scale={this.scale}
+              title={this.messages.clear}
             />
           ) : null}
           {!readOnly && this.renderChevronIcon()}
@@ -1988,7 +2421,6 @@ export class Combobox
           {this.renderListBoxOptions()}
         </ul>
         {this.renderFloatingUIContainer()}
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

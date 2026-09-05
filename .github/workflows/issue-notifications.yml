@@ -9,54 +9,50 @@ jobs:
       issues: write
       actions: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: "Installed notification"
         if: github.event.label.name == '4 - installed'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenInstalled.js')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenInstalled.cjs')
             await action({github, context, core})
 
       - name: "Spike complete notification"
         if: github.event.label.name == 'spike complete'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
-          MANAGERS: ${{secrets.CALCITE_MANAGERS}}
+          PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenSpikeComplete.js')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenSpikeComplete.cjs')
             await action({github, context, core})
 
       - name: "Ready for dev notification"
         if: github.event.label.name == '2 - ready for dev'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
-          MANAGERS: ${{secrets.CALCITE_MANAGERS}}
+          PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev.js')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev.cjs')
             await action({github, context, core})
 
       - name: "New component notification"
         if: github.event.label.name == 'new component'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           DESIGNERS: ${{secrets.CALCITE_DESIGNERS}}
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent.js')
+            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent.cjs')
             await action({github, context, core})
 
       - name: "Icon request notification"
         if: github.event.label.name == 'calcite-ui-icons'
-        uses: actions/github-script@v8
-        env:
-          ICONS_TEAM: ${{secrets.ICON_LEADS}}
+        uses: ./.github/actions/notify-new-icon
         with:
-          script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutIconRequest.js')
-            await action({github, context, core})
+          webhook: ${{ secrets.TEAMS_ICON_WEBHOOK_URI }}

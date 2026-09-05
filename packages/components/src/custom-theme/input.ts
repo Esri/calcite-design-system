@@ -1,3 +1,4 @@
+import "../components/input/input";
 import { html } from "../../support/formatting";
 
 export const inputTokens = {
@@ -22,6 +23,14 @@ export const inputTokens = {
   calciteInputPrefixTextColor: "",
   calciteInputSuffixBackgroundColor: "",
   calciteInputSuffixTextColor: "",
+  calciteInputInlineEditableBackgroundColorHover: "",
+  calciteInputInlineEditableControlBackgroundColor: "",
+  calciteInputInlineEditableControlBackgroundColorHover: "",
+  calciteInputInlineEditableControlBackgroundColorPress: "",
+  calciteInputInlineEditableControlCornerRadius: "",
+  calciteInputInlineEditableControlLoaderColor: "",
+  calciteInputInlineEditableControlTextColor: "",
+  calciteInputInlineEditableControlTextColorPress: "",
 };
 
 export const input = html`<calcite-input

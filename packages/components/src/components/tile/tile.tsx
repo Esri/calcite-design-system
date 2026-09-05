@@ -1,13 +1,14 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../types";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -16,7 +17,7 @@ declare global {
 }
 
 /**
- * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
+ * @slot content-top - A slot for adding non-actionable elements above the component's content.
  * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
  */
 export class Tile extends LitElement implements SelectableComponent {
@@ -28,7 +29,7 @@ export class Tile extends LitElement implements SelectableComponent {
 
   // #region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerEl?: HTMLDivElement;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -53,17 +54,17 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the alignment of the Tile's content. */
+  /** Specifies alignment of the component's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** A description for the component, which displays below the heading. */
-  @property({ reflect: true }) description: string;
+  /** @copyDoc */
+  @property({ reflect: true }) description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The component's embed mode.
+   * Specifies the component's embed mode.
    *
    * When `true`, renders without a border and padding for use by other components.
    *
@@ -71,14 +72,17 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) embed = false;
 
-  /** The component header text, which displays between the icon and description. */
-  @property({ reflect: true }) heading: string;
+  /** @copyDoc */
+  @property({ reflect: true }) heading?: string;
 
-  /** When embed is `"false"`, the URL for the component. */
-  @property({ reflect: true }) href: string;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+
+  /** When embed is `false`, specifies the URL for the component. */
+  @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -91,8 +95,8 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property() interactive = false;
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /**
    * Defines the layout of the component.
@@ -103,34 +107,35 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance, where:
+   * Specifies the selection appearance.
    *
-   * - `"icon"` (displays a checkmark or dot), or
-   * - `"border"` (displays a border).
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` changes the background color.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
    * @private
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "border",
+    "icon" | "highlight" | "border",
     SelectionAppearance
   > = "icon";
 
   /**
-   * Specifies the selection mode, where:
+   * Specifies the selection mode.
    *
-   * - `"multiple"` (allows any number of selected items),
-   * - `"single"` (allows only one selected item),
-   * - `"single-persist"` (allows only one selected item and prevents de-selection),
-   * - `"none"` (allows no selected items).
+   * - `"multiple"` allows any number of selected items.
+   * - `"single"` allows only one selected item.
+   * - `"single-persist"` allows only one selected item and prevents de-selection.
+   * - `"none"` allows no selected items.
    *
    * This property is set by the parent tile-group.
    *
@@ -150,7 +155,7 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -160,9 +165,6 @@ export class Tile extends LitElement implements SelectableComponent {
   // #endregion
 
   // #region Events
-
-  /** @private */
-  calciteInternalTileKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
   /** Fires when the selected state of the component changes. */
   calciteTileSelect = createEvent();
@@ -199,32 +201,24 @@ export class Tile extends LitElement implements SelectableComponent {
   }
 
   private handleSlotChange(event: Event): void {
-    const slotName = (event.target as HTMLSlotElement).dataset.name;
-    this[`has${slotName}`] = slotChangeHasAssignedElement(event);
+    const hasAssignedElement = slotChangeHasAssignedElement(event);
+    const slotName = (event.target as HTMLSlotElement).name;
+
+    if (slotName === SLOTS.contentBottom) {
+      this.hasContentBottom = hasAssignedElement;
+    } else if (slotName === SLOTS.contentTop) {
+      this.hasContentTop = hasAssignedElement;
+    }
   }
 
-  private setContainerEl(el): void {
+  private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.handleSelectEvent();
-          event.preventDefault();
-          break;
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "ArrowUp":
-        case "Home":
-        case "End":
-          this.calciteInternalTileKeyEvent.emit(event);
-          event.preventDefault();
-          break;
-      }
+    if (event.target === this.el && isActivationKey(event.key)) {
+      this.handleSelectEvent();
+      event.preventDefault();
     }
   }
 
@@ -261,6 +255,7 @@ export class Tile extends LitElement implements SelectableComponent {
       hasContentBottom,
       hasContentTop,
       heading,
+      headingLevel,
       icon,
       iconFlipRtl,
       interactive,
@@ -308,7 +303,11 @@ export class Tile extends LitElement implements SelectableComponent {
           {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
             <div class={CSS.textContent}>
-              {heading && <div class={CSS.heading}>{heading}</div>}
+              {heading && (
+                <Heading class={CSS.heading} level={headingLevel}>
+                  {heading}
+                </Heading>
+              )}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
           </div>

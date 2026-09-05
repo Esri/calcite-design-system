@@ -1,5 +1,5 @@
-import { IconName } from "../icon/interfaces";
-
+import { isTag } from "../resources";
+import type { IconName } from "../icon/types";
 export const CSS = {
   container: "container",
   hasSlottedContent: "has-slotted-content",
@@ -19,3 +19,8 @@ export const ICONS: Record<string, IconName> = {
   exclamationMarkCircleF: "exclamationMarkCircleF",
   checkCircleF: "checkCircleF",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isStepperItem = isTag("calcite-stepper-item");

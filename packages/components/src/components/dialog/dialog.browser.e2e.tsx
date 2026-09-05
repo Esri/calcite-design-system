@@ -1,213 +1,600 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
-import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import { TemplateResult } from "lit/html.js";
+import { page, userEvent } from "vitest/browser";
+
+import {
+  defaults,
+  focusable,
+  focusTrap,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  t9n,
+  topLayer,
+  openClose,
+  accessible,
+  scalePropagates,
+  themed,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
-describe("calcite-dialog", () => {
-  mockConsole();
+mockConsole();
 
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-dialog"),
-      [
-        {
-          propertyName: "beforeClose",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "description",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "dragEnabled",
-          defaultValue: false,
-        },
-        {
-          propertyName: "escapeDisabled",
-          defaultValue: false,
-        },
-        {
-          propertyName: "closeDisabled",
-          defaultValue: false,
-        },
-        {
-          propertyName: "placement",
-          defaultValue: "center",
-        },
-        {
-          propertyName: "heading",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "headingLevel",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "icon",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "iconFlipRtl",
-          defaultValue: false,
-        },
-        {
-          propertyName: "kind",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "loading",
-          defaultValue: false,
-        },
-        {
-          propertyName: "menuOpen",
-          defaultValue: false,
-        },
-        {
-          propertyName: "messageOverrides",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "modal",
-          defaultValue: false,
-        },
-        {
-          propertyName: "open",
-          defaultValue: false,
-        },
-        {
-          propertyName: "outsideCloseDisabled",
-          defaultValue: false,
-        },
-        {
-          propertyName: "overlayPositioning",
-          defaultValue: "absolute",
-        },
-        {
-          propertyName: "resizable",
-          defaultValue: false,
-        },
-        {
-          propertyName: "scale",
-          defaultValue: "m",
-        },
-        {
-          propertyName: "widthScale",
-          defaultValue: "m",
-        },
-      ],
+describe("accessible", () => {
+  accessible(async () => {
+    const openEvent = waitForEvent(document, "calciteDialogOpen");
+    const renderResult = await mount(
+      <calcite-dialog description="My description" heading="My dialog" open={true} />,
     );
+    await openEvent;
+    return renderResult;
   });
+});
 
-  describe("reflects", () => {
-    reflects(
-      () => mount("calcite-dialog"),
-      [
-        {
-          propertyName: "closeDisabled",
-          value: true,
-        },
-        {
-          propertyName: "dragEnabled",
-          value: true,
-        },
-        {
-          propertyName: "escapeDisabled",
-          value: true,
-        },
-        {
-          propertyName: "placement",
-          value: "center",
-        },
-        {
-          propertyName: "headingLevel",
-          value: 1,
-        },
-        {
-          propertyName: "kind",
-          value: "brand",
-        },
-        {
-          propertyName: "icon",
-          value: "x",
-        },
-        {
-          propertyName: "iconFlipRtl",
-          value: true,
-        },
-        {
-          propertyName: "loading",
-          value: true,
-        },
-        {
-          propertyName: "menuOpen",
-          value: true,
-        },
-        {
-          propertyName: "modal",
-          value: true,
-        },
-        {
-          propertyName: "open",
-          value: true,
-        },
-        {
-          propertyName: "outsideCloseDisabled",
-          value: true,
-        },
-        {
-          propertyName: "overlayPositioning",
-          value: "fixed",
-        },
-        {
-          propertyName: "resizable",
-          value: true,
-        },
-        {
-          propertyName: "scale",
-          value: "s",
-        },
-        {
-          propertyName: "widthScale",
-          value: "s",
-        },
-        {
-          propertyName: "width",
-          value: "s",
-        },
-      ],
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-dialog"),
+    [
+      {
+        propertyName: "beforeClose",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "description",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "dragEnabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "escapeDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "closeDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "placement",
+        defaultValue: "center",
+      },
+      {
+        propertyName: "heading",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "headingLevel",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: false,
+      },
+      {
+        propertyName: "kind",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "loading",
+        defaultValue: false,
+      },
+      {
+        propertyName: "menuOpen",
+        defaultValue: false,
+      },
+      {
+        propertyName: "messageOverrides",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "modal",
+        defaultValue: false,
+      },
+      {
+        propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "outsideCloseDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
+        propertyName: "resizable",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "fullscreenDisabled",
+        defaultValue: false,
+      },
+    ],
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-dialog />, mountOptions), {
+    targetSelector: "calcite-panel",
+  });
+});
+
+describe("is focusable", () => {
+  const focusableContentTargetClass = "test";
+  const shadowFocusTargetSelector = `.${CSS.panel}`;
+  const focusTargetSelector = `.${focusableContentTargetClass}`;
+
+  function renderDialog(closeDisabled = false): TemplateResult {
+    return (
+      <calcite-dialog closeDisabled={closeDisabled} heading="Title" open>
+        This is the content
+        <button class={focusableContentTargetClass} type="button">
+          test
+        </button>
+      </calcite-dialog>
     );
+  }
+
+  describe("focuses internal panel by default", () => {
+    focusable(() => mount(renderDialog), {
+      shadowFocusTargetSelector,
+    });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount("calcite-dialog"));
+  describe("focuses content if there is no close button", () => {
+    focusable(() => mount(renderDialog(true)), {
+      focusTargetSelector,
+    });
+  });
+});
+
+describe("focus-trap", () => {
+  describe("default", () => {
+    focusTrap(() => mount(<calcite-dialog heading="Title">Content</calcite-dialog>), {
+      toggleProp: "open",
+    });
   });
 
-  describe("renders", () => {
-    renders(
+  describe("modal", () => {
+    focusTrap(
       () =>
         mount(
-          <calcite-dialog open>
-            <div slot="custom-content">content</div>
+          <calcite-dialog heading="Title" modal>
+            Content
           </calcite-dialog>,
         ),
       {
-        display: "flex",
-        visible: {
-          value: true,
-          locator: page.getByRole("dialog"),
-        },
+        toggleProp: "open",
       },
     );
   });
+});
 
-  describe("slots", () => {
-    slots(() => mount("calcite-dialog"), SLOTS);
-  });
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-dialog"),
+    [
+      {
+        propertyName: "closeDisabled",
+        value: true,
+      },
+      {
+        propertyName: "dragEnabled",
+        value: true,
+      },
+      {
+        propertyName: "escapeDisabled",
+        value: true,
+      },
+      {
+        propertyName: "placement",
+        value: "center",
+      },
+      {
+        propertyName: "headingLevel",
+        value: 1,
+      },
+      {
+        propertyName: "kind",
+        value: "brand",
+      },
+      {
+        propertyName: "icon",
+        value: "x",
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: true,
+      },
+      {
+        propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "menuOpen",
+        value: true,
+      },
+      {
+        propertyName: "modal",
+        value: true,
+      },
+      {
+        propertyName: "open",
+        value: true,
+      },
+      {
+        propertyName: "outsideCloseDisabled",
+        value: true,
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
+      {
+        propertyName: "resizable",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "s",
+      },
+      {
+        propertyName: "widthScale",
+        value: "s",
+      },
+      {
+        propertyName: "width",
+        value: "s",
+      },
+      {
+        propertyName: "fullscreenDisabled",
+        value: true,
+      },
+    ],
+  );
+});
 
-  describe("translation support", () => {
-    t9n(() => mount("calcite-dialog"));
+describe("honors hidden attribute", () => {
+  hidden(() => mount("calcite-dialog"));
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-dialog", mountOptions));
+});
+
+describe("renders", () => {
+  renders(
+    () =>
+      mount(
+        <calcite-dialog open>
+          <div slot="custom-content">content</div>
+        </calcite-dialog>,
+      ),
+    {
+      display: "flex",
+      visible: {
+        value: true,
+        locator: page.getByRole("dialog"),
+      },
+    },
+  );
+});
+
+describe("slots", () => {
+  slots(() => mount("calcite-dialog"), SLOTS);
+
+  it("forwards header-top content to the internal panel", async () => {
+    await mount(
+      <calcite-dialog open>
+        <div slot={SLOTS.headerTop}>Header top</div>
+      </calcite-dialog>,
+    );
+
+    await expect.element(page.getByText("Header top")).toBeVisible();
   });
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount(<calcite-dialog heading="heading" />), {
+    topLayerTarget: page.getByLabelText("heading"),
+  });
+});
+
+describe("translation support", () => {
+  t9n(() => mount("calcite-dialog"));
+});
+
+describe("fullscreen disabled", () => {
+  it.for([
+    { width: 400, height: 400 },
+    { width: 300, height: 300 },
+  ])(
+    "does not go fullscreen at smaller viewports (at its default scale) when fullscreenDisabled is true",
+    async ({ width, height }) => {
+      await page.viewport(width, height);
+      await mount(
+        <calcite-dialog fullscreenDisabled={true} open={true}>
+          <div>Dialog content</div>
+        </calcite-dialog>,
+      );
+      const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
+      const dialog = dialogLocator.element();
+
+      const computedStyle = window.getComputedStyle(dialog);
+
+      expect(parseInt(computedStyle.width, 10)).toBeLessThan(width);
+      expect(parseInt(computedStyle.height, 10)).toBeLessThan(height);
+    },
+  );
+
+  it("allows resizing when fullscreenDisabled is true", async () => {
+    await page.viewport(400, 400);
+
+    const { el, component } = await mount<"calcite-dialog">(
+      <calcite-dialog fullscreenDisabled={true} open={true} resizable={true}>
+        <div>Dialog content</div>
+      </calcite-dialog>,
+    );
+
+    const minimumDialogWidthForMediumScale = 288;
+    const viewportWidth = 400;
+
+    const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
+    const dialog = dialogLocator.element();
+
+    await el.setFocus();
+    await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
+    await component.updateComplete;
+
+    const resizedStyle = window.getComputedStyle(dialog);
+    expect(parseInt(resizedStyle.width, 10)).toBeGreaterThanOrEqual(
+      minimumDialogWidthForMediumScale,
+    );
+    expect(parseInt(resizedStyle.width, 10)).toBeLessThan(viewportWidth);
+  });
+});
+
+describe("dialog updateSize public method", () => {
+  mockConsole();
+
+  async function setupDialogWithInitialSize(initialInlineSize: number, initialBlockSize: number) {
+    await page.viewport(1024, 768);
+
+    const { el, component } = await mount(
+      <calcite-shell>
+        <calcite-dialog heading="test" open resizable>
+          <div>Dialog Content</div>
+        </calcite-dialog>
+      </calcite-shell>,
+    );
+
+    const dialogElement = el.querySelector("calcite-dialog")!;
+    const dialogContentElement = dialogElement.shadowRoot!.querySelector<HTMLElement>(
+      `.${CSS.dialog}`,
+    )!;
+
+    dialogElement.style.setProperty("--calcite-dialog-size-x", `${initialInlineSize}px`);
+    dialogElement.style.setProperty("--calcite-dialog-size-y", `${initialBlockSize}px`);
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${initialInlineSize}px`);
+    expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${initialBlockSize}px`);
+
+    return { dialogElement, dialogContentElement, component };
+  }
+
+  it("default size → KEYBOARD resize → method resize → clear method override", async () => {
+    const initialInlineSize = 320;
+    const initialBlockSize = 250;
+    const overrideInlineSize = 400;
+    const overrideBlockSize = 280;
+
+    const { dialogElement, dialogContentElement, component } = await setupDialogWithInitialSize(
+      initialInlineSize,
+      initialBlockSize,
+    );
+
+    dialogElement.focus();
+
+    await userEvent.keyboard("{Shift>}{ArrowLeft}{/Shift}");
+    expect(getComputedStyle(dialogContentElement).inlineSize).not.toBe(`${initialInlineSize}px`);
+
+    await userEvent.keyboard("{Shift>}{ArrowDown}{/Shift}");
+    expect(getComputedStyle(dialogContentElement).blockSize).not.toBe(`${initialBlockSize}px`);
+
+    await dialogElement.updateSize({ inline: overrideInlineSize, block: overrideBlockSize });
+    await component.updateComplete;
+    expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${overrideInlineSize}px`);
+    expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${overrideBlockSize}px`);
+
+    await dialogElement.updateSize({ inline: null, block: null });
+    await component.updateComplete;
+    expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${initialInlineSize}px`);
+    expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${initialBlockSize}px`);
+  });
+});
+
+describe("theme sizing", () => {
+  themed(
+    () =>
+      mount(
+        <calcite-dialog fullscreen-disabled icon="banana" modal open width-scale="s">
+          <p>Hello world!</p>
+        </calcite-dialog>,
+      ),
+    {
+      "--calcite-dialog-size-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-dialog-min-size-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "minInlineSize",
+      },
+      "--calcite-dialog-max-size-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "maxInlineSize",
+      },
+      "--calcite-dialog-size-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "blockSize",
+      },
+      "--calcite-dialog-min-size-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "minBlockSize",
+      },
+      "--calcite-dialog-max-size-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "maxBlockSize",
+      },
+      "--calcite-dialog-offset-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "insetInlineStart",
+      },
+      "--calcite-dialog-offset-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "insetBlockStart",
+      },
+    },
+  );
+});
+
+describe("theme appearance", () => {
+  themed(
+    async () => {
+      await page.viewport(1440, 1440);
+
+      return mount(
+        <calcite-dialog description="Themed" heading="Information" kind="info" modal open scale="s">
+          <calcite-action icon="banana" slot="header-menu-actions" text="banana" text-enabled />
+          <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
+          <calcite-action icon="question" slot="header-actions-end" text="Layers" />
+          <div slot="content-top">To continue, you must agree to the terms</div>
+          <calcite-label
+            layout="inline-space-between"
+            slot="content-bottom"
+            style="--calcite-label-margin-bottom: 0"
+          >
+            <calcite-checkbox />I agree to the terms
+          </calcite-label>
+          <p>
+            Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim
+            leo vitae quam fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a
+            finibus ante, eu dignissim eros. Aenean sodales sollicitudin dui in fermentum.
+          </p>
+
+          <calcite-button scale="s" slot="footer-end" width="auto">
+            Add members now
+          </calcite-button>
+        </calcite-dialog>,
+      );
+    },
+    {
+      "--calcite-dialog-scrim-background-color": {
+        shadowSelector: `.${CSS.scrim}`,
+        targetProp: "--calcite-scrim-background",
+      },
+      "--calcite-dialog-content-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-content-space",
+      },
+      "--calcite-dialog-content-top-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-content-top-space",
+      },
+      "--calcite-dialog-content-bottom-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-content-bottom-space",
+      },
+      "--calcite-dialog-header-top-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-top-space",
+      },
+      "--calcite-dialog-footer-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-footer-space",
+      },
+      "--calcite-dialog-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-background-color",
+      },
+      "--calcite-dialog-icon-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-icon-color",
+      },
+      "--calcite-dialog-heading-text-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-heading-text-color",
+      },
+      "--calcite-dialog-description-text-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-description-text-color",
+      },
+      "--calcite-dialog-header-action-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-action-background-color",
+      },
+      "--calcite-dialog-header-action-text-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-action-text-color",
+      },
+      "--calcite-dialog-header-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-background-color",
+      },
+      "--calcite-dialog-footer-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-footer-background-color",
+      },
+      "--calcite-dialog-border-color": [
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+      ],
+      "--calcite-dialog-accent-color": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-dialog-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-space",
+      },
+      "--calcite-dialog-corner-radius": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-corner-radius",
+      },
+    },
+  );
 });

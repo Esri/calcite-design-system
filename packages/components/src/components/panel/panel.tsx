@@ -1,8 +1,21 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import {
+  hasVisibleContent,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
+} from "../../utils/dom";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -13,17 +26,19 @@ import {
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { CollapseDirection, Scale } from "../interfaces";
+import { CollapseDirection, Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
-import type { ActionBar } from "../action-bar/action-bar";
+import { isActionBar } from "../action-bar/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -35,16 +50,19 @@ declare global {
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-end - A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
  */
 export class Panel extends LitElement {
   //#region Static Members
@@ -55,9 +73,9 @@ export class Panel extends LitElement {
 
   //#region Private Properties
 
-  private containerRef = createRef<HTMLElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
-  private panelScrollEl: HTMLElement;
+  private panelScrollEl?: HTMLElement;
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
@@ -71,6 +89,20 @@ export class Panel extends LitElement {
   private _closed = false;
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private focusTrapController = useFocusTrap<this>({
+    focusTrapOptions: {
+      allowOutsideClick: true,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && this.closable) {
+          this.emitCloseEvent();
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -96,6 +128,12 @@ export class Panel extends LitElement {
 
   @state() hasHeaderContent = false;
 
+  @state() hasHeaderDescription = false;
+
+  @state() hasHeaderHeading = false;
+
+  @state() hasHeaderTop = false;
+
   @state() hasMenuItems = false;
 
   @state() hasStartActions = false;
@@ -107,12 +145,12 @@ export class Panel extends LitElement {
   //#region Public Properties
 
   /** Passes a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the header. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** @copyDoc */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -124,7 +162,7 @@ export class Panel extends LitElement {
     }
   }
 
-  /** When `collapsible` is present, specifies the direction of the collapse icon. */
+  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
@@ -133,20 +171,20 @@ export class Panel extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** A description for the component. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** The component header text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -154,8 +192,26 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  /**
+   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
+   * @private
+   */
+  @property({ reflect: true }) focusTrapEnabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component.
+   *
+   * - `"allowOutsideClick"` allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * @private
+   */
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
+
+  /** @copyDoc */
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
@@ -163,20 +219,21 @@ export class Panel extends LitElement {
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Determines the type of positioning to use for the overlaid content.
-   *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 
@@ -192,7 +249,7 @@ export class Panel extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -204,11 +261,25 @@ export class Panel extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.containerRef.value, options);
+  }
+
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   * @private
+   */
+  @method()
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrapController.setExtraContainers(extraContainers);
+    this.focusTrapController.updateContainerElements();
   }
 
   //#endregion
@@ -237,7 +308,7 @@ export class Panel extends LitElement {
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
-    this.listen("calcitePanelClose", this.panelCloseHandler);
+    this.listen<ToEvents<Panel>["calcitePanelClose"]>("calcitePanelClose", this.panelCloseHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -250,6 +321,16 @@ export class Panel extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("focusTrapEnabled") || changes.has("closable") || changes.has("closed")) {
+      if (!this.closed && this.closable && this.focusTrapEnabled) {
+        this.focusTrapController.activate();
+      } else {
+        this.focusTrapController.deactivate();
+      }
+    }
+  }
+
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
@@ -257,6 +338,11 @@ export class Panel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.focusTrapEnabled || !this.closable || this.closed;
+  }
 
   private async setClosedState(value: boolean): Promise<void> {
     if (this.beforeClose && value) {
@@ -300,10 +386,12 @@ export class Panel extends LitElement {
   }
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
-    if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      event.preventDefault();
-      this.emitCloseEvent();
+    if (event.key !== "Escape" || event.defaultPrevented || this.closed || !this.closable) {
+      return;
     }
+
+    event.preventDefault();
+    this.emitCloseEvent();
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
@@ -336,9 +424,7 @@ export class Panel extends LitElement {
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
-      el?.matches("calcite-action-bar"),
-    );
+    const actionBars = slotChangeGetAssignedElements(event).filter(isActionBar);
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
@@ -347,6 +433,22 @@ export class Panel extends LitElement {
 
   private handleHeaderContentSlotChange(event: Event): void {
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
+  }
+
+  private handleHeaderTopSlotChange(event: Event): void {
+    this.hasHeaderTop = slotChangeHasAssignedElement(event);
+  }
+
+  private handleHeaderDescriptionSlotChange(event: Event): void {
+    this.hasHeaderDescription =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
+  }
+
+  private handleHeaderHeadingSlotChange(event: Event): void {
+    this.hasHeaderHeading =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
   }
 
   private handleFabSlotChange(event: Event): void {
@@ -373,7 +475,7 @@ export class Panel extends LitElement {
     this.hasContentTop = slotChangeHasAssignedElement(event);
   }
 
-  private setPanelScrollEl(el: HTMLElement): void {
+  private setPanelScrollEl(el?: HTMLElement): void {
     updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
   }
@@ -386,12 +488,40 @@ export class Panel extends LitElement {
     });
   }
 
+  private get hasHeaderRow(): boolean {
+    return (
+      this.hasHeaderContent ||
+      !!this.heading ||
+      !!this.description ||
+      this.hasHeaderHeading ||
+      this.hasHeaderDescription ||
+      this.hasStartActions ||
+      this.hasEndActions ||
+      this.collapsible ||
+      this.closable ||
+      this.hasMenuItems
+    );
+  }
+
   //#endregion
 
   //#region Rendering
 
   private renderHeaderContent(): JsxNode {
-    const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
+    const {
+      heading,
+      headingLevel,
+      description,
+      hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
+      icon,
+      scale,
+    } = this;
+
+    const showHeaderHeading = !!heading || hasHeaderHeading;
+    const showHeaderDescription = !!description || hasHeaderDescription;
+    const showHeaderTextContent = showHeaderHeading || showHeaderDescription;
 
     const iconNode = icon ? (
       <calcite-icon
@@ -402,17 +532,32 @@ export class Panel extends LitElement {
       />
     ) : null;
 
-    const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
-        {heading}
+    const headingNode = (
+      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+        <slot
+          hidden={!hasHeaderHeading}
+          name={SLOTS.heading}
+          onSlotChange={this.handleHeaderHeadingSlotChange}
+        />
+        {!hasHeaderHeading ? heading : null}
       </Heading>
-    ) : null;
+    );
 
-    const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
+    const descriptionNode = (
+      <span class={CSS.description} hidden={!showHeaderDescription}>
+        <slot
+          hidden={!hasHeaderDescription}
+          name={SLOTS.description}
+          onSlotChange={this.handleHeaderDescriptionSlotChange}
+        />
+        {!hasHeaderDescription ? description : null}
+      </span>
+    );
 
-    return !hasHeaderContent && (headingNode || descriptionNode) ? (
+    return (
       <div
         class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        hidden={hasHeaderContent || !showHeaderTextContent}
         key="header-content"
       >
         {iconNode}
@@ -421,7 +566,7 @@ export class Panel extends LitElement {
           {descriptionNode}
         </div>
       </div>
-    ) : null;
+    );
   }
 
   private renderActionBar(): JsxNode {
@@ -440,6 +585,14 @@ export class Panel extends LitElement {
         key="slotted-header-content"
       >
         <slot name={SLOTS.headerContent} onSlotChange={this.handleHeaderContentSlotChange} />
+      </div>
+    );
+  }
+
+  private renderHeaderTop(): JsxNode {
+    return (
+      <div class={CSS.headerTop} hidden={!this.hasHeaderTop}>
+        <slot name={SLOTS.headerTop} onSlotChange={this.handleHeaderTopSlotChange} />
       </div>
     );
   }
@@ -525,7 +678,7 @@ export class Panel extends LitElement {
   }
 
   private renderMenu(): JsxNode {
-    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
+    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement, scale } = this;
 
     return (
       <calcite-action-menu
@@ -536,11 +689,13 @@ export class Panel extends LitElement {
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
         placement={menuPlacement}
+        scale={scale}
+        topLayerDisabled={this.topLayerDisabled}
       >
         <calcite-action
           class={CSS.menuAction}
           icon={ICONS.menu}
-          scale={this.scale}
+          scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />
@@ -555,6 +710,9 @@ export class Panel extends LitElement {
   private renderHeaderNode(): JsxNode {
     const {
       hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
+      hasHeaderTop,
       hasStartActions,
       hasEndActions,
       closable,
@@ -562,13 +720,18 @@ export class Panel extends LitElement {
       hasMenuItems,
       hasActionBar,
       hasContentTop,
+      heading,
+      description,
     } = this;
 
     const headerContentNode = this.renderHeaderContent();
+    const hasDefaultHeaderContent =
+      !!heading || !!description || hasHeaderHeading || hasHeaderDescription;
 
     const showHeaderContent =
       hasHeaderContent ||
-      !!headerContentNode ||
+      hasDefaultHeaderContent ||
+      hasHeaderTop ||
       hasStartActions ||
       hasEndActions ||
       collapsible ||
@@ -580,9 +743,19 @@ export class Panel extends LitElement {
     this.showHeaderContent = showHeaderContent;
 
     return (
-      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar || hasContentTop)}>
+      <header
+        class={{
+          [CSS.header]: true,
+          [CSS.headerNoRow]: hasHeaderTop && !this.hasHeaderRow && !hasActionBar && !hasContentTop,
+        }}
+        hidden={!(showHeaderContent || hasActionBar || hasContentTop)}
+      >
+        {this.renderHeaderTop()}
         <div
-          class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
+          class={{
+            [CSS.headerContainer]: true,
+            [CSS.headerContainerBorderEnd]: hasActionBar && this.hasHeaderRow,
+          }}
           hidden={!showHeaderContent}
         >
           {this.renderHeaderStartActions()}
@@ -640,7 +813,13 @@ export class Panel extends LitElement {
 
   private renderContentTop(): JsxNode {
     return (
-      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+      <div
+        class={{
+          [CSS.contentTop]: true,
+          [CSS.contentTopNoBorder]: this.hasHeaderTop && !this.hasHeaderRow && !this.hasActionBar,
+        }}
+        hidden={!this.hasContentTop}
+      >
         <slot name={SLOTS.contentTop} onSlotChange={this.contentTopSlotChangeHandler} />
       </div>
     );
@@ -655,16 +834,26 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed } = this;
+    const { disabled, loading, closed, heading, description, focusTrapEnabled, closable } = this;
+    const hasDialogRole = focusTrapEnabled && closable;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
+      <div
+        ariaBusy={toAriaBoolean(loading, undefined)}
+        ariaDescription={hasDialogRole && description ? description : undefined}
+        ariaLabel={hasDialogRole && heading ? heading : undefined}
+        ariaLive={hasDialogRole ? "polite" : undefined}
+        class={CSS.container}
+        hidden={closed}
+        ref={this.containerRef}
+        role={hasDialogRole ? "dialog" : "article"}
+      >
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
         <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
-      </article>
+      </div>
     );
 
     return (

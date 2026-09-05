@@ -1,18 +1,27 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { CardGroup } from "./card-group";
+import "./card-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../card/card"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { selectionMode } = ATTRIBUTES;
+const { scale, selectionMode } = ATTRIBUTES;
 
-interface CardGroupStoryArgs extends Pick<CardGroup, "selectionMode"> {
+interface CardGroupStoryArgs extends Pick<CardGroup, "disabled" | "scale" | "selectionMode"> {
   src: string;
 }
 
 export default {
   title: "Components/Card Group",
   args: {
+    disabled: false,
+    scale: scale.defaultValue,
     selectionMode: selectionMode.defaultValue,
     src: placeholderImage({
       width: 280,
@@ -20,6 +29,10 @@ export default {
     }),
   },
   argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
     selectionMode: {
       options: selectionMode.values.filter(
         (option) => option !== "children" && option !== "multichildren" && option !== "ancestors",
@@ -30,7 +43,11 @@ export default {
 };
 
 export const simple = (args: CardGroupStoryArgs): string => html`
-  <calcite-card-group selection-mode="${args.selectionMode}">
+  <calcite-card-group
+    ${boolean("disabled", args.disabled)}
+    scale="${args.scale}"
+    selection-mode="${args.selectionMode}"
+  >
     <calcite-card label="test card">
       <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <h3 slot="heading">Portland Businesses</h3>
@@ -127,7 +144,7 @@ export const simple = (args: CardGroupStoryArgs): string => html`
   </calcite-card-group>
 `;
 
-export const single_TestOnly = (): string => html`
+export const single = (): string => html`
   <calcite-card-group selection-mode="single">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -148,7 +165,7 @@ export const single_TestOnly = (): string => html`
   </calcite-card-group>
 `;
 
-export const singlePersistWithPreSelected_TestOnly = (): string => html`
+export const singlePersistWithPreSelected = (): string => html`
   <calcite-card-group selection-mode="single">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -169,7 +186,7 @@ export const singlePersistWithPreSelected_TestOnly = (): string => html`
   </calcite-card-group>
 `;
 
-export const multiple_TestOnly = (): string => html`
+export const multiple = (): string => html`
   <calcite-card-group selection-mode="multiple">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -190,7 +207,7 @@ export const multiple_TestOnly = (): string => html`
   </calcite-card-group>
 `;
 
-export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
+export const multipleCardHeightsMatchPerRow = (): string => html`
   <div>
     <style>
       calcite-card {
@@ -329,7 +346,7 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-card-group>
       <calcite-card label="forest">
@@ -352,4 +369,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkThemeRTL.parameters = { themes: modesDarkDefault };

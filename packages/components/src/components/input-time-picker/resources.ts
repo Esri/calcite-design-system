@@ -1,8 +1,11 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
+  clearButton: "clear-button",
   clockIcon: "clock-icon",
   container: "container",
+  contentContainer: "content-container",
   decimalSeparator: "decimal-separator",
   delimiter: "delimiter",
   empty: "empty",
@@ -11,11 +14,11 @@ export const CSS = {
   hourSuffix: "hour-suffix",
   input: "input",
   inputContainer: "input-container",
+  inputContainerHidden: "input-container--hidden",
   meridiem: "meridiem",
-  meridiemStart: "meridiem--start",
-  meridiemEnd: "meridiem--end",
   minute: "minute",
   minuteSuffix: "minute-suffix",
+  placeholder: "placeholder",
   readOnly: "read-only",
   second: "second",
   secondSuffix: "second-suffix",
@@ -32,3 +35,8 @@ export const ICONS: Record<string, IconName> = {
   chevronUp: "chevron-up",
   chevronDown: "chevron-down",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isInputTimePicker = isTag("calcite-input-time-picker");

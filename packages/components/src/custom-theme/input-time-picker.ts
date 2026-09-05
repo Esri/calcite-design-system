@@ -1,3 +1,4 @@
+import "../components/input-time-picker/input-time-picker";
 import { html } from "../../support/formatting";
 
 export const inputTimePickerTokens = {
@@ -18,6 +19,12 @@ export const inputTimePickerTokens = {
   calciteInputTimePickerDigitBorderColorHover: "",
   calciteInputTimePickerActionBackgroundColorHover: "",
   calciteInputTimePickerActionBackgroundColorPress: "",
+  calciteInputTimePickerInputActionBackgroundColor: "",
+  calciteInputTimePickerInputActionBackgroundColorHover: "",
+  calciteInputTimePickerInputActionBackgroundColorPress: "",
+  calciteInputTimePickerInputActionIconColor: "",
+  calciteInputTimePickerInputActionIconColorHover: "",
+  calciteInputTimePickerInputActionIconColorPress: "",
 };
 
 export const inputTimePicker = html`<calcite-input-time-picker open></calcite-input-time-picker>`;

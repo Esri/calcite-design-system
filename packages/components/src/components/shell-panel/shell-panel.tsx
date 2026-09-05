@@ -1,28 +1,44 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
-import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit/directives/ref.js";
+import { type PropertyValues } from "lit";
 import {
-  getElementDir,
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
+import {
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { clamp } from "../../utils/math";
+import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, Layout, Position, Scale, Width } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
+import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../types";
+import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
-import { resizeStep, resizeShiftStep } from "../../utils/resources";
-import { IconName } from "../icon/interfaces";
+import { isActionBar } from "../action-bar/resources";
+import type { IconName } from "../icon/types";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { DisplayMode, ResizeValues } from "./interfaces";
+import type { DisplayMode } from "./types";
 import { styles } from "./shell-panel.scss";
+
+export type ShellPanelSizingData = {
+  availableSize: number;
+};
+
+type ShellSizingDataProvider = (axis: "inline" | "block") => ShellPanelSizingData | null;
 
 declare global {
   interface DeclareElements {
@@ -43,13 +59,33 @@ export class ShellPanel extends LitElement {
 
   //#region Private Properties
 
-  private resizeHandleEl: HTMLDivElement;
+  direction = useDirection();
 
-  private interaction: Interactable;
+  private resizeHandleRef = createRef<HTMLDivElement>();
+
+  private interaction?: Interactable;
 
   private actionBars: ActionBar["el"][] = [];
 
+  private actionBar?: ActionBar["el"];
+
+  private actionBarContainerEl?: HTMLDivElement;
+
+  private actionBarContainerResizeObserver = createObserver("resize", () =>
+    this.updateActionBarSize(),
+  );
+
+  private handleActionBarExpand = (): void => {
+    this.isActionBarExpanded = true;
+  };
+
+  private handleActionBarCollapse = (): void => {
+    this.isActionBarExpanded = false;
+  };
+
   private contentRef = createRef<HTMLDivElement>();
+
+  private containerRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -57,6 +93,17 @@ export class ShellPanel extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private sizeOverride = useSizeOverride({
+    targetElement: this.contentRef,
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.getMaxInlineSize() },
+      block: { min: this.resizeValues.minBlockSize, max: this.getMaxBlockSize() },
+    }),
+    onResize: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
+  });
 
   //#endregion
 
@@ -71,73 +118,98 @@ export class ShellPanel extends LitElement {
     maxBlockSize: null,
   };
 
+  @state() isActionBarExpanded = false;
+
   @state() hasHeader = false;
 
   //#endregion
 
   //#region Public Properties
 
+  /** Specifies the placement of the `calcite-action-bar` (when slotted). */
+  @property({ reflect: true }) actionBarPosition?: Position;
+
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * Specifies the display mode of the component, where:
+   * Specifies the component's display mode.
    *
-   * `"dock"` displays at full height adjacent to center content,
-   *
-   * `"overlay"` displays at full height on top of center content, and
-   *
-   * `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
-   *
-   * `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
-   *
-   * `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
+   * - `"dock"` displays at full height adjacent to center content.
+   * - `"overlay"` displays at full height on top of center content.
+   * - `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   * - `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
+   * - `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content. [Deprecated] in v2.11.0, removal target v6.0.0 - use `"float-content"` instead.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
   /**
-   * When `layout` is `horizontal`, specifies the maximum height of the component.
+   * When `layout` is `horizontal`, specifies the component's maximum height.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
-  @property({ reflect: true }) heightScale: Scale;
+  @property({ reflect: true }) heightScale?: Scale;
 
   /**
-   * The direction of the component.
+   * Specifies the component's direction.
    *
-   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
-   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** Specifies the height of the component. */
-  @property({ reflect: true }) height: Height;
+  /** @internal */
+  @property({ attribute: false }) shellSizingDataProvider?: ShellSizingDataProvider;
+
+  /** @copyDoc */
+  @property({ reflect: true }) height?: Height;
 
   /**
-   * When `layout` is `vertical`, specifies the width of the component.
+   * When `layout` is `vertical`, specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 -  Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  /** Specifies the component's width. */
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
+
+  //#endregion
+
+  //#region Public Methods
+
+  /**
+   * Updates the component's size by setting its inline and/or block dimensions.
+   *
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
+   */
+  @method()
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
+  }
 
   //#endregion
 
   //#region Events
+
+  /** @private */
+  calciteInternalShellPanelActionBarPositionChange = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalShellPanelResizableChange = createEvent({ cancelable: false });
 
   /** @private */
   calciteInternalShellPanelResizeEnd = createEvent({ cancelable: false });
@@ -155,13 +227,64 @@ export class ShellPanel extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    this.listen<ToEvents<ActionBar>["calciteActionBarExpand"]>(
+      "calciteActionBarExpand",
+      this.handleActionBarExpandEvent,
+    );
+    this.listen<ToEvents<ActionBar>["calciteActionBarCollapse"]>(
+      "calciteActionBarCollapse",
+      this.handleActionBarCollapseEvent,
+    );
+  }
+
+  override connectedCallback(): void {
+    if (this.hasUpdated) {
+      this.refreshResize();
+      this.syncActionBarExpandedState();
+    }
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    let shouldRefreshResize = false;
+
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
-      this.setActionBarsLayout(this.actionBars);
+      this.setActionBarLayout(this.actionBar);
+      this.updateSizeInternal({ inline: null, block: null }); // we clear sizing as it won't be applicable across axes
+      shouldRefreshResize = true;
+    }
+
+    if (
+      (changes.has("direction") && this.hasUpdated) ||
+      (changes.has("position") && (this.hasUpdated || this.position !== "start"))
+    ) {
+      shouldRefreshResize = true;
+    }
+
+    if (
+      (changes.has("collapsed") && (this.hasUpdated || this.collapsed !== false)) ||
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+    ) {
+      shouldRefreshResize = this.resizable && !this.collapsed;
+
+      if (!shouldRefreshResize) {
+        this.cleanUpInteractions();
+      }
+    }
+
+    if (shouldRefreshResize) {
+      this.refreshResize();
+    }
+    if (changes.has("actionBarPosition") && this.hasUpdated) {
+      this.setActionBarLayout(this.actionBar);
+    }
+    if (changes.has("resizable") && this.hasUpdated) {
+      this.calciteInternalShellPanelResizableChange.emit();
     }
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
@@ -172,16 +295,30 @@ export class ShellPanel extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("actionBarPosition")) {
+      this.calciteInternalShellPanelActionBarPositionChange.emit();
+    }
+  }
+
   override disconnectedCallback(): void {
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
+
+    if (this.actionBarContainerEl) {
+      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
+    }
   }
 
   //#endregion
 
   //#region Private Methods
 
-  private getContentElDOMRect(): DOMRect {
-    return this.contentRef.value.getBoundingClientRect();
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    if (!this.contentRef.value) {
+      return;
+    }
+    this.sizeOverride.resize(size);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -191,7 +328,6 @@ export class ShellPanel extends LitElement {
       layout,
       resizable,
       contentRef,
-      el,
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
 
@@ -204,145 +340,236 @@ export class ShellPanel extends LitElement {
       return;
     }
 
-    const rect = this.getContentElDOMRect();
-    const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const rect = contentRef.value.getBoundingClientRect();
+    const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
       case "ArrowUp":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          block:
             rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
-          type: "blockSize",
         });
         event.preventDefault();
         break;
       case "ArrowDown":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          block:
             rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
-          type: "blockSize",
         });
         event.preventDefault();
         break;
       case "ArrowLeft":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          inline:
             rect.width +
             (layout === "vertical" && position === "end" ? stepValue : -stepValue) * invertRTL,
-          type: "inlineSize",
         });
         event.preventDefault();
         break;
       case "ArrowRight":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          inline:
             rect.width +
             (layout === "vertical" && position === "end" ? -stepValue : stepValue) * invertRTL,
-          type: "inlineSize",
         });
         event.preventDefault();
         break;
       case "Home":
-        this.updateSize({
-          size: layout === "horizontal" ? minBlockSize : minInlineSize,
-          type: layout === "horizontal" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          layout === "horizontal" ? { block: minBlockSize } : { inline: minInlineSize },
+        );
         event.preventDefault();
         break;
       case "End":
-        this.updateSize({
-          size: layout === "horizontal" ? maxBlockSize : maxInlineSize,
-          type: layout === "horizontal" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          layout === "horizontal" ? { block: maxBlockSize } : { inline: maxInlineSize },
+        );
         event.preventDefault();
         break;
     }
   }
 
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { contentRef, resizeValues } = this;
+  private cleanUpInteractions(): void {
+    this.interaction?.unset();
+  }
+
+  private updateResizeValues(): void {
+    const { contentRef, layout } = this;
 
     if (!contentRef.value) {
       return;
     }
 
-    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
-    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
-
-    const clamped =
-      resizeValues[resizeMin] && resizeValues[resizeMax]
-        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
-        : size;
-
-    const rounded = Math.round(clamped);
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const computedMaxInlineSize =
+      getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth;
+    const computedMaxBlockSize =
+      getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
+    const availableInlineSize = layout === "vertical" ? this.getAvailableInlineSize() : null;
+    const availableBlockSize = layout === "horizontal" ? this.getAvailableBlockSize() : null;
 
     this.resizeValues = {
-      ...resizeValues,
-      [type]: rounded,
+      inlineSize: getStylePixelValue(computedStyle.inlineSize),
+      blockSize: getStylePixelValue(computedStyle.blockSize),
+      minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
+      minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
+      maxInlineSize:
+        availableInlineSize === null
+          ? computedMaxInlineSize
+          : Math.min(computedMaxInlineSize, availableInlineSize),
+      maxBlockSize:
+        availableBlockSize === null
+          ? computedMaxBlockSize
+          : Math.min(computedMaxBlockSize, availableBlockSize),
     };
-
-    contentRef.value.style[type] = size !== null ? `${rounded}px` : null;
   }
 
-  private cleanupInteractions(): void {
-    this.interaction?.unset();
+  private getAvailableBlockSize(): number | null {
+    return this.getAvailableSize("block");
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private getAvailableInlineSize(): number | null {
+    return this.getAvailableSize("inline");
+  }
 
-    const { el, contentRef, resizable, position, collapsed, resizeHandleEl, layout } = this;
+  private getAvailableSize(axis: "inline" | "block"): number | null {
+    const dimension = axis === "inline" ? "width" : "height";
+    const shellSizingData = this.shellSizingDataProvider?.(axis);
+    const actionBarContainerSize =
+      this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0;
+    const actionBarSize = Math.max(
+      actionBarContainerSize,
+      this.actionBars.reduce(
+        (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
+        0,
+      ),
+    );
 
-    if (!contentRef.value || collapsed || !resizable || !resizeHandleEl) {
+    if (!shellSizingData) {
+      return null;
+    }
+
+    const { availableSize } = shellSizingData;
+    const containerSpacingSize = this.getContainerSpacingSize(axis);
+    const contentSpacingSize = this.getContentSpacingSize(axis);
+
+    return Math.max(
+      Math.floor(availableSize) -
+        Math.ceil(actionBarSize) -
+        Math.ceil(containerSpacingSize) -
+        Math.ceil(contentSpacingSize),
+      0,
+    );
+  }
+
+  private getContentSpacingSize(axis: "inline" | "block"): number {
+    const content = this.contentRef.value;
+
+    if (!content) {
+      return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(content);
+
+    return axis === "inline"
+      ? getStylePixelValue(computedStyle.marginInlineStart) +
+          getStylePixelValue(computedStyle.marginInlineEnd) +
+          getStylePixelValue(computedStyle.borderInlineStartWidth) +
+          getStylePixelValue(computedStyle.borderInlineEndWidth)
+      : getStylePixelValue(computedStyle.marginBlockStart) +
+          getStylePixelValue(computedStyle.marginBlockEnd) +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth);
+  }
+
+  private getContainerSpacingSize(axis: "inline" | "block"): number {
+    const container = this.containerRef.value;
+
+    if (!container) {
+      return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(container);
+
+    return axis === "inline"
+      ? getStylePixelValue(computedStyle.marginInlineStart) +
+          getStylePixelValue(computedStyle.marginInlineEnd) +
+          getStylePixelValue(computedStyle.borderInlineStartWidth) +
+          getStylePixelValue(computedStyle.borderInlineEndWidth)
+      : getStylePixelValue(computedStyle.marginBlockStart) +
+          getStylePixelValue(computedStyle.marginBlockEnd) +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth);
+  }
+
+  private getMaxBlockSize(): number | null {
+    const { layout, contentRef } = this;
+
+    if (layout !== "horizontal") {
+      return this.resizeValues.maxBlockSize;
+    }
+
+    if (!contentRef.value) {
+      return this.resizeValues.maxBlockSize;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const cssMax = getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
+    const availableBlockSize = this.getAvailableBlockSize();
+
+    return availableBlockSize === null ? cssMax : Math.min(cssMax, availableBlockSize);
+  }
+
+  private getMaxInlineSize(): number | null {
+    const { layout, contentRef } = this;
+
+    if (layout !== "vertical") {
+      return this.resizeValues.maxInlineSize;
+    }
+
+    if (!contentRef.value) {
+      return this.resizeValues.maxInlineSize;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const cssMax = getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth;
+    const availableInlineSize = this.getAvailableInlineSize();
+
+    return availableInlineSize === null ? cssMax : Math.min(cssMax, availableInlineSize);
+  }
+
+  private async refreshResize(): Promise<void> {
+    await this.componentOnReady();
+    await this.updateComplete;
+    this.updateResizeValues();
+    this.setUpResizeInteractions();
+  }
+
+  private setUpResizeInteractions(): void {
+    this.cleanUpInteractions();
+
+    const { el, contentRef, resizable, position, collapsed, resizeHandleRef, layout } = this;
+    const resizeHandle = resizeHandleRef.value;
+
+    if (!contentRef.value || collapsed || !resizable || !resizeHandle) {
       return;
     }
 
-    await this.el.componentOnReady();
-
-    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentRef.value);
-
-    const values: ResizeValues = {
-      inlineSize: getStylePixelValue(inlineSize),
-      blockSize: getStylePixelValue(blockSize),
-      minInlineSize: getStylePixelValue(minInlineSize),
-      minBlockSize: getStylePixelValue(minBlockSize),
-      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
-      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
-    };
-
-    this.resizeValues = values;
-
-    const rtl = getElementDir(el) === "rtl";
+    const rtl = this.direction === "rtl";
+    const restrictSizeMin =
+      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
-        top: position === "end" && layout === "horizontal" ? resizeHandleEl : false,
-        right:
-          position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandleEl : false,
-        bottom: position === "start" && layout === "horizontal" ? resizeHandleEl : false,
-        left:
-          position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandleEl : false,
+        top: position === "end" && layout === "horizontal" ? resizeHandle : false,
+        right: position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandle : false,
+        bottom: position === "start" && layout === "horizontal" ? resizeHandle : false,
+        left: position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandle : false,
       },
-      modifiers: [
-        interact.modifiers.restrictSize({
-          min: {
-            width: values.minInlineSize,
-            height: values.minBlockSize,
-          },
-          max: {
-            width: values.maxInlineSize,
-            height: values.maxBlockSize,
-          },
-        }),
-      ],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin })],
       listeners: {
         resizestart: () => {
           this.calciteInternalShellPanelResizeStart.emit();
@@ -353,31 +580,74 @@ export class ShellPanel extends LitElement {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = layout === "horizontal";
 
-          this.updateSize({
-            size: isBlock ? rect.height : rect.width,
-            type: isBlock ? "blockSize" : "inlineSize",
-          });
+          this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
         },
       },
     });
   }
 
-  private setResizeHandleEl(el: HTMLDivElement): void {
-    this.resizeHandleEl = el;
-    this.setupInteractions();
+  private setActionBarContainerEl(el: HTMLDivElement): void {
+    if (this.actionBarContainerEl) {
+      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
+    }
+
+    this.actionBarContainerEl = el;
+
+    if (el) {
+      this.actionBarContainerResizeObserver?.observe(el);
+      this.updateActionBarSize();
+    }
   }
 
-  private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
-    actionBars.forEach((actionBar) => (actionBar.layout = this.layout));
+  private updateActionBarSize(): void {
+    if (!this.actionBarContainerEl) {
+      return;
+    }
+    const rect = this.actionBarContainerEl.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-width", `${width}px`);
+    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-height", `${height}px`);
+  }
+
+  private setActionBarLayout(actionBar?: ActionBar["el"]): void {
+    if (!actionBar) {
+      return;
+    }
+
+    if (this.actionBarPosition) {
+      actionBar.layout =
+        this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
+          ? "horizontal"
+          : "vertical";
+      return;
+    }
+
+    actionBar.layout = this.layout;
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
-      el?.matches("calcite-action-bar"),
-    );
+    const actionBar = slotChangeGetAssignedElements(event).find(isActionBar);
 
-    this.actionBars = actionBars;
-    this.setActionBarsLayout(actionBars);
+    this.actionBar = actionBar;
+    this.setActionBarLayout(actionBar);
+    this.syncActionBarExpandedState(actionBar);
+  }
+
+  private handleActionBarExpandEvent(event: CustomEvent<void>): void {
+    if (event.target !== this.actionBar) {
+      return;
+    }
+
+    this.handleActionBarExpand();
+  }
+
+  private handleActionBarCollapseEvent(event: CustomEvent<void>): void {
+    if (event.target !== this.actionBar) {
+      return;
+    }
+
+    this.handleActionBarCollapse();
   }
 
   private handleHeaderSlotChange(event: Event): void {
@@ -388,6 +658,10 @@ export class ShellPanel extends LitElement {
     const { layout } = this;
 
     return layout === "horizontal" ? ICONS.dragVertical : ICONS.dragHorizontal;
+  }
+
+  private syncActionBarExpandedState(actionBar = this.actionBar): void {
+    this.isActionBarExpanded = !!actionBar?.expanded;
   }
 
   //#endregion
@@ -405,27 +679,35 @@ export class ShellPanel extends LitElement {
   override render(): JsxNode {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
+    const isBlockPosition = layout === "horizontal";
 
     const separatorNode =
       !collapsed && resizable ? (
         <div
           ariaLabel={this.messages.resize}
-          ariaOrientation={layout === "horizontal" ? "vertical" : "horizontal"}
-          ariaValueMax={
-            layout == "horizontal" ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
-          }
-          ariaValueMin={
-            layout == "horizontal" ? resizeValues.minBlockSize : resizeValues.minInlineSize
-          }
-          ariaValueNow={layout == "horizontal" ? resizeValues.blockSize : resizeValues.inlineSize}
+          ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
+          ariaValueMax={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.maxBlockSize,
+            resizeValues.maxInlineSize,
+          )}
+          ariaValueMin={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.minBlockSize,
+            resizeValues.minInlineSize,
+          )}
+          ariaValueNow={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.blockSize,
+            resizeValues.inlineSize,
+          )}
           class={CSS.resizeHandle}
           key="resize-handle"
           onKeyDown={this.handleKeyDown}
-          ref={this.setResizeHandleEl}
+          ref={this.resizeHandleRef}
           role="separator"
           tabIndex={0}
-          touch-action="none"
         >
           <div class={CSS.resizeHandleBar}>
             <calcite-icon icon={this.getResizeIcon()} scale="s" />
@@ -451,6 +733,7 @@ export class ShellPanel extends LitElement {
           class={{
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.content]: true,
+            [CSS.contentActionBarExpanded]: this.isActionBarExpanded,
             [CSS.contentOverlay]: displayMode === "overlay",
             [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
             [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
@@ -476,19 +759,27 @@ export class ShellPanel extends LitElement {
     );
 
     const actionBarNode = (
-      <div class={CSS.actionBarContainer} key="action-bar-container">
+      <div
+        class={CSS.actionBarContainer}
+        key="action-bar-container"
+        ref={this.setActionBarContainerEl}
+      >
         <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
       </div>
     );
 
+    const effectivePosition = this.actionBarPosition || position;
     const mainNodes = [actionBarNode, contentNode];
 
-    if (position === "end") {
+    if (effectivePosition === "end" || effectivePosition === "bottom") {
       mainNodes.reverse();
     }
 
     return (
-      <div class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}>
+      <div
+        class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
+        ref={this.containerRef}
+      >
         {mainNodes}
       </div>
     );

@@ -1,30 +1,50 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Button } from "./button";
+import "./button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { appearance, kind, scale, width } = ATTRIBUTES;
+const { alignment, appearance, kind, scale, width } = ATTRIBUTES;
 
-interface ButtonStoryArgs
-  extends Pick<Button, "appearance" | "kind" | "scale" | "round" | "href" | "loading" | "disabled" | "width"> {
+interface ButtonStoryArgs extends Pick<
+  Button,
+  | "alignment"
+  | "appearance"
+  | "disabled"
+  | "href"
+  | "iconEnd"
+  | "iconStart"
+  | "kind"
+  | "loading"
+  | "round"
+  | "scale"
+  | "width"
+> {
   text: string;
 }
 
 export default {
   title: "Components/Buttons/Button",
   args: {
+    alignment: "center",
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
     round: false,
     href: "",
+    iconEnd: "",
+    iconStart: "",
     loading: false,
     disabled: false,
     width: width.defaultValue,
     text: "button text here",
   },
   argTypes: {
+    alignment: {
+      options: alignment.values,
+      control: { type: "select" },
+    },
     appearance: {
       options: appearance.values,
       control: { type: "select" },
@@ -41,16 +61,27 @@ export default {
       options: width.values,
       control: { type: "select" },
     },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: ButtonStoryArgs): string => html`
   <calcite-button
+    alignment="${args.alignment}"
     appearance="${args.appearance}"
     kind="${args.kind}"
     scale="${args.scale}"
     ${boolean("round", args.round)}
     href="${args.href}"
+    ${optionalAttribute("icon-start", args.iconStart)}
+    ${optionalAttribute("icon-end", args.iconEnd)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     width="${args.width}"
@@ -116,21 +147,21 @@ export const setWidthContainer = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-button disabled>disabled</calcite-button>
   <br />
   <calcite-button loading disabled>loading + disabled</calcite-button>
 `;
 
-export const withIconStartEmpty_TestOnly = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
+export const withIconStartEmpty = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
 
-withIconStartEmpty_TestOnly.storyName = "With icon-start set to empty";
+withIconStartEmpty.storyName = "With icon-start set to empty";
 
-export const withIconEndEmpty_TestOnly = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
+export const withIconEndEmpty = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
 
-withIconEndEmpty_TestOnly.storyName = "With icon-end set to empty";
+withIconEndEmpty.storyName = "With icon-end set to empty";
 
-export const sideBySide_TestOnly = (): string => html`
+export const sideBySide = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
     <calcite-button width="half" appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
       Back
@@ -149,7 +180,7 @@ export const sideBySide_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-button
     class="calcite-mode-dark"
     dir="rtl"
@@ -166,9 +197,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-button>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const appearanceAndKindCombinations_TestOnly = (): string => html`
+export const appearanceAndKindCombinations = (): string => html`
   <calcite-button scale="s" appearance="outline" kind="brand">outline+brand</calcite-button>
   <calcite-button scale="s" appearance="outline" kind="danger">outline+danger</calcite-button>
   <calcite-button scale="s" appearance="outline" kind="inverse">outline+inverse</calcite-button>

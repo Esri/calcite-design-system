@@ -1,33 +1,38 @@
-// @ts-strict-ignore
-import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createObserver } from "../../utils/observers";
 import {
-  connectSortableComponent,
-  disconnectSortableComponent,
-  SortableComponent,
-} from "../../utils/sortableComponent";
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
+import { createObserver } from "../../utils/observers";
 import {
   MoveEventDetail,
   SortMenuItem,
   ReorderEventDetail,
   AddEventDetail,
-} from "../sort-handle/interfaces";
+} from "../sort-handle/types";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { isBlock } from "../block/utils";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
-import { Scale } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
-import { blockGroupSelector, blockSelector, CSS } from "./resources";
+import { useSortable } from "../../controllers/useSortable";
+import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resources";
 import { styles } from "./block-group.scss";
-import { BlockDragDetail } from "./interfaces";
+import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
+import type { SortHandle } from "../sort-handle/sort-handle";
+import { isBlock } from "../block/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -38,7 +43,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-block` elements.
  */
-export class BlockGroup extends LitElement implements SortableComponent {
+export class BlockGroup extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -55,15 +60,15 @@ export class BlockGroup extends LitElement implements SortableComponent {
     this.updateBlockItemsDebounced();
   });
 
-  sortable: Sortable;
-
   private blockAndGroups: (Block["el"] | BlockGroup["el"])[] = [];
 
   private cancelable = useCancelable<this>()(this);
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private parentBlockGroupEl: BlockGroup["el"];
+  private parentBlockGroupEl?: BlockGroup["el"];
+
+  private sortable = useSortable<this>()(this);
 
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
@@ -73,7 +78,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
 
   //#region State Properties
 
-  @state() assistiveText: string;
+  @state() assistiveText?: string;
 
   @state() sortHandleMenuItems: SortMenuItem[] = [];
 
@@ -82,10 +87,10 @@ export class BlockGroup extends LitElement implements SortableComponent {
   //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the component. */
-  @property() canPull: (detail: BlockDragDetail) => boolean | "clone";
+  @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
-  @property() canPut: (detail: BlockDragDetail) => boolean;
+  @property() canPut?: (detail: BlockDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -94,26 +99,37 @@ export class BlockGroup extends LitElement implements SortableComponent {
   @property({ reflect: true }) dragEnabled = false;
 
   /**
-   * The block-group's group identifier.
+   * Specifies the component's group identifier.
    *
    * To drag elements from one group into another, both groups must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies an accessible name for the component.
-   *
-   * When `dragEnabled` is `true` and multiple group sorting is enabled with `group`, specifies the component's name for dragging between groups.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection, and
+   *
+   * `"single-persist"` allows one selection and prevents de-selection.
+   */
+  @property({ reflect: true }) expandMode: Extract<
+    "single" | "single-persist" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
@@ -137,8 +153,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>}
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -177,15 +192,28 @@ export class BlockGroup extends LitElement implements SortableComponent {
       this.handleCalciteInternalAssistiveTextChange,
     );
     this.listen("calciteBlockSortHandleBeforeOpen", this.updateBlockItemsDebounced);
-    this.listen("calciteSortHandleReorder", this.handleSortReorder);
-    this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteSortHandleAdd", this.handleSortAdd);
+    this.listen<ToEvents<SortHandle>["calciteSortHandleReorder"]>(
+      "calciteSortHandleReorder",
+      this.handleSortReorder,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleMove"]>(
+      "calciteSortHandleMove",
+      this.handleSortMove,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleAdd"]>(
+      "calciteSortHandleAdd",
+      this.handleSortAdd,
+    );
+    this.listen<ToEvents<Block>["calciteInternalBlockChange"]>(
+      "calciteInternalBlockChange",
+      this.updateBlockChildrenExpanded,
+    );
   }
 
   override connectedCallback(): void {
     this.connectObserver();
     this.updateBlockItemsDebounced();
-    this.setUpSorting();
+    this.sortable.reset();
     this.setParentBlockGroup();
     this.cancelable.add(this.updateBlockItemsDebounced);
   }
@@ -207,7 +235,6 @@ export class BlockGroup extends LitElement implements SortableComponent {
 
   override disconnectedCallback(): void {
     this.disconnectObserver();
-    disconnectSortableComponent(this);
   }
 
   //#endregion
@@ -250,7 +277,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
       }
     });
 
-    this.setUpSorting();
+    this.sortable.reset();
   }
 
   private updateGroupItems(): void {
@@ -311,16 +338,6 @@ export class BlockGroup extends LitElement implements SortableComponent {
     this.mutationObserver?.disconnect();
   }
 
-  private setUpSorting(): void {
-    const { dragEnabled } = this;
-
-    if (!dragEnabled) {
-      return;
-    }
-
-    connectSortableComponent(this);
-  }
-
   onGlobalDragStart(): void {
     this.disconnectObserver();
   }
@@ -346,7 +363,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
   }
 
   private setParentBlockGroup(): void {
-    this.parentBlockGroupEl = this.el.parentElement?.closest(blockGroupSelector);
+    this.parentBlockGroupEl = this.el.parentElement?.closest(blockGroupSelector) || undefined;
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -354,10 +371,11 @@ export class BlockGroup extends LitElement implements SortableComponent {
 
     this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
       (el): el is Block["el"] | BlockGroup["el"] => {
-        if (el.matches(blockSelector)) {
-          blockChildren.push(el as Block["el"]);
+        if (isBlock(el)) {
+          blockChildren.push(el);
+          return true;
         }
-        return el.matches(blockSelector) || el.matches(blockGroupSelector);
+        return isBlockGroup(el);
       },
     );
 
@@ -368,6 +386,49 @@ export class BlockGroup extends LitElement implements SortableComponent {
   private updateBlockAndGroupScale(): void {
     this.blockAndGroups.forEach((el) => {
       el.scale = this.scale;
+    });
+  }
+
+  private updateBlockChildrenExpanded(
+    event: CustomEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>,
+  ): void {
+    const { el, parentElement } = event.detail;
+    if (parentElement === this.el) {
+      event.stopPropagation();
+
+      const blockChildren: Block["el"][] = this.blockAndGroups.filter((item): item is Block["el"] =>
+        isBlock(item),
+      );
+
+      switch (this.expandMode) {
+        case "multiple":
+          el.expanded = !el.expanded;
+          break;
+        case "single":
+          el.expanded = !el.expanded;
+          this.collapseAllBlockElements(blockChildren, el);
+          break;
+        case "single-persist":
+          if (!el.expanded) {
+            el.expanded = true;
+            this.collapseAllBlockElements(blockChildren, el);
+          } else if (el.expanded) {
+            blockChildren.forEach((item) => {
+              if (item.contains(el) && item !== el) {
+                el.expanded = false;
+              }
+            });
+          }
+          break;
+      }
+    }
+  }
+
+  private collapseAllBlockElements(blockChildren: Block["el"][], el: Block["el"]): void {
+    blockChildren.forEach((item) => {
+      if (item !== el && !item.contains(el)) {
+        item.expanded = false;
+      }
     });
   }
 
@@ -382,8 +443,8 @@ export class BlockGroup extends LitElement implements SortableComponent {
     fromEl?: BlockGroup["el"];
     toEl?: BlockGroup["el"];
     dragEl: Block["el"];
-    newIndex: number;
-    oldIndex: number;
+    newIndex: number | undefined;
+    oldIndex: number | undefined;
     type: "move" | "add";
   }): boolean {
     if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {
@@ -550,7 +611,12 @@ export class BlockGroup extends LitElement implements SortableComponent {
             </span>
           ) : null}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-          <div ariaBusy={loading} ariaLabel={label || ""} class={CSS.groupContainer} role="group">
+          <div
+            ariaBusy={toAriaBoolean(loading, undefined)}
+            ariaLabel={label || ""}
+            class={CSS.groupContainer}
+            role="group"
+          >
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
         </div>

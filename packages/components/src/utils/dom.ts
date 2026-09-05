@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
-import { IconName } from "../components/icon/interfaces";
+import { IconName } from "../components/icon/types";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
@@ -19,10 +18,10 @@ export const tabbableOptions = {
  *
  * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
  *
- * @param {Element} el An element.
- * @returns {string} The element's ID.
+ * @param el An element.
+ * @returns The element's ID.
  */
-export function ensureId(el: Element): string {
+export function ensureId(el: Element | undefined): string {
   if (!el) {
     return "";
   }
@@ -33,8 +32,8 @@ export function ensureId(el: Element): string {
 /**
  * This helper returns an array from a NodeList.
  *
- * @param {NodeList} nodeList A NodeList.
- * @returns {Element[]} An array of elements.
+ * @param nodeList A NodeList.
+ * @returns An array of elements.
  */
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
@@ -45,8 +44,8 @@ export type Direction = "ltr" | "rtl";
 /**
  * This helper returns the Calcite "mode" of an element.
  *
- * @param {HTMLElement} el An element.
- * @returns {"light"|"dark"} The Calcite mode.
+ * @param el An element.
+ * @returns The Calcite mode.
  */
 export function getModeName(el: HTMLElement): "light" | "dark" {
   const closestElWithMode = closestElementCrossShadowBoundary(
@@ -63,8 +62,8 @@ export function getModeName(el: HTMLElement): "light" | "dark" {
 /**
  * This helper returns the direction of a HTML element.
  *
- * @param {HTMLElement} el An element.
- * @returns {Direction} The direction.
+ * @param el An element.
+ * @returns The direction.
  */
 export function getElementDir(el: HTMLElement): Direction {
   const prop = "dir";
@@ -76,10 +75,10 @@ export function getElementDir(el: HTMLElement): Direction {
 /**
  * This helper returns the computed width in pixels of a rendered HTMLElement.
  *
- * @param {HTMLElement} el An element.
- * @returns {number} The element's width.
+ * @param el An element.
+ * @returns The element's width.
  */
-export function getElementWidth(el: HTMLElement): number {
+export function getElementWidth(el: HTMLElement | undefined): number {
   if (!el) {
     return 0;
   }
@@ -89,8 +88,8 @@ export function getElementWidth(el: HTMLElement): number {
 /**
  * This helper returns the rootNode of an element.
  *
- * @param {Element} el An element.
- * @returns {Document|ShadowRoot} The element's root node.
+ * @param el An element.
+ * @returns The element's root node.
  */
 export function getRootNode(el: Element): Document | ShadowRoot {
   return el.getRootNode() as Document | ShadowRoot;
@@ -99,8 +98,8 @@ export function getRootNode(el: Element): Document | ShadowRoot {
 /**
  * This helper returns the node's shadowRoot root node if it exists.
  *
- * @param {Element} el The element.
- * @returns {ShadowRoot|null} The element's root node ShadowRoot.
+ * @param el The element.
+ * @returns The element's root node ShadowRoot.
  */
 export function getShadowRootNode(el: Element): ShadowRoot | null {
   const rootNode = getRootNode(el);
@@ -112,15 +111,15 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
  *
  * See https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript
  *
- * @param {string} text The string of text to measure.
- * @param {string} font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
+ * @param text The string of text to measure.
+ * @param font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
  */
-export function getTextWidth(text: string, font: string): number {
+export function getTextWidth(text: string | undefined, font: string): number {
   if (!text) {
     return 0;
   }
   const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
+  const context = canvas.getContext("2d")!;
   context.font = font;
   return context.measureText(text).width;
 }
@@ -128,8 +127,8 @@ export function getTextWidth(text: string, font: string): number {
 /**
  * This helper returns the host of a ShadowRoot.
  *
- * @param {Document | ShadowRoot} root A root element.
- * @returns {Element | null} The host element.
+ * @param root A root element.
+ * @returns  The host element.
  */
 export function getHost(root: Document | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
@@ -139,12 +138,6 @@ export function getHost(root: Document | ShadowRoot): Element | null {
  * This helper queries an element's rootNode and any ancestor rootNodes.
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
- *
- * @param {Element} el An element.
- * @param root0
- * @param root0.selector
- * @param root0.id
- * @returns {Element} An element.
  */
 export function queryElementRoots<T extends Element = Element>(
   el: Element,
@@ -161,7 +154,7 @@ export function queryElementRoots<T extends Element = Element>(
   }
 
   if ((el as Slottable).assignedSlot) {
-    el = (el as Slottable).assignedSlot;
+    el = el.assignedSlot!;
   }
 
   const rootNode = getRootNode(el);
@@ -178,7 +171,12 @@ export function queryElementRoots<T extends Element = Element>(
       ? rootNode.querySelector<T>(selector)
       : null;
 
-  return found || queryElementRoots<T>(getHost(rootNode), { selector, id });
+  if (found) {
+    return found;
+  }
+
+  const host = getHost(rootNode);
+  return host ? queryElementRoots<T>(host, { selector, id }) : null;
 }
 
 /**
@@ -186,9 +184,9 @@ export function queryElementRoots<T extends Element = Element>(
  *
  * Based on https://stackoverflow.com/q/54520554/194216
  *
- * @param {Element} element The starting element.
- * @param {string} selector The selector.
- * @returns {Element} The targeted element.
+ * @param element The starting element.
+ * @param selector The selector.
+ * @returns The targeted element.
  */
 export function closestElementCrossShadowBoundary<TagName extends keyof HTMLElementTagNameMap>(
   element: Element,
@@ -202,37 +200,18 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string,
 ): T | null {
-  return element
-    ? element.closest(selector) || closestElementCrossShadowBoundary(getHost(getRootNode(element)), selector)
-    : null;
-}
-
-/**
- * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
- *
- * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
- *
- * @param {Element} element An element.
- * @param {(node: Node) => Element} onVisit The callback.
- * @returns {Element} The result.
- */
-export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
-  return visit(element, onVisit);
-}
-
-function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
-  if (!node) {
-    return;
+  if (!element) {
+    return null;
   }
 
-  const result = onVisit(node);
-  if (result !== undefined) {
-    return result;
+  const closest = element.closest<T>(selector);
+
+  if (closest) {
+    return closest;
   }
 
-  const { parentNode } = node;
-
-  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
+  const host = getHost(getRootNode(element));
+  return host ? closestElementCrossShadowBoundary<T>(host, selector) : null;
 }
 
 export type FocusableElement = SetFocusable | HTMLElement;
@@ -244,8 +223,8 @@ export interface SetFocusable extends LitElement {
 /**
  * This helper returns true when an element has a setFocus method.
  *
- * @param {Element} el An element.
- * @returns {boolean} Whether the element is focusable.
+ * @param el An element.
+ * @returns Whether the element is focusable.
  */
 export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
   return typeof (el as SetFocusable)?.setFocus === "function";
@@ -254,16 +233,16 @@ export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
 /**
  * This helper focuses an element using the `setFocus` method if available and falls back to using the `focus` method if not available.
  *
- * @param {Element} el An element.
+ * @param el An element.
  * @param includeContainer When true, the container element will be considered as well. Note, this is only applicable when `setFocus` is not applicable.
  * @param strategy The focus strategy to use when finding the first focusable element. Defaults to "tabbable".
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export async function focusElement(
-  el: FocusableElement,
+  el: FocusableElement | undefined,
   includeContainer = false,
   strategy: "focusable" | "tabbable" = "tabbable",
   context?: HTMLElement,
@@ -284,12 +263,15 @@ export async function focusElement(
 /**
  * Helper to get the first tabbable element.
  *
- * @param {HTMLElement} element The html element containing tabbable elements.
- * @param {boolean} includeContainer When true, the container element will be considered as well.
+ * @param element The html element containing tabbable elements.
+ * @param includeContainer When true, the container element will be considered as well.
  *
  * @returns the first tabbable element.
  */
-export function getFirstTabbable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+export function getFirstTabbable(
+  element: HTMLElement | undefined,
+  includeContainer?: boolean,
+): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -300,11 +282,11 @@ export function getFirstTabbable(element: HTMLElement, includeContainer?: boolea
 /**
  * Helper to focus the first tabbable element.
  *
- * @param {HTMLElement} element The html element containing tabbable elements.
- * @param {boolean} includeContainer When true, the container element will be considered as well.
+ * @param element The html element containing tabbable elements.
+ * @param includeContainer When true, the container element will be considered as well.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstTabbable(element, includeContainer)?.focus(options);
@@ -313,14 +295,14 @@ export function focusFirstTabbable(element: HTMLElement, includeContainer?: bool
 /**
  * Helper to get the first focusable element.
  *
- * @param {HTMLElement} element The html element containing focusable elements.
- * @param {boolean} includeContainer When true, the container element will be considered as well.
+ * @param element The html element containing focusable elements.
+ * @param includeContainer When true, the container element will be considered as well.
  *
  * @returns the first focusable element.
  *
  * @internal
  */
-function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -331,8 +313,8 @@ function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HT
 /**
  * Helper to focus the first focusable element.
  *
- * @param {HTMLElement} element The html element containing focusable elements.
- * @param {boolean} includeContainer When true, the container element will be considered as well.
+ * @param element The html element containing focusable elements.
+ * @param includeContainer When true, the container element will be considered as well.
  *
  * @internal
  */
@@ -343,9 +325,9 @@ function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, o
 /**
  * Filters direct children.
  *
- * @param {Element} el An element.
- * @param {string} selector The selector.
- * @returns {Element[]} An array of elements.
+ * @param el An element.
+ * @param selector The selector.
+ * @returns An array of elements.
  */
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
@@ -354,9 +336,9 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
 /**
  * Filters an array of HTML elements by the provided css selector string.
  *
- * @param {Element[]} elements An array of elements, such as one returned by HTMLSlotElement.assignedElements().
- * @param {string} selector The CSS selector string to filter the returned elements by.
- * @returns {Element[]} A filtered array of elements.
+ * @param elements An array of elements, such as one returned by HTMLSlotElement.assignedElements().
+ * @param selector The CSS selector string to filter the returned elements by.
+ * @returns A filtered array of elements.
  */
 export function filterElementsBySelector<T extends Element>(elements: Element[], selector: string): T[] {
   return elements.filter((element): element is T => element.matches(selector));
@@ -365,14 +347,14 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
 /**
  * Set a default icon from a defined set or allow an override with an icon name string
  *
- * @param {Record<string, string>} iconObject The icon object.
- * @param {string | boolean} iconValue The icon value.
- * @param {string} matchedValue The matched value.
- * @returns {string|undefined} The resulting icon value.
+ * @param iconObject The icon object.
+ * @param iconValue The icon value.
+ * @param matchedValue The matched value.
+ * @returns The resulting icon value.
  */
 export function setRequestedIcon(
   iconObject: Record<string, IconName>,
-  iconValue: IconName | boolean | "",
+  iconValue: IconName | boolean | "" | undefined,
   matchedValue: string,
 ): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
@@ -380,14 +362,15 @@ export function setRequestedIcon(
   } else if (iconValue === "" || iconValue === true) {
     return iconObject[matchedValue];
   }
+  return;
 }
 
 /**
  * This helper returns true when two rectangles intersect.
  *
- * @param {DOMRect} rect1 The first rectangle.
- * @param {DOMRect} rect2 The second rectangle.
- * @returns {boolean} The result.
+ * @param rect1 The first rectangle.
+ * @param rect2 The second rectangle.
+ * @returns The result.
  */
 export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
   return !(
@@ -399,26 +382,14 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
 }
 
 /**
- * This helper makes sure that boolean aria attributes are properly converted to a string.
- *
- * It should only be used for aria attributes that require a string value of "true" or "false".
- *
- * @param {boolean} value The value.
- * @returns {string} The string conversion of a boolean value ("true" | "false").
- */
-export function toAriaBoolean(value: boolean): string {
-  return Boolean(value).toString();
-}
-
-/**
  * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any content (text or elements).
  *
  * ```
  * <slot onSlotchange={(event) => this.mySlotHasContent = slotChangeHasContent(event)} />}
  * ```
  *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any content.
+ * @param event The event.
+ * @returns Whether the slot has any content.
  */
 export function slotChangeHasContent(event: Event): boolean {
   return slotChangeHasAssignedElement(event) || slotChangeHasTextContent(event);
@@ -431,8 +402,8 @@ export function slotChangeHasContent(event: Event): boolean {
  * <slot onSlotchange={(event) => this.mySlotText = slotChangeGetTextContent(event)} />}
  * ```
  *
- * @param {Event} event The event.
- * @returns {string} The slots text.
+ * @param event The event.
+ * @returns The slots text.
  */
 export function slotChangeGetTextContent(event: Event): string {
   return slotChangeGetAssignedNodes(event)
@@ -445,8 +416,11 @@ export function slotChangeGetTextContent(event: Event): string {
 /**
  * This helper checks if an element has visible content.
  *
- * @param {HTMLElement} element The element to check.
- * @returns {boolean} True if the element has visible content, otherwise false.
+ * @deprecated Using this utility with slots/content that start empty or may change creates incorrect behavior.
+ * It should not be used until a solution is found via https://github.com/Esri/calcite-design-system/issues/14270.
+ *
+ * @param element The element to check.
+ * @returns True if the element has visible content, otherwise false.
  */
 export function hasVisibleContent(element: HTMLElement): boolean {
   for (const node of element.childNodes) {
@@ -464,8 +438,8 @@ export function hasVisibleContent(element: HTMLElement): boolean {
  * <slot onSlotchange={(event) => this.mySlotHasTextContent = slotChangeHasTextContent(event)} />}
  * ```
  *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any text content.
+ * @param event The event.
+ * @returns Whether the slot has any text content.
  */
 export function slotChangeHasTextContent(event: Event): boolean {
   return !!slotChangeGetTextContent(event);
@@ -478,8 +452,8 @@ export function slotChangeHasTextContent(event: Event): boolean {
  * <slot onSlotchange={(event) => this.mySlotHasNode = slotChangeHasAssignedNode(event)} />}
  * ```
  *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned nodes.
+ * @param event The event.
+ * @returns Whether the slot has any assigned nodes.
  */
 export function slotChangeHasAssignedNode(event: Event): boolean {
   return !!slotChangeGetAssignedNodes(event).length;
@@ -492,8 +466,8 @@ export function slotChangeHasAssignedNode(event: Event): boolean {
  * <slot onSlotchange={(event) => this.mySlotNodes = slotChangeGetAssignedNodes(event)} />}
  * ```
  *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned nodes.
+ * @param event The event.
+ * @returns Whether the slot has any assigned nodes.
  */
 export function slotChangeGetAssignedNodes(event: Event): Node[] {
   return (event.currentTarget as HTMLSlotElement).assignedNodes({
@@ -508,8 +482,8 @@ export function slotChangeGetAssignedNodes(event: Event): Node[] {
  * <slot onSlotchange={(event) => this.mySlotHasElement = slotChangeHasAssignedElement(event)} />}
  * ```
  *
- * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned elements.
+ * @param event The event.
+ * @returns Whether the slot has any assigned elements.
  */
 export function slotChangeHasAssignedElement(event: Event): boolean {
   return !!slotChangeGetAssignedElements(event).length;
@@ -522,22 +496,22 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * <slot onSlotchange={(event) => this.mySlotElements = slotChangeGetAssignedElements(event)} />}
  * ```
  *
- * @param {Event} event The event.
- * @param {string} selector The CSS selector string to filter the returned elements by.
- * @returns {Element[]} An array of elements.
+ * @param event The event.
+ * @param selector The CSS selector string to filter the returned elements by.
+ * @returns An array of elements.
  */
-export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] {
   return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
 }
 
 /**
  * This helper returns the assigned elements on a `slot` element, filtered by an optional css selector.
  *
- * @param {HTMLSlotElement} slot The slot element.
- * @param {string} selector CSS selector string to filter the returned elements by.
- * @returns {Element[]} An array of elements.
+ * @param slot The slot element.
+ * @param selector CSS selector string to filter the returned elements by.
+ * @returns An array of elements.
  */
-export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] {
   const assignedElements = slot.assignedElements({
     flatten: true,
   });
@@ -549,8 +523,8 @@ export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement
  *
  * See https://www.w3.org/TR/pointerevents/#the-button-property.
  *
- * @param {PointerEvent} event The pointer event.
- * @returns {boolean} The value.
+ * @param event The pointer event.
+ * @returns The value.
  */
 export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
@@ -559,8 +533,8 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
 /**
  * This helper returns true if the mouse event was triggered by a keyboard click.
  *
- * @param {MouseEvent} event The mouse event.
- * @returns {boolean} The value.
+ * @param event The mouse event.
+ * @returns The value.
  */
 export function isKeyboardTriggeredClick(event: MouseEvent): boolean {
   // we assume event.detail = 0 is a keyboard click
@@ -574,17 +548,17 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
 /**
  * This helper sets focus on and returns a destination element from within a group of provided elements.
  *
- * @param {Element[]} elements An array of elements.
- * @param {Element} currentElement The current element.
- * @param {FocusElementInGroupDestination} destination The target destination element to focus.
- * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
- * @param {boolean} includeContainer Determines whether the container element should be considered as well - defaults to true.
+ * @param elements An array of elements.
+ * @param currentElement The current element.
+ * @param destination The target destination element to focus.
+ * @param cycle Should navigation cycle through elements or stop at extent - defaults to true.
+ * @param includeContainer Determines whether the container element should be considered as well - defaults to true.
  * @param targetAsContext
- * @returns {Element} The focused element
+ * @returns The focused element
  */
-export const focusElementInGroup = <T extends Element = Element>(
-  elements: Element[],
-  currentElement: Element,
+export const focusElementInGroup = <T extends HTMLElement = HTMLElement>(
+  elements: T[],
+  currentElement: T,
   destination: FocusElementInGroupDestination,
   cycle = true,
   includeContainer = true,
@@ -610,6 +584,7 @@ export const focusElementInGroup = <T extends Element = Element>(
   }
 
   focusElement(focusTarget, includeContainer, "tabbable", targetAsContext ? focusTarget : undefined);
+
   return focusTarget;
 };
 
@@ -621,7 +596,7 @@ export const focusElementInGroup = <T extends Element = Element>(
  * @returns true when a is before b in the DOM
  */
 export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
-  if (a.parentNode !== b.parentNode) {
+  if (!a.parentNode || !b.parentNode || a.parentNode !== b.parentNode) {
     return false;
   }
 
@@ -650,17 +625,20 @@ export async function whenTransitionDone(targetEl: HTMLElement, transitionProp: 
 }
 
 type TransitionOrAnimation = "transition" | "animation";
-type TransitionOrAnimationInstance = CSSTransition | Animation;
+type TransitionOrAnimationInstance = CSSTransition | CSSAnimation;
 
 function findAnimation(
   targetEl: HTMLElement,
   type: TransitionOrAnimation,
   transitionPropOrAnimationName: string,
-): TransitionOrAnimationInstance {
-  const targetProp = type === "transition" ? "transitionProperty" : "animationName";
+): TransitionOrAnimationInstance | undefined {
   return targetEl
     .getAnimations()
-    .find((anim: Animation | CSSTransition) => anim[targetProp] === transitionPropOrAnimationName);
+    .find((anim): anim is TransitionOrAnimationInstance =>
+      type === "transition"
+        ? "transitionProperty" in anim && anim.transitionProperty === transitionPropOrAnimationName
+        : "animationName" in anim && anim.animationName === transitionPropOrAnimationName,
+    );
 }
 
 /**
@@ -709,8 +687,8 @@ export async function nextFrame(): Promise<void> {
  * - If the value ends with "vh", it calculates the pixel value based on the viewport height.
  * - For unsupported units or invalid values, it returns 0.
  *
- * @param {string} value - The CSS style value to convert (e.g., "10px", "50vw", "30vh").
- * @returns {number} The pixel equivalent of the provided value.
+ * @param value - The CSS style value to convert (e.g., "10px", "50vw", "30vh").
+ * @returns The pixel equivalent of the provided value.
  */
 export function getStylePixelValue(value: string): number {
   if (value.endsWith("px")) {

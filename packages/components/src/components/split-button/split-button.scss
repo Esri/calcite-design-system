@@ -4,6 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-split-button-background-color: Specifies the component's background color.
+ * @prop --calcite-split-button-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-split-button-background-color-focus: Specifies the component's background color when focused.
+ * @prop --calcite-split-button-background-color-press: Specifies the component's background color when active.
  * @prop --calcite-split-button-border-color: Specifies the component's border color.
  * @prop --calcite-split-button-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-split-button-icon-color: Specifies the component's `iconStart` and `iconEnd` color.
@@ -119,7 +122,8 @@
 }
 
 .divider-container {
-  @apply transition-default flex w-px items-stretch;
+  @include includes.transition-default();
+  @apply flex w-px items-stretch;
   background-color: var(
     --calcite-split-button-divider-color,
     var(--calcite-internal-split-button-divider-border-color)
@@ -172,16 +176,27 @@ calcite-button[split-child="secondary"] {
   --calcite-button-icon-color: var(--calcite-split-button-icon-color);
   --calcite-button-loading-color: var(--calcite-split-button-loading-color);
   --calcite-button-shadow: var(--calcite-split-button-shadow);
+  &:hover {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-hover);
+  }
+  &:focus {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-focus);
+  }
+  &:active {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-press);
+  }
 }
 
 calcite-button[split-child="primary"] {
-  --calcite-button-corner-radius: var(--calcite-split-button-corner-radius) var(--calcite-corner-radius-none)
-    var(--calcite-corner-radius-none) var(--calcite-split-button-corner-radius);
+  --calcite-button-corner-radius: var(--calcite-split-button-corner-radius, var(--calcite-corner-radius))
+    var(--calcite-corner-radius-none) var(--calcite-corner-radius-none)
+    var(--calcite-split-button-corner-radius, var(--calcite-corner-radius));
 }
 
 calcite-button[split-child="secondary"] {
-  --calcite-button-corner-radius: var(--calcite-corner-radius-none) var(--calcite-split-button-corner-radius)
-    var(--calcite-split-button-corner-radius) var(--calcite-corner-radius-none);
+  --calcite-button-corner-radius: var(--calcite-corner-radius-none)
+    var(--calcite-split-button-corner-radius, var(--calcite-corner-radius))
+    var(--calcite-split-button-corner-radius, var(--calcite-corner-radius)) var(--calcite-corner-radius-none);
 }
 
 calcite-dropdown {

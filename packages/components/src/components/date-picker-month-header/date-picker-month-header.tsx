@@ -1,11 +1,10 @@
-// @ts-strict-ignore
 import {
   calciteSpacingBase,
   calciteSpacingXxs,
   calciteSpacingSm,
 } from "@esri/calcite-design-tokens/dist/es6/global.js";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import {
   dateFromRange,
@@ -23,7 +22,7 @@ import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale } from "../types";
 import type { Action } from "../action/action";
 import type { Option } from "../option/option";
 import type { DatePicker } from "../date-picker/date-picker";
@@ -37,6 +36,7 @@ declare global {
   }
 }
 
+/** @private */
 export class DatePickerMonthHeader extends LitElement {
   // #region Static Members
 
@@ -50,37 +50,37 @@ export class DatePickerMonthHeader extends LitElement {
 
   private nextMonthActionRef = createRef<Action["el"]>();
 
-  private parentDatePickerEl: DatePicker["el"];
+  private parentDatePickerEl?: DatePicker["el"];
 
   private prevMonthActionRef = createRef<Action["el"]>();
 
   private yearInputRef = createRef<HTMLInputElement>();
 
-  private yearSelectWidthOffset: number;
+  private yearSelectWidthOffset!: number;
 
   // #endregion
 
   // #region State Properties
 
-  @state() nextMonthDate: Date;
+  @state() nextMonthDate?: Date;
 
-  @state() prevMonthDate: Date;
+  @state() prevMonthDate?: Date;
 
   // #endregion
 
   // #region Public Properties
 
   /** The focused date is indicated and will become the selected date if the user proceeds. */
-  @property() activeDate: Date;
+  @property() activeDate!: Date;
 
-  /** Specifies the number at which section headings should start. */
-  @property({ type: Number }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number }) headingLevel!: HeadingLevel;
 
   /** CLDR locale data for translated calendar info. */
-  @property() localeData: DateLocaleData;
+  @property() localeData!: DateLocaleData;
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @property() max: Date;
+  @property() max?: Date;
 
   /**
    * This property specifies accessible strings for the component's previous month button ,next month button & year input elements.
@@ -88,26 +88,26 @@ export class DatePickerMonthHeader extends LitElement {
    *
    * @private
    */
-  @property() messages: DatePicker["messages"]["_overrides"];
+  @property() messages!: DatePicker["messages"]["_overrides"];
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @property() min: Date;
+  @property() min?: Date;
 
   /** Specifies the monthStyle used by the component. */
-  @property() monthStyle: "abbreviated" | "wide";
+  @property() monthStyle!: "abbreviated" | "wide";
 
   /**
    * Specifies the position of the component in a range date-picker.
    *
    * @private
    */
-  @property() position: Extract<"start" | "end", Position>;
+  @property() position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** Already selected date. */
-  @property() selectedDate: Date;
+  @property() selectedDate?: Date;
 
   // #endregion
 
@@ -129,7 +129,8 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   load(): void {
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
+    this.parentDatePickerEl =
+      closestElementCrossShadowBoundary(this.el, "calcite-date-picker") ?? undefined;
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -205,7 +206,9 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private prevMonthClick(event: KeyboardEvent | MouseEvent): void {
-    this.handleArrowClick(event, this.prevMonthDate);
+    if (this.prevMonthDate) {
+      this.handleArrowClick(event, this.prevMonthDate);
+    }
   }
 
   private prevMonthKeydown(event: KeyboardEvent): void {
@@ -215,7 +218,9 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private nextMonthClick(event: MouseEvent | KeyboardEvent): void {
-    this.handleArrowClick(event, this.nextMonthDate);
+    if (this.nextMonthDate) {
+      this.handleArrowClick(event, this.nextMonthDate);
+    }
   }
 
   private nextMonthKeydown(event: KeyboardEvent): void {
@@ -239,7 +244,7 @@ export class DatePickerMonthHeader extends LitElement {
     let newDate = getDateInMonth(this.activeDate, monthIndex);
 
     if (!inRange(newDate, this.min, this.max)) {
-      newDate = dateFromRange(newDate, this.min, this.max);
+      newDate = dateFromRange(newDate, this.min, this.max)!;
     }
     this.calciteInternalDatePickerMonthHeaderSelectChange.emit(newDate);
     this.setYearSelectMenuWidth();
@@ -251,7 +256,7 @@ export class DatePickerMonthHeader extends LitElement {
   }: {
     localizedYear: string;
     offset?: number;
-  }): Date {
+  }): Date | undefined {
     const { min, max, activeDate } = this;
     const parsedYear = Number(numberStringFormatter.delocalize(localizedYear));
     const length = parsedYear.toString().length;
@@ -264,6 +269,8 @@ export class DatePickerMonthHeader extends LitElement {
       nextDate.setFullYear(year);
       return dateFromRange(nextDate, min, max);
     }
+
+    return undefined;
   }
 
   /**
@@ -292,13 +299,13 @@ export class DatePickerMonthHeader extends LitElement {
       this.calciteInternalDatePickerMonthHeaderSelectChange.emit(inRangeDate);
     }
 
-    if (commit) {
+    if (commit && yearInputRef.value) {
       yearInputRef.value.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
 
   private setYearSelectWidthOffset(): void {
-    this.yearSelectWidthOffset = ICON_WIDTH_M + 3 * parseInt(this.getYearSelectPadding());
+    this.yearSelectWidthOffset = ICON_WIDTH_M + 3 * parseInt(this.getYearSelectPadding(), 10);
     this.setYearSelectMenuWidth();
   }
 
@@ -326,8 +333,9 @@ export class DatePickerMonthHeader extends LitElement {
       return true;
     }
 
-    return (
-      hasSameMonthAndYear(newActiveDate, this.max) || hasSameMonthAndYear(newActiveDate, this.min)
+    return !!(
+      (this.max && hasSameMonthAndYear(newActiveDate, this.max)) ||
+      (this.min && hasSameMonthAndYear(newActiveDate, this.min))
     );
   }
 
@@ -336,14 +344,14 @@ export class DatePickerMonthHeader extends LitElement {
     const direction = target.getAttribute("data-direction");
     const isDirectionLeft = direction === "left";
 
-    let isTargetLastValidMonth: boolean;
+    let isTargetLastValidMonth = false;
 
     if (isDirectionLeft && this.min) {
       const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
-      isTargetLastValidMonth = hasSameMonthAndYear(prevMonthDate, this.min);
+      isTargetLastValidMonth = prevMonthDate ? hasSameMonthAndYear(prevMonthDate, this.min) : false;
     } else if (this.max) {
       const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
-      isTargetLastValidMonth = hasSameMonthAndYear(nextMonthDate, this.max);
+      isTargetLastValidMonth = nextMonthDate ? hasSameMonthAndYear(nextMonthDate, this.max) : false;
     }
 
     if (isTargetLastValidMonth) {
@@ -523,7 +531,7 @@ export class DatePickerMonthHeader extends LitElement {
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
         ref={isDirectionRight ? this.nextMonthActionRef : this.prevMonthActionRef}
         role="button"
-        scale={this.scale === "l" ? "l" : "m"}
+        scale={this.scale}
         text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
       />
     );

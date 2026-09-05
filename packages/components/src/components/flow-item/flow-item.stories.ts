@@ -1,26 +1,38 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow/flow"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./flow-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list/list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { collapseDirection, scale } = ATTRIBUTES;
+const { collapseDirection, overlayPositioning, scale } = ATTRIBUTES;
 
-interface FlowItemStoryArgs
-  extends Pick<
-    FlowItem,
-    | "closed"
-    | "disabled"
-    | "closable"
-    | "collapsible"
-    | "collapsed"
-    | "collapseDirection"
-    | "loading"
-    | "icon"
-    | "iconFlipRtl"
-    | "scale"
-    | "selected"
-  > {
+interface FlowItemStoryArgs extends Pick<
+  FlowItem,
+  | "closed"
+  | "disabled"
+  | "closable"
+  | "collapsible"
+  | "collapsed"
+  | "collapseDirection"
+  | "loading"
+  | "menuOpen"
+  | "icon"
+  | "iconFlipRtl"
+  | "overlayPositioning"
+  | "scale"
+  | "selected"
+> {
   heightScale: string;
 }
 
@@ -36,6 +48,8 @@ export default {
     heightScale: scale.defaultValue,
     icon: "",
     iconFlipRtl: false,
+    menuOpen: false,
+    overlayPositioning: overlayPositioning.defaultValue,
     scale: scale.defaultValue,
     loading: false,
     selected: true,
@@ -51,6 +65,10 @@ export default {
     },
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    overlayPositioning: {
+      options: overlayPositioning.values,
       control: { type: "select" },
     },
   },
@@ -107,9 +125,11 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     height-scale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    ${boolean("menu-open", args.menuOpen)}
+    overlay-positioning="${args.overlayPositioning}"
     ${boolean("selected", args.selected)}
     heading="Heading"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     icon-flip-rtl="${args.iconFlipRtl}"
     description="A wonderful flow item description"
   >
@@ -138,29 +158,44 @@ export const withIcon = (): string => html`
   <calcite-flow-item icon="banana" selected heading="Banana"> Hello World! </calcite-flow-item>
 `;
 
-export const collapsed_TestOnly = (): string => html`
+export const withRichHeaderSlots = (): string => html`
+  <calcite-flow-item heading="Plain heading fallback" description="Plain description fallback" selected>
+    <span slot="heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
+    <span slot="description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
+    <p>Slotted content!</p>
+  </calcite-flow-item>
+`;
+
+export const withHeaderTop = (): string => html`
+  <calcite-flow-item selected closable heading="Flow item heading">
+    <div slot="header-top">Header top content</div>
+    <p>Flow item content</p>
+  </calcite-flow-item>
+`;
+
+export const collapsed = (): string => html`
   <calcite-flow-item selected collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
-export const collapseDirectionUp_TestOnly = (): string => html`
+export const collapseDirectionUp = (): string => html`
   <calcite-flow-item selected collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
-export const disabledWithStyledSlot_TestOnly = (): string => html`
+export const disabledWithStyledSlot = (): string => html`
   <calcite-flow-item selected style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-flow-item>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-flow-item selected collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
     ${flowItemContent}
   </calcite-flow-item>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const noDoubleScrollbars_TestOnly = (): string => html`
+export const noDoubleScrollbars = (): string => html`
   <style>
     #container {
       display: flex;
@@ -207,7 +242,7 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
   </div>
 `;
 
-export const overflowContent_TestOnly = (): string =>
+export const overflowContent = (): string =>
   html` <style>
       .container {
         max-height: 300px;
@@ -234,7 +269,7 @@ export const overflowContent_TestOnly = (): string =>
       </calcite-flow>
     </div>`;
 
-export const withActionBarAndContentTop_TestOnly = (): string =>
+export const withActionBarAndContentTop = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item selected height-scale="s">
       <calcite-action-bar slot="action-bar">
@@ -283,7 +318,7 @@ export const footerSlot = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
+export const withNoHeaderBorderBlockEnd = (): string =>
   html`<calcite-flow-item
     selected
     style="--calcite-flow-item-header-border-block-end:none;"
@@ -301,3 +336,22 @@ export const withAlertsSlot = (): string => html`
     </calcite-alert>
   </calcite-flow-item>
 `;
+
+export const scales = (): string =>
+  html`<style>
+      calcite-flow {
+        height: auto !important;
+      }
+    </style>
+    <calcite-flow>
+      <calcite-flow-item heading="Profile" scale="s"> </calcite-flow-item>
+      <calcite-flow-item selected heading="Education" scale="s"> </calcite-flow-item>
+    </calcite-flow>
+    <calcite-flow>
+      <calcite-flow-item heading="Profile" scale="m"> </calcite-flow-item>
+      <calcite-flow-item selected heading="Education" scale="m"> </calcite-flow-item>
+    </calcite-flow>
+    <calcite-flow>
+      <calcite-flow-item heading="Profile" scale="l"> </calcite-flow-item>
+      <calcite-flow-item selected heading="Education" scale="l"> </calcite-flow-item>
+    </calcite-flow>`;

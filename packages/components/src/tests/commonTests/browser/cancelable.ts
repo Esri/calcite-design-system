@@ -1,6 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
-import { ComponentTag } from "../interfaces";
+import { ComponentTag } from "../types";
 import { UseCancelable } from "../../../controllers/useCancelable";
 
 /**
@@ -11,7 +11,7 @@ import { UseCancelable } from "../../../controllers/useCancelable";
  *   cancelable("calcite-action-bar");
  * });
  *
- * @param {ComponentTag} componentTag - The tag name of the component to test.
+ * @param componentTag - The tag name of the component to test.
  */
 export function cancelable(componentTag: ComponentTag): void {
   describe(`cancelable behavior`, () => {

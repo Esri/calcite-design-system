@@ -2,7 +2,7 @@ import type { TransformedToken } from "style-dictionary";
 import type { NameTransform } from "style-dictionary/types";
 import { capitalCase, kebabCase } from "change-case";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 
 const regex = {
   plusMinus: RegExp("(^[+-])?[0-9A-Za-z\\-]+([+-]$)?", ""),
@@ -41,7 +41,7 @@ export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
 
 function filterByPlusMinusInPath(token: TransformedToken): boolean {
   return (
-    token.type !== "color" &&
+    token.$type !== "color" &&
     !token.path.includes("container-size") &&
     token.path.some((path) => path.includes("+") || path.includes("-"))
   );

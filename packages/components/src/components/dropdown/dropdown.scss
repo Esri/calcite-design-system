@@ -5,6 +5,7 @@
 *
 * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper.
 * @prop --calcite-dropdown-background-color: Specifies the component's background color.
+* @prop --calcite-dropdown-max-height: Specifies the maximum height of the component's wrapper.
 */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -24,15 +25,23 @@
   @include floating-ui.floating-ui-container();
 }
 
+:host([top-layer-disabled]) .wrapper {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
+}
+
 @include floating-ui.floating-ui-elem-anim(".wrapper");
+
+.wrapper .calcite-floating-ui-anim {
+  box-shadow: var(--calcite-shadow-md);
+}
 
 .content {
   @apply w-auto
   overflow-y-auto
-  overflow-x-hidden
-  max-h-menu;
+  overflow-x-hidden;
   inline-size: var(--calcite-dropdown-width, var(--calcite-internal-dropdown-width));
   background-color: var(--calcite-dropdown-background-color, var(--calcite-color-foreground-1));
+  max-block-size: var(--calcite-dropdown-max-height, 45vh);
 }
 
 .trigger-container {

@@ -1,21 +1,16 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { getRoundRobinIndex } from "../../utils/array";
-import { getElementDir } from "../../utils/dom";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { InternalLabel } from "../functional/InternalLabel";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../types";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -25,8 +20,10 @@ declare global {
   }
 }
 
-export class RadioButton extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class RadioButton extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -36,15 +33,17 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   private containerRef = createRef<HTMLDivElement>();
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
   defaultValue: RadioButton["value"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
 
-  labelEl: Label["el"];
+  formSupport = useForm({ inputType: "radio" })(this);
 
-  private rootNode: HTMLElement;
+  labelEl?: Label["el"];
+
+  private rootNode!: HTMLElement;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -54,7 +53,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   //#region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -67,12 +66,8 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
    */
   @property({ reflect: true }) focused = false;
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
    * The hovered state of the component.
@@ -82,21 +77,16 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   @property({ reflect: true }) hovered = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @private
    */
   @property() label?: string;
 
-  /** When provided, displays label text on the component. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /**
-   * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -106,6 +96,24 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * The component's validation message.
+   * @internal
+   * @mdn [validationMessage](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/validationMessage)
+   */
+  @property() validationMessage?: string;
+
+  /**
+   * @copyDoc
+   *
+   * @internal
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /**
    * The component's value.
@@ -129,11 +137,24 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.containerRef.value, options);
+  }
+
+  /**
+   * Sets the component's validity state.
+   *
+   * @internal
+   */
+  @method()
+  async setValidity(
+    validity: ValidityStateFlags,
+    validationMessage: string | undefined = this.validationMessage,
+  ): Promise<void> {
+    this.elementInternals.setValidity(validity, validationMessage || "");
   }
 
   //#endregion
@@ -176,6 +197,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("pointerenter", this.pointerEnterHandler);
     this.listen("pointerleave", this.pointerLeaveHandler);
     this.listen("click", this.clickHandler);
@@ -187,8 +209,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
     if (this.name) {
       this.checkLastRadioButton();
     }
-    connectLabel(this);
-    connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
     super.connectedCallback();
   }
@@ -218,8 +238,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
@@ -233,10 +251,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
     }
 
     this.calciteInternalRadioButtonCheckedChange.emit();
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "radio";
   }
 
   private selectItem(items: RadioButton["el"][], selectedIndex: number): void {
@@ -268,7 +282,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
       return;
     }
 
-    this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.calciteRadioButtonChange.emit();
   }
@@ -323,16 +336,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
     }
   }
 
-  private uncheckAllRadioButtonsInGroup(): void {
-    const radioButtons = this.queryButtons();
-    radioButtons.forEach((radioButton) => {
-      if (radioButton.checked) {
-        radioButton.checked = false;
-        radioButton.focused = false;
-      }
-    });
-  }
-
   private uncheckOtherRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
     const otherRadioButtons = radioButtons.filter((radioButton) => radioButton !== this.el);
@@ -380,7 +383,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   private handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
-    const { el } = this;
 
     if (keys.indexOf(key) === -1) {
       return;
@@ -394,7 +396,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
     let adjustedKey = key;
 
-    if (getElementDir(el) === "rtl") {
+    if (this.direction === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }
@@ -413,6 +415,8 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
         currentIndex = index;
         return true;
       }
+
+      return false;
     });
 
     switch (adjustedKey) {
@@ -485,7 +489,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
           <div class={CSS.radio} />
           {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
-        <HiddenFormInputSlot component={this} />
       </this.interactiveContainer>
     );
   }

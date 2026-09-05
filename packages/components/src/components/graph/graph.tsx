@@ -1,9 +1,8 @@
-// @ts-strict-ignore
-import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
+import { h, LitElement, property, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
-import { ColorStop, DataSeries, Point } from "./interfaces";
-import { area, range, translate } from "./util";
+import { ColorStop, DataSeries, Point } from "./types";
+import { area, range, translate } from "./utils";
 import { styles } from "./graph.scss";
 import { CSS, IDS } from "./resources";
 
@@ -34,7 +33,7 @@ export class Graph extends LitElement {
    * Array of values describing a single color stop ([offset, color, opacity])
    * These color stops should be sorted by offset value.
    */
-  @property() colorStops: ColorStop[];
+  @property() colorStops?: ColorStop[];
 
   /**
    * Array of tuples describing a single data point ([x, y])
@@ -43,24 +42,24 @@ export class Graph extends LitElement {
   @property() data: DataSeries = [];
 
   /** End of highlight color if highlighting range. */
-  @property() highlightMax: number;
+  @property() highlightMax?: number;
 
   /** Start of highlight color if highlighting range. */
-  @property() highlightMin: number;
+  @property() highlightMin?: number;
 
   /**
    * Highest point of the range.
    *
    * @required
    */
-  @property({ reflect: true }) max: number;
+  @property({ reflect: true }) max!: number;
 
   /**
    * Lowest point of the range.
    *
    * @required
    */
-  @property({ reflect: true }) min: number;
+  @property({ reflect: true }) min!: number;
 
   // #endregion
 
@@ -111,10 +110,83 @@ export class Graph extends LitElement {
     }
 
     const t = translate({ min: currentMin, max: currentMax, width, height });
-    const [hMinX] = t([highlightMin, currentMax[1]]);
-    const [hMaxX] = t([highlightMax, currentMax[1]]);
     const areaPath = area({ data, min: rangeMin, max: rangeMax, t });
     const fill = colorStops ? `url(#${IDS.linearGradient(id)})` : undefined;
+
+    if (highlightMin !== undefined && highlightMax !== undefined) {
+      const [hMinX] = t([highlightMin, currentMax[1]]);
+      const [hMaxX] = t([highlightMax, currentMax[1]]);
+
+      return (
+        <svg
+          ariaHidden="true"
+          class={CSS.svg}
+          height={height}
+          preserveAspectRatio="none"
+          viewBox={`0 0 ${width} ${height}`}
+          width={width}
+        >
+          {colorStops ? (
+            <defs>
+              <linearGradient id={IDS.linearGradient(id)} x1="0" x2="1" y1="0" y2="0">
+                {colorStops.map(({ offset, color, opacity }) => (
+                  <stop offset={`${offset * 100}%`} stop-color={color} stop-opacity={opacity} />
+                ))}
+              </linearGradient>
+            </defs>
+          ) : null}
+
+          <mask height="100%" id={IDS.mask(id, 1)} width="100%" x="0%" y="0%">
+            <path
+              d={`
+            M 0,0
+            L ${hMinX - 1},0
+            L ${hMinX - 1},${height}
+            L 0,${height}
+            Z
+          `}
+              fill="white"
+            />
+          </mask>
+
+          <mask height="100%" id={IDS.mask(id, 2)} width="100%" x="0%" y="0%">
+            <path
+              d={`
+            M ${hMinX + 1},0
+            L ${hMaxX - 1},0
+            L ${hMaxX - 1},${height}
+            L ${hMinX + 1}, ${height}
+            Z
+          `}
+              fill="white"
+            />
+          </mask>
+
+          <mask height="100%" id={IDS.mask(id, 3)} width="100%" x="0%" y="0%">
+            <path
+              d={`
+                M ${hMaxX + 1},0
+                L ${width},0
+                L ${width},${height}
+                L ${hMaxX + 1}, ${height}
+                Z
+              `}
+              fill="white"
+            />
+          </mask>
+
+          <path class={CSS.graphPath} d={areaPath} fill={fill} mask={`url(#${IDS.mask(id, 1)})`} />
+          <path
+            class={CSS.graphPathHighlight}
+            d={areaPath}
+            fill={fill}
+            mask={`url(#${IDS.mask(id, 2)})`}
+          />
+          <path class={CSS.graphPath} d={areaPath} fill={fill} mask={`url(#${IDS.mask(id, 3)})`} />
+        </svg>
+      );
+    }
+
     return (
       <svg
         ariaHidden="true"
@@ -134,69 +206,7 @@ export class Graph extends LitElement {
           </defs>
         ) : null}
 
-        {highlightMin !== undefined ? (
-          [
-            <mask height="100%" id={IDS.mask(id, 1)} width="100%" x="0%" y="0%">
-              <path
-                d={`
-            M 0,0
-            L ${hMinX - 1},0
-            L ${hMinX - 1},${height}
-            L 0,${height}
-            Z
-          `}
-                fill="white"
-              />
-            </mask>,
-
-            <mask height="100%" id={IDS.mask(id, 2)} width="100%" x="0%" y="0%">
-              <path
-                d={`
-            M ${hMinX + 1},0
-            L ${hMaxX - 1},0
-            L ${hMaxX - 1},${height}
-            L ${hMinX + 1}, ${height}
-            Z
-          `}
-                fill="white"
-              />
-            </mask>,
-
-            <mask height="100%" id={IDS.mask(id, 3)} width="100%" x="0%" y="0%">
-              <path
-                d={`
-                M ${hMaxX + 1},0
-                L ${width},0
-                L ${width},${height}
-                L ${hMaxX + 1}, ${height}
-                Z
-              `}
-                fill="white"
-              />
-            </mask>,
-
-            <path
-              class={CSS.graphPath}
-              d={areaPath}
-              fill={fill}
-              mask={`url(#${IDS.mask(id, 1)})`}
-            />,
-            <path
-              class={CSS.graphPathHighlight}
-              d={areaPath}
-              fill={fill}
-              mask={`url(#${IDS.mask(id, 2)})`}
-            />,
-            <path
-              class={CSS.graphPath}
-              d={areaPath}
-              fill={fill}
-              mask={`url(#${IDS.mask(id, 3)})`}
-            />,
-          ]
-        ) : (
-          <path class={CSS.graphPath} d={areaPath} fill={fill} />
-        )}
+        <path class={CSS.graphPath} d={areaPath} fill={fill} />
       </svg>
     );
   }

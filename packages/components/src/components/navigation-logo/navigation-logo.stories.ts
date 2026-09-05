@@ -1,51 +1,68 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import { CalciteNavigationLogo } from "./navigation-logo";
+import type { NavigationLogo } from "./navigation-logo";
+import "../navigation/navigation"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./navigation-logo"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+const { headingLevel: headingLevelAttribute } = ATTRIBUTES;
 
-type NavigationLogoStoryArgs = Pick<CalciteNavigationLogo, "description" | "heading" | "active">;
+type NavigationLogoStoryArgs = Pick<NavigationLogo, "active" | "description" | "heading" | "headingLevel" | "icon">;
 
 export default {
   title: "Components/Navigation/Navigation Logo",
   args: {
+    active: false,
     description: "City of AcmeCo",
     heading: "ArcGIS Online",
-    active: false,
+    icon: "",
+  },
+  argTypes: {
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    headingLevel: {
+      options: headingLevelAttribute.values,
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: NavigationLogoStoryArgs): string =>
   html`<calcite-navigation-logo
+    ${boolean("active", args.active)}
     description="${args.description}"
     heading="${args.heading}"
+    ${optionalAttribute("heading-level", args.headingLevel)}
+    ${optionalAttribute("icon", args.icon)}
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-    ${boolean("active", args.active)}
   />`;
 
-export const heading_TestOnly = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
+export const heading = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
 
-export const description_TestOnly = (): string =>
+export const description = (): string =>
   html`<calcite-navigation-logo
     description="City of AcmeCo"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
-export const thumbnail_TestOnly = (): string =>
+export const thumbnail = (): string =>
   html`<calcite-navigation-logo thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const headingAndThumbnail_TestOnly = (): string =>
+export const headingAndThumbnail = (): string =>
   html`<calcite-navigation-logo heading="ArcGIS Online" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const headingAndIcon_TestOnly = (): string =>
-  html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
+export const headingAndIcon = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
 
-export const descriptionAndThumbnail_TestOnly = (): string =>
+export const descriptionAndThumbnail = (): string =>
   html`<calcite-navigation-logo
     description="City of AcmeCo"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
-export const All_TestOnly = (): string =>
+export const All = (): string =>
   html`<calcite-navigation-logo
     icon="link-chart"
     heading="ArcGIS Online"
@@ -53,7 +70,7 @@ export const All_TestOnly = (): string =>
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
-export const slottedInNav_TestOnly = (): string => html`
+export const slottedInNav = (): string => html`
   <calcite-navigation style="--calcite-color-brand: #bf390f">
     <calcite-navigation-logo
       heading="ArcGIS Online"
@@ -64,7 +81,7 @@ export const slottedInNav_TestOnly = (): string => html`
   </calcite-navigation>
 `;
 
-export const withHref_TestOnly = (): string => html`
+export const withHref = (): string => html`
   <calcite-navigation>
     <calcite-navigation-logo
       slot="logo"
@@ -78,7 +95,7 @@ export const withHref_TestOnly = (): string => html`
   </calcite-navigation>
 `;
 
-export const headingLevel_TestOnly = (): string => html`
+export const headingLevel = (): string => html`
   <calcite-navigation-logo
     heading="ArcGIS Online"
     heading-level="1"

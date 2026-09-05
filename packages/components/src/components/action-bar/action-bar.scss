@@ -10,21 +10,47 @@
  * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-bar-divider-inset
+// --calcite-internal-action-bar-gap
+// --calcite-internal-action-bar-line-gap
+// --calcite-internal-action-bar-padding
+// --calcite-internal-action-group-dividing-border-margin
+
 @use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm-plus);
+}
 
 :host {
   @extend %component-host;
   @apply inline-flex
     self-stretch;
   background: transparent;
+
+  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-spacing-base) + 1px);
 }
 
 .container {
   @apply inline-flex
   flex-col
   flex-auto;
-  gap: var(--calcite-action-bar-items-space, 0);
   background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+  gap: var(--calcite-internal-action-bar-gap);
+  padding: var(--calcite-internal-action-bar-padding);
 }
 
 :host([floating]) {
@@ -32,12 +58,7 @@
     @apply animate-in
     overflow-hidden;
     border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-round));
-    --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-    --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
-    box-shadow: var(
-      --calcite-action-bar-shadow,
-      (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
-    );
+    box-shadow: var(--calcite-action-bar-shadow, var(--calcite-shadow-md));
   }
 }
 
@@ -58,6 +79,17 @@
 
   ::slotted(calcite-action-group:not(:last-of-type)) {
     border-block-end-width: var(--calcite-border-width-sm);
+    border-image: linear-gradient(
+      to right,
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
+    padding-block-end: var(--calcite-internal-action-bar-padding);
   }
 }
 
@@ -77,12 +109,177 @@
   }
 
   ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-image: linear-gradient(
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
     border-inline-end-width: var(--calcite-border-width-sm);
+    padding-inline-end: var(--calcite-internal-action-bar-padding);
   }
 }
 
 .action-group--end {
   @apply justify-end;
+}
+
+// When `wrap` is enabled, absolutely-positioned dividers are drawn between wrapped rows/columns.
+// Position each `.line` using the cross-axis offset exposed via `--calcite-internal-action-bar-line-offset`.
+.line-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.line {
+  position: absolute;
+
+  // Inset the divider ends to align with the action corner radius, matching the group dividers' margin.
+  --calcite-internal-action-bar-divider-inset: calc(
+    var(--calcite-internal-action-group-dividing-border-margin) - var(--calcite-border-width-sm)
+  );
+}
+
+:host([overflow-mode="wrap"][layout="horizontal"]),
+:host([overflow-mode="wrap"][layout="vertical"]) {
+  .container {
+    position: relative;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    // Separate wrapped lines by the same main-axis distance as adjacent groups.
+    // The divider is centered in this gap.
+    --calcite-internal-action-bar-line-gap: calc(
+      var(--calcite-internal-action-bar-padding) + var(--calcite-internal-action-bar-gap)
+    );
+  }
+
+  ::slotted(calcite-action-group[slot="actions-start"]) {
+    padding-inline-end: 0;
+    padding-block-end: 0;
+    border-inline-end-width: 0;
+    border-block-end-width: 0;
+  }
+}
+
+:host([overflow-mode="wrap"][layout="horizontal"]) {
+  .container {
+    row-gap: var(--calcite-internal-action-bar-line-gap);
+  }
+
+  // Draw the divider on each group's leading edge so a wrapped row never ends with a dangling
+  // divider. Only matches when groups are slotted; the first-in-row divider is clipped by the
+  // `has-action-groups` rule below.
+  ::slotted(calcite-action-group:not([slot="actions-start"])) {
+    margin-inline-start: calc(-1 * var(--calcite-border-width-sm));
+    padding-inline: var(--calcite-internal-action-bar-padding) 0;
+    border-inline-start-width: var(--calcite-border-width-sm);
+    border-inline-end-width: 0;
+    border-image: linear-gradient(
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent calc(100% - var(--calcite-internal-action-group-dividing-border-margin))
+    );
+    border-image-slice: 1;
+  }
+
+  .line {
+    inset-inline: var(--calcite-internal-action-bar-padding);
+    block-size: var(--calcite-border-width-sm);
+    inset-block-start: calc(
+      var(--calcite-internal-action-bar-line-offset, 0px) - var(--calcite-internal-action-bar-line-gap) / 2
+    );
+    background: linear-gradient(
+      to right,
+      transparent var(--calcite-internal-action-bar-divider-inset),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-bar-divider-inset),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-bar-divider-inset)),
+      transparent calc(100% - var(--calcite-internal-action-bar-divider-inset))
+    );
+  }
+
+  // The overflow clipping and zeroed leading padding only apply when action groups are slotted.
+  .container.has-action-groups {
+    overflow: hidden;
+    padding-inline-start: 0;
+
+    // Add the divider width back into the main-axis gap so group spacing matches collapse/none,
+    // compensating for the negative margin that pulls each leading divider into the clipped region.
+    column-gap: calc(var(--calcite-internal-action-bar-gap) + var(--calcite-border-width-sm));
+
+    .action-group--start {
+      padding-inline-start: var(--calcite-internal-action-bar-padding);
+    }
+  }
+}
+
+:host([overflow-mode="wrap"][layout="vertical"]) {
+  .container {
+    block-size: 100%;
+    min-block-size: 0;
+    column-gap: var(--calcite-internal-action-bar-line-gap);
+  }
+
+  ::slotted(calcite-action-group:not([slot="actions-start"])) {
+    margin-block-start: calc(-1 * var(--calcite-border-width-sm));
+    padding-block: var(--calcite-internal-action-bar-padding) 0;
+    border-block-start-width: var(--calcite-border-width-sm);
+    border-block-end-width: 0;
+    border-image: linear-gradient(
+      to right,
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent calc(100% - var(--calcite-internal-action-group-dividing-border-margin))
+    );
+    border-image-slice: 1;
+  }
+
+  .line {
+    inset-block: var(--calcite-internal-action-bar-padding);
+    inline-size: var(--calcite-border-width-sm);
+    inset-inline-start: calc(
+      var(--calcite-internal-action-bar-line-offset, 0px) - var(--calcite-internal-action-bar-line-gap) / 2
+    );
+    background: linear-gradient(
+      to bottom,
+      transparent var(--calcite-internal-action-bar-divider-inset),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-bar-divider-inset),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-bar-divider-inset)),
+      transparent calc(100% - var(--calcite-internal-action-bar-divider-inset))
+    );
+  }
+
+  .container.has-action-groups {
+    overflow: hidden;
+    padding-block-start: 0;
+    row-gap: calc(var(--calcite-internal-action-bar-gap) + var(--calcite-border-width-sm));
+
+    .action-group--start {
+      padding-block-start: var(--calcite-internal-action-bar-padding);
+    }
+  }
+}
+
+:host([overflow-mode="none"][layout="horizontal"]) .container {
+  overflow-x: auto;
+}
+
+:host([overflow-mode="none"][layout="vertical"]) .container {
+  overflow-y: auto;
 }
 
 @include includes.base-component();

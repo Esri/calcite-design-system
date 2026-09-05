@@ -1,0 +1,21 @@
+import type { ComboboxItemGroup } from "../combobox-item-group/combobox-item-group";
+import type { ComboboxItem } from "../combobox-item/combobox-item";
+
+export type ComboboxChildElement = ComboboxItem["el"] | ComboboxItemGroup["el"];
+export type SelectionDisplay = "all" | "fit" | "single";
+
+export interface ItemData extends BaseData {
+  description: string | undefined;
+  filterDisabled: boolean;
+  metadata: Record<string, unknown> | undefined;
+  shortHeading: string | undefined;
+  el: ComboboxItem["el"];
+}
+
+export type GroupData = BaseData & {
+  el: ComboboxItemGroup["el"];
+};
+
+interface BaseData {
+  label: string;
+}

@@ -1,19 +1,14 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
+import { createRef } from "lit/directives/ref.js";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { Scale } from "../interfaces";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale } from "../types";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./switch.scss";
 
@@ -23,8 +18,10 @@ declare global {
   }
 }
 
-export class Switch extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class Switch extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -32,13 +29,15 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
 
   //#region Private Properties
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
-  defaultValue: Switch["checked"];
+  defaultValue?: Switch["checked"];
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "checkbox",
+  })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private switchRef = createRef<HTMLDivElement>();
 
@@ -50,37 +49,42 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
 
   //#region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
+
+  /** @copyDoc */
+  @property() label?: string;
+
+  /** Specifies the component's end label text. */
+  @property() labelTextEnd?: string;
+
+  /** Specifies the component's start label text.*/
+  @property() labelTextStart?: string;
+
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
+
   /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) required = false;
 
-  /** Accessible name for the component. */
-  @property() label: string;
-
-  /** When provided, displays label text at the end of the component */
-  @property() labelTextEnd: string;
-
-  /** When provided, displays label text at the start of the component */
-  @property() labelTextStart: string;
-
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
-  @property({ reflect: true }) name: string;
-
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value: any;
@@ -94,7 +98,7 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -114,27 +118,14 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
 
   //#region Private Methods
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "checkbox";
-  }
 
   private keyDownHandler(event: KeyboardEvent): void {
     if (!this.disabled && isActivationKey(event.key)) {
@@ -197,7 +188,6 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
               spacingInlineStart={true}
             />
           )}
-          <HiddenFormInputSlot component={this} />
         </div>
       </this.interactiveContainer>
     );

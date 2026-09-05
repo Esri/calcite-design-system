@@ -1,67 +1,68 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { clearConfig, defaultConfig, getConfig, stampVersion } from "./config";
+import type { FocusTrap } from "focus-trap";
+import type { GlobalTestProps } from "../tests/utils/types";
+import { type CalciteConfig, clearConfig, defaultConfig, getConfig, stampVersion } from "./config";
+import { logger } from "./logger";
 
-describe("config", () => {
+type TestGlobal = GlobalTestProps<{ calciteConfig?: Partial<CalciteConfig> }>;
+
+beforeEach(() => {
+  clearConfig();
+});
+
+it("has defaults", async () => {
+  const config = getConfig();
+
+  expect(config.focusTrapStack).toEqual(defaultConfig.focusTrapStack);
+  expect(config.logLevel).toBe(defaultConfig.logLevel);
+});
+
+it("allows custom configuration", async () => {
+  const customFocusTrapStack: FocusTrap[] = [];
+
+  (globalThis as TestGlobal).calciteConfig = {
+    focusTrapStack: customFocusTrapStack,
+  };
+
+  const config = getConfig();
+
+  expect(config.focusTrapStack).toBe(customFocusTrapStack);
+});
+
+describe(stampVersion, () => {
+  const buildVersion = __CALCITE_VERSION__;
+
+  beforeEach(() => delete (globalThis as TestGlobal).calciteConfig);
+
+  it("creates global config and stamps the version onto it", async () => {
+    stampVersion();
+    expect((globalThis as TestGlobal).calciteConfig!.version).toBe(buildVersion);
+  });
+
+  it("stamps the version onto existing config if there's no version present", async () => {
+    (globalThis as TestGlobal).calciteConfig = {};
+    stampVersion();
+    expect((globalThis as TestGlobal).calciteConfig!.version).toBe(buildVersion);
+  });
+
+  it("bails if version is already stamped onto existing config", async () => {
+    const testVersion = "1.33.7";
+    (globalThis as TestGlobal).calciteConfig = { version: testVersion };
+    stampVersion();
+    expect((globalThis as TestGlobal).calciteConfig!.version).toBe(testVersion);
+  });
+
   beforeEach(() => {
-    clearConfig();
+    vi.spyOn(logger, "info");
   });
 
-  it("has defaults", async () => {
-    const config = getConfig();
-
-    expect(config.focusTrapStack).toEqual(defaultConfig.focusTrapStack);
-    expect(config.logLevel).toBe(defaultConfig.logLevel);
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it("allows custom configuration", async () => {
-    const customFocusTrapStack = [];
-
-    globalThis.calciteConfig = {
-      focusTrapStack: customFocusTrapStack,
-    };
-
-    const config = getConfig();
-
-    expect(config.focusTrapStack).toBe(customFocusTrapStack);
-  });
-
-  describe("stampVersion", () => {
-    const buildVersion = __CALCITE_VERSION__;
-
-    beforeEach(() => delete globalThis.calciteConfig);
-
-    it("creates global config and stamps the version onto it", async () => {
-      stampVersion();
-      expect(globalThis.calciteConfig.version).toBe(buildVersion);
-    });
-
-    it("stamps the version onto existing config if there's no version present", async () => {
-      globalThis.calciteConfig = {};
-      stampVersion();
-      expect(globalThis.calciteConfig.version).toBe(buildVersion);
-    });
-
-    it("bails if version is already stamped onto existing config", async () => {
-      const testVersion = "1.33.7";
-      globalThis.calciteConfig = { version: testVersion };
-      stampVersion();
-      expect(globalThis.calciteConfig.version).toBe(testVersion);
-    });
-
-    const originalConsoleInfo = console.warn;
-
-    beforeEach(() => {
-      console.info = vi.fn();
-    });
-
-    afterEach(() => {
-      console.info = originalConsoleInfo;
-    });
-
-    it("logs info with registered version", async () => {
-      expect(console.info).not.toHaveBeenCalled();
-      stampVersion();
-      expect(console.info).toHaveBeenCalled();
-    });
+  it("logs info with registered version", async () => {
+    expect(logger.info).not.toHaveBeenCalled();
+    stampVersion();
+    expect(logger.info).toHaveBeenCalled();
   });
 });

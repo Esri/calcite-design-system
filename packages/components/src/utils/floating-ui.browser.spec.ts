@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, vi } from "vitest";
-import { waitForAnimationFrame } from "../tests/utils/timing";
+import { afterNextFrame } from "../tests/utils/timing";
 import { mockConsole } from "../tests/utils/logging";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
@@ -14,6 +14,7 @@ const {
   flipPlacements,
   filterValidFlipPlacements,
   getEffectivePlacement,
+  getMiddleware,
   placements,
   reposition,
 } = floatingUI;
@@ -39,6 +40,7 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
     open: false,
     reposition: async () => {
       await reposition(fake, {
+        direction: "ltr",
         floatingEl,
         referenceEl,
         overlayPositioning: fake.overlayPositioning,
@@ -56,7 +58,7 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
   return fake;
 }
 
-describe("repositioning", () => {
+describe.each(["ltr", "rtl"] as const)("repositioning (%s)", (direction) => {
   let fakeFloatingUiComponent: FloatingUIComponent;
   let floatingEl: HTMLDivElement;
   let referenceEl: HTMLButtonElement;
@@ -71,6 +73,7 @@ describe("repositioning", () => {
     fakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
 
     positionOptions = {
+      direction,
       floatingEl,
       referenceEl,
       overlayPositioning: fakeFloatingUiComponent.overlayPositioning,
@@ -83,23 +86,33 @@ describe("repositioning", () => {
 
   function assertClosedPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.display).toBe("");
+    expect(floatingEl.style.inset).toBe("");
+    expect(floatingEl.style.left).toBe("");
     expect(floatingEl.style.pointerEvents).toBe("");
     expect(floatingEl.style.position).toBe("");
+    expect(floatingEl.style.top).toBe("");
     expect(floatingEl.style.transform).toBe("");
     expect(floatingEl.style.visibility).toBe("");
   }
 
   function assertPreOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.display).toBe("block");
+    expect(floatingEl.style.inset).toBe("");
+    expect(floatingEl.style.left).toBe("0px");
     expect(floatingEl.style.pointerEvents).toBe("");
     expect(floatingEl.style.position).toBe("absolute");
+    expect(floatingEl.style.top).toBe("0px");
     expect(floatingEl.style.transform).toBe("");
     expect(floatingEl.style.visibility).toBe("");
   }
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.display).toBe("block");
+    expect(floatingEl.style.inset).toBe("");
+    expect(floatingEl.style.left).toBe("0px");
     expect(floatingEl.style.pointerEvents).toBe("");
+    expect(floatingEl.style.top).toBe("0px");
+
     expect(floatingEl.style.position).not.toBe("");
     expect(floatingEl.style.transform).not.toBe("");
     expect(floatingEl.style.visibility).toBe("");
@@ -124,7 +137,7 @@ describe("repositioning", () => {
 
     assertPreOpenPositioning(floatingEl);
 
-    await waitForAnimationFrame();
+    await afterNextFrame();
     assertOpenPositioning(floatingEl);
   });
 
@@ -213,6 +226,67 @@ describe("connect/disconnect helpers", () => {
 
 it("should have correct value for defaultOffsetDistance", () => {
   expect(defaultOffsetDistance).toBe(6);
+});
+
+it("should use layoutViewport rootBoundary in viewport-aware middleware", () => {
+  const middleware = getMiddleware({
+    placement: "auto",
+    type: "menu",
+  });
+
+  const viewportAwareMiddleware = middleware.filter(({ name }) =>
+    ["shift", "flip", "autoPlacement", "hide"].includes(name),
+  );
+
+  expect(viewportAwareMiddleware).toHaveLength(4);
+
+  viewportAwareMiddleware.forEach((middleware) => {
+    expect(middleware.options?.rootBoundary).toBe("layoutViewport");
+  });
+});
+
+it("should use layoutViewport rootBoundary in non-auto flip middleware", () => {
+  const middleware = getMiddleware({
+    placement: "top",
+    type: "popover",
+  });
+
+  const viewportAwareMiddleware = middleware.filter(({ name }) => ["shift", "flip", "hide"].includes(name));
+
+  expect(viewportAwareMiddleware).toHaveLength(3);
+
+  viewportAwareMiddleware.forEach((middleware) => {
+    expect(middleware.options?.rootBoundary).toBe("layoutViewport");
+  });
+});
+
+it("should only add one flip middleware for non-auto menu placements", () => {
+  const middleware = getMiddleware({
+    placement: "top",
+    type: "menu",
+  });
+
+  expect(middleware.filter(({ name }) => name === "flip")).toHaveLength(1);
+});
+
+it("should not add menu flip middleware when flipDisabled is true", () => {
+  const middleware = getMiddleware({
+    flipDisabled: true,
+    placement: "top",
+    type: "menu",
+  });
+
+  expect(middleware.filter(({ name }) => name === "flip")).toHaveLength(0);
+});
+
+it("should not add menu flip middleware for auto placements when flipDisabled is true", () => {
+  const middleware = getMiddleware({
+    flipDisabled: true,
+    placement: "auto",
+    type: "menu",
+  });
+
+  expect(middleware.filter(({ name }) => name === "flip")).toHaveLength(0);
 });
 
 describe("filterValidFlipPlacements", () => {

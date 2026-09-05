@@ -1,18 +1,18 @@
 import type { Filter, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 
 const correctedValueTypes = ["fontWeight"] as const;
-const filterTypes: Filter["filter"] = (token) => correctedValueTypes.includes(token.type);
+const filterTypes: Filter["filter"] = (token) => correctedValueTypes.includes(token.$type);
 
 const transformValueCorrectPreprocessValue: ValueTransform["transform"] = async (token) => {
-  if (token.type === "fontWeight") {
-    if (token.value.toLowerCase() === "demi") {
+  if (token.$type === "fontWeight") {
+    if (token.$value.toLowerCase() === "demi") {
       return "DemiBold";
     }
   }
 
-  return token.value;
+  return token.$value;
 };
 
 export const registerValueCorrectPreprocessValue: RegisterFn = () => {

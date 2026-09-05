@@ -1,14 +1,14 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Kind, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
+import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -34,7 +34,7 @@ export class Chip extends LitElement {
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   private containerRef = createRef<HTMLDivElement>();
 
@@ -43,7 +43,7 @@ export class Chip extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -67,10 +67,10 @@ export class Chip extends LitElement {
     Appearance
   > = "solid";
 
-  /** When `true`, a close button is added to the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
@@ -80,7 +80,7 @@ export class Chip extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -97,19 +97,22 @@ export class Chip extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
-  @property() parentChipGroup: ChipGroup["el"];
+  @property() parentChipGroup?: ChipGroup["el"];
 
-  /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. */
+  /**
+   * Specifies the size of the component.
+   *
+   * When contained in a parent `calcite-chip-group`, inherits the parent's `scale` value.
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, the component is selected. */
@@ -138,7 +141,7 @@ export class Chip extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -148,6 +151,7 @@ export class Chip extends LitElement {
       } else if (this.closable) {
         return this.closeButtonRef.value;
       }
+      return;
     }, options);
   }
 
@@ -160,9 +164,6 @@ export class Chip extends LitElement {
 
   /** Fires when the selected state of the component changes. */
   calciteChipSelect = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalChipKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
   /** @private */
   calciteInternalChipSelect = createEvent({ cancelable: false });
@@ -228,13 +229,6 @@ export class Chip extends LitElement {
             this.close();
           }
           break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalChipKeyEvent.emit(event);
-          event.preventDefault();
-          break;
       }
     }
   }
@@ -280,7 +274,7 @@ export class Chip extends LitElement {
     if (this.selectionMode === "single") {
       this.calciteInternalSyncSelectedChips.emit();
     }
-    const selectedInParent = this.parentChipGroup.selectedItems.includes(this.el);
+    const selectedInParent = this.parentChipGroup?.selectedItems.includes(this.el);
 
     if (!selectedInParent && selected && this.selectionMode !== "multiple") {
       this.calciteInternalChipSelect.emit();
@@ -326,16 +320,15 @@ export class Chip extends LitElement {
 
   private renderCloseButton(): JsxNode {
     return (
-      <button
-        ariaLabel={this.messages.dismissLabel}
+      <calcite-action
         class={CSS.close}
+        icon={ICONS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
         ref={this.closeButtonRef}
-        tabIndex={this.disabled ? -1 : 0}
-      >
-        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
-      </button>
+        scale={this.scale}
+        text={this.messages.dismissLabel}
+      />
     );
   }
 
@@ -360,7 +353,9 @@ export class Chip extends LitElement {
           ? "radio"
           : this.interactive
             ? "button"
-            : "img";
+            : this.closable
+              ? undefined
+              : "img";
     return (
       <this.interactiveContainer disabled={disabled}>
         <div

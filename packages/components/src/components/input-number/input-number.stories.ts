@@ -1,8 +1,11 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./input-number"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, alignment, layout } = ATTRIBUTES;
 
@@ -20,10 +23,19 @@ type InputNumberStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "groupSeparator"
+  | "icon"
+  | "iconFlipRtl"
+  | "integer"
+  | "labelText"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "inlineEditable"
+  | "inlineEditableControls"
+  | "validationMessage"
 >;
 
 export default {
@@ -41,10 +53,19 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    groupSeparator: false,
+    icon: "",
+    iconFlipRtl: false,
+    integer: false,
+    labelText: "Label text",
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEditable: false,
+    inlineEditableControls: false,
   },
   argTypes: {
     scale: {
@@ -75,6 +96,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -93,10 +118,19 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("group-separator", args.groupSeparator)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${boolean("integer", args.integer)}
+      ${optionalAttribute("label-text", args.labelText)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${boolean("inline-editable", args.inlineEditable)}
+      ${boolean("inline-editable-controls", args.inlineEditableControls)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-number>
   </div>
@@ -119,7 +153,7 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
       My great label
@@ -138,11 +172,11 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const Infinity_TestOnly = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
+export const infinityAsValue = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
 
-export const mediumIconForLargeInputStyling_TestOnly = (): string => html`
+export const mediumIconForLargeInputStyling = (): string => html`
   <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number
   ><calcite-input-number
     number-button-type="vertical"
@@ -161,10 +195,10 @@ export const mediumIconForLargeInputStyling_TestOnly = (): string => html`
   ></calcite-input-number>
 `;
 
-export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
+export const arabicLocaleWithLatinNumberingSystem = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -198,7 +232,7 @@ export const validationMessageAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -249,3 +283,11 @@ export const overlayDoesNotObscureIcon = (): string =>
     </style>
     <calcite-input-number icon="check-square-f"></calcite-input-number>
     <div class="overlay"></div>`;
+
+export const clearable = (): string => html` <calcite-input-number clearable value="123"> </calcite-input-number> `;
+
+export const inlineEditable = (): string => html`
+  <div>
+    <calcite-input-number inline-editable inline-editable-controls value="42"></calcite-input-number>
+  </div>
+`;

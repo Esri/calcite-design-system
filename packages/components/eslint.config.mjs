@@ -7,10 +7,11 @@ import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
 import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
 import unicornPlugin from "eslint-plugin-unicorn";
+import storybookPlugin from "eslint-plugin-storybook";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
+    ignores: ["**/dist", "**/docs", "**/*.d.ts"],
   },
 
   {
@@ -22,7 +23,12 @@ export default tseslint.config(
     },
 
     languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+      parser: tseslint.parser,
       parserOptions: {
+        jsxFragmentName: "Fragment",
+        jsxPragma: "h",
         tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig.eslint.json"],
       },
@@ -43,7 +49,11 @@ export default tseslint.config(
             {
               group: ["tests/commonTests/browser/*"],
               message:
-                "Import named functions from commonTests/browser for browser mode (experimental) tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+                "Import named functions from commonTests/browser for browser mode tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+            },
+            {
+              group: ["lit-html", "lit-html/*"],
+              message: "Import from 'lit' instead of 'lit-html'",
             },
           ],
         },
@@ -94,7 +104,7 @@ export default tseslint.config(
   },
 
   {
-    files: ["**/*.{e2e,spec}.ts", "src/tests/**/*"],
+    files: ["**/*.{e2e,spec}.{ts,tsx}", "src/tests/**/*"],
     extends: [vitestPlugin.configs.recommended],
     settings: {
       vitest: {
@@ -115,17 +125,30 @@ export default tseslint.config(
   },
 
   {
+    files: ["src/**/*.stories.ts"],
+    extends: [storybookPlugin.configs["flat/recommended"]],
+    rules: {
+      "storybook/prefer-pascal-case": "off",
+    },
+  },
+
+  {
     plugins: {
       unicorn: unicornPlugin,
     },
     files: [
       // scoped to allow for progressive adoption
       ".storybook/**/*",
+      "src/*.{ts,tsx}",
+      "src/components/**/*",
       "src/custom-theme/**/*",
       "src/demos/**/*",
       "src/internal-label/**/*",
-      "src/tests/commonTests/browser/**/*",
+      "src/tests/browser/**/*",
+      "src/tests/commonTests/**/*",
+      "support/**/*",
     ],
+    ignores: ["src/components/alert/AlertManager*", "src/components/functional/*"],
     rules: {
       "unicorn/filename-case": [
         "error",
@@ -133,6 +156,12 @@ export default tseslint.config(
           case: "kebabCase",
         },
       ],
+    },
+  },
+  {
+    files: ["src/controllers/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
     },
   },
 );

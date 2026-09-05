@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-config-calcite",
-  "version": "0.0.1-next.5",
+  "version": "0.0.1-next.12",
   "private": true,
   "type": "module",
   "description": "The shared ESLint config for Esri's Calcite Design System",
@@ -13,6 +13,7 @@
   "license": "SEE LICENSE.md",
   "files": [
     "core.js",
-    "jsx.js"
+    "jsx.js",
+    "extensions/"
   ]
 }

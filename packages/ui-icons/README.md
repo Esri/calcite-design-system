@@ -157,9 +157,9 @@ To install the font, run:
 
 We provide three fonts, each designed for a standard size, for pixel perfection use at their designed sizes; 16px, 24px, and 32px.
 
-- **16px font** → Use for 16px and smaller sizes.  
-- **24px font** → Use for 24px and mid-range sizes.  
-- **32px font** → Use for 32px and larger sizes.  
+- **16px font** → Use for 16px and smaller sizes.
+- **24px font** → Use for 24px and mid-range sizes.
+- **32px font** → Use for 32px and larger sizes.
 
 **Avoid odd or non-standard sizes** like 13px, 17px, or 23px, as these break pixel alignment and can appear fuzzy.
 
@@ -169,7 +169,7 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -181,6 +181,6 @@ For additional information, refer to [Calcite's licensing](https://developers.ar
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

@@ -1,11 +1,11 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../types";
 import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
 import type { Tile } from "../tile/tile";
+import { isTile } from "../tile/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./tile-group.scss";
@@ -30,7 +30,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
 
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
-  private slotEl: HTMLSlotElement;
+  private slotEl?: HTMLSlotElement;
 
   private interactiveContainer = useInteractive(this);
 
@@ -45,11 +45,10 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /**
    * Defines the layout of the component.
@@ -58,7 +57,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    */
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -69,23 +68,24 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property() selectedItems: Tile["el"][] = [];
 
   /**
-   * Specifies the selection appearance, where:
+   * Specifies the selection appearance.
    *
-   * - `"icon"` (displays a checkmark or dot), or
-   * - `"border"` (displays a border).
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` changes the background color.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "border",
+    "icon" | "highlight" | "border",
     SelectionAppearance
   > = "icon";
 
   /**
-   * Specifies the selection mode, where:
+   * Specifies the selection mode.
    *
-   * - `"multiple"` (allows any number of selected items),
-   * - `"single"` (allows only one selected item),
-   * - `"single-persist"` (allows only one selected item and prevents de-selection),
-   * - `"none"` (allows no selected items).
+   * - `"multiple"` allows any number of selected items.
+   * - `"single"` allows only one selected item.
+   * - `"single-persist"` allows only one selected item and prevents de-selection.
+   * - `"none"` allows no selected items.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",
@@ -105,7 +105,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
 
   constructor() {
     super();
-    this.listen("calciteInternalTileKeyEvent", this.calciteInternalTileKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteTileSelect", this.calciteTileSelectHandler);
   }
 
@@ -142,9 +142,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   //#region Private Methods
 
   private getSlottedTiles(): Tile["el"][] {
-    return this.slotEl
-      ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-tile")) as Tile["el"][];
+    return this.slotEl?.assignedElements({ flatten: true }).filter(isTile) ?? [];
   }
 
   private selectItem(item: Tile["el"]): void {
@@ -183,7 +181,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
       (this.selectionMode === "single" || this.selectionMode === "single-persist") &&
       selectedItems?.length > 1
     ) {
-      this.selectedItems = [selectedItems.pop()];
+      this.selectedItems = [selectedItems.pop()!];
       this.items?.forEach((el) => {
         if (this.selectedItems.indexOf(el) === -1) {
           el.selected = false;
@@ -207,27 +205,38 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
     this.updateSelectedItems();
   }
 
-  private calciteInternalTileKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      event.preventDefault();
-      event.stopPropagation();
-      const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowDown":
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next", true, false);
-          break;
-        case "ArrowUp":
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous", true, false);
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first", true, false);
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last", true, false);
-          break;
-      }
+  private keyDownHandler(event: KeyboardEvent): void {
+    const composedPath = event.composedPath();
+    if (event.defaultPrevented || this.disabled || !composedPath.includes(this.el)) {
+      return;
+    }
+
+    const target = this.items.find((item) => item === event.target);
+
+    if (!target || target.disabled) {
+      return;
+    }
+
+    const interactiveItems = this.items?.filter((el) => !el.disabled);
+    switch (event.key) {
+      case "ArrowDown":
+      case "ArrowRight":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "next", true, false);
+        break;
+      case "ArrowUp":
+      case "ArrowLeft":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "previous", true, false);
+        break;
+      case "Home":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "first", true, false);
+        break;
+      case "End":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, target, "last", true, false);
+        break;
     }
   }
 

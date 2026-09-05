@@ -1,6 +1,9 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
-import { IntrinsicElementsWithProp } from "../../utils/interfaces";
+import { IntrinsicElementsWithProp } from "../../utils/types";
+import { LitElement } from "@arcgis/lumina";
+
+type TagName = keyof DeclareElements;
 
 /**
  * Helper to test t9n component setup.
@@ -9,16 +12,16 @@ import { IntrinsicElementsWithProp } from "../../utils/interfaces";
  *
  * @example
  * describe("translation support", () => {
- *   t9n("calcite-action");
+ *   t9n(() => mount("calcite-input-date-picker"), ["calcite-date-picker"]);
  * });
  */
-export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> {
+export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("has defined default messages", async () => await assertDefaultMessages());
-  it("overrides messages", async () => await assertOverrides());
+  it("overrides messages", async () => await assertOverrides(subComponents));
   it("switches messages", async () => await assertLangSwitch());
   it("does not throw when removed during message loading", async () => await assertNoErrorOnRemovalDuringMessageLoad());
 
@@ -34,17 +37,23 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
     return component.messages;
   }
 
+  function findSubComponentElement<T extends LitElement["el"] = LitElement["el"]>(host: T, tagName: TagName): T {
+    return host.shadowRoot!.querySelector<T>(tagName)!;
+  }
+
   async function assertDefaultMessages(): Promise<void> {
     const { component } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     expect(await getCurrentMessages(component)).toBeDefined();
   }
 
-  async function assertOverrides(): Promise<void> {
+  async function assertOverrides(subComponents?: TagName[]): Promise<void> {
     const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
-    const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
-    const messageOverride = { [firstMessageProp as keyof typeof messages]: "override test" };
-
+    const firstMessageProp = Object.keys(messages).find(
+      (key) => !(key as Extract<keyof ComponentWithMessageOverrides["messages"], string>).startsWith("_"),
+    )!;
+    const overrideValue = "override test";
+    const messageOverride = { [firstMessageProp]: overrideValue };
     el.messageOverrides = messageOverride;
     await reRender();
 
@@ -54,6 +63,21 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
     });
 
     // reset test changes
+    el.messageOverrides = undefined;
+    await reRender();
+
+    if (subComponents?.length) {
+      el.messageOverrides = messageOverride;
+      await reRender();
+
+      for (const subComponentTag of subComponents) {
+        const subComponentEl = findSubComponentElement(el, subComponentTag);
+        expect(subComponentEl).not.toBeNull();
+        // Assert whether parent component passed the override value to the sub-component
+        expect(subComponentEl.messageOverrides).toMatchObject(messageOverride);
+      }
+    }
+
     el.messageOverrides = undefined;
     await reRender();
   }
@@ -66,13 +90,9 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
     const originalFetch = window.fetch;
     vi.spyOn(window, "fetch").mockImplementation(async (input, init) => {
       if (typeof input === "string" && input.endsWith(".es.json")) {
-        const fakeEsMessages = {
-          ...enMessages,
-          [fakeBundleIdentifier]: true,
-        };
+        const fakeEsMessages = { ...enMessages, [fakeBundleIdentifier]: true };
         return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
       }
-
       return originalFetch(input, init);
     });
 

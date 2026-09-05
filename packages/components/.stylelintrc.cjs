@@ -1,13 +1,7 @@
 // @ts-check
 
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
-const customFunctions = [
-  "get-trailing-text-input-padding",
-  "medium-modular-scale",
-  "modular-scale",
-  "scale-duration",
-  "small-modular-scale",
-];
+const customFunctions = ["get-trailing-text-input-padding", "scale-duration"];
 // ⚠️ END OF AUTO-GENERATED CODE
 
 const scssPatternRules = [
@@ -66,6 +60,12 @@ const rules = {
       severity: "error",
     },
   ],
+  "@esri/calcite-components/deprecation-format": [
+    true,
+    {
+      severity: "error",
+    },
+  ],
 };
 
 scssPatternRules.forEach((rule) => {
@@ -86,7 +86,7 @@ scssPatternRules.forEach((rule) => {
 const config = {
   defaultSeverity: "warning",
   extends: "stylelint-config-recommended-scss",
-  plugins: ["stylelint-use-logical-spec"],
+  plugins: ["stylelint-use-logical-spec", "@esri/stylelint-plugin-calcite-components"],
   rules,
 };
 

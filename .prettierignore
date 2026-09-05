@@ -1,8 +1,9 @@
 **/*.d.ts
 **/package-lock.json
+.github/CODEOWNERS
 
 # prevents modifying licenses
-**/THIRD-PARTY-LICENSES.md
+**/THIRD-PARTY-NOTICES.md
 
 # calcite-design-tokens
 

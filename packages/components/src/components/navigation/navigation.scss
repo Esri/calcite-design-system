@@ -4,10 +4,19 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-navigation-width: Specifies the width of the component's content area.
- * @prop --calcite-navigation-background: [Deprecated] Use `--calcite-navigation-background-color`. Specifies the background color of the component.
+ * @prop --calcite-navigation-background: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-navigation-background-color` instead. Specifies the background color of the component.
  * @prop --calcite-navigation-background-color: Specifies the component's background color.
  * @prop --calcite-navigation-border-color: Specifies the component's border color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-navigation-navigation-action-margin-inline
+// --calcite-internal-navigation-primary-height
+// --calcite-internal-navigation-secondary-height
+// --calcite-internal-navigation-tertiary-height
 
 @use "../../styles/includes";
 
@@ -15,6 +24,27 @@
 
 :host {
   @apply block;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-navigation-primary-height: 3rem;
+  --calcite-internal-navigation-secondary-height: 2.25rem;
+  --calcite-internal-navigation-tertiary-height: 2.25rem;
+  --calcite-internal-navigation-navigation-action-margin-inline: 8px;
+}
+
+:host([scale="m"]) {
+  --calcite-internal-navigation-primary-height: 4rem;
+  --calcite-internal-navigation-secondary-height: 3rem;
+  --calcite-internal-navigation-tertiary-height: 3rem;
+  --calcite-internal-navigation-navigation-action-margin-inline: var(--calcite-font-size-sm);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-navigation-primary-height: 4.75rem;
+  --calcite-internal-navigation-secondary-height: 4rem;
+  --calcite-internal-navigation-tertiary-height: 4rem;
+  --calcite-internal-navigation-navigation-action-margin-inline: var(--calcite-font-size-md);
 }
 
 .container {
@@ -46,15 +76,15 @@
 }
 
 .primary {
-  @apply h-16;
+  block-size: var(--calcite-internal-navigation-primary-height);
 }
 
 .secondary {
-  @apply h-12;
+  block-size: var(--calcite-internal-navigation-secondary-height);
 }
 
 .tertiary {
-  @apply h-12;
+  block-size: var(--calcite-internal-navigation-tertiary-height);
 }
 
 .container-content {
@@ -117,4 +147,9 @@ slot[name="content-center"] ~ slot[name="content-end"],
 slot[name="content-center"] ~ slot[name="user"],
 slot[name="content-end"] ~ slot[name="user"] {
   @apply m-0;
+}
+
+slot[name="navigation-action"] calcite-action {
+  @apply self-center;
+  margin-inline-start: var(--calcite-internal-navigation-navigation-action-margin-inline);
 }

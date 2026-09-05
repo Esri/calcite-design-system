@@ -1,168 +1,250 @@
 {
-  "semantic": {
-    "size": {
-      "fixed": {
-        "xxxs": {
-          "value": "{core.size.default.2}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
+  "size": {
+    "fixed": {
+      "xxxs": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "xxs": {
-          "value": "{core.size.default.4}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "xs": {
-          "value": "{core.size.default.6}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "sm": {
-          "value": "{core.size.default.8}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "sm+": {
-          "value": "{core.size.default.10}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "md": {
-          "value": "{core.size.default.12}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "md+": {
-          "value": "{core.size.default.14}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "lg": {
-          "value": "{core.size.default.16}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "xl": {
-          "value": "{core.size.default.20}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "xxl": {
-          "value": "{core.size.default.24}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        },
-        "xxxl": {
-          "value": "{core.size.default.32}",
-          "type": "spacing",
-          "attributes": {
-            "category": "size"
-          },
-          "description": "deprecated"
-        }
+        "$type": "spacing",
+        "$value": "{core.size.default.2}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
       },
-      "default": {
-        "px": {
-          "value": "{core.size.default.1}",
-          "type": "sizing",
-          "attributes": {
-            "category": "size"
-          }
+      "xxs": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "xxxs": {
-          "value": "{core.size.default.12}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.4}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+      },
+      "xs": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "xxs": {
-          "value": "{core.size.default.14}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.6}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+      },
+      "sm": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "xs": {
-          "value": "{core.size.default.16}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.8}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+      },
+      "sm-plus": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "sm": {
-          "value": "{core.size.default.24}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.10}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-4xs` instead."
+      },
+      "md": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "md": {
-          "value": "{core.size.default.32}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.12}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-3xs` instead."
+      },
+      "md-plus": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "lg": {
-          "value": "{core.size.default.44}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.14}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-2xs` instead."
+      },
+      "lg": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "xl": {
-          "value": "{core.size.default.48}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.16}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-xs` instead."
+      },
+      "xl": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "xxl": {
-          "value": "{core.size.default.64}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
+        "$type": "spacing",
+        "$value": "{core.size.default.20}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
+      },
+      "xxl": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
         },
-        "xxxl": {
-          "value": "{core.size.default.96}",
-          "type": "dimension",
-          "attributes": {
-            "category": "size"
-          }
-        }
+        "$type": "spacing",
+        "$value": "{core.size.default.24}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-sm` instead."
+      },
+      "xxxl": {
+        "attributes": {
+          "category": "size",
+          "docs": "deprecated"
+        },
+        "$type": "spacing",
+        "$value": "{core.size.default.32}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-md` instead."
       }
+    },
+    "px": {
+      "attributes": {
+        "category": "size"
+      },
+      "$type": "sizing",
+      "$value": "{core.size.default.1}"
+    },
+    "4xs": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.sm-plus}",
+      "$description": "Replaces `--calcite-size-fixed-sm-plus`"
+    },
+    "xxxs": {
+      "attributes": {
+        "category": "size",
+        "docs": "deprecated"
+      },
+      "$type": "dimension",
+      "$value": "{core.size.default.12}",
+      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-size-3xs` instead."
+    },
+    "3xs": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.md}",
+      "$description": "Replaces `--calcite-size-fixed-md`"
+    },
+    "xxs": {
+      "attributes": {
+        "category": "size",
+        "docs": "deprecated"
+      },
+      "$type": "dimension",
+      "$value": "{core.size.default.14}",
+      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-size-2xs` instead."
+    },
+    "2xs": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.md-plus}",
+      "$description": "Replaces `--calcite-size-fixed-md-plus`"
+    },
+    "xs": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.lg}",
+      "$description": "Replaces `--calcite-size-fixed-lg`"
+    },
+    "sm": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.xxl}",
+      "$description": "Replaces `--calcite-size-fixed-xxl`"
+    },
+    "md": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.xxxl}",
+      "$description": "Replaces `--calcite-size-fixed-xxxl`"
+    },
+    "lg": {
+      "attributes": {
+        "category": "size"
+      },
+      "$type": "dimension",
+      "$value": "{core.size.default.44}"
+    },
+    "xl": {
+      "attributes": {
+        "category": "size"
+      },
+      "$type": "dimension",
+      "$value": "{core.size.default.48}"
+    },
+    "xxl": {
+      "attributes": {
+        "category": "size",
+        "docs": "deprecated"
+      },
+      "$type": "dimension",
+      "$value": "{core.size.default.64}",
+      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-size-2xl` instead."
+    },
+    "2xl": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.xxl}",
+      "$description": "Replaces `--calcite-size-xxl`"
+    },
+    "xxxl": {
+      "attributes": {
+        "category": "size",
+        "docs": "deprecated"
+      },
+      "$type": "dimension",
+      "$value": "{core.size.default.96}",
+      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-size-3xl` instead."
+    },
+    "3xl": {
+      "attributes": {
+        "category": "size"
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$type": "dimension",
+      "$value": "{size.xxxl}",
+      "$description": "Replaces `--calcite-size-xxxl`"
     }
   }
 }
