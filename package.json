@@ -74,7 +74,7 @@
     "@typescript-eslint/utils": "8.61.1",
     "@vitest/browser-playwright": "4.1.11",
     "@vitest/coverage-v8": "4.1.11",
-    "@vitest/eslint-plugin": "1.6.20",
+    "@vitest/eslint-plugin": "1.6.27",
     "@whitespace/storybook-addon-html": "9.0.0",
     "autoprefixer": "10.5.4",
     "axe-core": "4.12.1",
