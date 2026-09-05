@@ -23,6 +23,7 @@ declare global {
 }
 
 /**
+ * @parent calcite-flow
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.

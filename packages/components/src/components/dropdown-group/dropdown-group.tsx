@@ -14,7 +14,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-dropdown-item`s. */
+/**
+ * @parent calcite-dropdown
+ * @slot - A slot for adding `calcite-dropdown-item`s.
+ */
 export class DropdownGroup extends LitElement {
   // #region Static Members
 
