@@ -24,6 +24,7 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";
+import type { Block } from "./block";
 
 mockConsole();
 
@@ -251,6 +252,32 @@ describe("top layer placement", () => {
 
 describe("disabled", () => {
   disabled(() => mount(<calcite-block description="description" expandable heading="heading" />));
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Block>(<calcite-block heading="heading" />);
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("should omit aria-busy on sortable blocks when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Block>(<calcite-block drag-handle heading="heading" />);
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
 });
 
 describe("theme", () => {

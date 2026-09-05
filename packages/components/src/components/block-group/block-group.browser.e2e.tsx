@@ -156,6 +156,20 @@ describe("disabled", () => {
   });
 });
 
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<BlockGroup>(<calcite-block-group label="Blocks" />);
+    const group = page.getByRole("group", { name: "Blocks" });
+
+    await expect.element(group).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(group).toHaveAttribute("aria-busy", "true");
+  });
+});
+
 describe("expandMode", () => {
   const nestedBlockHTML = (expandMode: BlockGroup["expandMode"]): TemplateResult => {
     return (
