@@ -223,10 +223,7 @@ export function labelable(
     });
 
     it("is labelable when sibling label is set prior to component", async () => {
-      const { el: label } = await mount(Label);
-      label.for = id;
-      await label.componentOnReady();
-
+      let label!: Label["el"];
       const result = await mountLabelable({
         afterConnect: async (el) => {
           label = createLabel();
