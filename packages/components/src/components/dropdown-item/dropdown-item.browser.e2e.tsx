@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { defaults, focusable, hidden, renders, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -52,6 +52,33 @@ describe("disabled", () => {
 
     expect(selectSpy).toHaveBeenCalledTimes(1);
     expect(el).not.toHaveAttribute("aria-disabled");
+  });
+});
+
+describe("a11y attributes", () => {
+  it("reflects selection state only for selectable items", async () => {
+    await mount(
+      <calcite-dropdown open>
+        <calcite-dropdown-group selectionMode="none">
+          <calcite-dropdown-item data-testid="non-selectable" selected>
+            Non-selectable
+          </calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group selectionMode="multiple">
+          <calcite-dropdown-item data-testid="unselected">Unselected</calcite-dropdown-item>
+          <calcite-dropdown-item data-testid="selected" selected>
+            Selected
+          </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+    const nonSelectableItem = page.getByTestId("non-selectable");
+    const unselectedItem = page.getByTestId("unselected");
+    const selectedItem = page.getByTestId("selected");
+
+    await expect.element(nonSelectableItem).not.toHaveAttribute("aria-checked");
+    await expect.element(unselectedItem).toHaveAttribute("aria-checked", "false");
+    await expect.element(selectedItem).toHaveAttribute("aria-checked", "true");
   });
 });
 
