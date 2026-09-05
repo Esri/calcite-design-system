@@ -40,7 +40,7 @@ type ShorthandDefaultProps<E extends HTMLElement> = {
 export function defaults<
   RenderResult extends ReturnType<typeof mount>,
   ElementProps extends Awaited<RenderResult>["el"],
->(setup: () => RenderResult, propsToTest: DefaultProps<ElementProps> | ShorthandDefaultProps<ElementProps>): void {
+>(setUp: () => RenderResult, propsToTest: DefaultProps<ElementProps> | ShorthandDefaultProps<ElementProps>): void {
   const propValuePairs = Array.isArray(propsToTest)
     ? propsToTest
     : (Object.keys(propsToTest) as Extract<keyof ElementProps, string>[]).map((propertyName) => ({
@@ -51,7 +51,7 @@ export function defaults<
   it.each(propValuePairs.map(({ propertyName, defaultValue }) => [propertyName, defaultValue] as const))(
     "%s",
     async (propertyName, defaultValue) => {
-      const el = (await setup()).el as ElementProps;
+      const el = (await setUp()).el as ElementProps;
       const propValue = el[propertyName];
 
       if (propertyName === "validity") {

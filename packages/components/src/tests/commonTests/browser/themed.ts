@@ -4,7 +4,7 @@ import { type RequireExactlyOne } from "type-fest";
 import { commands } from "../../browser/commands";
 import { getTokenValue } from "../../utils/cssTokenValues";
 import "./utils";
-import { TestSetup } from "./types";
+import type { TestSetUp } from "./types";
 import { focusElement } from "../../../utils/dom";
 
 const pseudoElementPattern =
@@ -103,9 +103,9 @@ type TestTarget = {
  *   });
  * });
  */
-export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
+export function themed(setUp: TestSetUp, tokens: ComponentTestTokens): void {
   it("is themeable", async () => {
-    const { el, container } = await setup();
+    const { el, container } = await setUp();
     const elLocator = page.elementLocator(el);
     await userEvent.unhover(el);
 

@@ -15,7 +15,7 @@ type TagName = keyof DeclareElements;
  *   t9n(() => mount("calcite-input-date-picker"), ["calcite-date-picker"]);
  * });
  */
-export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
+export async function t9n(setUp: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -42,12 +42,12 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
   }
 
   async function assertDefaultMessages(): Promise<void> {
-    const { component } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+    const { component } = (await setUp()) as RenderResult<ComponentWithMessageOverrides>;
     expect(await getCurrentMessages(component)).toBeDefined();
   }
 
   async function assertOverrides(subComponents?: TagName[]): Promise<void> {
-    const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+    const { el, component, reRender } = (await setUp()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
     const firstMessageProp = Object.keys(messages).find(
       (key) => !(key as Extract<keyof ComponentWithMessageOverrides["messages"], string>).startsWith("_"),
@@ -83,7 +83,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
   }
 
   async function assertLangSwitch(): Promise<void> {
-    const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+    const { el, component, reRender } = (await setUp()) as RenderResult<ComponentWithMessageOverrides>;
     const enMessages = await getCurrentMessages(component);
     const fakeBundleIdentifier = "__fake__";
 
@@ -107,7 +107,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
 
   async function assertNoErrorOnRemovalDuringMessageLoad(): Promise<void> {
     async function runTest(): Promise<void> {
-      const { el } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+      const { el } = (await setUp()) as RenderResult<ComponentWithMessageOverrides>;
       el.messageOverrides = {
         ...el.messageOverrides,
       };

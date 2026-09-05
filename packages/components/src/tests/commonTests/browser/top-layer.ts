@@ -66,9 +66,9 @@ type TopLayerOptions = {
  *   topLayer("calcite-dialog");
  * });
  */
-export async function topLayer(setup: () => ReturnType<typeof mount>, options?: TopLayerOptions): Promise<void> {
+export async function topLayer(setUp: () => ReturnType<typeof mount>, options?: TopLayerOptions): Promise<void> {
   it("supports being placed in top layer", async () => {
-    const { el, reRender } = await setup();
+    const { el, reRender } = await setUp();
     const openProp = options?.openProp ?? "open";
     const componentElFromLocator = options?.componentTarget?.element();
     const eventElFromLocator = options?.eventEmitter?.element();

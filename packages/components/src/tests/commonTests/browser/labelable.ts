@@ -55,7 +55,7 @@ async function waitForLabelConnection(result: Awaited<ReturnType<typeof mount>>,
  * });
  */
 export function labelable(
-  setup: (mountOptions: LabelableMountOptions) => ReturnType<typeof mount>,
+  setUp: (mountOptions: LabelableMountOptions) => ReturnType<typeof mount>,
   options?: LabelableOptions,
 ): void {
   const id = "labelable-id";
@@ -71,7 +71,7 @@ export function labelable(
     parent?: HTMLElement;
   } = {}): Promise<Awaited<ReturnType<typeof mount>>> {
     let afterConnectCalled = false;
-    const result = await setup({
+    const result = await setUp({
       parent,
       afterConnect: async (el) => {
         afterConnectCalled = true;
