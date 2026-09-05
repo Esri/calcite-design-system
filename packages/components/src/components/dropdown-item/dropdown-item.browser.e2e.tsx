@@ -72,9 +72,9 @@ describe("a11y attributes", () => {
         </calcite-dropdown-group>
       </calcite-dropdown>,
     );
-    const nonSelectableItem = page.getByTestId("#non-selectable");
-    const unselectedItem = page.getByTestId("#unselected");
-    const selectedItem = page.getByTestId("#selected");
+    const nonSelectableItem = page.getByTestId("non-selectable");
+    const unselectedItem = page.getByTestId("unselected");
+    const selectedItem = page.getByTestId("selected");
 
     await expect.element(nonSelectableItem).not.toHaveAttribute("aria-checked");
     await expect.element(unselectedItem).toHaveAttribute("aria-checked", "false");
