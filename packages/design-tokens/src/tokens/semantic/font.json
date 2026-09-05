@@ -365,8 +365,7 @@
             "kind": "relative"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.relative.normal}",
-          "$description": "normal"
+          "$value": "{core.size.relative.normal}"
         },
         "base": {
           "attributes": {
@@ -375,8 +374,25 @@
             "kind": "relative"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.relative.100}",
-          "$description": "1"
+          "$value": "{core.size.relative.100}"
+        },
+        "compact": {
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          },
+          "$type": "lineHeights",
+          "$value": "{core.size.relative.115}"
+        },
+        "condensed": {
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          },
+          "$type": "lineHeights",
+          "$value": "{core.size.relative.120}"
         },
         "tight": {
           "attributes": {
@@ -385,8 +401,16 @@
             "kind": "relative"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.relative.125}",
-          "$description": "1.25"
+          "$value": "{core.size.relative.125}"
+        },
+        "cozy": {
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          },
+          "$type": "lineHeights",
+          "$value": "{core.size.relative.133}"
         },
         "snug": {
           "attributes": {
@@ -395,8 +419,7 @@
             "kind": "relative"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.relative.137}",
-          "$description": "1.375"
+          "$value": "{core.size.relative.137}"
         },
         "normal": {
           "attributes": {
@@ -405,8 +428,7 @@
             "kind": "relative"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.relative.150}",
-          "$description": "1.5"
+          "$value": "{core.size.relative.150}"
         },
         "relaxed": {
           "attributes": {
@@ -415,8 +437,7 @@
             "kind": "relative"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.relative.162}",
-          "$description": "1.625"
+          "$value": "{core.size.relative.162}"
         },
         "loose": {
           "attributes": {
@@ -425,8 +446,7 @@
             "kind": "relative"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.relative.200}",
-          "$description": "2"
+          "$value": "{core.size.relative.200}"
         }
       },
       "xs": {
