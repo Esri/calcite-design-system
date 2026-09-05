@@ -925,7 +925,7 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueLengthShortened) {
+    if ((hasTrailingDecimalSeparator && isValueLengthShortened) || value === ".") {
       newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
     }
 

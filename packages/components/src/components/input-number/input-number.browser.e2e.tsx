@@ -955,6 +955,10 @@ describe("number locale support", () => {
 
       expect(el).toHaveProperty("value", expectedValue);
       await expect.element(input).toHaveProperty("value", expectedFormattedValue);
+
+      await userEvent.fill(input, decimalSeparator);
+      expect(el).toHaveProperty("value", "");
+      expect(input).toHaveDisplayValue(decimalSeparator);
     });
 
     it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
