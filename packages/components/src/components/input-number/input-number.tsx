@@ -770,12 +770,16 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      const inputElement = this.childNumberRef.value;
+      if (!this.value && !inputElement?.value) {
+        return;
+      }
+      if (this.value && inputElement?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
       if (
-        this.value &&
-        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
+        inputElement?.selectionStart === 0 &&
+        inputElement?.selectionEnd === inputElement.value.length
       ) {
         return;
       }
@@ -794,14 +798,7 @@ export class InputNumber
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value?.value) {
-        return;
-      }
-      if (
-        this.value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (this.childNumberRef.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -897,21 +894,18 @@ export class InputNumber
       useGrouping: this.groupSeparator,
     };
 
-    const isValueDeleted =
+    const isValueLengthShortened =
       this.previousValue?.length > value.length || this.value?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
     const hasTrailingDecimalSeparator =
+      valueHandleInteger.length >= 2 &&
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
-
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
+    const sanitizedValue = sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
@@ -931,8 +925,8 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
-      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    if ((hasTrailingDecimalSeparator && isValueLengthShortened) || value === ".") {
+      newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
     }
 
     // adds localized leading zeros
@@ -948,9 +942,29 @@ export class InputNumber
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
-    // don't sanitize the start of negative/decimal numbers, but
-    // don't set value to an invalid number
-    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+
+    if (newValue) {
+      const valid = isValidNumber(newValue);
+      if (!valid) {
+        this.formSupport.setCustomValidity("Please enter a number.");
+        this.status = "invalid";
+        this.validationIcon = true;
+      } else {
+        this.formSupport.setCustomValidity("");
+        this.status = "valid";
+        this.validationIcon = undefined;
+      }
+    } else if (!this.required && origin !== "connected") {
+      this.formSupport.setCustomValidity("");
+      this.status = "valid";
+      this.validationIcon = undefined;
+    }
+
+    const validNewValue = isValidNumber(newValue)
+      ? newValue
+      : newValue.endsWith(".") && !isNaN(Number(newValue))
+        ? String(Number(newValue))
+        : "";
     this.value = validNewValue;
 
     const localizedCharAllowlist = new Set([
