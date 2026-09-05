@@ -268,7 +268,7 @@ describe("a11y attributes", () => {
   });
 
   it("should omit aria-busy on sortable blocks when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount(<calcite-block drag-handle heading="heading" />);
+    const { reRender, el } = await mount<Block>(<calcite-block drag-handle heading="heading" />);
     const container = page.getByRole("article");
 
     await expect.element(container).not.toHaveAttribute("aria-busy");
