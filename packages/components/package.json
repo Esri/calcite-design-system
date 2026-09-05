@@ -98,9 +98,9 @@
     "@esri/calcite-tailwind-preset": "1.1.2-next.7",
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.20",
     "@esri/stylelint-plugin-calcite-components": "0.2.0-next.2",
-    "playwright": "1.61.1",
+    "playwright": "1.62.1",
     "sass-embedded": "1.100.0",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "css.customData": [
     "dist/docs/vscode.css-custom-data.json"

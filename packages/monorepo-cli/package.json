@@ -32,6 +32,6 @@
     "commander": "15.0.0",
     "dedent": "1.7.2",
     "typescript": "6.0.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   }
 }
