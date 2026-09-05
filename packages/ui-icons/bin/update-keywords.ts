@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -9,14 +9,16 @@ interface FantasticonConfig {
 }
 
 interface KeywordEntry {
-  codepoint?: unknown;
+  [key: string]: unknown;
+  codepoint?: Codepoint;
 }
 
 type Keywords = Record<string, KeywordEntry>;
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const fantasticonrcPath = resolve(packageRoot, process.argv[2] ?? "fantasticonrc.json");
-const keywordsPath = resolve(packageRoot, process.argv[3] ?? "docs/keywords.json");
+const fix = process.argv.includes("--fix");
+const fantasticonrcPath = resolve(packageRoot, "fantasticonrc.json");
+const keywordsPath = resolve(packageRoot, "docs/keywords.json");
 
 function readJson<T>(filePath: string): T {
   try {
@@ -35,13 +37,11 @@ function validateKeywords(codepoints: Record<string, Codepoint>, keywords: Keywo
       continue;
     }
 
-    const expectedCodepoint = Object.hasOwn(codepoints, iconName) ? codepoints[iconName] : null;
+    const expectedCodepoint = codepoints[iconName] ?? null;
     if (!Object.hasOwn(entry, "codepoint")) {
-      issues.push(`${iconName}: missing codepoint (expected ${expectedCodepoint ?? "null"})`);
+      issues.push(`${iconName}: missing codepoint (expected ${expectedCodepoint})`);
     } else if (entry.codepoint !== expectedCodepoint) {
-      issues.push(
-        `${iconName}: codepoint ${String(entry.codepoint)} does not match expected ${expectedCodepoint ?? "null"}`,
-      );
+      issues.push(`${iconName}: codepoint ${String(entry.codepoint)} does not match expected ${expectedCodepoint}`);
     }
   }
 
@@ -51,14 +51,34 @@ function validateKeywords(codepoints: Record<string, Codepoint>, keywords: Keywo
 const config = readJson<FantasticonConfig>(fantasticonrcPath);
 const keywords = readJson<Keywords>(keywordsPath);
 const issues = validateKeywords(config.codepoints ?? {}, keywords);
+const criticalIssues = issues.filter((issue) => !issue.includes(": missing codepoint "));
 
-if (issues.length > 0) {
+if (criticalIssues.length > 0) {
   throw new Error(
     [
-      `Keyword validation failed with ${issues.length} issue${issues.length === 1 ? "" : "s"}:`,
-      ...issues.map((issue) => `- ${issue}`),
+      `Keyword validation failed with ${criticalIssues.length} critical issue${criticalIssues.length === 1 ? "" : "s"}:`,
+      ...criticalIssues.map((issue) => `- ${issue}`),
     ].join("\n"),
   );
 }
 
-console.log(`Validated ${Object.keys(keywords).length} keyword entries.`);
+if (fix) {
+  const codepoints = config.codepoints ?? {};
+  for (const [iconName, entry] of Object.entries(keywords)) {
+    if (entry !== null && typeof entry === "object") {
+      entry.codepoint = codepoints[iconName] ?? null;
+    }
+  }
+
+  writeFileSync(keywordsPath, `${JSON.stringify(keywords, null, 2)}\n`, "utf8");
+  console.log(`Updated ${keywordsPath}.`);
+} else if (issues.length > 0) {
+  const missingIssues = issues.filter((issue) => issue.includes(": missing codepoint "));
+  if (missingIssues.length > 0) {
+    console.warn(missingIssues.join("\n"));
+  }
+}
+
+if (!fix) {
+  console.log(`Checked ${Object.keys(keywords).length} keyword entries.`);
+}

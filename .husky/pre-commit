@@ -56,10 +56,11 @@ check_ui_icon_keywords() {
   )"
 
   if [ -n "$staged_files" ]; then
-    npm --workspace=packages/ui-icons run util:check-keywords || {
-      echo "Error: Failed to validate UI icon keywords."
+    npm --workspace=packages/ui-icons run util:fix-keywords || {
+      echo "Error: Failed to fix UI icon keywords."
       exit 1
     }
+    git add packages/ui-icons/docs/keywords.json
   fi
 
   unset staged_files
