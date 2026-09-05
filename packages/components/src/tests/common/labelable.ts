@@ -1,7 +1,8 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { type Locator, page } from "vitest/browser";
-import { Label } from "../../components/label/label";
+import "../../components/label/label";
+import type { Label } from "../../components/label/label";
 import { afterNextFrame } from "../utils/timing";
 
 type BooleanPropertyElement = HTMLElement & Record<string, boolean>;
