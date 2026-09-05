@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { accessible, defaults, hidden, renders } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { page, userEvent } from "vitest/browser";
 import type { Tree } from "./tree";

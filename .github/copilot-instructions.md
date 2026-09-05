@@ -95,7 +95,7 @@ In descending order when rules conflict:
 
 - Every bug fix or feature change should include automated test coverage.
 - Prefer `*.browser.e2e.tsx` for new component tests that use **Vitest locators** (use the project’s established locator patterns first). Legacy `*.e2e.ts` tests still exist and continue to run, so update them when required by the changed behavior.
-- Use shared helpers from `packages/components/src/tests/commonTests` and `packages/components/src/tests/utils` instead of duplicating test utilities.
+- Use shared helpers from `packages/components/src/tests/common` and `packages/components/src/tests/utils` instead of duplicating test utilities.
 - If a change impacts user interaction, include assertions that validate the intended UX behavior and avoid flaky selectors.
 - If changes are visual, prefer updating stories in addition to tests when behavior also changes.
 - If a change is purely visual, prefer updating stories over adding end-to-end tests unless new interaction coverage is needed.

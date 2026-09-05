@@ -1,10 +1,10 @@
 import { describe, expect, it, onTestFinished } from "vitest";
 import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { css } from "../../../../support/formatting";
-import type { IntrinsicElementsWithProp } from "../../utils/types";
-import type { FlipPlacement, FloatingUIComponent } from "../../../utils/floating-ui";
-import { afterNextFrame } from "../../utils/timing";
+import { css } from "../../../support/formatting";
+import type { IntrinsicElementsWithProp } from "../utils/types";
+import type { FlipPlacement, FloatingUIComponent } from "../../utils/floating-ui";
+import { afterNextFrame } from "../utils/timing";
 import type { LitElement } from "@arcgis/lumina";
 import { waitForEvent } from "./utils";
 

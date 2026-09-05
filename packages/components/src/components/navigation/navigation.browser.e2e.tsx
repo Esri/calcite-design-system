@@ -11,7 +11,7 @@ import {
   scalePropagates,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import type { Navigation } from "./navigation";
 import { CSS } from "./resources";
 

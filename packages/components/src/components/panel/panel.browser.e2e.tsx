@@ -17,10 +17,10 @@ import {
   scalePropagates,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
-import { scrolling } from "../../tests/browser/utils/content";
+import { scrolling } from "../../tests/utils/content";
 import type { Panel } from "./panel";
 import { CSS, SLOTS } from "./resources";
 

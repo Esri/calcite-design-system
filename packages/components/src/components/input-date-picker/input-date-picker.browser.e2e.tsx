@@ -20,9 +20,9 @@ import {
   themed,
   topLayer,
   disabled,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { afterNextTask } from "../../tests/utils/timing";
 import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";

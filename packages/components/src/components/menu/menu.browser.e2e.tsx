@@ -11,7 +11,7 @@ import {
   t9n,
   accessible,
   globalProps,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 
 describe("accessible", () => {
   accessible(() =>

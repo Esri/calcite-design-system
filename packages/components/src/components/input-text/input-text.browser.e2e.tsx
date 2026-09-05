@@ -16,10 +16,10 @@ import {
   scalePropagates,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
 

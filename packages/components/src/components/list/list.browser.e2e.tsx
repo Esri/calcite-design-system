@@ -14,11 +14,11 @@ import {
   t9n,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import type { List } from "./list";
 import { CSS } from "./resources";

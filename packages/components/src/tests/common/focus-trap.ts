@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page } from "vitest/browser";
 import { getEventPrefix, waitForEvent } from "./utils";
-import { FocusTrapComponent } from "../../../controllers/useFocusTrap";
-import { afterFocusShiftDelay } from "../../utils/focus-trap";
+import { FocusTrapComponent } from "../../controllers/useFocusTrap";
+import { afterFocusShiftDelay } from "../utils/focus-trap";
 
 interface FocusTrapOptions {
   /**

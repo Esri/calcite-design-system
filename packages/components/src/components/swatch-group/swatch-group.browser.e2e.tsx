@@ -8,7 +8,7 @@ import {
   disabled,
   accessible,
   scalePropagates,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 
 describe("accessible", () => {
   describe("selection mode single-persist", () => {

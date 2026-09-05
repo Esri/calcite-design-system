@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable } from "../../tests/commonTests/browser";
+import { disabled, focusable } from "../../tests/common";
 
 describe("is focusable", () => {
   focusable(() =>

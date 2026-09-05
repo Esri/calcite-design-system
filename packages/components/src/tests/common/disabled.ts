@@ -2,8 +2,8 @@ import { SetFieldType } from "type-fest";
 import { expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { afterNextFrame, afterNextTask } from "../../utils/timing";
-import { IntrinsicElementsWithProp } from "../../utils/types";
+import { afterNextFrame, afterNextTask } from "../utils/timing";
+import { IntrinsicElementsWithProp } from "../utils/types";
 
 /** This interface is used to specify focus targets for different interactions. */
 export interface TabAndClickFocusTargets {
