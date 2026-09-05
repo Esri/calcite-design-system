@@ -213,7 +213,7 @@ export function labelable(
         afterConnect: async (el) => {
           label = createLabel();
           label.for = id;
-          el.parentElement!.insertBefore(label, el);
+          el.parentElement!.append(label);
           await label.componentOnReady();
         },
       });
@@ -228,8 +228,14 @@ export function labelable(
       await label.componentOnReady();
 
       const result = await mountLabelable({
-        parent: label,
+        afterConnect: async (el) => {
+          label = createLabel();
+          label.for = id;
+          el.parentElement!.insertBefore(label, el);
+          await label.componentOnReady();
+        },
       });
+
       await waitForExplicitLabelAssociation(label);
 
       await assertLabelable(result, label);
