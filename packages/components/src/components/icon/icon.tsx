@@ -16,6 +16,21 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's color. Defaults to current color.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
+     */
+    "--calcite-ui-icon-color": "*";
+    /**
+     * Specifies the component's color. Defaults to current color.
+     */
+    "--calcite-icon-color": "*";
+  }
+}
+
 export class Icon extends LitElement {
   // #region Static Members
 

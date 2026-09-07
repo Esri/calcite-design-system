@@ -32,9 +32,46 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the amount of left and right margin spacing between each item.
+     */
+    "--calcite-rating-spacing": "*";
+    /**
+     * Specifies the component's item color when hovered.
+     */
+    "--calcite-rating-color-hover": "*";
+    /**
+     * Specifies the component's item color when active.
+     */
+    "--calcite-rating-color-press": "*";
+    /**
+     * Specifies the component's item color.
+     */
+    "--calcite-rating-color": "*";
+    /**
+     * When `average` is set, specifies the component's item color.
+     */
+    "--calcite-rating-average-color": "*";
+    /**
+     * When `average` is set, specifies the component's `average` text color.
+     */
+    "--calcite-rating-average-text-color": "*";
+    /**
+     * Specifies the component's text color for `count`.
+     */
+    "--calcite-rating-count-text-color": "*";
+  }
+}
+
+interface RatingSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Rating extends LitElement implements LabelableComponent {
   //#region Static Members
 
@@ -45,6 +82,8 @@ export class Rating extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: RatingSlots;
 
   defaultValue?: Rating["value"];
 

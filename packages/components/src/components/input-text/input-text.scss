@@ -1,37 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-input-action-background-color: Specifies the background color of the component's `clearable` element.
- * @prop --calcite-input-action-background-color-hover: Specifies the background color of the component's `clearable` element when hovered.
- * @prop --calcite-input-action-background-color-press: Specifies the background color of the component's `clearable` element when pressed.
- * @prop --calcite-input-action-icon-color: Specifies the icon color of the component's `clearable` element.
- * @prop --calcite-input-action-icon-color-hover: Specifies the icon color of the component's `clearable` element when hovered.
- * @prop --calcite-input-action-icon-color-press: Specifies the icon color of the component's `clearable` element when pressed.
- * @prop --calcite-input-loading-background-color: When `loading`, specifies the background color of the component`s `loading` element.
- * @prop --calcite-input-loading-fill-color: When `loading`, specifies the fill color of the component`s `loading` element.
- * @prop --calcite-input-text-inline-editable-background-color-hover: When `inline-editable` is enabled, specifies the background color of the component, its inline editable elements and slotted `calcite-action` wrappers, when hovered.
- * @prop --calcite-input-text-inline-editable-control-background-color: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls.
- * @prop --calcite-input-text-inline-editable-control-background-color-hover: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when hovered.
- * @prop --calcite-input-text-inline-editable-control-background-color-press: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when pressed.
- * @prop --calcite-input-text-inline-editable-control-corner-radius: When `inline-editable` is enabled, specifies the corner radius of the component's inline editable controls.
- * @prop --calcite-input-text-inline-editable-control-loader-color: When `inline-editable` is enabled, specifies the loader color of the component's inline editable controls.
- * @prop --calcite-input-text-inline-editable-control-text-color: When `inline-editable` is enabled, specifies the text color of the component's inline editable controls.
- * @prop --calcite-input-text-inline-editable-control-text-color-press: When `inline-editable` is enabled, specifies the text color of the component's inline editable controls, when pressed or hovered.
- * @prop --calcite-input-prefix-size-x: When `prefixText` is provided, specifies the width of the component's prefix element.
- * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
- * @prop --calcite-input-suffix-size-x: When `suffixText` is provided, specifies the width of the component's suffix element.
- * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the color of the component's suffix element.
- * @prop --calcite-input-text-background-color: Specifies the component's background color.
- * @prop --calcite-input-text-border-color: Specifies the component's border color.
- * @prop --calcite-input-text-corner-radius: Specifies the component's border radius.
- * @prop --calcite-input-text-icon-color: Specifies the component's `icon` color.
- * @prop --calcite-input-text-placeholder-text-color: Specifies the component's `placeholder` text color.
- * @prop --calcite-input-text-text-color: Specifies the component's text color.
- * @prop --calcite-input-text-text-color-focus: Specifies the component's text color when focused.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.

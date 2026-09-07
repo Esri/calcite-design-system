@@ -16,6 +16,35 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-handle-background-color": "*";
+    /**
+     * Specifies the component's background color on hover.
+     */
+    "--calcite-handle-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when selected.
+     */
+    "--calcite-handle-background-color-selected": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-handle-icon-color": "*";
+    /**
+     * Specifies the component's icon color on hover.
+     */
+    "--calcite-handle-icon-color-hover": "*";
+    /**
+     * Specifies the component's icon color when selected.
+     */
+    "--calcite-handle-icon-color-selected": "*";
+  }
+}
+
 /**
  * @deprecated Use the `calcite-sort-handle` component instead.
  */

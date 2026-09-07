@@ -22,6 +22,47 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-time-picker-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-time-picker-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-time-picker-corner-radius": "*";
+    /**
+     * Specifies the button's background color when hovered or focused.
+     */
+    "--calcite-time-picker-button-background-color-hover": "*";
+    /**
+     * Specifies the button's background color when active.
+     */
+    "--calcite-time-picker-button-background-color-press": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-time-picker-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-time-picker-icon-color": "*";
+    /**
+     * Specifies the input's border color when active.
+     */
+    "--calcite-time-picker-input-border-color-press": "*";
+    /**
+     * Specifies the input's border color when hovered.
+     */
+    "--calcite-time-picker-input-border-color-hover": "*";
+  }
+}
+
 export class TimePicker extends LitElement implements TimeComponent {
   //#region Static Members
 

@@ -25,7 +25,44 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding text. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-dropdown-item-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when `selected` or active.
+     */
+    "--calcite-dropdown-item-background-color-press": "*";
+    /**
+     * Specifies the color of the component's selection icon when hovered.
+     *
+     * @deprecated in v5.0.0, removal target v6.0.0.
+     */
+    "--calcite-dropdown-item-icon-color-hover": "*";
+    /**
+     * Specifies the color of the component's selection icon when `selected` or active.
+     */
+    "--calcite-dropdown-item-icon-color-press": "*";
+    /**
+     * Specifies the component's text color when `selected` or active.
+     */
+    "--calcite-dropdown-item-text-color-press": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-dropdown-item-text-color": "*";
+  }
+}
+
+interface DropdownItemSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 export class DropdownItem extends LitElement {
   //#region Static Members
 
@@ -34,6 +71,8 @@ export class DropdownItem extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: DropdownItemSlots;
 
   private childLinkRef = createRef<HTMLAnchorElement>();
 
@@ -114,18 +153,6 @@ export class DropdownItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Sets focus on the component.
-   *
-   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
-   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   */
-  @method()
-  async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.el, options);
-  }
-
-  /**
    * Activates the component as if it were clicked.
    *
    * @private
@@ -142,6 +169,18 @@ export class DropdownItem extends LitElement {
     }
 
     this.emitRequestedItem();
+  }
+
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion

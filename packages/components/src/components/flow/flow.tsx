@@ -19,15 +19,32 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-flow-item`s to the component. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-flow-background-color": "*";
+  }
+}
+
+interface FlowSlots {
+  /**
+   * A slot for adding `calcite-flow-item`s to the component.
+   */
+  "": Node[];
+}
+
 export class Flow extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  override ["@slots"]!: FlowSlots;
 
   private frameRef = createRef<HTMLDivElement>();
 
@@ -41,15 +58,15 @@ export class Flow extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() flowDirection: FlowDirection = "standby";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * This property enables the component to consider additional custom elements implementing flow-item's interface.
@@ -58,9 +75,9 @@ export class Flow extends LitElement {
    */
   @property() customItemSelectors?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Removes selection of the currently active `calcite-flow-item`.
@@ -107,9 +124,9 @@ export class Flow extends LitElement {
     return this.focusSetter(() => this.items[this.selectedIndex], options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -139,9 +156,9 @@ export class Flow extends LitElement {
     this.itemMutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private async handleFlowDirectionChange(flowDirection: FlowDirection): Promise<void> {
     if (flowDirection === "standby" || !this.frameRef.value) {
@@ -245,9 +262,9 @@ export class Flow extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { flowDirection } = this;
@@ -265,5 +282,5 @@ export class Flow extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

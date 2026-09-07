@@ -21,10 +21,60 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding text.
- * @slot image - A slot for adding an image.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-chip-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-chip-border-color": "*";
+    /**
+     * Specifies the component's close element icon color.
+     */
+    "--calcite-chip-close-icon-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-chip-corner-radius": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-chip-icon-color": "*";
+    /**
+     * Specifies the component's selection element icon color when active.
+     */
+    "--calcite-chip-select-icon-color-press": "*";
+    /**
+     * Specifies the component's selection element icon color when active.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-chip-select-icon-color-press` instead.
+     */
+    "--calcite-chip-select-icon-color-pressed": "*";
+    /**
+     * Specifies the component's selection element icon color.
+     */
+    "--calcite-chip-select-icon-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-chip-text-color": "*";
+  }
+}
+
+interface ChipSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+  /**
+   * A slot for adding an image.
+   */
+  image: Node[];
+}
+
 export class Chip extends LitElement {
   //#region Static Members
 
@@ -33,6 +83,8 @@ export class Chip extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ChipSlots;
 
   private closeButtonRef = createRef<Action["el"]>();
 

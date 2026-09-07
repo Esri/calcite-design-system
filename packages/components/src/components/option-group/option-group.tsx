@@ -6,8 +6,20 @@ declare global {
     "calcite-option-group": OptionGroup;
   }
 }
-/** @slot - A slot for adding `calcite-option`s. */
+
+interface OptionGroupSlots {
+  /**
+   * A slot for adding `calcite-option`s.
+   */
+  "": Node[];
+}
 export class OptionGroup extends LitElement {
+  //#region Private Properties
+
+  override ["@slots"]!: OptionGroupSlots;
+
+  //#endregion
+
   //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */

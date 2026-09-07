@@ -15,15 +15,40 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding text and a component that can be labeled. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's bottom spacing.
+     */
+    "--calcite-label-margin-bottom": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-label-text-color": "*";
+  }
+}
+
+interface LabelSlots {
+  /**
+   * A slot for adding text and a component that can be labeled.
+   */
+  "": Node[];
+}
+
 export class Label extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Private Properties
+
+  override ["@slots"]!: LabelSlots;
+
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies the component's text alignment. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -42,18 +67,18 @@ export class Label extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalLabelClick = createEvent<{
     sourceEvent: MouseEvent;
   }>({ bubbles: false, cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -74,9 +99,10 @@ export class Label extends LitElement {
     document.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private labelClickHandler(event: MouseEvent): void {
     if (window.getSelection()?.type === "Range" || event.defaultPrevented) {
       return;
@@ -87,9 +113,9 @@ export class Label extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -99,5 +125,5 @@ export class Label extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

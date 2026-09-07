@@ -30,18 +30,66 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
- * @slot header - A slot for adding header content. This content will be positioned at the top of the component.
- * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
- * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
- * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
- * @slot panel-top - A slot for adding the top `calcite-shell-panel`.
- * @slot panel-bottom - A slot for adding the bottom `calcite-shell-panel`.
- * @slot dialogs - A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
- * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
- * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-shell-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-shell-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-shell-shadow": "*";
+  }
+}
+
+interface ShellSlots {
+  /**
+   * A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
+   */
+  "": Node[];
+  /**
+   * A slot for adding header content. This content will be positioned at the top of the component.
+   */
+  header: Node[];
+  /**
+   * A slot for adding footer content. This content will be positioned at the bottom of the component.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding the starting `calcite-shell-panel`.
+   */
+  "panel-start": Node[];
+  /**
+   * A slot for adding the ending `calcite-shell-panel`.
+   */
+  "panel-end": Node[];
+  /**
+   * A slot for adding the top `calcite-shell-panel`.
+   */
+  "panel-top": Node[];
+  /**
+   * A slot for adding the bottom `calcite-shell-panel`.
+   */
+  "panel-bottom": Node[];
+  /**
+   * A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
+   */
+  dialogs: Node[];
+  /**
+   * A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
+   */
+  sheets: Node[];
+}
+
 export class Shell extends LitElement {
   //#region Static Members
 
@@ -50,6 +98,8 @@ export class Shell extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ShellSlots;
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
@@ -536,5 +586,5 @@ export class Shell extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -81,9 +81,184 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's actions icon color.
+     */
+    "--calcite-input-date-picker-actions-icon-color": "*";
+    /**
+     * Specifies the component's actions icon color on hover.
+     */
+    "--calcite-input-date-picker-actions-icon-color-hover": "*";
+    /**
+     * Specifies the component's input background color.
+     */
+    "--calcite-input-date-picker-background-color": "*";
+    /**
+     * Specifies the component's input border color.
+     */
+    "--calcite-input-date-picker-border-color": "*";
+    /**
+     * Specifies the background color of the component's calendar actions.
+     */
+    "--calcite-input-date-picker-calendar-actions-background-color": "*";
+    /**
+     * Specifies the background color of the component's calendar actions when hovered.
+     */
+    "--calcite-input-date-picker-calendar-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's calendar actions when pressed.
+     */
+    "--calcite-input-date-picker-calendar-actions-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's calendar actions.
+     */
+    "--calcite-input-date-picker-calendar-actions-text-color": "*";
+    /**
+     * Specifies the text color of the component's calendar actions when pressed.
+     */
+    "--calcite-input-date-picker-calendar-actions-text-color-press": "*";
+    /**
+     * Specifies the border color of the component's calendar.
+     */
+    "--calcite-input-date-picker-calendar-border-color": "*";
+    /**
+     * Specifies the corner radius of the component's calendar.
+     */
+    "--calcite-input-date-picker-calendar-corner-radius": "*";
+    /**
+     * Specifies the text color of the component's calendar current day element.
+     */
+    "--calcite-input-date-picker-calendar-current-day-text-color": "*";
+    /**
+     * Specifies the background color of the component's calendar day elements.
+     */
+    "--calcite-input-date-picker-calendar-day-background-color": "*";
+    /**
+     * Specifies the background color of the component's calendar day elements when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-background-color-hover": "*";
+    /**
+     * Specifies the text color of current day of the component's date-picker.
+     *
+     * @deprecated in v3.3.1, removal target v6.0.0 - Use `--calcite-input-date-picker-calendar-current-day-text-color` instead.
+     */
+    "--calcite-input-date-picker-calendar-day-current-text-color": "*";
+    /**
+     * Specifies the background color of the component's calendar selected day range.
+     */
+    "--calcite-input-date-picker-calendar-day-range-background-color": "*";
+    /**
+     * Specifies the text color of the component's calendar selected day range.
+     */
+    "--calcite-input-date-picker-calendar-day-range-text-color": "*";
+    /**
+     * Specifies the text color of component's calendar selected day.
+     */
+    "--calcite-input-date-picker-calendar-day-text-color-selected": "*";
+    /**
+     * Specifies the background color of the component's calendar day elements outside the current range when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-outside-range-background-color-hover": "*";
+    /**
+     * Specifies the text color of the component's calendar day elements outside the current range when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-outside-range-text-color-hover": "*";
+    /**
+     * Specifies the text color of the component's calendar day elements.
+     */
+    "--calcite-input-date-picker-calendar-day-text-color": "*";
+    /**
+     * Specifies the text color of the component's calendar day elements when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-text-color-hover": "*";
+    /**
+     * Specifies the background color of the component's calendar selected day.
+     */
+    "--calcite-input-date-picker-calendar-selected-background-color": "*";
+    /**
+     * Specifies the component's calendar shadow.
+     */
+    "--calcite-input-date-picker-calendar-shadow": "*";
+    /**
+     * Specifies the component's calendar icon color.
+     */
+    "--calcite-input-date-picker-calendar-icon-color": "*";
+    /**
+     * Specifies the component's calendar icon color when hovered.
+     */
+    "--calcite-input-date-picker-calendar-icon-color-hover": "*";
+    /**
+     * Specifies the text color of the component's calendar selected month.
+     */
+    "--calcite-input-date-picker-calendar-month-select-text-color": "*";
+    /**
+     * When `range` is `true`, specifies the divider color between the component's calendars.
+     */
+    "--calcite-input-date-picker-calendar-range-divider-color": "*";
+    /**
+     * Specifies the text color of the component's calendar week, year & suffix.
+     */
+    "--calcite-input-date-picker-calendar-text-color": "*";
+    /**
+     * Specifies the component's input corner radius.
+     */
+    "--calcite-input-date-picker-corner-radius": "*";
+    /**
+     * When `range` is `true`, specifies the component's divider color between two inputs.
+     */
+    "--calcite-input-date-picker-divider-color": "*";
+    /**
+     * Specifies the component's input icon color.
+     */
+    "--calcite-input-date-picker-icon-color": "*";
+    /**
+     * Specifies the component's input placeholder text color.
+     */
+    "--calcite-input-date-picker-placeholder-text-color": "*";
+    /**
+     * Specifies the component's input shadow.
+     */
+    "--calcite-input-date-picker-shadow": "*";
+    /**
+     * Specifies the component's input text color.
+     */
+    "--calcite-input-date-picker-text-color": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element.
+     */
+    "--calcite-input-date-picker-input-action-background-color": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when hovered.
+     */
+    "--calcite-input-date-picker-input-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when pressed.
+     */
+    "--calcite-input-date-picker-input-action-background-color-press": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements.
+     */
+    "--calcite-input-date-picker-input-action-icon-color": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements when hovered.
+     */
+    "--calcite-input-date-picker-input-action-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements when pressed.
+     */
+    "--calcite-input-date-picker-input-action-icon-color-press": "*";
+  }
+}
+
+interface InputDatePickerSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
   //#region Static Members
 
@@ -96,6 +271,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: InputDatePickerSlots;
 
   private commonDateSeparators = [".", "-", "/"];
 

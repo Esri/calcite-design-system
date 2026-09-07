@@ -64,10 +64,130 @@ declare global {
   }
 }
 
-/**
- * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `prefixText` is provided, specifies the width of the component's prefix element.
+     */
+    "--calcite-input-prefix-size": "*";
+    /**
+     * When `suffixText` is provided, specifies the width of the component's suffix element.
+     */
+    "--calcite-input-suffix-size": "*";
+    /**
+     * When `prefixText` is provided, specifies the text color of the component's prefix element.
+     */
+    "--calcite-input-prefix-text-color": "*";
+    /**
+     * When `suffixText` is provided, specifies the text color of the component's suffix element.
+     */
+    "--calcite-input-suffix-text-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-input-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-input-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-input-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-input-shadow": "*";
+    /**
+     * Specifies the component's `icon` color.
+     */
+    "--calcite-input-icon-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-input-text-color": "*";
+    /**
+     * Specifies the component's placeholder text color.
+     */
+    "--calcite-input-placeholder-text-color": "*";
+    /**
+     * Specifies the background color of the component's `clearable` and `number-button-type` elements.
+     */
+    "--calcite-input-actions-background-color": "*";
+    /**
+     * Specifies the background color of the component's `clearable` and `number-button-type` elements when hovered.
+     */
+    "--calcite-input-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's `clearable` and `number-button-type` elements when pressed.
+     */
+    "--calcite-input-actions-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` and `number-button-type` elements.
+     */
+    "--calcite-input-actions-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` and `number-button-type` elements when hovered.
+     */
+    "--calcite-input-actions-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` and `number-button-type` elements when pressed.
+     */
+    "--calcite-input-actions-icon-color-press": "*";
+    /**
+     * When `loading`, specifies the background color of the component's `loading` element.
+     */
+    "--calcite-input-loading-background-color": "*";
+    /**
+     * When `loading`, specifies the fill color of the component's `loading` element.
+     */
+    "--calcite-input-loading-fill-color": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the background color of the component, its inline editable elements and slotted `calcite-action` wrappers, when hovered.
+     */
+    "--calcite-input-inline-editable-background-color-hover": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the background color of the component's inline editable controls.
+     */
+    "--calcite-input-inline-editable-control-background-color": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when hovered.
+     */
+    "--calcite-input-inline-editable-control-background-color-hover": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when pressed.
+     */
+    "--calcite-input-inline-editable-control-background-color-press": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the corner radius of the component's inline editable controls.
+     */
+    "--calcite-input-inline-editable-control-corner-radius": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the loader color of the component's inline editable controls.
+     */
+    "--calcite-input-inline-editable-control-loader-color": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the text color of the component's inline editable controls.
+     */
+    "--calcite-input-inline-editable-control-text-color": "*";
+    /**
+     * When `inline-editable` is enabled, specifies the text color of the component's inline editable controls, when pressed or hovered.
+     */
+    "--calcite-input-inline-editable-control-text-color-press": "*";
+  }
+}
+
+interface InputSlots {
+  /**
+   * A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
+   */
+  action: Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Input
   extends LitElement
   implements LabelableComponent, NumericInputComponent, TextualInputComponent
@@ -81,6 +201,8 @@ export class Input
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: InputSlots;
 
   private actionWrapperRef = createRef<HTMLDivElement>();
 
@@ -465,6 +587,15 @@ export class Input
   /** Fires each time a new `value` is typed and committed. */
   calciteInputChange = createEvent({ cancelable: false });
 
+  /** Fires when built-in inline editable is cancelled. */
+  calciteInputInlineEditableCancel = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is enabled. */
+  calciteInputInlineEditableChange = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editable is confirmed. */
+  calciteInputInlineEditableConfirm = createEvent({ cancelable: false });
+
   /** Fires each time a new `value` is typed. */
   calciteInputInput = createEvent();
 
@@ -473,15 +604,6 @@ export class Input
 
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
-
-  /** Fires when built-in inline editable is cancelled. */
-  calciteInputInlineEditableCancel = createEvent({ cancelable: false });
-
-  /** Fires when built-in inline editable is confirmed. */
-  calciteInputInlineEditableConfirm = createEvent({ cancelable: false });
-
-  /** Fires when built-in inline editable is enabled. */
-  calciteInputInlineEditableChange = createEvent({ cancelable: false });
 
   //#endregion
 

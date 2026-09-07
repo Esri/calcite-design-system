@@ -15,7 +15,22 @@ declare global {
     "calcite-swatch-group": SwatchGroup;
   }
 }
-/** @slot - A slot for adding one or more `calcite-swatch`s. */
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the space between slotted elements.
+     */
+    "--calcite-swatch-group-space": "*";
+  }
+}
+
+interface SwatchGroupSlots {
+  /**
+   * A slot for adding one or more `calcite-swatch`s.
+   */
+  "": Node[];
+}
 export class SwatchGroup extends LitElement {
   //#region Static Members
 
@@ -24,6 +39,8 @@ export class SwatchGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: SwatchGroupSlots;
 
   private items: Swatch["el"][] = [];
 

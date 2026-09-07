@@ -42,9 +42,110 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-input-time-picker-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-input-time-picker-border-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-input-time-picker-icon-color": "*";
+    /**
+     * Specifies the component's icon color when hovered.
+     */
+    "--calcite-input-time-picker-icon-color-hover": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-input-time-picker-shadow": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-input-time-picker-corner-radius": "*";
+    /**
+     * Specifies the component's input background color.
+     */
+    "--calcite-input-time-picker-input-background-color": "*";
+    /**
+     * Specifies the component's input text color.
+     */
+    "--calcite-input-time-picker-input-text-color": "*";
+    /**
+     * Specifies the component's input shadow.
+     */
+    "--calcite-input-time-picker-input-shadow": "*";
+    /**
+     * Specifies the component's input border radius.
+     */
+    "--calcite-input-time-picker-input-corner-radius": "*";
+    /**
+     * Specifies the component's input border color.
+     */
+    "--calcite-input-time-picker-input-border-color": "*";
+    /**
+     * Specifies the component's digit text color.
+     */
+    "--calcite-input-time-picker-digit-text-color": "*";
+    /**
+     * Specifies the component's digit icon color.
+     */
+    "--calcite-input-time-picker-digit-icon-color": "*";
+    /**
+     * Specifies the component's digit border color when pressed.
+     */
+    "--calcite-input-time-picker-digit-border-color-press": "*";
+    /**
+     * Specifies the component's digit border color when hovered.
+     */
+    "--calcite-input-time-picker-digit-border-color-hover": "*";
+    /**
+     * Specifies the background color of the component's actions when hovered.
+     */
+    "--calcite-input-time-picker-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's actions when active.
+     */
+    "--calcite-input-time-picker-action-background-color-press": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element.
+     */
+    "--calcite-input-time-picker-input-action-background-color": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when hovered.
+     */
+    "--calcite-input-time-picker-input-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when pressed.
+     */
+    "--calcite-input-time-picker-input-action-background-color-press": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements.
+     */
+    "--calcite-input-time-picker-input-action-icon-color": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements when hovered.
+     */
+    "--calcite-input-time-picker-input-action-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements when pressed.
+     */
+    "--calcite-input-time-picker-input-action-icon-color-press": "*";
+  }
+}
+
+interface InputTimePickerSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Static Members
 
@@ -57,6 +158,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: InputTimePickerSlots;
 
   /**
    * Made into a prop for testing purposes only

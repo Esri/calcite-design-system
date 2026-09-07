@@ -33,16 +33,55 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's width.
+     */
+    "--calcite-alert-width": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-alert-background-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-alert-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-alert-shadow": "*";
+    /**
+     * Specifies the component's `placement` offset.
+     */
+    "--calcite-alert-offset-size": "*";
+  }
+}
+
+interface AlertSlots {
+  /**
+   * A slot for adding a title to the component.
+   */
+  title: Node[];
+  /**
+   * A slot for adding main text to the component.
+   */
+  message: Node[];
+  /**
+   * A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
+   */
+  link: Node[];
+  /**
+   * A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
+   */
+  "actions-end": Node[];
+}
+
 const manager = new AlertManager();
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
- *
- * @slot title - A slot for adding a title to the component.
- * @slot message - A slot for adding main text to the component.
- * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 export class Alert extends LitElement {
   //#region Static Members
@@ -52,6 +91,8 @@ export class Alert extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: AlertSlots;
 
   private autoCloseTimeoutId?: number;
 

@@ -38,7 +38,70 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-sheet-background-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-sheet-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-sheet-shadow": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-sheet-text-color": "*";
+    /**
+     * Specifies the resize handle's background color.
+     */
+    "--calcite-sheet-resize-background-color": "*";
+    /**
+     * Specifies the resize handle's text color.
+     */
+    "--calcite-sheet-resize-icon-color": "*";
+    /**
+     * Specifies the background color of the component's scrim.
+     */
+    "--calcite-sheet-scrim-background": "*";
+    /**
+     * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
+     */
+    "--calcite-sheet-width": "*";
+    /**
+     * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's maximum width.
+     */
+    "--calcite-sheet-max-width": "*";
+    /**
+     * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's minimum width.
+     */
+    "--calcite-sheet-min-width": "*";
+    /**
+     * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
+     */
+    "--calcite-sheet-height": "*";
+    /**
+     * When `position` is `"block-start"` or `"block-end"`, specifies the component's maximum height.
+     */
+    "--calcite-sheet-max-height": "*";
+    /**
+     * When `position` is `"block-start"` or `"block-end"`, specifies the component's minimum height.
+     */
+    "--calcite-sheet-min-height": "*";
+  }
+}
+
+interface SheetSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 export class Sheet extends LitElement {
   //#region Static Members
 
@@ -47,6 +110,8 @@ export class Sheet extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: SheetSlots;
 
   private contentRef = createRef<HTMLDivElement>();
 
@@ -115,6 +180,10 @@ export class Sheet extends LitElement {
     target: this.transitionRef,
   })(this);
 
+  get preventDocumentScroll(): boolean {
+    return !this.embedded && !this.modalDisabled;
+  }
+
   //#endregion
 
   //#region State Properties
@@ -127,10 +196,6 @@ export class Sheet extends LitElement {
     maxInlineSize: null,
     maxBlockSize: null,
   };
-
-  get preventDocumentScroll(): boolean {
-    return !this.embedded && !this.modalDisabled;
-  }
 
   //#endregion
 

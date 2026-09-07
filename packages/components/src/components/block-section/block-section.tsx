@@ -28,9 +28,44 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-block-section-background-color": "*";
+    /**
+     * Specifies the component's border color. When `expanded`, applies to the component's bottom border.
+     */
+    "--calcite-block-section-border-color": "*";
+    /**
+     * Specifies the component's header text color.
+     */
+    "--calcite-block-section-header-text-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-block-section-text-color": "*";
+    /**
+     * Specifies the component's text color on hover.
+     */
+    "--calcite-block-section-text-color-hover": "*";
+    /**
+     * Specifies the padding of the component's content in `default` slot.
+     */
+    "--calcite-block-section-content-space": "*";
+  }
+}
+
+interface BlockSectionSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
- * @slot - A slot for adding custom content.
  */
 export class BlockSection extends LitElement {
   //#region Static Members
@@ -40,6 +75,8 @@ export class BlockSection extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: BlockSectionSlots;
 
   /**
    * Made into a prop for testing purposes only
@@ -52,7 +89,7 @@ export class BlockSection extends LitElement {
 
   //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() defaultSlotHasElements = false;
 

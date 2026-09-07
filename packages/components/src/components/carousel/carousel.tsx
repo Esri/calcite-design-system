@@ -27,7 +27,62 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-carousel-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
+     */
+    "--calcite-carousel-pagination-background-color": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
+     */
+    "--calcite-carousel-pagination-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
+     */
+    "--calcite-carousel-pagination-background-color-press": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
+     */
+    "--calcite-carousel-pagination-background-color-selected": "*";
+    /**
+     * Specifies the icon color of the component's pagination items and autoplay controls.
+     */
+    "--calcite-carousel-pagination-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's pagination items when hovered or pressed.
+     */
+    "--calcite-carousel-pagination-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's pagination items when selected.
+     */
+    "--calcite-carousel-pagination-icon-color-selected": "*";
+    /**
+     * Specifies the icon color of the component's navigation arrow controls.
+     */
+    "--calcite-carousel-control-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
+     */
+    "--calcite-carousel-control-icon-color-hover": "*";
+    /**
+     * Specifies the background color of the component's autoplay progress when `autoplay` is specified.
+     */
+    "--calcite-carousel-autoplay-progress-background-color": "*";
+    /**
+     * Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
+     */
+    "--calcite-carousel-autoplay-progress-fill-color": "*";
+  }
+}
+
+interface CarouselSlots {
+  /**
+   * A slot for adding `calcite-carousel-item`s.
+   */
+  "": Node[];
+}
+
 export class Carousel extends LitElement {
   //#region Static Members
 
@@ -36,6 +91,8 @@ export class Carousel extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: CarouselSlots;
 
   private autoplayHandler = (): void => {
     this.clearIntervals();
