@@ -22,6 +22,9 @@ export default defineConfig(
                 timezoneId: browserTimeZone,
               }
             : undefined,
+          launchOptions: {
+            channel: "chromium",
+          },
         }),
         screenshotFailures: false,
         headless: process.env.HEADLESS !== "false",
