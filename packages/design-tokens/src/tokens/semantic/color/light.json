@@ -6,60 +6,60 @@
           "category": "color",
           "group": "surface"
         },
-        "$extensions": {
-          "calcite.outputReference": true
-        },
         "$type": "color",
         "$value": "{color.background.default}",
-        "$description": "Replaces `--calcite-color-background`"
+        "$description": "Replaces `--calcite-color-background`",
+        "$extensions": {
+          "calcite.outputReference": true
+        }
       },
       "2": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$extensions": {
-          "calcite.outputReference": true
-        },
         "$type": "color",
         "$value": "{color.foreground.1}",
-        "$description": "Replaces `--calcite-color-foreground-1`"
+        "$description": "Replaces `--calcite-color-foreground-1`",
+        "$extensions": {
+          "calcite.outputReference": true
+        }
       },
       "3": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$extensions": {
-          "calcite.outputReference": true
-        },
         "$type": "color",
         "$value": "{color.foreground.2}",
-        "$description": "Replaces `--calcite-color-foreground-2`"
+        "$description": "Replaces `--calcite-color-foreground-2`",
+        "$extensions": {
+          "calcite.outputReference": true
+        }
       },
       "4": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$extensions": {
-          "calcite.outputReference": true
-        },
         "$type": "color",
         "$value": "{color.foreground.3}",
-        "$description": "Replaces `--calcite-color-foreground-3`"
+        "$description": "Replaces `--calcite-color-foreground-3`",
+        "$extensions": {
+          "calcite.outputReference": true
+        }
       },
       "highlight": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$extensions": {
-          "calcite.outputReference": true
-        },
         "$type": "color",
         "$value": "{color.foreground.current}",
-        "$description": "Replaces `--calcite-color-foreground-current`"
+        "$description": "Replaces `--calcite-color-foreground-current`",
+        "$extensions": {
+          "calcite.outputReference": true
+        }
       }
     },
     "background": {
