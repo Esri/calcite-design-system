@@ -996,6 +996,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
+  --calcite-corner-radius: 0;
   --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-round: 4px; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
@@ -1148,7 +1149,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
   --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
   --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
-  --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
 `;
@@ -1604,6 +1604,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
+  --calcite-corner-radius: 0;
   --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-round: 4px; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
@@ -1756,7 +1757,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
   --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
   --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
-  --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
 `;
@@ -33339,6 +33339,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
+$calcite-corner-radius: 0;
 $calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
@@ -33491,7 +33492,6 @@ $calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
 $calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
 $calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
 $calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
-$calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
 
@@ -34052,6 +34052,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
+$calcite-corner-radius: 0;
 $calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
@@ -34204,6 +34205,5 @@ $calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
 $calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
 $calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
 $calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
-$calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;

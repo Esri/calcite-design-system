@@ -5,10 +5,7 @@
         "category": "corner-radius"
       },
       "$type": "borderRadius",
-      "$value": "{corner-radius.none}",
-      "$extensions": {
-        "calcite.outputReference": true
-      }
+      "$value": "{core.size.default.none}"
     },
     "sharp": {
       "attributes": {
