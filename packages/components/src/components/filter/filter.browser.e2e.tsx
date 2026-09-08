@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -12,7 +13,8 @@ import {
   disabled,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+  scalePropagates,
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
@@ -75,6 +77,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-filter"), { display: "flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-filter />, mountOptions), {
+    targetSelector: "calcite-input",
+  });
 });
 
 describe("translation support", () => {

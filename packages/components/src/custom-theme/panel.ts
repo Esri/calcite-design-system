@@ -1,3 +1,8 @@
+import "../components/action/action";
+import "../components/button/button";
+import "../components/checkbox/checkbox";
+import "../components/label/label";
+import "../components/panel/panel";
 import { html } from "../../support/formatting";
 
 export const panelTokens = {
@@ -17,6 +22,7 @@ export const panelTokens = {
   calcitePanelHeaderActionTextColorPress: "",
   calcitePanelHeaderBackgroundColor: "",
   calcitePanelHeaderContentSpace: "",
+  calcitePanelHeaderTopSpace: "",
   calcitePanelHeadingTextColor: "",
   calcitePanelSpace: "",
 };
@@ -26,6 +32,7 @@ export const panel = html`
     <calcite-action text="Action 1" text-enabled icon="number-circle-1" slot="header-menu-actions"></calcite-action>
     <calcite-action text="Action 2" text-enabled icon="number-circle-2" slot="header-menu-actions"></calcite-action>
     <calcite-action text="Action 3" icon="number-circle-3" slot="header-actions-end"></calcite-action>
+    <div slot="header-top">Header top</div>
     <div slot="content-top">Content at the top</div>
     <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
       <calcite-checkbox></calcite-checkbox>Agree to terms

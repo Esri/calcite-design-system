@@ -1,8 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { TemplateResult } from "lit";
-import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
-import { Position, Scale } from "../interfaces";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Position, Scale } from "../types";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
@@ -33,19 +33,40 @@ function getCalcitePosition(el: HTMLElement, position?: Position): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
-export function toggleChildActionText({
+export function toggleActionBarChildActionText({
+  actions,
+  expandables,
+  expanded,
+}: {
+  actions: Action["el"][];
+  expandables: (ActionGroup["el"] | ActionMenu["el"])[];
+  expanded: boolean;
+}): void {
+  actions
+    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
+    .forEach((action) => (action.textEnabled = expanded));
+  expandables.forEach((item) => (item.expanded = expanded));
+}
+
+// Used by the legacy action-pad component. action-bar does not use this helper.
+export function legacyToggleChildActionText({
   el,
   expanded,
 }: {
   el: HTMLElement;
   expanded: boolean;
 }): void {
-  queryActions(el)
-    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
+  Array.from(el.querySelectorAll("calcite-action"))
+    .filter(
+      (action) =>
+        action.slot !== ACTION_GROUP_SLOTS.menuActions &&
+        (action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true),
+    )
     .forEach((action) => (action.textEnabled = expanded));
+
   el.querySelectorAll<ActionMenu["el"] | ActionGroup["el"]>(
     "calcite-action-group, calcite-action-menu",
-  ).forEach((el) => (el.expanded = expanded));
+  ).forEach((expandable) => (expandable.expanded = expanded));
 }
 
 const setTooltipReference = ({

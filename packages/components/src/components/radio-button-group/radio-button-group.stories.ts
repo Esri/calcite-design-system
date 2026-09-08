@@ -3,12 +3,16 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButtonGroup } from "./radio-button-group";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../radio-button/radio-button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./radio-button-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, scale, status } = ATTRIBUTES;
 
 interface RadioButtonGroupStoryArgs extends Pick<
   RadioButtonGroup,
-  "disabled" | "layout" | "scale" | "status" | "validationIcon" | "validationMessage"
+  "disabled" | "labelText" | "layout" | "required" | "scale" | "status" | "validationIcon" | "validationMessage"
 > {
   hidden: boolean;
 }
@@ -18,7 +22,9 @@ export default {
   args: {
     disabled: false,
     hidden: false,
+    labelText: "Label text",
     layout: layout.defaultValue,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     validationIcon: "",
@@ -58,7 +64,9 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
     name="simple"
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
+    ${optionalAttribute("label-text", args.labelText)}
     layout="${args.layout}"
+    ${boolean("required", args.required)}
     scale="${args.scale}"
     status="${args.status}"
     ${optionalAttribute("validation-icon", args.validationIcon)}

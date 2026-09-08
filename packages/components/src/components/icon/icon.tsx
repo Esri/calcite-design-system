@@ -4,10 +4,10 @@ import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { toAriaBoolean } from "../../utils/aria";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
-import { IconName } from "./interfaces";
+import { IconName } from "./types";
 import { styles } from "./icon.scss";
 
 declare global {
@@ -52,11 +52,7 @@ export class Icon extends LitElement {
    *
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
-  @property({
-    reflect: true,
-    type: String,
-  })
-  icon: IconName | null = null;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, preloads the `icon` data. */
   @property({ reflect: true }) preload = false;
@@ -99,7 +95,7 @@ export class Icon extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("icon") && (this.hasUpdated || this.icon !== null)) ||
+      (changes.has("icon") && (this.hasUpdated || this.icon !== undefined)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
       this.loadIconPathData();

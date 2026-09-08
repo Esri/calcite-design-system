@@ -1,3 +1,4 @@
+import "../components/block-section/block-section";
 import { html } from "../../support/formatting";
 
 export const blockSectionTokens = {

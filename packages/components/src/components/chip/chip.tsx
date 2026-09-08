@@ -2,10 +2,10 @@ import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Kind, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import type { Action } from "../action/action";
@@ -80,7 +80,7 @@ export class Chip extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -97,8 +97,7 @@ export class Chip extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -167,9 +166,6 @@ export class Chip extends LitElement {
   calciteChipSelect = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalChipKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalChipSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -232,13 +228,6 @@ export class Chip extends LitElement {
             event.preventDefault();
             this.close();
           }
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalChipKeyEvent.emit(event);
-          event.preventDefault();
           break;
       }
     }

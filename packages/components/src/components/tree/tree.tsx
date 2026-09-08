@@ -10,11 +10,12 @@ import {
 } from "@arcgis/lumina";
 import { focusElement, nodeListToArray, slotChangeGetAssignedElements } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { Scale, SelectionMode } from "../interfaces";
-import { TreeItemSelectDetail } from "../tree-item/interfaces";
+import { Scale, SelectionMode } from "../types";
+import { TreeItemSelectDetail } from "../tree-item/types";
 import type { TreeItem } from "../tree-item/tree-item";
-import { getTraversableItems, isTreeItem } from "./utils";
+import { getTraversableItems } from "./utils";
 import { styles } from "./tree.scss";
+import { isTreeItem } from "../tree-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -58,21 +59,15 @@ export class Tree extends LitElement {
   @property() selectedItems: TreeItem["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,
-   *
-   * `"children"` allows any number of selections from one parent from corresponding parent and child selections,
-   *
-   * `"multichildren"` allows any number of selections from corresponding parent and child selections,
-   *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"none"` allows no selections,
-   *
-   * `"single"` allows one selection, and
-   *
-   * `"single-persist"` allows and requires one selection.
+   * - `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections.
+   * - `"children"` allows any number of selections from one parent from corresponding parent and child selections.
+   * - `"multichildren"` allows any number of selections from corresponding parent and child selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"none"` allows no selections.
+   * - `"single"` allows one selection.
+   * - `"single-persist"` allows and requires one selection.
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 
@@ -155,16 +150,16 @@ export class Tree extends LitElement {
 
     const target = event.target as TreeItem["el"];
     const childItems = nodeListToArray(target.querySelectorAll("calcite-tree-item"));
+    const isNoneSelectionMode = this.selectionMode === "none";
+    const previouslySelectedItems = isNoneSelectionMode ? [] : this.getSelectedItems();
 
     event.preventDefault();
     event.stopPropagation();
 
     if (this.selectionMode === "ancestors") {
-      this.updateAncestorTree(event);
+      this.updateAncestorTree(event, previouslySelectedItems);
       return;
     }
-
-    const isNoneSelectionMode = this.selectionMode === "none";
 
     const shouldSelect =
       this.selectionMode !== null &&
@@ -243,11 +238,11 @@ export class Tree extends LitElement {
       });
     }
 
-    this.selectedItems = isNoneSelectionMode
-      ? []
-      : nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter((i) => i.selected);
+    this.selectedItems = isNoneSelectionMode ? [] : this.getSelectedItems();
 
-    this.calciteTreeSelect.emit();
+    if (this.selectionChanged(previouslySelectedItems)) {
+      this.calciteTreeSelect.emit();
+    }
 
     event.stopPropagation();
   }
@@ -341,7 +336,10 @@ export class Tree extends LitElement {
     }
   }
 
-  private updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
+  private updateAncestorTree(
+    event: CustomEvent<TreeItemSelectDetail>,
+    previouslySelectedItems: TreeItem["el"][],
+  ): void {
     const item = event.target as TreeItem["el"];
     const updateItem = event.detail.updateItem;
 
@@ -413,13 +411,24 @@ export class Tree extends LitElement {
       ancestor.selected = !indeterminate;
     });
 
-    this.selectedItems = nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
-      (i) => i.selected,
-    );
+    this.selectedItems = this.getSelectedItems();
 
-    if (updateItem) {
+    if (updateItem && this.selectionChanged(previouslySelectedItems)) {
       this.calciteTreeSelect.emit();
     }
+  }
+
+  private getSelectedItems(): TreeItem["el"][] {
+    return nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
+      (item) => item.selected,
+    );
+  }
+
+  private selectionChanged(previouslySelectedItems: TreeItem["el"][]): boolean {
+    return (
+      previouslySelectedItems.length !== this.selectedItems.length ||
+      this.selectedItems.some((item) => !previouslySelectedItems.includes(item))
+    );
   }
 
   private updateItems(): void {
@@ -427,9 +436,7 @@ export class Tree extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const items = slotChangeGetAssignedElements(event).filter((el): el is TreeItem["el"] =>
-      el.matches("calcite-tree-item"),
-    );
+    const items = slotChangeGetAssignedElements(event).filter(isTreeItem);
 
     this.items = items;
     this.updateItems();

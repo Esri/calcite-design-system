@@ -23,21 +23,6 @@
   word-break: break-word;
 }
 
-// mixin to hide inputs from form-associated components
-@mixin hidden-form-input() {
-  ::slotted(input[slot="hidden-form-input"]) {
-    margin: 0 !important;
-    opacity: 0 !important;
-    outline: none !important;
-    padding: 0 !important;
-    position: absolute !important;
-    inset: 0 !important;
-    transform: none !important;
-    -webkit-appearance: none !important;
-    z-index: -1 !important;
-  }
-}
-
 // mixin for the container of label displayed with form-associated components
 @mixin form-internal-label() {
   .internal-label-alignment--center {
@@ -229,20 +214,20 @@
 
   :host([scale="s"]) {
     .clear-button--container {
-      padding: var(--calcite-spacing-xxs);
+      padding: var(--calcite-space-2xs);
     }
   }
 
   :host([scale="m"]) {
     .clear-button--container {
-      padding: var(--calcite-spacing-xxs);
+      padding: var(--calcite-space-2xs);
       padding-inline-end: var(--calcite-space-sm);
     }
   }
 
   :host([scale="l"]) {
     .clear-button--container {
-      padding-inline-end: var(--calcite-spacing-sm-plus);
+      padding-inline-end: var(--calcite-space-sm-plus);
     }
   }
 }

@@ -9,9 +9,10 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TableCell } from "../table-cell/table-cell";
 import type { TableHeader } from "../table-header/table-header";
@@ -428,6 +429,21 @@ describe("renders", () => {
         </calcite-table>,
       ),
     { display: "flex" },
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-table selection-mode="multiple">
+          <calcite-table-row>
+            <calcite-table-cell />
+          </calcite-table-row>
+        </calcite-table>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-table-row, calcite-chip" },
   );
 });
 

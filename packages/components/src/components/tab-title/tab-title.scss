@@ -98,6 +98,7 @@
 }
 
 .container {
+  @include includes.transition-default();
   @apply relative
   box-border
   content-center
@@ -108,7 +109,6 @@
   justify-between
   px-0
   text-n1h
-  transition-default
   w-full;
 
   color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
@@ -116,11 +116,11 @@
 }
 
 .selected-indicator {
+  @include includes.transition-default();
   @apply absolute
     block
     w-full
-    h-0.5
-    transition-default;
+    h-0.5;
   inset-block-end: 0;
   inset-inline-start: 0;
   inset-inline-end: 0;
@@ -128,11 +128,11 @@
 }
 
 :host([bordered][selected]) .container::after {
+  @include includes.transition-default();
   @apply absolute
     block
     w-full
-    h-0.5
-    transition-default;
+    h-0.5;
   inset-block-end: -1px;
   inset-inline-start: 0;
   inset-inline-end: 0;
@@ -177,7 +177,7 @@
     inline-flex
     self-center;
   & svg {
-    @apply transition-default;
+    @include includes.transition-default();
   }
 }
 

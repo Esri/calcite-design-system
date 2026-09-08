@@ -1,2 +1,2 @@
 /** @public */
-export type { FlowItemLike } from "../interfaces";
+export type { FlowItemLike } from "../types";

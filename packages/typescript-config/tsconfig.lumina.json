@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "jsx": "preserve",
@@ -6,14 +7,12 @@
     "jsxFragmentFactory": "Fragment",
     "lib": [
       "dom",
-      "dom.asynciterable",
-      "dom.iterable",
-      "es2022",
-      "es2023.array",
-      "es2023.intl",
-      "es2024.regexp",
-      "es2024.string",
-      "esnext.disposable"
+      "es2025",
+      "esnext.array",
+      "esnext.disposable",
+      "esnext.error",
+      "esnext.sharedmemory",
+      "esnext.typedarrays"
     ],
     "moduleResolution": "Bundler"
   }

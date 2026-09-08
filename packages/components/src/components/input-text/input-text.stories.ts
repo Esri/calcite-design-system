@@ -3,6 +3,9 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputText } from "./input-text";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./input-text"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, alignment } = ATTRIBUTES;
 
@@ -18,6 +21,7 @@ type InputTextStoryArgs = Pick<
   | "disabled"
   | "icon"
   | "iconFlipRtl"
+  | "labelText"
   | "maxLength"
   | "minLength"
   | "readOnly"
@@ -43,6 +47,7 @@ export default {
     disabled: false,
     icon: "",
     iconFlipRtl: false,
+    labelText: "Label text",
     maxLength: undefined,
     minLength: undefined,
     readOnly: false,
@@ -97,6 +102,7 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("disabled", args.disabled)}
       ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("label-text", args.labelText)}
       ${optionalAttribute("max-length", args.maxLength)}
       ${optionalAttribute("min-length", args.minLength)}
       ${boolean("read-only", args.readOnly)}

@@ -13,11 +13,16 @@ import {
   renders,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { page } from "vitest/browser";
+import type { Action } from "./action";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-action text="hello world" />));
+
+  describe("text-enabled", () => {
+    accessible(() => mount(<calcite-action text="hello world" text-enabled />));
+  });
 });
 
 describe("defaults", () => {
@@ -185,6 +190,30 @@ describe("type property", () => {
 });
 
 describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Action>(<calcite-action text="hello world" />);
+    const button = page.getByRole("button");
+
+    await expect.element(button).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(button).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("should omit aria-busy on drag handle when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Action>(<calcite-action drag-handle text="hello world" />);
+    const button = page.getByRole("button");
+
+    await expect.element(button).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(button).toHaveAttribute("aria-busy", "true");
+  });
+
   it("should use text prop for a11y attributes when text is not enabled", async () => {
     await mount(<calcite-action text="hello world" />);
 
@@ -632,4 +661,10 @@ describe("themed", () => {
       },
     });
   });
+});
+
+it("sets single label when text is enabled", async () => {
+  await mount(<calcite-action text="hello world" text-enabled />);
+
+  await expect.element(page.getByRole("button")).toHaveAccessibleName("hello world");
 });

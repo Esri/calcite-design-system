@@ -3,10 +3,12 @@ import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lum
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { Scale } from "../types";
 import type { MenuItem } from "../menu-item/menu-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
+import { isMenuItem } from "../menu-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -45,8 +47,7 @@ export class Menu extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -56,6 +57,9 @@ export class Menu extends LitElement {
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
 
@@ -79,7 +83,7 @@ export class Menu extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalMenuItemKeyEvent", this.calciteInternalNavMenuItemKeyEvent);
+    this.listen("keydown", this.calciteInternalNavMenuItemKeyEvent);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -87,8 +91,11 @@ export class Menu extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
-      this.setMenuItemLayout(this.menuItems, this.layout);
+    if (
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+    ) {
+      this.setMenuItemProperties(this.menuItems);
     }
   }
 
@@ -98,56 +105,82 @@ export class Menu extends LitElement {
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
-    this.setMenuItemLayout(this.menuItems, this.layout);
+    this.setMenuItemProperties(this.menuItems);
   }
 
-  private calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
-    const target = event.target as MenuItem["el"];
-    const submenuItems = event.detail.children;
-    const key = event.detail.event.key;
-    event.stopPropagation();
+  private calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    const target = this.getMenuItemFromEvent(event);
+
+    if (!target) {
+      return;
+    }
+
+    const submenuItems = this.getSubmenuItems(target);
+    const hasSubmenu = submenuItems.length > 0;
+    const key = event.key;
+    let handled = false;
 
     if (key === "ArrowDown") {
       if (target.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "next", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          submenuItems[0].setFocus();
-        }
+        handled = true;
+      } else if (target.open && hasSubmenu) {
+        submenuItems[0].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowUp") {
-      if (this.layout === "vertical") {
+      if (target.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          submenuItems[submenuItems.length - 1].setFocus();
-        }
+        handled = true;
+      } else if (target.open && hasSubmenu) {
+        submenuItems[submenuItems.length - 1].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowRight") {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "next", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          submenuItems[0].setFocus();
-        }
+        handled = true;
+      } else if (target.open && hasSubmenu) {
+        submenuItems[0].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowLeft") {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
-      } else {
-        if (event.detail.isSubmenuOpen) {
-          this.focusParentElement(event.target as MenuItem["el"]);
-        }
+        handled = true;
+      } else if (isMenuItem(target.parentElement)) {
+        this.focusParentElement(target);
+        handled = true;
       }
-    } else if (key === "Escape") {
-      this.focusParentElement(event.target as MenuItem["el"]);
+    } else if (key === "Escape" && isMenuItem(target.parentElement)) {
+      this.focusParentElement(target);
+      handled = true;
     }
-    event.preventDefault();
+
+    if (handled) {
+      event.preventDefault();
+    }
+  }
+
+  private getMenuItemFromEvent(event: KeyboardEvent): MenuItem["el"] | undefined {
+    const target = event.composedPath().find(isMenuItem);
+
+    return target && this.menuItems.includes(target) ? target : undefined;
+  }
+
+  private getSubmenuItems(menuItem: MenuItem["el"]): MenuItem["el"][] {
+    return Array.from(menuItem.children)
+      .filter(isMenuItem)
+      .filter((child) => child.matches('[slot="submenu-item"]'));
   }
 
   private handleMenuSlotChange(event: Event): void {
     this.menuItems = slotChangeGetAssignedElements<MenuItem["el"]>(event);
-    this.setMenuItemLayout(this.menuItems, this.layout);
+    this.setMenuItemProperties(this.menuItems);
   }
 
   private focusParentElement(el: MenuItem["el"]): void {
@@ -158,9 +191,10 @@ export class Menu extends LitElement {
     }
   }
 
-  private setMenuItemLayout(items: MenuItem["el"][], layout: Layout): void {
+  private setMenuItemProperties(items: MenuItem["el"][]): void {
     items.forEach((item) => {
-      item.layout = layout;
+      item.layout = this.layout;
+      item.scale = this.scale;
       if (this.getEffectiveRole() === "menubar") {
         item.isTopLevelItem = true;
         item.topLevelMenuLayout = this.layout;

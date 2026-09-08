@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Ακύρωση",
   "clear": "Απαλοιφή τιμής",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Αποθήκευση",
+  "enableInlineEditing": "Επεξεργασία",
   "loading": "Φόρτωση",
   "required": "Απαιτείται"
 }

@@ -8,10 +8,20 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
+  defaults,
   renders,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+  reflects,
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-switch", mountOptions), {
+    propertyToToggle: "checked",
+  });
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -25,6 +35,38 @@ describe("accessible", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-switch"), { display: "inline-block" });
+});
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-switch"),
+    [
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
+      {
+        propertyName: "required",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-switch"),
+    [
+      {
+        propertyName: "required",
+        value: true,
+      },
+    ],
+  );
 });
 
 describe("honors hidden attribute", () => {

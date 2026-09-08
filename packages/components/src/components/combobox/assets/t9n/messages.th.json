@@ -4,7 +4,7 @@
   "allSelected": "เลือกทั้งหมดแล้ว",
   "clear": "ล้างค่า",
   "noMatches": "ไม่ตรงกัน",
-  "removeTag": "Remove {value} tag",
+  "removeTag": "ลบ {value} แท็ก",
   "required": "ต้องการ",
   "selectAll": "เลือกทั้งหมด",
   "selected": "เลือก",

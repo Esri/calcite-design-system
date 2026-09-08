@@ -1,19 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { mockConsole } from "../../tests/utils/logging";
 import type { RadioButton } from "./radio-button";
-
-describe("labelable", () => {
-  mockConsole();
-
-  labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
-    shadowFocusTargetSelector: ".container",
-    propertyToToggle: "checked",
-  });
-});
 
 it("focusing skips over hidden radio-buttons", async () => {
   const page = await newE2EPage();

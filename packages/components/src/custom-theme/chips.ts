@@ -1,3 +1,4 @@
+import "../components/chip/chip";
 import { html } from "../../support/formatting";
 
 export const chipTokens = {

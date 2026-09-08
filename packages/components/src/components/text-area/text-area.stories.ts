@@ -3,6 +3,9 @@ import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TextArea } from "./text-area";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./text-area"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, textAreaWrap } = ATTRIBUTES;
 
@@ -16,6 +19,7 @@ type TextAreaStoryArgs = Pick<
   | "resize"
   | "rows"
   | "label"
+  | "labelText"
   | "limitText"
   | "loading"
   | "maxLength"
@@ -39,6 +43,7 @@ export default {
     resize: "both",
     rows: 2,
     label: "",
+    labelText: "Label text",
     limitText: false,
     loading: false,
     maxLength: undefined,
@@ -89,6 +94,7 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     resize="${args.resize}"
     rows="${args.rows}"
     label="${args.label}"
+    ${optionalAttribute("label-text", args.labelText)}
     ${optionalAttribute("max-length", args.maxLength)}
     ${optionalAttribute("min-length", args.minLength)}
     limit-text="${args.limitText}"

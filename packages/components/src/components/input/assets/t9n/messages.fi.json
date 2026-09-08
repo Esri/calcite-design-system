@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Peruuta",
   "clear": "Tyhjennä arvo",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Tallenna",
+  "enableInlineEditing": "Muokkaa",
   "loading": "Ladataan",
   "required": "Pakollinen"
 }

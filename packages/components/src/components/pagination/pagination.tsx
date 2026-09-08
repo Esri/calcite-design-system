@@ -1,7 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";

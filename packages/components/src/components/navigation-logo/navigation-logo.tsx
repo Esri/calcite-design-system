@@ -1,8 +1,8 @@
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
 
@@ -45,7 +45,7 @@ export class NavigationLogo extends LitElement {
   @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;

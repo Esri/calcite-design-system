@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Cancel·la",
   "clear": "Esborra el valor",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Desa",
+  "enableInlineEditing": "Edita",
   "loading": "S'està carregant...",
   "required": "Obligatori"
 }

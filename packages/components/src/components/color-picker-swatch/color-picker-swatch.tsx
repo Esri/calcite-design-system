@@ -2,7 +2,7 @@ import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { hexify } from "../color-picker/utils";
 import { CHECKER_DIMENSIONS, COLORS, CSS, IDS } from "./resources";
 import { styles } from "./color-picker-swatch.scss";

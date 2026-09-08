@@ -3,12 +3,24 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SegmentedControl } from "./segmented-control";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./segmented-control"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../segmented-control-item/segmented-control-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, appearance, scale, width, status } = ATTRIBUTES;
 
 type SegmentedControlStoryArgs = Pick<
   SegmentedControl,
-  "layout" | "appearance" | "scale" | "width" | "disabled" | "status" | "validationIcon" | "validationMessage"
+  | "layout"
+  | "appearance"
+  | "scale"
+  | "width"
+  | "disabled"
+  | "labelText"
+  | "required"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -19,6 +31,8 @@ export default {
     scale: scale.defaultValue,
     width: width.defaultValue,
     disabled: false,
+    labelText: "Label text",
+    required: false,
     status: status.defaultValue,
     validationIcon: "",
     validationMessage: "",
@@ -67,6 +81,8 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
     scale="${args.scale}"
     width="${args.width}"
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
+    ${boolean("required", args.required)}
     status="${args.status}"
     ${optionalAttribute("validation-icon", args.validationIcon)}
     validation-message="${args.validationMessage}"

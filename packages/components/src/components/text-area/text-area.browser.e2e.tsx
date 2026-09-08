@@ -1,22 +1,42 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   cancelable,
   accessible,
   defaults,
   disabled,
   focusable,
+  globalProps,
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   t9n,
   formAssociated,
   themed,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
+import type { TextArea } from "./text-area";
+import { afterNextFrame } from "../../tests/utils/timing";
+
+describe("global props", () => {
+  globalProps(
+    () => mount<TextArea>(<calcite-text-area />),
+    () => page.getBySelector("textarea"),
+    {
+      autofocus: true,
+      spellcheck: false,
+    },
+  );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-text-area", mountOptions));
+});
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
@@ -223,4 +243,22 @@ describe("theme", () => {
       },
     });
   });
+});
+
+it("does not grow textarea height on repeated key presses", async () => {
+  const { el } = await mount<TextArea>(
+    <calcite-text-area label-text="Description" limit-text max-length="600" />,
+  );
+
+  const textArea = page.elementLocator(el).getByRole("textbox").first();
+  await userEvent.click(textArea);
+
+  const initialHeight = textArea.element().getBoundingClientRect().height;
+
+  await userEvent.keyboard("aaaaaaaaaa");
+  await afterNextFrame();
+
+  const finalHeight = textArea.element().getBoundingClientRect().height;
+  expect(Math.abs(finalHeight - initialHeight)).toBeLessThanOrEqual(1);
+  expect(el.value).toBe("aaaaaaaaaa");
 });

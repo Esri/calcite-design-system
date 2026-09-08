@@ -22,7 +22,7 @@ import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale } from "../types";
 import type { Action } from "../action/action";
 import type { Option } from "../option/option";
 import type { DatePicker } from "../date-picker/date-picker";
@@ -104,7 +104,7 @@ export class DatePickerMonthHeader extends LitElement {
   @property() position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale!: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** Already selected date. */
   @property() selectedDate?: Date;

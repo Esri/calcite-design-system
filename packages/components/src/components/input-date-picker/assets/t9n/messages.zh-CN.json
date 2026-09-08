@@ -1,5 +1,6 @@
 {
   "chooseDate": "选择日期",
+  "clear": "清除值",
   "date": "日期",
   "dateFormat": "日期格式：{format}",
   "endDate": "结束日期",

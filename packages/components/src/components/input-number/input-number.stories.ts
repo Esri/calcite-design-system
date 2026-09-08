@@ -3,6 +3,9 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./input-number"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, alignment, layout } = ATTRIBUTES;
 
@@ -24,6 +27,7 @@ type InputNumberStoryArgs = Pick<
   | "icon"
   | "iconFlipRtl"
   | "integer"
+  | "labelText"
   | "readOnly"
   | "required"
   | "value"
@@ -53,6 +57,7 @@ export default {
     icon: "",
     iconFlipRtl: false,
     integer: false,
+    labelText: "Label text",
     readOnly: false,
     required: false,
     value: "",
@@ -117,6 +122,7 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       ${boolean("integer", args.integer)}
+      ${optionalAttribute("label-text", args.labelText)}
       ${boolean("read-only", args.readOnly)}
       ${boolean("required", args.required)}
       value="${args.value}"

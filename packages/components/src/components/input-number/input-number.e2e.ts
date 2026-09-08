@@ -2,11 +2,9 @@ import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { DIRECTION } from "./resources";
@@ -24,10 +22,6 @@ async function typeNumberValue(page: E2EPage, numberAsText: string): Promise<voi
   await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);
 }
 
-describe("labelable", () => {
-  labelable("calcite-input-number");
-});
-
 it("when disabled, spinner buttons  should not be interactive/should not nudge the number", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-number disabled></calcite-input-number>`);
@@ -38,22 +32,6 @@ it("when disabled, spinner buttons  should not be interactive/should not nudge t
   await numberButtonItem.click();
   await page.waitForChanges();
   expect(calciteInputInput).not.toHaveReceivedEvent();
-});
-
-it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number icon="key"></calcite-input-number>`);
-
-  const icon = await page.find("calcite-input-number >>> .icon");
-  expect(icon).not.toBeNull();
-});
-
-it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number icon></calcite-input-number>`);
-
-  const icon = await page.find("calcite-input-number >>> .icon");
-  expect(icon).toBeNull();
 });
 
 it("renders number buttons in default vertical alignment", async () => {
@@ -820,8 +798,6 @@ it("should not focus when clicking validation message", async () => {
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
 });
-
-testWorkaroundForGlobalPropRemoval("calcite-input-number");
 
 it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
   const page = await newE2EPage();

@@ -4,6 +4,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
 import { Fab } from "./fab";
 import { ICONS } from "./resources";
+import "./fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { appearance, kind, scale } = ATTRIBUTES;
 

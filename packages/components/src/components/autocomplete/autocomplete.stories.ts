@@ -2,7 +2,11 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { allModes } from "../../../.storybook/modes";
 import { Autocomplete } from "./autocomplete";
+import "./autocomplete"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../autocomplete-item/autocomplete-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../autocomplete-item-group/autocomplete-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, alignment, menuPlacement, status, overlayPositioning } = ATTRIBUTES;
 
@@ -14,6 +18,7 @@ type AutocompleteStoryArgs = Pick<
   | "inputValue"
   | "iconFlipRtl"
   | "label"
+  | "labelText"
   | "loading"
   | "maxLength"
   | "minLength"
@@ -40,6 +45,7 @@ export default {
     icon: "",
     iconFlipRtl: false,
     inputValue: "",
+    labelText: "Label text",
     loading: false,
     maxLength: undefined,
     minLength: undefined,
@@ -114,6 +120,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         ${optionalAttribute("icon", args.icon)}
         input-value="${args.inputValue}"
         label="${args.label}"
+        ${optionalAttribute("label-text", args.labelText)}
         ${optionalAttribute("max-length", args.maxLength)}
         ${optionalAttribute("min-length", args.minLength)}
         overlay-positioning="${args.overlayPositioning}"
@@ -142,6 +149,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         form.addEventListener("submit", (event) => {
           event.preventDefault();
           const data = new FormData(event.target);
+          // eslint-disable-next-line no-console -- test message external to components
           console.log([...data.entries()]);
         });
       });
@@ -161,7 +169,7 @@ export const smallViewport = (): string => html`
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const customIcon = (): string => html`
   <div style="width:350px">

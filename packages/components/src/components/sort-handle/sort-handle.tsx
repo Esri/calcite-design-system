@@ -1,6 +1,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import {
   FlipPlacement,
   LogicalPlacement,
@@ -19,7 +19,7 @@ import {
   Reorder,
   ReorderEventDetail,
   AddEventDetail,
-} from "./interfaces";
+} from "./types";
 import { styles } from "./sort-handle.scss";
 
 declare global {

@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, slots } from "../../tests/common";
 import { SLOTS } from "./resources";
 
 describe("defaults", () => {

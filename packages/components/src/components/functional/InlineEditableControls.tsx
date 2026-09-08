@@ -1,7 +1,7 @@
 import { TemplateResult } from "lit";
 import { Ref } from "lit/directives/ref.js";
 import { h } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { Action } from "../action/action";
 
 interface InlineEditableControlsProps {

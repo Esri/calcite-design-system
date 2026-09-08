@@ -14,20 +14,20 @@ import type {
   IconType,
   CollapseDirection,
   SelectionAppearance,
-} from "../src/components/interfaces.ts";
-import type { ArrowType } from "../src/components/carousel/interfaces.ts";
-import type { PaginationPosition } from "../src/components/carousel/interfaces.ts";
-import type { BlockSectionToggleDisplay } from "../src/components/block-section/interfaces.ts";
-import type { TableInteractionMode } from "../src/components/table/interfaces.ts";
-import type { DeterminateType } from "../src/components/loader/interfaces.ts";
-import type { MeterFillType, MeterLabelType } from "../src/components/meter/interfaces.ts";
-import type { DropdownClickType } from "../src/components/dropdown/interfaces.ts";
-import type { TextType } from "../src/components/input/interfaces.ts";
-import type { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
-import type { DisplayMode } from "../src/components/sheet/interfaces.ts";
-import type { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
+} from "../src/components/types.ts";
+import type { ArrowType } from "../src/components/carousel/types.ts";
+import type { PaginationPosition } from "../src/components/carousel/types.ts";
+import type { BlockSectionToggleDisplay } from "../src/components/block-section/types.ts";
+import type { TableInteractionMode } from "../src/components/table/types.ts";
+import type { DeterminateType } from "../src/components/loader/types.ts";
+import type { MeterFillType, MeterLabelType } from "../src/components/meter/types.ts";
+import type { DropdownClickType } from "../src/components/dropdown/types.ts";
+import type { TextType } from "../src/components/input/types.ts";
+import type { TimeZoneMode } from "../src/components/input-time-zone/types.ts";
+import type { DisplayMode } from "../src/components/sheet/types.ts";
+import type { ShellDisplayMode } from "../src/components/shell/types.ts";
 import type { OverlayPositioning } from "../src/utils/floating-ui.ts";
-import type { AlertDuration, AlertQueue } from "../src/components/alert/interfaces";
+import type { AlertDuration, AlertQueue } from "../src/components/alert/types";
 import { defaultMenuPlacement, placements, menuPlacements } from "../src/utils/floating-ui";
 import { dialogPlacements } from "../src/components/dialog/resources";
 import { hourFormats } from "../src/utils/time";
@@ -93,6 +93,7 @@ interface CommonAttributes {
   timeZoneOffsetStyle: AttributeMetadata<string>;
 }
 
+const supportedNlsLocales = [...supportedLocales];
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
 const positionOptions: Position[] = ["start", "end", "top", "bottom"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
@@ -255,8 +256,8 @@ export const ATTRIBUTES: CommonAttributes = {
     defaultValue: dialogPlacements[7],
   },
   supportedNlsLocale: {
-    values: [...supportedLocales],
-    defaultValue: supportedLocales[0],
+    values: supportedNlsLocales,
+    defaultValue: supportedNlsLocales[0],
   },
   hourFormat: {
     values: hourFormats,
@@ -360,7 +361,7 @@ export const ATTRIBUTES: CommonAttributes = {
   },
   labelLayout: {
     values: labelLayoutOptions,
-    defaultValue: labelLayoutOptions[0],
+    defaultValue: labelLayoutOptions[1],
   },
   listDisplayMode: {
     values: listDisplayModeOptions,

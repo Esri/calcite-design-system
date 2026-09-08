@@ -2,7 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
-import { Position } from "../interfaces";
+import { Position } from "../types";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import type { DatePicker } from "./date-picker";

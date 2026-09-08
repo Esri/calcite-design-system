@@ -11,7 +11,6 @@ import {
   LuminaJsx,
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
-import { debounce } from "es-toolkit";
 import { escapeRegExp } from "es-toolkit/compat";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -26,17 +25,18 @@ import {
   disconnectFloatingUI,
   reposition,
 } from "../../utils/floating-ui";
-import { Alignment, Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Alignment, Scale, Status } from "../types";
+import { IconName } from "../icon/types";
 import { getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { getSlotAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
-import { useCancelable } from "../../controllers/useCancelable";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
+import { isAutocompleteItem } from "../autocomplete-item/resources";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
+import { isAutocompleteItemGroup } from "../autocomplete-item-group/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
@@ -103,8 +103,6 @@ export class Autocomplete
 
   labelEl?: Label["el"];
 
-  labelable = useLabel(this);
-
   private listId = IDS.list(this.guid);
 
   /**
@@ -120,19 +118,15 @@ export class Autocomplete
 
   transitionRef = createRef<HTMLDivElement>();
 
-  private inputValueMatchPattern?: RegExp;
+  private defaultSlotRef = createRef<HTMLSlotElement>();
 
-  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
+  private inputValueMatchPattern?: RegExp;
 
   private focusSetter = useSetFocus<this>()(this);
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
   });
-
-  private cancelable = useCancelable<this>()(this);
-
-  private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
   get isOpen(): boolean {
     return this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
@@ -193,7 +187,7 @@ export class Autocomplete
    *
    * To hide the default icon, set the property to `false` using JavaScript.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -230,9 +224,7 @@ export class Autocomplete
   @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -298,9 +290,7 @@ export class Autocomplete
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -308,12 +298,11 @@ export class Autocomplete
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
+  /** Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
 
   //#endregion
@@ -412,24 +401,18 @@ export class Autocomplete
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
+    this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);
+    this.listen(
+      "calciteInternalAutocompleteItemGroupItemsChange",
+      this.handleAutocompleteItemGroupItemsChange,
+    );
   }
 
   override connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, {
-      attributes: true,
-      attributeFilter: ["selected"],
-      childList: true,
-      subtree: true,
-    });
-    this.getAllItemsDebounced();
     connectFloatingUI(this);
-    this.cancelable.add(this.getAllItemsDebounced);
-  }
-
-  async load(): Promise<void> {
-    this.getAllItemsDebounced();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -439,6 +422,10 @@ export class Autocomplete
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
+    }
+
+    if (changes.has("value") && this.hasUpdated) {
+      this.selectedItemsHandler();
     }
 
     if (
@@ -477,11 +464,11 @@ export class Autocomplete
   }
 
   loaded(): void {
+    this.getAllItems();
     connectFloatingUI(this);
   }
 
   override disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectFloatingUI(this);
   }
@@ -510,6 +497,10 @@ export class Autocomplete
     }
   }
 
+  private selectedItemsHandler(): void {
+    this.items.forEach((item) => (item.selected = item.value === this.value));
+  }
+
   private openHandler(): void {
     if (this.disabled) {
       this.open = false;
@@ -535,9 +526,21 @@ export class Autocomplete
 
   private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
+    this.selectedItemsHandler();
     this.emitChange();
     await this.setFocus();
     this.open = false;
+  }
+
+  private handleAutocompleteItemChange(event: Event): void {
+    event.stopPropagation();
+
+    if (!this.items.length) {
+      return;
+    }
+
+    this.updateItems();
+    this.requestUpdate();
   }
 
   onLabelClick(): void {
@@ -586,6 +589,10 @@ export class Autocomplete
   private updateItems(): void {
     let activeDescendant = "";
 
+    if (this.value) {
+      this.selectedItemsHandler();
+    }
+
     this.items.forEach((item) => {
       item.scale = this.scale;
       item.inputValueMatchPattern = this.inputValueMatchPattern;
@@ -616,10 +623,34 @@ export class Autocomplete
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
+  private handleDefaultSlotChange(): void {
+    this.getAllItems();
+  }
+
+  private handleAutocompleteItemGroupItemsChange(event: Event): void {
+    event.stopPropagation();
+    this.getAllItems();
+  }
+
   private getAllItems(): void {
-    const { el } = this;
-    this.groups = Array.from(el.querySelectorAll(groupItemSelector));
-    this.items = Array.from(el.querySelectorAll(itemSelector));
+    const groups = this.defaultSlotRef.value
+      ? getSlotAssignedElements<AutocompleteItemGroup["el"]>(
+          this.defaultSlotRef.value,
+          groupItemSelector,
+        )
+      : Array.from(this.el.children).filter(isAutocompleteItemGroup);
+
+    const rootItems = this.defaultSlotRef.value
+      ? getSlotAssignedElements<AutocompleteItem["el"]>(this.defaultSlotRef.value, itemSelector)
+      : Array.from(this.el.children).filter(isAutocompleteItem);
+
+    const groupedItems = groups.flatMap((group) => group.items ?? []);
+    const items = Array.from(
+      new Set<AutocompleteItem["el"]>([...rootItems, ...groupedItems].filter(isAutocompleteItem)),
+    );
+
+    this.groups = groups;
+    this.items = items;
     this.updateItems();
     this.updateGroups();
   }
@@ -653,8 +684,7 @@ export class Autocomplete
         break;
       case "Enter":
         if (open && activeItem) {
-          this.value = activeItem.value;
-          activeItem.toggleSelection();
+          activeItem.requestSelection();
           this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented && this.formSupport.active) {
@@ -815,7 +845,11 @@ export class Autocomplete
             >
               <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
                 <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
-                <slot ariaHidden="true" />
+                <slot
+                  ariaHidden="true"
+                  onSlotChange={this.handleDefaultSlotChange}
+                  ref={this.defaultSlotRef}
+                />
                 <slot
                   name={SLOTS.contentBottom}
                   onSlotChange={this.handleContentBottomSlotChange}

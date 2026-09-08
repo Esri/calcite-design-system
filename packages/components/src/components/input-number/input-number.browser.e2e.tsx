@@ -3,26 +3,48 @@ import { h } from "@arcgis/lumina";
 import { supportedLocales } from "@arcgis/toolkit/intl";
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { commands } from "../../tests/browser/commands";
+import { commands } from "../../tests/utils/commands";
 
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  globalProps,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { numberStringFormatter } from "../../utils/locale";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
-import { InputNumber } from "./input-number";
+import type { InputNumber } from "./input-number";
+
+describe("global props", () => {
+  globalProps(
+    () => mount("calcite-input-number"),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "done",
+      inputMode: "numeric",
+    },
+    {
+      inputMode: "decimal",
+    },
+  );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-number", mountOptions));
+});
 
 describe("defaults", () => {
   defaults(
@@ -70,6 +92,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input-number />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("reflects", () => {
@@ -1427,4 +1455,16 @@ describe("theme", () => {
       },
     });
   });
+});
+
+it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
+  await mount(<calcite-input-number icon="key" />);
+  const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
+  await expect.element(icon).toBeInTheDocument();
+});
+
+it("does not render an icon when requested without an explicit Calcite UI, and is a type without a default icon", async () => {
+  await mount(<calcite-input-number icon />);
+  const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
+  await expect.element(icon).not.toBeInTheDocument();
 });

@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Action } from "./action";
+import "./action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { alignment, appearance, scale } = ATTRIBUTES;
 

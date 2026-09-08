@@ -12,7 +12,7 @@ describe("UseInlineEditable", () => {
   let emitConfirmTracker: ReturnType<typeof vi.fn<() => void>>;
   let emitEnableEditingChangeTracker: ReturnType<typeof vi.fn<() => void>>;
 
-  let useInlineEditable: UseInlineEditable;
+  let inlineEditableManager: UseInlineEditable;
 
   beforeEach(() => {
     editingEnabled = false;
@@ -55,7 +55,7 @@ describe("UseInlineEditable", () => {
       return 0;
     });
 
-    useInlineEditable = new UseInlineEditable({
+    inlineEditableManager = new UseInlineEditable({
       getEditingEnabled: () => editingEnabled,
       setEditingEnabled,
       getValue: () => value,
@@ -72,7 +72,7 @@ describe("UseInlineEditable", () => {
   });
 
   it("enable stores the current value, enables editing, focuses, and emits the enable event", () => {
-    useInlineEditable.enable();
+    inlineEditableManager.enable();
 
     expect(setEditingEnabledTracker).toHaveBeenCalledWith(true);
     expect(editingEnabled).toBe(true);
@@ -83,17 +83,17 @@ describe("UseInlineEditable", () => {
   it("disable turns editing off", () => {
     editingEnabled = true;
 
-    useInlineEditable.disable();
+    inlineEditableManager.disable();
 
     expect(setEditingEnabledTracker).toHaveBeenCalledWith(false);
     expect(editingEnabled).toBe(false);
   });
 
   it("cancelEditing restores the value captured when editing was enabled, disables editing, and emits cancel", () => {
-    useInlineEditable.enable();
+    inlineEditableManager.enable();
     value = "changed";
 
-    useInlineEditable.cancelEditing();
+    inlineEditableManager.cancelEditing();
 
     expect(setValueTracker).toHaveBeenCalledWith("initial");
     expect(value).toBe("initial");
@@ -107,7 +107,7 @@ describe("UseInlineEditable", () => {
     const setLoading = vi.fn();
     const inlineEditableAfterConfirm = vi.fn().mockResolvedValue(undefined);
 
-    await useInlineEditable.confirm(inlineEditableAfterConfirm, setLoading);
+    await inlineEditableManager.confirm(inlineEditableAfterConfirm, setLoading);
 
     expect(emitConfirmTracker).toHaveBeenCalledTimes(1);
     expect(setLoading).toHaveBeenNthCalledWith(1, true);
@@ -121,7 +121,7 @@ describe("UseInlineEditable", () => {
     editingEnabled = true;
     const setLoading = vi.fn();
 
-    await useInlineEditable.confirm(undefined, setLoading);
+    await inlineEditableManager.confirm(undefined, setLoading);
 
     expect(emitConfirmTracker).toHaveBeenCalledTimes(1);
     expect(setEditingEnabledTracker).not.toHaveBeenCalled();
@@ -136,7 +136,9 @@ describe("UseInlineEditable", () => {
     const error = new Error("confirm failed");
     const inlineEditableAfterConfirm = vi.fn().mockRejectedValue(error);
 
-    await expect(useInlineEditable.confirm(inlineEditableAfterConfirm, setLoading)).rejects.toThrow("confirm failed");
+    await expect(inlineEditableManager.confirm(inlineEditableAfterConfirm, setLoading)).rejects.toThrow(
+      "confirm failed",
+    );
 
     expect(emitConfirmTracker).toHaveBeenCalledTimes(1);
     expect(setLoading).toHaveBeenNthCalledWith(1, true);
