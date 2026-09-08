@@ -615,6 +615,13 @@ export class ShellPanel extends LitElement {
       return;
     }
 
+    actionBar.position =
+      this.layout === "vertical"
+        ? this.position
+        : this.actionBarPosition === "end"
+          ? "end"
+          : "start";
+
     if (this.actionBarPosition) {
       actionBar.layout =
         this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
