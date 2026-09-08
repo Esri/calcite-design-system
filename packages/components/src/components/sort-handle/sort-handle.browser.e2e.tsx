@@ -9,11 +9,12 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   openClose,
   accessible,
   topLayer,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { SortHandle } from "./sort-handle";
@@ -62,6 +63,10 @@ describe("defaults", () => {
         propertyName: "placement",
         defaultValue: "bottom-start",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });
@@ -84,6 +89,19 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-sort-handle"));
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-sort-handle
+          addToItems={[{ element: document.createElement("div"), id: "item", label: "Item" }]}
+        />,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-dropdown-group, calcite-dropdown, calcite-action" },
+  );
 });
 
 describe("renders", () => {

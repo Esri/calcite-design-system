@@ -2,7 +2,7 @@ import { h, LitElement, property, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { ColorStop, DataSeries, Point } from "./types";
-import { area, range, translate } from "./util";
+import { area, range, translate } from "./utils";
 import { styles } from "./graph.scss";
 import { CSS, IDS } from "./resources";
 

@@ -360,7 +360,7 @@ export const ATTRIBUTES: CommonAttributes = {
   },
   labelLayout: {
     values: labelLayoutOptions,
-    defaultValue: labelLayoutOptions[0],
+    defaultValue: labelLayoutOptions[1],
   },
   listDisplayMode: {
     values: listDisplayModeOptions,

@@ -41,8 +41,8 @@
 }
 
 .wrapper {
-  @apply transition-default
-    box-border
+  @include includes.transition-default();
+  @apply box-border
     flex
     justify-between;
 

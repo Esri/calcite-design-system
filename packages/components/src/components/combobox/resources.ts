@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const ComboboxItemSelector = "CALCITE-COMBOBOX-ITEM";
@@ -57,3 +58,8 @@ export const ICONS: Record<string, IconName> = {
 export const SLOTS = {
   labelContent: "label-content",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isCombobox = isTag("calcite-combobox");

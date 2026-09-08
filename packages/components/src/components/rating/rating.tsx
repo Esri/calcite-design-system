@@ -82,8 +82,6 @@ export class Rating extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region State Properties
@@ -192,6 +190,7 @@ export class Rating extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("keydown", this.handleHostKeyDown);
     this.listen("pointerout", this.handleRatingPointerOut);
     this.listen("pointerover", this.handleRatingPointerOver);

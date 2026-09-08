@@ -22,6 +22,7 @@ import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { isActionGroup } from "../action-group/resources";
 import type { Tooltip } from "../tooltip/tooltip";
+import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -132,7 +133,7 @@ export class ActionMenu extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   private mouseDownHandler = (event: MouseEvent): void => {
-    if (!(event.composedPath() as Element[]).some(isAction)) {
+    if (!event.composedPath().some(isAction)) {
       return;
     }
 
@@ -454,7 +455,7 @@ export class ActionMenu extends LitElement {
     el.open = this.open;
   }
 
-  private handleCalciteActionClick(event): void {
+  private handleCalciteActionClick(event: MouseEvent): void {
     if (this.navigableActions.some((action) => event.composedPath().includes(action))) {
       this.open = false;
       this.setFocus();
@@ -466,7 +467,7 @@ export class ActionMenu extends LitElement {
       .assignedElements({
         flatten: true,
       })
-      .filter((el): el is Tooltip["el"] => el?.matches("calcite-tooltip"));
+      .filter(isTooltip);
 
     this.tooltipEl = tooltips[0];
     this.setTooltipReferenceElement();

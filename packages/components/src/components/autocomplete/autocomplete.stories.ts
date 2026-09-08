@@ -4,6 +4,9 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { allModes } from "../../../.storybook/modes";
 import { Autocomplete } from "./autocomplete";
+import "./autocomplete"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../autocomplete-item/autocomplete-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../autocomplete-item-group/autocomplete-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, alignment, menuPlacement, status, overlayPositioning } = ATTRIBUTES;
 

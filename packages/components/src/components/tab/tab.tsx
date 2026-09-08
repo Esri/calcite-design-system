@@ -3,7 +3,8 @@ import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../types";
 import type { Tabs } from "../tabs/tabs";
-import { CSS, IDS } from "./resources";
+import { isTabs } from "../tabs/resources";
+import { CSS, IDS, isTab } from "./resources";
 import { TabChangeEventDetail } from "./types";
 import { styles } from "./tab.scss";
 
@@ -66,7 +67,7 @@ export class Tab extends LitElement {
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement!.children).filter((el) => el.matches("calcite-tab")),
+      nodeListToArray(this.el.parentElement!.children).filter(isTab),
       this.el,
     );
   }
@@ -112,9 +113,7 @@ export class Tab extends LitElement {
   // #region Private Methods
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const targetTabsEl = event
-      .composedPath()
-      .find((el) => (el as HTMLElement).tagName === "CALCITE-TABS");
+    const targetTabsEl = event.composedPath().find(isTabs);
 
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a within the same

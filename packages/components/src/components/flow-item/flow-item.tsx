@@ -28,6 +28,7 @@ declare global {
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
@@ -365,6 +366,7 @@ export class FlowItem extends LitElement {
           <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+          <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
           <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
           <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />

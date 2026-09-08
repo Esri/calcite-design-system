@@ -6,7 +6,7 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { OpenCloseComponentWithEl, toggleOpenClose } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../types";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
@@ -42,6 +42,7 @@ declare global {
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
  * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
@@ -50,7 +51,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
  */
-export class Dialog extends LitElement implements OpenCloseComponentWithEl {
+export class Dialog extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -85,7 +86,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   private _open = false;
 
-  openProp = "opened";
+  openProp = "opened" as const;
 
   transitionProp = "opacity" as const;
 
@@ -842,6 +843,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
               <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
               <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+              <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
               <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
               <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
               <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />

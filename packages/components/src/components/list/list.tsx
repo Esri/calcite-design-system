@@ -16,7 +16,6 @@ import { InteractionMode, Scale, SelectionMode } from "../types";
 import { ItemData } from "../list-item/types";
 import {
   expandedAncestors,
-  isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
@@ -46,6 +45,8 @@ import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { logger } from "../../utils/logger";
+import { isListItem } from "../list-item/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -1261,7 +1262,7 @@ export class List extends LitElement {
           {this.renderItemAriaLive()}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div
-            ariaBusy={loading}
+            ariaBusy={toAriaBoolean(loading, undefined)}
             ariaLabel={label || ""}
             class={CSS.table}
             onKeyDown={this.handleListKeydown}

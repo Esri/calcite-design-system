@@ -5,6 +5,7 @@ import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
 import type { Tile } from "../tile/tile";
+import { isTile } from "../tile/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./tile-group.scss";
@@ -141,9 +142,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   //#region Private Methods
 
   private getSlottedTiles(): Tile["el"][] {
-    return this.slotEl
-      ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-tile")) as Tile["el"][];
+    return this.slotEl?.assignedElements({ flatten: true }).filter(isTile) ?? [];
   }
 
   private selectItem(item: Tile["el"]): void {

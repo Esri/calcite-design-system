@@ -1,4 +1,4 @@
-import type { Swatch } from "./swatch";
+import { isTag } from "../resources";
 
 export const CSS = {
   imageContainer: "image-container",
@@ -34,6 +34,7 @@ export const IDS = {
   swatchTransparent: "swatch-transparent",
 };
 
-export function isSwatch(el: Element | null | EventTarget): el is Swatch["el"] {
-  return (el as Element)?.tagName === "CALCITE-SWATCH";
-}
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isSwatch = isTag("calcite-swatch");

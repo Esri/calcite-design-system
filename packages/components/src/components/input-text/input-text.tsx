@@ -134,8 +134,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     },
   });
 
-  labelable = useLabel(this);
-
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEditable(): boolean {
     return this.inlineEditable && !this.inlineEditableEl;
@@ -375,6 +373,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

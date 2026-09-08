@@ -1,3 +1,4 @@
+import "../components/time-picker/time-picker";
 import { html } from "../../support/formatting";
 
 export const timePickerTokens = {

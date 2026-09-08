@@ -3,6 +3,7 @@ import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lum
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { Scale } from "../types";
 import type { MenuItem } from "../menu-item/menu-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -57,6 +58,9 @@ export class Menu extends LitElement {
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   //#endregion
 
   //#region Public Methods
@@ -87,8 +91,11 @@ export class Menu extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
-      this.setMenuItemLayout(this.menuItems, this.layout);
+    if (
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+    ) {
+      this.setMenuItemProperties(this.menuItems);
     }
   }
 
@@ -98,7 +105,7 @@ export class Menu extends LitElement {
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
-    this.setMenuItemLayout(this.menuItems, this.layout);
+    this.setMenuItemProperties(this.menuItems);
   }
 
   private calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
@@ -145,11 +152,11 @@ export class Menu extends LitElement {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
         handled = true;
-      } else if (target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
+      } else if (isMenuItem(target.parentElement)) {
         this.focusParentElement(target);
         handled = true;
       }
-    } else if (key === "Escape" && target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
+    } else if (key === "Escape" && isMenuItem(target.parentElement)) {
       this.focusParentElement(target);
       handled = true;
     }
@@ -173,7 +180,7 @@ export class Menu extends LitElement {
 
   private handleMenuSlotChange(event: Event): void {
     this.menuItems = slotChangeGetAssignedElements<MenuItem["el"]>(event);
-    this.setMenuItemLayout(this.menuItems, this.layout);
+    this.setMenuItemProperties(this.menuItems);
   }
 
   private focusParentElement(el: MenuItem["el"]): void {
@@ -184,9 +191,10 @@ export class Menu extends LitElement {
     }
   }
 
-  private setMenuItemLayout(items: MenuItem["el"][], layout: Layout): void {
+  private setMenuItemProperties(items: MenuItem["el"][]): void {
     items.forEach((item) => {
-      item.layout = layout;
+      item.layout = this.layout;
+      item.scale = this.scale;
       if (this.getEffectiveRole() === "menubar") {
         item.isTopLevelItem = true;
         item.topLevelMenuLayout = this.layout;

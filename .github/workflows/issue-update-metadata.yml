@@ -19,11 +19,19 @@ jobs:
             await action({github, context, core})
 
       - name: Add Calcite Package Label
+        id: calcite-package-label
         uses: actions/github-script@v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addCalcitePackageLabel.cjs')
             await action({github, context, core})
+
+      - name: Notify icon team
+        if: steps.calcite-package-label.outputs.icon-label-added == 'true'
+        continue-on-error: true
+        uses: ./.github/actions/notify-new-icon
+        with:
+          webhook: ${{ secrets.TEAMS_ICON_WEBHOOK_URI }}
 
       - name: Add Priority Label
         uses: actions/github-script@v9

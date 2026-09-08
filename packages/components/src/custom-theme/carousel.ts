@@ -1,3 +1,7 @@
+import "../components/card/card";
+import "../components/carousel-item/carousel-item";
+import "../components/carousel/carousel";
+import "../components/icon/icon";
 import { html } from "../../support/formatting";
 
 export const carouselTokens = {

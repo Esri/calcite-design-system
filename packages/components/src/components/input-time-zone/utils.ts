@@ -205,7 +205,7 @@ export async function createTimeZoneItems(
 }
 
 function getTimeZoneLabel(timeZone: string, messages: InputTimeZone["messages"]): string {
-  return messages[timeZone] || getCity(timeZone);
+  return getMessage(messages, timeZone) || getCity(timeZone);
 }
 
 export function getSelectedRegionTimeZoneLabel(
@@ -218,7 +218,12 @@ export function getSelectedRegionTimeZoneLabel(
 }
 
 export function getMessageOrKeyFallback(messages: InputTimeZone["messages"], key: string): string {
-  return messages[key] || key;
+  return getMessage(messages, key) || key;
+}
+
+function getMessage(messages: InputTimeZone["messages"], key: string): string | undefined {
+  const message = (messages as Record<string, unknown>)[key];
+  return typeof message === "string" ? message : undefined;
 }
 
 /**
@@ -269,7 +274,7 @@ function flattenTimeZoneItems(timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[
 
 export function findTimeZoneItemByProp(
   timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[] | undefined,
-  prop: string,
+  prop: keyof Pick<TimeZoneItem, "label" | "value">,
   valueToMatch: string | number | undefined,
 ): TimeZoneItem | undefined {
   return valueToMatch === undefined || timeZoneItems === undefined

@@ -53,10 +53,6 @@ jobs:
 
       - name: "Icon request notification"
         if: github.event.label.name == 'calcite-ui-icons'
-        uses: actions/github-script@v9
-        env:
-          ICONS_TEAM: ${{secrets.ICON_LEADS}}
+        uses: ./.github/actions/notify-new-icon
         with:
-          script: |
-            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutIconRequest.cjs')
-            await action({github, context, core})
+          webhook: ${{ secrets.TEAMS_ICON_WEBHOOK_URI }}

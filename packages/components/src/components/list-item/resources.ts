@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -61,3 +62,8 @@ export const ICONS: Record<string, IconName> = {
 };
 
 export const activeCellTestAttribute = "data-test-active";
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isListItem = isTag("calcite-list-item");

@@ -7,18 +7,38 @@ import {
   disabled,
   focusable,
   formAssociated,
+  globalProps,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
+
+describe("global props", () => {
+  globalProps(
+    () => mount<InputText>(<calcite-input-text />),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "go",
+      inputMode: "email",
+      spellcheck: false,
+    },
+  );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-text", mountOptions));
+});
 
 describe("defaults", () => {
   defaults(
@@ -61,6 +81,15 @@ describe("defaults", () => {
         defaultValue: defaultValidity,
       },
     ],
+  );
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) => mount(<calcite-input-text clearable value="value" />, mountOptions),
+    {
+      targetSelector: "calcite-action",
+    },
   );
 });
 

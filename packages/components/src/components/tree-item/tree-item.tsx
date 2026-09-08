@@ -13,6 +13,7 @@ import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/types";
 import type { Tree } from "../tree/tree";
+import { isTree } from "../tree/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { TreeItemSelectDetail } from "./types";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -282,9 +283,7 @@ export class TreeItem extends LitElement {
   }
 
   private handleChildrenSlotChange(event: Event): void {
-    const childTree = slotChangeGetAssignedElements(event).filter((el): el is Tree["el"] =>
-      el.matches("calcite-tree"),
-    )[0];
+    const childTree = slotChangeGetAssignedElements(event).find(isTree) ?? null;
 
     this.childTree = childTree;
     this.requestUpdate("hasChildren");

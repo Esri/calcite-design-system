@@ -1,15 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import {
-  defaults,
-  disabled,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  themed,
-} from "../../tests/commonTests/browser";
+import { defaults, disabled, hidden, reflects, renders, slots, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -28,6 +20,7 @@ describe("defaults", () => {
       { propertyName: "selected", defaultValue: false },
       { propertyName: "shortHeading", defaultValue: undefined },
       { propertyName: "value", defaultValue: undefined },
+      { propertyName: "scale", defaultValue: "m" },
     ],
   );
 });

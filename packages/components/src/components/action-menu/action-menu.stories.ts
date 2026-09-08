@@ -1,4 +1,7 @@
 import { html } from "../../../support/formatting";
+import "./action-menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 export default {
   title: "Components/Action Menu",

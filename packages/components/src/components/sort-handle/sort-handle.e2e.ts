@@ -1,4 +1,4 @@
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { type E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -9,7 +9,7 @@ import type { ReorderEventDetail } from "./types";
 
 mockConsole();
 
-async function openSortHandle(page): Promise<void> {
+async function openSortHandle(page: E2EPage): Promise<void> {
   const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
   await action.callMethod("setFocus");
 
