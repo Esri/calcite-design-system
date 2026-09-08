@@ -2,15 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import {
-  defaults,
-  disabled,
-  hidden,
-  renders,
-  slots,
-  accessible,
-  themed,
-} from "../../tests/commonTests/browser";
+import { defaults, disabled, hidden, renders, slots, accessible, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {

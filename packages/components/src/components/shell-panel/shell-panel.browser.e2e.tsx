@@ -2,7 +2,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { commands } from "../../tests/browser/commands";
+import { commands } from "../../tests/utils/commands";
 import {
   defaults,
   hidden,
@@ -12,7 +12,7 @@ import {
   t9n,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../types";
 import { CSS, SLOTS } from "./resources";

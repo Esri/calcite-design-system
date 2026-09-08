@@ -9,7 +9,7 @@ import {
   scalePropagates,
   disabled,
   accessible,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 
 describe("accessible", () => {
   describe("in selection-mode none", () => {

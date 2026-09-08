@@ -14,7 +14,7 @@ import {
   scalePropagates,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import type { RadioButton } from "../radio-button/radio-button";
 import type { RadioButtonGroup } from "./radio-button-group";
 import { CSS } from "./resources";

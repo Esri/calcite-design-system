@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
-import { commands } from "../../tests/browser/commands";
+import { commands } from "../../tests/utils/commands";
 
 import {
   accessible,
@@ -16,8 +16,8 @@ import {
   renders,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
 import type { Slider } from "./slider";
 import { CSS } from "./resources";
 

@@ -27,6 +27,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -301,7 +302,7 @@ export class Button extends LitElement {
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <DynamicHtmlTag
-          ariaBusy={this.loading}
+          ariaBusy={toAriaBoolean(this.loading, undefined)}
           ariaExpanded={
             this.el.ariaExpanded
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
