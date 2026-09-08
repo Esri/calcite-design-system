@@ -1,3 +1,4 @@
+import "../components/combobox-item/combobox-item";
 import { html } from "../../support/formatting";
 
 export const comboboxItemTokens = {

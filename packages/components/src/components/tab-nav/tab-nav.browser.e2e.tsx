@@ -1,18 +1,11 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import {
-  accessible,
-  defaults,
-  hidden,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests/browser";
+import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/common";
 import { CSS } from "./resources";
 import { userEvent, page } from "vitest/browser";
 import { afterNextFrame } from "../../tests/utils/timing";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 
 describe("accessible: checked", () => {
   accessible(() => mount("calcite-tab-nav"));

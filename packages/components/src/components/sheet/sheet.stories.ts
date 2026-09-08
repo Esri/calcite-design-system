@@ -2,6 +2,12 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./sheet"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { logicalFlowPosition, displayMode, scale } = ATTRIBUTES;
 

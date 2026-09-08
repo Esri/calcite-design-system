@@ -4,6 +4,17 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Panel } from "./panel";
 import { SLOTS } from "./resources";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list/list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { collapseDirection, placement, scale } = ATTRIBUTES;
 

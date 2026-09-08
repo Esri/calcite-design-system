@@ -28,6 +28,7 @@ jobs:
           project-token: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           auto-accept-changes: ${{ github.base_ref || github.ref_name }}
           working-dir: packages/components
+          externals: packages/(design-tokens|tailwind-preset)/**
           storybook-build-dir: docs
           chromatic-diff-threshold: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
 
@@ -51,6 +52,7 @@ jobs:
           project-token: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           auto-accept-changes: ${{ github.ref_name }}
           working-dir: packages/components
+          externals: packages/(design-tokens|tailwind-preset)/**
           storybook-build-dir: docs
           chromatic-diff-threshold: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
 

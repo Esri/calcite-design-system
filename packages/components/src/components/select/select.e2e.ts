@@ -1,6 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -14,10 +13,6 @@ async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): 
 
   expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
 }
-
-describe("labelable", () => {
-  labelable("calcite-select");
-});
 
 describe("flat options", () => {
   it("allows selecting items", async () => {

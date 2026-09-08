@@ -211,7 +211,7 @@ describe("CSS properties for light/dark modes", () => {
   it("should have defined CSS custom properties", async () => {
     page = await newE2EPage({ html: scrimSnippet });
     scrimBgStyle = await page.evaluate(() => {
-      scrim = document.querySelector("calcite-scrim");
+      const scrim = document.querySelector("calcite-scrim")!;
       scrim.style.setProperty("--calcite-scrim-background", "green");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     });

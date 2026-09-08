@@ -1,4 +1,6 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/input/input";
 
 export const input = html`<calcite-input
   type="text"

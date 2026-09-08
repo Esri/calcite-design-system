@@ -1,3 +1,5 @@
+import "../components/input/input";
+import "../components/label/label";
 import { html } from "../../support/formatting";
 
 export const labelTokens = {

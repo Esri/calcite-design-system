@@ -122,7 +122,8 @@
 }
 
 .divider-container {
-  @apply transition-default flex w-px items-stretch;
+  @include includes.transition-default();
+  @apply flex w-px items-stretch;
   background-color: var(
     --calcite-split-button-divider-color,
     var(--calcite-internal-split-button-divider-border-color)

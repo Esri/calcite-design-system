@@ -1,6 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { clearConfig, defaultConfig, getConfig, stampVersion } from "./config";
+import type { FocusTrap } from "focus-trap";
+import type { GlobalTestProps } from "../tests/utils/types";
+import { type CalciteConfig, clearConfig, defaultConfig, getConfig, stampVersion } from "./config";
 import { logger } from "./logger";
+
+type TestGlobal = GlobalTestProps<{ calciteConfig?: Partial<CalciteConfig> }>;
 
 beforeEach(() => {
   clearConfig();
@@ -14,9 +18,9 @@ it("has defaults", async () => {
 });
 
 it("allows custom configuration", async () => {
-  const customFocusTrapStack = [];
+  const customFocusTrapStack: FocusTrap[] = [];
 
-  globalThis.calciteConfig = {
+  (globalThis as TestGlobal).calciteConfig = {
     focusTrapStack: customFocusTrapStack,
   };
 
@@ -28,24 +32,24 @@ it("allows custom configuration", async () => {
 describe(stampVersion, () => {
   const buildVersion = __CALCITE_VERSION__;
 
-  beforeEach(() => delete globalThis.calciteConfig);
+  beforeEach(() => delete (globalThis as TestGlobal).calciteConfig);
 
   it("creates global config and stamps the version onto it", async () => {
     stampVersion();
-    expect(globalThis.calciteConfig.version).toBe(buildVersion);
+    expect((globalThis as TestGlobal).calciteConfig!.version).toBe(buildVersion);
   });
 
   it("stamps the version onto existing config if there's no version present", async () => {
-    globalThis.calciteConfig = {};
+    (globalThis as TestGlobal).calciteConfig = {};
     stampVersion();
-    expect(globalThis.calciteConfig.version).toBe(buildVersion);
+    expect((globalThis as TestGlobal).calciteConfig!.version).toBe(buildVersion);
   });
 
   it("bails if version is already stamped onto existing config", async () => {
     const testVersion = "1.33.7";
-    globalThis.calciteConfig = { version: testVersion };
+    (globalThis as TestGlobal).calciteConfig = { version: testVersion };
     stampVersion();
-    expect(globalThis.calciteConfig.version).toBe(testVersion);
+    expect((globalThis as TestGlobal).calciteConfig!.version).toBe(testVersion);
   });
 
   beforeEach(() => {

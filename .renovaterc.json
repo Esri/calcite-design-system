@@ -25,16 +25,14 @@
       "matchDepTypes": ["devDependencies"],
       "matchPackageNames": [
         "@cspell/**",
-        "@prettier",
-        "@typescript-eslint/**",
-        "@vitest/eslint-plugin",
+        "@morev/stylelint-testing-library",
+        "@prettier/**",
+        "globals",
         "husky",
         "lint-staged",
         "markdownlint-cli2",
-        "packages:eslint",
-        "packages:stylelint",
-        "prettier",
-        "typescript-eslint"
+        "packages:linters",
+        "prettier"
       ]
     },
     {
@@ -55,7 +53,17 @@
     {
       "groupName": "Util Scripts",
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["@inquirer/**", "concurrently", "cpy**", "globby", "rimraf", "semver", "yargs"]
+      "matchPackageNames": [
+        "@inquirer/**",
+        "concurrently",
+        "cpy",
+        "cpy-cli",
+        "globby",
+        "rimraf",
+        "@types/semver",
+        "semver",
+        "yargs"
+      ]
     },
     {
       "groupName": "Tests (Browser)",
@@ -76,14 +84,17 @@
       "groupName": "Calcite Components (Core Deps)",
       "matchDepTypes": ["dependencies"],
       "matchPackageNames": [
-        "**sortablejs**",
         "@floating-ui/**",
+        "@lit/**",
+        "@types/sortablejs",
         "color",
         "composed-offset-position",
         "es-toolkit",
         "focus-trap",
         "interactjs",
         "lit",
+        "sortablejs",
+        "tabbable",
         "timezone-groups",
         "type-fest"
       ]

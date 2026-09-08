@@ -3,6 +3,9 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Input } from "./input";
+import "./input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { textType, alignment, layout, scale, status } = ATTRIBUTES;
 

@@ -532,7 +532,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       return this.renderRegionItems();
     }
 
-    return this.timeZoneItems?.map((group) => {
+    return (this.timeZoneItems as TimeZoneItem[] | undefined)?.map((group) => {
       const selected = this.selectedTimeZoneItem === group;
       const { label, metadata, value } = group;
 

@@ -3,6 +3,20 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "./dialog";
 import { SLOTS } from "./resources";
+import "./dialog"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../inline-editable/inline-editable"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell/shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { dialogPlacement, kind, scale, overlayPositioning } = ATTRIBUTES;
 

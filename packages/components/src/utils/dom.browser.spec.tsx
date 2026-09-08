@@ -142,7 +142,7 @@ describe(getModeName, () => {
   });
 
   it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", async () => {
-    vi.stubGlobal("matchMedia", (query) => ({
+    vi.stubGlobal("matchMedia", (query: string) => ({
       matches: query === "(prefers-color-scheme: dark)",
     }));
 

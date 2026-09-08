@@ -16,6 +16,8 @@ import { slider } from "./custom-theme/slider";
 import { splitButton } from "./custom-theme/split-button";
 import { table } from "./custom-theme/table";
 import { tile } from "./custom-theme/tile";
+import "./components/segmented-control/segmented-control";
+import "./components/segmented-control-item/segmented-control-item";
 
 const kitchenSink = () =>
   html`<div style="--calcite-corner-radius: 24px; padding: 1rem;">

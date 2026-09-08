@@ -80,7 +80,7 @@ export class Sheet extends LitElement {
 
   private _open = false;
 
-  openProp = "opened";
+  openProp = "opened" as const;
 
   transitionProp = "opacity" as const;
 

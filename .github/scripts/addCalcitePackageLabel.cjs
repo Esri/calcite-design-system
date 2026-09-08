@@ -1,5 +1,8 @@
 // @ts-check
-const { createLabelIfMissing } = require("./support/utils.cjs");
+const { createLabelIfMissing, includesLabel } = require("./support/utils.cjs");
+const {
+  packages: { icons: iconsPackage },
+} = require("./support/resources.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
@@ -8,7 +11,7 @@ module.exports = async ({ github, context, core }) => {
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
-    issue: { body, number: issue_number },
+    issue: { body, number: issue_number, labels: issue_labels },
   } = payload;
 
   if (!body) {
@@ -20,22 +23,31 @@ module.exports = async ({ github, context, core }) => {
   const packageRegex = /(?<=\[X\]\s@esri\/)[\w-]*$/gim;
   const packages = body.match(packageRegex) || [];
 
-  for (const package of packages) {
+  for (const packageLabel of packages) {
+    if (includesLabel(issue_labels, packageLabel)) {
+      core.notice(`Skipping: issue #${issue_number} already has the label '${packageLabel}'`, logParams);
+      continue;
+    }
+
     await createLabelIfMissing({
       github,
       context,
-      label: package,
+      label: packageLabel,
       // eslint-disable-next-line @cspell/spellchecker -- hex color
       color: "BFBEAF",
-      description: `Issues specific to the @esri/${package} package.`,
+      description: `Issues specific to the @esri/${packageLabel} package.`,
     });
 
     await github.rest.issues.addLabels({
       issue_number,
       owner,
       repo,
-      labels: [package],
+      labels: [packageLabel],
     });
+
+    if (packageLabel === iconsPackage) {
+      core.setOutput("icon-label-added", "true");
+    }
 
     await github.rest.actions.createWorkflowDispatch({
       owner,
@@ -45,7 +57,7 @@ module.exports = async ({ github, context, core }) => {
       inputs: {
         issue_number: issue_number.toString(),
         event_type: "SyncActionChanges",
-        label_name: package,
+        label_name: packageLabel,
         label_action: "added",
       },
     });

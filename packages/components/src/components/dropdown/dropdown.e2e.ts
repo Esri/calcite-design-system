@@ -54,10 +54,10 @@ it("renders requested props when valid props are provided", async () => {
   expect(group1).toEqualAttribute("selection-mode", "multiple");
 });
 
-it("inheritable non-default props `selectionMode` and `scale` set on parent get passed into items", async () => {
+it("inheritable non-default prop `selectionMode` set on parent gets passed into items", async () => {
   const page = await newE2EPage();
   await page.setContent(html`
-    <calcite-dropdown selection-mode="single" scale="s">
+    <calcite-dropdown selection-mode="single">
       <calcite-button slot="trigger">Open dropdown</calcite-button>
       <calcite-dropdown-group id="group-1">
         <calcite-dropdown-item id="item-1">Content</calcite-dropdown-item>
@@ -70,7 +70,6 @@ it("inheritable non-default props `selectionMode` and `scale` set on parent get 
 
   for (const item of dropdownItems) {
     expect(await item.getProperty("selectionMode")).toBe("single");
-    expect(await item.getProperty("scale")).toBe("s");
   }
 });
 
