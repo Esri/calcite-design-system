@@ -230,7 +230,7 @@ export const largeScaleLayout = (): string => html`
 export const transparentBG = (): string => html`
   <style>
     calcite-popover {
-      --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
+      --calcite-color-surface-2: rgba(0, 0, 0, 0.5);
       --calcite-color-text-1: orange;
     }
   </style>

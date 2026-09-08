@@ -204,7 +204,7 @@
 
 .content {
   @apply flex relative box-border p-0 max-h-full max-w-full;
-  background-color: var(--calcite-sheet-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-sheet-background-color, var(--calcite-color-surface-2));
   max-block-size: 100%;
   visibility: hidden;
   transition:
@@ -325,14 +325,14 @@
 .resize-handle:hover {
   .resize-handle-bar {
     color: var(--calcite-sheet-resize-icon-color, var(--calcite-color-text-1));
-    background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-surface-4));
   }
 }
 
 .resize-handle-bar {
   @apply flex justify-center items-center pointer-events-none;
   color: var(--calcite-sheet-resize-icon-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-sheet-resize-background-color, var(--calcite-color-surface-1));
 }
 
 .resize-handle:focus .resize-handle-bar {

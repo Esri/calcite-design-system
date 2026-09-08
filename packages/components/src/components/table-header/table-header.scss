@@ -36,7 +36,7 @@ th {
   padding-inline: var(--calcite-internal-table-cell-padding);
   background-color: var(
     --calcite-table-header-background-color,
-    var(--calcite-table-header-background, var(--calcite-color-foreground-2))
+    var(--calcite-table-header-background, var(--calcite-color-surface-3))
   );
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: var(--calcite-border-width-sm) solid
@@ -84,9 +84,9 @@ th.last-cell {
 .cell--multiple-selection {
   @apply cursor-pointer align-middle;
   color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
-  background-color: var(--calcite-table-selection-cell-background-color, var(--calcite-color-foreground-2));
+  background-color: var(--calcite-table-selection-cell-background-color, var(--calcite-color-surface-3));
   &.selected-cell {
-    background-color: var(--calcite-table-selection-cell-background-color-selected, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-table-selection-cell-background-color-selected, var(--calcite-color-surface-3));
   }
   &:not(.end) {
     @apply align-middle;
@@ -96,7 +96,7 @@ th.last-cell {
 .number-cell {
   background-color: var(
     --calcite-table-number-cell-background-color,
-    var(--calcite-table-cell-background-color, var(--calcite-color-foreground-2))
+    var(--calcite-table-cell-background-color, var(--calcite-color-surface-3))
   );
 }
 

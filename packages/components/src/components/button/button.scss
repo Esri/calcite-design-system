@@ -328,9 +328,9 @@
   --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
 }
 :host([kind="neutral"]) {
-  --calcite-internal-button-background-color: var(--calcite-color-foreground-3);
-  --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
-  --calcite-internal-button-background-color-press: var(--calcite-color-foreground-1);
+  --calcite-internal-button-background-color: var(--calcite-color-surface-4);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-surface-3);
+  --calcite-internal-button-background-color-press: var(--calcite-color-surface-2);
   --calcite-internal-button-loader-color: var(--calcite-color-text-1);
   --calcite-internal-button-text-color: var(--calcite-color-text-1);
 }
@@ -343,9 +343,9 @@
 }
 
 :host([appearance="outline-fill"]) {
-  --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
-  --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
-  --calcite-internal-button-background-color-press: var(--calcite-color-foreground-3);
+  --calcite-internal-button-background-color: var(--calcite-color-surface-2);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-surface-3);
+  --calcite-internal-button-background-color-press: var(--calcite-color-surface-4);
   button,
   a {
     @apply border-solid;
@@ -411,7 +411,7 @@
       --calcite-internal-button-border-color: var(--calcite-color-border-input);
     }
     &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-foreground-3);
+      --calcite-internal-button-border-color: var(--calcite-color-surface-4);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-text-3);
@@ -509,7 +509,7 @@
       --calcite-internal-button-border-color: var(--calcite-color-border-input);
     }
     &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-foreground-3);
+      --calcite-internal-button-border-color: var(--calcite-color-surface-4);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-text-3);

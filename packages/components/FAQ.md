@@ -81,7 +81,7 @@ If we want to swap the foreground and text colors, we can use the variables:
 
 ```css
 calcite-notice {
-  --calcite-color-foreground-1: #151515;
+  --calcite-color-surface-2: #151515;
   --calcite-color-text-1: #ffffff;
 }
 ```

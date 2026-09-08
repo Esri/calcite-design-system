@@ -189,13 +189,13 @@
   background-color: var(--calcite-block-header-background-color, transparent);
 
   &:hover {
-    background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-surface-3));
   }
   &:focus {
     @apply focus-inset;
   }
   &:active {
-    background-color: var(--calcite-block-header-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-block-header-background-color-press, var(--calcite-color-surface-4));
   }
 }
 

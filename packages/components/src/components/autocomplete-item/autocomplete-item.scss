@@ -53,7 +53,7 @@
     relative
     box-border
     items-center;
-  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-surface-2));
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-3));
   gap: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-inline: var(--calcite-internal-autocomplete-item-spacing-unit-l);
@@ -90,7 +90,7 @@
 }
 
 :host(:hover:not([disabled])) .container {
-  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-surface-3));
 
   .description {
     color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));

@@ -48,7 +48,7 @@
   @apply inline-flex
   flex-col
   flex-auto;
-  background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-action-bar-background-color, var(--calcite-color-surface-2));
   gap: var(--calcite-internal-action-bar-gap);
   padding: var(--calcite-internal-action-bar-padding);
 }

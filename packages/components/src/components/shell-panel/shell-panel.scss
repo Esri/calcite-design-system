@@ -260,14 +260,14 @@
 .resize-handle:hover {
   .resize-handle-bar {
     color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-text-1));
-    background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-surface-4));
   }
 }
 
 .resize-handle-bar {
   @apply flex justify-center items-center pointer-events-none;
   color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-surface-1));
 }
 
 .resize-handle:focus .resize-handle-bar {
@@ -470,7 +470,7 @@
   relative
   box-border
   flex-auto;
-  background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-surface-1));
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);

@@ -105,12 +105,12 @@ ul:focus {
 }
 
 .label:hover {
-  background-color: var(--calcite-combobox-item-background-color-hover, var(--calcite-color-foreground-2));
+  background-color: var(--calcite-combobox-item-background-color-hover, var(--calcite-color-surface-3));
   color: var(--calcite-combobox-text-color-hover, var(--calcite-color-text-1));
 }
 
 .label:active {
-  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-3));
+  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-surface-4));
 }
 
 :host([selected]) .label,

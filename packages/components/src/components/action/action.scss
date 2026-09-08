@@ -111,7 +111,7 @@
     justify-start
     border-none;
   box-sizing: border-box;
-  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-action-background-color, var(--calcite-color-surface-2));
   border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
   cursor: inherit;
@@ -127,7 +127,7 @@
   text-align: start;
 
   &:hover {
-    background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-action-background-color-hover, var(--calcite-color-surface-3));
     color: var(
       --calcite-action-text-color-press,
       var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
@@ -141,7 +141,7 @@
   &:active {
     background-color: var(
       --calcite-action-background-color-press,
-      var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+      var(--calcite-action-background-color-pressed, var(--calcite-color-surface-4))
     );
   }
 }
@@ -176,20 +176,20 @@
 
 :host([active]) {
   .button {
-    background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-action-background-color, var(--calcite-color-surface-4));
     color: var(
       --calcite-action-text-color-press,
       var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
     );
 
     &:hover {
-      background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-3));
+      background-color: var(--calcite-action-background-color-hover, var(--calcite-color-surface-4));
     }
 
     &:active {
       background-color: var(
         --calcite-action-background-color-press,
-        var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+        var(--calcite-action-background-color-pressed, var(--calcite-color-surface-4))
       );
     }
   }
@@ -199,7 +199,7 @@
   .button {
     &:hover,
     &:focus {
-      background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+      background-color: var(--calcite-action-background-color, var(--calcite-color-surface-2));
     }
   }
 
