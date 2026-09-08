@@ -14,13 +14,13 @@ import {
   t9n,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
-import { List } from "./list";
+import type { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 
@@ -231,6 +231,20 @@ describe("disabled", () => {
       ),
     { focusTarget: "child" },
   );
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<List>(<calcite-list label="Items" />);
+    const table = page.getByRole(`treegrid`);
+
+    await expect.element(table).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(table).toHaveAttribute("aria-busy", "true");
+  });
 });
 
 describe("sticky group heading", () => {

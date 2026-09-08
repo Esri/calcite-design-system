@@ -103,7 +103,7 @@ export function createConfig({
       include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
       exclude: runBrowserTests ? [...defaultExclude, timeZoneBrowserTestMatch] : [...defaultExclude, browserTestMatch],
       passWithNoTests: true,
-      setupFiles: runBrowserTests ? "./src/tests/browser/setup.ts" : undefined,
+      setupFiles: runBrowserTests ? "./src/tests/setup.ts" : undefined,
     },
     /*
      * While useLumina() pre-configures everything for you, you can still

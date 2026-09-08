@@ -22,6 +22,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { styles } from "./card.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -302,7 +303,10 @@ export class Card extends LitElement {
             </div>
           ) : null}
           {thumbnailStart && this.renderThumbnail()}
-          <section ariaBusy={this.loading} class={{ [CSS.container]: true }}>
+          <section
+            ariaBusy={toAriaBoolean(this.loading, undefined)}
+            class={{ [CSS.container]: true }}
+          >
             {this.renderHeader()}
             <div
               class={{

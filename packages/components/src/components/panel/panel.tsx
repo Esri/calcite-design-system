@@ -38,6 +38,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -834,7 +835,7 @@ export class Panel extends LitElement {
 
     const panelNode = (
       <div
-        ariaBusy={loading}
+        ariaBusy={toAriaBoolean(loading, undefined)}
         ariaDescription={hasDialogRole && description ? description : undefined}
         ariaLabel={hasDialogRole && heading ? heading : undefined}
         ariaLive={hasDialogRole ? "polite" : undefined}

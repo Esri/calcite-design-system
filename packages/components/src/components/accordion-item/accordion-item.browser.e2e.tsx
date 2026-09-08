@@ -12,7 +12,7 @@ import {
   slots,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { AccordionItem } from "./accordion-item";
 

@@ -26,6 +26,7 @@ import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { styles } from "./block.scss";
 import type { BlockToggleDisplay } from "./types";
 import type { BlockGroup } from "../block-group/block-group";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -702,7 +703,7 @@ export class Block extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <article
           aria-label={label}
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           class={{
             [CSS.container]: true,
           }}

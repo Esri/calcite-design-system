@@ -13,7 +13,7 @@ import {
 import { type Locator, page, userEvent } from "vitest/browser";
 import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
-import { commands } from "../../tests/browser/commands";
+import { commands } from "../../tests/utils/commands";
 import {
   accessible,
   cancelable,
@@ -25,7 +25,7 @@ import {
   renders,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { mockConsole } from "../../tests/utils/logging";
 import type { ColorValue, HSV } from "./types";

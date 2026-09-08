@@ -1,14 +1,7 @@
 import { Fragment, h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import {
-  defaults,
-  reflects,
-  hidden,
-  renders,
-  scalePropagates,
-  themed,
-} from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, scalePropagates, themed } from "../../tests/common";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
 import { CSS } from "./resources";
 
