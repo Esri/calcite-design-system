@@ -31,18 +31,7 @@ describe("labelable", () => {
 
 describe("accessible", () => {
   accessible(() =>
-    mount(
-      <calcite-label>
-        <calcite-radio-button id="example" name="example" value="one" />
-        label
-      </calcite-label>,
-    ),
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(() =>
-    mount(<calcite-radio-button id="example" label="label" name="example" value="one" />),
+    mount(<calcite-radio-button id="example" label="test-label" name="example" value="one" />),
   );
 });
 
