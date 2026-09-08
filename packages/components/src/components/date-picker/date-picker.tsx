@@ -196,6 +196,20 @@ export class DatePicker extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    const previousValueAsDate = changes.get("valueAsDate");
+    const valueAsDate = this.valueAsDate;
+    const isReflectedUserRangeValue =
+      this.rangeValueChangedByUser &&
+      !changes.has("value") &&
+      Array.isArray(previousValueAsDate) &&
+      Array.isArray(valueAsDate) &&
+      previousValueAsDate.every((date, index) => sameDate(date, valueAsDate[index]));
+    const isUserRangeValueUpdate = changes.has("value") && changes.has("valueAsDate");
+
+    if (this.rangeValueChangedByUser && !isUserRangeValueUpdate && !isReflectedUserRangeValue) {
+      this.rangeValueChangedByUser = false;
+    }
+
     if (changes.has("value")) {
       this.valueHandler(this.value);
     }
@@ -204,7 +218,7 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
-    if (this.rangeValueChangedByUser && (changes.has("value") || changes.has("valueAsDate"))) {
+    if (isReflectedUserRangeValue) {
       this.rangeValueChangedByUser = false;
     }
 
