@@ -135,13 +135,27 @@ export class TableCell extends LitElement {
   //#region Lifecycle
 
   async load(): Promise<void> {
-    this.updateScreenReaderContentsText();
-    this.updateScreenReaderSelectionText();
+    if (this.readCellContentsToAT) {
+      this.updateScreenReaderContentsText();
+    }
+
+    if (this.selectionCell) {
+      this.updateScreenReaderSelectionText();
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("parentRowIsSelected")) {
+    if (
+      this.selectionCell &&
+      (changes.has("parentRowIsSelected") ||
+        changes.has("parentRowPositionLocalized") ||
+        changes.has("selectionCell"))
+    ) {
       this.updateScreenReaderSelectionText();
+    }
+
+    if (this.readCellContentsToAT && changes.has("readCellContentsToAT")) {
+      this.updateScreenReaderContentsText();
     }
   }
 
@@ -165,6 +179,12 @@ export class TableCell extends LitElement {
 
   private onContainerFocus(): void {
     this.focused = true;
+  }
+
+  private onSlotChange(): void {
+    if (this.readCellContentsToAT) {
+      this.updateScreenReaderContentsText();
+    }
   }
 
   //#endregion
@@ -207,7 +227,7 @@ export class TableCell extends LitElement {
               {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
             </span>
           )}
-          <slot onSlotChange={this.updateScreenReaderContentsText} />
+          <slot onSlotChange={this.onSlotChange} />
         </td>
       </this.interactiveContainer>
     );
