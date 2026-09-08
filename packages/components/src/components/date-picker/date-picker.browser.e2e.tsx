@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { Locator, page } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
@@ -194,6 +194,38 @@ describe("value", () => {
     expect(getSelectedDays(el)).toHaveLength(0);
   });
 
+  it("updates the calendar view when a programmatic range value follows a manual selection", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker active-range="start" range value={["2024-01-01", "2024-01-02"]} />,
+    );
+    await waitForCalendarUpdate(el, component);
+
+    await userEvent.click(
+      page.getBySelector("calcite-date-picker-day[current-month][id='20240210']"),
+    );
+    await waitForCalendarUpdate(el, component);
+
+    // User selection preserved the view instead of shifting it to February/March.
+    expect(el.value).toEqual(["2024-02-10", ""]);
+    await expect.element(getMonthSelectMenu().first()).toHaveProperty("value", "January");
+    await expect.element(getMonthSelectMenu().nth(1)).toHaveProperty("value", "February");
+
+    await userEvent.click(
+      page.getBySelector("calcite-date-picker-day[current-month][id='20240215']"),
+    );
+    await waitForCalendarUpdate(el, component);
+
+    expect(el.value).toEqual(["2024-02-10", "2024-02-15"]);
+    await expect.element(getMonthSelectMenu().first()).toHaveProperty("value", "January");
+    await expect.element(getMonthSelectMenu().nth(1)).toHaveProperty("value", "February");
+
+    el.value = ["2025-10-15", "2025-11-03"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(getMonthSelectMenu().first()).toHaveProperty("value", "October");
+    await expect.element(getMonthSelectMenu().nth(1)).toHaveProperty("value", "November");
+  });
+
   async function waitForCalendarUpdate(el: DatePicker["el"], component: DatePicker): Promise<void> {
     await component.updateComplete;
     await (getMonth(el) as DatePickerMonth | null)?.updateComplete;
@@ -207,6 +239,10 @@ describe("value", () => {
     return Array.from(
       getMonth(el)?.shadowRoot!.querySelectorAll("calcite-date-picker-day[selected]") || [],
     );
+  }
+
+  function getMonthSelectMenu(): Locator {
+    return page.getByRole("combobox", { name: "Month menu" });
   }
 
   function expectDate(actual: Date | undefined, expected: Date): void {

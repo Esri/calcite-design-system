@@ -204,6 +204,10 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
+    if (this.rangeValueChangedByUser && (changes.has("value") || changes.has("valueAsDate"))) {
+      this.rangeValueChangedByUser = false;
+    }
+
     const minSource = getMinMaxSource(changes, "min");
     const maxSource = getMinMaxSource(changes, "max");
 
