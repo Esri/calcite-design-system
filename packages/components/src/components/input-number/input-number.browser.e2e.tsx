@@ -494,7 +494,7 @@ describe("increment/decrement functionality", () => {
     const { el } = await mount<InputNumber>(
       <calcite-input-number
         step={10}
-        value="100000000000000000000000000000000000000000000000000."
+        value="100000000000000000000000000000000000000000000000000"
       />,
     );
 
@@ -898,7 +898,7 @@ it("input event fires when number ends with a decimal", async () => {
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1.");
+  expect(el).toHaveProperty("value", "1");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
@@ -955,6 +955,10 @@ describe("number locale support", () => {
 
       expect(el).toHaveProperty("value", expectedValue);
       await expect.element(input).toHaveProperty("value", expectedFormattedValue);
+
+      await userEvent.fill(input, decimalSeparator);
+      expect(el).toHaveProperty("value", "");
+      expect(input).toHaveDisplayValue(decimalSeparator);
     });
 
     it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
@@ -1467,4 +1471,67 @@ it("does not render an icon when requested without an explicit Calcite UI, and i
   await mount(<calcite-input-number icon />);
   const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
   await expect.element(icon).not.toBeInTheDocument();
+});
+
+it("selecting all input content replaces everything with the allowed non-digit characters when pressed", async () => {
+  const { el } = await mount(<calcite-input-number label="calciteInputNumber" value="123.45" />);
+  const input = page.getByLabelText("calciteInputNumber");
+
+  await userEvent.fill(input, ".");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue(".");
+
+  await userEvent.keyboard("12345");
+  expect(el).toHaveProperty("value", "0.12345");
+  expect(input).toHaveDisplayValue("0.12345");
+
+  await userEvent.fill(input, "e");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("e");
+
+  await userEvent.fill(input, "12345");
+  expect(el).toHaveProperty("value", "12345");
+  expect(input).toHaveDisplayValue("12345");
+
+  await userEvent.fill(input, "-");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("-");
+
+  await userEvent.keyboard("123.45");
+  expect(el).toHaveProperty("value", "-123.45");
+  expect(input).toHaveDisplayValue("-123.45");
+
+  await userEvent.fill(input, ".");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue(".");
+
+  await userEvent.fill(input, "-123.45");
+  expect(el).toHaveProperty("value", "-123.45");
+  expect(input).toHaveDisplayValue("-123.45");
+
+  await userEvent.fill(input, "-");
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("-");
+});
+
+it("should not focus when clicking validation message", async () => {
+  const { el } = await mount(
+    <form>
+      <calcite-input-number label="calciteInputNumber" required />
+      <button type="submit">Submit</button>
+    </form>,
+  );
+  const button = page.getByRole("button");
+  const inputMessage = page.getBySelector("calcite-input-message");
+
+  expect(el).not.toHaveFocus();
+
+  await button.click();
+  await userEvent.click(inputMessage);
+
+  expect(el).not.toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}");
+
+  expect(el).toHaveFocus();
 });

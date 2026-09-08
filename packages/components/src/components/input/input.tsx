@@ -881,14 +881,7 @@ export class Input
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value?.value) {
-        return;
-      }
-      if (
-        this.value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (this.childNumberRef.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -982,11 +975,11 @@ export class Input
         signDisplay: "never",
       };
 
-      const isValueDeleted =
+      const isValueLengthShortened =
         this.previousValue?.length > value.length || this.value?.length > value.length;
       const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
       const sanitizedValue =
-        hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
+        hasTrailingDecimalSeparator && isValueLengthShortened ? value : sanitizeNumberString(value);
 
       const newValue =
         value && !sanitizedValue
@@ -1006,15 +999,13 @@ export class Input
       }
 
       // adds localized trailing decimal separator
-      this.displayedValue =
-        hasTrailingDecimalSeparator && isValueDeleted
-          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-          : newLocalizedValue;
+      if (hasTrailingDecimalSeparator && isValueLengthShortened) {
+        newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
+      }
 
+      this.displayedValue = newLocalizedValue;
       this.userChangedValue = origin === "user" && this.value !== newValue;
-      // don't sanitize the start of negative/decimal numbers, but
-      // don't set value to an invalid number
-      this.value = ["-", "."].includes(newValue) ? "" : newValue;
+      this.value = isValidNumber(newValue) ? newValue : "";
     } else {
       this.userChangedValue = origin === "user" && this.value !== value;
       this.value = value;
