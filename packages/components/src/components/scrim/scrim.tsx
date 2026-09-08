@@ -15,7 +15,22 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content, primarily loading information. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-scrim-background": "*";
+  }
+}
+
+interface ScrimSlots {
+  /**
+   * A slot for adding custom content, primarily loading information.
+   */
+  "": Node[];
+}
+
 export class Scrim extends LitElement {
   //#region Static Members
 
@@ -24,6 +39,8 @@ export class Scrim extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: ScrimSlots;
 
   private loaderRef = createRef<Loader["el"]>();
 

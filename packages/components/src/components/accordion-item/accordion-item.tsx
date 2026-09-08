@@ -21,13 +21,118 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-accordion-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-accordion-background-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-accordion-text-color": "*";
+    /**
+     * Specifies the component's main text color on hover.
+     */
+    "--calcite-accordion-text-color-hover": "*";
+    /**
+     * Specifies the component's main text color when pressed.
+     */
+    "--calcite-accordion-text-color-press": "*";
+    /**
+     * Specifies the component's background color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-background-color` instead.
+     */
+    "--calcite-accordion-item-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-border-color` instead.
+     */
+    "--calcite-accordion-item-border-color": "*";
+    /**
+     * Specifies the component's padding.
+     */
+    "--calcite-accordion-item-content-space": "*";
+    /**
+     * Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     */
+    "--calcite-accordion-item-end-icon-color": "*";
+    /**
+     * Specifies the component's expand icon color.
+     */
+    "--calcite-accordion-item-expand-icon-color": "*";
+    /**
+     * Specifies the component's `heading` background color.
+     */
+    "--calcite-accordion-item-header-background-color": "*";
+    /**
+     * Specifies the component's `heading` background color when hovered.
+     */
+    "--calcite-accordion-item-header-background-color-hover": "*";
+    /**
+     * Specifies the component's `heading` background color when pressed.
+     */
+    "--calcite-accordion-item-header-background-color-press": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-accordion-item-heading-text-color": "*";
+    /**
+     * Specifies the component's default icon color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
+     */
+    "--calcite-accordion-item-icon-color": "*";
+    /**
+     * Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     */
+    "--calcite-accordion-item-start-icon-color": "*";
+    /**
+     * Specifies the component's text color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color` instead.
+     */
+    "--calcite-accordion-item-text-color": "*";
+    /**
+     * Specifies the component's text color on hover.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color-hover` instead.
+     */
+    "--calcite-accordion-item-text-color-hover": "*";
+  }
+}
+
+interface AccordionItemSlots {
+  /**
+   * A slot for adding custom content, including nested `calcite-accordion-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for adding `calcite-action`s or content to the end side of the component's header.
+   */
+  "actions-end": Node[];
+  /**
+   * A slot for adding `calcite-action`s or content to the start side of the component's header.
+   */
+  "actions-start": Node[];
+  /**
+   * A slot for adding non-actionable elements after the component's header text.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding non-actionable elements before the component's header text.
+   */
+  "content-start": Node[];
+}
+
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
- * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
- * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
- * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
- * @slot content-end - A slot for adding non-actionable elements after the component's header text.
- * @slot content-start - A slot for adding non-actionable elements before the component's header text.
  */
 export class AccordionItem extends LitElement {
   //#region Static Members
@@ -37,6 +142,8 @@ export class AccordionItem extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: AccordionItemSlots;
 
   private direction = useDirection();
 

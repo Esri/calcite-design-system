@@ -20,6 +20,27 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-radio-button-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-radio-button-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-radio-button-corner-radius": "*";
+    /**
+     * Specifies the component's size.
+     */
+    "--calcite-radio-button-size": "*";
+  }
+}
+
 export class RadioButton extends LitElement implements LabelableComponent {
   //#region Static Members
 

@@ -60,12 +60,122 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-autocomplete-item` elements.
- * @slot content-bottom - A slot for adding content below `calcite-autocomplete-item` elements.
- * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-autocomplete-background-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-autocomplete-corner-radius": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-autocomplete-text-color": "*";
+    /**
+     * Specifies the maximum height of the component's menu.
+     */
+    "--calcite-autocomplete-menu-max-size-y": "*";
+    /**
+     * Specifies the input's prefix width, when present.
+     */
+    "--calcite-autocomplete-input-prefix-size": "*";
+    /**
+     * Specifies the input's suffix width, when present.
+     */
+    "--calcite-autocomplete-input-suffix-size": "*";
+    /**
+     * Specifies the background color of the component's input.
+     */
+    "--calcite-autocomplete-input-background-color": "*";
+    /**
+     * Specifies the border color of the component's input.
+     */
+    "--calcite-autocomplete-input-border-color": "*";
+    /**
+     * Specifies the corner radius of the component's input.
+     */
+    "--calcite-autocomplete-input-corner-radius": "*";
+    /**
+     * Specifies the shadow of the component's input.
+     */
+    "--calcite-autocomplete-input-shadow": "*";
+    /**
+     * Specifies the icon color of the component's input.
+     */
+    "--calcite-autocomplete-input-icon-color": "*";
+    /**
+     * Specifies the text color of the component's input.
+     */
+    "--calcite-autocomplete-input-text-color": "*";
+    /**
+     * Specifies the placeholder text color of the component's input.
+     */
+    "--calcite-autocomplete-input-placeholder-text-color": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element.
+     */
+    "--calcite-autocomplete-input-actions-background-color": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when hovered.
+     */
+    "--calcite-autocomplete-input-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when pressed.
+     */
+    "--calcite-autocomplete-input-actions-background-color-press": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` element.
+     */
+    "--calcite-autocomplete-input-actions-icon-color": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` element when hovered.
+     */
+    "--calcite-autocomplete-input-actions-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` element when pressed.
+     */
+    "--calcite-autocomplete-input-actions-icon-color-press": "*";
+    /**
+     * Specifies the background color of the Input's `loading` element, when present.
+     */
+    "--calcite-autocomplete-input-loading-background-color": "*";
+    /**
+     * Specifies the fill color of the Input's `loading` element, when present.
+     */
+    "--calcite-autocomplete-input-loading-fill-color": "*";
+    /**
+     * Specifies the text color of the Input's prefix, when present.
+     */
+    "--calcite-autocomplete-input-prefix-text-color": "*";
+    /**
+     * Specifies the text color of the Input's suffix, when present.
+     */
+    "--calcite-autocomplete-input-suffix-text-color": "*";
+  }
+}
+
+interface AutocompleteSlots {
+  /**
+   * A slot for adding `calcite-autocomplete-item` elements.
+   */
+  "": Node[];
+  /**
+   * A slot for adding content below `calcite-autocomplete-item` elements.
+   */
+  "content-bottom": Node[];
+  /**
+   * A slot for adding content above `calcite-autocomplete-item` elements.
+   */
+  "content-top": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Autocomplete
   extends LitElement
   implements FloatingUIComponent, LabelableComponent, TextualInputComponent
@@ -79,6 +189,8 @@ export class Autocomplete
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: AutocompleteSlots;
 
   private guid = guid();
 

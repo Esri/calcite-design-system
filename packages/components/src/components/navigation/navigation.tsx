@@ -26,25 +26,78 @@ declare global {
   }
 }
 
-/**
- * @slot logo - A slot for adding a `calcite-logo` component to the primary navigation level.
- * @slot user - A slot for adding a `calcite-user` component to the primary navigation level.
- * @slot progress - A slot for adding a `calcite-progress` component to the primary navigation level.
- * @slot navigation-action - A slot for adding a `calcite-action` component to the primary navigation level.
- * @slot content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of any navigation level.
- * @slot content-center - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary navigation level.
- * @slot content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of any navigation level.
- * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
- * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the width of the component's content area.
+     */
+    "--calcite-navigation-width": "*";
+    /**
+     * Specifies the background color of the component.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-navigation-background-color` instead.
+     */
+    "--calcite-navigation-background": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-navigation-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-navigation-border-color": "*";
+  }
+}
+
+interface NavigationSlots {
+  /**
+   * A slot for adding a `calcite-logo` component to the primary navigation level.
+   */
+  logo: Node[];
+  /**
+   * A slot for adding a `calcite-user` component to the primary navigation level.
+   */
+  user: Node[];
+  /**
+   * A slot for adding a `calcite-progress` component to the primary navigation level.
+   */
+  progress: Node[];
+  /**
+   * A slot for adding a `calcite-action` component to the primary navigation level.
+   */
+  "navigation-action": Node[];
+  /**
+   * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of any navigation level.
+   */
+  "content-start": Node[];
+  /**
+   * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary navigation level.
+   */
+  "content-center": Node[];
+  /**
+   * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of any navigation level.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
+   */
+  "navigation-secondary": Node[];
+  /**
+   * A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
+   */
+  "navigation-tertiary": Node[];
+}
+
 export class Navigation extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  override ["@slots"]!: NavigationSlots;
 
   private navigationActionRef = createRef<Action["el"]>();
 
@@ -56,9 +109,9 @@ export class Navigation extends LitElement {
     this.updateNestedNavigation();
   });
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() logoSlotHasElements = false;
 
@@ -78,9 +131,9 @@ export class Navigation extends LitElement {
 
   @state() userSlotHasElements = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** @copyDoc */
   @property() label?: string;
@@ -91,9 +144,9 @@ export class Navigation extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * When `navigationAction` is `true`, sets focus on the component's action element.
@@ -107,16 +160,16 @@ export class Navigation extends LitElement {
     return this.focusSetter(() => this.navigationActionRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true });
@@ -143,9 +196,9 @@ export class Navigation extends LitElement {
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private actionClickHandler() {
     this.calciteNavigationActionSelect.emit();
@@ -245,9 +298,9 @@ export class Navigation extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderMenuAction(): JsxNode {
     return (
@@ -311,5 +364,5 @@ export class Navigation extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

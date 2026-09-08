@@ -40,9 +40,13 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-block` elements.
- */
+interface BlockGroupSlots {
+  /**
+   * A slot for adding `calcite-block` elements.
+   */
+  "": Node[];
+}
+
 export class BlockGroup extends LitElement {
   //#region Static Members
 
@@ -51,6 +55,8 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: BlockGroupSlots;
 
   dragSelector = blockSelector;
 

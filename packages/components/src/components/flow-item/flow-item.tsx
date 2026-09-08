@@ -22,24 +22,194 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
- * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
- * @slot header-top - A slot for adding custom content above the header actions and content.
- * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
- * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
- * @slot header-content - A slot for adding custom content to the component's header.
- * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
- * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
- * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
- * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the padding of the component's footer.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-footer-space` instead.
+     */
+    "--calcite-flow-item-footer-padding": "*";
+    /**
+     * Specifies the component header's block end border.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-border-color` instead.
+     */
+    "--calcite-flow-item-header-border-block-end": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-flow-corner-radius": "*";
+    /**
+     * Specifies the text color of the component's `heading`.
+     */
+    "--calcite-flow-heading-text-color": "*";
+    /**
+     * Specifies the color of the component's `icon`.
+     */
+    "--calcite-flow-icon-color": "*";
+    /**
+     * Specifies the text color of the component's `description`.
+     */
+    "--calcite-flow-description-text-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-flow-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-flow-background-color": "*";
+    /**
+     * Specifies the padding of the component's `content-top` slot.
+     */
+    "--calcite-flow-content-top-space": "*";
+    /**
+     * Specifies the padding of the component's `content-bottom` slot.
+     */
+    "--calcite-flow-content-bottom-space": "*";
+    /**
+     * Specifies the padding of the component's `header-top` slot.
+     */
+    "--calcite-flow-header-top-space": "*";
+    /**
+     * Specifies the background color of the component's header.
+     */
+    "--calcite-flow-header-background-color": "*";
+    /**
+     * Specifies the background color of the component's footer.
+     */
+    "--calcite-flow-footer-background-color": "*";
+    /**
+     * Specifies the padding of the component's `unnamed (default)` slot.
+     */
+    "--calcite-flow-space": "*";
+    /**
+     * Specifies the padding of the component's `header-content` slot.
+     */
+    "--calcite-flow-header-content-space": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     */
+    "--calcite-flow-footer-space": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s. Applies to any slotted `calcite-action`s.
+     */
+    "--calcite-action-background-color": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
+     */
+    "--calcite-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
+     */
+    "--calcite-action-background-color-pressed": "*";
+    /**
+     * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
+     */
+    "--calcite-action-text-color-hover": "*";
+    /**
+     * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
+     */
+    "--calcite-action-text-color-pressed": "*";
+    /**
+     * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+     */
+    "--calcite-popover-border-color": "*";
+    /**
+     * Specifies the background color of any `calcite-action`s in the component's header when hovered.
+     */
+    "--calcite-flow-header-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of any `calcite-action`s in the component's header when pressed.
+     */
+    "--calcite-flow-header-action-background-color-press": "*";
+    /**
+     * Specifies the background color of any `calcite-action`s in the component's header.
+     */
+    "--calcite-flow-header-action-background-color": "*";
+    /**
+     * Specifies the color of any `calcite-action`s indicator in the component's header.
+     */
+    "--calcite-flow-header-action-indicator-color": "*";
+    /**
+     * Specifies the text color of any `calcite-action`s in the component's header when pressed.
+     */
+    "--calcite-flow-header-action-text-color-press": "*";
+    /**
+     * Specifies the text color of any `calcite-action`s in the component's header.
+     */
+    "--calcite-flow-header-action-text-color": "*";
+  }
+}
+
+interface FlowItemSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a `calcite-action-bar` to the component.
+   */
+  "action-bar": Node[];
+  /**
+   * A slot for adding `calcite-alert`s to the component.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+   */
+  "content-bottom": Node[];
+  /**
+   * A slot for adding custom content above the header actions and content.
+   */
+  "header-top": Node[];
+  /**
+   * A slot for adding `calcite-action`s or content to the start side of the component's header.
+   */
+  "header-actions-start": Node[];
+  /**
+   * A slot for adding `calcite-action`s or content to the end side of the component's header.
+   */
+  "header-actions-end": Node[];
+  /**
+   * A slot for adding custom content to the component's header.
+   */
+  "header-content": Node[];
+  /**
+   * A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+   */
+  "header-menu-actions": Node[];
+  /**
+   * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   */
+  description: Node[];
+  /**
+   * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   */
+  fab: Node[];
+  /**
+   * A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
+   */
+  "footer-end": Node[];
+  /**
+   * A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
+   */
+  "footer-start": Node[];
+}
+
 export class FlowItem extends LitElement {
   //#region Static Members
 
@@ -48,6 +218,8 @@ export class FlowItem extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: FlowItemSlots;
 
   private backButtonRef = createRef<Action["el"]>();
 

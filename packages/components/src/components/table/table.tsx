@@ -27,12 +27,190 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
- * @slot table-header - A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
- * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
- * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-table-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-table-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-table-shadow": "*";
+    /**
+     * Specifies the background color of the component's `numbered` cell.
+     */
+    "--calcite-table-number-cell-background-color": "*";
+    /**
+     * Specifies the text color of the component's `numbered` cell.
+     */
+    "--calcite-table-number-cell-text-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons.
+     */
+    "--calcite-table-selection-cell-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons on `selected` `calcite-table-row`s.
+     */
+    "--calcite-table-selection-cell-background-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `calcite-table-row`s where `selected` is `false`.
+     */
+    "--calcite-table-selection-cell-icon-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `selected` `calcite-table-row`s.
+     */
+    "--calcite-table-selection-cell-icon-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the background color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the border color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-border-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the corner radius of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-corner-radius": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the shadow of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-shadow": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the text color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-text-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-background-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-border-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-text-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the background color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the border color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-border-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the corner radius of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-corner-radius": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the icon color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-icon-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the shadow of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-shadow": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the text color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-text-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when active.
+     */
+    "--calcite-table-selection-dismiss-button-background-color-active": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when hovered.
+     */
+    "--calcite-table-selection-dismiss-button-background-color-hover": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when active.
+     */
+    "--calcite-table-selection-dismiss-button-border-color-active": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when hovered.
+     */
+    "--calcite-table-selection-dismiss-button-border-color-hover": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-border-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the corner radius of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-corner-radius": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the shadow of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-shadow": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when active.
+     */
+    "--calcite-table-selection-dismiss-button-text-color-active": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when hovered.
+     */
+    "--calcite-table-selection-dismiss-button-text-color-hover": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-text-color": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item color.
+     */
+    "--calcite-table-pagination-color": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item color when hovered or selected.
+     */
+    "--calcite-table-pagination-color-hover": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item bottom border color when hovered.
+     */
+    "--calcite-table-pagination-color-border-hover": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item bottom border color when selected.
+     */
+    "--calcite-table-pagination-color-border-active": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item background color when active.
+     */
+    "--calcite-table-pagination-background-color": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination chevron item background color when hovered.
+     */
+    "--calcite-table-pagination-icon-color-background-hover": "*";
+  }
+}
+
+interface TableSlots {
+  /**
+   * A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
+   */
+  "": Node[];
+  /**
+   * A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
+   */
+  "table-header": Node[];
+  /**
+   * A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
+   */
+  "table-footer": Node[];
+  /**
+   * A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
+   */
+  "selection-actions": Node[];
+}
+
 export class Table extends LitElement {
   //#region Static Members
 
@@ -41,6 +219,8 @@ export class Table extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: TableSlots;
 
   private allRows: TableRow["el"][] = [];
 
@@ -199,15 +379,6 @@ export class Table extends LitElement {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
-  override disconnectedCallback(): void {
-    if (this.tableContainerOverflowAnimationFrame !== null) {
-      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
-      this.tableContainerOverflowAnimationFrame = null;
-    }
-
-    this.tableContainerResizeObserver?.disconnect();
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -238,6 +409,15 @@ export class Table extends LitElement {
         this.resetStickyHeaderState();
       }
     }
+  }
+
+  override disconnectedCallback(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+      this.tableContainerOverflowAnimationFrame = null;
+    }
+
+    this.tableContainerResizeObserver?.disconnect();
   }
 
   //#endregion

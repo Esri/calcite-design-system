@@ -58,6 +58,79 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-color-picker-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-color-picker-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-color-picker-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-color-picker-shadow": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-color-picker-text-color": "*";
+    /**
+     * Specifies the component's input background color.
+     */
+    "--calcite-color-picker-input-background-color": "*";
+    /**
+     * Specifies the component's input border color.
+     */
+    "--calcite-color-picker-input-border-color": "*";
+    /**
+     * Specifies the component's input text color.
+     */
+    "--calcite-color-picker-input-text-color": "*";
+    /**
+     * When `hexDisabled` is not `true`, specifies the component's input prefix text color.
+     */
+    "--calcite-color-picker-input-prefix-text-color": "*";
+    /**
+     * When `alphaChannel` is `true`, specifies the component's input suffix text color.
+     */
+    "--calcite-color-picker-input-suffix-text-color": "*";
+    /**
+     * Specifies the component's tab border color.
+     */
+    "--calcite-color-picker-tab-border-color": "*";
+    /**
+     * Specifies the component's tab text color.
+     */
+    "--calcite-color-picker-tab-text-color": "*";
+    /**
+     * Specifies the component's tab accent color when selected or active.
+     */
+    "--calcite-color-picker-tab-accent-color-press": "*";
+    /**
+     * Specifies the component's swatch corner radius.
+     */
+    "--calcite-color-picker-swatch-corner-radius": "*";
+    /**
+     * Specifies the component's `savedColors` action text color when pressed.
+     */
+    "--calcite-color-picker-action-text-color-press": "*";
+    /**
+     * Specifies the component's `savedColors` action text color when hovered.
+     */
+    "--calcite-color-picker-action-text-color-hover": "*";
+    /**
+     * Specifies the component's `savedColors` action text color.
+     */
+    "--calcite-color-picker-action-text-color": "*";
+  }
+}
+
 const throttleFor60FpsInMs = 16;
 
 export class ColorPicker extends LitElement {

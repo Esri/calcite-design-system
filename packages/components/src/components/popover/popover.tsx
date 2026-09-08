@@ -42,9 +42,40 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-popover-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-popover-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-popover-corner-radius": "*";
+    /**
+     * Specifies the component's maximum width.
+     */
+    "--calcite-popover-max-size-x": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-popover-text-color": "*";
+  }
+}
+
+interface PopoverSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 const manager = referenceElementManager({ click: true });
 
-/** @slot - A slot for adding custom content. */
 export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
@@ -53,6 +84,8 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: PopoverSlots;
 
   referenceElementType: ReferenceElementType = "click";
 

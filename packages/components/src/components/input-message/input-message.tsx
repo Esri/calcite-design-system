@@ -21,9 +21,34 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the margin spacing at the top of the component.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-input-message-spacing` instead.
+     */
+    "--calcite-input-message-spacing-value": "*";
+    /**
+     * Specifies the component's top margin spacing.
+     */
+    "--calcite-input-message-spacing": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-input-message-icon-color": "*";
+  }
+}
+
+interface InputMessageSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-notice` component with `appearance="transparent"` instead.
- * @slot - A slot for adding text.
  */
 export class InputMessage extends LitElement {
   //#region Static Members
@@ -33,6 +58,8 @@ export class InputMessage extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: InputMessageSlots;
 
   /** the computed icon to render */
   private requestedIcon?: IconName;

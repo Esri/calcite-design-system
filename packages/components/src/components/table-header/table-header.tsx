@@ -16,6 +16,33 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-header-background-color` instead.
+     */
+    "--calcite-table-header-background": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-table-header-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-table-header-border-color": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-table-header-heading-text-color": "*";
+    /**
+     * Specifies the component's `description` text color.
+     */
+    "--calcite-table-header-description-text-color": "*";
+  }
+}
+
 export class TableHeader extends LitElement {
   //#region Static Members
 

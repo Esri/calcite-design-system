@@ -9,21 +9,29 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding content. */
+interface CarouselItemSlots {
+  /**
+   * A slot for adding content.
+   */
+  "": Node[];
+}
+
 export class CarouselItem extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  override ["@slots"]!: CarouselItemSlots;
 
   private guid = IDS.host(guid());
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * @copyDoc
@@ -34,9 +42,9 @@ export class CarouselItem extends LitElement {
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const id = this.el.id || this.guid;
@@ -53,5 +61,5 @@ export class CarouselItem extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

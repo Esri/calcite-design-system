@@ -29,10 +29,30 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-radio-button`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the space between slotted components in the component.
+     */
+    "--calcite-radio-button-group-gap": "*";
+    /**
+     * Specifies the margin spacing at the top of the `calcite-input-message`.
+     */
+    "--calcite-radio-button-input-message-spacing": "*";
+  }
+}
+
+interface RadioButtonGroupSlots {
+  /**
+   * A slot for adding `calcite-radio-button`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class RadioButtonGroup extends LitElement {
   //#region Static Members
 
@@ -41,6 +61,8 @@ export class RadioButtonGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  override ["@slots"]!: RadioButtonGroupSlots;
 
   /**
    * Made into a prop for testing purposes only
