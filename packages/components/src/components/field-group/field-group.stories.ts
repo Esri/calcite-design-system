@@ -1,22 +1,22 @@
 import { html } from "../../../support/formatting";
 
 type FieldGroupStoryArgs = {
-  columns: 1 | 2 | 3 | 4 | 5 | 6;
-  columnGap: string;
-  gap: string;
-  layout: "columns" | "horizontal" | "vertical";
   scale: "s" | "m" | "l";
+  layout: "columns" | "horizontal" | "vertical";
+  columns: 1 | 2 | 3 | 4 | 5 | 6;
+  gap: string;
+  columnGap: string;
 };
 
 export default {
   title: "Components/Field Group",
   parameters: { layout: "padded" },
-  args: { columns: 2, columnGap: "", gap: "", layout: "vertical", scale: "m" },
+  args: { scale: "m", layout: "vertical", columns: 2, gap: "", columnGap: "" },
   argTypes: {
     scale: { options: ["s", "m", "l"], control: { type: "radio" } },
-    gap: { control: { type: "text" } },
     layout: { options: ["vertical", "horizontal", "columns"], control: { type: "radio" } },
     columns: { options: [1, 2, 3, 4, 5, 6], control: { type: "radio" }, if: { arg: "layout", eq: "columns" } },
+    gap: { control: { type: "text" } },
     columnGap: {
       name: "column gap",
       control: { type: "text" },

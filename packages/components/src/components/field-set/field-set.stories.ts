@@ -133,16 +133,12 @@ simpleUsingLabel.parameters = {
 
 export const disabled = (args: FieldSetStoryArgs): string => simple(args);
 disabled.args = { disabled: true };
-disabled.parameters = {
-  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
-};
+disabled.parameters = { controls: { disable: true } };
 
 export const disabledUsingLabel = (args: FieldSetStoryArgs): string => labels(args);
 disabledUsingLabel.storyName = "Disabled (using 'Label')";
 disabledUsingLabel.args = { disabled: true };
-disabledUsingLabel.parameters = {
-  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
-};
+disabledUsingLabel.parameters = { controls: { disable: true } };
 
 export const scales = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; gap: 3rem;">
