@@ -63,6 +63,19 @@ describe("renders", () => {
   );
 });
 
+describe("scale gap values", () => {
+  it.each([
+    ["s", "8px"],
+    ["m", "12px"],
+    ["l", "16px"],
+  ] as const)("resolves the field set gap to %s at scale %s", async (scale, expectedGap) => {
+    const { el } = await mount<"calcite-field-set">(<calcite-field-set scale={scale} />);
+    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
+
+    expect(getComputedStyle(container).gap).toBe(expectedGap);
+  });
+});
+
 describe("structure", () => {
   it("renders a fieldset with a legend", async () => {
     const { el } = await mount<"calcite-field-set">(<calcite-field-set />);

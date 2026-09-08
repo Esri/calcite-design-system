@@ -72,7 +72,10 @@ describe("scale propagation", () => {
   it("propagates scale through nested field groups", async () => {
     const { el } = await mount(
       <calcite-field-group scale="s">
-        <calcite-field-set id="direct" />
+        <calcite-field-group id="direct">
+          <calcite-field-set />
+        </calcite-field-group>
+        <calcite-field-set id="direct-field-set" />
         <calcite-field-group>
           <calcite-field-set id="nested" />
         </calcite-field-group>
@@ -85,6 +88,46 @@ describe("scale propagation", () => {
 
     expect(direct.scale).toBe("s");
     expect(nested.scale).toBe("s");
+  });
+
+  it("updates the scale of slotted field sets when the field group scale changes", async () => {
+    const { el } = await mount(
+      <calcite-field-group>
+        <calcite-field-set id="direct" />
+        <calcite-field-group>
+          <calcite-field-set id="nested" />
+        </calcite-field-group>
+      </calcite-field-group>,
+    );
+    const fieldGroup = el as ScaledElement;
+    const direct = el.querySelector<ScaledElement>("#direct")!;
+    const nested = el.querySelector<ScaledElement>("#nested")!;
+
+    fieldGroup.scale = "l";
+
+    await waitForUpdate(fieldGroup);
+    await Promise.all([waitForUpdate(direct), waitForUpdate(nested)]);
+
+    expect(direct.scale).toBe("l");
+    expect(nested.scale).toBe("l");
+  });
+});
+
+describe("scale gap values", () => {
+  it.each([
+    ["s", "8px"],
+    ["m", "12px"],
+    ["l", "16px"],
+  ] as const)("uses the scale gap for column layouts at scale %s", async (scale, expectedGap) => {
+    const { el } = await mount(
+      <calcite-field-group columns={2} layout="columns" scale={scale}>
+        <calcite-input />
+        <calcite-input />
+      </calcite-field-group>,
+    );
+    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
+
+    expect(getComputedStyle(container).columnGap).toBe(expectedGap);
   });
 });
 

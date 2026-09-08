@@ -48,7 +48,10 @@
     align-items: start;
     column-gap: var(
       --calcite-field-group-column-gap,
-      var(--calcite-field-group-gap, var(--calcite-field-set-column-gap, var(--calcite-space-md)))
+      var(
+        --calcite-field-group-gap,
+        var(--calcite-internal-field-group-gap, var(--calcite-field-set-column-gap, var(--calcite-space-md)))
+      )
     );
     grid-template-columns: repeat(
       var(--calcite-field-group-columns, var(--calcite-internal-field-group-columns, 1)),

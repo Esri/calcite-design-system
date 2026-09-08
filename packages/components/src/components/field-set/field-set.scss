@@ -7,7 +7,7 @@
  * @prop --calcite-field-set-columns: When `layout` is `"columns"`, specifies the component's number of columns.
  * @prop --calcite-field-set-input-gap: Specifies the gap between the component's slotted elements.
  * @prop --calcite-field-set-legend-text-color: Specifies the legend text color.
- * @prop --calcite-field-set-gap: Specifies the gap between the legend, input slot wrapper and notice slot.
+ * @prop --calcite-field-set-gap: Specifies the gap between the legend and input slot wrapper.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -78,6 +78,7 @@
 }
 
 :host([scale="s"]) {
+  --calcite-field-set-gap: var(--calcite-space-sm);
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-xs);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-sm);
@@ -86,6 +87,7 @@
 }
 
 :host([scale="m"]) {
+  --calcite-field-set-gap: var(--calcite-space-md);
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-md);
@@ -94,6 +96,7 @@
 }
 
 :host([scale="l"]) {
+  --calcite-field-set-gap: var(--calcite-space-lg);
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-md);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-lg);
   --calcite-internal-field-set-legend-min-block-size: 2.5rem; // TODO: we don't have a variable for this; should we do math on two others? (e.g., calc(var(--calcite-size-sm) + var(--calcite-size-sm))
