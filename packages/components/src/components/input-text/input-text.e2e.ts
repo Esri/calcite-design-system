@@ -1,14 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import type { InputMessage } from "../input-message/input-message";
 import type { InputText } from "./input-text";
-
-describe("labelable", () => {
-  labelable("calcite-input-text");
-});
 
 it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
   const page = await newE2EPage({ html: "<calcite-input-text></calcite-input-text>" });

@@ -1,21 +1,9 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { GlobalTestProps } from "../../tests/utils/types";
 import type { SegmentedControl } from "./segmented-control";
-
-describe("labelable", () => {
-  labelable(
-    html`<calcite-segmented-control>
-      <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
-      <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
-      <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
-    </calcite-segmented-control>`,
-    { focusTargetSelector: "calcite-segmented-control-item" },
-  );
-});
 
 it("sets value from selected item", async () => {
   const page = await newE2EPage();

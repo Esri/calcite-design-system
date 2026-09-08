@@ -16,7 +16,7 @@ import {
   accessible,
   scalePropagates,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";

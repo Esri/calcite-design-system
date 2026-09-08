@@ -9,6 +9,7 @@ import {
   reflects,
   hidden,
   internalLabel,
+  labelable,
   renders,
   slots,
   floatingUIOwner,
@@ -21,10 +22,10 @@ import {
   accessible,
   scalePropagates,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
@@ -40,6 +41,10 @@ describe("global props", () => {
       inputMode: "search",
     },
   );
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-autocomplete", mountOptions));
 });
 
 describe("accessible", () => {

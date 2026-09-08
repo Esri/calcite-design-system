@@ -12,7 +12,7 @@ import {
   t9n,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 import type { Layout } from "./types";
 

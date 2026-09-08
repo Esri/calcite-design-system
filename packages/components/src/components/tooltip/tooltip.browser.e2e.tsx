@@ -12,7 +12,7 @@ import {
   openClose,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { css } from "../../../support/formatting";
 import {
@@ -24,7 +24,7 @@ import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 import { html } from "lit";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import { logger } from "../../utils/logger";
 
 declare global {
