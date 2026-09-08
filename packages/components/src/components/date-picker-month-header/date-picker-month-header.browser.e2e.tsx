@@ -16,7 +16,6 @@ const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader["el"]) => {
     days: {
       narrow: ["D", "L", "M", "M", "J", "V", "S"],
     },
-    numerals: "0123456789",
     months: {
       abbreviated: [
         "ene.",
@@ -32,7 +31,6 @@ const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader["el"]) => {
         "nov.",
         "dic.",
       ],
-      narrow: ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
       wide: [
         "enero",
         "febrero",
