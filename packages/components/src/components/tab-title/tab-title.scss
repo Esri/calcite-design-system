@@ -33,20 +33,28 @@
 @use "../../styles/includes";
 
 :host {
-  @apply block outline-none;
+  display: block;
+  outline: var(--calcite-border-width-md) solid transparent;
+  outline-offset: var(--calcite-space-base);
   margin-inline-start: theme("margin.0");
 }
 
 :host([layout="inline"]) {
-  @apply flex-initial;
+  flex: 0 1 auto;
 }
 
 :host([layout="center"]) {
-  @apply flex-auto;
+  flex: 1 1 auto;
 }
 
 .content {
-  @apply flex items-center justify-center h-full mb-0.5 relative box-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 100%;
+  margin-block-end: var(--calcite-space-base);
+  position: relative;
+  box-sizing: border-box;
 }
 
 .scale-s {
@@ -54,7 +62,9 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
 
   .content {
-    @apply text-n2h py-1;
+    font-size: var(--calcite-font-size-relative-sm);
+    line-height: var(--calcite-font-line-height-sm);
+    padding-block: var(--calcite-space-2xs);
   }
 }
 
@@ -63,7 +73,9 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
 
   .content {
-    @apply text-n1h py-2;
+    font-size: var(--calcite-font-size-relative-base);
+    line-height: var(--calcite-font-line-height-base);
+    padding-block: var(--calcite-space-sm);
   }
 }
 
@@ -72,44 +84,51 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xs);
 
   .content {
-    @apply text-0h py-2.5;
+    font-size: var(--calcite-font-size-relative-md);
+    line-height: var(--calcite-font-line-height-md);
+    padding-block: var(--calcite-space-sm-plus);
   }
 }
 
 :host([closable]) .content {
-  @apply border-b-color-transparent;
+  border-block-end-color: transparent;
 }
 
 :host([layout="inline"]),
 :host([layout="center"]) {
   .content {
-    @apply px-1;
+    padding-inline: var(--calcite-space-2xs);
   }
 }
 
 :host([layout="center"]) .scale-s,
 :host([layout="center"]) .scale-m,
 :host([layout="center"]) .scale-l {
-  @apply justify-center my-0 text-center;
+  justify-content: center;
+  margin-block: 0;
+  text-align: center;
 
   .content {
-    @apply flex-auto flex-grow;
+    flex: 1 1 auto;
+    flex-grow: 1;
   }
 }
 
 .container {
   @include includes.transition-default();
-  @apply relative
-  box-border
-  content-center
-  cursor-pointer
-  flex
-  focus-base
-  h-full
-  justify-between
-  px-0
-  text-n1h
-  w-full;
+
+  position: relative;
+  box-sizing: border-box;
+  align-content: center;
+  cursor: pointer;
+  display: flex;
+  outline-color: transparent;
+  block-size: 100%;
+  justify-content: space-between;
+  padding-inline: 0;
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
+  inline-size: 100%;
 
   color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
   background-color: var(--calcite-tab-background-color, transparent);
@@ -117,10 +136,9 @@
 
 .selected-indicator {
   @include includes.transition-default();
-  @apply absolute
-    block
-    w-full
-    h-0.5;
+  position: absolute;
+  display: block;
+  block-size: var(--calcite-space-base);
   inset-block-end: 0;
   inset-inline-start: 0;
   inset-inline-end: 0;
@@ -129,10 +147,9 @@
 
 :host([bordered][selected]) .container::after {
   @include includes.transition-default();
-  @apply absolute
-    block
-    w-full
-    h-0.5;
+  position: absolute;
+  display: block;
+  block-size: var(--calcite-space-base);
   inset-block-end: -1px;
   inset-inline-start: 0;
   inset-inline-end: 0;
@@ -172,10 +189,11 @@
 }
 
 .calcite-tab-title--icon {
-  @apply relative
-    m-0
-    inline-flex
-    self-center;
+  position: relative;
+  margin: 0;
+  display: inline-flex;
+  align-self: center;
+
   & svg {
     @include includes.transition-default();
   }
@@ -208,7 +226,7 @@
 }
 
 .content--has-text {
-  @apply p-1;
+  padding: var(--calcite-space-2xs);
 
   .calcite-tab-title--icon {
     &.icon-start {
@@ -293,7 +311,7 @@
 }
 
 :host([closed]) {
-  @apply hidden;
+  display: none;
 }
 
 :host([selected][bordered]) .container {
@@ -310,10 +328,14 @@
 }
 
 :host(:focus) .container {
-  @apply focus-inset;
+  outline: var(--calcite-border-width-md) solid
+    var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+  outline-offset: calc(
+    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+  );
 
   &:focus-within {
-    @apply focus-base;
+    outline-color: transparent;
   }
 }
 
@@ -328,19 +350,19 @@
 :host([layout="center"][bordered]) {
   .scale-m {
     .content {
-      @apply px-3;
+      padding-inline: var(--calcite-space-md);
     }
   }
 
   .scale-s {
     .content {
-      @apply px-2;
+      padding-inline: var(--calcite-space-sm);
     }
   }
 
   .scale-l {
     .content {
-      @apply px-4;
+      padding-inline: var(--calcite-space-lg);
     }
   }
 }
@@ -394,6 +416,7 @@
 @include includes.base-component();
 @include includes.disabled() {
   .container {
-    @apply pointer-events-none opacity-50;
+    pointer-events: none;
+    opacity: 0.5;
   }
 }

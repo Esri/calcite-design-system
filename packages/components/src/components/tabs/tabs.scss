@@ -10,7 +10,8 @@
 @use "../../styles/includes";
 
 :host {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
   background-color: var(--calcite-tab-background-color, var(--calcite-color-transparent));
 }
 
@@ -25,7 +26,10 @@
 }
 
 section {
-  @apply border flex flex-grow overflow-hidden;
+  border-width: var(--calcite-border-width-sm);
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
 
   border-block-start-style: solid;
   border-block-start-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
@@ -42,25 +46,25 @@ section {
 }
 
 :host([position="bottom"]) {
-  @apply flex-col-reverse;
+  flex-direction: column-reverse;
 
   section {
-    @apply flex-col-reverse
-      border-t-0
-      border-b;
+    flex-direction: column-reverse;
+    border-block-start-width: var(--calcite-border-width-none);
+    border-block-end-width: var(--calcite-border-width-sm);
   }
 }
 
 :host([bordered][scale="s"]) section {
-  @apply p-3;
+  padding: var(--calcite-space-md);
 }
 
 :host([bordered][scale="m"]) section {
-  @apply p-2;
+  padding: var(--calcite-space-sm);
 }
 
 :host([bordered][scale="l"]) section {
-  @apply p-4;
+  padding: var(--calcite-space-lg);
 }
 
 :host([position="bottom"]:not([bordered])) section {
@@ -70,12 +74,12 @@ section {
 
 @media (forced-colors: active) {
   :host([bordered]) section {
-    @apply border-t-0
-      border-b;
+    border-block-start-width: var(--calcite-border-width-none);
+    border-block-end-width: var(--calcite-border-width-sm);
   }
   :host([position="bottom"][bordered]) section {
-    @apply border-t
-      border-b-0;
+    border-block-start-width: var(--calcite-border-width-sm);
+    border-block-end-width: var(--calcite-border-width-none);
   }
 }
 

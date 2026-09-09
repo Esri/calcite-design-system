@@ -27,7 +27,8 @@
   --calcite-internal-tree-item-padding-block: 0.25rem;
   --calcite-internal-tree-item-children-container-padding: 1.25rem;
   --calcite-internal-tree-item-line-left-position: 0.75rem;
-  @apply text-n2h;
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 
 :host(:is([scale="s"], [scale="m"])) {
@@ -39,7 +40,8 @@
   --calcite-internal-tree-item-padding-block: 0.5rem;
   --calcite-internal-tree-item-children-container-padding: 1.5rem;
   --calcite-internal-tree-item-line-left-position: 1rem;
-  @apply text-n1h;
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
 }
 
 :host([scale="l"]) {
@@ -48,13 +50,14 @@
   --calcite-internal-tree-item-padding-block: 0.625rem;
   --calcite-internal-tree-item-children-container-padding: 2.25rem;
   --calcite-internal-tree-item-line-left-position: 1.5rem;
-  @apply text-0h;
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
 }
 
 :host {
-  @apply block
-    max-w-full
-    cursor-pointer;
+  display: block;
+  max-inline-size: 100%;
+  cursor: pointer;
 
   .children-container ::slotted(*) {
     padding-inline-start: var(--calcite-internal-tree-item-children-container-padding);
@@ -63,7 +66,7 @@
 }
 
 .node-actions-container {
-  @apply flex;
+  display: flex;
 
   .node-container,
   .checkbox-container {
@@ -87,11 +90,13 @@
 :host([lines]) {
   .children-container::after {
     @include includes.transition-default();
-    @apply absolute
-        top-0
-        w-px
-        transition-colors
-        z-default;
+    position: absolute;
+    inset-block-start: 0;
+    inline-size: var(--calcite-space-px);
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: var(--calcite-animation-timing);
+    z-index: var(--calcite-z-index);
     // ensure lines don't overlap focus outline
     block-size: 100%;
     inset-inline-start: var(--calcite-internal-tree-item-line-left-position);
@@ -101,11 +106,13 @@
 }
 
 :host(:not([lines])) .node-container::after {
-  @apply hidden;
+  display: none;
 }
 
 ::slotted(*) {
-  @apply min-w-0 max-w-full break-words;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow-wrap: break-word;
   color: inherit;
   text-decoration: none !important;
 
@@ -115,36 +122,50 @@
 }
 
 ::slotted(a) {
-  @apply w-full no-underline;
+  inline-size: 100%;
+  text-decoration-line: none;
 }
 
 // focus styles
 :host {
-  @apply outline-none;
+  outline: var(--calcite-border-width-md) solid transparent;
+  outline-offset: var(--calcite-border-width-md);
 
   .node-container {
-    @apply focus-base;
+    outline-color: transparent;
   }
   &:focus,
   &:active {
     .node-container {
-      @apply focus-inset;
+      outline: var(--calcite-border-width-md) solid
+        var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+      outline-offset: calc(
+        calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+      );
     }
   }
 }
 
 :host(:focus:not([disabled])) {
   .node-container {
-    @apply focus-inset outline-none;
+    outline: var(--calcite-border-width-md) solid
+      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+    outline-offset: calc(
+      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+    );
   }
 
   .checkbox {
-    @apply outline-none;
+    outline: var(--calcite-border-width-md) solid transparent;
+    outline-offset: var(--calcite-border-width-md);
   }
 }
 
 .actions-end {
-  @apply flex self-stretch flex-row items-center;
+  display: flex;
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
   gap: var(--calcite-internal-tree-item-action-spacing);
 }
 
@@ -159,7 +180,9 @@
 }
 
 .checkbox-label {
-  @apply pointer-events-none flex items-center;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
 }
 
 .children-container {
@@ -185,10 +208,14 @@
 }
 
 .node-container {
-  @apply relative flex grow items-center min-w-0;
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  min-inline-size: 0;
   .selection-icon {
     @include includes.transition-default();
-    @apply opacity-0;
+    opacity: 0;
     color: var(--calcite-color-border-1);
   }
 }
@@ -197,7 +224,7 @@
 :host([selected]) .node-container:hover,
 :host(:focus:not([disabled])) .node-container {
   .selection-icon {
-    @apply opacity-100;
+    opacity: 1;
   }
 }
 
@@ -205,7 +232,7 @@
 :host([selected]) .node-container:hover {
   --calcite-internal-tree-item-text-color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
 
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-internal-tree-item-text-color);
 
   .icon-start {
@@ -213,7 +240,7 @@
   }
 
   .selection-icon {
-    @apply opacity-100;
+    opacity: 1;
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
 }
@@ -221,15 +248,15 @@
 // dropdown with children
 :host([has-children]) .node-container {
   .selection-icon {
-    @apply hidden;
+    display: none;
   }
 }
 
 .chevron {
   @include includes.transition-default();
-  @apply text-color-3
-    relative
-    self-center;
+  color: var(--calcite-color-text-3);
+  position: relative;
+  align-self: center;
   flex: 0 0 auto;
   transform: rotate(0deg);
 
