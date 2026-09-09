@@ -2,8 +2,14 @@ import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import type { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import type { Combobox } from "./combobox";
+import { allModes } from "../../../.storybook/modes";
+import "./combobox"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../combobox-item/combobox-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../combobox-item-group/combobox-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { menuPlacement, overlayPositioning, scale, selectionMode, status } = ATTRIBUTES;
 
@@ -209,7 +215,7 @@ export const smallViewport = (): string => html`
     <calcite-combobox-item icon="clock" value="clock" heading="Clock"></calcite-combobox-item>
   </calcite-combobox>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">

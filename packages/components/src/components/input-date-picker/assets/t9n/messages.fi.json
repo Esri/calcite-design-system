@@ -1,6 +1,6 @@
 {
   "chooseDate": "Valitse päivämäärä",
-  "clear": "Clear value",
+  "clear": "Tyhjennä arvo",
   "date": "Päivämäärä",
   "dateFormat": "Päivämäärän muoto: {format}",
   "endDate": "Lopetuspäivämäärä",

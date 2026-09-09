@@ -10,13 +10,14 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   t9n,
   delegatesToFloatingUiOwningComponent,
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
 import { SLOTS } from "./resources";
@@ -185,6 +186,12 @@ describe("renders", () => {
   renders(() => mount("calcite-action-bar"), { display: "inline-flex" });
 });
 
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-action-bar />, mountOptions), {
+    targetSelector: "calcite-action-group, calcite-action",
+  });
+});
+
 describe("slots", () => {
   slots(() => mount("calcite-action-bar"), SLOTS);
 });
@@ -305,6 +312,8 @@ describe("selection-mode", () => {
 });
 
 describe("overflowing actions", () => {
+  const collapseToggleLabel = "Collapse action bar";
+
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -511,6 +520,90 @@ describe("overflowing actions", () => {
     );
 
     expect(overflowedActions.length).toBeGreaterThan(0);
+  });
+
+  it("accounts for action-menus slotted in action-groups when evaluating overflow", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar
+        expanded
+        messageOverrides={{
+          collapseLabel: collapseToggleLabel,
+          expandLabel: "Expand action bar",
+        }}
+        style={{ height: "160px" }}
+      >
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action-menu label="More actions">
+            <calcite-action icon="ellipsis" slot="trigger" text="More" />
+            <calcite-action icon="layers" text="Layers" />
+            <calcite-action icon="layer-basemap" text="Basemaps" />
+          </calcite-action-menu>
+          <calcite-action icon="bookmark" text="Bookmarks" />
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="information" text="Info" />
+          <calcite-action icon="link" text="Share" />
+          <calcite-action icon="table" text="Table" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedActions = page.getBySelector(
+      "calcite-action-bar > calcite-action-group calcite-action[slot='menu-actions']",
+    );
+    const collapseToggle = page.getByRole("button", { name: collapseToggleLabel });
+
+    expect(overflowedActions.length).toBeGreaterThan(0);
+    await expect.element(collapseToggle).toBeInViewport();
+  });
+
+  it("increases overflow when constrained and keeps the collapse toggle visible", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar
+        expanded
+        messageOverrides={{
+          collapseLabel: collapseToggleLabel,
+          expandLabel: "Expand action bar",
+        }}
+        style={{ height: "320px" }}
+      >
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action-menu label="More actions">
+            <calcite-action icon="ellipsis" slot="trigger" text="More" />
+            <calcite-action icon="layers" text="Layers" />
+            <calcite-action icon="layer-basemap" text="Basemaps" />
+          </calcite-action-menu>
+          <calcite-action icon="bookmark" text="Bookmarks" />
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="information" text="Info" />
+          <calcite-action icon="link" text="Share" />
+          <calcite-action icon="table" text="Table" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedActions = page.getBySelector(
+      "calcite-action-bar > calcite-action-group calcite-action[slot='menu-actions']",
+    );
+    const collapseToggle = page.getByRole("button", { name: collapseToggleLabel });
+    const overflowCountAtLargeHeight = overflowedActions.length;
+
+    await expect.element(collapseToggle).toBeInViewport();
+
+    el.style.height = "160px";
+    vi.advanceTimersByTime(DEBOUNCE.resize + 1);
+
+    expect(overflowedActions.length).toBeGreaterThanOrEqual(overflowCountAtLargeHeight);
+    await expect.element(collapseToggle).toBeInViewport();
   });
 
   it("overflows actions from slotted actions-end groups", async () => {

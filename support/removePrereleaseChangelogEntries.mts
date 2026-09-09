@@ -1,12 +1,9 @@
-import { exec } from "node:child_process";
-import { promisify } from "node:util";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { globby } from "globby";
 
 (async function(): Promise<void> {
   try {
-    const execAsync = promisify(exec);
     const prereleaseChangelogSectionPattern = /##\s\[?\d+\.\d+\.\d+-(next|hotfix|rc)\.\d+(.*?)\n(?=##\s)/gs;
 
     const changelogs = await globby(["packages/**/CHANGELOG.md"], {

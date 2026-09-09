@@ -1,4 +1,4 @@
-import { ModeClass, ModeName } from "../components/interfaces";
+import { ModeClass, ModeName } from "../components/types";
 
 export const autoMode = "calcite-mode-auto";
 export const darkMode = "calcite-mode-dark";

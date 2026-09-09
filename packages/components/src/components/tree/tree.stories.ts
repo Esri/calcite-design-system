@@ -2,8 +2,15 @@ import { Decorator } from "@storybook/web-components-vite";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import type { Scale } from "../interfaces";
+import type { Scale } from "../types";
 import type { Tree } from "./tree";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tree"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tree-item/tree-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, selectionMode } = ATTRIBUTES;
 

@@ -3,6 +3,9 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./input-number"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, alignment, layout } = ATTRIBUTES;
 
@@ -30,8 +33,7 @@ type InputNumberStoryArgs = Pick<
   | "value"
   | "placeholder"
   | "validationIcon"
-  | "inlineEditable"
-  | "inlineEditableControls"
+  | "inlineEdit"
   | "validationMessage"
 >;
 
@@ -61,8 +63,7 @@ export default {
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
-    inlineEditable: false,
-    inlineEditableControls: false,
+    inlineEdit: false,
   },
   argTypes: {
     scale: {
@@ -97,6 +98,10 @@ export default {
       options: ["", ...iconNames],
       control: { type: "select" },
     },
+    inlineEdit: {
+      options: [false, true, "controls-disabled"],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -125,8 +130,8 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${boolean("inline-editable", args.inlineEditable)}
-      ${boolean("inline-editable-controls", args.inlineEditableControls)}
+      ${boolean("inline-edit", args.inlineEdit === true)}
+      ${optionalAttribute("inline-edit", args.inlineEdit === "controls-disabled" ? args.inlineEdit : "")}
       ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-number>
@@ -283,8 +288,22 @@ export const overlayDoesNotObscureIcon = (): string =>
 
 export const clearable = (): string => html` <calcite-input-number clearable value="123"> </calcite-input-number> `;
 
-export const inlineEditable = (): string => html`
-  <div>
-    <calcite-input-number inline-editable inline-editable-controls value="42"></calcite-input-number>
-  </div>
+export const inlineEdit = (): string => html` <calcite-input-number inline-edit value="42"></calcite-input-number> `;
+
+export const inlineEditConfirmLoading = (): string => html`
+  <calcite-input-number id="inline-edit-confirm-loading" inline-edit inline-editing value="42"></calcite-input-number>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-input-number");
+      const input = await document.querySelector("#inline-edit-confirm-loading").componentOnReady();
+      input.inlineEditingBeforeConfirm = () => new Promise(() => {});
+      input.shadowRoot.querySelector(".confirm-changes").click();
+    })();
+  </script>
+`;
+
+inlineEditConfirmLoading.parameters = { chromatic: { delay: 500 } };
+
+export const inlineEditControlsDisabled = (): string => html`
+  <calcite-input-number inline-edit="controls-disabled" value="42"></calcite-input-number>
 `;

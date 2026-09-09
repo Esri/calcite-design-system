@@ -6,6 +6,13 @@ describe("toAriaBoolean()", () => {
     expect(toAriaBoolean(true)).toBe("true");
     expect(toAriaBoolean(false)).toBe("false");
   });
+
+  it("supports custom false values", () => {
+    expect(toAriaBoolean(false, undefined)).toBeUndefined();
+    expect(toAriaBoolean(false, null)).toBeNull();
+    expect(toAriaBoolean(true, undefined)).toBe("true");
+    expect(toAriaBoolean(true, null)).toBe("true");
+  });
 });
 
 describe("ariaValueFromSize", () => {

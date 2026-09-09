@@ -9,10 +9,10 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { toAriaBoolean } from "../../utils/aria";
-import { RequestedItem } from "../dropdown-group/interfaces";
-import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/types";
+import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

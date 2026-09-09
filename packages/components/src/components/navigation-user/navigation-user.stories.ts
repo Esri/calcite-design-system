@@ -2,6 +2,8 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import type { NavigationUser } from "./navigation-user";
+import "../navigation/navigation"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./navigation-user"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 type NavigationUserStoryArgs = Pick<
   NavigationUser,

@@ -256,9 +256,10 @@
 }
 
 .track {
-  @apply relative h-0.5 rounded-none;
+  @apply relative h-0.5;
   background-color: var(--calcite-slider-track-color, var(--calcite-color-border-2));
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
+  border-radius: var(--calcite-corner-radius);
 }
 
 .track__range {

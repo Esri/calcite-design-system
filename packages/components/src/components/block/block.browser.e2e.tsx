@@ -16,20 +16,22 @@ import {
   disabled,
   openClose,
   accessible,
+  scalePropagates,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";
+import type { Block } from "./block";
 
 mockConsole();
 
 describe("accessible", () => {
   accessible(() =>
     mount(
-      <calcite-block collapsible description="description" expanded heading="heading">
+      <calcite-block description="description" expandable expanded heading="heading">
         <div>content</div>
       </calcite-block>,
     ),
@@ -42,6 +44,10 @@ describe("defaults", () => {
     [
       {
         propertyName: "collapsible",
+        defaultValue: false,
+      },
+      {
+        propertyName: "expandable",
         defaultValue: false,
       },
       {
@@ -93,7 +99,7 @@ describe("setFocus", () => {
     focusable(
       () =>
         mount(
-          <calcite-block collapsible description="summary" expanded heading="Heading">
+          <calcite-block description="summary" expandable expanded heading="Heading">
             <calcite-block-section expanded text="input block-section">
               <calcite-input
                 icon="form-field"
@@ -142,6 +148,10 @@ describe("reflects", () => {
         value: true,
       },
       {
+        propertyName: "expandable",
+        value: true,
+      },
+      {
         propertyName: "headingLevel",
         value: 2,
       },
@@ -183,6 +193,19 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-block"), { display: "flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-block>
+          <calcite-block-section />
+        </calcite-block>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-block-section, calcite-action-menu" },
+  );
 });
 
 describe("slots", () => {
@@ -228,7 +251,33 @@ describe("top layer placement", () => {
 });
 
 describe("disabled", () => {
-  disabled(() => mount(<calcite-block collapsible description="description" heading="heading" />));
+  disabled(() => mount(<calcite-block description="description" expandable heading="heading" />));
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Block>(<calcite-block heading="heading" />);
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("should omit aria-busy on sortable blocks when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Block>(<calcite-block drag-handle heading="heading" />);
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
 });
 
 describe("theme", () => {
@@ -237,8 +286,8 @@ describe("theme", () => {
       () =>
         mount(
           <calcite-block
-            collapsible
             description="description"
+            expandable
             expanded
             heading="heading"
             icon-end="pen"
@@ -250,6 +299,9 @@ describe("theme", () => {
           </calcite-block>,
         ),
       {
+        "--calcite-block-background-color": {
+          targetProp: "backgroundColor",
+        },
         "--calcite-block-border-color": {
           targetProp: "borderColor",
         },
@@ -263,10 +315,6 @@ describe("theme", () => {
             targetProp: "paddingInline",
           },
         ],
-        "--calcite-block-header-background-color": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-        },
         "--calcite-block-header-background-color-hover": {
           shadowSelector: `.${CSS.toggle}`,
           targetProp: "backgroundColor",
@@ -321,8 +369,8 @@ describe("theme", () => {
       () =>
         mount(
           <calcite-block
-            collapsible
             description="description"
+            expandable
             expanded
             heading="heading"
             icon-end="pen"
@@ -334,6 +382,10 @@ describe("theme", () => {
           </calcite-block>,
         ),
       {
+        "--calcite-block-header-background-color": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "backgroundColor",
+        },
         "--calcite-block-padding": [
           {
             shadowSelector: `section.${CSS.content}`,
@@ -379,7 +431,7 @@ describe("theme", () => {
   describe("toggleDisplay", () => {
     it("should toggle the expanded state when the toggleDisplay is switch", async () => {
       const { el } = await mount(
-        <calcite-block collapsible heading="heading" toggle-display="switch">
+        <calcite-block expandable heading="heading" toggle-display="switch">
           <div>content</div>
         </calcite-block>,
       );

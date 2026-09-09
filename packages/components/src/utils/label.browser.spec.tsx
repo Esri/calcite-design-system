@@ -15,7 +15,10 @@ class LabelableComponent extends LitElement {
 
   labelEl?: Label["el"];
 
-  labelController = useLabel(this);
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   onLabelClick(): void {}
 

@@ -4,6 +4,7 @@ import { dateFromISO } from "../../utils/date";
 import { getAssetPath } from "../../runtime";
 import { Locale } from "../../utils/locale";
 import type { DatePicker } from "./date-picker";
+import { logger } from "../../utils/logger";
 
 type MinSource = Extract<keyof DatePicker, "min" | "minAsDate">;
 type MaxSource = Extract<keyof DatePicker, "max" | "maxAsDate">;
@@ -105,7 +106,7 @@ export async function getLocaleData(locale: Locale): Promise<DateLocaleData> {
     requestCache[locale] = fetch(getAssetPath(`./assets/date-picker/nls/${locale}.json`))
       .then((resp) => resp.json())
       .catch(() => {
-        console.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
+        logger.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
         return getLocaleData(defaultLocale);
       });
   }

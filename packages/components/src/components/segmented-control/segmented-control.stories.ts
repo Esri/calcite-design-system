@@ -3,6 +3,9 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SegmentedControl } from "./segmented-control";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./segmented-control"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../segmented-control-item/segmented-control-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, appearance, scale, width, status } = ATTRIBUTES;
 

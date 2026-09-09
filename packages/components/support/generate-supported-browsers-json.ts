@@ -10,6 +10,7 @@
     const supportedBrowsers = browserslist();
     await writeFile(outFile, JSON.stringify(supportedBrowsers), "utf-8");
   } catch (err) {
+    // eslint-disable-next-line no-console -- script logging
     console.error(err);
     process.exit(1);
   }

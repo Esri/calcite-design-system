@@ -1,7 +1,7 @@
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import { Appearance, Kind, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Appearance, Kind, Scale } from "../types";
+import { IconName } from "../icon/types";
 import type { Button } from "../button/button";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

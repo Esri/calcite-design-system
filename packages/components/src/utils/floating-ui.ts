@@ -17,9 +17,10 @@ import {
 } from "@floating-ui/dom";
 import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
-import { Layout } from "../components/interfaces";
+import { Layout } from "../components/types";
 import { DEBOUNCE } from "./resources";
 import { Direction } from "./dom";
+import { logger } from "./logger";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
   if (!isServer) {
@@ -415,7 +416,7 @@ export function filterValidFlipPlacements(placements: string[], el: HTMLElement)
   const filteredPlacements = placements.filter(isFlipPlacement);
 
   if (filteredPlacements.length !== placements.length) {
-    console.warn(
+    logger.warn(
       `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${flipPlacements
         .map((placement) => `"${placement}"`)
         .join(", ")

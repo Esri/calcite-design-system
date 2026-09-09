@@ -3,6 +3,8 @@ import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { Slider } from "./slider";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./slider"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, sliderFillPlacement, status } = ATTRIBUTES;
 

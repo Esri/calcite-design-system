@@ -86,8 +86,8 @@
 
 :host([lines]) {
   .children-container::after {
-    @apply transition-default
-        absolute
+    @include includes.transition-default();
+    @apply absolute
         top-0
         w-px
         transition-colors
@@ -187,7 +187,8 @@
 .node-container {
   @apply relative flex grow items-center min-w-0;
   .selection-icon {
-    @apply transition-default opacity-0;
+    @include includes.transition-default();
+    @apply opacity-0;
     color: var(--calcite-color-border-1);
   }
 }
@@ -225,8 +226,8 @@
 }
 
 .chevron {
-  @apply transition-default
-    text-color-3
+  @include includes.transition-default();
+  @apply text-color-3
     relative
     self-center;
   flex: 0 0 auto;

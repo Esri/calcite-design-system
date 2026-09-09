@@ -20,17 +20,18 @@ import {
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../interfaces";
+import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../types";
 import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
-import type { IconName } from "../icon/interfaces";
+import { isActionBar } from "../action-bar/resources";
+import type { IconName } from "../icon/types";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
-import type { DisplayMode } from "./interfaces";
+import type { DisplayMode } from "./types";
 import { styles } from "./shell-panel.scss";
 
 export type ShellPanelSizingData = {
@@ -626,9 +627,7 @@ export class ShellPanel extends LitElement {
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBar = slotChangeGetAssignedElements(event).find((el): el is ActionBar["el"] =>
-      el.matches("calcite-action-bar"),
-    );
+    const actionBar = slotChangeGetAssignedElements(event).find(isActionBar);
 
     this.actionBar = actionBar;
     this.setActionBarLayout(actionBar);

@@ -6,10 +6,11 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import type { Dialog } from "../dialog/dialog";
-import type { Sheet } from "../sheet/sheet";
-import type { Alert } from "../alert/alert";
 import type { ShellPanel, ShellPanelSizingData } from "../shell-panel/shell-panel";
+import { isAlert } from "../alert/resources";
+import { isDialog } from "../dialog/resources";
+import { isSheet } from "../sheet/resources";
+import { isShellPanel } from "../shell-panel/resources";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
@@ -145,11 +146,7 @@ export class Shell extends LitElement {
   //#region Private Methods
 
   private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
-    const panel = event
-      .composedPath()
-      .find((el) => (el as Element)?.matches?.("calcite-shell-panel")) as
-      | ShellPanel["el"]
-      | undefined;
+    const panel = event.composedPath().find(isShellPanel);
 
     if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
       this.updateResizableSlotState(panel.slot as PanelSlot);
@@ -159,11 +156,7 @@ export class Shell extends LitElement {
   }
 
   private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
-    const panel = event
-      .composedPath()
-      .find((el) => (el as Element)?.matches?.("calcite-shell-panel")) as
-      | ShellPanel["el"]
-      | undefined;
+    const panel = event.composedPath().find(isShellPanel);
 
     if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
       this.updateResizableSlotState(panel.slot as PanelSlot);
@@ -193,7 +186,7 @@ export class Shell extends LitElement {
   private handleAlertsSlotChange(event: Event): void {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)
-      .filter((el): el is Alert["el"] => el?.matches("calcite-alert"))
+      .filter(isAlert)
       .forEach((el) => {
         el.embedded = true;
       });
@@ -202,7 +195,7 @@ export class Shell extends LitElement {
   private handleSheetsSlotChange(event: Event): void {
     this.hasSheets = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)
-      .filter((el): el is Sheet["el"] => el?.matches("calcite-sheet"))
+      .filter(isSheet)
       .forEach((el) => {
         el.embedded = true;
       });
@@ -314,9 +307,7 @@ export class Shell extends LitElement {
   }
 
   private handlePanelTopChange(event: Event): void {
-    const panelElements = slotChangeGetAssignedElements(event).filter(
-      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
-    );
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
 
     this.hasPanelTop = slotChangeHasAssignedElement(event);
     this.configurePanels(panelElements, "horizontal", "start");
@@ -328,9 +319,7 @@ export class Shell extends LitElement {
   }
 
   private handlePanelBottomChange(event: Event): void {
-    const panelElements = slotChangeGetAssignedElements(event).filter(
-      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
-    );
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
 
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
     this.configurePanels(panelElements, "horizontal", "end");
@@ -342,9 +331,7 @@ export class Shell extends LitElement {
   }
 
   private handlePanelStartChange(event: Event): void {
-    const panelElements = slotChangeGetAssignedElements(event).filter(
-      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
-    );
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
 
     this.configurePanels(panelElements, "vertical", "start");
     panelElements.forEach((el) => {
@@ -355,9 +342,7 @@ export class Shell extends LitElement {
   }
 
   private handlePanelEndChange(event: Event): void {
-    const panelElements = slotChangeGetAssignedElements(event).filter(
-      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
-    );
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
 
     this.configurePanels(panelElements, "vertical", "end");
     panelElements.forEach((el) => {
@@ -370,7 +355,7 @@ export class Shell extends LitElement {
   private handleDialogsSlotChange(event: Event): void {
     this.hasDialogs = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)
-      .filter((el): el is Dialog["el"] => el?.matches("calcite-dialog"))
+      .filter(isDialog)
       .forEach((el) => {
         el.embedded = true;
       });

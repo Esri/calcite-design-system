@@ -10,10 +10,11 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 
 describe("accessible with icon only", () => {
@@ -73,6 +74,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount(<calcite-chip>doritos</calcite-chip>), { display: "inline-flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-chip closable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("slots", () => {

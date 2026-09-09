@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { mockConsole } from "../../tests/utils/logging";
 import { BREAKPOINTS, CSS } from "./resources";
 mockConsole();
@@ -211,7 +211,7 @@ describe("CSS properties for light/dark modes", () => {
   it("should have defined CSS custom properties", async () => {
     page = await newE2EPage({ html: scrimSnippet });
     scrimBgStyle = await page.evaluate(() => {
-      scrim = document.querySelector("calcite-scrim");
+      const scrim = document.querySelector("calcite-scrim")!;
       scrim.style.setProperty("--calcite-scrim-background", "green");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     });

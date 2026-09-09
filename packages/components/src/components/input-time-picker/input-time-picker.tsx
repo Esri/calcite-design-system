@@ -16,13 +16,13 @@ import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
@@ -102,8 +102,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   private time = useTime(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   private timePickerRef = createRef<TimePicker>();
 
@@ -270,6 +268,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("focus", this.focusHandler);
     this.listen("focusout", this.focusOutHandler);
@@ -436,7 +435,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     }
   }
 
-  private mouseDownHandler(event): void {
+  private mouseDownHandler(event: MouseEvent): void {
     if (this.showPlaceholder) {
       event.preventDefault();
       this.setFocus();

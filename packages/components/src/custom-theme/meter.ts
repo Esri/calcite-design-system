@@ -1,3 +1,5 @@
+import "../components/label/label";
+import "../components/meter/meter";
 import { html } from "../../support/formatting";
 
 export const meterTokens = {

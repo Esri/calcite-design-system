@@ -1,4 +1,4 @@
-import { Scale } from "../src/components/interfaces";
+import { Scale } from "../src/components/types";
 import { html } from "../support/formatting";
 import { Breakpoints } from "../src/utils/responsive";
 

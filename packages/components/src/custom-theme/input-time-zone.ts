@@ -1,3 +1,4 @@
+import "../components/input-time-zone/input-time-zone";
 import { html } from "../../support/formatting";
 
 export const inputTimeZoneTokens = {

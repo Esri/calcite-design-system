@@ -1,7 +1,7 @@
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { hexToHue, stringToHex } from "./utils";
 import { styles } from "./avatar.scss";

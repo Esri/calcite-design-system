@@ -1,3 +1,4 @@
+import "../components/link/link";
 import { html } from "../../support/formatting";
 
 export const linkTokens = {

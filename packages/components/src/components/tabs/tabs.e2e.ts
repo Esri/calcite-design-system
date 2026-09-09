@@ -3,12 +3,12 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 
 import { findAll } from "../../tests/utils/puppeteer";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS as TabTitleCSS } from "../tab-title/resources";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { TabNav } from "../tab-nav/tab-nav";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { TabPosition } from "./interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
+import { TabPosition } from "./types";
 import type { Tabs } from "./tabs";
 
 const tabsContent = html`

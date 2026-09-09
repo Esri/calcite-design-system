@@ -1,11 +1,11 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import { ComboboxChildElement } from "../combobox/interfaces";
+import { ComboboxChildElement } from "../combobox/types";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
-import { Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
 import { useInteractive } from "../../controllers/useInteractive";

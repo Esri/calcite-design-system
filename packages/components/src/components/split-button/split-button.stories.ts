@@ -3,6 +3,10 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SplitButton } from "./split-button";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./split-button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { appearance, kind, placement, scale, width, iconType } = ATTRIBUTES;
 
