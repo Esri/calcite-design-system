@@ -342,6 +342,15 @@ describe("theme", () => {
           shadowSelector: `.${CSS.iconEnd}`,
           targetProp: "color",
         },
+        "--calcite-block-expandable-icon-color": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+        },
+        "--calcite-block-expandable-icon-color-hover": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+          state: "hover",
+        },
         "--calcite-block-collapsible-icon-color": {
           shadowSelector: `.${CSS.toggleIcon}`,
           targetProp: "color",
