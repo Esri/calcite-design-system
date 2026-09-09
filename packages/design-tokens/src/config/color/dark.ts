@@ -39,7 +39,7 @@ const config: Config = {
       files: [
         {
           destination: "dark.css",
-          format: sdFormats.cssVariables,
+          format: formats.FormatSemanticCss,
           filter: filters.FilterSourceTokens,
         },
       ],

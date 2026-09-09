@@ -7,7 +7,7 @@ import type { Platform, RegisterFn, Stylesheet } from "../../types.ts";
 import { fromTokens } from "../utils/dictionary.ts";
 import { isThemed } from "../utils/token-types.ts";
 import { dark, light } from "../dictionaries/index.ts";
-import { createVarList } from "./utils/index.ts";
+import { createReplacementVarList, createVarList } from "./utils/index.ts";
 
 export const registerFormatIndex: RegisterFn = () => {
   StyleDictionary.registerFormat({
@@ -34,28 +34,38 @@ export const formatIndexFile: FormatFn = async (args) => {
   ]);
 
   const commonVarFormat: Extract<Platform, "css"> = "css";
+  const lightDictionaryFiltered = fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token)));
+  const darkDictionaryFiltered = fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token)));
   const varLists = {
-    light: createVarList(
-      commonVarFormat,
-      fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token))),
-      args,
-    ),
-    dark: createVarList(commonVarFormat, fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token))), args),
+    light: createVarList(commonVarFormat, lightDictionaryFiltered, args),
+    dark: createVarList(commonVarFormat, darkDictionaryFiltered, args),
+  } as const;
+  const replacementVarLists = {
+    light: createReplacementVarList(lightDictionaryFiltered),
+    dark: createReplacementVarList(darkDictionaryFiltered),
   } as const;
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";
   const imports = args.options.imports.map((imp: string) => importUrl(imp, options.fileExtension)).join("");
   const root = format === "css" ? `:root {${varLists.light}}` : "";
+  const rootAliases = format === "css" && replacementVarLists.light ? `:where(*) {${replacementVarLists.light}}` : "";
   const atMedia =
     format === "css"
       ? themes
-          .map((theme) => `@media (prefers-color-scheme: ${theme}) {.calcite-mode-auto {${varLists[theme]}}}`)
+          .map(
+            (theme) =>
+              `@media (prefers-color-scheme: ${theme}) {.calcite-mode-auto {${varLists[theme]}}${replacementVarLists[theme] ? `:where(.calcite-mode-auto) {${replacementVarLists[theme]}}` : ""}}`,
+          )
           .join("")
       : "";
   const platformClasses = themes
-    .map((theme) => `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`)
+    .map((theme) =>
+      format === "css"
+        ? `.calcite-mode-${theme} {${varLists[theme]}}${replacementVarLists[theme] ? `:where(.calcite-mode-${theme}) {${replacementVarLists[theme]}}` : ""}`
+        : `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}${replacementVarLists[theme] ? `\n  :where(*) {${replacementVarLists[theme]}}` : ""}\n}`,
+    )
     .join("");
-  const content = [imports, root, atMedia, platformClasses].filter((item) => !!item).join("");
+  const content = [imports, root, rootAliases, atMedia, platformClasses].filter((item) => !!item).join("");
 
   return prettierSync.format(`${header}${content}`, {
     parser: format,

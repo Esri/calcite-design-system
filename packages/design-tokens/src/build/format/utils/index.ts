@@ -1,6 +1,7 @@
 import type { FormatFnArguments, Dictionary, TransformedToken } from "style-dictionary/types";
 import { formattedVariables } from "style-dictionary/utils";
 import type { Stylesheet } from "../../../types.ts";
+import { hasReplacementReferenceExtension } from "../../utils/output-references.ts";
 
 /**
  * Helper function to remove extraneous token attributes
@@ -51,4 +52,30 @@ export function createVarList(
     dictionary,
     ...args.options,
   });
+}
+
+/**
+ * Util to create a replacement-token alias var list
+ *
+ * @param dictionary
+ */
+export function createReplacementVarList(dictionary: Dictionary): string {
+  const replacementTokens = dictionary.allTokens.filter(hasReplacementReferenceExtension);
+
+  if (!replacementTokens.length) {
+    return "";
+  }
+
+  return replacementTokens
+    .map((token) => {
+      const deprecatedTokenReference = String(token.original?.$value ?? token.$value ?? "");
+      const deprecatedToken = dictionary.tokenMap.get(deprecatedTokenReference);
+
+      if (!deprecatedToken) {
+        throw new Error(`Could not resolve replacement token: ${token.name} references ${deprecatedTokenReference}`);
+      }
+
+      return `--${token.name}: var(--${deprecatedToken.name});`;
+    })
+    .join("\n");
 }
