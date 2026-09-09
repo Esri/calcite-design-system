@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
 import { CSS } from "./resources";
 
 type ScaledElement = HTMLElement & { scale?: string; updateComplete?: Promise<unknown> };

@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
 import { CSS as FieldGroupCSS } from "../field-group/resources";
 import { CSS } from "./resources";
 
