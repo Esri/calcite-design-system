@@ -6,6 +6,8 @@ import { CSS } from "./resources";
 
 type ScaledElement = HTMLElement & { scale?: string; updateComplete?: Promise<unknown> };
 
+type FieldSetElement = ScaledElement & { disabled?: boolean };
+
 async function waitForUpdate(element: ScaledElement): Promise<void> {
   await element.updateComplete;
 }
@@ -13,13 +15,19 @@ async function waitForUpdate(element: ScaledElement): Promise<void> {
 describe("defaults", () => {
   defaults(() => mount("calcite-field-group"), {
     columns: undefined,
+    disabled: false,
     layout: "vertical",
     scale: "m",
   });
 });
 
 describe("reflects", () => {
-  reflects(() => mount("calcite-field-group"), { columns: 2, layout: "columns", scale: "s" });
+  reflects(() => mount("calcite-field-group"), {
+    columns: 2,
+    disabled: true,
+    layout: "columns",
+    scale: "s",
+  });
 });
 
 describe("honors hidden attribute", () => {
@@ -110,6 +118,32 @@ describe("scale propagation", () => {
 
     expect(direct.scale).toBe("l");
     expect(nested.scale).toBe("l");
+  });
+});
+
+describe("disabled propagation", () => {
+  it("propagates disabled to slotted field sets and restores their original state", async () => {
+    const { el } = await mount(
+      <calcite-field-group disabled>
+        <calcite-field-set id="enabled-field-set" />
+        <calcite-field-set disabled id="pre-disabled-field-set" />
+      </calcite-field-group>,
+    );
+    const fieldGroup = el as ScaledElement & { disabled?: boolean };
+    const enabledFieldSet = el.querySelector<FieldSetElement>("#enabled-field-set")!;
+    const preDisabledFieldSet = el.querySelector<FieldSetElement>("#pre-disabled-field-set")!;
+
+    await Promise.all([waitForUpdate(enabledFieldSet), waitForUpdate(preDisabledFieldSet)]);
+
+    expect(enabledFieldSet.disabled).toBe(true);
+    expect(preDisabledFieldSet.disabled).toBe(true);
+
+    fieldGroup.disabled = false;
+    await waitForUpdate(fieldGroup);
+    await Promise.all([waitForUpdate(enabledFieldSet), waitForUpdate(preDisabledFieldSet)]);
+
+    expect(enabledFieldSet.disabled).toBe(false);
+    expect(preDisabledFieldSet.disabled).toBe(true);
   });
 });
 

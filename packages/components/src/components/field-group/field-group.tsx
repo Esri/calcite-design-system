@@ -1,3 +1,4 @@
+import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Scale } from "../types";
 import { getSlotAssignedElements } from "../../utils/dom";
@@ -6,6 +7,14 @@ import { styles } from "./field-group.scss";
 
 type Layout = "columns" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
+
+const originalDisabledState = Symbol("calciteFieldGroupOriginalDisabledState");
+
+type FieldSetElement = HTMLElement & {
+  scale?: Scale;
+  disabled?: boolean;
+  [originalDisabledState]?: boolean;
+};
 
 declare global {
   interface DeclareElements {
@@ -25,7 +34,7 @@ export class FieldGroup extends LitElement {
 
   //#region Private Properties
 
-  private get fieldSets(): Array<HTMLElement & { scale?: Scale }> {
+  private get fieldSets(): FieldSetElement[] {
     const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>("slot");
 
     return slot
@@ -49,6 +58,9 @@ export class FieldGroup extends LitElement {
 
   //#region Public Properties
 
+  /** When `true`, disables slotted field sets. */
+  @property({ reflect: true }) disabled = false;
+
   /** When `layout` is `"columns"`, specifies the number of columns. */
   @property({ type: Number, reflect: true }) columns?: Columns;
 
@@ -62,8 +74,12 @@ export class FieldGroup extends LitElement {
 
   //#region Lifecycle
 
-  override updated(): void {
+  override updated(changes: PropertyValues<this>): void {
     this.syncFieldSetsScale();
+
+    if (changes.has("disabled")) {
+      this.syncFieldSetsDisabled();
+    }
   }
 
   //#endregion
@@ -72,6 +88,7 @@ export class FieldGroup extends LitElement {
 
   private handleSlotChange(): void {
     this.syncFieldSetsScale();
+    this.syncFieldSetsDisabled();
   }
 
   private syncFieldSetsScale(): void {
@@ -81,6 +98,26 @@ export class FieldGroup extends LitElement {
 
     this.fieldSets.forEach((fieldSet) => {
       fieldSet.scale = this.scale;
+    });
+  }
+
+  private syncFieldSetsDisabled(): void {
+    this.fieldSets.forEach((fieldSet) => {
+      if (this.disabled) {
+        if (fieldSet[originalDisabledState] === undefined) {
+          fieldSet[originalDisabledState] = fieldSet.disabled;
+        }
+
+        fieldSet.disabled = true;
+        return;
+      }
+
+      if (fieldSet[originalDisabledState] === undefined) {
+        return;
+      }
+
+      fieldSet.disabled = fieldSet[originalDisabledState];
+      delete fieldSet[originalDisabledState];
     });
   }
 
