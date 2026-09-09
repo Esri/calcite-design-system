@@ -4,6 +4,7 @@ import { createObserver } from "../../utils/observers";
 import { getTextWidth } from "../../utils/dom";
 import { styles } from "./typography.scss";
 import { ELLIPSIS_CHAR } from "./resources";
+import { PropertyValues } from "lit";
 
 /**
  *  @slot - A slot for adding text.
@@ -26,7 +27,7 @@ export class Typography extends LitElement {
 
   //#region Private Properties
 
-  private value: string;
+  private value?: string;
 
   private isTruncated = false;
 
@@ -56,23 +57,18 @@ export class Typography extends LitElement {
 
   //#region Public Properties
 
-  @property({ type: Number, reflect: true }) maxLines: number;
+  @property({ type: Number, reflect: true }) maxLines?: number;
 
   /**
    * Specifies the position of truncation ellipsis when text overflows.
    * `maxLines` property should be set to `1` when `truncatePosition` is set to `middle`, as multi-line truncation is only supported at the end of the text.
    */
-  @property({ reflect: true }) truncatePosition: TruncatePosition = "end";
+  @property({ reflect: true }) truncatePosition?: TruncatePosition;
 
   /**
    * Displays native tooltip with full text content when text is truncated.
    */
   @property() tooltipEnabled = false;
-
-  /**
-   * @private
-   */
-  @property({ reflect: true }) title: string;
 
   //#endregion
 
@@ -90,8 +86,22 @@ export class Typography extends LitElement {
     this.resizeObserver?.observe(this.el);
   }
 
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("maxLines") && this.hasUpdated) {
+      this.updateMaxLinesToken();
+    }
+    if (changes.has("tooltipEnabled")) {
+      this.updateTooltip();
+    }
+    if (changes.has("truncatePosition") && this.hasUpdated) {
+      //[TODO]:switching back from middle to end is not working as expected.
+      this.resizeObserver?.disconnect();
+      this.resizeObserver?.observe(this.el);
+    }
+  }
+
   async loaded(): Promise<void> {
-    this.el.style.setProperty("--calcite-internal-text-max-lines", this.maxLines?.toString());
+    this.updateMaxLinesToken();
   }
 
   override disconnectedCallback(): void {
@@ -101,6 +111,10 @@ export class Typography extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private updateTooltip(): void {
+    this.el.title = this.tooltipEnabled ? this.value || "" : "";
+  }
 
   private handleDefaultSlotChange(event: Event): void {
     if (this.isTextContentChanged) {
@@ -139,7 +153,10 @@ export class Typography extends LitElement {
     });
   }
 
-  private setValue(value: string): void {
+  private setValue(value: string | undefined): void {
+    if (!value) {
+      return;
+    }
     const currentTextContent = (this.el.textContent || "").trim();
     if (currentTextContent === value) {
       return;
@@ -189,7 +206,7 @@ export class Typography extends LitElement {
       this.isTruncated = true;
       this.calciteTypographyTruncated.emit();
       if (this.tooltipEnabled) {
-        this.title = this.value || "";
+        this.el.title = this.value || "";
       }
     }
   }
@@ -198,8 +215,15 @@ export class Typography extends LitElement {
     if (this.isTruncated) {
       this.isTruncated = false;
       this.calciteTypographyUnTruncated.emit();
-      this.title = "";
+      this.el.title = "";
     }
+  }
+
+  private updateMaxLinesToken(): void {
+    this.el.style.setProperty(
+      "--calcite-internal-text-max-lines",
+      this.maxLines?.toString() || null,
+    );
   }
 
   //#endregion
