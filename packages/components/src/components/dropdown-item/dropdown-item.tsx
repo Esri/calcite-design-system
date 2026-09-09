@@ -295,7 +295,8 @@ export class DropdownItem extends LitElement {
           ? "menuitemcheckbox"
           : "menuitem";
 
-    const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
+    const isSelectable = selectionMode !== "none";
+    const itemAria = toAriaBoolean(isSelectable && this.selected, isSelectable ? "false" : null);
     const { disabled } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;

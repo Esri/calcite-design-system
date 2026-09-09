@@ -451,10 +451,15 @@ export class Tree extends LitElement {
   // #region Rendering
 
   override render(): JsxNode {
+    const isRoot = !this.child;
+    const isMultiSelectable =
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaMultiSelectable = this.child
-      ? null
-      : toAriaBoolean(this.selectionMode === "multiple" || this.selectionMode === "multichildren");
+    this.el.ariaMultiSelectable = toAriaBoolean(
+      isRoot && isMultiSelectable,
+      isRoot ? "false" : null,
+    );
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = !this.child ? "tree" : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
