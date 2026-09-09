@@ -29,7 +29,9 @@
 @include includes.base-component();
 
 .scale--s {
-  @apply text-n2h;
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
+
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
@@ -37,7 +39,9 @@
 }
 
 .scale--m {
-  @apply text-n1h;
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
+
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[1.5]");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
@@ -45,7 +49,9 @@
 }
 
 .scale--l {
-  @apply text-0h;
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[2.5]");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-selector-icon-size: theme("spacing.6");
@@ -59,32 +65,38 @@
 }
 
 :host(:focus) {
-  @apply shadow-none;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 @include includes.disabled();
 
 :host,
 ul {
-  @apply m-0 flex flex-col p-0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 }
 
 :host(:focus),
 ul:focus {
-  @apply outline-none;
+  outline: var(--calcite-border-width-md) solid transparent;
+  outline-offset: var(--calcite-border-width-md);
 }
 
 .label {
-  @apply focus-base
-  relative
-  box-border
-  flex
-  w-full
-  min-w-full
-  cursor-pointer
-  items-center
-  no-underline
-  ease-in-out;
+  outline-color: transparent;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  inline-size: 100%;
+  min-inline-size: 100%;
+  cursor: pointer;
+  align-items: center;
+  text-decoration-line: none;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   @include includes.word-break();
   justify-content: space-around;
   gap: var(--calcite-internal-combobox-item-spacing-unit-l);
@@ -97,11 +109,15 @@ ul:focus {
 }
 
 :host([disabled]) .label {
-  @apply cursor-default;
+  cursor: default;
 }
 
 .label--active {
-  @apply focus-inset;
+  outline: var(--calcite-border-width-md) solid
+    var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+  outline-offset: calc(
+    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+  );
 }
 
 .label:hover {
@@ -124,8 +140,8 @@ ul:focus {
 }
 
 .icon {
-  @apply inline-flex
-    ease-in-out;
+  display: inline-flex;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
   color: var(--calcite-color-border-input);
 }
@@ -165,7 +181,7 @@ ul:focus {
 
 :host([selected]) {
   .heading {
-    @apply font-medium;
+    font-weight: var(--calcite-font-weight-medium);
   }
 }
 

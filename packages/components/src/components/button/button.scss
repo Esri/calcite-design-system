@@ -30,8 +30,9 @@
 @use "../../styles/includes";
 
 :host {
-  @apply inline-block w-auto align-middle;
-
+  display: inline-block;
+  inline-size: auto;
+  vertical-align: middle;
   border-radius: var(
     --calcite-button-corner-radius,
     var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius))
@@ -42,23 +43,21 @@
     --calcite-internal-button-content-margin: theme("margin.2");
     --calcite-internal-button-padding-x: 7px;
     --calcite-internal-button-padding-y: 3px;
-
-    @apply appearance-none
-    border-none
-    box-border
-    cursor-pointer
-    flex
-    focus-base
-    font-inherit
-    font-normal
-    h-full
-    items-center
-    justify-center
-    no-underline
-    relative
-    select-none
-    text-center
-    w-full;
+    appearance: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    outline-color: transparent;
+    font-family: inherit;
+    font-weight: var(--calcite-font-weight-normal);
+    block-size: 100%;
+    align-items: center;
+    justify-content: center;
+    text-decoration-line: none;
+    position: relative;
+    user-select: none;
+    text-align: center;
+    inline-size: 100%;
     box-shadow: var(--calcite-button-shadow, var(--calcite-shadow-none));
     background-color: var(
       --calcite-button-background-color,
@@ -110,7 +109,7 @@
       outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 
     &:hover {
-      @apply no-underline;
+      text-decoration-line: none;
       background-color: var(
         --calcite-button-background-color,
         var(--calcite-internal-button-background-color-hover, var(--calcite-color-transparent))
@@ -118,7 +117,9 @@
     }
 
     &:focus {
-      @apply focus-outset;
+      outline: var(--calcite-border-width-md) solid
+        var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+      outline-offset: calc(var(--calcite-spacing-base) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
     }
 
     &:active {
@@ -129,7 +130,9 @@
     }
 
     span {
-      @apply truncate;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     calcite-loader {
@@ -179,40 +182,40 @@
 
 // button width
 :host([width="auto"]) {
-  @apply w-auto;
+  inline-size: auto;
 }
 
 :host([width="half"]) {
-  @apply w-2/4;
+  inline-size: 50%;
 }
 
 :host([width="full"]) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 // alignment
 :host([alignment="center"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-center;
+    justify-content: center;
   }
 }
 :host([alignment="start"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-start;
+    justify-content: flex-start;
   }
 }
 :host([alignment="end"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-end;
+    justify-content: flex-end;
   }
 }
 :host([alignment*="space-between"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-between;
+    justify-content: space-between;
   }
 }
 :host([alignment="icon-start-space-between"]:not([width="auto"])) {
@@ -276,9 +279,9 @@
 }
 
 .calcite-button--loader {
-  @apply flex;
+  display: flex;
   calcite-loader {
-    @apply m-0;
+    margin: 0;
   }
 }
 
@@ -295,7 +298,7 @@
   a:not(.content--slotted) {
     .icon--start,
     .icon--end {
-      @apply hidden;
+      display: none;
     }
   }
 }
@@ -306,8 +309,7 @@
   a {
     --calcite-internal-button-border-color: var(--calcite-color-transparent);
 
-    @apply border-solid;
-
+    border-style: solid;
     border-width: var(--calcite-button-border-size, 1px);
   }
 }
@@ -347,7 +349,7 @@
   --calcite-internal-button-background-color-press: var(--calcite-color-foreground-3);
   button,
   a {
-    @apply border-solid;
+    border-style: solid;
     border-width: var(--calcite-button-border-size, 1px);
   }
 }
@@ -431,7 +433,7 @@
   --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
   button,
   a {
-    @apply border-solid;
+    border-style: solid;
     border-width: var(--calcite-button-border-size, 1px);
   }
 }
@@ -608,7 +610,8 @@
 // generate button scales (scenario: text exists)
 :host([scale="s"]) button.content--slotted,
 :host([scale="s"]) a.content--slotted {
-  @apply text-n2h;
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 
 // accommodate for transparent buttons not having borders
@@ -625,7 +628,9 @@
 :host([scale="m"]) button.content--slotted,
 :host([scale="m"]) a.content--slotted {
   --calcite-internal-button-padding-x: 11px;
-  @apply text-n1h;
+
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
 }
 
 :host([scale="m"]) button,
@@ -641,7 +646,9 @@
 :host([scale="l"]) button.content--slotted,
 :host([scale="l"]) a.content--slotted {
   --calcite-internal-button-padding-x: 15px;
-  @apply text-0h;
+
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
 }
 
 :host([scale="l"]) {
@@ -660,7 +667,10 @@
 :host([scale="s"]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 3px;
-  @apply text-0h w-6;
+
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+  inline-size: var(--calcite-space-2xl);
   min-block-size: theme("height.6");
 }
 
@@ -668,14 +678,20 @@
 :host([scale="m"]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 7px;
-  @apply text-0h w-8;
+
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+  inline-size: var(--calcite-space-3xl);
   min-block-size: theme("height.8");
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 9px;
-  @apply text-0h w-11;
+
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+  inline-size: var(--calcite-space-4xl);
   min-block-size: theme("height.11");
 }
 
@@ -698,7 +714,10 @@
 :host([scale="s"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 23px;
-  @apply text-0h h-6;
+
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+  block-size: var(--calcite-space-2xl);
 }
 // accommodate for transparent buttons not having borders
 :host([scale="s"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
@@ -708,7 +727,10 @@
 :host([scale="m"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="m"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding.8");
-  @apply text-0h h-8;
+
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+  block-size: var(--calcite-space-3xl);
 }
 // accommodate for transparent buttons not having borders
 :host([scale="m"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
@@ -718,7 +740,10 @@
 :host([scale="l"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 43px;
-  @apply text-0h h-11;
+
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+  block-size: var(--calcite-space-4xl);
   // add space between when only 2 icons
   .icon--start + .icon--end {
     margin-inline-start: theme("margin.4");

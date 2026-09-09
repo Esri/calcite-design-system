@@ -35,22 +35,23 @@
 }
 
 :host {
-  @apply relative
-    inline-flex
-    cursor-pointer
-    select-none;
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  user-select: none;
+
   -webkit-tap-highlight-color: transparent;
 
   .check-svg {
     @include includes.transition-default();
-    @apply bg-foreground-1
-      pointer-events-none
-      box-border
-      block
-      overflow-hidden
-      fill-current
-      stroke-current
-      stroke-1;
+    background-color: var(--calcite-color-foreground-1);
+    pointer-events: none;
+    box-sizing: border-box;
+    display: block;
+    overflow: hidden;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 1;
     box-shadow: inset 0 0 0 1px var(--calcite-checkbox-border-color, var(--calcite-color-border-input));
     color: var(--calcite-checkbox-icon-color, theme("backgroundColor.background"));
   }
@@ -71,14 +72,15 @@
     }
   }
   .toggle:focus {
-    @apply focus-outset-danger;
+    outline: var(--calcite-border-width-md) solid var(--calcite-color-status-danger);
+    outline-offset: calc(var(--calcite-spacing-base) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
   }
 }
 
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    @apply bg-brand;
+    background-color: var(--calcite-color-brand);
     box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
   }
 
@@ -109,12 +111,15 @@
 }
 
 .toggle {
-  @apply focus-base relative;
+  outline-color: transparent;
+  position: relative;
 
   &:active,
   &:focus,
   &:focus-visible {
-    @apply focus-outset;
+    outline: var(--calcite-border-width-md) solid
+      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+    outline-offset: calc(var(--calcite-spacing-base) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
   }
 
   &::after,

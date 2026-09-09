@@ -48,8 +48,8 @@
 @use "../../styles/includes";
 
 :host {
-  @apply inline-flex
-    cursor-default;
+  display: inline-flex;
+  cursor: default;
   border-radius: var(--calcite-chip-corner-radius, 9999px);
 }
 
@@ -374,15 +374,13 @@
 
 // Sub-element styles
 .container {
-  @apply inline-flex
-  h-full
-  max-w-full
-  items-center
-  focus-base
-  justify-center
-  box-border
-  font-medium;
-
+  display: inline-flex;
+  max-inline-size: 100%;
+  align-items: center;
+  outline-color: transparent;
+  justify-content: center;
+  box-sizing: border-box;
+  font-weight: var(--calcite-font-weight-medium);
   background-color: var(--calcite-internal-chip-background-color);
   border-color: var(--calcite-internal-chip-border-color);
   border-radius: var(--calcite-chip-corner-radius, 9999px);
@@ -400,7 +398,7 @@
   }
 
   &.selectable {
-    @apply cursor-pointer;
+    cursor: pointer;
 
     &:hover {
       background-color: var(--calcite-internal-chip-selectable-hover-background-color);
@@ -412,11 +410,15 @@
     }
   }
   &:not(.non-interactive):focus {
-    @apply focus-outset;
+    outline: var(--calcite-border-width-md) solid
+      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+    outline-offset: calc(var(--calcite-spacing-base) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
   }
 
   &.text--slotted .title {
-    @apply truncate;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &:not(.text--slotted) .title,
@@ -437,7 +439,8 @@
 }
 
 .image-container {
-  @apply inline-flex overflow-hidden;
+  display: inline-flex;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   pointer-events: none;
@@ -448,7 +451,10 @@
 }
 
 .chip-icon {
-  @apply relative my-0 inline-flex ease-in-out;
+  position: relative;
+  margin-block: 0;
+  display: inline-flex;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   color: var(
     --calcite-chip-icon-color,
     var(--calcite-chip-text-color, var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor)))
@@ -483,7 +489,9 @@
 }
 
 .multiple .select-icon {
-  @apply flex justify-center items-center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .multiple .select-icon,
@@ -512,7 +520,11 @@
 }
 
 slot[name="image"]::slotted(*) {
-  @apply rounded-half flex h-full w-full overflow-hidden;
+  border-radius: 50%;
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  overflow: hidden;
 }
 
 @include includes.disabled();

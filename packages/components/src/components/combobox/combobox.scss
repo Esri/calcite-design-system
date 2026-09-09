@@ -29,11 +29,13 @@
 @use "../../styles/shared/floating-ui";
 
 :host {
-  @apply relative block;
+  position: relative;
+  display: block;
 }
 
 :host([scale="s"]) {
-  @apply text-n2;
+  font-size: var(--calcite-font-size-relative-sm);
+
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.2");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.1");
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-2xs);
@@ -44,7 +46,8 @@
 }
 
 :host([scale="m"]) {
-  @apply text-n1;
+  font-size: var(--calcite-font-size-relative-base);
+
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.3");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.2");
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm);
@@ -55,7 +58,8 @@
 }
 
 :host([scale="l"]) {
-  @apply text-0;
+  font-size: var(--calcite-font-size-relative-md);
+
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.4");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.3");
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm-plus);
@@ -66,7 +70,10 @@
 }
 
 .wrapper {
-  @apply focus-base flex border border-solid;
+  outline-color: transparent;
+  display: flex;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   padding-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
   border-radius: var(--calcite-combobox-corner-radius, var(--calcite-corner-radius));
@@ -83,7 +90,11 @@
 
 :host(:focus-within) .wrapper,
 .wrapper--active {
-  @apply focus-inset;
+  outline: var(--calcite-border-width-md) solid
+    var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+  outline-offset: calc(
+    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+  );
 }
 
 :host([read-only]) {
@@ -97,33 +108,53 @@
 }
 
 :host([status="invalid"]) .wrapper {
-  @apply border-color-danger;
+  border-color: var(--calcite-color-status-danger);
 }
 
 :host([status="invalid"]:focus-within) .wrapper {
-  @apply focus-inset-danger;
+  outline: var(--calcite-border-width-md) solid var(--calcite-color-status-danger);
+  outline-offset: calc(
+    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+  );
 }
 
 .wrapper--single {
   padding-block: 0;
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
-  @apply cursor-pointer flex-nowrap;
+  cursor: pointer;
+  flex-wrap: nowrap;
 }
 
 .grid-input {
-  @apply flex flex-grow flex-wrap items-center relative truncate p-0;
-
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0;
   gap: var(--calcite-internal-combobox-spacing-unit-s);
   margin-inline-end: var(--calcite-internal-combobox-spacing-unit-s);
 
   &.selection-display--fit,
   &.selection-display--single {
-    @apply flex-nowrap overflow-hidden;
+    flex-wrap: nowrap;
+    overflow: hidden;
   }
 }
 
 .input {
-  @apply appearance-none bg-transparent border-none flex-grow font-inherit text-color-1 text-ellipsis overflow-hidden p-0;
+  appearance: none;
+  background-color: transparent;
+  border-style: none;
+  flex-grow: 1;
+  font-family: inherit;
+  color: var(--calcite-color-text-1);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
@@ -132,25 +163,29 @@
   min-inline-size: 4.8125rem;
 
   &:focus {
-    @apply outline-none;
+    outline: var(--calcite-border-width-md) solid transparent;
+    outline-offset: var(--calcite-border-width-md);
   }
 
   &:placeholder-shown {
-    @apply text-ellipsis;
+    text-overflow: ellipsis;
   }
 }
 
 .input--single {
-  @apply p-0;
+  padding: 0;
   margin-block: var(--calcite-internal-combobox-input-margin-block);
 }
 
 .wrapper--active .input-single {
-  @apply cursor-text;
+  cursor: text;
 }
 
 .input--hidden {
-  @apply pointer-events-none w-0 min-w-0 opacity-0;
+  pointer-events: none;
+  inline-size: 0;
+  min-inline-size: 0;
+  opacity: 0;
 }
 
 .input--icon {
@@ -163,15 +198,25 @@
 }
 
 .input-wrap {
-  @apply flex flex-grow items-center;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
 }
 
 .input-wrap--single {
-  @apply flex-1 overflow-hidden;
+  flex: 1 1 0%;
+  overflow: hidden;
 }
 
 .label {
-  @apply pointer-events-none max-w-full flex-auto truncate p-0 font-normal;
+  pointer-events: none;
+  max-inline-size: 100%;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0;
+  font-weight: var(--calcite-font-weight-normal);
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
@@ -182,11 +227,13 @@
 
 .icon-end,
 .icon-start {
-  @apply flex cursor-pointer items-center;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
 }
 
 .icon-end {
-  @apply flex-none;
+  flex: none;
 
   .icon {
     color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
@@ -215,22 +262,34 @@
 }
 
 .screen-readers-only {
-  @apply sr-only;
+  position: absolute;
+  inline-size: var(--calcite-border-width-sm);
+  block-size: var(--calcite-border-width-sm);
+  padding: 0;
+  margin: calc(-1 * var(--calcite-border-width-sm));
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .list-container {
-  @apply max-h-menu overflow-y-auto;
+  max-block-size: 45vh;
+  overflow-y: auto;
   inline-size: var(--calcite-dropdown-width, 100%);
   background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
 }
 
 .list {
-  @apply m-0 block p-0;
+  margin: 0;
+  display: block;
+  padding: 0;
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .list--hide {
-  @apply h-0 overflow-hidden;
+  block-size: 0;
+  overflow: hidden;
 }
 
 calcite-chip {
@@ -243,11 +302,12 @@ calcite-chip {
 }
 
 .chip--invisible {
-  @apply absolute invisible;
+  position: absolute;
+  visibility: hidden;
 }
 
 .item {
-  @apply block;
+  display: block;
 }
 
 .select-all {
@@ -278,7 +338,7 @@ calcite-chip {
 }
 
 .disabled {
-  @apply opacity-50;
+  opacity: 0.5;
 }
 
 @include includes.disabled();
