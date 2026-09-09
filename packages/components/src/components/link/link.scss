@@ -4,10 +4,10 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
- * @prop --calcite-link-text-color-hover: Specifies the component's text color on hover or focus.
+ * @prop --calcite-link-text-color-hover: Specifies the component's text color on hover.
  * @prop --calcite-link-text-color-press: Specifies the component's text color when pressed.
  * @prop --calcite-link-visited-text-color: Specifies the component's text color for visited links.
- * @prop --calcite-link-visited-text-color-hover: Specifies the component's text color for visited links on hover or focus.
+ * @prop --calcite-link-visited-text-color-hover: Specifies the component's text color for visited links on hover.
  * @prop --calcite-link-visited-text-color-press: Specifies the component's text color for visited links when pressed.
  */
 
@@ -42,9 +42,12 @@
     0% var(--calcite-border-width-sm),
     100% var(--calcite-border-width-sm);
 
+  &:hover {
+    color: var(--calcite-link-text-color-hover, var(--calcite-color-text-link));
+  }
+
   &:hover,
   &:focus {
-    color: var(--calcite-link-text-color-hover, var(--calcite-color-text-link));
     background-size:
       100% var(--calcite-border-width-sm),
       100% var(--calcite-border-width-sm);
@@ -71,8 +74,7 @@
     color: var(--calcite-link-visited-text-color, var(--calcite-color-text-link-visited));
   }
 
-  &:visited:hover,
-  &:visited:focus {
+  &:visited:hover {
     color: var(
       --calcite-link-visited-text-color-hover,
       var(--calcite-link-visited-text-color, var(--calcite-color-text-link-visited))
