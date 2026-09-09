@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 
@@ -83,6 +83,35 @@ describe("disabled", () => {
 
 describe("hidden", () => {
   hidden(() => mount("calcite-tile"));
+});
+
+describe("link interactivity", () => {
+  const targetPage = "#test";
+  let navigateHandler: ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    navigateHandler = vi.fn().mockImplementation((event) => {
+      event.preventDefault();
+    });
+    // @ts-expect-error -- using new navigation API -- https://developer.mozilla.org/en-US/docs/Web/API/Navigation/navigate_event
+    window.navigation.addEventListener("navigate", navigateHandler);
+  });
+
+  afterEach(() => {
+    // @ts-expect-error -- using new navigation API -- https://developer.mozilla.org/en-US/docs/Web/API/Navigation/navigate_event
+    window.navigation.removeEventListener("navigate", navigateHandler);
+  });
+
+  it("navigates when activated with Enter", async () => {
+    await mount(<calcite-tile href={`/${targetPage}`} />);
+
+    await userEvent.keyboard("{Tab}{Enter}");
+
+    expect(navigateHandler).toHaveBeenCalledTimes(1);
+    expect(navigateHandler.mock.lastCall![0].destination.url).toBe(
+      `${window.location.origin}/${targetPage}`,
+    );
+  });
 });
 
 describe("reflects", () => {
