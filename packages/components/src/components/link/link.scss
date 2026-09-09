@@ -4,11 +4,11 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
- * @prop --calcite-link-text-color-hover: Specifies the component's text color when hovered or focused.
+ * @prop --calcite-link-text-color-hover: Specifies the component's text color on hover or focus.
  * @prop --calcite-link-text-color-press: Specifies the component's text color when pressed.
- * @prop --calcite-link-visited-text-color: Specifies the component's text color when visited.
- * @prop --calcite-link-visited-text-color-hover: Specifies the component's text color when visited and hovered or focused.
- * @prop --calcite-link-visited-text-color-press: Specifies the component's text color when visited and pressed.
+ * @prop --calcite-link-visited-text-color: Specifies the component's text color for visited links.
+ * @prop --calcite-link-visited-text-color-hover: Specifies the component's text color for visited links on hover or focus.
+ * @prop --calcite-link-visited-text-color-press: Specifies the component's text color for visited links when pressed.
  */
 
 @use "../../styles/includes";
