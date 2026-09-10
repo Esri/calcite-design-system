@@ -471,7 +471,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     const registeredComponents = registeredAriaControls.get(referenceEl);
 
     if (!registerComponent) {
-      if (!componentIsRegistered && !registeredComponents?.has(component)) {
+      if (!registeredComponents?.has(component)) {
         return;
       }
 
@@ -483,12 +483,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (!componentIsRegistered) {
       referenceEl.ariaControlsElements = [...currentElements, component.el];
-    }
 
-    if (!registeredComponents) {
-      registeredAriaControls.set(referenceEl, new WeakSet([component]));
-    } else {
-      registeredComponents.add(component);
+      if (!registeredComponents) {
+        registeredAriaControls.set(referenceEl, new WeakSet([component]));
+      } else {
+        registeredComponents.add(component);
+      }
     }
   };
 
@@ -549,15 +549,6 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (existingComponents.includes(component)) {
       return;
-    }
-
-    if (options.click && !component.triggerDisabled && "ariaControlsElements" in referenceEl) {
-      const currentElements = referenceEl.ariaControlsElements ?? [];
-
-      if (!currentElements.includes(component.el)) {
-        const updatedElements = [...currentElements, component.el];
-        referenceEl.ariaControlsElements = updatedElements;
-      }
     }
 
     if (options.hover && "ariaDescribedByElements" in referenceEl) {

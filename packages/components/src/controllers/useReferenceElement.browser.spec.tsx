@@ -292,6 +292,32 @@ describe("click manager", () => {
     expect(referenceElement.ariaExpanded).toBe("false");
   });
 
+  it("preserves pre-existing aria-controls entries that match the component", async () => {
+    const referenceElement = document.createElement("button");
+    const componentId = "controlled-component";
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+    component.el.id = componentId;
+    referenceElement.ariaControlsElements = [component.el];
+    const ariaControls = referenceElement.getAttribute("aria-controls");
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([component.el]);
+
+    component.triggerDisabled = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([component.el]);
+
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.getAttribute("aria-controls")).toBe(ariaControls);
+  });
+
   it("registers multiple components with same reference element and unregisters independently", async () => {
     await mount(
       html`<div>
