@@ -351,15 +351,6 @@ describe("theme", () => {
           targetProp: "color",
           state: "hover",
         },
-        "--calcite-block-collapsible-icon-color": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "color",
-        },
-        "--calcite-block-collapsible-icon-color-hover": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "color",
-          state: "hover",
-        },
       },
     );
   });
@@ -429,6 +420,15 @@ describe("theme", () => {
           },
         ],
         "--calcite-block-icon-color-hover": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-block-collapsible-icon-color": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+        },
+        "--calcite-block-collapsible-icon-color-hover": {
           shadowSelector: `.${CSS.toggleIcon}`,
           targetProp: "color",
           state: "hover",
