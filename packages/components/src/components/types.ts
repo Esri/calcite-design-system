@@ -21,7 +21,10 @@ export type Layout =
   | "none"
   | "horizontal-single";
 export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" | "block-end";
+
+/** @deprecated */
 export type ModeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mode-auto";
+
 export type ModeName = "light" | "dark" | "auto";
 export type Position = "start" | "end" | "top" | "bottom";
 export interface ResizeValues {
