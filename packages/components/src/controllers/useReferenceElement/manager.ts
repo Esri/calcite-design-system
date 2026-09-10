@@ -67,6 +67,8 @@ export function isDrag({
 
 export const referenceElementManager = (options: ReferenceElementManagerOptions): ReferenceElementComponentManager => {
   const registeredElements = new Map<ReferenceElement, ReferenceElementComponent[]>();
+  const registeredAriaControls = new WeakMap<ReferenceElement, WeakSet<ReferenceElementComponent>>();
+  const registeredAriaExpanded = new WeakSet<ReferenceElement>();
   const registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
   let activeComponents: ReferenceElementComponent[] | nil = null;
   let clickedComponents: ReferenceElementComponent[] | nil = null;
@@ -442,9 +444,17 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     const enabledComponents = components.filter((component) => !component.triggerDisabled);
-    referenceEl.ariaExpanded = enabledComponents.length
-      ? toAriaBoolean(enabledComponents.some((component) => component.open))
-      : null;
+
+    if (enabledComponents.length) {
+      referenceEl.ariaExpanded = toAriaBoolean(enabledComponents.some((component) => component.open));
+      registeredAriaExpanded.add(referenceEl);
+      return;
+    }
+
+    if (registeredAriaExpanded.has(referenceEl)) {
+      referenceEl.ariaExpanded = null;
+      registeredAriaExpanded.delete(referenceEl);
+    }
   };
 
   const updateAriaControls = (
@@ -458,15 +468,27 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     const currentElements = referenceEl.ariaControlsElements ?? [];
     const componentIsRegistered = currentElements.includes(component.el);
+    const registeredComponents = registeredAriaControls.get(referenceEl);
 
     if (!registerComponent) {
+      if (!componentIsRegistered && !registeredComponents?.has(component)) {
+        return;
+      }
+
       const updatedElements = currentElements.filter((element) => element !== component.el);
       referenceEl.ariaControlsElements = updatedElements.length > 0 ? updatedElements : null;
+      registeredComponents?.delete(component);
       return;
     }
 
     if (!componentIsRegistered) {
       referenceEl.ariaControlsElements = [...currentElements, component.el];
+    }
+
+    if (!registeredComponents) {
+      registeredAriaControls.set(referenceEl, new WeakSet([component]));
+    } else {
+      registeredComponents.add(component);
     }
   };
 
