@@ -479,9 +479,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (options.click) {
       updateAriaControls(referenceEl, component);
-      if (!component.triggerDisabled) {
-        updateAriaExpanded(referenceEl, registeredElements.get(referenceEl) ?? []);
-      }
+updateAriaExpanded(referenceEl, registeredElements.get(referenceEl) ?? []);
     }
   };
 
