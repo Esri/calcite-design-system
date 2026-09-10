@@ -194,7 +194,7 @@ export const overriddenIconColor = (): string =>
 
 export const darkModeRTL = (args: ChipStoryArgs): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
-    <calcite-chip class="calcite-mode-dark" label="${args.label}">My great chip</calcite-chip>
+    <calcite-chip label="${args.label}">My great chip</calcite-chip>
   </div>
 `;
 

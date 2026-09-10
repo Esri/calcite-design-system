@@ -95,7 +95,6 @@ export const darkModeRTL = (): HTMLDivElement => {
   div.style.width = "300px";
   div.style.height = "100px";
   div.dir = "rtl";
-  div.classList.add("calcite-mode-dark");
   const graph = document.createElement("calcite-graph");
   graph.min = 0;
   graph.max = 100;

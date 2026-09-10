@@ -159,7 +159,7 @@ export const withAction = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
-    <calcite-notice dir="rtl" class="calcite-mode-dark" icon open scale="m" width="auto" kind="danger">
+    <calcite-notice dir="rtl" icon open scale="m" width="auto" kind="danger">
       <div slot="title">This is a destructive action</div>
       <div slot="message">Be sure you know what you are doing, folks.</div>
     </calcite-notice>

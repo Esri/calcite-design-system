@@ -251,7 +251,7 @@ export const headingLevelAllScales = (): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" class="calcite-mode-dark" dir="rtl">
+  <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" dir="rtl">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
     </calcite-accordion-item>

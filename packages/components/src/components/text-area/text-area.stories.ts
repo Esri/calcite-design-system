@@ -1,4 +1,4 @@
-import { boolean, optionalAttribute } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -107,13 +107,11 @@ export const simple = (args: TextAreaStoryArgs): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-text-area
-    dir="rtl"
-    class="calcite-mode-dark"
-    validation-message="This should not appear because the status is not 'invalid'"
-  >
+  <calcite-text-area dir="rtl" validation-message="This should not appear because the status is not 'invalid'">
   </calcite-text-area>
 `;
+
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const withSlottedElements = (): string => html`
   <calcite-text-area placeholder="Add Notes" max-length="50" scale="m" placeholder="Add Notes" columns="20" rows="2">
@@ -123,11 +121,13 @@ export const withSlottedElements = (): string => html`
 `;
 
 export const withSlottedElementsDarkModeRTL = (): string => html`
-  <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
+  <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl">
     <calcite-button slot="footer-start">RESET</calcite-button>
     <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
+
+withSlottedElementsDarkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const disabled = (): string => html` <calcite-text-area disabled> </calcite-text-area> `;
 

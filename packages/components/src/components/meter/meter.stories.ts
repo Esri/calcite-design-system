@@ -234,16 +234,7 @@ export const complexUnit = (): string =>
   ></calcite-meter>`;
 
 export const darkModeRTL = (): string =>
-  html`<calcite-meter
-    dir="rtl"
-    class="calcite-mode-dark"
-    min="0"
-    max="100"
-    low="25"
-    high="75"
-    value-label
-    range-labels
-  ></calcite-meter>`;
+  html`<calcite-meter dir="rtl" min="0" max="100" low="25" high="75" value-label range-labels></calcite-meter>`;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
 

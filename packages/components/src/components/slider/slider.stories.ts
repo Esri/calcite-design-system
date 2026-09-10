@@ -130,7 +130,6 @@ export const range = (): string => html`
 
 export const darkModeMirroredRange = (): string => html`
   <calcite-slider
-    class="calcite-mode-dark"
     mirrored
     min="0"
     min-label="Temperature, lower bound"
@@ -440,7 +439,6 @@ export const darkModeHistogramRTL = (): Slider["el"] => {
     ],
   });
   slider.ticks = 10;
-  slider.className = "calcite-mode-dark";
   return slider;
 };
 

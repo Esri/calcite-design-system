@@ -157,7 +157,7 @@ export const withSlottedAction = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
+    <calcite-label status="idle" for="input-dark-mode">
       My great label
       <calcite-input-number
         id="input-dark-mode"

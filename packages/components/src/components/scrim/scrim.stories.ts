@@ -42,7 +42,7 @@ export const simple = (args: ScrimStoryArgs): string => html`
 
 export const darkModeRTL = (): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
-    <calcite-scrim dir="rtl" class="calcite-mode-dark"></calcite-scrim>
+    <calcite-scrim dir="rtl"></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
       <p>
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor

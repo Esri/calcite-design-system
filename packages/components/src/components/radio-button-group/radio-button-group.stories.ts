@@ -93,7 +93,6 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
 
 export const darkModeRTL = (): string => html`
   <calcite-radio-button-group
-    class="calcite-mode-dark"
     dir="rtl"
     name="dark"
     layout="vertical"

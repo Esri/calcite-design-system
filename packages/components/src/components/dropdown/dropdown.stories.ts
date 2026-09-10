@@ -209,15 +209,7 @@ export const itemsAsLinks = (): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-dropdown
-    dir="rtl"
-    open
-    class="calcite-mode-dark"
-    placement="${defaultMenuPlacement}"
-    scale="m"
-    width-scale="m"
-    type="click"
-  >
+  <calcite-dropdown dir="rtl" open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item icon-end="list">List</calcite-dropdown-item>
@@ -249,14 +241,7 @@ export const darkModeRTL = (): string => html`
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const itemsAsLinksDarkMode = (): string => html`
-  <calcite-dropdown
-    open
-    class="calcite-mode-dark"
-    placement="${defaultMenuPlacement}"
-    scale="m"
-    width-scale="m"
-    type="click"
-  >
+  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
       <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"

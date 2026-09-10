@@ -64,7 +64,7 @@ export const simple = (args: TabsStoryArgs): string => html`
 `;
 
 export const simpleDarkModeRTL = (): string => html`
-  <calcite-tabs dir="rtl" class="calcite-mode-dark">
+  <calcite-tabs dir="rtl">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
@@ -115,7 +115,7 @@ export const closable = (): string => html`
 `;
 
 export const borderedDarkModeRTL = (): string => html`
-  <calcite-tabs layout="inline" position="top" scale="m" bordered dir="rtl" class="calcite-mode-dark">
+  <calcite-tabs layout="inline" position="top" scale="m" bordered dir="rtl">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>

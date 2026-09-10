@@ -112,7 +112,6 @@ export const darkModeRTL = (): string =>
       open
       text-close="Close"
       dir="rtl"
-      class="calcite-mode-dark"
     >
       ${contentHTML}
     </calcite-popover>

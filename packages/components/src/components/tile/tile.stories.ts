@@ -697,7 +697,6 @@ export const darkModeRTL = (): string => html`
     heading="Tile heading lorem ipsum"
     href="#"
     icon="layer"
-    class="calcite-mode-dark"
     dir="rtl"
   >
   </calcite-tile>

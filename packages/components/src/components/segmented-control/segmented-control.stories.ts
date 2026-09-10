@@ -108,11 +108,7 @@ export const fullWidthWithIcons = (): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-segmented-control
-    class="calcite-mode-dark"
-    dir="rtl"
-    validation-message="This should not appear because the status is not 'invalid'"
-  >
+  <calcite-segmented-control dir="rtl" validation-message="This should not appear because the status is not 'invalid'">
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
     <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
     <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
