@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.71](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.69...@esri/calcite-components@5.2.0-next.71) (2026-09-10)
+
+### Features
+
+- **input, input-number, input-text:** add inline-editable functionality ([#15122](https://github.com/Esri/calcite-design-system/issues/15122)), closes [#6153](https://github.com/Esri/calcite-design-system/issues/6153)
+
+### Bug Fixes
+
+- **block:** restore padding for default slotted text ([#15112](https://github.com/Esri/calcite-design-system/issues/15112)), closes [#15107](https://github.com/Esri/calcite-design-system/issues/15107)
+- bump `@arcgis` deps to improve performance ([#15132](https://github.com/Esri/calcite-design-system/issues/15132)), closes [#14766](https://github.com/Esri/calcite-design-system/issues/14766)
+- **button:** focus no longer overrides hover/active state colors ([#15137](https://github.com/Esri/calcite-design-system/issues/15137)), closes [#15134](https://github.com/Esri/calcite-design-system/issues/15134) [#15136](https://github.com/Esri/calcite-design-system/issues/15136)
+- **input-date-picker:** revert padding regression ([#15120](https://github.com/Esri/calcite-design-system/issues/15120)), closes [#14838](https://github.com/Esri/calcite-design-system/issues/14838) [#15106](https://github.com/Esri/calcite-design-system/issues/15106)
+- omit `aria-busy` when false ([#15142](https://github.com/Esri/calcite-design-system/issues/15142)), closes [#13547](https://github.com/Esri/calcite-design-system/issues/13547)
+- **popover:** omit aria-expanded for disabled triggers ([#15141](https://github.com/Esri/calcite-design-system/issues/15141)), closes [#15139](https://github.com/Esri/calcite-design-system/issues/15139)
+- **tab-nav:** do not prevent vertical page scrolling when tab titles do not overflow ([#15158](https://github.com/Esri/calcite-design-system/issues/15158)), closes [#14746](https://github.com/Esri/calcite-design-system/issues/14746)
+- **tile:** preserve native Enter behavior for href tiles ([#15160](https://github.com/Esri/calcite-design-system/issues/15160)), closes [#14557](https://github.com/Esri/calcite-design-system/issues/14557)
+
 ## [5.2.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.68...@esri/calcite-components@5.2.0-next.69) (2026-09-02)
 
 ### Bug Fixes
