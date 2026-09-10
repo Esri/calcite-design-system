@@ -249,6 +249,26 @@ describe("click manager", () => {
     expect(referenceElement1.ariaExpanded).toBeNull();
   });
 
+  it("cleans up ARIA state when disconnected before triggerDisabled update flushes", async () => {
+    const referenceElement = document.createElement("button");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    component.triggerDisabled = true;
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.ariaControlsElements).toBeNull();
+    expect(referenceElement.ariaExpanded).toBeNull();
+  });
+
   it("registers multiple components with same reference element and unregisters independently", async () => {
     await mount(
       html`<div>

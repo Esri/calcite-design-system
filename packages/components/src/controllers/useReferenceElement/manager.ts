@@ -460,10 +460,8 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     const componentIsRegistered = currentElements.includes(component.el);
 
     if (!registerComponent) {
-      if (componentIsRegistered) {
-        const updatedElements = currentElements.filter((element) => element !== component.el);
-        referenceEl.ariaControlsElements = updatedElements.length > 0 ? updatedElements : null;
-      }
+      const updatedElements = currentElements.filter((element) => element !== component.el);
+      referenceEl.ariaControlsElements = updatedElements.length > 0 ? updatedElements : null;
       return;
     }
 
@@ -479,7 +477,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (options.click) {
       updateAriaControls(referenceEl, component);
-updateAriaExpanded(referenceEl, registeredElements.get(referenceEl) ?? []);
+      updateAriaExpanded(referenceEl, registeredElements.get(referenceEl) ?? []);
     }
   };
 
@@ -597,12 +595,7 @@ updateAriaExpanded(referenceEl, registeredElements.get(referenceEl) ?? []);
       clearHoverTimeout();
     }
 
-    if (options.click && !component.triggerDisabled && "ariaControlsElements" in referenceEl) {
-      const newElements = (referenceEl.ariaControlsElements ?? []).filter((element) => element !== component.el);
-      referenceEl.ariaControlsElements = newElements.length > 0 ? newElements : null;
-    }
-
-    if (options.click && !component.triggerDisabled) {
+    if (options.click) {
       updateAriaControls(referenceEl, component, false);
       updateAriaExpanded(referenceEl, updatedComponents);
     }
