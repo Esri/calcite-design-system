@@ -76,7 +76,6 @@
   border-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
 
   .menu-container .calcite-floating-ui-anim {
-    border-radius: var(--calcite-input-date-picker-calendar-corner-radius, var(--calcite-corner-radius));
     box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-md));
   }
 }
@@ -117,7 +116,6 @@
 @include includes.disabled();
 
 .calendar-wrapper {
-  border-radius: var(--calcite-input-date-picker-calendar-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
   transform: translate3d(0, 0, 0);
 }
