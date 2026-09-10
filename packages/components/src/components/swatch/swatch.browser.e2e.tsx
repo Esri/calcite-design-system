@@ -10,7 +10,7 @@ import {
   slots,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, IDS, SLOTS } from "./resources";
 
 describe("defaults", () => {

@@ -10,7 +10,7 @@ import {
   scalePropagates,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { DatePicker } from "./date-picker";

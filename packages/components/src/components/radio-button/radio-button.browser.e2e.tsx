@@ -15,8 +15,8 @@ import {
   accessible,
   labelable,
   themed,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 

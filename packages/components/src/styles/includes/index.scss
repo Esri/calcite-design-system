@@ -232,16 +232,16 @@
   }
 }
 
-@mixin inline-editable(
-  $background-color: "--calcite-inline-editable-background-color",
-  $background-color-hover: "--calcite-inline-editable-background-color-hover",
-  $background-color-press: "--calcite-inline-editable-background-color-press",
-  $corner-radius: "--calcite-inline-editable-corner-radius",
-  $loader-color: "--calcite-inline-editable-loader-color",
-  $text-color: "--calcite-inline-editable-text-color",
-  $text-color-press: "--calcite-inline-editable-text-color-press"
+@mixin inline-edit(
+  $background-color: "--calcite-inline-edit-background-color",
+  $background-color-hover: "--calcite-inline-edit-background-color-hover",
+  $background-color-press: "--calcite-inline-edit-background-color-press",
+  $corner-radius: "--calcite-inline-edit-corner-radius",
+  $loader-color: "--calcite-inline-edit-loader-color",
+  $text-color: "--calcite-inline-edit-text-color",
+  $text-color-press: "--calcite-inline-edit-text-color-press"
 ) {
-  .inline-editable--container {
+  .inline-edit--container {
     display: flex;
     cursor: pointer;
     align-items: center;

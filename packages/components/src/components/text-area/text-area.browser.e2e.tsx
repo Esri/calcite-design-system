@@ -17,8 +17,8 @@ import {
   t9n,
   formAssociated,
   themed,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
 import type { TextArea } from "./text-area";
 import { afterNextFrame } from "../../tests/utils/timing";

@@ -108,7 +108,7 @@ export const CSS = {
 ```ts
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { CSS, TEXT } from "./resources";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/common";
 
 describe("renders", () => {
   renders("calcite-example");

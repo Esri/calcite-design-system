@@ -14,7 +14,7 @@ import {
   openClose,
   accessible,
   topLayer,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { SortHandle } from "./sort-handle";

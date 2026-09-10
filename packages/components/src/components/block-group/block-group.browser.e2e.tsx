@@ -12,7 +12,7 @@ import {
   disabled,
   focusable,
   scalePropagates,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
 import type { BlockGroup } from "./block-group";
@@ -153,6 +153,20 @@ describe("is focusable", () => {
 describe("disabled", () => {
   disabled(() => mount(<calcite-block-group>{renderBlock()}</calcite-block-group>), {
     focusTarget: "child",
+  });
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<BlockGroup>(<calcite-block-group label="Blocks" />);
+    const group = page.getByRole("group", { name: "Blocks" });
+
+    await expect.element(group).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(group).toHaveAttribute("aria-busy", "true");
   });
 });
 

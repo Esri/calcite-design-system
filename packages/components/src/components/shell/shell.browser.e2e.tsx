@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots, accessible, themed } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, accessible, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import type { ShellPanel } from "../shell-panel/shell-panel";
 import { CSS as SHELL_PANEL_CSS } from "../shell-panel/resources";

@@ -16,7 +16,7 @@ import {
   scalePropagates,
   themed,
   topLayer,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Dropdown } from "./dropdown";
