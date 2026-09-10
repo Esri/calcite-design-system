@@ -71,15 +71,7 @@ const contrastLight = users
   .join("");
 
 const contrastDarkRTL = users
-  .map(
-    (user): string =>
-      html`<calcite-avatar
-        dir="rtl"
-        class="calcite-mode-dark"
-        user-id="${user.id}"
-        username="${user.name}"
-      ></calcite-avatar>`,
-  )
+  .map((user): string => html`<calcite-avatar dir="rtl" user-id="${user.id}" username="${user.name}"></calcite-avatar>`)
   .join("");
 
 export const contrast = (): string => html`
@@ -98,7 +90,7 @@ export const contrast = (): string => html`
     </style>
     <div class="container">
       <div class="use-case">${contrastLight}</div>
-      <div class="use-case">${contrastDarkRTL}</div>
+      <div class="use-case" style="color-scheme: dark;">${contrastDarkRTL}</div>
     </div>
   </div>
 `;
