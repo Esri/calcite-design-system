@@ -354,6 +354,12 @@ export class TabNav extends LitElement {
   }
 
   private onTabTitleWheel(event: WheelEvent): void {
+    const tabTitleContainer = event.currentTarget as HTMLDivElement;
+
+    if (tabTitleContainer.scrollWidth <= tabTitleContainer.clientWidth) {
+      return;
+    }
+
     event.preventDefault();
 
     const { deltaX, deltaY } = event;
@@ -373,7 +379,7 @@ export class TabNav extends LitElement {
     }
 
     const scrollByX = (this.effectiveDir === "rtl" ? -1 : 1) * scrollBy;
-    (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
+    tabTitleContainer.scrollBy(scrollByX, 0);
   }
 
   private onSlotChange(): void {
