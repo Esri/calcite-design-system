@@ -55,11 +55,7 @@ export class BigDecimal {
 
   formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const parts = formatter.numberFormatter.formatToParts(BigInt(integers));
-
-    if (this.isNegative) {
-      parts.unshift({ type: "minusSign", value: formatter.minusSign });
-    }
+    const parts = formatter.numberFormatter.formatToParts(BigInt(`${this.isNegative ? "-" : ""}${integers}`));
 
     if (decimals.length) {
       parts.push({ type: "decimal", value: formatter.decimal });
@@ -71,9 +67,10 @@ export class BigDecimal {
 
   format(formatter: NumberStringFormat): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const integersFormatted = `${this.isNegative ? formatter.minusSign : ""}${formatter.numberFormatter.format(
-      BigInt(integers),
-    )}`;
+    const integersFormatted = formatter.numberFormatter
+      .formatToParts(BigInt(`${this.isNegative ? "-" : ""}${integers}`))
+      .map((part) => part.value)
+      .join("");
     const decimalsFormatted = decimals.length
       ? `${formatter.decimal}${decimals
           .split("")

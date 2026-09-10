@@ -137,6 +137,28 @@ describe("BigDecimal", () => {
     expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
 
+  it("preserves bidirectional marks when formatting negative arabext numbers", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en",
+      numberingSystem: "arabext",
+      useGrouping: true,
+    };
+
+    const number = new BigDecimal("-12345678.9");
+    const expectedIntegerParts = numberStringFormatter.numberFormatter.formatToParts(-12345678n);
+    const expectedValue = `${expectedIntegerParts.map((part) => part.value).join("")}${
+      numberStringFormatter.decimal
+    }${numberStringFormatter.numberFormatter.format(9)}`;
+
+    expect(number.format(numberStringFormatter)).toBe(expectedValue);
+    expect(number.formatToParts(numberStringFormatter)).toEqual([
+      ...expectedIntegerParts,
+      { type: "decimal", value: numberStringFormatter.decimal },
+      { type: "fraction", value: "9" },
+    ]);
+    expect(numberStringFormatter.delocalize(number.format(numberStringFormatter))).toBe("-12345678.9");
+  });
+
   supportedNlsLocales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
