@@ -314,7 +314,6 @@ export const arabicLocaleDarkModeRTL = (): string => html`
   <div class="container">
     <div class="picker-group">
       <calcite-input-date-picker
-        class="calcite-mode-dark"
         dir="rtl"
         value="2020-12-12"
         numbering-system="arab"
@@ -325,7 +324,6 @@ export const arabicLocaleDarkModeRTL = (): string => html`
       ></calcite-input-date-picker>
 
       <calcite-input-date-picker
-        class="calcite-mode-dark"
         dir="rtl"
         value="2020-12-12"
         numbering-system="arab"
@@ -338,7 +336,6 @@ export const arabicLocaleDarkModeRTL = (): string => html`
     </div>
     <div class="picker-group">
       <calcite-input-date-picker
-        class="calcite-mode-dark"
         dir="rtl"
         value="2020-12-12"
         numbering-system="arab"
@@ -350,7 +347,6 @@ export const arabicLocaleDarkModeRTL = (): string => html`
       ></calcite-input-date-picker>
 
       <calcite-input-date-picker
-        class="calcite-mode-dark"
         dir="rtl"
         value="2020-12-12"
         numbering-system="arab"

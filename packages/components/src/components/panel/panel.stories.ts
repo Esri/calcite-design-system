@@ -173,7 +173,6 @@ export const darkModeRTL = (): string => html`
     collapse-direction="down"
     height-scale="m"
     dir="rtl"
-    class="calcite-mode-dark"
     heading="Heading"
     icon="arrow-bold-left"
     icon-flip-rtl

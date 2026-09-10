@@ -57,7 +57,7 @@ export const simple = (args: RadioButtonStoryArgs): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-label layout="inline" class="calcite-mode-dark" dir="rtl">
+  <calcite-label layout="inline" dir="rtl">
     <calcite-radio-button name="dark" scale="m" value="value"> </calcite-radio-button>
     Radio Button
   </calcite-label>

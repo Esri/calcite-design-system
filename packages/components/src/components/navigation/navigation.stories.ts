@@ -1,4 +1,4 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { Navigation } from "./navigation";
@@ -152,7 +152,7 @@ export const allSlots = (): string => html`
 `;
 
 export const allSlots_darkModeRTL = (): string => html`
-  <div class="calcite-mode-dark" dir="rtl">
+  <div dir="rtl">
     <calcite-navigation style="--calcite-color-brand: #bf390f">
       <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
       </calcite-navigation-logo>
@@ -191,6 +191,8 @@ export const allSlots_darkModeRTL = (): string => html`
     </calcite-navigation>
   </div>
 `;
+
+allSlots_darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const withNavActionSlot = (): string => html`
   <calcite-navigation>

@@ -120,15 +120,7 @@ export const responsiveTinyNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron = (): string => html`
-  <calcite-pagination
-    class="calcite-mode-dark"
-    start-item="1"
-    lang="fr"
-    group-separator
-    total-items="123456789"
-    page-size="10"
-    scale="l"
-  >
+  <calcite-pagination start-item="1" lang="fr" group-separator total-items="123456789" page-size="10" scale="l">
   </calcite-pagination>
 `;
 

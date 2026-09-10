@@ -192,7 +192,6 @@ export const scales = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <calcite-input-time-picker
-    class="calcite-mode-dark"
     value="22:37"
     step="1"
     validation-message="This should not appear because the status is not 'invalid'"

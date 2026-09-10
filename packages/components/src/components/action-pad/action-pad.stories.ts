@@ -108,7 +108,7 @@ export const withGroups = (): string =>
   </calcite-action-pad>`;
 
 export const darkModeRTL = (): string => html`
-  <calcite-action-pad position="start" dir="rtl" class="calcite-mode-dark">
+  <calcite-action-pad position="start" dir="rtl">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
       <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
