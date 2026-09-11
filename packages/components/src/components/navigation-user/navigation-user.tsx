@@ -10,6 +10,9 @@ declare global {
   }
 }
 
+/**
+ * @parent calcite-navigation
+ */
 export class NavigationUser extends LitElement {
   // #region Static Members
 

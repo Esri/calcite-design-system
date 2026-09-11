@@ -19,6 +19,7 @@ declare global {
 }
 
 /**
+ * @parent calcite-combobox
  * @slot - A slot for adding nested `calcite-combobox-item`s.
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
  * @slot content-start - A slot for adding non-actionable elements before the component's content.

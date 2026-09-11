@@ -26,7 +26,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-tab-title`s. */
+/**
+ * @parent calcite-tabs
+ * @slot - A slot for adding `calcite-tab-title`s.
+ */
 export class TabNav extends LitElement {
   //#region Static Members
 

@@ -9,7 +9,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding content. */
+/**
+ * @parent calcite-carousel
+ * @slot - A slot for adding content.
+ */
 export class CarouselItem extends LitElement {
   // #region Static Members
 

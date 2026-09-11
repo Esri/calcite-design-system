@@ -38,6 +38,7 @@ declare global {
 /**
  * Tab-titles are optionally individually closable.
  *
+ * @parent calcite-tabs
  * @slot - A slot for adding text.
  */
 export class TabTitle extends LitElement {

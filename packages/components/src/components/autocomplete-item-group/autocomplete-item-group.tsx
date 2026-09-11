@@ -15,7 +15,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-autocomplete-item`s. */
+/**
+ * @parent calcite-autocomplete
+ * @slot - A slot for adding `calcite-autocomplete-item`s.
+ */
 export class AutocompleteItemGroup extends LitElement {
   //#region Static Members
 

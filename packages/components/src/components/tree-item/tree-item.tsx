@@ -26,6 +26,7 @@ declare global {
 }
 
 /**
+ * @parent calcite-tree
  * @slot - A slot for adding text.
  * @slot children - A slot for adding nested `calcite-tree` elements.
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
