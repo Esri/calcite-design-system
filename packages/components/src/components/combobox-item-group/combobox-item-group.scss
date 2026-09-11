@@ -8,9 +8,12 @@
  */
 
 @use "../../styles/includes";
+@use "../../styles/outline-none";
+@use "../../styles/text";
 
 .scale--s {
-  @apply text-n2h;
+  @include text.text-n2h();
+
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-sm);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xxs);
 
@@ -29,7 +32,8 @@
 }
 
 .scale--m {
-  @apply text-n1h;
+  @include text.text-n1h();
+
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-md);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xs);
 
@@ -48,7 +52,8 @@
 }
 
 .scale--l {
-  @apply text-0h;
+  @include text.text-0h();
+
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-lg);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-sm-plus);
 
@@ -68,12 +73,15 @@
 
 :host,
 .list {
-  @apply m-0 flex flex-col p-0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 }
 
 :host(:focus),
 .list:focus {
-  @apply outline-none;
+  @include outline-none.outline-none();
 }
 
 .separator {
@@ -82,18 +90,23 @@
 }
 
 .label {
-  @apply box-border flex w-full min-w-0 max-w-full;
+  box-sizing: border-box;
+  display: flex;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
 }
 
 .title {
+  @include includes.word-break();
+
   --calcite-combobox-item-indent-value: calc(
     var(--calcite-combobox-item-horizontal-spacing-unit) * var(--calcite-combobox-item-spacing-indent-multiplier)
   );
   border: 0 solid;
-  @apply word-break
-    block
-    flex-1
-    font-bold;
+  display: block;
+  flex: 1 1 0%;
+  font-weight: var(--calcite-font-weight-bold);
   padding-block: var(--calcite-combobox-item-vertical-spacing-unit);
   padding-inline-start: calc(
     var(--calcite-combobox-item-indent-value) + var(--calcite-combobox-item-horizontal-spacing-unit)
