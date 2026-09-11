@@ -17,16 +17,16 @@
 @use "../../styles/includes";
 
 :host {
-  @apply inline-block;
+  display: inline-block;
 }
 
 .time-picker {
-  @apply flex
-    select-none
-    items-center
-    border-solid
-    border
-    font-medium;
+  display: flex;
+  user-select: none;
+  align-items: center;
+  border-style: solid;
+  border-width: var(--calcite-border-width-sm);
+  font-weight: var(--calcite-font-weight-medium);
   border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
@@ -35,8 +35,8 @@
   overflow: hidden;
 
   .column {
-    @apply flex
-      flex-col;
+    display: flex;
+    flex-direction: column;
   }
 
   .meridiem--start {
@@ -44,16 +44,16 @@
   }
 
   .button {
-    @apply inline-flex
-      cursor-pointer
-      items-center
-      justify-center;
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
 
     background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
 
     &:hover,
     &:focus {
-      @apply outline-none;
+      outline: var(--calcite-border-width-md) solid transparent;
       z-index: var(--calcite-z-index-header);
       outline-offset: 0;
       background-color: var(--calcite-time-picker-button-background-color-hover, var(--calcite-color-foreground-2));
@@ -79,10 +79,10 @@
   }
 
   .input {
-    @apply inline-flex
-      cursor-pointer
-      items-center
-      justify-center;
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
 
     font-weight: var(--calcite-font-weight-medium);
     background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
@@ -93,8 +93,8 @@
     }
     &:focus,
     &:hover:focus {
-      @apply outline-none;
-      outline-offset: 0;
+      outline: var(--calcite-border-width-md) solid transparent;
+      outline-offset: var(--calcite-border-width-none);
     }
     &.inputFocus,
     &:hover.inputFocus {
@@ -104,7 +104,7 @@
   }
 
   &.scale-s {
-    @apply text-n1;
+    font-size: var(--calcite-font-size-relative-base);
     .button,
     .input {
       padding-inline: var(--calcite-spacing-sm);
@@ -118,7 +118,7 @@
   }
 
   &.scale-m {
-    @apply text-0;
+    font-size: var(--calcite-font-size-relative-md);
     .button,
     .input {
       padding-inline: var(--calcite-spacing-md);
@@ -132,7 +132,7 @@
   }
 
   &.scale-l {
-    @apply text-1;
+    font-size: var(--calcite-font-size-relative-lg);
     .button,
     .input {
       padding-inline: var(--calcite-spacing-lg);
