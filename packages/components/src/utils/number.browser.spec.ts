@@ -137,7 +137,7 @@ describe("BigDecimal", () => {
     expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
 
-  it("preserves bidirectional marks when formatting negative arabext numbers", () => {
+  it("includes bidirectional marks for read-only formatting", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "en",
       numberingSystem: "arabext",
@@ -150,13 +150,24 @@ describe("BigDecimal", () => {
       numberStringFormatter.decimal
     }${numberStringFormatter.numberFormatter.format(9)}`;
 
-    expect(number.format(numberStringFormatter)).toBe(expectedValue);
+    expect(number.format(numberStringFormatter)).toBe("-۱۲٬۳۴۵٬۶۷۸٫۹");
     expect(number.formatToParts(numberStringFormatter)).toEqual([
+      { type: "minusSign", value: "-" },
+      { type: "integer", value: "۱۲" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "۳۴۵" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "۶۷۸" },
+      { type: "decimal", value: numberStringFormatter.decimal },
+      { type: "fraction", value: "9" },
+    ]);
+    expect(number.format(numberStringFormatter, true)).toBe(expectedValue);
+    expect(number.formatToParts(numberStringFormatter, true)).toEqual([
       ...expectedIntegerParts,
       { type: "decimal", value: numberStringFormatter.decimal },
       { type: "fraction", value: "9" },
     ]);
-    expect(numberStringFormatter.delocalize(number.format(numberStringFormatter))).toBe("-12345678.9");
+    expect(numberStringFormatter.delocalize(number.format(numberStringFormatter, true))).toBe("-12345678.9");
   });
 
   supportedNlsLocales.forEach((locale) => {

@@ -53,9 +53,9 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
-  formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
+  formatToParts(formatter: NumberStringFormat, includeDirectionalMarks = false): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const parts = formatter.numberFormatter.formatToParts(BigInt(`${this.isNegative ? "-" : ""}${integers}`));
+    const parts = getLocalizedIntegerParts(formatter, integers, this.isNegative, includeDirectionalMarks);
 
     if (decimals.length) {
       parts.push({ type: "decimal", value: formatter.decimal });
@@ -65,10 +65,9 @@ export class BigDecimal {
     return parts;
   }
 
-  format(formatter: NumberStringFormat): string {
+  format(formatter: NumberStringFormat, includeDirectionalMarks = false): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const integersFormatted = formatter.numberFormatter
-      .formatToParts(BigInt(`${this.isNegative ? "-" : ""}${integers}`))
+    const integersFormatted = getLocalizedIntegerParts(formatter, integers, this.isNegative, includeDirectionalMarks)
       .map((part) => part.value)
       .join("");
     const decimalsFormatted = decimals.length
@@ -95,6 +94,23 @@ export class BigDecimal {
   divide(n: string): BigDecimal {
     return BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(n).value);
   }
+}
+
+function getLocalizedIntegerParts(
+  formatter: NumberStringFormat,
+  integers: string,
+  isNegative: boolean,
+  includeDirectionalMarks: boolean,
+): Intl.NumberFormatPart[] {
+  const parts = formatter.numberFormatter.formatToParts(
+    BigInt(`${includeDirectionalMarks && isNegative ? "-" : ""}${integers}`),
+  );
+
+  if (isNegative && !includeDirectionalMarks) {
+    parts.unshift({ type: "minusSign", value: formatter.minusSign });
+  }
+
+  return parts;
 }
 
 export function isValidNumber(numberString?: string | null): boolean {

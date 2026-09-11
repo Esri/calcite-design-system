@@ -996,7 +996,7 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    let newLocalizedValue = numberStringFormatter.localize(newValue);
+    let newLocalizedValue = numberStringFormatter.localize(newValue, this.readOnly);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(

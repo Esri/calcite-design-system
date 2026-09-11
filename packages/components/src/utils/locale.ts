@@ -196,12 +196,12 @@ export class NumberStringFormat {
     );
   };
 
-  localize = (numberString: string): string => {
+  localize = (numberString: string, includeDirectionalMarks = false): string => {
     return this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           isValidNumber(nonExpoNumString.trim())
             ? new BigDecimal(nonExpoNumString.trim())
-                .format(this)
+                .format(this, includeDirectionalMarks)
                 .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
             : nonExpoNumString,
         )
