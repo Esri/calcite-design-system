@@ -25,8 +25,12 @@
 // --calcite-internal-combobox-spacing-unit-l
 // --calcite-internal-combobox-spacing-unit-s
 
-@use "../../styles/includes";
 @use "../../styles/shared/floating-ui";
+@use "../../styles/focus";
+@use "../../styles/includes";
+@use "../../styles/component/outline-none";
+@use "../../styles/sr-only";
+@use "../../styles/truncate";
 
 :host {
   position: relative;
@@ -90,11 +94,7 @@
 
 :host(:focus-within) .wrapper,
 .wrapper--active {
-  outline: var(--calcite-border-width-md) solid
-    var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-  outline-offset: calc(
-    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-  );
+  @include focus.focus-inset();
 }
 
 :host([read-only]) {
@@ -112,10 +112,7 @@
 }
 
 :host([status="invalid"]:focus-within) .wrapper {
-  outline: var(--calcite-border-width-md) solid var(--calcite-color-status-danger);
-  outline-offset: calc(
-    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-  );
+  @include focus.focus-inset-danger();
 }
 
 .wrapper--single {
@@ -126,6 +123,8 @@
 }
 
 .grid-input {
+  @include truncate.truncate();
+
   display: flex;
   flex-grow: 1;
   flex-wrap: wrap;
@@ -163,8 +162,7 @@
   min-inline-size: 4.8125rem;
 
   &:focus {
-    outline: var(--calcite-border-width-md) solid transparent;
-    outline-offset: var(--calcite-border-width-md);
+    @include outline-none.outline-none();
   }
 
   &:placeholder-shown {
@@ -209,12 +207,11 @@
 }
 
 .label {
+  @include truncate.truncate();
+
   pointer-events: none;
   max-inline-size: 100%;
   flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   padding: 0;
   font-weight: var(--calcite-font-weight-normal);
   block-size: var(--calcite-combobox-input-height);
@@ -262,15 +259,7 @@
 }
 
 .screen-readers-only {
-  position: absolute;
-  inline-size: var(--calcite-border-width-sm);
-  block-size: var(--calcite-border-width-sm);
-  padding: 0;
-  margin: calc(-1 * var(--calcite-border-width-sm));
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  @include sr-only.sr-only();
 }
 
 .list-container {

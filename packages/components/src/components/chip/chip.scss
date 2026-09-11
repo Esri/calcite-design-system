@@ -45,7 +45,9 @@
 // --calcite-internal-chip-title-space
 // --calcite-internal-close-size
 
+@use "../../styles/focus";
 @use "../../styles/includes";
+@use "../../styles/truncate";
 
 :host {
   display: inline-flex;
@@ -410,15 +412,11 @@
     }
   }
   &:not(.non-interactive):focus {
-    outline: var(--calcite-border-width-md) solid
-      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-    outline-offset: calc(var(--calcite-spacing-base) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
+    @include focus.focus-outset();
   }
 
   &.text--slotted .title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    @include truncate.truncate();
   }
 
   &:not(.text--slotted) .title,

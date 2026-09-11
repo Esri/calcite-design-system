@@ -40,7 +40,10 @@
 // --calcite-internal-carousel-pagination-space
 // --calcite-internal-carousel-pagination-space-wide
 
+@use "../../styles/focus";
 @use "../../styles/includes";
+@use "../../styles/component/sr-only";
+@use "../../styles/component/text";
 
 :host {
   display: flex;
@@ -121,15 +124,12 @@
   flex-direction: column;
   overflow: hidden;
   color: var(--calcite-color-text-2);
-  font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-base);
   inline-size: 100%;
+
+  @include text.text-n1h();
+
   &:focus {
-    outline: var(--calcite-border-width-md) solid
-      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-    outline-offset: calc(
-      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-    );
+    @include focus.focus-inset();
   }
 }
 
@@ -166,15 +166,7 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-aria-live {
-  position: absolute;
-  inline-size: var(--calcite-border-width-sm);
-  block-size: var(--calcite-border-width-sm);
-  padding: 0;
-  margin: calc(-1 * var(--calcite-border-width-sm));
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  @include sr-only.sr-only();
 }
 
 .pagination {
@@ -257,6 +249,7 @@ calcite-carousel-item:not([selected]) {
 
 .pagination-item {
   @include includes.transition-default();
+
   outline-color: transparent;
   margin: 0;
   block-size: var(--calcite-space-3xl);
@@ -270,17 +263,15 @@ calcite-carousel-item:not([selected]) {
   justify-content: center;
   background-color: var(--calcite-internal-carousel-pagination-background-color);
   color: var(--calcite-internal-carousel-pagination-icon-color);
+
   &:hover {
     background-color: var(--calcite-internal-carousel-pagination-background-color-hover);
     color: var(--calcite-internal-carousel-pagination-icon-color-hover);
   }
   &:focus {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
-    outline: var(--calcite-border-width-md) solid
-      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-    outline-offset: calc(
-      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-    );
+
+    @include focus-inset.focus-inset();
   }
   &:active {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);

@@ -12,6 +12,7 @@
  */
 
 @use "../../styles/includes";
+@use "../../styles/component/focus";
 
 :host {
   box-sizing: border-box;
@@ -117,8 +118,7 @@ calcite-switch {
   line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
-    outline: var(--calcite-border-width-md) solid
-      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+    @include focus.focus-normal();
     // required to ensure the focus ring is visible when slotted with other block-section components in block
     z-index: var(--calcite-z-index);
   }
@@ -130,7 +130,6 @@ calcite-switch {
 .section-header__text {
   margin-block: 0;
   flex: 1 1 auto;
-
   text-align: initial;
   overflow-wrap: anywhere;
 }
@@ -152,7 +151,6 @@ calcite-switch {
   .chevron-icon {
     display: flex;
     align-items: center;
-
     color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
   }
 

@@ -24,13 +24,15 @@
 // --calcite-internal-combobox-item-spacing-unit-l
 // --calcite-internal-combobox-item-spacing-unit-s
 
+@use "../../styles/focus";
 @use "../../styles/includes";
+@use "../../styles/outline-none";
+@use "../../styles/text";
 
 @include includes.base-component();
 
 .scale--s {
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-sm);
+  @include text.text-n2h();
 
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.2");
@@ -39,8 +41,7 @@
 }
 
 .scale--m {
-  font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-base);
+  @include text.text-n1h();
 
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[1.5]");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.3");
@@ -49,8 +50,7 @@
 }
 
 .scale--l {
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
 
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[2.5]");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.4");
@@ -65,9 +65,7 @@
 }
 
 :host(:focus) {
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  box-shadow: 0 0 #0000;
 }
 
 @include includes.disabled();
@@ -82,11 +80,12 @@ ul {
 
 :host(:focus),
 ul:focus {
-  outline: var(--calcite-border-width-md) solid transparent;
-  outline-offset: var(--calcite-border-width-md);
+  @include outline-none.outline-none();
 }
 
 .label {
+  @include includes.word-break();
+
   outline-color: transparent;
   position: relative;
   box-sizing: border-box;
@@ -97,13 +96,11 @@ ul:focus {
   align-items: center;
   text-decoration-line: none;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  @include includes.word-break();
   justify-content: space-around;
   gap: var(--calcite-internal-combobox-item-spacing-unit-l);
   padding-block: var(--calcite-internal-combobox-item-spacing-unit-s);
   padding-inline-end: var(--calcite-internal-combobox-item-spacing-unit-l);
   padding-inline-start: var(--calcite-combobox-item-indent-value);
-
   color: var(--calcite-combobox-text-color, var(--calcite-color-text-3));
   transition-duration: var(--calcite-animation-timing);
 }
@@ -113,11 +110,7 @@ ul:focus {
 }
 
 .label--active {
-  outline: var(--calcite-border-width-md) solid
-    var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-  outline-offset: calc(
-    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-  );
+  @include focus.focus-inset();
 }
 
 .label:hover {
@@ -142,7 +135,6 @@ ul:focus {
 .icon {
   display: inline-flex;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-
   color: var(--calcite-color-border-input);
 }
 

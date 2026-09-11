@@ -33,8 +33,10 @@
 // --calcite-internal-card-heading-font-size
 // --calcite-internal-card-slotted-content-padding
 
-@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../styles/component/focus";
+@use "../../styles/includes";
+@use "../../styles/text";
 
 :host {
   display: block;
@@ -104,9 +106,7 @@
       outline-color: transparent;
     }
     &:not(.non-interactive):focus {
-      outline: var(--calcite-border-width-md) solid
-        var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-      outline-offset: calc(var(--calcite-spacing-base) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
+      @include focus.focus-outset();
     }
   }
 }
@@ -162,8 +162,8 @@
 
 .card-content {
   block-size: auto;
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-snug);
+
+  @include text.text-n2-wrap();
 }
 
 .has-slotted-content {
@@ -200,15 +200,15 @@
 }
 
 @include includes.slotted("footer-start", "*") {
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  @include text.text-n2-wrap();
+
   align-self: center;
   margin-inline-end: auto;
 }
 
 @include includes.slotted("footer-end", "*") {
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  @include text.text-n2-wrap();
+
   align-self: center;
 }
 

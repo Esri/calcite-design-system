@@ -1,0 +1,19 @@
+@mixin text-0h() {
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-md);
+}
+
+@mixin text-n1h() {
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
+}
+
+@mixin text-n2h() {
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
+}
+
+@mixin text-n2-wrap() {
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-relative-snug);
+}

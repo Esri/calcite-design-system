@@ -27,7 +27,10 @@
 // --calcite-internal-button-padding-y
 // --calcite-internal-button-text-color
 
+@use "../../styles/component/focus";
 @use "../../styles/includes";
+@use "../../styles/component/text";
+@use "../../styles/component/truncate";
 
 :host {
   display: inline-block;
@@ -43,6 +46,7 @@
     --calcite-internal-button-content-margin: theme("margin.2");
     --calcite-internal-button-padding-x: 7px;
     --calcite-internal-button-padding-y: 3px;
+
     appearance: none;
     box-sizing: border-box;
     cursor: pointer;
@@ -117,9 +121,7 @@
     }
 
     &:focus {
-      outline: var(--calcite-border-width-md) solid
-        var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-      outline-offset: calc(var(--calcite-spacing-base) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
+      @include focus.focus-outset();
     }
 
     &:active {
@@ -130,9 +132,7 @@
     }
 
     span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      @include truncate.truncate();
     }
 
     calcite-loader {
@@ -610,8 +610,7 @@
 // generate button scales (scenario: text exists)
 :host([scale="s"]) button.content--slotted,
 :host([scale="s"]) a.content--slotted {
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-sm);
+  @include text.text-n2h();
 }
 
 // accommodate for transparent buttons not having borders
@@ -629,8 +628,7 @@
 :host([scale="m"]) a.content--slotted {
   --calcite-internal-button-padding-x: 11px;
 
-  font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-base);
+  @include text.text-n1h();
 }
 
 :host([scale="m"]) button,
@@ -647,8 +645,7 @@
 :host([scale="l"]) a.content--slotted {
   --calcite-internal-button-padding-x: 15px;
 
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
 }
 
 :host([scale="l"]) {
@@ -668,8 +665,8 @@
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 3px;
 
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
+
   inline-size: var(--calcite-space-2xl);
   min-block-size: theme("height.6");
 }
@@ -679,8 +676,8 @@
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 7px;
 
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
+
   inline-size: var(--calcite-space-3xl);
   min-block-size: theme("height.8");
 }
@@ -689,8 +686,8 @@
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 9px;
 
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
+
   inline-size: var(--calcite-space-4xl);
   min-block-size: theme("height.11");
 }
@@ -715,8 +712,8 @@
 :host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 23px;
 
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
+
   block-size: var(--calcite-space-2xl);
 }
 // accommodate for transparent buttons not having borders
@@ -728,8 +725,8 @@
 :host([scale="m"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding.8");
 
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
+
   block-size: var(--calcite-space-3xl);
 }
 // accommodate for transparent buttons not having borders
@@ -741,9 +738,10 @@
 :host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 43px;
 
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
+
   block-size: var(--calcite-space-4xl);
+
   // add space between when only 2 icons
   .icon--start + .icon--end {
     margin-inline-start: theme("margin.4");

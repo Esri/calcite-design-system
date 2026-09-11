@@ -31,8 +31,10 @@
 // --calcite-internal-block-padding-block
 // --calcite-internal-block-padding-inline
 
+@use "../../styles/component/focus";
 @use "../../styles/includes";
 @use "../../styles/shared/animation";
+@use "../../styles/component/transition-color";
 @use "sass:meta";
 
 :host([scale="s"]) {
@@ -127,8 +129,6 @@
 
 :host {
   @extend %component-host;
-  transition-property: margin;
-  transition-duration: var(--calcite-animation-timing);
   transition-timing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
   display: flex;
   flex-shrink: 0;
@@ -202,11 +202,7 @@
     background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-foreground-2));
   }
   &:focus {
-    outline: var(--calcite-border-width-md) solid
-      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-    outline-offset: calc(
-      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-    );
+    @include focus.focus-inset();
   }
   &:active {
     background-color: var(--calcite-block-header-background-color-press, var(--calcite-color-foreground-3));
@@ -230,20 +226,18 @@ calcite-sort-handle {
 }
 
 .header .title .heading {
-  overflow-wrap: break-word;
-  word-break: break-word;
-  padding: 0;
+  @include includes.word-break();
 
+  padding: 0;
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-1));
   font-weight: var(--calcite-font-weight-normal);
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .description {
-  overflow-wrap: break-word;
-  word-break: break-word;
-  padding: 0;
+  @include includes.word-break();
 
+  padding: 0;
   color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-font-line-height-relative-snug);
@@ -280,8 +274,8 @@ calcite-sort-handle {
 }
 
 .toggle-icon {
-  transition-property: color;
-  transition-duration: var(--calcite-animation-timing);
+  @include transition-color.transition-color();
+
   align-self: center;
   justify-self: end;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

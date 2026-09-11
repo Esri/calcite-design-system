@@ -8,10 +8,11 @@
  */
 
 @use "../../styles/includes";
+@use "../../styles/outline-none";
+@use "../../styles/text";
 
 .scale--s {
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-sm);
+  @include text.text-n2h();
 
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-sm);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xxs);
@@ -31,8 +32,7 @@
 }
 
 .scale--m {
-  font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-base);
+  @include text.text-n1h();
 
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-md);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xs);
@@ -52,8 +52,7 @@
 }
 
 .scale--l {
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+  @include text.text-0h();
 
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-lg);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-sm-plus);
@@ -82,8 +81,7 @@
 
 :host(:focus),
 .list:focus {
-  outline: var(--calcite-border-width-md) solid transparent;
-  outline-offset: var(--calcite-border-width-md);
+  @include outline-none.outline-none();
 }
 
 .separator {
@@ -100,12 +98,12 @@
 }
 
 .title {
+  @include includes.word-break();
+
   --calcite-combobox-item-indent-value: calc(
     var(--calcite-combobox-item-horizontal-spacing-unit) * var(--calcite-combobox-item-spacing-indent-multiplier)
   );
   border: 0 solid;
-  overflow-wrap: break-word;
-  word-break: break-word;
   display: block;
   flex: 1 1 0%;
   font-weight: var(--calcite-font-weight-bold);
