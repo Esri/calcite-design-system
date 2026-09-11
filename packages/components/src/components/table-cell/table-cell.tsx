@@ -28,7 +28,7 @@ export class TableCell extends LitElement {
 
   //#region Private Properties
 
-  private containerRef = createRef<HTMLTableCellElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private direction = useDirection();
 
@@ -70,7 +70,16 @@ export class TableCell extends LitElement {
   @property({ reflect: true }) colSpan?: number;
 
   /** @private */
+  @property() columnStart?: number;
+
+  /** @private */
   @property() disabled = false;
+
+  /** @private */
+  @property() effectiveColSpan?: number;
+
+  /** @private */
+  @property() effectiveRowSpan?: number;
 
   /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
@@ -180,8 +189,12 @@ export class TableCell extends LitElement {
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        <td
+        <div
+          ariaColIndex={this.columnStart}
+          ariaColSpan={this.effectiveColSpan}
+          ariaRowSpan={this.effectiveRowSpan}
           class={{
+            [CSS.cell]: true,
             [CSS.footerCell]: this.parentRowType === "foot",
             [CSS.contentCell]: !this.numberCell && !this.selectionCell,
             [CSS.numberCell]: this.numberCell,
@@ -193,12 +206,10 @@ export class TableCell extends LitElement {
             [this.parentRowAlignment]:
               this.parentRowAlignment === "start" || this.parentRowAlignment === "end",
           }}
-          colSpan={this.colSpan}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
           ref={this.containerRef}
           role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
-          rowSpan={this.rowSpan}
           tabIndex={staticCell ? -1 : 0}
         >
           {(this.selectionCell || this.readCellContentsToAT) && (
@@ -208,7 +219,7 @@ export class TableCell extends LitElement {
             </span>
           )}
           <slot onSlotChange={this.updateScreenReaderContentsText} />
-        </td>
+        </div>
       </this.interactiveContainer>
     );
   }

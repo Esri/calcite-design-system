@@ -25,7 +25,7 @@ export class TableHeader extends LitElement {
 
   //#region Private Properties
 
-  private containerRef = createRef<HTMLTableCellElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -57,8 +57,17 @@ export class TableHeader extends LitElement {
   /** Specifies the number of columns the component should span. */
   @property({ reflect: true }) colSpan?: number;
 
+  /** @private */
+  @property() columnStart?: number;
+
   /** @copyDoc */
   @property({ reflect: true }) description?: string;
+
+  /** @private */
+  @property() effectiveColSpan?: number;
+
+  /** @private */
+  @property() effectiveRowSpan?: number;
 
   /** @copyDoc */
   @property({ reflect: true }) heading?: string;
@@ -167,14 +176,6 @@ export class TableHeader extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const scope = this.rowSpan
-      ? "rowgroup"
-      : this.colSpan
-        ? "colgroup"
-        : this.parentRowType === "body"
-          ? "row"
-          : "col";
-
     const checked = this.selectedRowCount === this.bodyRowCount;
     const indeterminate = this.selectedRowCount > 0;
     const selectionIcon = checked
@@ -185,9 +186,14 @@ export class TableHeader extends LitElement {
 
     const staticCell = this.interactionMode === "static" && !this.selectionCell;
     return (
-      <th
-        ariaColIndex={this.parentRowType === "head" ? this.positionInRow : undefined}
+      <div
+        ariaColIndex={
+          this.columnStart ?? (this.parentRowType === "head" ? this.positionInRow : undefined)
+        }
+        ariaColSpan={this.effectiveColSpan}
+        ariaRowSpan={this.effectiveRowSpan}
         class={{
+          [CSS.cell]: true,
           [CSS.bodyRow]: this.parentRowType === "body",
           [CSS.footerRow]: this.parentRowType === "foot",
           [CSS.contentCell]: !this.numberCell && !this.selectionCell,
@@ -200,13 +206,10 @@ export class TableHeader extends LitElement {
           [this.parentRowAlignment]:
             this.parentRowAlignment === "center" || this.parentRowAlignment === "end",
         }}
-        colSpan={this.colSpan}
         onBlur={this.onContainerBlur}
         onFocus={this.onContainerFocus}
         ref={this.containerRef}
         role={this.parentRowType === "head" ? "columnheader" : "rowheader"}
-        rowSpan={this.rowSpan}
-        scope={scope}
         tabIndex={this.selectionCell ? 0 : staticCell ? -1 : 0}
       >
         {this.heading && <div class={CSS.heading}>{this.heading}</div>}
@@ -223,7 +226,7 @@ export class TableHeader extends LitElement {
             {this.screenReaderText}
           </span>
         )}
-      </th>
+      </div>
     );
   }
 

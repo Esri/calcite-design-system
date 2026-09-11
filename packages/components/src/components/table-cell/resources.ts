@@ -1,6 +1,7 @@
 import { isTag } from "../resources";
 
 export const CSS = {
+  cell: "cell",
   contentCell: "content-cell",
   numberCell: "number-cell",
   footerCell: "footer-cell",
