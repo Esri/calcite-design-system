@@ -36,7 +36,9 @@ it("computes a background fill color based on user id", async () => {
 
     return avatar.shadowRoot.querySelector(".background")?.getAttribute("style") ?? null;
   });
-  expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(206, 60%, 90%));");
+  expect(style).toEqual(
+    "background-color:var(--calcite-avatar-background-color, light-dark(hsl(206, 60%, 90%), hsl(206, 60%, 20%)));",
+  );
 });
 
 it("computes a background fill if id is not a valid hex", async () => {
@@ -53,7 +55,9 @@ it("computes a background fill if id is not a valid hex", async () => {
 
     return avatar.shadowRoot.querySelector(".background")?.getAttribute("style") ?? null;
   });
-  expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(317, 60%, 90%));");
+  expect(style).toEqual(
+    "background-color:var(--calcite-avatar-background-color, light-dark(hsl(317, 60%, 90%), hsl(317, 60%, 20%)));",
+  );
 });
 
 it("renders default icon when no information is passed", async () => {
