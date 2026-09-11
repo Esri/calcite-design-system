@@ -50,6 +50,7 @@ const isNumberingSystemSupported = (numberingSystem?: string): numberingSystem i
   !!(numberingSystems && numberingSystems.includes(numberingSystem as NumberingSystem));
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+const bidirectionalMarks = /[\u061C\u200E\u200F]/g;
 
 // for consistent browser behavior, we normalize numberingSystem to prevent the browser-inferred value
 // @see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195
@@ -195,12 +196,18 @@ export class NumberStringFormat {
     );
   };
 
-  localize = (numberString: string): string => {
+  /**
+   * Localizes a number string.
+   *
+   * @param numberString - number string to localize.
+   * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+   */
+  localize = (numberString: string, includeDirectionalMarks = false): string => {
     return this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           isValidNumber(nonExpoNumString.trim())
             ? new BigDecimal(nonExpoNumString.trim())
-                .format(this)
+                .format(this, includeDirectionalMarks)
                 .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
             : nonExpoNumString,
         )
@@ -209,6 +216,7 @@ export class NumberStringFormat {
 
   #normalizeDigitsAndSign(value: string): string {
     return value
+      .replace(bidirectionalMarks, "")
       .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
       .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex!);
   }

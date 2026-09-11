@@ -53,13 +53,15 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
-  formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
+  /**
+   * Formats the number into localized parts.
+   *
+   * @param formatter - number formatter instance to localize the number value.
+   * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+   */
+  formatToParts(formatter: NumberStringFormat, includeDirectionalMarks = false): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const parts = formatter.numberFormatter.formatToParts(BigInt(integers));
-
-    if (this.isNegative) {
-      parts.unshift({ type: "minusSign", value: formatter.minusSign });
-    }
+    const parts = getLocalizedIntegerParts(formatter, integers, this.isNegative, includeDirectionalMarks);
 
     if (decimals.length) {
       parts.push({ type: "decimal", value: formatter.decimal });
@@ -69,11 +71,17 @@ export class BigDecimal {
     return parts;
   }
 
-  format(formatter: NumberStringFormat): string {
+  /**
+   * Formats the number as a localized string.
+   *
+   * @param formatter - number formatter instance to localize the number value.
+   * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+   */
+  format(formatter: NumberStringFormat, includeDirectionalMarks = false): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    const integersFormatted = `${this.isNegative ? formatter.minusSign : ""}${formatter.numberFormatter.format(
-      BigInt(integers),
-    )}`;
+    const integersFormatted = getLocalizedIntegerParts(formatter, integers, this.isNegative, includeDirectionalMarks)
+      .map((part) => part.value)
+      .join("");
     const decimalsFormatted = decimals.length
       ? `${formatter.decimal}${decimals
           .split("")
@@ -98,6 +106,35 @@ export class BigDecimal {
   divide(n: string): BigDecimal {
     return BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(n).value);
   }
+}
+
+/**
+ * Gets localized integer parts while preserving the editable formatting path by default.
+ *
+ * When `includeDirectionalMarks` is true, the sign is included in the value formatted by `Intl.NumberFormat` so any
+ * directional marks emitted by the browser are preserved. Otherwise, the integer is formatted without a sign and the
+ * localized minus sign is prepended manually.
+ *
+ * @param formatter - number formatter instance to localize the integer value.
+ * @param integers - absolute integer string to format.
+ * @param isNegative - whether the formatted number should include a minus sign.
+ * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+ */
+function getLocalizedIntegerParts(
+  formatter: NumberStringFormat,
+  integers: string,
+  isNegative: boolean,
+  includeDirectionalMarks: boolean,
+): Intl.NumberFormatPart[] {
+  const parts = formatter.numberFormatter.formatToParts(
+    BigInt(`${includeDirectionalMarks && isNegative ? "-" : ""}${integers}`),
+  );
+
+  if (isNegative && !includeDirectionalMarks) {
+    parts.unshift({ type: "minusSign", value: formatter.minusSign });
+  }
+
+  return parts;
 }
 
 export function isValidNumber(numberString?: string | null): boolean {
