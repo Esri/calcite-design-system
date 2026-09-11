@@ -14,7 +14,7 @@ import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -58,7 +58,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -100,7 +100,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
   @property() labelText?: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "required">;
 
   /** @copyDoc */
   @property({ reflect: true }) name?: string;
@@ -245,7 +245,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
             labelText={this.labelText}
             required={this.required}
             spacingInlineStart={true}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
       </this.interactiveContainer>

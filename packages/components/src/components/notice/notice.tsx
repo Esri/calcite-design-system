@@ -19,7 +19,7 @@ import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
 
@@ -66,7 +66,7 @@ export class Notice extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -100,7 +100,7 @@ export class Notice extends LitElement {
   > = "brand";
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "close">;
 
   /** When `true`, the component is visible. */
   @property({ reflect: true }) open = false;
@@ -216,7 +216,7 @@ export class Notice extends LitElement {
         onClick={this.close}
         ref={this.closeButtonRef}
         scale={this.scale}
-        text={this.messages.close}
+        text={this.messagesCommon.close}
       />
     );
 

@@ -1,6 +1,5 @@
 {
   "chooseTime": "Uhrzeit wählen",
-  "clear": "Wert löschen",
   "fractionalSecond": "Sekundenbruchteil",
   "fractionalSecondDown": "Sekundenbruchteil verringern",
   "fractionalSecondUp": "Sekundenbruchteil erhöhen",
@@ -13,7 +12,6 @@
   "minute": "Minute",
   "minuteDown": "Minutenwert verringern",
   "minuteUp": "Minutenwert erhöhen",
-  "required": "Erforderlich",
   "second": "Sekunde",
   "secondDown": "Sekundenwert verringern",
   "secondUp": "Sekundenwert erhöhen"

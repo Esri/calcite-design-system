@@ -48,7 +48,7 @@ import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { styles } from "./autocomplete.scss";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";
@@ -110,7 +110,7 @@ export class Autocomplete
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   transitionProp = "opacity" as const;
 
@@ -213,7 +213,10 @@ export class Autocomplete
   @property({ reflect: true }) maxLength?: number;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<
+    typeof this.messagesCommon._overrides,
+    "clearValue" | "loading" | "required"
+  >;
 
   /**
    * When the component resides in a form,
@@ -777,7 +780,7 @@ export class Autocomplete
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div class={CSS.inputContainer}>
@@ -804,7 +807,7 @@ export class Autocomplete
             label={this.label}
             loading={this.loading}
             maxLength={this.maxLength}
-            messageOverrides={this.messages}
+            messageOverrides={this.messagesCommon}
             minLength={this.minLength}
             name={this.name}
             oncalciteInputChange={this.changeHandler}

@@ -27,14 +27,30 @@ export async function t9n(setUp: () => ReturnType<typeof mount>, subComponents?:
 
   type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 
-  async function getCurrentMessages(
-    component: ComponentWithMessageOverrides,
-  ): Promise<ComponentWithMessageOverrides["messages"]> {
-    if (component.messages._loading) {
-      await vi.waitUntil(() => !component.messages._loading);
+  type T9nMessages = {
+    _loading?: boolean;
+    [key: string]: unknown;
+  };
+
+  type T9nComponent = ComponentWithMessageOverrides & {
+    messages?: T9nMessages;
+    messagesCommon?: T9nMessages;
+  };
+
+  async function getCurrentMessages(component: T9nComponent): Promise<T9nMessages> {
+    if (component.messages?._loading) {
+      await vi.waitUntil(() => !component.messages?._loading);
     }
 
-    return component.messages;
+    if (component.messagesCommon?._loading) {
+      await vi.waitUntil(() => !component.messagesCommon?._loading);
+    }
+
+    try {
+      return { ...component.messages, ...component.messagesCommon };
+    } catch {
+      throw new Error("Expected component to have messages or messagesCommon");
+    }
   }
 
   function findSubComponentElement<T extends LitElement["el"] = LitElement["el"]>(host: T, tagName: TagName): T {
@@ -49,9 +65,7 @@ export async function t9n(setUp: () => ReturnType<typeof mount>, subComponents?:
   async function assertOverrides(subComponents?: TagName[]): Promise<void> {
     const { el, component, reRender } = (await setUp()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
-    const firstMessageProp = Object.keys(messages).find(
-      (key) => !(key as Extract<keyof ComponentWithMessageOverrides["messages"], string>).startsWith("_"),
-    )!;
+    const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"))!;
     const overrideValue = "override test";
     const messageOverride = { [firstMessageProp]: overrideValue };
     el.messageOverrides = messageOverride;

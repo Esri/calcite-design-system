@@ -1,6 +1,5 @@
 {
   "chooseTime": "Trieu una hora",
-  "clear": "Esborra el valor",
   "fractionalSecond": "Segon fraccional",
   "fractionalSecondDown": "Disminueix el segon fraccional",
   "fractionalSecondUp": "Augmenta el segon fraccional",
@@ -13,7 +12,6 @@
   "minute": "Minut",
   "minuteDown": "Disminueix minut",
   "minuteUp": "Augmenta minut",
-  "required": "Obligatori",
   "second": "Segon",
   "secondDown": "Disminueix segon",
   "secondUp": "Augmenta segon"

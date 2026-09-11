@@ -1,0 +1,12 @@
+{
+  "required": "필수",
+  "loading": "불러오는 중",
+  "close": "닫기",
+  "clearValue": "값 지우기",
+  "collapse": "축소",
+  "expand": "확장",
+  "cancel": "취소",
+  "edit": "편집",
+  "save": "저장",
+  "options": "옵션"
+}

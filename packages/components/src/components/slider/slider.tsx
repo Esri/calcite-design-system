@@ -32,7 +32,7 @@ import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
 import { styles } from "./slider.scss";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { isEqual } from "es-toolkit";
 
 declare global {
@@ -140,7 +140,7 @@ export class Slider extends LitElement implements LabelableComponent {
    */
   private formatValue = (value: number): string => {
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
+      locale: this.messagesCommon._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -175,7 +175,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private minHandleRef = createRef<HTMLDivElement>();
 
@@ -287,7 +287,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property() labelText?: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "required">;
 
   /** For multiple values, the component's lower value. */
   @property() minValue!: number;
@@ -1156,7 +1156,7 @@ export class Slider extends LitElement implements LabelableComponent {
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div

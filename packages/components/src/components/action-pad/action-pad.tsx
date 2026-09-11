@@ -26,6 +26,7 @@ import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
 
@@ -71,6 +72,11 @@ export class ActionPad extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
+
   private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
@@ -97,7 +103,8 @@ export class ActionPad extends LitElement {
     "vertical";
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "expand" | "collapse">;
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -312,6 +319,7 @@ export class ActionPad extends LitElement {
       expanded,
       expandDisabled,
       messages,
+      messagesCommon,
       el,
       position,
       toggleExpand,
@@ -324,12 +332,12 @@ export class ActionPad extends LitElement {
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
-        collapseText={messages.collapse}
+        collapseText={messagesCommon.collapse || ""}
         direction={this.direction}
         el={el}
         expanded={expanded}
         expandLabel={messages.expandLabel}
-        expandText={messages.expand}
+        expandText={messagesCommon.expand || ""}
         position={position}
         scale={scale}
         toggle={toggleExpand}

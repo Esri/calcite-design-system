@@ -1,6 +1,5 @@
 {
   "chooseTime": "Velg klokkeslett",
-  "clear": "Fjern verdi",
   "fractionalSecond": "Brøksekund",
   "fractionalSecondDown": "Reduser brøksekund",
   "fractionalSecondUp": "Øk brøksekund",
@@ -13,7 +12,6 @@
   "minute": "Minutt",
   "minuteDown": "Reduser minutt",
   "minuteUp": "Øk minutt",
-  "required": "Obligatorisk",
   "second": "Sekund",
   "secondDown": "Reduser sekund",
   "secondUp": "Øk sekund"

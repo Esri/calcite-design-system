@@ -32,7 +32,7 @@ import {
   ReferenceElementType,
   useReferenceElement,
 } from "../../controllers/useReferenceElement";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
 
@@ -94,7 +94,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -154,7 +154,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property() label!: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "close">;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
@@ -392,7 +392,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   //#region Rendering
 
   private renderCloseButton(): JsxNode {
-    const { messages, closable } = this;
+    const { closable } = this;
     return closable ? (
       <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
@@ -400,7 +400,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
           icon="x"
           onClick={this.hide}
           scale={this.scale}
-          text={messages.close}
+          text={this.messagesCommon.close}
         />
       </div>
     ) : null;

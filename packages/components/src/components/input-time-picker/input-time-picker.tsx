@@ -35,6 +35,7 @@ import { useForm } from "../../controllers/useForm";
 import { toAriaBoolean } from "../../utils/aria";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
 
 declare global {
@@ -65,6 +66,11 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private activeEl?: HTMLSpanElement;
 
@@ -152,7 +158,9 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) max?: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "clearValue" | "required"> &
+    TimePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
@@ -579,7 +587,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div
@@ -712,9 +720,9 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
           {isClearable && (
             <div class={CSS.clearButton} onClick={this.clearValue}>
               <ClearButton
-                ariaLabel={this.messages.clear}
+                ariaLabel={this.messagesCommon.clearValue}
                 scale={this.scale}
-                title={this.messages.clear}
+                title={this.messagesCommon.clearValue}
               />
             </div>
           )}

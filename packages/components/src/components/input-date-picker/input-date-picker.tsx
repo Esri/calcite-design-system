@@ -71,6 +71,7 @@ import { useForm } from "../../controllers/useForm";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 import { logger } from "../../utils/logger";
 import { isSelect } from "../select/resources";
@@ -174,6 +175,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
+
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
@@ -236,7 +242,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property() maxAsDate?: Date;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
+  @property() messageOverrides?: typeof this.messages._overrides &
+    Pick<typeof this.messagesCommon._overrides, "clearValue" | "required"> &
+    DatePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
@@ -1153,9 +1161,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const rangeClearButton = (
       <div class={CSS.clearButton} onClick={this.clearValue}>
         <ClearButton
-          ariaLabel={this.messages.clear}
+          ariaLabel={this.messagesCommon.clearValue}
           scale={this.scale}
-          title={this.messages.clear}
+          title={this.messagesCommon.clearValue}
         />
       </div>
     );
@@ -1167,7 +1175,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div class={CSS.container}>
@@ -1218,9 +1226,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   {isClearableSingle ? (
                     <div class={CSS.clearButton} onClick={this.clearValue}>
                       <ClearButton
-                        ariaLabel={this.messages.clear}
+                        ariaLabel={this.messagesCommon.clearValue}
                         scale={this.scale}
-                        title={this.messages.clear}
+                        title={this.messagesCommon.clearValue}
                       />
                     </div>
                   ) : null}
