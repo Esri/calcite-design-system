@@ -59,6 +59,10 @@ declare global {
 
 const manager = referenceElementManager({ click: true, hover: true });
 
+function replacePlaceholders(template: string, replacements: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) => replacements[key] ?? match);
+}
+
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
  * @slot trigger - [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
@@ -128,8 +132,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#endregion
 
   //#region State Properties
-
-  @state() activeItemElement?: DropdownItem["el"];
 
   @state() assistiveText = "";
 
@@ -716,7 +718,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       item.active = item === activeItem;
     });
 
-    this.activeItemElement = activeItem ?? undefined;
     void this.updateAssistiveText(activeItem);
   }
 
@@ -724,59 +725,59 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     const updateId = ++this.assistiveTextUpdateId;
     this.assistiveText = "";
 
-    if (
-      !activeItem ||
-      !this.open ||
-      !(this.referenceEl instanceof HTMLElement) ||
-      !this.referenceEl.matches(":focus-within")
-    ) {
+    if (!activeItem || !this.canUpdateAssistiveText()) {
       return;
     }
 
-    await nextFrame();
+    await this.updateComplete;
 
-    if (
-      !this.open ||
-      this.activeItemElement !== activeItem ||
-      updateId !== this.assistiveTextUpdateId ||
-      !this.referenceEl.matches(":focus-within") ||
-      this.messages._loading
-    ) {
+    if (updateId !== this.assistiveTextUpdateId || !this.canUpdateAssistiveText()) {
       return;
     }
 
+    this.assistiveText = this.getAssistiveText(activeItem);
+  }
+
+  private canUpdateAssistiveText(): boolean {
+    return (
+      this.open &&
+      this.referenceEl instanceof HTMLElement &&
+      this.referenceEl.matches(":focus-within") &&
+      !this.messages._loading
+    );
+  }
+
+  private getAssistiveText(activeItem: DropdownItem["el"]): string {
     const { messages } = this;
     const group = activeItem.closest("calcite-dropdown-group");
     const itemLabel = (activeItem.label ?? activeItem.innerText).replaceAll(/\s+/g, " ").trim();
     const traversableItems = this.getTraversableItems();
     const position = traversableItems.indexOf(activeItem) + 1;
     const total = traversableItems.length;
+    const roleBySelectionMode = {
+      multiple: messages.menuItemCheckbox,
+      none: messages.menuItem,
+      single: messages.menuItemRadio,
+    };
 
     numberStringFormatter.numberFormatOptions = { locale: messages._lang };
 
-    const role = activeItem.href
-      ? messages.link
-      : activeItem.selectionMode === "single"
-        ? messages.menuItemRadio
-        : activeItem.selectionMode === "multiple"
-          ? messages.menuItemCheckbox
-          : messages.menuItem;
     const itemTemplate =
       activeItem.selectionMode === "none" || activeItem.href
         ? messages.item
         : messages.itemWithState;
-    const itemAnnouncement = itemTemplate
-      .replace("{label}", itemLabel)
-      .replace("{role}", role)
-      .replace("{state}", activeItem.selected ? messages.checked : messages.unchecked)
-      .replace("{position}", numberStringFormatter.localize(position.toString()))
-      .replace("{total}", numberStringFormatter.localize(total.toString()));
+    const itemAnnouncement = replacePlaceholders(itemTemplate, {
+      label: itemLabel,
+      position: numberStringFormatter.localize(position.toString()),
+      role: activeItem.href ? messages.link : roleBySelectionMode[activeItem.selectionMode],
+      state: activeItem.selected ? messages.checked : messages.unchecked,
+      total: numberStringFormatter.localize(total.toString()),
+    });
     const groupTitle = group?.groupTitle?.trim();
 
-    this.assistiveText =
-      groupTitle && groupTitle !== itemLabel
-        ? messages.group.replace("{group}", groupTitle).replace("{item}", itemAnnouncement)
-        : itemAnnouncement;
+    return groupTitle && groupTitle !== itemLabel
+      ? replacePlaceholders(messages.group, { group: groupTitle, item: itemAnnouncement })
+      : itemAnnouncement;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
@@ -814,7 +815,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     // ensure element is rendered/visible before focus or scrollIntoView
     // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
     await this.updateComplete;
-    await nextFrame();
     await nextFrame();
 
     target.scrollIntoView({ block: "nearest" });
