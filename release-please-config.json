@@ -2,6 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
   "tag-separator": "@",
+  "force-tag-creation": true,
   "draft-pull-request": true,
   "include-v-in-tag": false,
   "commit-search-depth": 1000,
@@ -94,6 +95,15 @@
     },
     "packages/monorepo-cli": {
       "component": "@esri/monorepo-cli"
+    },
+    "packages/components-snippets": {
+      "component": "@esri/calcite-components-snippets"
+    },
+    "packages/eslint-config": {
+      "component": "@esri/eslint-config-calcite"
+    },
+    "packages/typescript-config": {
+      "component": "@esri/calcite-typescript-config"
     }
   },
   "plugins": [
