@@ -23,6 +23,7 @@
 
 /* semantic color variables for this project */
 :root {
+color-scheme: light dark;
   --color-background: light-dark(var(--vt-c-white), var(--vt-c-black));
   --color-background-soft: light-dark(var(--vt-c-white-soft), var(--vt-c-black-soft));
   --color-background-mute: light-dark(var(--vt-c-white-mute), var(--vt-c-black-mute));
