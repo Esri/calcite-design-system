@@ -2,7 +2,6 @@ import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
 import { IconName } from "../components/icon/types";
 import { guid } from "./guid";
-import { CSS_UTILITY } from "./resources";
 
 /**
  * The default `focus-trap/tabbable` options.
@@ -48,15 +47,14 @@ export type Direction = "ltr" | "rtl";
  * @returns The Calcite mode.
  */
 export function getModeName(el: HTMLElement): "light" | "dark" {
-  const closestElWithMode = closestElementCrossShadowBoundary(
-    el,
-    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}, .${CSS_UTILITY.autoMode}`,
-  );
-  return closestElWithMode?.classList.contains("calcite-mode-dark") ||
-    (closestElWithMode?.classList.contains("calcite-mode-auto") &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ? "dark"
-    : "light";
+  const elementColorScheme = getComputedStyle(el)?.colorScheme;
+  if (elementColorScheme === "dark") {
+    return "dark";
+  }
+  if (elementColorScheme === "light") {
+    return "light";
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 /**
