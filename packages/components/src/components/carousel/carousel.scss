@@ -40,10 +40,15 @@
 // --calcite-internal-carousel-pagination-space
 // --calcite-internal-carousel-pagination-space-wide
 
+@use "../../styles/focus";
 @use "../../styles/includes";
+@use "../../styles/component/sr-only";
+@use "../../styles/component/text";
 
 :host {
-  @apply flex w-full;
+  display: flex;
+  inline-size: 100%;
+
   --calcite-internal-carousel-pagination-space: 1.5rem;
   --calcite-internal-carousel-pagination-space-wide: 3.5rem;
   --calcite-internal-carousel-pagination-background-color: var(
@@ -113,16 +118,18 @@
 }
 
 .container {
-  @apply focus-base
-   relative
-    flex
-    flex-col
-    overflow-hidden
-    text-color-2
-    text-n1h
-    w-full;
+  outline-color: transparent;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--calcite-color-text-2);
+  inline-size: 100%;
+
+  @include text.text-n1h();
+
   &:focus {
-    @apply focus-inset;
+    @include focus.focus-inset();
   }
 }
 
@@ -132,18 +139,18 @@
 }
 
 .item-container {
-  @apply flex
-    items-start
-    justify-center
-    overflow-auto
-    flex-auto
-    p-1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: auto;
+  flex: 1 1 auto;
+  padding: var(--calcite-space-2xs);
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
 }
 
 .container--overlaid .item-container {
-  @apply p-0;
+  padding: 0;
 }
 
 .item-container--forward {
@@ -159,20 +166,22 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-aria-live {
-  @apply sr-only;
+  @include sr-only.sr-only();
 }
 
 .pagination {
-  @apply flex
-  flex-row
-  items-center
-  justify-center
-  m-3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: var(--calcite-space-md);
   inline-size: auto;
 }
 
 .pagination-items {
-  @apply flex flex-row items-center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .container--overlaid .pagination {
@@ -191,7 +200,8 @@ calcite-carousel-item:not([selected]) {
 .container--edged {
   .page-next,
   .page-previous {
-    @apply h-12 w-12;
+    block-size: var(--calcite-size-xl);
+    inline-size: var(--calcite-size-xl);
     position: absolute;
     inset-block-start: 50%;
     transform: translateY(-50%);
@@ -239,27 +249,29 @@ calcite-carousel-item:not([selected]) {
 
 .pagination-item {
   @include includes.transition-default();
-  @apply focus-base
-    m-0
-    h-8
-    w-8
-    cursor-pointer
-    items-center
-    border-none
-    bg-transparent;
+
+  outline-color: transparent;
+  margin: 0;
+  block-size: var(--calcite-space-3xl);
+  inline-size: var(--calcite-space-3xl);
+  cursor: pointer;
+  align-items: center;
+  border-style: none;
   -webkit-appearance: none;
   display: flex;
   align-content: center;
   justify-content: center;
   background-color: var(--calcite-internal-carousel-pagination-background-color);
   color: var(--calcite-internal-carousel-pagination-icon-color);
+
   &:hover {
     background-color: var(--calcite-internal-carousel-pagination-background-color-hover);
     color: var(--calcite-internal-carousel-pagination-icon-color-hover);
   }
   &:focus {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
-    @apply focus-inset;
+
+    @include focus-inset.focus-inset();
   }
   &:active {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
@@ -276,7 +288,10 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item--individual {
-  @apply w-0 p-0 opacity-0 pointer-events-none;
+  inline-size: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
   visibility: hidden;
   transition:
     var(--calcite-animation-timing) ease-in-out inline-size,
@@ -284,7 +299,9 @@ calcite-carousel-item:not([selected]) {
     var(--calcite-animation-timing) ease-in-out opacity;
 
   &.pagination-item--visible {
-    @apply w-8 opacity-100 pointer-events-auto;
+    inline-size: var(--calcite-space-3xl);
+    opacity: 1;
+    pointer-events: auto;
     visibility: visible;
   }
 }

@@ -12,9 +12,11 @@
  */
 
 @use "../../styles/includes";
+@use "../../styles/component/focus";
 
 :host {
-  @apply box-border block;
+  box-sizing: border-box;
+  display: block;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
 }
 
@@ -28,9 +30,9 @@ calcite-switch {
 }
 
 :host([expanded]) {
-  @apply border-0
-    border-b
-    border-solid;
+  border-width: 0;
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-style: solid;
 
   border-block-end-color: var(--calcite-block-section-border-color, var(--calcite-color-border-3));
 
@@ -64,7 +66,7 @@ calcite-switch {
 }
 
 :host(:last-child) {
-  @apply border-b-0;
+  border-block-end-width: var(--calcite-border-width-none);
 }
 
 :host([scale="s"]) {
@@ -102,13 +104,13 @@ calcite-switch {
 }
 
 .toggle {
-  @apply focus-base
-  flex
-  cursor-pointer
-  select-none
-  items-center
-  w-full
-  border-0;
+  outline-color: transparent;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  inline-size: 100%;
+  border-width: var(--calcite-border-width-none);
   font-family: inherit;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
@@ -117,7 +119,7 @@ calcite-switch {
   line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
-    @apply focus-normal;
+    @include focus.focus-normal();
     // required to ensure the focus ring is visible when slotted with other block-section components in block
     z-index: var(--calcite-z-index);
   }
@@ -127,27 +129,29 @@ calcite-switch {
 }
 
 .section-header__text {
-  @apply my-0
-    flex-auto;
-
+  margin-block: 0;
+  flex: 1 1 auto;
   text-align: initial;
   overflow-wrap: anywhere;
 }
 
 .toggle-container {
-  @apply flex items-center relative;
-
+  display: flex;
+  align-items: center;
+  position: relative;
   word-break: break-word;
 
   .toggle--switch__content {
-    @apply flex flex-auto items-center;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
   }
 
   .icon--end,
   .icon--start,
   .chevron-icon {
-    @apply flex items-center;
-
+    display: flex;
+    align-items: center;
     color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
   }
 
@@ -163,7 +167,8 @@ calcite-switch {
 }
 
 .status-icon {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
 }
 
 .status-icon.valid {

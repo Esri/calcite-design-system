@@ -33,11 +33,14 @@
 // --calcite-internal-card-heading-font-size
 // --calcite-internal-card-slotted-content-padding
 
-@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../styles/component/focus";
+@use "../../styles/includes";
+@use "../../styles/text";
 
 :host {
-  @apply block max-w-full;
+  display: block;
+  max-inline-size: 100%;
 }
 
 :host([scale="s"]) {
@@ -80,12 +83,12 @@
 }
 
 .content-wrapper {
-  @apply relative
-    flex
-    h-full
-    flex-col
-    justify-between
-    overflow-hidden;
+  position: relative;
+  display: flex;
+  block-size: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
   border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
   background-color: var(--calcite-card-background-color, var(--calcite-color-foreground-1));
@@ -94,35 +97,43 @@
 }
 
 ::slotted(*) {
-  @apply pointer-events-auto;
+  pointer-events: auto;
 }
 
 :host(:not([selectable])) {
   .content-wrapper {
     &:not(.non-interactive) {
-      @apply focus-base;
+      outline-color: transparent;
     }
     &:not(.non-interactive):focus {
-      @apply focus-outset;
+      @include focus.focus-outset();
     }
   }
 }
 
 .container {
-  @apply relative flex flex-auto flex-col;
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
 }
 
 :host([loading]) .content-wrapper *:not(calcite-loader):not(.calcite-card-loader-container) {
-  @apply pointer-events-none;
+  pointer-events: none;
   opacity: core.$calcite-opacity-0;
 }
 
 :host([loading]) .calcite-card-loader-container {
-  @apply absolute inset-0 flex items-center;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
 }
 
 .header {
-  @apply flex flex-row items-start;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .header-text-container {
@@ -150,7 +161,9 @@
 }
 
 .card-content {
-  @apply h-auto text-n2-wrap;
+  block-size: auto;
+
+  @include text.text-n2-wrap();
 }
 
 .has-slotted-content {
@@ -182,21 +195,27 @@
 }
 
 @include includes.slotted("thumbnail", "img") {
-  @apply min-w-full max-w-full;
+  min-inline-size: 100%;
+  max-inline-size: 100%;
 }
 
 @include includes.slotted("footer-start", "*") {
-  @apply text-n2-wrap self-center;
+  @include text.text-n2-wrap();
+
+  align-self: center;
   margin-inline-end: auto;
 }
 
 @include includes.slotted("footer-end", "*") {
-  @apply text-n2-wrap self-center;
+  @include text.text-n2-wrap();
+
+  align-self: center;
 }
 
 // deprecated
 .checkbox-wrapper-deprecated {
-  @apply absolute pointer-events-auto;
+  position: absolute;
+  pointer-events: auto;
   inset-block-start: var(--calcite-spacing-sm);
   inset-inline-end: var(--calcite-spacing-sm);
   margin: 0;
@@ -275,21 +294,22 @@
 /* end deprecated */
 
 .thumbnail-wrapper {
-  @apply flex;
+  display: flex;
 }
 
 .content-wrapper.inline {
-  @apply flex-row;
+  flex-direction: row;
 
   & > .container {
-    @apply w-3/5;
+    inline-size: 60%;
   }
   & > .thumbnail-wrapper {
-    @apply items-start w-2/5;
+    align-items: flex-start;
+    inline-size: 40%;
   }
 
   @include includes.slotted("thumbnail", "img") {
-    @apply w-full;
+    inline-size: 100%;
   }
 }
 
