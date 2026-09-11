@@ -137,6 +137,8 @@ describe("BigDecimal", () => {
     expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
 
+  const testValue = "-12345678.9";
+
   it("includes bidirectional marks for read-only formatting", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "en",
@@ -144,13 +146,15 @@ describe("BigDecimal", () => {
       useGrouping: true,
     };
 
-    const number = new BigDecimal("-12345678.9");
+    const number = new BigDecimal(testValue);
     const expectedIntegerParts = numberStringFormatter.numberFormatter.formatToParts(-12345678n);
     const expectedValue = `${expectedIntegerParts.map((part) => part.value).join("")}${
       numberStringFormatter.decimal
     }${numberStringFormatter.numberFormatter.format(9)}`;
+    const expectedFormattedValue = "-۱۲٬۳۴۵٬۶۷۸٫۹";
 
-    expect(number.format(numberStringFormatter)).toBe("-۱۲٬۳۴۵٬۶۷۸٫۹");
+    expect(number.format(numberStringFormatter)).toBe(expectedFormattedValue);
+    expect(numberStringFormatter.localize(testValue)).toBe(expectedFormattedValue);
     expect(number.formatToParts(numberStringFormatter)).toEqual([
       { type: "minusSign", value: "-" },
       { type: "integer", value: "۱۲" },
@@ -162,12 +166,13 @@ describe("BigDecimal", () => {
       { type: "fraction", value: "9" },
     ]);
     expect(number.format(numberStringFormatter, true)).toBe(expectedValue);
+    expect(numberStringFormatter.localize(testValue, true)).toBe(expectedValue);
     expect(number.formatToParts(numberStringFormatter, true)).toEqual([
       ...expectedIntegerParts,
       { type: "decimal", value: numberStringFormatter.decimal },
       { type: "fraction", value: "9" },
     ]);
-    expect(numberStringFormatter.delocalize(number.format(numberStringFormatter, true))).toBe("-12345678.9");
+    expect(numberStringFormatter.delocalize(number.format(numberStringFormatter, true))).toBe(testValue);
   });
 
   supportedNlsLocales.forEach((locale) => {
@@ -179,7 +184,7 @@ describe("BigDecimal", () => {
         useGrouping: true,
       };
 
-      const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
+      const parts = new BigDecimal(testValue).formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group")!.value;
       expect(groupPart.trim().length === 0 || groupPart === " " ? "\u00A0" : groupPart).toBe(
         numberStringFormatter.group,
