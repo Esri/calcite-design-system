@@ -421,7 +421,10 @@
 
 calcite-date-picker {
   --calcite-date-picker-border-color: var(--calcite-input-date-picker-calendar-border-color);
-  --calcite-date-picker-corner-radius: var(--calcite-input-date-picker-calendar-corner-radius);
+  --calcite-date-picker-corner-radius: var(
+    --calcite-input-date-picker-calendar-corner-radius,
+    var(--calcite-corner-radius-round)
+  );
   --calcite-date-picker-range-calendar-divider-color: var(--calcite-input-date-picker-calendar-range-divider-color);
   --calcite-date-picker-week-header-text-color: var(--calcite-input-date-picker-calendar-text-color);
   --calcite-date-picker-header-action-background-color: var(
