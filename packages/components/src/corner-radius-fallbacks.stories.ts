@@ -1,4 +1,8 @@
 import { html } from "../support/formatting";
+import "./components/combobox-item/combobox-item";
+import "./components/combobox/combobox";
+import "./components/input-date-picker/input-date-picker";
+import "./components/input-time-picker/input-time-picker";
 import { autocomplete } from "./custom-theme/autocomplete";
 import { buttons } from "./custom-theme/button";
 import { card } from "./custom-theme/card";
