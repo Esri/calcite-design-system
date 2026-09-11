@@ -1085,7 +1085,7 @@ export class Input
             : ""
           : sanitizedValue;
 
-      let newLocalizedValue = numberStringFormatter.localize(newValue, this.readOnly);
+      let newLocalizedValue = numberStringFormatter.localize(newValue);
 
       if (origin !== "connected" && !hasTrailingDecimalSeparator) {
         newLocalizedValue = addLocalizedTrailingDecimalZeros(
