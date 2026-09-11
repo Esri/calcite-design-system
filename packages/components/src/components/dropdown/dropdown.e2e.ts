@@ -411,13 +411,7 @@ it("should focus the first item on open when there is no selected item", async (
   const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
   await element.click();
   await openEventSpy.next();
-  expect(
-    await page.evaluate(
-      () =>
-        document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-          .ariaActiveDescendantElement?.id,
-    ),
-  ).toEqual("item-1");
+  expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toEqual("item-1");
 });
 
 it("should focus the first item on open when an item is selected", async () => {
@@ -438,13 +432,7 @@ it("should focus the first item on open when an item is selected", async () => {
   await element.click();
   await dropdownOpenEventSpy.next();
 
-  expect(
-    await page.evaluate(
-      () =>
-        document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-          .ariaActiveDescendantElement?.id,
-    ),
-  ).toEqual("item-1");
+  expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toEqual("item-1");
 });
 
 it("should focus the first item on open (multi) when items are selected", async () => {
@@ -465,13 +453,7 @@ it("should focus the first item on open (multi) when items are selected", async 
   await element.click();
   await dropdownOpenEventSpy.next();
 
-  expect(
-    await page.evaluate(
-      () =>
-        document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-          .ariaActiveDescendantElement?.id,
-    ),
-  ).toEqual("item-1");
+  expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toEqual("item-1");
 });
 
 it("closes when a selection is made", async () => {
@@ -730,13 +712,7 @@ describe("Focus order with Tab key", () => {
     expect(await dropdownWrapper.isVisible()).toBe(true);
     expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
     expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
 
     const closeEventSpy = await page.spyOnEvent("calciteDropdownClose");
     await element.press("Tab");
@@ -777,13 +753,7 @@ describe("Focus order with Tab key", () => {
     expect(await dropdownWrapper.isVisible()).toBe(true);
     expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
     expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
 
     const closeEventSpy = await page.spyOnEvent("calciteDropdownClose");
     await page.keyboard.down("Shift");
@@ -1014,90 +984,42 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     await openEventSpy.next();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-2");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-2");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-2");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-2");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
   });
 
   it("skips disabled and hidden items when navigating with arrow keys", async () => {
@@ -1126,68 +1048,32 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     await openEventSpy.next();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-2");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-2");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-2");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-2");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-2");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-2");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
   });
 
   it("should open the dropdown and focus the first item with ArrowDown", async () => {
@@ -1214,33 +1100,15 @@ describe("keyboard navigation", () => {
     await openEventSpy.next();
 
     expect(await dropdown.getProperty("open")).toBe(true);
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-2");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-2");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
   });
 
   it("should open the dropdown and focus the last item with ArrowUp when no item is selected", async () => {
@@ -1267,33 +1135,15 @@ describe("keyboard navigation", () => {
     await openEventSpy.next();
 
     expect(await dropdown.getProperty("open")).toBe(true);
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-1");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-1");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
   });
 
   it("should open the dropdown and focus the last item with ArrowUp", async () => {
@@ -1320,32 +1170,14 @@ describe("keyboard navigation", () => {
     await openEventSpy.next();
 
     expect(await dropdown.getProperty("open")).toBe(true);
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-2");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-2");
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
-            .ariaActiveDescendantElement?.id,
-      ),
-    ).toBe("item-3");
+    expect(await page.evaluate(() => document.querySelector("calcite-dropdown-item[active]")?.id)).toBe("item-3");
   });
 });
