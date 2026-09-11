@@ -53,6 +53,12 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
+  /**
+   * Formats the number into localized parts.
+   *
+   * @param formatter - number formatter instance to localize the number value.
+   * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+   */
   formatToParts(formatter: NumberStringFormat, includeDirectionalMarks = false): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
     const parts = getLocalizedIntegerParts(formatter, integers, this.isNegative, includeDirectionalMarks);
@@ -65,6 +71,12 @@ export class BigDecimal {
     return parts;
   }
 
+  /**
+   * Formats the number as a localized string.
+   *
+   * @param formatter - number formatter instance to localize the number value.
+   * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+   */
   format(formatter: NumberStringFormat, includeDirectionalMarks = false): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
     const integersFormatted = getLocalizedIntegerParts(formatter, integers, this.isNegative, includeDirectionalMarks)
@@ -96,6 +108,18 @@ export class BigDecimal {
   }
 }
 
+/**
+ * Gets localized integer parts while preserving the editable formatting path by default.
+ *
+ * When `includeDirectionalMarks` is true, the sign is included in the value formatted by `Intl.NumberFormat` so any
+ * directional marks emitted by the browser are preserved. Otherwise, the integer is formatted without a sign and the
+ * localized minus sign is prepended manually.
+ *
+ * @param formatter - number formatter instance to localize the integer value.
+ * @param integers - absolute integer string to format.
+ * @param isNegative - whether the formatted number should include a minus sign.
+ * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+ */
 function getLocalizedIntegerParts(
   formatter: NumberStringFormat,
   integers: string,

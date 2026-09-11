@@ -196,6 +196,12 @@ export class NumberStringFormat {
     );
   };
 
+  /**
+   * Localizes a number string.
+   *
+   * @param numberString - number string to localize.
+   * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+   */
   localize = (numberString: string, includeDirectionalMarks = false): string => {
     return this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
