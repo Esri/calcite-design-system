@@ -360,7 +360,7 @@
 .input {
   --calcite-input-text-background-color: var(--calcite-input-date-picker-background-color);
   --calcite-input-text-border-color: var(--calcite-input-date-picker-border-color);
-  --calcite-input-text-corner-radius: var(--calcite-input-date-picker-corner-radius);
+  --calcite-input-text-corner-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
   --calcite-input-text-shadow: var(--calcite-input-date-picker-shadow);
   --calcite-input-text-icon-color: var(--calcite-input-date-picker-icon-color);
   --calcite-input-text-text-color: var(--calcite-input-date-picker-text-color);
@@ -421,7 +421,10 @@
 
 calcite-date-picker {
   --calcite-date-picker-border-color: var(--calcite-input-date-picker-calendar-border-color);
-  --calcite-date-picker-corner-radius: var(--calcite-input-date-picker-calendar-corner-radius);
+  --calcite-date-picker-corner-radius: var(
+    --calcite-input-date-picker-calendar-corner-radius,
+    var(--calcite-corner-radius-round)
+  );
   --calcite-date-picker-range-calendar-divider-color: var(--calcite-input-date-picker-calendar-range-divider-color);
   --calcite-date-picker-week-header-text-color: var(--calcite-input-date-picker-calendar-text-color);
   --calcite-date-picker-header-action-background-color: var(
