@@ -254,11 +254,14 @@ calcite-time-picker {
 calcite-time-picker {
   --calcite-time-picker-background-color: var(--calcite-input-time-picker-background-color);
   --calcite-time-picker-border-color: var(--calcite-input-time-picker-border-color, transparent);
-  --calcite-time-picker-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius));
+  --calcite-time-picker-corner-radius: var(
+    --calcite-input-time-picker-corner-radius,
+    var(--calcite-corner-radius-round)
+  );
 }
 
 calcite-popover {
-  --calcite-popover-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius));
+  --calcite-popover-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius-round));
 }
 
 @include includes.form-internal-label();
