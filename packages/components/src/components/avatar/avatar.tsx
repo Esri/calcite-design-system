@@ -1,5 +1,4 @@
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
-import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../types";
 import { CSS } from "./resources";
@@ -82,8 +81,7 @@ export class Avatar extends LitElement {
 
   /** Generate a valid background color that is consistent and unique to this user */
   private generateFillColor() {
-    const { userId, username, fullName, el } = this;
-    const theme = getModeName(el);
+    const { userId, username, fullName } = this;
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
     const hex = id && isValidHex(id) ? id : stringToHex(name);
@@ -92,8 +90,7 @@ export class Avatar extends LitElement {
       return `var(--calcite-avatar-background-color, var(--calcite-color-foreground-2))`;
     }
     const hue = hexToHue(hex);
-    const l = theme === "dark" ? 20 : 90;
-    return `var(--calcite-avatar-background-color, hsl(${hue}, 60%, ${l}%))`;
+    return `var(--calcite-avatar-background-color, light-dark(hsl(${hue}, 60%, 90%), hsl(${hue}, 60%, 20%)))`;
   }
 
   /** Use fullName or username to generate initials */

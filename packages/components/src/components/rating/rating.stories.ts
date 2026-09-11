@@ -73,15 +73,7 @@ export const simple = (args: RatingStoryArgs): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-rating
-    class="calcite-mode-dark"
-    dir="rtl"
-    scale="m"
-    value="2"
-    show-chip
-    average="4.4"
-    count="10"
-  ></calcite-rating>
+  <calcite-rating dir="rtl" scale="m" value="2" show-chip average="4.4" count="10"></calcite-rating>
 `;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };

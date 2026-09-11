@@ -1,4 +1,4 @@
-import { boolean, optionalAttribute } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
@@ -112,11 +112,6 @@ export const allIconsAndSubMenuVertical = (): string =>
   </calcite-menu>`;
 
 export const darkModeRTL = (): string =>
-  html`<calcite-menu-item
-    text="Menu item"
-    active
-    dir="rtl"
-    class="calcite-mode-dark"
-    icon-start="layer"
-    icon-end="layer"
-  />`;
+  html`<calcite-menu-item text="Menu item" active dir="rtl" icon-start="layer" icon-end="layer" />`;
+
+darkModeRTL.parameters = { themes: modesDarkDefault };

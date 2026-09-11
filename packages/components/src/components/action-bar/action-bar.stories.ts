@@ -220,7 +220,7 @@ export const expandPositionVertical = (): string =>
 
 export const floatingDarkModeRTL = (): string =>
   html`<div style="padding:20px;">
-    <calcite-action-bar floating position="start" dir="rtl" class="calcite-mode-dark">
+    <calcite-action-bar floating position="start" dir="rtl">
       <calcite-action-group>
         <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
         <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
@@ -588,7 +588,7 @@ export const wrapWithActionsStartGroups = (): string =>
   </div>`;
 
 export const darkModeRTL = (): string => html`
-  <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
+  <calcite-action-bar position="start" dir="rtl">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
       <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
@@ -603,7 +603,7 @@ darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const horizontalWrapDarkModeRTL = (): string =>
   html`<div style="width: 360px;">
-    <calcite-action-bar layout="horizontal" overflow-mode="wrap" dir="rtl" class="calcite-mode-dark">
+    <calcite-action-bar layout="horizontal" overflow-mode="wrap" dir="rtl">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" icon="save"></calcite-action>
@@ -629,13 +629,7 @@ export const horizontalWrapDarkModeRTL = (): string =>
 horizontalWrapDarkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const verticalWrapDarkModeRTL = (): string =>
-  html`<calcite-action-bar
-    layout="vertical"
-    overflow-mode="wrap"
-    dir="rtl"
-    class="calcite-mode-dark"
-    style="height: 260px;"
-  >
+  html`<calcite-action-bar layout="vertical" overflow-mode="wrap" dir="rtl" style="height: 260px;">
     <calcite-action-group>
       <calcite-action text="Add" icon="plus"></calcite-action>
       <calcite-action text="Save" icon="save"></calcite-action>

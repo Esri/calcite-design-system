@@ -5672,7 +5672,7 @@ export const filterEnabledWithHiddenItems = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <h1>selection-mode="none" + selection-appearance="icon"</h1>
-  <calcite-list class="calcite-mode-dark" dir="rtl" ${listAttributes()}>
+  <calcite-list dir="rtl" ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -5715,25 +5715,13 @@ export const darkModeRTL = (): string => html`
   </calcite-list>
 
   <h1>selection-mode="single-persist" + selection-appearance="border" + dir="rtl"</h1>
-  <calcite-list
-    class="calcite-mode-dark"
-    label="RTL list"
-    selection-appearance="border"
-    selection-mode="single-persist"
-    dir="rtl"
-  >
+  <calcite-list label="RTL list" selection-appearance="border" selection-mode="single-persist" dir="rtl">
     <calcite-list-item label="My first list item" selected>First </calcite-list-item>
     <calcite-list-item label="My second list item">Second </calcite-list-item>
   </calcite-list>
 
   <h1>selection-mode="single-persist" + selection-appearance="highlight" + dir="rtl"</h1>
-  <calcite-list
-    class="calcite-mode-dark"
-    label="RTL list"
-    selection-appearance="highlight"
-    selection-mode="single-persist"
-    dir="rtl"
-  >
+  <calcite-list label="RTL list" selection-appearance="highlight" selection-mode="single-persist" dir="rtl">
     <calcite-list-item label="My first list item" selected>First </calcite-list-item>
     <calcite-list-item label="My second list item">Second </calcite-list-item>
   </calcite-list>

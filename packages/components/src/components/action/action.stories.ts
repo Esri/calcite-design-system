@@ -214,7 +214,6 @@ export const darkModeRTL = (): string => html`
       scale="m"
       icon="banana"
       alignment="start"
-      class="calcite-mode-dark"
       dir="rtl"
       text="Text"
       text-enabled

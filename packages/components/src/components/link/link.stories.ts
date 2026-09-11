@@ -158,9 +158,9 @@ export const multiLineWithIcons = (args: LinkStoryArgs): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <div class="calcite-mode-dark" dir="rtl" style="color: white; font-size: 16px; font-weight: 400;">
+  <div dir="rtl" style="color: white; font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link class="calcite-mode-dark">link text here</calcite-link>
+    <calcite-link>link text here</calcite-link>
     around the link
   </div>
 `;

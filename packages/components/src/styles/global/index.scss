@@ -1,5 +1,5 @@
 @use "sass:meta";
-@use "@esri/calcite-design-tokens/dist/css/index.css";
+@use "@esri/calcite-design-tokens/dist/css/index-light-dark.css";
 @use "@esri/calcite-design-tokens/dist/scss";
 @use "../shared/floating-ui";
 @use "../shared/animation";
@@ -21,6 +21,7 @@
   font-family: var(--calcite-font-family);
 }
 
+/* [Deprecated] in v5.1.3, removal target v7.0.0 - Set the `color-scheme: light dark;` CSS property instead. */
 .calcite-mode-auto {
   @media (prefers-color-scheme: dark) {
     @include scss.calcite-mode-dark();

@@ -183,13 +183,7 @@ export const rangeRTL = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir="rtl"
-      class="calcite-mode-dark"
-      lang="${defaultLocale}"
-      scale="m"
-      value="2020-02-28"
-    ></calcite-date-picker>
+    <calcite-date-picker dir="rtl" lang="${defaultLocale}" scale="m" value="2020-02-28"></calcite-date-picker>
   </div>
 `;
 

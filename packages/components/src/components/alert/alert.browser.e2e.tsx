@@ -292,10 +292,13 @@ it("assigns placement classes", async () => {
 });
 
 describe("dismiss progress color", () => {
-  async function getProgressColor(modeClass?: string, override?: string): Promise<string> {
+  async function getProgressColor(
+    colorScheme: "light" | "dark" = "light",
+    override?: string,
+  ): Promise<string> {
     vi.useFakeTimers();
     const { el: alert } = await mount<Alert>(
-      <div class={modeClass}>
+      <div style={`color-scheme: ${colorScheme};`}>
         {override ? (
           <style>{`:root { --calcite-color-transparent-tint: ${override}; }`}</style>
         ) : null}
@@ -318,7 +321,7 @@ describe("dismiss progress color", () => {
   });
 
   it("uses the dark mode color", async () => {
-    expect(await getProgressColor("calcite-mode-dark")).toBe("rgba(43, 43, 43, 0.8)");
+    expect(await getProgressColor("dark")).toBe("rgba(43, 43, 43, 0.8)");
   });
 
   it("supports overriding the color", async () => {

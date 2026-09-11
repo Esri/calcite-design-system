@@ -327,7 +327,6 @@ export const withKindWarningIcon = (): string => html`
 export const darkModeRTLCustomSizeCSSVars = (): string => html`
   <calcite-dialog
     heading="My Dialog"
-    class="calcite-mode-dark"
     dir="rtl"
     open
     scale="m"

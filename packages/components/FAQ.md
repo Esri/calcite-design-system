@@ -63,14 +63,17 @@ The `calcite-dropdown-item`s are placed in `calcite-dropdown`'s default slot. In
 
 ### How do I change modes?
 
-Calcite Components provide light and dark modes which can be changed using CSS classes: `calcite-mode-light` and `calcite-mode-dark`. There is also a `calcite-mode-auto` class which defers to the browser's CSS "prefers-color-scheme" media query to decide whether the light or dark mode will be used.
+Calcite Components provide light and dark modes which can be changed by setting the CSS `color-scheme` property to: `light dark` if you want the user's system preference, `light` to force light mode and `dark` to force dark mode. For additional options, see the [MDN article on color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme).
 
-Setting the mode class on an element changes all of their child nodes as well. Therefore, to switch the whole app from light to dark, we can do the following:
+Setting the `color-scheme` on an element changes all of their child nodes as well. Therefore, to switch the whole app from light to dark, we can do the following:
 
 ```html
-<div class="calcite-mode-dark">
-  <!-- your app -->
-</div>
+<style>
+  :root {
+    color-scheme: dark;
+  }
+</style>
+<!-- your app -->
 ```
 
 ### How do I change the style of a component?

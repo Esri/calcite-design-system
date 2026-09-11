@@ -182,7 +182,6 @@ export const sideBySide = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <calcite-button
-    class="calcite-mode-dark"
     dir="rtl"
     appearance="solid"
     kind="brand"

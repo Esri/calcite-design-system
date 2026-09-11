@@ -76,7 +76,6 @@ export const darkModeRTL = (): string => html`
     text-enabled
     scale="m"
     dir="rtl"
-    class="calcite-mode-dark"
   ></calcite-fab>
 `;
 

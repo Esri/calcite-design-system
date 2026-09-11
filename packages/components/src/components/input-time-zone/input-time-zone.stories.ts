@@ -148,9 +148,7 @@ export const displayingTimeZoneOffsets = (): string => html`
 
 export const disabled = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
 
-export const darkModeRTL = (): string => html`
-  <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
-`;
+export const darkModeRTL = (): string => html` <calcite-input-time-zone dir="rtl"></calcite-input-time-zone> `;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
 

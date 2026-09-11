@@ -37,7 +37,7 @@ export const simple = (args: SwitchStoryArgs): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-switch class="calcite-mode-dark" name="setting" value="enabled" checked scale="m"></calcite-switch>
+  <calcite-switch name="setting" value="enabled" checked scale="m"></calcite-switch>
 `;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };

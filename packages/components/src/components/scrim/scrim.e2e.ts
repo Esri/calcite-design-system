@@ -231,7 +231,7 @@ describe("CSS properties for light/dark modes", () => {
   describe("when mode attribute is dark", () => {
     it("should render scrim background with value tied to dark mode", async () => {
       page = await newE2EPage({
-        html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`,
+        html: `<div style="color-scheme: dark;">${scrimSnippet}</div>`,
       });
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();

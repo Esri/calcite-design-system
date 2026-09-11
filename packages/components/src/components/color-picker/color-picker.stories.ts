@@ -70,7 +70,7 @@ export const alphaChannelAllScales = (): string => html`
 export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
 
 export const darkModeRTL = (): string => html`
-  <calcite-color-picker scale="m" dir="rtl" class="calcite-mode-dark" value="#b33f33"></calcite-color-picker>
+  <calcite-color-picker scale="m" dir="rtl" value="#b33f33"></calcite-color-picker>
 `;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };

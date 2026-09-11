@@ -37,12 +37,7 @@ export const simple = (args: ProgressStoryArgs): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-progress
-    class="calcite-mode-dark"
-    type="determinate"
-    value="20"
-    text="% Complete (optional text)"
-  ></calcite-progress>
+  <calcite-progress type="determinate" value="20" text="% Complete (optional text)"></calcite-progress>
 `;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };

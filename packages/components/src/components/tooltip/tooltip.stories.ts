@@ -216,7 +216,6 @@ export const darkModeRTL = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
-      class="calcite-mode-dark"
       dir="rtl"
       reference-element="reference-element"
       placement="auto"
