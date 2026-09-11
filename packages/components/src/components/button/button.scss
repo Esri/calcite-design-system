@@ -666,6 +666,7 @@
   --calcite-internal-button-padding-y: 3px;
 
   @include text.text-0h();
+
   inline-size: var(--calcite-space-2xl);
   min-block-size: theme("height.6");
 }
@@ -676,6 +677,7 @@
   --calcite-internal-button-padding-y: 7px;
 
   @include text.text-0h();
+
   inline-size: var(--calcite-space-3xl);
   min-block-size: theme("height.8");
 }
@@ -685,6 +687,7 @@
   --calcite-internal-button-padding-y: 9px;
 
   @include text.text-0h();
+
   inline-size: var(--calcite-space-4xl);
   min-block-size: theme("height.11");
 }
@@ -710,6 +713,7 @@
   --calcite-internal-button-padding-x: 23px;
 
   @include text.text-0h();
+
   block-size: var(--calcite-space-2xl);
 }
 // accommodate for transparent buttons not having borders
@@ -722,6 +726,7 @@
   --calcite-internal-button-padding-x: theme("padding.8");
 
   @include text.text-0h();
+
   block-size: var(--calcite-space-3xl);
 }
 // accommodate for transparent buttons not having borders
@@ -734,6 +739,7 @@
   --calcite-internal-button-padding-x: 43px;
 
   @include text.text-0h();
+
   block-size: var(--calcite-space-4xl);
 
   // add space between when only 2 icons

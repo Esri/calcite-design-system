@@ -134,7 +134,7 @@
   flex-shrink: 0;
   flex-grow: 0;
   flex-direction: column;
-  border-width: 0;
+  border-width: var(--calcite-border-width-none);
   border-block-end-width: var(--calcite-border-width-sm);
   border-style: solid;
   padding: 0;
@@ -227,6 +227,7 @@ calcite-sort-handle {
 
 .header .title .heading {
   @include includes.word-break();
+
   padding: 0;
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-1));
   font-weight: var(--calcite-font-weight-normal);
@@ -235,6 +236,7 @@ calcite-sort-handle {
 
 .description {
   @include includes.word-break();
+
   padding: 0;
   color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
   font-weight: var(--calcite-font-weight-regular);
@@ -273,6 +275,7 @@ calcite-sort-handle {
 
 .toggle-icon {
   @include transition-color.transition-color();
+
   align-self: center;
   justify-self: end;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

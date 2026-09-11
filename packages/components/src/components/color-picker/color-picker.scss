@@ -160,6 +160,7 @@ calcite-swatch {
   pointer-events: none;
   &:focus {
     @include focus.focus-outset();
+
     outline-offset: 6px;
   }
 }
