@@ -213,7 +213,7 @@
 .float-all {
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
   overflow: hidden;
 }
 
@@ -291,8 +291,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
+    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
   }
 
   &:host([action-bar-position]) {
@@ -340,8 +340,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
+    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
   }
 
   &:host([action-bar-position]) {
@@ -386,8 +386,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
+    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
   }
 
   &:host([action-bar-position]) .resize-handle {
@@ -413,8 +413,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
+    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
   }
 
   &:host([action-bar-position]) {
@@ -604,7 +604,7 @@
 
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-sm));
   margin-inline: var(--calcite-spacing-sm);
   margin-block-start: var(--calcite-spacing-sm);
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
