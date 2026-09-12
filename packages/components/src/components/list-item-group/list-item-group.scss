@@ -33,47 +33,47 @@
 
 :host([scale="s"]) {
   .container {
-    padding-inline: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-space-sm);
   }
   .heading {
     font-size: var(--calcite-font-size-sm);
     line-height: var(--calcite-font-line-height-fixed-base);
-    padding-block: var(--calcite-spacing-sm) var(--calcite-spacing-xxs);
+    padding-block: var(--calcite-space-sm) var(--calcite-space-2xs);
   }
 }
 :host([scale="s"]:not(:first-child)) {
   .container {
-    padding-block-start: var(--calcite-spacing-sm);
+    padding-block-start: var(--calcite-space-sm);
   }
 }
 :host([scale="m"]) {
   .container {
-    padding-inline: var(--calcite-spacing-md);
+    padding-inline: var(--calcite-space-md);
   }
   .heading {
     font-size: var(--calcite-font-size);
     line-height: var(--calcite-font-line-height-fixed-base);
-    padding-block: var(--calcite-spacing-lg) var(--calcite-spacing-sm);
+    padding-block: var(--calcite-space-lg) var(--calcite-space-sm);
   }
 }
 :host([scale="m"]:not(:first-child)) {
   .container {
-    padding-block-start: var(--calcite-spacing-md);
+    padding-block-start: var(--calcite-space-md);
   }
 }
 :host([scale="l"]) {
   .container {
-    padding-inline: var(--calcite-spacing-lg);
+    padding-inline: var(--calcite-space-lg);
   }
   .heading {
     font-size: var(--calcite-font-size-md);
     line-height: var(--calcite-font-line-height-fixed-lg);
-    padding-block: var(--calcite-spacing-xl) var(--calcite-spacing-sm-plus, 0.625rem);
+    padding-block: var(--calcite-space-xl) var(--calcite-space-sm-plus, 0.625rem);
   }
 }
 :host([scale="l"]:not(:first-child)) {
   .container {
-    padding-block-start: var(--calcite-spacing-md-plus, 0.875rem);
+    padding-block-start: var(--calcite-space-md-plus, 0.875rem);
   }
 }
 

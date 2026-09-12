@@ -72,11 +72,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-space-sm);
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-space-sm);
   }
 }
 
@@ -87,11 +87,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-space-md);
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-start: var(--calcite-space-md);
   }
 }
 
@@ -102,11 +102,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-lg);
+    padding-inline-end: var(--calcite-space-lg);
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-start: var(--calcite-space-lg);
   }
 }
 

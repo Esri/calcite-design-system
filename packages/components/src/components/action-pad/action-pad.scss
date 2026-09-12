@@ -18,16 +18,16 @@
 @use "../../styles/includes";
 
 :host([scale="s"]) {
-  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-xxs));
-  --calcite-internal-action-pad-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-space-2xs));
+  --calcite-internal-action-pad-padding: var(--calcite-space-2xs);
 }
 :host([scale="m"]) {
-  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-sm));
-  --calcite-internal-action-pad-padding: var(--calcite-spacing-sm);
+  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-space-sm));
+  --calcite-internal-action-pad-padding: var(--calcite-space-sm);
 }
 :host([scale="l"]) {
   --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-space-sm-plus));
-  --calcite-internal-action-pad-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-action-pad-padding: var(--calcite-space-sm-plus);
 }
 
 :host {

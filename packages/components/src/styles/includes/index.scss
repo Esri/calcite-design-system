@@ -42,7 +42,7 @@
   .internal-label-required--indicator {
     font-weight: var(--calcite-font-weight-medium);
     color: var(--calcite-color-status-danger);
-    padding-inline: var(--calcite-spacing-base);
+    padding-inline: var(--calcite-space-base);
     &:hover {
       cursor: help;
     }
@@ -54,13 +54,13 @@
 
   :host([scale="s"]) {
     .internal-label-spacing--bottom {
-      margin-block-end: var(--calcite-spacing-xxs);
+      margin-block-end: var(--calcite-space-2xs);
     }
     .internal-label-spacing-inline--end {
-      margin-inline-end: var(--calcite-spacing-sm);
+      margin-inline-end: var(--calcite-space-sm);
     }
     .internal-label-spacing-inline--start {
-      margin-inline-start: var(--calcite-spacing-sm);
+      margin-inline-start: var(--calcite-space-sm);
     }
     .internal-label--text {
       font-size: var(--calcite-font-size--2);
@@ -69,13 +69,13 @@
 
   :host([scale="m"]) {
     .internal-label-spacing--bottom {
-      margin-block-end: var(--calcite-spacing-sm);
+      margin-block-end: var(--calcite-space-sm);
     }
     .internal-label-spacing-inline--end {
-      margin-inline-end: var(--calcite-spacing-sm);
+      margin-inline-end: var(--calcite-space-sm);
     }
     .internal-label-spacing-inline--start {
-      margin-inline-start: var(--calcite-spacing-sm);
+      margin-inline-start: var(--calcite-space-sm);
     }
     .internal-label--text {
       font-size: var(--calcite-font-size--1);
@@ -84,13 +84,13 @@
 
   :host([scale="l"]) {
     .internal-label-spacing--bottom {
-      margin-block-end: var(--calcite-spacing-sm);
+      margin-block-end: var(--calcite-space-sm);
     }
     .internal-label-spacing-inline--end {
-      margin-inline-end: var(--calcite-spacing-md);
+      margin-inline-end: var(--calcite-space-md);
     }
     .internal-label-spacing-inline--start {
-      margin-inline-start: var(--calcite-spacing-md);
+      margin-inline-start: var(--calcite-space-md);
     }
     .internal-label--text {
       font-size: var(--calcite-font-size-0);
@@ -194,8 +194,8 @@
 
     calcite-action {
       --calcite-internal-action-height: 100%;
-      --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
-      --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+      --calcite-internal-action-padding-inline: var(--calcite-space-none);
+      --calcite-internal-action-padding-block: var(--calcite-space-none);
 
       --calcite-action-background-color: var(#{$background-color}, var(--calcite-color-foreground-2));
       --calcite-action-text-color: var(#{$icon-color});

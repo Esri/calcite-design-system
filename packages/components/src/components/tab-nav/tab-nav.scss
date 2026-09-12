@@ -78,13 +78,13 @@
 
 :host(:not([bordered])) {
   .scale-l {
-    --calcite-internal-tab-nav-gap: var(--calcite-spacing-xxl);
+    --calcite-internal-tab-nav-gap: var(--calcite-space-2xl);
   }
   .scale-m {
-    --calcite-internal-tab-nav-gap: var(--calcite-spacing-xl);
+    --calcite-internal-tab-nav-gap: var(--calcite-space-xl);
   }
   .scale-s {
-    --calcite-internal-tab-nav-gap: var(--calcite-spacing-lg);
+    --calcite-internal-tab-nav-gap: var(--calcite-space-lg);
   }
 
   .tab-titles-slot-wrapper {
@@ -94,7 +94,7 @@
 
 :host([layout="center"]:not([bordered])) {
   .tab-titles-slot-wrapper {
-    padding-inline: var(--calcite-spacing-xl);
+    padding-inline: var(--calcite-space-xl);
   }
 }
 

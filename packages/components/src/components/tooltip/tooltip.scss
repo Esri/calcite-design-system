@@ -22,8 +22,8 @@
 
 :host {
   @apply contents;
-  --calcite-internal-tooltip-padding-block: var(--calcite-spacing-sm);
-  --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-md);
+  --calcite-internal-tooltip-padding-block: var(--calcite-space-sm);
+  --calcite-internal-tooltip-padding-inline: var(--calcite-space-md);
 }
 
 :host([top-layer-disabled]) {
@@ -41,8 +41,8 @@
 @include floating-ui.floating-ui-arrow();
 
 :host([scale="s"]) {
-  --calcite-internal-tooltip-padding-block: var(--calcite-spacing-xxs);
-  --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-sm);
+  --calcite-internal-tooltip-padding-block: var(--calcite-space-2xs);
+  --calcite-internal-tooltip-padding-inline: var(--calcite-space-sm);
 
   .container {
     @apply text-n3-wrap;

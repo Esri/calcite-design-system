@@ -19,15 +19,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-space-2xs);
 }
 
 :host([scale="m"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-space-2xs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-list-action-spacing: var(--calcite-space-xs);
 }
 
 @include includes.disabled();

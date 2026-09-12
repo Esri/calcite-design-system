@@ -78,7 +78,7 @@ calcite-time-picker {
   flex-wrap: nowrap;
   font-weight: var(--calcite-font-weight-normal);
   inline-size: 100%;
-  padding-block: var(--calcite-spacing-base);
+  padding-block: var(--calcite-space-base);
   user-select: none;
 
   &:focus-within {
@@ -138,7 +138,7 @@ calcite-time-picker {
   justify-content: center;
   min-inline-size: max-content;
   &.empty {
-    inline-size: var(--calcite-spacing-xl);
+    inline-size: var(--calcite-space-xl);
   }
   &:focus,
   &:hover:focus {
@@ -191,9 +191,9 @@ calcite-time-picker {
   .container {
     block-size: 1.5rem;
     font-size: var(--calcite-font-size-sm);
-    gap: var(--calcite-spacing-sm);
-    padding-inline-start: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-spacing-xxs);
+    gap: var(--calcite-space-sm);
+    padding-inline-start: var(--calcite-space-sm);
+    padding-inline-end: var(--calcite-space-2xs);
   }
   .input-container,
   .placeholder {
@@ -209,9 +209,9 @@ calcite-time-picker {
   .container {
     block-size: 2rem;
     font-size: var(--calcite-font-size);
-    gap: var(--calcite-spacing-md);
-    padding-inline-start: var(--calcite-spacing-md);
-    padding-inline-end: var(--calcite-spacing-sm);
+    gap: var(--calcite-space-md);
+    padding-inline-start: var(--calcite-space-md);
+    padding-inline-end: var(--calcite-space-sm);
   }
   .input-container,
   .placeholder {
@@ -230,8 +230,8 @@ calcite-time-picker {
   .container {
     block-size: 2.75rem;
     font-size: var(--calcite-font-size-md);
-    gap: var(--calcite-spacing-lg);
-    padding-inline: var(--calcite-spacing-lg);
+    gap: var(--calcite-space-lg);
+    padding-inline: var(--calcite-space-lg);
   }
   .input-container,
   .placeholder {

@@ -42,7 +42,7 @@
 
 :host([scale="s"]) {
   --calcite-internal-stroke-width: 3;
-  --calcite-internal-text-offset: var(--calcite-spacing-xxs);
+  --calcite-internal-text-offset: var(--calcite-space-2xs);
   --calcite-internal-loader-font-size: var(--calcite-font-size--3);
   --calcite-internal-loader-size: theme("spacing.8");
   --calcite-internal-loader-size-inline: theme("spacing.3");
@@ -51,7 +51,7 @@
 
 :host([scale="m"]) {
   --calcite-internal-stroke-width: 6;
-  --calcite-internal-text-offset: var(--calcite-spacing-sm);
+  --calcite-internal-text-offset: var(--calcite-space-sm);
   --calcite-internal-loader-font-size: theme("fontSize.0");
   --calcite-internal-loader-size: theme("spacing.16");
   --calcite-internal-loader-size-inline: theme("spacing.4");
@@ -60,7 +60,7 @@
 
 :host([scale="l"]) {
   --calcite-internal-stroke-width: 8;
-  --calcite-internal-text-offset: var(--calcite-spacing-md);
+  --calcite-internal-text-offset: var(--calcite-space-md);
   --calcite-internal-loader-font-size: theme("fontSize.2");
   --calcite-internal-loader-size: theme("spacing.24");
   --calcite-internal-loader-size-inline: theme("spacing.6");
