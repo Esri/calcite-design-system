@@ -176,7 +176,7 @@
 @include includes.slotted("description", "*") {
   color: var(--calcite-color-text-2);
   margin: 0;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-font-line-height-relative-snug);
   font-size: var(--calcite-internal-card-description-font-size);
 }
