@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.72...@esri/calcite-components@5.2.0-next.73) (2026-09-11)
+
+### Bug Fixes
+
+- **date-picker:** update the calendar view when a programmatic range value follows a manual selection ([#15153](https://github.com/Esri/calcite-design-system/issues/15153)), closes [#14875](https://github.com/Esri/calcite-design-system/issues/14875)
+
 ## [5.2.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.71...@esri/calcite-components@5.2.0-next.72) (2026-09-11)
 
 ### Features
