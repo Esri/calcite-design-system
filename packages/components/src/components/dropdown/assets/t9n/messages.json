@@ -1,0 +1,11 @@
+{
+  "item": "{label}, {role}, {position} of {total}",
+  "itemWithState": "{label}, {role}, {state}, {position} of {total}",
+  "group": "{group}, {item}",
+  "menuItem": "menu item",
+  "menuItemCheckbox": "menu item checkbox",
+  "menuItemRadio": "menu item radio",
+  "link": "link",
+  "checked": "checked",
+  "unchecked": "unchecked"
+}

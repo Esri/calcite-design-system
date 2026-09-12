@@ -16,6 +16,7 @@ packages\components\src\components\color-picker\assets\t9n
 packages\components\src\components\combobox\assets\t9n
 packages\components\src\components\date-picker\assets\t9n
 packages\components\src\components\dialog\assets\t9n
+packages\components\src\components\dropdown\assets\t9n
 packages\components\src\components\filter\assets\t9n
 packages\components\src\components\flow-item\assets\t9n
 packages\components\src\components\handle\assets\t9n
