@@ -1,5 +1,6 @@
 {
   "chooseTime": "Vælg tidspunkt",
+  "clear": "Ryd værdi",
   "fractionalSecond": "Brøkdel af sekund",
   "fractionalSecondDown": "Reducer brøkdel af sekund",
   "fractionalSecondUp": "Forøg brøkdel af sekund",

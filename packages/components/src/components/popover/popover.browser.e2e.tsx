@@ -1,8 +1,9 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   focusable,
@@ -12,12 +13,56 @@ import {
   t9n,
   topLayer,
   openClose,
-} from "../../tests/commonTests/browser";
+  accessible,
+  scalePropagates,
+  themed,
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 import { Popover } from "./popover";
+import { logger } from "../../utils/logger";
 
 mockConsole();
+
+beforeEach(() => {
+  vi.spyOn(logger, "warn");
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("when open", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("with close button", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover closable label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -54,6 +99,10 @@ describe("defaults", () => {
       {
         propertyName: "pointerDisabled",
         defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
       {
         propertyName: "overlayPositioning",
@@ -98,6 +147,12 @@ describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-popover open />));
 });
 
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-popover closable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
+});
+
 describe("renders", () => {
   describe("when closed", () => {
     renders(
@@ -136,7 +191,7 @@ describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
-        mount(
+        mount<Popover>(
           <>
             <calcite-popover placement="auto" reference-element="ref">
               content
@@ -235,6 +290,104 @@ describe("auto-close", () => {
         </>,
         mountOptions,
       ),
+    );
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!">
+            Lorem Ipsum
+          </calcite-popover>,
+        ),
+      {
+        "--calcite-popover-background-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${FloatingCSS.arrow}`,
+            targetProp: "fill",
+          },
+        ],
+        "--calcite-popover-border-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.header}`,
+            targetProp: "borderBlockEndColor",
+          },
+          {
+            shadowSelector: `.${FloatingCSS.arrowStroke}`,
+            targetProp: "stroke",
+          },
+        ],
+        "--calcite-popover-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-popover-max-size-x": {
+          shadowSelector: `.${CSS.positionContainer}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-popover-text-color": [
+          {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.headerContainer}`,
+            targetProp: "color",
+          },
+        ],
+      },
+    );
+  });
+});
+
+describe("warning messages", () => {
+  it("does not warn if reference element is present", async () => {
+    await mount(
+      <>
+        <calcite-popover reference-element="ref">content</calcite-popover>
+        <div id="ref">referenceElement</div>
+      </>,
+    );
+
+    expect(logger.warn).not.toHaveBeenCalled();
+  });
+
+  it("does not warn after removal", async () => {
+    const { el, reRender } = await mount(
+      <>
+        <calcite-popover reference-element="ref">content</calcite-popover>
+        <div id="ref">referenceElement</div>
+      </>,
+    );
+
+    el.remove();
+    await reRender();
+
+    expect(logger.warn).not.toHaveBeenCalled();
+  });
+
+  it("warns if reference element is not present", async () => {
+    const { el } = await mount(
+      <>
+        <calcite-popover reference-element="non-existent-ref">content</calcite-popover>
+      </>,
+    );
+
+    expect(logger.warn).toHaveBeenCalled();
+    expect(logger.warn).toHaveBeenCalledWith(
+      expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
+      { el },
     );
   });
 });

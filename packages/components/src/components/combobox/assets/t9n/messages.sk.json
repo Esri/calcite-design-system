@@ -4,7 +4,7 @@
   "allSelected": "Všetky vybrané",
   "clear": "Vymazať hodnotu",
   "noMatches": "Žiadne zhody",
-  "removeTag": "Odstrániť štítok",
+  "removeTag": "Odstrániť štítok {value}",
   "required": "Vyžadované",
   "selectAll": "Vybrať všetko",
   "selected": "vybrané",

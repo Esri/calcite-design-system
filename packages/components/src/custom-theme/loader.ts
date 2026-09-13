@@ -1,3 +1,4 @@
+import "../components/loader/loader";
 import { html } from "../../support/formatting";
 
 export const loaderTokens = {

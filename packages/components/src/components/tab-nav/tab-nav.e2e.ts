@@ -1,13 +1,9 @@
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { getElementRect } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
-
-describe("accessible: checked", () => {
-  accessible("calcite-tab-nav");
-});
 
 describe("calciteTabChange event", () => {
   let page: E2EPage;
@@ -267,28 +263,5 @@ describe("responsiveness", () => {
     await page.click("calcite-tab-title:first-child");
     await page.waitForChanges();
     await assertScrollButtonDisabled(true, false);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-tab-nav></calcite-tab-nav>`, {
-      "--calcite-tab-border-color": {
-        shadowSelector: `.${CSS.scrollBackwardButton}::before`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-tab-text-color": {
-        shadowSelector: `calcite-button`,
-        targetProp: "--calcite-button-text-color",
-      },
-    });
-  });
-
-  describe("bordered", () => {
-    themed(html`<calcite-tabs bordered></calcite-tabs>`, {
-      "--calcite-tab-background-color": {
-        targetProp: "backgroundColor",
-      },
-    });
   });
 });

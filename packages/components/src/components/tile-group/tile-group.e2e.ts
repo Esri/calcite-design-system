@@ -1,52 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils/puppeteer";
-import type { TileGroup } from "./tile-group";
-
-describe("accessible", () => {
-  describe("accessible in selection-mode none", () => {
-    accessible(html`
-      <calcite-tile-group>
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `);
-  });
-  describe("accessible in selection-mode single", () => {
-    accessible(html`
-      <calcite-tile-group selection-mode="single">
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `);
-  });
-  describe("accessible in selection-mode single-persist", () => {
-    accessible(html`
-      <calcite-tile-group selection-mode="single-persist">
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `);
-  });
-  describe("accessible in selection-mode multiple", () => {
-    accessible(html`
-      <calcite-tile-group selection-mode="multiple">
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `);
-  });
-  describe("accessible as links", () => {
-    accessible(html`
-      <calcite-tile-group>
-        <calcite-tile label="item-1" href="#"></calcite-tile>
-        <calcite-tile label="item-2" href="#"></calcite-tile>
-      </calcite-tile-group>
-    `);
-  });
-});
+import { createSelectedItemsAsserter, isElementFocused } from "../../tests/utils/puppeteer";
 
 describe("keyboard", () => {
   it("focuses tiles with the tab key and arrow keys and allows selection with the enter and space key", async () => {
@@ -134,32 +89,6 @@ describe("keyboard", () => {
     await page.waitForChanges();
 
     expect(await isElementFocused(page, "#item-1")).toBe(true);
-  });
-});
-
-describe("prop passing", () => {
-  it("tiles receive parent scale prop on initial load and when scale attribute is mutated", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-tile-group scale="s">
-        <calcite-tile></calcite-tile>
-        <calcite-tile></calcite-tile>
-        <calcite-tile></calcite-tile>
-      </calcite-tile-group>
-    `);
-
-    let tiles = await findAll(page, "calcite-tile");
-    tiles.forEach((tile) => {
-      expect(tile.getAttribute("scale")).toBe("s");
-    });
-
-    await page.$eval("calcite-tile-group", (element: TileGroup["el"]) => element.setAttribute("scale", "l"));
-    await page.waitForChanges();
-
-    tiles = await findAll(page, "calcite-tile");
-    tiles.forEach((tile) => {
-      expect(tile.getAttribute("scale")).toBe("l");
-    });
   });
 });
 

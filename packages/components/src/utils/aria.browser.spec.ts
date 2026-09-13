@@ -2,14 +2,16 @@ import { describe, it, expect } from "vitest";
 import { ariaValueFromSize, toAriaBoolean } from "./aria";
 
 describe("toAriaBoolean()", () => {
-  it("handles truthy values", () => {
+  it("stringifies values", () => {
     expect(toAriaBoolean(true)).toBe("true");
+    expect(toAriaBoolean(false)).toBe("false");
   });
 
-  it("handles falsy values", () => {
-    expect(toAriaBoolean(false)).toBe("false");
-    expect(toAriaBoolean(null)).toBe("false");
-    expect(toAriaBoolean(undefined)).toBe("false");
+  it("supports custom false values", () => {
+    expect(toAriaBoolean(false, undefined)).toBeUndefined();
+    expect(toAriaBoolean(false, null)).toBeNull();
+    expect(toAriaBoolean(true, undefined)).toBe("true");
+    expect(toAriaBoolean(true, null)).toBe("true");
   });
 });
 

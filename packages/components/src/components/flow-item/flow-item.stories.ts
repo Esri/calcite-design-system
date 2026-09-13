@@ -1,10 +1,21 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow/flow"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./flow-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list/list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { collapseDirection, scale } = ATTRIBUTES;
+const { collapseDirection, overlayPositioning, scale } = ATTRIBUTES;
 
 interface FlowItemStoryArgs extends Pick<
   FlowItem,
@@ -15,8 +26,10 @@ interface FlowItemStoryArgs extends Pick<
   | "collapsed"
   | "collapseDirection"
   | "loading"
+  | "menuOpen"
   | "icon"
   | "iconFlipRtl"
+  | "overlayPositioning"
   | "scale"
   | "selected"
 > {
@@ -35,6 +48,8 @@ export default {
     heightScale: scale.defaultValue,
     icon: "",
     iconFlipRtl: false,
+    menuOpen: false,
+    overlayPositioning: overlayPositioning.defaultValue,
     scale: scale.defaultValue,
     loading: false,
     selected: true,
@@ -50,6 +65,10 @@ export default {
     },
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    overlayPositioning: {
+      options: overlayPositioning.values,
       control: { type: "select" },
     },
   },
@@ -106,9 +125,11 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     height-scale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    ${boolean("menu-open", args.menuOpen)}
+    overlay-positioning="${args.overlayPositioning}"
     ${boolean("selected", args.selected)}
     heading="Heading"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     icon-flip-rtl="${args.iconFlipRtl}"
     description="A wonderful flow item description"
   >
@@ -142,6 +163,13 @@ export const withRichHeaderSlots = (): string => html`
     <span slot="heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
     <span slot="description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
     <p>Slotted content!</p>
+  </calcite-flow-item>
+`;
+
+export const withHeaderTop = (): string => html`
+  <calcite-flow-item selected closable heading="Flow item heading">
+    <div slot="header-top">Header top content</div>
+    <p>Flow item content</p>
   </calcite-flow-item>
 `;
 

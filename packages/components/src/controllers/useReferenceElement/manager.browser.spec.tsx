@@ -22,7 +22,7 @@ describe("referenceElementManager", () => {
     class TestComponent extends LitElement {
       @property() open = false;
 
-      @property() referenceElement: string | ReferenceElement | null = trigger;
+      @property() referenceElement: string | ReferenceElement | undefined = trigger;
 
       @property() triggerDisabled = false;
 
@@ -30,7 +30,7 @@ describe("referenceElementManager", () => {
 
       @property() closeOnClick = false;
 
-      @property() referenceEl: ReferenceElement | null = null;
+      @property() referenceEl: ReferenceElement | undefined;
 
       referenceElementType = "click" as const;
 
@@ -75,7 +75,7 @@ describe("referenceElementManager", () => {
     class TestComponent extends LitElement {
       @property() open = false;
 
-      @property() referenceElement: string | ReferenceElement | null = trigger;
+      @property() referenceElement: string | ReferenceElement | undefined = trigger;
 
       @property() triggerDisabled = false;
 
@@ -83,7 +83,7 @@ describe("referenceElementManager", () => {
 
       @property() closeOnClick = false;
 
-      @property() referenceEl: ReferenceElement | null = null;
+      @property() referenceEl: ReferenceElement | undefined;
 
       referenceElementType = "click" as const;
 
@@ -115,7 +115,7 @@ describe("referenceElementManager", () => {
     class TestComponent extends LitElement {
       @property() open = false;
 
-      @property() referenceElement: string | ReferenceElement | null = trigger;
+      @property() referenceElement: string | ReferenceElement | undefined = trigger;
 
       @property() triggerDisabled = false;
 
@@ -123,7 +123,7 @@ describe("referenceElementManager", () => {
 
       @property() closeOnClick = false;
 
-      @property() referenceEl: ReferenceElement | null = null;
+      @property() referenceEl: ReferenceElement | undefined;
 
       referenceElementType = "hover" as const;
 

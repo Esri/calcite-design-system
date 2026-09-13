@@ -4,7 +4,7 @@
   "allSelected": "Kaikki valitut",
   "clear": "Tyhjennä arvo",
   "noMatches": "Ei vastaavuuksia",
-  "removeTag": "Poista tunniste",
+  "removeTag": "Poista tunniste {value}",
   "required": "Pakollinen",
   "selectAll": "Valitse kaikki",
   "selected": "valitut",

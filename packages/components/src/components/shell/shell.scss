@@ -4,6 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-shell-border-color: Specifies the component's border color.
+ * @prop --calcite-shell-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-shell-shadow: Specifies the component's shadow.
  */
 
 @use "../../styles/includes";
@@ -17,6 +19,8 @@
     w-full
     flex-col
     overflow-hidden;
+  border-radius: var(--calcite-shell-corner-radius);
+  box-shadow: var(--calcite-shell-shadow);
 }
 
 .main {
@@ -139,6 +143,24 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   position: absolute;
   pointer-events: none;
   inset: 0;
+}
+
+.main.has-resizable-panel-top {
+  ::slotted(calcite-panel) {
+    border-block-start: none;
+  }
+}
+
+.main.has-resizable-panel-bottom {
+  ::slotted(calcite-panel) {
+    border-block-end: none;
+  }
+}
+
+.main.has-action-bar-position-panel {
+  ::slotted(calcite-panel) {
+    border: 0;
+  }
 }
 
 @include includes.base-component();

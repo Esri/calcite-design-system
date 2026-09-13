@@ -1,17 +1,26 @@
 import { iconNames } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tabs } from "./tabs";
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell/shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab/tab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-nav/tab-nav"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-title/tab-title"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tabs"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, position, scale } = ATTRIBUTES;
 
-type TabsStoryArgs = Pick<Tabs, "layout" | "position" | "scale">;
+type TabsStoryArgs = Pick<Tabs, "bordered" | "layout" | "position" | "scale">;
 
 export default {
   title: "Components/Tabs",
   args: {
+    bordered: false,
     layout: layout.values[3],
     position: position.values[2],
     scale: scale.defaultValue,
@@ -35,7 +44,12 @@ export default {
 };
 
 export const simple = (args: TabsStoryArgs): string => html`
-  <calcite-tabs layout="${args.layout}" position="${args.position}" scale="${args.scale}">
+  <calcite-tabs
+    ${boolean("bordered", args.bordered)}
+    layout="${args.layout}"
+    position="${args.position}"
+    scale="${args.scale}"
+  >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>

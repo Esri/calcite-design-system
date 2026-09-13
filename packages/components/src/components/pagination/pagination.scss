@@ -100,7 +100,7 @@
   border-block: 2px solid transparent;
 
   &:hover {
-    @apply transition-default;
+    @include includes.transition-default();
 
     color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
   }

@@ -5,16 +5,16 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { CollapseDirection, Scale } from "../interfaces";
+import { CollapseDirection, Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
-import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
+import { FocusTrapOptions } from "../../controllers/useFocusTrap";
 
 declare global {
   interface DeclareElements {
@@ -28,6 +28,7 @@ declare global {
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
@@ -61,8 +62,6 @@ export class FlowItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
-
   private interactiveContainer = useInteractive(this);
 
   //#endregion
@@ -73,12 +72,12 @@ export class FlowItem extends LitElement {
   @property() beforeBack?: () => Promise<void>;
 
   /** Specifies a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the component's header. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
@@ -90,20 +89,20 @@ export class FlowItem extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies a the component's description. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -111,19 +110,31 @@ export class FlowItem extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /**
+   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
+   * @private
+   */
+  @property({ reflect: true }) focusTrapEnabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component.
+   *
+   * - `"allowOutsideClick"` allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * @private
+   */
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
+
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
@@ -140,9 +151,7 @@ export class FlowItem extends LitElement {
   @property() showBackButton = false;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -179,7 +188,20 @@ export class FlowItem extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.backButtonRef.value || this.containerRef.value, options);
+    return this.containerRef.value?.setFocus(options);
+  }
+
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   * @private
+   */
+  @method()
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.containerRef.value?.updateFocusTrapElements(extraContainers);
   }
 
   //#endregion
@@ -277,7 +299,6 @@ export class FlowItem extends LitElement {
 
     return showBackButton ? (
       <calcite-action
-        ariaLabel={label}
         class={CSS.backButton}
         icon={icon}
         key="flow-back-button"
@@ -309,6 +330,8 @@ export class FlowItem extends LitElement {
       beforeClose,
       icon,
       iconFlipRtl,
+      focusTrapEnabled,
+      focusTrapOptions,
     } = this;
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -321,6 +344,8 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
+          focusTrapEnabled={focusTrapEnabled}
+          focusTrapOptions={focusTrapOptions}
           heading={heading}
           headingLevel={headingLevel}
           icon={icon}
@@ -341,6 +366,7 @@ export class FlowItem extends LitElement {
           <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+          <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
           <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
           <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />

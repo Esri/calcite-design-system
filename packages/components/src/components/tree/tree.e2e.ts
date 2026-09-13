@@ -1,17 +1,15 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode } from "../types";
 import { mockConsole } from "../../tests/utils/logging";
 
 /**
  * Helper to ensure an item is clicked and avoids clicking on any of its children
  *
  * @param page – the test page
- * @param itemSelector – the selector for the item click target
  * @param item
  */
 async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
@@ -22,11 +20,6 @@ async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
 }
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(`<calcite-tree></calcite-tree>`);
-});
-
 describe("it forwards focus", () => {
   it("to first selected item", async () => {
     const page = await newE2EPage({
@@ -86,21 +79,6 @@ describe("it forwards focus", () => {
 
     expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
   });
-});
-
-describe("accessible: with nested children", () => {
-  accessible(html`
-    <calcite-tree lines>
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="http://www.esri.com">Grandchild 1</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-  `);
 });
 
 it("should correctly select tree in ancestors selection mode", async () => {
@@ -412,32 +390,6 @@ describe("item selection", () => {
       });
       const checkbox = await page.find(`calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxContainer}`);
       expect(checkbox).not.toBeNull();
-    });
-  });
-
-  describe(`when tree-item selection-mode is "none"`, () => {
-    it("emits selection event without updating selection", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-tree selection-mode="none">
-          <calcite-tree-item id="1">1</calcite-tree-item>
-          <calcite-tree-item id="2">2</calcite-tree-item>
-        </calcite-tree>
-      `);
-
-      const tree = await page.find(`calcite-tree`);
-      const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
-      const [item1, item2] = await findAll(page, `calcite-tree-item`);
-
-      await item1.click();
-      expect(selectEventSpy).toHaveReceivedEventTimes(1);
-      expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-      expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
-
-      await item2.click();
-      expect(selectEventSpy).toHaveReceivedEventTimes(2);
-      expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-      expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
     });
   });
 

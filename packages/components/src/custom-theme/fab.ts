@@ -1,3 +1,4 @@
+import "../components/fab/fab";
 import { html } from "../../support/formatting";
 
 export const fabTokens = {

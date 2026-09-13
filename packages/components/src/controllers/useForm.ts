@@ -3,8 +3,8 @@ import { LitElement } from "@arcgis/lumina";
 import { bypassReadOnly, makeGenericController } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
-import type { IconName } from "../components/icon/interfaces";
-import { Status } from "../components/interfaces";
+import type { IconName } from "../components/icon/types";
+import { Status } from "../components/types";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
 import { isCalciteFocusable, SetFocusable } from "../utils/dom";
 import { logger } from "../utils/logger";
@@ -352,11 +352,14 @@ export const useForm = <T extends FormComponent>(
           clearValidationMessage(component, validationMessage);
 
           if (inputDelegate?.type === "radio") {
-            let group = component.elementInternals.form?.elements[component.name!];
-            if (group?.length > 0) {
-              group = Array.from(group).filter(
-                (element) => (element as HTMLElement).tagName === component.el.tagName,
-              ) as FormComponent["el"][];
+            const item = component.elementInternals.form?.elements.namedItem(component.name!);
+
+            if (item) {
+              const elements = "length" in item ? Array.from(item) : [item];
+              const group = elements.filter(
+                (element): element is CheckableFormComponent["el"] =>
+                  (element as HTMLElement).tagName === component.el.tagName,
+              );
               const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
               if (others?.length > 0) {
                 others.forEach((other) => {

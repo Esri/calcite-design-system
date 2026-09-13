@@ -187,7 +187,6 @@ body:
       options:
         - N/A
         - Application Protoype Lab - APL
-        - ArcGIS Solutions
         - ArcGIS AppStudio
         - ArcGIS Business/Community Analyst
         - ArcGIS Charts
@@ -202,26 +201,28 @@ body:
         - ArcGIS GeoBIM
         - ArcGIS GeoPlanner
         - ArcGIS Hub
+        - ArcGIS Imagery and Remote Sensing
         - ArcGIS Indoors
         - ArcGIS Insights
         - ArcGIS Instant Apps
         - ArcGIS Knowledge
         - ArcGIS Living Atlas
         - ArcGIS Map Viewer
+        - ArcGIS Maps for Adobe Creative Cloud
+        - ArcGIS Maps SDK for JavaScript
         - ArcGIS Marketplace
         - ArcGIS Mission
         - ArcGIS Monitor
         - ArcGIS Network Analyst
         - ArcGIS Online
         - ArcGIS Pro
-        - ArcGIS Maps for Adobe Creative Cloud
-        - ArcGIS Maps SDK for JavaScript
         - ArcGIS Scene Viewer
         - ArcGIS Site Scan
+        - ArcGIS Solutions
         - ArcGIS StoryMaps
         - ArcGIS Survey123
-        - ArcGIS Web Analysis
         - ArcGIS Urban
+        - ArcGIS Web Analysis
         - Esri Marketing
         - Professional Services - Midwest Delivery Center
         - Professional Services - Services Delivery

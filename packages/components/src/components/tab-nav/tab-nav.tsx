@@ -1,8 +1,3 @@
-import {
-  calciteSize24,
-  calciteSize32,
-  calciteSize44,
-} from "@esri/calcite-design-tokens/dist/es6/core";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -14,14 +9,14 @@ import {
   FocusElementInGroupDestination,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
-import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { Scale } from "../types";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/types";
+import { TabID, TabLayout, TabPosition } from "../tabs/types";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tabs } from "../tabs/tabs";
-import { CSS, ICON } from "./resources";
+import { CSS, ICON, SCROLL_THRESHOLD } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./tab-nav.scss";
 
@@ -57,7 +52,7 @@ export class TabNav extends LitElement {
 
   private tabTitleContainerEl?: HTMLDivElement;
 
-  private makeFirstVisibleTabClosable = false;
+  private firstVisibleTabMadeNonClosable?: TabTitle["el"];
 
   /**
    * Made into a prop for testing purposes only.
@@ -74,7 +69,9 @@ export class TabNav extends LitElement {
 
   @state() private hasOverflowingStartTabTitle = false;
 
-  @state() selectedTabId!: TabID;
+  @state() private hasVisibleTabTitles = true;
+
+  @state() selectedTabId?: TabID;
 
   //#endregion
 
@@ -86,13 +83,16 @@ export class TabNav extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
-  /** Overrides individual strings used by the component. */
+  /** @private */
+  @property() lastTabClosable = false;
+
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`.
    *
-   *  @internal
+   * @internal
    */
   @property() position: TabPosition = "bottom";
 
@@ -139,6 +139,7 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusNext", this.focusNextTabHandler);
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
+    this.listen("calciteInternalTabTitleCloseChange", this.syncVisibleTabTitlesState);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
     this.listen<ToEvents<TabTitle>["calciteInternalTabsActivate"]>(
       "calciteInternalTabsActivate",
@@ -177,7 +178,11 @@ export class TabNav extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("selectedTitle") && (this.hasUpdated || this.selectedTitle !== null)) {
+    if (
+      changes.has("selectedTitle") &&
+      (this.hasUpdated || this.selectedTitle !== null) &&
+      this.selectedTabId !== undefined
+    ) {
       this.calciteInternalTabChange.emit({
         tab: this.selectedTabId,
       });
@@ -185,6 +190,10 @@ export class TabNav extends LitElement {
 
     if (changes.has("selectedTabId")) {
       this.selectedTabIdChanged();
+    }
+
+    if (changes.has("lastTabClosable") && this.hasUpdated) {
+      this.updateLastVisibleTabClosable();
     }
 
     const { parentTabsEl } = this;
@@ -204,7 +213,7 @@ export class TabNav extends LitElement {
     if (
       this.tabTitles.length &&
       this.tabTitles.every((title) => !title.selected) &&
-      !this.selectedTabId
+      this.selectedTabId === undefined
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
         this.calciteInternalTabChange.emit({
@@ -227,11 +236,6 @@ export class TabNav extends LitElement {
       this.el,
       "calcite-tab-title:not([disabled])",
     ).filter((tabTitle) => !tabTitle.closed);
-  }
-
-  private get scrollerButtonWidth(): number {
-    const { scale } = this;
-    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
   }
 
   get tabTitles(): TabTitle["el"][] {
@@ -289,11 +293,13 @@ export class TabNav extends LitElement {
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
       const scrollPosition = tabTitleContainer.scrollLeft;
 
-      if (tabTitleBounds.left < containerBounds.left) {
-        const left = scrollPosition + (tabTitleBounds.left - containerBounds.left);
+      const offsetLeft = tabTitleBounds.left - containerBounds.left;
+      if (offsetLeft < 0) {
+        const left = scrollPosition + offsetLeft;
         tabTitleContainer.scrollTo({ left, behavior });
       } else if (tabTitleBounds.right > containerBounds.right) {
-        const left = scrollPosition + (tabTitleBounds.right - containerBounds.right);
+        const left =
+          scrollPosition + Math.min(tabTitleBounds.right - containerBounds.right, offsetLeft);
         tabTitleContainer.scrollTo({ left, behavior });
       }
     });
@@ -315,6 +321,8 @@ export class TabNav extends LitElement {
       this.selectedTabId = event.detail;
       this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
     }
+
+    this.syncVisibleTabTitlesState();
   }
 
   private globalInternalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
@@ -332,12 +340,11 @@ export class TabNav extends LitElement {
   private async selectedTabIdChanged(): Promise<void> {
     await this.componentOnReady();
 
-    if (
-      localStorage &&
-      this.storageId &&
-      this.selectedTabId !== undefined &&
-      this.selectedTabId !== null
-    ) {
+    if (this.selectedTabId === undefined) {
+      return;
+    }
+
+    if (localStorage && this.storageId) {
       localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
     }
 
@@ -376,20 +383,45 @@ export class TabNav extends LitElement {
     tabTitles.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
+    this.syncVisibleTabTitlesState();
+  }
+
+  private syncVisibleTabTitlesState(): void {
+    this.updateLastVisibleTabClosable();
+    this.hasVisibleTabTitles = this.getVisibleTabTitlesIndices(this.tabTitles).length > 0;
+    this.calciteInternalTabNavSlotChange.emit([...this.tabTitles]);
+  }
+
+  private updateLastVisibleTabClosable(): void {
+    const { tabTitles } = this;
     const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
-    if (totalVisibleTabTitles > 1 && this.makeFirstVisibleTabClosable) {
-      tabTitles[visibleTabTitlesIndices[0]].closable = true;
-      this.makeFirstVisibleTabClosable = false;
+
+    if (totalVisibleTabTitles === 0) {
+      return;
     }
 
-    this.calciteInternalTabNavSlotChange.emit(tabTitles);
+    const firstVisibleTabTitle = tabTitles[visibleTabTitlesIndices[0]];
+    const shouldDisableCloseButton = !this.lastTabClosable && totalVisibleTabTitles === 1;
+
+    if (shouldDisableCloseButton) {
+      if (firstVisibleTabTitle.closable) {
+        this.firstVisibleTabMadeNonClosable = firstVisibleTabTitle;
+        firstVisibleTabTitle.closable = false;
+      }
+      return;
+    }
+
+    if (this.firstVisibleTabMadeNonClosable && !this.firstVisibleTabMadeNonClosable.closed) {
+      this.firstVisibleTabMadeNonClosable.closable = true;
+    }
+
+    this.firstVisibleTabMadeNonClosable = undefined;
   }
 
   private setTabTitleContainerEl(el: HTMLDivElement) {
     this.tabTitleContainerEl = el;
     this.intersectionObserver?.disconnect();
-
     if (el) {
       this.intersectionObserver = createObserver(
         "intersection",
@@ -417,11 +449,11 @@ export class TabNav extends LitElement {
     const totalContentWidth = tabTitleContainer.scrollWidth;
 
     if (this.effectiveDir === "ltr") {
-      isOverflowStart = scrollPosition > 0;
-      isOverflowEnd = scrollPosition + visibleWidth < totalContentWidth;
+      isOverflowStart = scrollPosition > SCROLL_THRESHOLD;
+      isOverflowEnd = totalContentWidth - (scrollPosition + visibleWidth) > SCROLL_THRESHOLD;
     } else {
-      isOverflowStart = scrollPosition < 0;
-      isOverflowEnd = scrollPosition !== -(totalContentWidth - visibleWidth);
+      isOverflowStart = scrollPosition < -SCROLL_THRESHOLD;
+      isOverflowEnd = totalContentWidth - visibleWidth + scrollPosition > SCROLL_THRESHOLD;
     }
 
     this.hasOverflowingStartTabTitle = isOverflowStart;
@@ -431,78 +463,75 @@ export class TabNav extends LitElement {
   private scrollToTabTitles(direction: "forward" | "backward"): void {
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
-
       if (!tabTitleContainer) {
         return;
       }
 
       const containerBounds = tabTitleContainer.getBoundingClientRect();
-      const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
       const { effectiveDir } = this;
 
-      if (direction === "forward") {
-        tabTitles.reverse();
+      const scrollToRightTabTiles =
+        (direction === "forward" && effectiveDir === "ltr") ||
+        (direction === "backward" && effectiveDir === "rtl");
+
+      let tabTitleToScroll: TabTitle["el"] | undefined;
+      const tabTitles = direction === "forward" ? [...this.tabTitles].reverse() : this.tabTitles;
+
+      if (!tabTitles.length) {
+        return;
       }
 
-      let closestToEdge: TabTitle["el"] | null = null;
+      if (scrollToRightTabTiles) {
+        let closestTabTitleAfterContainerEnd: TabTitle["el"] | undefined;
+        const closestTabTitleCrossingContainerEnd = tabTitles.find((tabTitle) => {
+          const tabTitleBounds = tabTitle.getBoundingClientRect();
+          const isAfterContainerEnd = tabTitleBounds.left >= containerBounds.right;
+          const isClippingContainerEnd =
+            tabTitleBounds.left < containerBounds.right &&
+            tabTitleBounds.right > containerBounds.right &&
+            tabTitleBounds.right - containerBounds.right > SCROLL_THRESHOLD;
 
-      tabTitles.forEach((tabTitle) => {
-        const tabTitleBounds = tabTitle.getBoundingClientRect();
-        const containerEndX = containerBounds.x + containerBounds.width;
-        const tabTitleEndX = tabTitleBounds.x + tabTitleBounds.width;
-        if (
-          (direction === "forward" && effectiveDir === "ltr") ||
-          (direction === "backward" && effectiveDir === "rtl")
-        ) {
-          const afterContainerEnd = tabTitleBounds.x > containerEndX;
-
-          if (afterContainerEnd) {
-            closestToEdge = tabTitle;
-          } else {
-            const crossingContainerEnd =
-              tabTitleEndX > containerEndX && tabTitleBounds.x > containerBounds.x;
-            if (crossingContainerEnd) {
-              closestToEdge = tabTitle;
-            }
+          if (isAfterContainerEnd) {
+            closestTabTitleAfterContainerEnd = tabTitle;
           }
-        } else {
-          const beforeContainerStart = tabTitleEndX < containerBounds.x;
 
-          if (beforeContainerStart) {
-            closestToEdge = tabTitle;
-          } else {
-            const crossingContainerStart =
-              tabTitleBounds.x < containerBounds.x && tabTitleEndX > containerBounds.x;
+          return isClippingContainerEnd;
+        });
 
-            if (crossingContainerStart) {
-              closestToEdge = tabTitle;
-            }
-          }
-        }
-      });
-
-      let scrollTo: number | undefined;
-      if (closestToEdge) {
-        const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
-        const offsetAdjustment =
-          (direction === "forward" && effectiveDir === "ltr") ||
-          (direction === "backward" && effectiveDir === "rtl")
-            ? -scrollerButtonContainerWidth
-            : (closestToEdge as TabTitle["el"]).offsetWidth -
-              (tabTitleContainer.clientWidth + scrollerButtonContainerWidth);
-        scrollTo = (closestToEdge as TabTitle["el"]).offsetLeft + offsetAdjustment;
+        tabTitleToScroll = closestTabTitleCrossingContainerEnd ?? closestTabTitleAfterContainerEnd;
       } else {
-        const scrollPosition = tabTitleContainer.scrollLeft;
-        const containerWidth = containerBounds.width;
-        const totalContentWidth = tabTitleContainer.scrollWidth;
-        const hiddenContentWidth = totalContentWidth - (containerWidth + Math.abs(scrollPosition));
-        if (hiddenContentWidth > 0) {
-          const directionMultiplier = effectiveDir === "ltr" ? 1 : -1;
-          scrollTo = scrollPosition + directionMultiplier * hiddenContentWidth;
-        }
+        let closestTabTitleBeforeContainerStart: TabTitle["el"] | undefined;
+        const closestTabTitleCrossingContainerStart = tabTitles.find((tabTitle) => {
+          const tabTitleBounds = tabTitle.getBoundingClientRect();
+          const isBeforeContainerStart = tabTitleBounds.right <= containerBounds.left;
+          const isClippingContainerStart =
+            tabTitleBounds.left < containerBounds.left &&
+            tabTitleBounds.right > containerBounds.left &&
+            containerBounds.left - tabTitleBounds.left > SCROLL_THRESHOLD;
+
+          if (isBeforeContainerStart) {
+            closestTabTitleBeforeContainerStart = tabTitle;
+          }
+
+          return isClippingContainerStart;
+        });
+
+        tabTitleToScroll =
+          closestTabTitleCrossingContainerStart ?? closestTabTitleBeforeContainerStart;
       }
+
+      if (!tabTitleToScroll) {
+        return;
+      }
+
+      const tabTitleBounds = tabTitleToScroll.getBoundingClientRect();
+      const containerScrollPosition = tabTitleContainer.scrollLeft;
+      const scrollLeft = scrollToRightTabTiles
+        ? containerScrollPosition + (tabTitleBounds.right - containerBounds.right)
+        : containerScrollPosition + (tabTitleBounds.left - containerBounds.left);
+
       tabTitleContainer.scrollTo({
-        left: scrollTo,
+        left: Math.round(scrollLeft),
         behavior: "smooth",
       });
     });
@@ -553,34 +582,47 @@ export class TabNav extends LitElement {
 
   private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
     const { tabTitles } = this;
+    const visibleTabTitles = tabTitles.filter((tabTitle) => !tabTitle.closed);
+    const enabledVisibleTabTitles = this.enabledTabTitles;
+    const totalVisibleTabTitles = visibleTabTitles.length;
     const selectionModified = closedTabTitleEl.selected;
 
-    const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
-    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
+    this.hasVisibleTabTitles = totalVisibleTabTitles > 0;
+    this.calciteInternalTabNavSlotChange.emit([...tabTitles]);
 
-    if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
-      this.makeFirstVisibleTabClosable = true;
-      tabTitles[visibleTabTitlesIndices[0]].closable = false;
-      this.selectedTabId = visibleTabTitlesIndices[0];
-
-      if (selectionModified) {
-        tabTitles[visibleTabTitlesIndices[0]].activateTab();
-      }
-    } else if (totalVisibleTabTitles > 1) {
-      const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
-
-      const nextTabTitleIndex = visibleTabTitlesIndices.find(
-        (value) => value > closedTabTitleIndex,
-      );
-
-      if (this.selectedTabId === closedTabTitleIndex) {
-        this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
-        tabTitles[this.selectedTabId].activateTab();
-      }
+    if (totalVisibleTabTitles === 0) {
+      this.selectedTitle = null;
+      this.selectedTabId = undefined;
+      return;
     }
 
+    if (selectionModified) {
+      const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
+      const nextVisibleTabTitle =
+        enabledVisibleTabTitles.find(
+          (tabTitle) => tabTitles.indexOf(tabTitle) > closedTabTitleIndex,
+        ) || enabledVisibleTabTitles.at(-1);
+
+      if (!nextVisibleTabTitle) {
+        this.selectedTitle = null;
+        this.selectedTabId = undefined;
+        this.updateLastVisibleTabClosable();
+        return;
+      }
+
+      nextVisibleTabTitle.activateTab();
+    }
+
+    this.updateLastVisibleTabClosable();
+
     requestAnimationFrame(() => {
-      focusElement(tabTitles[this.selectedTabId]);
+      const selectedTitle = this.selectedTitle;
+
+      if (!selectedTitle) {
+        return;
+      }
+
+      focusElement(selectedTitle);
     });
   }
 
@@ -599,6 +641,7 @@ export class TabNav extends LitElement {
           [CSS.position(this.position)]: true,
           [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
         }}
+        hidden={!this.hasVisibleTabTitles}
       >
         <div
           class={{

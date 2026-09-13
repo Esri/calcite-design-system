@@ -19,9 +19,9 @@ beforeEach(() => {
 
 class TestClickComponent extends LitElement {
   @property() open = false;
-  @property() referenceElement: string | HTMLElement | null;
+  @property() referenceElement: string | HTMLElement | undefined;
   @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
-  @state() referenceEl: HTMLElement | null;
+  @state() referenceEl: HTMLElement | undefined;
   referenceElementController = useReferenceElement({ manager: refClickManager })(this);
 
   render(): JsxNode {
@@ -31,9 +31,9 @@ class TestClickComponent extends LitElement {
 
 class TestHoverComponent extends LitElement {
   @property() open = false;
-  @property() referenceElement: string | HTMLElement | null;
+  @property() referenceElement: string | HTMLElement | undefined;
   @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "hover";
-  @state() referenceEl: HTMLElement | null;
+  @state() referenceEl: HTMLElement | undefined;
   referenceElementController = useReferenceElement({ manager: refHoverManager })(this);
 
   render(): JsxNode {
@@ -47,13 +47,13 @@ function getReferenceAndComponent<T extends HTMLElement>(): {
 } {
   const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
 
-  const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | null;
+  const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | undefined;
 
   if (!componentTextEl) {
     throw new Error("Expected test component text to be present");
   }
 
-  const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
+  const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | undefined;
 
   if (!component) {
     throw new Error("Expected test component to be present");
@@ -70,7 +70,7 @@ function getComponentElsByText<T extends HTMLElement>(expectedCount: number): T[
   }
 
   return componentTextEls.map((componentTextEl, index) => {
-    const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
+    const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | undefined;
 
     if (!component) {
       throw new Error(`Expected test component ${index + 1} to be present`);
@@ -101,7 +101,7 @@ async function assertSharedReferenceElementRegistration<T extends TestReferenceC
   expect(getAssociatedElements(referenceElement)).toContain(component1.el);
   expect(getAssociatedElements(referenceElement)).toContain(component2.el);
 
-  component1.referenceElement = null;
+  component1.referenceElement = undefined;
   await component1.updateComplete;
 
   expect(getAssociatedElements(referenceElement)).not.toBeNull();
@@ -123,9 +123,9 @@ describe("click manager", () => {
     component.referenceElement = referenceElement;
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaControlsElements).toContain(component.el);
-    expect(component.referenceEl.ariaExpanded).toBe("false");
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaControlsElements).toContain(component.el);
+    expect(component.referenceEl!.ariaExpanded).toBe("false");
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaControlsElements).toBeNull();
     expect(referenceElement.ariaExpanded).toBeNull();
@@ -144,9 +144,9 @@ describe("click manager", () => {
     component.referenceElement = "my-ref";
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaControlsElements).toContain(component.el);
-    expect(component.referenceEl.ariaExpanded).toBe("false");
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaControlsElements).toContain(component.el);
+    expect(component.referenceEl!.ariaExpanded).toBe("false");
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaControlsElements).toBeNull();
     expect(referenceElement.ariaExpanded).toBeNull();
@@ -211,8 +211,8 @@ describe("hover manager", () => {
     component.referenceElement = referenceElement;
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaDescribedByElements).toContain(component.el);
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaDescribedByElements).toBeNull();
   });
@@ -230,8 +230,8 @@ describe("hover manager", () => {
     component.referenceElement = "my-ref";
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaDescribedByElements).toContain(component.el);
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaDescribedByElements).toBeNull();
   });

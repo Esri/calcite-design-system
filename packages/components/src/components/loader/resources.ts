@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   container: "container",
   loader: "loader",
@@ -8,3 +10,8 @@ export const CSS = {
   text: "text",
   trackRing: "ring--track",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isLoader = isTag("calcite-loader");

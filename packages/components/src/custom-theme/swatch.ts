@@ -1,3 +1,4 @@
+import "../components/swatch/swatch";
 import { html } from "../../support/formatting";
 
 export const swatchTokens = {

@@ -1,9 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
+import { expect, it } from "vitest";
 import type { Switch } from "./switch";
-import { CSS } from "./resources";
 
 it("renders with correct default attributes", async () => {
   const page = await newE2EPage();
@@ -12,18 +9,6 @@ it("renders with correct default attributes", async () => {
   const calciteSwitch = await page.find("calcite-switch");
 
   expect(calciteSwitch).toHaveAttribute("checked");
-});
-
-describe("accessible", () => {
-  accessible(`<calcite-switch label="test-label"></calcite-switch>`);
-});
-
-describe("accessible: checked", () => {
-  accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
-});
-
-describe("labelable", () => {
-  labelable("calcite-switch", { propertyToToggle: "checked" });
 });
 
 it("toggles the checked attributes appropriately when clicked", async () => {
@@ -120,45 +105,4 @@ it("renders default props", async () => {
 
   const element = await page.find("calcite-switch");
   expect(element).toEqualAttribute("scale", "m");
-});
-
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`calcite-switch`, {
-      "--calcite-switch-background-color": {
-        shadowSelector: `.${CSS.track}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-switch-background-color-hover": {
-        shadowSelector: `.${CSS.track}`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-      "--calcite-switch-corner-radius": {
-        shadowSelector: `.${CSS.track}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-switch-handle-background-color": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "backgroundColor",
-      },
-    });
-  });
-
-  describe("deprecated", () => {
-    themed(html`calcite-switch`, {
-      "--calcite-switch-border-color": {
-        shadowSelector: `.${CSS.track}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-switch-handle-border-color": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-switch-handle-shadow": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "boxShadow",
-      },
-    });
-  });
 });

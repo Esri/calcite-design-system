@@ -9,15 +9,20 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { toAriaBoolean } from "../../utils/aria";
+import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { ActiveDescendantManager, Appearance, Scale } from "../interfaces";
+import { ActiveDescendantManager, Appearance, Scale } from "../types";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
+import type { ActionGroup } from "../action-group/action-group";
+import { isActionGroup } from "../action-group/resources";
 import type { Tooltip } from "../tooltip/tooltip";
+import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -51,9 +56,15 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
 
   private guid = guid();
 
-  private actionElements: Action["el"][] = [];
+  private _actions: Action["el"][] = [];
 
-  private defaultMenuButtonEl: Action["el"];
+  private navigableActions: Action["el"][] = [];
+
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private triggerSlotRef = createRef<HTMLSlotElement>();
+
+  private defaultMenuButtonEl?: Action["el"];
 
   private menuButtonClick = (): void => {
     this.toggleOpen();
@@ -63,23 +74,17 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
 
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { activeMenuItemIndex, open } = this;
-    let { actionElements } = this;
+    const { activeMenuItemIndex, navigableActions, open } = this;
 
-    if (!actionElements.length) {
-      actionElements = this.queryActionElements();
-      this.actionElements = actionElements;
-      this.updateActions(actionElements);
-    }
-
-    if (!actionElements.length) {
+    if (!navigableActions.length) {
       return;
     }
 
     if (isActivationKey(key)) {
       event.preventDefault();
 
-      const action = actionElements[activeMenuItemIndex];
+      const action = navigableActions[activeMenuItemIndex];
+
       if (open) {
         if (action) {
           action.click();
@@ -116,15 +121,14 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       event.preventDefault();
       event.stopPropagation();
       this.toggleOpen(true);
-      const opensVertically = placementOrientation !== "horizontal";
       this.activeMenuItemIndex =
-        opensVertically && key === "ArrowUp" ? actionElements.length - 1 : 0;
-      this.updateActions(actionElements);
+        key === "ArrowUp" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
+      this.updateActions(navigableActions);
       this.emitInternalActiveDescendantChange();
       return;
     }
 
-    this.handleActionNavigation(event, key, actionElements);
+    this.handleActionNavigation(event, key, navigableActions);
   };
 
   private handleHostKeyDown = (event: KeyboardEvent): void => {
@@ -136,8 +140,6 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   };
 
   private menuId = IDS.menu(this.guid);
-
-  private menuEl: HTMLDivElement;
 
   private get placementOrientation(): "horizontal" | "vertical" | undefined {
     const placements = this.flipPlacements?.length ? this.flipPlacements : [this.placement];
@@ -159,15 +161,17 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     if (this.hasPlacementPrefix(placement, VERTICAL_PLACEMENT_PREFIXES)) {
       return "vertical";
     }
+
+    return undefined;
   }
 
   private _open = false;
 
-  private popoverEl: Popover["el"];
+  private popoverEl?: Popover["el"];
 
   private slottedMenuButtonEl?: Action["el"];
 
-  private tooltipEl: Tooltip["el"];
+  private tooltipEl?: Tooltip["el"];
 
   private updateAction = (action: Action["el"], index: number): void => {
     const { activeDescendantControlDisabled, guid, activeMenuItemIndex } = this;
@@ -197,7 +201,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     }
 
     this.focusMenuButtonOnClose = false;
-    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => action === event.target);
+    this.activeMenuItemIndex = this.navigableActions.findIndex((action) => action === event.target);
   };
 
   //#endregion
@@ -206,7 +210,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
 
   @state() activeMenuItemIndex = -1;
 
-  @state() menuButtonEl: Action["el"];
+  @state() menuButtonEl?: Action["el"];
 
   //#endregion
 
@@ -218,13 +222,10 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
    * @private
    */
   get activeDescendantElement(): Action["el"] | undefined {
-    const actionElements = this.actionElements.length
-      ? this.actionElements
-      : this.queryActionElements();
     const activeMenuItemIndex =
       this.open && this.activeMenuItemIndex === -1 ? 0 : this.activeMenuItemIndex;
 
-    return actionElements[activeMenuItemIndex];
+    return this.navigableActions[activeMenuItemIndex];
   }
 
   /** Specifies the appearance of the component. */
@@ -240,15 +241,14 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, the component is open. */
   @property({ reflect: true })
@@ -263,22 +263,14 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     }
   }
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -286,6 +278,15 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
 
   /** Specifies the size of the component's trigger `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Specifies the `calcite-action`s in the menu.
+   *
+   * @internal
+   */
+  @property() get actions(): Action["el"][] {
+    return this._actions;
+  }
 
   //#endregion
 
@@ -316,18 +317,23 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   /** Fires when the `open` property is toggled. */
   calciteActionMenuOpen = createEvent({ cancelable: false });
 
-  /**
-   * Fires when the component's active descendant changes.
-   *
-   * @private
-   */
-  calciteInternalActiveDescendantChange = createEvent({
-    cancelable: false,
-  });
+  /** Fires after the component's slotted `calcite-action`s change. */
+  calciteInternalActionMenuActionsChange = createEvent({ cancelable: false });
+
+  /** Fires after the active descendant changes. */
+  calciteInternalActiveDescendantChange = createEvent({ cancelable: false });
 
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen<CustomEvent<void>>(
+      "calciteInternalActionGroupActionsChange",
+      this.handleActionGroupActionsChange,
+    );
+  }
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
@@ -348,12 +354,12 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       changes.has("activeMenuItemIndex") &&
       (this.hasUpdated || this.activeMenuItemIndex !== -1)
     ) {
-      this.updateActions(this.actionElements);
+      this.updateActions(this.navigableActions);
       this.emitInternalActiveDescendantChange();
     }
 
     if (changes.has("activeDescendantControlDisabled") && this.hasUpdated) {
-      this.updateActions(this.actionElements);
+      this.updateActions(this.navigableActions);
     }
 
     if (changes.has("expanded") && this.hasUpdated) {
@@ -415,6 +421,15 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
 
     this.menuButtonEl = menuButtonEl;
 
+    if (this.popoverEl && menuButtonEl) {
+      this.popoverEl.referenceElement = menuButtonEl;
+      this.popoverEl.referenceEl = menuButtonEl;
+
+      if (this.open) {
+        void this.popoverEl.reposition(true);
+      }
+    }
+
     this.setTooltipReferenceElement();
 
     if (!menuButtonEl) {
@@ -464,18 +479,80 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       this.menuButtonKeyDown,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
 
-    this.menuButtonEl = null;
+    this.menuButtonEl = undefined;
   }
 
-  private setMenuButtonEl(event: Event): void {
-    const actions = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .filter((el): el is Action["el"] => el?.matches("calcite-action"));
+  private syncActions(): void {
+    const triggerSlot = this.triggerSlotRef.value;
+    const triggerActions = triggerSlot
+      ? getSlotAssignedElements<Action["el"]>(triggerSlot, "calcite-action").filter(
+          (action) => !action.classList.contains(CSS.defaultTrigger),
+        )
+      : [];
+    const triggerActionsSet = new Set(triggerActions);
 
-    this.slottedMenuButtonEl = actions[0];
+    const defaultActions = this.defaultSlotRef.value
+      ? getSlotAssignedElements(this.defaultSlotRef.value).flatMap((element) => {
+          if (isAction(element)) {
+            return element;
+          }
+
+          if (element instanceof HTMLSlotElement) {
+            return getSlotAssignedElements<Action["el"]>(element, "calcite-action");
+          }
+
+          if (isActionGroup(element)) {
+            return element.actions;
+          }
+
+          return [];
+        })
+      : [];
+
+    const dedupedActions: Action["el"][] = [];
+    const seenActions = new Set<Action["el"]>();
+
+    [...triggerActions, ...defaultActions].forEach((action) => {
+      if (seenActions.has(action)) {
+        return;
+      }
+
+      seenActions.add(action);
+      dedupedActions.push(action);
+    });
+
+    this._actions = dedupedActions;
+    this.navigableActions = dedupedActions.filter(
+      (action) => !triggerActionsSet.has(action) && !action.disabled && !action.hidden,
+    );
+
+    if (!this.open || !this.navigableActions.length) {
+      this.activeMenuItemIndex = -1;
+    } else if (
+      this.activeMenuItemIndex < 0 ||
+      this.activeMenuItemIndex >= this.navigableActions.length
+    ) {
+      this.activeMenuItemIndex = 0;
+    }
+
+    this.updateActions(this.navigableActions);
+  }
+
+  private setMenuButtonEl(): void {
+    this.slottedMenuButtonEl = this.triggerSlotRef.value
+      ? getSlotAssignedElements<Action["el"]>(this.triggerSlotRef.value, "calcite-action")[0]
+      : undefined;
     this.connectMenuButtonEl();
+  }
+
+  private syncActionsAndEmitChange(): void {
+    this.syncActions();
+    this.calciteInternalActionMenuActionsChange.emit();
+  }
+
+  private handleTriggerSlotChange(): void {
+    this.setMenuButtonEl();
+    this.syncActionsAndEmitChange();
   }
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
@@ -488,21 +565,20 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       return;
     }
     this.popoverEl = el;
+    if (this.menuButtonEl) {
+      el.referenceElement = this.menuButtonEl;
+      el.referenceEl = this.menuButtonEl;
+    }
     el.open = this.open;
   }
 
-  private setMenuEl(el: HTMLDivElement): void {
-    this.menuEl = el;
-  }
-
   private handleCalciteActionClick(event: MouseEvent): void {
-    const action = this.actionElements?.find((action) => event.composedPath().includes(action));
-
+    const action = this.navigableActions.find((action) => event.composedPath().includes(action));
     if (!action) {
       return;
     }
 
-    this.activeMenuItemIndex = this.actionElements.indexOf(action);
+    this.activeMenuItemIndex = this.navigableActions.indexOf(action);
     this.focusMenuButtonOnClose = false;
 
     const actionGroup = action.closest("calcite-action-group") as { selectionMode?: string } | null;
@@ -524,7 +600,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       .assignedElements({
         flatten: true,
       })
-      .filter((el): el is Tooltip["el"] => el?.matches("calcite-tooltip"));
+      .filter(isTooltip);
 
     this.tooltipEl = tooltips[0];
     this.setTooltipReferenceElement();
@@ -534,7 +610,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     const { tooltipEl, expanded, menuButtonEl, open } = this;
 
     if (tooltipEl) {
-      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : null;
+      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : undefined;
     }
   }
 
@@ -556,34 +632,25 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     this.calciteInternalActiveDescendantChange.emit();
   }
 
-  private async handleDefaultSlotChange(event: Event): Promise<void> {
-    const actions = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .reduce<Action["el"][]>((previousValue, currentValue) => {
-        if (currentValue?.matches("calcite-action")) {
-          previousValue.push(currentValue);
-          return previousValue;
-        }
-
-        if (currentValue?.matches("calcite-action-group")) {
-          return previousValue.concat(Array.from(currentValue.querySelectorAll("calcite-action")));
-        }
-
-        return previousValue;
-      }, []);
-
+  private async handleDefaultSlotChange(): Promise<void> {
     await this.componentOnReady();
-    this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
-    this.updateActions(this.actionElements);
-    this.emitInternalActiveDescendantChange();
+    this.syncActionsAndEmitChange();
   }
 
-  private queryActionElements(): Action["el"][] {
-    return Array.from(this.el.querySelectorAll<Action["el"]>("calcite-action")).filter(
-      (action) => action.slot !== SLOTS.trigger && !action.disabled && !action.hidden,
-    );
+  private handleActionGroupActionsChange(event: CustomEvent<void>): void {
+    const group = event.target as ActionGroup["el"];
+
+    const slottedActionGroups = this.defaultSlotRef.value
+      ? getSlotAssignedElements(this.defaultSlotRef.value).filter(
+          (element): element is ActionGroup["el"] => isActionGroup(element),
+        )
+      : [];
+
+    if (!slottedActionGroups.includes(group)) {
+      return;
+    }
+
+    this.syncActionsAndEmitChange();
   }
 
   private isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -655,7 +722,11 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     const { appearance, label, scale, expanded } = this;
 
     const menuButtonSlot = (
-      <slot name={SLOTS.trigger} onSlotChange={this.setMenuButtonEl}>
+      <slot
+        name={SLOTS.trigger}
+        onSlotChange={this.handleTriggerSlotChange}
+        ref={this.triggerSlotRef}
+      >
         <calcite-action
           appearance={appearance}
           aria={{ expanded }}
@@ -673,9 +744,21 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   }
 
   private renderMenuItems(): JsxNode {
-    const { menuId, menuButtonEl, label, placement, overlayPositioning, flipPlacements } = this;
+    const {
+      navigableActions,
+      activeMenuItemIndex,
+      menuId,
+      menuButtonEl,
+      label,
+      placement,
+      overlayPositioning,
+      flipPlacements,
+    } = this;
 
     const activeDescendantElement = this.getActiveDescendantElement();
+
+    const activeAction = navigableActions[activeMenuItemIndex];
+    const activeDescendantId = activeAction?.id || null;
 
     return (
       <calcite-popover
@@ -696,6 +779,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
         triggerDisabled={true}
       >
         <div
+          aria-activedescendant={activeDescendantId ?? undefined}
           aria-labelledby={menuButtonEl?.id}
           ariaActiveDescendantElement={activeDescendantElement}
           ariaOrientation={this.placementOrientation === "vertical" ? "vertical" : undefined}
@@ -703,11 +787,10 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
           id={menuId}
           onClick={this.handleCalciteActionClick}
           onKeyDown={this.menuButtonKeyDown}
-          ref={this.setMenuEl}
           role="menu"
           tabIndex={-1}
         >
-          <slot onSlotChange={this.handleDefaultSlotChange} />
+          <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         </div>
       </calcite-popover>
     );

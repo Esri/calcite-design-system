@@ -82,6 +82,14 @@ Lifecycle labels are used to communicate the state of an issue. Each issue can o
 - `4 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
 - `5 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
+### Paused issues
+
+When work has begun on an issue, but has paused for varying reasons (e.g., priorities shifting, waiting on a meeting or individual), the `paused` label is added. The label ensures the issue's status is clearly communicated, aiding in the prioritization and planning process.
+
+When adding the `paused` label, add a comment to the issue stating **why** it has been paused and if predictable, when work is expected to resume. No other lifecycle label change is needed.
+
+Paused issues may be moved into future milestones or the `Backlog` milestone by Calcite contributing members, depending on when work is expected to resume and the priority of the issue.
+
 ### Issues that cannot be worked on
 
 Certain labels indicate that an issue is not ready for development:
@@ -94,7 +102,12 @@ Certain labels indicate that an issue is not ready for development:
 
 #### Blocked issues process
 
-When an issue blocks or is blocked by other GitHub issues, they should be linked using GitHub’s issue relationships. To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
+When an issue blocks or is blocked by other GitHub issues:
+
+- Link the issues using GitHub's issue relationships.
+- Apply the `blocked` label to support Monday syncing.
+
+To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
 
 - Retrieves the list of issues that were blocked by the closed issue
 - Checks each issue for any remaining open blocking issues
@@ -120,7 +133,6 @@ When the `needs refinement` label is added to an issue, additional information o
 
 Milestones are used to organize issues targeted for a sprint in a planned release, and are not closed until all of the issues are verified. We have multiple milestones open at a time to help with future sprint planning. Calcite Core team members should grab issues from the current milestone when you are looking for something to work on. External contributors should ask before working on issues in upcoming milestones, since some of them need to be completed in a timely manner. There are also two constant milestones:
 
-- **Stalled:** Issues we want to work on now, but are blocked, missing information, or require discussion to define action items. Try not to work on these issues unless an issue has a `spike` label and the research can be added to the issue for consideration in a future sprint.
 - **Freezer:** Items that we want to look into, but do not have an immediate timeline associated. Try not to work on these issues unless they have a `help wanted` label.
 
 ### Estimates

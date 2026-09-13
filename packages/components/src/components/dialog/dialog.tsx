@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
@@ -7,8 +6,8 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { OpenCloseComponentWithEl, toggleOpenClose } from "../../utils/openCloseComponent";
-import { Kind, Scale, Width } from "../interfaces";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { Kind, Scale, Width } from "../types";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -19,12 +18,12 @@ import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentSc
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
-import { IconName } from "../icon/interfaces";
-import { ResizeValues } from "../interfaces";
+import { IconName } from "../icon/types";
+import { ResizeValues } from "../types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
-import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 import { styles } from "./dialog.scss";
 
 declare global {
@@ -43,6 +42,7 @@ declare global {
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
+ * @slot header-top - A slot for adding custom content above the header actions and content.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
  * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
@@ -51,7 +51,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
  */
-export class Dialog extends LitElement implements OpenCloseComponentWithEl {
+export class Dialog extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -80,15 +80,13 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private interaction: Interactable;
+  private interaction!: Interactable;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.handleMutationObserver());
 
   private _open = false;
 
-  openProp = "opened";
+  openProp = "opened" as const;
 
   transitionProp = "opacity" as const;
 
@@ -98,7 +96,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
-  transitionEl: HTMLDivElement | null = null;
+  transitionEl!: HTMLDivElement;
 
   /**
    * Made into a prop for testing purposes only
@@ -158,13 +156,13 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   //#region Public Properties
 
   /** Specifies a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** Specifies the component's description. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
@@ -187,35 +185,35 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   @property({ reflect: true }) escapeDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component, where
+   * Specifies custom focus trap configuration on the component.
    *
-   * `"allowOutsideClick`" allows outside clicks,
-   * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active,
-   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
-   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * - `"allowOutsideClick`" allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
-  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
   @property({ reflect: true }) fullscreenDisabled: boolean = false;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies the component's kind, which determines the top border styling. */
-  @property({ reflect: true }) kind: Extract<
+  @property({ reflect: true }) kind?: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
   >;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */
@@ -224,7 +222,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
@@ -248,13 +246,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /** When `true` and `modal` is `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the component's placement. */
@@ -267,9 +259,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -283,7 +273,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   @property({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the component's width. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
@@ -595,7 +585,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     }
 
     if (!dragEnabled && !resizable) {
-      transitionEl.style.transform = null;
+      transitionEl.style.transform = "";
       return;
     }
 
@@ -605,7 +595,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     const translateY = Math.round(y + top + bottom);
 
     this.transitionEl.style.transform =
-      translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
+      translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : "";
   }
 
   private cleanUpInteractions(): void {
@@ -805,7 +795,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
           [CSS.containerOpen]: opened,
           [CSS.containerEmbedded]: this.embedded,
         }}
-        popover={!this.embedded ? "manual" : null}
+        popover={!this.embedded ? "manual" : undefined}
         ref={this.popoverRef}
         role="dialog"
       >
@@ -853,6 +843,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
               <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
               <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+              <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
               <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
               <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
               <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />

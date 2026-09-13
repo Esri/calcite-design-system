@@ -1,9 +1,35 @@
 import { h } from "@arcgis/lumina";
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  scalePropagates,
+  accessible,
+  themed,
+} from "../../tests/common";
 import type { Navigation } from "./navigation";
+import { CSS } from "./resources";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-navigation label="test" />));
+  });
+
+  describe("with navigation action and logo", () => {
+    accessible(() =>
+      mount(
+        <calcite-navigation label="test" navigation-action>
+          <calcite-navigation-logo heading="Test" />
+        </calcite-navigation>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -56,59 +82,23 @@ describe("is focusable", () => {
   });
 });
 
-describe("scale propagation", () => {
-  it("applies initial navigation scale to slotted navigation-logo, navigation-user, and nested navigation", async () => {
-    await mount<Navigation>(
-      <calcite-navigation scale="l">
-        <calcite-navigation-logo heading="Heading text" slot="logo" />
-        <calcite-navigation-user full-name="John Doe" slot="user" username="jdoe" />
-        <calcite-navigation slot="navigation-secondary" />
-        <calcite-navigation slot="navigation-tertiary" />
-      </calcite-navigation>,
-    );
-
-    const logo = page.getBySelector("calcite-navigation-logo");
-    const user = page.getBySelector("calcite-navigation-user");
-    const secondaryNavigation = page.getBySelector(
-      'calcite-navigation[slot="navigation-secondary"]',
-    );
-    const tertiaryNavigation = page.getBySelector('calcite-navigation[slot="navigation-tertiary"]');
-
-    await expect.element(logo).toHaveProperty("scale", "l");
-    await expect.element(user).toHaveProperty("scale", "l");
-    await expect.element(secondaryNavigation).toHaveProperty("scale", "l");
-    await expect.element(tertiaryNavigation).toHaveProperty("scale", "l");
-  });
-
-  it("updates slotted navigation-logo, navigation-user, and nested navigation scale when navigation scale changes", async () => {
-    const { el } = await mount<Navigation>(
-      <calcite-navigation>
-        <calcite-navigation-logo heading="Heading text" slot="logo" />
-        <calcite-navigation-user full-name="John Doe" slot="user" username="jdoe" />
-        <calcite-navigation slot="navigation-secondary" />
-        <calcite-navigation slot="navigation-tertiary" />
-      </calcite-navigation>,
-    );
-
-    const logo = page.getBySelector("calcite-navigation-logo");
-    const user = page.getBySelector("calcite-navigation-user");
-    const secondaryNavigation = page.getBySelector(
-      'calcite-navigation[slot="navigation-secondary"]',
-    );
-    const tertiaryNavigation = page.getBySelector('calcite-navigation[slot="navigation-tertiary"]');
-
-    await expect.element(logo).toHaveProperty("scale", "m");
-    await expect.element(user).toHaveProperty("scale", "m");
-    await expect.element(secondaryNavigation).toHaveProperty("scale", "m");
-    await expect.element(tertiaryNavigation).toHaveProperty("scale", "m");
-
-    el.scale = "l";
-
-    await expect.element(logo).toHaveProperty("scale", "l");
-    await expect.element(user).toHaveProperty("scale", "l");
-    await expect.element(secondaryNavigation).toHaveProperty("scale", "l");
-    await expect.element(tertiaryNavigation).toHaveProperty("scale", "l");
-  });
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-navigation>
+          <calcite-navigation-logo slot="logo" />
+          <calcite-navigation-user slot="user" />
+          <calcite-navigation slot="navigation-secondary" />
+          <calcite-navigation slot="navigation-tertiary" />
+        </calcite-navigation>,
+        mountOptions,
+      ),
+    {
+      targetSelector:
+        'calcite-navigation-logo, calcite-navigation-user, calcite-navigation[slot="navigation-secondary"], calcite-navigation[slot="navigation-tertiary"]',
+    },
+  );
 
   it("updates nested navigation scale when slot is reassigned to navigation-secondary", async () => {
     await mount<Navigation>(
@@ -148,4 +138,55 @@ it("should emit calciteNavigationActionSelect event when user interacts with nav
 
   await userEvent.click(hamburgerMenu);
   expect(actionSelectHandler).toHaveBeenCalledTimes(3);
+});
+
+describe("theme", () => {
+  const navigationHtml = (
+    <calcite-navigation>
+      <calcite-navigation-logo
+        description="Eastern Potato Chip Company"
+        heading="Walt's Chips"
+        icon="layers"
+        slot="logo"
+      />
+      <calcite-navigation-user full-name="Walt McChipson" slot="user" username="waltChip" />
+      <calcite-navigation slot="navigation-secondary">
+        <calcite-menu slot="content-start">
+          <calcite-menu-item breadcrumb icon-start="book" text="All Routes" text-enabled />
+        </calcite-menu>
+      </calcite-navigation>
+      <calcite-navigation slot="navigation-tertiary">
+        <calcite-menu slot="content-end">
+          <calcite-menu-item breadcrumb icon-start="book" text="All Routes" text-enabled />
+        </calcite-menu>
+      </calcite-navigation>
+    </calcite-navigation>
+  );
+
+  describe("default", () => {
+    themed(() => mount(navigationHtml), {
+      "--calcite-navigation-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-navigation-width": {
+        shadowSelector: `.${CSS.containerContent}`,
+        targetProp: "width",
+      },
+      "--calcite-navigation-border-color": [
+        {
+          shadowSelector: `.${CSS.primary}`,
+          targetProp: "borderBlockEndColor",
+        },
+        {
+          shadowSelector: `.${CSS.secondary}`,
+          targetProp: "borderBlockEndColor",
+        },
+        {
+          shadowSelector: `.${CSS.tertiary}`,
+          targetProp: "borderBlockEndColor",
+        },
+      ],
+    });
+  });
 });

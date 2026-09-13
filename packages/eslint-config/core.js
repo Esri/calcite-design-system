@@ -62,6 +62,7 @@ export default tseslint.config(
 
       curly: "error",
       "one-var": ["error", "never"],
+      "no-console": "error",
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-new-func": "error",
@@ -73,7 +74,7 @@ export default tseslint.config(
           max: 1,
         },
       ],
-      radix: ["warn"], // "error" severity will be restored by https://github.com/Esri/calcite-design-system/issues/14401
+      radix: ["error"],
 
       "unicorn/filename-case": [
         "error",

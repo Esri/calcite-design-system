@@ -4,7 +4,7 @@
   "allSelected": "تم تحديد الكل",
   "clear": "مسح القيمة",
   "noMatches": "لا توجد تطابقات",
-  "removeTag": "إزالة علامة",
+  "removeTag": "إزالة علامة {value}",
   "required": "مطلوب",
   "selectAll": "تحديد الكل",
   "selected": "محدد",

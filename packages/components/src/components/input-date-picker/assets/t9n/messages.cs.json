@@ -1,5 +1,6 @@
 {
   "chooseDate": "Zvolit datum",
+  "clear": "Vymazat hodnotu",
   "date": "Datum",
   "dateFormat": "Formát data: {format}",
   "endDate": "Datum ukončení",

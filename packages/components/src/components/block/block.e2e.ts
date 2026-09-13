@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -8,18 +8,10 @@ import { CSS, IDS, SLOTS } from "./resources";
 
 mockConsole();
 
-describe("accessible", () => {
-  accessible(html`
-    <calcite-block heading="heading" description="description" expanded collapsible>
-      <div>content</div>
-    </calcite-block>
-  `);
-});
-
 it("has a loading state", async () => {
   const page = await newE2EPage({
     html: `
-        <calcite-block heading="heading" description="description" expanded collapsible>
+        <calcite-block heading="heading" description="description" expanded expandable>
           <div class="content">content</div>
         </calcite-block>
     `,
@@ -69,7 +61,7 @@ it("can display/hide content", async () => {
 it("allows toggling its content", async () => {
   const heading = "heading";
   const page = await newE2EPage();
-  await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
+  await page.setContent(html`<calcite-block expandable heading=${heading}></calcite-block>`);
   await skipAnimations(page);
   const messages = await import("./assets/t9n/messages.json");
 
@@ -122,6 +114,23 @@ it("should map deprecated 'open' prop to 'expanded' prop", async () => {
   expect(await block.getProperty("expanded")).toBe(false);
 });
 
+it("should map deprecated 'collapsible' prop to 'expandable' prop", async () => {
+  const page = await newE2EPage({
+    html: html`<calcite-block></calcite-block>`,
+  });
+  const block = await page.find("calcite-block");
+
+  expect(await block.getProperty("expandable")).toBe(false);
+
+  block.setProperty("collapsible", true);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(true);
+
+  block.setProperty("collapsible", false);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(false);
+});
+
 describe("header", () => {
   it("renders a heading", async () => {
     const page = await newE2EPage();
@@ -158,7 +167,7 @@ describe("header", () => {
     const menuSlot = await page.find(`calcite-block >>> calcite-action-menu slot[name=${SLOTS.headerMenuActions}]`);
     expect(menuSlot).toBeDefined();
 
-    const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
+    const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot!.name);
     expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
   });
 
@@ -219,141 +228,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`<calcite-block
-        heading="heading"
-        description="description"
-        expanded
-        collapsible
-        icon-end="pen"
-        icon-start="pen"
-      >
-        <calcite-icon icon="compass" slot="content-start"></calcite-icon>
-        <calcite-icon icon="compass" slot="content-end"></calcite-icon>
-        <div>content</div>
-      </calcite-block>`,
-      {
-        "--calcite-block-border-color": {
-          targetProp: "borderColor",
-        },
-        "--calcite-block-content-space": [
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingBlock",
-          },
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingInline",
-          },
-        ],
-        "--calcite-block-header-background-color": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-block-header-background-color-hover": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-block-header-background-color-press": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-block >>> .${CSS.toggle}` },
-        },
-        "--calcite-block-heading-text-color": {
-          shadowSelector: `.${CSS.heading}`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.heading } },
-        },
-        "--calcite-block-description-text-color": {
-          shadowSelector: `.${CSS.description}`,
-          targetProp: "color",
-        },
-        "--calcite-block-icon-start-color": {
-          shadowSelector: `.${CSS.iconStart}`,
-          targetProp: "color",
-        },
-        "--calcite-block-icon-end-color": {
-          shadowSelector: `.${CSS.iconEnd}`,
-          targetProp: "color",
-        },
-        "--calcite-block-collapsible-icon-color": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "color",
-        },
-        "--calcite-block-collapsible-icon-color-hover": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "color",
-          state: "hover",
-        },
-      },
-    );
-  });
-
-  describe("collapsed", () => {
-    themed(html`<calcite-block heading="heading"></calcite-block>`, {
-      "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
-    });
-  });
-
-  describe("deprecated", () => {
-    themed(
-      html`<calcite-block
-        heading="heading"
-        description="description"
-        expanded
-        collapsible
-        icon-end="pen"
-        icon-start="pen"
-      >
-        <calcite-icon icon="compass" slot="content-start"></calcite-icon>
-        <calcite-icon icon="compass" slot="content-end"></calcite-icon>
-        <div>content</div>
-      </calcite-block>`,
-      {
-        "--calcite-block-padding": [
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingBlock",
-          },
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingInline",
-          },
-        ],
-        "--calcite-block-text-color": {
-          shadowSelector: `.${CSS.contentStart}`,
-          targetProp: "color",
-        },
-        "--calcite-block-heading-text-color-press": {
-          shadowSelector: `.${CSS.heading}`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.heading } },
-        },
-        "--calcite-block-icon-color": [
-          {
-            shadowSelector: `.${CSS.iconStart}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.iconEnd}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.toggleIcon}`,
-            targetProp: "color",
-          },
-        ],
-        "--calcite-block-icon-color-hover": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "color",
-          state: "hover",
-        },
-      },
-    );
-  });
 });

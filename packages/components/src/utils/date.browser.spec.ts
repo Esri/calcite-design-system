@@ -39,8 +39,8 @@ describe("inRange", () => {
 });
 
 describe("dateFromRange", () => {
-  it("returns null from bad input", () => {
-    expect(dateFromRange("abcdefghijkl" as any)).toEqual(null);
+  it("returns undefined from bad input", () => {
+    expect(dateFromRange("abcdefghijkl" as any)).toBeUndefined();
   });
   it("returns date with no min/max", () => {
     const date = new Date();
@@ -57,8 +57,8 @@ describe("dateFromRange", () => {
 });
 
 describe("dateFromISO", () => {
-  it("returns null from bad input", () => {
-    expect(dateFromISO("")).toBeNull();
+  it("returns undefined from bad input", () => {
+    expect(dateFromISO("")).toBeUndefined();
     expect(() => {
       dateFromISO("abcdefghijklmn");
     }).toThrow();

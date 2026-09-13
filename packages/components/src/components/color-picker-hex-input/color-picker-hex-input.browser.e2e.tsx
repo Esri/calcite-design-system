@@ -1,6 +1,21 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, focusable, accessible } from "../../tests/common";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-color-picker-hex-input"));
+  });
+
+  describe("with color", () => {
+    accessible(() => mount(<calcite-color-picker-hex-input value="#c0ffee" />));
+  });
+
+  describe("empty", () => {
+    accessible(() => mount(<calcite-color-picker-hex-input allow-empty value="" />));
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -17,6 +32,10 @@ describe("defaults", () => {
       {
         propertyName: "value",
         defaultValue: "#000000",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ],
   );

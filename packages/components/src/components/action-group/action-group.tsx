@@ -9,17 +9,18 @@ import {
   ToEvents,
   createEvent,
 } from "@arcgis/lumina";
-import { queryAssignedElements } from "lit/decorators.js";
+import { createRef } from "lit/directives/ref.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Scale } from "../types";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { getSlotAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { SelectionMode } from "../interfaces";
-import { Columns } from "./interfaces";
+import { SelectionMode } from "../types";
+import { Columns } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./action-group.scss";
@@ -53,10 +54,13 @@ export class ActionGroup extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private _actions: Action["el"][] = [];
+
   private focusSetter = useSetFocus<this>()(this);
 
-  @queryAssignedElements({ selector: "calcite-action" })
-  private actions!: Action["el"][];
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private menuActionsSlotRef = createRef<HTMLSlotElement>();
 
   private menuActions: Action["el"][] = [];
 
@@ -78,7 +82,7 @@ export class ActionGroup extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /**
@@ -89,7 +93,7 @@ export class ActionGroup extends LitElement {
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
-  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
+  /** @copyDoc */
   @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the `calcite-action-menu` is open. */
@@ -98,16 +102,10 @@ export class ActionGroup extends LitElement {
   /** Specifies the position of the action menu. */
   @property({ reflect: true }) menuPlacement?: LogicalPlacement;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`. */
@@ -124,16 +122,12 @@ export class ActionGroup extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` disables selection (default).
-   *
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` disables selection (default).
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple" | "none",
@@ -141,13 +135,20 @@ export class ActionGroup extends LitElement {
   > = "none";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
+
+  /**
+   * Specifies the `calcite-action`s in the group.
+   *
+   * @internal
+   */
+  @property() get actions(): Action["el"][] {
+    return this._actions;
+  }
 
   /**
    * Specifies the active actions in the group.
@@ -185,6 +186,9 @@ export class ActionGroup extends LitElement {
   /** Fires after an action's active state changes. */
   calciteActionGroupChange = createEvent({ cancelable: false });
 
+  /** Fires after the component's slotted `calcite-action`s change. */
+  calciteInternalActionGroupActionsChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -201,26 +205,7 @@ export class ActionGroup extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
 
     if (this.hasUpdated || changes.has("selectionMode")) {
-      if (this.selectionMode !== "none") {
-        this.setRoleOnActions();
-      } else if (this.selectionMode === "none") {
-        this.clearActionAriaAttributes();
-      }
-
-      if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
-        const selected = this.actions?.filter((action) => action.active) ?? [];
-        if (selected.length > 1) {
-          this.actions.forEach((action) =>
-            this.updateAction(action, action === selected[selected.length - 1]),
-          );
-        }
-      }
-
-      this.updateSelectedActions(
-        this.selectionMode === "none"
-          ? []
-          : (this.actions?.filter((action) => action.active) ?? []),
-      );
+      this.syncSelectionState();
     }
 
     if (changes.has("expanded")) {
@@ -266,10 +251,53 @@ export class ActionGroup extends LitElement {
       }
       return;
     }
+
+    this.updateSelectedActions(this.actions.filter((action) => action.active));
+    this.calciteActionGroupChange.emit();
   }
 
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
     this.menuOpen = !!event.currentTarget.open;
+  }
+
+  private syncSelectionState(): void {
+    if (this.selectionMode !== "none") {
+      this.setRoleOnActions();
+    } else {
+      this.clearActionAriaAttributes();
+    }
+
+    if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
+      const selected = this.actions.filter((action) => action.active);
+      if (selected.length > 1) {
+        this.actions.forEach((action) => this.updateAction(action, action === selected.at(-1)));
+      }
+    }
+
+    this.updateSelectedActions(
+      this.selectionMode === "none" ? [] : this.actions.filter((action) => action.active),
+    );
+  }
+
+  private syncActions(): void {
+    const defaultActions = this.defaultSlotRef.value
+      ? getSlotAssignedElements<Action["el"]>(this.defaultSlotRef.value, "calcite-action")
+      : [];
+    const menuActions = this.menuActionsSlotRef.value
+      ? getSlotAssignedElements<Action["el"]>(this.menuActionsSlotRef.value, "calcite-action")
+      : [];
+
+    this._actions = [...defaultActions, ...menuActions];
+    this.syncSelectionState();
+  }
+
+  private syncActionsAndEmitChange(): void {
+    this.syncActions();
+    this.calciteInternalActionGroupActionsChange.emit();
+  }
+
+  private handleDefaultSlotChange(): void {
+    this.syncActionsAndEmitChange();
   }
 
   private handleMenuActionsSlotChange(event: Event): void {
@@ -278,13 +306,12 @@ export class ActionGroup extends LitElement {
       .filter((el): el is Action["el"] => isAction(el));
 
     this.menuActions = menuActions.length > 0 ? menuActions : this.getMenuActions();
-    this.hasMenuActions = this.menuActions.length > 0;
+    this.hasMenuActions = slotChangeHasAssignedElement(event);
+    this.syncActionsAndEmitChange();
   }
 
   private handleActionClick(event: MouseEvent): void {
-    const target = event
-      .composedPath()
-      .find((element): element is Action["el"] => isAction(element as Element));
+    const target = event.composedPath().find(isAction);
 
     if (!target || target.disabled) {
       return;
@@ -401,7 +428,11 @@ export class ActionGroup extends LitElement {
           text={messages.more}
           textEnabled={expanded}
         />
-        <slot name={SLOTS.menuActions} onSlotChange={this.handleMenuActionsSlotChange} />
+        <slot
+          name={SLOTS.menuActions}
+          onSlotChange={this.handleMenuActionsSlotChange}
+          ref={this.menuActionsSlotRef}
+        />
         <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} />
       </calcite-action-menu>
     );
@@ -418,7 +449,7 @@ export class ActionGroup extends LitElement {
             : "radiogroup"
         }
       >
-        <slot />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         {this.renderMenu()}
       </div>
     );

@@ -1,6 +1,8 @@
 import { describe } from "vitest";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
+
 import {
   focusable,
   formAssociated,
@@ -10,8 +12,39 @@ import {
   defaults,
   reflects,
   hidden,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+  accessible,
+  labelable,
+  themed,
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
+import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
+
+describe("labelable", () => {
+  mockConsole();
+
+  labelable((mountOptions) => mount(<calcite-radio-button name="group-name" />, mountOptions), {
+    propertyToToggle: "checked",
+    focusTarget: () => page.getByRole("radio").first(),
+  });
+});
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-label>
+        <calcite-radio-button id="example" name="example" value="one" />
+        label
+      </calcite-label>,
+    ),
+  );
+});
+
+describe("accessible without calcite-label", () => {
+  accessible(() =>
+    mount(<calcite-radio-button id="example" label="label" name="example" value="one" />),
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -107,5 +140,34 @@ describe("disabled", () => {
         method: "body",
       },
     },
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-radio-button"), {
+      "--calcite-radio-button-background-color": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.radio}`,
+      },
+      "--calcite-radio-button-border-color": {
+        targetProp: "boxShadow",
+        shadowSelector: `.${CSS.radio}`,
+      },
+      "--calcite-radio-button-corner-radius": {
+        targetProp: "borderRadius",
+        shadowSelector: `.${CSS.radio}`,
+      },
+      "--calcite-radio-button-size": [
+        {
+          targetProp: "blockSize",
+          shadowSelector: `.${CSS.radio}`,
+        },
+        {
+          targetProp: "inlineSize",
+          shadowSelector: `.${CSS.radio}`,
+        },
+      ],
+    });
   });
 });

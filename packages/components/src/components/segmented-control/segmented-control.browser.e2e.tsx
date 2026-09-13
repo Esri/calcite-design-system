@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -8,11 +9,32 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
+  scalePropagates,
   t9n,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+  themed,
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
+import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable(
+    (mountOptions) =>
+      mount(
+        <calcite-segmented-control>
+          <calcite-segmented-control-item value="1" />
+          <calcite-segmented-control-item value="2" />
+          <calcite-segmented-control-item value="3" />
+        </calcite-segmented-control>,
+        mountOptions,
+      ),
+    {
+      focusTarget: () => page.getBySelector("calcite-segmented-control-item").first(),
+    },
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -195,6 +217,20 @@ describe("renders", () => {
   );
 });
 
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-segmented-control>
+          <calcite-segmented-control-item value="1" />
+          <calcite-segmented-control-item value="2" />
+        </calcite-segmented-control>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-segmented-control-item" },
+  );
+});
+
 describe("translation support", () => {
   t9n(() => mount("calcite-segmented-control"));
 });
@@ -211,4 +247,17 @@ describe("disabled", () => {
       ),
     { focusTarget: "child" },
   );
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-segmented-control"), {
+    "--calcite-segmented-control-corner-radius": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "borderRadius",
+    },
+    "--calcite-segmented-control-border-color": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "outlineColor",
+    },
+  });
 });

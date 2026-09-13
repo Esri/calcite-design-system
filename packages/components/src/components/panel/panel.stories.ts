@@ -1,11 +1,22 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Panel } from "./panel";
 import { SLOTS } from "./resources";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list/list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { collapseDirection, scale } = ATTRIBUTES;
+const { collapseDirection, placement, scale } = ATTRIBUTES;
 
 interface PanelStoryArgs extends Pick<
   Panel,
@@ -42,7 +53,7 @@ export default {
   },
   argTypes: {
     menuPlacement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     collapseDirection: {
@@ -106,7 +117,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     collapseDirection="${args.collapseDirection}"
     heightScale="${args.heightScale}"
     scale="${args.scale}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     ${boolean("loading", args.loading)}
     menu-placement="${args.menuPlacement}"
     heading="Heading"
@@ -185,6 +196,63 @@ export const closableWithActions = (): string => html`
     <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
     <div id="content" style="height: 100%;">${contentHTML}</div>
     ${footerHTML}
+  </calcite-panel>
+`;
+
+export const withHeaderTop = (): string => html`
+  <calcite-panel closable heading="Panel heading" style="width: 300px;">
+    <div slot="header-top">Header top content</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
+
+export const withOnlyHeaderTop = (): string => html`
+  <calcite-panel style="width: 300px;">
+    <div slot="header-top">Header top content</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
+
+export const withPaginationHeaderTop = (): string => html`
+  <style>
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      background-color: var(--calcite-color-foreground-1);
+    }
+
+    .pagination-menu-button {
+      padding-inline: var(--calcite-spacing-xxs);
+      border-inline-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    }
+
+    .pagination-action-bar {
+      flex: 1;
+    }
+  </style>
+  <calcite-panel closable heading="Header top demo" style="--calcite-panel-header-top-space: 0; width: 360px">
+    <div class="header" slot="header-top">
+      <calcite-action-bar
+        class="pagination-action-bar"
+        expand-disabled
+        layout="horizontal"
+        overflow-actions-disabled
+        scale="s"
+      >
+        <calcite-action-group scale="s">
+          <calcite-action
+            class="pagination-previous"
+            icon="chevron-left"
+            icon-flip-rtl
+            label="Previous page"
+          ></calcite-action>
+          <calcite-action icon="chevron-right" icon-flip-rtl label="Next page"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-action class="pagination-menu-button" icon="list" text="1 of 2" text-enabled></calcite-action>
+    </div>
+    <div style="padding: 16px">Content below the header-top slot.</div>
   </calcite-panel>
 `;
 
@@ -382,7 +450,7 @@ export const footerVariations = (): string =>
 
 export const actionBarBackgroundColor = (): string =>
   html`<calcite-panel height-scale="s" style="width: 300px;">
-    <calcite-action-bar slot="action-bar" expand-disabled>
+    <calcite-action-bar slot="action-bar" expand-toggle-disabled>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" icon="save"> </calcite-action>

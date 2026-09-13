@@ -1,20 +1,40 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { CSS as ComboboxCSS } from "../combobox/resources";
 import {
+  accessible,
   defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
+  labelable,
   reflects,
   renders,
+  scalePropagates,
   t9n,
+  themed,
   openClose,
-} from "../../tests/commonTests/browser";
+  topLayer,
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-time-zone", mountOptions));
+});
+
+describe("accessible", () => {
+  accessible(() => mount("calcite-input-time-zone"));
+});
+
+/**
+ * This file hosts component tests that do not depend on dynamic time zone changes.
+ * Those tests reside in `input-time-zone.time-zone.browser.e2e.tsx`, which need to be run separate from the main test script
+ */
 
 describe("defaults", () => {
   defaults(
@@ -26,6 +46,7 @@ describe("defaults", () => {
       { propertyName: "mode", defaultValue: "offset" },
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
+      { propertyName: "placeholder", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
@@ -62,12 +83,22 @@ describe("renders", () => {
   renders(() => mount("calcite-input-time-zone"), { display: "block" });
 });
 
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input-time-zone />, mountOptions), {
+    targetSelector: "calcite-combobox",
+  });
+});
+
 describe("focusable", () => {
   focusable(() => mount("calcite-input-time-zone"));
 });
 
 describe("openClose", () => {
   openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount("calcite-input-time-zone"));
 });
 
 describe("translation support", () => {
@@ -82,5 +113,20 @@ describe("is form-associated", () => {
   formAssociated(() => mount("calcite-input-time-zone"), {
     testValue: "-360",
     clearable: false,
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-input-time-zone"), {
+    "--calcite-input-time-zone-corner-radius": [
+      {
+        shadowSelector: "calcite-combobox",
+        targetProp: "--calcite-combobox-corner-radius",
+      },
+      {
+        shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+    ],
   });
 });

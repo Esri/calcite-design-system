@@ -1,31 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
-import { CSS } from "./resources";
-
-describe("common tests", () => {
-  describe("accessible", () => {
-    accessible(`<calcite-rating></calcite-rating>`);
-  });
-
-  describe("labelable", () => {
-    labelable("calcite-rating");
-  });
-
-  describe("focuses the first star when the label is clicked and no-rating value exists", () => {
-    labelable("calcite-rating", {
-      shadowFocusTargetSelector: "label[data-value='1']",
-    });
-  });
-
-  describe("focuses the value-matching star when the label is clicked", () => {
-    labelable("<calcite-rating value='3'></calcite-rating>", {
-      shadowFocusTargetSelector: "label[data-value='3']",
-    });
-  });
-});
 
 describe("rendering", () => {
   it("should render a rating", async () => {
@@ -731,56 +706,5 @@ describe("keyboard interaction", () => {
 
     expect(changeEvent).toHaveReceivedEventTimes(0);
     expect(element).toEqualAttribute("value", "2");
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-rating></calcite-rating>`, {
-      "--calcite-rating-spacing": {
-        shadowSelector: `.${CSS.fieldSet}`,
-        targetProp: "gap",
-      },
-      "--calcite-rating-color": {
-        shadowSelector: `.${CSS.star}`,
-        targetProp: "color",
-      },
-      "--calcite-rating-color-press": {
-        shadowSelector: `.${CSS.star}`,
-        targetProp: "color",
-        state: { press: `calcite-rating >>> .${CSS.star}` },
-      },
-    });
-  });
-  describe("selected", () => {
-    themed(html`<calcite-rating value="2"></calcite-rating>`, {
-      "--calcite-rating-color-hover": {
-        shadowSelector: `.${CSS.star}[data-value='3']`,
-        targetProp: "color",
-        state: "hover",
-      },
-    });
-  });
-  describe("average", () => {
-    themed(html`<calcite-rating average="3.65" count="240" show-chip></calcite-rating>`, {
-      "--calcite-rating-average-color": [
-        {
-          shadowSelector: `.${CSS.average}`,
-          targetProp: "color",
-        },
-        {
-          shadowSelector: `.${CSS.fraction}`,
-          targetProp: "color",
-        },
-      ],
-      "--calcite-rating-average-text-color": {
-        shadowSelector: `.${CSS.numberAverage}`,
-        targetProp: "color",
-      },
-      "--calcite-rating-count-text-color": {
-        shadowSelector: `.${CSS.numberCount}`,
-        targetProp: "color",
-      },
-    });
   });
 });

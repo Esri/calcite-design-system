@@ -1,16 +1,72 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
+import { CSS } from "./resources";
 import {
   disabled,
   focusable,
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
+  defaults,
   renders,
-} from "../../tests/commonTests/browser";
+  accessible,
+  themed,
+  reflects,
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-switch", mountOptions), {
+    propertyToToggle: "checked",
+  });
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-switch label="test-label" />));
+  });
+
+  describe("checked", () => {
+    accessible(() => mount(<calcite-switch checked label="test-label" />));
+  });
+});
 
 describe("renders", () => {
   renders(() => mount("calcite-switch"), { display: "inline-block" });
+});
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-switch"),
+    [
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
+      {
+        propertyName: "required",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-switch"),
+    [
+      {
+        propertyName: "required",
+        value: true,
+      },
+    ],
+  );
 });
 
 describe("honors hidden attribute", () => {
@@ -31,4 +87,45 @@ describe("is form-associated", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-switch"));
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-switch"), {
+      "--calcite-switch-background-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-switch-background-color-hover": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-switch-corner-radius": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-switch-handle-background-color": {
+        shadowSelector: `.${CSS.handle}`,
+        targetProp: "backgroundColor",
+      },
+    });
+  });
+
+  describe("deprecated", () => {
+    themed(() => mount("calcite-switch"), {
+      "--calcite-switch-border-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-switch-handle-border-color": {
+        shadowSelector: `.${CSS.handle}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-switch-handle-shadow": {
+        shadowSelector: `.${CSS.handle}`,
+        targetProp: "boxShadow",
+      },
+    });
+  });
 });

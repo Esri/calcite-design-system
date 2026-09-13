@@ -2,8 +2,8 @@ import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcg
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
-import { FlipContext } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { FlipContext } from "../types";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { isActivationKey } from "../../utils/key";
@@ -74,14 +74,14 @@ export class Link extends LitElement {
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
   @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** Specifies the relationship to the linked resource defined in `href`. */
   @property() rel?: string;

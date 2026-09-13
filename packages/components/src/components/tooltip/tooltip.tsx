@@ -17,7 +17,7 @@ import {
 } from "../../utils/floating-ui";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
   ReferenceElementComponent,
@@ -81,8 +81,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) closeOnClick = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
   @property() label?: string;
@@ -98,13 +97,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, the component is open. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
@@ -113,24 +106,14 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, removes the caret pointer. */
   @property({ reflect: true }) pointerDisabled = false;
 
-  /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   */
-  @property() referenceElement!: ReferenceElement | string;
+  /** @copyDoc */
+  @property() referenceElement: ReferenceElement | string | undefined;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */

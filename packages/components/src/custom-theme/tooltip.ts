@@ -1,3 +1,6 @@
+import "../components/button/button";
+import "../components/label/label";
+import "../components/tooltip/tooltip";
 import { html } from "../../support/formatting";
 
 export const tooltipTokens = {

@@ -20,6 +20,12 @@ class Test extends LitElement {
   handleSelector = "calcite-sort-handle";
   sortable = useSortable<this>()(this);
 
+  onGlobalDragStart = vi.fn();
+  onGlobalDragEnd = vi.fn();
+  onDragEnd = vi.fn();
+  onDragStart = vi.fn();
+  onDragSort = vi.fn();
+
   @property({ type: Boolean }) dragEnabled = false;
 
   canPull(): boolean {
@@ -29,12 +35,6 @@ class Test extends LitElement {
   canPut(): boolean {
     return true;
   }
-
-  onGlobalDragStart(): void {}
-  onGlobalDragEnd(): void {}
-  onDragEnd(): void {}
-  onDragStart(): void {}
-  onDragSort(): void {}
 }
 
 beforeEach(() => {
@@ -59,6 +59,14 @@ it("creates Sortable when dragEnabled is true", async () => {
   expect(createSpy).toHaveBeenCalledTimes(1);
 });
 
+it("sets fallbackOnBody for stable fallback ghost placement", async () => {
+  await mountDragEnabled();
+
+  const [, sortableOptions] = createSpy.mock.calls[0];
+
+  expect(sortableOptions.fallbackOnBody).toBe(true);
+});
+
 it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
   const { component } = await mountDragEnabled();
 
@@ -67,4 +75,56 @@ it("destroys Sortable when dragEnabled becomes false and reset runs", async () =
 
   expect(destroySpy).toHaveBeenCalledTimes(1);
   expect(createSpy).toHaveBeenCalledTimes(1);
+});
+
+it("does not teardown Sortable when reset runs during choose/start drag window", async () => {
+  const { component } = await mountDragEnabled();
+  const [, sortableOptions] = createSpy.mock.calls[0];
+
+  sortableOptions.onChoose?.();
+  component.sortable.reset();
+
+  expect(destroySpy).not.toHaveBeenCalled();
+  expect(createSpy).toHaveBeenCalledTimes(1);
+
+  sortableOptions.onUnchoose?.();
+  component.sortable.reset();
+
+  expect(destroySpy).toHaveBeenCalledTimes(1);
+  expect(createSpy).toHaveBeenCalledTimes(2);
+});
+
+it("dedupes global drag notifications across choose/start and end/unchoose", async () => {
+  const { component } = await mountDragEnabled();
+  const [, sortableOptions] = createSpy.mock.calls[0];
+
+  const dragDetail = {
+    from: component.el,
+    item: component.el,
+    to: component.el,
+    newDraggableIndex: 0,
+    oldDraggableIndex: 0,
+  };
+
+  sortableOptions.onChoose?.();
+  sortableOptions.onStart?.(dragDetail);
+  sortableOptions.onEnd?.(dragDetail);
+  sortableOptions.onUnchoose?.();
+
+  expect(component.onGlobalDragStart).toHaveBeenCalledTimes(1);
+  expect(component.onGlobalDragEnd).toHaveBeenCalledTimes(1);
+});
+
+it("does not leave global drag state active when component disconnects mid-drag", async () => {
+  const { component } = await mountDragEnabled();
+  const [, sortableOptions] = createSpy.mock.calls[0];
+
+  sortableOptions.onChoose?.();
+  component.remove();
+
+  await mountDragEnabled();
+
+  expect(component.onGlobalDragEnd).not.toHaveBeenCalled();
+  expect(destroySpy).toHaveBeenCalledTimes(1);
+  expect(createSpy).toHaveBeenCalledTimes(2);
 });

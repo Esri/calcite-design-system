@@ -15,17 +15,18 @@ import { nodeListToArray } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { FlipContext, Scale } from "../interfaces";
-import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { FlipContext, Scale } from "../types";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/types";
+import { TabID, TabLayout, TabPosition } from "../tabs/types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
+import { isTabs } from "../tabs/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, isTabTitle } from "./resources";
 import { styles } from "./tab-title.scss";
 
 declare global {
@@ -90,34 +91,34 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @private */
   @property({ reflect: true }) layout!: TabLayout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`.
    *
-   *  @internal
+   * @internal
    */
   @property() position: TabPosition = "top";
 
@@ -176,9 +177,7 @@ export class TabTitle extends LitElement {
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement!.children).filter((el) =>
-        el.matches("calcite-tab-title"),
-      ),
+      nodeListToArray(this.el.parentElement!.children).filter(isTabTitle),
       this.el,
     );
   }
@@ -203,18 +202,17 @@ export class TabTitle extends LitElement {
   /** @private */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
+  /** @private */
+  calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
+
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts#L1).
    * @private
    */
   calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
 
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts).
    * @private
    */
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });
@@ -275,6 +273,10 @@ export class TabTitle extends LitElement {
       this.selectedHandler();
     }
 
+    if (changes.has("closed") && this.hasUpdated) {
+      this.calciteInternalTabTitleCloseChange.emit();
+    }
+
     if (this.parentTabsEl) {
       this.layout = this.parentTabsEl.layout;
       this.bordered = this.parentTabsEl.bordered;
@@ -308,9 +310,7 @@ export class TabTitle extends LitElement {
   }
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const targetTabsEl = event
-      .composedPath()
-      .find((el) => (el as HTMLElement).tagName === "CALCITE-TABS");
+    const targetTabsEl = event.composedPath().find(isTabs);
 
     if (targetTabsEl !== this.parentTabsEl) {
       return;

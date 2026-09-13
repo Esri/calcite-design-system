@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { h, Fragment } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -10,17 +10,67 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   t9n,
-} from "../../tests/commonTests/browser";
+  accessible,
+  themed,
+} from "../../tests/common";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
-import { List } from "./list";
-import { CSS as listCSS } from "./resources";
+import type { List } from "./list";
+import { CSS } from "./resources";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 
 const scrollTopValue = 120;
+
+const placeholder = placeholderImage({
+  width: 350,
+  height: 150,
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-list>
+          <calcite-list-item description="kingdom" label="candy">
+            <calcite-action icon="banana" label="finn" slot="actions-start" />
+            <calcite-icon icon="banana" slot="content-start" />
+            <img alt="Test image" slot="content-start" src={placeholder} />
+            <calcite-icon icon="banana" slot="content-end" />
+            <calcite-action icon="banana" label="jake" slot="actions-end" />
+          </calcite-list-item>
+          <calcite-list-item description="hello world" label="test" non-interactive />
+          <calcite-list-item description="hello world" label="test" />
+        </calcite-list>,
+      ),
+    );
+  });
+
+  describe("with filter + selection", () => {
+    accessible(() =>
+      mount(
+        <calcite-list
+          filter-enabled
+          filter-text="Bananas"
+          selection-appearance="border"
+          selection-mode="single"
+        >
+          <calcite-list-item label="Apples" value="apples" />
+          <calcite-list-item label="Oranges" value="oranges" />
+          <calcite-list-item label="Pears" value="pears" />
+          <calcite-notice icon kind="warning" open scale="s" slot="filter-no-results">
+            <div slot="title">No fruits found</div>
+            <div slot="message">Try a different fruit?</div>
+          </calcite-notice>
+        </calcite-list>,
+      ),
+    );
+  });
+});
 
 describe("cancelable", () => {
   cancelable("calcite-list");
@@ -45,6 +95,10 @@ describe("defaults", () => {
       {
         propertyName: "selectionMode",
         defaultValue: "none",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
       {
         propertyName: "interactionMode",
@@ -134,6 +188,21 @@ describe("renders", () => {
   );
 });
 
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-list>
+          <calcite-list-item label="One" />
+          <calcite-list-item label="Two" />
+          <calcite-list-item label="Three" />
+        </calcite-list>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-list > calcite-list-item, calcite-list-item-group" },
+  );
+});
+
 describe("is focusable", () => {
   focusable(
     () =>
@@ -162,6 +231,20 @@ describe("disabled", () => {
       ),
     { focusTarget: "child" },
   );
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<List>(<calcite-list label="Items" />);
+    const table = page.getByRole(`treegrid`);
+
+    await expect.element(table).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(table).toHaveAttribute("aria-busy", "true");
+  });
 });
 
 describe("sticky group heading", () => {
@@ -269,7 +352,7 @@ describe("sticky group heading with filter", () => {
       </calcite-list>,
     );
 
-    const filterContainer = page.getBySelector(`calcite-list .${listCSS.sticky}`).element();
+    const filterContainer = page.getBySelector(`calcite-list .${CSS.sticky}`).element();
 
     const stickyGroupContainer = page
       .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
@@ -656,7 +739,7 @@ describe("filter item data updates", () => {
     await waitForFilteredLength(el, 1);
     await waitForFilterItemsMatch(
       filterEl,
-      (item) => item.el === listItem && item.heading?.includes(headingToken),
+      (item) => item.el === listItem && !!item.heading?.includes(headingToken),
     );
   });
 });
@@ -664,7 +747,7 @@ describe("filter item data updates", () => {
 describe("nested selection modes", () => {
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
-      <Fragment>
+      <>
         <calcite-list
           data-testid="root-list-one"
           display-mode="nested"
@@ -753,7 +836,7 @@ describe("nested selection modes", () => {
             </calcite-list>
           </calcite-list-item>
         </calcite-list>
-      </Fragment>,
+      </>,
     );
 
     await afterNextFrame();
@@ -873,5 +956,16 @@ describe("nested selection modes", () => {
 
     await waitForNestedPropertiesToSettle();
     assertAllNestedProperties();
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-list"), {
+      "--calcite-list-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+    });
   });
 });

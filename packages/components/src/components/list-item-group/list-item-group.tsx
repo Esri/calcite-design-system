@@ -1,7 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { MAX_COLUMNS } from "../list-item/resources";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./list-item-group.scss";
@@ -37,7 +37,7 @@ export class ListItemGroup extends LitElement {
    */
   @property({ reflect: true }) filterHidden = false;
 
-  /** Specifies the heading text for the nested `calcite-list-item` rows. */
+  /** @copyDoc */
   @property({ reflect: true }) heading?: string;
 
   /**

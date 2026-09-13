@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { CSS as TooltipCSS } from "../tooltip/resources";
 import { HOVER_OPEN_DELAY_MS } from "../../controllers/useReferenceElement/manager";
 import {
@@ -16,23 +16,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-action-menu label="test">
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-  `);
-});
-
-describe("accessible with tooltip", () => {
-  accessible(html`
-    <calcite-action-menu label="test">
-      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-  `);
-});
 
 it("should emit 'calciteActionMenuOpen' event", async () => {
   const page = await newE2EPage();
@@ -297,16 +280,16 @@ describe("Keyboard navigation", () => {
 
     expect(await trigger.getProperty("active")).toBe(true);
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
 
     await page.keyboard.press("ArrowDown");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
 
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
     expect(await actions[2].getProperty("activeDescendant")).toBe(false);
   });
 
@@ -339,8 +322,8 @@ describe("Keyboard navigation", () => {
 
     expect(await actions[0].getProperty("activeDescendant")).toBe(false);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[3].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[3].getProperty("activeDescendant")).toBe(true);
 
     await page.keyboard.press("ArrowDown");
     await waitForAnimationFrame(page);
@@ -348,8 +331,8 @@ describe("Keyboard navigation", () => {
 
     expect(await actions[0].getProperty("activeDescendant")).toBe(false);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[3].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[3].getProperty("activeDescendant")).toBe(false);
   });
 
   it("should handle ArrowUp navigation", async () => {
@@ -378,17 +361,17 @@ describe("Keyboard navigation", () => {
 
     expect(await trigger.getProperty("active")).toBe(true);
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.keyboard.press("ArrowUp");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
 
     expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
   });
 
   it("should handle Enter, Home, End and ESC navigation", async () => {
@@ -468,7 +451,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -502,7 +485,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -539,7 +522,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -572,7 +555,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -616,7 +599,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -658,20 +641,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  themed(
-    html`<calcite-action-menu open>
-      <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action
-    ></calcite-action-menu>`,
-    {
-      "--calcite-action-menu-items-space": {
-        shadowSelector: `.${CSS.menu}`,
-        targetProp: "gap",
-      },
-    },
-  );
 });

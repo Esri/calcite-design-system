@@ -11,8 +11,8 @@ import {
   Scale,
   SelectionAppearance,
   Width,
-} from "../interfaces";
-import { IconName } from "../icon/interfaces";
+} from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -20,6 +20,9 @@ import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -35,7 +38,7 @@ export class Action extends LitElement implements ActiveDescendantElement {
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -62,7 +65,7 @@ export class Action extends LitElement implements ActiveDescendantElement {
 
   private interactiveContainer = useInteractive(this);
 
-  formTrigger = useFormTrigger()(this);
+  private labelElRef = createRef<HTMLSpanElement>();
 
   //#endregion
 
@@ -123,15 +126,11 @@ export class Action extends LitElement implements ActiveDescendantElement {
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
   /** Specifies an icon to display. */
-  @property({ type: String, reflect: true }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -145,7 +144,7 @@ export class Action extends LitElement implements ActiveDescendantElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
@@ -212,12 +211,38 @@ export class Action extends LitElement implements ActiveDescendantElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    useFormTrigger()(this);
+  }
+
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private getAccessibleLabel(): string {
+    const labelFallback = this.label || this.text || "";
+
+    return this.indicator
+      ? this.messages.indicatorLabel.replace("{label}", labelFallback)
+      : labelFallback;
+  }
+
+  private getLabelledByElements(): Element[] | undefined {
+    const labelledByElements = [
+      ...(this.labelElRef.value ? [this.labelElRef.value] : []),
+      ...(this.aria?.labelledByElements ?? []),
+    ];
+
+    return labelledByElements.length ? labelledByElements : undefined;
   }
 
   //#endregion
@@ -233,7 +258,7 @@ export class Action extends LitElement implements ActiveDescendantElement {
     };
 
     return text ? (
-      <div class={textContainerClasses} key="text-container">
+      <div ariaHidden="true" class={textContainerClasses} key="text-container">
         {text}
       </div>
     ) : null;
@@ -245,7 +270,7 @@ export class Action extends LitElement implements ActiveDescendantElement {
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
-        class={CSS.indicatorText}
+        class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
         role="region"
       >
@@ -290,25 +315,20 @@ export class Action extends LitElement implements ActiveDescendantElement {
     ) : null;
   }
 
-  private renderButton(): JsxNode {
-    const {
-      compact,
-      disabled,
-      icon,
-      loading,
-      textEnabled,
-      label,
-      text,
-      indicator,
-      indicatorRef,
-      buttonId,
-      messages,
-    } = this;
-    const labelFallback = label || text || "";
+  private renderLabel(): JsxNode {
+    const ariaLabel = this.getAccessibleLabel();
 
-    const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+    return ariaLabel ? (
+      <span class={CSS_UTILITY.screenReaderText} ref={this.labelElRef}>
+        {ariaLabel}
+      </span>
+    ) : null;
+  }
+
+  private renderButton(): JsxNode {
+    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
+      this;
+    const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -321,6 +341,7 @@ export class Action extends LitElement implements ActiveDescendantElement {
         {this.renderIconContainer()}
         {this.renderTextContainer()}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+        {this.renderLabel()}
       </>
     );
 
@@ -335,13 +356,12 @@ export class Action extends LitElement implements ActiveDescendantElement {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
-          ariaLabel={ariaLabel}
-          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
@@ -357,14 +377,13 @@ export class Action extends LitElement implements ActiveDescendantElement {
 
     return (
       <button
-        ariaBusy={loading}
+        ariaBusy={toAriaBoolean(loading, undefined)}
         ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
-        ariaLabel={ariaLabel}
-        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}
         class={buttonClasses}

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -11,15 +10,18 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useT9n } from "../../controllers/useT9n";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { createObserver } from "../../utils/observers";
-import { Scale, Status, Width } from "../interfaces";
+import { Scale, Status, Width } from "../types";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { Option } from "../option/option";
+import { isOption } from "../option/resources";
 import type { OptionGroup } from "../option-group/option-group";
+import { isOptionGroup } from "../option-group/resources";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -36,14 +38,6 @@ declare global {
 
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
-
-function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is Option["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION";
-}
-
-function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGroup["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
-}
 
 /**
  * @slot - A slot for adding `calcite-option`s.
@@ -62,11 +56,11 @@ export class Select extends LitElement implements LabelableComponent {
 
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
-  defaultValue: Select["value"];
+  defaultValue?: Select["value"];
 
   formSupport = useForm<this>({ inputType: "text" })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
@@ -90,25 +84,20 @@ export class Select extends LitElement implements LabelableComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -124,34 +113,36 @@ export class Select extends LitElement implements LabelableComponent {
    *
    * @readonly
    */
-  @property() selectedOption: Option["el"];
+  @property() selectedOption!: Option["el"];
 
   /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's `selectedOption` value. */
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -183,6 +174,7 @@ export class Select extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("calciteInternalOptionChange", this.handleOptionOrGroupChange);
     this.listen("calciteInternalOptionGroupChange", this.handleOptionOrGroupChange);
   }
@@ -192,8 +184,6 @@ export class Select extends LitElement implements LabelableComponent {
       subtree: true,
       childList: true,
     });
-
-    connectLabel(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -224,7 +214,6 @@ export class Select extends LitElement implements LabelableComponent {
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -232,7 +221,7 @@ export class Select extends LitElement implements LabelableComponent {
   //#region Private Methods
 
   private handleInternalSelectChange(): void {
-    const selected = this.selectRef.value.selectedOptions[0];
+    const selected = this.selectRef.value!.selectedOptions[0];
     this.selectFromNativeOption(selected);
     requestAnimationFrame(() => this.emitChangeEvent());
   }
@@ -270,7 +259,7 @@ export class Select extends LitElement implements LabelableComponent {
     nativeOptionOrGroup: NativeOptionOrGroup,
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
-    nativeOptionOrGroup.label = optionOrGroup.label;
+    nativeOptionOrGroup.label = optionOrGroup.label!;
 
     if (isOption(optionOrGroup)) {
       const option = nativeOptionOrGroup as HTMLOptionElement;
@@ -279,16 +268,14 @@ export class Select extends LitElement implements LabelableComponent {
 
       // need to set innerText for mobile
       // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
-      option.innerText = optionOrGroup.label;
+      option.innerText = optionOrGroup.label!;
     }
   }
 
   private populateInternalSelect(): void {
     const optionsAndGroups = Array.from(
       this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>,
-    ).filter(
-      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP",
-    ) as OptionOrGroup[];
+    ).filter((child) => isOption(child) || isOptionGroup(child));
 
     this.clearInternalSelect();
 
@@ -302,12 +289,12 @@ export class Select extends LitElement implements LabelableComponent {
     this.componentToNativeEl.clear();
   }
 
-  private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
+  private selectFromNativeOption(nativeOption: HTMLOptionElement | undefined): void {
     if (!nativeOption) {
       return;
     }
 
-    let futureSelected: Option["el"];
+    let futureSelected: Option["el"] | undefined;
 
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {

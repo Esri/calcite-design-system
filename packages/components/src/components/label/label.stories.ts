@@ -1,12 +1,52 @@
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import type { Label } from "./label";
+import "../checkbox/checkbox"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input-text/input-text"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../option/option"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../segmented-control/segmented-control"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../segmented-control-item/segmented-control-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../select/select"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../slider/slider"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../switch/switch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../text-area/text-area"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+
+const { alignment, labelLayout, scale } = ATTRIBUTES;
+
+type LabelStoryArgs = Pick<Label, "alignment" | "layout" | "scale">;
 
 export default {
   title: "Components/Label",
+  args: {
+    alignment: alignment.defaultValue,
+    layout: "block",
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    alignment: {
+      options: alignment.values.filter((value) => value !== "center"),
+      control: { type: "select" },
+    },
+    layout: {
+      options: labelLayout.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: LabelStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-label alignment="${args.alignment}" layout="${args.layout}" scale="${args.scale}">
+      Controlled label
+      <calcite-input-text id="label-controls-input" placeholder="Adjust label controls"></calcite-input-text>
+    </calcite-label>
     <calcite-label>
       Default label wrapping a switch
       <calcite-switch></calcite-switch>

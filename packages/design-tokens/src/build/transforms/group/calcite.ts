@@ -7,7 +7,7 @@ import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.ts";
 import { TransformNameEs6MergeBreakpoints } from "../name/es6-merge-breakpoints.ts";
 import { TransformAttributePlatformNames } from "../attribute/platform-names.ts";
 import { TransformAttributeSchema } from "../attribute/schema.ts";
-import type { Platform, RegisterFn } from "../../../types/interfaces.d.ts";
+import type { Platform, RegisterFn } from "../../../types.ts";
 import { TransformValueEnsureType } from "../value/ensure-type.ts";
 import { TransformValueCorrectPreprocessValue } from "../value/correct-pretransform-value.ts";
 import { TransformValueCorrectPostprocessValue } from "../value/correct-posttransform-value.ts";

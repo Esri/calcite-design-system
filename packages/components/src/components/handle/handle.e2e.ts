@@ -1,13 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-import { CSS, SUBSTITUTIONS } from "./resources";
-import type { HandleNudge } from "./interfaces";
-import type { Handle } from "./handle";
+import { expect, it } from "vitest";
 
-describe("accessible", () => {
-  accessible(`<calcite-handle></calcite-handle>`);
-});
+import { CSS, SUBSTITUTIONS } from "./resources";
+import type { HandleNudge } from "./types";
+import type { Handle } from "./handle";
 
 it("sets handle tooltip", async () => {
   const page = await newE2EPage();
@@ -132,41 +128,4 @@ it("sets radio role properly", async () => {
 
   await page.waitForChanges();
   expect(internalHandle.getAttribute("aria-checked")).toBe("true");
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed("calcite-handle", {
-      "--calcite-handle-background-color": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-handle-background-color-hover": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-      "--calcite-handle-icon-color": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "color",
-      },
-      "--calcite-handle-icon-color-hover": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "color",
-        state: "hover",
-      },
-    });
-  });
-  describe("selected", () => {
-    themed("<calcite-handle selected></calcite-handle>", {
-      "--calcite-handle-background-color-selected": {
-        shadowSelector: `.${CSS.handleSelected}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-handle-icon-color-selected": {
-        shadowSelector: `.${CSS.handleSelected}`,
-        targetProp: "color",
-      },
-    });
-  });
 });

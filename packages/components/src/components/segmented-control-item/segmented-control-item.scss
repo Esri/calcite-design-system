@@ -37,6 +37,8 @@
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-3));
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
+  // Offsets the item radius to stay consistent with segmented-control roundness
+  border-radius: max(0px, calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius)) - 2px));
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     color var(--calcite-internal-animation-timing-fast) ease-in-out;

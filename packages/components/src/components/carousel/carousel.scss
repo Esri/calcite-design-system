@@ -238,8 +238,8 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item {
+  @include includes.transition-default();
   @apply focus-base
-    transition-default
     m-0
     h-8
     w-8
