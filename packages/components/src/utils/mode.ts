@@ -1,6 +1,10 @@
 import { autoMode, darkMode } from "./resources";
 
-/** Emits when the mode is dynamically toggled between light and dark on <body> or in OS preferences. */
+/**
+ * Emits when the mode is dynamically toggled between light and dark on <body> or in OS preferences.
+ *
+ * @deprecated in v5.2.0, removal target v7.0.0 - Set the `color-scheme: light dark;` CSS property instead.
+ */
 export function initModeChangeEvent(): void {
   const { classList } = document.body;
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
