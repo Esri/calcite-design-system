@@ -146,7 +146,7 @@ const actionBarEndContentHTML = html`
 `;
 
 const actionBarStartHTML = html`
-  <calcite-action-bar slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
+  <calcite-action-bar slot="action-bar" style="color-scheme: dark;"> ${actionBarStartContentHTML} </calcite-action-bar>
 `;
 
 const actionBarEndHTML = html`
@@ -1380,7 +1380,7 @@ position:relative;
 "
   >
     <calcite-shell-panel resizable slot="panel-start">
-      <calcite-action-bar slot="action-bar">
+      <calcite-action-bar slot="action-bar" style="color-scheme: dark;">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
           <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
@@ -1514,7 +1514,7 @@ position:relative;
 "
   >
     <calcite-shell-panel resizable slot="panel-start">
-      <calcite-action-bar slot="action-bar">
+      <calcite-action-bar slot="action-bar" style="color-scheme: dark;">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
           <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
@@ -1646,7 +1646,7 @@ position:relative;
 "
   >
     <calcite-shell-panel display-mode="overlay" resizable id="primary-panel" slot="panel-start">
-      <calcite-action-bar slot="action-bar">
+      <calcite-action-bar slot="action-bar" style="color-scheme: dark;">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
           <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
