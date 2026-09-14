@@ -167,6 +167,16 @@ describe("theme", () => {
           shadowSelector: "a",
           targetProp: "color",
         },
+        "--calcite-link-text-color-hover": {
+          shadowSelector: "a",
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-link-text-color-press": {
+          shadowSelector: "a",
+          targetProp: "color",
+          state: { press: "calcite-link >>> a" },
+        },
       },
     );
   });
