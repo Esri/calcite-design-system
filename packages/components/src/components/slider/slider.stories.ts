@@ -1014,3 +1014,35 @@ export const validationMessageAllScales = (): string => html`
     ></calcite-slider>
   </div>
 `;
+
+export const negativeSignHandlingForDifferentNumberingSystems = (): string => html`
+  <calcite-slider
+    label-text="numbering-system=latn"
+    numbering-system="latn"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    label-text="numbering-system=arab"
+    numbering-system="arab"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    label-text="numbering-system=arabext"
+    numbering-system="arabext"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+`;
