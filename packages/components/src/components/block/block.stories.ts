@@ -139,7 +139,15 @@ export const paddingDisabled = (): string =>
   </calcite-panel>`;
 
 export const darkModeRTL = (): string => html`
-  <calcite-block heading="Heading" description="description" expanded expandable heading-level="2" dir="rtl">
+  <calcite-block
+    heading="Heading"
+    description="description"
+    expanded
+    expandable
+    heading-level="2"
+    class="calcite-mode-dark"
+    dir="rtl"
+  >
     <calcite-block-section text="Animals" expanded toggle-display="button">
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>

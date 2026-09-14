@@ -152,7 +152,7 @@ export const allSlots = (): string => html`
 `;
 
 export const allSlots_darkModeRTL = (): string => html`
-  <div dir="rtl">
+  <div class="calcite-mode-dark" dir="rtl">
     <calcite-navigation style="--calcite-color-brand: #bf390f">
       <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
       </calcite-navigation-logo>

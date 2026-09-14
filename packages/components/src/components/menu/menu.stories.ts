@@ -417,7 +417,7 @@ export const WithSubmenuOpenInVerticalLayoutAllScales = (): string =>
     </div>`;
 
 export const darkModeRTL = (): string =>
-  html`<calcite-menu dir="rtl">
+  html`<calcite-menu dir="rtl" class="calcite-mode-dark">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
@@ -488,7 +488,7 @@ export const verticalComplexUseCase = (): string =>
   </calcite-shell-panel>`;
 
 export const verticalLayoutInDarkModeRTL = (): string =>
-  html`<calcite-menu layout="vertical" dir="rtl">
+  html`<calcite-menu layout="vertical" dir="rtl" class="calcite-mode-dark">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>

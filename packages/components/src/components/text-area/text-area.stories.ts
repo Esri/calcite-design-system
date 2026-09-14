@@ -107,7 +107,11 @@ export const simple = (args: TextAreaStoryArgs): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-text-area dir="rtl" validation-message="This should not appear because the status is not 'invalid'">
+  <calcite-text-area
+    dir="rtl"
+    class="calcite-mode-dark"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
   </calcite-text-area>
 `;
 
@@ -121,7 +125,7 @@ export const withSlottedElements = (): string => html`
 `;
 
 export const withSlottedElementsDarkModeRTL = (): string => html`
-  <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl">
+  <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
     <calcite-button slot="footer-start">RESET</calcite-button>
     <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>

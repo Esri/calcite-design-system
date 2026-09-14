@@ -112,6 +112,13 @@ export const allIconsAndSubMenuVertical = (): string =>
   </calcite-menu>`;
 
 export const darkModeRTL = (): string =>
-  html`<calcite-menu-item text="Menu item" active dir="rtl" icon-start="layer" icon-end="layer" />`;
+  html`<calcite-menu-item
+    text="Menu item"
+    active
+    dir="rtl"
+    class="calcite-mode-dark"
+    icon-start="layer"
+    icon-end="layer"
+  />`;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
