@@ -104,7 +104,7 @@
   max-block-size: var(--calcite-autocomplete-menu-max-size-y, theme("maxHeight.menu"));
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
-  border-radius: var(--calcite-autocomplete-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(--calcite-autocomplete-corner-radius, var(--calcite-corner-radius-sm));
 }
 
 .content--hidden {
