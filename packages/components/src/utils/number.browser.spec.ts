@@ -141,7 +141,7 @@ describe("BigDecimal", () => {
 
   it("includes bidirectional marks for read-only formatting", () => {
     numberStringFormatter.numberFormatOptions = {
-      locale: "en",
+      locale: "ar",
       numberingSystem: "arabext",
       useGrouping: true,
     };
@@ -177,7 +177,7 @@ describe("BigDecimal", () => {
 
   it("preserves the negative sign for read-only fractional values between negative one and zero", () => {
     numberStringFormatter.numberFormatOptions = {
-      locale: "en",
+      locale: "ar",
       numberingSystem: "arabext",
       useGrouping: true,
     };
