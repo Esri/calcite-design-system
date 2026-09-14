@@ -99,7 +99,7 @@ export const grouped = (): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-select status="idle" width="auto" scale="m" dir="rtl">
+  <calcite-select status="idle" width="auto" scale="m" dir="rtl" class="calcite-mode-dark">
     <calcite-option-group label="My fancy group label">
       <calcite-option label="fancy label" value="value"></calcite-option>
       <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>

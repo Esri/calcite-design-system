@@ -283,6 +283,7 @@ export const darkModeRTL = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
+      class="calcite-mode-dark"
       icon
       auto-close-duration="medium"
       placement="bottom"

@@ -225,6 +225,7 @@ export const darkModeRTL = (): string => html`
       primary-text="Primary Option"
       dropdown-label="Additional Options"
       dropdown-icon-type="chevron"
+      class="calcite-mode-dark"
     >
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>

@@ -188,7 +188,7 @@ export const disabledWithStyledSlot = (): string => html`
 `;
 
 export const darkModeRTL = (): string => html`
-  <calcite-flow-item selected collapse-direction="down" height-scale="m" dir="rtl">
+  <calcite-flow-item selected collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
     ${flowItemContent}
   </calcite-flow-item>
 `;

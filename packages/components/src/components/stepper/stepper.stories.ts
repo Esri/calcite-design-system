@@ -123,6 +123,7 @@ export const simple = (args: StepperStoryArgs): string => html`
 export const darkModeRTL = (): string => html`
   <div dir="rtl">
     <calcite-stepper
+    class="calcite-mode-dark"
       layout="horizontal"
       scale="m"
       numbered

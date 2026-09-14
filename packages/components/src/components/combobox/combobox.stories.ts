@@ -701,6 +701,7 @@ export const darkModeRTL = (): string => html`
     <calcite-combobox
       label="demo combobox"
       selection-mode="multiple"
+      class="calcite-mode-dark"
       placeholder="placeholder"
       label="demo"
       validation-message="This should not appear because the status is not 'invalid'"
