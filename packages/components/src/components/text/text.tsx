@@ -2,7 +2,7 @@ import { LitElement, createEvent, h, property, type JsxNode } from "@arcgis/lumi
 import { slotChangeGetTextContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getTextWidth } from "../../utils/dom";
-import { styles } from "./typography.scss";
+import { styles } from "./text.scss";
 import { ELLIPSIS_CHAR } from "./resources";
 import { PropertyValues } from "lit";
 
@@ -14,11 +14,11 @@ type TruncatePosition = "middle" | "end";
 
 declare global {
   interface DeclareElements {
-    "calcite-typography": Typography;
+    "calcite-text": Text;
   }
 }
 
-export class Typography extends LitElement {
+export class Text extends LitElement {
   //#region Static Members
 
   static override styles = styles;

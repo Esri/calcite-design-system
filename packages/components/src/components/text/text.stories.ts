@@ -1,9 +1,9 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { Typography } from "./typography";
+import { Text } from "./text";
 import type { StoryContext } from "@storybook/web-components-vite";
 
-type TypographyStoryArgs = Pick<Typography, "maxLines" | "tooltipEnabled" | "truncatePosition"> & {
+type TypographyStoryArgs = Pick<Text, "maxLines" | "tooltipEnabled" | "truncatePosition"> & {
   text: string;
   containerWidth: number;
 };
@@ -34,12 +34,12 @@ export default {
 };
 
 export const simple = (args: TypographyStoryArgs): string => html`
-  <calcite-typography
+  <calcite-text
     truncate-position="${args.truncatePosition}"
     max-lines="${args.maxLines}"
     ${boolean("tooltip-enabled", args.tooltipEnabled)}
     >The Rocky Mountain range spans multiple states and includes several major peaks and protected
-    ecosystems.</calcite-typography
+    ecosystems.</calcite-text
   >
 `;
 
@@ -60,21 +60,21 @@ simple.argTypes = {
 };
 
 export const middleTruncation = (): string => html`
-  <calcite-typography truncate-position="middle" max-lines="0">
+  <calcite-text truncate-position="middle" max-lines="0">
     https://example.com/trails/north-america/rocky-mountains/alpine-lakes-route
-  </calcite-typography>
+  </calcite-text>
 `;
 
 export const endTruncationMultiLine = (): string => html`
-  <calcite-typography max-lines="2">
+  <calcite-text max-lines="2">
     The Mississippi River is one of the world&apos;s major river systems and drains much of the central United States.
-  </calcite-typography>
+  </calcite-text>
 `;
 
 export const tooltipEnabled = (): string => html`
-  <calcite-typography tooltip-enabled max-lines="1" truncate-position="middle">
+  <calcite-text tooltip-enabled max-lines="1" truncate-position="middle">
     Andes-Mountain-Observatory-Annual-Climate-Report-Archive-2026
-  </calcite-typography>
+  </calcite-text>
 `;
 
 export const truncationSandBox = (): string => html`
@@ -102,25 +102,24 @@ export const truncationSandBox = (): string => html`
     }
   </style>
   <calcite-button width="half">
-    <calcite-typography wrap>
+    <calcite-text wrap>
       This is a long placeholder paragraph written in plain English for drafts, mockups, and early content planning. It
       is designed to look natural on the page while remaining generic enough to replace later with final copy. Teams
       often use text like this to check spacing, hierarchy, alignment, and overall reading flow before real messaging is
       approved. Because the language is neutral and broadly understandable, it works well across landing pages, internal
-      tools, product cards, help content, and presentation materials where realistic line length
-      matters.</calcite-typography
+      tools, product cards, help content, and presentation materials where realistic line length matters.</calcite-text
     >
   </calcite-button>
   <calcite-chip-group label="demo-group-label">
     <calcite-chip value="biome-a" label="Biome A">
-      <calcite-typography>
+      <calcite-text>
         This is a long placeholder paragraph written in plain English for drafts, mockups, and early content planning.
         It is designed to look natural on the page while remaining generic enough to replace later with final copy.
         Teams often use text like this to check spacing, hierarchy, alignment, and overall reading flow before real
         messaging is approved. Because the language is neutral and broadly understandable, it works well across landing
         pages, internal tools, product cards, help content, and presentation materials where realistic line length
         matters.
-      </calcite-typography></calcite-chip
+      </calcite-text></calcite-chip
     >
     <calcite-chip value="biome-b" label="Biome B">Biome B</calcite-chip>
     <calcite-chip value="biome-d" label="Biome C">Biome C</calcite-chip>
@@ -131,13 +130,13 @@ export const truncationSandBox = (): string => html`
   <calcite-tabs>
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title
-        ><calcite-typography
+        ><calcite-text
           >This is a long placeholder paragraph written in plain English for drafts, mockups, and early content
           planning. It is designed to look natural on the page while remaining generic enough to replace later with
           final copy. Teams often use text like this to check spacing, hierarchy, alignment, and overall reading flow
           before real messaging is approved. Because the language is neutral and broadly understandable, it works well
           across landing pages, internal tools, product cards, help content, and presentation materials where realistic
-          line length matters.</calcite-typography
+          line length matters.</calcite-text
         >
       </calcite-tab-title>
       <calcite-tab-title>Automobiles</calcite-tab-title>
@@ -163,7 +162,7 @@ export const truncationSandBox = (): string => html`
     <div class="dropdown-container"></div>
     <calcite-dropdown width="m">
       <calcite-button slot="trigger" icon-end="chevron-down"
-        ><calcite-typography>Select land from the list</calcite-typography></calcite-button
+        ><calcite-text>Select land from the list</calcite-text></calcite-button
       >
       <calcite-dropdown-group group-title="Natural places">
         <calcite-dropdown-item>Mountain</calcite-dropdown-item>
@@ -183,7 +182,7 @@ export const truncationSandBox = (): string => html`
       <calcite-button slot="trigger">Select landform</calcite-button>
       <calcite-dropdown-group group-title="Natural places">
         <calcite-dropdown-item
-          ><calcite-typography>MountainWithAVeryLongTranslationString</calcite-typography></calcite-dropdown-item
+          ><calcite-text>MountainWithAVeryLongTranslationString</calcite-text></calcite-dropdown-item
         >
         <calcite-dropdown-item>River</calcite-dropdown-item>
         <calcite-dropdown-item>Waterfall</calcite-dropdown-item>

@@ -3,16 +3,16 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
 
 describe("defaults", () => {
-  defaults(() => mount("calcite-typography"), [{ propertyName: "truncatePosition", defaultValue: "end" }]);
+  defaults(() => mount("calcite-text"), [{ propertyName: "truncatePosition", defaultValue: "end" }]);
 });
 
 describe("hidden", () => {
-  hidden(() => mount("calcite-typography"));
+  hidden(() => mount("calcite-text"));
 });
 
 describe("reflects", () => {
   reflects(
-    () => mount("calcite-typography"),
+    () => mount("calcite-text"),
     [
       { propertyName: "maxLines", value: 2 },
       { propertyName: "truncatePosition", value: "middle" },
@@ -21,5 +21,5 @@ describe("reflects", () => {
 });
 
 describe("renders", () => {
-  renders(() => mount("calcite-typography"), { display: "block", visible: false });
+  renders(() => mount("calcite-text"), { display: "block", visible: false });
 });

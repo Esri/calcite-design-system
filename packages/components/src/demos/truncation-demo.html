@@ -77,12 +77,10 @@
               <calcite-dropdown-item class="calcite-text-wrap">
                 Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu
               </calcite-dropdown-item>
+              <calcite-dropdown-item> <calcite-text wrap>Lake Chaubunagungamaug</calcite-text></calcite-dropdown-item>
               <calcite-dropdown-item>
-                <calcite-typography wrap>Lake Chaubunagungamaug</calcite-typography></calcite-dropdown-item
-              >
-              <calcite-dropdown-item>
-                <calcite-typography ellipsis title="WaterfallVeryLongTranslationStringgggggg"
-                  >Waterfall Pistyll Rhaeadr in Wales</calcite-typography
+                <calcite-text ellipsis title="WaterfallVeryLongTranslationStringgggggg"
+                  >Waterfall Pistyll Rhaeadr in Wales</calcite-text
                 ></calcite-dropdown-item
               >
               <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
@@ -95,8 +93,8 @@
         <p><strong>Code</strong> comparing multiple ways to configure wrapping text</p>
         <pre>
           <code>&lt;calcite-dropdown-item class="calcite-text-wrap"&gt;</code><code>Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu</code><code>&lt;/calcite-dropdown-item&gt;</code>
-          <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-typography wrap&gt;Lake Chaubunagungamaug&lt;/calcite-typography&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
-          <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-typography ellipsis &gt;Pistyll Rhaeadr in Wales&lt;/calcite-typography&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
+          <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-text wrap&gt;Lake Chaubunagungamaug&lt;/calcite-text&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
+          <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-text ellipsis &gt;Pistyll Rhaeadr in Wales&lt;/calcite-text&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
         </pre>
 
         <div class="notes">
@@ -226,15 +224,15 @@
 
     <div class="demo">
       <div class="demo-child">
-        <h3>calcite-typography component</h3>
-        <p>calcite-button + calcite-typography component text wrap</p>
+        <h3>calcite-text component</h3>
+        <p>calcite-button + calcite-text component text wrap</p>
         <div class="maxWidthWrapper">
           <calcite-button
-            ><calcite-typography wrap
+            ><calcite-text wrap
               >Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
               experience, from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain,
               including switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a
-              local favorite for its peaceful atmosphere and breathtaking natural beauty</calcite-typography
+              local favorite for its peaceful atmosphere and breathtaking natural beauty</calcite-text
             ></calcite-button
           >
         </div>
@@ -242,7 +240,7 @@
       <div class="demo-child">
         <p><strong>Code</strong></p>
         <pre>
-          <code>&lt;calcite-button&gt;</code><code>&lt;calcite-typography wrap&gt;Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
+          <code>&lt;calcite-button&gt;</code><code>&lt;calcite-text wrap&gt;Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
             experience, from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain,
             including switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a
             local favorite for its peaceful atmosphere and breathtaking natural beauty&gt;</code><code>&lt;/calcite-button&gt;</code>
@@ -250,13 +248,13 @@
       </div>
 
       <div class="demo-child">
-        <p>calcite-button + calcite-typography component for default text</p>
+        <p>calcite-button + calcite-text component for default text</p>
         <calcite-button width="half" class="maxWidthWrapper">
-          <calcite-typography ellipsis
+          <calcite-text ellipsis
             >This is a really long text that should be truncated when it exceeds the width of its container.This is a
             really long text that should be truncated when it exceeds the width of its container.This is a really long
             text that should be truncated when it exceeds the width of its container.This is a really long text that
-            should be truncated when it exceeds the width of its container.</calcite-typography
+            should be truncated when it exceeds the width of its container.</calcite-text
           >
         </calcite-button>
       </div>
@@ -264,21 +262,21 @@
       <div class="demo-child">
         <p><strong>Code</strong></p>
         <pre>
-              <code>&lt;calcite-button&gt;</code><code>&lt;calcite-typography ellipsis&gt;This is a really long text that should be truncated when it exceeds the width of its container.This is a
+              <code>&lt;calcite-button&gt;</code><code>&lt;calcite-text ellipsis&gt;This is a really long text that should be truncated when it exceeds the width of its container.This is a
                 really long text that should be truncated when it exceeds the width of its container.This is a really long
                 text that should be truncated when it exceeds the width of its container.This is a really long text that
-                should be truncated when it exceeds the width of its container.&lt;/calcite-typography&gt;</code><code>&lt;/calcite-button&gt;</code>
+                should be truncated when it exceeds the width of its container.&lt;/calcite-text&gt;</code><code>&lt;/calcite-button&gt;</code>
             </pre>
 
         <div class="notes">
           <p>
-            This demo illustrates the use of the calcite-typography component to manage text truncation and wrapping
-            within a calcite-button.
+            This demo illustrates the use of the calcite-text component to manage text truncation and wrapping within a
+            calcite-button.
           </p>
           <p>
-            calcite-typography component provides a developer-friendly solution for handling text truncation and
-            wrapping. It simplifies configuration, avoids breaking changes, and is scalable for future enhancements. It
-            also allows for customizing other text formatting options like overflow-wrap, word-break and white-space.
+            calcite-text component provides a developer-friendly solution for handling text truncation and wrapping. It
+            simplifies configuration, avoids breaking changes, and is scalable for future enhancements. It also allows
+            for customizing other text formatting options like overflow-wrap, word-break and white-space.
           </p>
           <p>
             Below section demonstrates how this solution is extendable to text properties by slotting calcite-topography
@@ -291,9 +289,9 @@
       <div class="demo-child"> 
       <div class="maxWidthWrapper">
         <calcite-chip value="biome-a" label="Biome A"
-          ><calcite-typography ellipsis
+          ><calcite-text ellipsis
             >Biome A Biome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome
-            ABiome ABiome ABiome ABiome ABiome A</calcite-typography
+            ABiome ABiome ABiome ABiome ABiome A</calcite-text
           ></calcite-chip
         >
         <calcite-chip value="biome-a" label="Biome A">
@@ -309,17 +307,17 @@
     </div> -->
 
       <div class="demo-child">
-        <h4>calcite-typography component as slot</h4>
-        <p>calcite-list-item slots calcite-typography component</p>
+        <h4>calcite-text component as slot</h4>
+        <p>calcite-list-item slots calcite-text component</p>
         <p>slot="description"</p>
 
         <calcite-list label="Park features" style="width: 300px">
           <calcite-list-item label="Hiking trails" value="hiking-trails">
-            <calcite-typography slot="description" ellipsis>
+            <calcite-text slot="description" ellipsis>
               Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
               experience, from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain,
               including switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a
-              local favorite for its peaceful atmosphere and breathtaking natural beauty</calcite-typography
+              local favorite for its peaceful atmosphere and breathtaking natural beauty</calcite-text
             >
             <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
           </calcite-list-item>
@@ -329,20 +327,20 @@
       <div class="demo-child">
         <p><strong>Code</strong></p>
         <pre>
-          <code>&lt;calcite-list-item label="Hiking trails" value="hiking-trails" &gt;</code><code>&lt;calcite-typography slot="description" ellipsis&gt;Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
+          <code>&lt;calcite-list-item label="Hiking trails" value="hiking-trails" &gt;</code><code>&lt;calcite-text slot="description" ellipsis&gt;Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
               experience, from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain,
               including switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a
-              local favorite for its peaceful atmosphere and breathtaking natural beauty&lt;/calcite-typography&gt;</code><code>&lt;/calcite-list-item&gt;</code>
+              local favorite for its peaceful atmosphere and breathtaking natural beauty&lt;/calcite-text&gt;</code><code>&lt;/calcite-list-item&gt;</code>
         </pre>
 
         <div class="notes">
           <p>
-            This demo highlights the use of the calcite-typography component as a slot within the calcite-list-item to
-            format description text.
+            This demo highlights the use of the calcite-text component as a slot within the calcite-list-item to format
+            description text.
           </p>
           <p>
             Slots preserve current behavior without introducing breaking changes, allowing users to configure text
-            properties with calcite-typography API, and provides scalability and extensibility across all components.
+            properties with calcite-text API, and provides scalability and extensibility across all components.
           </p>
           <p>
             However, there are some open questions. Using slots may undermine predefined design decisions, requiring
@@ -355,15 +353,15 @@
       </div>
 
       <div class="demo-child">
-        <p>calcite-list-item slots calcite-typography component with max-lines</p>
+        <p>calcite-list-item slots calcite-text component with max-lines</p>
         <p>max-lines="5"</p>
         <calcite-list label="Park features" style="width: 300px">
           <calcite-list-item label="Hiking trails" value="hiking-trails">
-            <calcite-typography slot="description" max-lines="5">
+            <calcite-text slot="description" max-lines="5">
               Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
               experience, from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain,
               including switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a
-              local favorite for its peaceful atmosphere and breathtaking natural beauty</calcite-typography
+              local favorite for its peaceful atmosphere and breathtaking natural beauty</calcite-text
             >
             <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
           </calcite-list-item>
@@ -372,9 +370,9 @@
       <div class="demo-child">
         <p><strong>Code</strong></p>
         <pre>
-          <code>&lt;calcite-list-item&gt;</code><code>&lt;calcite-typography slot="description" max-lines="5"&gt;Designated routes for hikers to use.Designated routes for hikers to use.Designated routes for hikers to
+          <code>&lt;calcite-list-item&gt;</code><code>&lt;calcite-text slot="description" max-lines="5"&gt;Designated routes for hikers to use.Designated routes for hikers to use.Designated routes for hikers to
               use.Designated routes for hikers to use. Designated routes for hikers to use. Designated routes for hikers
-              to use. Designated routes for hikers to use. Designated routes for hikers to use.&lt;/calcite-typography&gt;</code><code>&lt;/calcite-list-item&gt;</code>
+              to use. Designated routes for hikers to use. Designated routes for hikers to use.&lt;/calcite-text&gt;</code><code>&lt;/calcite-list-item&gt;</code>
         </pre>
         <div class="notes">
           <p></p>
