@@ -175,6 +175,30 @@ describe("BigDecimal", () => {
     expect(numberStringFormatter.delocalize(number.format(numberStringFormatter, true))).toBe(testValue);
   });
 
+  it("preserves the negative sign for read-only fractional values between negative one and zero", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en",
+      numberingSystem: "arabext",
+      useGrouping: true,
+    };
+
+    const testValue = "-0.1";
+    const number = new BigDecimal(testValue);
+    const expectedIntegerParts = numberStringFormatter.numberFormatter.formatToParts(-0);
+    const expectedValue = `${expectedIntegerParts.map((part) => part.value).join("")}${
+      numberStringFormatter.decimal
+    }${numberStringFormatter.numberFormatter.format(1)}`;
+
+    expect(number.format(numberStringFormatter, true)).toBe(expectedValue);
+    expect(numberStringFormatter.localize(testValue, true)).toBe(expectedValue);
+    expect(number.formatToParts(numberStringFormatter, true)).toEqual([
+      ...expectedIntegerParts,
+      { type: "decimal", value: numberStringFormatter.decimal },
+      { type: "fraction", value: "1" },
+    ]);
+    expect(numberStringFormatter.delocalize(expectedValue)).toBe(testValue);
+  });
+
   supportedNlsLocales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
