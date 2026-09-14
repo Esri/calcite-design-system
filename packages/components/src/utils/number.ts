@@ -127,7 +127,9 @@ function getLocalizedIntegerParts(
   includeDirectionalMarks: boolean,
 ): Intl.NumberFormatPart[] {
   const parts = formatter.numberFormatter.formatToParts(
-    BigInt(`${includeDirectionalMarks && isNegative ? "-" : ""}${integers}`),
+    includeDirectionalMarks && isNegative && integers === "0"
+      ? -0
+      : BigInt(`${includeDirectionalMarks && isNegative ? "-" : ""}${integers}`),
   );
 
   if (isNegative && !includeDirectionalMarks) {
