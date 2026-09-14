@@ -1027,6 +1027,7 @@ export const negativeSignHandlingForDifferentNumberingSystems = (): string => ht
   ></calcite-slider>
   <br />
   <calcite-slider
+    dir="rtl"
     label-text="numbering-system=arab"
     numbering-system="arab"
     label-ticks
@@ -1037,6 +1038,7 @@ export const negativeSignHandlingForDifferentNumberingSystems = (): string => ht
   ></calcite-slider>
   <br />
   <calcite-slider
+    dir="rtl"
     label-text="numbering-system=arabext"
     numbering-system="arabext"
     label-ticks
