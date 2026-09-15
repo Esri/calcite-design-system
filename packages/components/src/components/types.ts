@@ -80,3 +80,11 @@ export type BivariantHandler<Arg, Return> = {
   // eslint-disable-next-line @typescript-eslint/method-signature-style -- needed for bivariance see https://www.typescriptlang.org/tsconfig/#strictFunctionTypes
   bivarianceHack(detail: Arg): Return;
 }["bivarianceHack"];
+
+export interface ActiveDescendantElement extends HTMLElement {
+  activeDescendant: boolean;
+}
+export interface ActiveDescendantManager extends HTMLElement {
+  activeDescendantElement?: ActiveDescendantElement;
+  activeDescendantControlDisabled: boolean;
+}

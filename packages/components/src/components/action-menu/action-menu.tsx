@@ -16,7 +16,7 @@ import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { Appearance, Scale } from "../types";
+import { ActiveDescendantManager, Appearance, Scale } from "../types";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -35,13 +35,17 @@ declare global {
 }
 
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
+const HORIZONTAL_MENU_OPEN_KEYS = ["ArrowLeft", "ArrowRight"];
+const VERTICAL_MENU_OPEN_KEYS = ["ArrowUp", "ArrowDown"];
+const HORIZONTAL_PLACEMENT_PREFIXES = ["left", "right", "leading", "trailing"];
+const VERTICAL_PLACEMENT_PREFIXES = ["top", "bottom"];
 
 /**
  * @slot - A slot for adding `calcite-action`s.
  * @slot trigger - A slot for adding a `calcite-action` to trigger opening the menu.
  * @slot tooltip - A slot for adding a tooltip for the menu.
  */
-export class ActionMenu extends LitElement {
+export class ActionMenu extends LitElement implements ActiveDescendantManager {
   //#region Static Members
 
   static override styles = styles;
@@ -79,20 +83,21 @@ export class ActionMenu extends LitElement {
     if (isActivationKey(key)) {
       event.preventDefault();
 
-      if (!open) {
-        this.toggleOpen();
+      const action = navigableActions[activeMenuItemIndex];
+
+      if (open) {
+        if (action) {
+          action.click();
+        }
         return;
       }
 
-      const action = navigableActions[activeMenuItemIndex];
-      if (action) {
-        action.click();
-      } else {
-        this.toggleOpen(false);
-      }
+      this.toggleOpen(true);
+      return;
     }
 
-    if (key === "Tab") {
+    if (key === "Tab" && open) {
+      this.focusMenuButtonOnClose = false;
       this.open = false;
       return;
     }
@@ -103,10 +108,62 @@ export class ActionMenu extends LitElement {
       return;
     }
 
+    const placementOrientation = !open ? this.placementOrientation : undefined;
+    const supportedOpenKeys = !open
+      ? placementOrientation === "horizontal"
+        ? HORIZONTAL_MENU_OPEN_KEYS
+        : placementOrientation === "vertical" || !placementOrientation
+          ? VERTICAL_MENU_OPEN_KEYS
+          : undefined
+      : undefined;
+
+    if (supportedOpenKeys && this.isValidKey(key, supportedOpenKeys)) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.toggleOpen(true);
+      this.activeMenuItemIndex =
+        key === "ArrowUp" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
+      this.updateActions(navigableActions);
+      this.emitInternalActiveDescendantChange();
+      return;
+    }
+
     this.handleActionNavigation(event, key, navigableActions);
   };
 
+  private handleHostKeyDown = (event: KeyboardEvent): void => {
+    if (event.composedPath()[0] !== this.el) {
+      return;
+    }
+
+    this.menuButtonKeyDown(event);
+  };
+
   private menuId = IDS.menu(this.guid);
+
+  private get placementOrientation(): "horizontal" | "vertical" | undefined {
+    const placements = this.flipPlacements?.length ? this.flipPlacements : [this.placement];
+    const placement = placements.find((placement) =>
+      this.hasPlacementPrefix(
+        placement,
+        HORIZONTAL_PLACEMENT_PREFIXES.concat(VERTICAL_PLACEMENT_PREFIXES),
+      ),
+    );
+
+    if (!placement) {
+      return;
+    }
+
+    if (this.hasPlacementPrefix(placement, HORIZONTAL_PLACEMENT_PREFIXES)) {
+      return "horizontal";
+    }
+
+    if (this.hasPlacementPrefix(placement, VERTICAL_PLACEMENT_PREFIXES)) {
+      return "vertical";
+    }
+
+    return undefined;
+  }
 
   private _open = false;
 
@@ -117,26 +174,33 @@ export class ActionMenu extends LitElement {
   private tooltipEl?: Tooltip["el"];
 
   private updateAction = (action: Action["el"], index: number): void => {
-    const { guid, activeMenuItemIndex } = this;
+    const { activeDescendantControlDisabled, guid, activeMenuItemIndex } = this;
     const id = IDS.action(guid, index);
     action.tabIndex = -1;
+    action.setAttribute("aria-label", action.label || action.text);
     action.setAttribute("role", "menuitem");
+    action.removeAttribute("aria-checked");
 
     if (!action.id) {
       action.id = id;
     }
 
-    // Used to style the "activeMenuItemIndex" action using token focus styling.
-    action.activeDescendant = index === activeMenuItemIndex;
+    if (!activeDescendantControlDisabled) {
+      // Used to style the "activeMenuItemIndex" action using token focus styling.
+      action.activeDescendant = index === activeMenuItemIndex;
+    }
   };
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private focusMenuButtonOnClose = true;
+
   private mouseDownHandler = (event: MouseEvent): void => {
-    if (!event.composedPath().some(isAction)) {
+    if (!event.composedPath().some((el): boolean => el instanceof Element && isAction(el))) {
       return;
     }
 
+    this.focusMenuButtonOnClose = false;
     this.activeMenuItemIndex = this.navigableActions.findIndex((action) => action === event.target);
   };
 
@@ -152,8 +216,27 @@ export class ActionMenu extends LitElement {
 
   //#region Public Properties
 
+  /**
+   * The component's active descendant.
+   *
+   * @private
+   */
+  get activeDescendantElement(): Action["el"] | undefined {
+    const activeMenuItemIndex =
+      this.open && this.activeMenuItemIndex === -1 ? 0 : this.activeMenuItemIndex;
+
+    return this.navigableActions[activeMenuItemIndex];
+  }
+
   /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+
+  /**
+   * When `true`, disables the component's internal active-descendant handling.
+   *
+   * @private
+   */
+  @property() activeDescendantControlDisabled = false;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
@@ -218,7 +301,7 @@ export class ActionMenu extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.menuButtonEl, options);
+    return this.focusSetter(() => this.menuButtonEl || this.el, options);
   }
 
   //#endregion
@@ -237,6 +320,9 @@ export class ActionMenu extends LitElement {
   /** Fires after the component's slotted `calcite-action`s change. */
   calciteInternalActionMenuActionsChange = createEvent({ cancelable: false });
 
+  /** Fires after the active descendant changes. */
+  calciteInternalActiveDescendantChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -251,6 +337,7 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
+    this.listen("keydown", this.handleHostKeyDown);
     this.listen("mousedown", this.mouseDownHandler);
   }
 
@@ -267,6 +354,11 @@ export class ActionMenu extends LitElement {
       changes.has("activeMenuItemIndex") &&
       (this.hasUpdated || this.activeMenuItemIndex !== -1)
     ) {
+      this.updateActions(this.navigableActions);
+      this.emitInternalActiveDescendantChange();
+    }
+
+    if (changes.has("activeDescendantControlDisabled") && this.hasUpdated) {
       this.updateActions(this.navigableActions);
     }
 
@@ -292,6 +384,10 @@ export class ActionMenu extends LitElement {
     this.setTooltipReferenceElement();
   }
 
+  private focusMenuButton(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.menuButtonEl, options);
+  }
+
   private openHandler(open: boolean): void {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
@@ -307,6 +403,10 @@ export class ActionMenu extends LitElement {
     this.activeMenuItemIndex = this.open ? 0 : -1;
     this.calciteActionMenuOpen.emit();
     this.setTooltipReferenceElement();
+
+    if (open) {
+      void this.setFocus();
+    }
   }
 
   private connectMenuButtonEl(): void {
@@ -320,6 +420,15 @@ export class ActionMenu extends LitElement {
     this.disconnectMenuButtonEl();
 
     this.menuButtonEl = menuButtonEl;
+
+    if (this.popoverEl && menuButtonEl) {
+      this.popoverEl.referenceElement = menuButtonEl;
+      this.popoverEl.referenceEl = menuButtonEl;
+
+      if (this.open) {
+        void this.popoverEl.reposition(true);
+      }
+    }
 
     this.setTooltipReferenceElement();
 
@@ -388,6 +497,10 @@ export class ActionMenu extends LitElement {
             return element;
           }
 
+          if (element instanceof HTMLSlotElement) {
+            return getSlotAssignedElements<Action["el"]>(element, "calcite-action");
+          }
+
           if (isActionGroup(element)) {
             return element.actions;
           }
@@ -452,14 +565,34 @@ export class ActionMenu extends LitElement {
       return;
     }
     this.popoverEl = el;
+    if (this.menuButtonEl) {
+      el.referenceElement = this.menuButtonEl;
+      el.referenceEl = this.menuButtonEl;
+    }
     el.open = this.open;
   }
 
   private handleCalciteActionClick(event: MouseEvent): void {
-    if (this.navigableActions.some((action) => event.composedPath().includes(action))) {
-      this.open = false;
-      this.setFocus();
+    const action = this.navigableActions.find((action) => event.composedPath().includes(action));
+    if (!action) {
+      return;
     }
+
+    this.activeMenuItemIndex = this.navigableActions.indexOf(action);
+    this.focusMenuButtonOnClose = false;
+
+    const actionGroup = action.closest("calcite-action-group") as { selectionMode?: string } | null;
+    const keepSelectableActionGroupOpen =
+      !!actionGroup?.selectionMode && actionGroup.selectionMode !== "none";
+
+    if (keepSelectableActionGroupOpen) {
+      void this.setFocus();
+      return;
+    }
+
+    action.active = !action.active;
+    this.open = false;
+    void this.setFocus();
   }
 
   private updateTooltip(event: Event): void {
@@ -482,7 +615,21 @@ export class ActionMenu extends LitElement {
   }
 
   private updateActions(actions: Action["el"][]): void {
-    actions.forEach(this.updateAction);
+    actions?.forEach(this.updateAction);
+    this.syncActiveDescendantElement();
+  }
+
+  private getActiveDescendantElement(): Action["el"] | undefined {
+    return this.activeDescendantControlDisabled ? undefined : this.activeDescendantElement;
+  }
+
+  private syncActiveDescendantElement(): void {
+    (this.el as HTMLElement).ariaActiveDescendantElement =
+      this.getActiveDescendantElement() ?? null;
+  }
+
+  private emitInternalActiveDescendantChange(): void {
+    this.calciteInternalActiveDescendantChange.emit();
   }
 
   private async handleDefaultSlotChange(): Promise<void> {
@@ -510,6 +657,10 @@ export class ActionMenu extends LitElement {
     return !!supportedKeys.find((k) => k === key);
   }
 
+  private hasPlacementPrefix(placement: LogicalPlacement, prefixes: string[]): boolean {
+    return prefixes.some((prefix) => placement === prefix || placement.startsWith(`${prefix}-`));
+  }
+
   private handleActionNavigation(event: KeyboardEvent, key: string, actions: Action["el"][]): void {
     if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
@@ -517,36 +668,27 @@ export class ActionMenu extends LitElement {
 
     event.preventDefault();
 
-    if (!this.open) {
-      this.toggleOpen();
-
-      if (key === "Home" || key === "ArrowDown") {
+    if (this.open) {
+      if (key === "Home") {
         this.activeMenuItemIndex = 0;
       }
 
-      if (key === "End" || key === "ArrowUp") {
+      if (key === "End") {
         this.activeMenuItemIndex = actions.length - 1;
       }
 
-      return;
-    }
+      const currentIndex = this.activeMenuItemIndex;
 
-    if (key === "Home") {
-      this.activeMenuItemIndex = 0;
-    }
+      if (key === "ArrowUp") {
+        this.activeMenuItemIndex = getRoundRobinIndex(
+          Math.max(currentIndex - 1, -1),
+          actions.length,
+        );
+      }
 
-    if (key === "End") {
-      this.activeMenuItemIndex = actions.length - 1;
-    }
-
-    const currentIndex = this.activeMenuItemIndex;
-
-    if (key === "ArrowUp") {
-      this.activeMenuItemIndex = getRoundRobinIndex(Math.max(currentIndex - 1, -1), actions.length);
-    }
-
-    if (key === "ArrowDown") {
-      this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
+      if (key === "ArrowDown") {
+        this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
+      }
     }
   }
 
@@ -561,8 +703,15 @@ export class ActionMenu extends LitElement {
   }
 
   private handlePopoverClose(event: CustomEvent<void>): void {
+    const { focusMenuButtonOnClose } = this;
+
+    this.focusMenuButtonOnClose = true;
     event.stopPropagation();
     this.open = false;
+
+    if (focusMenuButtonOnClose) {
+      void this.focusMenuButton();
+    }
   }
 
   //#endregion
@@ -606,6 +755,8 @@ export class ActionMenu extends LitElement {
       flipPlacements,
     } = this;
 
+    const activeDescendantElement = this.getActiveDescendantElement();
+
     const activeAction = navigableActions[activeMenuItemIndex];
     const activeDescendantId = activeAction?.id || null;
 
@@ -630,9 +781,12 @@ export class ActionMenu extends LitElement {
         <div
           aria-activedescendant={activeDescendantId ?? undefined}
           aria-labelledby={menuButtonEl?.id}
+          ariaActiveDescendantElement={activeDescendantElement}
+          ariaOrientation={this.placementOrientation === "vertical" ? "vertical" : undefined}
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
+          onKeyDown={this.menuButtonKeyDown}
           role="menu"
           tabIndex={-1}
         >
