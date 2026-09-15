@@ -26,11 +26,11 @@
 // --calcite-internal-combobox-spacing-unit-s
 
 @use "../../styles/shared/floating-ui";
-@use "../../styles/focus";
+@use "../../styles/component/focus";
 @use "../../styles/includes";
 @use "../../styles/component/outline-none";
-@use "../../styles/sr-only";
-@use "../../styles/truncate";
+@use "../../styles/component/sr-only";
+@use "../../styles/component/truncate";
 
 :host {
   position: relative;

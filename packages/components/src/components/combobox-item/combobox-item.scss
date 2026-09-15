@@ -24,10 +24,10 @@
 // --calcite-internal-combobox-item-spacing-unit-l
 // --calcite-internal-combobox-item-spacing-unit-s
 
-@use "../../styles/focus";
+@use "../../styles/component/focus";
 @use "../../styles/includes";
-@use "../../styles/outline-none";
-@use "../../styles/text";
+@use "../../styles/component/outline-none";
+@use "../../styles/component/text";
 
 @include includes.base-component();
 

@@ -45,9 +45,9 @@
 // --calcite-internal-chip-title-space
 // --calcite-internal-close-size
 
-@use "../../styles/focus";
+@use "../../styles/component/focus";
 @use "../../styles/includes";
-@use "../../styles/truncate";
+@use "../../styles/component/truncate";
 
 :host {
   display: inline-flex;

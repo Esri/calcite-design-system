@@ -8,8 +8,8 @@
  */
 
 @use "../../styles/includes";
-@use "../../styles/outline-none";
-@use "../../styles/text";
+@use "../../styles/component/outline-none";
+@use "../../styles/component/text";
 
 .scale--s {
   @include text.text-n2h();

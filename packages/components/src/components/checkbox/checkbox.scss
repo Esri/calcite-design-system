@@ -10,7 +10,7 @@
  * @prop --calcite-checkbox-icon-color: Specifies the component's icon color.
  */
 
-@use "../../styles/focus";
+@use "../../styles/component/focus";
 @use "../../styles/includes";
 
 :host([scale="s"]) {
