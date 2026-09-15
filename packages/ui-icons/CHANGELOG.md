@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.16...@esri/calcite-ui-icons@4.6.0-next.17) (2026-09-10)
+
+### Features
+
+- add alignment concepts ([#15145](https://github.com/Esri/calcite-design-system/issues/15145))
+
 ## [4.6.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.15...@esri/calcite-ui-icons@4.6.0-next.16) (2026-09-01)
 
 ### Features
