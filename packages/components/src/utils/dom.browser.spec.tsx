@@ -1,7 +1,7 @@
 import { Fragment, JsxNode, LitElement, method } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
-import { describe, expect, it, onTestFinished, vi } from "vitest";
+import { describe, expect, it, afterEach, vi } from "vitest";
 import type { ModeName } from "../components/types";
 import type { IconName } from "../components/icon/types";
 import { guidPattern } from "./guid.browser.spec";
@@ -92,173 +92,168 @@ describe(getModeName, () => {
     }
   }
 
-  it("finds the closest mode if set (light)", async () => {
-    const { el } = await mount(
-      html` <div class="calcite-mode-dark">
-        <div class="calcite-mode-light">
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  describe("with mode classes", () => {
+    it("uses the inherited light mode class over an outer dark mode class", async () => {
+      const { el } = await mount(
+        html` <div class="calcite-mode-dark">
+          <div class="calcite-mode-light">
+            <mode-element></mode-element>
+          </div>
+        </div>`,
+        {
+          dynamicComponents: [ModeComponent],
+        },
+      );
+
+      expect(el.foundModeName).toBe("light");
+    });
+
+    it("uses the inherited dark mode class over an outer light mode class", async () => {
+      const { el } = await mount(
+        html`
+          <div class="calcite-mode-light">
+            <div class="calcite-mode-dark">
+              <mode-element></mode-element>
+            </div>
+          </div>
+        `,
+        {
+          dynamicComponents: [ModeComponent],
+        },
+      );
+
+      expect(el.foundModeName).toBe("dark");
+    });
+  });
+
+  describe("with color-scheme", () => {
+    it("returns light if color-scheme is set to 'only light'", async () => {
+      const { el } = await mount(
+        html`
+          <style>
+            mode-element {
+              color-scheme: only light;
+            }
+          </style>
           <mode-element></mode-element>
-        </div>
-      </div>`,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
+        `,
+        {
+          dynamicComponents: [ModeComponent],
+        },
+      );
 
-    expect(el.foundModeName).toBe("light");
-  });
-
-  it("finds the closest mode if set (dark)", async () => {
-    const { el } = await mount(
-      html`
-        <div class="calcite-mode-light">
-          <div class="calcite-mode-dark">
-            <mode-element></mode-element>
-          </div>
-        </div>
-      `,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
-
-    expect(el.foundModeName).toBe("dark");
-  });
-
-  it("sets to default (light) if no mode is set", async () => {
-    const { el } = await mount(
-      html`
-        <div>
-          <div>
-            <mode-element></mode-element>
-          </div>
-        </div>
-      `,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
-
-    expect(el.foundModeName).toBe("light");
-  });
-
-  it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", async () => {
-    vi.stubGlobal("matchMedia", (query: string) => ({
-      matches: query === "(prefers-color-scheme: dark)",
-    }));
-
-    onTestFinished(() => {
-      vi.unstubAllGlobals();
+      expect(el.foundModeName).toBe("light");
     });
 
-    const { el } = await mount(
-      html`
-        <div class="calcite-mode-auto">
-          <div>
-            <mode-element></mode-element>
-          </div>
-        </div>
-      `,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
-    expect(el.foundModeName).toBe("dark");
-  });
+    it("returns light if color-scheme is set to 'light'", async () => {
+      const { el } = await mount(
+        html`
+          <style>
+            mode-element {
+              color-scheme: light;
+            }
+          </style>
+          <mode-element></mode-element>
+        `,
+        {
+          dynamicComponents: [ModeComponent],
+        },
+      );
 
-  it("returns light if color-scheme is set to 'light'", async () => {
-    const { el } = await mount(
-      html`
-        <style>
-          mode-element {
-            color-scheme: light;
-          }
-        </style>
-        <mode-element></mode-element>
-      `,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
-
-    expect(el.foundModeName).toBe("light");
-  });
-
-  it("returns light if color-scheme is set to 'only light'", async () => {
-    const { el } = await mount(
-      html`
-        <style>
-          mode-element {
-            color-scheme: only light;
-          }
-        </style>
-        <mode-element></mode-element>
-      `,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
-
-    expect(el.foundModeName).toBe("light");
-  });
-
-  it("returns dark if color-scheme is set to 'dark'", async () => {
-    const { el } = await mount(
-      html`
-        <style>
-          mode-element {
-            color-scheme: dark;
-          }
-        </style>
-        <mode-element></mode-element>
-      `,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
-
-    expect(el.foundModeName).toBe("dark");
-  });
-
-  it("returns dark if color-scheme is set to 'only dark'", async () => {
-    const { el } = await mount(
-      html`
-        <style>
-          mode-element {
-            color-scheme: only dark;
-          }
-        </style>
-        <mode-element style="color-scheme: only dark"></mode-element>
-      `,
-      {
-        dynamicComponents: [ModeComponent],
-      },
-    );
-
-    expect(el.foundModeName).toBe("dark");
-  });
-
-  it("returns light if color-scheme is set to 'light dark' and OS is set to default scheme", async () => {
-    const { el } = await mount(html` <mode-element></mode-element> `, {
-      dynamicComponents: [ModeComponent],
+      expect(el.foundModeName).toBe("light");
     });
 
-    expect(el.foundModeName).toBe("light");
-  });
+    it("returns dark if color-scheme is set to 'dark'", async () => {
+      const { el } = await mount(
+        html`
+          <style>
+            mode-element {
+              color-scheme: dark;
+            }
+          </style>
+          <mode-element></mode-element>
+        `,
+        {
+          dynamicComponents: [ModeComponent],
+        },
+      );
 
-  it("returns light if color-scheme is not set", async () => {
-    const { el } = await mount(
-      html`<style>
-          mode-element {
-            color-scheme: light dark;
-          }
-        </style>
-        <mode-element></mode-element> `,
-      {
+      expect(el.foundModeName).toBe("dark");
+    });
+
+    it("returns dark if color-scheme is set to 'only dark'", async () => {
+      const { el } = await mount(
+        html`
+          <style>
+            mode-element {
+              color-scheme: only dark;
+            }
+          </style>
+          <mode-element style="color-scheme: only dark"></mode-element>
+        `,
+        {
+          dynamicComponents: [ModeComponent],
+        },
+      );
+
+      expect(el.foundModeName).toBe("dark");
+    });
+
+    it("returns light if color-scheme supports light and dark and OS is set to default scheme", async () => {
+      vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: query !== "(prefers-color-scheme: dark)",
+      }));
+      vi.stubGlobal("getComputedStyle", () => ({ colorScheme: "light dark" }) as const);
+
+      const { el } = await mount(html` <mode-element></mode-element> `, {
         dynamicComponents: [ModeComponent],
-      },
-    );
+      });
 
-    expect(el.foundModeName).toBe("light");
+      expect(el.foundModeName).toBe("light");
+    });
+
+    it("returns dark if color-scheme supports light and dark and OS is set to dark scheme", async () => {
+      vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: query === "(prefers-color-scheme: dark)",
+      }));
+      vi.stubGlobal("getComputedStyle", () => ({ colorScheme: "light dark" }) as const);
+
+      const { el } = await mount(html` <mode-element></mode-element> `, {
+        dynamicComponents: [ModeComponent],
+      });
+
+      expect(el.foundModeName).toBe("dark");
+    });
+
+    it("returns dark if color-scheme is not set and OS is set to dark scheme", async () => {
+      vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: query === "(prefers-color-scheme: dark)",
+      }));
+      vi.stubGlobal("getComputedStyle", () => ({ colorScheme: "normal" }) as const);
+
+      const { el } = await mount(html` <mode-element></mode-element> `, {
+        dynamicComponents: [ModeComponent],
+      });
+
+      expect(el.foundModeName).toBe("dark");
+    });
+
+    it("returns light if color-scheme is not set", async () => {
+      vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: query !== "(prefers-color-scheme: dark)",
+      }));
+      vi.stubGlobal("getComputedStyle", () => ({ colorScheme: "normal" }) as const);
+
+      const { el } = await mount(html` <mode-element></mode-element> `, {
+        dynamicComponents: [ModeComponent],
+      });
+
+      expect(el.foundModeName).toBe("light");
+    });
   });
 });
 
