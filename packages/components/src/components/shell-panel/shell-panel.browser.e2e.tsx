@@ -20,6 +20,10 @@ import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
 import type { Panel } from "../panel/panel";
 
+function getByCssElement<T extends Element>(element: Element, css: string): T {
+  return page.elementLocator(element).getByCss(css).element() as unknown as T;
+}
+
 mockConsole();
 
 describe("accessible", () => {
@@ -81,6 +85,58 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-shell-panel"));
+});
+
+describe("action bar", () => {
+  const positions = [undefined, "start", "end", "top", "bottom"] as const;
+  const cases = [
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: "chevrons-right",
+      slot: "panel-start",
+    })),
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: "chevrons-left",
+      slot: "panel-end",
+    })),
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: actionBarPosition === "end" ? "chevrons-left" : "chevrons-right",
+      slot: "panel-top",
+    })),
+    ...positions.map((actionBarPosition) => ({
+      actionBarPosition,
+      expectedIcon: actionBarPosition === "end" ? "chevrons-left" : "chevrons-right",
+      slot: "panel-bottom",
+    })),
+  ] as const;
+
+  it.each(cases)(
+    "uses $expectedIcon for $slot with action-bar-position $actionBarPosition",
+    async ({ actionBarPosition, expectedIcon, slot }) => {
+      const { el } = await mount(
+        <calcite-shell>
+          <calcite-shell-panel actionBarPosition={actionBarPosition} slot={slot}>
+            <calcite-action-bar slot="action-bar" />
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const actionBar = getByCssElement<ActionBar["el"]>(
+        el,
+        ":scope > calcite-shell-panel > calcite-action-bar",
+      );
+
+      await actionBar.manager.component.updateComplete;
+
+      const expandToggle = getByCssElement<HTMLElement & { icon: string }>(
+        actionBar,
+        "#expand-toggle",
+      );
+
+      expect(expandToggle.icon).toBe(expectedIcon);
+    },
+  );
 });
 
 describe("renders", () => {
