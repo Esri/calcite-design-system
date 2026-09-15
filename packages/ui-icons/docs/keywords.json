@@ -12298,5 +12298,10 @@
     "alias": ["4.6.0", "arrange", "expand", "content", "height", "object"],
     "category": "Arrange",
     "release": "4.6.0"
+  },
+  "linked-chart": {
+    "alias": ["4.6.0", "charts and graphs", "view", "connection", "filter", "nodes", "relationships", "maps"],
+    "category": "Charts and Graphs",
+    "release": "4.6.0"
   }
 }
