@@ -497,6 +497,9 @@ export class Input
   calciteInternalInputBlur = createEvent({ cancelable: false });
 
   /** @private */
+  calciteInternalInputAffixChange = createEvent({ cancelable: false });
+
+  /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
   //#endregion
@@ -565,6 +568,10 @@ export class Input
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
       this.syncAffixWidths();
+
+      if (changes.has("prefixText") || changes.has("suffixText")) {
+        this.calciteInternalInputAffixChange.emit();
+      }
     }
   }
 

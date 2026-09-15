@@ -238,6 +238,54 @@ describe("affix width coordination", () => {
     });
   });
 
+  it("does not reapply stale widths after auto width is disabled during measurement", async () => {
+    const { el } = await mount(
+      <calcite-field-group prefix-auto-width>
+        <calcite-input prefix-text="prefix" />
+        <calcite-input prefix-text="longer prefix" />
+      </calcite-field-group>,
+    );
+    const fieldGroup = el as UpdatableElement;
+
+    fieldGroup.prefixAutoWidth = false;
+
+    await vi.waitFor(() => {
+      expect(
+        getStyleProperty(el.querySelector("calcite-input")!, "--calcite-input-prefix-size"),
+      ).toBe("");
+    });
+
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    expect(
+      getStyleProperty(el.querySelector("calcite-input")!, "--calcite-input-prefix-size"),
+    ).toBe("");
+  });
+
+  it("restores consumer-provided inline affix widths when auto width is disabled", async () => {
+    const { el } = await mount(
+      <calcite-field-group prefix-auto-width suffix-auto-width>
+        <calcite-input
+          id="input"
+          prefix-text="prefix"
+          style={{ "--calcite-input-prefix-size": "24px", "--calcite-input-suffix-size": "32px" }}
+          suffix-text="suffix"
+        />
+      </calcite-field-group>,
+    );
+    const fieldGroup = el as UpdatableElement;
+    const input = el.querySelector<UpdatableElement>("#input")!;
+
+    fieldGroup.prefixAutoWidth = false;
+    fieldGroup.suffixAutoWidth = false;
+    await waitForUpdate(fieldGroup);
+
+    await vi.waitFor(() => {
+      expect(getStyleProperty(input, "--calcite-input-prefix-size")).toBe("24px");
+      expect(getStyleProperty(input, "--calcite-input-suffix-size")).toBe("32px");
+    });
+  });
+
   it("toggles coordinated widths for inputs inside a field set", async () => {
     const { el } = await mount(
       <calcite-field-group prefix-auto-width suffix-auto-width>
@@ -267,6 +315,29 @@ describe("affix width coordination", () => {
         expect(getStyleProperty(input, "--calcite-input-prefix-size")).toBe("");
         expect(getStyleProperty(input, "--calcite-input-suffix-size")).toBe("");
       });
+    });
+  });
+
+  it("recalculates widths when a slotted input affix changes", async () => {
+    const { el } = await mount(
+      <calcite-field-group prefix-auto-width>
+        <calcite-input id="first" prefix-text="short" />
+        <calcite-input id="second" prefix-text="medium" />
+      </calcite-field-group>,
+    );
+    const first = el.querySelector<UpdatableElement>("#first")!;
+    const second = el.querySelector<UpdatableElement>("#second")!;
+
+    await vi.waitFor(() => {
+      expect(getStyleProperty(first, "--calcite-input-prefix-size")).toMatch(/^\d+px$/);
+    });
+
+    first.prefixText = "a much longer prefix";
+
+    await vi.waitFor(() => {
+      expect(getStyleProperty(second, "--calcite-input-prefix-size")).toBe(
+        getStyleProperty(first, "--calcite-input-prefix-size"),
+      );
     });
   });
 });

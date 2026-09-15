@@ -26,6 +26,13 @@ type DisabledControl = HTMLElement & {
 
 type ScaledControl = HTMLElement & { scale: Scale };
 
+type Affix = "prefix" | "suffix";
+
+type PreviousAffixStyle = {
+  priority: string;
+  value: string;
+};
+
 declare global {
   interface DeclareElements {
     "calcite-field-group": FieldGroup;
@@ -45,6 +52,16 @@ export class FieldGroup extends LitElement {
   //#region Private Properties
 
   private controlsDisabledSyncQueued = false;
+
+  private affixWidthRequestIds = {
+    prefix: 0,
+    suffix: 0,
+  };
+
+  private previousAffixStyles = new WeakMap<
+    Input["el"],
+    Partial<Record<Affix, PreviousAffixStyle>>
+  >();
 
   private get controlElements(): HTMLElement[] {
     return Array.from(this.el.querySelectorAll<HTMLElement>("*")).filter(
@@ -72,7 +89,7 @@ export class FieldGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, disables slotted controls and propagates to Field Groups and and Field Sets. */
+  /** When `true`, disables slotted controls and propagates to Field Groups and Field Sets. */
   @property({ reflect: true }) disabled = false;
 
   /** When `layout` is `"columns"`, specifies the number of columns in the Field Group it's applied to (does not propagate). */
@@ -81,13 +98,13 @@ export class FieldGroup extends LitElement {
   /** Specifies the component layout of the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) layout: Layout = "vertical";
 
-  /** When `true`, slotted input prefixes share the same width within the Field Group it's applied to (does not propagate). */
+  /** When `true`, slotted `calcite-input` prefixes share the same width within the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) prefixAutoWidth = false;
 
   /** Specifies the scale of slotted controls, Field Groups, and Field Sets. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, slotted input suffixes share the same width within the Field Group it's applied to (does not propagate). */
+  /** When `true`, slotted `calcite-input` suffixes share the same width within the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) suffixAutoWidth = false;
 
   //#endregion
@@ -110,6 +127,11 @@ export class FieldGroup extends LitElement {
     }
   }
 
+  constructor() {
+    super();
+    this.listen("calciteInternalInputAffixChange", this.handleInputAffixChange);
+  }
+
   //#endregion
 
   //#region Private Methods
@@ -122,6 +144,10 @@ export class FieldGroup extends LitElement {
       void this.queueControlsDisabledResync();
     }
 
+    void this.syncInputsAffixWidths();
+  }
+
+  private handleInputAffixChange(): void {
     void this.syncInputsAffixWidths();
   }
 
@@ -187,15 +213,48 @@ export class FieldGroup extends LitElement {
     shouldSync: boolean,
     styleProperty: typeof prefixSizeVar | typeof suffixSizeVar,
   ): Promise<void> {
+    const affix = styleProperty === prefixSizeVar ? "prefix" : "suffix";
+    const requestId = ++this.affixWidthRequestIds[affix];
     const inputs = this.inputs;
 
-    inputs.forEach((input) => input.style.removeProperty(styleProperty));
+    inputs.forEach((input) => {
+      const previousStyles = this.previousAffixStyles.get(input) ?? {};
+
+      if (!previousStyles[affix]) {
+        previousStyles[affix] = {
+          priority: input.style.getPropertyPriority(styleProperty),
+          value: input.style.getPropertyValue(styleProperty),
+        };
+        this.previousAffixStyles.set(input, previousStyles);
+      }
+
+      input.style.removeProperty(styleProperty);
+    });
 
     if (!shouldSync) {
+      inputs.forEach((input) => {
+        const previousStyles = this.previousAffixStyles.get(input);
+        const previousStyle = previousStyles?.[affix];
+
+        if (previousStyle?.value) {
+          input.style.setProperty(styleProperty, previousStyle.value, previousStyle.priority);
+        } else {
+          input.style.removeProperty(styleProperty);
+        }
+
+        if (previousStyles) {
+          delete previousStyles[affix];
+        }
+      });
+
       return;
     }
 
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    if (requestId !== this.affixWidthRequestIds[affix]) {
+      return;
+    }
 
     const nextWidth = Math.max(
       0,
@@ -203,6 +262,10 @@ export class FieldGroup extends LitElement {
         inputs.map((input) => this.getInputAffixWidth(input, affixWidthProperty)),
       )),
     );
+
+    if (requestId !== this.affixWidthRequestIds[affix]) {
+      return;
+    }
 
     inputs.forEach((input) => {
       if (nextWidth) {
