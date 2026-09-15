@@ -51,13 +51,13 @@ describe("renders", () => {
 });
 
 describe("structure", () => {
-  it("renders a fieldset with a hidden legend wrapper when no legend is provided", async () => {
+  it("renders a fieldset with a hidden legend when no legend is provided", async () => {
     const { el } = await mount<"calcite-field-set">(<calcite-field-set />);
     const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
-    const legendWrapper = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legendWrapper}`)!;
+    const legend = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
 
     expect(container.tagName).toBe("FIELDSET");
-    expect(legendWrapper.hidden).toBe(true);
+    expect(legend.hidden).toBe(true);
   });
 
   it("renders and updates a native legend", async () => {
@@ -80,9 +80,9 @@ describe("structure", () => {
         <div slot="legend">Slotted legend</div>
       </calcite-field-set>,
     );
-    const legendWrapper = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legendWrapper}`)!;
+    const legend = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
 
-    await vi.waitFor(() => expect(legendWrapper.hidden).toBe(false));
+    await vi.waitFor(() => expect(legend.hidden).toBe(false));
     expect(el.querySelector('[slot="legend"]')?.textContent).toBe("Slotted legend");
   });
 
@@ -106,11 +106,9 @@ describe("scale gap values", () => {
     ["l", "16px"],
   ] as const)("uses the expected gaps at scale %s", async (scale, expectedGap) => {
     const { el } = await mount<"calcite-field-set">(<calcite-field-set scale={scale} />);
-    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
-    const fieldWrapper = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
+    const legend = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
 
-    expect(getComputedStyle(container).gap).toBe(expectedGap);
-    expect(getComputedStyle(fieldWrapper).gap).toBe(expectedGap);
+    expect(getComputedStyle(legend).marginBottom).toBe(expectedGap);
   });
 });
 
@@ -198,8 +196,8 @@ describe("theme", () => {
         targetProp: "gap",
       },
       "--calcite-field-set-legend-gap": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "gap",
+        shadowSelector: `.${CSS.legend}`,
+        targetProp: "marginBottom",
       },
       "--calcite-field-set-legend-text-color": {
         shadowSelector: `.${CSS.legend}`,

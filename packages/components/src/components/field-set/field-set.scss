@@ -28,24 +28,19 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--calcite-field-set-legend-gap, var(--calcite-space-md));
   padding: 0;
   border: 0;
   margin: 0;
 }
 
-.legend-wrapper {
-  display: flex;
-  align-items: center;
+.legend {
+  display: block;
   font-size: var(--calcite-internal-field-set-legend-font-size, var(--calcite-font-size));
   font-weight: var(--calcite-font-weight-bold);
   line-height: var(--calcite-internal-field-set-legend-line-height, var(--calcite-font-line-height-fixed-base));
   color: var(--calcite-field-set-legend-text-color, var(--calcite-color-text-1));
-  min-block-size: var(--calcite-internal-field-set-legend-min-block-size);
-}
-
-.legend {
   padding-inline: 0;
+  margin-block-end: var(--calcite-field-set-legend-gap, var(--calcite-space-md));
 }
 
 .field-wrapper {
