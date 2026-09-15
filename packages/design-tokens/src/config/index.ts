@@ -95,7 +95,7 @@ const config: Config = {
         },
         {
           destination: "semantic.css",
-          format: sdFormats.cssVariables,
+          format: formats.FormatSemanticCss,
           filter: filters.FilterSemanticTokens,
         },
         {

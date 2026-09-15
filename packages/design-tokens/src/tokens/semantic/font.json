@@ -52,7 +52,8 @@
         "$value": "{font.weight.normal}",
         "$description": "Replaces `--calcite-font-weight-normal`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.outputReference": true,
+          "calcite.replaces": "{font.weight.normal}"
         }
       },
       "medium": {
@@ -148,7 +149,8 @@
         "$value": "{font.size.xxl}",
         "$description": "Replaces `--calcite-font-size-xxl`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.outputReference": true,
+          "calcite.replaces": "{font.size.xxl}"
         }
       },
       "relative": {
