@@ -47,7 +47,8 @@ export type Direction = "ltr" | "rtl";
  * @returns The Calcite mode.
  */
 export function getModeName(el: HTMLElement): "light" | "dark" {
-  const colorSchemes = getComputedStyle(el).colorScheme.split(" ");
+  const colorSchemes = window.getComputedStyle(el).colorScheme.split(" ");
+
   const hasDarkMode = colorSchemes.includes("dark");
   const hasLightMode = colorSchemes.includes("light");
 
