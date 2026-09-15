@@ -5,13 +5,12 @@ import StyleDictionary from "style-dictionary";
 import type { Platform, PlatformConfig, RegisterFn, Stylesheet } from "../../types.ts";
 import { dark, light } from "../dictionaries/index.ts";
 import { isThemed } from "../utils/token-types.ts";
+import { createBlock, getStylesheetFormat } from "./utils/index.ts";
 
 interface ThemedTokenPair {
   dark: TransformedToken;
   light: TransformedToken;
 }
-
-type VariableStyle = "css-custom-property" | "scss-variable";
 
 export const registerFormatLightDark: RegisterFn = () => {
   StyleDictionary.registerFormat({
@@ -23,24 +22,20 @@ export const registerFormatLightDark: RegisterFn = () => {
 export const formatLightDarkFile: FormatFn = async (args) => {
   const format = getStylesheetFormat(args.platform as PlatformConfig);
   const header = await fileHeader({ file: args.file });
-  const declarations = await getLightDarkDeclarations(args, format === "css" ? "css-custom-property" : "scss-variable");
-  const rootLines = format === "css" ? ["color-scheme: light dark;", ...declarations] : declarations;
-  const content = format === "css" ? createBlock(":root", rootLines) : rootLines.join("\n");
+  const declarations = await getLightDarkDeclarations(args, format);
+  const content =
+    format === "css" ? createBlock(":root", ["color-scheme: light dark;", ...declarations]) : declarations.join("\n");
 
   return prettierSync.format(`${header}${content}`, {
     parser: format,
   });
 };
 
-export async function getLightDarkDeclarations(
-  args: Parameters<FormatFn>[0],
-  variableStyle: VariableStyle,
-): Promise<string[]> {
+export async function getLightDarkDeclarations(args: Parameters<FormatFn>[0], format: Stylesheet): Promise<string[]> {
   const tokens = await getLightDarkTokenPairs(args.options.platform);
 
   return tokens.map(({ dark, light }) => {
-    const prefix = variableStyle === "css-custom-property" ? "--" : "$";
-    const format = variableStyle === "css-custom-property" ? "css" : "scss";
+    const prefix = format === "css" ? "--" : "$";
     const comment = light.comment ? (format === "css" ? ` /** ${light.comment} */` : ` // ${light.comment}`) : "";
 
     return `${prefix}${light.name}: light-dark(${light.$value}, ${dark.$value});${comment}`;
@@ -70,25 +65,6 @@ async function getLightDarkTokenPairs(platform: Platform): Promise<ThemedTokenPa
         light: lightToken,
       };
     });
-}
-
-function createBlock(selector: string, lines: string[]): string {
-  return `${selector} {\n${indent(lines.join("\n"))}\n}`;
-}
-
-function getStylesheetFormat(platform: PlatformConfig): Stylesheet {
-  if (platform.options.platform !== "css" && platform.options.platform !== "scss") {
-    throw new Error("Only css and scss platforms are supported.");
-  }
-
-  return platform.options.platform;
-}
-
-function indent(content: string): string {
-  return content
-    .split("\n")
-    .map((line) => `  ${line}`)
-    .join("\n");
 }
 
 export const FormatLightDark = "calcite/format/light-dark";
