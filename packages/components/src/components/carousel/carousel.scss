@@ -271,7 +271,7 @@ calcite-carousel-item:not([selected]) {
   &:focus {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
 
-    @include focus-inset.focus-inset();
+    @include focus.focus-inset();
   }
   &:active {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
