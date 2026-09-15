@@ -66,7 +66,7 @@
 @use "../../styles/includes";
 
 :host {
-  @apply flex;
+  display: flex;
   --calcite-internal-table-border-collapse: collapse;
 }
 
@@ -104,13 +104,14 @@
 }
 
 .container {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
   inline-size: var(--calcite-container-size-content-fluid);
   block-size: var(--calcite-container-size-content-fluid);
 }
 
 .table-container {
-  @apply whitespace-nowrap;
+  white-space: nowrap;
   line-height: var(--calcite-font-line-height-relative-tight);
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
@@ -123,7 +124,15 @@
 }
 
 .assistive-text {
-  @apply sr-only;
+  position: absolute;
+  inline-size: var(--calcite-space-px);
+  block-size: var(--calcite-space-px);
+  padding: 0;
+  margin: calc(-1 * var(--calcite-space-px));
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: var(--calcite-border-width-none);
 }
 
 table {
@@ -136,13 +145,13 @@ table {
 /* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
 @-moz-document url-prefix() {
   table {
-    @apply border-separate;
+    border-collapse: separate;
     border-spacing: 0;
   }
 }
 
 .table--fixed {
-  @apply table-fixed;
+  table-layout: fixed;
 }
 
 .bordered {
@@ -161,26 +170,29 @@ table {
 }
 
 .selection-actions {
-  @apply flex flex-row;
+  display: flex;
+  flex-direction: row;
   gap: var(--calcite-internal-table-selection-action-spacing);
   margin-inline-start: auto;
 }
 
 .selection-area {
-  @apply flex flex-row items-center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding-block: var(--calcite-internal-table-cell-padding);
 }
 
 .selection-area calcite-chip:last-of-type {
-  @apply me-2;
+  margin-inline-end: var(--calcite-space-sm);
 }
 
 .selection-area calcite-chip:last-of-type:not(:first-of-type) {
-  @apply ms-2;
+  margin-inline-start: var(--calcite-space-sm);
 }
 
 .selection-area calcite-button {
-  @apply me-4;
+  margin-inline-end: var(--calcite-space-lg);
 }
 
 .selection-chip {
@@ -206,7 +218,10 @@ table {
 }
 
 .pagination-area {
-  @apply flex flex-row w-full justify-center;
+  display: flex;
+  flex-direction: row;
+  inline-size: 100%;
+  justify-content: center;
   padding-block: var(--calcite-internal-table-cell-padding);
 }
 
@@ -222,7 +237,7 @@ calcite-pagination {
 }
 
 .dismiss-button {
-  @apply me-4;
+  margin-inline-end: var(--calcite-space-lg);
   --calcite-button-background-color: var(--calcite-table-selection-dismiss-button-background-color);
   --calcite-button-border-color: var(--calcite-table-selection-dismiss-button-border-color);
   --calcite-button-corner-radius: var(--calcite-table-selection-dismiss-button-corner-radius);

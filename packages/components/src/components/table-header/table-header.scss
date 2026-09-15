@@ -13,23 +13,34 @@
 @use "../../styles/includes";
 
 :host {
-  @apply contents;
+  display: contents;
 }
 
 :host([alignment="center"]) th {
-  @apply text-center;
+  text-align: center;
 }
 
 :host([alignment="end"]) th {
-  @apply text-end;
+  text-align: end;
 }
 
 .assistive-text {
-  @apply sr-only;
+  position: absolute;
+  inline-size: var(--calcite-space-px);
+  block-size: var(--calcite-space-px);
+  padding: 0;
+  margin: calc(-1 * var(--calcite-space-px));
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: var(--calcite-border-width-none);
 }
 
 th {
-  @apply text-start font-medium align-top whitespace-normal;
+  text-align: start;
+  font-weight: var(--calcite-font-weight-medium);
+  vertical-align: top;
+  white-space: normal;
   border-block-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   padding-block: calc(var(--calcite-internal-table-cell-padding) * 1.5);
@@ -42,9 +53,13 @@ th {
   border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   &:not(.static-cell) {
-    @apply focus-base;
+    outline-color: transparent;
     &:not(.static-cell):focus-within {
-      @apply focus-inset;
+      outline: var(--calcite-border-width-md) solid
+        var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+      outline-offset: calc(
+        calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+      );
     }
   }
 }
@@ -55,15 +70,15 @@ th:not(.body-row):not(.footer-row) {
 }
 
 th:not(.center):not(.end).content-cell {
-  @apply align-top;
+  vertical-align: top;
 }
 
 th.center {
-  @apply align-middle;
+  vertical-align: middle;
 }
 
 th.end.content-cell {
-  @apply align-bottom;
+  vertical-align: bottom;
 }
 
 th.body-row,
@@ -82,14 +97,15 @@ th.last-cell {
 }
 
 .cell--multiple-selection {
-  @apply cursor-pointer align-middle;
+  cursor: pointer;
+  vertical-align: middle;
   color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
   background-color: var(--calcite-table-selection-cell-background-color, var(--calcite-color-foreground-2));
   &.selected-cell {
     background-color: var(--calcite-table-selection-cell-background-color-selected, var(--calcite-color-foreground-2));
   }
   &:not(.end) {
-    @apply align-middle;
+    vertical-align: middle;
   }
 }
 
@@ -111,7 +127,9 @@ th.last-cell {
 }
 .number-cell calcite-icon,
 .selection-cell calcite-icon {
-  @apply ms-auto me-auto align-middle;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  vertical-align: middle;
 }
 
 .heading {
