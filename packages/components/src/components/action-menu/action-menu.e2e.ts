@@ -280,16 +280,16 @@ describe("Keyboard navigation", () => {
 
     expect(await trigger.getProperty("active")).toBe(true);
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.keyboard.press("ArrowDown");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
 
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
     expect(await actions[2].getProperty("activeDescendant")).toBe(false);
   });
 
@@ -322,8 +322,8 @@ describe("Keyboard navigation", () => {
 
     expect(await actions[0].getProperty("activeDescendant")).toBe(false);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[3].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[3].getProperty("activeDescendant")).toBe(false);
 
     await page.keyboard.press("ArrowDown");
     await waitForAnimationFrame(page);
@@ -331,8 +331,8 @@ describe("Keyboard navigation", () => {
 
     expect(await actions[0].getProperty("activeDescendant")).toBe(false);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[3].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[3].getProperty("activeDescendant")).toBe(true);
   });
 
   it("should handle ArrowUp navigation", async () => {
@@ -361,17 +361,17 @@ describe("Keyboard navigation", () => {
 
     expect(await trigger.getProperty("active")).toBe(true);
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
     expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
 
     await page.keyboard.press("ArrowUp");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
 
     expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
   });
 
   it("should handle Enter, Home, End and ESC navigation", async () => {
@@ -451,7 +451,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowUp");
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -485,7 +485,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowUp");
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -522,7 +522,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowUp");
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -555,7 +555,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowUp");
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     await openEventSpy.next();
 
@@ -599,7 +599,7 @@ describe("Keyboard navigation", () => {
     await actionMenu.callMethod("setFocus");
     await page.waitForChanges();
     const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    await page.keyboard.press("ArrowUp");
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     await openEventSpy.next();
 

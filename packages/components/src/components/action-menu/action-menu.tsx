@@ -11,7 +11,6 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
-import { toAriaBoolean } from "../../utils/aria";
 import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
@@ -122,7 +121,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       event.stopPropagation();
       this.toggleOpen(true);
       this.activeMenuItemIndex =
-        key === "ArrowUp" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
+        key === "ArrowDown" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
       this.updateActions(navigableActions);
       this.emitInternalActiveDescendantChange();
       return;
@@ -391,9 +390,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   private openHandler(open: boolean): void {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
-      this.menuButtonEl.aria = {
-        expanded: open,
-      };
+      this.syncMenuButtonAria();
     }
 
     if (this.popoverEl) {
@@ -410,7 +407,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   }
 
   private connectMenuButtonEl(): void {
-    const { menuButtonId, menuId, open, label } = this;
+    const { menuButtonId, open, label } = this;
     const menuButtonEl = this.slottedMenuButtonEl || this.defaultMenuButtonEl;
 
     if (this.menuButtonEl === menuButtonEl) {
@@ -437,9 +434,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     }
 
     menuButtonEl.active = open;
-    menuButtonEl.setAttribute("aria-controls", menuId);
-    menuButtonEl.setAttribute("aria-expanded", toAriaBoolean(open));
-    menuButtonEl.setAttribute("aria-haspopup", "true");
+    this.syncMenuButtonAria();
 
     if (!menuButtonEl.id) {
       menuButtonEl.id = menuButtonId;
@@ -543,6 +538,20 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       ? getSlotAssignedElements<Action["el"]>(this.triggerSlotRef.value, "calcite-action")[0]
       : undefined;
     this.connectMenuButtonEl();
+  }
+
+  private syncMenuButtonAria(): void {
+    const { menuButtonEl, open } = this;
+
+    if (!menuButtonEl) {
+      return;
+    }
+
+    menuButtonEl.aria = {
+      ...menuButtonEl.aria,
+      expanded: open,
+      hasPopup: "menu",
+    };
   }
 
   private syncActionsAndEmitChange(): void {
@@ -662,33 +671,28 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   }
 
   private handleActionNavigation(event: KeyboardEvent, key: string, actions: Action["el"][]): void {
-    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
+    if (!this.open || !this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
     }
 
     event.preventDefault();
 
-    if (this.open) {
-      if (key === "Home") {
-        this.activeMenuItemIndex = 0;
-      }
+    if (key === "Home") {
+      this.activeMenuItemIndex = 0;
+    }
 
-      if (key === "End") {
-        this.activeMenuItemIndex = actions.length - 1;
-      }
+    if (key === "End") {
+      this.activeMenuItemIndex = actions.length - 1;
+    }
 
-      const currentIndex = this.activeMenuItemIndex;
+    const currentIndex = this.activeMenuItemIndex;
 
-      if (key === "ArrowUp") {
-        this.activeMenuItemIndex = getRoundRobinIndex(
-          Math.max(currentIndex - 1, -1),
-          actions.length,
-        );
-      }
+    if (key === "ArrowUp") {
+      this.activeMenuItemIndex = getRoundRobinIndex(Math.max(currentIndex - 1, -1), actions.length);
+    }
 
-      if (key === "ArrowDown") {
-        this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
-      }
+    if (key === "ArrowDown") {
+      this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
     }
   }
 

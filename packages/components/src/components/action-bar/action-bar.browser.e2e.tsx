@@ -1280,6 +1280,12 @@ describe("per-group overflow-actions-disabled", () => {
 
     expect(actionMenu.open).toBe(true);
     await expect.poll(() => actionMenu.ariaActiveDescendantElement).toBe(secondAction);
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(actionMenu).toHaveProperty("open", false);
+
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(firstAction).toHaveFocus();
   });
 
   it("tabs backward to the previous action menu when multiple action bars are present", async () => {

@@ -398,8 +398,8 @@ describe("accessibility", () => {
   );
 
   it.each([
-    ["{ArrowUp}", "undo-action"],
-    ["{ArrowDown}", "redo-action"],
+    ["{ArrowUp}", "redo-action"],
+    ["{ArrowDown}", "undo-action"],
   ])("opens a vertical menu with %s and sets the active descendant", async (key, expectedId) => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu flipPlacements={["top", "bottom"]}>
