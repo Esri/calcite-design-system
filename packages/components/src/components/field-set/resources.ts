@@ -3,7 +3,4 @@ export const CSS = {
   legend: "legend",
   legendWrapper: "legend-wrapper",
   fieldWrapper: "field-wrapper",
-  fieldWrapperVertical: "field-wrapper--vertical",
-  fieldWrapperHorizontal: "field-wrapper--horizontal",
-  fieldWrapperColumns: "field-wrapper--columns",
 };

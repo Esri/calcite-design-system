@@ -5,7 +5,7 @@
  *
  * @prop --calcite-field-group-columns: When `layout` is `"columns"`, specifies the component's number of columns.
  * @prop --calcite-field-group-column-gap: When `layout` is `"columns"`, specifies the component's column gap.
- * @prop --calcite-field-group-gap: Specifies the gap between the component's slotted elements.
+ * @prop --calcite-field-group-gap: Specifies the gap between the component's slotted elements and slotted controls.
  */
 
 // AUTO-GENERATED - do not modify. Changes will be overwritten.
@@ -48,16 +48,17 @@
     align-items: start;
     column-gap: var(
       --calcite-field-group-column-gap,
-      var(
-        --calcite-field-group-gap,
-        var(--calcite-internal-field-group-gap, var(--calcite-field-set-column-gap, var(--calcite-space-md)))
-      )
+      var(--calcite-field-group-gap, var(--calcite-internal-field-group-gap, var(--calcite-space-md)))
     );
     grid-template-columns: repeat(
       var(--calcite-field-group-columns, var(--calcite-internal-field-group-columns, 1)),
       minmax(0, 1fr)
     );
   }
+}
+
+:host([layout="horizontal"]) ::slotted(calcite-field-set) {
+  inline-size: auto;
 }
 
 :host([scale="s"]) {

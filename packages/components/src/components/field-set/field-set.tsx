@@ -1,21 +1,10 @@
-import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
-import type { Input } from "../input/input";
 import type { Scale } from "../types";
-import { getStylePixelValue } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
-type Layout = "columns" | "horizontal" | "vertical";
-type Columns = 1 | 2 | 3 | 4 | 5 | 6;
-
-const internalPrefixWidthVar = "--calcite-internal-input-prefix-width";
-const internalSuffixWidthVar = "--calcite-internal-input-suffix-width";
-const prefixSizeVar = "--calcite-input-prefix-size";
-const suffixSizeVar = "--calcite-input-suffix-size";
-
 const controlBoundarySelector =
-  "calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
+  "calcite-field-group, calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
 
 const originalDisabledState = Symbol("calciteFieldSetOriginalDisabledState");
 
@@ -24,6 +13,8 @@ type DisabledControl = HTMLElement & {
   [originalDisabledState]?: boolean;
 };
 
+type ScaledControl = HTMLElement & { scale: Scale };
+
 declare global {
   interface DeclareElements {
     "calcite-field-set": FieldSet;
@@ -31,7 +22,7 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding content to the field set.
+ * @slot - A slot for adding controls and `calcite-field-group` components to the field set.
  * @slot legend - A slot for adding legend content to the field set.
  */
 export class FieldSet extends LitElement {
@@ -45,12 +36,6 @@ export class FieldSet extends LitElement {
 
   private controlsDisabledSyncQueued = false;
 
-  private get inputs(): Input["el"][] {
-    return this.controlElements.filter((element): element is Input["el"] =>
-      element.matches("calcite-input"),
-    );
-  }
-
   private get disabledControls(): DisabledControl[] {
     return this.controlElements.filter(
       (element): element is DisabledControl => "disabled" in element,
@@ -58,14 +43,13 @@ export class FieldSet extends LitElement {
   }
 
   private get controlElements(): HTMLElement[] {
-    return Array.from(this.el.querySelectorAll<HTMLElement>("*")).filter((element) => {
-      if (element.matches("calcite-field-set")) {
-        return false;
-      }
+    return Array.from(this.el.querySelectorAll<HTMLElement>("*")).filter(
+      (element) => element.parentElement?.closest(controlBoundarySelector) === this.el,
+    );
+  }
 
-      const closestBoundary = element.closest(controlBoundarySelector);
-      return closestBoundary === this.el || closestBoundary === element;
-    });
+  private get scaledControls(): ScaledControl[] {
+    return this.controlElements.filter((element): element is ScaledControl => "scale" in element);
   }
 
   //#endregion
@@ -78,26 +62,14 @@ export class FieldSet extends LitElement {
 
   //#region Public Properties
 
-  /** When `layout` is `"columns"`, specifies the number of columns. */
-  @property({ type: Number, reflect: true }) columns?: Columns;
-
   /** When `true`, disables slotted controls. */
   @property({ reflect: true }) disabled = false;
-
-  /** Specifies the component layout. */
-  @property({ reflect: true }) layout: Layout = "vertical";
 
   /** Specifies the field set legend. */
   @property() legend?: string;
 
-  /** When `true`, slotted input prefixes share the same width. */
-  @property({ reflect: true }) prefixAutoWidth = false;
-
-  /** Specifies the scale of legend text and gaps between controls. */
+  /** Specifies the scale of the component and its slotted controls and field groups. */
   @property({ reflect: true }) scale: Scale = "m";
-
-  /** When `true`, slotted input suffixes share the same width. */
-  @property({ reflect: true }) suffixAutoWidth = false;
 
   //#endregion
 
@@ -107,17 +79,12 @@ export class FieldSet extends LitElement {
     super.connectedCallback();
   }
 
-  override updated(changes: PropertyValues<this>): void {
-    if (changes.has("disabled")) {
-      this.syncControlsDisabled();
+  override updated(): void {
+    this.syncControlsDisabled();
+    this.syncControlsScale();
 
-      if (this.disabled) {
-        void this.queueControlsDisabledResync();
-      }
-    }
-
-    if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
-      void this.syncInputsAffixWidths();
+    if (this.disabled) {
+      void this.queueControlsDisabledResync();
     }
   }
 
@@ -125,29 +92,13 @@ export class FieldSet extends LitElement {
 
   //#region Private Methods
 
-  private async getInputAffixWidth(
-    input: Input["el"],
-    affixWidthProperty: typeof internalPrefixWidthVar | typeof internalSuffixWidthVar,
-  ): Promise<number> {
-    const readyInput = input as Input["el"] & {
-      componentOnReady?: () => Promise<void>;
-      updateComplete?: Promise<unknown>;
-    };
-
-    await readyInput.componentOnReady?.();
-    await readyInput.updateComplete;
-
-    return getStylePixelValue(getComputedStyle(input).getPropertyValue(affixWidthProperty).trim());
-  }
-
   private handleInputSlotChange(): void {
     this.syncControlsDisabled();
+    this.syncControlsScale();
 
     if (this.disabled) {
       void this.queueControlsDisabledResync();
     }
-
-    void this.syncInputsAffixWidths();
   }
 
   private handleLegendSlotChange(event: Event): void {
@@ -197,48 +148,10 @@ export class FieldSet extends LitElement {
     });
   }
 
-  private async syncInputAffixWidth(
-    affixWidthProperty: typeof internalPrefixWidthVar | typeof internalSuffixWidthVar,
-    shouldSync: boolean,
-    styleProperty: typeof prefixSizeVar | typeof suffixSizeVar,
-  ): Promise<void> {
-    const inputs = this.inputs;
-
-    if (!shouldSync) {
-      inputs.forEach((input) => input.style.removeProperty(styleProperty));
-      return;
-    }
-
-    inputs.forEach((input) => input.style.removeProperty(styleProperty));
-
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => resolve());
+  private syncControlsScale(): void {
+    this.scaledControls.forEach((control) => {
+      control.scale = this.scale;
     });
-
-    const nextWidth = Math.max(
-      0,
-      ...(await Promise.all(
-        inputs.map((input) => this.getInputAffixWidth(input, affixWidthProperty)),
-      )),
-    );
-
-    inputs.forEach((input) => {
-      if (!nextWidth) {
-        input.style.removeProperty(styleProperty);
-        return;
-      }
-
-      input.style.setProperty(styleProperty, `${nextWidth}px`);
-    });
-  }
-
-  private async syncInputsAffixWidths(): Promise<void> {
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => resolve());
-    });
-
-    await this.syncInputAffixWidth(internalPrefixWidthVar, this.prefixAutoWidth, prefixSizeVar);
-    await this.syncInputAffixWidth(internalSuffixWidthVar, this.suffixAutoWidth, suffixSizeVar);
   }
   //#endregion
 
@@ -254,14 +167,7 @@ export class FieldSet extends LitElement {
             </slot>
           </legend>
         </div>
-        <div
-          class={{
-            [CSS.fieldWrapper]: true,
-            [CSS.fieldWrapperVertical]: this.layout === "vertical",
-            [CSS.fieldWrapperHorizontal]: this.layout === "horizontal",
-            [CSS.fieldWrapperColumns]: this.layout === "columns",
-          }}
-        >
+        <div class={CSS.fieldWrapper}>
           <slot onSlotChange={this.handleInputSlotChange} />
         </div>
       </fieldset>
