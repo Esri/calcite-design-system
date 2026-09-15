@@ -159,7 +159,7 @@ export class FieldSet extends LitElement {
 
   override render(): JsxNode {
     return (
-      <fieldset class={CSS.container}>
+      <fieldset class={CSS.container} disabled={this.disabled}>
         <div class={CSS.legendWrapper} hidden={!this.legend && !this.hasLegendSlot}>
           <legend class={CSS.legend}>
             <slot name="legend" onSlotChange={this.handleLegendSlotChange}>
