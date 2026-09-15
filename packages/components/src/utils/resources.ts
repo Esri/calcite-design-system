@@ -1,10 +1,25 @@
 import { ModeClass, ModeName } from "../components/types";
 
-/* [Deprecated] in v5.2.0, removal target v7.0.0 - Set the `color-scheme: light dark;` CSS property instead. */
+/**
+ * Uses the user's preferred color scheme.
+ *
+ * @deprecated in v5.2.0, removal target v7.0.0. Use the CSS `color-scheme` property to set the theme.
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme
+ */
 export const autoMode = "calcite-mode-auto";
-/* [Deprecated] in v5.2.0, removal target v7.0.0 - Set the `color-scheme: dark;` CSS property instead. */
+/**
+ * Uses the dark color scheme.
+ *
+ * @deprecated in v5.2.0, removal target v7.0.0. Use the CSS `color-scheme` property to set the theme.
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme
+ */
 export const darkMode = "calcite-mode-dark";
-/* [Deprecated] in v5.2.0, removal target v7.0.0 - Set the `color-scheme: light;` CSS property instead. */
+/**
+ * Uses the light color scheme.
+ *
+ * @deprecated in v5.2.0, removal target v7.0.0. Use the CSS `color-scheme` property to set the theme.
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme
+ */
 const lightMode = "calcite-mode-light";
 
 interface Mode {
