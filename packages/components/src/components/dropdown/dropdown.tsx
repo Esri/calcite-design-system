@@ -1,5 +1,4 @@
 import { PropertyValues } from "lit";
-import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -44,8 +43,13 @@ import {
   useReferenceElement,
 } from "../../controllers/useReferenceElement";
 import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
+import { useT9n } from "../../controllers/useT9n";
+import { numberStringFormatter } from "../../utils/locale";
+import { CSS_UTILITY } from "../../utils/resources";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -54,6 +58,10 @@ declare global {
 }
 
 const manager = referenceElementManager({ click: true, hover: true });
+
+function replacePlaceholders(template: string, replacements: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) => replacements[key] ?? match);
+}
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -64,7 +72,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -91,11 +99,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private activeItemIndex = -1;
 
+  private assistiveTextUpdateId = 0;
+
   private groups: DropdownGroup["el"][] = [];
 
   private items: DropdownItem["el"][] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   transitionProp = "opacity" as const;
 
@@ -104,8 +116,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   );
 
   private scrollerEl?: HTMLDivElement;
-
-  private triggerSlotRef = createRef<HTMLSlotElement>();
 
   transitionEl: HTMLDivElement | undefined;
 
@@ -123,7 +133,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   //#region State Properties
 
-  @state() activeDescendantElement?: DropdownItem["el"];
+  @state() assistiveText = "";
 
   @state() referenceEl?: ReferenceElement;
 
@@ -149,6 +159,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    * Value must be greater than `0`, and does not include `groupTitle`s from `calcite-dropdown-group`.
    */
   @property({ reflect: true }) maxItems = 0;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
@@ -340,13 +353,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl") && this.referenceElementType) {
-      const previousReferenceEl = changes.get("referenceEl");
-
-      if (previousReferenceEl instanceof HTMLElement) {
-        previousReferenceEl.ariaActiveDescendantElement = null;
-      }
-
-      this.syncActiveDescendantOwnerElement();
       connectFloatingUI(this);
     }
   }
@@ -357,16 +363,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   override disconnectedCallback(): void {
-    const triggerSlotEl = this.triggerSlotRef.value;
-
-    if (triggerSlotEl) {
-      triggerSlotEl.ariaActiveDescendantElement = null;
-    }
-
-    if (this.referenceEl instanceof HTMLElement) {
-      this.referenceEl.ariaActiveDescendantElement = null;
-    }
-
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectFloatingUI(this);
@@ -544,12 +540,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   onBeforeClose(): void {
+    this.assistiveTextUpdateId++;
+    this.assistiveText = "";
     this.calciteDropdownBeforeClose.emit();
   }
 
   onClose(): void {
     this.calciteDropdownClose.emit();
-    this.syncActiveDescendantOwnerElement();
     hideFloatingUI(this);
     this.topLayer.hide();
   }
@@ -566,7 +563,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     this.referenceEl = el;
-    this.syncActiveDescendantOwnerElement();
 
     connectFloatingUI(this);
   }
@@ -574,10 +570,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-  }
-
-  private handleTriggerSlotChange(): void {
-    this.syncActiveDescendantOwnerElement();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -710,7 +702,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
-    this.updateActiveDescendantElement(traversableItems[this.activeItemIndex]);
+    this.updateActiveItem(traversableItems[this.activeItemIndex]);
   }
 
   private setActiveItemByIndex(index: number): void {
@@ -718,34 +710,74 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     const traversableItems = this.getTraversableItems();
     const activeItem = index >= 0 ? traversableItems[index] : null;
 
-    this.updateActiveDescendantElement(activeItem);
+    this.updateActiveItem(activeItem);
   }
 
-  private updateActiveDescendantElement(activeItem: DropdownItem["el"] | null): void {
+  private updateActiveItem(activeItem: DropdownItem["el"] | null): void {
     this.items.forEach((item) => {
-      item.activeDescendant = item === activeItem;
+      item.active = item === activeItem;
     });
 
-    this.activeDescendantElement = activeItem ?? undefined;
-    this.syncActiveDescendantOwnerElement();
+    void this.updateAssistiveText(activeItem);
   }
 
-  private syncActiveDescendantOwnerElement(): void {
-    const { referenceEl, referenceElementType } = this;
-    const triggerSlotEl = this.triggerSlotRef.value;
-    const activeDescendantEl = this.open ? (this.activeDescendantElement ?? null) : null;
-    const referenceOwnerEl = referenceEl instanceof HTMLElement ? referenceEl : null;
-    const isReferenceMode = Boolean(referenceElementType);
+  private async updateAssistiveText(activeItem: DropdownItem["el"] | null): Promise<void> {
+    const updateId = ++this.assistiveTextUpdateId;
+    this.assistiveText = "";
 
-    if (triggerSlotEl) {
-      triggerSlotEl.ariaActiveDescendantElement = isReferenceMode ? null : activeDescendantEl;
-    }
-
-    if (!referenceOwnerEl) {
+    if (!activeItem || !this.canUpdateAssistiveText()) {
       return;
     }
 
-    referenceOwnerEl.ariaActiveDescendantElement = isReferenceMode ? activeDescendantEl : null;
+    await this.updateComplete;
+
+    if (updateId !== this.assistiveTextUpdateId || !this.canUpdateAssistiveText()) {
+      return;
+    }
+
+    this.assistiveText = this.getAssistiveText(activeItem);
+  }
+
+  private canUpdateAssistiveText(): boolean {
+    return (
+      this.open &&
+      this.referenceEl instanceof HTMLElement &&
+      this.referenceEl.matches(":focus-within") &&
+      !this.messages._loading
+    );
+  }
+
+  private getAssistiveText(activeItem: DropdownItem["el"]): string {
+    const { messages } = this;
+    const group = activeItem.closest("calcite-dropdown-group");
+    const itemLabel = (activeItem.label ?? activeItem.innerText).replaceAll(/\s+/g, " ").trim();
+    const traversableItems = this.getTraversableItems();
+    const position = traversableItems.indexOf(activeItem) + 1;
+    const total = traversableItems.length;
+    const roleBySelectionMode = {
+      multiple: messages.menuItemCheckbox,
+      none: messages.menuItem,
+      single: messages.menuItemRadio,
+    };
+
+    numberStringFormatter.numberFormatOptions = { locale: messages._lang };
+
+    const itemTemplate =
+      activeItem.selectionMode === "none" || activeItem.href
+        ? messages.item
+        : messages.itemWithState;
+    const itemAnnouncement = replacePlaceholders(itemTemplate, {
+      label: itemLabel,
+      position: numberStringFormatter.localize(position.toString()),
+      role: activeItem.href ? messages.link : roleBySelectionMode[activeItem.selectionMode],
+      state: activeItem.selected ? messages.checked : messages.unchecked,
+      total: numberStringFormatter.localize(total.toString()),
+    });
+    const groupTitle = group?.groupTitle?.trim();
+
+    return groupTitle && groupTitle !== itemLabel
+      ? replacePlaceholders(messages.group, { group: groupTitle, item: itemAnnouncement })
+      : itemAnnouncement;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
@@ -783,7 +815,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     // ensure element is rendered/visible before focus or scrollIntoView
     // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
     await this.updateComplete;
-    await nextFrame();
     await nextFrame();
 
     target.scrollIntoView({ block: "nearest" });
@@ -839,6 +870,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   //#region Rendering
 
+  private renderAssistiveText(): JsxNode {
+    return (
+      <div ariaAtomic="true" ariaLive="polite" class={CSS_UTILITY.screenReaderText} role="status">
+        {this.assistiveText}
+      </div>
+    );
+  }
+
   override render(): JsxNode {
     const { open } = this;
     return (
@@ -857,8 +896,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
               ariaExpanded={open}
               ariaHasPopup="menu"
               name={SLOTS.trigger}
-              onSlotChange={this.handleTriggerSlotChange}
-              ref={this.triggerSlotRef}
             />
           </div>
         ) : null}
@@ -888,6 +925,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
             <slot onSlotChange={this.updateGroups} />
           </div>
         </div>
+        {this.renderAssistiveText()}
       </this.interactiveContainer>
     );
   }
