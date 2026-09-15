@@ -33,8 +33,10 @@
 // --calcite-internal-block-padding-block
 // --calcite-internal-block-padding-inline
 
+@use "../../styles/component/focus";
 @use "../../styles/includes";
 @use "../../styles/shared/animation";
+@use "../../styles/component/transition-color";
 @use "sass:meta";
 
 :host([scale="s"]) {
@@ -129,8 +131,15 @@
 
 :host {
   @extend %component-host;
-  @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
-    flex-col border-0 border-b border-solid p-0;
+  transition-timing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-direction: column;
+  border-width: var(--calcite-border-width-none);
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  padding: 0;
   flex-basis: auto;
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
   background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
@@ -139,7 +148,7 @@
 @include includes.disabled();
 
 .header {
-  @apply justify-start;
+  justify-content: flex-start;
 }
 .header--has-content {
   padding: var(--calcite-internal-block-header-content-padding);
@@ -154,7 +163,8 @@
 }
 
 .header-container {
-  @apply grid items-stretch;
+  display: grid;
+  align-items: stretch;
   grid-template: auto / auto 1fr auto auto auto auto;
   grid-template-areas: "handle header icon-end menu actions-end";
 }
@@ -177,15 +187,15 @@
 }
 
 .toggle {
-  @apply focus-base
-    flex
-    cursor-pointer
-    flex-nowrap
-    items-center
-    justify-between
-    border-none
-    m-0
-    p-0;
+  outline-color: transparent;
+  display: flex;
+  cursor: pointer;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  border-style: none;
+  margin: 0;
+  padding: 0;
   font-family: inherit;
   text-align: initial;
   background-color: var(--calcite-block-header-background-color, transparent);
@@ -194,7 +204,7 @@
     background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-foreground-2));
   }
   &:focus {
-    @apply focus-inset;
+    @include focus.focus-inset();
   }
   &:active {
     background-color: var(--calcite-block-header-background-color-press, var(--calcite-color-foreground-3));
@@ -202,7 +212,7 @@
 }
 
 calcite-loader[inline] {
-  @apply self-center;
+  align-self: center;
 }
 
 calcite-sort-handle {
@@ -213,29 +223,30 @@ calcite-sort-handle {
 }
 
 .title {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 .header .title .heading {
-  @apply word-break
-    p-0;
+  @include includes.word-break();
 
+  padding: 0;
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-1));
   font-weight: var(--calcite-font-weight-normal);
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .description {
-  @apply word-break
-    p-0;
+  @include includes.word-break();
 
+  padding: 0;
   color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .icon {
-  @apply flex;
+  display: flex;
 }
 
 .status-icon.valid {
@@ -259,15 +270,17 @@ calcite-sort-handle {
 }
 
 .icon-end-container {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
   grid-area: icon-end;
 }
 
 .toggle-icon {
-  @apply transition-color
-  self-center
-  justify-self-end
-  ease-in-out;
+  @include transition-color.transition-color();
+
+  align-self: center;
+  justify-self: end;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   color: var(
     --calcite-block-expandable-icon-color,
     var(--calcite-block-collapsible-icon-color, var(--calcite-block-icon-color, var(--calcite-color-text-3)))
@@ -285,11 +298,17 @@ calcite-sort-handle {
 }
 
 .container {
-  @apply flex flex-col h-full relative;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  position: relative;
 }
 
 .content {
-  @apply flex-1 relative min-h-0 opacity-0;
+  flex: 1 1 0%;
+  position: relative;
+  min-block-size: 0;
+  opacity: 0;
   transition: opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
@@ -300,7 +319,8 @@ calcite-sort-handle {
 
 .content-end,
 .content-start {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
 
   // Deprecated
   color: var(--calcite-block-text-color, var(--calcite-color-text-3));
@@ -313,7 +333,7 @@ calcite-action-menu {
 }
 
 :host([expanded]) {
-  @apply my-2;
+  margin-block: var(--calcite-space-sm);
 
   .header .title .heading {
     color: var(
