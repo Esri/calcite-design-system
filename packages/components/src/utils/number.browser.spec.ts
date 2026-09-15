@@ -142,26 +142,32 @@ describe("BigDecimal", () => {
   it("includes bidirectional marks for read-only formatting", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "ar",
-      numberingSystem: "arabext",
+      numberingSystem: "arab",
       useGrouping: true,
     };
 
     const number = new BigDecimal(testValue);
-    const expectedIntegerParts = numberStringFormatter.numberFormatter.formatToParts(-12345678n);
-    const expectedValue = `${expectedIntegerParts.map((part) => part.value).join("")}${
-      numberStringFormatter.decimal
-    }${numberStringFormatter.numberFormatter.format(9)}`;
-    const expectedFormattedValue = "-۱۲٬۳۴۵٬۶۷۸٫۹";
+    const expectedIntegerParts: Intl.NumberFormatPart[] = [
+      { type: "literal", value: "\u061C" },
+      { type: "minusSign", value: "-" },
+      { type: "integer", value: "١٢" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "٣٤٥" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "٦٧٨" },
+    ];
+    const expectedValue = "\u061C-١٢٬٣٤٥٬٦٧٨٫٩";
+    const expectedFormattedValue = "-١٢٬٣٤٥٬٦٧٨٫٩";
 
     expect(number.format(numberStringFormatter)).toBe(expectedFormattedValue);
     expect(numberStringFormatter.localize(testValue)).toBe(expectedFormattedValue);
     expect(number.formatToParts(numberStringFormatter)).toEqual([
       { type: "minusSign", value: "-" },
-      { type: "integer", value: "۱۲" },
+      { type: "integer", value: "١٢" },
       { type: "group", value: "٬" },
-      { type: "integer", value: "۳۴۵" },
+      { type: "integer", value: "٣٤٥" },
       { type: "group", value: "٬" },
-      { type: "integer", value: "۶۷۸" },
+      { type: "integer", value: "٦٧٨" },
       { type: "decimal", value: numberStringFormatter.decimal },
       { type: "fraction", value: "9" },
     ]);
@@ -178,16 +184,18 @@ describe("BigDecimal", () => {
   it("preserves the negative sign for read-only fractional values between negative one and zero", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "ar",
-      numberingSystem: "arabext",
+      numberingSystem: "arab",
       useGrouping: true,
     };
 
     const testValue = "-0.1";
     const number = new BigDecimal(testValue);
-    const expectedIntegerParts = numberStringFormatter.numberFormatter.formatToParts(-0);
-    const expectedValue = `${expectedIntegerParts.map((part) => part.value).join("")}${
-      numberStringFormatter.decimal
-    }${numberStringFormatter.numberFormatter.format(1)}`;
+    const expectedIntegerParts: Intl.NumberFormatPart[] = [
+      { type: "literal", value: "\u061C" },
+      { type: "minusSign", value: "-" },
+      { type: "integer", value: "٠" },
+    ];
+    const expectedValue = "\u061C-٠٫١";
 
     expect(number.format(numberStringFormatter, true)).toBe(expectedValue);
     expect(numberStringFormatter.localize(testValue, true)).toBe(expectedValue);
