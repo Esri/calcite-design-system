@@ -16,5 +16,6 @@
   "required": "Required",
   "second": "Second",
   "secondDown": "Decrease second",
-  "secondUp": "Increase second"
+  "secondUp": "Increase second",
+  "timePartLabel": "{label}: {part}"
 }

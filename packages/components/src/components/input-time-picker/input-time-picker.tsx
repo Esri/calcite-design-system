@@ -521,6 +521,14 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     this.activeEl = event.currentTarget as HTMLSpanElement;
   }
 
+  private getTimePartLabel(label?: string): string | undefined {
+    const componentLabel = getLabelText(this);
+    return componentLabel && label
+      ? (this.messages.timePartLabel?.replace("{label}", componentLabel).replace("{part}", label) ??
+          label)
+      : label;
+  }
+
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
   }
@@ -613,7 +621,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
             >
               {showMeridiem && meridiemStart && this.renderMeridiem()}
               <span
-                aria-label={this.messages.hour}
+                aria-label={this.getTimePartLabel(this.messages.hour)}
                 aria-valuemax="23"
                 aria-valuemin="1"
                 aria-valuenow={(hourIsNumber && parseInt(hour!, 10)) || "0"}
@@ -634,7 +642,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
               </span>
               <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
               <span
-                aria-label={this.messages.minute}
+                aria-label={this.getTimePartLabel(this.messages.minute)}
                 aria-valuemax="12"
                 aria-valuemin="1"
                 aria-valuenow={(minuteIsNumber && parseInt(minute!, 10)) || "0"}
@@ -656,7 +664,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
               <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
               {showSecond && (
                 <span
-                  aria-label={this.messages.second}
+                  aria-label={this.getTimePartLabel(this.messages.second)}
                   aria-valuemax="59"
                   aria-valuemin="0"
                   aria-valuenow={(secondIsNumber && parseInt(second!, 10)) || "0"}
@@ -681,7 +689,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
               )}
               {showFractionalSecond && (
                 <span
-                  aria-label={this.messages.fractionalSecond}
+                  aria-label={this.getTimePartLabel(this.messages.fractionalSecond)}
                   aria-valuemax="999"
                   aria-valuemin="1"
                   aria-valuenow={
@@ -770,7 +778,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <span
-        aria-label={this.messages.meridiem}
+        aria-label={this.getTimePartLabel(this.messages.meridiem)}
         aria-valuemax="2"
         aria-valuemin="1"
         aria-valuenow={(meridiem === "PM" && "2") || "1"}

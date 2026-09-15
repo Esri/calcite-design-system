@@ -62,6 +62,26 @@ it("renders the required combobox ARIA attributes", async () => {
   await expect.element(combobox).toHaveAttribute("aria-controls", IDS.inputContainer);
 });
 
+it("includes the component label in time part accessible names", async () => {
+  await mount(<calcite-input-time-picker hour-format="12" label="Input Time Picker" step={0.1} />);
+
+  await expect
+    .element(page.getByRole("spinbutton", { name: "Input Time Picker: Hour" }))
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("spinbutton", { name: "Input Time Picker: Minute" }))
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("spinbutton", { name: "Input Time Picker: Second" }))
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("spinbutton", { name: "Input Time Picker: Fractional second" }))
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("spinbutton", { name: "Input Time Picker: AM/PM" }))
+    .toBeVisible();
+});
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-input-time-picker"),
