@@ -191,7 +191,7 @@
 }
 
 .text-area.text-area--only {
-  @apply h-full;
+  block-size: var(--calcite-internal-text-area-block-size, 100%);
   min-block-size: var(--calcite-text-area-min-height, 0);
 }
 
