@@ -1,4 +1,4 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
@@ -42,7 +42,7 @@ export const formatIndexFile: FormatFn = async (args) => {
   );
   const content = [imports, lightDarkBlock, ...modeBlocks].join("");
 
-  return prettierSync.format(`${header}${content}`, {
+  return prettierFormat(`${header}${content}`, {
     parser: format,
   });
 };
