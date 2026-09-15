@@ -5,7 +5,6 @@ import "./menu"; // Force Vite to statically trace the file for Chromatic's Turb
 import "../menu-item/menu-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import { modesDarkDefault } from "../../../.storybook/utils";
 
 const { layout } = ATTRIBUTES;
 
@@ -423,8 +422,6 @@ export const darkModeRTL = (): string =>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
   </calcite-menu>`;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
-
 export const verticalComplexUseCase = (): string =>
   html`<calcite-shell-panel width-scale="l">
     <calcite-panel heading="Extreme nested vertical menu">
@@ -493,5 +490,3 @@ export const verticalLayoutInDarkModeRTL = (): string =>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
   </calcite-menu>`;
-
-verticalLayoutInDarkModeRTL.parameters = { themes: modesDarkDefault };

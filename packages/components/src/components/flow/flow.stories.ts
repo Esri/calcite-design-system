@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../panel/resources";
 import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -150,8 +150,6 @@ export const darkModeRTL = (): string => html`
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item2HTML)} </calcite-flow-item>
   </calcite-flow>
 `;
-
-darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const noDoubleScrollbars = (): string => html`
   <style>

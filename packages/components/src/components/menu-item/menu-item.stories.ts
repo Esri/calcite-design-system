@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
@@ -120,5 +120,3 @@ export const darkModeRTL = (): string =>
     icon-start="layer"
     icon-end="layer"
   />`;
-
-darkModeRTL.parameters = { themes: modesDarkDefault };
