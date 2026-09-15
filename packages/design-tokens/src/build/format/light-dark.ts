@@ -1,4 +1,4 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { FormatFn, TransformedToken } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
@@ -26,7 +26,7 @@ export const formatLightDarkFile: FormatFn = async (args) => {
   const content =
     format === "css" ? createBlock(":root", ["color-scheme: light dark;", ...declarations]) : declarations.join("\n");
 
-  return prettierSync.format(`${header}${content}`, {
+  return prettierFormat(`${header}${content}`, {
     parser: format,
   });
 };

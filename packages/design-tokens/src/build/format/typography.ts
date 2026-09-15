@@ -1,4 +1,4 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
 import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
@@ -98,7 +98,7 @@ export const formatTypography: FormatFn = async (args) => {
 
   const format = fileExtension.replace(".", "") as Stylesheet;
   const header = await fileHeader({ file, formatting, options });
-  return prettierSync.format(`${header}${getContent(args, format)}`, {
+  return prettierFormat(`${header}${getContent(args, format)}`, {
     parser: format,
   });
 };
