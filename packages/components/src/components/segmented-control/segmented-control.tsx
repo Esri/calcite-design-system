@@ -26,7 +26,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS } from "./resources";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { styles } from "./segmented-control.scss";
 
 declare global {
@@ -65,7 +65,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -94,7 +94,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   @property() labelText?: string;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "required">;
 
   /** @copyDoc */
   @property({ reflect: true }) name?: string;
@@ -389,7 +389,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div

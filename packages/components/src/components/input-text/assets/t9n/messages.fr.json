@@ -2,7 +2,5 @@
   "cancelInlineEditing": "Annuler",
   "clear": "Effacer la valeur",
   "confirmInlineEditingChanges": "Enregistrer",
-  "enableInlineEditing": "Modifier",
-  "loading": "Chargement",
-  "required": "Obligatoire"
+  "enableInlineEditing": "Modifier"
 }

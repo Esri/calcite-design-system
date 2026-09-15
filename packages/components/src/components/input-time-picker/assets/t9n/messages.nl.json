@@ -1,6 +1,5 @@
 {
   "chooseTime": "Tijd kiezen",
-  "clear": "Waarde wissen",
   "fractionalSecond": "Fractionele seconde",
   "fractionalSecondDown": "Fractionele seconde verkleinen",
   "fractionalSecondUp": "Fractionele seconde vergroten",
@@ -13,7 +12,6 @@
   "minute": "Minuut",
   "minuteDown": "Minuut verlagen",
   "minuteUp": "Minuut verhogen",
-  "required": "Vereist",
   "second": "Seconde",
   "secondDown": "Seconde verlagen",
   "secondUp": "Seconde verhogen"

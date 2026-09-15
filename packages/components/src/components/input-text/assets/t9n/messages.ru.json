@@ -2,7 +2,5 @@
   "cancelInlineEditing": "Отмена",
   "clear": "Очистить значение",
   "confirmInlineEditingChanges": "Сохранить",
-  "enableInlineEditing": "Редактировать",
-  "loading": "Загрузка",
-  "required": "Обязательное"
+  "enableInlineEditing": "Редактировать"
 }

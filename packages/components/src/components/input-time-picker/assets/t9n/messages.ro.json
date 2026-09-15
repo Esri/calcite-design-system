@@ -1,6 +1,5 @@
 {
   "chooseTime": "Alegeți ora",
-  "clear": "Golire valoare",
   "fractionalSecond": "Secundă fracțională",
   "fractionalSecondDown": "Micșorare secundă fracțională",
   "fractionalSecondUp": "Creștere secundă fracțională",
@@ -13,7 +12,6 @@
   "minute": "Minut",
   "minuteDown": "Micșorare minut",
   "minuteUp": "Creștere minut",
-  "required": "Obligatoriu",
   "second": "Secundă",
   "secondDown": "Micșorare secundă",
   "secondUp": "Creștere secundă"

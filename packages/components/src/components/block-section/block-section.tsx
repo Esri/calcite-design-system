@@ -17,7 +17,7 @@ import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./types";
 import { CSS, ICONS, IDS } from "./resources";
 import { styles } from "./block-section.scss";
@@ -46,7 +46,7 @@ export class BlockSection extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -73,7 +73,7 @@ export class BlockSection extends LitElement {
   @property({ reflect: true }) iconStart?: IconName;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "collapse" | "expand">;
 
   /**
    * When `true`, expands the component and its contents.
@@ -223,10 +223,10 @@ export class BlockSection extends LitElement {
   }
 
   override render(): JsxNode {
-    const { messages, expanded, text, toggleDisplay } = this;
+    const { expanded, text, toggleDisplay } = this;
     const arrowIcon = expanded ? ICONS.menuExpanded : ICONS.menuCollapsed;
 
-    const toggleLabel = expanded ? messages.collapse : messages.expand;
+    const toggleLabel = expanded ? this.messagesCommon.collapse : this.messagesCommon.expand;
 
     const headerNode =
       toggleDisplay === "switch" ? (
