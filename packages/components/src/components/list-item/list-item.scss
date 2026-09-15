@@ -112,6 +112,7 @@
 .content-container-wrapper {
   display: flex;
   flex: 1 1 auto;
+  inline-size: 100%;
 }
 .content-container-wrapper--bordered {
   border-block-end: 1px solid var(--calcite-list-border-color, var(--calcite-color-border-3));
@@ -122,7 +123,9 @@
     flex-auto
     font-normal
     items-stretch;
+  inline-size: 100%;
   color: var(--calcite-list-content-text-color, var(--calcite-color-text-2));
+  overflow: hidden;
 }
 
 .content-container--unavailable {
@@ -186,6 +189,7 @@
     flex-auto
     flex-col
     justify-center;
+  inline-size: 100%;
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 

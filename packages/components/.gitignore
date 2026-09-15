@@ -5,3 +5,5 @@ docs/
 src/components/icon/assets
 build/plugins/custom-element-dependencies.json
 node_modules
+src/demos/truncation-demo.html
+src/demos/text-demo.html
