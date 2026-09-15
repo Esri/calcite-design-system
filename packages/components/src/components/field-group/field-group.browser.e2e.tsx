@@ -7,8 +7,10 @@ import { CSS } from "./resources";
 type UpdatableElement = HTMLElement & {
   disabled?: boolean;
   prefixAutoWidth?: boolean;
+  prefixText?: string;
   scale?: string;
   suffixAutoWidth?: boolean;
+  suffixText?: string;
   updateComplete?: Promise<unknown>;
 };
 
