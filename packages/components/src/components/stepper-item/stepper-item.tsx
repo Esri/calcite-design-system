@@ -35,7 +35,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+/**
+ * @parent calcite-stepper
+ * @slot - A slot for adding custom content.
+ */
 export class StepperItem extends LitElement {
   //#region Static Members
 

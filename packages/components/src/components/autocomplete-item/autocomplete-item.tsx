@@ -16,6 +16,7 @@ declare global {
 }
 
 /**
+ * @parent calcite-autocomplete
  * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  */

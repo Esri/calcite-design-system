@@ -11,7 +11,10 @@ declare global {
     "calcite-list-item-group": ListItemGroup;
   }
 }
-/** @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements. */
+/**
+ * @parent calcite-list
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+ */
 export class ListItemGroup extends LitElement {
   //#region Static Members
 
