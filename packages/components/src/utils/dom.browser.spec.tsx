@@ -164,6 +164,102 @@ describe(getModeName, () => {
     );
     expect(el.foundModeName).toBe("dark");
   });
+
+  it("returns light if color-scheme is set to 'light'", async () => {
+    const { el } = await mount(
+      html`
+        <style>
+          mode-element {
+            color-scheme: light;
+          }
+        </style>
+        <mode-element></mode-element>
+      `,
+      {
+        dynamicComponents: [ModeComponent],
+      },
+    );
+
+    expect(el.foundModeName).toBe("light");
+  });
+
+  it("returns light if color-scheme is set to 'only light'", async () => {
+    const { el } = await mount(
+      html`
+        <style>
+          mode-element {
+            color-scheme: only light;
+          }
+        </style>
+        <mode-element></mode-element>
+      `,
+      {
+        dynamicComponents: [ModeComponent],
+      },
+    );
+
+    expect(el.foundModeName).toBe("light");
+  });
+
+  it("returns dark if color-scheme is set to 'dark'", async () => {
+    const { el } = await mount(
+      html`
+        <style>
+          mode-element {
+            color-scheme: dark;
+          }
+        </style>
+        <mode-element></mode-element>
+      `,
+      {
+        dynamicComponents: [ModeComponent],
+      },
+    );
+
+    expect(el.foundModeName).toBe("dark");
+  });
+
+  it("returns dark if color-scheme is set to 'only dark'", async () => {
+    const { el } = await mount(
+      html`
+        <style>
+          mode-element {
+            color-scheme: only dark;
+          }
+        </style>
+        <mode-element style="color-scheme: only dark"></mode-element>
+      `,
+      {
+        dynamicComponents: [ModeComponent],
+      },
+    );
+
+    expect(el.foundModeName).toBe("dark");
+  });
+
+  it("returns light if color-scheme is set to 'light dark' and OS is set to default scheme", async () => {
+    const { el } = await mount(html` <mode-element></mode-element> `, {
+      dynamicComponents: [ModeComponent],
+    });
+
+    expect(el.foundModeName).toBe("light");
+  });
+
+  it("returns light if color-scheme is not set", async () => {
+    const { el } = await mount(
+      html`<style>
+          mode-element {
+            color-scheme: light dark;
+          }
+        </style>
+        <mode-element></mode-element> `,
+      {
+        dynamicComponents: [ModeComponent],
+      },
+    );
+
+    expect(el.foundModeName).toBe("light");
+  });
 });
 
 describe(isPrimaryPointerButton, () => {
