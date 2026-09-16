@@ -39,7 +39,7 @@ const config: Config = {
       files: [
         {
           destination: "light.css",
-          format: sdFormats.cssVariables,
+          format: formats.FormatSemanticCss,
           filter: filters.FilterSourceTokens,
         },
       ],
