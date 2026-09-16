@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.74...@esri/calcite-components@5.2.0-next.75) (2026-09-16)
+
+### Features
+
+- **autocomplete, filter, input-date-picker, input-time-picker, progress, segmented-control, slider, time-picker:** enable default corner-radius inheritance across components ([#15071](https://github.com/Esri/calcite-design-system/issues/15071)), closes [#14675](https://github.com/Esri/calcite-design-system/issues/14675) [#9758](https://github.com/Esri/calcite-design-system/issues/9758) [#14890](https://github.com/Esri/calcite-design-system/issues/14890)
+
 ## [5.2.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.73...@esri/calcite-components@5.2.0-next.74) (2026-09-16)
 
 **Note:** Version bump only for package @esri/calcite-components
