@@ -1,0 +1,20 @@
+{
+  "reference": {
+    "corner-radius": {
+      "none": {
+        "attributes": {
+          "category": "corner-radius"
+        },
+        "$type": "borderRadius",
+        "$value": "{corner-radius.sharp}"
+      },
+      "sm": {
+        "attributes": {
+          "category": "corner-radius"
+        },
+        "$type": "borderRadius",
+        "$value": "{corner-radius.round}"
+      }
+    }
+  }
+}

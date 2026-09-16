@@ -1,0 +1,97 @@
+{
+  "reference": {
+    "space": {
+      "none": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.none}"
+      },
+      "px": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.px}"
+      },
+      "base": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.base}"
+      },
+      "2xs": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.xxs}"
+      },
+      "xs": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.xs}"
+      },
+      "sm": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.sm}"
+      },
+      "sm-plus": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.sm-plus}"
+      },
+      "md": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.md}"
+      },
+      "md-plus": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.md-plus}"
+      },
+      "lg": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.lg}"
+      },
+      "xl": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.xl}"
+      },
+      "2xl": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.xxl}"
+      },
+      "3xl": {
+        "attributes": {
+          "category": "spacing"
+        },
+        "$type": "spacing",
+        "$value": "{spacing.default.xxxl}"
+      }
+    }
+  }
+}
