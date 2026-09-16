@@ -1,6 +1,10 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Menu } from "./menu";
+import "./menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../menu-item/menu-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout } = ATTRIBUTES;
 

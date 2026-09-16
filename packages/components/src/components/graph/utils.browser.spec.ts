@@ -61,7 +61,7 @@ describe("area", () => {
       min: [0, 0],
       max: [1, 1],
     });
-    const emptyData = [];
+    const emptyData: DataSeries = [];
     const singlePointData: DataSeries = [[0, 2]];
     const twoPointData: DataSeries = [
       [0, 2],

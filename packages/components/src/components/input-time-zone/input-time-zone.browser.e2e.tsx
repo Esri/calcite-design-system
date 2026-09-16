@@ -9,6 +9,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  labelable,
   reflects,
   renders,
   scalePropagates,
@@ -16,11 +17,15 @@ import {
   themed,
   openClose,
   topLayer,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-time-zone", mountOptions));
+});
 
 describe("accessible", () => {
   accessible(() => mount("calcite-input-time-zone"));

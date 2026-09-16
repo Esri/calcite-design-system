@@ -1,25 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
-
-describe("common tests", () => {
-  describe("labelable", () => {
-    labelable("calcite-rating");
-  });
-
-  describe("focuses the first star when the label is clicked and no-rating value exists", () => {
-    labelable("calcite-rating", {
-      shadowFocusTargetSelector: "label[data-value='1']",
-    });
-  });
-
-  describe("focuses the value-matching star when the label is clicked", () => {
-    labelable("<calcite-rating value='3'></calcite-rating>", {
-      shadowFocusTargetSelector: "label[data-value='3']",
-    });
-  });
-});
 
 describe("rendering", () => {
   it("should render a rating", async () => {

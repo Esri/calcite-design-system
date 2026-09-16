@@ -4,6 +4,8 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import type { Tooltip } from "./tooltip";
 import { allModes } from "../../../.storybook/modes";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { overlayPositioning, placement, scale } = ATTRIBUTES;
 

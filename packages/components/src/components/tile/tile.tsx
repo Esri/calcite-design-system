@@ -211,12 +211,12 @@ export class Tile extends LitElement implements SelectableComponent {
     }
   }
 
-  private setContainerEl(el): void {
+  private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el && isActivationKey(event.key)) {
+    if (!this.href && event.target === this.el && isActivationKey(event.key)) {
       this.handleSelectEvent();
       event.preventDefault();
     }

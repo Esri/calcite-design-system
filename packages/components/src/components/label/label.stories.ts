@@ -2,6 +2,17 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Label } from "./label";
+import "../checkbox/checkbox"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input-text/input-text"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../option/option"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../segmented-control/segmented-control"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../segmented-control-item/segmented-control-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../select/select"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../slider/slider"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../switch/switch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../text-area/text-area"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { alignment, labelLayout, scale } = ATTRIBUTES;
 

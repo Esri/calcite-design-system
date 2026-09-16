@@ -455,7 +455,7 @@ export class ActionMenu extends LitElement {
     el.open = this.open;
   }
 
-  private handleCalciteActionClick(event): void {
+  private handleCalciteActionClick(event: MouseEvent): void {
     if (this.navigableActions.some((action) => event.composedPath().includes(action))) {
       this.open = false;
       this.setFocus();

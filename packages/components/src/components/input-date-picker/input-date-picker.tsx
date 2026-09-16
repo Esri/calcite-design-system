@@ -1320,7 +1320,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
               </div>
             )}
           </div>
-          {this.range && this.layout === "vertical" ? (
+          {this.range && this.layout === "vertical" && !this.readOnly ? (
             <div
               class={CSS.verticalActionsContainer}
               onClick={this.onVerticalActionsContainerClick}

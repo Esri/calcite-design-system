@@ -1,18 +1,11 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import {
-  accessible,
-  defaults,
-  hidden,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests/browser";
+import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/common";
 import { CSS } from "./resources";
 import { userEvent, page } from "vitest/browser";
 import { afterNextFrame } from "../../tests/utils/timing";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 
 describe("accessible: checked", () => {
   accessible(() => mount("calcite-tab-nav"));
@@ -32,6 +25,24 @@ describe("renders", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-tab-nav"));
+});
+
+describe("wheel interactions", () => {
+  it("does not prevent page scrolling when tab titles do not overflow", async () => {
+    await mount(
+      <calcite-tab-nav>
+        <calcite-tab-title selected>Tab title</calcite-tab-title>
+      </calcite-tab-nav>,
+    );
+    const tabTitleContainer = page
+      .getBySelector(`.${CSS.tabTitleSlotWrapper}`)
+      .element() as HTMLDivElement;
+    const event = new WheelEvent("wheel", { bubbles: true, cancelable: true, deltaY: 100 });
+
+    tabTitleContainer.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
 });
 
 describe("theme", () => {

@@ -1,3 +1,5 @@
+import "../components/option/option";
+import "../components/select/select";
 import { html } from "../../support/formatting";
 
 export const selectTokens = {

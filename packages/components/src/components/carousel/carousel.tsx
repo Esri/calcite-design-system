@@ -58,9 +58,9 @@ export class Carousel extends LitElement {
     entries.forEach(this.resizeHandler),
   );
 
-  private slideDurationInterval?;
+  private slideDurationInterval?: ReturnType<typeof setInterval>;
 
-  private slideInterval?;
+  private slideInterval?: ReturnType<typeof setInterval>;
 
   private tabListRef = createRef<HTMLDivElement>();
 

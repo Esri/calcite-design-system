@@ -8,13 +8,20 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   defaults,
   renders,
   accessible,
   themed,
   reflects,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-switch", mountOptions), {
+    propertyToToggle: "checked",
+  });
+});
 
 describe("accessible", () => {
   describe("default", () => {
