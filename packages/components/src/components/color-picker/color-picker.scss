@@ -155,8 +155,8 @@ calcite-swatch {
   z-index: var(--calcite-z-index);
   border-radius: var(--calcite-corner-radius-pill);
   background-color: transparent;
-  inline-size: var(--calcite-border-width-sm);
-  block-size: var(--calcite-border-width-sm);
+  inline-size: var(--calcite-size-px);
+  block-size: var(--calcite-size-px);
   pointer-events: none;
   &:focus {
     @include focus.focus-outset();
