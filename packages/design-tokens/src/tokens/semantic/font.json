@@ -49,10 +49,10 @@
           "group": "weight"
         },
         "$type": "fontWeights",
-        "$value": "{font.weight.normal}",
+        "$value": "{reference.font.weight.regular}",
         "$description": "Replaces `--calcite-font-weight-normal`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.theming": true
         }
       },
       "medium": {
@@ -145,10 +145,10 @@
           "group": "size"
         },
         "$type": "fontSizes",
-        "$value": "{font.size.xxl}",
+        "$value": "{reference.font.size.2xl}",
         "$description": "Replaces `--calcite-font-size-xxl`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.theming": true
         }
       },
       "relative": {

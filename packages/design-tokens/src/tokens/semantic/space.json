@@ -200,10 +200,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.none}",
+      "$value": "{reference.space.none}",
       "$description": "Replaces `--calcite-spacing-none`"
     },
     "px": {
@@ -211,10 +211,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.px}",
+      "$value": "{reference.space.px}",
       "$description": "Replaces `--calcite-spacing-px`"
     },
     "base": {
@@ -222,10 +222,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.base}",
+      "$value": "{reference.space.base}",
       "$description": "Replaces `--calcite-spacing-base`"
     },
     "2xs": {
@@ -233,10 +233,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xxs}",
+      "$value": "{reference.space.2xs}",
       "$description": "Replaces `--calcite-spacing-xxs`"
     },
     "xs": {
@@ -244,10 +244,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xs}",
+      "$value": "{reference.space.xs}",
       "$description": "Replaces `--calcite-spacing-xs`"
     },
     "sm": {
@@ -255,10 +255,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.sm}",
+      "$value": "{reference.space.sm}",
       "$description": "Replaces `--calcite-spacing-sm`"
     },
     "sm-plus": {
@@ -266,10 +266,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.sm-plus}",
+      "$value": "{reference.space.sm-plus}",
       "$description": "Replaces `--calcite-spacing-sm-plus`"
     },
     "md": {
@@ -277,10 +277,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.md}",
+      "$value": "{reference.space.md}",
       "$description": "Replaces `--calcite-spacing-md`"
     },
     "md-plus": {
@@ -288,10 +288,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.md-plus}",
+      "$value": "{reference.space.md-plus}",
       "$description": "Replaces `--calcite-spacing-md-plus`"
     },
     "lg": {
@@ -299,10 +299,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.lg}",
+      "$value": "{reference.space.lg}",
       "$description": "Replaces `--calcite-spacing-lg`"
     },
     "xl": {
@@ -310,10 +310,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xl}",
+      "$value": "{reference.space.xl}",
       "$description": "Replaces `--calcite-spacing-xl`"
     },
     "2xl": {
@@ -321,10 +321,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xxl}",
+      "$value": "{reference.space.2xl}",
       "$description": "Replaces `--calcite-spacing-xxl`"
     },
     "3xl": {
@@ -332,10 +332,10 @@
         "category": "spacing"
       },
       "$extensions": {
-        "calcite.outputReference": true
+        "calcite.theming": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xxxl}",
+      "$value": "{reference.space.3xl}",
       "$description": "Replaces `--calcite-spacing-xxxl`"
     },
     "4xl": {

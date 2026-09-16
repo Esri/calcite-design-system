@@ -7,10 +7,10 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{color.background.default}",
+        "$value": "{reference.color.surface.1}",
         "$description": "Replaces `--calcite-color-background`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.theming": true
         }
       },
       "2": {
@@ -19,10 +19,10 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{color.foreground.1}",
+        "$value": "{reference.color.surface.2}",
         "$description": "Replaces `--calcite-color-foreground-1`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.theming": true
         }
       },
       "3": {
@@ -31,10 +31,10 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{color.foreground.2}",
+        "$value": "{reference.color.surface.3}",
         "$description": "Replaces `--calcite-color-foreground-2`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.theming": true
         }
       },
       "4": {
@@ -43,10 +43,10 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{color.foreground.3}",
+        "$value": "{reference.color.surface.4}",
         "$description": "Replaces `--calcite-color-foreground-3`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.theming": true
         }
       },
       "highlight": {
@@ -55,10 +55,10 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{color.foreground.current}",
+        "$value": "{reference.color.surface.highlight}",
         "$description": "Replaces `--calcite-color-foreground-current`",
         "$extensions": {
-          "calcite.outputReference": true
+          "calcite.theming": true
         }
       }
     },
