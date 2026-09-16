@@ -1,6 +1,6 @@
 import prettierSync from "@prettier/sync";
-import type { FormatFn, TransformedToken } from "style-dictionary/types";
-import { fileHeader } from "style-dictionary/utils";
+import type { Dictionary, FormatFn, TransformedToken } from "style-dictionary/types";
+import { fileHeader, getReferences } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
 import type { Platform, PlatformConfig, RegisterFn, Stylesheet } from "../../types.ts";
 import { dark, light } from "../dictionaries/index.ts";
@@ -9,7 +9,9 @@ import { createBlock, getStylesheetFormat } from "./utils/index.ts";
 
 interface ThemedTokenPair {
   dark: TransformedToken;
+  darkDictionary: Dictionary;
   light: TransformedToken;
+  lightDictionary: Dictionary;
 }
 
 export const registerFormatLightDark: RegisterFn = () => {
@@ -34,13 +36,65 @@ export const formatLightDarkFile: FormatFn = async (args) => {
 export async function getLightDarkDeclarations(args: Parameters<FormatFn>[0], format: Stylesheet): Promise<string[]> {
   const tokens = await getLightDarkTokenPairs(args.options.platform);
 
-  return tokens.map(({ dark, light }) => {
+  return tokens.map(({ dark, darkDictionary, light, lightDictionary }) => {
     const prefix = format === "css" ? "--" : "$";
     const description = light.$description;
     const comment = description ? (format === "css" ? ` /** ${description} */` : ` // ${description} */`) : "";
+    const reference = getSharedReference(args, dark, darkDictionary, light, lightDictionary);
+    const value = reference
+      ? format === "css"
+        ? `var(--${reference.name})`
+        : `$${reference.name}`
+      : `light-dark(${light.$value}, ${dark.$value})`;
 
-    return `${prefix}${light.name}: light-dark(${light.$value}, ${dark.$value});${comment}`;
+    return `${prefix}${light.name}: ${value};${comment}`;
   });
+}
+
+function getSharedReference(
+  args: Parameters<FormatFn>[0],
+  dark: TransformedToken,
+  darkDictionary: Dictionary,
+  light: TransformedToken,
+  lightDictionary: Dictionary,
+): TransformedToken | undefined {
+  const darkReferences = getReferences(dark.original.$value, darkDictionary.unfilteredTokens ?? darkDictionary.tokens, {
+    usesDtcg: true,
+    warnImmediately: false,
+  });
+  const lightReferences = getReferences(
+    light.original.$value,
+    lightDictionary.unfilteredTokens ?? lightDictionary.tokens,
+    { usesDtcg: true, warnImmediately: false },
+  );
+  const [darkReference] = darkReferences;
+  const [lightReference] = lightReferences;
+
+  if (
+    darkReferences.length !== 1 ||
+    lightReferences.length !== 1 ||
+    !darkReference ||
+    !lightReference ||
+    darkReference.path.join(".") !== lightReference.path.join(".") ||
+    !shouldOutputReference(args, dark, darkDictionary) ||
+    !shouldOutputReference(args, light, lightDictionary)
+  ) {
+    return undefined;
+  }
+
+  return lightReference;
+}
+
+function shouldOutputReference(
+  args: Parameters<FormatFn>[0],
+  token: TransformedToken,
+  dictionary: Dictionary,
+): boolean {
+  const { outputReferences } = args.options;
+
+  return typeof outputReferences === "function"
+    ? outputReferences(token, { dictionary, usesDtcg: true })
+    : !!outputReferences;
 }
 
 async function getLightDarkTokenPairs(platform: Platform): Promise<ThemedTokenPair[]> {
@@ -63,7 +117,9 @@ async function getLightDarkTokenPairs(platform: Platform): Promise<ThemedTokenPa
 
       return {
         dark: darkToken,
+        darkDictionary,
         light: lightToken,
+        lightDictionary,
       };
     });
 }

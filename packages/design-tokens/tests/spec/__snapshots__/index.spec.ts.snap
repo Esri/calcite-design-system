@@ -1163,25 +1163,20 @@ exports[`CSS > index should match 1`] = `
 @import url("./classes.css");
 :root {
   color-scheme: light dark;
-  --calcite-color-surface-1: light-dark(
-    #f7f7f7,
-    #212121
+  --calcite-color-surface-1: var(
+    --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: light-dark(
-    #ffffff,
-    #2b2b2b
+  --calcite-color-surface-2: var(
+    --calcite-color-foreground-1
   ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: light-dark(
-    #f2f2f2,
-    #363636
+  --calcite-color-surface-3: var(
+    --calcite-color-foreground-2
   ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: light-dark(
-    #ebebeb,
-    #404040
+  --calcite-color-surface-4: var(
+    --calcite-color-foreground-3
   ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: light-dark(
-    #d6efff,
-    #2b465f
+  --calcite-color-surface-highlight: var(
+    --calcite-color-foreground-current
   ); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-background: light-dark(
     #f7f7f7,
@@ -1275,7 +1270,7 @@ exports[`CSS > index should match 1`] = `
     rgba(255, 255, 255, 0.16),
     rgba(0, 0, 0, 0.08)
   );
-  --calcite-color-focus: light-dark(#007ac2, #009af2);
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 .calcite-mode-auto {
   color-scheme: light dark;
@@ -1358,25 +1353,20 @@ exports[`CSS > light-dark should match 1`] = `
 
 :root {
   color-scheme: light dark;
-  --calcite-color-surface-1: light-dark(
-    #f7f7f7,
-    #212121
+  --calcite-color-surface-1: var(
+    --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: light-dark(
-    #ffffff,
-    #2b2b2b
+  --calcite-color-surface-2: var(
+    --calcite-color-foreground-1
   ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: light-dark(
-    #f2f2f2,
-    #363636
+  --calcite-color-surface-3: var(
+    --calcite-color-foreground-2
   ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: light-dark(
-    #ebebeb,
-    #404040
+  --calcite-color-surface-4: var(
+    --calcite-color-foreground-3
   ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: light-dark(
-    #d6efff,
-    #2b465f
+  --calcite-color-surface-highlight: var(
+    --calcite-color-foreground-current
   ); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-background: light-dark(
     #f7f7f7,
@@ -1470,7 +1460,7 @@ exports[`CSS > light-dark should match 1`] = `
     rgba(255, 255, 255, 0.16),
     rgba(0, 0, 0, 0.08)
   );
-  --calcite-color-focus: light-dark(#007ac2, #009af2);
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 "
 `;
@@ -33391,25 +33381,20 @@ exports[`SCSS > index should match 1`] = `
 @use "./breakpoints.scss";
 @use "./mixins.scss";
 @mixin calcite-light-dark-tokens {
-  --calcite-color-surface-1: light-dark(
-    #f7f7f7,
-    #212121
+  --calcite-color-surface-1: var(
+    --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: light-dark(
-    #ffffff,
-    #2b2b2b
+  --calcite-color-surface-2: var(
+    --calcite-color-foreground-1
   ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: light-dark(
-    #f2f2f2,
-    #363636
+  --calcite-color-surface-3: var(
+    --calcite-color-foreground-2
   ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: light-dark(
-    #ebebeb,
-    #404040
+  --calcite-color-surface-4: var(
+    --calcite-color-foreground-3
   ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: light-dark(
-    #d6efff,
-    #2b465f
+  --calcite-color-surface-highlight: var(
+    --calcite-color-foreground-current
   ); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-background: light-dark(
     #f7f7f7,
@@ -33503,7 +33488,7 @@ exports[`SCSS > index should match 1`] = `
     rgba(255, 255, 255, 0.16),
     rgba(0, 0, 0, 0.08)
   );
-  --calcite-color-focus: light-dark(#007ac2, #009af2);
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 @mixin calcite-mode-auto {
   color-scheme: light dark;
@@ -33584,26 +33569,11 @@ exports[`SCSS > light-dark should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-$calcite-color-surface-1: light-dark(
-  #f7f7f7,
-  #212121
-); // Replaces \`--calcite-color-background\` */
-$calcite-color-surface-2: light-dark(
-  #ffffff,
-  #2b2b2b
-); // Replaces \`--calcite-color-foreground-1\` */
-$calcite-color-surface-3: light-dark(
-  #f2f2f2,
-  #363636
-); // Replaces \`--calcite-color-foreground-2\` */
-$calcite-color-surface-4: light-dark(
-  #ebebeb,
-  #404040
-); // Replaces \`--calcite-color-foreground-3\` */
-$calcite-color-surface-highlight: light-dark(
-  #d6efff,
-  #2b465f
-); // Replaces \`--calcite-color-foreground-current\` */
+$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\` */
+$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\` */
+$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\` */
+$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\` */
+$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\` */
 $calcite-color-background: light-dark(
   #f7f7f7,
   #212121
@@ -33696,7 +33666,7 @@ $calcite-color-transparent-inverse-press: light-dark(
   rgba(255, 255, 255, 0.16),
   rgba(0, 0, 0, 0.08)
 );
-$calcite-color-focus: light-dark(#007ac2, #009af2);
+$calcite-color-focus: $calcite-color-brand;
 "
 `;
 
