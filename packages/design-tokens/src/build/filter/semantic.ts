@@ -1,10 +1,11 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../types.ts";
-import { isBreakpoint } from "../utils/token-types.ts";
+import { isBreakpoint, isThemingToken } from "../utils/token-types.ts";
 
 export const filterSemanticTokens: Filter["filter"] = (token) =>
-  token.isSource && !(token.$type === "color" || token.$type === "typography" || isBreakpoint(token));
+  token.isSource &&
+  !(token.$type === "color" || token.$type === "typography" || isBreakpoint(token) || isThemingToken(token));
 
 export const registerFilterSemanticTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({

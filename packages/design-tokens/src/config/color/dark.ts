@@ -10,8 +10,12 @@ import { transformers, filters, headers, formats } from "../../build/registry/in
 import { primitiveValueOutputReferences, stylesheetOutputReferences } from "../../build/utils/output-references.ts";
 
 const config: Config = {
-  source: ["src/tokens/semantic/color/dark.json"],
-  include: ["src/tokens/semantic/color/dark.json", "src/tokens/core/[!$]*.json"],
+  source: ["src/tokens/semantic/color/dark.json", "src/tokens/reference/color/dark.json"],
+  include: [
+    "src/tokens/semantic/color/dark.json",
+    "src/tokens/reference/color/dark.json",
+    "src/tokens/core/[!$]*.json",
+  ],
   preprocessors: ["tokens-studio"],
   platforms: {
     scss: {

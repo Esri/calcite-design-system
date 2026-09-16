@@ -1,14 +1,20 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../types.ts";
-import { isBreakpoint } from "../utils/token-types.ts";
+import { isBreakpoint, isThemingToken } from "../utils/token-types.ts";
 import { state } from "../shared/state.ts";
 import { isLightOrDarkColorToken } from "./light-or-dark.ts";
 
 export const filterGlobalTokens: Filter["filter"] = (token, config) => {
   return (
     state.sameValueThemeTokens.has(token.key) ||
-    (token.isSource && !(token.$type === "typography" || isBreakpoint(token) || isLightOrDarkColorToken(token, config)))
+    (token.isSource &&
+      !(
+        token.$type === "typography" ||
+        isBreakpoint(token) ||
+        isLightOrDarkColorToken(token, config) ||
+        isThemingToken(token)
+      ))
   );
 };
 
