@@ -969,12 +969,12 @@ exports[`CSS > dark should match 1`] = `
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-surface-1: var(--calcite-color-background); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: var(--calcite-color-foreground-1); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: var(--calcite-color-foreground-2); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
+  --calcite-reference-color-surface-1: #212121;
+  --calcite-reference-color-surface-2: #2b2b2b;
+  --calcite-reference-color-surface-3: #363636;
+  --calcite-reference-color-surface-4: #404040;
+  --calcite-reference-color-surface-highlight: #2b465f;
 }
 "
 `;
@@ -1123,32 +1123,32 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
-  --calcite-corner-radius-none: var(--calcite-corner-radius-sharp); /** Replaces \`--calcite-corner-radius-sharp\` */
-  --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
-  --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
-  --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
-  --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
-  --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
-  --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
-  --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
-  --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-space-2xs: var(--calcite-spacing-xxs); /** Replaces \`--calcite-spacing-xxs\` */
-  --calcite-space-xs: var(--calcite-spacing-xs); /** Replaces \`--calcite-spacing-xs\` */
-  --calcite-space-sm: var(--calcite-spacing-sm); /** Replaces \`--calcite-spacing-sm\` */
-  --calcite-space-sm-plus: var(--calcite-spacing-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-space-md: var(--calcite-spacing-md); /** Replaces \`--calcite-spacing-md\` */
-  --calcite-space-md-plus: var(--calcite-spacing-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
-  --calcite-space-lg: var(--calcite-spacing-lg); /** Replaces \`--calcite-spacing-lg\` */
-  --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
-  --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
-  --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-reference-corner-radius-none: 0;
+  --calcite-reference-corner-radius-sm: 4px;
+  --calcite-reference-font-weight-regular: 400;
+  --calcite-reference-font-size-2xl: 24px;
+  --calcite-reference-size-4xs: 0.625rem;
+  --calcite-reference-size-3xs: 0.75rem;
+  --calcite-reference-size-2xs: 0.875rem;
+  --calcite-reference-size-xs: 1rem;
+  --calcite-reference-size-sm: 1.5rem;
+  --calcite-reference-size-md: 2rem;
+  --calcite-reference-size-2xl: 4rem;
+  --calcite-reference-size-3xl: 6rem;
+  --calcite-reference-space-none: 0;
+  --calcite-reference-space-px: 1px;
+  --calcite-reference-space-base: 2px;
+  --calcite-reference-space-2xs: 0.25rem;
+  --calcite-reference-space-xs: 0.375rem;
+  --calcite-reference-space-sm: 0.5rem;
+  --calcite-reference-space-sm-plus: 0.625rem;
+  --calcite-reference-space-md: 0.75rem;
+  --calcite-reference-space-md-plus: 0.875rem;
+  --calcite-reference-space-lg: 1rem;
+  --calcite-reference-space-xl: 1.25rem;
+  --calcite-reference-space-2xl: 1.5rem;
+  --calcite-reference-space-3xl: 2rem;
+  --calcite-corner-radius: 0;
 }
 "
 `;
@@ -1216,22 +1216,12 @@ exports[`CSS > index should match 1`] = `
     0
   ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-reference-color-surface-highlight: #d6efff;
+  --calcite-reference-color-surface-4: #ebebeb;
+  --calcite-reference-color-surface-3: #f2f2f2;
+  --calcite-reference-color-surface-2: #ffffff;
+  --calcite-reference-color-surface-1: #f7f7f7;
   --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
 }
 @media (prefers-color-scheme: light) {
   .calcite-mode-auto {
@@ -1289,22 +1279,12 @@ exports[`CSS > index should match 1`] = `
       0
     ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
     --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+    --calcite-reference-color-surface-highlight: #d6efff;
+    --calcite-reference-color-surface-4: #ebebeb;
+    --calcite-reference-color-surface-3: #f2f2f2;
+    --calcite-reference-color-surface-2: #ffffff;
+    --calcite-reference-color-surface-1: #f7f7f7;
     --calcite-color-focus: var(--calcite-color-brand);
-    --calcite-color-surface-highlight: var(
-      --calcite-color-foreground-current
-    ); /** Replaces \`--calcite-color-foreground-current\` */
-    --calcite-color-surface-4: var(
-      --calcite-color-foreground-3
-    ); /** Replaces \`--calcite-color-foreground-3\` */
-    --calcite-color-surface-3: var(
-      --calcite-color-foreground-2
-    ); /** Replaces \`--calcite-color-foreground-2\` */
-    --calcite-color-surface-2: var(
-      --calcite-color-foreground-1
-    ); /** Replaces \`--calcite-color-foreground-1\` */
-    --calcite-color-surface-1: var(
-      --calcite-color-background
-    ); /** Replaces \`--calcite-color-background\` */
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -1363,22 +1343,12 @@ exports[`CSS > index should match 1`] = `
       0
     ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
     --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+    --calcite-reference-color-surface-highlight: #2b465f;
+    --calcite-reference-color-surface-4: #404040;
+    --calcite-reference-color-surface-3: #363636;
+    --calcite-reference-color-surface-2: #2b2b2b;
+    --calcite-reference-color-surface-1: #212121;
     --calcite-color-focus: var(--calcite-color-brand);
-    --calcite-color-surface-highlight: var(
-      --calcite-color-foreground-current
-    ); /** Replaces \`--calcite-color-foreground-current\` */
-    --calcite-color-surface-4: var(
-      --calcite-color-foreground-3
-    ); /** Replaces \`--calcite-color-foreground-3\` */
-    --calcite-color-surface-3: var(
-      --calcite-color-foreground-2
-    ); /** Replaces \`--calcite-color-foreground-2\` */
-    --calcite-color-surface-2: var(
-      --calcite-color-foreground-1
-    ); /** Replaces \`--calcite-color-foreground-1\` */
-    --calcite-color-surface-1: var(
-      --calcite-color-background
-    ); /** Replaces \`--calcite-color-background\` */
   }
 }
 .calcite-mode-light {
@@ -1436,22 +1406,12 @@ exports[`CSS > index should match 1`] = `
     0
   ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-reference-color-surface-highlight: #d6efff;
+  --calcite-reference-color-surface-4: #ebebeb;
+  --calcite-reference-color-surface-3: #f2f2f2;
+  --calcite-reference-color-surface-2: #ffffff;
+  --calcite-reference-color-surface-1: #f7f7f7;
   --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
 }
 .calcite-mode-dark {
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
@@ -1508,22 +1468,12 @@ exports[`CSS > index should match 1`] = `
     0
   ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-reference-color-surface-highlight: #2b465f;
+  --calcite-reference-color-surface-4: #404040;
+  --calcite-reference-color-surface-3: #363636;
+  --calcite-reference-color-surface-2: #2b2b2b;
+  --calcite-reference-color-surface-1: #212121;
   --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
 }
 "
 `;
@@ -1579,12 +1529,12 @@ exports[`CSS > light should match 1`] = `
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-surface-1: var(--calcite-color-background); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: var(--calcite-color-foreground-1); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: var(--calcite-color-foreground-2); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
+  --calcite-reference-color-surface-1: #f7f7f7;
+  --calcite-reference-color-surface-2: #ffffff;
+  --calcite-reference-color-surface-3: #f2f2f2;
+  --calcite-reference-color-surface-4: #ebebeb;
+  --calcite-reference-color-surface-highlight: #d6efff;
 }
 "
 `;
@@ -1731,32 +1681,32 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
-  --calcite-corner-radius-none: var(--calcite-corner-radius-sharp); /** Replaces \`--calcite-corner-radius-sharp\` */
-  --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
-  --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
-  --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
-  --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
-  --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
-  --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
-  --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
-  --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-space-2xs: var(--calcite-spacing-xxs); /** Replaces \`--calcite-spacing-xxs\` */
-  --calcite-space-xs: var(--calcite-spacing-xs); /** Replaces \`--calcite-spacing-xs\` */
-  --calcite-space-sm: var(--calcite-spacing-sm); /** Replaces \`--calcite-spacing-sm\` */
-  --calcite-space-sm-plus: var(--calcite-spacing-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-space-md: var(--calcite-spacing-md); /** Replaces \`--calcite-spacing-md\` */
-  --calcite-space-md-plus: var(--calcite-spacing-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
-  --calcite-space-lg: var(--calcite-spacing-lg); /** Replaces \`--calcite-spacing-lg\` */
-  --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
-  --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
-  --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-reference-corner-radius-none: 0;
+  --calcite-reference-corner-radius-sm: 4px;
+  --calcite-reference-font-weight-regular: 400;
+  --calcite-reference-font-size-2xl: 24px;
+  --calcite-reference-size-4xs: 0.625rem;
+  --calcite-reference-size-3xs: 0.75rem;
+  --calcite-reference-size-2xs: 0.875rem;
+  --calcite-reference-size-xs: 1rem;
+  --calcite-reference-size-sm: 1.5rem;
+  --calcite-reference-size-md: 2rem;
+  --calcite-reference-size-2xl: 4rem;
+  --calcite-reference-size-3xl: 6rem;
+  --calcite-reference-space-none: 0;
+  --calcite-reference-space-px: 1px;
+  --calcite-reference-space-base: 2px;
+  --calcite-reference-space-2xs: 0.25rem;
+  --calcite-reference-space-xs: 0.375rem;
+  --calcite-reference-space-sm: 0.5rem;
+  --calcite-reference-space-sm-plus: 0.625rem;
+  --calcite-reference-space-md: 0.75rem;
+  --calcite-reference-space-md-plus: 0.875rem;
+  --calcite-reference-space-lg: 1rem;
+  --calcite-reference-space-xl: 1.25rem;
+  --calcite-reference-space-2xl: 1.5rem;
+  --calcite-reference-space-3xl: 2rem;
+  --calcite-corner-radius: 0;
 }
 "
 `;
@@ -17576,136 +17526,6 @@ exports[`DOCS (internal) > global should match 1`] = `
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
-      "key": "{color.surface.1}",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "surface",
-        "item": "1",
-        "names": {
-          "scss": "$calcite-color-surface-1",
-          "css": "var(--calcite-color-surface-1)",
-          "docs": "color.surface.1",
-          "es6": "calciteColorSurface1"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color"
-        }
-      },
-      "$type": "color",
-      "$value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#212121\\"}",
-      "$description": "Replaces \`--calcite-color-background\`",
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 1",
-      "path": ["color", "surface", "1"]
-    },
-    {
-      "key": "{color.surface.2}",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "surface",
-        "item": "2",
-        "names": {
-          "scss": "$calcite-color-surface-2",
-          "css": "var(--calcite-color-surface-2)",
-          "docs": "color.surface.2",
-          "es6": "calciteColorSurface2"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color"
-        }
-      },
-      "$type": "color",
-      "$value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#2b2b2b\\"}",
-      "$description": "Replaces \`--calcite-color-foreground-1\`",
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 2",
-      "path": ["color", "surface", "2"]
-    },
-    {
-      "key": "{color.surface.3}",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "surface",
-        "item": "3",
-        "names": {
-          "scss": "$calcite-color-surface-3",
-          "css": "var(--calcite-color-surface-3)",
-          "docs": "color.surface.3",
-          "es6": "calciteColorSurface3"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color"
-        }
-      },
-      "$type": "color",
-      "$value": "{\\"light\\":\\"#f2f2f2\\",\\"dark\\":\\"#363636\\"}",
-      "$description": "Replaces \`--calcite-color-foreground-2\`",
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 3",
-      "path": ["color", "surface", "3"]
-    },
-    {
-      "key": "{color.surface.4}",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "surface",
-        "item": "4",
-        "names": {
-          "scss": "$calcite-color-surface-4",
-          "css": "var(--calcite-color-surface-4)",
-          "docs": "color.surface.4",
-          "es6": "calciteColorSurface4"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color"
-        }
-      },
-      "$type": "color",
-      "$value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
-      "$description": "Replaces \`--calcite-color-foreground-3\`",
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 4",
-      "path": ["color", "surface", "4"]
-    },
-    {
-      "key": "{color.surface.highlight}",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "surface",
-        "item": "highlight",
-        "names": {
-          "scss": "$calcite-color-surface-highlight",
-          "css": "var(--calcite-color-surface-highlight)",
-          "docs": "color.surface.highlight",
-          "es6": "calciteColorSurfaceHighlight"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color"
-        }
-      },
-      "$type": "color",
-      "$value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
-      "$description": "Replaces \`--calcite-color-foreground-current\`",
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface Highlight",
-      "path": ["color", "surface", "highlight"]
-    },
-    {
       "key": "{color.background.default}",
       "attributes": {
         "category": "color",
@@ -18875,6 +18695,740 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["color", "focus", "default"]
     },
     {
+      "key": "{reference.corner-radius.none}",
+      "attributes": {
+        "category": "corner-radius",
+        "type": "corner-radius",
+        "item": "none",
+        "names": {
+          "scss": "$calcite-reference-corner-radius-none",
+          "css": "var(--calcite-reference-corner-radius-none)",
+          "docs": "reference.corner-radius.none",
+          "es6": "calciteReferenceCornerRadiusNone"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0",
+      "filePath": "src/tokens/reference/corner-radius.json",
+      "isSource": true,
+      "name": "Reference Corner Radius None",
+      "path": ["reference", "corner-radius", "none"]
+    },
+    {
+      "key": "{reference.corner-radius.sm}",
+      "attributes": {
+        "category": "corner-radius",
+        "type": "corner-radius",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-reference-corner-radius-sm",
+          "css": "var(--calcite-reference-corner-radius-sm)",
+          "docs": "reference.corner-radius.sm",
+          "es6": "calciteReferenceCornerRadiusSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "4px",
+      "filePath": "src/tokens/reference/corner-radius.json",
+      "isSource": true,
+      "name": "Reference Corner Radius Sm",
+      "path": ["reference", "corner-radius", "sm"]
+    },
+    {
+      "key": "{reference.font.weight.regular}",
+      "attributes": {
+        "category": "font",
+        "group": "weight",
+        "type": "font",
+        "item": "weight",
+        "subitem": "regular",
+        "names": {
+          "scss": "$calcite-reference-font-weight-regular",
+          "css": "var(--calcite-reference-font-weight-regular)",
+          "docs": "reference.font.weight.regular",
+          "es6": "calciteReferenceFontWeightRegular"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "fontWeight",
+      "$value": "400",
+      "filePath": "src/tokens/reference/font.json",
+      "isSource": true,
+      "name": "Reference Font Weight Regular",
+      "path": ["reference", "font", "weight", "regular"]
+    },
+    {
+      "key": "{reference.font.size.2xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-reference-font-size-2xl",
+          "css": "var(--calcite-reference-font-size-2xl)",
+          "docs": "reference.font.size.2xl",
+          "es6": "calciteReferenceFontSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "24px",
+      "filePath": "src/tokens/reference/font.json",
+      "isSource": true,
+      "name": "Reference Font Size 2xl",
+      "path": ["reference", "font", "size", "2xl"]
+    },
+    {
+      "key": "{reference.size.4xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "4xs",
+        "names": {
+          "scss": "$calcite-reference-size-4xs",
+          "css": "var(--calcite-reference-size-4xs)",
+          "docs": "reference.size.4xs",
+          "es6": "calciteReferenceSize4xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.625rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 4xs",
+      "path": ["reference", "size", "4xs"]
+    },
+    {
+      "key": "{reference.size.3xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "3xs",
+        "names": {
+          "scss": "$calcite-reference-size-3xs",
+          "css": "var(--calcite-reference-size-3xs)",
+          "docs": "reference.size.3xs",
+          "es6": "calciteReferenceSize3xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 3xs",
+      "path": ["reference", "size", "3xs"]
+    },
+    {
+      "key": "{reference.size.2xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "2xs",
+        "names": {
+          "scss": "$calcite-reference-size-2xs",
+          "css": "var(--calcite-reference-size-2xs)",
+          "docs": "reference.size.2xs",
+          "es6": "calciteReferenceSize2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.875rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 2xs",
+      "path": ["reference", "size", "2xs"]
+    },
+    {
+      "key": "{reference.size.xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "xs",
+        "names": {
+          "scss": "$calcite-reference-size-xs",
+          "css": "var(--calcite-reference-size-xs)",
+          "docs": "reference.size.xs",
+          "es6": "calciteReferenceSizeXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size Xs",
+      "path": ["reference", "size", "xs"]
+    },
+    {
+      "key": "{reference.size.sm}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-reference-size-sm",
+          "css": "var(--calcite-reference-size-sm)",
+          "docs": "reference.size.sm",
+          "es6": "calciteReferenceSizeSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size Sm",
+      "path": ["reference", "size", "sm"]
+    },
+    {
+      "key": "{reference.size.md}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "md",
+        "names": {
+          "scss": "$calcite-reference-size-md",
+          "css": "var(--calcite-reference-size-md)",
+          "docs": "reference.size.md",
+          "es6": "calciteReferenceSizeMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "2rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size Md",
+      "path": ["reference", "size", "md"]
+    },
+    {
+      "key": "{reference.size.2xl}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "2xl",
+        "names": {
+          "scss": "$calcite-reference-size-2xl",
+          "css": "var(--calcite-reference-size-2xl)",
+          "docs": "reference.size.2xl",
+          "es6": "calciteReferenceSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "4rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 2xl",
+      "path": ["reference", "size", "2xl"]
+    },
+    {
+      "key": "{reference.size.3xl}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "3xl",
+        "names": {
+          "scss": "$calcite-reference-size-3xl",
+          "css": "var(--calcite-reference-size-3xl)",
+          "docs": "reference.size.3xl",
+          "es6": "calciteReferenceSize3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "6rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 3xl",
+      "path": ["reference", "size", "3xl"]
+    },
+    {
+      "key": "{reference.space.none}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "none",
+        "names": {
+          "scss": "$calcite-reference-space-none",
+          "css": "var(--calcite-reference-space-none)",
+          "docs": "reference.space.none",
+          "es6": "calciteReferenceSpaceNone"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space None",
+      "path": ["reference", "space", "none"]
+    },
+    {
+      "key": "{reference.space.px}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "px",
+        "names": {
+          "scss": "$calcite-reference-space-px",
+          "css": "var(--calcite-reference-space-px)",
+          "docs": "reference.space.px",
+          "es6": "calciteReferenceSpacePx"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1px",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Px",
+      "path": ["reference", "space", "px"]
+    },
+    {
+      "key": "{reference.space.base}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "base",
+        "names": {
+          "scss": "$calcite-reference-space-base",
+          "css": "var(--calcite-reference-space-base)",
+          "docs": "reference.space.base",
+          "es6": "calciteReferenceSpaceBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "2px",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Base",
+      "path": ["reference", "space", "base"]
+    },
+    {
+      "key": "{reference.space.2xs}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "2xs",
+        "names": {
+          "scss": "$calcite-reference-space-2xs",
+          "css": "var(--calcite-reference-space-2xs)",
+          "docs": "reference.space.2xs",
+          "es6": "calciteReferenceSpace2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.25rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space 2xs",
+      "path": ["reference", "space", "2xs"]
+    },
+    {
+      "key": "{reference.space.xs}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "xs",
+        "names": {
+          "scss": "$calcite-reference-space-xs",
+          "css": "var(--calcite-reference-space-xs)",
+          "docs": "reference.space.xs",
+          "es6": "calciteReferenceSpaceXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.375rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Xs",
+      "path": ["reference", "space", "xs"]
+    },
+    {
+      "key": "{reference.space.sm}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-reference-space-sm",
+          "css": "var(--calcite-reference-space-sm)",
+          "docs": "reference.space.sm",
+          "es6": "calciteReferenceSpaceSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Sm",
+      "path": ["reference", "space", "sm"]
+    },
+    {
+      "key": "{reference.space.sm-plus}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "sm-plus",
+        "names": {
+          "scss": "$calcite-reference-space-sm-plus",
+          "css": "var(--calcite-reference-space-sm-plus)",
+          "docs": "reference.space.sm-plus",
+          "es6": "calciteReferenceSpaceSmPlus"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.625rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Sm Plus",
+      "path": ["reference", "space", "sm-plus"]
+    },
+    {
+      "key": "{reference.space.md}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "md",
+        "names": {
+          "scss": "$calcite-reference-space-md",
+          "css": "var(--calcite-reference-space-md)",
+          "docs": "reference.space.md",
+          "es6": "calciteReferenceSpaceMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Md",
+      "path": ["reference", "space", "md"]
+    },
+    {
+      "key": "{reference.space.md-plus}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "md-plus",
+        "names": {
+          "scss": "$calcite-reference-space-md-plus",
+          "css": "var(--calcite-reference-space-md-plus)",
+          "docs": "reference.space.md-plus",
+          "es6": "calciteReferenceSpaceMdPlus"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.875rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Md Plus",
+      "path": ["reference", "space", "md-plus"]
+    },
+    {
+      "key": "{reference.space.lg}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "lg",
+        "names": {
+          "scss": "$calcite-reference-space-lg",
+          "css": "var(--calcite-reference-space-lg)",
+          "docs": "reference.space.lg",
+          "es6": "calciteReferenceSpaceLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Lg",
+      "path": ["reference", "space", "lg"]
+    },
+    {
+      "key": "{reference.space.xl}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "xl",
+        "names": {
+          "scss": "$calcite-reference-space-xl",
+          "css": "var(--calcite-reference-space-xl)",
+          "docs": "reference.space.xl",
+          "es6": "calciteReferenceSpaceXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1.25rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Xl",
+      "path": ["reference", "space", "xl"]
+    },
+    {
+      "key": "{reference.space.2xl}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "2xl",
+        "names": {
+          "scss": "$calcite-reference-space-2xl",
+          "css": "var(--calcite-reference-space-2xl)",
+          "docs": "reference.space.2xl",
+          "es6": "calciteReferenceSpace2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space 2xl",
+      "path": ["reference", "space", "2xl"]
+    },
+    {
+      "key": "{reference.space.3xl}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "3xl",
+        "names": {
+          "scss": "$calcite-reference-space-3xl",
+          "css": "var(--calcite-reference-space-3xl)",
+          "docs": "reference.space.3xl",
+          "es6": "calciteReferenceSpace3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "2rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space 3xl",
+      "path": ["reference", "space", "3xl"]
+    },
+    {
+      "key": "{reference.color.surface.1}",
+      "attributes": {
+        "category": "color",
+        "group": "surface",
+        "type": "color",
+        "item": "surface",
+        "subitem": "1",
+        "names": {
+          "scss": "$calcite-reference-color-surface-1",
+          "css": "var(--calcite-reference-color-surface-1)",
+          "docs": "reference.color.surface.1",
+          "es6": "calciteReferenceColorSurface1"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color"
+        }
+      },
+      "$type": "color",
+      "$value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#212121\\"}",
+      "filePath": "src/tokens/reference/color/light.json",
+      "isSource": true,
+      "name": "Reference Color Surface 1",
+      "path": ["reference", "color", "surface", "1"]
+    },
+    {
+      "key": "{reference.color.surface.2}",
+      "attributes": {
+        "category": "color",
+        "group": "surface",
+        "type": "color",
+        "item": "surface",
+        "subitem": "2",
+        "names": {
+          "scss": "$calcite-reference-color-surface-2",
+          "css": "var(--calcite-reference-color-surface-2)",
+          "docs": "reference.color.surface.2",
+          "es6": "calciteReferenceColorSurface2"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color"
+        }
+      },
+      "$type": "color",
+      "$value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#2b2b2b\\"}",
+      "filePath": "src/tokens/reference/color/light.json",
+      "isSource": true,
+      "name": "Reference Color Surface 2",
+      "path": ["reference", "color", "surface", "2"]
+    },
+    {
+      "key": "{reference.color.surface.3}",
+      "attributes": {
+        "category": "color",
+        "group": "surface",
+        "type": "color",
+        "item": "surface",
+        "subitem": "3",
+        "names": {
+          "scss": "$calcite-reference-color-surface-3",
+          "css": "var(--calcite-reference-color-surface-3)",
+          "docs": "reference.color.surface.3",
+          "es6": "calciteReferenceColorSurface3"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color"
+        }
+      },
+      "$type": "color",
+      "$value": "{\\"light\\":\\"#f2f2f2\\",\\"dark\\":\\"#363636\\"}",
+      "filePath": "src/tokens/reference/color/light.json",
+      "isSource": true,
+      "name": "Reference Color Surface 3",
+      "path": ["reference", "color", "surface", "3"]
+    },
+    {
+      "key": "{reference.color.surface.4}",
+      "attributes": {
+        "category": "color",
+        "group": "surface",
+        "type": "color",
+        "item": "surface",
+        "subitem": "4",
+        "names": {
+          "scss": "$calcite-reference-color-surface-4",
+          "css": "var(--calcite-reference-color-surface-4)",
+          "docs": "reference.color.surface.4",
+          "es6": "calciteReferenceColorSurface4"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color"
+        }
+      },
+      "$type": "color",
+      "$value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
+      "filePath": "src/tokens/reference/color/light.json",
+      "isSource": true,
+      "name": "Reference Color Surface 4",
+      "path": ["reference", "color", "surface", "4"]
+    },
+    {
+      "key": "{reference.color.surface.highlight}",
+      "attributes": {
+        "category": "color",
+        "group": "surface",
+        "type": "color",
+        "item": "surface",
+        "subitem": "highlight",
+        "names": {
+          "scss": "$calcite-reference-color-surface-highlight",
+          "css": "var(--calcite-reference-color-surface-highlight)",
+          "docs": "reference.color.surface.highlight",
+          "es6": "calciteReferenceColorSurfaceHighlight"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color"
+        }
+      },
+      "$type": "color",
+      "$value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
+      "filePath": "src/tokens/reference/color/light.json",
+      "isSource": true,
+      "name": "Reference Color Surface Highlight",
+      "path": ["reference", "color", "surface", "highlight"]
+    },
+    {
       "key": "{border.width.none}",
       "attributes": {
         "category": "border",
@@ -19485,30 +20039,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["corner-radius", "sharp"]
     },
     {
-      "key": "{corner-radius.none}",
-      "attributes": {
-        "category": "corner-radius",
-        "type": "none",
-        "names": {
-          "scss": "$calcite-corner-radius-none",
-          "css": "var(--calcite-corner-radius-none)",
-          "docs": "corner-radius.none",
-          "es6": "calciteCornerRadiusNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0",
-      "$description": "Replaces \`--calcite-corner-radius-sharp\`",
-      "filePath": "src/tokens/semantic/corner-radius.json",
-      "isSource": true,
-      "name": "Corner Radius None",
-      "path": ["corner-radius", "none"]
-    },
-    {
       "key": "{corner-radius.xs}",
       "attributes": {
         "category": "corner-radius",
@@ -19530,30 +20060,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Corner Radius Xs",
       "path": ["corner-radius", "xs"]
-    },
-    {
-      "key": "{corner-radius.sm}",
-      "attributes": {
-        "category": "corner-radius",
-        "type": "sm",
-        "names": {
-          "scss": "$calcite-corner-radius-sm",
-          "css": "var(--calcite-corner-radius-sm)",
-          "docs": "corner-radius.sm",
-          "es6": "calciteCornerRadiusSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "4px",
-      "$description": "Replaces \`--calcite-corner-radius-round\`",
-      "filePath": "src/tokens/semantic/corner-radius.json",
-      "isSource": true,
-      "name": "Corner Radius Sm",
-      "path": ["corner-radius", "sm"]
     },
     {
       "key": "{corner-radius.round}",
@@ -19710,32 +20216,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Font Weight Normal",
       "path": ["font", "weight", "normal"]
-    },
-    {
-      "key": "{font.weight.regular}",
-      "attributes": {
-        "category": "font",
-        "group": "weight",
-        "type": "weight",
-        "item": "regular",
-        "names": {
-          "scss": "$calcite-font-weight-regular",
-          "css": "var(--calcite-font-weight-regular)",
-          "docs": "font.weight.regular",
-          "es6": "calciteFontWeightRegular"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "fontWeight",
-      "$value": "400",
-      "$description": "Replaces \`--calcite-font-weight-normal\`",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Weight Regular",
-      "path": ["font", "weight", "regular"]
     },
     {
       "key": "{font.weight.medium}",
@@ -19988,32 +20468,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Font Size Xxl",
       "path": ["font", "size", "xxl"]
-    },
-    {
-      "key": "{font.size.2xl}",
-      "attributes": {
-        "category": "font",
-        "group": "size",
-        "type": "size",
-        "item": "2xl",
-        "names": {
-          "scss": "$calcite-font-size-2xl",
-          "css": "var(--calcite-font-size-2xl)",
-          "docs": "font.size.2xl",
-          "es6": "calciteFontSize2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "fontSize",
-      "$value": "24px",
-      "$description": "Replaces \`--calcite-font-size-xxl\`",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Size 2xl",
-      "path": ["font", "size", "2xl"]
     },
     {
       "key": "{font.size.relative.xs}",
@@ -21867,30 +22321,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["size", "px"]
     },
     {
-      "key": "{size.4xs}",
-      "attributes": {
-        "category": "size",
-        "type": "4xs",
-        "names": {
-          "scss": "$calcite-size-4xs",
-          "css": "var(--calcite-size-4xs)",
-          "docs": "size.4xs",
-          "es6": "calciteSize4xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-size-fixed-sm-plus\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 4xs",
-      "path": ["size", "4xs"]
-    },
-    {
       "key": "{size.xxxs}",
       "attributes": {
         "category": "size",
@@ -21916,30 +22346,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["size", "xxxs"]
     },
     {
-      "key": "{size.3xs}",
-      "attributes": {
-        "category": "size",
-        "type": "3xs",
-        "names": {
-          "scss": "$calcite-size-3xs",
-          "css": "var(--calcite-size-3xs)",
-          "docs": "size.3xs",
-          "es6": "calciteSize3xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-size-fixed-md\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 3xs",
-      "path": ["size", "3xs"]
-    },
-    {
       "key": "{size.xxs}",
       "attributes": {
         "category": "size",
@@ -21963,102 +22369,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Size Xxs",
       "path": ["size", "xxs"]
-    },
-    {
-      "key": "{size.2xs}",
-      "attributes": {
-        "category": "size",
-        "type": "2xs",
-        "names": {
-          "scss": "$calcite-size-2xs",
-          "css": "var(--calcite-size-2xs)",
-          "docs": "size.2xs",
-          "es6": "calciteSize2xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-size-fixed-md-plus\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 2xs",
-      "path": ["size", "2xs"]
-    },
-    {
-      "key": "{size.xs}",
-      "attributes": {
-        "category": "size",
-        "type": "xs",
-        "names": {
-          "scss": "$calcite-size-xs",
-          "css": "var(--calcite-size-xs)",
-          "docs": "size.xs",
-          "es6": "calciteSizeXs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1rem",
-      "$description": "Replaces \`--calcite-size-fixed-lg\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size Xs",
-      "path": ["size", "xs"]
-    },
-    {
-      "key": "{size.sm}",
-      "attributes": {
-        "category": "size",
-        "type": "sm",
-        "names": {
-          "scss": "$calcite-size-sm",
-          "css": "var(--calcite-size-sm)",
-          "docs": "size.sm",
-          "es6": "calciteSizeSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size Sm",
-      "path": ["size", "sm"]
-    },
-    {
-      "key": "{size.md}",
-      "attributes": {
-        "category": "size",
-        "type": "md",
-        "names": {
-          "scss": "$calcite-size-md",
-          "css": "var(--calcite-size-md)",
-          "docs": "size.md",
-          "es6": "calciteSizeMd"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size Md",
-      "path": ["size", "md"]
     },
     {
       "key": "{size.lg}",
@@ -22132,30 +22442,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["size", "xxl"]
     },
     {
-      "key": "{size.2xl}",
-      "attributes": {
-        "category": "size",
-        "type": "2xl",
-        "names": {
-          "scss": "$calcite-size-2xl",
-          "css": "var(--calcite-size-2xl)",
-          "docs": "size.2xl",
-          "es6": "calciteSize2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "4rem",
-      "$description": "Replaces \`--calcite-size-xxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 2xl",
-      "path": ["size", "2xl"]
-    },
-    {
       "key": "{size.xxxl}",
       "attributes": {
         "category": "size",
@@ -22179,30 +22465,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Size Xxxl",
       "path": ["size", "xxxl"]
-    },
-    {
-      "key": "{size.3xl}",
-      "attributes": {
-        "category": "size",
-        "type": "3xl",
-        "names": {
-          "scss": "$calcite-size-3xl",
-          "css": "var(--calcite-size-3xl)",
-          "docs": "size.3xl",
-          "es6": "calciteSize3xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "6rem",
-      "$description": "Replaces \`--calcite-size-xxxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 3xl",
-      "path": ["size", "3xl"]
     },
     {
       "key": "{spacing.fixed.xxs}",
@@ -22749,318 +23011,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxxl",
       "path": ["spacing", "default", "xxxl"]
-    },
-    {
-      "key": "{space.none}",
-      "attributes": {
-        "category": "spacing",
-        "type": "none",
-        "names": {
-          "scss": "$calcite-space-none",
-          "css": "var(--calcite-space-none)",
-          "docs": "space.none",
-          "es6": "calciteSpaceNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0",
-      "$description": "Replaces \`--calcite-spacing-none\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space None",
-      "path": ["space", "none"]
-    },
-    {
-      "key": "{space.px}",
-      "attributes": {
-        "category": "spacing",
-        "type": "px",
-        "names": {
-          "scss": "$calcite-space-px",
-          "css": "var(--calcite-space-px)",
-          "docs": "space.px",
-          "es6": "calciteSpacePx"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1px",
-      "$description": "Replaces \`--calcite-spacing-px\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Px",
-      "path": ["space", "px"]
-    },
-    {
-      "key": "{space.base}",
-      "attributes": {
-        "category": "spacing",
-        "type": "base",
-        "names": {
-          "scss": "$calcite-space-base",
-          "css": "var(--calcite-space-base)",
-          "docs": "space.base",
-          "es6": "calciteSpaceBase"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2px",
-      "$description": "Replaces \`--calcite-spacing-base\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Base",
-      "path": ["space", "base"]
-    },
-    {
-      "key": "{space.2xs}",
-      "attributes": {
-        "category": "spacing",
-        "type": "2xs",
-        "names": {
-          "scss": "$calcite-space-2xs",
-          "css": "var(--calcite-space-2xs)",
-          "docs": "space.2xs",
-          "es6": "calciteSpace2xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.25rem",
-      "$description": "Replaces \`--calcite-spacing-xxs\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space 2xs",
-      "path": ["space", "2xs"]
-    },
-    {
-      "key": "{space.xs}",
-      "attributes": {
-        "category": "spacing",
-        "type": "xs",
-        "names": {
-          "scss": "$calcite-space-xs",
-          "css": "var(--calcite-space-xs)",
-          "docs": "space.xs",
-          "es6": "calciteSpaceXs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.375rem",
-      "$description": "Replaces \`--calcite-spacing-xs\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Xs",
-      "path": ["space", "xs"]
-    },
-    {
-      "key": "{space.sm}",
-      "attributes": {
-        "category": "spacing",
-        "type": "sm",
-        "names": {
-          "scss": "$calcite-space-sm",
-          "css": "var(--calcite-space-sm)",
-          "docs": "space.sm",
-          "es6": "calciteSpaceSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.5rem",
-      "$description": "Replaces \`--calcite-spacing-sm\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Sm",
-      "path": ["space", "sm"]
-    },
-    {
-      "key": "{space.sm-plus}",
-      "attributes": {
-        "category": "spacing",
-        "type": "sm-plus",
-        "names": {
-          "scss": "$calcite-space-sm-plus",
-          "css": "var(--calcite-space-sm-plus)",
-          "docs": "space.sm-plus",
-          "es6": "calciteSpaceSmPlus"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-spacing-sm-plus\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Sm Plus",
-      "path": ["space", "sm-plus"]
-    },
-    {
-      "key": "{space.md}",
-      "attributes": {
-        "category": "spacing",
-        "type": "md",
-        "names": {
-          "scss": "$calcite-space-md",
-          "css": "var(--calcite-space-md)",
-          "docs": "space.md",
-          "es6": "calciteSpaceMd"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-spacing-md\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Md",
-      "path": ["space", "md"]
-    },
-    {
-      "key": "{space.md-plus}",
-      "attributes": {
-        "category": "spacing",
-        "type": "md-plus",
-        "names": {
-          "scss": "$calcite-space-md-plus",
-          "css": "var(--calcite-space-md-plus)",
-          "docs": "space.md-plus",
-          "es6": "calciteSpaceMdPlus"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-spacing-md-plus\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Md Plus",
-      "path": ["space", "md-plus"]
-    },
-    {
-      "key": "{space.lg}",
-      "attributes": {
-        "category": "spacing",
-        "type": "lg",
-        "names": {
-          "scss": "$calcite-space-lg",
-          "css": "var(--calcite-space-lg)",
-          "docs": "space.lg",
-          "es6": "calciteSpaceLg"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1rem",
-      "$description": "Replaces \`--calcite-spacing-lg\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Lg",
-      "path": ["space", "lg"]
-    },
-    {
-      "key": "{space.xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "xl",
-        "names": {
-          "scss": "$calcite-space-xl",
-          "css": "var(--calcite-space-xl)",
-          "docs": "space.xl",
-          "es6": "calciteSpaceXl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.25rem",
-      "$description": "Replaces \`--calcite-spacing-xl\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Xl",
-      "path": ["space", "xl"]
-    },
-    {
-      "key": "{space.2xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "2xl",
-        "names": {
-          "scss": "$calcite-space-2xl",
-          "css": "var(--calcite-space-2xl)",
-          "docs": "space.2xl",
-          "es6": "calciteSpace2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-spacing-xxl\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space 2xl",
-      "path": ["space", "2xl"]
-    },
-    {
-      "key": "{space.3xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "3xl",
-        "names": {
-          "scss": "$calcite-space-3xl",
-          "css": "var(--calcite-space-3xl)",
-          "docs": "space.3xl",
-          "es6": "calciteSpace3xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2rem",
-      "$description": "Replaces \`--calcite-spacing-xxxl\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space 3xl",
-      "path": ["space", "3xl"]
     },
     {
       "key": "{space.4xl}",
@@ -25453,6 +25403,610 @@ exports[`DOCS (internal) > semantic should match 1`] = `
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
+      "key": "{reference.corner-radius.none}",
+      "attributes": {
+        "category": "corner-radius",
+        "type": "corner-radius",
+        "item": "none",
+        "names": {
+          "scss": "$calcite-reference-corner-radius-none",
+          "css": "var(--calcite-reference-corner-radius-none)",
+          "docs": "reference.corner-radius.none",
+          "es6": "calciteReferenceCornerRadiusNone"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0",
+      "filePath": "src/tokens/reference/corner-radius.json",
+      "isSource": true,
+      "name": "Reference Corner Radius None",
+      "path": ["reference", "corner-radius", "none"]
+    },
+    {
+      "key": "{reference.corner-radius.sm}",
+      "attributes": {
+        "category": "corner-radius",
+        "type": "corner-radius",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-reference-corner-radius-sm",
+          "css": "var(--calcite-reference-corner-radius-sm)",
+          "docs": "reference.corner-radius.sm",
+          "es6": "calciteReferenceCornerRadiusSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "4px",
+      "filePath": "src/tokens/reference/corner-radius.json",
+      "isSource": true,
+      "name": "Reference Corner Radius Sm",
+      "path": ["reference", "corner-radius", "sm"]
+    },
+    {
+      "key": "{reference.font.weight.regular}",
+      "attributes": {
+        "category": "font",
+        "group": "weight",
+        "type": "font",
+        "item": "weight",
+        "subitem": "regular",
+        "names": {
+          "scss": "$calcite-reference-font-weight-regular",
+          "css": "var(--calcite-reference-font-weight-regular)",
+          "docs": "reference.font.weight.regular",
+          "es6": "calciteReferenceFontWeightRegular"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "fontWeight",
+      "$value": "400",
+      "filePath": "src/tokens/reference/font.json",
+      "isSource": true,
+      "name": "Reference Font Weight Regular",
+      "path": ["reference", "font", "weight", "regular"]
+    },
+    {
+      "key": "{reference.font.size.2xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-reference-font-size-2xl",
+          "css": "var(--calcite-reference-font-size-2xl)",
+          "docs": "reference.font.size.2xl",
+          "es6": "calciteReferenceFontSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "24px",
+      "filePath": "src/tokens/reference/font.json",
+      "isSource": true,
+      "name": "Reference Font Size 2xl",
+      "path": ["reference", "font", "size", "2xl"]
+    },
+    {
+      "key": "{reference.size.4xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "4xs",
+        "names": {
+          "scss": "$calcite-reference-size-4xs",
+          "css": "var(--calcite-reference-size-4xs)",
+          "docs": "reference.size.4xs",
+          "es6": "calciteReferenceSize4xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.625rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 4xs",
+      "path": ["reference", "size", "4xs"]
+    },
+    {
+      "key": "{reference.size.3xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "3xs",
+        "names": {
+          "scss": "$calcite-reference-size-3xs",
+          "css": "var(--calcite-reference-size-3xs)",
+          "docs": "reference.size.3xs",
+          "es6": "calciteReferenceSize3xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 3xs",
+      "path": ["reference", "size", "3xs"]
+    },
+    {
+      "key": "{reference.size.2xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "2xs",
+        "names": {
+          "scss": "$calcite-reference-size-2xs",
+          "css": "var(--calcite-reference-size-2xs)",
+          "docs": "reference.size.2xs",
+          "es6": "calciteReferenceSize2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.875rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 2xs",
+      "path": ["reference", "size", "2xs"]
+    },
+    {
+      "key": "{reference.size.xs}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "xs",
+        "names": {
+          "scss": "$calcite-reference-size-xs",
+          "css": "var(--calcite-reference-size-xs)",
+          "docs": "reference.size.xs",
+          "es6": "calciteReferenceSizeXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size Xs",
+      "path": ["reference", "size", "xs"]
+    },
+    {
+      "key": "{reference.size.sm}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-reference-size-sm",
+          "css": "var(--calcite-reference-size-sm)",
+          "docs": "reference.size.sm",
+          "es6": "calciteReferenceSizeSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size Sm",
+      "path": ["reference", "size", "sm"]
+    },
+    {
+      "key": "{reference.size.md}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "md",
+        "names": {
+          "scss": "$calcite-reference-size-md",
+          "css": "var(--calcite-reference-size-md)",
+          "docs": "reference.size.md",
+          "es6": "calciteReferenceSizeMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "2rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size Md",
+      "path": ["reference", "size", "md"]
+    },
+    {
+      "key": "{reference.size.2xl}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "2xl",
+        "names": {
+          "scss": "$calcite-reference-size-2xl",
+          "css": "var(--calcite-reference-size-2xl)",
+          "docs": "reference.size.2xl",
+          "es6": "calciteReferenceSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "4rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 2xl",
+      "path": ["reference", "size", "2xl"]
+    },
+    {
+      "key": "{reference.size.3xl}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "3xl",
+        "names": {
+          "scss": "$calcite-reference-size-3xl",
+          "css": "var(--calcite-reference-size-3xl)",
+          "docs": "reference.size.3xl",
+          "es6": "calciteReferenceSize3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "6rem",
+      "filePath": "src/tokens/reference/size.json",
+      "isSource": true,
+      "name": "Reference Size 3xl",
+      "path": ["reference", "size", "3xl"]
+    },
+    {
+      "key": "{reference.space.none}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "none",
+        "names": {
+          "scss": "$calcite-reference-space-none",
+          "css": "var(--calcite-reference-space-none)",
+          "docs": "reference.space.none",
+          "es6": "calciteReferenceSpaceNone"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space None",
+      "path": ["reference", "space", "none"]
+    },
+    {
+      "key": "{reference.space.px}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "px",
+        "names": {
+          "scss": "$calcite-reference-space-px",
+          "css": "var(--calcite-reference-space-px)",
+          "docs": "reference.space.px",
+          "es6": "calciteReferenceSpacePx"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1px",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Px",
+      "path": ["reference", "space", "px"]
+    },
+    {
+      "key": "{reference.space.base}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "base",
+        "names": {
+          "scss": "$calcite-reference-space-base",
+          "css": "var(--calcite-reference-space-base)",
+          "docs": "reference.space.base",
+          "es6": "calciteReferenceSpaceBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "2px",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Base",
+      "path": ["reference", "space", "base"]
+    },
+    {
+      "key": "{reference.space.2xs}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "2xs",
+        "names": {
+          "scss": "$calcite-reference-space-2xs",
+          "css": "var(--calcite-reference-space-2xs)",
+          "docs": "reference.space.2xs",
+          "es6": "calciteReferenceSpace2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.25rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space 2xs",
+      "path": ["reference", "space", "2xs"]
+    },
+    {
+      "key": "{reference.space.xs}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "xs",
+        "names": {
+          "scss": "$calcite-reference-space-xs",
+          "css": "var(--calcite-reference-space-xs)",
+          "docs": "reference.space.xs",
+          "es6": "calciteReferenceSpaceXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.375rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Xs",
+      "path": ["reference", "space", "xs"]
+    },
+    {
+      "key": "{reference.space.sm}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-reference-space-sm",
+          "css": "var(--calcite-reference-space-sm)",
+          "docs": "reference.space.sm",
+          "es6": "calciteReferenceSpaceSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Sm",
+      "path": ["reference", "space", "sm"]
+    },
+    {
+      "key": "{reference.space.sm-plus}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "sm-plus",
+        "names": {
+          "scss": "$calcite-reference-space-sm-plus",
+          "css": "var(--calcite-reference-space-sm-plus)",
+          "docs": "reference.space.sm-plus",
+          "es6": "calciteReferenceSpaceSmPlus"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.625rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Sm Plus",
+      "path": ["reference", "space", "sm-plus"]
+    },
+    {
+      "key": "{reference.space.md}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "md",
+        "names": {
+          "scss": "$calcite-reference-space-md",
+          "css": "var(--calcite-reference-space-md)",
+          "docs": "reference.space.md",
+          "es6": "calciteReferenceSpaceMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Md",
+      "path": ["reference", "space", "md"]
+    },
+    {
+      "key": "{reference.space.md-plus}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "md-plus",
+        "names": {
+          "scss": "$calcite-reference-space-md-plus",
+          "css": "var(--calcite-reference-space-md-plus)",
+          "docs": "reference.space.md-plus",
+          "es6": "calciteReferenceSpaceMdPlus"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "0.875rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Md Plus",
+      "path": ["reference", "space", "md-plus"]
+    },
+    {
+      "key": "{reference.space.lg}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "lg",
+        "names": {
+          "scss": "$calcite-reference-space-lg",
+          "css": "var(--calcite-reference-space-lg)",
+          "docs": "reference.space.lg",
+          "es6": "calciteReferenceSpaceLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Lg",
+      "path": ["reference", "space", "lg"]
+    },
+    {
+      "key": "{reference.space.xl}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "xl",
+        "names": {
+          "scss": "$calcite-reference-space-xl",
+          "css": "var(--calcite-reference-space-xl)",
+          "docs": "reference.space.xl",
+          "es6": "calciteReferenceSpaceXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1.25rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space Xl",
+      "path": ["reference", "space", "xl"]
+    },
+    {
+      "key": "{reference.space.2xl}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "2xl",
+        "names": {
+          "scss": "$calcite-reference-space-2xl",
+          "css": "var(--calcite-reference-space-2xl)",
+          "docs": "reference.space.2xl",
+          "es6": "calciteReferenceSpace2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space 2xl",
+      "path": ["reference", "space", "2xl"]
+    },
+    {
+      "key": "{reference.space.3xl}",
+      "attributes": {
+        "category": "spacing",
+        "type": "space",
+        "item": "3xl",
+        "names": {
+          "scss": "$calcite-reference-space-3xl",
+          "css": "var(--calcite-reference-space-3xl)",
+          "docs": "reference.space.3xl",
+          "es6": "calciteReferenceSpace3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "reference"
+        }
+      },
+      "$type": "dimension",
+      "$value": "2rem",
+      "filePath": "src/tokens/reference/space.json",
+      "isSource": true,
+      "name": "Reference Space 3xl",
+      "path": ["reference", "space", "3xl"]
+    },
+    {
       "key": "{border.width.none}",
       "attributes": {
         "category": "border",
@@ -25697,30 +26251,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "path": ["corner-radius", "sharp"]
     },
     {
-      "key": "{corner-radius.none}",
-      "attributes": {
-        "category": "corner-radius",
-        "type": "none",
-        "names": {
-          "scss": "$calcite-corner-radius-none",
-          "css": "var(--calcite-corner-radius-none)",
-          "docs": "corner-radius.none",
-          "es6": "calciteCornerRadiusNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0",
-      "$description": "Replaces \`--calcite-corner-radius-sharp\`",
-      "filePath": "src/tokens/semantic/corner-radius.json",
-      "isSource": true,
-      "name": "Corner Radius None",
-      "path": ["corner-radius", "none"]
-    },
-    {
       "key": "{corner-radius.xs}",
       "attributes": {
         "category": "corner-radius",
@@ -25742,30 +26272,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Corner Radius Xs",
       "path": ["corner-radius", "xs"]
-    },
-    {
-      "key": "{corner-radius.sm}",
-      "attributes": {
-        "category": "corner-radius",
-        "type": "sm",
-        "names": {
-          "scss": "$calcite-corner-radius-sm",
-          "css": "var(--calcite-corner-radius-sm)",
-          "docs": "corner-radius.sm",
-          "es6": "calciteCornerRadiusSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "4px",
-      "$description": "Replaces \`--calcite-corner-radius-round\`",
-      "filePath": "src/tokens/semantic/corner-radius.json",
-      "isSource": true,
-      "name": "Corner Radius Sm",
-      "path": ["corner-radius", "sm"]
     },
     {
       "key": "{corner-radius.round}",
@@ -25922,32 +26428,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Font Weight Normal",
       "path": ["font", "weight", "normal"]
-    },
-    {
-      "key": "{font.weight.regular}",
-      "attributes": {
-        "category": "font",
-        "group": "weight",
-        "type": "weight",
-        "item": "regular",
-        "names": {
-          "scss": "$calcite-font-weight-regular",
-          "css": "var(--calcite-font-weight-regular)",
-          "docs": "font.weight.regular",
-          "es6": "calciteFontWeightRegular"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "fontWeight",
-      "$value": "400",
-      "$description": "Replaces \`--calcite-font-weight-normal\`",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Weight Regular",
-      "path": ["font", "weight", "regular"]
     },
     {
       "key": "{font.weight.medium}",
@@ -26200,32 +26680,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Font Size Xxl",
       "path": ["font", "size", "xxl"]
-    },
-    {
-      "key": "{font.size.2xl}",
-      "attributes": {
-        "category": "font",
-        "group": "size",
-        "type": "size",
-        "item": "2xl",
-        "names": {
-          "scss": "$calcite-font-size-2xl",
-          "css": "var(--calcite-font-size-2xl)",
-          "docs": "font.size.2xl",
-          "es6": "calciteFontSize2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "fontSize",
-      "$value": "24px",
-      "$description": "Replaces \`--calcite-font-size-xxl\`",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Size 2xl",
-      "path": ["font", "size", "2xl"]
     },
     {
       "key": "{font.size.relative.xs}",
@@ -28079,30 +28533,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "path": ["size", "px"]
     },
     {
-      "key": "{size.4xs}",
-      "attributes": {
-        "category": "size",
-        "type": "4xs",
-        "names": {
-          "scss": "$calcite-size-4xs",
-          "css": "var(--calcite-size-4xs)",
-          "docs": "size.4xs",
-          "es6": "calciteSize4xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-size-fixed-sm-plus\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 4xs",
-      "path": ["size", "4xs"]
-    },
-    {
       "key": "{size.xxxs}",
       "attributes": {
         "category": "size",
@@ -28128,30 +28558,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "path": ["size", "xxxs"]
     },
     {
-      "key": "{size.3xs}",
-      "attributes": {
-        "category": "size",
-        "type": "3xs",
-        "names": {
-          "scss": "$calcite-size-3xs",
-          "css": "var(--calcite-size-3xs)",
-          "docs": "size.3xs",
-          "es6": "calciteSize3xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-size-fixed-md\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 3xs",
-      "path": ["size", "3xs"]
-    },
-    {
       "key": "{size.xxs}",
       "attributes": {
         "category": "size",
@@ -28175,102 +28581,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Size Xxs",
       "path": ["size", "xxs"]
-    },
-    {
-      "key": "{size.2xs}",
-      "attributes": {
-        "category": "size",
-        "type": "2xs",
-        "names": {
-          "scss": "$calcite-size-2xs",
-          "css": "var(--calcite-size-2xs)",
-          "docs": "size.2xs",
-          "es6": "calciteSize2xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-size-fixed-md-plus\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 2xs",
-      "path": ["size", "2xs"]
-    },
-    {
-      "key": "{size.xs}",
-      "attributes": {
-        "category": "size",
-        "type": "xs",
-        "names": {
-          "scss": "$calcite-size-xs",
-          "css": "var(--calcite-size-xs)",
-          "docs": "size.xs",
-          "es6": "calciteSizeXs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1rem",
-      "$description": "Replaces \`--calcite-size-fixed-lg\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size Xs",
-      "path": ["size", "xs"]
-    },
-    {
-      "key": "{size.sm}",
-      "attributes": {
-        "category": "size",
-        "type": "sm",
-        "names": {
-          "scss": "$calcite-size-sm",
-          "css": "var(--calcite-size-sm)",
-          "docs": "size.sm",
-          "es6": "calciteSizeSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size Sm",
-      "path": ["size", "sm"]
-    },
-    {
-      "key": "{size.md}",
-      "attributes": {
-        "category": "size",
-        "type": "md",
-        "names": {
-          "scss": "$calcite-size-md",
-          "css": "var(--calcite-size-md)",
-          "docs": "size.md",
-          "es6": "calciteSizeMd"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size Md",
-      "path": ["size", "md"]
     },
     {
       "key": "{size.lg}",
@@ -28344,30 +28654,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "path": ["size", "xxl"]
     },
     {
-      "key": "{size.2xl}",
-      "attributes": {
-        "category": "size",
-        "type": "2xl",
-        "names": {
-          "scss": "$calcite-size-2xl",
-          "css": "var(--calcite-size-2xl)",
-          "docs": "size.2xl",
-          "es6": "calciteSize2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "4rem",
-      "$description": "Replaces \`--calcite-size-xxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 2xl",
-      "path": ["size", "2xl"]
-    },
-    {
       "key": "{size.xxxl}",
       "attributes": {
         "category": "size",
@@ -28391,30 +28677,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Size Xxxl",
       "path": ["size", "xxxl"]
-    },
-    {
-      "key": "{size.3xl}",
-      "attributes": {
-        "category": "size",
-        "type": "3xl",
-        "names": {
-          "scss": "$calcite-size-3xl",
-          "css": "var(--calcite-size-3xl)",
-          "docs": "size.3xl",
-          "es6": "calciteSize3xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "6rem",
-      "$description": "Replaces \`--calcite-size-xxxl\`",
-      "filePath": "src/tokens/semantic/size.json",
-      "isSource": true,
-      "name": "Size 3xl",
-      "path": ["size", "3xl"]
     },
     {
       "key": "{spacing.fixed.xxs}",
@@ -28961,318 +29223,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxxl",
       "path": ["spacing", "default", "xxxl"]
-    },
-    {
-      "key": "{space.none}",
-      "attributes": {
-        "category": "spacing",
-        "type": "none",
-        "names": {
-          "scss": "$calcite-space-none",
-          "css": "var(--calcite-space-none)",
-          "docs": "space.none",
-          "es6": "calciteSpaceNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0",
-      "$description": "Replaces \`--calcite-spacing-none\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space None",
-      "path": ["space", "none"]
-    },
-    {
-      "key": "{space.px}",
-      "attributes": {
-        "category": "spacing",
-        "type": "px",
-        "names": {
-          "scss": "$calcite-space-px",
-          "css": "var(--calcite-space-px)",
-          "docs": "space.px",
-          "es6": "calciteSpacePx"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1px",
-      "$description": "Replaces \`--calcite-spacing-px\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Px",
-      "path": ["space", "px"]
-    },
-    {
-      "key": "{space.base}",
-      "attributes": {
-        "category": "spacing",
-        "type": "base",
-        "names": {
-          "scss": "$calcite-space-base",
-          "css": "var(--calcite-space-base)",
-          "docs": "space.base",
-          "es6": "calciteSpaceBase"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2px",
-      "$description": "Replaces \`--calcite-spacing-base\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Base",
-      "path": ["space", "base"]
-    },
-    {
-      "key": "{space.2xs}",
-      "attributes": {
-        "category": "spacing",
-        "type": "2xs",
-        "names": {
-          "scss": "$calcite-space-2xs",
-          "css": "var(--calcite-space-2xs)",
-          "docs": "space.2xs",
-          "es6": "calciteSpace2xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.25rem",
-      "$description": "Replaces \`--calcite-spacing-xxs\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space 2xs",
-      "path": ["space", "2xs"]
-    },
-    {
-      "key": "{space.xs}",
-      "attributes": {
-        "category": "spacing",
-        "type": "xs",
-        "names": {
-          "scss": "$calcite-space-xs",
-          "css": "var(--calcite-space-xs)",
-          "docs": "space.xs",
-          "es6": "calciteSpaceXs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.375rem",
-      "$description": "Replaces \`--calcite-spacing-xs\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Xs",
-      "path": ["space", "xs"]
-    },
-    {
-      "key": "{space.sm}",
-      "attributes": {
-        "category": "spacing",
-        "type": "sm",
-        "names": {
-          "scss": "$calcite-space-sm",
-          "css": "var(--calcite-space-sm)",
-          "docs": "space.sm",
-          "es6": "calciteSpaceSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.5rem",
-      "$description": "Replaces \`--calcite-spacing-sm\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Sm",
-      "path": ["space", "sm"]
-    },
-    {
-      "key": "{space.sm-plus}",
-      "attributes": {
-        "category": "spacing",
-        "type": "sm-plus",
-        "names": {
-          "scss": "$calcite-space-sm-plus",
-          "css": "var(--calcite-space-sm-plus)",
-          "docs": "space.sm-plus",
-          "es6": "calciteSpaceSmPlus"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-spacing-sm-plus\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Sm Plus",
-      "path": ["space", "sm-plus"]
-    },
-    {
-      "key": "{space.md}",
-      "attributes": {
-        "category": "spacing",
-        "type": "md",
-        "names": {
-          "scss": "$calcite-space-md",
-          "css": "var(--calcite-space-md)",
-          "docs": "space.md",
-          "es6": "calciteSpaceMd"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-spacing-md\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Md",
-      "path": ["space", "md"]
-    },
-    {
-      "key": "{space.md-plus}",
-      "attributes": {
-        "category": "spacing",
-        "type": "md-plus",
-        "names": {
-          "scss": "$calcite-space-md-plus",
-          "css": "var(--calcite-space-md-plus)",
-          "docs": "space.md-plus",
-          "es6": "calciteSpaceMdPlus"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-spacing-md-plus\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Md Plus",
-      "path": ["space", "md-plus"]
-    },
-    {
-      "key": "{space.lg}",
-      "attributes": {
-        "category": "spacing",
-        "type": "lg",
-        "names": {
-          "scss": "$calcite-space-lg",
-          "css": "var(--calcite-space-lg)",
-          "docs": "space.lg",
-          "es6": "calciteSpaceLg"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1rem",
-      "$description": "Replaces \`--calcite-spacing-lg\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Lg",
-      "path": ["space", "lg"]
-    },
-    {
-      "key": "{space.xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "xl",
-        "names": {
-          "scss": "$calcite-space-xl",
-          "css": "var(--calcite-space-xl)",
-          "docs": "space.xl",
-          "es6": "calciteSpaceXl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.25rem",
-      "$description": "Replaces \`--calcite-spacing-xl\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space Xl",
-      "path": ["space", "xl"]
-    },
-    {
-      "key": "{space.2xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "2xl",
-        "names": {
-          "scss": "$calcite-space-2xl",
-          "css": "var(--calcite-space-2xl)",
-          "docs": "space.2xl",
-          "es6": "calciteSpace2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-spacing-xxl\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space 2xl",
-      "path": ["space", "2xl"]
-    },
-    {
-      "key": "{space.3xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "3xl",
-        "names": {
-          "scss": "$calcite-space-3xl",
-          "css": "var(--calcite-space-3xl)",
-          "docs": "space.3xl",
-          "es6": "calciteSpace3xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2rem",
-      "$description": "Replaces \`--calcite-spacing-xxxl\`",
-      "filePath": "src/tokens/semantic/space.json",
-      "isSource": true,
-      "name": "Space 3xl",
-      "path": ["space", "3xl"]
     },
     {
       "key": "{space.4xl}",
@@ -30885,14 +30835,6 @@ exports[`ES6 > global should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteColorSurface1 = { light: "#f7f7f7", dark: "#212121" }; // Replaces \`--calcite-color-background\`
-export const calciteColorSurface2 = { light: "#ffffff", dark: "#2b2b2b" }; // Replaces \`--calcite-color-foreground-1\`
-export const calciteColorSurface3 = { light: "#f2f2f2", dark: "#363636" }; // Replaces \`--calcite-color-foreground-2\`
-export const calciteColorSurface4 = { light: "#ebebeb", dark: "#404040" }; // Replaces \`--calcite-color-foreground-3\`
-export const calciteColorSurfaceHighlight = {
-  light: "#d6efff",
-  dark: "#2b465f",
-}; // Replaces \`--calcite-color-foreground-current\`
 export const calciteColorBackground = { light: "#f7f7f7", dark: "#212121" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.
 export const calciteColorBackgroundNone = "rgba(255, 255, 255, 0)"; // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
 export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.
@@ -30992,6 +30934,51 @@ export const calciteColorTransparentInversePress = {
   dark: "rgba(0, 0, 0, 0.08)",
 };
 export const calciteColorFocus = { light: "#007ac2", dark: "#009af2" };
+export const calciteReferenceCornerRadiusNone = "0";
+export const calciteReferenceCornerRadiusSm = "4px";
+export const calciteReferenceFontWeightRegular = "400";
+export const calciteReferenceFontSize2xl = "24px";
+export const calciteReferenceSize4xs = "0.625rem";
+export const calciteReferenceSize3xs = "0.75rem";
+export const calciteReferenceSize2xs = "0.875rem";
+export const calciteReferenceSizeXs = "1rem";
+export const calciteReferenceSizeSm = "1.5rem";
+export const calciteReferenceSizeMd = "2rem";
+export const calciteReferenceSize2xl = "4rem";
+export const calciteReferenceSize3xl = "6rem";
+export const calciteReferenceSpaceNone = "0";
+export const calciteReferenceSpacePx = "1px";
+export const calciteReferenceSpaceBase = "2px";
+export const calciteReferenceSpace2xs = "0.25rem";
+export const calciteReferenceSpaceXs = "0.375rem";
+export const calciteReferenceSpaceSm = "0.5rem";
+export const calciteReferenceSpaceSmPlus = "0.625rem";
+export const calciteReferenceSpaceMd = "0.75rem";
+export const calciteReferenceSpaceMdPlus = "0.875rem";
+export const calciteReferenceSpaceLg = "1rem";
+export const calciteReferenceSpaceXl = "1.25rem";
+export const calciteReferenceSpace2xl = "1.5rem";
+export const calciteReferenceSpace3xl = "2rem";
+export const calciteReferenceColorSurface1 = {
+  light: "#f7f7f7",
+  dark: "#212121",
+};
+export const calciteReferenceColorSurface2 = {
+  light: "#ffffff",
+  dark: "#2b2b2b",
+};
+export const calciteReferenceColorSurface3 = {
+  light: "#f2f2f2",
+  dark: "#363636",
+};
+export const calciteReferenceColorSurface4 = {
+  light: "#ebebeb",
+  dark: "#404040",
+};
+export const calciteReferenceColorSurfaceHighlight = {
+  light: "#d6efff",
+  dark: "#2b465f",
+};
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
@@ -31016,9 +31003,7 @@ export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
 export const calciteCornerRadiusSharp = "0"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
-export const calciteCornerRadiusNone = "0"; // Replaces \`--calcite-corner-radius-sharp\`
 export const calciteCornerRadiusXs = "2px";
-export const calciteCornerRadiusSm = "4px"; // Replaces \`--calcite-corner-radius-round\`
 export const calciteCornerRadiusRound = "4px"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
 export const calciteCornerRadiusPill = "9999px";
 export const calciteFontFamily = [
@@ -31036,7 +31021,6 @@ export const calciteFontFamilyCode = [
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-export const calciteFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
 export const calciteFontWeightBold = "600";
@@ -31047,7 +31031,6 @@ export const calciteFontSizeMd = "16px";
 export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
 export const calciteFontSizeXxl = "24px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
-export const calciteFontSize2xl = "24px"; // Replaces \`--calcite-font-size-xxl\`
 export const calciteFontSizeRelativeXs = "0.625rem";
 export const calciteFontSizeRelativeSm = "0.75rem";
 export const calciteFontSizeRelativeBase = "0.875rem";
@@ -31155,20 +31138,12 @@ export const calciteSizeFixedXl = "20px"; // Deprecated in v3.0.0, removal targe
 export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
 export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
 export const calciteSizePx = "1px";
-export const calciteSize4xs = "0.625rem"; // Replaces \`--calcite-size-fixed-sm-plus\`
 export const calciteSizeXxxs = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-export const calciteSize3xs = "0.75rem"; // Replaces \`--calcite-size-fixed-md\`
 export const calciteSizeXxs = "0.875rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-export const calciteSize2xs = "0.875rem"; // Replaces \`--calcite-size-fixed-md-plus\`
-export const calciteSizeXs = "1rem"; // Replaces \`--calcite-size-fixed-lg\`
-export const calciteSizeSm = "1.5rem"; // Replaces \`--calcite-size-fixed-xxl\`
-export const calciteSizeMd = "2rem"; // Replaces \`--calcite-size-fixed-xxxl\`
 export const calciteSizeLg = "2.75rem";
 export const calciteSizeXl = "3rem";
 export const calciteSizeXxl = "4rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead.
-export const calciteSize2xl = "4rem"; // Replaces \`--calcite-size-xxl\`
 export const calciteSizeXxxl = "6rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead.
-export const calciteSize3xl = "6rem"; // Replaces \`--calcite-size-xxxl\`
 export const calciteSpacingFixedXxs = "4px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
 export const calciteSpacingFixedXs = "6px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
 export const calciteSpacingFixedSm = "8px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
@@ -31190,19 +31165,6 @@ export const calciteSpacingLg = "1rem"; // Deprecated in v4.0.0, removal target 
 export const calciteSpacingXl = "1.25rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
 export const calciteSpacingXxl = "1.5rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.
 export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
-export const calciteSpaceNone = "0"; // Replaces \`--calcite-spacing-none\`
-export const calciteSpacePx = "1px"; // Replaces \`--calcite-spacing-px\`
-export const calciteSpaceBase = "2px"; // Replaces \`--calcite-spacing-base\`
-export const calciteSpace2xs = "0.25rem"; // Replaces \`--calcite-spacing-xxs\`
-export const calciteSpaceXs = "0.375rem"; // Replaces \`--calcite-spacing-xs\`
-export const calciteSpaceSm = "0.5rem"; // Replaces \`--calcite-spacing-sm\`
-export const calciteSpaceSmPlus = "0.625rem"; // Replaces \`--calcite-spacing-sm-plus\`
-export const calciteSpaceMd = "0.75rem"; // Replaces \`--calcite-spacing-md\`
-export const calciteSpaceMdPlus = "0.875rem"; // Replaces \`--calcite-spacing-md-plus\`
-export const calciteSpaceLg = "1rem"; // Replaces \`--calcite-spacing-lg\`
-export const calciteSpaceXl = "1.25rem"; // Replaces \`--calcite-spacing-xl\`
-export const calciteSpace2xl = "1.5rem"; // Replaces \`--calcite-spacing-xxl\`
-export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-xxxl\`
 export const calciteSpace4xl = "2.75rem";
 export const calciteTypography = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
@@ -31479,16 +31441,6 @@ exports[`ES6 > global types should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-/** Replaces \`--calcite-color-background\` */
-export const calciteColorSurface1: { light: string; dark: string };
-/** Replaces \`--calcite-color-foreground-1\` */
-export const calciteColorSurface2: { light: string; dark: string };
-/** Replaces \`--calcite-color-foreground-2\` */
-export const calciteColorSurface3: { light: string; dark: string };
-/** Replaces \`--calcite-color-foreground-3\` */
-export const calciteColorSurface4: { light: string; dark: string };
-/** Replaces \`--calcite-color-foreground-current\` */
-export const calciteColorSurfaceHighlight: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
 export const calciteColorBackground: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
@@ -31548,6 +31500,39 @@ export const calciteColorTransparentInversePress: {
   dark: string;
 };
 export const calciteColorFocus: { light: string; dark: string };
+export const calciteReferenceCornerRadiusNone: string;
+export const calciteReferenceCornerRadiusSm: string;
+export const calciteReferenceFontWeightRegular: string;
+export const calciteReferenceFontSize2xl: string;
+export const calciteReferenceSize4xs: string;
+export const calciteReferenceSize3xs: string;
+export const calciteReferenceSize2xs: string;
+export const calciteReferenceSizeXs: string;
+export const calciteReferenceSizeSm: string;
+export const calciteReferenceSizeMd: string;
+export const calciteReferenceSize2xl: string;
+export const calciteReferenceSize3xl: string;
+export const calciteReferenceSpaceNone: string;
+export const calciteReferenceSpacePx: string;
+export const calciteReferenceSpaceBase: string;
+export const calciteReferenceSpace2xs: string;
+export const calciteReferenceSpaceXs: string;
+export const calciteReferenceSpaceSm: string;
+export const calciteReferenceSpaceSmPlus: string;
+export const calciteReferenceSpaceMd: string;
+export const calciteReferenceSpaceMdPlus: string;
+export const calciteReferenceSpaceLg: string;
+export const calciteReferenceSpaceXl: string;
+export const calciteReferenceSpace2xl: string;
+export const calciteReferenceSpace3xl: string;
+export const calciteReferenceColorSurface1: { light: string; dark: string };
+export const calciteReferenceColorSurface2: { light: string; dark: string };
+export const calciteReferenceColorSurface3: { light: string; dark: string };
+export const calciteReferenceColorSurface4: { light: string; dark: string };
+export const calciteReferenceColorSurfaceHighlight: {
+  light: string;
+  dark: string;
+};
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
@@ -31589,11 +31574,7 @@ export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
 /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
 export const calciteCornerRadiusSharp: string;
-/** Replaces \`--calcite-corner-radius-sharp\` */
-export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
-/** Replaces \`--calcite-corner-radius-round\` */
-export const calciteCornerRadiusSm: string;
 /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
@@ -31605,8 +31586,6 @@ export const calciteFontFamilyCode: [string, string, string, string, string];
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
 export const calciteFontWeightNormal: string;
-/** Replaces \`--calcite-font-weight-normal\` */
-export const calciteFontWeightRegular: string;
 export const calciteFontWeightMedium: string;
 export const calciteFontWeightSemibold: string;
 export const calciteFontWeightBold: string;
@@ -31618,8 +31597,6 @@ export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
 export const calciteFontSizeXxl: string;
-/** Replaces \`--calcite-font-size-xxl\` */
-export const calciteFontSize2xl: string;
 export const calciteFontSizeRelativeXs: string;
 export const calciteFontSizeRelativeSm: string;
 export const calciteFontSizeRelativeBase: string;
@@ -31756,32 +31733,16 @@ export const calciteSizeFixedXxl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
-/** Replaces \`--calcite-size-fixed-sm-plus\` */
-export const calciteSize4xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
 export const calciteSizeXxxs: string;
-/** Replaces \`--calcite-size-fixed-md\` */
-export const calciteSize3xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
 export const calciteSizeXxs: string;
-/** Replaces \`--calcite-size-fixed-md-plus\` */
-export const calciteSize2xs: string;
-/** Replaces \`--calcite-size-fixed-lg\` */
-export const calciteSizeXs: string;
-/** Replaces \`--calcite-size-fixed-xxl\` */
-export const calciteSizeSm: string;
-/** Replaces \`--calcite-size-fixed-xxxl\` */
-export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
 export const calciteSizeXxl: string;
-/** Replaces \`--calcite-size-xxl\` */
-export const calciteSize2xl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
 export const calciteSizeXxxl: string;
-/** Replaces \`--calcite-size-xxxl\` */
-export const calciteSize3xl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
 export const calciteSpacingFixedXxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
@@ -31824,32 +31785,6 @@ export const calciteSpacingXl: string;
 export const calciteSpacingXxl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
 export const calciteSpacingXxxl: string;
-/** Replaces \`--calcite-spacing-none\` */
-export const calciteSpaceNone: string;
-/** Replaces \`--calcite-spacing-px\` */
-export const calciteSpacePx: string;
-/** Replaces \`--calcite-spacing-base\` */
-export const calciteSpaceBase: string;
-/** Replaces \`--calcite-spacing-xxs\` */
-export const calciteSpace2xs: string;
-/** Replaces \`--calcite-spacing-xs\` */
-export const calciteSpaceXs: string;
-/** Replaces \`--calcite-spacing-sm\` */
-export const calciteSpaceSm: string;
-/** Replaces \`--calcite-spacing-sm-plus\` */
-export const calciteSpaceSmPlus: string;
-/** Replaces \`--calcite-spacing-md\` */
-export const calciteSpaceMd: string;
-/** Replaces \`--calcite-spacing-md-plus\` */
-export const calciteSpaceMdPlus: string;
-/** Replaces \`--calcite-spacing-lg\` */
-export const calciteSpaceLg: string;
-/** Replaces \`--calcite-spacing-xl\` */
-export const calciteSpaceXl: string;
-/** Replaces \`--calcite-spacing-xxl\` */
-export const calciteSpace2xl: string;
-/** Replaces \`--calcite-spacing-xxxl\` */
-export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteTypography: {
   fontFamily: [string, string, string, string];
@@ -32125,6 +32060,31 @@ exports[`ES6 > semantic should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
+export const calciteReferenceCornerRadiusNone = "0";
+export const calciteReferenceCornerRadiusSm = "4px";
+export const calciteReferenceFontWeightRegular = "400";
+export const calciteReferenceFontSize2xl = "24px";
+export const calciteReferenceSize4xs = "0.625rem";
+export const calciteReferenceSize3xs = "0.75rem";
+export const calciteReferenceSize2xs = "0.875rem";
+export const calciteReferenceSizeXs = "1rem";
+export const calciteReferenceSizeSm = "1.5rem";
+export const calciteReferenceSizeMd = "2rem";
+export const calciteReferenceSize2xl = "4rem";
+export const calciteReferenceSize3xl = "6rem";
+export const calciteReferenceSpaceNone = "0";
+export const calciteReferenceSpacePx = "1px";
+export const calciteReferenceSpaceBase = "2px";
+export const calciteReferenceSpace2xs = "0.25rem";
+export const calciteReferenceSpaceXs = "0.375rem";
+export const calciteReferenceSpaceSm = "0.5rem";
+export const calciteReferenceSpaceSmPlus = "0.625rem";
+export const calciteReferenceSpaceMd = "0.75rem";
+export const calciteReferenceSpaceMdPlus = "0.875rem";
+export const calciteReferenceSpaceLg = "1rem";
+export const calciteReferenceSpaceXl = "1.25rem";
+export const calciteReferenceSpace2xl = "1.5rem";
+export const calciteReferenceSpace3xl = "2rem";
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
@@ -32135,9 +32095,7 @@ export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
 export const calciteCornerRadiusSharp = "0"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
-export const calciteCornerRadiusNone = "0"; // Replaces \`--calcite-corner-radius-sharp\`
 export const calciteCornerRadiusXs = "2px";
-export const calciteCornerRadiusSm = "4px"; // Replaces \`--calcite-corner-radius-round\`
 export const calciteCornerRadiusRound = "4px"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
 export const calciteCornerRadiusPill = "9999px";
 export const calciteFontFamily = [
@@ -32155,7 +32113,6 @@ export const calciteFontFamilyCode = [
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-export const calciteFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
 export const calciteFontWeightBold = "600";
@@ -32166,7 +32123,6 @@ export const calciteFontSizeMd = "16px";
 export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
 export const calciteFontSizeXxl = "24px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
-export const calciteFontSize2xl = "24px"; // Replaces \`--calcite-font-size-xxl\`
 export const calciteFontSizeRelativeXs = "0.625rem";
 export const calciteFontSizeRelativeSm = "0.75rem";
 export const calciteFontSizeRelativeBase = "0.875rem";
@@ -32274,20 +32230,12 @@ export const calciteSizeFixedXl = "20px"; // Deprecated in v3.0.0, removal targe
 export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
 export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
 export const calciteSizePx = "1px";
-export const calciteSize4xs = "0.625rem"; // Replaces \`--calcite-size-fixed-sm-plus\`
 export const calciteSizeXxxs = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-export const calciteSize3xs = "0.75rem"; // Replaces \`--calcite-size-fixed-md\`
 export const calciteSizeXxs = "0.875rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-export const calciteSize2xs = "0.875rem"; // Replaces \`--calcite-size-fixed-md-plus\`
-export const calciteSizeXs = "1rem"; // Replaces \`--calcite-size-fixed-lg\`
-export const calciteSizeSm = "1.5rem"; // Replaces \`--calcite-size-fixed-xxl\`
-export const calciteSizeMd = "2rem"; // Replaces \`--calcite-size-fixed-xxxl\`
 export const calciteSizeLg = "2.75rem";
 export const calciteSizeXl = "3rem";
 export const calciteSizeXxl = "4rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead.
-export const calciteSize2xl = "4rem"; // Replaces \`--calcite-size-xxl\`
 export const calciteSizeXxxl = "6rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead.
-export const calciteSize3xl = "6rem"; // Replaces \`--calcite-size-xxxl\`
 export const calciteSpacingFixedXxs = "4px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
 export const calciteSpacingFixedXs = "6px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
 export const calciteSpacingFixedSm = "8px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
@@ -32309,19 +32257,6 @@ export const calciteSpacingLg = "1rem"; // Deprecated in v4.0.0, removal target 
 export const calciteSpacingXl = "1.25rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
 export const calciteSpacingXxl = "1.5rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.
 export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
-export const calciteSpaceNone = "0"; // Replaces \`--calcite-spacing-none\`
-export const calciteSpacePx = "1px"; // Replaces \`--calcite-spacing-px\`
-export const calciteSpaceBase = "2px"; // Replaces \`--calcite-spacing-base\`
-export const calciteSpace2xs = "0.25rem"; // Replaces \`--calcite-spacing-xxs\`
-export const calciteSpaceXs = "0.375rem"; // Replaces \`--calcite-spacing-xs\`
-export const calciteSpaceSm = "0.5rem"; // Replaces \`--calcite-spacing-sm\`
-export const calciteSpaceSmPlus = "0.625rem"; // Replaces \`--calcite-spacing-sm-plus\`
-export const calciteSpaceMd = "0.75rem"; // Replaces \`--calcite-spacing-md\`
-export const calciteSpaceMdPlus = "0.875rem"; // Replaces \`--calcite-spacing-md-plus\`
-export const calciteSpaceLg = "1rem"; // Replaces \`--calcite-spacing-lg\`
-export const calciteSpaceXl = "1.25rem"; // Replaces \`--calcite-spacing-xl\`
-export const calciteSpace2xl = "1.5rem"; // Replaces \`--calcite-spacing-xxl\`
-export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-xxxl\`
 export const calciteSpace4xl = "2.75rem";
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
@@ -32342,6 +32277,31 @@ exports[`ES6 > semantic types should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
+export const calciteReferenceCornerRadiusNone: string;
+export const calciteReferenceCornerRadiusSm: string;
+export const calciteReferenceFontWeightRegular: string;
+export const calciteReferenceFontSize2xl: string;
+export const calciteReferenceSize4xs: string;
+export const calciteReferenceSize3xs: string;
+export const calciteReferenceSize2xs: string;
+export const calciteReferenceSizeXs: string;
+export const calciteReferenceSizeSm: string;
+export const calciteReferenceSizeMd: string;
+export const calciteReferenceSize2xl: string;
+export const calciteReferenceSize3xl: string;
+export const calciteReferenceSpaceNone: string;
+export const calciteReferenceSpacePx: string;
+export const calciteReferenceSpaceBase: string;
+export const calciteReferenceSpace2xs: string;
+export const calciteReferenceSpaceXs: string;
+export const calciteReferenceSpaceSm: string;
+export const calciteReferenceSpaceSmPlus: string;
+export const calciteReferenceSpaceMd: string;
+export const calciteReferenceSpaceMdPlus: string;
+export const calciteReferenceSpaceLg: string;
+export const calciteReferenceSpaceXl: string;
+export const calciteReferenceSpace2xl: string;
+export const calciteReferenceSpace3xl: string;
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
@@ -32355,11 +32315,7 @@ export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
 /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
 export const calciteCornerRadiusSharp: string;
-/** Replaces \`--calcite-corner-radius-sharp\` */
-export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
-/** Replaces \`--calcite-corner-radius-round\` */
-export const calciteCornerRadiusSm: string;
 /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
@@ -32371,8 +32327,6 @@ export const calciteFontFamilyCode: [string, string, string, string, string];
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
 export const calciteFontWeightNormal: string;
-/** Replaces \`--calcite-font-weight-normal\` */
-export const calciteFontWeightRegular: string;
 export const calciteFontWeightMedium: string;
 export const calciteFontWeightSemibold: string;
 export const calciteFontWeightBold: string;
@@ -32384,8 +32338,6 @@ export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
 export const calciteFontSizeXxl: string;
-/** Replaces \`--calcite-font-size-xxl\` */
-export const calciteFontSize2xl: string;
 export const calciteFontSizeRelativeXs: string;
 export const calciteFontSizeRelativeSm: string;
 export const calciteFontSizeRelativeBase: string;
@@ -32522,32 +32474,16 @@ export const calciteSizeFixedXxl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
-/** Replaces \`--calcite-size-fixed-sm-plus\` */
-export const calciteSize4xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
 export const calciteSizeXxxs: string;
-/** Replaces \`--calcite-size-fixed-md\` */
-export const calciteSize3xs: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
 export const calciteSizeXxs: string;
-/** Replaces \`--calcite-size-fixed-md-plus\` */
-export const calciteSize2xs: string;
-/** Replaces \`--calcite-size-fixed-lg\` */
-export const calciteSizeXs: string;
-/** Replaces \`--calcite-size-fixed-xxl\` */
-export const calciteSizeSm: string;
-/** Replaces \`--calcite-size-fixed-xxxl\` */
-export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
 export const calciteSizeXxl: string;
-/** Replaces \`--calcite-size-xxl\` */
-export const calciteSize2xl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
 export const calciteSizeXxxl: string;
-/** Replaces \`--calcite-size-xxxl\` */
-export const calciteSize3xl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
 export const calciteSpacingFixedXxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
@@ -32590,32 +32526,6 @@ export const calciteSpacingXl: string;
 export const calciteSpacingXxl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
 export const calciteSpacingXxxl: string;
-/** Replaces \`--calcite-spacing-none\` */
-export const calciteSpaceNone: string;
-/** Replaces \`--calcite-spacing-px\` */
-export const calciteSpacePx: string;
-/** Replaces \`--calcite-spacing-base\` */
-export const calciteSpaceBase: string;
-/** Replaces \`--calcite-spacing-xxs\` */
-export const calciteSpace2xs: string;
-/** Replaces \`--calcite-spacing-xs\` */
-export const calciteSpaceXs: string;
-/** Replaces \`--calcite-spacing-sm\` */
-export const calciteSpaceSm: string;
-/** Replaces \`--calcite-spacing-sm-plus\` */
-export const calciteSpaceSmPlus: string;
-/** Replaces \`--calcite-spacing-md\` */
-export const calciteSpaceMd: string;
-/** Replaces \`--calcite-spacing-md-plus\` */
-export const calciteSpaceMdPlus: string;
-/** Replaces \`--calcite-spacing-lg\` */
-export const calciteSpaceLg: string;
-/** Replaces \`--calcite-spacing-xl\` */
-export const calciteSpaceXl: string;
-/** Replaces \`--calcite-spacing-xxl\` */
-export const calciteSpace2xl: string;
-/** Replaces \`--calcite-spacing-xxxl\` */
-export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteZIndexDeep: string;
 export const calciteZIndex: string;
@@ -33315,12 +33225,12 @@ $calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\`
-$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\`
-$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\`
-$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
-$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
+$calcite-reference-color-surface-1: #212121;
+$calcite-reference-color-surface-2: #2b2b2b;
+$calcite-reference-color-surface-3: #363636;
+$calcite-reference-color-surface-4: #404040;
+$calcite-reference-color-surface-highlight: #2b465f;
 "
 `;
 
@@ -33466,32 +33376,32 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
-$calcite-corner-radius-none: $calcite-corner-radius-sharp; // Replaces \`--calcite-corner-radius-sharp\`
-$calcite-corner-radius-sm: $calcite-corner-radius-round; // Replaces \`--calcite-corner-radius-round\`
-$calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
-$calcite-font-size-2xl: $calcite-font-size-xxl; // Replaces \`--calcite-font-size-xxl\`
-$calcite-size-4xs: $calcite-size-fixed-sm-plus; // Replaces \`--calcite-size-fixed-sm-plus\`
-$calcite-size-3xs: $calcite-size-fixed-md; // Replaces \`--calcite-size-fixed-md\`
-$calcite-size-2xs: $calcite-size-fixed-md-plus; // Replaces \`--calcite-size-fixed-md-plus\`
-$calcite-size-xs: $calcite-size-fixed-lg; // Replaces \`--calcite-size-fixed-lg\`
-$calcite-size-sm: $calcite-size-fixed-xxl; // Replaces \`--calcite-size-fixed-xxl\`
-$calcite-size-md: $calcite-size-fixed-xxxl; // Replaces \`--calcite-size-fixed-xxxl\`
-$calcite-size-2xl: $calcite-size-xxl; // Replaces \`--calcite-size-xxl\`
-$calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
-$calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
-$calcite-space-px: $calcite-spacing-px; // Replaces \`--calcite-spacing-px\`
-$calcite-space-base: $calcite-spacing-base; // Replaces \`--calcite-spacing-base\`
-$calcite-space-2xs: $calcite-spacing-xxs; // Replaces \`--calcite-spacing-xxs\`
-$calcite-space-xs: $calcite-spacing-xs; // Replaces \`--calcite-spacing-xs\`
-$calcite-space-sm: $calcite-spacing-sm; // Replaces \`--calcite-spacing-sm\`
-$calcite-space-sm-plus: $calcite-spacing-sm-plus; // Replaces \`--calcite-spacing-sm-plus\`
-$calcite-space-md: $calcite-spacing-md; // Replaces \`--calcite-spacing-md\`
-$calcite-space-md-plus: $calcite-spacing-md-plus; // Replaces \`--calcite-spacing-md-plus\`
-$calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
-$calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
-$calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
-$calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
-$calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-reference-corner-radius-none: 0;
+$calcite-reference-corner-radius-sm: 4px;
+$calcite-reference-font-weight-regular: 400;
+$calcite-reference-font-size-2xl: 24px;
+$calcite-reference-size-4xs: 0.625rem;
+$calcite-reference-size-3xs: 0.75rem;
+$calcite-reference-size-2xs: 0.875rem;
+$calcite-reference-size-xs: 1rem;
+$calcite-reference-size-sm: 1.5rem;
+$calcite-reference-size-md: 2rem;
+$calcite-reference-size-2xl: 4rem;
+$calcite-reference-size-3xl: 6rem;
+$calcite-reference-space-none: 0;
+$calcite-reference-space-px: 1px;
+$calcite-reference-space-base: 2px;
+$calcite-reference-space-2xs: 0.25rem;
+$calcite-reference-space-xs: 0.375rem;
+$calcite-reference-space-sm: 0.5rem;
+$calcite-reference-space-sm-plus: 0.625rem;
+$calcite-reference-space-md: 0.75rem;
+$calcite-reference-space-md-plus: 0.875rem;
+$calcite-reference-space-lg: 1rem;
+$calcite-reference-space-xl: 1.25rem;
+$calcite-reference-space-2xl: 1.5rem;
+$calcite-reference-space-3xl: 2rem;
+$calcite-corner-radius: 0;
 "
 `;
 
@@ -33559,22 +33469,12 @@ exports[`SCSS > index should match 1`] = `
     0
   ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-reference-color-surface-highlight: #d6efff;
+  --calcite-reference-color-surface-4: #ebebeb;
+  --calcite-reference-color-surface-3: #f2f2f2;
+  --calcite-reference-color-surface-2: #ffffff;
+  --calcite-reference-color-surface-1: #f7f7f7;
   --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
 }
 @mixin calcite-mode-dark {
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
@@ -33631,22 +33531,12 @@ exports[`SCSS > index should match 1`] = `
     0
   ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-reference-color-surface-highlight: #2b465f;
+  --calcite-reference-color-surface-4: #404040;
+  --calcite-reference-color-surface-3: #363636;
+  --calcite-reference-color-surface-2: #2b2b2b;
+  --calcite-reference-color-surface-1: #212121;
   --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
 }
 "
 `;
@@ -33700,12 +33590,12 @@ $calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
 $calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
 $calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\`
-$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\`
-$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\`
-$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
-$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
+$calcite-reference-color-surface-1: #f7f7f7;
+$calcite-reference-color-surface-2: #ffffff;
+$calcite-reference-color-surface-3: #f2f2f2;
+$calcite-reference-color-surface-4: #ebebeb;
+$calcite-reference-color-surface-highlight: #d6efff;
 "
 `;
 
@@ -34179,31 +34069,31 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
-$calcite-corner-radius-none: $calcite-corner-radius-sharp; // Replaces \`--calcite-corner-radius-sharp\`
-$calcite-corner-radius-sm: $calcite-corner-radius-round; // Replaces \`--calcite-corner-radius-round\`
-$calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
-$calcite-font-size-2xl: $calcite-font-size-xxl; // Replaces \`--calcite-font-size-xxl\`
-$calcite-size-4xs: $calcite-size-fixed-sm-plus; // Replaces \`--calcite-size-fixed-sm-plus\`
-$calcite-size-3xs: $calcite-size-fixed-md; // Replaces \`--calcite-size-fixed-md\`
-$calcite-size-2xs: $calcite-size-fixed-md-plus; // Replaces \`--calcite-size-fixed-md-plus\`
-$calcite-size-xs: $calcite-size-fixed-lg; // Replaces \`--calcite-size-fixed-lg\`
-$calcite-size-sm: $calcite-size-fixed-xxl; // Replaces \`--calcite-size-fixed-xxl\`
-$calcite-size-md: $calcite-size-fixed-xxxl; // Replaces \`--calcite-size-fixed-xxxl\`
-$calcite-size-2xl: $calcite-size-xxl; // Replaces \`--calcite-size-xxl\`
-$calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
-$calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
-$calcite-space-px: $calcite-spacing-px; // Replaces \`--calcite-spacing-px\`
-$calcite-space-base: $calcite-spacing-base; // Replaces \`--calcite-spacing-base\`
-$calcite-space-2xs: $calcite-spacing-xxs; // Replaces \`--calcite-spacing-xxs\`
-$calcite-space-xs: $calcite-spacing-xs; // Replaces \`--calcite-spacing-xs\`
-$calcite-space-sm: $calcite-spacing-sm; // Replaces \`--calcite-spacing-sm\`
-$calcite-space-sm-plus: $calcite-spacing-sm-plus; // Replaces \`--calcite-spacing-sm-plus\`
-$calcite-space-md: $calcite-spacing-md; // Replaces \`--calcite-spacing-md\`
-$calcite-space-md-plus: $calcite-spacing-md-plus; // Replaces \`--calcite-spacing-md-plus\`
-$calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
-$calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
-$calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
-$calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
-$calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-reference-corner-radius-none: 0;
+$calcite-reference-corner-radius-sm: 4px;
+$calcite-reference-font-weight-regular: 400;
+$calcite-reference-font-size-2xl: 24px;
+$calcite-reference-size-4xs: 0.625rem;
+$calcite-reference-size-3xs: 0.75rem;
+$calcite-reference-size-2xs: 0.875rem;
+$calcite-reference-size-xs: 1rem;
+$calcite-reference-size-sm: 1.5rem;
+$calcite-reference-size-md: 2rem;
+$calcite-reference-size-2xl: 4rem;
+$calcite-reference-size-3xl: 6rem;
+$calcite-reference-space-none: 0;
+$calcite-reference-space-px: 1px;
+$calcite-reference-space-base: 2px;
+$calcite-reference-space-2xs: 0.25rem;
+$calcite-reference-space-xs: 0.375rem;
+$calcite-reference-space-sm: 0.5rem;
+$calcite-reference-space-sm-plus: 0.625rem;
+$calcite-reference-space-md: 0.75rem;
+$calcite-reference-space-md-plus: 0.875rem;
+$calcite-reference-space-lg: 1rem;
+$calcite-reference-space-xl: 1.25rem;
+$calcite-reference-space-2xl: 1.5rem;
+$calcite-reference-space-3xl: 2rem;
+$calcite-corner-radius: 0;
 "
 `;
