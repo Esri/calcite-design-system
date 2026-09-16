@@ -153,7 +153,7 @@ calcite-swatch {
   outline-color: transparent;
   position: absolute;
   z-index: var(--calcite-z-index);
-  border-radius: 9999px;
+  border-radius: var(--calcite-corner-radius-pill);
   background-color: transparent;
   inline-size: var(--calcite-border-width-sm);
   block-size: var(--calcite-border-width-sm);

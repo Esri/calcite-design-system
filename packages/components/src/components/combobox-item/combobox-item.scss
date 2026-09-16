@@ -65,7 +65,7 @@
 }
 
 :host(:focus) {
-  box-shadow: 0 0 #0000;
+  box-shadow: var(--calcite-shadow-none);
 }
 
 @include includes.disabled();
@@ -95,7 +95,7 @@ ul:focus {
   cursor: pointer;
   align-items: center;
   text-decoration-line: none;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: var(--calcite-animation-easing-function);
   justify-content: space-around;
   gap: var(--calcite-internal-combobox-item-spacing-unit-l);
   padding-block: var(--calcite-internal-combobox-item-spacing-unit-s);
@@ -134,7 +134,7 @@ ul:focus {
 
 .icon {
   display: inline-flex;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: var(--calcite-animation-easing-function);
   color: var(--calcite-color-border-input);
 }
 

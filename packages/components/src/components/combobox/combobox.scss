@@ -20,6 +20,7 @@
 //
 // --calcite-internal-close-size
 // --calcite-internal-combobox-input-margin-block
+// --calcite-internal-combobox-max-block-size
 // --calcite-internal-combobox-no-matches-spacing-unit-s
 // --calcite-internal-combobox-padding-inline-end
 // --calcite-internal-combobox-spacing-unit-l
@@ -35,6 +36,8 @@
 :host {
   position: relative;
   display: block;
+
+  --calcite-internal-combobox-max-block-size: 45vh;
 }
 
 :host([scale="s"]) {
@@ -130,9 +133,6 @@
   flex-wrap: wrap;
   align-items: center;
   position: relative;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   padding: 0;
   gap: var(--calcite-internal-combobox-spacing-unit-s);
   margin-inline-end: var(--calcite-internal-combobox-spacing-unit-s);
@@ -145,14 +145,14 @@
 }
 
 .input {
+  @include truncate.truncate();
+
   appearance: none;
   background-color: transparent;
   border-style: none;
   flex-grow: 1;
   font-family: inherit;
   color: var(--calcite-color-text-1);
-  text-overflow: ellipsis;
-  overflow: hidden;
   padding: 0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
@@ -263,7 +263,7 @@
 }
 
 .list-container {
-  max-block-size: 45vh;
+  max-block-size: var(--calcite-internal-combobox-max-block-size);
   overflow-y: auto;
   inline-size: var(--calcite-dropdown-width, 100%);
   background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));

@@ -280,7 +280,7 @@ calcite-sort-handle {
 
   align-self: center;
   justify-self: end;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: var(--calcite-animation-easing-function);
   color: var(
     --calcite-block-expandable-icon-color,
     var(--calcite-block-collapsible-icon-color, var(--calcite-block-icon-color, var(--calcite-color-text-3)))
