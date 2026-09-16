@@ -9,9 +9,12 @@ import { createBlock, getStylesheetFormat } from "./utils/index.ts";
 
 interface ThemedTokenPair {
   dark: TransformedToken;
-  darkDictionary: Dictionary;
   light: TransformedToken;
-  lightDictionary: Dictionary;
+}
+
+interface ThemedDictionaries {
+  dark: Dictionary;
+  light: Dictionary;
 }
 
 export const registerFormatLightDark: RegisterFn = () => {
@@ -33,14 +36,28 @@ export const formatLightDarkFile: FormatFn = async (args) => {
   });
 };
 
-export async function getLightDarkDeclarations(args: Parameters<FormatFn>[0], format: Stylesheet): Promise<string[]> {
-  const tokens = await getLightDarkTokenPairs(args.options.platform);
+async function getLightDarkDictionaries(platform: Platform): Promise<ThemedDictionaries> {
+  const [darkDictionary, lightDictionary] = await Promise.all([
+    dark.getPlatformTokens(platform, { cache: true }),
+    light.getPlatformTokens(platform, { cache: true }),
+  ]);
 
-  return tokens.map(({ dark, darkDictionary, light, lightDictionary }) => {
+  return {
+    light: lightDictionary,
+    dark: darkDictionary,
+  };
+}
+
+export async function getLightDarkDeclarations(args: Parameters<FormatFn>[0], format: Stylesheet): Promise<string[]> {
+  const dictionaries = await getLightDarkDictionaries(args.options.platform);
+  const tokens = getLightDarkTokenPairs(dictionaries);
+
+  return tokens.map((tokenPair) => {
+    const { dark, light } = tokenPair;
     const prefix = format === "css" ? "--" : "$";
     const description = light.$description;
     const comment = description ? (format === "css" ? ` /** ${description} */` : ` // ${description} */`) : "";
-    const reference = getSharedReference(args, dark, darkDictionary, light, lightDictionary);
+    const reference = getSharedReference(args, tokenPair, dictionaries);
     const value = reference
       ? format === "css"
         ? `var(--${reference.name})`
@@ -53,26 +70,13 @@ export async function getLightDarkDeclarations(args: Parameters<FormatFn>[0], fo
 
 function getSharedReference(
   args: Parameters<FormatFn>[0],
-  dark: TransformedToken,
-  darkDictionary: Dictionary,
-  light: TransformedToken,
-  lightDictionary: Dictionary,
+  { dark, light }: ThemedTokenPair,
+  { dark: darkDictionary, light: lightDictionary }: ThemedDictionaries,
 ): TransformedToken | undefined {
-  const darkReferences = getReferences(dark.original.$value, darkDictionary.unfilteredTokens ?? darkDictionary.tokens, {
-    usesDtcg: true,
-    warnImmediately: false,
-  });
-  const lightReferences = getReferences(
-    light.original.$value,
-    lightDictionary.unfilteredTokens ?? lightDictionary.tokens,
-    { usesDtcg: true, warnImmediately: false },
-  );
-  const [darkReference] = darkReferences;
-  const [lightReference] = lightReferences;
+  const darkReference = getSingleReference(dark, darkDictionary);
+  const lightReference = getSingleReference(light, lightDictionary);
 
   if (
-    darkReferences.length !== 1 ||
-    lightReferences.length !== 1 ||
     !darkReference ||
     !lightReference ||
     darkReference.path.join(".") !== lightReference.path.join(".") ||
@@ -83,6 +87,15 @@ function getSharedReference(
   }
 
   return lightReference;
+}
+
+function getSingleReference(token: TransformedToken, dictionary: Dictionary): TransformedToken | undefined {
+  const references = getReferences(token.original.$value, dictionary.unfilteredTokens ?? dictionary.tokens, {
+    usesDtcg: true,
+    warnImmediately: false,
+  });
+
+  return references.length === 1 ? references[0] : undefined;
 }
 
 function shouldOutputReference(
@@ -97,15 +110,11 @@ function shouldOutputReference(
     : !!outputReferences;
 }
 
-async function getLightDarkTokenPairs(platform: Platform): Promise<ThemedTokenPair[]> {
-  const [darkDictionary, lightDictionary] = await Promise.all([
-    dark.getPlatformTokens(platform, { cache: true }),
-    light.getPlatformTokens(platform, { cache: true }),
-  ]);
-  const darkTokens = darkDictionary.allTokens.filter((token) => isThemed(token, { theme: "dark" }));
+function getLightDarkTokenPairs(dictionaries: ThemedDictionaries): ThemedTokenPair[] {
+  const darkTokens = dictionaries.dark.allTokens.filter((token) => isThemed(token, { theme: "dark" }));
   const darkTokensByPath = new Map(darkTokens.map((token) => [token.path.join("."), token]));
 
-  return lightDictionary.allTokens
+  return dictionaries.light.allTokens
     .filter((token) => isThemed(token, { theme: "light" }))
     .map((lightToken) => {
       const tokenPath = lightToken.path.join(".");
@@ -117,9 +126,7 @@ async function getLightDarkTokenPairs(platform: Platform): Promise<ThemedTokenPa
 
       return {
         dark: darkToken,
-        darkDictionary,
         light: lightToken,
-        lightDictionary,
       };
     });
 }
