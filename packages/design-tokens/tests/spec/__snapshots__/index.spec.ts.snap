@@ -47,7 +47,7 @@ exports[`CSS > classes should match 1`] = `
   font-family: var(--calcite-font-family);
   font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
   letter-spacing: var(--calcite-font-letter-spacing-normal);
   paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
   text-case: var(--calcite-font-text-case-none);
@@ -56,281 +56,281 @@ exports[`CSS > classes should match 1`] = `
 .calcite-typography-light-minus-3h {
   font-size: var(--calcite-font-size-relative-xs);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
 }
 .calcite-typography-light-minus-2h {
   font-size: var(--calcite-font-size-relative-sm);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-light-minus-1h {
   font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
 }
 .calcite-typography-light-0h {
   font-size: var(--calcite-font-size-relative-md);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
 }
 .calcite-typography-light-1h {
   font-size: var(--calcite-font-size-relative-lg);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-light-2h {
   font-size: var(--calcite-font-size-relative-xl);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
 }
 .calcite-typography-regular-minus-3h {
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xs);
 }
 .calcite-typography-regular-minus-2h {
   font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-regular-minus-1h {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 115%;
   letter-spacing: 0;
   paragraph-spacing: 4px;
   text-case: none;
   text-decoration: none;
 }
 .calcite-typography-regular-0h {
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-regular-1h {
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
   font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-regular-2h {
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-medium-minus-3h {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xs);
 }
 .calcite-typography-medium-minus-2h {
   font-weight: var(--calcite-font-weight-medium);
   font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-medium-minus-1h {
   font-weight: var(--calcite-font-weight-medium);
   font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
 }
 .calcite-typography-medium-0h {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-medium-1h {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
   font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-medium-2h {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-bold-minus-3h {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xs);
 }
 .calcite-typography-bold-minus-2h {
   font-weight: var(--calcite-font-weight-semibold);
   font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-bold-minus-1h {
   font-weight: var(--calcite-font-weight-semibold);
   font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
 }
 .calcite-typography-bold-0h {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-bold-1h {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
   font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-bold-2h {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-light-0 {
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-light-1 {
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-light-2 {
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-light-3 {
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-light-minus-2 {
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-light-minus-1 {
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-wrap-regular-0 {
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-regular-1 {
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-regular-2 {
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-regular-3 {
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-regular-minus-2 {
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-regular-minus-1 {
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-wrap-medium-0 {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-medium-1 {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-medium-2 {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-medium-3 {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-medium-minus-2 {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-medium-minus-1 {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-wrap-bold-0 {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-bold-1 {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-bold-2 {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-bold-3 {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-bold-minus-2 {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-bold-minus-1 {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-hierarchy-display-1 {
   font-size: var(--calcite-font-size-relative-2xl);
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
 }
 .calcite-typography-hierarchy-display-2 {
   font-weight: 600;
-  line-height: 1.375;
+  line-height: 137.5%;
   font-size: 1.25rem;
 }
 .calcite-typography-hierarchy-heading-1 {
   font-size: var(--calcite-font-size-relative-2xl);
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
 }
 .calcite-typography-hierarchy-heading-2 {
   font-weight: 500;
-  line-height: 1.375;
+  line-height: 137.5%;
   font-size: 1.25rem;
 }
 .calcite-typography-hierarchy-heading-3 {
   font-weight: 500;
-  line-height: 1.375;
+  line-height: 137.5%;
   font-size: 1.125rem;
 }
 .calcite-typography-hierarchy-heading-4 {
   font-weight: 500;
-  line-height: 1.375;
+  line-height: 137.5%;
   font-size: 1rem;
 }
 .calcite-typography-hierarchy-heading-5 {
   font-weight: 500;
-  line-height: 1.375;
+  line-height: 137.5%;
   font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-body-snug {
-  line-height: 1.375;
+  line-height: 137.5%;
   font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-body {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 115%;
   letter-spacing: 0;
   paragraph-spacing: 4px;
   text-case: none;
@@ -340,10 +340,10 @@ exports[`CSS > classes should match 1`] = `
   font-size: var(--calcite-font-size-relative-sm);
   text-case: var(--calcite-font-text-case-uppercase);
   font-weight: var(--calcite-font-weight-bold);
-  line-height: var(--calcite-font-line-height-relative-base);
+  line-height: var(--calcite-size-relative-100);
 }
 .calcite-typography-hierarchy-caption {
-  line-height: 1.375;
+  line-height: 137.5%;
   font-size: 0.75rem;
 }
 "
@@ -1077,10 +1077,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-fixed-6xl: 80px;
   --calcite-font-line-height-relative: normal;
   --calcite-font-line-height-relative-base: 1;
-  --calcite-font-line-height-relative-compact: 1.15;
-  --calcite-font-line-height-relative-condensed: 1.2;
   --calcite-font-line-height-relative-tight: 1.25;
-  --calcite-font-line-height-relative-cozy: 1.33;
   --calcite-font-line-height-relative-snug: 1.375;
   --calcite-font-line-height-relative-normal: 1.5;
   --calcite-font-line-height-relative-relaxed: 1.625;
@@ -1688,10 +1685,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-fixed-6xl: 80px;
   --calcite-font-line-height-relative: normal;
   --calcite-font-line-height-relative-base: 1;
-  --calcite-font-line-height-relative-compact: 1.15;
-  --calcite-font-line-height-relative-condensed: 1.2;
   --calcite-font-line-height-relative-tight: 1.25;
-  --calcite-font-line-height-relative-cozy: 1.33;
   --calcite-font-line-height-relative-snug: 1.375;
   --calcite-font-line-height-relative-normal: 1.5;
   --calcite-font-line-height-relative-relaxed: 1.625;
@@ -20783,60 +20777,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["font", "line-height", "relative", "base"]
     },
     {
-      "key": "{font.line-height.relative.compact}",
-      "attributes": {
-        "category": "font",
-        "group": "line-height",
-        "kind": "relative",
-        "type": "line-height",
-        "item": "relative",
-        "subitem": "compact",
-        "names": {
-          "scss": "$calcite-font-line-height-relative-compact",
-          "css": "var(--calcite-font-line-height-relative-compact)",
-          "docs": "font.line-height.relative.compact",
-          "es6": "calciteFontLineHeightRelativeCompact"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "lineHeight",
-      "$value": "1.15",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Line Height Relative Compact",
-      "path": ["font", "line-height", "relative", "compact"]
-    },
-    {
-      "key": "{font.line-height.relative.condensed}",
-      "attributes": {
-        "category": "font",
-        "group": "line-height",
-        "kind": "relative",
-        "type": "line-height",
-        "item": "relative",
-        "subitem": "condensed",
-        "names": {
-          "scss": "$calcite-font-line-height-relative-condensed",
-          "css": "var(--calcite-font-line-height-relative-condensed)",
-          "docs": "font.line-height.relative.condensed",
-          "es6": "calciteFontLineHeightRelativeCondensed"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "lineHeight",
-      "$value": "1.2",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Line Height Relative Condensed",
-      "path": ["font", "line-height", "relative", "condensed"]
-    },
-    {
       "key": "{font.line-height.relative.tight}",
       "attributes": {
         "category": "font",
@@ -20862,33 +20802,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Font Line Height Relative Tight",
       "path": ["font", "line-height", "relative", "tight"]
-    },
-    {
-      "key": "{font.line-height.relative.cozy}",
-      "attributes": {
-        "category": "font",
-        "group": "line-height",
-        "kind": "relative",
-        "type": "line-height",
-        "item": "relative",
-        "subitem": "cozy",
-        "names": {
-          "scss": "$calcite-font-line-height-relative-cozy",
-          "css": "var(--calcite-font-line-height-relative-cozy)",
-          "docs": "font.line-height.relative.cozy",
-          "es6": "calciteFontLineHeightRelativeCozy"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "lineHeight",
-      "$value": "1.33",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Line Height Relative Cozy",
-      "path": ["font", "line-height", "relative", "cozy"]
     },
     {
       "key": "{font.line-height.relative.snug}",
@@ -23297,7 +23210,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"1.15\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography",
@@ -23331,7 +23244,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23339,7 +23252,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"0.625rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.2\\"}",
+      "$value": "{\\"fontSize\\":\\"0.625rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.2}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 3h",
@@ -23373,7 +23286,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23381,7 +23294,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.33\\"}",
+      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.33}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 2h",
@@ -23415,7 +23328,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23423,7 +23336,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.15\\"}",
+      "$value": "{\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.15}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 1h",
@@ -23457,7 +23370,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23465,7 +23378,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"1rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.25\\"}",
+      "$value": "{\\"fontSize\\":\\"1rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.25}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light 0h",
@@ -23499,7 +23412,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23507,7 +23420,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"1.125rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.33\\"}",
+      "$value": "{\\"fontSize\\":\\"1.125rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.33}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light 1h",
@@ -23541,7 +23454,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23549,7 +23462,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"1.25rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.2\\"}",
+      "$value": "{\\"fontSize\\":\\"1.25rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.2}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light 2h",
@@ -23583,7 +23496,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23591,7 +23504,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.2\\",\\"fontSize\\":\\"0.625rem\\"}",
+      "$value": "{\\"lineHeight\\":1.2,\\"fontSize\\":\\"0.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 3h",
@@ -23625,7 +23538,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23633,7 +23546,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":\\"1.33\\"}",
+      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":1.33}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 2h",
@@ -23658,7 +23571,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"1.15\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 1h",
@@ -23692,7 +23605,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23700,7 +23613,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"lineHeight\\":1.25,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular 0h",
@@ -23734,7 +23647,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23742,7 +23655,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.33\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"lineHeight\\":1.33,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular 1h",
@@ -23776,7 +23689,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23784,7 +23697,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.2\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"lineHeight\\":1.2,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular 2h",
@@ -23818,7 +23731,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23826,7 +23739,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.2\\",\\"fontSize\\":\\"0.625rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.2,\\"fontSize\\":\\"0.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 3h",
@@ -23860,7 +23773,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23868,7 +23781,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":\\"1.33\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":1.33}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 2h",
@@ -23902,7 +23815,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23910,7 +23823,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"0.875rem\\",\\"lineHeight\\":\\"1.15\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"0.875rem\\",\\"lineHeight\\":1.15}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 1h",
@@ -23944,7 +23857,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23952,7 +23865,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.25,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium 0h",
@@ -23986,7 +23899,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23994,7 +23907,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.33\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.33,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium 1h",
@@ -24028,7 +23941,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24036,7 +23949,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.2\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.2,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium 2h",
@@ -24070,7 +23983,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24078,7 +23991,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.2\\",\\"fontSize\\":\\"0.625rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.2,\\"fontSize\\":\\"0.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 3h",
@@ -24112,7 +24025,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24120,7 +24033,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":\\"1.33\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":1.33}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 2h",
@@ -24154,7 +24067,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24162,7 +24075,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"0.875rem\\",\\"lineHeight\\":\\"1.15\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"0.875rem\\",\\"lineHeight\\":1.15}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 1h",
@@ -24196,7 +24109,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24204,7 +24117,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.25,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold 0h",
@@ -24238,7 +24151,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24246,7 +24159,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.33\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.33,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold 1h",
@@ -24280,7 +24193,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24288,7 +24201,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.2\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.2,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold 2h",
@@ -24322,7 +24235,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24330,7 +24243,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 0",
@@ -24364,7 +24277,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24372,7 +24285,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 1",
@@ -24406,7 +24319,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24414,7 +24327,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 2",
@@ -24448,7 +24361,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24456,7 +24369,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.25,\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 3",
@@ -24490,7 +24403,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24498,7 +24411,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light Minus 2",
@@ -24532,7 +24445,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24540,7 +24453,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light Minus 1",
@@ -24574,7 +24487,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24582,7 +24495,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 0",
@@ -24616,7 +24529,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24624,7 +24537,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 1",
@@ -24658,7 +24571,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24666,7 +24579,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 2",
@@ -24700,7 +24613,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24708,7 +24621,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
+      "$value": "{\\"lineHeight\\":1.25,\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 3",
@@ -24742,7 +24655,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24750,7 +24663,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
+      "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular Minus 2",
@@ -24784,7 +24697,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24792,7 +24705,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
+      "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular Minus 1",
@@ -24826,7 +24739,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24834,7 +24747,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 0",
@@ -24868,7 +24781,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24876,7 +24789,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 1",
@@ -24910,7 +24823,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24918,7 +24831,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 2",
@@ -24952,7 +24865,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24960,7 +24873,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.25,\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 3",
@@ -24994,7 +24907,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25002,7 +24915,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium Minus 2",
@@ -25036,7 +24949,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25044,7 +24957,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium Minus 1",
@@ -25078,7 +24991,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25086,7 +24999,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 0",
@@ -25120,7 +25033,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25128,7 +25041,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 1",
@@ -25162,7 +25075,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25170,7 +25083,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 2",
@@ -25204,7 +25117,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25212,7 +25125,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.25,\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 3",
@@ -25246,7 +25159,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25254,7 +25167,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold Minus 2",
@@ -25288,7 +25201,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25296,7 +25209,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold Minus 1",
@@ -25330,7 +25243,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25338,7 +25251,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 1",
@@ -25363,7 +25276,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 2",
@@ -25397,7 +25310,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "1.15",
+          "lineHeight": 1.15,
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -25405,7 +25318,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 1",
@@ -25430,7 +25343,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 2",
@@ -25455,7 +25368,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 3",
@@ -25480,7 +25393,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 4",
@@ -25505,7 +25418,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 5",
@@ -25530,7 +25443,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
+      "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body Snug",
@@ -25555,7 +25468,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"1.15\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body",
@@ -25579,7 +25492,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"textCase\\":\\"uppercase\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1\\"}",
+      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"textCase\\":\\"uppercase\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Overline",
@@ -25603,7 +25516,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
+      "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Caption",
@@ -27271,60 +27184,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "path": ["font", "line-height", "relative", "base"]
     },
     {
-      "key": "{font.line-height.relative.compact}",
-      "attributes": {
-        "category": "font",
-        "group": "line-height",
-        "kind": "relative",
-        "type": "line-height",
-        "item": "relative",
-        "subitem": "compact",
-        "names": {
-          "scss": "$calcite-font-line-height-relative-compact",
-          "css": "var(--calcite-font-line-height-relative-compact)",
-          "docs": "font.line-height.relative.compact",
-          "es6": "calciteFontLineHeightRelativeCompact"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "lineHeight",
-      "$value": "1.15",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Line Height Relative Compact",
-      "path": ["font", "line-height", "relative", "compact"]
-    },
-    {
-      "key": "{font.line-height.relative.condensed}",
-      "attributes": {
-        "category": "font",
-        "group": "line-height",
-        "kind": "relative",
-        "type": "line-height",
-        "item": "relative",
-        "subitem": "condensed",
-        "names": {
-          "scss": "$calcite-font-line-height-relative-condensed",
-          "css": "var(--calcite-font-line-height-relative-condensed)",
-          "docs": "font.line-height.relative.condensed",
-          "es6": "calciteFontLineHeightRelativeCondensed"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "lineHeight",
-      "$value": "1.2",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Line Height Relative Condensed",
-      "path": ["font", "line-height", "relative", "condensed"]
-    },
-    {
       "key": "{font.line-height.relative.tight}",
       "attributes": {
         "category": "font",
@@ -27350,33 +27209,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Font Line Height Relative Tight",
       "path": ["font", "line-height", "relative", "tight"]
-    },
-    {
-      "key": "{font.line-height.relative.cozy}",
-      "attributes": {
-        "category": "font",
-        "group": "line-height",
-        "kind": "relative",
-        "type": "line-height",
-        "item": "relative",
-        "subitem": "cozy",
-        "names": {
-          "scss": "$calcite-font-line-height-relative-cozy",
-          "css": "var(--calcite-font-line-height-relative-cozy)",
-          "docs": "font.line-height.relative.cozy",
-          "es6": "calciteFontLineHeightRelativeCozy"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "$type": "lineHeight",
-      "$value": "1.33",
-      "filePath": "src/tokens/semantic/font.json",
-      "isSource": true,
-      "name": "Font Line Height Relative Cozy",
-      "path": ["font", "line-height", "relative", "cozy"]
     },
     {
       "key": "{font.line-height.relative.snug}",
@@ -31548,10 +31380,7 @@ export const calciteFontLineHeightFixed5xl = "64px";
 export const calciteFontLineHeightFixed6xl = "80px";
 export const calciteFontLineHeightRelative = "normal";
 export const calciteFontLineHeightRelativeBase = "1";
-export const calciteFontLineHeightRelativeCompact = "1.15";
-export const calciteFontLineHeightRelativeCondensed = "1.2";
 export const calciteFontLineHeightRelativeTight = "1.25";
-export const calciteFontLineHeightRelativeCozy = "1.33";
 export const calciteFontLineHeightRelativeSnug = "1.375";
 export const calciteFontLineHeightRelativeNormal = "1.5";
 export const calciteFontLineHeightRelativeRelaxed = "1.625";
@@ -31687,7 +31516,7 @@ export const calciteTypography = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "0.875rem",
   fontWeight: "400",
-  lineHeight: "1.15",
+  lineHeight: 1.15,
   letterSpacing: "0",
   paragraphSpacing: "4px",
   textCase: "none",
@@ -31696,281 +31525,281 @@ export const calciteTypography = {
 export const calciteTypographyLightMinus3h = {
   fontSize: "0.625rem",
   fontWeight: "300",
-  lineHeight: "1.2",
+  lineHeight: 1.2,
 };
 export const calciteTypographyLightMinus2h = {
   fontSize: "0.75rem",
   fontWeight: "300",
-  lineHeight: "1.33",
+  lineHeight: 1.33,
 };
 export const calciteTypographyLightMinus1h = {
   fontSize: "0.875rem",
   fontWeight: "300",
-  lineHeight: "1.15",
+  lineHeight: 1.15,
 };
 export const calciteTypographyLight0h = {
   fontSize: "1rem",
   fontWeight: "300",
-  lineHeight: "1.25",
+  lineHeight: 1.25,
 };
 export const calciteTypographyLight1h = {
   fontSize: "1.125rem",
   fontWeight: "300",
-  lineHeight: "1.33",
+  lineHeight: 1.33,
 };
 export const calciteTypographyLight2h = {
   fontSize: "1.25rem",
   fontWeight: "300",
-  lineHeight: "1.2",
+  lineHeight: 1.2,
 };
 export const calciteTypographyRegularMinus3h = {
-  lineHeight: "1.2",
+  lineHeight: 1.2,
   fontSize: "0.625rem",
 };
 export const calciteTypographyRegularMinus2h = {
   fontSize: "0.75rem",
-  lineHeight: "1.33",
+  lineHeight: 1.33,
 };
 export const calciteTypographyRegularMinus1h = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "0.875rem",
   fontWeight: "400",
-  lineHeight: "1.15",
+  lineHeight: 1.15,
   letterSpacing: "0",
   paragraphSpacing: "4px",
   textCase: "none",
   textDecoration: "none",
 };
 export const calciteTypographyRegular0h = {
-  lineHeight: "1.25",
+  lineHeight: 1.25,
   fontSize: "1rem",
 };
 export const calciteTypographyRegular1h = {
-  lineHeight: "1.33",
+  lineHeight: 1.33,
   fontSize: "1.125rem",
 };
 export const calciteTypographyRegular2h = {
-  lineHeight: "1.2",
+  lineHeight: 1.2,
   fontSize: "1.25rem",
 };
 export const calciteTypographyMediumMinus3h = {
   fontWeight: "500",
-  lineHeight: "1.2",
+  lineHeight: 1.2,
   fontSize: "0.625rem",
 };
 export const calciteTypographyMediumMinus2h = {
   fontWeight: "500",
   fontSize: "0.75rem",
-  lineHeight: "1.33",
+  lineHeight: 1.33,
 };
 export const calciteTypographyMediumMinus1h = {
   fontWeight: "500",
   fontSize: "0.875rem",
-  lineHeight: "1.15",
+  lineHeight: 1.15,
 };
 export const calciteTypographyMedium0h = {
   fontWeight: "500",
-  lineHeight: "1.25",
+  lineHeight: 1.25,
   fontSize: "1rem",
 };
 export const calciteTypographyMedium1h = {
   fontWeight: "500",
-  lineHeight: "1.33",
+  lineHeight: 1.33,
   fontSize: "1.125rem",
 };
 export const calciteTypographyMedium2h = {
   fontWeight: "500",
-  lineHeight: "1.2",
+  lineHeight: 1.2,
   fontSize: "1.25rem",
 };
 export const calciteTypographyBoldMinus3h = {
   fontWeight: "600",
-  lineHeight: "1.2",
+  lineHeight: 1.2,
   fontSize: "0.625rem",
 };
 export const calciteTypographyBoldMinus2h = {
   fontWeight: "600",
   fontSize: "0.75rem",
-  lineHeight: "1.33",
+  lineHeight: 1.33,
 };
 export const calciteTypographyBoldMinus1h = {
   fontWeight: "600",
   fontSize: "0.875rem",
-  lineHeight: "1.15",
+  lineHeight: 1.15,
 };
 export const calciteTypographyBold0h = {
   fontWeight: "600",
-  lineHeight: "1.25",
+  lineHeight: 1.25,
   fontSize: "1rem",
 };
 export const calciteTypographyBold1h = {
   fontWeight: "600",
-  lineHeight: "1.33",
+  lineHeight: 1.33,
   fontSize: "1.125rem",
 };
 export const calciteTypographyBold2h = {
   fontWeight: "600",
-  lineHeight: "1.2",
+  lineHeight: 1.2,
   fontSize: "1.25rem",
 };
 export const calciteTypographyWrapLight0 = {
   fontWeight: "300",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1rem",
 };
 export const calciteTypographyWrapLight1 = {
   fontWeight: "300",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.125rem",
 };
 export const calciteTypographyWrapLight2 = {
   fontWeight: "300",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.25rem",
 };
 export const calciteTypographyWrapLight3 = {
   fontWeight: "300",
-  lineHeight: "1.25",
+  lineHeight: 1.25,
   fontSize: "1.625rem",
 };
 export const calciteTypographyWrapLightMinus2 = {
   fontWeight: "300",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.75rem",
 };
 export const calciteTypographyWrapLightMinus1 = {
   fontWeight: "300",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.875rem",
 };
 export const calciteTypographyWrapRegular0 = {
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1rem",
 };
 export const calciteTypographyWrapRegular1 = {
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.125rem",
 };
 export const calciteTypographyWrapRegular2 = {
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.25rem",
 };
 export const calciteTypographyWrapRegular3 = {
-  lineHeight: "1.25",
+  lineHeight: 1.25,
   fontSize: "1.625rem",
 };
 export const calciteTypographyWrapRegularMinus2 = {
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.75rem",
 };
 export const calciteTypographyWrapRegularMinus1 = {
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.875rem",
 };
 export const calciteTypographyWrapMedium0 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1rem",
 };
 export const calciteTypographyWrapMedium1 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.125rem",
 };
 export const calciteTypographyWrapMedium2 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.25rem",
 };
 export const calciteTypographyWrapMedium3 = {
   fontWeight: "500",
-  lineHeight: "1.25",
+  lineHeight: 1.25,
   fontSize: "1.625rem",
 };
 export const calciteTypographyWrapMediumMinus2 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.75rem",
 };
 export const calciteTypographyWrapMediumMinus1 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.875rem",
 };
 export const calciteTypographyWrapBold0 = {
   fontWeight: "600",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1rem",
 };
 export const calciteTypographyWrapBold1 = {
   fontWeight: "600",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.125rem",
 };
 export const calciteTypographyWrapBold2 = {
   fontWeight: "600",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.25rem",
 };
 export const calciteTypographyWrapBold3 = {
   fontWeight: "600",
-  lineHeight: "1.25",
+  lineHeight: 1.25,
   fontSize: "1.625rem",
 };
 export const calciteTypographyWrapBoldMinus2 = {
   fontWeight: "600",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.75rem",
 };
 export const calciteTypographyWrapBoldMinus1 = {
   fontWeight: "600",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.875rem",
 };
 export const calciteTypographyHierarchyDisplay1 = {
   fontSize: "1.625rem",
   fontWeight: "600",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
 };
 export const calciteTypographyHierarchyDisplay2 = {
   fontWeight: "600",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.25rem",
 };
 export const calciteTypographyHierarchyHeading1 = {
   fontSize: "1.625rem",
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
 };
 export const calciteTypographyHierarchyHeading2 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.25rem",
 };
 export const calciteTypographyHierarchyHeading3 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1.125rem",
 };
 export const calciteTypographyHierarchyHeading4 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "1rem",
 };
 export const calciteTypographyHierarchyHeading5 = {
   fontWeight: "500",
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.875rem",
 };
 export const calciteTypographyHierarchyBodySnug = {
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.875rem",
 };
 export const calciteTypographyHierarchyBody = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "0.875rem",
   fontWeight: "400",
-  lineHeight: "1.15",
+  lineHeight: 1.15,
   letterSpacing: "0",
   paragraphSpacing: "4px",
   textCase: "none",
@@ -31980,10 +31809,10 @@ export const calciteTypographyHierarchyOverline = {
   fontSize: "0.75rem",
   textCase: "uppercase",
   fontWeight: "600",
-  lineHeight: "1",
+  lineHeight: 1,
 };
 export const calciteTypographyHierarchyCaption = {
-  lineHeight: "1.375",
+  lineHeight: 1.375,
   fontSize: "0.75rem",
 };
 export const calciteZIndexDeep = "-999999";
@@ -32172,10 +32001,7 @@ export const calciteFontLineHeightFixed5xl: string;
 export const calciteFontLineHeightFixed6xl: string;
 export const calciteFontLineHeightRelative: string;
 export const calciteFontLineHeightRelativeBase: string;
-export const calciteFontLineHeightRelativeCompact: string;
-export const calciteFontLineHeightRelativeCondensed: string;
 export const calciteFontLineHeightRelativeTight: string;
-export const calciteFontLineHeightRelativeCozy: string;
 export const calciteFontLineHeightRelativeSnug: string;
 export const calciteFontLineHeightRelativeNormal: string;
 export const calciteFontLineHeightRelativeRelaxed: string;
@@ -32378,7 +32204,7 @@ export const calciteTypography: {
   fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   letterSpacing: string;
   paragraphSpacing: string;
   textCase: string;
@@ -32387,281 +32213,281 @@ export const calciteTypography: {
 export const calciteTypographyLightMinus3h: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyLightMinus2h: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyLightMinus1h: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyLight0h: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyLight1h: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyLight2h: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyRegularMinus3h: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyRegularMinus2h: {
   fontSize: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyRegularMinus1h: {
   fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   letterSpacing: string;
   paragraphSpacing: string;
   textCase: string;
   textDecoration: string;
 };
 export const calciteTypographyRegular0h: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyRegular1h: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyRegular2h: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyMediumMinus3h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyMediumMinus2h: {
   fontWeight: string;
   fontSize: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyMediumMinus1h: {
   fontWeight: string;
   fontSize: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyMedium0h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyMedium1h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyMedium2h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyBoldMinus3h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyBoldMinus2h: {
   fontWeight: string;
   fontSize: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyBoldMinus1h: {
   fontWeight: string;
   fontSize: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyBold0h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyBold1h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyBold2h: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapLight0: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapLight1: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapLight2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapLight3: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapLightMinus2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapLightMinus1: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapRegular0: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapRegular1: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapRegular2: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapRegular3: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapRegularMinus2: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapRegularMinus1: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapMedium0: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapMedium1: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapMedium2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapMedium3: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapMediumMinus2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapMediumMinus1: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapBold0: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapBold1: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapBold2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapBold3: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapBoldMinus2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyWrapBoldMinus1: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyHierarchyDisplay1: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyHierarchyDisplay2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyHierarchyHeading1: {
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyHierarchyHeading2: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyHierarchyHeading3: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyHierarchyHeading4: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyHierarchyHeading5: {
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyHierarchyBodySnug: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteTypographyHierarchyBody: {
   fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
   letterSpacing: string;
   paragraphSpacing: string;
   textCase: string;
@@ -32671,10 +32497,10 @@ export const calciteTypographyHierarchyOverline: {
   fontSize: string;
   textCase: string;
   fontWeight: string;
-  lineHeight: string;
+  lineHeight: number;
 };
 export const calciteTypographyHierarchyCaption: {
-  lineHeight: string;
+  lineHeight: number;
   fontSize: string;
 };
 export const calciteZIndexDeep: string;
@@ -32762,10 +32588,7 @@ export const calciteFontLineHeightFixed5xl = "64px";
 export const calciteFontLineHeightFixed6xl = "80px";
 export const calciteFontLineHeightRelative = "normal";
 export const calciteFontLineHeightRelativeBase = "1";
-export const calciteFontLineHeightRelativeCompact = "1.15";
-export const calciteFontLineHeightRelativeCondensed = "1.2";
 export const calciteFontLineHeightRelativeTight = "1.25";
-export const calciteFontLineHeightRelativeCozy = "1.33";
 export const calciteFontLineHeightRelativeSnug = "1.375";
 export const calciteFontLineHeightRelativeNormal = "1.5";
 export const calciteFontLineHeightRelativeRelaxed = "1.625";
@@ -32985,10 +32808,7 @@ export const calciteFontLineHeightFixed5xl: string;
 export const calciteFontLineHeightFixed6xl: string;
 export const calciteFontLineHeightRelative: string;
 export const calciteFontLineHeightRelativeBase: string;
-export const calciteFontLineHeightRelativeCompact: string;
-export const calciteFontLineHeightRelativeCondensed: string;
 export const calciteFontLineHeightRelativeTight: string;
-export const calciteFontLineHeightRelativeCozy: string;
 export const calciteFontLineHeightRelativeSnug: string;
 export const calciteFontLineHeightRelativeNormal: string;
 export const calciteFontLineHeightRelativeRelaxed: string;
@@ -33954,10 +33774,7 @@ $calcite-font-line-height-fixed-5xl: 64px;
 $calcite-font-line-height-fixed-6xl: 80px;
 $calcite-font-line-height-relative: normal;
 $calcite-font-line-height-relative-base: 1;
-$calcite-font-line-height-relative-compact: 1.15;
-$calcite-font-line-height-relative-condensed: 1.2;
 $calcite-font-line-height-relative-tight: 1.25;
-$calcite-font-line-height-relative-cozy: 1.33;
 $calcite-font-line-height-relative-snug: 1.375;
 $calcite-font-line-height-relative-normal: 1.5;
 $calcite-font-line-height-relative-relaxed: 1.625;
@@ -34295,7 +34112,7 @@ exports[`SCSS > mixins should match 1`] = `
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 115%;
   letter-spacing: 0;
   paragraph-spacing: 4px;
   text-case: none;
@@ -34305,54 +34122,54 @@ exports[`SCSS > mixins should match 1`] = `
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-xs);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
 }
 @mixin calcite-typography-light-minus-2h {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-sm);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-light-minus-1h {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
 }
 @mixin calcite-typography-light-0h {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-md);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
 }
 @mixin calcite-typography-light-1h {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-lg);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-light-2h {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-xl);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
 }
 @mixin calcite-typography-regular-minus-3h {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xs);
 }
 @mixin calcite-typography-regular-minus-2h {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-regular-minus-1h {
   @include calcite-typography;
   font-family: var(--calcite-font-family);
   font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
   letter-spacing: var(--calcite-font-letter-spacing-normal);
   paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
   text-case: var(--calcite-font-text-case-none);
@@ -34360,274 +34177,274 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-regular-0h {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-regular-1h {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-regular-2h {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-medium-minus-3h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xs);
 }
 @mixin calcite-typography-medium-minus-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-medium-minus-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
 }
 @mixin calcite-typography-medium-0h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-medium-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-medium-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-bold-minus-3h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xs);
 }
 @mixin calcite-typography-bold-minus-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
   font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-bold-minus-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
   font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
 }
 @mixin calcite-typography-bold-0h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-bold-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-cozy);
+  line-height: var(--calcite-size-relative-133);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-bold-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-condensed);
+  line-height: var(--calcite-size-relative-120);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-light-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-light-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-light-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-light-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-light-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-light-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-wrap-regular-0 {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-regular-1 {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-regular-2 {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-regular-3 {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-regular-minus-2 {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-regular-minus-1 {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-wrap-medium-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-medium-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-medium-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-medium-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-medium-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-medium-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-wrap-bold-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-bold-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-bold-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-bold-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-tight);
+  line-height: var(--calcite-size-relative-125);
   font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-bold-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-bold-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-hierarchy-display-1 {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-2xl);
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
 }
 @mixin calcite-typography-hierarchy-display-2 {
   @include calcite-typography-wrap-bold-2;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-hierarchy-heading-1 {
   @include calcite-typography;
   font-size: var(--calcite-font-size-relative-2xl);
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
 }
 @mixin calcite-typography-hierarchy-heading-2 {
   @include calcite-typography-wrap-medium-2;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-hierarchy-heading-3 {
   @include calcite-typography-wrap-medium-1;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-hierarchy-heading-4 {
   @include calcite-typography-wrap-medium-0;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-hierarchy-heading-5 {
   @include calcite-typography-wrap-medium-minus-1;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-hierarchy-body-snug {
   @include calcite-typography-wrap-regular-minus-1;
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-hierarchy-body {
@@ -34635,7 +34452,7 @@ exports[`SCSS > mixins should match 1`] = `
   font-family: var(--calcite-font-family);
   font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-font-line-height-relative-compact);
+  line-height: var(--calcite-size-relative-115);
   letter-spacing: var(--calcite-font-letter-spacing-normal);
   paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
   text-case: var(--calcite-font-text-case-none);
@@ -34645,11 +34462,11 @@ exports[`SCSS > mixins should match 1`] = `
   font-size: 0.75rem;
   text-case: uppercase;
   font-weight: 600;
-  line-height: 1;
+  line-height: 100%;
 }
 @mixin calcite-typography-hierarchy-caption {
   @include calcite-typography-wrap-regular-minus-2;
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: var(--calcite-size-relative-137);
   font-size: var(--calcite-font-size-relative-sm);
 }
 "
@@ -34710,10 +34527,7 @@ $calcite-font-line-height-fixed-5xl: 64px;
 $calcite-font-line-height-fixed-6xl: 80px;
 $calcite-font-line-height-relative: normal;
 $calcite-font-line-height-relative-base: 1;
-$calcite-font-line-height-relative-compact: 1.15;
-$calcite-font-line-height-relative-condensed: 1.2;
 $calcite-font-line-height-relative-tight: 1.25;
-$calcite-font-line-height-relative-cozy: 1.33;
 $calcite-font-line-height-relative-snug: 1.375;
 $calcite-font-line-height-relative-normal: 1.5;
 $calcite-font-line-height-relative-relaxed: 1.625;
