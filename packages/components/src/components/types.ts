@@ -26,7 +26,7 @@ export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" 
  * Mode classes.
  *
  * @deprecated in v5.2.0, removal target v7.0.0. Use the CSS `color-scheme` property to set the theme.
- * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme
+ * @see [MDN - color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme)
  */
 export type ModeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mode-auto";
 
