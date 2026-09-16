@@ -36,7 +36,8 @@ export async function getLightDarkDeclarations(args: Parameters<FormatFn>[0], fo
 
   return tokens.map(({ dark, light }) => {
     const prefix = format === "css" ? "--" : "$";
-    const comment = light.comment ? (format === "css" ? ` /** ${light.comment} */` : ` // ${light.comment}`) : "";
+    const description = light.$description;
+    const comment = description ? (format === "css" ? ` /** ${description} */` : ` // ${description} */`) : "";
 
     return `${prefix}${light.name}: light-dark(${light.$value}, ${dark.$value});${comment}`;
   });

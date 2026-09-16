@@ -1163,20 +1163,50 @@ exports[`CSS > index should match 1`] = `
 @import url("./classes.css");
 :root {
   color-scheme: light dark;
-  --calcite-color-surface-1: light-dark(#f7f7f7, #212121);
-  --calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
-  --calcite-color-surface-3: light-dark(#f2f2f2, #363636);
-  --calcite-color-surface-4: light-dark(#ebebeb, #404040);
-  --calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
-  --calcite-color-background: light-dark(#f7f7f7, #212121);
+  --calcite-color-surface-1: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-background: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: light-dark(
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0)
-  );
-  --calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
-  --calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
-  --calcite-color-foreground-3: light-dark(#ebebeb, #404040);
-  --calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-foreground-1: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-current: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
   --calcite-color-text-1: light-dark(#141414, #ffffff);
   --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
   --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
@@ -1190,8 +1220,11 @@ exports[`CSS > index should match 1`] = `
   --calcite-color-border-ghost: light-dark(
     rgba(0, 0, 0, 0.3),
     rgba(117, 117, 117, 0.3)
-  );
-  --calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-border-white: light-dark(
+    #ffffff,
+    #f7f7f7
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-brand: light-dark(#007ac2, #009af2);
   --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
   --calcite-color-brand-press: light-dark(#004874, #80d1ff);
@@ -1325,20 +1358,50 @@ exports[`CSS > light-dark should match 1`] = `
 
 :root {
   color-scheme: light dark;
-  --calcite-color-surface-1: light-dark(#f7f7f7, #212121);
-  --calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
-  --calcite-color-surface-3: light-dark(#f2f2f2, #363636);
-  --calcite-color-surface-4: light-dark(#ebebeb, #404040);
-  --calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
-  --calcite-color-background: light-dark(#f7f7f7, #212121);
+  --calcite-color-surface-1: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-background: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: light-dark(
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0)
-  );
-  --calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
-  --calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
-  --calcite-color-foreground-3: light-dark(#ebebeb, #404040);
-  --calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-foreground-1: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-current: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
   --calcite-color-text-1: light-dark(#141414, #ffffff);
   --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
   --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
@@ -1352,8 +1415,11 @@ exports[`CSS > light-dark should match 1`] = `
   --calcite-color-border-ghost: light-dark(
     rgba(0, 0, 0, 0.3),
     rgba(117, 117, 117, 0.3)
-  );
-  --calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-border-white: light-dark(
+    #ffffff,
+    #f7f7f7
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-brand: light-dark(#007ac2, #009af2);
   --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
   --calcite-color-brand-press: light-dark(#004874, #80d1ff);
@@ -33325,20 +33391,50 @@ exports[`SCSS > index should match 1`] = `
 @use "./breakpoints.scss";
 @use "./mixins.scss";
 @mixin calcite-light-dark-tokens {
-  --calcite-color-surface-1: light-dark(#f7f7f7, #212121);
-  --calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
-  --calcite-color-surface-3: light-dark(#f2f2f2, #363636);
-  --calcite-color-surface-4: light-dark(#ebebeb, #404040);
-  --calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
-  --calcite-color-background: light-dark(#f7f7f7, #212121);
+  --calcite-color-surface-1: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-background: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: light-dark(
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0)
-  );
-  --calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
-  --calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
-  --calcite-color-foreground-3: light-dark(#ebebeb, #404040);
-  --calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-foreground-1: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-current: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
   --calcite-color-text-1: light-dark(#141414, #ffffff);
   --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
   --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
@@ -33352,8 +33448,11 @@ exports[`SCSS > index should match 1`] = `
   --calcite-color-border-ghost: light-dark(
     rgba(0, 0, 0, 0.3),
     rgba(117, 117, 117, 0.3)
-  );
-  --calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-border-white: light-dark(
+    #ffffff,
+    #f7f7f7
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-color-brand: light-dark(#007ac2, #009af2);
   --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
   --calcite-color-brand-press: light-dark(#004874, #80d1ff);
@@ -33485,20 +33584,50 @@ exports[`SCSS > light-dark should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-$calcite-color-surface-1: light-dark(#f7f7f7, #212121);
-$calcite-color-surface-2: light-dark(#ffffff, #2b2b2b);
-$calcite-color-surface-3: light-dark(#f2f2f2, #363636);
-$calcite-color-surface-4: light-dark(#ebebeb, #404040);
-$calcite-color-surface-highlight: light-dark(#d6efff, #2b465f);
-$calcite-color-background: light-dark(#f7f7f7, #212121);
+$calcite-color-surface-1: light-dark(
+  #f7f7f7,
+  #212121
+); // Replaces \`--calcite-color-background\` */
+$calcite-color-surface-2: light-dark(
+  #ffffff,
+  #2b2b2b
+); // Replaces \`--calcite-color-foreground-1\` */
+$calcite-color-surface-3: light-dark(
+  #f2f2f2,
+  #363636
+); // Replaces \`--calcite-color-foreground-2\` */
+$calcite-color-surface-4: light-dark(
+  #ebebeb,
+  #404040
+); // Replaces \`--calcite-color-foreground-3\` */
+$calcite-color-surface-highlight: light-dark(
+  #d6efff,
+  #2b465f
+); // Replaces \`--calcite-color-foreground-current\` */
+$calcite-color-background: light-dark(
+  #f7f7f7,
+  #212121
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
 $calcite-color-background-none: light-dark(
   rgba(255, 255, 255, 0),
   rgba(255, 255, 255, 0)
-);
-$calcite-color-foreground-1: light-dark(#ffffff, #2b2b2b);
-$calcite-color-foreground-2: light-dark(#f2f2f2, #363636);
-$calcite-color-foreground-3: light-dark(#ebebeb, #404040);
-$calcite-color-foreground-current: light-dark(#d6efff, #2b465f);
+); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+$calcite-color-foreground-1: light-dark(
+  #ffffff,
+  #2b2b2b
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+$calcite-color-foreground-2: light-dark(
+  #f2f2f2,
+  #363636
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+$calcite-color-foreground-3: light-dark(
+  #ebebeb,
+  #404040
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+$calcite-color-foreground-current: light-dark(
+  #d6efff,
+  #2b465f
+); // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
 $calcite-color-text-1: light-dark(#141414, #ffffff);
 $calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
 $calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
@@ -33512,8 +33641,11 @@ $calcite-color-border-input: light-dark(#949494, #757575);
 $calcite-color-border-ghost: light-dark(
   rgba(0, 0, 0, 0.3),
   rgba(117, 117, 117, 0.3)
-);
-$calcite-color-border-white: light-dark(#ffffff, #f7f7f7);
+); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+$calcite-color-border-white: light-dark(
+  #ffffff,
+  #f7f7f7
+); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
 $calcite-color-brand: light-dark(#007ac2, #009af2);
 $calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
 $calcite-color-brand-press: light-dark(#004874, #80d1ff);
