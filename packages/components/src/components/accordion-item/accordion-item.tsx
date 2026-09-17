@@ -158,6 +158,9 @@ export class AccordionItem extends LitElement {
   constructor() {
     super();
     this.listen("keydown", this.keyDownHandler);
+  }
+
+  load(): void {
     this.listenOn<CustomEvent>(
       document.body,
       "calciteInternalAccordionChange",
