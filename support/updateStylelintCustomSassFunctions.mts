@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { globby } from "globby";
-import { format } from "prettier";
+import { format, resolveConfig } from "prettier";
 
 (async () => {
   console.info("Scanning custom functions for Stylelint config update.");
@@ -45,8 +45,10 @@ import { format } from "prettier";
       `const customFunctions = ${JSON.stringify(Array.from(customFunctions).sort())};`,
     );
 
+    const prettierConfig = await resolveConfig(stylelintConfigPath, { editorconfig: true });
     const formattedConfigContent = await format(updatedConfigContent, {
-      parser: "babel",
+      ...prettierConfig,
+      filepath: stylelintConfigPath,
     });
 
     writeFileSync(stylelintConfigPath, formattedConfigContent);
