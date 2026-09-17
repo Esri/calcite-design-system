@@ -92,43 +92,53 @@ it("commits shorthand hex on blur", async () => {
   expect(await input.getProperty("value")).toBe(expandedHex);
 });
 
-it("commits shorthand hex and hexa on blur", async () => {
+describe("commits alpha-channel values on blur", () => {
   const defaultHexa = "#b33f33ff";
-  const expandedHexa = "#aabbccdd";
-  const expandedHex = "#aabbccff";
-  const page = await newE2EPage();
-  await page.setContent(
-    `<calcite-color-picker-hex-input alpha-channel value='${defaultHexa}'></calcite-color-picker-hex-input>`,
-  );
+  let input: E2EElement;
+  let page: E2EPage;
 
-  const input = await page.find(`calcite-color-picker-hex-input`);
-  await selectText(input);
-  await page.keyboard.type("ab");
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
+  beforeEach(async () => {
+    page = await newE2EPage();
+    await page.setContent(
+      `<calcite-color-picker-hex-input alpha-channel value='${defaultHexa}'></calcite-color-picker-hex-input>`,
+    );
+    input = await page.find(`calcite-color-picker-hex-input`);
+  });
 
-  expect(await input.getProperty("value")).toBe(defaultHexa);
+  async function commitOnBlur(value: string): Promise<void> {
+    await selectText(input);
+    await page.keyboard.type(value);
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+  }
 
-  await selectText(input);
-  await page.keyboard.type("abc");
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
+  it("does not commit incomplete shorthand hex", async () => {
+    await commitOnBlur("ab");
 
-  expect(await input.getProperty("value")).toBe(expandedHex);
+    expect(await input.getProperty("value")).toBe(defaultHexa);
+  });
 
-  await selectText(input);
-  await page.keyboard.type("abcd");
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
+  it("commits shorthand hex with opaque alpha", async () => {
+    await commitOnBlur("abc");
 
-  expect(await input.getProperty("value")).toBe(expandedHexa);
+    expect(await input.getProperty("value")).toBe("#aabbccff");
+  });
 
-  await selectText(input);
-  await page.keyboard.type("abcde");
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
+  it("commits shorthand hexa", async () => {
+    await commitOnBlur("abcd");
 
-  expect(await input.getProperty("value")).toBe(expandedHexa);
+    expect(await input.getProperty("value")).toBe("#aabbccdd");
+  });
+
+  it("does not commit invalid hexa", async () => {
+    const previousHexa = "#aabbccdd";
+    input.setProperty("value", previousHexa);
+    await page.waitForChanges();
+
+    await commitOnBlur("abcde");
+
+    expect(await input.getProperty("value")).toBe(previousHexa);
+  });
 });
 
 it("normalizes value when initialized", async () => {
@@ -191,49 +201,22 @@ it("ignores invalid hex", async () => {
   expect(await input.getProperty("value")).toBe(hex);
 });
 
-it("ignores invalid hexa", async () => {
-  const hex = "#b33f33ff";
-  const page = await newE2EPage();
-  await page.setContent(
-    `<calcite-color-picker-hex-input alpha-channel value='${hex}'></calcite-color-picker-hex-input>`,
-  );
-  const input = await page.find(`calcite-color-picker-hex-input`);
+it.each([null, "wrong", "#", "#a", "#aa", "#aaaaa", "#aaaaaaa"])(
+  "ignores invalid hexa value %s",
+  async (invalidValue) => {
+    const hex = "#b33f33ff";
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-color-picker-hex-input alpha-channel value='${hex}'></calcite-color-picker-hex-input>`,
+    );
+    const input = await page.find(`calcite-color-picker-hex-input`);
 
-  input.setProperty("value", null);
-  await page.waitForChanges();
+    input.setProperty("value", invalidValue);
+    await page.waitForChanges();
 
-  expect(await input.getProperty("value")).toBe(hex);
-
-  input.setProperty("value", "wrong");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe(hex);
-
-  input.setProperty("value", "#");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe(hex);
-
-  input.setProperty("value", "#a");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe(hex);
-
-  input.setProperty("value", "#aa");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe(hex);
-
-  input.setProperty("value", "#aaaaa");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe(hex);
-
-  input.setProperty("value", "#aaaaaaa");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe(hex);
-});
+    expect(await input.getProperty("value")).toBe(hex);
+  },
+);
 
 it("emits event when color changes via user and not programmatically", async () => {
   const page = await newE2EPage();
@@ -278,31 +261,38 @@ it("prevents entering chars if invalid hex chars or it exceeds max hex length", 
   expect(await input.getProperty("value")).toBe("#bbbbbb");
 });
 
-it("prevents entering chars if invalid hexa chars or it exceeds max hexa length", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    "<calcite-color-picker-hex-input alpha-channel value='#b33f33'></calcite-color-picker-hex-input>",
-  );
-  const input = await page.find("calcite-color-picker-hex-input");
-  // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
-  const blockedCharsAndLonghandHexa = "zabcdz";
+describe("validates entered hexa characters", () => {
+  let input: E2EElement;
+  let page: E2EPage;
 
-  await selectText(input);
-  await page.keyboard.type(blockedCharsAndLonghandHexa);
-  await page.keyboard.press("Enter");
-  await page.waitForChanges();
+  beforeEach(async () => {
+    page = await newE2EPage();
+    await page.setContent(
+      "<calcite-color-picker-hex-input alpha-channel value='#b33f33'></calcite-color-picker-hex-input>",
+    );
+    input = await page.find("calcite-color-picker-hex-input");
+  });
 
-  const expandedLonghandHexa = "#aabbccdd";
-  expect(await input.getProperty("value")).toBe(expandedLonghandHexa);
+  it("prevents entering invalid hexa characters", async () => {
+    // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
+    const blockedCharsAndLonghandHexa = "zabcdz";
 
-  await selectText(input);
-  // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
-  const longhandHexWithExtraChars = "bbbbbbbbc";
-  await page.keyboard.type(longhandHexWithExtraChars);
-  await page.waitForChanges();
+    await selectText(input);
+    await page.keyboard.type(blockedCharsAndLonghandHexa);
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
 
-  const hexWithAlphaCharsPreserved = "#bbbbbbbb";
-  expect(await input.getProperty("value")).toBe(hexWithAlphaCharsPreserved);
+    expect(await input.getProperty("value")).toBe("#aabbccdd");
+  });
+
+  it("prevents entering characters beyond the maximum hexa length", async () => {
+    await selectText(input);
+    // eslint-disable-next-line @cspell/spellchecker -- testing invalid hex input
+    await page.keyboard.type("bbbbbbbbc");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("#bbbbbbbb");
+  });
 });
 
 describe("keyboard interaction", () => {
@@ -494,26 +484,37 @@ describe("keyboard interaction", () => {
         input = await page.find("calcite-color-picker-hex-input");
       });
 
-      it("commits hexa chars on Tab and Enter", async () => {
-        await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
-        await assertTabAndEnterBehavior("abcd", "#aabbccdd", true);
+      it.each([
+        { inputValue: "b00", expectedValue: "#bb0000ff", name: "shorthand hex" },
+        { inputValue: "abcd", expectedValue: "#aabbccdd", name: "shorthand hexa" },
         // eslint-disable-next-line @cspell/spellchecker -- testing hex code
-        await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
-        await assertTabAndEnterBehavior("b0b0b0b0", "#b0b0b0b0", true);
-        await assertTabAndEnterBehavior("", startingHexa, true);
+        { inputValue: "c0ffee", expectedValue: "#c0ffeeff", name: "longhand hex" },
+        { inputValue: "b0b0b0b0", expectedValue: "#b0b0b0b0", name: "longhand hexa" },
+        { inputValue: "", expectedValue: startingHexa, name: "empty input" },
+      ])("commits $name on Tab and Enter", async ({ expectedValue, inputValue }) => {
+        await assertTabAndEnterBehavior(inputValue, expectedValue, true);
       });
 
-      it("prevents committing invalid hexa values", async () => {
+      it.each([
         // eslint-disable-next-line @cspell/spellchecker -- testing hex code
-        await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
+        { inputValue: "aabbcc", expectedValue: "#aabbccff", name: "six characters" },
+        { inputValue: "ff00", expectedValue: "#ffff0000", name: "four characters" },
+        { inputValue: "aab", expectedValue: "#aaaabbff", name: "three characters" },
+      ])("commits $name with opaque alpha on Tab and Enter", async ({ expectedValue, inputValue }) => {
+        await assertTabAndEnterBehavior(inputValue, expectedValue, true);
+      });
+
+      it.each([
         // eslint-disable-next-line @cspell/spellchecker -- testing hex code
-        await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
-        await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
-        await assertTabAndEnterBehavior("ff00", "#ffff0000", true);
-        await assertTabAndEnterBehavior("aab", "#aaaabbff", true);
-        await assertTabAndEnterBehavior("aa", "#aaaabbff", true);
-        await assertTabAndEnterBehavior("a", "#aaaabbff", true);
-        await assertTabAndEnterBehavior("", "#aaaabbff", true);
+        { inputValue: "aabbccd", name: "seven characters" },
+        { inputValue: "ff00f", name: "five characters" },
+        { inputValue: "aa", name: "two characters" },
+        { inputValue: "a", name: "one character" },
+        { inputValue: "", name: "empty input" },
+      ])("prevents committing $name as a hexa value", async ({ inputValue }) => {
+        const resetHexa = "#face0fff";
+
+        await assertTabAndEnterBehavior(inputValue, resetHexa, true);
       });
 
       it("allows nudging RGB channels with arrow keys (+/-1) and shift modifies amount (+/-10)", async () => {
