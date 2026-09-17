@@ -781,6 +781,28 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   }
 }
 
+:host([action-bar-position="top"]),
+:host([action-bar-position="bottom"]) {
+  .container {
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .action-bar-container {
+    contain: inline-size;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    overflow-x: auto;
+  }
+
+  ::slotted(calcite-action-bar) {
+    flex: 0 0 100%;
+    inline-size: 100%;
+    min-inline-size: max-content;
+    max-inline-size: 100%;
+  }
+}
+
 :host([action-bar-position="start"][slot="panel-start"]) {
   // border
   --calcite-internal-shell-panel-action-bar-border-inline-start: 0;
