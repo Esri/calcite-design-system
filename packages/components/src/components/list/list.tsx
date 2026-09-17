@@ -427,7 +427,6 @@ export class List extends LitElement {
       this.handleInternalListItemGroupItemsChange,
     );
     this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
-    this.listen("slotchange", this.handleDescendantSlotChange);
   }
 
   override connectedCallback(): void {
@@ -586,10 +585,6 @@ export class List extends LitElement {
   private handleListItemChange(): void {
     this.willPerformFilter = true;
     this.updateListItemsDebounced();
-  }
-
-  private handleDescendantSlotChange(): void {
-    this.handleListItemChange();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
