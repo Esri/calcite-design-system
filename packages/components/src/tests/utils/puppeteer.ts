@@ -2,7 +2,7 @@ import { BoundingBox, ElementHandle } from "puppeteer";
 import { LitElement, ToElement } from "@arcgis/lumina";
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
-import { ComponentTag } from "../commonTests/types";
+import { ComponentTag } from "../common/types";
 import { afterNextFrame as waitForRaf } from "./timing";
 import { GlobalTestProps } from "./types";
 

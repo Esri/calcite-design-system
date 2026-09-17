@@ -28,7 +28,7 @@
     border
     font-medium;
   border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
-  border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+  border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
   background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
   line-height: var(--calcite-font-line-height-md);
@@ -62,16 +62,16 @@
       background-color: var(--calcite-time-picker-button-background-color-press, var(--calcite-color-foreground-3));
     }
     &.top-left {
-      border-start-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-start-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     &.bottom-left {
-      border-end-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-end-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     &.top-right {
-      border-start-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-start-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     &.bottom-right {
-      border-end-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-end-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     calcite-icon {
       color: var(--calcite-time-picker-icon-color, var(--calcite-color-text-3));

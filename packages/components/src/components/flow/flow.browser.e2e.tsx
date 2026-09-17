@@ -3,7 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
 import { page, userEvent } from "vitest/browser";
-import { accessible, hidden, renders, focusable, themed } from "../../tests/commonTests/browser";
+import { accessible, hidden, renders, focusable, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import type { FlowItemLikeElement } from "./types";
 import { CSS } from "./resources";
