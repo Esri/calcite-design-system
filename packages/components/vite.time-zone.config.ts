@@ -29,7 +29,7 @@ export default defineConfig(
       },
       include: [timeZoneBrowserTestMatch],
       passWithNoTests: true,
-      setupFiles: "./src/tests/browser/setup.ts",
+      setupFiles: "./src/tests/setup.ts",
     },
   }),
 );

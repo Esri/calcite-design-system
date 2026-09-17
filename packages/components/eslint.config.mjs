@@ -42,14 +42,9 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ["tests/commonTests/*"],
+              group: ["tests/common/*"],
               message:
-                "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
-            },
-            {
-              group: ["tests/commonTests/browser/*"],
-              message:
-                "Import named functions from commonTests/browser for browser mode tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+                "Import named functions from tests/common instead of direct module imports, e.g., import { disabled } from 'tests/common'",
             },
             {
               group: ["lit-html", "lit-html/*"],
@@ -144,8 +139,10 @@ export default tseslint.config(
       "src/custom-theme/**/*",
       "src/demos/**/*",
       "src/internal-label/**/*",
-      "src/tests/browser/**/*",
-      "src/tests/commonTests/**/*",
+      "src/tests/common/**/*",
+      "src/tests/integration/**/*",
+      "src/tests/setup.ts",
+      "src/tests/utils/**/*",
       "support/**/*",
     ],
     ignores: ["src/components/alert/AlertManager*", "src/components/functional/*"],
