@@ -1,0 +1,22 @@
+{
+  "theme": {
+    "corner-radius": {
+      "none": {
+        "attributes": {
+          "category": "corner-radius"
+        },
+        "$type": "borderRadius",
+        "$value": "{corner-radius.none}",
+        "$description": "Replaces `--calcite-corner-radius-sharp`"
+      },
+      "sm": {
+        "attributes": {
+          "category": "corner-radius"
+        },
+        "$type": "borderRadius",
+        "$value": "{corner-radius.sm}",
+        "$description": "Replaces `--calcite-corner-radius-round`"
+      }
+    }
+  }
+}

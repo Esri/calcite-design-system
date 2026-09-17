@@ -1,0 +1,28 @@
+{
+  "theme": {
+    "font": {
+      "weight": {
+        "regular": {
+          "attributes": {
+            "category": "font",
+            "group": "weight"
+          },
+          "$type": "fontWeights",
+          "$value": "{font.weight.regular}",
+          "$description": "Replaces `--calcite-font-weight-normal`"
+        }
+      },
+      "size": {
+        "2xl": {
+          "attributes": {
+            "category": "font",
+            "group": "size"
+          },
+          "$type": "fontSizes",
+          "$value": "{font.size.2xl}",
+          "$description": "Replaces `--calcite-font-size-xxl`"
+        }
+      }
+    }
+  }
+}
