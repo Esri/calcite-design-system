@@ -1148,7 +1148,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-space-xl: 1.25rem; /** Replaces \`--calcite-spacing-xl\` */
   --calcite-space-2xl: 1.5rem; /** Replaces \`--calcite-spacing-xxl\` */
   --calcite-space-3xl: 2rem; /** Replaces \`--calcite-spacing-xxxl\` */
-  --calcite-corner-radius: 0;
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
 `;
@@ -1706,7 +1706,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-space-xl: 1.25rem; /** Replaces \`--calcite-spacing-xl\` */
   --calcite-space-2xl: 1.5rem; /** Replaces \`--calcite-spacing-xxl\` */
   --calcite-space-3xl: 2rem; /** Replaces \`--calcite-spacing-xxxl\` */
-  --calcite-corner-radius: 0;
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
 `;
@@ -33441,7 +33441,7 @@ $calcite-space-lg: 1rem; // Replaces \`--calcite-spacing-lg\`
 $calcite-space-xl: 1.25rem; // Replaces \`--calcite-spacing-xl\`
 $calcite-space-2xl: 1.5rem; // Replaces \`--calcite-spacing-xxl\`
 $calcite-space-3xl: 2rem; // Replaces \`--calcite-spacing-xxxl\`
-$calcite-corner-radius: 0;
+$calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
 
@@ -34134,6 +34134,6 @@ $calcite-space-lg: 1rem; // Replaces \`--calcite-spacing-lg\`
 $calcite-space-xl: 1.25rem; // Replaces \`--calcite-spacing-xl\`
 $calcite-space-2xl: 1.5rem; // Replaces \`--calcite-spacing-xxl\`
 $calcite-space-3xl: 2rem; // Replaces \`--calcite-spacing-xxxl\`
-$calcite-corner-radius: 0;
+$calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
