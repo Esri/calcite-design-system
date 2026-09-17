@@ -8,7 +8,7 @@ import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../types.ts";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.ts";
-import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.ts";
+import { isBreakpointExpand, isCornerRadius, isThemingToken } from "../build/utils/token-types.ts";
 import { primitiveValueOutputReferences } from "../build/utils/output-references.ts";
 
 const commonExpand = {
@@ -18,8 +18,13 @@ const commonExpand = {
 };
 
 const stylesheetOutputReferences: OutputReferences = (token, options) => {
-  // output specific token references to match test output
-  return !!(isCornerRadius(token) && token.path.includes("default")) || primitiveValueOutputReferences(token, options);
+  // output specific token references to match test output; theme tokens are an override layer
+  // and must always alias their underlying semantic token
+  return (
+    !!(isCornerRadius(token) && token.path.includes("default")) ||
+    isThemingToken(token) ||
+    primitiveValueOutputReferences(token, options)
+  );
 };
 
 const config: Config = {

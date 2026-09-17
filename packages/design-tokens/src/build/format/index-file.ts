@@ -5,7 +5,7 @@ import StyleDictionary from "style-dictionary";
 import type { PlatformConfig } from "../../types.ts";
 import type { Platform, RegisterFn, Stylesheet } from "../../types.ts";
 import { fromTokens } from "../utils/dictionary.ts";
-import { isThemed, isThemingToken } from "../utils/token-types.ts";
+import { isThemed } from "../utils/token-types.ts";
 import { dark, light } from "../dictionaries/index.ts";
 import { createVarList } from "./utils/index.ts";
 
@@ -37,14 +37,10 @@ export const formatIndexFile: FormatFn = async (args) => {
   const varLists = {
     light: createVarList(
       commonVarFormat,
-      fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token) && !isThemingToken(token))),
+      fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token))),
       args,
     ),
-    dark: createVarList(
-      commonVarFormat,
-      fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token) && !isThemingToken(token))),
-      args,
-    ),
+    dark: createVarList(commonVarFormat, fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token))), args),
   } as const;
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";
