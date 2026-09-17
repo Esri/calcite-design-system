@@ -1,7 +1,9 @@
 import { isServer } from "lit";
 import { getRootNode } from "../../utils/dom";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
+import { isListItemGroup } from "../list-item-group/resources";
 import type { List } from "../list/list";
+import { isList } from "../list/resources";
 import type { ListItem } from "./list-item";
 import { isListItem } from "./resources";
 
@@ -47,11 +49,11 @@ export function getListStructureFromElements(elements: Element[]): {
   while (elementStack.length > 0) {
     const element = elementStack.pop()!;
 
-    if (element.matches(listSelector)) {
+    if (isList(element)) {
       lists.push(element);
     } else if (isListItem(element)) {
       items.push(element);
-    } else if (element.matches(listItemGroupSelector)) {
+    } else if (isListItemGroup(element)) {
       groups.push(element);
     } else if (element instanceof HTMLSlotElement) {
       pushElementsInReverse(elementStack, element.assignedElements({ flatten: true }));

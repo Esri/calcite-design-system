@@ -999,14 +999,16 @@ export class List extends LitElement {
   }
 
   private getSiblingListsFromRoot(group: string): List["el"][] {
-    return queryElementRootsAll<List["el"]>(this.el, `${listSelector}[group="${group}"]`).filter(
-      (list) => {
-        const dragEnabled = list.dragEnabled || list.hasAttribute("drag-enabled");
-        const disabled = list.disabled || list.hasAttribute("disabled");
+    return queryElementRootsAll<List["el"]>(this.el, listSelector, (list) => {
+      if ((list.group ?? list.getAttribute("group")) !== group) {
+        return false;
+      }
 
-        return !disabled && dragEnabled;
-      },
-    );
+      const dragEnabled = list.dragEnabled || list.hasAttribute("drag-enabled");
+      const disabled = list.disabled || list.hasAttribute("disabled");
+
+      return !disabled && dragEnabled;
+    });
   }
 
   private updateGroupItems(): void {

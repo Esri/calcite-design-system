@@ -51,6 +51,42 @@ class ListTestWrapper extends LitElement {
   }
 }
 
+const specialListGroup = `quoted"\\group`;
+
+class GroupedListsTestWrapper extends LitElement {
+  static tagName = "grouped-lists-test-wrapper";
+
+  private firstListRef = createRef<List["el"]>();
+
+  private secondListRef = createRef<List["el"]>();
+
+  get firstListEl(): List["el"] {
+    return this.firstListRef.value!;
+  }
+
+  get secondListEl(): List["el"] {
+    return this.secondListRef.value!;
+  }
+
+  override render(): JsxNode {
+    return (
+      <Fragment>
+        <calcite-list dragEnabled group={specialListGroup} ref={this.firstListRef}>
+          <calcite-list-item label="Alpha" value="a" />
+        </calcite-list>
+        <calcite-list
+          dragEnabled
+          group={specialListGroup}
+          label="Second list"
+          ref={this.secondListRef}
+        >
+          <calcite-list-item label="Beta" value="b" />
+        </calcite-list>
+      </Fragment>
+    );
+  }
+}
+
 const scrollTopValue = 120;
 
 const placeholder = placeholderImage({
@@ -557,6 +593,29 @@ describe("shadow slot projection", () => {
 
 describe("sort menu reorder", () => {
   mockConsole();
+
+  it("supports group values containing CSS selector syntax", async () => {
+    const { component } = await mount<GroupedListsTestWrapper>(
+      html`<grouped-lists-test-wrapper></grouped-lists-test-wrapper>`,
+      { dynamicComponents: [GroupedListsTestWrapper] },
+    );
+
+    await expect.poll(() => component.firstListEl.filteredItems).toHaveLength(1);
+    await expect.poll(() => component.firstListEl.filteredItems[0].moveToItems).toHaveLength(1);
+    expect(component.firstListEl.filteredItems[0].moveToItems[0].label).toBe("Second list");
+
+    Object.defineProperty(component.secondListEl, "group", {
+      configurable: true,
+      value: undefined,
+    });
+    expect(component.secondListEl.getAttribute("group")).toBe(specialListGroup);
+
+    component.firstListEl.group = "other-group";
+    await expect.poll(() => component.firstListEl.filteredItems[0].moveToItems).toHaveLength(0);
+
+    component.firstListEl.group = specialListGroup;
+    await expect.poll(() => component.firstListEl.filteredItems[0].moveToItems).toHaveLength(1);
+  });
 
   it("skips filtered list-items when reordering", async () => {
     const { el } = await mount<List>(
