@@ -17,10 +17,10 @@ import {
   scalePropagates,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
-import { scrolling } from "../../tests/browser/utils/content";
+import { scrolling } from "../../tests/utils/content";
 import type { Panel } from "./panel";
 import { CSS, SLOTS } from "./resources";
 
@@ -258,6 +258,20 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-panel"), SLOTS);
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount("calcite-panel");
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
 });
 
 describe("header slots", () => {

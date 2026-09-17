@@ -1,6 +1,6 @@
 import { BlockSection } from "../block-section/block-section";
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, optionalAttribute } from "../../../.storybook/utils";
+import { boolean, optionalAttribute, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -156,6 +156,7 @@ export const darkModeRTL = (): string => html`
     </calcite-block-section>
   </calcite-block>
 `;
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const transparentAppearance = (): string => html`
   <style>
