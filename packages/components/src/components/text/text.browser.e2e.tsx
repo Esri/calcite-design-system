@@ -3,10 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders } from "../../tests/common";
 
 describe("defaults", () => {
-  defaults(
-    () => mount("calcite-text"),
-    [{ propertyName: "truncatePosition", defaultValue: "end" }],
-  );
+  defaults(() => mount("calcite-text"), [{ propertyName: "tooltipEnabled", defaultValue: false }]);
 });
 
 describe("hidden", () => {
