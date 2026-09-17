@@ -58,8 +58,6 @@ export function getListStructureFromElements(elements: Element[]): {
     } else if (element instanceof HTMLSlotElement) {
       pushElementsInReverse(elementStack, element.assignedElements({ flatten: true }));
       continue;
-    } else {
-      continue;
     }
 
     pushElementsInReverse(elementStack, element.children);

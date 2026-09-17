@@ -1044,7 +1044,7 @@ describe("nested selection modes", () => {
     expect(childItem.active).toBe(true);
   });
 
-  it("does not navigate to wrapped non-direct child list-items with ArrowDown", async () => {
+  it("navigates to wrapped non-direct child list-items with ArrowDown", async () => {
     const { el } = await mount<List>(
       <calcite-list display-mode="nested">
         <calcite-list-item expanded id="keyboard-wrapped-parent-item" label="Parent">
@@ -1072,8 +1072,10 @@ describe("nested selection modes", () => {
 
     await userEvent.keyboard("{ArrowDown}");
 
-    expect(parentItem.active).toBe(true);
-    expect(childItem.active).toBe(false);
+    await vi.waitUntil(() => childItem.active);
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
   });
 
   it("navigates to nested child list-items with ArrowDown", async () => {
