@@ -2,6 +2,7 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Meter } from "./meter";
+import "./meter"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { fillType, appearance, labelType, scale } = ATTRIBUTES;
 

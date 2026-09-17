@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Cancelar",
   "clear": "Limpar valor",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Guardar",
+  "enableInlineEditing": "Editar",
   "loading": "A Carregar",
   "required": "Obrigatório"
 }

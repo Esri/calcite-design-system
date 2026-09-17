@@ -2,7 +2,7 @@ import { it, expect, beforeEach, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { ResizeValues } from "../components/interfaces";
+import { ResizeValues } from "../components/types";
 import { useSizeOverride } from "./useSizeOverride";
 
 let onResizeSpy: (resizeValues: ResizeValues) => void;

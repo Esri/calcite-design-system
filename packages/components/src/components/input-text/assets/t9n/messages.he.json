@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "ביטול",
   "clear": "נקה ערך",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "שמור",
+  "enableInlineEditing": "עריכה",
   "loading": "טוען",
   "required": "נדרש"
 }

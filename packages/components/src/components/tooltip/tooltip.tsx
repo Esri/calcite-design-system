@@ -17,7 +17,7 @@ import {
 } from "../../utils/floating-ui";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
   ReferenceElementComponent,
@@ -81,8 +81,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) closeOnClick = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
   @property() label?: string;

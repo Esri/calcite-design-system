@@ -1,7 +1,8 @@
 @use "../../styles/includes";
+@use "../../styles/component/sr-only";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 .container {
@@ -9,9 +10,15 @@
 }
 
 .assistive-text {
-  @apply sr-only;
+  @include sr-only.sr-only();
 }
 
 @include includes.base-component();
 
 @include includes.disabled();
+
+:host([slot="children"]) {
+  slot::slotted(calcite-block) {
+    border-block-end-width: 0;
+  }
+}

@@ -1,12 +1,12 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
 import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import { get } from "es-toolkit/compat";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import type { RegisterFn, Stylesheet } from "../../types.ts";
 import { state } from "../shared/state.ts";
-import type { FlattenedTransformedToken } from "../../types/extensions.d.ts";
+import type { FlattenedTransformedToken } from "../../types.ts";
 
 function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
   if (!dictionary.unfilteredTokens) {
@@ -98,7 +98,7 @@ export const formatTypography: FormatFn = async (args) => {
 
   const format = fileExtension.replace(".", "") as Stylesheet;
   const header = await fileHeader({ file, formatting, options });
-  return prettierSync.format(`${header}${getContent(args, format)}`, {
+  return prettierFormat(`${header}${getContent(args, format)}`, {
     parser: format,
   });
 };

@@ -5,7 +5,7 @@ import { html, type PropertyValues } from "lit";
 import * as focusTrap from "focus-trap";
 import { type Locator, page, userEvent } from "vitest/browser";
 import { createRef } from "lit/directives/ref.js";
-import { type GlobalTestProps } from "../tests/utils/interfaces";
+import { type GlobalTestProps } from "../tests/utils/types";
 import { type CalciteConfig, clearConfig } from "../utils/config";
 import { type FocusTrap, useFocusTrap, type UseFocusTrapOptions } from "./useFocusTrap";
 import { afterFocusShiftDelay } from "../tests/utils/focus-trap";

@@ -9,11 +9,12 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   disabled,
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
@@ -118,6 +119,10 @@ describe("defaults", () => {
         propertyName: "target",
         defaultValue: undefined,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });
@@ -152,6 +157,12 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-split-button"));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-split-button />, mountOptions), {
+    targetSelector: "calcite-button, calcite-dropdown",
+  });
 });
 
 describe("renders", () => {

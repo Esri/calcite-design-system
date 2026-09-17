@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "取消",
   "clear": "清除值",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "儲存",
+  "enableInlineEditing": "編輯",
   "loading": "正在載入",
   "required": "必填資訊"
 }

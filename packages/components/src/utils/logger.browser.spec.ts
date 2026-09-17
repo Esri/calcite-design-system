@@ -2,10 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement } from "@arcgis/lumina";
 import { SetOptional } from "type-fest";
-import { GlobalTestProps } from "../tests/utils/interfaces";
+import { GlobalTestProps } from "../tests/utils/types";
 import { mockConsole } from "../tests/utils/logging";
 import { type LogLevel, loggedDeprecations, logger } from "./logger";
 import { type CalciteConfig, clearConfig } from "./config";
+
+type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "logLevel"> }>;
 
 class Test extends LitElement {
   static tagName = "calcite-foo";
@@ -14,7 +16,7 @@ class Test extends LitElement {
 mockConsole(["debug", "error", "info", "trace", "warn"]);
 
 beforeEach(async () => {
-  globalThis.calciteConfig = {
+  (globalThis as TestGlobal).calciteConfig = {
     // non-test default log level
     logLevel: "info",
   };
@@ -38,10 +40,12 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.warn).toHaveBeenCalled();
     expect((console.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}.`,
     );
+    /* eslint-enable no-console -- asserting console API calls */
   });
 
   it("helps log future deprecations", async () => {
@@ -55,10 +59,12 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.warn).toHaveBeenCalled();
     expect((console.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in a future version.`,
     );
+    /* eslint-enable no-console -- asserting console API calls */
   });
 
   it("shows deprecation suggestions (single)", async () => {
@@ -73,10 +79,12 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.warn).toHaveBeenCalled();
     expect((console.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested}" instead.`,
     );
+    /* eslint-enable no-console -- asserting console API calls */
   });
 
   it("shows deprecation suggestions (multiple)", async () => {
@@ -91,9 +99,11 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.warn).toHaveBeenCalled();
     expect((console.warn as Mock).mock.calls[0][2]).toMatch(
       `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested.join(`" or "`)}" instead.`,
+      /* eslint-enable no-console -- asserting console API calls */
     );
   });
 
@@ -110,13 +120,12 @@ describe(logger.deprecated, () => {
     // @ts-expect-error -- using fake component names
     logger.deprecated("component", params);
 
+    // eslint-disable-next-line no-console -- asserting console API calls
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 });
 
 describe("logLevel", () => {
-  type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "logLevel"> }>;
-
   function messageAllLevels(): void {
     const levels = ["debug", "info", "warn", "error", "trace"] as const;
 
@@ -138,11 +147,13 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.error).toHaveBeenCalledTimes(1);
     expect(console.info).toHaveBeenCalledTimes(1);
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.debug).toHaveBeenCalledTimes(1);
     expect(console.trace).toHaveBeenCalledTimes(1);
+    /* eslint-enable no-console -- asserting console API calls */
   });
 
   it("logs only error messages when set to highest level", async () => {
@@ -150,11 +161,13 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.error).toHaveBeenCalledTimes(1);
     expect(console.info).toHaveBeenCalledTimes(0);
     expect(console.warn).toHaveBeenCalledTimes(0);
     expect(console.debug).toHaveBeenCalledTimes(0);
     expect(console.trace).toHaveBeenCalledTimes(0);
+    /* eslint-enable no-console -- asserting console API calls */
   });
 
   it("logs info messages and above when set to default level", async () => {
@@ -162,11 +175,13 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.error).toHaveBeenCalledTimes(1);
     expect(console.info).toHaveBeenCalledTimes(1);
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.debug).toHaveBeenCalledTimes(0);
     expect(console.trace).toHaveBeenCalledTimes(0);
+    /* eslint-enable no-console -- asserting console API calls */
   });
 
   it("logs no messages when set to `off`", async () => {
@@ -174,10 +189,12 @@ describe("logLevel", () => {
 
     messageAllLevels();
 
+    /* eslint-disable no-console -- asserting console API calls */
     expect(console.debug).toHaveBeenCalledTimes(0);
     expect(console.error).toHaveBeenCalledTimes(0);
     expect(console.info).toHaveBeenCalledTimes(0);
     expect(console.trace).toHaveBeenCalledTimes(0);
     expect(console.warn).toHaveBeenCalledTimes(0);
+    /* eslint-enable no-console -- asserting console API calls */
   });
 });

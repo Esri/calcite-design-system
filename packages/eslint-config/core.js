@@ -62,6 +62,7 @@ export default tseslint.config(
 
       curly: "error",
       "one-var": ["error", "never"],
+      "no-console": "error",
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-new-func": "error",

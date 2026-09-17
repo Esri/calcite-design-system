@@ -4,7 +4,7 @@
   "allSelected": "Tots els elements seleccionats",
   "clear": "Esborra el valor",
   "noMatches": "No hi ha cap coincidència",
-  "removeTag": "Remove {value} tag",
+  "removeTag": "Elimina l'etiqueta {value}",
   "required": "Obligatori",
   "selectAll": "Selecciona-ho tot",
   "selected": "seleccionat",

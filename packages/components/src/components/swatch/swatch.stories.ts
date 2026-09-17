@@ -3,6 +3,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Swatch } from "./swatch";
+import "./swatch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale } = ATTRIBUTES;
 
@@ -77,6 +78,25 @@ export const withImageDisabled = (args: SwatchStoryArgs): string => html`
       />
     </calcite-swatch>
   </div>
+`;
+
+export const containedInButton = (args: SwatchStoryArgs): string => html`
+  <calcite-button appearance="outline" kind="neutral">
+    with color
+    <calcite-swatch color="#ff00ff" label="${args.label}"></calcite-swatch>
+  </calcite-button>
+  <calcite-button appearance="outline" kind="neutral">
+    with image
+    <calcite-swatch label="${args.label}">
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+      />
+    </calcite-swatch>
+  </calcite-button>
 `;
 
 export const darkModeRTL = (args: SwatchStoryArgs): string => html`

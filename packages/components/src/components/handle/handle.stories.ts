@@ -1,6 +1,7 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Handle } from "./handle";
+import "./handle"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 type HandleStoryArgs = Pick<Handle, "disabled" | "dragHandle" | "selected">;
 

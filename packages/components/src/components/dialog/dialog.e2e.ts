@@ -6,7 +6,7 @@ import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../
 import { IDS as PanelIDS } from "../panel/resources";
 import { resizeShiftStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
 import { CSS } from "./resources";
 import type { Dialog } from "./dialog";
 
@@ -54,7 +54,6 @@ it("should set internal panel properties", async () => {
   dialog.setProperty("overlayPositioning", "fixed");
   dialog.setProperty("heading", "My Heading");
   dialog.setProperty("description", "My Description");
-  dialog.setProperty("scale", "l");
   dialog.setProperty("icon", "x");
   dialog.setProperty("iconFlipRtl", true);
   dialog.setProperty("messageOverrides", messageOverrides);
@@ -67,7 +66,6 @@ it("should set internal panel properties", async () => {
   expect(await panel.getProperty("overlayPositioning")).toBe("fixed");
   expect(await panel.getProperty("heading")).toBe("My Heading");
   expect(await panel.getProperty("description")).toBe("My Description");
-  expect(await panel.getProperty("scale")).toBe("l");
   expect(await panel.getProperty("icon")).toBe("x");
   expect(await panel.getProperty("iconFlipRtl")).toBe(true);
   expect(await panel.getProperty("focusTrapEnabled")).toBe(false);

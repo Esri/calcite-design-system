@@ -2,7 +2,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 
 import { CSS, SUBSTITUTIONS } from "./resources";
-import type { HandleNudge } from "./interfaces";
+import type { HandleNudge } from "./types";
 import type { Handle } from "./handle";
 
 it("sets handle tooltip", async () => {

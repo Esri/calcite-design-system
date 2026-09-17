@@ -3,6 +3,10 @@ import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Carousel } from "./carousel";
+import "./carousel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../carousel-item/carousel-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../card/card"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { arrowType, paginationPosition } = ATTRIBUTES;
 

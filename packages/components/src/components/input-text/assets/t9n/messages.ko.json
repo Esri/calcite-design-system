@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "취소",
   "clear": "값 지우기",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "저장",
+  "enableInlineEditing": "편집",
   "loading": "불러오는 중",
   "required": "필수"
 }

@@ -6,7 +6,7 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { InternalLabel } from "../functional/InternalLabel";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -49,8 +49,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region Public Properties
@@ -79,8 +77,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
   @property({ reflect: true }) hovered = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @private
    */
   @property() label?: string;
@@ -114,7 +111,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * @copyDoc
    *
    * @internal
-   * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -201,6 +197,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("pointerenter", this.pointerEnterHandler);
     this.listen("pointerleave", this.pointerLeaveHandler);
     this.listen("click", this.clickHandler);

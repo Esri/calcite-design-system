@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Atšaukti",
   "clear": "Išvalyti reikšmę",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Įrašyti",
+  "enableInlineEditing": "Redaguoti",
   "loading": "Kraunama",
   "required": "Būtina"
 }

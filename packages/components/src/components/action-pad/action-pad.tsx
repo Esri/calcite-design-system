@@ -11,12 +11,13 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import { ExpandToggle, legacyToggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale, SelectionAppearance } from "../types";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { isTooltip } from "../tooltip/resources";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -175,7 +176,7 @@ export class ActionPad extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && this.hasUpdated) {
-      toggleChildActionText({ el: this.el, expanded: this.expanded });
+      legacyToggleChildActionText({ el: this.el, expanded: this.expanded });
     }
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
@@ -234,9 +235,7 @@ export class ActionPad extends LitElement {
   }
 
   private handleTooltipSlotChange(event: Event): void {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
-      el?.matches("calcite-tooltip"),
-    );
+    const tooltips = slotChangeGetAssignedElements(event).filter(isTooltip);
 
     this.expandTooltip = tooltips[0];
   }

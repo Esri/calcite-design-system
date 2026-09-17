@@ -2,8 +2,8 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { Alignment, Scale } from "../interfaces";
-import { RowType, TableInteractionMode } from "../table/interfaces";
+import { Alignment, Scale } from "../types";
+import { RowType, TableInteractionMode } from "../table/types";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -58,10 +58,11 @@ export class TableCell extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the horizontal alignment of content within the component, where:
-   * `"start"` positions content at the start of the component,
-   * `"center"` positions content in the middle of the component, and
-   * `"end"` positions content at the end of the component.
+   * Specifies the horizontal alignment of content within the component.
+   *
+   * - `"start"` positions content at the start of the component.
+   * - `"center"` positions content in the middle of the component.
+   * - `"end"` positions content at the end of the component.
    */
   @property({ reflect: true }) alignment: Alignment = "start";
 

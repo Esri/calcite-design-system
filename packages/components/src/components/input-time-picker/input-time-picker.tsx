@@ -16,12 +16,13 @@ import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
@@ -31,6 +32,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
+import { toAriaBoolean } from "../../utils/aria";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -102,8 +104,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   private timePickerRef = createRef<TimePicker>();
 
   //#endregion
@@ -116,6 +116,9 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   //#region Public Properties
 
+  /** When `true`, displays a clear button when the component has a value. */
+  @property({ reflect: true }) clearable = false;
+
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
@@ -126,11 +129,11 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies the component's hour format, where:
+   * Specifies the component's hour format.
    *
-   * `"user"` displays the user's locale format,
-   * `"12"` displays a 12-hour format, and
-   * `"24"` displays a 24-hour format.
+   * - `"user"` displays the user's locale format.
+   * - `"12"` displays a 12-hour format.
+   * - `"24"` displays a 24-hour format.
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
@@ -200,9 +203,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage?: string;
@@ -210,7 +211,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /**
    * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -269,6 +269,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("focus", this.focusHandler);
     this.listen("focusout", this.focusOutHandler);
@@ -358,6 +359,15 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     } else if (this.open && key === "Escape") {
       this.open = false;
       event.preventDefault();
+    } else if (
+      !this.disabled &&
+      !this.readOnly &&
+      this.clearable &&
+      this.value &&
+      key === "Escape"
+    ) {
+      this.clearValue();
+      event.preventDefault();
     } else {
       const showFractionalSecond = decimalPlaces(this.step) > 0;
       const showSecond = this.step < 60;
@@ -426,7 +436,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     }
   }
 
-  private mouseDownHandler(event): void {
+  private mouseDownHandler(event: MouseEvent): void {
     if (this.showPlaceholder) {
       event.preventDefault();
       this.setFocus();
@@ -519,6 +529,12 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     this.open = !this.open;
   }
 
+  private clearValue(): void {
+    this.time.setValue(null, true);
+    this.open = false;
+    this.changeEventHandler();
+  }
+
   //#endregion
 
   //#region Rendering
@@ -555,6 +571,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
+    const isClearable = this.clearable && !!this.value && isInteractive;
     return (
       <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
@@ -567,6 +584,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         )}
         <div
           aria-controls={IDS.inputContainer}
+          aria-expanded={toAriaBoolean(this.open)}
           aria-labelledby={IDS.inputContainer}
           class={{
             [CSS.container]: true,
@@ -691,6 +709,15 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
               {showMeridiem && !meridiemStart && this.renderMeridiem()}
             </div>
           </div>
+          {isClearable && (
+            <div class={CSS.clearButton} onClick={this.clearValue}>
+              <ClearButton
+                ariaLabel={this.messages.clear}
+                scale={this.scale}
+                title={this.messages.clear}
+              />
+            </div>
+          )}
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
         <calcite-popover

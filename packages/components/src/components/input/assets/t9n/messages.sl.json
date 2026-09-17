@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Prekliči",
   "clear": "Počisti vrednost",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Shrani",
+  "enableInlineEditing": "Uredi",
   "loading": "Nalaganje",
   "required": "Zahtevano"
 }

@@ -10,15 +10,15 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { FlipContext, Layout } from "../interfaces";
+import { FlipContext, Layout, Scale } from "../types";
 import { Direction, slotChangeGetAssignedElements } from "../../utils/dom";
+import { getIconScale } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { MenuItemCustomEvent } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu-item.scss";
 
@@ -77,20 +77,19 @@ export class MenuItem extends LitElement {
   @property() href?: string;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** @copyDoc */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @private */
   @property() isTopLevelItem = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
@@ -103,6 +102,9 @@ export class MenuItem extends LitElement {
 
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
   @property({ reflect: true }) open = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Defines the relationship between the `href` value and the current document.
@@ -143,9 +145,6 @@ export class MenuItem extends LitElement {
   //#endregion
 
   //#region Events
-
-  /** @private */
-  calciteInternalMenuItemKeyEvent = createEvent<MenuItemCustomEvent>();
 
   /** Emits when the component is selected. */
   calciteMenuItemSelect = createEvent();
@@ -219,7 +218,7 @@ export class MenuItem extends LitElement {
   }
 
   private async keyDownHandler(event: KeyboardEvent): Promise<void> {
-    const { hasSubmenu, href, layout, open, submenuItems } = this;
+    const { hasSubmenu, href, layout, open } = this;
     const key = event.key;
     const targetIsDropdown = event.target === this.dropdownActionRef.value;
 
@@ -240,39 +239,21 @@ export class MenuItem extends LitElement {
     } else if (key === "Escape") {
       if (open) {
         this.open = false;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({ event });
-      event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "horizontal") {
         this.open = true;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: open && hasSubmenu,
-      });
-    } else if (key === "ArrowLeft") {
-      event.preventDefault();
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: true,
-      });
     } else if (key === "ArrowRight") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "vertical") {
         this.open = true;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: open && hasSubmenu,
-      });
     }
   }
 
@@ -293,7 +274,7 @@ export class MenuItem extends LitElement {
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         key={CSS.iconStart}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -305,7 +286,7 @@ export class MenuItem extends LitElement {
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         key={CSS.iconEnd}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -316,7 +297,7 @@ export class MenuItem extends LitElement {
         class={`${CSS.icon} ${CSS.iconBreadcrumb}`}
         icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
         key={CSS.iconBreadcrumb}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -334,7 +315,7 @@ export class MenuItem extends LitElement {
             : dirChevron
         }
         key={CSS.iconDropdown}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -356,6 +337,7 @@ export class MenuItem extends LitElement {
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
         ref={this.dropdownActionRef}
+        scale={this.scale}
         text={this.messages.open}
       />
     );
@@ -374,6 +356,7 @@ export class MenuItem extends LitElement {
         label={this.messages.submenu}
         layout="vertical"
         role="menu"
+        scale={this.scale}
       >
         <slot name={SLOTS.submenuItem} onSlotChange={this.handleMenuItemSlotChange} />
       </calcite-menu>
@@ -386,13 +369,14 @@ export class MenuItem extends LitElement {
         class={CSS.hoverHrefIcon}
         icon={dir === "rtl" ? ICONS.arrowLeft : ICONS.arrowRight}
         key={CSS.hoverHrefIcon}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
 
   private renderItemContent(dir: Direction): JsxNode {
     const hasHref = this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem);
+    const hasDropdownIcon = !this.href && this.hasSubmenu;
     return (
       <>
         {this.iconStart && this.renderIconStart()}
@@ -402,7 +386,7 @@ export class MenuItem extends LitElement {
         {hasHref && this.renderHrefIcon(dir)}
         {this.iconEnd && this.renderIconEnd()}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
-        {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
+        {hasDropdownIcon ? this.renderDropdownIcon(dir) : null}
       </>
     );
   }

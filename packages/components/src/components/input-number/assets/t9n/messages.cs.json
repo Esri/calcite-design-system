@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Storno",
   "clear": "Vymazat hodnotu",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Uložit",
+  "enableInlineEditing": "Upravit",
   "loading": "Načítání",
   "required": "Povinné"
 }

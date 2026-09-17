@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Anulare",
   "clear": "Golire valoare",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Salvare",
+  "enableInlineEditing": "Editare",
   "loading": "Se încarcă",
   "required": "Obligatoriu"
 }

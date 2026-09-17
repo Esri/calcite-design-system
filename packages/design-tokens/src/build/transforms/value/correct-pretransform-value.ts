@@ -1,6 +1,6 @@
 import type { Filter, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 
 const correctedValueTypes = ["fontWeight"] as const;
 const filterTypes: Filter["filter"] = (token) => correctedValueTypes.includes(token.$type);

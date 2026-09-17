@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -14,7 +15,7 @@ import {
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
@@ -128,6 +129,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-action-pad"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-action-pad />, mountOptions), {
+    targetSelector: "calcite-action-group, calcite-action",
+  });
 });
 
 describe("slots", () => {

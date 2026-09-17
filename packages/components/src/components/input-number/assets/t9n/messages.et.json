@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Tühista",
   "clear": "Eemalda väärtus",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Salvesta",
+  "enableInlineEditing": "Muuda",
   "loading": "Laadimine",
   "required": "Nõutud"
 }

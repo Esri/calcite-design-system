@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Annuleren",
   "clear": "Waarde wissen",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Opslaan",
+  "enableInlineEditing": "Bewerken",
   "loading": "Bezig met laden",
   "required": "Vereist"
 }

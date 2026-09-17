@@ -2,6 +2,7 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ColorPicker } from "./color-picker";
+import "./color-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { colorPickerFormat, scale } = ATTRIBUTES;
 

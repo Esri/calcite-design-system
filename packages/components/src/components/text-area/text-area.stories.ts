@@ -1,8 +1,11 @@
-import { boolean, optionalAttribute } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TextArea } from "./text-area";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./text-area"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, textAreaWrap } = ATTRIBUTES;
 
@@ -16,6 +19,7 @@ type TextAreaStoryArgs = Pick<
   | "resize"
   | "rows"
   | "label"
+  | "labelText"
   | "limitText"
   | "loading"
   | "maxLength"
@@ -39,6 +43,7 @@ export default {
     resize: "both",
     rows: 2,
     label: "",
+    labelText: "Label text",
     limitText: false,
     loading: false,
     maxLength: undefined,
@@ -89,6 +94,7 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     resize="${args.resize}"
     rows="${args.rows}"
     label="${args.label}"
+    ${optionalAttribute("label-text", args.labelText)}
     ${optionalAttribute("max-length", args.maxLength)}
     ${optionalAttribute("min-length", args.minLength)}
     limit-text="${args.limitText}"
@@ -109,6 +115,8 @@ export const darkModeRTL = (): string => html`
   </calcite-text-area>
 `;
 
+darkModeRTL.parameters = { themes: modesDarkDefault };
+
 export const withSlottedElements = (): string => html`
   <calcite-text-area placeholder="Add Notes" max-length="50" scale="m" placeholder="Add Notes" columns="20" rows="2">
     <calcite-button slot="footer-start">RESET</calcite-button>
@@ -122,6 +130,8 @@ export const withSlottedElementsDarkModeRTL = (): string => html`
     <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
+
+withSlottedElementsDarkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const disabled = (): string => html` <calcite-text-area disabled> </calcite-text-area> `;
 

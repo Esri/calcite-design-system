@@ -1,3 +1,6 @@
+import "../components/button/button";
+import "../components/card/card";
+import "../components/link/link";
 import { placeholderImage } from "../../.storybook/placeholder-image";
 import { html } from "../../support/formatting";
 

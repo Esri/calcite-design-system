@@ -19,7 +19,7 @@ import {
 } from "../../utils/floating-ui";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { useT9n } from "../../controllers/useT9n";
@@ -131,13 +131,13 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component, where
+   * Specifies custom focus trap configuration on the component.
    *
-   * `"allowOutsideClick`" allows outside clicks,
-   * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active,
-   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
-   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * - `"allowOutsideClick`" allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
@@ -148,8 +148,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;

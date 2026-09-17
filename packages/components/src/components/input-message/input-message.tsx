@@ -9,9 +9,9 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon } from "../../utils/dom";
-import { Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
-import { StatusIconDefaults } from "./interfaces";
+import { Scale, Status } from "../types";
+import { IconName } from "../icon/types";
+import { StatusIconDefaults } from "./resources";
 import { styles } from "./input-message.scss";
 import { CSS } from "./resources";
 
@@ -42,7 +42,7 @@ export class InputMessage extends LitElement {
   //#region Public Properties
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;

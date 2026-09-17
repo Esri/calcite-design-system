@@ -1,3 +1,5 @@
+import "../components/accordion-item/accordion-item";
+import "../components/accordion/accordion";
 import { html } from "../../support/formatting";
 import { accordionItem } from "./accordion-item";
 import { tree } from "./tree";

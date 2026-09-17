@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "إلغاء",
   "clear": "مسح القيمة",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "حفظ",
+  "enableInlineEditing": "تحرير",
   "loading": "تحميل",
   "required": "مطلوب"
 }

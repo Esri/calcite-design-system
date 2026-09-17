@@ -1,6 +1,6 @@
 import Color, { type ColorInstance } from "color";
-import { Dimensions, Scale } from "../interfaces";
-import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
+import { Dimensions, Scale } from "../types";
+import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./types";
 import { STATIC_DIMENSIONS } from "./resources";
 import { omit } from "es-toolkit";
 

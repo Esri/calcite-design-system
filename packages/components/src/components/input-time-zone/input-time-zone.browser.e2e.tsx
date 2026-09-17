@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { CSS as ComboboxCSS } from "../combobox/resources";
@@ -8,17 +9,23 @@ import {
   focusable,
   formAssociated,
   hidden,
+  labelable,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
   openClose,
   topLayer,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input-time-zone", mountOptions));
+});
 
 describe("accessible", () => {
   accessible(() => mount("calcite-input-time-zone"));
@@ -74,6 +81,12 @@ describe("hidden", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-input-time-zone"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input-time-zone />, mountOptions), {
+    targetSelector: "calcite-combobox",
+  });
 });
 
 describe("focusable", () => {

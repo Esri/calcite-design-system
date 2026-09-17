@@ -19,6 +19,7 @@ import { join, resolve, sep, win32 } from "node:path";
   }
 
   const synchronized: string[] = [];
+  // eslint-disable-next-line no-console -- script logging
   console.log(`synchronizing t9n messages.json files`);
 
   for (const entry of entries) {
@@ -33,6 +34,7 @@ import { join, resolve, sep, win32 } from "node:path";
     synchronized.push(componentName);
   }
 
+  // eslint-disable-next-line no-console -- script logging
   console.log(
     `created messages.en.json file for the following components: \n${synchronized
       .map((synchronized) => `* ${synchronized}`)
