@@ -33,9 +33,8 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
-import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { isActionGroup } from "../action-group/resources";
 import { isActionMenu, SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import { guid } from "../../utils/guid";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -182,10 +181,6 @@ export class ActionBar extends LitElement {
 
       slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
-        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const actionGroupItemCount = this.getVisibleActionGroupItemCount(actionGroup);
-        const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
-        bufferSize += actionGroupGap * actionGroupGapQuantity;
 
         if (index !== lastSlottedActionGroupIndex) {
           bufferSize += getStylePixelValue(
@@ -228,11 +223,40 @@ export class ActionBar extends LitElement {
       bufferSize += getStylePixelValue(actionBarContainerStyle.gap) * (visibleSectionCount - 1);
     }
 
-    const overflowCount = getOverflowCount({
-      bufferSize,
-      containerSize: layout === "horizontal" ? width : height,
-      itemSizes,
-    });
+    const containerSize = layout === "horizontal" ? width : height;
+    const itemSize = itemSizes.reduce((total, size) => total + size, 0);
+    const fallbackItemSize = Math.max(...itemSizes, 0);
+    const clientSize: "clientWidth" | "clientHeight" =
+      layout === "horizontal" ? "clientWidth" : "clientHeight";
+    let overflowCount = itemSizes.length;
+
+    for (
+      let candidateOverflowCount = 0;
+      candidateOverflowCount <= itemSizes.length;
+      candidateOverflowCount++
+    ) {
+      const overflowState = {
+        clientSize,
+        fallbackItemSize,
+        itemSizeAdjustment: 0,
+        remainingCount: candidateOverflowCount,
+      };
+      const actionGroupGapSize = [...slottedActionGroups]
+        .reverse()
+        .reduce((gapSize, actionGroup) => {
+          const visibleItemCount = this.getVisibleActionGroupItemCount(actionGroup, overflowState);
+          const gap = getStylePixelValue(getComputedStyle(actionGroup).gap);
+
+          return gapSize + gap * Math.max(visibleItemCount - 1, 0);
+        }, 0);
+      if (
+        itemSize + overflowState.itemSizeAdjustment + bufferSize + actionGroupGapSize <=
+        containerSize
+      ) {
+        overflowCount = candidateOverflowCount;
+        break;
+      }
+    }
 
     this.runOverflowActions({
       actionGroups: slottedActionGroups,
@@ -595,22 +619,55 @@ export class ActionBar extends LitElement {
     return itemSizes.map((size) => size || fallbackSize);
   }
 
-  private getVisibleActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
-    const directActionGroupActions = actionGroup.actions.filter(
-      (action) => action.parentElement === actionGroup,
-    );
-    const directActionMenusCount = filterDirectChildren<ActionMenu["el"]>(
+  private getVisibleActionGroupItemCount(
+    actionGroup: ActionGroup["el"],
+    overflowState: {
+      clientSize: "clientWidth" | "clientHeight";
+      fallbackItemSize: number;
+      itemSizeAdjustment: number;
+      remainingCount: number;
+    },
+  ): number {
+    const directActions = actionGroup.actions
+      .filter((action) => action.parentElement === actionGroup)
+      .reverse();
+    const canOverflowGroup = directActions.length > 2 && !actionGroup.overflowActionsDisabled;
+    let overflowedActionCount = 0;
+    let visibleActionCount = directActions.length;
+
+    directActions.forEach((action) => {
+      if (
+        overflowState.remainingCount < 1 ||
+        !canOverflowGroup ||
+        visibleActionCount < 2 ||
+        action.overflowDisabled
+      ) {
+        return;
+      }
+
+      visibleActionCount--;
+      overflowedActionCount++;
+      overflowState.remainingCount--;
+      overflowState.itemSizeAdjustment -=
+        action[overflowState.clientSize] || overflowState.fallbackItemSize;
+    });
+
+    if (overflowedActionCount > 0) {
+      const menu = actionGroup.shadowRoot?.querySelector("calcite-action-menu");
+      const triggerAction = menu?.actions.find(
+        (action) => action.slot === ACTION_MENU_SLOTS.trigger,
+      );
+
+      overflowState.itemSizeAdjustment +=
+        (triggerAction ?? menu)?.[overflowState.clientSize] || overflowState.fallbackItemSize;
+    }
+
+    const directActionMenuCount = filterDirectChildren<ActionMenu["el"]>(
       actionGroup,
       "calcite-action-menu",
     ).length;
-    const defaultActionsCount =
-      directActionGroupActions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions)
-        .length + directActionMenusCount;
-    const hasMenuActions = directActionGroupActions.some(
-      (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
-    );
 
-    return defaultActionsCount + (hasMenuActions ? 1 : 0);
+    return visibleActionCount + directActionMenuCount + (overflowedActionCount > 0 ? 1 : 0);
   }
 
   private expandedHandler(): void {

@@ -44,6 +44,10 @@
           inline-size: clamp(8rem, 40vw, 9rem);
         }
 
+        .keyboard-nav-action-bar:not([layout="horizontal"]) {
+          inline-size: fit-content;
+        }
+
         .narrow-action-bar {
           inline-size: clamp(8rem, 45vw, 16rem);
         }
@@ -53,12 +57,12 @@
         }
 
         .vertical-overflow-action-bar {
-          inline-size: clamp(6rem, 25vw, 8rem);
+          inline-size: fit-content;
         }
 
         .vertical-expanded-action-bar {
           block-size: clamp(12rem, 50vh, 20rem);
-          inline-size: clamp(14rem, 45vw, 18rem);
+          inline-size: fit-content;
         }
 
         .tool-group {
