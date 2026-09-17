@@ -1162,7 +1162,7 @@ exports[`CSS > index should match 1`] = `
 @import url("./semantic.css");
 @import url("./classes.css");
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --calcite-color-surface-1: var(
     --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
