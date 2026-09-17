@@ -92,7 +92,11 @@ export class ListItemGroup extends LitElement {
    */
   calciteInternalListItemGroupChange = createEvent({ cancelable: false });
 
-  /** Fires when the component's slotted `calcite-list-item`s change. */
+  /**
+   * Fires when the component's slotted `calcite-list-item`s change.
+   *
+   * @private
+   */
   calciteInternalListItemGroupItemsChange = createEvent({ cancelable: false });
 
   //#endregion
