@@ -423,9 +423,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   override connectedCallback(): void {
-    const { el } = this;
-    this.parentListEl = getClosestAncestorInComposedTree<List["el"]>(el, listSelector) || undefined;
-    this.level = getDepth(el) + 1;
+    this.updateParentListAndLevel();
     this.setSelectionDefaults();
   }
 
@@ -491,6 +489,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
   //#endregion
 
   //#region Private Methods
+
+  /** @internal */
+  updateParentListAndLevel(): void {
+    const { el } = this;
+    this.parentListEl = getClosestAncestorInComposedTree<List["el"]>(el, listSelector) || undefined;
+    this.level = getDepth(el) + 1;
+  }
 
   private activeHandler(active: boolean): void {
     if (!active) {

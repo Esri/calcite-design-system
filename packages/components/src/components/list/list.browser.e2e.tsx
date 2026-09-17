@@ -51,6 +51,54 @@ class ListTestWrapper extends LitElement {
   }
 }
 
+class ProjectedListTestWrapper extends LitElement {
+  static tagName = "projected-list-test-wrapper";
+
+  private listRef = createRef<List["el"]>();
+
+  get listEl(): List["el"] {
+    return this.listRef.value!;
+  }
+
+  override render(): JsxNode {
+    return (
+      <calcite-list ref={this.listRef}>
+        <slot />
+      </calcite-list>
+    );
+  }
+}
+
+class LateProjectedListTestWrapper extends LitElement {
+  static tagName = "late-projected-list-test-wrapper";
+
+  private listRef = createRef<List["el"]>();
+
+  private showList = false;
+
+  get listEl(): List["el"] {
+    return this.listRef.value!;
+  }
+
+  renderList(): void {
+    this.showList = true;
+    this.requestUpdate();
+  }
+
+  override render(): JsxNode {
+    return this.showList ? (
+      <Fragment>
+        <calcite-list displayMode="nested" ref={this.listRef} scale="l">
+          <calcite-list-item label="Parent">
+            <slot name="nested" />
+          </calcite-list-item>
+        </calcite-list>
+        <slot name="outside" />
+      </Fragment>
+    ) : null;
+  }
+}
+
 const specialListGroup = `quoted"\\group`;
 
 class GroupedListsTestWrapper extends LitElement {
@@ -510,6 +558,59 @@ describe("shadow slot projection", () => {
     `;
 
     await expect.poll(() => component.listEl.filteredItems).toHaveLength(3);
+  });
+
+  it("updates projected list-items when the source slot assignment changes", async () => {
+    const { component, el } = await mount<ProjectedListTestWrapper>(
+      html`<projected-list-test-wrapper></projected-list-test-wrapper>`,
+      { dynamicComponents: [ProjectedListTestWrapper] },
+    );
+
+    el.innerHTML = `<calcite-list-item label="Alpha" value="a"></calcite-list-item>`;
+
+    await expect.poll(() => component.listEl.filteredItems).toHaveLength(1);
+
+    const item = document.createElement("calcite-list-item");
+    item.label = "Beta";
+    item.value = "b";
+    el.append(item);
+
+    await expect.poll(() => component.listEl.filteredItems).toHaveLength(2);
+
+    item.remove();
+
+    await expect.poll(() => component.listEl.filteredItems).toHaveLength(1);
+  });
+
+  it("updates item ownership and depth after late slot composition", async () => {
+    const { component, el } = await mount<LateProjectedListTestWrapper>(
+      html`<late-projected-list-test-wrapper></late-projected-list-test-wrapper>`,
+      { dynamicComponents: [LateProjectedListTestWrapper] },
+    );
+
+    el.innerHTML = `<calcite-list-item id="late-projected-child" label="Child" slot="nested"></calcite-list-item>`;
+    await afterNextTask();
+    await afterNextFrame();
+
+    const childItem = page.getBySelector("#late-projected-child");
+
+    await expect.element(childItem).toHaveProperty("scale", "m");
+
+    component.renderList();
+    await component.updateComplete;
+
+    await expect.poll(() => component.listEl.filteredItems).toHaveLength(2);
+    await expect.element(childItem).toHaveProperty("scale", "l");
+    const childItemEl = childItem.element() as ListItem["el"];
+    // The browser locator cannot traverse the nested source-slot projection into this shadow root.
+    const childItemRow = childItemEl.shadowRoot?.querySelector<HTMLDivElement>('[role="row"]');
+    expect(childItemRow).not.toBeNull();
+    expect(childItemRow).toHaveAttribute("aria-level", "2");
+
+    childItemEl.slot = "outside";
+
+    await expect.poll(() => component.listEl.filteredItems).toHaveLength(1);
+    await expect.poll(() => childItemRow?.getAttribute("aria-level")).toBe("1");
   });
 
   describe("sort menu reorder", () => {

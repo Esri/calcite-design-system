@@ -95,6 +95,8 @@ export class List extends LitElement {
 
   private listItemGroups: ListItemGroup["el"][] = [];
 
+  private listItemsPendingOwnershipUpdate = new Set<ListItem["el"]>();
+
   mutationObserver = createObserver("mutation", () => {
     this.willPerformFilter = true;
     this.updateListItemsDebounced();
@@ -425,6 +427,7 @@ export class List extends LitElement {
       this.handleInternalListItemGroupItemsChange,
     );
     this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
+    this.listen("slotchange", this.handleDescendantSlotChange);
   }
 
   override connectedCallback(): void {
@@ -502,6 +505,8 @@ export class List extends LitElement {
 
     const items = this.listItems;
     const fromEl = el;
+    this.listItemsPendingOwnershipUpdate.forEach((item) => item.updateParentListAndLevel());
+    this.listItemsPendingOwnershipUpdate.clear();
     const directItems = items.filter((item) => this.getOwningList(item) === fromEl);
 
     directItems.forEach((item) => {
@@ -581,6 +586,10 @@ export class List extends LitElement {
   private handleListItemChange(): void {
     this.willPerformFilter = true;
     this.updateListItemsDebounced();
+  }
+
+  private handleDescendantSlotChange(): void {
+    this.handleListItemChange();
   }
 
   private handleCalciteListItemToggle(event: CustomEvent): void {
@@ -788,6 +797,8 @@ export class List extends LitElement {
     const { groups: listItemGroups, items: listItems } =
       getListStructureFromElements(directSlottedElements);
 
+    this.listItems.forEach((item) => this.listItemsPendingOwnershipUpdate.add(item));
+    listItems.forEach((item) => this.listItemsPendingOwnershipUpdate.add(item));
     this.listItems = listItems;
     this.listItemGroups = listItemGroups;
   }
