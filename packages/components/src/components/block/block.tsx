@@ -22,6 +22,7 @@ import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
+import { styles as transitionMarginStyles } from "../../styles/component/transition-margin.scss";
 import { SortMenuItem } from "../sort-handle/types";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -49,7 +50,7 @@ declare global {
 export class Block extends LitElement {
   //#region Static Members
 
-  static override styles = [headerStyles, styles, sortableStyles];
+  static override styles = [headerStyles, styles, sortableStyles, transitionMarginStyles];
 
   //#endregion
 
