@@ -1,5 +1,6 @@
 import { isServer } from "lit";
 import { closestElementCrossShadowBoundary, getRootNode } from "../../utils/dom";
+import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { List } from "../list/list";
 import type { ListItem } from "./list-item";
 import { isListItem } from "./resources";
@@ -7,6 +8,12 @@ import { isListItem } from "./resources";
 export const listSelector = "calcite-list";
 export const listItemGroupSelector = "calcite-list-item-group";
 export const listItemSelector = "calcite-list-item";
+
+function pushElementsInReverse(elementStack: Element[], elements: ArrayLike<Element>): void {
+  for (let index = elements.length - 1; index >= 0; index--) {
+    elementStack.push(elements[index]);
+  }
+}
 
 export function getClosestAncestorInComposedTree<T extends Element>(element: Element, selector: string): T | null {
   const rootNode = getRootNode(element);
@@ -21,68 +28,34 @@ export function getListStructureFromElements(elements: Element[]): {
   lists: List["el"][];
   items: ListItem["el"][];
 } {
-  // Intentionally only supports direct descendants and slot assignments. Neutral wrappers
-  // are not traversed unless they are themselves calcite-list/list-item/list-item-group.
-  return elements.reduce(
-    (acc, element) => {
-      if (element.matches(listSelector)) {
-        acc.lists.push(element);
+  // Intentionally only supports direct descendants and slot assignments
+  const groups: ListItemGroup["el"][] = [];
+  const lists: List["el"][] = [];
+  const items: ListItem["el"][] = [];
+  const elementStack: Element[] = [];
 
-        const nestedChildren = getListStructureFromElements(Array.from(element.children));
+  pushElementsInReverse(elementStack, elements);
 
-        acc.groups.push(...nestedChildren.groups);
-        acc.lists.push(...nestedChildren.lists);
-        acc.items.push(...nestedChildren.items);
+  while (elementStack.length > 0) {
+    const element = elementStack.pop()!;
 
-        return acc;
-      }
+    if (element.matches(listSelector)) {
+      lists.push(element);
+    } else if (isListItem(element)) {
+      items.push(element);
+    } else if (element.matches(listItemGroupSelector)) {
+      groups.push(element);
+    } else if (element instanceof HTMLSlotElement) {
+      pushElementsInReverse(elementStack, element.assignedElements({ flatten: true }));
+      continue;
+    } else {
+      continue;
+    }
 
-      if (isListItem(element)) {
-        acc.items.push(element);
+    pushElementsInReverse(elementStack, element.children);
+  }
 
-        const nestedChildren = getListStructureFromElements(Array.from(element.children));
-
-        acc.groups.push(...nestedChildren.groups);
-        acc.lists.push(...nestedChildren.lists);
-        acc.items.push(...nestedChildren.items);
-
-        return acc;
-      }
-
-      if (element.matches(listItemGroupSelector)) {
-        const group = element;
-        const nestedChildren = getListStructureFromElements(Array.from(group.children));
-
-        acc.groups.push(group);
-        acc.groups.push(...nestedChildren.groups);
-        acc.lists.push(...nestedChildren.lists);
-        acc.items.push(...nestedChildren.items);
-
-        return acc;
-      }
-
-      if (element instanceof HTMLSlotElement) {
-        const nestedChildren = getListStructureFromElements(element.assignedElements({ flatten: true }));
-
-        acc.groups.push(...nestedChildren.groups);
-        acc.lists.push(...nestedChildren.lists);
-        acc.items.push(...nestedChildren.items);
-
-        return acc;
-      }
-
-      return acc;
-    },
-    {
-      groups: [],
-      lists: [],
-      items: [],
-    } as {
-      groups: ListItemGroup["el"][];
-      lists: List["el"][];
-      items: ListItem["el"][];
-    },
-  );
+  return { groups, lists, items };
 }
 
 export function expandedAncestors(el: ListItem["el"]): void {

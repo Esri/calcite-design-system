@@ -1,9 +1,10 @@
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import { LitElement, property, createEvent, h, JsxNode, ToEvents } from "@arcgis/lumina";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { Scale } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
-import { CSS } from "./resources";
+import { CSS, isListItemGroup } from "./resources";
 import { styles } from "./list-item-group.scss";
 import { getListStructureFromElements } from "../list-item/utils";
 import type { ListItem } from "../list-item/list-item";
@@ -25,7 +26,11 @@ export class ListItemGroup extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  private defaultSlotEl?: HTMLSlotElement;
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private _items: ListItem["el"][] = [];
+
+  private _groups: ListItemGroup["el"][] = [];
 
   //#endregion
 
@@ -55,17 +60,19 @@ export class ListItemGroup extends LitElement {
    * Specifies the group's `calcite-list-item`s.
    *
    * @internal
-   * @readonly
    */
-  @property({ attribute: false }) listItems: ListItem["el"][] = [];
+  @property() get items(): ListItem["el"][] {
+    return this._items;
+  }
 
   /**
    * Specifies the group's direct child `calcite-list-item-group`s.
    *
    * @internal
-   * @readonly
    */
-  @property({ attribute: false }) childListItemGroups: ListItemGroup["el"][] = [];
+  @property() get groups(): ListItemGroup["el"][] {
+    return this._groups;
+  }
 
   //#endregion
 
@@ -94,9 +101,9 @@ export class ListItemGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen<CustomEvent<void>>(
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupItemsChange"]>(
       "calciteInternalListItemGroupItemsChange",
-      this.handleCalciteInternalListItemGroupItemsChange,
+      this.handleInternalListItemGroupItemsChange,
     );
   }
 
@@ -114,7 +121,7 @@ export class ListItemGroup extends LitElement {
 
   //#region Private Methods
 
-  private handleCalciteInternalListItemGroupItemsChange(event: CustomEvent<void>): void {
+  private handleInternalListItemGroupItemsChange(event: CustomEvent<void>): void {
     if (event.target === this) {
       return;
     }
@@ -123,68 +130,53 @@ export class ListItemGroup extends LitElement {
     this.updateItemsAndEmitChange();
   }
 
-  private getDescendantGroups(groups: ListItemGroup["el"][]): ListItemGroup["el"][] {
-    return groups.flatMap((group) => [
-      group,
-      ...this.getDescendantGroups(group.childListItemGroups ?? []),
-    ]);
-  }
+  private updateChildGroupScale(groups: ListItemGroup["el"][] = this.groups): void {
+    const groupStack = [...groups];
 
-  private updateChildGroupScale(
-    childGroups: ListItemGroup["el"][] = this.childListItemGroups,
-  ): void {
-    this.getDescendantGroups(childGroups).forEach((group) => {
+    while (groupStack.length > 0) {
+      const group = groupStack.pop()!;
       group.scale = this.scale;
-    });
+      groupStack.push(...group.groups);
+    }
   }
 
   private getSlottedStructure(): {
-    listItems: ListItem["el"][];
-    childListItemGroups: ListItemGroup["el"][];
+    items: ListItem["el"][];
+    groups: ListItemGroup["el"][];
   } {
-    if (!this.defaultSlotEl) {
+    if (!this.defaultSlotRef.value) {
       return {
-        listItems: [],
-        childListItemGroups: [],
+        items: [],
+        groups: [],
       };
     }
 
-    const directAssignedElements = this.defaultSlotEl.assignedElements({ flatten: true });
-    const directChildListItemGroups = directAssignedElements.filter(
-      (element): element is ListItemGroup["el"] => element.matches("calcite-list-item-group"),
-    );
+    const directAssignedElements = this.defaultSlotRef.value.assignedElements({ flatten: true });
+    const groups = directAssignedElements.filter(isListItemGroup);
+    const { items } = getListStructureFromElements(directAssignedElements);
 
-    const { items: listItems } = getListStructureFromElements(directAssignedElements);
-
-    return {
-      listItems,
-      childListItemGroups: directChildListItemGroups,
-    };
+    return { items, groups };
   }
 
   private updateItemsAndEmitChange(): void {
-    const { childListItemGroups, listItems } = this.getSlottedStructure();
-    this.updateChildGroupScale(childListItemGroups);
+    const { groups, items } = this.getSlottedStructure();
+    this.updateChildGroupScale(groups);
 
-    const listItemsChanged =
-      listItems.length !== this.listItems.length ||
-      !listItems.every((item, index) => item === this.listItems[index]);
+    const itemsChanged =
+      items.length !== this._items.length ||
+      !items.every((item, index) => item === this._items[index]);
 
-    const childListItemGroupsChanged =
-      childListItemGroups.length !== this.childListItemGroups.length ||
-      !childListItemGroups.every((group, index) => group === this.childListItemGroups[index]);
+    const groupsChanged =
+      groups.length !== this._groups.length ||
+      !groups.every((group, index) => group === this._groups[index]);
 
-    if (!listItemsChanged && !childListItemGroupsChanged) {
+    if (!itemsChanged && !groupsChanged) {
       return;
     }
 
-    this.listItems = listItems;
-    this.childListItemGroups = childListItemGroups;
+    this._items = items;
+    this._groups = groups;
     this.calciteInternalListItemGroupItemsChange.emit();
-  }
-
-  private setDefaultSlotEl(el: HTMLSlotElement): void {
-    this.defaultSlotEl = el;
   }
 
   private handleDefaultSlotChange(): void {
@@ -205,7 +197,7 @@ export class ListItemGroup extends LitElement {
             {heading}
           </div>
         </div>
-        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
       </this.interactiveContainer>
     );
   }

@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Fragment, h } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { html } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import { page, userEvent } from "vitest/browser";
 import {
   cancelable,
@@ -16,7 +18,10 @@ import {
   themed,
 } from "../../tests/common";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
+import type { Filter } from "../filter/filter";
+import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "../list-item/list-item";
+import type { ItemData } from "../list-item/types";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
@@ -24,31 +29,22 @@ import type { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 
-declare global {
-  interface DeclareElements {
-    "list-test-wrapper": ListTestWrapper;
+class ListTestWrapper extends LitElement {
+  static tagName = "list-test-wrapper";
+
+  private listRef = createRef<List["el"]>();
+
+  get listEl(): List["el"] {
+    return this.listRef.value!;
   }
-}
 
-class ListTestWrapper extends HTMLElement {
-  listEl: List["el"];
-
-  constructor() {
-    super();
-    const root = this.attachShadow({ mode: "open" });
-
-    this.listEl = document.createElement("calcite-list");
-    this.listEl.selectionMode = "single";
-
-    const defaultSlot = document.createElement("slot");
-
-    this.listEl.append(defaultSlot);
-    root.append(this.listEl);
+  override render(): JsxNode {
+    return (
+      <calcite-list ref={this.listRef} selectionMode="single">
+        <slot />
+      </calcite-list>
+    );
   }
-}
-
-if (!customElements.get("list-test-wrapper")) {
-  customElements.define("list-test-wrapper", ListTestWrapper);
 }
 
 const scrollTopValue = 120;
@@ -339,7 +335,7 @@ describe("sticky group heading with filter", () => {
       </calcite-list>,
     );
 
-    const list = el as HTMLElement;
+    const list = el as List["el"];
 
     const filterInput = page.getBySelector("calcite-list calcite-filter").element();
 
@@ -414,7 +410,7 @@ describe("sticky group heading with filter", () => {
       </calcite-list>,
     );
 
-    const list = el as HTMLElement;
+    const list = el as List["el"];
     const stickyContainer = page
       .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
       .first()
@@ -429,7 +425,6 @@ describe("sticky group heading with filter", () => {
     const topWithFilter = stickyContainer.getBoundingClientRect().top;
 
     el.filterEnabled = false;
-    await afterNextTask();
     await afterNextFrame();
 
     const topWithoutFilter = stickyContainer.getBoundingClientRect().top;
@@ -438,32 +433,13 @@ describe("sticky group heading with filter", () => {
 });
 
 describe("shadow slot projection", () => {
-  function getMountedWrapper(mountedEl: Element): HTMLElement & {
-    listEl: List["el"];
-  } {
-    if (mountedEl.tagName === "LIST-TEST-WRAPPER") {
-      return mountedEl as HTMLElement & {
-        listEl: List["el"];
-      };
-    }
-
-    const rootNode = mountedEl.getRootNode();
-    const rootHost = rootNode instanceof ShadowRoot ? rootNode.host : null;
-
-    if (rootHost?.tagName === "LIST-TEST-WRAPPER") {
-      return rootHost as HTMLElement & {
-        listEl: List["el"];
-      };
-    }
-
-    throw new Error("Could not resolve list-test-wrapper from mount result");
-  }
-
   it("tracks projected grouped list-items without query-based discovery", async () => {
-    const { el: mountedEl } = await mount("list-test-wrapper");
-    const listTestWrapper = getMountedWrapper(mountedEl);
+    const { component, el } = await mount<ListTestWrapper>(
+      html`<list-test-wrapper></list-test-wrapper>`,
+      { dynamicComponents: [ListTestWrapper] },
+    );
 
-    listTestWrapper.innerHTML = `
+    el.innerHTML = `
       <calcite-list-item-group heading="Group A">
         <calcite-list-item label="Alpha" value="a"></calcite-list-item>
         <calcite-list-item label="Beta" value="b"></calcite-list-item>
@@ -471,17 +447,7 @@ describe("shadow slot projection", () => {
       <calcite-list-item label="Gamma" value="c"></calcite-list-item>
     `;
 
-    await vi.waitUntil(async () => {
-      if (listTestWrapper.listEl.filteredItems.length === 3) {
-        return true;
-      }
-
-      await afterNextTask();
-      await afterNextFrame();
-      return listTestWrapper.listEl.filteredItems.length === 3;
-    });
-
-    expect(listTestWrapper.listEl.filteredItems).toHaveLength(3);
+    await expect.poll(() => component.listEl.filteredItems).toHaveLength(3);
   });
 });
 
@@ -621,9 +587,7 @@ describe("group filtering", () => {
       </calcite-list>,
     );
 
-    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
-      value: string;
-    };
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as Filter["el"];
 
     await el.setFocus();
     await userEvent.keyboard(typedValue);
@@ -637,9 +601,7 @@ describe("group filtering", () => {
 
     const rerenderedFilterEl = page
       .getBySelector("calcite-list calcite-filter")
-      .element() as HTMLElement & {
-      value: string;
-    };
+      .element() as Filter["el"];
 
     expect(rerenderedFilterEl.value).toBe(typedValue);
     expect(el.filterText).toBe("");
@@ -666,11 +628,7 @@ describe("group filtering", () => {
 
       vi.advanceTimersByTime(DEBOUNCE.nextTick + 1);
 
-      const filterEl = page
-        .getBySelector("calcite-list calcite-filter")
-        .element() as HTMLElement & {
-        value: string;
-      };
+      const filterEl = page.getBySelector("calcite-list calcite-filter").element() as Filter["el"];
 
       expect(filterEl.value).toBe(typedValue);
       expect(el.filterText).toBe("");
@@ -683,36 +641,19 @@ describe("group filtering", () => {
 
 describe("filter item data updates", () => {
   async function waitForFilteredLength(el: List["el"], expectedLength: number): Promise<void> {
-    await vi.waitUntil(async () => {
-      if (el.filteredItems.length === expectedLength) {
-        return true;
-      }
-
-      await afterNextTask();
-      await afterNextFrame();
-      return el.filteredItems.length === expectedLength;
-    });
-
-    await afterNextTask();
+    await vi.waitUntil(() => el.filteredItems.length === expectedLength);
 
     expect(el.filteredItems).toHaveLength(expectedLength);
   }
 
   async function waitForFilterItemsMatch(
-    filterEl: HTMLElement & { items?: { el?: Element; label?: string; heading?: string[] }[] },
-    predicate: (item: { el?: Element; label?: string; heading?: string[] }) => boolean,
+    filterEl: Filter["el"],
+    predicate: (item: ItemData) => boolean,
   ): Promise<void> {
-    await vi.waitUntil(async () => {
-      if (filterEl.items?.some(predicate)) {
-        return true;
-      }
+    const items = filterEl.items as ItemData[];
+    await vi.waitUntil(() => items.some(predicate));
 
-      await afterNextTask();
-      await afterNextFrame();
-      return !!filterEl.items?.some(predicate);
-    });
-
-    expect(filterEl.items?.some(predicate)).toBe(true);
+    expect(items.some(predicate)).toBe(true);
   }
 
   it("updates filtered items when label changes", async () => {
@@ -724,9 +665,7 @@ describe("filter item data updates", () => {
     );
 
     const listItem = page.getBySelector("#prop-watch-item-label").element() as ListItem["el"];
-    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
-      items?: { label?: string }[];
-    };
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as Filter["el"];
 
     el.filterProps = ["label"];
     el.filterText = labelToken;
@@ -798,13 +737,9 @@ describe("filter item data updates", () => {
 
     const listItemGroup = page
       .getBySelector("#prop-watch-group-heading")
-      .element() as HTMLElement & {
-      heading: string;
-    };
+      .element() as ListItemGroup["el"];
     const listItem = page.getBySelector("#prop-watch-item-heading").element() as ListItem["el"];
-    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
-      items?: { el?: Element; heading?: string[] }[];
-    };
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as Filter["el"];
 
     el.filterProps = ["heading"];
     el.filterText = headingToken;
@@ -836,9 +771,7 @@ describe("filter item data updates", () => {
     const listItem = page
       .getBySelector("#prop-watch-item-nested-heading")
       .element() as ListItem["el"];
-    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
-      items?: { el?: Element; heading?: string[] }[];
-    };
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as Filter["el"];
 
     el.filterProps = ["heading"];
     el.filterText = "inner";
@@ -848,8 +781,8 @@ describe("filter item data updates", () => {
       (item) => item.el === listItem && item.heading?.join("|") === "Outer heading|Inner heading",
     );
 
-    const matchingFilterItem = filterEl.items?.find((item) => item.el === listItem);
-    expect(matchingFilterItem?.heading).toEqual(["Outer heading", "Inner heading"]);
+    const matchingFilterItem = (filterEl.items as ItemData[]).find((item) => item.el === listItem);
+    expect(matchingFilterItem).toHaveProperty("heading", ["Outer heading", "Inner heading"]);
   });
 });
 
@@ -869,7 +802,9 @@ describe("nested selection modes", () => {
     await afterNextFrame();
 
     const parentItem = page.getBySelector("#dynamic-group-parent").element() as ListItem["el"];
-    const nestedGroup = page.getBySelector("#dynamic-nested-group").element() as HTMLElement;
+    const nestedGroup = page
+      .getBySelector("#dynamic-nested-group")
+      .element() as ListItemGroup["el"];
 
     await vi.waitUntil(() => parentItem.displayMode === "nested");
 
@@ -878,9 +813,6 @@ describe("nested selection modes", () => {
     childItem.label = "Child";
     nestedGroup.append(childItem);
 
-    await afterNextTask();
-    await afterNextFrame();
-
     await el.setFocus();
 
     expect(parentItem.active).toBe(true);
@@ -888,27 +820,11 @@ describe("nested selection modes", () => {
 
     await userEvent.keyboard("{ArrowRight}");
 
-    await vi.waitUntil(async () => {
-      if (parentItem.expanded) {
-        return true;
-      }
-
-      await afterNextTask();
-      await afterNextFrame();
-      return parentItem.expanded;
-    });
+    await vi.waitUntil(() => parentItem.expanded);
 
     await userEvent.keyboard("{ArrowDown}");
 
-    await vi.waitUntil(async () => {
-      if (childItem.active) {
-        return true;
-      }
-
-      await afterNextTask();
-      await afterNextFrame();
-      return childItem.active;
-    });
+    await vi.waitUntil(() => childItem.active);
 
     expect(parentItem.active).toBe(false);
     expect(childItem.active).toBe(true);
@@ -941,8 +857,6 @@ describe("nested selection modes", () => {
     expect(childItem.active).toBe(false);
 
     await userEvent.keyboard("{ArrowDown}");
-    await afterNextTask();
-    await afterNextFrame();
 
     expect(parentItem.active).toBe(true);
     expect(childItem.active).toBe(false);
@@ -970,15 +884,7 @@ describe("nested selection modes", () => {
 
     await userEvent.keyboard("{ArrowDown}");
 
-    await vi.waitUntil(async () => {
-      if (childItem.active) {
-        return true;
-      }
-
-      await afterNextTask();
-      await afterNextFrame();
-      return childItem.active;
-    });
+    await vi.waitUntil(() => childItem.active);
 
     expect(parentItem.active).toBe(false);
     expect(childItem.active).toBe(true);
@@ -1010,18 +916,62 @@ describe("nested selection modes", () => {
 
     await userEvent.keyboard("{ArrowDown}");
 
-    await vi.waitUntil(async () => {
-      if (childItem.active) {
-        return true;
-      }
-
-      await afterNextTask();
-      await afterNextFrame();
-      return childItem.active;
-    });
+    await vi.waitUntil(() => childItem.active);
 
     expect(parentItem.active).toBe(false);
     expect(childItem.active).toBe(true);
+  });
+
+  it("sets scale on direct list items", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested" group="my-list" id="scale-root-list">
+        <calcite-list-item description="Item 1" expanded label="Depth 1">
+          <calcite-list group="my-list">
+            <calcite-list-item description="Item 2" expanded label="Depth 2">
+              <calcite-list display-mode="nested" group="my-list">
+                <calcite-list-item description="Item 3" label="Depth 3">
+                  <calcite-list display-mode="nested" group="my-list" />
+                </calcite-list-item>
+                <calcite-list-item description="Item 4" label="Depth 3" />
+              </calcite-list>
+            </calcite-list-item>
+            <calcite-list-item description="Item 5" label="Depth 2" />
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item description="Item 6" label="Depth 1" />
+        <calcite-list-item description="Item 7" drag-disabled label="Depth 1" />
+      </calcite-list>,
+    );
+    const rootListItems = page
+      .getBySelector("#scale-root-list > calcite-list-item")
+      .elements() as ListItem["el"][];
+
+    expect(rootListItems).toHaveLength(3);
+
+    const assertScale = async (scale: ListItem["scale"]): Promise<void> => {
+      await vi.waitUntil(async () => {
+        if (rootListItems.every((item) => item.scale === scale)) {
+          return true;
+        }
+
+        await afterNextTask();
+        await afterNextFrame();
+        return rootListItems.every((item) => item.scale === scale);
+      });
+
+      rootListItems.forEach((item) => expect(item).toHaveProperty("scale", scale));
+    };
+
+    await assertScale("m");
+
+    el.scale = "s";
+    await assertScale("s");
+
+    el.scale = "m";
+    await assertScale("m");
+
+    el.scale = "l";
+    await assertScale("l");
   });
 
   it("preserves each nested list's direct-item properties", async () => {
@@ -1171,22 +1121,13 @@ describe("nested selection modes", () => {
       expect(rootListThreeTopItem).toHaveProperty("setSize", 1);
     };
 
-    const rootItemSetPropertiesSettled = (): boolean => {
-      return (
-        rootListOneTopItem.setPosition === 1 &&
-        rootListOneTopItem.setSize === 1 &&
-        rootListTwoTopItem.setPosition === 1 &&
-        rootListTwoTopItem.setSize === 1 &&
-        rootListThreeTopItem.setPosition === 1 &&
-        rootListThreeTopItem.setSize === 1
-      );
-    };
-
     const assertAllNestedProperties = (): void => {
       assertSelectionModes();
       assertRootItemSetProperties();
 
       expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
+      expect(nestedNoneDragEnabledItem).toHaveProperty("setPosition", 1);
+      expect(nestedNoneDragEnabledItem).toHaveProperty("setSize", 1);
       expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
       expect(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
 
@@ -1199,39 +1140,16 @@ describe("nested selection modes", () => {
       expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
     };
 
-    const nestedPropertiesSettled = (): boolean => {
-      return (
-        nestedNoneDragEnabledItem.selectionMode === "none" &&
-        nestedNoneDragEnabledItem.scale === "s" &&
-        nestedNoneDragEnabledItem.selectionAppearance === "highlight" &&
-        nestedNoneDragEnabledItem.interactionMode === "static" &&
-        nestedNoneItem.selectionMode === "none" &&
-        nestedNoneItem.scale === "s" &&
-        nestedNoneItem.selectionAppearance === "highlight" &&
-        nestedNoneItem.interactionMode === "interactive" &&
-        nestedMultipleItem.selectionMode === "multiple" &&
-        nestedMultipleItem.scale === "s" &&
-        nestedMultipleItem.selectionAppearance === "highlight" &&
-        nestedMultipleItem.interactionMode === "interactive"
-      );
-    };
-
-    const waitForNestedPropertiesToSettle = async (): Promise<void> => {
-      await vi.waitUntil(async () => {
-        if (nestedPropertiesSettled() && rootItemSetPropertiesSettled()) {
-          return true;
-        }
-
+    const waitForNestedProperties = async (): Promise<void> => {
+      await vi.waitFor(async () => {
         await afterNextTask();
         await afterNextFrame();
-        return nestedPropertiesSettled() && rootItemSetPropertiesSettled();
+        assertAllNestedProperties();
       });
     };
 
     // Assert immediately after initial render.
-    await waitForNestedPropertiesToSettle();
-    assertSelectionModes();
-    assertRootItemSetProperties();
+    await waitForNestedProperties();
 
     // Establish nested list-item baselines from nested list updates.
     nestedListNoneDragEnabled.scale = "l";
@@ -1258,8 +1176,7 @@ describe("nested selection modes", () => {
     nestedListMultiple.selectionAppearance = "highlight";
     nestedListMultiple.interactionMode = "interactive";
 
-    await waitForNestedPropertiesToSettle();
-    assertAllNestedProperties();
+    await waitForNestedProperties();
 
     // Trigger parent-list updates that should not overwrite nested-list item props.
     rootListOne.selectionMode = "single";
@@ -1277,8 +1194,7 @@ describe("nested selection modes", () => {
     rootListThree.selectionAppearance = "icon";
     rootListThree.interactionMode = "static";
 
-    await waitForNestedPropertiesToSettle();
-    assertAllNestedProperties();
+    await waitForNestedProperties();
   });
 });
 

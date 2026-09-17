@@ -420,9 +420,9 @@ export class List extends LitElement {
       this.handleCalciteInternalListItemSelectMultiple,
     );
     this.listen("calciteInternalListItemChange", this.handleCalciteInternalListItemChange);
-    this.listen<CustomEvent<void>>(
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupItemsChange"]>(
       "calciteInternalListItemGroupItemsChange",
-      this.handleCalciteInternalListItemGroupItemsChange,
+      this.handleInternalListItemGroupItemsChange,
     );
     this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
   }
@@ -716,7 +716,7 @@ export class List extends LitElement {
     this.handleListItemChange();
   }
 
-  private handleCalciteInternalListItemGroupItemsChange(event: CustomEvent<void>): void {
+  private handleInternalListItemGroupItemsChange(event: CustomEvent<void>): void {
     if (this.parentListEl) {
       return;
     }

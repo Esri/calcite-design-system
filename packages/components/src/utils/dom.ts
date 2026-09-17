@@ -196,14 +196,12 @@ export function queryElementRootsAll<T extends Element = Element>(
   }
 
   const matches: T[] = [];
-  const visited = new Set<T>();
+  const visited = new WeakSet<T>();
 
   let rootNode = getRootNode(el);
 
   while (rootNode) {
-    const rootMatches = Array.from(rootNode.querySelectorAll<T>(selector));
-
-    rootMatches.forEach((match) => {
+    rootNode.querySelectorAll<T>(selector).forEach((match) => {
       if (visited.has(match) || (filter && !filter(match))) {
         return;
       }
