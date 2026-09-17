@@ -1,4 +1,4 @@
-import { LitElement, createEvent, h, property, type JsxNode } from "@arcgis/lumina";
+import { LitElement, h, property, type JsxNode } from "@arcgis/lumina";
 import { slotChangeGetTextContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getTextWidth } from "../../utils/dom";
@@ -42,9 +42,9 @@ export class Text extends LitElement {
       const isOverflowing =
         this.el.scrollWidth > this.el.clientWidth || this.el.scrollHeight > this.el.clientHeight;
       if (isOverflowing) {
-        this.emitTruncateEvent();
+        this.setTitleValue();
       } else {
-        this.emitUnTruncateEvent();
+        this.clearTitleValue();
       }
     }
 
@@ -73,12 +73,6 @@ export class Text extends LitElement {
   @property({ reflect: true }) wrap = false;
 
   //#endregion
-
-  //#region Events
-
-  calciteTypographyTruncated = createEvent({ cancelable: false });
-
-  calciteTypographyUnTruncated = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -139,7 +133,7 @@ export class Text extends LitElement {
 
       if (textWidth <= clientWidth) {
         this.setValue(this.value);
-        this.emitUnTruncateEvent();
+        this.clearTitleValue();
         return;
       } else {
         const middleTruncatedText = this.getTruncatedText(
@@ -149,7 +143,7 @@ export class Text extends LitElement {
           ELLIPSIS_CHAR,
         );
         this.setValue(middleTruncatedText);
-        this.emitTruncateEvent();
+        this.setTitleValue();
         return;
       }
     });
@@ -168,7 +162,6 @@ export class Text extends LitElement {
     this.el.textContent = value;
   }
 
-  //TODO: refactor
   private getTruncatedText(
     text: string,
     maxWidth: number,
@@ -203,20 +196,18 @@ export class Text extends LitElement {
     return truncatedString(optimalIndex);
   }
 
-  private emitTruncateEvent(): void {
+  private setTitleValue(): void {
     if (!this.isTruncated) {
       this.isTruncated = true;
-      this.calciteTypographyTruncated.emit();
       if (this.tooltipEnabled) {
         this.el.title = this.value || "";
       }
     }
   }
 
-  private emitUnTruncateEvent(): void {
+  private clearTitleValue(): void {
     if (this.isTruncated) {
       this.isTruncated = false;
-      this.calciteTypographyUnTruncated.emit();
       this.el.title = "";
     }
   }
