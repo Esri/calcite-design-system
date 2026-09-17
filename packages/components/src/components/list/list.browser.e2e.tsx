@@ -1001,6 +1001,30 @@ describe("filter item data updates", () => {
 });
 
 describe("nested selection modes", () => {
+  it("tracks direct child list-items added after load", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item id="dynamic-parent" label="Parent" />
+      </calcite-list>,
+    );
+
+    const parentItem = page.getBySelector("#dynamic-parent").element() as ListItem["el"];
+    const childItem = document.createElement("calcite-list-item");
+    childItem.id = "dynamic-child";
+    childItem.label = "Child";
+    parentItem.append(childItem);
+
+    await expect.poll(() => el.filteredItems).toHaveLength(2);
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowRight}");
+    await vi.waitUntil(() => parentItem.expanded);
+    await userEvent.keyboard("{ArrowDown}");
+    await vi.waitUntil(() => childItem.active);
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
+  });
+
   it("navigates to items added to nested groups after load", async () => {
     const { el } = await mount<List>(
       <calcite-list display-mode="nested">

@@ -633,6 +633,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private handleDefaultSlotChange(event: Event): void {
     this.handleExpandableChange(event.target as HTMLSlotElement);
+    this.emitCalciteInternalListItemChange();
   }
 
   private handleToggleClick(): void {
