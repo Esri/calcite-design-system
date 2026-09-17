@@ -14,6 +14,7 @@ import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { RequestedItem } from "./types";
 import { styles } from "./accordion-item.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type { Accordion } from "../accordion/accordion";
 
 declare global {
   interface DeclareElements {
@@ -212,9 +213,8 @@ export class AccordionItem extends LitElement {
     event.stopPropagation();
   }
 
-  private accordionItemSyncHandler(event: CustomEvent): void {
-    const [accordion] = event.composedPath();
-    if (accordion !== closestElementCrossShadowBoundary(this.el, "calcite-accordion")) {
+  private accordionItemSyncHandler(event: CustomEvent<Accordion["el"]>): void {
+    if (event.detail !== closestElementCrossShadowBoundary(this.el, "calcite-accordion")) {
       return;
     }
 

@@ -61,6 +61,12 @@ it("syncs inheritable props to items connected in a shadow root after the initia
   expect(await item.getProperty("iconPosition")).toBe("start");
   expect(await item.getProperty("iconType")).toBe("plus-minus");
   expect(await item.getProperty("scale")).toBe("l");
+
+  const accordion = await page.find("calcite-accordion");
+  accordion.setProperty("scale", "s");
+  await page.waitForChanges();
+
+  expect(await item.getProperty("scale")).toBe("s");
 });
 
 it("renders requested props when valid props are provided", async () => {
