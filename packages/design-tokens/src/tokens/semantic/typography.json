@@ -7,14 +7,14 @@
         },
         "$type": "typography",
         "$value": {
-          "fontFamily": "{font.family.default}",
-          "fontSize": "{font.size.relative.base}",
-          "fontWeight": "{font.weight.regular}",
+          "fontFamily": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
+          "fontSize": "{core.size.rem.0-875}",
+          "fontWeight": "{core.font.weight.regular}",
           "lineHeight": "{core.size.relative.115}",
-          "letterSpacing": "{font.letter-spacing.normal}",
-          "paragraphSpacing": "{font.paragraph-spacing.normal}",
-          "textCase": "{font.text-case.none}",
-          "textDecoration": "{font.text-decoration.none}"
+          "letterSpacing": "{core.size.default.none}",
+          "paragraphSpacing": "{core.size.default.4}",
+          "textCase": "{core.font.text-case.none}",
+          "textDecoration": "{core.font.text-decoration.none}"
         }
       },
       "light": {
@@ -27,8 +27,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.xs}",
-            "fontWeight": "{font.weight.light}",
+            "fontSize": "{core.size.rem.0-625}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.120}"
           }
         },
@@ -41,8 +41,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.sm}",
-            "fontWeight": "{font.weight.light}",
+            "fontSize": "{core.size.rem.0-75}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.133}"
           }
         },
@@ -55,8 +55,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.base}",
-            "fontWeight": "{font.weight.light}",
+            "fontSize": "{core.size.rem.0-875}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.115}"
           }
         },
@@ -69,8 +69,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.md}",
-            "fontWeight": "{font.weight.light}",
+            "fontSize": "{core.size.rem.1}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.125}"
           }
         },
@@ -83,8 +83,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.lg}",
-            "fontWeight": "{font.weight.light}",
+            "fontSize": "{core.size.rem.1-125}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.133}"
           }
         },
@@ -97,8 +97,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.xl}",
-            "fontWeight": "{font.weight.light}",
+            "fontSize": "{core.size.rem.1-25}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.120}"
           }
         }
@@ -114,7 +114,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.120}",
-            "fontSize": "{font.size.relative.xs}"
+            "fontSize": "{core.size.rem.0-625}"
           }
         },
         "-2h": {
@@ -126,7 +126,7 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.sm}",
+            "fontSize": "{core.size.rem.0-75}",
             "lineHeight": "{core.size.relative.133}"
           }
         },
@@ -147,7 +147,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.125}",
-            "fontSize": "{font.size.relative.md}"
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1h": {
@@ -160,7 +160,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.133}",
-            "fontSize": "{font.size.relative.lg}"
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2h": {
@@ -173,7 +173,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.120}",
-            "fontSize": "{font.size.relative.xl}"
+            "fontSize": "{core.size.rem.1-25}"
           }
         }
       },
@@ -187,9 +187,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.120}",
-            "fontSize": "{font.size.relative.xs}"
+            "fontSize": "{core.size.rem.0-625}"
           }
         },
         "-2h": {
@@ -201,8 +201,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "fontSize": "{font.size.relative.sm}",
+            "fontWeight": "{core.font.weight.medium}",
+            "fontSize": "{core.size.rem.0-75}",
             "lineHeight": "{core.size.relative.133}"
           }
         },
@@ -215,8 +215,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "fontSize": "{font.size.relative.base}",
+            "fontWeight": "{core.font.weight.medium}",
+            "fontSize": "{core.size.rem.0-875}",
             "lineHeight": "{core.size.relative.115}"
           }
         },
@@ -229,9 +229,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.125}",
-            "fontSize": "{font.size.relative.md}"
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1h": {
@@ -243,9 +243,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.133}",
-            "fontSize": "{font.size.relative.lg}"
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2h": {
@@ -257,9 +257,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.120}",
-            "fontSize": "{font.size.relative.xl}"
+            "fontSize": "{core.size.rem.1-25}"
           }
         }
       },
@@ -273,9 +273,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.120}",
-            "fontSize": "{font.size.relative.xs}"
+            "fontSize": "{core.size.rem.0-625}"
           }
         },
         "-2h": {
@@ -287,8 +287,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "fontSize": "{font.size.relative.sm}",
+            "fontWeight": "{core.font.weight.demi}",
+            "fontSize": "{core.size.rem.0-75}",
             "lineHeight": "{core.size.relative.133}"
           }
         },
@@ -301,8 +301,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "fontSize": "{font.size.relative.base}",
+            "fontWeight": "{core.font.weight.demi}",
+            "fontSize": "{core.size.rem.0-875}",
             "lineHeight": "{core.size.relative.115}"
           }
         },
@@ -315,9 +315,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.125}",
-            "fontSize": "{font.size.relative.md}"
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1h": {
@@ -329,9 +329,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.133}",
-            "fontSize": "{font.size.relative.lg}"
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2h": {
@@ -343,9 +343,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.120}",
-            "fontSize": "{font.size.relative.xl}"
+            "fontSize": "{core.size.rem.1-25}"
           }
         }
       }
@@ -361,9 +361,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.md}"
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -375,9 +375,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.lg}"
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -389,9 +389,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.xl}"
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -403,9 +403,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.125}",
-            "fontSize": "{font.size.relative.2xl}"
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -417,9 +417,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.sm}"
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -431,9 +431,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
+            "fontWeight": "{core.font.weight.light}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.base}"
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       },
@@ -448,7 +448,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.md}"
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -461,7 +461,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.lg}"
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -474,7 +474,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.xl}"
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -487,7 +487,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.125}",
-            "fontSize": "{font.size.relative.2xl}"
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -500,7 +500,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.sm}"
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -513,7 +513,7 @@
           "$type": "typography",
           "$value": {
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.base}"
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       },
@@ -527,9 +527,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.md}"
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -541,9 +541,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.lg}"
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -555,9 +555,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.xl}"
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -569,9 +569,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.125}",
-            "fontSize": "{font.size.relative.2xl}"
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -583,9 +583,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.sm}"
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -597,9 +597,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.base}"
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       },
@@ -613,9 +613,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.md}"
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -627,9 +627,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.lg}"
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -641,9 +641,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.xl}"
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -655,9 +655,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.125}",
-            "fontSize": "{font.size.relative.2xl}"
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -669,9 +669,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.sm}"
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -683,9 +683,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.137}",
-            "fontSize": "{font.size.relative.base}"
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       }
@@ -701,8 +701,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.2xl}",
-            "fontWeight": "{font.weight.semibold}",
+            "fontSize": "{core.size.rem.1-625}",
+            "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.137}"
           }
         },
@@ -724,8 +724,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.relative.2xl}",
-            "fontWeight": "{font.weight.medium}",
+            "fontSize": "{core.size.rem.1-625}",
+            "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.137}"
           }
         },
@@ -780,9 +780,9 @@
         },
         "$type": "typography",
         "$value": {
-          "fontSize": "{font.size.relative.sm}",
-          "textCase": "{font.text-case.uppercase}",
-          "fontWeight": "{font.weight.bold}",
+          "fontSize": "{core.size.rem.0-75}",
+          "textCase": "{core.font.text-case.uppercase}",
+          "fontWeight": "{core.font.weight.demi}",
           "lineHeight": "{core.size.relative.100}"
         }
       },

@@ -44,55 +44,55 @@ exports[`CSS > classes should match 1`] = `
  */
 
 .calcite-typography {
-  font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size-relative-base);
+  font-family: var(--calcite-font-family-avenir-next);
+  font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-size-relative-115);
-  letter-spacing: var(--calcite-font-letter-spacing-normal);
-  paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
+  letter-spacing: var(--calcite-size-none);
+  paragraph-spacing: var(--calcite-size-4);
   text-case: var(--calcite-font-text-case-none);
   text-decoration: var(--calcite-font-text-decoration-none);
 }
 .calcite-typography-light-minus-3h {
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-120);
 }
 .calcite-typography-light-minus-2h {
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-light-minus-1h {
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-115);
 }
 .calcite-typography-light-0h {
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-125);
 }
 .calcite-typography-light-1h {
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-light-2h {
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-120);
 }
 .calcite-typography-regular-minus-3h {
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
 }
 .calcite-typography-regular-minus-2h {
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
   line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-regular-minus-1h {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-family: "Avenir Next";
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 115%;
@@ -103,193 +103,193 @@ exports[`CSS > classes should match 1`] = `
 }
 .calcite-typography-regular-0h {
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 .calcite-typography-regular-1h {
   line-height: var(--calcite-size-relative-133);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 .calcite-typography-regular-2h {
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 .calcite-typography-medium-minus-3h {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
 }
 .calcite-typography-medium-minus-2h {
   font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
   line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-medium-minus-1h {
   font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
   line-height: var(--calcite-size-relative-115);
 }
 .calcite-typography-medium-0h {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 .calcite-typography-medium-1h {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-133);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 .calcite-typography-medium-2h {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 .calcite-typography-bold-minus-3h {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
 }
 .calcite-typography-bold-minus-2h {
-  font-weight: var(--calcite-font-weight-semibold);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-weight: var(--calcite-font-weight-demi);
+  font-size: var(--calcite-size-rem-0-75);
   line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-bold-minus-1h {
-  font-weight: var(--calcite-font-weight-semibold);
-  font-size: var(--calcite-font-size-relative-base);
+  font-weight: var(--calcite-font-weight-demi);
+  font-size: var(--calcite-size-rem-0-875);
   line-height: var(--calcite-size-relative-115);
 }
 .calcite-typography-bold-0h {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 .calcite-typography-bold-1h {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-133);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 .calcite-typography-bold-2h {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 .calcite-typography-wrap-light-0 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 .calcite-typography-wrap-light-1 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 .calcite-typography-wrap-light-2 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 .calcite-typography-wrap-light-3 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 .calcite-typography-wrap-light-minus-2 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 .calcite-typography-wrap-light-minus-1 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 .calcite-typography-wrap-regular-0 {
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 .calcite-typography-wrap-regular-1 {
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 .calcite-typography-wrap-regular-2 {
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 .calcite-typography-wrap-regular-3 {
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 .calcite-typography-wrap-regular-minus-2 {
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 .calcite-typography-wrap-regular-minus-1 {
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 .calcite-typography-wrap-medium-0 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 .calcite-typography-wrap-medium-1 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 .calcite-typography-wrap-medium-2 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 .calcite-typography-wrap-medium-3 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 .calcite-typography-wrap-medium-minus-2 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 .calcite-typography-wrap-medium-minus-1 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 .calcite-typography-wrap-bold-0 {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 .calcite-typography-wrap-bold-1 {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 .calcite-typography-wrap-bold-2 {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 .calcite-typography-wrap-bold-3 {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 .calcite-typography-wrap-bold-minus-2 {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 .calcite-typography-wrap-bold-minus-1 {
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 .calcite-typography-hierarchy-display-1 {
-  font-size: var(--calcite-font-size-relative-2xl);
-  font-weight: var(--calcite-font-weight-semibold);
+  font-size: var(--calcite-size-rem-1-625);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
 }
 .calcite-typography-hierarchy-display-2 {
@@ -298,7 +298,7 @@ exports[`CSS > classes should match 1`] = `
   font-size: 1.25rem;
 }
 .calcite-typography-hierarchy-heading-1 {
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
 }
@@ -327,7 +327,7 @@ exports[`CSS > classes should match 1`] = `
   font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-body {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-family: "Avenir Next";
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 115%;
@@ -337,9 +337,9 @@ exports[`CSS > classes should match 1`] = `
   text-decoration: none;
 }
 .calcite-typography-hierarchy-overline {
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
   text-case: var(--calcite-font-text-case-uppercase);
-  font-weight: var(--calcite-font-weight-bold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-100);
 }
 .calcite-typography-hierarchy-caption {
@@ -23086,7 +23086,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":\\"Avenir Next,Avenir,Helvetica Neue,sans-serif\\",\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography",
@@ -23112,12 +23112,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23154,12 +23149,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23196,12 +23186,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23238,12 +23223,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23280,12 +23260,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23322,12 +23297,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23364,12 +23334,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23406,12 +23371,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23447,7 +23407,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":\\"Avenir Next,Avenir,Helvetica Neue,sans-serif\\",\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 1h",
@@ -23473,12 +23433,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23515,12 +23470,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23557,12 +23507,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23599,12 +23544,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23641,12 +23581,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23683,12 +23618,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23725,12 +23655,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23767,12 +23692,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23809,12 +23729,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23851,12 +23766,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23893,12 +23803,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23935,12 +23840,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23977,12 +23877,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24019,12 +23914,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24061,12 +23951,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24103,12 +23988,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24145,12 +24025,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24187,12 +24062,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24229,12 +24099,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24271,12 +24136,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24313,12 +24173,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24355,12 +24210,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24397,12 +24247,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24439,12 +24284,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24481,12 +24321,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24523,12 +24358,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24565,12 +24395,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24607,12 +24432,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24649,12 +24469,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24691,12 +24506,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24733,12 +24543,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24775,12 +24580,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24817,12 +24617,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24859,12 +24654,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24901,12 +24691,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24943,12 +24728,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24985,12 +24765,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -25027,12 +24802,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -25069,12 +24839,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -25111,12 +24876,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -25178,12 +24938,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": [
-            "Avenir Next",
-            "Avenir",
-            "Helvetica Neue",
-            "sans-serif"
-          ],
+          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -25344,7 +25099,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":\\"Avenir Next,Avenir,Helvetica Neue,sans-serif\\",\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body",
@@ -31389,7 +31144,7 @@ export const calciteSpace2xl = "1.5rem"; // Replaces \`--calcite-spacing-xxl\`
 export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-xxxl\`
 export const calciteSpace4xl = "2.75rem";
 export const calciteTypography = {
-  fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
+  fontFamily: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
   fontSize: "0.875rem",
   fontWeight: "400",
   lineHeight: 1.15,
@@ -31437,7 +31192,7 @@ export const calciteTypographyRegularMinus2h = {
   lineHeight: 1.33,
 };
 export const calciteTypographyRegularMinus1h = {
-  fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
+  fontFamily: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
   fontSize: "0.875rem",
   fontWeight: "400",
   lineHeight: 1.15,
@@ -31672,7 +31427,7 @@ export const calciteTypographyHierarchyBodySnug = {
   fontSize: "0.875rem",
 };
 export const calciteTypographyHierarchyBody = {
-  fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
+  fontFamily: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
   fontSize: "0.875rem",
   fontWeight: "400",
   lineHeight: 1.15,
@@ -32077,7 +31832,7 @@ export const calciteSpace2xl: string;
 export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteTypography: {
-  fontFamily: [string, string, string, string];
+  fontFamily: string;
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
@@ -32125,7 +31880,7 @@ export const calciteTypographyRegularMinus2h: {
   lineHeight: number;
 };
 export const calciteTypographyRegularMinus1h: {
-  fontFamily: [string, string, string, string];
+  fontFamily: string;
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
@@ -32360,7 +32115,7 @@ export const calciteTypographyHierarchyBodySnug: {
   fontSize: string;
 };
 export const calciteTypographyHierarchyBody: {
-  fontFamily: [string, string, string, string];
+  fontFamily: string;
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
@@ -34070,7 +33825,7 @@ exports[`SCSS > mixins should match 1`] = `
  */
 
 @mixin calcite-typography {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-family: "Avenir Next";
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 115%;
@@ -34081,301 +33836,301 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-light-minus-3h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-120);
 }
 @mixin calcite-typography-light-minus-2h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-light-minus-1h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-115);
 }
 @mixin calcite-typography-light-0h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-125);
 }
 @mixin calcite-typography-light-1h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-light-2h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-120);
 }
 @mixin calcite-typography-regular-minus-3h {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
 }
 @mixin calcite-typography-regular-minus-2h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
   line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-regular-minus-1h {
   @include calcite-typography;
-  font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size-relative-base);
+  font-family: var(--calcite-font-family-avenir-next);
+  font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-size-relative-115);
-  letter-spacing: var(--calcite-font-letter-spacing-normal);
-  paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
+  letter-spacing: var(--calcite-size-none);
+  paragraph-spacing: var(--calcite-size-4);
   text-case: var(--calcite-font-text-case-none);
   text-decoration: var(--calcite-font-text-decoration-none);
 }
 @mixin calcite-typography-regular-0h {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-regular-1h {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-133);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-regular-2h {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-medium-minus-3h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
 }
 @mixin calcite-typography-medium-minus-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
   line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-medium-minus-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
   line-height: var(--calcite-size-relative-115);
 }
 @mixin calcite-typography-medium-0h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-medium-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-133);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-medium-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-bold-minus-3h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xs);
+  font-size: var(--calcite-size-rem-0-625);
 }
 @mixin calcite-typography-bold-minus-2h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-weight: var(--calcite-font-weight-demi);
+  font-size: var(--calcite-size-rem-0-75);
   line-height: var(--calcite-size-relative-133);
 }
 @mixin calcite-typography-bold-minus-1h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
-  font-size: var(--calcite-font-size-relative-base);
+  font-weight: var(--calcite-font-weight-demi);
+  font-size: var(--calcite-size-rem-0-875);
   line-height: var(--calcite-size-relative-115);
 }
 @mixin calcite-typography-bold-0h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-bold-1h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-133);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-bold-2h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-120);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-wrap-light-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-wrap-light-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-wrap-light-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-wrap-light-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 @mixin calcite-typography-wrap-light-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 @mixin calcite-typography-wrap-light-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 @mixin calcite-typography-wrap-regular-0 {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-wrap-regular-1 {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-wrap-regular-2 {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-wrap-regular-3 {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 @mixin calcite-typography-wrap-regular-minus-2 {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 @mixin calcite-typography-wrap-regular-minus-1 {
   @include calcite-typography;
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 @mixin calcite-typography-wrap-medium-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-wrap-medium-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-wrap-medium-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-wrap-medium-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 @mixin calcite-typography-wrap-medium-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 @mixin calcite-typography-wrap-medium-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 @mixin calcite-typography-wrap-bold-0 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-wrap-bold-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-wrap-bold-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-wrap-bold-3 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-125);
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
 }
 @mixin calcite-typography-wrap-bold-minus-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 @mixin calcite-typography-wrap-bold-minus-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 @mixin calcite-typography-hierarchy-display-1 {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-2xl);
-  font-weight: var(--calcite-font-weight-semibold);
+  font-size: var(--calcite-size-rem-1-625);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
 }
 @mixin calcite-typography-hierarchy-display-2 {
   @include calcite-typography-wrap-bold-2;
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-demi);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-hierarchy-heading-1 {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-relative-2xl);
+  font-size: var(--calcite-size-rem-1-625);
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
 }
@@ -34383,39 +34138,39 @@ exports[`SCSS > mixins should match 1`] = `
   @include calcite-typography-wrap-medium-2;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-xl);
+  font-size: var(--calcite-size-rem-1-25);
 }
 @mixin calcite-typography-hierarchy-heading-3 {
   @include calcite-typography-wrap-medium-1;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-lg);
+  font-size: var(--calcite-size-rem-1-125);
 }
 @mixin calcite-typography-hierarchy-heading-4 {
   @include calcite-typography-wrap-medium-0;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-md);
+  font-size: var(--calcite-size-rem-1);
 }
 @mixin calcite-typography-hierarchy-heading-5 {
   @include calcite-typography-wrap-medium-minus-1;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 @mixin calcite-typography-hierarchy-body-snug {
   @include calcite-typography-wrap-regular-minus-1;
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-base);
+  font-size: var(--calcite-size-rem-0-875);
 }
 @mixin calcite-typography-hierarchy-body {
   @include calcite-typography;
-  font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size-relative-base);
+  font-family: var(--calcite-font-family-avenir-next);
+  font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-size-relative-115);
-  letter-spacing: var(--calcite-font-letter-spacing-normal);
-  paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
+  letter-spacing: var(--calcite-size-none);
+  paragraph-spacing: var(--calcite-size-4);
   text-case: var(--calcite-font-text-case-none);
   text-decoration: var(--calcite-font-text-decoration-none);
 }
@@ -34428,7 +34183,7 @@ exports[`SCSS > mixins should match 1`] = `
 @mixin calcite-typography-hierarchy-caption {
   @include calcite-typography-wrap-regular-minus-2;
   line-height: var(--calcite-size-relative-137);
-  font-size: var(--calcite-font-size-relative-sm);
+  font-size: var(--calcite-size-rem-0-75);
 }
 "
 `;
