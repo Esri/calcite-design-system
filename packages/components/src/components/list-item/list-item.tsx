@@ -1020,9 +1020,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
           <div class={CSS.description} key="description">
             {description}
           </div>
-        ) : (
-          <slot name="description" />
-        )}
+        ) : null}
       </div>
     ) : null;
   }

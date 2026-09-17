@@ -70,6 +70,8 @@ export class Text extends LitElement {
    */
   @property() tooltipEnabled = false;
 
+  @property({ reflect: true }) wrap = false;
+
   //#endregion
 
   //#region Events

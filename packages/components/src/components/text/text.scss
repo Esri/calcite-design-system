@@ -2,17 +2,13 @@
 
 :host {
   display: block;
-  white-space: nowrap;
   overflow-wrap: break-word;
   overflow: hidden;
 }
 
-:host([truncate-position="end"]:not([wrap])) {
+:host([truncate-position="end"]) {
   text-overflow: ellipsis;
-}
-
-:host([wrap]) {
-  white-space: normal;
+  white-space: nowrap;
 }
 
 :host([max-lines]) {

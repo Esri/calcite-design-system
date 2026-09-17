@@ -1,9 +1,12 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/common";
 
 describe("defaults", () => {
-  defaults(() => mount("calcite-text"), [{ propertyName: "truncatePosition", defaultValue: "end" }]);
+  defaults(
+    () => mount("calcite-text"),
+    [{ propertyName: "truncatePosition", defaultValue: "end" }],
+  );
 });
 
 describe("hidden", () => {

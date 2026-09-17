@@ -65,13 +65,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     target: () => this.floatingEl,
   })(this);
 
-  /** Tracks references we've attached listeners to so we can cleanly remove them. */
-  // private listeningReferenceEls = new Set<ReferenceElement>();
-
-  // private boundOnReferencePointerEnter = (event: Event): void => this.onReferenceInteraction(event);
-
-  // private boundOnReferenceFocusIn = (event: Event): void => this.onReferenceInteraction(event);
-
   // #endregion
 
   // #region State Properties
@@ -79,9 +72,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   @state() floatingLayout: FloatingLayout = "vertical";
 
   @state() referenceEl?: ReferenceElement;
-
-  /** All resolved references that should be described by this tooltip. */
-  // @state() private referenceElements: ReferenceElement[] = [];
 
   // #endregion
 
@@ -188,7 +178,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   // #region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] ...existing comment... */
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("offsetDistance") &&
         (this.hasUpdated || this.offsetDistance !== defaultOffsetDistance)) ||
@@ -201,7 +194,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     }
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      // debugger;
       this.openHandler();
     }
 

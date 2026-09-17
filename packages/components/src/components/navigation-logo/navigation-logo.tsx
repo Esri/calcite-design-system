@@ -1,5 +1,5 @@
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { HeadingLevel } from "../functional/Heading";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Scale } from "../types";
@@ -109,34 +109,32 @@ export class NavigationLogo extends LitElement {
   }
 
   private renderHeaderContent(): JsxNode {
-    // const { heading, headingLevel, description } = this;
-    // const headingNode = heading ? (
-    //   <Heading
-    //     class={{
-    //       [CSS.heading]: true,
-    //       [CSS.standalone]: !this.description,
-    //     }}
-    //     key={CSS.heading}
-    //     level={headingLevel}
-    //   >
-    //     {heading}
-    //   </Heading>
-    // ) : null;
+    const { heading, headingLevel, description } = this;
+    const headingNode = heading ? (
+      <Heading
+        class={{
+          [CSS.heading]: true,
+          [CSS.standalone]: !this.description,
+        }}
+        key={CSS.heading}
+        level={headingLevel}
+      >
+        {heading}
+      </Heading>
+    ) : null;
 
-    // const descriptionNode = description ? (
-    //   <span class={CSS.description} key={CSS.description}>
-    //     {description}
-    //   </span>
-    // ) : null;
+    const descriptionNode = description ? (
+      <span class={CSS.description} key={CSS.description}>
+        {description}
+      </span>
+    ) : null;
 
-    return (
+    return headingNode || descriptionNode ? (
       <div class={CSS.textContainer} key={CSS.textContainer}>
-        <slot name="heading" />
-        {/* {headingNode} */}
-        {/* {descriptionNode} */}
-        <slot name="description" />
+        {headingNode}
+        {descriptionNode}
       </div>
-    );
+    ) : null;
   }
 
   override render(): JsxNode {

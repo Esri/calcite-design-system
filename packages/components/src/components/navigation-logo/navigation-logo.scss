@@ -145,10 +145,6 @@
   line-height: var(--calcite-internal-navigation-logo-heading-line-height);
 }
 
-.container,
-.text-container {
-  min-inline-size: 0;
-}
 .standalone {
   font-size: var(--calcite-internal-navigation-logo-heading-standalone-font-size);
   padding-block-start: 0;
