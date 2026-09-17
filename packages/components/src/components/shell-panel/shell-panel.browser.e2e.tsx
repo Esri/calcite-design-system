@@ -19,9 +19,10 @@ import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
 import type { Panel } from "../panel/panel";
+import type { ActionBar } from "../action-bar/action-bar";
 
 function getByCssElement<T extends Element>(element: Element, css: string): T {
-  return page.elementLocator(element).getByCss(css).element() as unknown as T;
+  return page.elementLocator(element).getBySelector(css).element() as unknown as T;
 }
 
 mockConsole();
@@ -698,6 +699,77 @@ describe("shell-panel updateSize public method", () => {
       .element() as HTMLElement;
 
     expect(getComputedStyle(handle).touchAction).toBe("none");
+  });
+
+  it("allows resizing a top action bar panel down to its configured minimum width", async () => {
+    const { component } = await mount<"calcite-shell">(
+      <calcite-shell style="inline-size: 700px; block-size: 400px; position: relative;">
+        <calcite-shell-panel
+          action-bar-position="top"
+          resizable
+          slot="panel-start"
+          style="--calcite-shell-panel-min-width: 200px; --calcite-shell-panel-width: 320px;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action-group>
+              <calcite-action icon="save" text="Save" />
+              <calcite-action icon="layers" text="Layers" />
+            </calcite-action-group>
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot("panel-start");
+    const { content, handle } = getShellPanelElements(panel);
+    const handleRect = handle.getBoundingClientRect();
+
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(handleRect.left - 200, handleRect.top + handleRect.height / 2);
+    await commands.mouseUp();
+    await component.updateComplete;
+
+    expect(Math.round(content.getBoundingClientRect().width)).toBe(200);
+  });
+
+  it("resizes the whole panel down to the configured minimum with a wide top action bar and no explicit width override", async () => {
+    const { component } = await mount<"calcite-shell">(
+      <calcite-shell style="inline-size: 1200px; block-size: 400px; position: relative;">
+        <calcite-shell-panel
+          action-bar-position="top"
+          resizable
+          slot="panel-start"
+          style="--calcite-shell-panel-min-width: 200px; --calcite-shell-panel-max-width: 900px;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action-group>
+              <calcite-action icon="gear" text="Test default slot" textEnabled />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action icon="gear" text="Test start slot" textEnabled />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action icon="gear" text="Test end slot" textEnabled />
+            </calcite-action-group>
+          </calcite-action-bar>
+          <calcite-panel heading="Layers">Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot("panel-start");
+    const { content, actionBarContainer, handle } = getShellPanelElements(panel);
+
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(0, 0);
+    await commands.mouseUp();
+    await component.updateComplete;
+
+    expect(Math.round(content.getBoundingClientRect().width)).toBe(200);
+    expect(actionBarContainer.getBoundingClientRect().width).toBeLessThanOrEqual(
+      content.getBoundingClientRect().width,
+    );
   });
 
   testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
