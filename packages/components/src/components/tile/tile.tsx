@@ -216,7 +216,7 @@ export class Tile extends LitElement implements SelectableComponent {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el && isActivationKey(event.key)) {
+    if (!this.href && event.target === this.el && isActivationKey(event.key)) {
       this.handleSelectEvent();
       event.preventDefault();
     }

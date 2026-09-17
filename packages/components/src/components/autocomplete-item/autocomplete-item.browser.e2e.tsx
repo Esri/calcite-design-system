@@ -1,15 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import {
-  defaults,
-  reflects,
-  hidden,
-  renders,
-  slots,
-  disabled,
-  themed,
-} from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots, disabled, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 
 describe("defaults", () => {
