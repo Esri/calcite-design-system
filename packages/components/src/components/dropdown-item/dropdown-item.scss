@@ -41,7 +41,6 @@
 .container {
   @include item-styling;
   @apply text-start;
-  overflow: inherit;
 
   & a {
     outline: none;
@@ -51,7 +50,6 @@
 
 .content {
   @apply flex-auto;
-  overflow: inherit;
 }
 
 // item icon

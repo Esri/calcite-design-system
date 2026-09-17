@@ -381,7 +381,7 @@ export class MenuItem extends LitElement {
       <>
         {this.iconStart && this.renderIconStart()}
         <div class={CSS.textContainer}>
-          {this.text ? <span>{this.text}</span> : <slot name="text" />}
+          <span>{this.text}</span>
         </div>
         {hasHref && this.renderHrefIcon(dir)}
         {this.iconEnd && this.renderIconEnd()}
