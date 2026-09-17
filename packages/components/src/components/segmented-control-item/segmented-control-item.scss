@@ -52,6 +52,7 @@
   @apply focus-inset;
   outline-offset: -1px;
   z-index: var(--calcite-z-index);
+  border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
 .label--scale-s {

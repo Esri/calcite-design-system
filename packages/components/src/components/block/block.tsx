@@ -1,6 +1,10 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
+} from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
@@ -18,6 +22,7 @@ import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
+import { styles as transitionMarginStyles } from "../../styles/component/transition-margin.scss";
 import { SortMenuItem } from "../sort-handle/types";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -26,6 +31,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
 import type { BlockToggleDisplay } from "./types";
 import type { BlockGroup } from "../block-group/block-group";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -44,7 +50,7 @@ declare global {
 export class Block extends LitElement {
   //#region Static Members
 
-  static override styles = [headerStyles, styles, sortableStyles];
+  static override styles = [headerStyles, styles, sortableStyles, transitionMarginStyles];
 
   //#endregion
 
@@ -450,7 +456,7 @@ export class Block extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
-    this.hasContent = slotChangeHasAssignedElement(event);
+    this.hasContent = slotChangeHasTextContent(event) || slotChangeHasAssignedElement(event);
     this.updateBlockSectionScale();
   }
 
@@ -700,7 +706,7 @@ export class Block extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <article
           aria-label={label}
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           class={{
             [CSS.container]: true,
           }}
