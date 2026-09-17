@@ -44,7 +44,7 @@ exports[`CSS > classes should match 1`] = `
  */
 
 .calcite-typography {
-  font-family: var(--calcite-font-family-avenir-next);
+  font-family: var(--calcite-font-family);
   font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-size-relative-115);
@@ -92,7 +92,7 @@ exports[`CSS > classes should match 1`] = `
   line-height: var(--calcite-size-relative-133);
 }
 .calcite-typography-regular-minus-1h {
-  font-family: "Avenir Next";
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 115%;
@@ -327,7 +327,7 @@ exports[`CSS > classes should match 1`] = `
   font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-body {
-  font-family: "Avenir Next";
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 115%;
@@ -23086,7 +23086,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":\\"Avenir Next,Avenir,Helvetica Neue,sans-serif\\",\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography",
@@ -23112,7 +23112,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23149,7 +23154,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23186,7 +23196,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23223,7 +23238,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23260,7 +23280,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23297,7 +23322,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23334,7 +23364,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23371,7 +23406,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23407,7 +23447,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":\\"Avenir Next,Avenir,Helvetica Neue,sans-serif\\",\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 1h",
@@ -23433,7 +23473,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23470,7 +23515,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23507,7 +23557,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23544,7 +23599,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23581,7 +23641,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23618,7 +23683,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23655,7 +23725,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23692,7 +23767,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23729,7 +23809,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23766,7 +23851,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23803,7 +23893,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23840,7 +23935,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23877,7 +23977,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23914,7 +24019,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23951,7 +24061,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -23988,7 +24103,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24025,7 +24145,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24062,7 +24187,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24099,7 +24229,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24136,7 +24271,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24173,7 +24313,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24210,7 +24355,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24247,7 +24397,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24284,7 +24439,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24321,7 +24481,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24358,7 +24523,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24395,7 +24565,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24432,7 +24607,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24469,7 +24649,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24506,7 +24691,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24543,7 +24733,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24580,7 +24775,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24617,7 +24817,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24654,7 +24859,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24691,7 +24901,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24728,7 +24943,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24765,7 +24985,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24802,7 +25027,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24839,7 +25069,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24876,7 +25111,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -24938,7 +25178,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "extensions": {
         "calcite.extends": {
-          "fontFamily": "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+          "fontFamily": [
+            "Avenir Next",
+            "Avenir",
+            "Helvetica Neue",
+            "sans-serif"
+          ],
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": 1.15,
@@ -25099,7 +25344,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":\\"Avenir Next,Avenir,Helvetica Neue,sans-serif\\",\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15,\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body",
@@ -31144,7 +31389,7 @@ export const calciteSpace2xl = "1.5rem"; // Replaces \`--calcite-spacing-xxl\`
 export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-xxxl\`
 export const calciteSpace4xl = "2.75rem";
 export const calciteTypography = {
-  fontFamily: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+  fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "0.875rem",
   fontWeight: "400",
   lineHeight: 1.15,
@@ -31192,7 +31437,7 @@ export const calciteTypographyRegularMinus2h = {
   lineHeight: 1.33,
 };
 export const calciteTypographyRegularMinus1h = {
-  fontFamily: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+  fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "0.875rem",
   fontWeight: "400",
   lineHeight: 1.15,
@@ -31427,7 +31672,7 @@ export const calciteTypographyHierarchyBodySnug = {
   fontSize: "0.875rem",
 };
 export const calciteTypographyHierarchyBody = {
-  fontFamily: "Avenir Next,Avenir,Helvetica Neue,sans-serif",
+  fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "0.875rem",
   fontWeight: "400",
   lineHeight: 1.15,
@@ -31832,7 +32077,7 @@ export const calciteSpace2xl: string;
 export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteTypography: {
-  fontFamily: string;
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
@@ -31880,7 +32125,7 @@ export const calciteTypographyRegularMinus2h: {
   lineHeight: number;
 };
 export const calciteTypographyRegularMinus1h: {
-  fontFamily: string;
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
@@ -32115,7 +32360,7 @@ export const calciteTypographyHierarchyBodySnug: {
   fontSize: string;
 };
 export const calciteTypographyHierarchyBody: {
-  fontFamily: string;
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
@@ -33825,7 +34070,7 @@ exports[`SCSS > mixins should match 1`] = `
  */
 
 @mixin calcite-typography {
-  font-family: "Avenir Next";
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 115%;
@@ -33882,7 +34127,7 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-regular-minus-1h {
   @include calcite-typography;
-  font-family: var(--calcite-font-family-avenir-next);
+  font-family: var(--calcite-font-family);
   font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-size-relative-115);
@@ -34165,7 +34410,7 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-hierarchy-body {
   @include calcite-typography;
-  font-family: var(--calcite-font-family-avenir-next);
+  font-family: var(--calcite-font-family);
   font-size: var(--calcite-size-rem-0-875);
   font-weight: var(--calcite-font-weight-regular);
   line-height: var(--calcite-size-relative-115);

@@ -7,7 +7,7 @@
         },
         "$type": "typography",
         "$value": {
-          "fontFamily": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
+          "fontFamily": "{font.family.default}",
           "fontSize": "{core.size.rem.0-875}",
           "fontWeight": "{core.font.weight.regular}",
           "lineHeight": "{core.size.relative.115}",
