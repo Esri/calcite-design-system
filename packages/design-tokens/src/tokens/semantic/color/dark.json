@@ -7,11 +7,8 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{reference.color.surface.1}",
-        "$description": "Replaces `--calcite-color-background`",
-        "$extensions": {
-          "calcite.theming": true
-        }
+        "$value": "{color.background.default}",
+        "$description": "Replaces `--calcite-color-background`"
       },
       "2": {
         "attributes": {
@@ -19,11 +16,8 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{reference.color.surface.2}",
-        "$description": "Replaces `--calcite-color-foreground-1`",
-        "$extensions": {
-          "calcite.theming": true
-        }
+        "$value": "{color.foreground.1}",
+        "$description": "Replaces `--calcite-color-foreground-1`"
       },
       "3": {
         "attributes": {
@@ -31,11 +25,8 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{reference.color.surface.3}",
-        "$description": "Replaces `--calcite-color-foreground-2`",
-        "$extensions": {
-          "calcite.theming": true
-        }
+        "$value": "{color.foreground.2}",
+        "$description": "Replaces `--calcite-color-foreground-2`"
       },
       "4": {
         "attributes": {
@@ -43,11 +34,8 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{reference.color.surface.4}",
-        "$description": "Replaces `--calcite-color-foreground-3`",
-        "$extensions": {
-          "calcite.theming": true
-        }
+        "$value": "{color.foreground.3}",
+        "$description": "Replaces `--calcite-color-foreground-3`"
       },
       "highlight": {
         "attributes": {
@@ -55,11 +43,8 @@
           "group": "surface"
         },
         "$type": "color",
-        "$value": "{reference.color.surface.highlight}",
-        "$description": "Replaces `--calcite-color-foreground-current`",
-        "$extensions": {
-          "calcite.theming": true
-        }
+        "$value": "{color.foreground.current}",
+        "$description": "Replaces `--calcite-color-foreground-current`"
       }
     },
     "background": {

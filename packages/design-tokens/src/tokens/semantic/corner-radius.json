@@ -5,7 +5,7 @@
         "category": "corner-radius"
       },
       "$type": "borderRadius",
-      "$value": "{reference.corner-radius.none}"
+      "$value": "{corner-radius.none}"
     },
     "sharp": {
       "attributes": {
@@ -21,11 +21,8 @@
         "category": "corner-radius"
       },
       "$type": "borderRadius",
-      "$value": "{reference.corner-radius.none}",
-      "$description": "Replaces `--calcite-corner-radius-sharp`",
-      "$extensions": {
-        "calcite.theming": true
-      }
+      "$value": "{corner-radius.sharp}",
+      "$description": "Replaces `--calcite-corner-radius-sharp`"
     },
     "xs": {
       "attributes": {
@@ -39,11 +36,8 @@
         "category": "corner-radius"
       },
       "$type": "borderRadius",
-      "$value": "{reference.corner-radius.sm}",
-      "$description": "Replaces `--calcite-corner-radius-round`",
-      "$extensions": {
-        "calcite.theming": true
-      }
+      "$value": "{corner-radius.round}",
+      "$description": "Replaces `--calcite-corner-radius-round`"
     },
     "round": {
       "attributes": {

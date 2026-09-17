@@ -112,11 +112,8 @@
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.4xs}",
+      "$value": "{size.fixed.sm-plus}",
       "$description": "Replaces `--calcite-size-fixed-sm-plus`"
     },
     "xxxs": {
@@ -132,11 +129,8 @@
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.3xs}",
+      "$value": "{size.fixed.md}",
       "$description": "Replaces `--calcite-size-fixed-md`"
     },
     "xxs": {
@@ -152,44 +146,32 @@
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.2xs}",
+      "$value": "{size.fixed.md-plus}",
       "$description": "Replaces `--calcite-size-fixed-md-plus`"
     },
     "xs": {
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.xs}",
+      "$value": "{size.fixed.lg}",
       "$description": "Replaces `--calcite-size-fixed-lg`"
     },
     "sm": {
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.sm}",
+      "$value": "{size.fixed.xxl}",
       "$description": "Replaces `--calcite-size-fixed-xxl`"
     },
     "md": {
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.md}",
+      "$value": "{size.fixed.xxxl}",
       "$description": "Replaces `--calcite-size-fixed-xxxl`"
     },
     "lg": {
@@ -219,11 +201,8 @@
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.2xl}",
+      "$value": "{size.xxl}",
       "$description": "Replaces `--calcite-size-xxl`"
     },
     "xxxl": {
@@ -239,11 +218,8 @@
       "attributes": {
         "category": "size"
       },
-      "$extensions": {
-        "calcite.theming": true
-      },
       "$type": "dimension",
-      "$value": "{reference.size.3xl}",
+      "$value": "{size.xxxl}",
       "$description": "Replaces `--calcite-size-xxxl`"
     }
   }
