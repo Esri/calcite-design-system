@@ -107,12 +107,12 @@
     @apply text-n1;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-sm);
-      padding-block: var(--calcite-spacing-xxs);
+      padding-inline: var(--calcite-space-sm);
+      padding-block: var(--calcite-space-2xs);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-spacing-md);
+        padding-inline-end: var(--calcite-space-md);
       }
     }
   }
@@ -121,12 +121,12 @@
     @apply text-0;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-md);
-      padding-block: var(--calcite-spacing-sm);
+      padding-inline: var(--calcite-space-md);
+      padding-block: var(--calcite-space-sm);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-spacing-xl);
+        padding-inline-end: var(--calcite-space-xl);
       }
     }
   }
@@ -135,12 +135,12 @@
     @apply text-1;
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-lg);
-      padding-block: var(--calcite-spacing-md);
+      padding-inline: var(--calcite-space-lg);
+      padding-block: var(--calcite-space-md);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-spacing-xxl);
+        padding-inline-end: var(--calcite-space-2xl);
       }
     }
   }

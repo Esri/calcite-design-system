@@ -95,8 +95,8 @@
     block
     transition-all
     ease-in-out;
-  inset-block-start: var(--calcite-spacing-base);
-  inset-inline: var(--calcite-spacing-base) auto;
+  inset-block-start: var(--calcite-space-base);
+  inset-inline: var(--calcite-space-base) auto;
   background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-switch-handle-border-color);
   border-radius: var(--calcite-switch-corner-radius, 9999px);
@@ -108,7 +108,7 @@
     background-color: var(--calcite-switch-background-color, var(--calcite-color-brand));
   }
   .handle {
-    inset-inline: auto var(--calcite-spacing-base);
+    inset-inline: auto var(--calcite-space-base);
   }
 
   &:host(:hover:not([disabled])) {

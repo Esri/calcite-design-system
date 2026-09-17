@@ -23,16 +23,16 @@
 @use "../../styles/includes";
 
 :host([scale="s"]) {
-  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-2xs));
+  --calcite-internal-action-bar-padding: var(--calcite-space-2xs);
 }
 :host([scale="m"]) {
-  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm);
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm));
+  --calcite-internal-action-bar-padding: var(--calcite-space-sm);
 }
 :host([scale="l"]) {
   --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-action-bar-padding: var(--calcite-space-sm-plus);
 }
 
 :host {
@@ -41,7 +41,7 @@
     self-stretch;
   background: transparent;
 
-  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-spacing-base) + 1px);
+  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-space-base) + 1px);
 }
 
 .container {

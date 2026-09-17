@@ -31,7 +31,7 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-tree-item-action-spacing: var(--calcite-space-2xs);
 }
 
 :host([scale="m"]) {
@@ -43,7 +43,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-tree-item-action-spacing: var(--calcite-space-xs);
   --calcite-internal-tree-item-spacing-unit: 0.75rem;
   --calcite-internal-tree-item-padding-block: 0.625rem;
   --calcite-internal-tree-item-children-container-padding: 2.25rem;

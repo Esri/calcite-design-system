@@ -24,13 +24,13 @@
 $border-style: 1px solid var(--calcite-color-border-3);
 
 :host([scale="s"]) {
-  --calcite-internal-alert-action-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-alert-action-spacing: var(--calcite-space-xs);
 }
 :host([scale="m"]) {
-  --calcite-internal-alert-action-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-alert-action-spacing: var(--calcite-space-xs);
 }
 :host([scale="l"]) {
-  --calcite-internal-alert-action-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-alert-action-spacing: var(--calcite-space-sm);
 }
 
 :host {

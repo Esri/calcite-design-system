@@ -19,11 +19,11 @@
 
 .scale--s {
   @apply text-n2h;
-  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-sm);
-  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-xxs);
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-space-sm);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-space-2xs);
 
   .first-title {
-    padding-block-start: var(--calcite-spacing-sm);
+    padding-block-start: var(--calcite-space-sm);
   }
 
   .separator {
@@ -34,11 +34,11 @@
 
 .scale--m {
   @apply text-n1h;
-  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-md);
-  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-xs);
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-space-md);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-space-xs);
 
   .first-title {
-    padding-block-start: var(--calcite-spacing-md);
+    padding-block-start: var(--calcite-space-md);
   }
 
   .separator {
@@ -49,11 +49,11 @@
 
 .scale--l {
   @apply text-0h;
-  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-lg);
-  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-sm-plus);
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-space-lg);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-space-sm-plus);
 
   .first-title {
-    padding-block-start: var(--calcite-spacing-xl);
+    padding-block-start: var(--calcite-space-xl);
   }
 
   .separator {
@@ -79,7 +79,7 @@
 }
 
 .separator {
-  block-size: var(--calcite-spacing-px);
+  block-size: var(--calcite-space-px);
   background-color: var(--calcite-autocomplete-border-color, var(--calcite-color-border-3));
 }
 

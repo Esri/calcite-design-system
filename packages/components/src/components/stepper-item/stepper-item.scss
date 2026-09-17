@@ -40,7 +40,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.4");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-md);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-space-md);
   --calcite-internal-stepper-action-inline-size: theme("spacing.8");
   @apply text-n1h;
   margin-inline-end: theme("margin.1");
@@ -53,7 +53,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.4");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.5");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-lg);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-space-lg);
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
   @apply text-0h;
   margin-inline-end: theme("margin.2");
@@ -66,7 +66,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.5");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.6");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-xl);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-space-xl);
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
   @apply text-1h;
   margin-inline-end: theme("margin.3");
@@ -150,7 +150,7 @@
     flex-shrink-0
     self-start;
 
-  margin-block-start: var(--calcite-spacing-base);
+  margin-block-start: var(--calcite-space-base);
   color: var(--calcite-stepper-item-icon-color, var(--calcite-color-border-input));
 }
 

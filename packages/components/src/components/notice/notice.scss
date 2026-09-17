@@ -63,11 +63,11 @@
     @apply text-0-wrap;
   }
   .notice-close {
-    margin-inline-end: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-space-sm);
   }
   .actions-end {
-    margin-inline-end: var(--calcite-spacing-sm);
-    gap: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-space-sm);
+    gap: var(--calcite-space-sm);
   }
 }
 
@@ -180,7 +180,7 @@
   @include includes.transition-default();
   @apply flex cursor-pointer items-center box-border;
   flex: 0 0 auto;
-  margin-inline-end: var(--calcite-spacing-xs);
+  margin-inline-end: var(--calcite-space-xs);
   --calcite-action-background-color: var(--calcite-notice-close-background-color);
   --calcite-action-background-color-hover: var(
     --calcite-notice-close-background-color-hover,
@@ -194,8 +194,8 @@
 .actions-end {
   @apply flex items-center;
   flex: 0 0 auto;
-  margin-inline-end: var(--calcite-spacing-xs);
-  gap: var(--calcite-spacing-xs);
+  margin-inline-end: var(--calcite-space-xs);
+  gap: var(--calcite-space-xs);
 }
 
 $notice-kinds:

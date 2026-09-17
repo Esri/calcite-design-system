@@ -27,15 +27,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-space-2xs);
 }
 
 :host([scale="m"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-space-2xs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-list-action-spacing: var(--calcite-space-xs);
 }
 
 :host([filter-hidden]),
@@ -210,10 +210,10 @@
 
 :host([scale="s"]) {
   .content-container {
-    gap: var(--calcite-spacing-sm);
+    gap: var(--calcite-space-sm);
     min-block-size: 32px;
-    padding-block: var(--calcite-spacing-xxs);
-    padding-inline-end: var(--calcite-spacing-sm);
+    padding-block: var(--calcite-space-2xs);
+    padding-inline-end: var(--calcite-space-sm);
   }
   .content,
   .custom-content,
@@ -226,41 +226,41 @@
 }
 :host([scale="s"][display-mode="flat"]:not([drag-handle])) {
   .container {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-space-sm);
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-space-sm);
   }
 }
 :host([scale="s"][display-mode="flat"][drag-handle]) {
   .selection-container {
-    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-space-2xs) var(--calcite-space-sm);
   }
 }
 :host([scale="s"][display-mode="nested"]) {
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
+    padding-inline-end: var(--calcite-space-2xs);
   }
 }
 :host([scale="s"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
   .container {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-space-sm);
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
+    padding-inline-end: var(--calcite-space-2xs);
   }
 }
 :host([scale="s"][display-mode="nested"][drag-handle]) {
   .selection-container {
-    padding-inline: var(--calcite-spacing-xxs);
+    padding-inline: var(--calcite-space-2xs);
   }
 }
 :host([scale="m"]) {
   .content-container {
-    gap: var(--calcite-spacing-sm);
+    gap: var(--calcite-space-sm);
     min-block-size: 40px;
-    padding-block: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-spacing-md);
+    padding-block: var(--calcite-space-sm);
+    padding-inline-end: var(--calcite-space-md);
   }
   .content,
   .custom-content {
@@ -275,10 +275,10 @@
 }
 :host([scale="m"][display-mode="flat"]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-start: var(--calcite-space-md);
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-space-sm);
   }
 }
 :host([scale="m"][display-mode="flat"][drag-handle]) {
@@ -286,20 +286,20 @@
     padding-inline-start: 0;
   }
   .selection-container {
-    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-space-2xs) var(--calcite-space-sm);
   }
 }
 :host([scale="m"][display-mode="nested"]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: var(--calcite-space-2xs);
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
+    padding-inline-end: var(--calcite-space-2xs);
   }
 }
 :host([scale="m"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
   .container {
-    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-start: var(--calcite-space-md);
   }
 }
 :host([scale="m"][display-mode="nested"][drag-handle]) {
@@ -307,15 +307,15 @@
     padding-inline-start: 0;
   }
   .selection-container {
-    padding-inline: var(--calcite-spacing-xxs);
+    padding-inline: var(--calcite-space-2xs);
   }
 }
 :host([scale="l"]) {
   .content-container {
-    gap: var(--calcite-spacing-md);
+    gap: var(--calcite-space-md);
     min-block-size: 56px;
     padding-block: theme("spacing[2.5]");
-    padding-inline-end: var(--calcite-spacing-lg);
+    padding-inline-end: var(--calcite-space-lg);
   }
   .content,
   .custom-content,
@@ -331,10 +331,10 @@
 }
 :host([scale="l"][display-mode="flat"]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-start: var(--calcite-space-lg);
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-space-md);
   }
 }
 :host([scale="l"][display-mode="flat"][drag-handle]) {
@@ -342,12 +342,12 @@
     padding-inline-start: 0;
   }
   .selection-container {
-    padding-inline-end: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-space-md);
   }
 }
 :host([scale="l"][display-mode="nested"]) {
   .container {
-    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-start: var(--calcite-space-2xs);
   }
 }
 :host([scale="l"][display-mode="nested"][drag-handle]) {
@@ -357,7 +357,7 @@
 }
 :host([scale="l"][display-mode="nested"][selection-appearance="icon"]:not([selection-mode="none"]):not([drag-handle])) {
   .container {
-    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-start: var(--calcite-space-lg);
   }
 }
 
@@ -409,7 +409,7 @@
 
 .expanded-container {
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
-  padding-inline: var(--calcite-spacing-xxs);
+  padding-inline: var(--calcite-space-2xs);
 }
 
 .actions-start,
@@ -426,7 +426,7 @@
 .drag-container,
 .selection-container,
 .expanded-container {
-  padding-block-end: var(--calcite-spacing-px);
+  padding-block-end: var(--calcite-space-px);
 }
 
 .expanded-container,
@@ -482,13 +482,13 @@
 }
 
 .drag-container {
-  margin-inline: var(--calcite-spacing-xxs);
+  margin-inline: var(--calcite-space-2xs);
 }
 
 :host([display-mode="nested"]),
 :host([selection-appearance="icon"]:not([selection-mode="none"])) {
   .drag-container {
-    margin-inline: var(--calcite-spacing-xxs) 0;
+    margin-inline: var(--calcite-space-2xs) 0;
   }
 }
 
