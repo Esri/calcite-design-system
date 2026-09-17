@@ -1,4 +1,6 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/input-time-picker/input-time-picker";
 
 export const inputTimePicker = html`<calcite-input-time-picker
   label-text="Label text"

@@ -2,11 +2,9 @@ import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { DIRECTION } from "./resources";
@@ -23,10 +21,6 @@ const delayFor2UpdatesInMs = 200;
 async function typeNumberValue(page: E2EPage, numberAsText: string): Promise<void> {
   await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);
 }
-
-describe("labelable", () => {
-  labelable("calcite-input-number");
-});
 
 it("when disabled, spinner buttons  should not be interactive/should not nudge the number", async () => {
   const page = await newE2EPage();
@@ -804,8 +798,6 @@ it("should not focus when clicking validation message", async () => {
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
 });
-
-testWorkaroundForGlobalPropRemoval("calcite-input-number");
 
 it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
   const page = await newE2EPage();

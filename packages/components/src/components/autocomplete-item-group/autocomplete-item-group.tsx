@@ -3,6 +3,7 @@ import { createRef } from "lit/directives/ref.js";
 import { getSlotAssignedElements } from "../../utils/dom";
 import type { Scale } from "../types";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
+import { isAutocompleteItem } from "../autocomplete-item/resources";
 import { CSS } from "./resources";
 import { styles } from "./autocomplete-item-group.scss";
 
@@ -101,9 +102,7 @@ export class AutocompleteItemGroup extends LitElement {
   private updateItems(): void {
     const items = this.defaultSlotRef.value
       ? getSlotAssignedElements<AutocompleteItem["el"]>(this.defaultSlotRef.value, itemSelector)
-      : Array.from(this.el.children).filter((child): child is AutocompleteItem["el"] =>
-          child.matches(itemSelector),
-        );
+      : Array.from(this.el.children).filter(isAutocompleteItem);
 
     this._items = items;
     this.calciteInternalAutocompleteItemGroupItemsChange.emit();

@@ -32,6 +32,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
+import { toAriaBoolean } from "../../utils/aria";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -102,8 +103,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   private time = useTime(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   private timePickerRef = createRef<TimePicker>();
 
@@ -270,6 +269,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("focus", this.focusHandler);
     this.listen("focusout", this.focusOutHandler);
@@ -436,7 +436,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     }
   }
 
-  private mouseDownHandler(event): void {
+  private mouseDownHandler(event: MouseEvent): void {
     if (this.showPlaceholder) {
       event.preventDefault();
       this.setFocus();
@@ -584,6 +584,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         )}
         <div
           aria-controls={IDS.inputContainer}
+          aria-expanded={toAriaBoolean(this.open)}
           aria-labelledby={IDS.inputContainer}
           class={{
             [CSS.container]: true,

@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -19,3 +20,8 @@ export const ICONS: Record<string, IconName> = {
   ellipsis: "ellipsis",
   handleVertical: "handle-vertical",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isSplitButton = isTag("calcite-split-button");

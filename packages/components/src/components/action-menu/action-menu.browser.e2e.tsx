@@ -7,13 +7,14 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ActionMenu } from "./action-menu";
@@ -226,6 +227,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-action-menu"), { display: "flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-action-menu />, mountOptions), {
+    targetSelector: `.${CSS.defaultTrigger}, calcite-popover`,
+  });
 });
 
 describe("slots", () => {

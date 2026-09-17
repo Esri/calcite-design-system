@@ -133,8 +133,6 @@ export class TextArea
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region State Properties
@@ -307,6 +305,11 @@ export class TextArea
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   override connectedCallback(): void {
     this.cancelable.add(this.updateSizeToAuto);

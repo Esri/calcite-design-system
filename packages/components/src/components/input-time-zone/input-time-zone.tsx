@@ -81,8 +81,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   /**
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
    */
@@ -256,6 +254,11 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   async load(): Promise<void> {
     this.normalizer = await getNormalizer(this.mode);
@@ -529,7 +532,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       return this.renderRegionItems();
     }
 
-    return this.timeZoneItems?.map((group) => {
+    return (this.timeZoneItems as TimeZoneItem[] | undefined)?.map((group) => {
       const selected = this.selectedTimeZoneItem === group;
       const { label, metadata, value } = group;
 

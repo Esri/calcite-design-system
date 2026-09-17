@@ -37,7 +37,7 @@ export class Label extends LitElement {
    * [Deprecated] The `"default"` value is deprecated in v3.3.0, removal target v6.0.0 - use `"block"` instead.
    */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
-    "default";
+    "block";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";

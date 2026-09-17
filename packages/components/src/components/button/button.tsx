@@ -27,6 +27,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./button.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -59,8 +60,6 @@ export class Button extends LitElement {
 
   private contentRef = createRef<HTMLSpanElement>();
 
-  formTrigger = useFormTrigger({ disabled: () => !!this.href })(this);
-
   labelEl?: Label["el"];
 
   /** watches for changing text content */
@@ -78,8 +77,6 @@ export class Button extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
@@ -199,6 +196,12 @@ export class Button extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    useFormTrigger({ disabled: () => !!this.href })(this);
+    useLabel(this);
+  }
+
   override connectedCallback(): void {
     this.setupTextContentObserver();
   }
@@ -299,7 +302,7 @@ export class Button extends LitElement {
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <DynamicHtmlTag
-          ariaBusy={this.loading}
+          ariaBusy={toAriaBoolean(this.loading, undefined)}
           ariaExpanded={
             this.el.ariaExpanded
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])

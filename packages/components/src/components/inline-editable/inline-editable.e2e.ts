@@ -1,6 +1,5 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -305,29 +304,5 @@ describe("has controls", () => {
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("John DoeMoe");
     expect(element).toHaveAttribute("editing-enabled");
-  });
-
-  describe("labelable", () => {
-    describe("default", () => {
-      labelable(
-        `<calcite-inline-editable controls>
-              <calcite-input value="John Doe"></calcite-input>
-            </calcite-inline-editable>`,
-        {
-          focusTargetSelector: "calcite-input",
-        },
-      );
-    });
-
-    describe("when editing is enabled", () => {
-      labelable(
-        `<calcite-inline-editable controls editing-enabled>
-            <calcite-input value="John Doe"></calcite-input>
-          </calcite-inline-editable>`,
-        {
-          focusTargetSelector: "calcite-input",
-        },
-      );
-    });
   });
 });

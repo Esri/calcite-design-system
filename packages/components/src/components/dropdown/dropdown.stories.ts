@@ -5,6 +5,10 @@ import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { allModes } from "../../../.storybook/modes";
 import { Dropdown } from "./dropdown";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { clickType, menuPlacement, overlayPositioning, scale, selectionMode } = ATTRIBUTES;
 

@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -15,9 +16,9 @@ import {
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { scrolling } from "../../tests/browser/utils/content";
+import { scrolling } from "../../tests/utils/content";
 import type { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
@@ -200,6 +201,12 @@ describe("honors hidden attribute", () => {
 describe("renders", () => {
   renders(() => mount(<calcite-flow-item selected>content</calcite-flow-item>), {
     display: "flex",
+  });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-flow-item show-back-button />, mountOptions), {
+    targetSelector: "calcite-panel, calcite-action",
   });
 });
 

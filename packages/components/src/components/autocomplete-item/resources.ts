@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { Scale } from "../types";
 
 export const CSS = {
@@ -21,3 +22,8 @@ const idPrefix = "autocomplete-item";
 export const IDS = {
   host: (id: string) => `${idPrefix}-${id}`,
 } as const;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isAutocompleteItem = isTag("calcite-autocomplete-item");

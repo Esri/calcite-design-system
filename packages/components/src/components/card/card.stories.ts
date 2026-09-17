@@ -3,6 +3,14 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Card } from "./card";
+import "./card"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, logicalFlowPosition } = ATTRIBUTES;
 

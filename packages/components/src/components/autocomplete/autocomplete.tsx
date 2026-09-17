@@ -34,7 +34,9 @@ import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
+import { isAutocompleteItem } from "../autocomplete-item/resources";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
+import { isAutocompleteItemGroup } from "../autocomplete-item-group/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
@@ -100,8 +102,6 @@ export class Autocomplete
   private inputId = IDS.input(this.guid);
 
   labelEl?: Label["el"];
-
-  labelable = useLabel(this);
 
   private listId = IDS.list(this.guid);
 
@@ -302,7 +302,7 @@ export class Autocomplete
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
+  /** Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
 
   //#endregion
@@ -401,6 +401,7 @@ export class Autocomplete
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
     this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);
@@ -421,6 +422,10 @@ export class Autocomplete
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
+    }
+
+    if (changes.has("value") && this.hasUpdated) {
+      this.selectedItemsHandler();
     }
 
     if (
@@ -492,6 +497,10 @@ export class Autocomplete
     }
   }
 
+  private selectedItemsHandler(): void {
+    this.items.forEach((item) => (item.selected = item.value === this.value));
+  }
+
   private openHandler(): void {
     if (this.disabled) {
       this.open = false;
@@ -517,6 +526,7 @@ export class Autocomplete
 
   private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
+    this.selectedItemsHandler();
     this.emitChange();
     await this.setFocus();
     this.open = false;
@@ -579,6 +589,10 @@ export class Autocomplete
   private updateItems(): void {
     let activeDescendant = "";
 
+    if (this.value) {
+      this.selectedItemsHandler();
+    }
+
     this.items.forEach((item) => {
       item.scale = this.scale;
       item.inputValueMatchPattern = this.inputValueMatchPattern;
@@ -624,23 +638,15 @@ export class Autocomplete
           this.defaultSlotRef.value,
           groupItemSelector,
         )
-      : Array.from(this.el.children).filter((child): child is AutocompleteItemGroup["el"] =>
-          child.matches(groupItemSelector),
-        );
+      : Array.from(this.el.children).filter(isAutocompleteItemGroup);
 
     const rootItems = this.defaultSlotRef.value
       ? getSlotAssignedElements<AutocompleteItem["el"]>(this.defaultSlotRef.value, itemSelector)
-      : Array.from(this.el.children).filter((child): child is AutocompleteItem["el"] =>
-          child.matches(itemSelector),
-        );
+      : Array.from(this.el.children).filter(isAutocompleteItem);
 
     const groupedItems = groups.flatMap((group) => group.items ?? []);
     const items = Array.from(
-      new Set<AutocompleteItem["el"]>(
-        [...rootItems, ...groupedItems].filter(
-          (item): item is AutocompleteItem["el"] => !!item && item.matches(itemSelector),
-        ),
-      ),
+      new Set<AutocompleteItem["el"]>([...rootItems, ...groupedItems].filter(isAutocompleteItem)),
     );
 
     this.groups = groups;
@@ -678,8 +684,7 @@ export class Autocomplete
         break;
       case "Enter":
         if (open && activeItem) {
-          this.value = activeItem.value;
-          activeItem.toggleSelection();
+          activeItem.requestSelection();
           this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented && this.formSupport.active) {

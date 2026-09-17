@@ -47,8 +47,6 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   labelEl?: Label["el"];
 
-  labelable = useLabel(this);
-
   onLabelClick = (): void => {
     this.toggle();
   };
@@ -172,6 +170,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

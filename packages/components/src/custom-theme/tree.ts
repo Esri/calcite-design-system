@@ -1,3 +1,5 @@
+import "../components/tree-item/tree-item";
+import "../components/tree/tree";
 import { html } from "../../support/formatting";
 
 export const treeTokens = {

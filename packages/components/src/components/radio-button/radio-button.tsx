@@ -49,8 +49,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel(this);
-
   //#endregion
 
   //#region Public Properties
@@ -199,6 +197,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("pointerenter", this.pointerEnterHandler);
     this.listen("pointerleave", this.pointerLeaveHandler);
     this.listen("click", this.clickHandler);

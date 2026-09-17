@@ -1,6 +1,10 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
+} from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
@@ -18,6 +22,7 @@ import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
+import { styles as transitionMarginStyles } from "../../styles/component/transition-margin.scss";
 import { SortMenuItem } from "../sort-handle/types";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -26,6 +31,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
 import type { BlockToggleDisplay } from "./types";
 import type { BlockGroup } from "../block-group/block-group";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -44,7 +50,7 @@ declare global {
 export class Block extends LitElement {
   //#region Static Members
 
-  static override styles = [headerStyles, styles, sortableStyles];
+  static override styles = [headerStyles, styles, sortableStyles, transitionMarginStyles];
 
   //#endregion
 
@@ -89,9 +95,6 @@ export class Block extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is collapsible. */
-  @property({ reflect: true }) collapsible = false;
-
   /** @copyDoc */
   @property() description?: string;
 
@@ -110,6 +113,28 @@ export class Block extends LitElement {
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
+
+  /** When `true`, the component can be expanded and collapsed. */
+  @property({ reflect: true }) expandable = false;
+
+  /**
+   * When `true`, the component can be expanded and collapsed.
+   *
+   * @deprecated in v5.2.0, removal target v7.0.0 - Use the `expandable` property instead.
+   */
+  @property({ reflect: true })
+  get collapsible(): boolean {
+    return this.expandable;
+  }
+  set collapsible(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "collapsible",
+      removalVersion: 7,
+      suggested: "expandable",
+    });
+    this.expandable = value;
+  }
 
   /** @copyDoc */
   @property() heading?: string;
@@ -431,7 +456,7 @@ export class Block extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
-    this.hasContent = slotChangeHasAssignedElement(event);
+    this.hasContent = slotChangeHasTextContent(event) || slotChangeHasAssignedElement(event);
     this.updateBlockSectionScale();
   }
 
@@ -489,7 +514,7 @@ export class Block extends LitElement {
   private renderContentEnd(): JsxNode {
     return (
       <div
-        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.collapsible }}
+        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.expandable }}
         hidden={!this.hasContentEnd}
       >
         <div class={CSS.contentEnd}>
@@ -547,7 +572,7 @@ export class Block extends LitElement {
 
   override render(): JsxNode {
     const {
-      collapsible,
+      expandable,
       loading,
       expanded,
       label,
@@ -619,11 +644,11 @@ export class Block extends LitElement {
             topLayerDisabled={this.topLayerDisabled}
           />
         ) : null}
-        {collapsible ? (
+        {expandable ? (
           <button
             aria-controls={IDS.content}
             aria-describedby={IDS.header}
-            ariaExpanded={collapsible ? expanded : undefined}
+            ariaExpanded={expandable ? expanded : undefined}
             class={CSS.toggle}
             id={IDS.toggle}
             onClick={this.onHeaderClick}
@@ -654,12 +679,12 @@ export class Block extends LitElement {
         ) : (
           headerContent
         )}
-        {iconEnd && !collapsible ? (
+        {iconEnd && !expandable ? (
           <div class={CSS.iconEndContainer}>
             {this.renderContentEnd()}
             {this.renderIcon("end")}
           </div>
-        ) : !iconEnd && !collapsible ? (
+        ) : !iconEnd && !expandable ? (
           this.renderContentEnd()
         ) : null}
         <calcite-action-menu
@@ -681,7 +706,7 @@ export class Block extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <article
           aria-label={label}
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           class={{
             [CSS.container]: true,
           }}

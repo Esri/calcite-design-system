@@ -201,8 +201,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   labelEl?: Label["el"];
 
-  labelable = useLabel(this);
-
   private listContainerEl?: HTMLDivElement;
 
   private maxCompactBreakpoint?: number;
@@ -600,6 +598,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen<ToEvents<ComboboxItem>["calciteComboboxItemChange"]>(
       "calciteComboboxItemChange",
@@ -1048,9 +1047,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         if (notDeletable) {
           return;
         }
-        const deleteTargetChip = event
-          .composedPath()
-          .find((node): node is Chip["el"] => isChip(node as Element));
+        const deleteTargetChip = event.composedPath().find(isChip);
         if (this.activeChipIndex > -1 && deleteTargetChip) {
           event.preventDefault();
           this.removeActiveChip(deleteTargetChip);
@@ -1423,6 +1420,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     chipContainerElWidth,
     inputWidth,
     largestSelectedIndicatorChipWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    inputWidth: number;
+    largestSelectedIndicatorChipWidth: number;
   }): void {
     const newCompactBreakpoint = Math.round(
       largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,

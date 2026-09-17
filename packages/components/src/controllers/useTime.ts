@@ -23,7 +23,6 @@ import {
 } from "../utils/time";
 import { decimalPlaces, getDecimals } from "../utils/math";
 import { isValidNumber } from "../utils/number";
-import { capitalizeWord } from "../utils/text";
 import { Locale, NumberingSystem } from "../utils/locale";
 import { numberKeys } from "../utils/key";
 
@@ -141,6 +140,12 @@ type TimeProperties = {
    */
   second: string;
 };
+
+const localizedTimePartProperty = {
+  hour: "localizedHour",
+  minute: "localizedMinute",
+  second: "localizedSecond",
+} as const;
 
 class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#region Properties
@@ -667,7 +672,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     } else {
       const oldValue = this[key];
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalizeWord(key)}`] = localizeTimePart({
+      this[localizedTimePartProperty[key]] = localizeTimePart({
         value: this[key],
         part: key,
         locale,

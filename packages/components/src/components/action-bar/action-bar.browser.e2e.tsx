@@ -10,13 +10,14 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   t9n,
   delegatesToFloatingUiOwningComponent,
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
 import { SLOTS } from "./resources";
@@ -183,6 +184,12 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-action-bar"), { display: "inline-flex" });
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-action-bar />, mountOptions), {
+    targetSelector: "calcite-action-group, calcite-action",
+  });
 });
 
 describe("slots", () => {

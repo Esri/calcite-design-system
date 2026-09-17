@@ -1,8 +1,4 @@
-import type {
-  Config as SDConfig,
-  PlatformConfig as SDPlatformConfig,
-  TransformedToken,
-} from "style-dictionary/types/index.js";
+import type { Config as SDConfig, PlatformConfig as SDPlatformConfig, TransformedToken } from "style-dictionary/types";
 import type { SetRequired } from "type-fest";
 
 type InternalPlatform = "docs";

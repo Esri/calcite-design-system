@@ -17,6 +17,7 @@ import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { isTooltip } from "../tooltip/resources";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -234,9 +235,7 @@ export class ActionPad extends LitElement {
   }
 
   private handleTooltipSlotChange(event: Event): void {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
-      el?.matches("calcite-tooltip"),
-    );
+    const tooltips = slotChangeGetAssignedElements(event).filter(isTooltip);
 
     this.expandTooltip = tooltips[0];
   }

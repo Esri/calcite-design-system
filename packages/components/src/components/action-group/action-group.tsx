@@ -290,9 +290,7 @@ export class ActionGroup extends LitElement {
   }
 
   private handleActionClick(event: MouseEvent): void {
-    const target = event
-      .composedPath()
-      .find((element): element is Action["el"] => isAction(element as Element));
+    const target = event.composedPath().find(isAction);
 
     if (!target || target.disabled) {
       return;

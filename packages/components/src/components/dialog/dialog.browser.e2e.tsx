@@ -16,11 +16,12 @@ import {
   topLayer,
   openClose,
   accessible,
+  scalePropagates,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 
 mockConsole();
 
@@ -129,6 +130,12 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-dialog />, mountOptions), {
+    targetSelector: "calcite-panel",
+  });
 });
 
 describe("is focusable", () => {

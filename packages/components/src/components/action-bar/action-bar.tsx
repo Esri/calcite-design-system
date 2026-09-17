@@ -28,6 +28,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import { logger } from "../../utils/logger";
 import type { Tooltip } from "../tooltip/tooltip";
+import { isTooltip } from "../tooltip/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
@@ -601,7 +602,7 @@ export class ActionBar extends LitElement {
     const composedPath = event.composedPath();
     const source = composedPath.find(
       (element): element is ActionGroup["el"] | ActionMenu["el"] =>
-        isActionGroup(element as Element) || isActionMenu(element as Element),
+        isActionGroup(element) || isActionMenu(element),
     );
 
     if (!source) {
@@ -805,9 +806,7 @@ export class ActionBar extends LitElement {
   }
 
   private handleTooltipSlotChange(event: Event): void {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
-      el?.matches("calcite-tooltip"),
-    );
+    const tooltips = slotChangeGetAssignedElements(event).filter(isTooltip);
 
     this.expandTooltip = tooltips[0];
   }

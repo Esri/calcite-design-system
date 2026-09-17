@@ -1,8 +1,8 @@
 import { isServer } from "lit";
 import { closestElementCrossShadowBoundary, getRootNode } from "../../utils/dom";
 import type { List } from "../list/list";
-import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "./list-item";
+import { isListItem } from "./resources";
 
 export const listSelector = "calcite-list";
 export const listItemGroupSelector = "calcite-list-item-group";
@@ -150,8 +150,4 @@ export function getDepth(element: HTMLElement, includeGroup = false): number {
   }
 
   return depth;
-}
-
-export function isListItem(element: Element): element is ListItem["el"] {
-  return element.tagName === "CALCITE-LIST-ITEM";
 }

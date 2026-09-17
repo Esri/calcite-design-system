@@ -29,7 +29,7 @@ import {
 import { CollapseDirection, Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
-import type { ActionBar } from "../action-bar/action-bar";
+import { isActionBar } from "../action-bar/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/types";
 import { styles as headerStyles } from "../../styles/component/header.scss";
@@ -38,6 +38,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -423,9 +424,7 @@ export class Panel extends LitElement {
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
-      el?.matches("calcite-action-bar"),
-    );
+    const actionBars = slotChangeGetAssignedElements(event).filter(isActionBar);
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
@@ -840,7 +839,7 @@ export class Panel extends LitElement {
 
     const panelNode = (
       <div
-        ariaBusy={loading}
+        ariaBusy={toAriaBoolean(loading, undefined)}
         ariaDescription={hasDialogRole && description ? description : undefined}
         ariaLabel={hasDialogRole && heading ? heading : undefined}
         ariaLive={hasDialogRole ? "polite" : undefined}

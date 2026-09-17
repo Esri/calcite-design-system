@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.17...@esri/calcite-ui-icons@4.6.0-next.18) (2026-09-16)
+
+### Features
+
+- add linked chart ([#15174](https://github.com/Esri/calcite-design-system/issues/15174))
+
+## [4.6.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.16...@esri/calcite-ui-icons@4.6.0-next.17) (2026-09-10)
+
+### Features
+
+- add alignment concepts ([#15145](https://github.com/Esri/calcite-design-system/issues/15145))
+
+## [4.6.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.15...@esri/calcite-ui-icons@4.6.0-next.16) (2026-09-01)
+
+### Features
+
+- add additional ui icons ([#15104](https://github.com/Esri/calcite-design-system/issues/15104))
+
+## [4.6.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.14...@esri/calcite-ui-icons@4.6.0-next.15) (2026-08-26)
+
+### Features
+
+- add ai-agent and ai-agents ([#15066](https://github.com/Esri/calcite-design-system/issues/15066))
+
+## [4.6.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.13...@esri/calcite-ui-icons@4.6.0-next.14) (2026-08-21)
+
+### Features
+
+- add explode, integration, and spatiotemporal catalog ([#15052](https://github.com/Esri/calcite-design-system/issues/15052))
+
 ## [4.6.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.12...@esri/calcite-ui-icons@4.6.0-next.13) (2026-08-18)
 
 ### Features

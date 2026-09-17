@@ -1,3 +1,4 @@
+import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 import { Scale } from "../types";
 
@@ -41,3 +42,8 @@ export const ICONS: Record<string, IconName> = {
   chevronUp: "chevron-up",
   chevronDown: "chevron-down",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTimePicker = isTag("calcite-time-picker");

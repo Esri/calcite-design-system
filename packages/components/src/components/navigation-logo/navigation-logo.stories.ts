@@ -4,6 +4,8 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import type { NavigationLogo } from "./navigation-logo";
+import "../navigation/navigation"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./navigation-logo"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 const { headingLevel: headingLevelAttribute } = ATTRIBUTES;
 
 type NavigationLogoStoryArgs = Pick<NavigationLogo, "active" | "description" | "heading" | "headingLevel" | "icon">;
