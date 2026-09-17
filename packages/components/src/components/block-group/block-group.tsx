@@ -32,6 +32,7 @@ import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -610,7 +611,12 @@ export class BlockGroup extends LitElement {
             </span>
           ) : null}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-          <div ariaBusy={loading} ariaLabel={label || ""} class={CSS.groupContainer} role="group">
+          <div
+            ariaBusy={toAriaBoolean(loading, undefined)}
+            ariaLabel={label || ""}
+            class={CSS.groupContainer}
+            role="group"
+          >
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
         </div>

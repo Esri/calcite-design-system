@@ -3,18 +3,11 @@ import { css } from "../../../support/formatting";
 import { beforeEach, afterEach, beforeAll, afterAll, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
-import {
-  hidden,
-  focusable,
-  renders,
-  t9n,
-  accessible,
-  themed,
-} from "../../tests/commonTests/browser";
+import { hidden, focusable, renders, t9n, accessible, themed } from "../../tests/common";
 import { breakpoints } from "../../utils/responsive";
 import type { Carousel } from "./carousel";
 import { centerItemsByBreakpoint, CSS, DURATION } from "./resources";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 
 const customDuration = 1000;
 
