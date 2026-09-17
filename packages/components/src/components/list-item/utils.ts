@@ -1,5 +1,5 @@
 import { isServer } from "lit";
-import { closestElementCrossShadowBoundary, getRootNode } from "../../utils/dom";
+import { getRootNode } from "../../utils/dom";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { List } from "../list/list";
 import type { ListItem } from "./list-item";
@@ -16,11 +16,19 @@ function pushElementsInReverse(elementStack: Element[], elements: ArrayLike<Elem
 }
 
 export function getClosestAncestorInComposedTree<T extends Element>(element: Element, selector: string): T | null {
-  const rootNode = getRootNode(element);
-  const rootHost = "host" in rootNode ? rootNode.host : null;
-  const startingElement = (element as Slottable).assignedSlot || element.parentElement || rootHost;
+  let currentElement: Element | null = element;
 
-  return startingElement ? closestElementCrossShadowBoundary<T>(startingElement, selector) : null;
+  while (currentElement) {
+    const rootNode = getRootNode(currentElement);
+    const rootHost = "host" in rootNode ? rootNode.host : null;
+    currentElement = (currentElement as Slottable).assignedSlot || currentElement.parentElement || rootHost;
+
+    if (currentElement?.matches(selector)) {
+      return currentElement as T;
+    }
+  }
+
+  return null;
 }
 
 export function getListStructureFromElements(elements: Element[]): {
@@ -91,8 +99,7 @@ export function updateListItemChildren(slotEl: HTMLSlotElement): void {
     }
   });
 
-  const visibleCount = listItemChildren.filter((listItem) => !listItem.filterHidden).length;
-  let visiblePosition = 0;
+  const siblingGroups = new Map<Element | null, Map<HTMLSlotElement | null, ListItem["el"][]>>();
 
   listItemChildren.forEach((listItem) => {
     if (listItem.filterHidden) {
@@ -101,9 +108,20 @@ export function updateListItemChildren(slotEl: HTMLSlotElement): void {
       return;
     }
 
-    visiblePosition += 1;
-    listItem.setPosition = visiblePosition;
-    listItem.setSize = visibleCount;
+    const parentGroups = siblingGroups.get(listItem.parentElement) ?? new Map();
+    const siblings = parentGroups.get(listItem.assignedSlot) ?? [];
+    siblings.push(listItem);
+    parentGroups.set(listItem.assignedSlot, siblings);
+    siblingGroups.set(listItem.parentElement, parentGroups);
+  });
+
+  siblingGroups.forEach((parentGroups) => {
+    parentGroups.forEach((siblings) => {
+      siblings.forEach((listItem, index) => {
+        listItem.setPosition = index + 1;
+        listItem.setSize = siblings.length;
+      });
+    });
   });
 }
 

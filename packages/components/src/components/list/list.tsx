@@ -1231,15 +1231,21 @@ export class List extends LitElement {
     const { reorder } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const parentEl = this.getOwningList(dragEl);
+    const owningList = this.getOwningList(dragEl);
+    const parentEl = dragEl.parentElement;
 
-    if (!parentEl) {
+    if (!owningList || !parentEl) {
       return;
     }
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = this.listItems.filter((item) => this.getOwningList(item) === parentEl);
+    const sameParentItems = this.listItems.filter(
+      (item) =>
+        !item.filterHidden &&
+        item.parentElement === parentEl &&
+        item.assignedSlot === dragEl.assignedSlot,
+    );
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
@@ -1274,8 +1280,8 @@ export class List extends LitElement {
 
     this.calciteListOrderChange.emit({
       dragEl,
-      fromEl: parentEl,
-      toEl: parentEl,
+      fromEl: owningList,
+      toEl: owningList,
       newIndex,
       oldIndex,
     });

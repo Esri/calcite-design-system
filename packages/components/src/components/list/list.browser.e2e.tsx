@@ -22,8 +22,10 @@ import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "../list-item/list-item";
 import type { ItemData } from "../list-item/types";
+import { getClosestAncestorInComposedTree } from "../list-item/utils";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/common/utils";
+import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
 import type { List } from "./list";
 import { CSS } from "./resources";
@@ -40,8 +42,10 @@ class ListTestWrapper extends LitElement {
 
   override render(): JsxNode {
     return (
-      <calcite-list ref={this.listRef} selectionMode="single">
+      <calcite-list dragEnabled ref={this.listRef} selectionMode="single">
         <slot />
+        <slot name="first" />
+        <slot name="second" />
       </calcite-list>
     );
   }
@@ -433,6 +437,28 @@ describe("sticky group heading with filter", () => {
 });
 
 describe("shadow slot projection", () => {
+  it("finds an ancestor across nested slot projections", () => {
+    const outerHost = document.createElement("div");
+    const outerRoot = outerHost.attachShadow({ mode: "open" });
+    const owningList = document.createElement("div");
+    const outerSlot = document.createElement("slot");
+    const innerHost = document.createElement("div");
+    const innerSlot = document.createElement("slot");
+    const item = document.createElement("div");
+
+    owningList.className = "owning-list";
+    owningList.append(outerSlot);
+    outerRoot.append(owningList);
+    innerHost.attachShadow({ mode: "open" }).append(innerSlot);
+    innerHost.append(item);
+    outerHost.append(innerHost);
+    document.body.append(outerHost);
+
+    expect(getClosestAncestorInComposedTree(item, ".owning-list")).toBe(owningList);
+
+    outerHost.remove();
+  });
+
   it("tracks projected grouped list-items without query-based discovery", async () => {
     const { component, el } = await mount<ListTestWrapper>(
       html`<list-test-wrapper></list-test-wrapper>`,
@@ -448,6 +474,135 @@ describe("shadow slot projection", () => {
     `;
 
     await expect.poll(() => component.listEl.filteredItems).toHaveLength(3);
+  });
+
+  describe("sort menu reorder", () => {
+    mockConsole();
+
+    it("reorders projected list-items within their DOM parent", async () => {
+      const { component, el } = await mount<ListTestWrapper>(
+        html`<list-test-wrapper></list-test-wrapper>`,
+        { dynamicComponents: [ListTestWrapper] },
+      );
+
+      el.innerHTML = `
+        <calcite-list-item label="Alpha" value="a"></calcite-list-item>
+        <calcite-list-item label="Beta" value="b"></calcite-list-item>
+      `;
+
+      await expect.poll(() => component.listEl.filteredItems).toHaveLength(2);
+
+      const orderChangeSpy = vi.fn();
+      component.listEl.addEventListener("calciteListOrderChange", orderChangeSpy);
+      const firstItem = page.getByRole("row", { name: "Alpha" });
+      const sortHandle = firstItem.getBySelector("calcite-sort-handle");
+      await userEvent.click(sortHandle.getBySelector("calcite-action"));
+      await userEvent.click(sortHandle.getBySelector('calcite-dropdown-item[data-value="down"]'));
+
+      await expect
+        .poll(() => component.listEl.filteredItems.map(({ value }) => value))
+        .toEqual(["b", "a"]);
+      expect(orderChangeSpy).toHaveBeenCalledOnce();
+      expect(orderChangeSpy.mock.calls[0][0].detail.fromEl).toBe(component.listEl);
+      expect(orderChangeSpy.mock.calls[0][0].detail.toEl).toBe(component.listEl);
+    });
+
+    it("calculates reorder indexes within the assigned slot", async () => {
+      const { component, el } = await mount<ListTestWrapper>(
+        html`<list-test-wrapper></list-test-wrapper>`,
+        { dynamicComponents: [ListTestWrapper] },
+      );
+
+      el.innerHTML = `
+        <calcite-list-item label="Alpha" slot="first" value="a"></calcite-list-item>
+        <calcite-list-item label="Beta" slot="first" value="b"></calcite-list-item>
+        <calcite-list-item label="Gamma" slot="second" value="c"></calcite-list-item>
+      `;
+
+      await expect.poll(() => component.listEl.filteredItems).toHaveLength(3);
+
+      const orderChangeSpy = vi.fn();
+      component.listEl.addEventListener("calciteListOrderChange", orderChangeSpy);
+      const secondItemSortHandle = page
+        .getByRole("row", { name: "Beta" })
+        .getBySelector("calcite-sort-handle");
+      const otherSlotSortHandle = page
+        .getByRole("row", { name: "Gamma" })
+        .getBySelector("calcite-sort-handle");
+      await expect.element(secondItemSortHandle).toHaveProperty("setPosition", 2);
+      await expect.element(secondItemSortHandle).toHaveProperty("setSize", 2);
+      await expect
+        .element(secondItemSortHandle.getBySelector('calcite-dropdown-item[data-value="down"]'))
+        .toHaveProperty("disabled", true);
+      await expect.element(otherSlotSortHandle).toHaveProperty("setPosition", 1);
+      await expect.element(otherSlotSortHandle).toHaveProperty("setSize", 1);
+      await expect
+        .element(otherSlotSortHandle.getBySelector("calcite-dropdown"))
+        .toHaveProperty("disabled", true);
+
+      const firstItem = page.getByRole("row", { name: "Alpha" });
+      const sortHandle = firstItem.getBySelector("calcite-sort-handle");
+      await userEvent.click(sortHandle.getBySelector("calcite-action"));
+      await userEvent.click(sortHandle.getBySelector('calcite-dropdown-item[data-value="down"]'));
+
+      await expect
+        .poll(() => component.listEl.filteredItems.map(({ value }) => value))
+        .toEqual(["b", "a", "c"]);
+      expect(orderChangeSpy).toHaveBeenCalledOnce();
+      expect(orderChangeSpy.mock.calls[0][0].detail.oldIndex).toBe(0);
+      expect(orderChangeSpy.mock.calls[0][0].detail.newIndex).toBe(1);
+    });
+  });
+});
+
+describe("sort menu reorder", () => {
+  mockConsole();
+
+  it("skips filtered list-items when reordering", async () => {
+    const { el } = await mount<List>(
+      <calcite-list dragEnabled filterEnabled filterText="visible">
+        <calcite-list-item label="Visible Alpha" value="a" />
+        <calcite-list-item label="Hidden" value="b" />
+        <calcite-list-item label="Visible Gamma" value="c" />
+      </calcite-list>,
+    );
+
+    await expect.poll(() => el.filteredItems.map(({ value }) => value)).toEqual(["a", "c"]);
+
+    const orderChangeSpy = vi.fn();
+    el.addEventListener("calciteListOrderChange", orderChangeSpy);
+    const firstItem = page.getByRole("row", { name: "Visible Alpha" });
+    const sortHandle = firstItem.getBySelector("calcite-sort-handle");
+    await userEvent.click(sortHandle.getBySelector("calcite-action"));
+    await userEvent.click(sortHandle.getBySelector('calcite-dropdown-item[data-value="down"]'));
+
+    await expect.poll(() => el.filteredItems.map(({ value }) => value)).toEqual(["c", "a"]);
+    expect(orderChangeSpy).toHaveBeenCalledOnce();
+    expect(orderChangeSpy.mock.calls[0][0].detail.oldIndex).toBe(0);
+    expect(orderChangeSpy.mock.calls[0][0].detail.newIndex).toBe(1);
+  });
+
+  it("reorders list-items only within their list-item-group", async () => {
+    const { el } = await mount<List>(
+      <calcite-list dragEnabled>
+        <calcite-list-item-group heading="Group A">
+          <calcite-list-item label="Alpha" value="a" />
+          <calcite-list-item label="Beta" value="b" />
+        </calcite-list-item-group>
+        <calcite-list-item-group heading="Group B">
+          <calcite-list-item label="Gamma" value="c" />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    await expect.poll(() => el.filteredItems).toHaveLength(3);
+
+    const firstItem = page.getByRole("row", { name: "Alpha" });
+    const sortHandle = firstItem.getBySelector("calcite-sort-handle");
+    await userEvent.click(sortHandle.getBySelector("calcite-action"));
+    await userEvent.click(sortHandle.getBySelector('calcite-dropdown-item[data-value="down"]'));
+
+    await expect.poll(() => el.filteredItems.map(({ value }) => value)).toEqual(["b", "a", "c"]);
   });
 });
 

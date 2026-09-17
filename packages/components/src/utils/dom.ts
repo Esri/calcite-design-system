@@ -95,6 +95,14 @@ export function getRootNode(el: Element): Document | ShadowRoot {
   return el.getRootNode() as Document | ShadowRoot;
 }
 
+function getRootNodeCrossingSlots(el: Element): Document | ShadowRoot {
+  while (!el.assignedSlot && el.parentElement) {
+    el = el.parentElement;
+  }
+
+  return getRootNode(el.assignedSlot || el);
+}
+
 /**
  * This helper returns the node's shadowRoot root node if it exists.
  *
@@ -153,11 +161,7 @@ export function queryElementRoots<T extends Element = Element>(
     return null;
   }
 
-  if ((el as Slottable).assignedSlot) {
-    el = el.assignedSlot!;
-  }
-
-  const rootNode = getRootNode(el);
+  const rootNode = getRootNodeCrossingSlots(el);
 
   const found = id
     ? "getElementById" in rootNode
@@ -191,14 +195,10 @@ export function queryElementRootsAll<T extends Element = Element>(
     return [];
   }
 
-  if ((el as Slottable).assignedSlot) {
-    el = el.assignedSlot!;
-  }
-
   const matches: T[] = [];
   const visited = new WeakSet<T>();
 
-  let rootNode = getRootNode(el);
+  let rootNode = getRootNodeCrossingSlots(el);
 
   while (rootNode) {
     rootNode.querySelectorAll<T>(selector).forEach((match) => {
@@ -215,7 +215,7 @@ export function queryElementRootsAll<T extends Element = Element>(
       break;
     }
 
-    rootNode = getRootNode(host);
+    rootNode = getRootNodeCrossingSlots(host);
   }
 
   return matches;
