@@ -17,16 +17,12 @@ const commonExpand = {
 };
 
 const config: Config = {
-  source: [
-    "src/tokens/semantic/[!$]*.json",
-    "src/tokens/reference/[!$]*.json",
-    "src/tokens/reference/color/[!$]*.json",
-  ],
+  source: ["src/tokens/semantic/[!$]*.json", "src/tokens/theme/[!$]*.json", "src/tokens/theme/color/[!$]*.json"],
   include: [
     "src/tokens/core/[!$]*.json",
     "src/tokens/semantic/color/[!$]*.json",
-    "src/tokens/reference/[!$]*.json",
-    "src/tokens/reference/color/[!$]*.json",
+    "src/tokens/theme/[!$]*.json",
+    "src/tokens/theme/color/[!$]*.json",
   ],
   preprocessors: [
     "tokens-studio",

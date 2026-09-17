@@ -60,6 +60,7 @@ export function isTypography(token: TransformedToken): boolean {
 }
 
 interface TokenWithThemingExtension {
+  filePath?: string;
   $extensions?: Record<string, unknown>;
   extensions?: Record<string, unknown>;
   original?: {
@@ -70,6 +71,11 @@ interface TokenWithThemingExtension {
 
 export function isThemingToken(token: TokenWithThemingExtension): boolean {
   return !!(
+    token.filePath?.includes("src/tokens/theme/") ||
+    token.$extensions?.["calcite.theme"] ||
+    token.extensions?.["calcite.theme"] ||
+    token.original?.$extensions?.["calcite.theme"] ||
+    token.original?.extensions?.["calcite.theme"] ||
     token.$extensions?.["calcite.theming"] ||
     token.extensions?.["calcite.theming"] ||
     token.original?.$extensions?.["calcite.theming"] ||
