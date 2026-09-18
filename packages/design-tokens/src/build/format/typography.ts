@@ -8,14 +8,15 @@ import type { RegisterFn, Stylesheet } from "../../types.ts";
 import { state } from "../shared/state.ts";
 import type { FlattenedTransformedToken } from "../../types.ts";
 
-function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
+function getValue(value: string, dictionary: Dictionary): string {
   if (!dictionary.unfilteredTokens) {
     throw new Error(`Unfiltered tokens are required`);
   }
 
   // heuristic: typography tokens only have a single reference
   const [mappedToken] = getReferences(value, dictionary.unfilteredTokens);
-  return outputRef ? `var(--${mappedToken.name});` : mappedToken.$value;
+  const isCoreToken = mappedToken.path[0] === "core";
+  return isCoreToken ? mappedToken.$value : `var(--${mappedToken.name});`;
 }
 
 function outputComment(comment: string, format: Stylesheet): string {
@@ -64,7 +65,6 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
     const originalValue = token.original.$value;
     const extendedToken = selfReferencingTokens.get(token.key) || extendedTokenReferences.get(token.key);
     const include = format === "scss" && extendedToken ? `@include ${extendedToken.name}` : "";
-    const outputRefs = format === "scss" ? !!extendedToken : !selfReferencingTokens.has(token.key);
     const classGroupStrategy = format === "scss" ? "@mixin " : ".";
 
     const declarations = Object.entries(
@@ -73,7 +73,7 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
         : // we use original token to get unresolved values (resolved below)
           getReferences(originalValue, dictionary.tokens)[0].original.$value) as Record<string, string>,
     ).map(([key, value]) => {
-      return `${kebabCase(key)}: ${getValue(value, dictionary, outputRefs)} ${outputComment(token.comment, format)}`;
+      return `${kebabCase(key)}: ${getValue(value, dictionary)} ${outputComment(token.comment, format)}`;
     });
 
     groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);

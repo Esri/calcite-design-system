@@ -45,54 +45,54 @@ exports[`CSS > classes should match 1`] = `
 
 .calcite-typography {
   font-family: var(--calcite-font-family);
-  font-size: var(--calcite-size-rem-0-875);
-  font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-number-unitless-1-15);
-  letter-spacing: var(--calcite-size-none);
-  paragraph-spacing: var(--calcite-size-4);
-  text-case: var(--calcite-font-text-case-none);
-  text-decoration: var(--calcite-font-text-decoration-none);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0;
+  paragraph-spacing: 4px;
+  text-case: none;
+  text-decoration: none;
 }
 .calcite-typography-light-minus-3h {
-  font-size: var(--calcite-size-rem-0-625);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-2);
+  font-size: 0.625rem;
+  font-weight: 300;
+  line-height: 1.2;
 }
 .calcite-typography-light-minus-2h {
-  font-size: var(--calcite-size-rem-0-75);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-size: 0.75rem;
+  font-weight: 300;
+  line-height: 1.33;
 }
 .calcite-typography-light-minus-1h {
-  font-size: var(--calcite-size-rem-0-875);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-15);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.15;
 }
 .calcite-typography-light-0h {
-  font-size: var(--calcite-size-rem-1);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-25);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.25;
 }
 .calcite-typography-light-1h {
-  font-size: var(--calcite-size-rem-1-125);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.33;
 }
 .calcite-typography-light-2h {
-  font-size: var(--calcite-size-rem-1-25);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-2);
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.2;
 }
 .calcite-typography-regular-minus-3h {
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-0-625);
+  line-height: 1.2;
+  font-size: 0.625rem;
 }
 .calcite-typography-regular-minus-2h {
-  font-size: var(--calcite-size-rem-0-75);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-size: 0.75rem;
+  line-height: 1.33;
 }
 .calcite-typography-regular-minus-1h {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-family: var(--calcite-font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.15;
@@ -102,195 +102,195 @@ exports[`CSS > classes should match 1`] = `
   text-decoration: none;
 }
 .calcite-typography-regular-0h {
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1);
+  line-height: 1.25;
+  font-size: 1rem;
 }
 .calcite-typography-regular-1h {
-  line-height: var(--calcite-number-unitless-1-33);
-  font-size: var(--calcite-size-rem-1-125);
+  line-height: 1.33;
+  font-size: 1.125rem;
 }
 .calcite-typography-regular-2h {
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-1-25);
+  line-height: 1.2;
+  font-size: 1.25rem;
 }
 .calcite-typography-medium-minus-3h {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-0-625);
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 0.625rem;
 }
 .calcite-typography-medium-minus-2h {
-  font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-size-rem-0-75);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.33;
 }
 .calcite-typography-medium-minus-1h {
-  font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-size-rem-0-875);
-  line-height: var(--calcite-number-unitless-1-15);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.15;
 }
 .calcite-typography-medium-0h {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 500;
+  line-height: 1.25;
+  font-size: 1rem;
 }
 .calcite-typography-medium-1h {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-33);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 500;
+  line-height: 1.33;
+  font-size: 1.125rem;
 }
 .calcite-typography-medium-2h {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 1.25rem;
 }
 .calcite-typography-bold-minus-3h {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-0-625);
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 0.625rem;
 }
 .calcite-typography-bold-minus-2h {
-  font-weight: var(--calcite-font-weight-demi);
-  font-size: var(--calcite-size-rem-0-75);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1.33;
 }
 .calcite-typography-bold-minus-1h {
-  font-weight: var(--calcite-font-weight-demi);
-  font-size: var(--calcite-size-rem-0-875);
-  line-height: var(--calcite-number-unitless-1-15);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.15;
 }
 .calcite-typography-bold-0h {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 600;
+  line-height: 1.25;
+  font-size: 1rem;
 }
 .calcite-typography-bold-1h {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-33);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 600;
+  line-height: 1.33;
+  font-size: 1.125rem;
 }
 .calcite-typography-bold-2h {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 1.25rem;
 }
 .calcite-typography-wrap-light-0 {
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 1rem;
 }
 .calcite-typography-wrap-light-1 {
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 .calcite-typography-wrap-light-2 {
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 .calcite-typography-wrap-light-3 {
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  font-weight: 300;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 .calcite-typography-wrap-light-minus-2 {
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 .calcite-typography-wrap-light-minus-1 {
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 .calcite-typography-wrap-regular-0 {
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  line-height: 1.375;
+  font-size: 1rem;
 }
 .calcite-typography-wrap-regular-1 {
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 .calcite-typography-wrap-regular-2 {
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 .calcite-typography-wrap-regular-3 {
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 .calcite-typography-wrap-regular-minus-2 {
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 .calcite-typography-wrap-regular-minus-1 {
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 .calcite-typography-wrap-medium-0 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1rem;
 }
 .calcite-typography-wrap-medium-1 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 .calcite-typography-wrap-medium-2 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 .calcite-typography-wrap-medium-3 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  font-weight: 500;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 .calcite-typography-wrap-medium-minus-2 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 .calcite-typography-wrap-medium-minus-1 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 .calcite-typography-wrap-bold-0 {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 1rem;
 }
 .calcite-typography-wrap-bold-1 {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 .calcite-typography-wrap-bold-2 {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 .calcite-typography-wrap-bold-3 {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  font-weight: 600;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 .calcite-typography-wrap-bold-minus-2 {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 .calcite-typography-wrap-bold-minus-1 {
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-display-1 {
-  font-size: var(--calcite-size-rem-1-625);
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1.375;
 }
 .calcite-typography-hierarchy-display-2 {
   font-weight: 600;
@@ -298,9 +298,9 @@ exports[`CSS > classes should match 1`] = `
   font-size: 1.25rem;
 }
 .calcite-typography-hierarchy-heading-1 {
-  font-size: var(--calcite-size-rem-1-625);
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
+  font-size: 1.625rem;
+  font-weight: 500;
+  line-height: 1.375;
 }
 .calcite-typography-hierarchy-heading-2 {
   font-weight: 500;
@@ -327,7 +327,7 @@ exports[`CSS > classes should match 1`] = `
   font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-body {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-family: var(--calcite-font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.15;
@@ -337,10 +337,10 @@ exports[`CSS > classes should match 1`] = `
   text-decoration: none;
 }
 .calcite-typography-hierarchy-overline {
-  font-size: var(--calcite-size-rem-0-75);
-  text-case: var(--calcite-font-text-case-uppercase);
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1);
+  font-size: 0.75rem;
+  text-case: uppercase;
+  font-weight: 600;
+  line-height: 1;
 }
 .calcite-typography-hierarchy-caption {
   line-height: 1.375;
@@ -34244,7 +34244,7 @@ exports[`SCSS > mixins should match 1`] = `
  */
 
 @mixin calcite-typography {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-family: var(--calcite-font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.15;
@@ -34255,343 +34255,343 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-light-minus-3h {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-0-625);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-2);
+  font-size: 0.625rem;
+  font-weight: 300;
+  line-height: 1.2;
 }
 @mixin calcite-typography-light-minus-2h {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-0-75);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-size: 0.75rem;
+  font-weight: 300;
+  line-height: 1.33;
 }
 @mixin calcite-typography-light-minus-1h {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-0-875);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-15);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.15;
 }
 @mixin calcite-typography-light-0h {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-1);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-25);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.25;
 }
 @mixin calcite-typography-light-1h {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-1-125);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.33;
 }
 @mixin calcite-typography-light-2h {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-1-25);
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-2);
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.2;
 }
 @mixin calcite-typography-regular-minus-3h {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-0-625);
+  line-height: 1.2;
+  font-size: 0.625rem;
 }
 @mixin calcite-typography-regular-minus-2h {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-0-75);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-size: 0.75rem;
+  line-height: 1.33;
 }
 @mixin calcite-typography-regular-minus-1h {
   @include calcite-typography;
   font-family: var(--calcite-font-family);
-  font-size: var(--calcite-size-rem-0-875);
-  font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-number-unitless-1-15);
-  letter-spacing: var(--calcite-size-none);
-  paragraph-spacing: var(--calcite-size-4);
-  text-case: var(--calcite-font-text-case-none);
-  text-decoration: var(--calcite-font-text-decoration-none);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0;
+  paragraph-spacing: 4px;
+  text-case: none;
+  text-decoration: none;
 }
 @mixin calcite-typography-regular-0h {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1);
+  line-height: 1.25;
+  font-size: 1rem;
 }
 @mixin calcite-typography-regular-1h {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-33);
-  font-size: var(--calcite-size-rem-1-125);
+  line-height: 1.33;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-regular-2h {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-1-25);
+  line-height: 1.2;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-medium-minus-3h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-0-625);
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 0.625rem;
 }
 @mixin calcite-typography-medium-minus-2h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-size-rem-0-75);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.33;
 }
 @mixin calcite-typography-medium-minus-1h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-size-rem-0-875);
-  line-height: var(--calcite-number-unitless-1-15);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.15;
 }
 @mixin calcite-typography-medium-0h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 500;
+  line-height: 1.25;
+  font-size: 1rem;
 }
 @mixin calcite-typography-medium-1h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-33);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 500;
+  line-height: 1.33;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-medium-2h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-bold-minus-3h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-0-625);
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 0.625rem;
 }
 @mixin calcite-typography-bold-minus-2h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  font-size: var(--calcite-size-rem-0-75);
-  line-height: var(--calcite-number-unitless-1-33);
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1.33;
 }
 @mixin calcite-typography-bold-minus-1h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  font-size: var(--calcite-size-rem-0-875);
-  line-height: var(--calcite-number-unitless-1-15);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.15;
 }
 @mixin calcite-typography-bold-0h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 600;
+  line-height: 1.25;
+  font-size: 1rem;
 }
 @mixin calcite-typography-bold-1h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-33);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 600;
+  line-height: 1.33;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-bold-2h {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-2);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-wrap-light-0 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 1rem;
 }
 @mixin calcite-typography-wrap-light-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-wrap-light-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-wrap-light-3 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  font-weight: 300;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 @mixin calcite-typography-wrap-light-minus-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 @mixin calcite-typography-wrap-light-minus-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  font-weight: 300;
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 @mixin calcite-typography-wrap-regular-0 {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  line-height: 1.375;
+  font-size: 1rem;
 }
 @mixin calcite-typography-wrap-regular-1 {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-wrap-regular-2 {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-wrap-regular-3 {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 @mixin calcite-typography-wrap-regular-minus-2 {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 @mixin calcite-typography-wrap-regular-minus-1 {
   @include calcite-typography;
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 @mixin calcite-typography-wrap-medium-0 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1rem;
 }
 @mixin calcite-typography-wrap-medium-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-wrap-medium-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-wrap-medium-3 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  font-weight: 500;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 @mixin calcite-typography-wrap-medium-minus-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 @mixin calcite-typography-wrap-medium-minus-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 @mixin calcite-typography-wrap-bold-0 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 1rem;
 }
 @mixin calcite-typography-wrap-bold-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-wrap-bold-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-wrap-bold-3 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-25);
-  font-size: var(--calcite-size-rem-1-625);
+  font-weight: 600;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 @mixin calcite-typography-wrap-bold-minus-2 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 @mixin calcite-typography-wrap-bold-minus-1 {
   @include calcite-typography;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 @mixin calcite-typography-hierarchy-display-1 {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-1-625);
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1.375;
 }
 @mixin calcite-typography-hierarchy-display-2 {
   @include calcite-typography-wrap-bold-2;
-  font-weight: var(--calcite-font-weight-demi);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-hierarchy-heading-1 {
   @include calcite-typography;
-  font-size: var(--calcite-size-rem-1-625);
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
+  font-size: 1.625rem;
+  font-weight: 500;
+  line-height: 1.375;
 }
 @mixin calcite-typography-hierarchy-heading-2 {
   @include calcite-typography-wrap-medium-2;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-25);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1.25rem;
 }
 @mixin calcite-typography-hierarchy-heading-3 {
   @include calcite-typography-wrap-medium-1;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1-125);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1.125rem;
 }
 @mixin calcite-typography-hierarchy-heading-4 {
   @include calcite-typography-wrap-medium-0;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-1);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 1rem;
 }
 @mixin calcite-typography-hierarchy-heading-5 {
   @include calcite-typography-wrap-medium-minus-1;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 @mixin calcite-typography-hierarchy-body-snug {
   @include calcite-typography-wrap-regular-minus-1;
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-875);
+  line-height: 1.375;
+  font-size: 0.875rem;
 }
 @mixin calcite-typography-hierarchy-body {
   @include calcite-typography;
   font-family: var(--calcite-font-family);
-  font-size: var(--calcite-size-rem-0-875);
-  font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-number-unitless-1-15);
-  letter-spacing: var(--calcite-size-none);
-  paragraph-spacing: var(--calcite-size-4);
-  text-case: var(--calcite-font-text-case-none);
-  text-decoration: var(--calcite-font-text-decoration-none);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0;
+  paragraph-spacing: 4px;
+  text-case: none;
+  text-decoration: none;
 }
 @mixin calcite-typography-hierarchy-overline {
   font-size: 0.75rem;
@@ -34601,8 +34601,8 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-hierarchy-caption {
   @include calcite-typography-wrap-regular-minus-2;
-  line-height: var(--calcite-number-unitless-1-375);
-  font-size: var(--calcite-size-rem-0-75);
+  line-height: 1.375;
+  font-size: 0.75rem;
 }
 "
 `;
