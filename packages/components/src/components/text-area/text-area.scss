@@ -36,7 +36,11 @@
 @use "../../styles/includes";
 
 :host {
-  @apply inline-block relative w-full h-full box-border;
+  display: inline-block;
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  box-sizing: border-box;
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
   --calcite-internal-text-area-footer-border-color: var(
     --calcite-text-area-footer-border-color,
@@ -61,7 +65,9 @@
 }
 
 .wrapper {
-  @apply h-full w-full box-border;
+  block-size: 100%;
+  inline-size: 100%;
+  box-sizing: border-box;
   box-shadow: var(--calcite-internal-text-area-shadow);
   border-radius: var(--calcite-internal-text-area-corner-radius);
 }
@@ -79,7 +85,11 @@
 }
 
 .text-area {
-  @apply relative block box-border w-full m-0;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin: 0;
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-border-color);
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
@@ -95,22 +105,29 @@
   background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
   border-radius: var(--calcite-internal-text-area-corner-radius) var(--calcite-internal-text-area-corner-radius) 0 0;
   &::placeholder {
-    @apply font-normal;
+    font-weight: var(--calcite-font-weight-normal);
   }
 
   @media screen and (max-width: 480px) {
-    @apply resize-none;
+    resize: none;
   }
 
   &:focus {
-    @apply focus-inset;
+    outline: var(--calcite-border-width-md) solid
+      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
+    outline-offset: calc(
+      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+    );
   }
 
   &.text-area--invalid {
     --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
     &:focus {
-      @apply focus-inset-danger;
+      outline: var(--calcite-border-width-md) solid var(--calcite-color-status-danger);
+      outline-offset: calc(
+        calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+      );
     }
   }
 
@@ -143,7 +160,9 @@
 }
 
 .footer {
-  @apply flex box-border items-center;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
   line-height: var(--calcite-font-line-height-base);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-footer-border-color);
   border-block-start: var(--calcite-border-width-none);
@@ -151,7 +170,10 @@
 }
 
 .character-limit {
-  @apply flex justify-end items-center whitespace-nowrap;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  white-space: nowrap;
 
   font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
   font-weight: var(--calcite-font-weight-regular);
@@ -175,36 +197,46 @@
 
 .content,
 .hide {
-  @apply hidden;
+  display: none;
 }
 
 .container {
-  @apply flex justify-between w-full;
+  display: flex;
+  justify-content: space-between;
+  inline-size: 100%;
 }
 
 .footer--end-only {
-  @apply justify-end;
+  justify-content: flex-end;
 }
 
 .assistive-text {
-  @apply sr-only;
+  position: absolute;
+  inline-size: var(--calcite-space-px);
+  block-size: var(--calcite-space-px);
+  padding: 0;
+  margin: calc(-1 * var(--calcite-space-px));
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: var(--calcite-border-width-none);
 }
 
 .text-area.text-area--only {
-  @apply h-full;
+  block-size: 100%;
   min-block-size: var(--calcite-text-area-min-height, 0);
 }
 
 :host([resize="none"]) .text-area {
-  @apply resize-none;
+  resize: none;
 }
 
 :host([resize="horizontal"]) .text-area {
-  @apply resize-x;
+  resize: horizontal;
 }
 
 :host([resize="vertical"]) .text-area {
-  @apply resize-y;
+  resize: vertical;
 }
 
 :host([scale="s"]) {
@@ -249,7 +281,10 @@
   --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
   .text-area:focus {
-    @apply focus-inset-danger;
+    outline: var(--calcite-border-width-md) solid var(--calcite-color-status-danger);
+    outline-offset: calc(
+      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
+    );
   }
 }
 
