@@ -27,25 +27,19 @@ export class Text extends LitElement {
 
   //#region Private Properties
 
-  private value?: string;
+  private isTextContentChanged = false;
 
   private isTruncated = false;
 
   private truncatedValue = "";
 
-  private isTextContentChanged = false;
+  private value?: string;
 
   private resizeObserver = createObserver("resize", (): void => {
     const { truncatePosition, maxLines } = this;
 
     if (truncatePosition === "end") {
-      const isOverflowing =
-        this.el.scrollWidth > this.el.clientWidth || this.el.scrollHeight > this.el.clientHeight;
-      if (isOverflowing) {
-        this.setTitleValue();
-      } else {
-        this.clearTitleValue();
-      }
+      this.handleOverflow();
     }
 
     if (truncatePosition === "middle" && (!maxLines || maxLines === 1)) {
@@ -72,8 +66,6 @@ export class Text extends LitElement {
 
   //#endregion
 
-  //#endregion
-
   //#region Lifecycle
 
   override connectedCallback(): void {
@@ -84,13 +76,11 @@ export class Text extends LitElement {
     if (changes.has("maxLines") && this.hasUpdated) {
       this.updateMaxLinesToken();
     }
-    if (changes.has("tooltipEnabled")) {
-      this.updateTooltip();
+    if (changes.has("tooltipEnabled") && this.hasUpdated) {
+      this.updateTitle();
     }
     if (changes.has("truncatePosition") && this.hasUpdated) {
-      //[TODO]:switching back from middle to end is not working as expected.
-      this.resizeObserver?.disconnect();
-      this.resizeObserver?.observe(this.el);
+      this.handleTruncatePositionChange();
     }
   }
 
@@ -106,58 +96,11 @@ export class Text extends LitElement {
 
   //#region Private Methods
 
-  private updateTooltip(): void {
-    this.el.title = this.tooltipEnabled ? this.value || "" : "";
-  }
-
-  private handleDefaultSlotChange(event: Event): void {
-    if (this.isTextContentChanged) {
-      this.isTextContentChanged = false;
-      return;
+  private clearTitleValue(): void {
+    if (this.isTruncated) {
+      this.isTruncated = false;
+      this.el.title = "";
     }
-    this.value = slotChangeGetTextContent(event);
-    this.truncatedValue = this.value;
-  }
-
-  private truncateText(): void {
-    requestAnimationFrame(() => {
-      const clientWidth = this.el.clientWidth;
-      if (!clientWidth) {
-        return;
-      }
-      const computedStyle = getComputedStyle(this.el);
-      const font = computedStyle.font || `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
-      const textWidth = getTextWidth(this.value, font);
-
-      if (textWidth <= clientWidth) {
-        this.setValue(this.value);
-        this.clearTitleValue();
-        return;
-      } else {
-        const middleTruncatedText = this.getTruncatedText(
-          this.truncatedValue,
-          clientWidth,
-          font,
-          ELLIPSIS_CHAR,
-        );
-        this.setValue(middleTruncatedText);
-        this.setTitleValue();
-        return;
-      }
-    });
-  }
-
-  private setValue(value: string | undefined): void {
-    if (!value) {
-      return;
-    }
-    const currentTextContent = (this.el.textContent || "").trim();
-    if (currentTextContent === value) {
-      return;
-    }
-
-    this.isTextContentChanged = true;
-    this.el.textContent = value;
   }
 
   private getTruncatedText(
@@ -194,6 +137,35 @@ export class Text extends LitElement {
     return truncatedString(optimalIndex);
   }
 
+  private handleDefaultSlotChange(event: Event): void {
+    if (this.isTextContentChanged) {
+      this.isTextContentChanged = false;
+      return;
+    }
+    this.value = slotChangeGetTextContent(event);
+    this.truncatedValue = this.value;
+  }
+
+  private handleOverflow(): void {
+    const isOverflowing =
+      this.el.scrollWidth > this.el.clientWidth || this.el.scrollHeight > this.el.clientHeight;
+    if (isOverflowing) {
+      this.setTitleValue();
+    } else {
+      this.clearTitleValue();
+    }
+  }
+
+  private handleTruncatePositionChange(): void {
+    if (this.truncatePosition === "end") {
+      this.resizeObserver?.disconnect();
+      this.resizeObserver?.observe(this.el);
+      this.setValue(this.value);
+    } else {
+      this.setValue(this.value);
+    }
+  }
+
   private setTitleValue(): void {
     if (!this.isTruncated) {
       this.isTruncated = true;
@@ -203,11 +175,45 @@ export class Text extends LitElement {
     }
   }
 
-  private clearTitleValue(): void {
-    if (this.isTruncated) {
-      this.isTruncated = false;
-      this.el.title = "";
+  private setValue(value: string | undefined): void {
+    if (!value) {
+      return;
     }
+    const currentTextContent = (this.el.textContent || "").trim();
+    if (currentTextContent === value) {
+      return;
+    }
+
+    this.isTextContentChanged = true;
+    this.el.textContent = value;
+  }
+
+  private truncateText(): void {
+    requestAnimationFrame(() => {
+      const clientWidth = this.el.clientWidth;
+      if (!clientWidth) {
+        return;
+      }
+      const computedStyle = getComputedStyle(this.el);
+      const font = computedStyle.font || `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
+      const textWidth = getTextWidth(this.value, font);
+
+      if (textWidth <= clientWidth) {
+        this.setValue(this.value);
+        this.clearTitleValue();
+        return;
+      } else {
+        const middleTruncatedText = this.getTruncatedText(
+          this.truncatedValue,
+          clientWidth,
+          font,
+          ELLIPSIS_CHAR,
+        );
+        this.setValue(middleTruncatedText);
+        this.setTitleValue();
+        return;
+      }
+    });
   }
 
   private updateMaxLinesToken(): void {
@@ -215,6 +221,11 @@ export class Text extends LitElement {
       "--calcite-internal-text-max-lines",
       this.maxLines?.toString() || null,
     );
+    this.handleOverflow();
+  }
+
+  private updateTitle(): void {
+    this.el.title = this.tooltipEnabled ? this.value || "" : "";
   }
 
   //#endregion

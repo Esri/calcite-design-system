@@ -3,13 +3,13 @@ import { html } from "../../../support/formatting";
 import { Text } from "./text";
 import type { StoryContext } from "@storybook/web-components-vite";
 
-type TypographyStoryArgs = Pick<Text, "maxLines" | "tooltipEnabled" | "truncatePosition"> & {
+type TextStoryArgs = Pick<Text, "maxLines" | "tooltipEnabled" | "truncatePosition"> & {
   text: string;
   containerWidth: number;
 };
 
 export default {
-  title: "Components/Typography",
+  title: "Components/Text",
   args: {
     containerWidth: 200,
   },
@@ -33,7 +33,7 @@ export default {
   ],
 };
 
-export const simple = (args: TypographyStoryArgs): string => html`
+export const simple = (args: TextStoryArgs): string => html`
   <calcite-text
     truncate-position="${args.truncatePosition}"
     max-lines="${args.maxLines}"
