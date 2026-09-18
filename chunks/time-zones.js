@@ -1,0 +1,28 @@
+/* COPYRIGHT Esri - https://js.arcgis.com/5.2/LICENSE.txt */
+import { g as a, a as s } from "./index-p4VH55K1.js";
+const r = {
+  /* eslint-disable @typescript-eslint/naming-convention */
+  CET: "Europe/Brussels",
+  CST6CDT: "America/Chicago",
+  EET: "Europe/Athens",
+  EST: "America/Panama",
+  EST5EDT: "America/New_York",
+  HST: "Pacific/Honolulu",
+  MET: "Europe/Brussels",
+  MST: "America/Phoenix",
+  MST7MDT: "America/Denver",
+  PST8PDT: "America/Los_Angeles",
+  WET: "Europe/Lisbon"
+  /* eslint-enable @typescript-eslint/naming-convention */
+}, t = (() => {
+  const e = Object.keys(r);
+  return Object.keys(s()).filter((o) => !e.includes(o));
+})();
+function c(e) {
+  const o = r[e];
+  return o || (a(e)?.aliasOf ?? e);
+}
+export {
+  c as normalize,
+  t as timeZones
+};
