@@ -4,6 +4,11 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
+ * @prop --calcite-link-text-color-hover: Specifies the component's text color on hover.
+ * @prop --calcite-link-text-color-press: Specifies the component's text color when pressed.
+ * @prop --calcite-link-visited-text-color: Specifies the component's text color for visited links.
+ * @prop --calcite-link-visited-text-color-hover: Specifies the component's text color for visited links on hover.
+ * @prop --calcite-link-visited-text-color-press: Specifies the component's text color for visited links when pressed.
  */
 
 @use "../../styles/includes";
@@ -23,15 +28,23 @@
   color: var(--calcite-link-text-color, var(--calcite-color-text-link));
   line-height: inherit;
   white-space: initial;
+  /* the idle underline layer derives from currentColor (rather than a fixed token) so it can legally track the color applied via :visited */
   background-image:
     linear-gradient(currentColor, currentColor),
-    linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
+    linear-gradient(
+      color-mix(in srgb, currentColor 40%, transparent),
+      color-mix(in srgb, currentColor 40%, transparent)
+    );
   background-position-x: 0 100%;
   background-position-y: min(1.5em, 100%);
   background-repeat: no-repeat;
   background-size:
     0% var(--calcite-border-width-sm),
     100% var(--calcite-border-width-sm);
+
+  &:hover {
+    color: var(--calcite-link-text-color-hover, var(--calcite-color-text-link));
+  }
 
   &:hover,
   &:focus {
@@ -45,6 +58,7 @@
   }
 
   &:active {
+    color: var(--calcite-link-text-color-press, var(--calcite-color-text-link));
     background-size:
       100% var(--calcite-border-width-md),
       100% var(--calcite-border-width-md);
@@ -54,6 +68,24 @@
         100% 100%,
         100% 100%;
     }
+  }
+
+  &:visited {
+    color: var(--calcite-link-visited-text-color, var(--calcite-color-text-link-visited));
+  }
+
+  &:visited:hover {
+    color: var(
+      --calcite-link-visited-text-color-hover,
+      var(--calcite-link-visited-text-color, var(--calcite-color-text-link-visited))
+    );
+  }
+
+  &:visited:active {
+    color: var(
+      --calcite-link-visited-text-color-press,
+      var(--calcite-link-visited-text-color, var(--calcite-color-text-link-visited))
+    );
   }
 
   @include includes.transition-default($extra-props: "background-size");

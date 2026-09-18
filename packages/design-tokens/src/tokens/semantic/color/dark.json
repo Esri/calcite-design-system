@@ -167,6 +167,14 @@
         "$type": "color",
         "$value": "{core.color.dark.blue.d-bb-420}"
       },
+      "link-visited": {
+        "attributes": {
+          "category": "color",
+          "group": "text"
+        },
+        "$type": "color",
+        "$value": "{core.color.vibrant.violet.v-vv-120}"
+      },
       "highlight": {
         "attributes": {
           "category": "color",
