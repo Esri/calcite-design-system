@@ -40,7 +40,7 @@
   @apply cursor-move;
   &:hover {
     color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
-    background-color: var(--calcite-handle-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-handle-background-color-hover, var(--calcite-color-surface-3));
   }
   &:focus {
     @apply focus-inset;
@@ -49,7 +49,7 @@
   }
   &--selected {
     color: var(--calcite-handle-icon-color-selected, var(--calcite-color-text-1));
-    background-color: var(--calcite-handle-background-color-selected, var(--calcite-color-foreground-3));
+    background-color: var(--calcite-handle-background-color-selected, var(--calcite-color-surface-4));
   }
 }
 

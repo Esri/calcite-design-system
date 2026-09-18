@@ -56,7 +56,7 @@
 
   box-shadow: var(--calcite-shadow-md);
   border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2) /* 4px */;
-  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-action-background-color, var(--calcite-color-surface-2));
   gap: var(--calcite-internal-action-pad-gap);
   padding: var(--calcite-internal-action-pad-padding);
 }

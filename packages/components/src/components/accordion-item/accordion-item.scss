@@ -88,12 +88,12 @@
 .header--solid {
   --calcite-internal-accordion-item-header-background-color-hover: var(
     --calcite-accordion-item-header-background-color-hover,
-    var(--calcite-color-foreground-2)
+    var(--calcite-color-surface-3)
   );
 
   --calcite-internal-accordion-item-header-background-color-press: var(
     --calcite-accordion-item-header-background-color-press,
-    var(--calcite-color-foreground-3)
+    var(--calcite-color-surface-4)
   );
 }
 

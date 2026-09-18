@@ -72,13 +72,13 @@
   @apply border
     border-solid;
   box-shadow: var(--calcite-shadow-md);
-  background-color: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-tooltip-background-color, var(--calcite-color-surface-2));
   border-color: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
 }
 
 .calcite-floating-ui-arrow {
-  fill: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
+  fill: var(--calcite-tooltip-background-color, var(--calcite-color-surface-2));
 }
 
 .calcite-floating-ui-arrow__stroke {

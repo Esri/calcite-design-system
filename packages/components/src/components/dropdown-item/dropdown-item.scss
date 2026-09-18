@@ -120,12 +120,12 @@
 
 :host(:hover:not([disabled])) {
   .container {
-    background-color: var(--calcite-dropdown-item-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-dropdown-item-background-color-hover, var(--calcite-color-surface-3));
   }
 }
 
 :host(:active:not([disabled])) .container {
-  background-color: var(--calcite-dropdown-item-background-color-press, var(--calcite-color-foreground-3));
+  background-color: var(--calcite-dropdown-item-background-color-press, var(--calcite-color-surface-4));
 }
 
 :host(:hover:not([disabled])),
