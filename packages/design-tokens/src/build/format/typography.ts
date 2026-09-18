@@ -8,7 +8,7 @@ import type { RegisterFn, Stylesheet } from "../../types.ts";
 import { state } from "../shared/state.ts";
 import type { FlattenedTransformedToken } from "../../types.ts";
 
-function getValue(value: string, dictionary: Dictionary): string {
+function getValue(property: string, value: string, dictionary: Dictionary): string {
   if (!dictionary.unfilteredTokens) {
     throw new Error(`Unfiltered tokens are required`);
   }
@@ -16,7 +16,14 @@ function getValue(value: string, dictionary: Dictionary): string {
   // heuristic: typography tokens only have a single reference
   const [mappedToken] = getReferences(value, dictionary.unfilteredTokens);
   const isCoreToken = mappedToken.path[0] === "core";
-  return isCoreToken ? mappedToken.$value : `var(--${mappedToken.name});`;
+  if (!isCoreToken) {
+    return `var(--${mappedToken.name});`;
+  }
+
+  const mappedValue = mappedToken.$value;
+  return property === "lineHeight" && typeof mappedValue === "string" && mappedValue.endsWith("%")
+    ? `${Number.parseFloat(mappedValue) / 100}`
+    : mappedValue;
 }
 
 function outputComment(comment: string, format: Stylesheet): string {
@@ -73,7 +80,7 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
         : // we use original token to get unresolved values (resolved below)
           getReferences(originalValue, dictionary.tokens)[0].original.$value) as Record<string, string>,
     ).map(([key, value]) => {
-      return `${kebabCase(key)}: ${getValue(value, dictionary)} ${outputComment(token.comment, format)}`;
+      return `${kebabCase(key)}: ${getValue(key, value, dictionary)} ${outputComment(token.comment, format)}`;
     });
 
     groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);
