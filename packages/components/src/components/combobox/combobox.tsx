@@ -599,7 +599,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   constructor() {
     super();
     useLabel(this);
-    this.listenOn(document, "click", this.documentClickHandler);
     this.listen<ToEvents<ComboboxItem>["calciteComboboxItemChange"]>(
       "calciteComboboxItemChange",
       this.calciteComboboxItemChangeHandler,
@@ -620,6 +619,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   async load(): Promise<void> {
+    this.listenOn(document, "click", this.documentClickHandler);
     this.handleSelectionModeWarning();
   }
 
