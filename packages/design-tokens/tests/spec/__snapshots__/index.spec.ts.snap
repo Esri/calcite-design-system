@@ -936,7 +936,6 @@ exports[`CSS > dark should match 1`] = `
   --calcite-color-text-3: #9e9e9e;
   --calcite-color-text-inverse: #141414;
   --calcite-color-text-link: #00a0ff;
-  --calcite-color-text-link-visited: #b580ff;
   --calcite-color-text-highlight: #d6efff;
   --calcite-color-border-1: #545454;
   --calcite-color-border-2: #4a4a4a;
@@ -1163,373 +1162,124 @@ exports[`CSS > index should match 1`] = `
 @import url("./semantic.css");
 @import url("./classes.css");
 :root {
-  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-status-danger-press: #7c1d13;
-  --calcite-color-status-danger-hover: #a82b1e;
-  --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #9a5b10;
-  --calcite-color-status-warning-hover: #c26b00;
-  --calcite-color-status-warning: #da7c0b;
-  --calcite-color-status-success-press: #0d3f14;
-  --calcite-color-status-success-hover: #1a6324;
-  --calcite-color-status-success: #288835;
-  --calcite-color-status-info-press: #00304d;
-  --calcite-color-status-info-hover: #004874;
-  --calcite-color-status-info: #00619b;
-  --calcite-color-inverse-press: #212121;
-  --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #363636;
-  --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
-  --calcite-color-brand-press: #004874;
-  --calcite-color-brand-hover: #00619b;
-  --calcite-color-brand: #007ac2;
-  --calcite-color-border-white: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-ghost: rgba(
-    0,
-    0,
-    0,
-    0.3
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #ebebeb;
-  --calcite-color-border-2: #dedede;
-  --calcite-color-border-1: #d4d4d4;
-  --calcite-color-text-highlight: #004874;
-  --calcite-color-text-link-visited: #633b9b;
-  --calcite-color-text-link: #00619b;
-  --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-3: #6b6b6b;
-  --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #141414;
-  --calcite-color-foreground-current: #d6efff; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-  --calcite-color-foreground-1: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-  --calcite-color-background-none: rgba(
-    255,
-    255,
-    255,
-    0
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-  --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
+  color-scheme: light;
   --calcite-color-surface-1: var(
     --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
-}
-@media (prefers-color-scheme: light) {
-  .calcite-mode-auto {
-    --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-    --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-    --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-    --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-    --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-    --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-    --calcite-color-transparent: rgba(0, 0, 0, 0);
-    --calcite-color-status-danger-press: #7c1d13;
-    --calcite-color-status-danger-hover: #a82b1e;
-    --calcite-color-status-danger: #d83020;
-    --calcite-color-status-warning-press: #9a5b10;
-    --calcite-color-status-warning-hover: #c26b00;
-    --calcite-color-status-warning: #da7c0b;
-    --calcite-color-status-success-press: #0d3f14;
-    --calcite-color-status-success-hover: #1a6324;
-    --calcite-color-status-success: #288835;
-    --calcite-color-status-info-press: #00304d;
-    --calcite-color-status-info-hover: #004874;
-    --calcite-color-status-info: #00619b;
-    --calcite-color-inverse-press: #212121;
-    --calcite-color-inverse-hover: #2b2b2b;
-    --calcite-color-inverse: #363636;
-    --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
-    --calcite-color-brand-press: #004874;
-    --calcite-color-brand-hover: #00619b;
-    --calcite-color-brand: #007ac2;
-    --calcite-color-border-white: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-    --calcite-color-border-ghost: rgba(
-      0,
-      0,
-      0,
-      0.3
-    ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-    --calcite-color-border-input: #949494;
-    --calcite-color-border-3: #ebebeb;
-    --calcite-color-border-2: #dedede;
-    --calcite-color-border-1: #d4d4d4;
-    --calcite-color-text-highlight: #004874;
-    --calcite-color-text-link-visited: #633b9b;
-    --calcite-color-text-link: #00619b;
-    --calcite-color-text-inverse: #ffffff;
-    --calcite-color-text-3: #6b6b6b;
-    --calcite-color-text-2: #4a4a4a;
-    --calcite-color-text-1: #141414;
-    --calcite-color-foreground-current: #d6efff; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-    --calcite-color-foreground-3: #ebebeb; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-    --calcite-color-foreground-2: #f2f2f2; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-    --calcite-color-foreground-1: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-    --calcite-color-background-none: rgba(
-      255,
-      255,
-      255,
-      0
-    ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-    --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-    --calcite-color-focus: var(--calcite-color-brand);
-    --calcite-color-surface-highlight: var(
-      --calcite-color-foreground-current
-    ); /** Replaces \`--calcite-color-foreground-current\` */
-    --calcite-color-surface-4: var(
-      --calcite-color-foreground-3
-    ); /** Replaces \`--calcite-color-foreground-3\` */
-    --calcite-color-surface-3: var(
-      --calcite-color-foreground-2
-    ); /** Replaces \`--calcite-color-foreground-2\` */
-    --calcite-color-surface-2: var(
-      --calcite-color-foreground-1
-    ); /** Replaces \`--calcite-color-foreground-1\` */
-    --calcite-color-surface-1: var(
-      --calcite-color-background
-    ); /** Replaces \`--calcite-color-background\` */
-  }
-}
-@media (prefers-color-scheme: dark) {
-  .calcite-mode-auto {
-    --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-    --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-    --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-    --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-    --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-    --calcite-color-transparent: rgba(255, 255, 255, 0);
-    --calcite-color-status-danger-press: #fe9989;
-    --calcite-color-status-danger-hover: #fe7863;
-    --calcite-color-status-danger: #fe583e;
-    --calcite-color-status-warning-press: #ffc47d;
-    --calcite-color-status-warning-hover: #ffaf4f;
-    --calcite-color-status-warning: #f89927;
-    --calcite-color-status-success-press: #9df2a3;
-    --calcite-color-status-success-hover: #6df278;
-    --calcite-color-status-success: #36da43;
-    --calcite-color-status-info-press: #80d1ff;
-    --calcite-color-status-info-hover: #40b9ff;
-    --calcite-color-status-info: #00a0ff;
-    --calcite-color-inverse-press: #ebebeb;
-    --calcite-color-inverse-hover: #f2f2f2;
-    --calcite-color-inverse: #f7f7f7;
-    --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
-    --calcite-color-brand-press: #80d1ff;
-    --calcite-color-brand-hover: #40b9ff;
-    --calcite-color-brand: #009af2;
-    --calcite-color-border-white: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-    --calcite-color-border-ghost: rgba(
-      117,
-      117,
-      117,
-      0.3
-    ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-    --calcite-color-border-input: #757575;
-    --calcite-color-border-3: #404040;
-    --calcite-color-border-2: #4a4a4a;
-    --calcite-color-border-1: #545454;
-    --calcite-color-text-highlight: #d6efff;
-    --calcite-color-text-link-visited: #b580ff;
-    --calcite-color-text-link: #00a0ff;
-    --calcite-color-text-inverse: #141414;
-    --calcite-color-text-3: #9e9e9e;
-    --calcite-color-text-2: #bfbfbf;
-    --calcite-color-text-1: #ffffff;
-    --calcite-color-foreground-current: #2b465f; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-    --calcite-color-foreground-3: #404040; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-    --calcite-color-foreground-2: #363636; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-    --calcite-color-foreground-1: #2b2b2b; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-    --calcite-color-background-none: rgba(
-      255,
-      255,
-      255,
-      0
-    ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-    --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-    --calcite-color-focus: var(--calcite-color-brand);
-    --calcite-color-surface-highlight: var(
-      --calcite-color-foreground-current
-    ); /** Replaces \`--calcite-color-foreground-current\` */
-    --calcite-color-surface-4: var(
-      --calcite-color-foreground-3
-    ); /** Replaces \`--calcite-color-foreground-3\` */
-    --calcite-color-surface-3: var(
-      --calcite-color-foreground-2
-    ); /** Replaces \`--calcite-color-foreground-2\` */
-    --calcite-color-surface-2: var(
-      --calcite-color-foreground-1
-    ); /** Replaces \`--calcite-color-foreground-1\` */
-    --calcite-color-surface-1: var(
-      --calcite-color-background
-    ); /** Replaces \`--calcite-color-background\` */
-  }
-}
-.calcite-mode-light {
-  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-status-danger-press: #7c1d13;
-  --calcite-color-status-danger-hover: #a82b1e;
-  --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #9a5b10;
-  --calcite-color-status-warning-hover: #c26b00;
-  --calcite-color-status-warning: #da7c0b;
-  --calcite-color-status-success-press: #0d3f14;
-  --calcite-color-status-success-hover: #1a6324;
-  --calcite-color-status-success: #288835;
-  --calcite-color-status-info-press: #00304d;
-  --calcite-color-status-info-hover: #004874;
-  --calcite-color-status-info: #00619b;
-  --calcite-color-inverse-press: #212121;
-  --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #363636;
-  --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
-  --calcite-color-brand-press: #004874;
-  --calcite-color-brand-hover: #00619b;
-  --calcite-color-brand: #007ac2;
-  --calcite-color-border-white: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-ghost: rgba(
-    0,
-    0,
-    0,
-    0.3
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #ebebeb;
-  --calcite-color-border-2: #dedede;
-  --calcite-color-border-1: #d4d4d4;
-  --calcite-color-text-highlight: #004874;
-  --calcite-color-text-link-visited: #633b9b;
-  --calcite-color-text-link: #00619b;
-  --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-3: #6b6b6b;
-  --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #141414;
-  --calcite-color-foreground-current: #d6efff; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-  --calcite-color-foreground-1: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-  --calcite-color-background-none: rgba(
-    255,
-    255,
-    255,
-    0
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-  --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
   --calcite-color-surface-2: var(
     --calcite-color-foreground-1
   ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-3: var(
+    --calcite-color-foreground-2
+  ); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: var(
+    --calcite-color-foreground-3
+  ); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: var(
+    --calcite-color-foreground-current
+  ); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-background: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-color-background-none: light-dark(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-foreground-1: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-current: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
+  --calcite-color-text-1: light-dark(#141414, #ffffff);
+  --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+  --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+  --calcite-color-text-inverse: light-dark(#ffffff, #141414);
+  --calcite-color-text-link: light-dark(#00619b, #00a0ff);
+  --calcite-color-text-highlight: light-dark(#004874, #d6efff);
+  --calcite-color-border-1: light-dark(#d4d4d4, #545454);
+  --calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+  --calcite-color-border-3: light-dark(#ebebeb, #404040);
+  --calcite-color-border-input: light-dark(#949494, #757575);
+  --calcite-color-border-ghost: light-dark(
+    rgba(0, 0, 0, 0.3),
+    rgba(117, 117, 117, 0.3)
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-border-white: light-dark(
+    #ffffff,
+    #f7f7f7
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-brand: light-dark(#007ac2, #009af2);
+  --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+  --calcite-color-brand-press: light-dark(#004874, #80d1ff);
+  --calcite-color-brand-underline: light-dark(
+    rgba(0, 97, 155, 0.4),
+    rgba(0, 160, 255, 0.4)
+  );
+  --calcite-color-inverse: light-dark(#363636, #f7f7f7);
+  --calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+  --calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+  --calcite-color-status-info: light-dark(#00619b, #00a0ff);
+  --calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+  --calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+  --calcite-color-status-success: light-dark(#288835, #36da43);
+  --calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+  --calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+  --calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+  --calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+  --calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+  --calcite-color-status-danger: light-dark(#d83020, #fe583e);
+  --calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+  --calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+  --calcite-color-transparent: light-dark(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-transparent-hover: light-dark(
+    rgba(0, 0, 0, 0.04),
+    rgba(255, 255, 255, 0.12)
+  );
+  --calcite-color-transparent-press: light-dark(
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0.16)
+  );
+  --calcite-color-transparent-scrim: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(0, 0, 0, 0.85)
+  );
+  --calcite-color-transparent-tint: light-dark(
+    rgba(255, 255, 255, 0.8),
+    rgba(43, 43, 43, 0.8)
+  );
+  --calcite-color-transparent-inverse-hover: light-dark(
+    rgba(255, 255, 255, 0.12),
+    rgba(0, 0, 0, 0.04)
+  );
+  --calcite-color-transparent-inverse-press: light-dark(
+    rgba(255, 255, 255, 0.16),
+    rgba(0, 0, 0, 0.08)
+  );
+  --calcite-color-focus: var(--calcite-color-brand);
+}
+.calcite-mode-auto {
+  color-scheme: light dark;
 }
 .calcite-mode-dark {
-  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-status-danger-press: #fe9989;
-  --calcite-color-status-danger-hover: #fe7863;
-  --calcite-color-status-danger: #fe583e;
-  --calcite-color-status-warning-press: #ffc47d;
-  --calcite-color-status-warning-hover: #ffaf4f;
-  --calcite-color-status-warning: #f89927;
-  --calcite-color-status-success-press: #9df2a3;
-  --calcite-color-status-success-hover: #6df278;
-  --calcite-color-status-success: #36da43;
-  --calcite-color-status-info-press: #80d1ff;
-  --calcite-color-status-info-hover: #40b9ff;
-  --calcite-color-status-info: #00a0ff;
-  --calcite-color-inverse-press: #ebebeb;
-  --calcite-color-inverse-hover: #f2f2f2;
-  --calcite-color-inverse: #f7f7f7;
-  --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
-  --calcite-color-brand-press: #80d1ff;
-  --calcite-color-brand-hover: #40b9ff;
-  --calcite-color-brand: #009af2;
-  --calcite-color-border-white: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-ghost: rgba(
-    117,
-    117,
-    117,
-    0.3
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-input: #757575;
-  --calcite-color-border-3: #404040;
-  --calcite-color-border-2: #4a4a4a;
-  --calcite-color-border-1: #545454;
-  --calcite-color-text-highlight: #d6efff;
-  --calcite-color-text-link-visited: #b580ff;
-  --calcite-color-text-link: #00a0ff;
-  --calcite-color-text-inverse: #141414;
-  --calcite-color-text-3: #9e9e9e;
-  --calcite-color-text-2: #bfbfbf;
-  --calcite-color-text-1: #ffffff;
-  --calcite-color-foreground-current: #2b465f; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-  --calcite-color-foreground-3: #404040; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-  --calcite-color-foreground-2: #363636; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-  --calcite-color-foreground-1: #2b2b2b; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-  --calcite-color-background-none: rgba(
-    255,
-    255,
-    255,
-    0
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-  --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
+  color-scheme: dark;
+}
+.calcite-mode-light {
+  color-scheme: light;
 }
 "
 `;
@@ -1552,7 +1302,6 @@ exports[`CSS > light should match 1`] = `
   --calcite-color-text-3: #6b6b6b;
   --calcite-color-text-inverse: #ffffff;
   --calcite-color-text-link: #00619b;
-  --calcite-color-text-link-visited: #633b9b;
   --calcite-color-text-highlight: #004874;
   --calcite-color-border-1: #d4d4d4;
   --calcite-color-border-2: #dedede;
@@ -1591,6 +1340,126 @@ exports[`CSS > light should match 1`] = `
   --calcite-color-surface-3: var(--calcite-color-foreground-2); /** Replaces \`--calcite-color-foreground-2\` */
   --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
   --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-focus: var(--calcite-color-brand);
+}
+"
+`;
+
+exports[`CSS > light-dark should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  color-scheme: light dark;
+  --calcite-color-surface-1: var(
+    --calcite-color-background
+  ); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: var(
+    --calcite-color-foreground-1
+  ); /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: var(
+    --calcite-color-foreground-2
+  ); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: var(
+    --calcite-color-foreground-3
+  ); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: var(
+    --calcite-color-foreground-current
+  ); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-background: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-color-background-none: light-dark(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-foreground-1: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-current: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
+  --calcite-color-text-1: light-dark(#141414, #ffffff);
+  --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+  --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+  --calcite-color-text-inverse: light-dark(#ffffff, #141414);
+  --calcite-color-text-link: light-dark(#00619b, #00a0ff);
+  --calcite-color-text-highlight: light-dark(#004874, #d6efff);
+  --calcite-color-border-1: light-dark(#d4d4d4, #545454);
+  --calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+  --calcite-color-border-3: light-dark(#ebebeb, #404040);
+  --calcite-color-border-input: light-dark(#949494, #757575);
+  --calcite-color-border-ghost: light-dark(
+    rgba(0, 0, 0, 0.3),
+    rgba(117, 117, 117, 0.3)
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-border-white: light-dark(
+    #ffffff,
+    #f7f7f7
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-brand: light-dark(#007ac2, #009af2);
+  --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+  --calcite-color-brand-press: light-dark(#004874, #80d1ff);
+  --calcite-color-brand-underline: light-dark(
+    rgba(0, 97, 155, 0.4),
+    rgba(0, 160, 255, 0.4)
+  );
+  --calcite-color-inverse: light-dark(#363636, #f7f7f7);
+  --calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+  --calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+  --calcite-color-status-info: light-dark(#00619b, #00a0ff);
+  --calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+  --calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+  --calcite-color-status-success: light-dark(#288835, #36da43);
+  --calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+  --calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+  --calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+  --calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+  --calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+  --calcite-color-status-danger: light-dark(#d83020, #fe583e);
+  --calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+  --calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+  --calcite-color-transparent: light-dark(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-transparent-hover: light-dark(
+    rgba(0, 0, 0, 0.04),
+    rgba(255, 255, 255, 0.12)
+  );
+  --calcite-color-transparent-press: light-dark(
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0.16)
+  );
+  --calcite-color-transparent-scrim: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(0, 0, 0, 0.85)
+  );
+  --calcite-color-transparent-tint: light-dark(
+    rgba(255, 255, 255, 0.8),
+    rgba(43, 43, 43, 0.8)
+  );
+  --calcite-color-transparent-inverse-hover: light-dark(
+    rgba(255, 255, 255, 0.12),
+    rgba(0, 0, 0, 0.04)
+  );
+  --calcite-color-transparent-inverse-press: light-dark(
+    rgba(255, 255, 255, 0.16),
+    rgba(0, 0, 0, 0.08)
+  );
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -18000,31 +17869,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["color", "text", "link"]
     },
     {
-      "key": "{color.text.link-visited}",
-      "attributes": {
-        "category": "color",
-        "group": "text",
-        "type": "text",
-        "item": "link-visited",
-        "names": {
-          "scss": "$calcite-color-text-link-visited",
-          "css": "var(--calcite-color-text-link-visited)",
-          "docs": "color.text.link-visited",
-          "es6": "calciteColorTextLinkVisited"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color"
-        }
-      },
-      "$type": "color",
-      "$value": "{\\"light\\":\\"#633b9b\\",\\"dark\\":\\"#b580ff\\"}",
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Text Link Visited",
-      "path": ["color", "text", "link-visited"]
-    },
-    {
       "key": "{color.text.highlight}",
       "attributes": {
         "category": "color",
@@ -30939,10 +30783,6 @@ export const calciteColorText2 = { light: "#4a4a4a", dark: "#bfbfbf" };
 export const calciteColorText3 = { light: "#6b6b6b", dark: "#9e9e9e" };
 export const calciteColorTextInverse = { light: "#ffffff", dark: "#141414" };
 export const calciteColorTextLink = { light: "#00619b", dark: "#00a0ff" };
-export const calciteColorTextLinkVisited = {
-  light: "#633b9b",
-  dark: "#b580ff",
-};
 export const calciteColorTextHighlight = { light: "#004874", dark: "#d6efff" };
 export const calciteColorBorder1 = { light: "#d4d4d4", dark: "#545454" };
 export const calciteColorBorder2 = { light: "#dedede", dark: "#4a4a4a" };
@@ -31542,7 +31382,6 @@ export const calciteColorText2: { light: string; dark: string };
 export const calciteColorText3: { light: string; dark: string };
 export const calciteColorTextInverse: { light: string; dark: string };
 export const calciteColorTextLink: { light: string; dark: string };
-export const calciteColorTextLinkVisited: { light: string; dark: string };
 export const calciteColorTextHighlight: { light: string; dark: string };
 export const calciteColorBorder1: { light: string; dark: string };
 export const calciteColorBorder2: { light: string; dark: string };
@@ -33319,7 +33158,6 @@ $calcite-color-text-2: #bfbfbf;
 $calcite-color-text-3: #9e9e9e;
 $calcite-color-text-inverse: #141414;
 $calcite-color-text-link: #00a0ff;
-$calcite-color-text-link-visited: #b580ff;
 $calcite-color-text-highlight: #d6efff;
 $calcite-color-border-1: #545454;
 $calcite-color-border-2: #4a4a4a;
@@ -33542,151 +33380,127 @@ exports[`SCSS > index should match 1`] = `
 @use "./semantic.scss";
 @use "./breakpoints.scss";
 @use "./mixins.scss";
-@mixin calcite-mode-light {
-  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-status-danger-press: #7c1d13;
-  --calcite-color-status-danger-hover: #a82b1e;
-  --calcite-color-status-danger: #d83020;
-  --calcite-color-status-warning-press: #9a5b10;
-  --calcite-color-status-warning-hover: #c26b00;
-  --calcite-color-status-warning: #da7c0b;
-  --calcite-color-status-success-press: #0d3f14;
-  --calcite-color-status-success-hover: #1a6324;
-  --calcite-color-status-success: #288835;
-  --calcite-color-status-info-press: #00304d;
-  --calcite-color-status-info-hover: #004874;
-  --calcite-color-status-info: #00619b;
-  --calcite-color-inverse-press: #212121;
-  --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #363636;
-  --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
-  --calcite-color-brand-press: #004874;
-  --calcite-color-brand-hover: #00619b;
-  --calcite-color-brand: #007ac2;
-  --calcite-color-border-white: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-ghost: rgba(
-    0,
-    0,
-    0,
-    0.3
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #ebebeb;
-  --calcite-color-border-2: #dedede;
-  --calcite-color-border-1: #d4d4d4;
-  --calcite-color-text-highlight: #004874;
-  --calcite-color-text-link-visited: #633b9b;
-  --calcite-color-text-link: #00619b;
-  --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-3: #6b6b6b;
-  --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #141414;
-  --calcite-color-foreground-current: #d6efff; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-  --calcite-color-foreground-1: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-  --calcite-color-background-none: rgba(
-    255,
-    255,
-    255,
-    0
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-  --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
+@mixin calcite-light-dark-tokens {
   --calcite-color-surface-1: var(
     --calcite-color-background
   ); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: var(
+    --calcite-color-foreground-1
+  ); /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: var(
+    --calcite-color-foreground-2
+  ); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: var(
+    --calcite-color-foreground-3
+  ); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: var(
+    --calcite-color-foreground-current
+  ); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-background: light-dark(
+    #f7f7f7,
+    #212121
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-color-background-none: light-dark(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0)
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-foreground-1: light-dark(
+    #ffffff,
+    #2b2b2b
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: light-dark(
+    #f2f2f2,
+    #363636
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: light-dark(
+    #ebebeb,
+    #404040
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-current: light-dark(
+    #d6efff,
+    #2b465f
+  ); /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
+  --calcite-color-text-1: light-dark(#141414, #ffffff);
+  --calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+  --calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+  --calcite-color-text-inverse: light-dark(#ffffff, #141414);
+  --calcite-color-text-link: light-dark(#00619b, #00a0ff);
+  --calcite-color-text-highlight: light-dark(#004874, #d6efff);
+  --calcite-color-border-1: light-dark(#d4d4d4, #545454);
+  --calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+  --calcite-color-border-3: light-dark(#ebebeb, #404040);
+  --calcite-color-border-input: light-dark(#949494, #757575);
+  --calcite-color-border-ghost: light-dark(
+    rgba(0, 0, 0, 0.3),
+    rgba(117, 117, 117, 0.3)
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-border-white: light-dark(
+    #ffffff,
+    #f7f7f7
+  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-color-brand: light-dark(#007ac2, #009af2);
+  --calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+  --calcite-color-brand-press: light-dark(#004874, #80d1ff);
+  --calcite-color-brand-underline: light-dark(
+    rgba(0, 97, 155, 0.4),
+    rgba(0, 160, 255, 0.4)
+  );
+  --calcite-color-inverse: light-dark(#363636, #f7f7f7);
+  --calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+  --calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+  --calcite-color-status-info: light-dark(#00619b, #00a0ff);
+  --calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+  --calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+  --calcite-color-status-success: light-dark(#288835, #36da43);
+  --calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+  --calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+  --calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+  --calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+  --calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+  --calcite-color-status-danger: light-dark(#d83020, #fe583e);
+  --calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+  --calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+  --calcite-color-transparent: light-dark(
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0)
+  );
+  --calcite-color-transparent-hover: light-dark(
+    rgba(0, 0, 0, 0.04),
+    rgba(255, 255, 255, 0.12)
+  );
+  --calcite-color-transparent-press: light-dark(
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0.16)
+  );
+  --calcite-color-transparent-scrim: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(0, 0, 0, 0.85)
+  );
+  --calcite-color-transparent-tint: light-dark(
+    rgba(255, 255, 255, 0.8),
+    rgba(43, 43, 43, 0.8)
+  );
+  --calcite-color-transparent-inverse-hover: light-dark(
+    rgba(255, 255, 255, 0.12),
+    rgba(0, 0, 0, 0.04)
+  );
+  --calcite-color-transparent-inverse-press: light-dark(
+    rgba(255, 255, 255, 0.16),
+    rgba(0, 0, 0, 0.08)
+  );
+  --calcite-color-focus: var(--calcite-color-brand);
+}
+@mixin calcite-mode-auto {
+  color-scheme: light dark;
+  @include calcite-light-dark-tokens;
 }
 @mixin calcite-mode-dark {
-  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-status-danger-press: #fe9989;
-  --calcite-color-status-danger-hover: #fe7863;
-  --calcite-color-status-danger: #fe583e;
-  --calcite-color-status-warning-press: #ffc47d;
-  --calcite-color-status-warning-hover: #ffaf4f;
-  --calcite-color-status-warning: #f89927;
-  --calcite-color-status-success-press: #9df2a3;
-  --calcite-color-status-success-hover: #6df278;
-  --calcite-color-status-success: #36da43;
-  --calcite-color-status-info-press: #80d1ff;
-  --calcite-color-status-info-hover: #40b9ff;
-  --calcite-color-status-info: #00a0ff;
-  --calcite-color-inverse-press: #ebebeb;
-  --calcite-color-inverse-hover: #f2f2f2;
-  --calcite-color-inverse: #f7f7f7;
-  --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
-  --calcite-color-brand-press: #80d1ff;
-  --calcite-color-brand-hover: #40b9ff;
-  --calcite-color-brand: #009af2;
-  --calcite-color-border-white: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-ghost: rgba(
-    117,
-    117,
-    117,
-    0.3
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-border-input: #757575;
-  --calcite-color-border-3: #404040;
-  --calcite-color-border-2: #4a4a4a;
-  --calcite-color-border-1: #545454;
-  --calcite-color-text-highlight: #d6efff;
-  --calcite-color-text-link-visited: #b580ff;
-  --calcite-color-text-link: #00a0ff;
-  --calcite-color-text-inverse: #141414;
-  --calcite-color-text-3: #9e9e9e;
-  --calcite-color-text-2: #bfbfbf;
-  --calcite-color-text-1: #ffffff;
-  --calcite-color-foreground-current: #2b465f; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-  --calcite-color-foreground-3: #404040; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-  --calcite-color-foreground-2: #363636; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-  --calcite-color-foreground-1: #2b2b2b; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-  --calcite-color-background-none: rgba(
-    255,
-    255,
-    255,
-    0
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-  --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-1: var(
-    --calcite-color-background
-  ); /** Replaces \`--calcite-color-background\` */
+  color-scheme: dark;
+  @include calcite-light-dark-tokens;
+}
+@mixin calcite-mode-light {
+  color-scheme: light;
+  @include calcite-light-dark-tokens;
 }
 "
 `;
@@ -33707,7 +33521,6 @@ $calcite-color-text-2: #4a4a4a;
 $calcite-color-text-3: #6b6b6b;
 $calcite-color-text-inverse: #ffffff;
 $calcite-color-text-link: #00619b;
-$calcite-color-text-link-visited: #633b9b;
 $calcite-color-text-highlight: #004874;
 $calcite-color-border-1: #d4d4d4;
 $calcite-color-border-2: #dedede;
@@ -33746,6 +33559,113 @@ $calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-c
 $calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\`
 $calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
 $calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
+$calcite-color-focus: $calcite-color-brand;
+"
+`;
+
+exports[`SCSS > light-dark should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\` */
+$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\` */
+$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\` */
+$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\` */
+$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\` */
+$calcite-color-background: light-dark(
+  #f7f7f7,
+  #212121
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+$calcite-color-background-none: light-dark(
+  rgba(255, 255, 255, 0),
+  rgba(255, 255, 255, 0)
+); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+$calcite-color-foreground-1: light-dark(
+  #ffffff,
+  #2b2b2b
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+$calcite-color-foreground-2: light-dark(
+  #f2f2f2,
+  #363636
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+$calcite-color-foreground-3: light-dark(
+  #ebebeb,
+  #404040
+); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+$calcite-color-foreground-current: light-dark(
+  #d6efff,
+  #2b465f
+); // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
+$calcite-color-text-1: light-dark(#141414, #ffffff);
+$calcite-color-text-2: light-dark(#4a4a4a, #bfbfbf);
+$calcite-color-text-3: light-dark(#6b6b6b, #9e9e9e);
+$calcite-color-text-inverse: light-dark(#ffffff, #141414);
+$calcite-color-text-link: light-dark(#00619b, #00a0ff);
+$calcite-color-text-highlight: light-dark(#004874, #d6efff);
+$calcite-color-border-1: light-dark(#d4d4d4, #545454);
+$calcite-color-border-2: light-dark(#dedede, #4a4a4a);
+$calcite-color-border-3: light-dark(#ebebeb, #404040);
+$calcite-color-border-input: light-dark(#949494, #757575);
+$calcite-color-border-ghost: light-dark(
+  rgba(0, 0, 0, 0.3),
+  rgba(117, 117, 117, 0.3)
+); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+$calcite-color-border-white: light-dark(
+  #ffffff,
+  #f7f7f7
+); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
+$calcite-color-brand: light-dark(#007ac2, #009af2);
+$calcite-color-brand-hover: light-dark(#00619b, #40b9ff);
+$calcite-color-brand-press: light-dark(#004874, #80d1ff);
+$calcite-color-brand-underline: light-dark(
+  rgba(0, 97, 155, 0.4),
+  rgba(0, 160, 255, 0.4)
+);
+$calcite-color-inverse: light-dark(#363636, #f7f7f7);
+$calcite-color-inverse-hover: light-dark(#2b2b2b, #f2f2f2);
+$calcite-color-inverse-press: light-dark(#212121, #ebebeb);
+$calcite-color-status-info: light-dark(#00619b, #00a0ff);
+$calcite-color-status-info-hover: light-dark(#004874, #40b9ff);
+$calcite-color-status-info-press: light-dark(#00304d, #80d1ff);
+$calcite-color-status-success: light-dark(#288835, #36da43);
+$calcite-color-status-success-hover: light-dark(#1a6324, #6df278);
+$calcite-color-status-success-press: light-dark(#0d3f14, #9df2a3);
+$calcite-color-status-warning: light-dark(#da7c0b, #f89927);
+$calcite-color-status-warning-hover: light-dark(#c26b00, #ffaf4f);
+$calcite-color-status-warning-press: light-dark(#9a5b10, #ffc47d);
+$calcite-color-status-danger: light-dark(#d83020, #fe583e);
+$calcite-color-status-danger-hover: light-dark(#a82b1e, #fe7863);
+$calcite-color-status-danger-press: light-dark(#7c1d13, #fe9989);
+$calcite-color-transparent: light-dark(
+  rgba(0, 0, 0, 0),
+  rgba(255, 255, 255, 0)
+);
+$calcite-color-transparent-hover: light-dark(
+  rgba(0, 0, 0, 0.04),
+  rgba(255, 255, 255, 0.12)
+);
+$calcite-color-transparent-press: light-dark(
+  rgba(0, 0, 0, 0.08),
+  rgba(255, 255, 255, 0.16)
+);
+$calcite-color-transparent-scrim: light-dark(
+  rgba(255, 255, 255, 0.85),
+  rgba(0, 0, 0, 0.85)
+);
+$calcite-color-transparent-tint: light-dark(
+  rgba(255, 255, 255, 0.8),
+  rgba(43, 43, 43, 0.8)
+);
+$calcite-color-transparent-inverse-hover: light-dark(
+  rgba(255, 255, 255, 0.12),
+  rgba(0, 0, 0, 0.04)
+);
+$calcite-color-transparent-inverse-press: light-dark(
+  rgba(255, 255, 255, 0.16),
+  rgba(0, 0, 0, 0.08)
+);
 $calcite-color-focus: $calcite-color-brand;
 "
 `;
