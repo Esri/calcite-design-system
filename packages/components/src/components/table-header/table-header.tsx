@@ -126,11 +126,21 @@ export class TableHeader extends LitElement {
   //#region Lifecycle
 
   async load(): Promise<void> {
-    this.updateScreenReaderText();
+    if (this.selectionCell || this.numberCell) {
+      this.updateScreenReaderText();
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("selectedRowCount") || changes.has("selectedRowCountLocalized")) {
+    if (
+      (this.selectionCell || this.numberCell) &&
+      (changes.has("bodyRowCount") ||
+        changes.has("numberCell") ||
+        changes.has("selectedRowCount") ||
+        changes.has("selectedRowCountLocalized") ||
+        changes.has("selectionCell") ||
+        changes.has("selectionMode"))
+    ) {
       this.updateScreenReaderText();
     }
   }

@@ -46,9 +46,17 @@ export class Table extends LitElement {
 
   private bodyRows: TableRow["el"][] = [];
 
+  private firstVisibleBodyRowPosition: number | undefined;
+
   private footRows: TableRow["el"][] = [];
 
   private headRows: TableRow["el"][] = [];
+
+  private lastHeadRowPosition: number | undefined;
+
+  private lastVisibleBodyRowPosition: number | undefined;
+
+  private lastVisibleTableRowPosition: number | undefined;
 
   private paginationRef = createRef<Pagination["el"]>();
 
@@ -213,24 +221,30 @@ export class Table extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("groupSeparator") || changes.has("numberingSystem")) {
+      this.updateLocalizedRowData();
+      this.updateSelectedItems();
+    }
+
     if (
-      (changes.has("groupSeparator") && (this.hasUpdated || this.groupSeparator !== false)) ||
       (changes.has("interactionMode") &&
         (this.hasUpdated || this.interactionMode !== "interactive")) ||
       (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
-      changes.has("numberingSystem") ||
-      (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
-      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
+      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none"))
+    ) {
+      this.updateRowsState();
+    }
+
+    if (
+      (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
     ) {
-      this.updateRows();
+      this.handleCurrentPageRange();
     }
 
     if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
-      this.allRows?.forEach((row) => {
-        row.stickyHeaderEnabled = this.stickyHeader;
-      });
+      this.updateStickyHeaderEnabled();
 
       if (this.stickyHeader) {
         this.applyHeaderRowPositionStyles();
@@ -245,7 +259,7 @@ export class Table extends LitElement {
   //#region Private Methods
 
   private handleSlotChange(): void {
-    this.updateRows();
+    this.refreshRows();
   }
 
   private clearStickyHeaderRowStyles(): void {
@@ -281,21 +295,18 @@ export class Table extends LitElement {
     const destination = event.detail.destination;
     const lastCell = event.detail.lastCell;
 
-    const visibleBody = this.bodyRows?.filter((row) => !isHidden(row));
-    const visibleAll = this.allRows?.filter((row) => !isHidden(row));
-
-    const lastHeadRow = this.headRows[this.headRows.length - 1]?.positionAll;
-    const firstBodyRow = visibleBody[0]?.positionAll;
-    const lastBodyRow = visibleBody[visibleBody.length - 1]?.positionAll;
+    const firstBodyRow = this.firstVisibleBodyRowPosition;
+    const lastBodyRow = this.lastVisibleBodyRowPosition;
+    const lastHeadRow = this.lastHeadRowPosition;
     const firstFootRow = this.footRows[0]?.positionAll;
-    const lastTableRow = visibleAll[visibleAll.length - 1]?.positionAll;
+    const lastTableRow = this.lastVisibleTableRowPosition;
 
     const leavingHeader = destination === "next" && rowPos === lastHeadRow;
     const leavingFooter = destination === "previous" && rowPos === firstFootRow;
     const enteringHeader = destination === "previous" && rowPos === firstBodyRow;
     const enteringFooter = destination === "next" && rowPos === lastBodyRow;
 
-    let rowPosition: number;
+    let rowPosition: number | undefined;
 
     switch (destination) {
       case "first":
@@ -312,7 +323,8 @@ export class Table extends LitElement {
         break;
     }
 
-    const destinationCount = this.allRows.find((row) => row.positionAll === rowPosition)?.cellCount;
+    const destinationCount =
+      rowPosition !== undefined ? this.allRows[rowPosition]?.cellCount : undefined;
 
     const adjustedPos =
       destinationCount && cellPosition > destinationCount ? destinationCount : cellPosition;
@@ -387,51 +399,97 @@ export class Table extends LitElement {
         tableContainer.scrollWidth > tableContainer.clientWidth);
   }
 
-  private updateRows(): void {
+  private updateStickyHeaderEnabled(): void {
+    this.allRows.forEach((row) => {
+      row.stickyHeaderEnabled = this.stickyHeader;
+    });
+  }
+
+  private updateLocalizedSectionPositions(
+    rows: TableRow["el"][],
+    rowType: TableRow["el"]["rowType"],
+  ): void {
+    rows.forEach((row, index) => {
+      row.rowType = rowType;
+      row.positionSection = index;
+      row.positionSectionLocalized = this.localizeNumber((index + 1).toString());
+    });
+  }
+
+  private updateLocalizedRowData(): void {
+    this.updateLocalizedSectionPositions(this.headRows, "head");
+    this.updateLocalizedSectionPositions(this.bodyRows, "body");
+    this.updateLocalizedSectionPositions(this.footRows, "foot");
+  }
+
+  private updateVisibleRowPositions(): void {
+    this.firstVisibleBodyRowPosition = undefined;
+    this.lastVisibleBodyRowPosition = undefined;
+    this.lastVisibleTableRowPosition = undefined;
+    this.lastHeadRowPosition = this.headRows[this.headRows.length - 1]?.positionAll;
+
+    for (let index = 0; index < this.bodyRows.length; index++) {
+      const row = this.bodyRows[index];
+
+      if (!isHidden(row)) {
+        this.firstVisibleBodyRowPosition ??= row.positionAll;
+        this.lastVisibleBodyRowPosition = row.positionAll;
+      }
+    }
+
+    for (let index = this.allRows.length - 1; index >= 0; index--) {
+      const row = this.allRows[index];
+
+      if (!isHidden(row)) {
+        this.lastVisibleTableRowPosition = row.positionAll;
+        break;
+      }
+    }
+  }
+
+  private updateRowsState(): void {
+    const bodyRowCount = this.bodyRows.length;
+    let lastVisibleBodyRow: TableRow["el"] | undefined;
+
+    for (let index = this.bodyRows.length - 1; index >= 0; index--) {
+      const row = this.bodyRows[index];
+
+      if (!row.itemHidden) {
+        lastVisibleBodyRow = row;
+        break;
+      }
+    }
+
+    this.allRows.forEach((row, index) => {
+      row.interactionMode = this.interactionMode;
+      row.selectionMode = this.selectionMode;
+      row.bodyRowCount = bodyRowCount;
+      row.positionAll = index;
+      row.numbered = this.numbered;
+      row.scale = this.scale;
+      row.readCellContentsToAT = this.readCellContentsToAT;
+      row.lastVisibleRow =
+        row.rowType === "body" ? row === lastVisibleBodyRow : index === this.allRows.length - 1;
+    });
+
+    this.updateStickyHeaderEnabled();
+  }
+
+  private refreshRows(): void {
     const headRows = this.getSlottedRows(this.tableHeadSlotRef.value);
     const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value);
     const footRows = this.getSlottedRows(this.tableFootSlotRef.value);
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
-    headRows.forEach((row) => {
-      const position = headRows.indexOf(row);
-      row.rowType = "head";
-      row.positionSection = position;
-      row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
-    });
-
-    bodyRows.forEach((row) => {
-      const position = bodyRows.indexOf(row);
-      row.rowType = "body";
-      row.positionSection = position;
-      row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
-    });
-
-    footRows.forEach((row) => {
-      const position = footRows.indexOf(row);
-      row.rowType = "foot";
-      row.positionSection = position;
-      row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
-    });
-
-    allRows.forEach((row) => {
-      row.interactionMode = this.interactionMode;
-      row.selectionMode = this.selectionMode;
-      row.bodyRowCount = bodyRows?.length;
-      row.positionAll = allRows?.indexOf(row);
-      row.numbered = this.numbered;
-      row.scale = this.scale;
-      row.readCellContentsToAT = this.readCellContentsToAT;
-      row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
-    });
-
-    const colCount = headRows[0]?.cellCount || 0;
-
-    this.colCount = colCount;
     this.headRows = headRows;
     this.bodyRows = bodyRows;
     this.footRows = footRows;
     this.allRows = allRows;
+
+    this.updateLocalizedRowData();
+    this.updateRowsState();
+
+    this.colCount = headRows[0]?.cellCount || 0;
 
     this.applyHeaderRowPositionStyles();
 
@@ -453,6 +511,7 @@ export class Table extends LitElement {
       this.pageStartRow = (page - 1) * this.pageSize + 1;
     }
     this.paginateRows();
+    this.scheduleTableContainerOverflowUpdate();
   }
 
   private handlePaginationChange(): void {
@@ -460,7 +519,8 @@ export class Table extends LitElement {
     this.pageStartRow = requestedItem || 1;
     this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
-    this.updateRows();
+    this.paginateRows();
+    this.scheduleTableContainerOverflowUpdate();
   }
 
   private paginateRows(): void {
@@ -471,6 +531,8 @@ export class Table extends LitElement {
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });
+
+    this.updateVisibleRowPositions();
   }
 
   private async updateSelectedItems(emit?: boolean): Promise<void> {
@@ -486,21 +548,53 @@ export class Table extends LitElement {
     }
   }
 
+  private setRowSelectedFromTable(row: TableRow["el"], value: boolean): boolean {
+    const tableRow = row as TableRow["el"] & {
+      setSelectedFromTable?: (value: boolean) => boolean;
+    };
+
+    if (typeof tableRow.setSelectedFromTable === "function") {
+      return tableRow.setSelectedFromTable(value);
+    }
+
+    if (row.selected === value) {
+      return false;
+    }
+
+    row.selected = value;
+
+    return true;
+  }
+
+  private syncRowSelectionCells(row: TableRow["el"]): void {
+    const tableRow = row as TableRow["el"] & {
+      syncSelectionCells?: () => void;
+    };
+
+    tableRow.syncSelectionCells?.();
+  }
+
   private handleDeselectAllRows(): void {
-    this.bodyRows?.forEach((row) => {
-      row.selected = false;
-    });
+    const changedRows = this.bodyRows.filter((row) => this.setRowSelectedFromTable(row, false));
+
+    changedRows.forEach((row) => this.syncRowSelectionCells(row));
     this.updateSelectedItems(true);
   }
 
   private setSelectedItems(elToMatch?: TableRow["el"]): void {
-    this.bodyRows?.forEach((el) => {
+    const nextHeadSelectionState = this.selectedCount !== this.bodyRows.length;
+    const changedRows = this.bodyRows.filter((row) => {
       if (elToMatch?.rowType === "head") {
-        el.selected = this.selectedCount !== this.bodyRows?.length;
-      } else {
-        el.selected = this.selectionMode === "multiple" || elToMatch === el ? el.selected : false;
+        return this.setRowSelectedFromTable(row, nextHeadSelectionState);
       }
+
+      return this.selectionMode === "multiple" || elToMatch === row
+        ? false
+        : this.setRowSelectedFromTable(row, false);
     });
+
+    changedRows.forEach((row) => this.syncRowSelectionCells(row));
+
     this.updateSelectedItems(true);
   }
 
