@@ -70,7 +70,9 @@ import {
   orderValuesByPrevious,
 } from "./utils";
 import { styles } from "./combobox.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import { logger } from "../../utils/logger";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -87,7 +89,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -2391,7 +2393,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             {showSingleIndicatorChips && this.renderSelectedIndicatorChipCompact()}
             {showIndicatorChips && this.renderAllSelectedIndicatorChip()}
             <label
-              class={CSS.screenReadersOnly}
+              class={CSS_UTILITY.screenReaderText}
               htmlFor={`${IDS.input(guid)}`}
               id={`${IDS.label(guid)}`}
             >
@@ -2413,7 +2415,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         <ul
           aria-labelledby={`${IDS.label(guid)}`}
           ariaMultiSelectable="true"
-          class={CSS.screenReadersOnly}
+          class={CSS_UTILITY.screenReaderText}
           id={`${IDS.listbox(guid)}`}
           role="listbox"
           tabIndex={-1}
