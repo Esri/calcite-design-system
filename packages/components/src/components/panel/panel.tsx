@@ -35,7 +35,7 @@ import { IconName } from "../icon/types";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
 import { toAriaBoolean } from "../../utils/aria";
@@ -84,7 +84,7 @@ export class Panel extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private _closed = false;
 
@@ -220,7 +220,10 @@ export class Panel extends LitElement {
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<
+    typeof this.messagesCommon._overrides,
+    "close" | "options" | "collapse" | "expand"
+  >;
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -615,16 +618,9 @@ export class Panel extends LitElement {
   }
 
   private renderHeaderActionsEnd(): JsxNode {
-    const {
-      hasEndActions,
-      messages,
-      closable,
-      collapsed,
-      collapseDirection,
-      collapsible,
-      hasMenuItems,
-    } = this;
-    const { collapse, expand, close } = messages;
+    const { hasEndActions, closable, collapsed, collapseDirection, collapsible, hasMenuItems } =
+      this;
+    const { collapse, expand, close } = this.messagesCommon;
 
     const icons = [ICONS.expand, ICONS.collapse];
 
@@ -678,14 +674,14 @@ export class Panel extends LitElement {
   }
 
   private renderMenu(): JsxNode {
-    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement, scale } = this;
+    const { hasMenuItems, menuOpen, menuFlipPlacements, menuPlacement, scale } = this;
 
     return (
       <calcite-action-menu
         flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
-        label={messages.options}
+        label={this.messagesCommon.options}
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
         placement={menuPlacement}
@@ -697,7 +693,7 @@ export class Panel extends LitElement {
           icon={ICONS.menu}
           scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
-          text={messages.options}
+          text={this.messagesCommon.options}
         />
         <slot
           name={SLOTS.headerMenuActions}

@@ -1,6 +1,5 @@
 {
   "chooseTime": "Selezionare l'ora",
-  "clear": "Cancella valore",
   "fractionalSecond": "Secondo frazionale",
   "fractionalSecondDown": "Diminuisci secondo frazionale",
   "fractionalSecondUp": "Aumenta secondo frazionale",
@@ -13,7 +12,6 @@
   "minute": "Minuto",
   "minuteDown": "Diminuire minuti",
   "minuteUp": "Aumentare minuti",
-  "required": "Richiesti",
   "second": "Secondo",
   "secondDown": "Diminuire secondi",
   "secondUp": "Aumentare secondi"

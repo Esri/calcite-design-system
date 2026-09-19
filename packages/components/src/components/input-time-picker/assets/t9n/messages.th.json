@@ -1,6 +1,5 @@
 {
   "chooseTime": "เลือกเวลา",
-  "clear": "ล้างค่า",
   "fractionalSecond": "เศษวินาที",
   "fractionalSecondDown": "ลดเศษวินาที",
   "fractionalSecondUp": "เพิ่มเศษวินาที",
@@ -13,7 +12,6 @@
   "minute": "นาที",
   "minuteDown": "ลดนาที",
   "minuteUp": "เพิ่มนาที",
-  "required": "ต้องการ",
   "second": "วินาที",
   "secondDown": "ลดวินาที",
   "secondUp": "เพิ่มวินาที"

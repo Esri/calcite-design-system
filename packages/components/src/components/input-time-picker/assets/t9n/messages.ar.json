@@ -1,6 +1,5 @@
 {
   "chooseTime": "اختر الوقت",
-  "clear": "مسح القيمة",
   "fractionalSecond": "جزء عشري من الثانية",
   "fractionalSecondDown": "تقليل الجزء العشري من الثانية",
   "fractionalSecondUp": "زيادة الجزء العشري من الثانية",
@@ -13,7 +12,6 @@
   "minute": "دقيقة",
   "minuteDown": "تقليل دقيقة",
   "minuteUp": "زيادة دقيقة",
-  "required": "مطلوب",
   "second": "الثاني",
   "secondDown": "تقليل ثانية",
   "secondUp": "زيادة ثانية"

@@ -1,9 +1,7 @@
 {
   "chooseDate": "Vyberte dátum",
-  "clear": "Vymazať hodnotu",
   "date": "Dátum",
   "dateFormat": "Formát dátumu: {format}",
   "endDate": "Dátum ukončenia",
-  "required": "Vyžadované",
   "startDate": "Dátum začiatku"
 }

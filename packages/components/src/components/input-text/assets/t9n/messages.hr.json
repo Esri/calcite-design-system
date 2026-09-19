@@ -2,7 +2,5 @@
   "cancelInlineEditing": "Odustani",
   "clear": "Očisti vrijednost",
   "confirmInlineEditingChanges": "Spremi",
-  "enableInlineEditing": "Uredi",
-  "loading": "Učitavanje u tijeku",
-  "required": "Potrebno"
+  "enableInlineEditing": "Uredi"
 }

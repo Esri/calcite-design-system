@@ -27,7 +27,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 
 declare global {
@@ -71,7 +71,7 @@ export class Select extends LitElement implements LabelableComponent {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -143,7 +143,7 @@ export class Select extends LitElement implements LabelableComponent {
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "required">;
 
   //#endregion
 
@@ -372,7 +372,7 @@ export class Select extends LitElement implements LabelableComponent {
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div class={CSS.wrapper}>

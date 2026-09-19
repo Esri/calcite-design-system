@@ -20,6 +20,7 @@ import type { RadioButton } from "../radio-button/radio-button";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
 import { clearValidationMessage, displayValidationMessage } from "../../controllers/useForm";
 
@@ -48,6 +49,11 @@ export class RadioButtonGroup extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
@@ -84,7 +90,7 @@ export class RadioButtonGroup extends LitElement {
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "required">;
 
   /**
    * @copyDoc
@@ -246,7 +252,7 @@ export class RadioButtonGroup extends LitElement {
           <InternalLabel
             labelText={this.labelText}
             required={this.required}
-            tooltipText={this.messages.required}
+            tooltipText={this.messagesCommon.required}
           />
         )}
         <div

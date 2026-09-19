@@ -2,7 +2,5 @@
   "cancelInlineEditing": "Batalkan",
   "clear": "Hapus nilai",
   "confirmInlineEditingChanges": "Simpan",
-  "enableInlineEditing": "Edit",
-  "loading": "Memuat",
-  "required": "Wajib"
+  "enableInlineEditing": "Edit"
 }
