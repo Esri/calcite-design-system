@@ -59,41 +59,42 @@ export const overflowActions = ({
   overflowCount: number;
 }): void => {
   let needToSlotCount = overflowCount;
-  [...actionGroups].reverse().forEach((group) => {
-    let slottedWithinGroupCount = 0;
 
+  [...actionGroups].reverse().forEach((group) => {
     const directGroupActions = group.actions.filter((action) => action.parentElement === group).reverse();
+    const canOverflowGroup = directGroupActions.length > 2 && !group.overflowActionsDisabled;
+    let visibleActionCount = directGroupActions.length;
+    let slotsChanged = false;
 
     directGroupActions.forEach((groupAction) => {
-      if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {
+      const shouldOverflow =
+        needToSlotCount > 0 && canOverflowGroup && visibleActionCount > 1 && !groupAction.overflowDisabled;
+      const isOverflowed = groupAction.slot === ACTION_GROUP_SLOTS.menuActions;
+
+      if (shouldOverflow) {
+        visibleActionCount--;
+        needToSlotCount--;
+      }
+
+      if (shouldOverflow || isOverflowed) {
+        groupAction.textEnabled = shouldOverflow ? true : expanded;
+      }
+
+      if (shouldOverflow === isOverflowed) {
+        return;
+      }
+
+      slotsChanged = true;
+
+      if (shouldOverflow) {
+        groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
+      } else {
         groupAction.removeAttribute("slot");
-        groupAction.textEnabled = expanded;
       }
     });
 
-    if (needToSlotCount > 0 && !group.overflowActionsDisabled) {
-      directGroupActions.some((groupAction) => {
-        const unslottedActions = directGroupActions.filter((action) => !action.slot);
-
-        if (
-          unslottedActions.length > 1 &&
-          directGroupActions.length > 2 &&
-          !groupAction.closest("calcite-action-menu") &&
-          !groupAction.overflowDisabled
-        ) {
-          groupAction.textEnabled = true;
-          groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
-          slottedWithinGroupCount++;
-
-          if (slottedWithinGroupCount > 1) {
-            needToSlotCount--;
-          }
-        }
-
-        return needToSlotCount < 1;
-      });
+    if (slotsChanged) {
+      group.manager.component.requestUpdate();
     }
-
-    group.manager.component.requestUpdate();
   });
 };

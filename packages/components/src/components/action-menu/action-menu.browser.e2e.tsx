@@ -1,5 +1,6 @@
 import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import {
@@ -18,6 +19,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ActionMenu } from "./action-menu";
+import type { Action } from "../action/action";
 
 mockConsole();
 
@@ -283,4 +285,210 @@ describe("theme", () => {
       },
     },
   );
+});
+
+describe("accessibility", () => {
+  it("sets an accessible name on menuitem actions", async () => {
+    await mount(
+      <calcite-action-menu>
+        <calcite-action icon="plus" label="Create item" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    const action = page
+      .getBySelector("calcite-action-menu > calcite-action")
+      .element() as Action["el"];
+
+    expect(action).toHaveAttribute("aria-label", "Create item");
+    expect(action).toHaveAttribute("role", "menuitem");
+  });
+
+  it("sets active descendant on the host and menu", async () => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="plus" id="create-action" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    el.open = true;
+    await component.updateComplete;
+
+    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("create-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("create-action");
+  });
+
+  it("sets vertical aria orientation on the menu", async () => {
+    await mount<"calcite-action-menu">(
+      <calcite-action-menu flipPlacements={["top", "bottom"]}>
+        <calcite-action icon="plus" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+
+    expect(menu).toHaveAttribute("aria-orientation", "vertical");
+  });
+
+  it("does not set aria orientation on the menu by default", async () => {
+    await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="plus" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+
+    expect(menu).not.toHaveAttribute("aria-orientation");
+  });
+
+  it("updates active descendant on the host and menu during keyboard navigation", async () => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="undo" id="undo-action" text="Undo" />
+        <calcite-action icon="redo" id="redo-action" text="Redo" />
+        <calcite-action icon="save" id="save-action" text="Save" />
+      </calcite-action-menu>,
+    );
+
+    el.open = true;
+    await component.updateComplete;
+
+    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("undo-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("undo-action");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+    await component.updateComplete;
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("redo-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("redo-action");
+
+    await userEvent.keyboard("{ArrowDown}");
+    await component.updateComplete;
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("save-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("save-action");
+  });
+
+  it.each([
+    ["{ArrowLeft}", "redo-action"],
+    ["{ArrowRight}", "undo-action"],
+  ])(
+    "opens a horizontal menu with %s and sets the active descendant to the first action",
+    async (key, elementId) => {
+      const { component, el } = await mount<"calcite-action-menu">(
+        <calcite-action-menu flipPlacements={["left", "right"]}>
+          <calcite-action icon="undo" id="undo-action" text="Undo" />
+          <calcite-action icon="redo" id="redo-action" text="Redo" />
+        </calcite-action-menu>,
+      );
+
+      await component.updateComplete;
+      await el.setFocus();
+      await userEvent.keyboard(key);
+      await component.updateComplete;
+
+      expect(el.open).toBe(true);
+      expect(el.ariaActiveDescendantElement?.id).toBe(elementId);
+    },
+  );
+
+  it.each([
+    ["{ArrowUp}", "redo-action"],
+    ["{ArrowDown}", "undo-action"],
+  ])("opens a vertical menu with %s and sets the active descendant", async (key, expectedId) => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu flipPlacements={["top", "bottom"]}>
+        <calcite-action icon="undo" id="undo-action" text="Undo" />
+        <calcite-action icon="redo" id="redo-action" text="Redo" />
+      </calcite-action-menu>,
+    );
+
+    await component.updateComplete;
+    await el.setFocus();
+    await userEvent.keyboard(key);
+    await component.updateComplete;
+
+    expect(el.open).toBe(true);
+    expect(el.ariaActiveDescendantElement?.id).toBe(expectedId);
+  });
+
+  it("toggles action active state without selection mode semantics and closes", async () => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="plus" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    el.open = true;
+    await component.updateComplete;
+
+    const action = page
+      .getBySelector("calcite-action-menu > calcite-action")
+      .element() as Action["el"];
+
+    expect(action?.active).toBe(false);
+    expect(action).toHaveAttribute("role", "menuitem");
+    expect(action).not.toHaveAttribute("aria-checked");
+
+    await userEvent.click(page.getBySelector("calcite-action-menu > calcite-action"));
+    await component.updateComplete;
+
+    expect(action?.active).toBe(true);
+    expect(el.open).toBe(false);
+    expect(action).toHaveAttribute("role", "menuitem");
+    expect(action).not.toHaveAttribute("aria-checked");
+  });
+
+  it.each(["{Enter}", "{Space}"])(
+    "toggles the active descendant with %s and closes",
+    async (key) => {
+      const { component, el } = await mount<"calcite-action-menu">(
+        <calcite-action-menu>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      );
+
+      el.open = true;
+      await component.updateComplete;
+
+      const action = page
+        .getBySelector("calcite-action-menu > calcite-action")
+        .element() as Action["el"];
+
+      await el.setFocus();
+      await userEvent.keyboard(key);
+      await component.updateComplete;
+
+      expect(action?.active).toBe(true);
+      expect(el.open).toBe(false);
+      expect(action).toHaveAttribute("role", "menuitem");
+      expect(action).not.toHaveAttribute("aria-checked");
+    },
+  );
+
+  it("opens from a focused trigger action without immediately activating the first menu item", async () => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="ellipsis" id="trigger-action" slot={SLOTS.trigger} text="More" />
+        <calcite-action icon="plus" id="menu-action" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    const triggerAction = page.getBySelector("#trigger-action").element() as Action["el"];
+    const menuAction = page.getBySelector("#menu-action").element() as Action["el"];
+
+    await component.updateComplete;
+    await triggerAction.setFocus();
+    await userEvent.keyboard("{Enter}");
+    await component.updateComplete;
+
+    expect(el.open).toBe(true);
+    expect(menuAction?.active).toBe(false);
+    expect(el.ariaActiveDescendantElement?.id).toBe("menu-action");
+  });
 });

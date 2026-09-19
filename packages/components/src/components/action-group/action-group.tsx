@@ -62,6 +62,10 @@ export class ActionGroup extends LitElement {
 
   private menuActionsSlotRef = createRef<HTMLSlotElement>();
 
+  private menuActions: Action["el"][] = [];
+
+  private _overflowActionsDisabled = false;
+
   //#endregion
 
   //#region State Properties
@@ -105,7 +109,14 @@ export class ActionGroup extends LitElement {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`. */
-  @property({ reflect: true }) overflowActionsDisabled = false;
+  @property({ reflect: true })
+  get overflowActionsDisabled(): boolean {
+    const selectionMode = this.selectionMode || "none";
+    return selectionMode === "none" ? this._overflowActionsDisabled : true;
+  }
+  set overflowActionsDisabled(value: boolean) {
+    this._overflowActionsDisabled = value;
+  }
 
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -216,24 +227,29 @@ export class ActionGroup extends LitElement {
   //#region Private Methods
 
   private setActiveAction(index: number, active: Action["el"]): void {
-    const nextActive = !active.active;
+    const actions = this.getSelectableActions();
 
-    switch (this.selectionMode) {
-      case "multiple":
-        this.updateAction(active, nextActive);
-        break;
-      case "single":
-        this.actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
-        break;
-      case "single-persist":
-        if (!this.actions[index].active) {
-          this.actions.forEach((action, i) => this.updateAction(action, i === index));
-          this.updateSelectedActions([active]);
-          this.calciteActionGroupChange.emit();
-        }
-        return;
-      default:
-        return;
+    if (this.selectionMode === "multiple") {
+      const nextActive = !active.active;
+      this.updateAction(active, nextActive);
+      this.updateSelectedActions(actions.filter((action) => action.active));
+      this.calciteActionGroupChange.emit();
+      return;
+    }
+    if (this.selectionMode === "single") {
+      const nextActive = !active.active;
+      actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
+      this.updateSelectedActions(actions.filter((action) => action.active));
+      this.calciteActionGroupChange.emit();
+      return;
+    }
+    if (this.selectionMode === "single-persist") {
+      if (!actions[index].active) {
+        actions.forEach((action, i) => this.updateAction(action, i === index));
+        this.updateSelectedActions([active]);
+        this.calciteActionGroupChange.emit();
+      }
+      return;
     }
 
     this.updateSelectedActions(this.actions.filter((action) => action.active));
@@ -285,6 +301,11 @@ export class ActionGroup extends LitElement {
   }
 
   private handleMenuActionsSlotChange(event: Event): void {
+    const menuActions = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el): el is Action["el"] => isAction(el));
+
+    this.menuActions = menuActions.length > 0 ? menuActions : this.getMenuActions();
     this.hasMenuActions = slotChangeHasAssignedElement(event);
     this.syncActionsAndEmitChange();
   }
@@ -295,7 +316,12 @@ export class ActionGroup extends LitElement {
     if (!target || target.disabled) {
       return;
     }
-    const index = this.actions.indexOf(target);
+
+    if (this.menuActions.includes(target)) {
+      return;
+    }
+
+    const index = this.getSelectableActions().indexOf(target);
     if (index === -1 || this.selectionMode === "none") {
       return;
     }
@@ -313,6 +339,16 @@ export class ActionGroup extends LitElement {
       };
       this.setActionAriaChecked(action, action.active);
     });
+  }
+
+  private getSelectableActions(): Action["el"][] {
+    return this.actions ?? [];
+  }
+
+  private getMenuActions(): Action["el"][] {
+    return Array.from(this.el.children).filter(
+      (el): el is Action["el"] => isAction(el) && el.slot === SLOTS.menuActions,
+    );
   }
 
   private setActionAriaChecked(action: Action["el"], checked: boolean): void {
@@ -375,7 +411,7 @@ export class ActionGroup extends LitElement {
         flipPlacements={
           menuFlipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
         }
-        hidden={!hasMenuActions}
+        hidden={!hasMenuActions || this.overflowActionsDisabled}
         label={messages.more}
         oncalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
