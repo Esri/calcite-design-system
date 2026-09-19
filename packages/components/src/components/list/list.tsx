@@ -10,12 +10,18 @@ import {
   state,
   ToEvents,
 } from "@arcgis/lumina";
-import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
+import {
+  queryElementRootsAll,
+  slotChangeHasAssignedElement,
+  slotChangeHasContent,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../types";
 import { ItemData } from "../list-item/types";
 import {
   expandedAncestors,
+  getClosestAncestorInComposedTree,
+  getListStructureFromElements,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
@@ -45,7 +51,6 @@ import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { logger } from "../../utils/logger";
-import { isListItem } from "../list-item/resources";
 import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
@@ -89,6 +94,8 @@ export class List extends LitElement {
   private listItems: ListItem["el"][] = [];
 
   private listItemGroups: ListItemGroup["el"][] = [];
+
+  private listItemsPendingOwnershipUpdate = new Set<ListItem["el"]>();
 
   mutationObserver = createObserver("mutation", () => {
     this.willPerformFilter = true;
@@ -415,9 +422,9 @@ export class List extends LitElement {
       this.handleCalciteInternalListItemSelectMultiple,
     );
     this.listen("calciteInternalListItemChange", this.handleCalciteInternalListItemChange);
-    this.listen(
-      "calciteInternalListItemGroupDefaultSlotChange",
-      this.handleCalciteInternalListItemGroupDefaultSlotChange,
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupItemsChange"]>(
+      "calciteInternalListItemGroupItemsChange",
+      this.handleInternalListItemGroupItemsChange,
     );
     this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
   }
@@ -428,7 +435,7 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
     this.setUpSorting();
     this.setParentList();
-    this.setListItemGroups();
+    this.setListItemsAndGroups();
     this.cancelable.add(this.updateListItemsDebounced);
   }
 
@@ -479,6 +486,7 @@ export class List extends LitElement {
 
   private updateListItems(): void {
     this.updateFilterRowHeight();
+    this.setListItemsAndGroups();
     this.updateGroupItems();
 
     const {
@@ -494,43 +502,43 @@ export class List extends LitElement {
       sortHandleMenuItems,
     } = this;
 
-    const items = Array.from(this.el.querySelectorAll(listItemSelector));
+    const items = this.listItems;
     const fromEl = el;
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    this.listItemsPendingOwnershipUpdate.forEach((item) => item.updateParentListAndLevel());
+    this.listItemsPendingOwnershipUpdate.clear();
+    const directItems = items.filter((item) => this.getOwningList(item) === fromEl);
 
-    items.forEach((item) => {
-      if (item.closest(listSelector) === el) {
-        item.scale = scale;
-        item.selectionAppearance = selectionAppearance;
-        item.selectionMode = selectionMode;
-        item.interactionMode = interactionMode;
+    directItems.forEach((item) => {
+      item.scale = scale;
+      item.selectionAppearance = selectionAppearance;
+      item.selectionMode = selectionMode;
+      item.interactionMode = interactionMode;
 
-        item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
-          this.validateSortMenuItem({
-            type: "move",
-            fromEl,
-            toEl: moveToItem.element as List["el"],
-            dragEl: item,
-            newIndex: 0,
-            oldIndex: fromElItems.indexOf(item),
-          }),
-        );
+      item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
+        this.validateSortMenuItem({
+          type: "move",
+          fromEl,
+          toEl: moveToItem.element as List["el"],
+          dragEl: item,
+          newIndex: 0,
+          oldIndex: directItems.indexOf(item),
+        }),
+      );
 
-        item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
-          this.validateSortMenuItem({
-            type: "add",
-            fromEl,
-            toEl: moveToItem.element as List["el"],
-            dragEl: item,
-            newIndex: 0,
-            oldIndex: fromElItems.indexOf(item),
-          }),
-        );
+      item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
+        this.validateSortMenuItem({
+          type: "add",
+          fromEl,
+          toEl: moveToItem.element as List["el"],
+          dragEl: item,
+          newIndex: 0,
+          oldIndex: directItems.indexOf(item),
+        }),
+      );
 
-        item.dragHandle = dragEnabled;
-        item.displayMode = displayMode;
-        item.sortDisabled = sortDisabled;
-      }
+      item.dragHandle = dragEnabled;
+      item.displayMode = displayMode;
+      item.sortDisabled = sortDisabled;
     });
 
     if (this.parentListEl) {
@@ -538,7 +546,6 @@ export class List extends LitElement {
       return;
     }
 
-    this.listItems = items;
     if (this.filterEnabled && this.willPerformFilter) {
       this.willPerformFilter = false;
       this.dataForFilter = this.getItemData();
@@ -713,8 +720,14 @@ export class List extends LitElement {
     this.handleListItemChange();
   }
 
-  private handleCalciteInternalListItemGroupDefaultSlotChange(event: CustomEvent): void {
+  private handleInternalListItemGroupItemsChange(event: CustomEvent<void>): void {
     if (this.parentListEl) {
+      return;
+    }
+
+    const group = event.target as ListItemGroup["el"];
+
+    if (!this.listItemGroups.includes(group)) {
       return;
     }
 
@@ -764,23 +777,40 @@ export class List extends LitElement {
     this.calciteListOrderChange.emit(detail);
   }
 
+  private getOwningList(listItem: ListItem["el"]): List["el"] | null {
+    return getClosestAncestorInComposedTree<List["el"]>(listItem, listSelector);
+  }
+
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest(listSelector) || undefined;
+    this.parentListEl =
+      getClosestAncestorInComposedTree<List["el"]>(this.el, listSelector) || undefined;
+  }
+
+  private setListItemsAndGroups(): void {
+    const directSlottedElements = this.defaultSlotEl?.assignedElements({ flatten: true }) ?? [];
+
+    const { groups: listItemGroups, items: listItems } =
+      getListStructureFromElements(directSlottedElements);
+
+    this.listItems.forEach((item) => this.listItemsPendingOwnershipUpdate.add(item));
+    listItems.forEach((item) => this.listItemsPendingOwnershipUpdate.add(item));
+    this.listItems = listItems;
+    this.listItemGroups = listItemGroups;
   }
 
   private handleDefaultSlotChange(event: Event): void {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
+    } else {
+      this.handleListItemChange();
     }
+
+    this.setListItemsAndGroups();
     this.hasContent = slotChangeHasContent(event);
   }
 
   private handleEmptyContentSlotChange(event: Event): void {
     this.hasEmptyContent = slotChangeHasContent(event);
-  }
-
-  private setListItemGroups(): void {
-    this.listItemGroups = Array.from(this.el.querySelectorAll(listItemGroupSelector));
   }
 
   private handleFilterActionsStartSlotChange(event: Event): void {
@@ -827,7 +857,7 @@ export class List extends LitElement {
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement!.closest<ListElement>(parentSelector);
+    const closestParent = getClosestAncestorInComposedTree<ListElement>(el, parentSelector);
 
     if (!closestParent) {
       return;
@@ -845,7 +875,7 @@ export class List extends LitElement {
   }
 
   private allParentListItemsExpanded(item: ListItem["el"]): boolean {
-    const parentItem = item.parentElement?.closest(listItemSelector);
+    const parentItem = getClosestAncestorInComposedTree<ListItem["el"]>(item, listItemSelector);
 
     if (!parentItem) {
       return true;
@@ -954,21 +984,43 @@ export class List extends LitElement {
   }
 
   private getGroupHeading(item: ListItem["el"]): string[] {
-    return this.listItemGroups
-      .filter((group) => group.contains(item) && group.heading)
-      .map((group) => group.heading!);
+    const headings: string[] = [];
+    let parentGroup = getClosestAncestorInComposedTree<ListItemGroup["el"]>(
+      item,
+      listItemGroupSelector,
+    );
+
+    while (parentGroup) {
+      if (parentGroup.heading) {
+        headings.push(parentGroup.heading);
+      }
+
+      parentGroup = getClosestAncestorInComposedTree<ListItemGroup["el"]>(
+        parentGroup,
+        listItemGroupSelector,
+      );
+    }
+
+    return headings.reverse();
+  }
+
+  private getSiblingListsFromRoot(group: string): List["el"][] {
+    return queryElementRootsAll<List["el"]>(this.el, listSelector, (list) => {
+      if ((list.group ?? list.getAttribute("group")) !== group) {
+        return false;
+      }
+
+      const dragEnabled = list.dragEnabled || list.hasAttribute("drag-enabled");
+      const disabled = list.disabled || list.hasAttribute("disabled");
+
+      return !disabled && dragEnabled;
+    });
   }
 
   private updateGroupItems(): void {
-    const { el, group, scale } = this;
+    const { group, scale } = this;
 
-    const rootNode = getRootNode(el);
-
-    const lists = group
-      ? Array.from(
-          rootNode.querySelectorAll<List["el"]>(`${listSelector}[group="${group}"]`),
-        ).filter((list) => !list.disabled && list.dragEnabled)
-      : [];
+    const lists = group ? this.getSiblingListsFromRoot(group) : [];
 
     this.sortHandleMenuItems = lists.map((element) => ({
       element,
@@ -976,9 +1028,7 @@ export class List extends LitElement {
       id: guid(),
     }));
 
-    const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
-
-    groupItems.forEach((item) => {
+    this.listItemGroups.forEach((item) => {
       item.scale = scale;
     });
   }
@@ -996,7 +1046,10 @@ export class List extends LitElement {
   }
 
   private isNavigable(listItem: ListItem["el"]): boolean {
-    const parentListItemEl = listItem.parentElement?.closest(listItemSelector);
+    const parentListItemEl = getClosestAncestorInComposedTree<ListItem["el"]>(
+      listItem,
+      listItemSelector,
+    );
 
     if (!parentListItemEl) {
       return true;
@@ -1105,9 +1158,14 @@ export class List extends LitElement {
     const { addTo } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const fromEl = dragEl?.parentElement as List["el"];
+    const fromEl = this.getOwningList(dragEl);
     const toEl = addTo.element as List["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const fromElItems = this.listItems.filter((item) => this.getOwningList(item) === fromEl);
+
+    if (!fromEl) {
+      return;
+    }
+
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
@@ -1141,9 +1199,14 @@ export class List extends LitElement {
     const { moveTo } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const fromEl = dragEl?.parentElement as List["el"];
+    const fromEl = this.getOwningList(dragEl);
     const toEl = moveTo.element as List["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const fromElItems = this.listItems.filter((item) => this.getOwningList(item) === fromEl);
+
+    if (!fromEl) {
+      return;
+    }
+
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
@@ -1176,15 +1239,21 @@ export class List extends LitElement {
     const { reorder } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const parentEl = dragEl?.parentElement as List["el"];
+    const owningList = this.getOwningList(dragEl);
+    const parentEl = dragEl.parentElement;
 
-    if (!parentEl) {
+    if (!owningList || !parentEl) {
       return;
     }
 
     dragEl.sortHandleOpen = false;
 
-    const sameParentItems = Array.from(parentEl.children).filter(isListItem);
+    const sameParentItems = this.listItems.filter(
+      (item) =>
+        !item.filterHidden &&
+        item.parentElement === parentEl &&
+        item.assignedSlot === dragEl.assignedSlot,
+    );
 
     const lastIndex = sameParentItems.length - 1;
     const oldIndex = sameParentItems.indexOf(dragEl);
@@ -1219,8 +1288,8 @@ export class List extends LitElement {
 
     this.calciteListOrderChange.emit({
       dragEl,
-      fromEl: parentEl,
-      toEl: parentEl,
+      fromEl: owningList,
+      toEl: owningList,
       newIndex,
       oldIndex,
     });
