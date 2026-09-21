@@ -134,7 +134,7 @@ export class TableRow extends LitElement {
     const oldValue = this._selected;
     if (value !== oldValue) {
       this._selected = value;
-      this.handleCellChanges();
+      this.updateCellSelectionState();
     }
   }
 
@@ -232,6 +232,12 @@ export class TableRow extends LitElement {
     if (this.rowCells.length > 0) {
       requestAnimationFrame(() => this.updateCells());
     }
+  }
+
+  private updateCellSelectionState(): void {
+    this.rowCells.forEach((cell) => {
+      cell.parentRowIsSelected = this.selected;
+    });
   }
 
   private calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {

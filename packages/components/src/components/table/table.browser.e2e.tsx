@@ -445,6 +445,33 @@ describe("propagates", () => {
       ),
     { targetSelector: "calcite-table-row, calcite-chip" },
   );
+
+  it("limits selection summary propagation to header rows", async () => {
+    const { el } = await mount<Table>(
+      <calcite-table caption="Selection summary table" selectionMode="multiple">
+        <calcite-table-row id="header-row" slot={SLOTS.tableHeader}>
+          <calcite-table-header heading="Heading" />
+        </calcite-table-row>
+        <calcite-table-row id="body-row" selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="footer-row" slot={SLOTS.tableFooter}>
+          <calcite-table-cell>footer</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>,
+    );
+
+    const headerRow = el.querySelector<TableRow["el"]>("#header-row")!;
+    const bodyRow = el.querySelector<TableRow["el"]>("#body-row")!;
+    const footerRow = el.querySelector<TableRow["el"]>("#footer-row")!;
+
+    expect(headerRow.selectedRowCount).toBe(1);
+    expect(headerRow.selectedRowCountLocalized).toBe("1");
+    expect(bodyRow.selectedRowCount).toBeUndefined();
+    expect(bodyRow.selectedRowCountLocalized).toBeUndefined();
+    expect(footerRow.selectedRowCount).toBeUndefined();
+    expect(footerRow.selectedRowCountLocalized).toBeUndefined();
+  });
 });
 
 describe("theme", () => {

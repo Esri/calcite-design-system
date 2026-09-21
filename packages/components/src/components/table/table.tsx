@@ -480,7 +480,7 @@ export class Table extends LitElement {
     this.selectedCount = selectedItems?.length;
     this.configureNumberStringFormatter();
     const selectedCountLocalized = this.localizeNumber(this.selectedCount);
-    this.allRows?.forEach((row) => {
+    this.headRows.forEach((row) => {
       row.selectedRowCount = this.selectedCount;
       row.selectedRowCountLocalized = selectedCountLocalized;
     });
