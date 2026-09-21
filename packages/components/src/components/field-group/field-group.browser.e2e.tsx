@@ -124,8 +124,6 @@ describe("scale propagation", () => {
     const direct = el.querySelector<UpdatableElement>("#direct")!;
     const nested = el.querySelector<UpdatableElement>("#nested")!;
 
-    await Promise.all([waitForUpdate(direct), waitForUpdate(nested)]);
-
     expect(direct.scale).toBe("s");
     expect(nested.scale).toBe("s");
   });
