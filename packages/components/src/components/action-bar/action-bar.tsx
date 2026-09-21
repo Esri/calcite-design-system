@@ -297,7 +297,6 @@ export class ActionBar extends LitElement {
 
   @state() activeDescendantId?: string;
 
-  @state() selectionOverflowDisabled = false;
   /** Whether any action groups are slotted in the default slot; enables wrap-mode group dividers. */
   @state() hasActionGroups = false;
 
@@ -498,7 +497,7 @@ export class ActionBar extends LitElement {
       attributes: true,
       attributeFilter: ["selection-mode", "overflow-actions-disabled"],
     });
-    this.overflowActionsDisabledHandler(this.effectiveOverflowActionsDisabled);
+    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.overflowModeHandler();
     this.cancelable.add(this.resize);
   }
@@ -530,11 +529,7 @@ export class ActionBar extends LitElement {
       changes.has("overflowActionsDisabled") &&
       (this.hasUpdated || this.overflowActionsDisabled !== false)
     ) {
-      this.overflowActionsDisabledHandler(this.effectiveOverflowActionsDisabled);
-    }
-
-    if (changes.has("selectionOverflowDisabled") && this.hasUpdated) {
-      this.overflowActionsDisabledHandler(this.effectiveOverflowActionsDisabled);
+      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     }
     if (changes.has("overflowMode") && (this.hasUpdated || this.overflowMode !== "collapse")) {
       if (!this.usesWrap && this.lineMeasureFrame != null) {
@@ -582,6 +577,7 @@ export class ActionBar extends LitElement {
   }
 
   override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     if (this.lineMeasureFrame != null) {
       cancelAnimationFrame(this.lineMeasureFrame);
@@ -675,10 +671,6 @@ export class ActionBar extends LitElement {
     this.overflowActions();
   }
 
-  private get effectiveOverflowActionsDisabled(): boolean {
-    return this.overflowActionsDisabled || this.selectionOverflowDisabled;
-  }
-
   private overflowModeHandler(): void {
     if (this.overflowMode === "none") {
       this.resizeObserver?.disconnect();
@@ -702,27 +694,6 @@ export class ActionBar extends LitElement {
   }
 
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
-    // const actionMenu = event.target as ActionMenu["el"];
-
-    // if ((event.target as ActionGroup["el"]).menuOpen) {
-    //   const composedPath = event.composedPath();
-    //   this.actionGroups?.forEach((group) => {
-    //     if (!composedPath.includes(group)) {
-    //       group.menuOpen = false;
-    //     }
-    //   });
-    // }
-
-    // if (actionMenu?.open) {
-    //   void this.syncActiveDescendantToActionMenu(actionMenu);
-    //   return;
-    // }
-
-    // if (actionMenu) {
-    //   this.syncClosedActionMenu(actionMenu);
-    //   return;
-    // }
-
     const composedPath = event.composedPath();
     const source = composedPath.find(
       (element): element is ActionGroup["el"] | ActionMenu["el"] =>
@@ -820,14 +791,6 @@ export class ActionBar extends LitElement {
   }
 
   private updateGroups(): void {
-    // const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
-    // this.actionGroups = groups;
-    // this.selectionOverflowDisabled =
-    //   groups.length > 0 &&
-    //   groups.every((group) => {
-    //     const selectionMode = group.selectionMode || "none";
-    //     return selectionMode !== "none";
-    //   });
     const groups = [
       ...this.actionGroups,
       ...this.actionsStartGroups,
@@ -1295,6 +1258,14 @@ export class ActionBar extends LitElement {
       case "Tab":
         this.setNavigationItemTabIndexes(current);
         this.syncActiveDescendant(current);
+        if (event.shiftKey && isClosedActionMenu) {
+          current.tabIndex = -1;
+          setTimeout(() => {
+            if (this.currentFocusItem === current) {
+              current.tabIndex = 0;
+            }
+          });
+        }
         break;
     }
   }
