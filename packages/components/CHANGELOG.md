@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.77...@esri/calcite-components@5.2.0-next.78) (2026-09-18)
+
+### Bug Fixes
+
+- **slider:** honor numbering-system negative sign direction ([#15164](https://github.com/Esri/calcite-design-system/issues/15164)), closes [#3167](https://github.com/Esri/calcite-design-system/issues/3167)
+
+## [5.2.0-next.77](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.76...@esri/calcite-components@5.2.0-next.77) (2026-09-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.76](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.75...@esri/calcite-components@5.2.0-next.76) (2026-09-17)
+
+### Bug Fixes
+
+- **swatch:** preserve layout when slotted in button ([#15177](https://github.com/Esri/calcite-design-system/issues/15177)), closes [#15057](https://github.com/Esri/calcite-design-system/issues/15057)
+
+## [5.2.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.74...@esri/calcite-components@5.2.0-next.75) (2026-09-16)
+
+### Features
+
+- **autocomplete, filter, input-date-picker, input-time-picker, progress, segmented-control, slider, time-picker:** enable default corner-radius inheritance across components ([#15071](https://github.com/Esri/calcite-design-system/issues/15071)), closes [#14675](https://github.com/Esri/calcite-design-system/issues/14675) [#9758](https://github.com/Esri/calcite-design-system/issues/9758) [#14890](https://github.com/Esri/calcite-design-system/issues/14890)
+
+## [5.2.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.73...@esri/calcite-components@5.2.0-next.74) (2026-09-16)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.2.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.72...@esri/calcite-components@5.2.0-next.73) (2026-09-11)
 
 ### Bug Fixes

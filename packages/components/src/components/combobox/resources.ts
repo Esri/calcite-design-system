@@ -23,7 +23,6 @@ export const CSS = {
   selectionDisplaySingle: "selection-display--single",
   selectedIcon: "selected-icon",
   floatingUIContainer: "floating-ui-container",
-  screenReadersOnly: "screen-readers-only",
   wrapper: "wrapper",
   wrapperSingle: "wrapper--single",
   wrapperActive: "wrapper--active",
