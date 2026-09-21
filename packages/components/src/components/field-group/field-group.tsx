@@ -2,7 +2,7 @@ import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Input } from "../input/input";
 import type { Scale } from "../types";
-import { getStylePixelValue } from "../../utils/dom";
+import { getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-group.scss";
 
@@ -63,21 +63,13 @@ export class FieldGroup extends LitElement {
     Partial<Record<Affix, PreviousAffixStyle>>
   >();
 
-  private get controlElements(): HTMLElement[] {
-    return Array.from(this.el.querySelectorAll<HTMLElement>("*")).filter(
-      (element) => element.parentElement?.closest(controlBoundarySelector) === this.el,
-    );
-  }
+  private controlElements: HTMLElement[] = [];
+
+  private inputs: Input["el"][] = [];
 
   private get disabledControls(): DisabledControl[] {
     return this.controlElements.filter(
       (element): element is DisabledControl => "disabled" in element,
-    );
-  }
-
-  private get inputs(): Input["el"][] {
-    return Array.from(this.el.querySelectorAll<Input["el"]>("calcite-input")).filter(
-      (input) => input.closest("calcite-field-group") === this.el,
     );
   }
 
@@ -136,7 +128,21 @@ export class FieldGroup extends LitElement {
 
   //#region Private Methods
 
-  private handleSlotChange(): void {
+  private handleSlotChange(event: Event): void {
+    const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
+
+    this.controlElements = slottedElements.flatMap((element) =>
+      [element, ...element.querySelectorAll<HTMLElement>("*")].filter(
+        (control) => control.parentElement?.closest(controlBoundarySelector) === this.el,
+      ),
+    );
+    this.inputs = slottedElements
+      .flatMap((element) => [
+        ...(element.matches("calcite-input") ? [element] : []),
+        ...element.querySelectorAll<Input["el"]>("calcite-input"),
+      ])
+      .filter((input) => input.closest("calcite-field-group") === this.el);
+
     this.syncControlsScale();
     this.syncControlsDisabled();
 

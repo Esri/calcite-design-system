@@ -152,6 +152,21 @@ describe("scale propagation", () => {
     expect(direct.scale).toBe("l");
     expect(nested.scale).toBe("l");
   });
+
+  it("propagates scale to controls added after mount", async () => {
+    const { el } = await mount(
+      <calcite-field-group scale="s">
+        <calcite-input />
+      </calcite-field-group>,
+    );
+    const label = document.createElement("calcite-label");
+    const input = document.createElement("calcite-input") as UpdatableElement;
+
+    label.append(input);
+    el.append(label);
+
+    await vi.waitFor(() => expect(input.scale).toBe("s"));
+  });
 });
 
 describe("disabled propagation", () => {
