@@ -1,5 +1,8 @@
 {
   "corner-radius": {
+    "$extensions": {
+      "calcite.theme": true
+    },
     "default": {
       "attributes": {
         "category": "corner-radius"
@@ -11,6 +14,9 @@
       "attributes": {
         "category": "corner-radius",
         "docs": "deprecated"
+      },
+      "$extensions": {
+        "calcite.theme": false
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.none}",
@@ -43,6 +49,9 @@
       "attributes": {
         "category": "corner-radius",
         "docs": "deprecated"
+      },
+      "$extensions": {
+        "calcite.theme": false
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.4}",

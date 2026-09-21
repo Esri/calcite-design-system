@@ -1,6 +1,7 @@
 {
   "color": {
     "surface": {
+      "$extensions": { "calcite.theme": true },
       "1": {
         "attributes": {
           "category": "color",
@@ -112,6 +113,7 @@
       }
     },
     "text": {
+      "$extensions": { "calcite.theme": true },
       "1": {
         "attributes": {
           "category": "color",
@@ -162,6 +164,7 @@
       }
     },
     "border": {
+      "$extensions": { "calcite.theme": true },
       "1": {
         "attributes": {
           "category": "color",
@@ -200,6 +203,7 @@
           "group": "border",
           "docs": "unlisted"
         },
+        "$extensions": { "calcite.theme": false },
         "$type": "color",
         "$value": "rgba({core.color.neutral.blk-240}, {core.opacity.30})",
         "$description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
@@ -210,12 +214,14 @@
           "group": "border",
           "docs": "unlisted"
         },
+        "$extensions": { "calcite.theme": false },
         "$type": "color",
         "$value": "{core.color.neutral.blk-000}",
         "$description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
       }
     },
     "brand": {
+      "$extensions": { "calcite.theme": true },
       "default": {
         "attributes": {
           "category": "color",
@@ -250,6 +256,7 @@
       }
     },
     "inverse": {
+      "$extensions": { "calcite.theme": true },
       "default": {
         "attributes": {
           "category": "color",
@@ -276,6 +283,7 @@
       }
     },
     "status": {
+      "$extensions": { "calcite.theme": true },
       "info": {
         "default": {
           "attributes": {
@@ -394,6 +402,7 @@
       }
     },
     "transparent": {
+      "$extensions": { "calcite.theme": true },
       "default": {
         "attributes": {
           "category": "color",
@@ -456,6 +465,7 @@
       }
     },
     "focus": {
+      "$extensions": { "calcite.theme": true },
       "default": {
         "attributes": {
           "category": "color",

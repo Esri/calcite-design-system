@@ -975,11 +975,6 @@ exports[`CSS > dark should match 1`] = `
   --calcite-color-surface-4: #404040; /** Replaces \`--calcite-color-foreground-3\` */
   --calcite-color-surface-highlight: #2b465f; /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-theme-color-surface-1: var(--calcite-color-surface-1); /** Replaces \`--calcite-color-background\` */
-  --calcite-theme-color-surface-2: var(--calcite-color-surface-2); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-theme-color-surface-3: var(--calcite-color-surface-3); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-theme-color-surface-4: var(--calcite-color-surface-4); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-theme-color-surface-highlight: var(--calcite-color-surface-highlight); /** Replaces \`--calcite-color-foreground-current\` */
 }
 "
 `;
@@ -1227,21 +1222,6 @@ exports[`CSS > index should match 1`] = `
   --calcite-color-surface-3: #f2f2f2; /** Replaces \`--calcite-color-foreground-2\` */
   --calcite-color-surface-2: #ffffff; /** Replaces \`--calcite-color-foreground-1\` */
   --calcite-color-surface-1: #f7f7f7; /** Replaces \`--calcite-color-background\` */
-  --calcite-theme-color-surface-highlight: var(
-    --calcite-color-surface-highlight
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-theme-color-surface-4: var(
-    --calcite-color-surface-4
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-theme-color-surface-3: var(
-    --calcite-color-surface-3
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-theme-color-surface-2: var(
-    --calcite-color-surface-2
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-theme-color-surface-1: var(
-    --calcite-color-surface-1
-  ); /** Replaces \`--calcite-color-background\` */
 }
 @media (prefers-color-scheme: light) {
   .calcite-mode-auto {
@@ -1305,21 +1285,6 @@ exports[`CSS > index should match 1`] = `
     --calcite-color-surface-3: #f2f2f2; /** Replaces \`--calcite-color-foreground-2\` */
     --calcite-color-surface-2: #ffffff; /** Replaces \`--calcite-color-foreground-1\` */
     --calcite-color-surface-1: #f7f7f7; /** Replaces \`--calcite-color-background\` */
-    --calcite-theme-color-surface-highlight: var(
-      --calcite-color-surface-highlight
-    ); /** Replaces \`--calcite-color-foreground-current\` */
-    --calcite-theme-color-surface-4: var(
-      --calcite-color-surface-4
-    ); /** Replaces \`--calcite-color-foreground-3\` */
-    --calcite-theme-color-surface-3: var(
-      --calcite-color-surface-3
-    ); /** Replaces \`--calcite-color-foreground-2\` */
-    --calcite-theme-color-surface-2: var(
-      --calcite-color-surface-2
-    ); /** Replaces \`--calcite-color-foreground-1\` */
-    --calcite-theme-color-surface-1: var(
-      --calcite-color-surface-1
-    ); /** Replaces \`--calcite-color-background\` */
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -1384,21 +1349,6 @@ exports[`CSS > index should match 1`] = `
     --calcite-color-surface-3: #363636; /** Replaces \`--calcite-color-foreground-2\` */
     --calcite-color-surface-2: #2b2b2b; /** Replaces \`--calcite-color-foreground-1\` */
     --calcite-color-surface-1: #212121; /** Replaces \`--calcite-color-background\` */
-    --calcite-theme-color-surface-highlight: var(
-      --calcite-color-surface-highlight
-    ); /** Replaces \`--calcite-color-foreground-current\` */
-    --calcite-theme-color-surface-4: var(
-      --calcite-color-surface-4
-    ); /** Replaces \`--calcite-color-foreground-3\` */
-    --calcite-theme-color-surface-3: var(
-      --calcite-color-surface-3
-    ); /** Replaces \`--calcite-color-foreground-2\` */
-    --calcite-theme-color-surface-2: var(
-      --calcite-color-surface-2
-    ); /** Replaces \`--calcite-color-foreground-1\` */
-    --calcite-theme-color-surface-1: var(
-      --calcite-color-surface-1
-    ); /** Replaces \`--calcite-color-background\` */
   }
 }
 .calcite-mode-light {
@@ -1462,21 +1412,6 @@ exports[`CSS > index should match 1`] = `
   --calcite-color-surface-3: #f2f2f2; /** Replaces \`--calcite-color-foreground-2\` */
   --calcite-color-surface-2: #ffffff; /** Replaces \`--calcite-color-foreground-1\` */
   --calcite-color-surface-1: #f7f7f7; /** Replaces \`--calcite-color-background\` */
-  --calcite-theme-color-surface-highlight: var(
-    --calcite-color-surface-highlight
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-theme-color-surface-4: var(
-    --calcite-color-surface-4
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-theme-color-surface-3: var(
-    --calcite-color-surface-3
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-theme-color-surface-2: var(
-    --calcite-color-surface-2
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-theme-color-surface-1: var(
-    --calcite-color-surface-1
-  ); /** Replaces \`--calcite-color-background\` */
 }
 .calcite-mode-dark {
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
@@ -1539,21 +1474,6 @@ exports[`CSS > index should match 1`] = `
   --calcite-color-surface-3: #363636; /** Replaces \`--calcite-color-foreground-2\` */
   --calcite-color-surface-2: #2b2b2b; /** Replaces \`--calcite-color-foreground-1\` */
   --calcite-color-surface-1: #212121; /** Replaces \`--calcite-color-background\` */
-  --calcite-theme-color-surface-highlight: var(
-    --calcite-color-surface-highlight
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-theme-color-surface-4: var(
-    --calcite-color-surface-4
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-theme-color-surface-3: var(
-    --calcite-color-surface-3
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-theme-color-surface-2: var(
-    --calcite-color-surface-2
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-theme-color-surface-1: var(
-    --calcite-color-surface-1
-  ); /** Replaces \`--calcite-color-background\` */
 }
 "
 `;
@@ -1615,11 +1535,6 @@ exports[`CSS > light should match 1`] = `
   --calcite-color-surface-4: #ebebeb; /** Replaces \`--calcite-color-foreground-3\` */
   --calcite-color-surface-highlight: #d6efff; /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
-  --calcite-theme-color-surface-1: var(--calcite-color-surface-1); /** Replaces \`--calcite-color-background\` */
-  --calcite-theme-color-surface-2: var(--calcite-color-surface-2); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-theme-color-surface-3: var(--calcite-color-surface-3); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-theme-color-surface-4: var(--calcite-color-surface-4); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-theme-color-surface-highlight: var(--calcite-color-surface-highlight); /** Replaces \`--calcite-color-foreground-current\` */
 }
 "
 `;
@@ -1791,31 +1706,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-space-xl: 1.25rem; /** Replaces \`--calcite-spacing-xl\` */
   --calcite-space-2xl: 1.5rem; /** Replaces \`--calcite-spacing-xxl\` */
   --calcite-space-3xl: 2rem; /** Replaces \`--calcite-spacing-xxxl\` */
-  --calcite-theme-corner-radius-none: var(--calcite-corner-radius-none); /** Replaces \`--calcite-corner-radius-sharp\` */
-  --calcite-theme-corner-radius-sm: var(--calcite-corner-radius-sm); /** Replaces \`--calcite-corner-radius-round\` */
-  --calcite-theme-font-weight-regular: var(--calcite-font-weight-regular); /** Replaces \`--calcite-font-weight-normal\` */
-  --calcite-theme-font-size-2xl: var(--calcite-font-size-2xl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-theme-size-4xs: var(--calcite-size-4xs); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-theme-size-3xs: var(--calcite-size-3xs); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-theme-size-2xs: var(--calcite-size-2xs); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-theme-size-xs: var(--calcite-size-xs); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-theme-size-sm: var(--calcite-size-sm); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-theme-size-md: var(--calcite-size-md); /** Replaces \`--calcite-size-fixed-xxxl\` */
-  --calcite-theme-size-2xl: var(--calcite-size-2xl); /** Replaces \`--calcite-size-xxl\` */
-  --calcite-theme-size-3xl: var(--calcite-size-3xl); /** Replaces \`--calcite-size-xxxl\` */
-  --calcite-theme-space-none: var(--calcite-space-none); /** Replaces \`--calcite-spacing-none\` */
-  --calcite-theme-space-px: var(--calcite-space-px); /** Replaces \`--calcite-spacing-px\` */
-  --calcite-theme-space-base: var(--calcite-space-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-theme-space-2xs: var(--calcite-space-2xs); /** Replaces \`--calcite-spacing-xxs\` */
-  --calcite-theme-space-xs: var(--calcite-space-xs); /** Replaces \`--calcite-spacing-xs\` */
-  --calcite-theme-space-sm: var(--calcite-space-sm); /** Replaces \`--calcite-spacing-sm\` */
-  --calcite-theme-space-sm-plus: var(--calcite-space-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-theme-space-md: var(--calcite-space-md); /** Replaces \`--calcite-spacing-md\` */
-  --calcite-theme-space-md-plus: var(--calcite-space-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
-  --calcite-theme-space-lg: var(--calcite-space-lg); /** Replaces \`--calcite-spacing-lg\` */
-  --calcite-theme-space-xl: var(--calcite-space-xl); /** Replaces \`--calcite-spacing-xl\` */
-  --calcite-theme-space-2xl: var(--calcite-space-2xl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-theme-space-3xl: var(--calcite-space-3xl); /** Replaces \`--calcite-spacing-xxxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
@@ -17659,7 +17549,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 1",
-      "path": ["color", "surface", "1"]
+      "path": ["color", "surface", "1"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-1)"
+      }
     },
     {
       "key": "{color.surface.2}",
@@ -17685,7 +17578,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 2",
-      "path": ["color", "surface", "2"]
+      "path": ["color", "surface", "2"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-2)"
+      }
     },
     {
       "key": "{color.surface.3}",
@@ -17711,7 +17607,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 3",
-      "path": ["color", "surface", "3"]
+      "path": ["color", "surface", "3"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-3)"
+      }
     },
     {
       "key": "{color.surface.4}",
@@ -17737,7 +17636,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 4",
-      "path": ["color", "surface", "4"]
+      "path": ["color", "surface", "4"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-4)"
+      }
     },
     {
       "key": "{color.surface.highlight}",
@@ -17763,7 +17665,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface Highlight",
-      "path": ["color", "surface", "highlight"]
+      "path": ["color", "surface", "highlight"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-highlight)"
+      }
     },
     {
       "key": "{color.background.default}",
@@ -17950,7 +17855,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 1",
-      "path": ["color", "text", "1"]
+      "path": ["color", "text", "1"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-1)"
+      }
     },
     {
       "key": "{color.text.2}",
@@ -17975,7 +17883,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 2",
-      "path": ["color", "text", "2"]
+      "path": ["color", "text", "2"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-2)"
+      }
     },
     {
       "key": "{color.text.3}",
@@ -18000,7 +17911,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 3",
-      "path": ["color", "text", "3"]
+      "path": ["color", "text", "3"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-3)"
+      }
     },
     {
       "key": "{color.text.inverse}",
@@ -18025,7 +17939,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Inverse",
-      "path": ["color", "text", "inverse"]
+      "path": ["color", "text", "inverse"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-inverse)"
+      }
     },
     {
       "key": "{color.text.link}",
@@ -18050,7 +17967,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Link",
-      "path": ["color", "text", "link"]
+      "path": ["color", "text", "link"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-link)"
+      }
     },
     {
       "key": "{color.text.highlight}",
@@ -18075,7 +17995,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Highlight",
-      "path": ["color", "text", "highlight"]
+      "path": ["color", "text", "highlight"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-highlight)"
+      }
     },
     {
       "key": "{color.border.1}",
@@ -18100,7 +18023,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 1",
-      "path": ["color", "border", "1"]
+      "path": ["color", "border", "1"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-1)"
+      }
     },
     {
       "key": "{color.border.2}",
@@ -18125,7 +18051,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 2",
-      "path": ["color", "border", "2"]
+      "path": ["color", "border", "2"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-2)"
+      }
     },
     {
       "key": "{color.border.3}",
@@ -18150,7 +18079,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 3",
-      "path": ["color", "border", "3"]
+      "path": ["color", "border", "3"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-3)"
+      }
     },
     {
       "key": "{color.border.input}",
@@ -18175,7 +18107,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border Input",
-      "path": ["color", "border", "input"]
+      "path": ["color", "border", "input"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-input)"
+      }
     },
     {
       "key": "{color.border.ghost}",
@@ -18254,7 +18189,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand",
-      "path": ["color", "brand", "default"]
+      "path": ["color", "brand", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand)"
+      }
     },
     {
       "key": "{color.brand.hover}",
@@ -18279,7 +18217,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Hover",
-      "path": ["color", "brand", "hover"]
+      "path": ["color", "brand", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand-hover)"
+      }
     },
     {
       "key": "{color.brand.press}",
@@ -18304,7 +18245,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Press",
-      "path": ["color", "brand", "press"]
+      "path": ["color", "brand", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand-press)"
+      }
     },
     {
       "key": "{color.brand.underline}",
@@ -18329,7 +18273,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Underline",
-      "path": ["color", "brand", "underline"]
+      "path": ["color", "brand", "underline"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand-underline)"
+      }
     },
     {
       "key": "{color.inverse.default}",
@@ -18354,7 +18301,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse",
-      "path": ["color", "inverse", "default"]
+      "path": ["color", "inverse", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-inverse)"
+      }
     },
     {
       "key": "{color.inverse.hover}",
@@ -18379,7 +18329,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse Hover",
-      "path": ["color", "inverse", "hover"]
+      "path": ["color", "inverse", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-inverse-hover)"
+      }
     },
     {
       "key": "{color.inverse.press}",
@@ -18404,7 +18357,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse Press",
-      "path": ["color", "inverse", "press"]
+      "path": ["color", "inverse", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-inverse-press)"
+      }
     },
     {
       "key": "{color.status.info.default}",
@@ -18431,7 +18387,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info",
-      "path": ["color", "status", "info", "default"]
+      "path": ["color", "status", "info", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-info)"
+      }
     },
     {
       "key": "{color.status.info.hover}",
@@ -18458,7 +18417,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info Hover",
-      "path": ["color", "status", "info", "hover"]
+      "path": ["color", "status", "info", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-info-hover)"
+      }
     },
     {
       "key": "{color.status.info.press}",
@@ -18485,7 +18447,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info Press",
-      "path": ["color", "status", "info", "press"]
+      "path": ["color", "status", "info", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-info-press)"
+      }
     },
     {
       "key": "{color.status.success.default}",
@@ -18512,7 +18477,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success",
-      "path": ["color", "status", "success", "default"]
+      "path": ["color", "status", "success", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-success)"
+      }
     },
     {
       "key": "{color.status.success.hover}",
@@ -18539,7 +18507,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success Hover",
-      "path": ["color", "status", "success", "hover"]
+      "path": ["color", "status", "success", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-success-hover)"
+      }
     },
     {
       "key": "{color.status.success.press}",
@@ -18566,7 +18537,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success Press",
-      "path": ["color", "status", "success", "press"]
+      "path": ["color", "status", "success", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-success-press)"
+      }
     },
     {
       "key": "{color.status.warning.default}",
@@ -18593,7 +18567,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning",
-      "path": ["color", "status", "warning", "default"]
+      "path": ["color", "status", "warning", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-warning)"
+      }
     },
     {
       "key": "{color.status.warning.hover}",
@@ -18620,7 +18597,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning Hover",
-      "path": ["color", "status", "warning", "hover"]
+      "path": ["color", "status", "warning", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-warning-hover)"
+      }
     },
     {
       "key": "{color.status.warning.press}",
@@ -18647,7 +18627,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning Press",
-      "path": ["color", "status", "warning", "press"]
+      "path": ["color", "status", "warning", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-warning-press)"
+      }
     },
     {
       "key": "{color.status.danger.default}",
@@ -18674,7 +18657,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger",
-      "path": ["color", "status", "danger", "default"]
+      "path": ["color", "status", "danger", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-danger)"
+      }
     },
     {
       "key": "{color.status.danger.hover}",
@@ -18701,7 +18687,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger Hover",
-      "path": ["color", "status", "danger", "hover"]
+      "path": ["color", "status", "danger", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-danger-hover)"
+      }
     },
     {
       "key": "{color.status.danger.press}",
@@ -18728,7 +18717,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger Press",
-      "path": ["color", "status", "danger", "press"]
+      "path": ["color", "status", "danger", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-danger-press)"
+      }
     },
     {
       "key": "{color.transparent.default}",
@@ -18753,7 +18745,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent",
-      "path": ["color", "transparent", "default"]
+      "path": ["color", "transparent", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent)"
+      }
     },
     {
       "key": "{color.transparent.hover}",
@@ -18778,7 +18773,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Hover",
-      "path": ["color", "transparent", "hover"]
+      "path": ["color", "transparent", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-hover)"
+      }
     },
     {
       "key": "{color.transparent.press}",
@@ -18803,7 +18801,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Press",
-      "path": ["color", "transparent", "press"]
+      "path": ["color", "transparent", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-press)"
+      }
     },
     {
       "key": "{color.transparent.scrim}",
@@ -18828,7 +18829,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Scrim",
-      "path": ["color", "transparent", "scrim"]
+      "path": ["color", "transparent", "scrim"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-scrim)"
+      }
     },
     {
       "key": "{color.transparent.tint}",
@@ -18853,7 +18857,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Tint",
-      "path": ["color", "transparent", "tint"]
+      "path": ["color", "transparent", "tint"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-tint)"
+      }
     },
     {
       "key": "{color.transparent.inverse.hover}",
@@ -18880,7 +18887,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Inverse Hover",
-      "path": ["color", "transparent", "inverse", "hover"]
+      "path": ["color", "transparent", "inverse", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-inverse-hover)"
+      }
     },
     {
       "key": "{color.transparent.inverse.press}",
@@ -18907,7 +18917,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Inverse Press",
-      "path": ["color", "transparent", "inverse", "press"]
+      "path": ["color", "transparent", "inverse", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-inverse-press)"
+      }
     },
     {
       "key": "{color.focus.default}",
@@ -18932,7 +18945,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Focus",
-      "path": ["color", "focus", "default"]
+      "path": ["color", "focus", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-focus)"
+      }
     },
     {
       "key": "{border.width.none}",
@@ -19517,7 +19533,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius",
-      "path": ["corner-radius", "default"]
+      "path": ["corner-radius", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius)"
+      }
     },
     {
       "key": "{corner-radius.sharp}",
@@ -19566,7 +19585,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius None",
-      "path": ["corner-radius", "none"]
+      "path": ["corner-radius", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-none)"
+      }
     },
     {
       "key": "{corner-radius.xs}",
@@ -19589,7 +19611,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Xs",
-      "path": ["corner-radius", "xs"]
+      "path": ["corner-radius", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-xs)"
+      }
     },
     {
       "key": "{corner-radius.sm}",
@@ -19613,7 +19638,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Sm",
-      "path": ["corner-radius", "sm"]
+      "path": ["corner-radius", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-sm)"
+      }
     },
     {
       "key": "{corner-radius.round}",
@@ -19661,7 +19689,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Pill",
-      "path": ["corner-radius", "pill"]
+      "path": ["corner-radius", "pill"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-pill)"
+      }
     },
     {
       "key": "{font.family.default}",
@@ -25513,635 +25544,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
-      "key": "{theme.corner-radius.none}",
-      "attributes": {
-        "category": "corner-radius",
-        "type": "corner-radius",
-        "item": "none",
-        "names": {
-          "scss": "$calcite-theme-corner-radius-none",
-          "css": "var(--calcite-theme-corner-radius-none)",
-          "docs": "theme.corner-radius.none",
-          "es6": "calciteThemeCornerRadiusNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0",
-      "$description": "Replaces \`--calcite-corner-radius-sharp\`",
-      "filePath": "src/tokens/theme/corner-radius.json",
-      "isSource": true,
-      "name": "Theme Corner Radius None",
-      "path": ["theme", "corner-radius", "none"]
-    },
-    {
-      "key": "{theme.corner-radius.sm}",
-      "attributes": {
-        "category": "corner-radius",
-        "type": "corner-radius",
-        "item": "sm",
-        "names": {
-          "scss": "$calcite-theme-corner-radius-sm",
-          "css": "var(--calcite-theme-corner-radius-sm)",
-          "docs": "theme.corner-radius.sm",
-          "es6": "calciteThemeCornerRadiusSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "4px",
-      "$description": "Replaces \`--calcite-corner-radius-round\`",
-      "filePath": "src/tokens/theme/corner-radius.json",
-      "isSource": true,
-      "name": "Theme Corner Radius Sm",
-      "path": ["theme", "corner-radius", "sm"]
-    },
-    {
-      "key": "{theme.font.weight.regular}",
-      "attributes": {
-        "category": "font",
-        "group": "weight",
-        "type": "font",
-        "item": "weight",
-        "subitem": "regular",
-        "names": {
-          "scss": "$calcite-theme-font-weight-regular",
-          "css": "var(--calcite-theme-font-weight-regular)",
-          "docs": "theme.font.weight.regular",
-          "es6": "calciteThemeFontWeightRegular"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "fontWeight",
-      "$value": "400",
-      "$description": "Replaces \`--calcite-font-weight-normal\`",
-      "filePath": "src/tokens/theme/font.json",
-      "isSource": true,
-      "name": "Theme Font Weight Regular",
-      "path": ["theme", "font", "weight", "regular"]
-    },
-    {
-      "key": "{theme.font.size.2xl}",
-      "attributes": {
-        "category": "font",
-        "group": "size",
-        "type": "font",
-        "item": "size",
-        "subitem": "2xl",
-        "names": {
-          "scss": "$calcite-theme-font-size-2xl",
-          "css": "var(--calcite-theme-font-size-2xl)",
-          "docs": "theme.font.size.2xl",
-          "es6": "calciteThemeFontSize2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "fontSize",
-      "$value": "24px",
-      "$description": "Replaces \`--calcite-font-size-xxl\`",
-      "filePath": "src/tokens/theme/font.json",
-      "isSource": true,
-      "name": "Theme Font Size 2xl",
-      "path": ["theme", "font", "size", "2xl"]
-    },
-    {
-      "key": "{theme.size.4xs}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "4xs",
-        "names": {
-          "scss": "$calcite-theme-size-4xs",
-          "css": "var(--calcite-theme-size-4xs)",
-          "docs": "theme.size.4xs",
-          "es6": "calciteThemeSize4xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-size-fixed-sm-plus\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size 4xs",
-      "path": ["theme", "size", "4xs"]
-    },
-    {
-      "key": "{theme.size.3xs}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "3xs",
-        "names": {
-          "scss": "$calcite-theme-size-3xs",
-          "css": "var(--calcite-theme-size-3xs)",
-          "docs": "theme.size.3xs",
-          "es6": "calciteThemeSize3xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-size-fixed-md\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size 3xs",
-      "path": ["theme", "size", "3xs"]
-    },
-    {
-      "key": "{theme.size.2xs}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "2xs",
-        "names": {
-          "scss": "$calcite-theme-size-2xs",
-          "css": "var(--calcite-theme-size-2xs)",
-          "docs": "theme.size.2xs",
-          "es6": "calciteThemeSize2xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-size-fixed-md-plus\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size 2xs",
-      "path": ["theme", "size", "2xs"]
-    },
-    {
-      "key": "{theme.size.xs}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "xs",
-        "names": {
-          "scss": "$calcite-theme-size-xs",
-          "css": "var(--calcite-theme-size-xs)",
-          "docs": "theme.size.xs",
-          "es6": "calciteThemeSizeXs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1rem",
-      "$description": "Replaces \`--calcite-size-fixed-lg\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size Xs",
-      "path": ["theme", "size", "xs"]
-    },
-    {
-      "key": "{theme.size.sm}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "sm",
-        "names": {
-          "scss": "$calcite-theme-size-sm",
-          "css": "var(--calcite-theme-size-sm)",
-          "docs": "theme.size.sm",
-          "es6": "calciteThemeSizeSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxl\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size Sm",
-      "path": ["theme", "size", "sm"]
-    },
-    {
-      "key": "{theme.size.md}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "md",
-        "names": {
-          "scss": "$calcite-theme-size-md",
-          "css": "var(--calcite-theme-size-md)",
-          "docs": "theme.size.md",
-          "es6": "calciteThemeSizeMd"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2rem",
-      "$description": "Replaces \`--calcite-size-fixed-xxxl\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size Md",
-      "path": ["theme", "size", "md"]
-    },
-    {
-      "key": "{theme.size.2xl}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "2xl",
-        "names": {
-          "scss": "$calcite-theme-size-2xl",
-          "css": "var(--calcite-theme-size-2xl)",
-          "docs": "theme.size.2xl",
-          "es6": "calciteThemeSize2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "4rem",
-      "$description": "Replaces \`--calcite-size-xxl\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size 2xl",
-      "path": ["theme", "size", "2xl"]
-    },
-    {
-      "key": "{theme.size.3xl}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "3xl",
-        "names": {
-          "scss": "$calcite-theme-size-3xl",
-          "css": "var(--calcite-theme-size-3xl)",
-          "docs": "theme.size.3xl",
-          "es6": "calciteThemeSize3xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "6rem",
-      "$description": "Replaces \`--calcite-size-xxxl\`",
-      "filePath": "src/tokens/theme/size.json",
-      "isSource": true,
-      "name": "Theme Size 3xl",
-      "path": ["theme", "size", "3xl"]
-    },
-    {
-      "key": "{theme.space.none}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "none",
-        "names": {
-          "scss": "$calcite-theme-space-none",
-          "css": "var(--calcite-theme-space-none)",
-          "docs": "theme.space.none",
-          "es6": "calciteThemeSpaceNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0",
-      "$description": "Replaces \`--calcite-spacing-none\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space None",
-      "path": ["theme", "space", "none"]
-    },
-    {
-      "key": "{theme.space.px}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "px",
-        "names": {
-          "scss": "$calcite-theme-space-px",
-          "css": "var(--calcite-theme-space-px)",
-          "docs": "theme.space.px",
-          "es6": "calciteThemeSpacePx"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1px",
-      "$description": "Replaces \`--calcite-spacing-px\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Px",
-      "path": ["theme", "space", "px"]
-    },
-    {
-      "key": "{theme.space.base}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "base",
-        "names": {
-          "scss": "$calcite-theme-space-base",
-          "css": "var(--calcite-theme-space-base)",
-          "docs": "theme.space.base",
-          "es6": "calciteThemeSpaceBase"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2px",
-      "$description": "Replaces \`--calcite-spacing-base\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Base",
-      "path": ["theme", "space", "base"]
-    },
-    {
-      "key": "{theme.space.2xs}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "2xs",
-        "names": {
-          "scss": "$calcite-theme-space-2xs",
-          "css": "var(--calcite-theme-space-2xs)",
-          "docs": "theme.space.2xs",
-          "es6": "calciteThemeSpace2xs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.25rem",
-      "$description": "Replaces \`--calcite-spacing-xxs\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space 2xs",
-      "path": ["theme", "space", "2xs"]
-    },
-    {
-      "key": "{theme.space.xs}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "xs",
-        "names": {
-          "scss": "$calcite-theme-space-xs",
-          "css": "var(--calcite-theme-space-xs)",
-          "docs": "theme.space.xs",
-          "es6": "calciteThemeSpaceXs"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.375rem",
-      "$description": "Replaces \`--calcite-spacing-xs\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Xs",
-      "path": ["theme", "space", "xs"]
-    },
-    {
-      "key": "{theme.space.sm}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "sm",
-        "names": {
-          "scss": "$calcite-theme-space-sm",
-          "css": "var(--calcite-theme-space-sm)",
-          "docs": "theme.space.sm",
-          "es6": "calciteThemeSpaceSm"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.5rem",
-      "$description": "Replaces \`--calcite-spacing-sm\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Sm",
-      "path": ["theme", "space", "sm"]
-    },
-    {
-      "key": "{theme.space.sm-plus}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "sm-plus",
-        "names": {
-          "scss": "$calcite-theme-space-sm-plus",
-          "css": "var(--calcite-theme-space-sm-plus)",
-          "docs": "theme.space.sm-plus",
-          "es6": "calciteThemeSpaceSmPlus"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.625rem",
-      "$description": "Replaces \`--calcite-spacing-sm-plus\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Sm Plus",
-      "path": ["theme", "space", "sm-plus"]
-    },
-    {
-      "key": "{theme.space.md}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "md",
-        "names": {
-          "scss": "$calcite-theme-space-md",
-          "css": "var(--calcite-theme-space-md)",
-          "docs": "theme.space.md",
-          "es6": "calciteThemeSpaceMd"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-spacing-md\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Md",
-      "path": ["theme", "space", "md"]
-    },
-    {
-      "key": "{theme.space.md-plus}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "md-plus",
-        "names": {
-          "scss": "$calcite-theme-space-md-plus",
-          "css": "var(--calcite-theme-space-md-plus)",
-          "docs": "theme.space.md-plus",
-          "es6": "calciteThemeSpaceMdPlus"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-spacing-md-plus\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Md Plus",
-      "path": ["theme", "space", "md-plus"]
-    },
-    {
-      "key": "{theme.space.lg}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "lg",
-        "names": {
-          "scss": "$calcite-theme-space-lg",
-          "css": "var(--calcite-theme-space-lg)",
-          "docs": "theme.space.lg",
-          "es6": "calciteThemeSpaceLg"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1rem",
-      "$description": "Replaces \`--calcite-spacing-lg\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Lg",
-      "path": ["theme", "space", "lg"]
-    },
-    {
-      "key": "{theme.space.xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "xl",
-        "names": {
-          "scss": "$calcite-theme-space-xl",
-          "css": "var(--calcite-theme-space-xl)",
-          "docs": "theme.space.xl",
-          "es6": "calciteThemeSpaceXl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.25rem",
-      "$description": "Replaces \`--calcite-spacing-xl\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space Xl",
-      "path": ["theme", "space", "xl"]
-    },
-    {
-      "key": "{theme.space.2xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "2xl",
-        "names": {
-          "scss": "$calcite-theme-space-2xl",
-          "css": "var(--calcite-theme-space-2xl)",
-          "docs": "theme.space.2xl",
-          "es6": "calciteThemeSpace2xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "1.5rem",
-      "$description": "Replaces \`--calcite-spacing-xxl\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space 2xl",
-      "path": ["theme", "space", "2xl"]
-    },
-    {
-      "key": "{theme.space.3xl}",
-      "attributes": {
-        "category": "spacing",
-        "type": "space",
-        "item": "3xl",
-        "names": {
-          "scss": "$calcite-theme-space-3xl",
-          "css": "var(--calcite-theme-space-3xl)",
-          "docs": "theme.space.3xl",
-          "es6": "calciteThemeSpace3xl"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "theme"
-        }
-      },
-      "$type": "dimension",
-      "$value": "2rem",
-      "$description": "Replaces \`--calcite-spacing-xxxl\`",
-      "filePath": "src/tokens/theme/space.json",
-      "isSource": true,
-      "name": "Theme Space 3xl",
-      "path": ["theme", "space", "3xl"]
-    },
-    {
       "key": "{border.width.none}",
       "attributes": {
         "category": "border",
@@ -26358,7 +25760,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius",
-      "path": ["corner-radius", "default"]
+      "path": ["corner-radius", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius)"
+      }
     },
     {
       "key": "{corner-radius.sharp}",
@@ -26407,7 +25812,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius None",
-      "path": ["corner-radius", "none"]
+      "path": ["corner-radius", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-none)"
+      }
     },
     {
       "key": "{corner-radius.xs}",
@@ -26430,7 +25838,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Xs",
-      "path": ["corner-radius", "xs"]
+      "path": ["corner-radius", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-xs)"
+      }
     },
     {
       "key": "{corner-radius.sm}",
@@ -26454,7 +25865,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Sm",
-      "path": ["corner-radius", "sm"]
+      "path": ["corner-radius", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-sm)"
+      }
     },
     {
       "key": "{corner-radius.round}",
@@ -26502,7 +25916,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Pill",
-      "path": ["corner-radius", "pill"]
+      "path": ["corner-radius", "pill"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-pill)"
+      }
     },
     {
       "key": "{font.family.default}",
@@ -32814,31 +32231,6 @@ exports[`ES6 > semantic should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteThemeCornerRadiusNone = "0"; // Replaces \`--calcite-corner-radius-sharp\`
-export const calciteThemeCornerRadiusSm = "4px"; // Replaces \`--calcite-corner-radius-round\`
-export const calciteThemeFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
-export const calciteThemeFontSize2xl = "24px"; // Replaces \`--calcite-font-size-xxl\`
-export const calciteThemeSize4xs = "0.625rem"; // Replaces \`--calcite-size-fixed-sm-plus\`
-export const calciteThemeSize3xs = "0.75rem"; // Replaces \`--calcite-size-fixed-md\`
-export const calciteThemeSize2xs = "0.875rem"; // Replaces \`--calcite-size-fixed-md-plus\`
-export const calciteThemeSizeXs = "1rem"; // Replaces \`--calcite-size-fixed-lg\`
-export const calciteThemeSizeSm = "1.5rem"; // Replaces \`--calcite-size-fixed-xxl\`
-export const calciteThemeSizeMd = "2rem"; // Replaces \`--calcite-size-fixed-xxxl\`
-export const calciteThemeSize2xl = "4rem"; // Replaces \`--calcite-size-xxl\`
-export const calciteThemeSize3xl = "6rem"; // Replaces \`--calcite-size-xxxl\`
-export const calciteThemeSpaceNone = "0"; // Replaces \`--calcite-spacing-none\`
-export const calciteThemeSpacePx = "1px"; // Replaces \`--calcite-spacing-px\`
-export const calciteThemeSpaceBase = "2px"; // Replaces \`--calcite-spacing-base\`
-export const calciteThemeSpace2xs = "0.25rem"; // Replaces \`--calcite-spacing-xxs\`
-export const calciteThemeSpaceXs = "0.375rem"; // Replaces \`--calcite-spacing-xs\`
-export const calciteThemeSpaceSm = "0.5rem"; // Replaces \`--calcite-spacing-sm\`
-export const calciteThemeSpaceSmPlus = "0.625rem"; // Replaces \`--calcite-spacing-sm-plus\`
-export const calciteThemeSpaceMd = "0.75rem"; // Replaces \`--calcite-spacing-md\`
-export const calciteThemeSpaceMdPlus = "0.875rem"; // Replaces \`--calcite-spacing-md-plus\`
-export const calciteThemeSpaceLg = "1rem"; // Replaces \`--calcite-spacing-lg\`
-export const calciteThemeSpaceXl = "1.25rem"; // Replaces \`--calcite-spacing-xl\`
-export const calciteThemeSpace2xl = "1.5rem"; // Replaces \`--calcite-spacing-xxl\`
-export const calciteThemeSpace3xl = "2rem"; // Replaces \`--calcite-spacing-xxxl\`
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
@@ -33056,56 +32448,6 @@ exports[`ES6 > semantic types should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-/** Replaces \`--calcite-corner-radius-sharp\` */
-export const calciteThemeCornerRadiusNone: string;
-/** Replaces \`--calcite-corner-radius-round\` */
-export const calciteThemeCornerRadiusSm: string;
-/** Replaces \`--calcite-font-weight-normal\` */
-export const calciteThemeFontWeightRegular: string;
-/** Replaces \`--calcite-font-size-xxl\` */
-export const calciteThemeFontSize2xl: string;
-/** Replaces \`--calcite-size-fixed-sm-plus\` */
-export const calciteThemeSize4xs: string;
-/** Replaces \`--calcite-size-fixed-md\` */
-export const calciteThemeSize3xs: string;
-/** Replaces \`--calcite-size-fixed-md-plus\` */
-export const calciteThemeSize2xs: string;
-/** Replaces \`--calcite-size-fixed-lg\` */
-export const calciteThemeSizeXs: string;
-/** Replaces \`--calcite-size-fixed-xxl\` */
-export const calciteThemeSizeSm: string;
-/** Replaces \`--calcite-size-fixed-xxxl\` */
-export const calciteThemeSizeMd: string;
-/** Replaces \`--calcite-size-xxl\` */
-export const calciteThemeSize2xl: string;
-/** Replaces \`--calcite-size-xxxl\` */
-export const calciteThemeSize3xl: string;
-/** Replaces \`--calcite-spacing-none\` */
-export const calciteThemeSpaceNone: string;
-/** Replaces \`--calcite-spacing-px\` */
-export const calciteThemeSpacePx: string;
-/** Replaces \`--calcite-spacing-base\` */
-export const calciteThemeSpaceBase: string;
-/** Replaces \`--calcite-spacing-xxs\` */
-export const calciteThemeSpace2xs: string;
-/** Replaces \`--calcite-spacing-xs\` */
-export const calciteThemeSpaceXs: string;
-/** Replaces \`--calcite-spacing-sm\` */
-export const calciteThemeSpaceSm: string;
-/** Replaces \`--calcite-spacing-sm-plus\` */
-export const calciteThemeSpaceSmPlus: string;
-/** Replaces \`--calcite-spacing-md\` */
-export const calciteThemeSpaceMd: string;
-/** Replaces \`--calcite-spacing-md-plus\` */
-export const calciteThemeSpaceMdPlus: string;
-/** Replaces \`--calcite-spacing-lg\` */
-export const calciteThemeSpaceLg: string;
-/** Replaces \`--calcite-spacing-xl\` */
-export const calciteThemeSpaceXl: string;
-/** Replaces \`--calcite-spacing-xxl\` */
-export const calciteThemeSpace2xl: string;
-/** Replaces \`--calcite-spacing-xxxl\` */
-export const calciteThemeSpace3xl: string;
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
@@ -34085,11 +33427,6 @@ $calcite-color-surface-3: #363636; // Replaces \`--calcite-color-foreground-2\`
 $calcite-color-surface-4: #404040; // Replaces \`--calcite-color-foreground-3\`
 $calcite-color-surface-highlight: #2b465f; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
-$calcite-theme-color-surface-1: $calcite-color-surface-1; // Replaces \`--calcite-color-background\`
-$calcite-theme-color-surface-2: $calcite-color-surface-2; // Replaces \`--calcite-color-foreground-1\`
-$calcite-theme-color-surface-3: $calcite-color-surface-3; // Replaces \`--calcite-color-foreground-2\`
-$calcite-theme-color-surface-4: $calcite-color-surface-4; // Replaces \`--calcite-color-foreground-3\`
-$calcite-theme-color-surface-highlight: $calcite-color-surface-highlight; // Replaces \`--calcite-color-foreground-current\`
 "
 `;
 
@@ -34334,21 +33671,6 @@ exports[`SCSS > index should match 1`] = `
   --calcite-color-surface-3: #f2f2f2; /** Replaces \`--calcite-color-foreground-2\` */
   --calcite-color-surface-2: #ffffff; /** Replaces \`--calcite-color-foreground-1\` */
   --calcite-color-surface-1: #f7f7f7; /** Replaces \`--calcite-color-background\` */
-  --calcite-theme-color-surface-highlight: var(
-    --calcite-color-surface-highlight
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-theme-color-surface-4: var(
-    --calcite-color-surface-4
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-theme-color-surface-3: var(
-    --calcite-color-surface-3
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-theme-color-surface-2: var(
-    --calcite-color-surface-2
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-theme-color-surface-1: var(
-    --calcite-color-surface-1
-  ); /** Replaces \`--calcite-color-background\` */
 }
 @mixin calcite-mode-dark {
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
@@ -34411,21 +33733,6 @@ exports[`SCSS > index should match 1`] = `
   --calcite-color-surface-3: #363636; /** Replaces \`--calcite-color-foreground-2\` */
   --calcite-color-surface-2: #2b2b2b; /** Replaces \`--calcite-color-foreground-1\` */
   --calcite-color-surface-1: #212121; /** Replaces \`--calcite-color-background\` */
-  --calcite-theme-color-surface-highlight: var(
-    --calcite-color-surface-highlight
-  ); /** Replaces \`--calcite-color-foreground-current\` */
-  --calcite-theme-color-surface-4: var(
-    --calcite-color-surface-4
-  ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-theme-color-surface-3: var(
-    --calcite-color-surface-3
-  ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-theme-color-surface-2: var(
-    --calcite-color-surface-2
-  ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-theme-color-surface-1: var(
-    --calcite-color-surface-1
-  ); /** Replaces \`--calcite-color-background\` */
 }
 "
 `;
@@ -34485,11 +33792,6 @@ $calcite-color-surface-3: #f2f2f2; // Replaces \`--calcite-color-foreground-2\`
 $calcite-color-surface-4: #ebebeb; // Replaces \`--calcite-color-foreground-3\`
 $calcite-color-surface-highlight: #d6efff; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
-$calcite-theme-color-surface-1: $calcite-color-surface-1; // Replaces \`--calcite-color-background\`
-$calcite-theme-color-surface-2: $calcite-color-surface-2; // Replaces \`--calcite-color-foreground-1\`
-$calcite-theme-color-surface-3: $calcite-color-surface-3; // Replaces \`--calcite-color-foreground-2\`
-$calcite-theme-color-surface-4: $calcite-color-surface-4; // Replaces \`--calcite-color-foreground-3\`
-$calcite-theme-color-surface-highlight: $calcite-color-surface-highlight; // Replaces \`--calcite-color-foreground-current\`
 "
 `;
 
@@ -34988,31 +34290,6 @@ $calcite-space-lg: 1rem; // Replaces \`--calcite-spacing-lg\`
 $calcite-space-xl: 1.25rem; // Replaces \`--calcite-spacing-xl\`
 $calcite-space-2xl: 1.5rem; // Replaces \`--calcite-spacing-xxl\`
 $calcite-space-3xl: 2rem; // Replaces \`--calcite-spacing-xxxl\`
-$calcite-theme-corner-radius-none: $calcite-corner-radius-none; // Replaces \`--calcite-corner-radius-sharp\`
-$calcite-theme-corner-radius-sm: $calcite-corner-radius-sm; // Replaces \`--calcite-corner-radius-round\`
-$calcite-theme-font-weight-regular: $calcite-font-weight-regular; // Replaces \`--calcite-font-weight-normal\`
-$calcite-theme-font-size-2xl: $calcite-font-size-2xl; // Replaces \`--calcite-font-size-xxl\`
-$calcite-theme-size-4xs: $calcite-size-4xs; // Replaces \`--calcite-size-fixed-sm-plus\`
-$calcite-theme-size-3xs: $calcite-size-3xs; // Replaces \`--calcite-size-fixed-md\`
-$calcite-theme-size-2xs: $calcite-size-2xs; // Replaces \`--calcite-size-fixed-md-plus\`
-$calcite-theme-size-xs: $calcite-size-xs; // Replaces \`--calcite-size-fixed-lg\`
-$calcite-theme-size-sm: $calcite-size-sm; // Replaces \`--calcite-size-fixed-xxl\`
-$calcite-theme-size-md: $calcite-size-md; // Replaces \`--calcite-size-fixed-xxxl\`
-$calcite-theme-size-2xl: $calcite-size-2xl; // Replaces \`--calcite-size-xxl\`
-$calcite-theme-size-3xl: $calcite-size-3xl; // Replaces \`--calcite-size-xxxl\`
-$calcite-theme-space-none: $calcite-space-none; // Replaces \`--calcite-spacing-none\`
-$calcite-theme-space-px: $calcite-space-px; // Replaces \`--calcite-spacing-px\`
-$calcite-theme-space-base: $calcite-space-base; // Replaces \`--calcite-spacing-base\`
-$calcite-theme-space-2xs: $calcite-space-2xs; // Replaces \`--calcite-spacing-xxs\`
-$calcite-theme-space-xs: $calcite-space-xs; // Replaces \`--calcite-spacing-xs\`
-$calcite-theme-space-sm: $calcite-space-sm; // Replaces \`--calcite-spacing-sm\`
-$calcite-theme-space-sm-plus: $calcite-space-sm-plus; // Replaces \`--calcite-spacing-sm-plus\`
-$calcite-theme-space-md: $calcite-space-md; // Replaces \`--calcite-spacing-md\`
-$calcite-theme-space-md-plus: $calcite-space-md-plus; // Replaces \`--calcite-spacing-md-plus\`
-$calcite-theme-space-lg: $calcite-space-lg; // Replaces \`--calcite-spacing-lg\`
-$calcite-theme-space-xl: $calcite-space-xl; // Replaces \`--calcite-spacing-xl\`
-$calcite-theme-space-2xl: $calcite-space-2xl; // Replaces \`--calcite-spacing-xxl\`
-$calcite-theme-space-3xl: $calcite-space-3xl; // Replaces \`--calcite-spacing-xxxl\`
 $calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
