@@ -119,11 +119,6 @@ export class FieldGroup extends LitElement {
     }
   }
 
-  constructor() {
-    super();
-    this.listen("calciteInternalInputAffixChange", this.handleInputAffixChange);
-  }
-
   //#endregion
 
   //#region Private Methods
@@ -150,10 +145,6 @@ export class FieldGroup extends LitElement {
       void this.queueControlsDisabledResync();
     }
 
-    void this.syncInputsAffixWidths();
-  }
-
-  private handleInputAffixChange(): void {
     void this.syncInputsAffixWidths();
   }
 
