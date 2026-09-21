@@ -1,7 +1,16 @@
 import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  Fragment,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+} from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../types";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
@@ -17,7 +26,7 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./types";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, isTable, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
@@ -168,120 +177,15 @@ export class Table extends LitElement {
 
   //#endregion
 
-  //#region Events
+  //#region Public Methods
 
   /** @private */
-  calciteInternalTableRowFocusChange = createEvent<TableRowFocusEvent>({ cancelable: false });
-
-  /** Emits when the component's page selection changes. */
-  calciteTablePageChange = createEvent({ cancelable: false });
-
-  /** Emits when the component's selected rows change. */
-  calciteTableSelect = createEvent({ cancelable: false });
-
-  //#endregion
-
-  //#region Lifecycle
-
-  constructor() {
-    super();
-    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
-    this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
-    this.listen<CustomEvent<TableRowFocusEvent>>(
-      "calciteInternalTableRowFocusRequest",
-      this.calciteInternalTableRowFocusEvent,
-    );
-  }
-
-  async load(): Promise<void> {
-    /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
-    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
-    this.readCellContentsToAT = /safari/i.test(getUserAgentString());
-
-    this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
-  }
-
-  override disconnectedCallback(): void {
-    if (this.tableContainerOverflowAnimationFrame !== null) {
-      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
-      this.tableContainerOverflowAnimationFrame = null;
-    }
-
-    this.tableContainerResizeObserver?.disconnect();
-  }
-
-  override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (
-      (changes.has("groupSeparator") && (this.hasUpdated || this.groupSeparator !== false)) ||
-      (changes.has("interactionMode") &&
-        (this.hasUpdated || this.interactionMode !== "interactive")) ||
-      (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
-      changes.has("numberingSystem") ||
-      (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
-      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
-      (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
-    ) {
-      this.updateRows();
-    }
-
-    if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
-      this.allRows?.forEach((row) => {
-        row.stickyHeaderEnabled = this.stickyHeader;
-      });
-
-      if (this.stickyHeader) {
-        this.applyHeaderRowPositionStyles();
-      } else {
-        this.resetStickyHeaderState();
-      }
-    }
-  }
-
-  //#endregion
-
-  //#region Private Methods
-
-  private handleSlotChange(): void {
-    this.updateRows();
-  }
-
-  private clearStickyHeaderRowStyles(): void {
-    this.headRows?.forEach((row) => {
-      row.style.removeProperty("--calcite-internal-table-header-offset");
-      row.style.removeProperty("--calcite-internal-table-header-z-index");
-      row.style.removeProperty("--calcite-internal-table-header-row-position");
-    });
-  }
-
-  private resetStickyHeaderState(): void {
-    this.clearStickyHeaderRowStyles();
-  }
-
-  private calciteTableRowSelectListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      this.setSelectedItems(event.target as TableRow["el"]);
-    }
-  }
-
-  private calciteInternalTableRowSelectListener(event: CustomEvent): void {
-    if (!event.composedPath().includes(this.el)) {
-      return;
-    }
-
-    this.updateSelectedItems(false);
-    event.stopPropagation();
-  }
-
-  private calciteInternalTableRowFocusEvent(event: CustomEvent<TableRowFocusEvent>): void {
-    const cellPosition = event.detail.cellPosition;
-    const rowPos = event.detail.rowPosition;
-    const destination = event.detail.destination;
-    const lastCell = event.detail.lastCell;
+  @method()
+  async focusRow(event: TableRowFocusEvent): Promise<void> {
+    const cellPosition = event.cellPosition;
+    const rowPos = event.rowPosition;
+    const destination = event.destination;
+    const lastCell = event.lastCell;
 
     const visibleBody = this.bodyRows?.filter((row) => !isHidden(row));
     const visibleAll = this.allRows?.filter((row) => !isHidden(row));
@@ -314,13 +218,14 @@ export class Table extends LitElement {
         break;
     }
 
-    const destinationCount = this.allRows.find((row) => row.positionAll === rowPosition)?.cellCount;
+    const destinationRow = this.allRows.find((row) => row.positionAll === rowPosition);
+    const destinationCount = destinationRow?.cellCount;
 
     const adjustedPos =
       destinationCount && cellPosition > destinationCount ? destinationCount : cellPosition;
 
-    if (rowPosition !== undefined) {
-      this.calciteInternalTableRowFocusChange.emit({
+    if (rowPosition !== undefined && destinationRow) {
+      await destinationRow.focusCell({
         cellPosition: adjustedPos,
         rowPosition,
         destination,
@@ -329,12 +234,155 @@ export class Table extends LitElement {
     }
   }
 
+  //#endregion
+
+  //#region Events
+
+  /** Emits when the component's page selection changes. */
+  calciteTablePageChange = createEvent({ cancelable: false });
+
+  /** Emits when the component's selected rows change. */
+  calciteTableSelect = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
+    this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
+  }
+
+  async load(): Promise<void> {
+    /* Workaround for Safari https://bugs.webkit.org/show_bug.cgi?id=258430 https://bugs.webkit.org/show_bug.cgi?id=239478 */
+    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
+    this.readCellContentsToAT = /safari/i.test(getUserAgentString());
+
+    this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    const localizationChanged =
+      (changes.has("groupSeparator") && (this.hasUpdated || this.groupSeparator !== false)) ||
+      changes.has("numberingSystem");
+    const interactionModeChanged =
+      changes.has("interactionMode") && (this.hasUpdated || this.interactionMode !== "interactive");
+    const numberedChanged = changes.has("numbered") && (this.hasUpdated || this.numbered !== false);
+    const paginationChanged =
+      (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
+      (changes.has("currentPage") &&
+        (this.hasUpdated || this.currentPage > 1) &&
+        this.pageSize > 0);
+    const scaleChanged = changes.has("scale") && (this.hasUpdated || this.scale !== "m");
+    const selectionModeChanged =
+      changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none");
+
+    if (localizationChanged) {
+      this.updateLocalizedRowPositions();
+      this.updateSelectionSummary();
+    }
+
+    if (interactionModeChanged) {
+      this.allRows.forEach((row) => {
+        row.interactionMode = this.interactionMode;
+      });
+    }
+
+    if (numberedChanged) {
+      this.allRows.forEach((row) => {
+        row.numbered = this.numbered;
+      });
+    }
+
+    if (paginationChanged) {
+      this.handleCurrentPageRange();
+    }
+
+    if (scaleChanged) {
+      this.allRows.forEach((row) => {
+        row.scale = this.scale;
+      });
+    }
+
+    if (selectionModeChanged) {
+      this.allRows.forEach((row) => {
+        row.selectionMode = this.selectionMode;
+      });
+      this.updateSelectedItems();
+    }
+
+    if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
+      this.allRows?.forEach((row) => {
+        row.stickyHeaderEnabled = this.stickyHeader;
+      });
+
+      if (this.stickyHeader) {
+        this.applyHeaderRowPositionStyles();
+      } else {
+        this.resetStickyHeaderState();
+      }
+    }
+  }
+
+  override disconnectedCallback(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+      this.tableContainerOverflowAnimationFrame = null;
+    }
+
+    this.tableContainerResizeObserver?.disconnect();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private handleSlotChange(): void {
+    this.updateRows();
+  }
+
+  private clearStickyHeaderRowStyles(): void {
+    this.headRows?.forEach((row) => {
+      row.style.removeProperty("--calcite-internal-table-header-offset");
+      row.style.removeProperty("--calcite-internal-table-header-z-index");
+      row.style.removeProperty("--calcite-internal-table-header-row-position");
+    });
+  }
+
+  private resetStickyHeaderState(): void {
+    this.clearStickyHeaderRowStyles();
+  }
+
+  private calciteTableRowSelectListener(event: CustomEvent): void {
+    if (this.emittedFromThisTable(event)) {
+      this.setSelectedItems(event.target as TableRow["el"]);
+    }
+  }
+
+  private calciteInternalTableRowSelectListener(event: CustomEvent): void {
+    if (!this.emittedFromThisTable(event)) {
+      return;
+    }
+
+    this.updateSelectedItems(false);
+    event.stopPropagation();
+  }
+
   private getSlottedRows(el: HTMLSlotElement | undefined): TableRow["el"][] {
     if (!el) {
       return [];
     }
 
     return el.assignedElements({ flatten: true }).filter(isTableRow);
+  }
+
+  private emittedFromThisTable(event: Event): boolean {
+    return event.composedPath().find(isTable) === this.el;
   }
 
   private observeTableContainer(): void {
@@ -443,6 +491,16 @@ export class Table extends LitElement {
     this.updateSelectedItems();
   }
 
+  private updateLocalizedRowPositions(): void {
+    this.configureNumberStringFormatter();
+
+    [this.headRows, this.bodyRows, this.footRows].forEach((rows) => {
+      rows.forEach((row, position) => {
+        row.positionSectionLocalized = this.localizeNumber(position + 1);
+      });
+    });
+  }
+
   private handleCurrentPageRange(): void {
     const requestedPage = this.currentPage;
     const totalRows = this.bodyRows?.length || 0;
@@ -478,15 +536,19 @@ export class Table extends LitElement {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
+    this.updateSelectionSummary();
+    if (emit) {
+      this.calciteTableSelect.emit();
+    }
+  }
+
+  private updateSelectionSummary(): void {
     this.configureNumberStringFormatter();
     const selectedCountLocalized = this.localizeNumber(this.selectedCount);
     this.headRows.forEach((row) => {
       row.selectedRowCount = this.selectedCount;
       row.selectedRowCountLocalized = selectedCountLocalized;
     });
-    if (emit) {
-      this.calciteTableSelect.emit();
-    }
   }
 
   private handleDeselectAllRows(): void {

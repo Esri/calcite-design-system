@@ -1,5 +1,5 @@
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, JsxNode, Fragment } from "@arcgis/lumina";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../types";
@@ -8,6 +8,7 @@ import {
   FocusElementInGroupDestination,
   getSlotAssignedElements,
 } from "../../utils/dom";
+import type { Table } from "../table/table";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
@@ -149,10 +150,36 @@ export class TableRow extends LitElement {
 
   //#endregion
 
-  //#region Events
+  //#region Public Methods
 
   /** @private */
-  calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
+  @method()
+  async focusCell(event: TableRowFocusEvent): Promise<void> {
+    const position = event.cellPosition;
+    const rowPosition = event.rowPosition;
+    const destination = event.destination;
+    const lastCell = event.lastCell;
+
+    if (rowPosition === this.positionAll) {
+      if (this.disabled) {
+        const deflectDirection =
+          destination === "last" ? "previous" : destination === "first" ? "next" : destination;
+        this.emitTableRowFocusRequest(position, this.positionAll, deflectDirection);
+        return;
+      }
+      const cellPosition = lastCell
+        ? this.rowCells[this.rowCells.length - 1]
+        : this.rowCells?.find((_, index) => index + 1 === position);
+
+      if (cellPosition) {
+        await cellPosition.setFocus();
+      }
+    }
+  }
+
+  //#endregion
+
+  //#region Events
 
   /** @private */
   calciteInternalTableRowSelect = createEvent({ cancelable: false });
@@ -163,15 +190,6 @@ export class TableRow extends LitElement {
   //#endregion
 
   //#region Lifecycle
-
-  constructor() {
-    super();
-    this.listenOn<CustomEvent>(
-      document,
-      "calciteInternalTableRowFocusChange",
-      this.calciteInternalTableRowFocusChangeHandler,
-    );
-  }
 
   load(): void {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
@@ -240,31 +258,6 @@ export class TableRow extends LitElement {
     });
   }
 
-  private calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {
-    if ((event.target as Element).contains(this.el)) {
-      const position = event.detail.cellPosition;
-      const rowPosition = event.detail.rowPosition;
-      const destination = event.detail.destination;
-      const lastCell = event.detail.lastCell;
-
-      if (rowPosition === this.positionAll) {
-        if (this.disabled) {
-          const deflectDirection =
-            destination === "last" ? "previous" : destination === "first" ? "next" : destination;
-          this.emitTableRowFocusRequest(position, this.positionAll, deflectDirection);
-          return;
-        }
-        const cellPosition = lastCell
-          ? this.rowCells[this.rowCells.length - 1]
-          : this.rowCells?.find((_, index) => index + 1 === position);
-
-        if (cellPosition) {
-          cellPosition.setFocus();
-        }
-      }
-    }
-  }
-
   private keyDownHandler(event: KeyboardEvent): void {
     if (this.interactionMode !== "interactive") {
       return;
@@ -327,7 +320,9 @@ export class TableRow extends LitElement {
     destination: FocusElementInGroupDestination,
     lastCell = false,
   ): void {
-    this.calciteInternalTableRowFocusRequest.emit({
+    const table = this.el.closest<Table["el"]>("calcite-table");
+
+    table?.focusRow({
       cellPosition,
       rowPosition,
       destination,

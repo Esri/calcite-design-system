@@ -1,5 +1,5 @@
 import { h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { CSS as HEADER_CSS } from "../table-header/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import { userEvent } from "vitest/browser";
@@ -471,6 +471,128 @@ describe("propagates", () => {
     expect(bodyRow.selectedRowCountLocalized).toBeUndefined();
     expect(footerRow.selectedRowCount).toBeUndefined();
     expect(footerRow.selectedRowCountLocalized).toBeUndefined();
+  });
+});
+
+describe("synchronization", () => {
+  it("does not rediscover rows for property-only updates", async () => {
+    const { el } = await mount<Table>(
+      <calcite-table caption="Synchronization table">
+        <calcite-table-row slot={SLOTS.tableHeader}>
+          <calcite-table-header heading="Heading" />
+        </calcite-table-row>
+        <calcite-table-row id="first-row">
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row id="second-row">
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>,
+    );
+    const slots = Array.from(el.shadowRoot.querySelectorAll("slot"));
+    const assignedElementsSpies = slots.map((slot) => vi.spyOn(slot, "assignedElements"));
+    const firstRow = el.querySelector<TableRow["el"]>("#first-row")!;
+    const secondRow = el.querySelector<TableRow["el"]>("#second-row")!;
+
+    el.interactionMode = "static";
+    el.numbered = true;
+    el.pageSize = 1;
+    el.currentPage = 2;
+    el.scale = "l";
+    el.selectionMode = "multiple";
+    await afterNextFrame();
+
+    expect(firstRow.interactionMode).toBe("static");
+    expect(firstRow.itemHidden).toBe(true);
+    expect(firstRow.numbered).toBe(true);
+    expect(firstRow.scale).toBe("l");
+    expect(firstRow.selectionMode).toBe("multiple");
+    expect(secondRow.itemHidden).toBe(false);
+
+    el.numberingSystem = "arab";
+    await afterNextFrame();
+
+    expect(firstRow.positionSectionLocalized).toBe("١");
+    assignedElementsSpies.forEach((spy) => expect(spy).not.toHaveBeenCalled());
+
+    const bodySlot = slots.find((slot) => !slot.name)!;
+    const slotChange = new Promise<void>((resolve) =>
+      bodySlot.addEventListener("slotchange", () => resolve(), { once: true }),
+    );
+    el.append(document.createElement("calcite-table-row"));
+    await slotChange;
+
+    expect(assignedElementsSpies.some((spy) => spy.mock.calls.length > 0)).toBe(true);
+  });
+});
+
+describe("nested tables", () => {
+  it("keeps selection scoped to the nearest table", async () => {
+    const { el } = await mount<Table>(
+      <calcite-table caption="Outer table" selectionMode="multiple">
+        <calcite-table-row slot={SLOTS.tableHeader}>
+          <calcite-table-header heading="Outer heading" />
+        </calcite-table-row>
+        <calcite-table-row id="outer-row">
+          <calcite-table-cell>
+            <calcite-table caption="Inner table" id="inner-table" selectionMode="multiple">
+              <calcite-table-row slot={SLOTS.tableHeader}>
+                <calcite-table-header heading="Inner heading" />
+              </calcite-table-row>
+              <calcite-table-row id="inner-row">
+                <calcite-table-cell>inner cell</calcite-table-cell>
+              </calcite-table-row>
+            </calcite-table>
+          </calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>,
+    );
+    const innerTable = el.querySelector<Table["el"]>("#inner-table")!;
+    const innerRow = el.querySelector<TableRow["el"]>("#inner-row")!;
+    const innerSelectionCell = innerRow.shadowRoot!.querySelector<TableCell["el"]>(
+      "calcite-table-cell:first-child",
+    )!;
+
+    innerSelectionCell.click();
+    await afterNextFrame();
+
+    expect(innerRow.selected).toBe(true);
+    expect(innerTable.selectedItems).toEqual([innerRow]);
+    expect(el.selectedItems).toEqual([]);
+    expect(el.querySelector<TableRow["el"]>("#outer-row")!.selected).toBe(false);
+  });
+
+  it("keeps keyboard focus routing scoped to the nearest table", async () => {
+    const { el } = await mount<Table>(
+      <calcite-table caption="Outer table">
+        <calcite-table-row slot={SLOTS.tableHeader}>
+          <calcite-table-header heading="Outer heading" id="outer-heading" />
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell id="outer-cell">
+            <calcite-table caption="Inner table">
+              <calcite-table-row slot={SLOTS.tableHeader}>
+                <calcite-table-header heading="Inner heading" id="inner-heading" />
+              </calcite-table-row>
+              <calcite-table-row>
+                <calcite-table-cell id="inner-cell">inner cell</calcite-table-cell>
+              </calcite-table-row>
+            </calcite-table>
+          </calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>,
+    );
+    const outerBodyRow = el.querySelectorAll<TableRow["el"]>("calcite-table-row")[1];
+    const innerHeading = el.querySelector<TableHeader["el"]>("#inner-heading")!;
+    const outerFocusSpy = vi.spyOn(outerBodyRow, "focusCell");
+
+    await vi.waitFor(() => expect(outerBodyRow.cellCount).toBe(1));
+    await innerHeading.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+    await afterNextFrame();
+
+    expect(getFocusedElementId()).toBe("inner-cell");
+    expect(outerFocusSpy).not.toHaveBeenCalled();
   });
 });
 
