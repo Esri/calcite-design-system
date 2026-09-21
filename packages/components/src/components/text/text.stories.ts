@@ -70,6 +70,12 @@ export const maxLines = (): string => html`
   </calcite-text>
 `;
 
+export const maxLinesWithMiddleTruncatePosition = (): string => html`
+  <calcite-text max-lines="2" truncate-position="middle">
+    The Appalachian Mountains are a system of mountains in eastern North America, extending from Canada to Alabama.
+  </calcite-text>
+`;
+
 export const tooltipEnabled = (): string => html`
   <calcite-text tooltip-enabled max-lines="1" truncate-position="middle">
     Andes-Mountain-Observatory-Annual-Climate-Report-Archive-2026
