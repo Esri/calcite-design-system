@@ -28,9 +28,9 @@
 //
 // --calcite-internal-color-picker-min-width
 
-@use "../../styles/component/focus";
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
-@use "../../styles/component/text";
+@use "../../styles/shared/text";
 
 :host {
   @include text.text-n2h();
