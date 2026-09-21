@@ -1,8 +1,10 @@
 import { Fragment, h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, scalePropagates, themed } from "../../tests/common";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
+import type { AccordionItem } from "../accordion-item/accordion-item";
+import type { Accordion } from "./accordion";
 import { CSS } from "./resources";
 
 const accordionContent = (
@@ -97,6 +99,40 @@ describe("propagates", () => {
       ),
     { targetSelector: "calcite-accordion-item" },
   );
+});
+
+describe("Shadow DOM", () => {
+  it("syncs inheritable props to items connected after the initial sync", async () => {
+    const { el, component } = await mount<Accordion>(
+      <calcite-accordion
+        appearance="transparent"
+        icon-position="start"
+        icon-type="plus-minus"
+        scale="l"
+      >
+        <div id="shadow-host" />
+      </calcite-accordion>,
+    );
+    await component.updateComplete;
+
+    const shadowHost = el.querySelector("#shadow-host")!;
+    const shadowRoot = shadowHost.attachShadow({ mode: "open" });
+    shadowRoot.innerHTML =
+      '<calcite-accordion-item heading="Accordion Title"></calcite-accordion-item>';
+
+    const item = shadowRoot.querySelector("calcite-accordion-item") as AccordionItem["el"];
+    await item.componentOnReady();
+
+    expect(item.appearance).toBe("transparent");
+    expect(item.iconPosition).toBe("start");
+    expect(item.iconType).toBe("plus-minus");
+    expect(item.scale).toBe("l");
+
+    el.scale = "s";
+    await component.updateComplete;
+
+    expect(item.scale).toBe("s");
+  });
 });
 
 describe("theme", () => {

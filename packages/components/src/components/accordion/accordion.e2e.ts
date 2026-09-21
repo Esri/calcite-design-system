@@ -40,35 +40,6 @@ it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` 
   }
 });
 
-it("syncs inheritable props to items connected in a shadow root after the initial sync", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`
-    <calcite-accordion appearance="transparent" icon-position="start" icon-type="plus-minus" scale="l">
-      <div id="shadow-host"></div>
-    </calcite-accordion>
-  `);
-  await page.waitForChanges();
-
-  await page.$eval("#shadow-host", (shadowHost) => {
-    shadowHost.attachShadow({ mode: "open" }).innerHTML = `
-      <calcite-accordion-item heading="Accordion Title" id="shadow-item"></calcite-accordion-item>
-    `;
-  });
-  await page.waitForChanges();
-
-  const item = await page.find("#shadow-host >>> #shadow-item");
-  expect(await item.getProperty("appearance")).toBe("transparent");
-  expect(await item.getProperty("iconPosition")).toBe("start");
-  expect(await item.getProperty("iconType")).toBe("plus-minus");
-  expect(await item.getProperty("scale")).toBe("l");
-
-  const accordion = await page.find("calcite-accordion");
-  accordion.setProperty("scale", "s");
-  await page.waitForChanges();
-
-  expect(await item.getProperty("scale")).toBe("s");
-});
-
 it("renders requested props when valid props are provided", async () => {
   const page = await newE2EPage();
   await page.setContent(`

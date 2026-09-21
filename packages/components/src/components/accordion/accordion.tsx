@@ -116,9 +116,7 @@ export class Accordion extends LitElement {
     });
 
     // sync props on items across shadow DOM
-    document.dispatchEvent(
-      new CustomEvent<Accordion["el"]>("calciteInternalAccordionItemsSync", { detail: this.el }),
-    );
+    document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
   }
 
   // #endregion
