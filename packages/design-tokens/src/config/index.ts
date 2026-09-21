@@ -45,7 +45,7 @@ const config: Config = {
         },
         {
           destination: "core.scss",
-          format: formats.FormatCore,
+          format: sdFormats.scssVariables,
           filter: filters.FilterCoreTokens,
         },
         {
@@ -105,7 +105,7 @@ const config: Config = {
         },
         {
           destination: "core.css",
-          format: formats.FormatCore,
+          format: sdFormats.cssVariables,
           filter: filters.FilterCoreTokens,
         },
         {
