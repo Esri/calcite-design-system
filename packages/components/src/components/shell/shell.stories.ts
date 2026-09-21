@@ -3654,7 +3654,9 @@ export const shellPanelWithActionBarPositionAndPanelBottom = createShellPanelWit
   "end",
 );
 
-export const shellPanelWithActionBarPositionOverflow = (): string => {
+export const shellPanelWithActionBarPositionOverflow = ({
+  applyShellBorderColor,
+}: ShellPanelWithActionBarPositionPanelSlotStoryArgs): string => {
   const items = (
     [
       ["panel-start", "start"],
@@ -3671,6 +3673,7 @@ export const shellPanelWithActionBarPositionOverflow = (): string => {
             id="shell-${itemId}"
             style="
               --calcite-shell-panel-width: 300px;
+              ${applyShellBorderColor ? "--calcite-shell-border-color: red;" : ""}
             "
           >
             <calcite-shell-panel
@@ -3693,4 +3696,20 @@ export const shellPanelWithActionBarPositionOverflow = (): string => {
 
   return html` ${shellSetStyles} ${shellSampleContentStyles}
     <div class="shell-set">${items.join("")}</div>`;
+};
+
+shellPanelWithActionBarPositionOverflow.args = {
+  applyShellBorderColor: false,
+};
+
+shellPanelWithActionBarPositionOverflow.argTypes = {
+  applyShellBorderColor: {
+    control: { type: "boolean" },
+  },
+};
+
+shellPanelWithActionBarPositionOverflow.parameters = {
+  controls: {
+    include: ["applyShellBorderColor"],
+  },
 };
