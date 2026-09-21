@@ -33,6 +33,35 @@ type TableStoryArgs = Pick<
   | "striped"
 >;
 
+function createProfilingCells(rowIndex: number, columnCount: number, includeNestedTables = false): string {
+  return Array.from({ length: columnCount }, (_, columnIndex) => {
+    const content =
+      includeNestedTables && rowIndex % 50 === 0 && columnIndex === 0
+        ? `<calcite-table caption="Nested table ${rowIndex + 1}">
+              <calcite-table-row slot="table-header">${createProfilingHeaders(5)}</calcite-table-row>
+              ${createProfilingRows(5, 5)}
+            </calcite-table>`
+        : `Row ${rowIndex + 1}, column ${columnIndex + 1}`;
+
+    return `<calcite-table-cell>${content}</calcite-table-cell>`;
+  }).join("");
+}
+
+function createProfilingRows(rowCount: number, columnCount: number, includeNestedTables = false): string {
+  return Array.from(
+    { length: rowCount },
+    (_, rowIndex) =>
+      `<calcite-table-row>${createProfilingCells(rowIndex, columnCount, includeNestedTables)}</calcite-table-row>`,
+  ).join("");
+}
+
+function createProfilingHeaders(columnCount: number): string {
+  return Array.from(
+    { length: columnCount },
+    (_, columnIndex) => `<calcite-table-header heading="Column ${columnIndex + 1}"></calcite-table-header>`,
+  ).join("");
+}
+
 export default {
   title: "Components/Table",
   args: {
@@ -129,6 +158,33 @@ export const simple = (args: TableStoryArgs): string => html`
     </calcite-table-row>
   </calcite-table>
 `;
+
+export const profilingSimple = (): string => html`
+  <calcite-table caption="Profiling simple table">
+    <calcite-table-row slot="table-header">${createProfilingHeaders(5)}</calcite-table-row>
+    ${createProfilingRows(10, 5)}
+  </calcite-table>
+`;
+
+profilingSimple.parameters = { chromatic: { disableSnapshot: true } };
+
+export const profilingComplex = (): string => html`
+  <calcite-table
+    bordered
+    caption="Profiling complex table"
+    numbered
+    page-size="50"
+    selection-mode="multiple"
+    sticky-header
+    striped
+    style="block-size: 40rem"
+  >
+    <calcite-table-row slot="table-header">${createProfilingHeaders(20)}</calcite-table-row>
+    ${createProfilingRows(500, 20, true)}
+  </calcite-table>
+`;
+
+profilingComplex.parameters = { chromatic: { disableSnapshot: true } };
 
 export const simpleStriped = (): string =>
   html`<calcite-table striped caption="Simple-striped table">

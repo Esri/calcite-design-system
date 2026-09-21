@@ -3,7 +3,7 @@ import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../types";
-import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
@@ -49,6 +49,8 @@ export class Table extends LitElement {
   private footRows: TableRow["el"][] = [];
 
   private headRows: TableRow["el"][] = [];
+
+  private numberStringFormatter = new NumberStringFormat();
 
   private paginationRef = createRef<Pagination["el"]>();
 
@@ -393,36 +395,35 @@ export class Table extends LitElement {
     const footRows = this.getSlottedRows(this.tableFootSlotRef.value);
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
-    headRows.forEach((row) => {
-      const position = headRows.indexOf(row);
+    this.configureNumberStringFormatter();
+
+    headRows.forEach((row, position) => {
       row.rowType = "head";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    bodyRows.forEach((row) => {
-      const position = bodyRows.indexOf(row);
+    bodyRows.forEach((row, position) => {
       row.rowType = "body";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    footRows.forEach((row) => {
-      const position = footRows.indexOf(row);
+    footRows.forEach((row, position) => {
       row.rowType = "foot";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    allRows.forEach((row) => {
+    allRows.forEach((row, position) => {
       row.interactionMode = this.interactionMode;
       row.selectionMode = this.selectionMode;
-      row.bodyRowCount = bodyRows?.length;
-      row.positionAll = allRows?.indexOf(row);
+      row.bodyRowCount = bodyRows.length;
+      row.positionAll = position;
       row.numbered = this.numbered;
       row.scale = this.scale;
       row.readCellContentsToAT = this.readCellContentsToAT;
-      row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
+      row.lastVisibleRow = position === allRows.length - 1;
     });
 
     const colCount = headRows[0]?.cellCount || 0;
@@ -467,7 +468,7 @@ export class Table extends LitElement {
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
-      row.itemHidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.itemHidden = this.pageSize > 0 && !inView;
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
     });
@@ -477,9 +478,11 @@ export class Table extends LitElement {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
+    this.configureNumberStringFormatter();
+    const selectedCountLocalized = this.localizeNumber(this.selectedCount);
     this.allRows?.forEach((row) => {
       row.selectedRowCount = this.selectedCount;
-      row.selectedRowCountLocalized = this.localizeNumber(this.selectedCount);
+      row.selectedRowCountLocalized = selectedCountLocalized;
     });
     if (emit) {
       this.calciteTableSelect.emit();
@@ -504,14 +507,16 @@ export class Table extends LitElement {
     this.updateSelectedItems(true);
   }
 
-  private localizeNumber(value: number | string): string {
-    numberStringFormatter.numberFormatOptions = {
+  private configureNumberStringFormatter(): void {
+    this.numberStringFormatter.numberFormatOptions = {
       locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
+  }
 
-    return numberStringFormatter.localize(value.toString());
+  private localizeNumber(value: number | string): string {
+    return this.numberStringFormatter.localize(value.toString());
   }
 
   //#endregion
@@ -519,6 +524,7 @@ export class Table extends LitElement {
   //#region Rendering
 
   private renderSelectionArea(): JsxNode {
+    this.configureNumberStringFormatter();
     const outOfViewCount = this._selectedItems?.filter((el) => isHidden(el))?.length;
     const localizedOutOfView = this.localizeNumber(outOfViewCount?.toString());
     const localizedSelectedCount = this.localizeNumber(this.selectedCount?.toString());
