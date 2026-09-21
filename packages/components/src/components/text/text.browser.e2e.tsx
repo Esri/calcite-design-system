@@ -40,6 +40,8 @@ it("should be able to switch between middle and end truncate positions", async (
   );
   await component.updateComplete;
   await afterNextFrame();
+  await afterNextFrame();
+  await afterNextFrame();
   expect(el.textContent).toBe("This i...ncated");
   el.truncatePosition = "end";
   await component.updateComplete;
@@ -77,6 +79,8 @@ describe("tooltip", () => {
       </calcite-text>,
     );
     await component.updateComplete;
+    await afterNextFrame();
+    await afterNextFrame();
     await afterNextFrame();
     expect(el.title).toBe(text);
     el.tooltipEnabled = false;

@@ -1,7 +1,6 @@
 import { LitElement, h, property, type JsxNode } from "@arcgis/lumina";
-import { slotChangeGetTextContent } from "../../utils/dom";
+import { slotChangeGetTextContent, getTextWidth } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { getTextWidth } from "../../utils/dom";
 import { styles } from "./text.scss";
 import { ELLIPSIS_CHAR } from "./resources";
 import { PropertyValues } from "lit";
@@ -27,11 +26,7 @@ export class Text extends LitElement {
 
   //#region Private Properties
 
-  private isTextContentChanged = false;
-
-  private isTruncated = false;
-
-  private truncatedValue = "";
+  private isProgrammaticTextUpdate = false;
 
   private value?: string;
 
@@ -39,11 +34,11 @@ export class Text extends LitElement {
     const { truncatePosition, maxLines } = this;
 
     if (truncatePosition === "end") {
-      this.handleOverflow();
+      this.syncTooltipState();
     }
 
     if (truncatePosition === "middle" && (!maxLines || maxLines === 1)) {
-      this.truncateText();
+      this.truncateMiddleText();
     }
   });
 
@@ -77,7 +72,7 @@ export class Text extends LitElement {
       this.updateMaxLinesToken();
     }
     if (changes.has("tooltipEnabled") && this.hasUpdated) {
-      this.updateTitle();
+      this.updateTooltipTitle();
     }
     if (changes.has("truncatePosition") && this.hasUpdated) {
       this.handleTruncatePositionChange();
@@ -96,9 +91,8 @@ export class Text extends LitElement {
 
   //#region Private Methods
 
-  private clearTitleValue(): void {
-    if (this.isTruncated) {
-      this.isTruncated = false;
+  private clearTooltipTitle(): void {
+    if (this.el.title !== "") {
       this.el.title = "";
     }
   }
@@ -138,21 +132,23 @@ export class Text extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    if (this.isTextContentChanged) {
-      this.isTextContentChanged = false;
+    if (this.isProgrammaticTextUpdate) {
+      this.isProgrammaticTextUpdate = false;
       return;
     }
     this.value = slotChangeGetTextContent(event);
-    this.truncatedValue = this.value;
+    this.renderedText = this.value;
   }
 
-  private handleOverflow(): void {
-    const isOverflowing =
-      this.el.scrollWidth > this.el.clientWidth || this.el.scrollHeight > this.el.clientHeight;
-    if (isOverflowing) {
-      this.setTitleValue();
+  private hasOverflow(): boolean {
+    return this.el.scrollWidth > this.el.clientWidth || this.el.scrollHeight > this.el.clientHeight;
+  }
+
+  private syncTooltipState(): void {
+    if (this.hasOverflow()) {
+      this.setTooltipTitle();
     } else {
-      this.clearTitleValue();
+      this.clearTooltipTitle();
     }
   }
 
@@ -160,22 +156,17 @@ export class Text extends LitElement {
     if (this.truncatePosition === "end") {
       this.resizeObserver?.disconnect();
       this.resizeObserver?.observe(this.el);
-      this.setValue(this.value);
-    } else {
-      this.setValue(this.value);
+    }
+    this.syncRenderedText(this.value);
+  }
+
+  private setTooltipTitle(): void {
+    if (this.tooltipEnabled && this.el.title !== this.value) {
+      this.el.title = this.value || "";
     }
   }
 
-  private setTitleValue(): void {
-    if (!this.isTruncated) {
-      this.isTruncated = true;
-      if (this.tooltipEnabled) {
-        this.el.title = this.value || "";
-      }
-    }
-  }
-
-  private setValue(value: string | undefined): void {
+  private syncRenderedText(value: string | undefined): void {
     if (!value) {
       return;
     }
@@ -184,11 +175,11 @@ export class Text extends LitElement {
       return;
     }
 
-    this.isTextContentChanged = true;
+    this.isProgrammaticTextUpdate = true;
     this.el.textContent = value;
   }
 
-  private truncateText(): void {
+  private truncateMiddleText(): void {
     requestAnimationFrame(() => {
       const clientWidth = this.el.clientWidth;
       if (!clientWidth) {
@@ -199,18 +190,18 @@ export class Text extends LitElement {
       const textWidth = getTextWidth(this.value, font);
 
       if (textWidth <= clientWidth) {
-        this.setValue(this.value);
-        this.clearTitleValue();
+        this.syncRenderedText(this.value);
+        this.clearTooltipTitle();
         return;
       } else {
         const middleTruncatedText = this.getTruncatedText(
-          this.truncatedValue,
+          this.renderedText,
           clientWidth,
           font,
           ELLIPSIS_CHAR,
         );
-        this.setValue(middleTruncatedText);
-        this.setTitleValue();
+        this.syncRenderedText(middleTruncatedText);
+        this.setTooltipTitle();
         return;
       }
     });
@@ -221,16 +212,18 @@ export class Text extends LitElement {
       "--calcite-internal-text-max-lines",
       this.maxLines?.toString() || null,
     );
-    this.handleOverflow();
+    this.syncTooltipState();
   }
 
-  private updateTitle(): void {
+  private updateTooltipTitle(): void {
     this.el.title = this.tooltipEnabled ? this.value || "" : "";
   }
 
   //#endregion
 
   //#region Rendering
+
+  private renderedText = "";
 
   override render(): JsxNode {
     return <slot onSlotChange={this.handleDefaultSlotChange} />;
