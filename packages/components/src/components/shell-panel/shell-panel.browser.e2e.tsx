@@ -772,6 +772,45 @@ describe("shell-panel updateSize public method", () => {
     );
   });
 
+  it("does not subtract the stacked action bar width when resizing to the maximum width", async () => {
+    const maxWidth = 900;
+    const { component } = await mount<"calcite-shell">(
+      <calcite-shell style="inline-size: 1200px; block-size: 400px; position: relative;">
+        <calcite-shell-panel
+          action-bar-position="top"
+          resizable
+          slot="panel-start"
+          style={`--calcite-shell-panel-max-width: ${maxWidth}px; --calcite-shell-panel-width: 320px;`}
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action-group>
+              <calcite-action icon="gear" text="Test default slot" textEnabled />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action icon="gear" text="Test start slot" textEnabled />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action icon="gear" text="Test end slot" textEnabled />
+            </calcite-action-group>
+          </calcite-action-bar>
+          <calcite-panel heading="Layers">Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot("panel-start");
+    const { content, handle } = getShellPanelElements(panel);
+    const handleRect = handle.getBoundingClientRect();
+
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(handleRect.left + maxWidth, handleRect.top + handleRect.height / 2);
+    await commands.mouseUp();
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+
+    expect(Math.round(content.getBoundingClientRect().width)).toBe(maxWidth);
+  });
+
   testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
     const layout = layoutFromPanelSlot(slot);
     const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot });

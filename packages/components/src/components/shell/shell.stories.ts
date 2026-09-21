@@ -3653,3 +3653,44 @@ export const shellPanelWithActionBarPositionAndPanelBottom = createShellPanelWit
   "horizontal",
   "end",
 );
+
+export const shellPanelWithActionBarPositionOverflow = (): string => {
+  const items = (
+    [
+      ["panel-start", "start"],
+      ["panel-end", "end"],
+    ] as const
+  ).flatMap(([slot, position]) =>
+    (["top", "bottom"] as const).flatMap((actionBarPosition) =>
+      [false, true].map((resizable) => {
+        const itemId = `${slot}-${actionBarPosition}-${resizable ? "resizable" : "fixed"}`;
+
+        return html`
+          <calcite-shell
+            class="shell-set__item"
+            id="shell-${itemId}"
+            style="
+              --calcite-shell-panel-width: 300px;
+            "
+          >
+            <calcite-shell-panel
+              id="shellPanel-${itemId}"
+              slot="${slot}"
+              action-bar-position="${actionBarPosition}"
+              layout="vertical"
+              position="${position}"
+              width="l"
+              ${boolean("resizable", resizable)}
+            >
+              ${actionBarHTML} ${panelHTML}
+            </calcite-shell-panel>
+            ${actionBarPositionPanelHTML}
+          </calcite-shell>
+        `;
+      }),
+    ),
+  );
+
+  return html` ${shellSetStyles} ${shellSampleContentStyles}
+    <div class="shell-set">${items.join("")}</div>`;
+};

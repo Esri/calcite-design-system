@@ -781,8 +781,10 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   }
 }
 
-:host([action-bar-position="top"]),
-:host([action-bar-position="bottom"]) {
+:host([action-bar-position="top"][slot="panel-start"]),
+:host([action-bar-position="bottom"][slot="panel-start"]),
+:host([action-bar-position="top"][slot="panel-end"]),
+:host([action-bar-position="bottom"][slot="panel-end"]) {
   .container {
     inline-size: 100%;
     min-inline-size: 0;
