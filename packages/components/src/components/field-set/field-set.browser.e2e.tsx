@@ -195,10 +195,6 @@ describe("theme", () => {
         shadowSelector: `.${CSS.fieldWrapper}`,
         targetProp: "gap",
       },
-      "--calcite-field-set-legend-gap": {
-        shadowSelector: `.${CSS.legend}`,
-        targetProp: "marginBottom",
-      },
       "--calcite-field-set-legend-text-color": {
         shadowSelector: `.${CSS.legend}`,
         targetProp: "color",

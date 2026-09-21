@@ -9,7 +9,6 @@ type FieldSetStoryArgs = {
   disabled: boolean;
   legend: string;
   legendTextColor?: string;
-  legendGap?: string;
   inputGap?: string;
   scale: "s" | "m" | "l";
 };
@@ -25,7 +24,6 @@ export default {
     disabled: false,
     legend: "Field Set legend",
     legendTextColor: "",
-    legendGap: "",
     inputGap: "",
     scale: "m",
   },
@@ -33,7 +31,6 @@ export default {
     disabled: { control: { type: "boolean" } },
     legend: { control: { type: "text" } },
     legendTextColor: { name: "legend text color", control: { type: "text" } },
-    legendGap: { name: "legend gap", control: { type: "text" } },
     inputGap: { name: "input gap", control: { type: "text" } },
     scale: {
       options: ["s", "m", "l"],
@@ -45,7 +42,6 @@ export default {
 function getStyle(args: FieldSetStoryArgs): string {
   return [
     args.inputGap ? `--calcite-field-set-input-gap: ${args.inputGap};` : "",
-    args.legendGap ? `--calcite-field-set-legend-gap: ${args.legendGap};` : "",
     args.legendTextColor ? `--calcite-field-set-legend-text-color: ${args.legendTextColor};` : "",
   ]
     .filter(Boolean)
@@ -126,16 +122,15 @@ scalesUsingLabel.storyName = "Scales (using 'Label')";
 scalesUsingLabel.parameters = { controls: { disable: true } };
 
 export const customGap = (args: FieldSetStoryArgs): string => renderFieldSet(args);
-customGap.args = { inputGap: "40px", legendGap: "80px" };
+customGap.args = { inputGap: "40px" };
 customGap.argTypes = {
   inputGap: { name: "input gap", control: { type: "text" } },
-  legendGap: { name: "legend gap", control: { type: "text" } },
   ...hiddenCustomGapArgTypes,
 };
 
 export const customGapUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
 customGapUsingLabel.storyName = "Custom gap (using 'Label')";
-customGapUsingLabel.args = { inputGap: "40px", legendGap: "80px" };
+customGapUsingLabel.args = { inputGap: "40px" };
 customGapUsingLabel.argTypes = customGap.argTypes;
 
 export const customLegendColor = (args: FieldSetStoryArgs): string => renderFieldSet(args);

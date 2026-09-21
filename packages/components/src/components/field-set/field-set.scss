@@ -5,7 +5,6 @@
  *
  * @prop --calcite-field-set-input-gap: Specifies the gap between the component's slotted elements.
  * @prop --calcite-field-set-legend-text-color: Specifies the legend text color.
- * @prop --calcite-field-set-legend-gap: Specifies the gap between the legend and input slot wrapper.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -14,6 +13,7 @@
 //
 // --calcite-internal-field-set-legend-font-size
 // --calcite-internal-field-set-legend-line-height
+// --calcite-internal-field-set-legend-margin-block-end
 // --calcite-internal-field-set-legend-min-block-size
 // --calcite-internal-text-area-block-size
 
@@ -40,7 +40,7 @@
   line-height: var(--calcite-internal-field-set-legend-line-height, var(--calcite-font-line-height-fixed-base));
   color: var(--calcite-field-set-legend-text-color, var(--calcite-color-text-1));
   padding-inline: 0;
-  margin-block-end: var(--calcite-field-set-legend-gap, var(--calcite-space-md));
+  margin-block-end: var(--calcite-internal-field-set-legend-margin-block-end, var(--calcite-space-md));
 }
 
 .field-wrapper {
@@ -50,15 +50,14 @@
 }
 
 :host([scale="s"]) {
-  --calcite-field-set-legend-gap: var(--calcite-space-sm);
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-xs);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-sm);
   --calcite-field-set-input-gap: var(--calcite-field-group-gap, var(--calcite-space-sm));
+  --calcite-internal-field-set-legend-margin-block-end: var(--calcite-space-sm);
 }
 
 :host([scale="m"]) {
-  --calcite-field-set-legend-gap: var(--calcite-space-md);
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-md);
@@ -66,11 +65,11 @@
 }
 
 :host([scale="l"]) {
-  --calcite-field-set-legend-gap: var(--calcite-space-lg);
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-md);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-lg);
   --calcite-internal-field-set-legend-min-block-size: 2.5rem; // TODO: we don't have a variable for this; should we do math on two others? (e.g., calc(var(--calcite-size-sm) + var(--calcite-size-sm))
   --calcite-field-set-input-gap: var(--calcite-field-group-gap, var(--calcite-space-lg));
+  --calcite-internal-field-set-legend-margin-block-end: var(--calcite-space-lg);
 }
 
 @include includes.base-component();
