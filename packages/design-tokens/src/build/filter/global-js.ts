@@ -1,14 +1,11 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../types.ts";
-import { isThemingToken } from "../utils/token-types.ts";
 import { isLightOrDarkColorToken } from "./light-or-dark.ts";
 import { isBreakpointMaxToken } from "../utils/token-types.ts";
 
 export const filterGlobalTokensJs: Filter["filter"] = (token, config) => {
-  return (
-    (token.isSource || isLightOrDarkColorToken(token, config)) && !isBreakpointMaxToken(token) && !isThemingToken(token)
-  );
+  return (token.isSource || isLightOrDarkColorToken(token, config)) && !isBreakpointMaxToken(token);
 };
 
 export const registerFilterGlobalTokensJs: RegisterFn = () =>

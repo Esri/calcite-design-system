@@ -6,13 +6,13 @@ import {
 } from "style-dictionary/enums";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types.ts";
-import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
-import { primitiveValueOutputReferences, colorOutputReferences } from "../../build/utils/output-references.ts";
+import { preprocessors, transformers, filters, headers, formats } from "../../build/registry/index.ts";
+import { primitiveValueOutputReferences } from "../../build/utils/output-references.ts";
 
 const config: Config = {
-  source: ["src/tokens/semantic/color/dark.json", "src/tokens/theme/color/dark.json"],
-  include: ["src/tokens/semantic/color/dark.json", "src/tokens/theme/color/dark.json", "src/tokens/core/[!$]*.json"],
-  preprocessors: ["tokens-studio"],
+  source: ["src/tokens/semantic/color/dark.json"],
+  include: ["src/tokens/semantic/color/dark.json", "src/tokens/core/[!$]*.json"],
+  preprocessors: ["tokens-studio", preprocessors.PreprocessorInheritThemeExtensions],
   platforms: {
     scss: {
       transformGroup: transformers.TransformCalciteGroup,
@@ -29,7 +29,7 @@ const config: Config = {
         platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
-        outputReferences: colorOutputReferences,
+        outputReferences: primitiveValueOutputReferences,
       },
     },
     css: {
@@ -47,7 +47,7 @@ const config: Config = {
         platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
-        outputReferences: colorOutputReferences,
+        outputReferences: primitiveValueOutputReferences,
       },
     },
     es6: {
