@@ -29,6 +29,8 @@
   text-decoration-thickness: var(--calcite-border-width-sm);
   text-underline-offset: 0.3em;
 
+  @include includes.transition-default($extra-props: "text-decoration-color");
+
   &:hover,
   &:focus {
     text-decoration-color: currentColor;
