@@ -7,61 +7,46 @@ const wrapSteps = ["minus-2", "minus-1", "0", "1", "2", "3"];
 const displaySteps = ["1", "2"];
 const headingSteps = ["1", "2", "3", "4", "5"];
 
-const typographyGroups = [
-  {
-    title: "Default scale",
-    mixins: [
-      "calcite-typography",
-      ...weights.flatMap((weight) => defaultSteps.map((step) => `calcite-typography-${weight}-${step}`)),
-    ],
-  },
-  {
-    title: "Wrap scale",
-    mixins: weights.flatMap((weight) => wrapSteps.map((step) => `calcite-typography-wrap-${weight}-${step}`)),
-  },
-  {
-    title: "Hierarchy",
-    mixins: [
-      ...displaySteps.map((step) => `calcite-typography-hierarchy-display-${step}`),
-      ...headingSteps.map((step) => `calcite-typography-hierarchy-heading-${step}`),
-      "calcite-typography-hierarchy-body-snug",
-      "calcite-typography-hierarchy-body",
-      "calcite-typography-hierarchy-overline",
-      "calcite-typography-hierarchy-caption",
-    ],
-  },
+const defaultMixins = [
+  "calcite-typography",
+  ...weights.flatMap((weight) => defaultSteps.map((step) => `calcite-typography-${weight}-${step}`)),
 ];
 
-function renderGroup({ title, mixins }: (typeof typographyGroups)[number]): string {
-  return html`<section>
-    <h1>${title}</h1>
-    <div>
-      ${mixins
-        .map((mixin) => html`<p class="typography-story__mixin--${mixin}">${formatMixinName(mixin)}</p>`)
-        .join("")}
+const wrapMixins = weights.flatMap((weight) => wrapSteps.map((step) => `calcite-typography-wrap-${weight}-${step}`));
+
+const hierarchyMixins = [
+  ...displaySteps.map((step) => `calcite-typography-hierarchy-display-${step}`),
+  ...headingSteps.map((step) => `calcite-typography-hierarchy-heading-${step}`),
+  "calcite-typography-hierarchy-body-snug",
+  "calcite-typography-hierarchy-body",
+  "calcite-typography-hierarchy-overline",
+  "calcite-typography-hierarchy-caption",
+];
+
+function renderScale(mixins: string[]): string {
+  return html`<main class="typography-story">
+    <div class="typography-story__headings">
+      <span>Class</span>
+      <span>Mixin</span>
     </div>
-  </section>`;
-}
-
-function renderClassGroup({ title, mixins }: (typeof typographyGroups)[number]): string {
-  return html`<section>
-    <h1>${title}</h1>
-    <div>${mixins.map((mixin) => html`<p class="${mixin}">${formatMixinName(mixin)}</p>`).join("")}</div>
-  </section>`;
-}
-
-function formatMixinName(mixin: string): string {
-  return mixin
-    .replace("calcite-typography", "Calcite Typography")
-    .replaceAll("-", " ")
-    .replace(/\b\w/g, (character) => character.toUpperCase())
-    .replace(/(\d)h\b/g, "$1H");
+    ${mixins
+      .map(
+        (mixin) =>
+          html`<div class="typography-story__row">
+            <p class="${mixin}">${mixin}</p>
+            <p class="typography-story__mixin--${mixin}">${mixin}</p>
+          </div>`,
+      )
+      .join("")}
+  </main>`;
 }
 
 export default {
   title: "Design Tokens/Typography",
 };
 
-export const mixins = (): string => html`<main>${typographyGroups.map(renderGroup).join("")}</main>`;
+export const defaultScale = (): string => renderScale(defaultMixins);
 
-export const classes = (): string => html`<main>${typographyGroups.map(renderClassGroup).join("")}</main>`;
+export const wrapScale = (): string => renderScale(wrapMixins);
+
+export const hierarchy = (): string => renderScale(hierarchyMixins);

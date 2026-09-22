@@ -6,3 +6,21 @@
     @include meta.apply($mixin);
   }
 }
+
+.typography-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2rem;
+}
+
+.typography-story__headings {
+  display: contents;
+}
+
+.typography-story__row {
+  display: contents;
+
+  p {
+    margin: 0;
+  }
+}
