@@ -72,7 +72,7 @@ export class Text extends LitElement {
       this.updateMaxLinesToken();
     }
     if (changes.has("tooltipEnabled") && this.hasUpdated) {
-      this.updateTooltipTitle();
+      this.el.title = this.tooltipEnabled ? this.value || "" : "";
     }
     if (changes.has("truncatePosition") && this.hasUpdated) {
       this.handleTruncatePositionChange();
@@ -92,9 +92,7 @@ export class Text extends LitElement {
   //#region Private Methods
 
   private clearTooltipTitle(): void {
-    if (this.el.title !== "") {
-      this.el.title = "";
-    }
+    this.el.title = "";
   }
 
   private getTruncatedText(
@@ -161,7 +159,7 @@ export class Text extends LitElement {
   }
 
   private setTooltipTitle(): void {
-    if (this.tooltipEnabled && this.el.title !== this.value) {
+    if (this.tooltipEnabled) {
       this.el.title = this.value || "";
     }
   }
@@ -192,7 +190,6 @@ export class Text extends LitElement {
       if (textWidth <= clientWidth) {
         this.syncRenderedText(this.value);
         this.clearTooltipTitle();
-        return;
       } else {
         const middleTruncatedText = this.getTruncatedText(
           this.renderedText,
@@ -202,7 +199,6 @@ export class Text extends LitElement {
         );
         this.syncRenderedText(middleTruncatedText);
         this.setTooltipTitle();
-        return;
       }
     });
   }
@@ -213,10 +209,6 @@ export class Text extends LitElement {
       this.maxLines?.toString() || null,
     );
     this.syncTooltipState();
-  }
-
-  private updateTooltipTitle(): void {
-    this.el.title = this.tooltipEnabled ? this.value || "" : "";
   }
 
   //#endregion
