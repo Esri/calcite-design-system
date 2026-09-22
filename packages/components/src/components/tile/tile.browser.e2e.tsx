@@ -156,7 +156,7 @@ describe("renders", () => {
       <calcite-tile heading="My Calcite Tile" href="http://www.esri.com" />,
     );
     const link = el.shadowRoot.querySelector("calcite-link")!;
-    const anchor = link.shadowRoot.querySelector("a")!;
+    const anchor = link.shadowRoot!.querySelector("a")!;
 
     expect(getComputedStyle(anchor).textDecorationLine).toBe("none");
   });
