@@ -19,7 +19,7 @@ import { ActiveDescendantManager, Appearance, Scale } from "../types";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
-import { isActionGroup } from "../action-group/resources";
+import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
@@ -590,7 +590,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     this.activeMenuItemIndex = this.navigableActions.indexOf(action);
     this.focusMenuButtonOnClose = false;
 
-    const actionGroup = action.closest("calcite-action-group") as { selectionMode?: string } | null;
+    const actionGroup = action.closest("calcite-action-group");
     const keepSelectableActionGroupOpen =
       !!actionGroup?.selectionMode && actionGroup.selectionMode !== "none";
 
@@ -599,7 +599,15 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       return;
     }
 
-    action.active = !action.active;
+    const isNonSelectableActionBarOverflowAction =
+      action.slot === ACTION_GROUP_SLOTS.menuActions &&
+      actionGroup?.selectionMode === "none" &&
+      !!actionGroup.closest("calcite-action-bar");
+
+    if (!isNonSelectableActionBarOverflowAction) {
+      action.active = !action.active;
+    }
+
     this.open = false;
     void this.setFocus();
   }
