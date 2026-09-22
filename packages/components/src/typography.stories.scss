@@ -1,0 +1,8 @@
+@use "sass:meta";
+@use "@esri/calcite-design-tokens/dist/scss/mixins";
+
+@each $mixin-name, $mixin in meta.module-mixins(mixins) {
+  .typography-story__mixin--#{$mixin-name} {
+    @include meta.apply($mixin);
+  }
+}
