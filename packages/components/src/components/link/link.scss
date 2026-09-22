@@ -23,21 +23,15 @@
   color: var(--calcite-link-text-color, var(--calcite-color-text-link));
   line-height: inherit;
   white-space: initial;
-  background-image:
-    linear-gradient(currentColor, currentColor),
-    linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
-  background-position-x: 0 100%;
-  background-position-y: min(1.5em, 100%);
-  background-repeat: no-repeat;
-  background-size:
-    0% var(--calcite-border-width-sm),
-    100% var(--calcite-border-width-sm);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: var(--calcite-border-width-sm);
+  text-underline-offset: 0.3em;
 
   &:hover,
   &:focus {
-    background-size:
-      100% var(--calcite-border-width-sm),
-      100% var(--calcite-border-width-sm);
+    text-decoration-color: currentColor;
   }
 
   &:focus {
@@ -45,18 +39,9 @@
   }
 
   &:active {
-    background-size:
-      100% var(--calcite-border-width-md),
-      100% var(--calcite-border-width-md);
-
-    &.calcite--rtl {
-      background-position:
-        100% 100%,
-        100% 100%;
-    }
+    text-decoration-color: currentColor;
+    text-decoration-thickness: var(--calcite-border-width-md);
   }
-
-  @include includes.transition-default($extra-props: "background-size");
 }
 
 calcite-icon {
