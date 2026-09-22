@@ -1,6 +1,10 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
+} from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
@@ -26,6 +30,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
 import type { BlockToggleDisplay } from "./types";
 import type { BlockGroup } from "../block-group/block-group";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -450,7 +455,7 @@ export class Block extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
-    this.hasContent = slotChangeHasAssignedElement(event);
+    this.hasContent = slotChangeHasTextContent(event) || slotChangeHasAssignedElement(event);
     this.updateBlockSectionScale();
   }
 
@@ -700,7 +705,7 @@ export class Block extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <article
           aria-label={label}
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           class={{
             [CSS.container]: true,
           }}

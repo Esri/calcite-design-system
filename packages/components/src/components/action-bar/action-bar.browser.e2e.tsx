@@ -17,7 +17,7 @@ import {
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
 import { SLOTS } from "./resources";

@@ -14,7 +14,7 @@ import {
   slots,
   t9n,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 
 describe("accessible with icon only", () => {

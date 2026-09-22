@@ -187,6 +187,76 @@ describe("BigDecimal", () => {
     expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
 
+  const testValue = "-12345678.9";
+
+  it("includes bidirectional marks for read-only formatting", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "ar",
+      numberingSystem: "arab",
+      useGrouping: true,
+    };
+
+    const number = new BigDecimal(testValue);
+    const expectedIntegerParts: Intl.NumberFormatPart[] = [
+      { type: "literal", value: "\u061C" },
+      { type: "minusSign", value: "-" },
+      { type: "integer", value: "١٢" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "٣٤٥" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "٦٧٨" },
+    ];
+    const expectedValue = "\u061C-١٢٬٣٤٥٬٦٧٨٫٩";
+    const expectedFormattedValue = "-١٢٬٣٤٥٬٦٧٨٫٩";
+
+    expect(number.format(numberStringFormatter)).toBe(expectedFormattedValue);
+    expect(numberStringFormatter.localize(testValue)).toBe(expectedFormattedValue);
+    expect(number.formatToParts(numberStringFormatter)).toEqual([
+      { type: "minusSign", value: "-" },
+      { type: "integer", value: "١٢" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "٣٤٥" },
+      { type: "group", value: "٬" },
+      { type: "integer", value: "٦٧٨" },
+      { type: "decimal", value: numberStringFormatter.decimal },
+      { type: "fraction", value: "9" },
+    ]);
+    expect(number.format(numberStringFormatter, true)).toBe(expectedValue);
+    expect(numberStringFormatter.localize(testValue, true)).toBe(expectedValue);
+    expect(number.formatToParts(numberStringFormatter, true)).toEqual([
+      ...expectedIntegerParts,
+      { type: "decimal", value: numberStringFormatter.decimal },
+      { type: "fraction", value: "9" },
+    ]);
+    expect(numberStringFormatter.delocalize(number.format(numberStringFormatter, true))).toBe(testValue);
+  });
+
+  it("preserves the negative sign for read-only fractional values between negative one and zero", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "ar",
+      numberingSystem: "arab",
+      useGrouping: true,
+    };
+
+    const testValue = "-0.1";
+    const number = new BigDecimal(testValue);
+    const expectedIntegerParts: Intl.NumberFormatPart[] = [
+      { type: "literal", value: "\u061C" },
+      { type: "minusSign", value: "-" },
+      { type: "integer", value: "٠" },
+    ];
+    const expectedValue = "\u061C-٠٫١";
+
+    expect(number.format(numberStringFormatter, true)).toBe(expectedValue);
+    expect(numberStringFormatter.localize(testValue, true)).toBe(expectedValue);
+    expect(number.formatToParts(numberStringFormatter, true)).toEqual([
+      ...expectedIntegerParts,
+      { type: "decimal", value: numberStringFormatter.decimal },
+      { type: "fraction", value: "1" },
+    ]);
+    expect(numberStringFormatter.delocalize(expectedValue)).toBe(testValue);
+  });
+
   supportedNlsLocales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
@@ -196,7 +266,7 @@ describe("BigDecimal", () => {
         useGrouping: true,
       };
 
-      const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
+      const parts = new BigDecimal(testValue).formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group")!.value;
       expect(groupPart.trim().length === 0 || groupPart === " " ? "\u00A0" : groupPart).toBe(
         numberStringFormatter.group,
