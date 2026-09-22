@@ -4,6 +4,8 @@ import "./typography.stories.scss";
 const weights = ["light", "regular", "medium", "bold"];
 const defaultSteps = ["minus-3h", "minus-2h", "minus-1h", "0h", "1h", "2h"];
 const wrapSteps = ["minus-2", "minus-1", "0", "1", "2", "3"];
+const displaySteps = ["1", "2"];
+const headingSteps = ["1", "2", "3", "4", "5"];
 
 const typographyGroups = [
   {
@@ -20,13 +22,8 @@ const typographyGroups = [
   {
     title: "Hierarchy",
     mixins: [
-      "calcite-typography-hierarchy-display-1",
-      "calcite-typography-hierarchy-display-2",
-      "calcite-typography-hierarchy-heading-1",
-      "calcite-typography-hierarchy-heading-2",
-      "calcite-typography-hierarchy-heading-3",
-      "calcite-typography-hierarchy-heading-4",
-      "calcite-typography-hierarchy-heading-5",
+      ...displaySteps.map((step) => `calcite-typography-hierarchy-display-${step}`),
+      ...headingSteps.map((step) => `calcite-typography-hierarchy-heading-${step}`),
       "calcite-typography-hierarchy-body-snug",
       "calcite-typography-hierarchy-body",
       "calcite-typography-hierarchy-overline",
