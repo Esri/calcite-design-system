@@ -36,27 +36,20 @@ const typographyGroups = [
 ];
 
 function renderGroup({ title, mixins }: (typeof typographyGroups)[number]): string {
-  return html`<section class="typography-story__section">
+  return html`<section>
     <h1>${title}</h1>
-    <div class="typography-story__previews">
+    <div>
       ${mixins
-        .map(
-          (mixin) =>
-            html`<p class="typography-story__preview typography-story__mixin--${mixin}">${formatMixinName(mixin)}</p>`,
-        )
+        .map((mixin) => html`<p class="typography-story__mixin--${mixin}">${formatMixinName(mixin)}</p>`)
         .join("")}
     </div>
   </section>`;
 }
 
 function renderClassGroup({ title, mixins }: (typeof typographyGroups)[number]): string {
-  return html`<section class="typography-story__section">
+  return html`<section>
     <h1>${title}</h1>
-    <div class="typography-story__previews">
-      ${mixins
-        .map((mixin) => html`<p class="typography-story__preview ${mixin}">${formatMixinName(mixin)}</p>`)
-        .join("")}
-    </div>
+    <div>${mixins.map((mixin) => html`<p class="${mixin}">${formatMixinName(mixin)}</p>`).join("")}</div>
   </section>`;
 }
 
@@ -72,8 +65,6 @@ export default {
   title: "Design Tokens/Typography",
 };
 
-export const mixins = (): string =>
-  html`<main class="typography-story">${typographyGroups.map(renderGroup).join("")}</main>`;
+export const mixins = (): string => html`<main>${typographyGroups.map(renderGroup).join("")}</main>`;
 
-export const classes = (): string =>
-  html`<main class="typography-story">${typographyGroups.map(renderClassGroup).join("")}</main>`;
+export const classes = (): string => html`<main>${typographyGroups.map(renderClassGroup).join("")}</main>`;
