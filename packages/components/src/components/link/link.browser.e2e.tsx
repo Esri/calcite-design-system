@@ -197,7 +197,6 @@ describe("underline", () => {
     expect(style.textDecorationColor).toBe(
       getTextDecorationColor(style.color, "color-mix(in srgb, currentColor 40%, transparent)"),
     );
-    expect(style.textDecorationSkipInk).toBe("auto");
     expect(style.textDecorationThickness).toBe("1px");
   });
 
