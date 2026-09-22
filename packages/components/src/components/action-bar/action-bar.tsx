@@ -480,6 +480,7 @@ export class ActionBar extends LitElement {
       "calciteInternalActionMenuActionsChange",
       this.handleActionMenuActionsChange,
     );
+    this.listen("click", this.handleFocusIn);
     this.listen("keydown", this.handleKeyDown);
     this.listen("focusin", this.handleFocusIn);
     this.listen("focusout", this.handleFocusOut);
@@ -1329,10 +1330,19 @@ export class ActionBar extends LitElement {
     );
   }
 
-  private handleFocusIn(event: FocusEvent): void {
+  private handleFocusIn(event: FocusEvent | MouseEvent): void {
     this.updateNavigationItems();
 
     const focusedItem = this.getNavigationItemFromEvent(event);
+
+    if (event instanceof MouseEvent) {
+      if (event.detail > 0 && focusedItem && isAction(focusedItem)) {
+        void focusedItem.setFocus();
+        this.setActiveDescendantElement(focusedItem);
+      }
+      return;
+    }
+
     const actionMenu = this.getEventActionMenu(event) || this.getOpenActionMenu();
 
     if (actionMenu?.open) {
@@ -1357,7 +1367,6 @@ export class ActionBar extends LitElement {
 
     this.syncActiveDescendant(focusedItem ?? undefined);
   }
-
   private isForwardFocusIn(focusEvent: FocusEvent): boolean {
     const { relatedTarget } = focusEvent;
 
