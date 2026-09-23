@@ -5,8 +5,7 @@ import process from "node:process";
 import type { Dirent } from "node:fs";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import select from "@inquirer/select";
-import checkbox from "@inquirer/checkbox";
+import { checkbox, select } from "@inquirer/prompts";
 import { parse } from "yaml";
 
 type ComponentEntry = {
