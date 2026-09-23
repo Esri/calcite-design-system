@@ -49,6 +49,7 @@ const focusMap = new Map<List["el"], number | undefined>();
  * @slot content-end - A slot for adding non-actionable elements after the component's `label` and `description`.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the component's content.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
+ * @slot description - A slot for adding a description.
  */
 export class ListItem extends LitElement implements SortableComponentItem {
   //#region Static Members
@@ -1020,7 +1021,9 @@ export class ListItem extends LitElement implements SortableComponentItem {
           <div class={CSS.description} key="description">
             {description}
           </div>
-        ) : null}
+        ) : (
+          <slot name="description" />
+        )}
       </div>
     ) : null;
   }
