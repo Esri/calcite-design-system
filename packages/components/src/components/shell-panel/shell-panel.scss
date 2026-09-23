@@ -37,6 +37,7 @@
 // --calcite-internal-shell-panel-content-padding-inline-end
 // --calcite-internal-shell-panel-content-padding-inline-start
 // --calcite-internal-shell-panel-height
+// --calcite-internal-shell-panel-inner-container-flex-direction
 // --calcite-internal-shell-panel-max-height
 // --calcite-internal-shell-panel-max-width
 // --calcite-internal-shell-panel-min-height
@@ -83,6 +84,7 @@
 @use "../../styles/includes";
 
 :host {
+  --calcite-internal-shell-panel-inner-container-flex-direction: row;
   --calcite-internal-shell-panel-resize-handle-bar-block-size: auto;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: none;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-start: none;
@@ -251,6 +253,7 @@
   pointer-events: auto;
   display: flex;
   flex: 1 1 auto;
+  flex-direction: var(--calcite-internal-shell-panel-inner-container-flex-direction);
   box-sizing: border-box; // TODO: is this necessary?
 }
 
@@ -258,6 +261,7 @@
   position: relative;
   display: flex;
   flex: 1 1 auto;
+  flex-direction: var(--calcite-internal-shell-panel-inner-container-flex-direction);
   align-items: stretch;
   align-self: stretch;
   box-sizing: border-box; // TODO: is this necessary?
@@ -476,6 +480,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 }
 
 :host([layout="horizontal"]) {
+  --calcite-internal-shell-panel-inner-container-flex-direction: column;
+
   .container {
     inline-size: 100%;
     block-size: auto;
@@ -611,11 +617,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
       var(--calcite-corner-radius-round)
     );
   }
-}
-
-:host([layout="horizontal"]) .action-bar-container,
-:host([layout="horizontal"]) .content-container {
-  flex-direction: column;
 }
 
 :host([layout="vertical"]:not([display-mode="float-all"])) .content {
