@@ -1,12 +1,12 @@
 @use "../../styles/includes";
+@use "../../styles/shared/outline-none";
 
 :host {
   display: block;
 }
 
 :host(:focus) {
-  outline: var(--calcite-border-width-md) solid transparent;
-  outline-offset: var(--calcite-border-width-md);
+  @include outline-none.outline-none();
 }
 
 @include includes.base-component();

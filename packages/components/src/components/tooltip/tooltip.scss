@@ -17,8 +17,9 @@
 // --calcite-internal-tooltip-padding-block
 // --calcite-internal-tooltip-padding-inline
 
-@use "../../styles/includes";
 @use "../../styles/shared/floating-ui";
+@use "../../styles/includes";
+@use "../../styles/shared/text";
 
 :host {
   display: contents;
@@ -45,26 +46,23 @@
   --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-sm);
 
   .container {
-    font-size: var(--calcite-font-size-relative-xs);
-    line-height: var(--calcite-font-line-height-relative-snug);
+    @include text.text-n3-wrap();
   }
 }
 
 :host([scale="l"]) {
   .container {
-    font-size: var(--calcite-font-size-relative-base);
-    line-height: var(--calcite-font-line-height-relative-snug);
+    @include text.text-n1-wrap();
   }
 }
 
 .container {
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  @include text.text-n2-wrap();
+  @include includes.word-break();
+
   position: relative;
   overflow: hidden;
   font-weight: var(--calcite-font-weight-medium);
-  overflow-wrap: break-word;
-  word-break: break-word;
   padding-block: var(--calcite-internal-tooltip-padding-block);
   padding-inline: var(--calcite-internal-tooltip-padding-inline);
   border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));

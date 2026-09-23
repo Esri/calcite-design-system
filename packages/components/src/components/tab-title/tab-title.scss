@@ -30,12 +30,15 @@
 // --calcite-internal-tab-title-close-margin-start
 // --calcite-internal-tab-title-close-padding
 
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
+@use "../../styles/shared/outline-none";
+@use "../../styles/shared/text";
 
 :host {
+  @include outline-none.outline-none();
+
   display: block;
-  outline: var(--calcite-border-width-md) solid transparent;
-  outline-offset: var(--calcite-space-base);
   margin-inline-start: theme("margin.0");
 }
 
@@ -62,8 +65,8 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
 
   .content {
-    font-size: var(--calcite-font-size-relative-sm);
-    line-height: var(--calcite-font-line-height-sm);
+    @include text.text-n2h();
+
     padding-block: var(--calcite-space-2xs);
   }
 }
@@ -73,8 +76,8 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
 
   .content {
-    font-size: var(--calcite-font-size-relative-base);
-    line-height: var(--calcite-font-line-height-base);
+    @include text.text-n1h();
+
     padding-block: var(--calcite-space-sm);
   }
 }
@@ -84,8 +87,8 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xs);
 
   .content {
-    font-size: var(--calcite-font-size-relative-md);
-    line-height: var(--calcite-font-line-height-md);
+    @include text.text-0h();
+
     padding-block: var(--calcite-space-sm-plus);
   }
 }
@@ -116,6 +119,7 @@
 
 .container {
   @include includes.transition-default();
+  @include text.text-n1h();
 
   position: relative;
   box-sizing: border-box;
@@ -126,8 +130,6 @@
   block-size: 100%;
   justify-content: space-between;
   padding-inline: 0;
-  font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-base);
   inline-size: 100%;
 
   color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
@@ -328,11 +330,7 @@
 }
 
 :host(:focus) .container {
-  outline: var(--calcite-border-width-md) solid
-    var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-  outline-offset: calc(
-    calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-  );
+  @include focus.focus-inset();
 
   &:focus-within {
     outline-color: transparent;

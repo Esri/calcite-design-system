@@ -33,6 +33,7 @@
 // --calcite-internal-text-area-padding-inline
 // --calcite-internal-text-area-shadow
 
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
 
 :host {
@@ -113,21 +114,14 @@
   }
 
   &:focus {
-    outline: var(--calcite-border-width-md) solid
-      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-    outline-offset: calc(
-      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-    );
+    @include focus.focus-inset();
   }
 
   &.text-area--invalid {
     --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
     &:focus {
-      outline: var(--calcite-border-width-md) solid var(--calcite-color-status-danger);
-      outline-offset: calc(
-        calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-      );
+      @include focus.focus-inset-danger();
     }
   }
 
@@ -210,18 +204,6 @@
   justify-content: flex-end;
 }
 
-.assistive-text {
-  position: absolute;
-  inline-size: var(--calcite-space-px);
-  block-size: var(--calcite-space-px);
-  padding: 0;
-  margin: calc(-1 * var(--calcite-space-px));
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: var(--calcite-border-width-none);
-}
-
 .text-area.text-area--only {
   block-size: 100%;
   min-block-size: var(--calcite-text-area-min-height, 0);
@@ -281,10 +263,7 @@
   --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
   .text-area:focus {
-    outline: var(--calcite-border-width-md) solid var(--calcite-color-status-danger);
-    outline-offset: calc(
-      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-    );
+    @include focus.focus-inset-danger();
   }
 }
 

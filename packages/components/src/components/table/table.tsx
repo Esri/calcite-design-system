@@ -5,6 +5,7 @@ import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "
 import { Scale, SelectionMode } from "../types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
+import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
 import { isTableRow } from "../table-row/resources";
@@ -20,6 +21,7 @@ import {
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -36,7 +38,7 @@ declare global {
 export class Table extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -645,7 +647,7 @@ export class Table extends LitElement {
               /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
               render(
                 <>
-                  <caption class={CSS.assistiveText}>{this.caption}</caption>
+                  <caption class={CSS_UTILITY.screenReaderText}>{this.caption}</caption>
                   {this.renderTHead()}
                   {this.renderTBody()}
                   {this.renderTFoot()}

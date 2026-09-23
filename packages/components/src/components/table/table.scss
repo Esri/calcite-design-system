@@ -123,18 +123,6 @@
   overscroll-behavior-y: none;
 }
 
-.assistive-text {
-  position: absolute;
-  inline-size: var(--calcite-space-px);
-  block-size: var(--calcite-space-px);
-  padding: 0;
-  margin: calc(-1 * var(--calcite-space-px));
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: var(--calcite-border-width-none);
-}
-
 table {
   border-collapse: var(--calcite-internal-table-border-collapse);
   border-spacing: 0;

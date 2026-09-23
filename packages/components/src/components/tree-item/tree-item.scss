@@ -19,16 +19,19 @@
 // --calcite-internal-tree-item-spacing-unit
 // --calcite-internal-tree-item-text-color
 
-@use "../../styles/includes";
 @use "../../styles/shared/animation";
+@use "../../styles/shared/focus";
+@use "../../styles/includes";
+@use "../../styles/shared/outline-none";
+@use "../../styles/shared/text";
 
 :host([scale="s"]) {
   --calcite-internal-tree-item-spacing-unit: 0.25rem;
   --calcite-internal-tree-item-padding-block: 0.25rem;
   --calcite-internal-tree-item-children-container-padding: 1.25rem;
   --calcite-internal-tree-item-line-left-position: 0.75rem;
-  font-size: var(--calcite-font-size-relative-sm);
-  line-height: var(--calcite-font-line-height-sm);
+
+  @include text.text-n2h();
 }
 
 :host(:is([scale="s"], [scale="m"])) {
@@ -40,8 +43,8 @@
   --calcite-internal-tree-item-padding-block: 0.5rem;
   --calcite-internal-tree-item-children-container-padding: 1.5rem;
   --calcite-internal-tree-item-line-left-position: 1rem;
-  font-size: var(--calcite-font-size-relative-base);
-  line-height: var(--calcite-font-line-height-base);
+
+  @include text.text-n1h();
 }
 
 :host([scale="l"]) {
@@ -50,8 +53,8 @@
   --calcite-internal-tree-item-padding-block: 0.625rem;
   --calcite-internal-tree-item-children-container-padding: 2.25rem;
   --calcite-internal-tree-item-line-left-position: 1.5rem;
-  font-size: var(--calcite-font-size-relative-md);
-  line-height: var(--calcite-font-line-height-md);
+
+  @include text.text-0h();
 }
 
 :host {
@@ -89,13 +92,14 @@
 
 :host([lines]) {
   .children-container::after {
-    @include includes.transition-default();
+    @include includes.transition-default(
+      $target-props: "color, background-color, border-color, text-decoration-color, fill, stroke"
+    );
+
     position: absolute;
     inset-block-start: 0;
     inline-size: var(--calcite-space-px);
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: var(--calcite-animation-timing);
+    transition-timing-function: var(--calcite-animation-easing-function);
     z-index: var(--calcite-z-index);
     // ensure lines don't overlap focus outline
     block-size: 100%;
@@ -128,8 +132,7 @@
 
 // focus styles
 :host {
-  outline: var(--calcite-border-width-md) solid transparent;
-  outline-offset: var(--calcite-border-width-md);
+  @include outline-none.outline-none();
 
   .node-container {
     outline-color: transparent;
@@ -137,27 +140,19 @@
   &:focus,
   &:active {
     .node-container {
-      outline: var(--calcite-border-width-md) solid
-        var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-      outline-offset: calc(
-        calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-      );
+      @include focus.focus-inset();
     }
   }
 }
 
 :host(:focus:not([disabled])) {
   .node-container {
-    outline: var(--calcite-border-width-md) solid
-      var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)));
-    outline-offset: calc(
-      calc(-1 * var(--calcite-spacing-base)) * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))
-    );
+    @include focus.focus-inset();
+    @include outline-none.outline-none();
   }
 
   .checkbox {
-    outline: var(--calcite-border-width-md) solid transparent;
-    outline-offset: var(--calcite-border-width-md);
+    @include outline-none.outline-none();
   }
 }
 
