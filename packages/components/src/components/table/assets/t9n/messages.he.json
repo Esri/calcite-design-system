@@ -1,7 +1,18 @@
 {
+  "all": "הכל",
   "clear": "נקה",
   "hiddenSelected": "שורות נבחרו אך הן מחוץ לתצוגה",
+  "keyboardDeselect": "הקש על Enter על מקש הרווח כדי לבטל בחירה בשורה",
+  "keyboardDeselectAll": "הקש על Enter על מקש הרווח כדי לבטל בחירה בכל השורות",
+  "keyboardSelect": "הקש על Enter על מקש הרווח כדי לבחור בשורה",
+  "keyboardSelectAll": "הקש על Enter על מקש הרווח כדי לבחור בכל השורות",
   "page": "עמוד",
   "row": "שורה",
-  "selected": "נבחר"
+  "rowNumber": "מספר שורה",
+  "selected": "נבחר",
+  "selectedRows": "שורות נבחרו",
+  "selectionColumn": "עמודת בחירה",
+  "selectionRow": "שורה",
+  "selectionSelected": "נבחר",
+  "unselected": "לא נבחר"
 }

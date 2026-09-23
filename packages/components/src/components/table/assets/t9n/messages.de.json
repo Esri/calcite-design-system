@@ -1,7 +1,18 @@
 {
+  "all": "Alle",
   "clear": "Löschen",
   "hiddenSelected": "Zeilen ausgewählt, jedoch nicht sichtbar",
+  "keyboardDeselect": "Zum Aufheben der Auswahl der Zeile Eingabetaste oder Leertaste drücken",
+  "keyboardDeselectAll": "Zum Aufheben der Auswahl aller Zeilen Eingabetaste oder Leertaste drücken",
+  "keyboardSelect": "Zum Auswählen der Zeile Eingabetaste oder Leertaste drücken",
+  "keyboardSelectAll": "Zum Auswählen aller Zeilen Eingabetaste oder Leertaste drücken",
   "page": "Seite",
   "row": "Zeile",
-  "selected": "Ausgewählt"
+  "rowNumber": "Zeilennummer",
+  "selected": "Ausgewählt",
+  "selectedRows": "ausgewählte Zeilen",
+  "selectionColumn": "Spaltenauswahl",
+  "selectionRow": "Zeile",
+  "selectionSelected": "ausgewählt",
+  "unselected": "nicht ausgewählt"
 }

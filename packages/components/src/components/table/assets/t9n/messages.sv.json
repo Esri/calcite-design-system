@@ -1,7 +1,18 @@
 {
+  "all": "alla",
   "clear": "Radera",
   "hiddenSelected": "Rader har valts men ligger utanför vyn",
+  "keyboardDeselect": "Tryck på retur eller blanksteg om du vill avmarkera raden",
+  "keyboardDeselectAll": "Tryck på retur eller blanksteg om du vill avmarkera alla rader",
+  "keyboardSelect": "Tryck på retur eller blanksteg om du vill markera raden",
+  "keyboardSelectAll": "Tryck på retur eller blanksteg om du vill markera alla rader",
   "page": "Sida",
   "row": "Rad",
-  "selected": "Valt"
+  "rowNumber": "Radnummer",
+  "selected": "Valt",
+  "selectedRows": "markerade rader",
+  "selectionColumn": "Urvalskolumn",
+  "selectionRow": "rad",
+  "selectionSelected": "valt",
+  "unselected": "avmarkerad"
 }

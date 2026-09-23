@@ -48,7 +48,5 @@ packages\components\src\components\stepper-item\assets\t9n
 packages\components\src\components\tab-nav\assets\t9n
 packages\components\src\components\tab-title\assets\t9n
 packages\components\src\components\table\assets\t9n
-packages\components\src\components\table-cell\assets\t9n
-packages\components\src\components\table-header\assets\t9n
 packages\components\src\components\text-area\assets\t9n
 packages\components\src\components\time-picker\assets\t9n

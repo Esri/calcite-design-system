@@ -1,7 +1,18 @@
 {
+  "all": "всички",
   "clear": "Изчистване",
   "hiddenSelected": "Избрани редове, но извън изгледа",
+  "keyboardDeselect": "Натиснете клавиша Enter или интервал, за да отмените избора на ред",
+  "keyboardDeselectAll": "Натиснете Enter или интервал, за да отмените селекцията на всички редове",
+  "keyboardSelect": "Натиснете клавиша Enter или интервал, за да изберете ред",
+  "keyboardSelectAll": "Натиснете Enter или интервал, за да селектирате всички редове",
   "page": "Страница",
   "row": "Ред",
-  "selected": "Избрани"
+  "rowNumber": "Номер на ред",
+  "selected": "Избрани",
+  "selectedRows": "селектирани редове",
+  "selectionColumn": "Селектиране на колона",
+  "selectionRow": "ред",
+  "selectionSelected": "избрани",
+  "unselected": "отказан избор"
 }

@@ -1,7 +1,18 @@
 {
+  "all": "всі",
   "clear": "Очистити",
   "hiddenSelected": "Рядки вибрано, але вони не відображаються",
+  "keyboardDeselect": "Натисніть клавішу Enter або пробіл, щоб скасувати вибір рядка",
+  "keyboardDeselectAll": "Натисніть клавішу Enter або пробіл, щоб скасувати вибір усіх рядків",
+  "keyboardSelect": "Натисніть клавішу Enter або пробіл, щоб вибрати рядок",
+  "keyboardSelectAll": "Натисніть клавішу Enter або пробіл, щоб вибрати всі рядки",
   "page": "Сторінка",
   "row": "Рядок",
-  "selected": "Вибрано"
+  "rowNumber": "Номер рядка",
+  "selected": "Вибрано",
+  "selectedRows": "вибрані рядки",
+  "selectionColumn": "Стовпець вибору",
+  "selectionRow": "рядок",
+  "selectionSelected": "вибрані",
+  "unselected": "вибір скасовано"
 }

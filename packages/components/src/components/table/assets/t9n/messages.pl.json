@@ -1,7 +1,18 @@
 {
+  "all": "wszystko",
   "clear": "Wyczyść",
   "hiddenSelected": "Wiersze zostały wybrane, ale nie mieszczą się w widoku",
+  "keyboardDeselect": "Naciśnij klawisz Enter lub spację, aby anulować wybór wiersza",
+  "keyboardDeselectAll": "Naciśnij klawisz Enter lub spację, aby anulować wybór wszystkich wierszy",
+  "keyboardSelect": "Naciśnij klawisz Enter lub spację, aby wybrać wiersz",
+  "keyboardSelectAll": "Naciśnij klawisz Enter lub spację, aby wybrać wszystkie wiersze",
   "page": "Strona",
   "row": "Wiersz",
-  "selected": "Wybrane"
+  "rowNumber": "Numer wiersza",
+  "selected": "Wybrane",
+  "selectedRows": "— wybrane wiersze",
+  "selectionColumn": "Kolumna wyboru",
+  "selectionRow": "wiersz",
+  "selectionSelected": "wybrane",
+  "unselected": "niewybrane"
 }
