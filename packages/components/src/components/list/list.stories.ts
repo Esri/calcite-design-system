@@ -6668,3 +6668,27 @@ export const nestedSelectionModes = (): string =>
         </calcite-list>
       </calcite-list-item>
     </calcite-list>`;
+
+export const descriptionSlottedText = (): string =>
+  html` <calcite-list style="width: 250px;">
+    <calcite-list-item label="Heading1">
+      <calcite-text slot="description" truncate-position="middle">
+        This is a really long description that will likely overflow the container if it is not handled properly.
+      </calcite-text>
+    </calcite-list-item>
+    <calcite-list-item label="Heading2">
+      <calcite-text slot="description" truncate-position="end">
+        This is a really long description that will likely overflow the container if it is not handled properly.
+      </calcite-text>
+    </calcite-list-item>
+    <calcite-list-item label="Heading3">
+      <calcite-text slot="description">
+        This is a really long description that will likely overflow the container if it is not handled properly.
+      </calcite-text>
+    </calcite-list-item>
+    <calcite-list-item label="Heading4">
+      <calcite-text slot="description" max-lines="2">
+        This is a really long description that will likely overflow the container if it is not handled properly.
+      </calcite-text>
+    </calcite-list-item>
+  </calcite-list>`;
