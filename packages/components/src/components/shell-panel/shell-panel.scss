@@ -164,6 +164,11 @@
   background-color: transparent;
   block-size: 100%;
   color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
+  flex-direction: var(--calcite-internal-shell-panel-container-flex-direction);
+  padding-inline-start: var(--calcite-internal-shell-panel-container-padding-inline-start);
+  padding-inline-end: var(--calcite-internal-shell-panel-container-padding-inline-end);
+  padding-block-start: var(--calcite-internal-shell-panel-container-padding-block-start);
+  padding-block-end: var(--calcite-internal-shell-panel-container-padding-block-end);
 
   * {
     box-sizing: border-box;
@@ -172,14 +177,6 @@
   &.float-all {
     margin-block: var(--calcite-spacing-sm);
     margin-inline: var(--calcite-spacing-sm);
-  }
-
-  :host([action-bar-position]) & {
-    flex-direction: var(--calcite-internal-shell-panel-container-flex-direction);
-    padding-inline-start: var(--calcite-internal-shell-panel-container-padding-inline-start);
-    padding-inline-end: var(--calcite-internal-shell-panel-container-padding-inline-end);
-    padding-block-start: var(--calcite-internal-shell-panel-container-padding-block-start);
-    padding-block-end: var(--calcite-internal-shell-panel-container-padding-block-end);
   }
 }
 
