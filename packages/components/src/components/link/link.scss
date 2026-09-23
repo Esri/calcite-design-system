@@ -35,7 +35,7 @@
   text-decoration-thickness: var(--calcite-border-width-sm);
   text-underline-offset: 0.33em;
 
-  @include includes.transition-default($extra-props: "text-decoration-color, text-decoration-thickness");
+  @include includes.transition-default($extra-props: "text-decoration-color");
 }
 
 :host a:hover .calcite-link--text,
