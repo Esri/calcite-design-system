@@ -1,7 +1,18 @@
 {
+  "all": "全部",
   "clear": "清除",
   "hiddenSelected": "已選擇列，但列不在視圖中",
+  "keyboardDeselect": "按 Enter 或空格鍵取消選擇列",
+  "keyboardDeselectAll": "按 Enter 或空格鍵取消選擇所有列",
+  "keyboardSelect": "按 Enter 或空格鍵選擇列",
+  "keyboardSelectAll": "按 Enter 或空格鍵選擇所有列",
   "page": "頁面",
   "row": "列",
-  "selected": "已選擇"
+  "rowNumber": "列數",
+  "selected": "已選擇",
+  "selectedRows": "已選擇列",
+  "selectionColumn": "選擇欄",
+  "selectionRow": "列",
+  "selectionSelected": "選取",
+  "unselected": "已取消選擇"
 }

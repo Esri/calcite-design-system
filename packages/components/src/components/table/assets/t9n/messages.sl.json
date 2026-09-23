@@ -1,7 +1,18 @@
 {
+  "all": "vse",
   "clear": "Počisti",
   "hiddenSelected": "Vrstice, ki so izbrane, a izven pogleda",
+  "keyboardDeselect": "Pritisnite tipko Enter ali presledek, da prekličete izbiro vrstice",
+  "keyboardDeselectAll": "Pritisnite tipko Enter ali presledek, da prekličete izbiro vseh vrstic",
+  "keyboardSelect": "Pritisnite tipko Enter ali presledek, da izberete vrstico",
+  "keyboardSelectAll": "Pritisnite tipko Enter ali presledek, da izberete vse vrstice",
   "page": "Stran",
   "row": "Vrstica",
-  "selected": "Izbrano"
+  "rowNumber": "Številka vrstice",
+  "selected": "Izbrano",
+  "selectedRows": "izbranih vrstic",
+  "selectionColumn": "Stolpec izbire",
+  "selectionRow": "vrstica",
+  "selectionSelected": "izbrano",
+  "unselected": "neizbrano"
 }

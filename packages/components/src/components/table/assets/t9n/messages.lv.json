@@ -1,7 +1,18 @@
 {
+  "all": "visi",
   "clear": "Notīrīt",
   "hiddenSelected": "Rindas atlasītas, bet nav redzamas",
+  "keyboardDeselect": "Nospiediet taustiņu Enter vai atstarpes taustiņu, lai atceltu rindas atlasi",
+  "keyboardDeselectAll": "Nospiediet taustiņu Enter vai atstarpes taustiņu, lai atceltu visu rindu atlasi",
+  "keyboardSelect": "Nospiediet taustiņu Enter vai atstarpes taustiņu, lai atlasītu rindu",
+  "keyboardSelectAll": "Nospiediet taustiņu Enter vai atstarpes taustiņu, lai atlasītu visas rindas",
   "page": "Lapa",
   "row": "Rinda",
-  "selected": "Izvēlētais"
+  "rowNumber": "Rindas numurs",
+  "selected": "Izvēlētais",
+  "selectedRows": "atlasītas rindas",
+  "selectionColumn": "Atlases kolonna",
+  "selectionRow": "rinda",
+  "selectionSelected": "atlasīts",
+  "unselected": "nav atlasīts"
 }
