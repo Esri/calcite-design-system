@@ -43,6 +43,8 @@
 // --calcite-internal-shell-panel-content-padding-block-start
 // --calcite-internal-shell-panel-content-padding-inline-end
 // --calcite-internal-shell-panel-content-padding-inline-start
+// --calcite-internal-shell-panel-float-all-border-inline-end
+// --calcite-internal-shell-panel-float-all-border-inline-start
 // --calcite-internal-shell-panel-height
 // --calcite-internal-shell-panel-inner-container-flex-direction
 // --calcite-internal-shell-panel-max-height
@@ -95,6 +97,8 @@
   --calcite-internal-shell-panel-content-padding-block-start: 0;
   --calcite-internal-shell-panel-content-padding-inline-end: 0;
   --calcite-internal-shell-panel-content-padding-inline-start: 0;
+  --calcite-internal-shell-panel-float-all-border-inline-end: 0;
+  --calcite-internal-shell-panel-float-all-border-inline-start: 0;
   --calcite-internal-shell-panel-inner-container-flex-direction: row;
   --calcite-internal-shell-panel-content-overlay-block-size: auto;
   --calcite-internal-shell-panel-content-overlay-inline-size: auto;
@@ -183,6 +187,8 @@
 .float-all {
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
+  border-inline-start: var(--calcite-internal-shell-panel-float-all-border-inline-start);
+  border-inline-end: var(--calcite-internal-shell-panel-float-all-border-inline-end);
   border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   overflow: hidden;
 }
@@ -484,19 +490,22 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   min-block-size: var(--calcite-shell-panel-height, 40vh);
 }
 
-:host([layout="vertical"][position="start"]) .float-all {
-  border-inline-start: var(--calcite-border-width-sm) solid
+:host([layout="vertical"][position="start"]) {
+  --calcite-internal-shell-panel-float-all-border-inline-start: var(--calcite-border-width-sm) solid
     var(--calcite-shell-panel-border-color, var(--calcite-color-border-3));
 }
 
-:host([layout="vertical"][position="end"]) .float-all {
-  border-inline-end: var(--calcite-border-width-sm) solid
+:host([layout="vertical"][position="end"]) {
+  --calcite-internal-shell-panel-float-all-border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
 }
 
-:host([layout="horizontal"]) .float-all {
-  border-inline: var(--calcite-border-width-sm) solid
+:host([layout="horizontal"]) {
+  --calcite-internal-shell-panel-float-all-border-inline-start: var(--calcite-border-width-sm) solid
     var(--calcite-shell-border-color, var(--calcite-shell-panel-border-color, var(--calcite-color-border-3)));
+  --calcite-internal-shell-panel-float-all-border-inline-end: var(
+    --calcite-internal-shell-panel-float-all-border-inline-start
+  );
 }
 
 :host([layout="horizontal"]) {
