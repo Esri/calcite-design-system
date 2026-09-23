@@ -35,9 +35,7 @@ export class Text extends LitElement {
 
     if (truncatePosition === "end") {
       this.syncTooltipState();
-    }
-
-    if (truncatePosition === "middle" && (!maxLines || maxLines === 1)) {
+    } else if (truncatePosition === "middle" && !maxLines) {
       this.truncateMiddleText();
     }
   });
@@ -54,11 +52,6 @@ export class Text extends LitElement {
    */
   @property({ reflect: true }) truncatePosition?: TruncatePosition;
 
-  /**
-   * Displays native tooltip with full text content when text is truncated.
-   */
-  @property() tooltipEnabled = false;
-
   //#endregion
 
   //#region Lifecycle
@@ -70,9 +63,6 @@ export class Text extends LitElement {
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("maxLines") && this.hasUpdated) {
       this.updateMaxLinesToken();
-    }
-    if (changes.has("tooltipEnabled") && this.hasUpdated) {
-      this.el.title = this.tooltipEnabled ? this.value || "" : "";
     }
     if (changes.has("truncatePosition") && this.hasUpdated) {
       this.handleTruncatePositionChange();
@@ -151,17 +141,17 @@ export class Text extends LitElement {
   }
 
   private handleTruncatePositionChange(): void {
-    if (this.truncatePosition === "end") {
+    if (!this.truncatePosition) {
       this.resizeObserver?.disconnect();
-      this.resizeObserver?.observe(this.el);
+      this.clearTooltipTitle();
     }
-    this.syncRenderedText(this.value);
+    if (this.truncatePosition === "end") {
+      this.syncRenderedText(this.value);
+    }
   }
 
   private setTooltipTitle(): void {
-    if (this.tooltipEnabled) {
-      this.el.title = this.value || "";
-    }
+    this.el.title = this.value || "";
   }
 
   private syncRenderedText(value: string | undefined): void {
@@ -172,7 +162,6 @@ export class Text extends LitElement {
     if (currentTextContent === value) {
       return;
     }
-
     this.isProgrammaticTextUpdate = true;
     this.el.textContent = value;
   }

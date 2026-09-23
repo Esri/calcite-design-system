@@ -1,9 +1,8 @@
-import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { Text } from "./text";
 import type { StoryContext } from "@storybook/web-components-vite";
 
-type TextStoryArgs = Pick<Text, "maxLines" | "tooltipEnabled" | "truncatePosition"> & {
+type TextStoryArgs = Pick<Text, "maxLines" | "truncatePosition"> & {
   text: string;
   containerWidth: number;
 };
@@ -34,10 +33,7 @@ export default {
 };
 
 export const simple = (args: TextStoryArgs): string => html`
-  <calcite-text
-    truncate-position="${args.truncatePosition}"
-    max-lines="${args.maxLines}"
-    ${boolean("tooltip-enabled", args.tooltipEnabled)}
+  <calcite-text truncate-position="${args.truncatePosition}" max-lines="${args.maxLines}"
     >The Rocky Mountain range spans multiple states and includes several major peaks and protected
     ecosystems.</calcite-text
   >
@@ -71,7 +67,7 @@ export const maxLines = (): string => html`
 `;
 
 export const maxLinesWithMiddleTruncatePosition = (): string => html`
-  <calcite-text max-lines="2" truncate-position="middle">
+  <calcite-text max-lines="1" truncate-position="middle">
     The Appalachian Mountains are a system of mountains in eastern North America, extending from Canada to Alabama.
   </calcite-text>
 `;
