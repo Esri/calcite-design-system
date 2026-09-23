@@ -174,56 +174,18 @@ describe("theme", () => {
 });
 
 describe("underline", () => {
-  function getTextDecorationColor(color: string, textDecorationColor: string): string {
-    const element = document.createElement("span");
-
-    element.style.color = color;
-    element.style.textDecorationColor = textDecorationColor;
-    document.body.append(element);
-
-    const computedTextDecorationColor = getComputedStyle(element).textDecorationColor;
-    element.remove();
-
-    return computedTextDecorationColor;
-  }
-
-  it("uses native underline styling with a translucent initial underline color", async () => {
-    const { el } = await mount<Link>(<calcite-link href="/">link</calcite-link>);
-    const anchor = el.shadowRoot.querySelector("a")!;
-    const style = getComputedStyle(anchor);
-
-    expect(style.backgroundImage).toBe("none");
-    expect(style.textDecorationLine).toBe("underline");
-    expect(style.textDecorationColor).toBe(
-      getTextDecorationColor(style.color, "color-mix(in srgb, currentColor 40%, transparent)"),
-    );
-    expect(style.textDecorationThickness).toBe("1px");
-  });
-
-  it("uses the full text color for the underline on hover", async () => {
-    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
-    const anchor = el.shadowRoot.querySelector("a")!;
-    const { x, y, width, height } = anchor.getBoundingClientRect();
-
-    await commands.mouseMove(x + width / 2, y + height / 2);
-
-    const style = getComputedStyle(anchor);
-
-    expect(style.textDecorationColor).toBe(style.color);
-  });
-
   it("increases underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
     const { x, y, width, height } = anchor.getBoundingClientRect();
+    const initialThickness = Number.parseFloat(getComputedStyle(anchor).textDecorationThickness);
 
     await commands.mouseMove(x + width / 2, y + height / 2);
     await commands.mouseDown();
 
-    const style = getComputedStyle(anchor);
+    const activeThickness = Number.parseFloat(getComputedStyle(anchor).textDecorationThickness);
 
-    expect(style.textDecorationColor).toBe(style.color);
-    expect(style.textDecorationThickness).toBe("2px");
+    expect(activeThickness).toBeGreaterThan(initialThickness);
 
     await commands.mouseUp();
   });

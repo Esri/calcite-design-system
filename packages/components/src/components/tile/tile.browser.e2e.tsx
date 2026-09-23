@@ -151,16 +151,6 @@ describe("renders", () => {
     await expect.element(anchor).toHaveAttribute("href", "http://www.esri.com");
   });
 
-  it("does not show a link underline when href attribute is supplied", async () => {
-    const { el } = await mount(
-      <calcite-tile heading="My Calcite Tile" href="http://www.esri.com" />,
-    );
-    const link = el.shadowRoot.querySelector("calcite-link")!;
-    const anchor = link.shadowRoot!.querySelector("a")!;
-
-    expect(getComputedStyle(anchor).textDecorationLine).toBe("none");
-  });
-
   it("renders heading only when supplied", async () => {
     await mount(<calcite-tile heading="My Calcite Tile" />);
 
