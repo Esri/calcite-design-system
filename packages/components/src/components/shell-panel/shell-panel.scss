@@ -84,6 +84,10 @@
 @use "../../styles/includes";
 
 :host {
+  --calcite-internal-shell-panel-content-padding-block-end: 0;
+  --calcite-internal-shell-panel-content-padding-block-start: 0;
+  --calcite-internal-shell-panel-content-padding-inline-end: 0;
+  --calcite-internal-shell-panel-content-padding-inline-start: 0;
   --calcite-internal-shell-panel-inner-container-flex-direction: row;
   --calcite-internal-shell-panel-resize-handle-bar-block-size: auto;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: none;
@@ -280,17 +284,14 @@
   align-self: stretch;
   box-sizing: border-box; // TODO: is this necessary?
   padding: 0;
+  padding-inline-start: var(--calcite-internal-shell-panel-content-padding-inline-start);
+  padding-inline-end: var(--calcite-internal-shell-panel-content-padding-inline-end);
+  padding-block-start: var(--calcite-internal-shell-panel-content-padding-block-start);
+  padding-block-end: var(--calcite-internal-shell-panel-content-padding-block-end);
   background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);
-
-  :host([action-bar-position]) & {
-    padding-inline-start: var(--calcite-internal-shell-panel-content-padding-inline-start);
-    padding-inline-end: var(--calcite-internal-shell-panel-content-padding-inline-end);
-    padding-block-start: var(--calcite-internal-shell-panel-content-padding-block-start);
-    padding-block-end: var(--calcite-internal-shell-panel-content-padding-block-end);
-  }
 }
 
 .content--action-bar-expanded {
@@ -637,48 +638,19 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 }
 
 :host([resizable][layout="vertical"][position="start"]) {
-  .content {
-    padding-inline-end: var(
-      --calcite-internal-shell-panel-content-padding-inline-end,
-      var(--calcite-size-fixed-sm-plus)
-    );
-  }
+  --calcite-internal-shell-panel-content-padding-inline-end: var(--calcite-size-fixed-sm-plus);
 }
 
 :host([resizable][layout="vertical"][position="end"]) {
-  .content {
-    padding-inline-start: var(--calcite-size-fixed-sm-plus);
-  }
-
-  &:host([action-bar-position]) .content {
-    padding-inline-start: var(
-      --calcite-internal-shell-panel-content-padding-inline-start,
-      var(--calcite-size-fixed-sm-plus)
-    );
-  }
+  --calcite-internal-shell-panel-content-padding-inline-start: var(--calcite-size-fixed-sm-plus);
 }
 
 :host([resizable][layout="horizontal"][position="start"]) {
-  .content {
-    padding-block-end: var(--calcite-size-fixed-sm-plus);
-  }
-
-  &:host([action-bar-position]) .content {
-    padding-block-end: var(--calcite-internal-shell-panel-content-padding-block-end, var(--calcite-size-fixed-sm-plus));
-  }
+  --calcite-internal-shell-panel-content-padding-block-end: var(--calcite-size-fixed-sm-plus);
 }
 
 :host([resizable][layout="horizontal"][position="end"]) {
-  .content {
-    padding-block-start: var(--calcite-size-fixed-sm-plus);
-  }
-
-  &:host([action-bar-position]) .content {
-    padding-block-start: var(
-      --calcite-internal-shell-panel-content-padding-block-start,
-      var(--calcite-size-fixed-sm-plus)
-    );
-  }
+  --calcite-internal-shell-panel-content-padding-block-start: var(--calcite-size-fixed-sm-plus);
 }
 
 :host([layout="vertical"]) .content--overlay {
