@@ -177,13 +177,14 @@ describe("underline", () => {
   it("increases underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(".calcite-link--text")!;
     const { x, y, width, height } = anchor.getBoundingClientRect();
-    const initialThickness = Number.parseFloat(getComputedStyle(anchor).textDecorationThickness);
+    const initialThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
 
     await commands.mouseMove(x + width / 2, y + height / 2);
     await commands.mouseDown();
 
-    const activeThickness = Number.parseFloat(getComputedStyle(anchor).textDecorationThickness);
+    const activeThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
 
     expect(activeThickness).toBeGreaterThan(initialThickness);
 
