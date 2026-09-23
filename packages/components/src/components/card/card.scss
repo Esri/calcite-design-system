@@ -34,9 +34,9 @@
 // --calcite-internal-card-slotted-content-padding
 
 @use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../styles/component/focus";
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
-@use "../../styles/component/text";
+@use "../../styles/shared/text";
 
 :host {
   display: block;
