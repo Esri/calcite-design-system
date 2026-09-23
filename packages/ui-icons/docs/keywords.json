@@ -12303,5 +12303,20 @@
     "alias": ["4.6.0", "charts and graphs", "view", "connection", "filter", "nodes", "relationships", "maps"],
     "category": "Charts and Graphs",
     "release": "4.6.0"
+  },
+  "add-cell-above": {
+    "alias": ["4.6.0", "generic", "insert", "selection", "notebooks", "tool"],
+    "category": "Generic",
+    "release": "4.6.0"
+  },
+  "polygon-from-feature": {
+    "alias": ["4.6.0", "gis", "two-dimensional", "shape", "area", "coordinates", "data"],
+    "category": "GIS",
+    "release": "4.6.0"
+  },
+  "add-cell-below": {
+    "alias": ["4.6.0", "gis", "insert", "tool", "notebooks", "position", "selection"],
+    "category": "GIS",
+    "release": "4.6.0"
   }
 }
