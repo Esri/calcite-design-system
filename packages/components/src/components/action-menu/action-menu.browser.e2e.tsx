@@ -471,6 +471,34 @@ describe("accessibility", () => {
     },
   );
 
+  it("should select the active action on Enter key and keep selectable action groups open", async () => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action-group selection-mode="multiple">
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="minus" text="Remove" />
+          <calcite-action icon="banana" text="View" />
+        </calcite-action-group>
+      </calcite-action-menu>,
+    );
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+    await component.updateComplete;
+
+    const action = el.actions[0];
+
+    expect(el.open).toBe(true);
+    expect(action.activeDescendant).toBe(true);
+    expect(action.active).toBe(false);
+
+    await userEvent.keyboard("{Enter}");
+    await component.updateComplete;
+
+    expect(el.open).toBe(true);
+    expect(action.active).toBe(true);
+  });
+
   it("opens from a focused trigger action without immediately activating the first menu item", async () => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu>
