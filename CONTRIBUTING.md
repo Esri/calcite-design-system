@@ -106,6 +106,8 @@ When an issue blocks or is blocked by other GitHub issues:
 
 - Link the issues using GitHub's issue relationships.
 - Apply the `blocked` label to support Monday syncing.
+- Confirm the blocking decision with `@esri/calcite-pes`
+  - If confirmed, the relevant context should be added to the issue for awareness
 
 To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
 
