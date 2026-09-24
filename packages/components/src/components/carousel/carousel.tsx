@@ -12,6 +12,7 @@ import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
+import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { CarouselItem } from "../carousel-item/carousel-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -20,6 +21,7 @@ import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources"
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ArrowType, AutoplayType, PaginationPosition } from "./types";
 import { styles } from "./carousel.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -31,7 +33,7 @@ declare global {
 export class Carousel extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -698,7 +700,7 @@ export class Carousel extends LitElement {
     };
 
     return (
-      <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
+      <div ariaLive="off" class={CSS_UTILITY.screenReaderText} role="status">
         {messages.paginationStatus
           .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
           .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
