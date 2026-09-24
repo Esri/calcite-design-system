@@ -86,6 +86,10 @@
   margin-inline-start: 0;
 }
 
+:host([editing-enabled]:not([controls])) .controls-wrapper {
+  display: none;
+}
+
 calcite-action {
   --calcite-action-background-color: var(--calcite-inline-editable-button-background-color);
   --calcite-action-corner-radius: var(--calcite-inline-editable-button-corner-radius);
