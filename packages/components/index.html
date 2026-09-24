@@ -9,12 +9,22 @@
 
   <body>
     <demo-dom-swapper>
-      <!-- demo snippet start -->
-
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
-
-      <!-- demo snippet end -->
+      <calcite-field-group>
+        <calcite-field-set legend="Bio">
+          <calcite-field-group layout="columns" columns="2">
+            <calcite-input name="firstName" label-text="First Name"></calcite-input>
+            <calcite-input name="lastName" label-text="Last Name"></calcite-input>
+          </calcite-field-group>
+          <calcite-input name="email" label-text="Email"></calcite-input>
+        </calcite-field-set>
+        <calcite-field-set legend="Address">
+          <calcite-input name="street" label-text="Street"></calcite-input>
+          <calcite-field-group layout="columns" columns="2">
+            <calcite-input name="city" label-text="City"></calcite-input>
+            <calcite-select name="state" label-text="State"></calcite-select>
+          </calcite-field-group>
+        </calcite-field-set>
+      </calcite-field-group>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>
