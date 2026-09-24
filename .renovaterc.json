@@ -3,21 +3,12 @@
   "extends": ["config:recommended", "security:minimumReleaseAgeNpm", "workarounds:typesNodeVersioning"],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": "auto",
+  "postUpdateOptions": ["pnpmDedupe"],
   "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
   "schedule": ["before 5am every weekday"],
   "labels": ["dependencies"],
-  "ignoreDeps": [
-    "@types/node",
-    "@types/react",
-    "@types/react-dom",
-    "node",
-    "npm",
-    "puppeteer",
-    "react",
-    "react-dom",
-    "typescript"
-  ],
+  "ignoreDeps": ["@types/node", "@types/react", "@types/react-dom", "puppeteer", "react", "react-dom", "typescript"],
   "ignorePaths": ["examples/**"],
   "packageRules": [
     {

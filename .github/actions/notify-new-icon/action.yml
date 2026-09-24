@@ -9,13 +9,13 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/setup-node@v6
+    - uses: pnpm/setup@v3
       with:
-        node-version-file: ./package.json
+        install: false
 
     - name: Install CLI dependencies
       shell: bash
-      run: npm ci --workspace=@esri/monorepo-cli --ignore-scripts
+      run: pnpm install --frozen-lockfile --filter @esri/monorepo-cli --ignore-scripts
 
     - name: Send notification
       shell: bash

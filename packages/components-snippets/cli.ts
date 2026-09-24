@@ -7,6 +7,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import select from "@inquirer/select";
 import checkbox from "@inquirer/checkbox";
+import { parse } from "yaml";
 
 type ComponentEntry = {
   componentName: string;
@@ -49,13 +50,13 @@ async function findRepoRoot(startDir: string): Promise<string> {
   let current = path.resolve(startDir);
 
   while (true) {
-    const pkgPath = path.join(current, "package.json");
+    const pkgPath = path.join(current, "pnpm-workspace.yaml");
 
     try {
-      const pkgRaw = await fs.readFile(pkgPath, "utf8");
-      const pkg = JSON.parse(pkgRaw) as { workspaces?: unknown };
+      const workspace = await fs.readFile(pkgPath, "utf8");
+      const pkg = parse(workspace) as { packages?: unknown };
 
-      if (pkg && pkg.workspaces) {
+      if (pkg && pkg.packages) {
         return current;
       }
     } catch {
