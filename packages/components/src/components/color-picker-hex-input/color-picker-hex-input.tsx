@@ -73,7 +73,7 @@ export class ColorPickerHexInput extends LitElement {
   /**
    * Specifies accessible label for the input field.
    *
-   * @deprecated use `messages` instead
+   * @deprecated in v1.4.0, removal target v6.0.0. Use the `messages` property instead.
    */
   @property() hexLabel = "Hex";
 

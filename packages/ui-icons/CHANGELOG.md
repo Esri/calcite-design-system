@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.18...@esri/calcite-ui-icons@4.6.0-next.19) (2026-09-23)
+
+### Features
+
+- add notebooks and copy polygon icons ([#15200](https://github.com/Esri/calcite-design-system/issues/15200))
+
 ## [4.6.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.17...@esri/calcite-ui-icons@4.6.0-next.18) (2026-09-16)
 
 ### Features
