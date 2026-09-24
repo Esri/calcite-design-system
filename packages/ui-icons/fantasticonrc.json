@@ -1412,6 +1412,9 @@
     "monitor-share": 61949,
     "hand-draw": 61950,
     "envelope-open": 61951,
-    "column-group": 61952
+    "column-group": 61952,
+    "linked-chart": 61953,
+    "add-cell-below": 61954,
+    "add-cell-above": 61955
   }
 }

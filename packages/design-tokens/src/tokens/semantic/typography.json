@@ -8,13 +8,13 @@
         "$type": "typography",
         "$value": {
           "fontFamily": "{font.family.default}",
-          "fontSize": "{font.size.default}",
-          "fontWeight": "{font.weight.regular}",
-          "lineHeight": "{font.line-height.fixed.base}",
-          "letterSpacing": "{font.letter-spacing.normal}",
-          "paragraphSpacing": "{font.paragraph-spacing.normal}",
-          "textCase": "{font.text-case.none}",
-          "textDecoration": "{font.text-decoration.none}"
+          "fontSize": "{core.size.rem.0-875}",
+          "fontWeight": "{core.font.weight.regular}",
+          "lineHeight": "{core.size.relative.115}",
+          "letterSpacing": "{core.size.default.none}",
+          "paragraphSpacing": "{core.size.default.4}",
+          "textCase": "{core.font.text-case.none}",
+          "textDecoration": "{core.font.text-decoration.none}"
         }
       },
       "light": {
@@ -27,9 +27,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.xs}",
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.fixed.sm}"
+            "fontSize": "{core.size.rem.0-625}",
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.120}"
           }
         },
         "-2h": {
@@ -41,8 +41,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.sm}",
-            "fontWeight": "{font.weight.light}"
+            "fontSize": "{core.size.rem.0-75}",
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.133}"
           }
         },
         "-1h": {
@@ -54,7 +55,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}"
+            "fontSize": "{core.size.rem.0-875}",
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.115}"
           }
         },
         "0h": {
@@ -66,9 +69,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.md}",
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.fixed.lg}"
+            "fontSize": "{core.size.rem.1}",
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.125}"
           }
         },
         "1h": {
@@ -80,9 +83,23 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.lg}",
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.fixed.xl}"
+            "fontSize": "{core.size.rem.1-125}",
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.133}"
+          }
+        },
+        "2h": {
+          "attributes": {
+            "category": "typography"
+          },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
+          "$type": "typography",
+          "$value": {
+            "fontSize": "{core.size.rem.1-25}",
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.120}"
           }
         }
       },
@@ -96,8 +113,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.fixed.sm}",
-            "fontSize": "{font.size.xs}"
+            "lineHeight": "{core.size.relative.120}",
+            "fontSize": "{core.size.rem.0-625}"
           }
         },
         "-2h": {
@@ -109,7 +126,8 @@
           },
           "$type": "typography",
           "$value": {
-            "fontSize": "{font.size.sm}"
+            "fontSize": "{core.size.rem.0-75}",
+            "lineHeight": "{core.size.relative.133}"
           }
         },
         "-1h": {
@@ -128,8 +146,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.fixed.lg}",
-            "fontSize": "{font.size.md}"
+            "lineHeight": "{core.size.relative.125}",
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1h": {
@@ -141,8 +159,21 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.fixed.xl}",
-            "fontSize": "{font.size.lg}"
+            "lineHeight": "{core.size.relative.133}",
+            "fontSize": "{core.size.rem.1-125}"
+          }
+        },
+        "2h": {
+          "attributes": {
+            "category": "typography"
+          },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
+          "$type": "typography",
+          "$value": {
+            "lineHeight": "{core.size.relative.120}",
+            "fontSize": "{core.size.rem.1-25}"
           }
         }
       },
@@ -156,9 +187,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.fixed.sm}",
-            "fontSize": "{font.size.xs}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.120}",
+            "fontSize": "{core.size.rem.0-625}"
           }
         },
         "-2h": {
@@ -170,8 +201,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "fontSize": "{font.size.sm}"
+            "fontWeight": "{core.font.weight.medium}",
+            "fontSize": "{core.size.rem.0-75}",
+            "lineHeight": "{core.size.relative.133}"
           }
         },
         "-1h": {
@@ -183,7 +215,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}"
+            "fontWeight": "{core.font.weight.medium}",
+            "fontSize": "{core.size.rem.0-875}",
+            "lineHeight": "{core.size.relative.115}"
           }
         },
         "0h": {
@@ -195,9 +229,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.fixed.lg}",
-            "fontSize": "{font.size.md}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.125}",
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1h": {
@@ -209,9 +243,23 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.fixed.xl}",
-            "fontSize": "{font.size.lg}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.133}",
+            "fontSize": "{core.size.rem.1-125}"
+          }
+        },
+        "2h": {
+          "attributes": {
+            "category": "typography"
+          },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
+          "$type": "typography",
+          "$value": {
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.120}",
+            "fontSize": "{core.size.rem.1-25}"
           }
         }
       },
@@ -225,9 +273,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.fixed.sm}",
-            "fontSize": "{font.size.xs}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.120}",
+            "fontSize": "{core.size.rem.0-625}"
           }
         },
         "-2h": {
@@ -239,8 +287,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "fontSize": "{font.size.sm}"
+            "fontWeight": "{core.font.weight.demi}",
+            "fontSize": "{core.size.rem.0-75}",
+            "lineHeight": "{core.size.relative.133}"
           }
         },
         "-1h": {
@@ -252,7 +301,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}"
+            "fontWeight": "{core.font.weight.demi}",
+            "fontSize": "{core.size.rem.0-875}",
+            "lineHeight": "{core.size.relative.115}"
           }
         },
         "0h": {
@@ -264,9 +315,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.fixed.lg}",
-            "fontSize": "{font.size.md}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.125}",
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1h": {
@@ -278,9 +329,23 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.fixed.xl}",
-            "fontSize": "{font.size.lg}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.133}",
+            "fontSize": "{core.size.rem.1-125}"
+          }
+        },
+        "2h": {
+          "attributes": {
+            "category": "typography"
+          },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
+          "$type": "typography",
+          "$value": {
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.120}",
+            "fontSize": "{core.size.rem.1-25}"
           }
         }
       }
@@ -296,9 +361,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.md}"
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -310,9 +375,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.lg}"
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -324,9 +389,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.xl}"
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -338,9 +403,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.relative.tight}",
-            "fontSize": "{font.size.xxl}"
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.125}",
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -352,9 +417,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.sm}"
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -366,8 +431,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.relative.snug}"
+            "fontWeight": "{core.font.weight.light}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       },
@@ -381,8 +447,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.md}"
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -394,8 +460,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.lg}"
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -407,8 +473,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.xl}"
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -420,8 +486,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.xxl}"
+            "lineHeight": "{core.size.relative.125}",
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -433,8 +499,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.sm}"
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -446,7 +512,8 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.relative.snug}"
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       },
@@ -460,9 +527,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.md}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -474,9 +541,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.lg}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -488,9 +555,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.xl}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -502,9 +569,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.xxl}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.125}",
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -516,9 +583,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.sm}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -530,8 +597,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.relative.snug}"
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       },
@@ -545,9 +613,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.md}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1}"
           }
         },
         "1": {
@@ -559,9 +627,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.lg}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-125}"
           }
         },
         "2": {
@@ -573,9 +641,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.xl}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.1-25}"
           }
         },
         "3": {
@@ -587,9 +655,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.xxl}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.125}",
+            "fontSize": "{core.size.rem.1-625}"
           }
         },
         "-2": {
@@ -601,9 +669,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.relative.snug}",
-            "fontSize": "{font.size.sm}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-75}"
           }
         },
         "-1": {
@@ -615,8 +683,9 @@
           },
           "$type": "typography",
           "$value": {
-            "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.relative.snug}"
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.137}",
+            "fontSize": "{core.size.rem.0-875}"
           }
         }
       }
@@ -627,8 +696,15 @@
           "attributes": {
             "category": "typography"
           },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
           "$type": "typography",
-          "$value": "{typography.wrap.bold.3}"
+          "$value": {
+            "fontSize": "{core.size.rem.1-625}",
+            "fontWeight": "{core.font.weight.demi}",
+            "lineHeight": "{core.size.relative.137}"
+          }
         },
         "2": {
           "attributes": {
@@ -643,8 +719,15 @@
           "attributes": {
             "category": "typography"
           },
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
           "$type": "typography",
-          "$value": "{typography.wrap.medium.3}"
+          "$value": {
+            "fontSize": "{core.size.rem.1-625}",
+            "fontWeight": "{core.font.weight.medium}",
+            "lineHeight": "{core.size.relative.137}"
+          }
         },
         "2": {
           "attributes": {
@@ -697,9 +780,10 @@
         },
         "$type": "typography",
         "$value": {
-          "lineHeight": "{font.line-height.fixed.sm}",
-          "textCase": "{font.text-case.uppercase}",
-          "fontWeight": "{font.weight.bold}"
+          "fontSize": "{core.size.rem.0-75}",
+          "textCase": "{core.font.text-case.uppercase}",
+          "fontWeight": "{core.font.weight.demi}",
+          "lineHeight": "{core.size.relative.100}"
         }
       },
       "caption": {

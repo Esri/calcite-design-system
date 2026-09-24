@@ -14,7 +14,7 @@ declare global {
 }
 
 /**
- * @deprecated Use the `calcite-swatch-group` and `calcite-swatch` components instead.
+ * @deprecated in v3.3.0, removal target v6.0.0. Use the `calcite-swatch-group` and `calcite-swatch` components instead.
  */
 export class ColorPickerSwatch extends LitElement {
   // #region Static Members

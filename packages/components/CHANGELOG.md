@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.80...@esri/calcite-components@5.2.0-next.81) (2026-09-24)
+
+### Features
+
+- **link:** replace gradient underline with native text decoration ([#15204](https://github.com/Esri/calcite-design-system/issues/15204)), closes [#14812](https://github.com/Esri/calcite-design-system/issues/14812)
+
+## [5.2.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.79...@esri/calcite-components@5.2.0-next.80) (2026-09-23)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.79](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.78...@esri/calcite-components@5.2.0-next.79) (2026-09-22)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.77...@esri/calcite-components@5.2.0-next.78) (2026-09-18)
+
+### Bug Fixes
+
+- **slider:** honor numbering-system negative sign direction ([#15164](https://github.com/Esri/calcite-design-system/issues/15164)), closes [#3167](https://github.com/Esri/calcite-design-system/issues/3167)
+
+## [5.2.0-next.77](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.76...@esri/calcite-components@5.2.0-next.77) (2026-09-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.76](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.75...@esri/calcite-components@5.2.0-next.76) (2026-09-17)
+
+### Bug Fixes
+
+- **swatch:** preserve layout when slotted in button ([#15177](https://github.com/Esri/calcite-design-system/issues/15177)), closes [#15057](https://github.com/Esri/calcite-design-system/issues/15057)
+
+## [5.2.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.74...@esri/calcite-components@5.2.0-next.75) (2026-09-16)
+
+### Features
+
+- **autocomplete, filter, input-date-picker, input-time-picker, progress, segmented-control, slider, time-picker:** enable default corner-radius inheritance across components ([#15071](https://github.com/Esri/calcite-design-system/issues/15071)), closes [#14675](https://github.com/Esri/calcite-design-system/issues/14675) [#9758](https://github.com/Esri/calcite-design-system/issues/9758) [#14890](https://github.com/Esri/calcite-design-system/issues/14890)
+
+## [5.2.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.73...@esri/calcite-components@5.2.0-next.74) (2026-09-16)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.72...@esri/calcite-components@5.2.0-next.73) (2026-09-11)
+
+### Bug Fixes
+
+- **date-picker:** update the calendar view when a programmatic range value follows a manual selection ([#15153](https://github.com/Esri/calcite-design-system/issues/15153)), closes [#14875](https://github.com/Esri/calcite-design-system/issues/14875)
+
+## [5.2.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.71...@esri/calcite-components@5.2.0-next.72) (2026-09-11)
+
+### Features
+
+- **block:** add expandable icon color tokens ([#15156](https://github.com/Esri/calcite-design-system/issues/15156)), closes [#15154](https://github.com/Esri/calcite-design-system/issues/15154)
+
+## [5.2.0-next.71](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.69...@esri/calcite-components@5.2.0-next.71) (2026-09-10)
+
+### Features
+
+- **input, input-number, input-text:** add inline-editable functionality ([#15122](https://github.com/Esri/calcite-design-system/issues/15122)), closes [#6153](https://github.com/Esri/calcite-design-system/issues/6153)
+
+### Bug Fixes
+
+- **block:** restore padding for default slotted text ([#15112](https://github.com/Esri/calcite-design-system/issues/15112)), closes [#15107](https://github.com/Esri/calcite-design-system/issues/15107)
+- bump `@arcgis` deps to improve performance ([#15132](https://github.com/Esri/calcite-design-system/issues/15132)), closes [#14766](https://github.com/Esri/calcite-design-system/issues/14766)
+- **button:** focus no longer overrides hover/active state colors ([#15137](https://github.com/Esri/calcite-design-system/issues/15137)), closes [#15134](https://github.com/Esri/calcite-design-system/issues/15134) [#15136](https://github.com/Esri/calcite-design-system/issues/15136)
+- **input-date-picker:** revert padding regression ([#15120](https://github.com/Esri/calcite-design-system/issues/15120)), closes [#14838](https://github.com/Esri/calcite-design-system/issues/14838) [#15106](https://github.com/Esri/calcite-design-system/issues/15106)
+- omit `aria-busy` when false ([#15142](https://github.com/Esri/calcite-design-system/issues/15142)), closes [#13547](https://github.com/Esri/calcite-design-system/issues/13547)
+- **popover:** omit aria-expanded for disabled triggers ([#15141](https://github.com/Esri/calcite-design-system/issues/15141)), closes [#15139](https://github.com/Esri/calcite-design-system/issues/15139)
+- **tab-nav:** do not prevent vertical page scrolling when tab titles do not overflow ([#15158](https://github.com/Esri/calcite-design-system/issues/15158)), closes [#14746](https://github.com/Esri/calcite-design-system/issues/14746)
+- **tile:** preserve native Enter behavior for href tiles ([#15160](https://github.com/Esri/calcite-design-system/issues/15160)), closes [#14557](https://github.com/Esri/calcite-design-system/issues/14557)
+
 ## [5.2.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.68...@esri/calcite-components@5.2.0-next.69) (2026-09-02)
 
 ### Bug Fixes

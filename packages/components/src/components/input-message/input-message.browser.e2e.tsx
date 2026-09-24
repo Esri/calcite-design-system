@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
-import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/common";
 import { CSS } from "./resources";
 import { StatusIconDefaults } from "./resources";
 import type { InputMessage } from "./input-message";

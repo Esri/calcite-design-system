@@ -1,4 +1,4 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { FormatFn, TransformedToken } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../types.ts";
@@ -27,7 +27,7 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
     }),
   };
 
-  return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
+  return prettierFormat(JSON.stringify(output, null, 2), { parser: "json" });
 };
 
 export const registerFormatDocs: RegisterFn = () => {

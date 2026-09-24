@@ -154,7 +154,9 @@ export class Link extends LitElement {
           target={this.href ? this.target : undefined}
         >
           {this.iconStart ? this.renderIcon("start") : null}
-          <slot />
+          <span class={CSS.text}>
+            <slot />
+          </span>
           {this.iconEnd ? this.renderIcon("end") : null}
         </a>
       </this.interactiveContainer>
