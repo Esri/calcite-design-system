@@ -30,7 +30,10 @@ describe("labelable", () => {
 });
 
 describe("accessible", () => {
-  accessible(() => mount(<calcite-radio-button label-text="test-label" value="one" />));
+  accessible(() =>
+    // using private `label` until https://github.com/Esri/calcite-design-system/issues/14872 is addressed
+    mount(<calcite-radio-button label="test-label" value="one" />),
+  );
 });
 
 describe("defaults", () => {
