@@ -30,9 +30,7 @@ describe("labelable", () => {
 });
 
 describe("accessible", () => {
-  accessible(() =>
-    mount(<calcite-radio-button id="example" label="test-label" name="example" value="one" />),
-  );
+  accessible(() => mount(<calcite-radio-button label-text="test-label" value="one" />));
 });
 
 describe("defaults", () => {
