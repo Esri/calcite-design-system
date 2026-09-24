@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.10...@esri/calcite-design-tokens@4.2.0-next.0) (2026-09-22)
+
+### Features
+
+- **typography-tokens:** migrate composite typography output to rems and unitless line-heights ([#14877](https://github.com/Esri/calcite-design-system/issues/14877)), closes [#11902](https://github.com/Esri/calcite-design-system/issues/11902)
+
+## [4.1.1-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.9...@esri/calcite-design-tokens@4.1.1-next.10) (2026-09-17)
+
+### Bug Fixes
+
+- preserve default light theme when not using mode classes ([#15188](https://github.com/Esri/calcite-design-system/issues/15188)), closes [#14579](https://github.com/Esri/calcite-design-system/issues/14579)
+
 ## [4.1.1-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.8...@esri/calcite-design-tokens@4.1.1-next.9) (2026-09-16)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens

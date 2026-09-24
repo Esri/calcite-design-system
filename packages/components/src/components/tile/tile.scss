@@ -18,6 +18,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-link-text-decoration-line
 // --calcite-internal-tile-spacing
 
 @use "../../styles/includes";
@@ -29,6 +30,7 @@
 }
 
 calcite-link {
+  --calcite-internal-link-text-decoration-line: none;
   --calcite-link-text-color: var(--calcite-tile-link-text-color);
 }
 
