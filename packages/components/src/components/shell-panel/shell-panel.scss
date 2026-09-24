@@ -362,31 +362,33 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
 .content ::slotted(calcite-flow),
 .content ::slotted(calcite-panel:not([closed])) {
-  :host([action-bar-position]) & {
-    border-inline-start: var(
-      --calcite-internal-shell-panel-slotted-panel-border-inline-start,
-      var(--calcite-internal-shell-panel-border)
-    );
-    border-inline-end: var(
-      --calcite-internal-shell-panel-slotted-panel-border-inline-end,
-      var(--calcite-internal-shell-panel-border)
-    );
-    border-block-start: var(
-      --calcite-internal-shell-panel-slotted-panel-border-block-start,
-      var(--calcite-internal-shell-panel-border)
-    );
-    border-block-end: var(
-      --calcite-internal-shell-panel-slotted-panel-border-block-end,
-      var(--calcite-internal-shell-panel-border)
-    );
-  }
+  border-inline-start: var(
+    --calcite-internal-shell-panel-slotted-panel-border-inline-start,
+    var(--calcite-internal-shell-panel-border)
+  );
+  border-inline-end: var(
+    --calcite-internal-shell-panel-slotted-panel-border-inline-end,
+    var(--calcite-internal-shell-panel-border)
+  );
+  border-block-start: var(
+    --calcite-internal-shell-panel-slotted-panel-border-block-start,
+    var(--calcite-internal-shell-panel-border)
+  );
+  border-block-end: var(
+    --calcite-internal-shell-panel-slotted-panel-border-block-end,
+    var(--calcite-internal-shell-panel-border)
+  );
 }
 
 slot[name="action-bar"]::slotted(calcite-action-bar) {
-  :host([action-bar-position]) & {
-    border-block-start: var(--calcite-internal-shell-panel-action-bar-border-block-start);
-    border-block-end: var(--calcite-internal-shell-panel-action-bar-border-block-end);
-  }
+  border-block-start: var(
+    --calcite-internal-shell-panel-action-bar-border-block-start,
+    var(--calcite-internal-shell-panel-border)
+  );
+  border-block-end: var(
+    --calcite-internal-shell-panel-action-bar-border-block-end,
+    var(--calcite-internal-shell-panel-border)
+  );
 }
 
 ::slotted(calcite-panel),
@@ -508,10 +510,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   .container {
     inline-size: 100%;
     block-size: auto;
-    flex-direction: column;
-  }
-
-  &:host([action-bar-position]) .container {
     flex-direction: var(--calcite-internal-shell-panel-container-flex-direction, column);
   }
 }
