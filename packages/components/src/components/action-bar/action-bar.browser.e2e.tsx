@@ -232,7 +232,7 @@ describe("top layer placement", () => {
 });
 
 describe("selection-mode", () => {
-  it("automatically disables overflow layout and hides the overflow menu when selection mode is enabled", async () => {
+  it("automatically disables overflow when selection mode is enabled", async () => {
     await mount<"calcite-action-bar">(
       <calcite-action-bar expand-disabled layout="horizontal">
         <calcite-action-group data-testid="selection-group" selection-mode="multiple">
@@ -246,9 +246,9 @@ describe("selection-mode", () => {
       </calcite-action-bar>,
     );
 
-    const actionMenu = page.getBySelector("[data-testid='selection-group'] calcite-action-menu");
+    const actionGroup = page.getByTestId("selection-group");
 
-    await expect.element(actionMenu).toHaveProperty("hidden", true);
+    await expect.element(actionGroup).toHaveProperty("overflowActionsDisabled", true);
   });
 
   it("supports toolbar pattern keyboard navigation", async () => {
@@ -661,7 +661,7 @@ describe("overflowing actions", () => {
 
     const { component, el } = await mount<ActionBar>(
       <calcite-action-bar expand-toggle-disabled layout="horizontal" style={{ width: "320px" }}>
-        <calcite-action-group selection-mode="none">
+        <calcite-action-group data-testid="selection-none-group" selection-mode="none">
           <calcite-action icon="plus" text="Add" />
           <calcite-action icon="save" text="Save" />
           <calcite-action icon="trash" text="Delete" />
@@ -675,23 +675,48 @@ describe("overflowing actions", () => {
       </calcite-action-bar>,
     );
 
-    const overflowedActions = page.getBySelector(
-      "calcite-action-group > calcite-action[slot='menu-actions']",
-    );
+    const actionGroup = page.getByTestId("selection-none-group").element() as ActionGroup["el"];
+    const overflowedActionCount = (): number =>
+      actionGroup.actions.filter((action) => action.slot === "menu-actions").length;
 
     await component.updateComplete;
 
-    expect(overflowedActions.length).toBe(0);
+    expect(overflowedActionCount()).toBe(0);
 
     el.style.width = "220px";
 
-    await expect.poll(() => overflowedActions.length).toBeGreaterThan(0);
+    await expect.poll(overflowedActionCount).toBeGreaterThan(0);
 
-    const overflowCountAtMediumWidth = overflowedActions.length;
+    const overflowCountAtMediumWidth = overflowedActionCount();
 
     el.style.width = "100px";
 
-    await expect.poll(() => overflowedActions.length).toBeGreaterThan(overflowCountAtMediumWidth);
+    await expect.poll(overflowedActionCount).toBeGreaterThan(overflowCountAtMediumWidth);
+  });
+
+  it("does not select overflow actions in a selection-mode none group", async () => {
+    await mount(
+      <calcite-action-bar overflow-mode="none">
+        <calcite-action-group data-testid="selection-none-group" selection-mode="none">
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action
+            data-testid="overflow-action"
+            icon="save"
+            slot="menu-actions"
+            text="Save"
+          />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const actionGroup = page.getByTestId("selection-none-group").element() as ActionGroup["el"];
+    const overflowAction = page.getByTestId("overflow-action");
+
+    actionGroup.menuOpen = true;
+    await userEvent.click(overflowAction);
+
+    await expect.element(overflowAction).toHaveProperty("active", false);
+    expect(actionGroup.menuOpen).toBe(false);
   });
 
   it("overflows actions from slotted actions-end groups", async () => {
@@ -1051,57 +1076,111 @@ describe("per-group overflow-actions-disabled", () => {
     const { component, el } = await mount<ActionBar>(
       <calcite-action-bar expand-disabled>
         <calcite-action icon="number-circle1" id="first-action" text="first" />
-        <calcite-action-menu id="action-menu">
+        <calcite-action-menu data-testid="action-menu" id="action-menu">
           <calcite-action icon="number-circle2" id="menu-action" text="second" />
         </calcite-action-menu>
       </calcite-action-bar>,
     );
 
-    const actionMenu = page.getBySelector("#action-menu").element() as HTMLElement;
-    const firstAction = page.getBySelector("#first-action").element() as Action["el"];
-    const menuAction = page.getBySelector("#menu-action").element() as HTMLElement;
+    const actionMenu = page.getByTestId("action-menu").element() as ActionMenu["el"];
+    const firstAction = page.getByText("first").first().element().getRootNode() as ShadowRoot;
+    const menuAction = page.getByText("second").first().element().getRootNode() as ShadowRoot;
 
-    (actionMenu as typeof actionMenu & { open: boolean }).open = true;
-    menuAction.dispatchEvent(new FocusEvent("focusin", { bubbles: true, composed: true }));
+    actionMenu.open = true;
+    menuAction.host.dispatchEvent(new FocusEvent("focusin", { bubbles: true, composed: true }));
     await component.updateComplete;
     expect(el).toHaveAttribute("aria-activedescendant", "menu-action");
 
-    (actionMenu as typeof actionMenu & { open: boolean }).open = false;
+    actionMenu.open = false;
     actionMenu.dispatchEvent(new FocusEvent("focusin", { bubbles: true, composed: true }));
     await component.updateComplete;
     expect(el).not.toHaveAttribute("aria-activedescendant");
-    expect(firstAction.activeDescendant).toBe(false);
+    expect((firstAction.host as Action["el"]).activeDescendant).toBe(false);
   });
 
   it("clears action focus styling when focus moves to another action bar", async () => {
     await mount(
       <>
-        <calcite-action-bar expand-disabled>
-          <calcite-action icon="number-circle1" id="first-bar-action" text="first" />
+        <calcite-action-bar data-testid="first-action-bar" expand-disabled>
+          <calcite-action
+            data-testid="first-bar-action"
+            icon="number-circle1"
+            id="first-bar-action"
+            text="first"
+          />
         </calcite-action-bar>
-        <calcite-action-bar expand-disabled>
-          <calcite-action icon="number-circle2" id="second-bar-action" text="second" />
+        <calcite-action-bar data-testid="second-action-bar" expand-disabled>
+          <calcite-action
+            data-testid="second-bar-action"
+            icon="number-circle2"
+            id="second-bar-action"
+            text="second"
+          />
         </calcite-action-bar>
       </>,
     );
 
-    const [firstActionBar, secondActionBar] = page
-      .getBySelector("calcite-action-bar")
-      .elements() as ActionBar["el"][];
-    const firstAction = page.getBySelector("#first-bar-action").element() as Action["el"];
-    const secondAction = page.getBySelector("#second-bar-action").element() as Action["el"];
+    const firstActionBar = page.getByTestId("first-action-bar");
+    const secondActionBar = page.getByTestId("second-action-bar");
+    const firstAction = page.getByTestId("first-bar-action");
+    const secondAction = page.getByTestId("second-bar-action");
 
     await userEvent.keyboard("{Tab}");
     await expect.element(firstAction).toHaveFocus();
-    expect(firstAction.activeDescendant).toBe(true);
-    expect(firstActionBar).toHaveAttribute("aria-activedescendant", "first-bar-action");
+    await expect.element(firstAction).toHaveProperty("activeDescendant", true);
+    await expect
+      .element(firstActionBar)
+      .toHaveAttribute("aria-activedescendant", "first-bar-action");
 
     await userEvent.keyboard("{Tab}");
     await expect.element(secondAction).toHaveFocus();
-    expect(firstAction.activeDescendant).toBe(false);
-    expect(firstActionBar).not.toHaveAttribute("aria-activedescendant");
-    expect(secondAction.activeDescendant).toBe(true);
-    expect(secondActionBar).toHaveAttribute("aria-activedescendant", "second-bar-action");
+    await expect.element(firstAction).toHaveProperty("activeDescendant", false);
+    await expect.element(firstActionBar).not.toHaveAttribute("aria-activedescendant");
+    await expect.element(secondAction).toHaveProperty("activeDescendant", true);
+    await expect
+      .element(secondActionBar)
+      .toHaveAttribute("aria-activedescendant", "second-bar-action");
+  });
+
+  it("moves action focus styling when clicking another action bar", async () => {
+    await mount(
+      <>
+        <calcite-action-bar data-testid="first-action-bar" expand-disabled>
+          <calcite-action
+            data-testid="first-bar-action"
+            icon="number-circle1"
+            id="first-bar-action"
+            text="first"
+          />
+        </calcite-action-bar>
+        <calcite-action-bar data-testid="second-action-bar" expand-disabled>
+          <calcite-action
+            data-testid="second-bar-action"
+            icon="number-circle2"
+            id="second-bar-action"
+            text="second"
+          />
+        </calcite-action-bar>
+      </>,
+    );
+
+    const firstActionBar = page.getByTestId("first-action-bar");
+    const secondActionBar = page.getByTestId("second-action-bar");
+    const firstAction = page.getByTestId("first-bar-action");
+    const secondAction = page.getByTestId("second-bar-action");
+
+    await userEvent.click(firstAction);
+    await expect.element(firstAction).toHaveProperty("activeDescendant", true);
+
+    await userEvent.click(secondAction);
+
+    await expect.element(secondAction).toHaveFocus();
+    await expect.element(firstAction).toHaveProperty("activeDescendant", false);
+    await expect.element(firstActionBar).not.toHaveAttribute("aria-activedescendant");
+    await expect.element(secondAction).toHaveProperty("activeDescendant", true);
+    await expect
+      .element(secondActionBar)
+      .toHaveAttribute("aria-activedescendant", "second-bar-action");
   });
 
   it("supports keyboard navigation after focus moves to another action bar", async () => {
@@ -1229,9 +1308,7 @@ describe("per-group overflow-actions-disabled", () => {
     );
 
     const firstAction = page.getByTestId("first-action");
-    const actionMenu = page
-      .getBySelector("[data-testid='overflow-action-group'] calcite-action-menu")
-      .element() as ActionMenu["el"];
+    const overflowMenu = page.getByTestId("overflow-action-group").getByRole("menu");
     const thirdAction = page.getByTestId("third-action").element();
 
     await userEvent.keyboard("{Tab}");
@@ -1240,8 +1317,9 @@ describe("per-group overflow-actions-disabled", () => {
     await userEvent.keyboard("{ArrowDown}");
     await userEvent.keyboard("{ArrowLeft}");
 
-    expect(actionMenu.open).toBe(true);
-    await expect.poll(() => actionMenu.ariaActiveDescendantElement).toBe(thirdAction);
+    await expect.element(overflowMenu).toBeVisible();
+    const overflowMenuEl = overflowMenu.element();
+    await expect.poll(() => overflowMenuEl.ariaActiveDescendantElement).toBe(thirdAction);
   });
 
   it("opens a focused overflow action menu at its first item in a vertical action bar", async () => {
@@ -1267,9 +1345,7 @@ describe("per-group overflow-actions-disabled", () => {
     );
 
     const firstAction = page.getByTestId("first-action");
-    const actionMenu = page
-      .getBySelector("[data-testid='overflow-action-group'] calcite-action-menu")
-      .element() as ActionMenu["el"];
+    const overflowMenu = page.getByTestId("overflow-action-group").getByRole("menu");
     const secondAction = page.getByTestId("second-action").element();
 
     await userEvent.keyboard("{Tab}");
@@ -1278,11 +1354,12 @@ describe("per-group overflow-actions-disabled", () => {
     await userEvent.keyboard("{ArrowDown}");
     await userEvent.keyboard("{ArrowRight}");
 
-    expect(actionMenu.open).toBe(true);
-    await expect.poll(() => actionMenu.ariaActiveDescendantElement).toBe(secondAction);
+    await expect.element(overflowMenu).toBeVisible();
+    const overflowMenuEl = overflowMenu.element();
+    await expect.poll(() => overflowMenuEl.ariaActiveDescendantElement).toBe(secondAction);
 
     await userEvent.keyboard("{Escape}");
-    await expect.element(actionMenu).toHaveProperty("open", false);
+    await expect.element(overflowMenu).not.toBeInTheDocument();
 
     await userEvent.keyboard("{ArrowUp}");
     await expect.element(firstAction).toHaveFocus();

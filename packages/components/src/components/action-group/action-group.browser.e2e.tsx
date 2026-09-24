@@ -241,7 +241,7 @@ describe("propagates", () => {
 
 it("should set side flip placements on vertical action menu", async () => {
   await mount(renderActionGroup);
-  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+  const menu = page.getByRole("dialog", { includeHidden: true, name: "More" });
 
   await expect.element(menu).toHaveProperty("flipPlacements", ["left", "right"]);
 });
@@ -253,7 +253,7 @@ it("should honor overlayPositioning", async () => {
       <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
     </calcite-action-group>,
   );
-  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+  const menu = page.getByRole("dialog", { includeHidden: true, name: "More" });
 
   await expect.element(menu).toHaveProperty("overlayPositioning", "fixed");
 });
@@ -387,17 +387,17 @@ describe("overflowActionsDisabled semantics", () => {
       </calcite-action-group>,
     );
 
-    const menu = page.getBySelector("calcite-action-group calcite-action-menu");
+    const menu = page.getByRole("button", { name: "More" });
 
     el.overflowActionsDisabled = true;
     await reRender();
     expect(el.overflowActionsDisabled).toBe(true);
-    await expect.element(menu).toHaveAttribute("hidden");
+    await expect.element(menu).not.toBeInTheDocument();
 
     el.overflowActionsDisabled = false;
     await reRender();
     expect(el.overflowActionsDisabled).toBe(false);
-    await expect.element(menu).not.toHaveAttribute("hidden");
+    await expect.element(menu).toBeVisible();
   });
 
   it("forces overflowActionsDisabled when selectionMode is not none", async () => {
@@ -409,12 +409,12 @@ describe("overflowActionsDisabled semantics", () => {
       </calcite-action-group>,
     );
 
-    const menu = page.getBySelector("calcite-action-group calcite-action-menu");
+    const menu = page.getByRole("button", { name: "More" });
 
     el.overflowActionsDisabled = false;
     await reRender();
 
     expect(el.overflowActionsDisabled).toBe(true);
-    await expect.element(menu).toHaveAttribute("hidden");
+    await expect.element(menu).not.toBeInTheDocument();
   });
 });

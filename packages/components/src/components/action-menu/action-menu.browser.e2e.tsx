@@ -295,12 +295,10 @@ describe("accessibility", () => {
       </calcite-action-menu>,
     );
 
-    const action = page
-      .getBySelector("calcite-action-menu > calcite-action")
-      .element() as Action["el"];
+    const action = page.getByRole("menuitem", { includeHidden: true, name: "Create item" });
 
-    expect(action).toHaveAttribute("aria-label", "Create item");
-    expect(action).toHaveAttribute("role", "menuitem");
+    await expect.element(action).toHaveAttribute("aria-label", "Create item");
+    await expect.element(action).toHaveAttribute("role", "menuitem");
   });
 
   it("sets active descendant on the host and menu", async () => {
@@ -313,7 +311,7 @@ describe("accessibility", () => {
     el.open = true;
     await component.updateComplete;
 
-    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+    const menu = page.getByRole("menu").element();
 
     expect(el.ariaActiveDescendantElement?.id).toBe("create-action");
     expect(menu?.ariaActiveDescendantElement?.id).toBe("create-action");
@@ -326,9 +324,9 @@ describe("accessibility", () => {
       </calcite-action-menu>,
     );
 
-    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+    const menu = page.getByRole("menu", { includeHidden: true });
 
-    expect(menu).toHaveAttribute("aria-orientation", "vertical");
+    await expect.element(menu).toHaveAttribute("aria-orientation", "vertical");
   });
 
   it("does not set aria orientation on the menu by default", async () => {
@@ -338,9 +336,9 @@ describe("accessibility", () => {
       </calcite-action-menu>,
     );
 
-    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+    const menu = page.getByRole("menu", { includeHidden: true });
 
-    expect(menu).not.toHaveAttribute("aria-orientation");
+    await expect.element(menu).not.toHaveAttribute("aria-orientation");
   });
 
   it("updates active descendant on the host and menu during keyboard navigation", async () => {
@@ -355,7 +353,7 @@ describe("accessibility", () => {
     el.open = true;
     await component.updateComplete;
 
-    const menu = page.getBySelector("calcite-action-menu [role='menu']").element() as HTMLElement;
+    const menu = page.getByRole("menu").element();
 
     expect(el.ariaActiveDescendantElement?.id).toBe("undo-action");
     expect(menu?.ariaActiveDescendantElement?.id).toBe("undo-action");
@@ -427,21 +425,20 @@ describe("accessibility", () => {
     el.open = true;
     await component.updateComplete;
 
-    const action = page
-      .getBySelector("calcite-action-menu > calcite-action")
-      .element() as Action["el"];
+    const action = page.getByRole("menuitem", { name: "Add" });
+    const actionEl = action.element() as Action["el"];
 
-    expect(action?.active).toBe(false);
-    expect(action).toHaveAttribute("role", "menuitem");
-    expect(action).not.toHaveAttribute("aria-checked");
+    await expect.element(action).toHaveProperty("active", false);
+    await expect.element(action).toHaveAttribute("role", "menuitem");
+    await expect.element(action).not.toHaveAttribute("aria-checked");
 
-    await userEvent.click(page.getBySelector("calcite-action-menu > calcite-action"));
+    await userEvent.click(action);
     await component.updateComplete;
 
-    expect(action?.active).toBe(true);
+    expect(actionEl.active).toBe(true);
     expect(el.open).toBe(false);
-    expect(action).toHaveAttribute("role", "menuitem");
-    expect(action).not.toHaveAttribute("aria-checked");
+    expect(actionEl).toHaveAttribute("role", "menuitem");
+    expect(actionEl).not.toHaveAttribute("aria-checked");
   });
 
   it.each(["{Enter}", "{Space}"])(
@@ -456,18 +453,17 @@ describe("accessibility", () => {
       el.open = true;
       await component.updateComplete;
 
-      const action = page
-        .getBySelector("calcite-action-menu > calcite-action")
-        .element() as Action["el"];
+      const action = page.getByRole("menuitem", { name: "Add" });
+      const actionEl = action.element() as Action["el"];
 
       await el.setFocus();
       await userEvent.keyboard(key);
       await component.updateComplete;
 
-      expect(action?.active).toBe(true);
+      expect(actionEl.active).toBe(true);
       expect(el.open).toBe(false);
-      expect(action).toHaveAttribute("role", "menuitem");
-      expect(action).not.toHaveAttribute("aria-checked");
+      expect(actionEl).toHaveAttribute("role", "menuitem");
+      expect(actionEl).not.toHaveAttribute("aria-checked");
     },
   );
 
@@ -502,13 +498,19 @@ describe("accessibility", () => {
   it("opens from a focused trigger action without immediately activating the first menu item", async () => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu>
-        <calcite-action icon="ellipsis" id="trigger-action" slot={SLOTS.trigger} text="More" />
-        <calcite-action icon="plus" id="menu-action" text="Add" />
+        <calcite-action
+          data-testid="trigger-action"
+          icon="ellipsis"
+          id="trigger-action"
+          slot={SLOTS.trigger}
+          text="More"
+        />
+        <calcite-action data-testid="menu-action" icon="plus" id="menu-action" text="Add" />
       </calcite-action-menu>,
     );
 
-    const triggerAction = page.getBySelector("#trigger-action").element() as Action["el"];
-    const menuAction = page.getBySelector("#menu-action").element() as Action["el"];
+    const triggerAction = page.getByTestId("trigger-action").element() as Action["el"];
+    const menuAction = page.getByTestId("menu-action");
 
     await component.updateComplete;
     await triggerAction.setFocus();
@@ -516,7 +518,7 @@ describe("accessibility", () => {
     await component.updateComplete;
 
     expect(el.open).toBe(true);
-    expect(menuAction?.active).toBe(false);
+    await expect.element(menuAction).toHaveProperty("active", false);
     expect(el.ariaActiveDescendantElement?.id).toBe("menu-action");
   });
 });
