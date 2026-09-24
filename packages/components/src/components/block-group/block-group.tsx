@@ -16,22 +16,25 @@ import {
   SortMenuItem,
   ReorderEventDetail,
   AddEventDetail,
-} from "../sort-handle/interfaces";
+} from "../sort-handle/types";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
-import { blockGroupSelector, blockSelector, CSS } from "./resources";
+import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resources";
 import { styles } from "./block-group.scss";
-import type { BlockDragDetail } from "./interfaces";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
+import { toAriaBoolean } from "../../utils/aria";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -45,7 +48,7 @@ declare global {
 export class BlockGroup extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -372,8 +375,9 @@ export class BlockGroup extends LitElement {
       (el): el is Block["el"] | BlockGroup["el"] => {
         if (isBlock(el)) {
           blockChildren.push(el);
+          return true;
         }
-        return el.matches(blockSelector) || el.matches(blockGroupSelector);
+        return isBlockGroup(el);
       },
     );
 
@@ -604,12 +608,17 @@ export class BlockGroup extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.dragEnabled ? (
-            <span ariaLive="assertive" class={CSS.assistiveText}>
+            <span ariaLive="assertive" class={CSS_UTILITY.screenReaderText}>
               {this.assistiveText}
             </span>
           ) : null}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
-          <div ariaBusy={loading} ariaLabel={label || ""} class={CSS.groupContainer} role="group">
+          <div
+            ariaBusy={toAriaBoolean(loading, undefined)}
+            ariaLabel={label || ""}
+            class={CSS.groupContainer}
+            role="group"
+          >
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
         </div>

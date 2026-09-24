@@ -20,5 +20,5 @@ jobs:
         uses: actions/github-script@v9
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/closeNeedMoreInfoIssues.js')
+            const action = require('${{ github.workspace }}/.github/scripts/closeNeedMoreInfoIssues.cjs')
             await action({github, context, core})

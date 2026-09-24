@@ -3,6 +3,8 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputTimePicker } from "./input-time-picker";
+import "./input-time-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { hourFormat, menuPlacement, scale, status } = ATTRIBUTES;
 

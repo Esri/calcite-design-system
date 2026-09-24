@@ -18,18 +18,18 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
-import { Status } from "../interfaces";
+import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
-import { CharacterLengthObj } from "./interfaces";
+import { CharacterLengthObj } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
@@ -132,8 +132,6 @@ export class TextArea
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
@@ -307,6 +305,11 @@ export class TextArea
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   override connectedCallback(): void {
     this.cancelable.add(this.updateSizeToAuto);

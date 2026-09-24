@@ -2,8 +2,8 @@ import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcg
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
-import { FlipContext } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { FlipContext } from "../types";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { isActivationKey } from "../../utils/key";
@@ -154,7 +154,9 @@ export class Link extends LitElement {
           target={this.href ? this.target : undefined}
         >
           {this.iconStart ? this.renderIcon("start") : null}
-          <slot />
+          <span class={CSS.text}>
+            <slot />
+          </span>
           {this.iconEnd ? this.renderIcon("end") : null}
         </a>
       </this.interactiveContainer>

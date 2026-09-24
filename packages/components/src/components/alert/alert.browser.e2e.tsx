@@ -13,11 +13,11 @@ import {
   openClose,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 import type { Alert } from "./alert";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import type { Action } from "../action/action";
 
 function renderAlertContent(): JsxNode {
@@ -75,6 +75,10 @@ describe("defaults", () => {
       {
         propertyName: "queue",
         defaultValue: "last",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ],
   );
@@ -288,14 +292,17 @@ it("assigns placement classes", async () => {
 });
 
 describe("dismiss progress color", () => {
-  async function getProgressColor(modeClass?: string, override?: string): Promise<string> {
+  async function getProgressColor(
+    colorScheme: "light" | "dark" = "light",
+    override?: string,
+  ): Promise<string> {
     vi.useFakeTimers();
     const { el: alert } = await mount<Alert>(
-      <div class={modeClass}>
+      <div style={`color-scheme: ${colorScheme};`}>
         {override ? (
           <style>{`:root { --calcite-color-transparent-tint: ${override}; }`}</style>
         ) : null}
-        <calcite-alert autoClose autoCloseDuration="slow" icon="i2DExplore" kind="danger" open>
+        <calcite-alert autoClose autoCloseDuration="slow" icon="2d-explore" kind="danger" open>
           <div slot="message">Successfully duplicated a layer</div>
         </calcite-alert>
       </div>,
@@ -314,7 +321,7 @@ describe("dismiss progress color", () => {
   });
 
   it("uses the dark mode color", async () => {
-    expect(await getProgressColor("calcite-mode-dark")).toBe("rgba(43, 43, 43, 0.8)");
+    expect(await getProgressColor("dark")).toBe("rgba(43, 43, 43, 0.8)");
   });
 
   it("supports overriding the color", async () => {

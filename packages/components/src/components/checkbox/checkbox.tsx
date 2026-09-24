@@ -3,7 +3,7 @@ import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/l
 import { useDirection } from "@arcgis/lumina/controllers";
 import { isActivationKey } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -46,8 +46,6 @@ export class Checkbox extends LitElement implements LabelableComponent {
   private readonly indeterminatePath = "M13 8v1H3V8z";
 
   labelEl?: Label["el"];
-
-  labelable = useLabel(this);
 
   onLabelClick = (): void => {
     this.toggle();
@@ -172,6 +170,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

@@ -11,7 +11,7 @@ mockConsole();
 it("has a loading state", async () => {
   const page = await newE2EPage({
     html: `
-        <calcite-block heading="heading" description="description" expanded collapsible>
+        <calcite-block heading="heading" description="description" expanded expandable>
           <div class="content">content</div>
         </calcite-block>
     `,
@@ -61,7 +61,7 @@ it("can display/hide content", async () => {
 it("allows toggling its content", async () => {
   const heading = "heading";
   const page = await newE2EPage();
-  await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
+  await page.setContent(html`<calcite-block expandable heading=${heading}></calcite-block>`);
   await skipAnimations(page);
   const messages = await import("./assets/t9n/messages.json");
 
@@ -112,6 +112,23 @@ it("should map deprecated 'open' prop to 'expanded' prop", async () => {
   block.setProperty("open", false);
   await page.waitForChanges();
   expect(await block.getProperty("expanded")).toBe(false);
+});
+
+it("should map deprecated 'collapsible' prop to 'expandable' prop", async () => {
+  const page = await newE2EPage({
+    html: html`<calcite-block></calcite-block>`,
+  });
+  const block = await page.find("calcite-block");
+
+  expect(await block.getProperty("expandable")).toBe(false);
+
+  block.setProperty("collapsible", true);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(true);
+
+  block.setProperty("collapsible", false);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(false);
 });
 
 describe("header", () => {

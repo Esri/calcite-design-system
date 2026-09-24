@@ -1,7 +1,7 @@
 import { LitElement, property, createEvent, h, JsxNode, ToEvents } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
-import type { HandleNudge } from "../handle/interfaces";
-import type { Layout } from "../interfaces";
+import type { HandleNudge } from "../handle/types";
+import type { Layout } from "../types";
 import { focusElement } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -17,7 +17,7 @@ declare global {
 }
 
 /**
- * @deprecated Use the `calcite-block-group` component instead.
+ * @deprecated in v3.0.0, removal target v6.0.0. Use the `calcite-block-group` component instead.
  * @slot - A slot for adding sortable items.
  */
 export class SortableList extends LitElement {

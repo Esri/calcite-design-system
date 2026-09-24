@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.19...@esri/calcite-ui-icons@4.6.0-next.20) (2026-09-24)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.6.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.18...@esri/calcite-ui-icons@4.6.0-next.19) (2026-09-23)
+
+### Features
+
+- add notebooks and copy polygon icons ([#15200](https://github.com/Esri/calcite-design-system/issues/15200))
+
+## [4.6.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.17...@esri/calcite-ui-icons@4.6.0-next.18) (2026-09-16)
+
+### Features
+
+- add linked chart ([#15174](https://github.com/Esri/calcite-design-system/issues/15174))
+
+## [4.6.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.16...@esri/calcite-ui-icons@4.6.0-next.17) (2026-09-10)
+
+### Features
+
+- add alignment concepts ([#15145](https://github.com/Esri/calcite-design-system/issues/15145))
+
+## [4.6.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.15...@esri/calcite-ui-icons@4.6.0-next.16) (2026-09-01)
+
+### Features
+
+- add additional ui icons ([#15104](https://github.com/Esri/calcite-design-system/issues/15104))
+
+## [4.6.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.14...@esri/calcite-ui-icons@4.6.0-next.15) (2026-08-26)
+
+### Features
+
+- add ai-agent and ai-agents ([#15066](https://github.com/Esri/calcite-design-system/issues/15066))
+
+## [4.6.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.13...@esri/calcite-ui-icons@4.6.0-next.14) (2026-08-21)
+
+### Features
+
+- add explode, integration, and spatiotemporal catalog ([#15052](https://github.com/Esri/calcite-design-system/issues/15052))
+
+## [4.6.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.12...@esri/calcite-ui-icons@4.6.0-next.13) (2026-08-18)
+
+### Features
+
+- add move and rotate and delete and replace features ([#15019](https://github.com/Esri/calcite-design-system/issues/15019))
+
+## [4.6.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.11...@esri/calcite-ui-icons@4.6.0-next.12) (2026-08-11)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.6.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.10...@esri/calcite-ui-icons@4.6.0-next.11) (2026-08-06)
+
+### Bug Fixes
+
+- **icon:** fix icon type regression ([#14964](https://github.com/Esri/calcite-design-system/issues/14964))
+
+## [4.6.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.9...@esri/calcite-ui-icons@4.6.0-next.10) (2026-08-03)
+
+### Features
+
+- add load configuration ([#14921](https://github.com/Esri/calcite-design-system/issues/14921))
+
 ## [4.6.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.8...@esri/calcite-ui-icons@4.6.0-next.9) (2026-07-30)
 
 ### Bug Fixes

@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   assistiveText: "assistive-text",
   characterLimit: "character-limit",
@@ -32,3 +34,8 @@ export const SLOTS = {
 export const RESIZE_TIMEOUT = 100;
 
 export const NO_DIMENSIONS = Object.freeze({ height: 0, width: 0 });
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTextArea = isTag("calcite-text-area");

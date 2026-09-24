@@ -3,6 +3,14 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Card } from "./card";
+import "./card"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, logicalFlowPosition } = ATTRIBUTES;
 
@@ -42,8 +50,8 @@ const footerButtonHtml = html` <calcite-button slot="footer-start" width="full">
 const footerStartTextHtml = html`<span slot="footer-start">Nov 25, 2018</span>`;
 
 const footerLinksHtml = html`
-  <calcite-link class="calcite-mode-dark" slot="footer-start">Lead footer</calcite-link>
-  <calcite-link class="calcite-mode-dark" slot="footer-end">Trail footer</calcite-link>
+  <calcite-link slot="footer-start">Lead footer</calcite-link>
+  <calcite-link slot="footer-end">Trail footer</calcite-link>
 `;
 
 const thumbnailHtml = html`<img

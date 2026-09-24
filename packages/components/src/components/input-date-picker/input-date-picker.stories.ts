@@ -3,7 +3,9 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { allModes } from "../../../.storybook/modes";
 import { InputDatePicker } from "./input-date-picker";
+import "./input-date-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, supportedNlsLocale } = ATTRIBUTES;
 
@@ -195,6 +197,18 @@ export const readOnlyHasNoDropdownAffordance = (): string => html`
   <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
+export const readOnlyVerticalRangeHasNoDropdownAffordance = (): string => html`
+  <calcite-input-date-picker
+    id="read-only-vertical-range"
+    layout="vertical"
+    range
+    read-only
+  ></calcite-input-date-picker>
+  <script>
+    document.querySelector("#read-only-vertical-range").value = ["2020-12-12", "2020-12-14"];
+  </script>
+`;
+
 export const validationMessageAllScales = (): string => html`
   <style>
     .container {
@@ -271,12 +285,7 @@ export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizon
 allScalesRangeHorizontal.parameters = {
   chromatic: {
     modes: {
-      largeScreen: {
-        viewport: {
-          width: 2500,
-          height: 800,
-        },
-      },
+      extraWide: allModes.landscapeLarge,
     },
     cropToViewport: true,
   },

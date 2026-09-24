@@ -1,7 +1,7 @@
 import { PropertyValues } from "lit";
 import { Fragment, h, JsxNode, LitElement, property, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
 import { styles } from "./loader.scss";

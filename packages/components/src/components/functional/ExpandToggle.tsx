@@ -2,7 +2,7 @@ import { h } from "@arcgis/lumina";
 import { TemplateResult } from "lit";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale } from "../types";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";

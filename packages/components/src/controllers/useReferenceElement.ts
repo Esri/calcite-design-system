@@ -4,6 +4,7 @@ import { nil } from "@arcgis/toolkit/type";
 import { ReferenceElement } from "../utils/floating-ui";
 import { queryElementRoots } from "../utils/dom";
 import type { ReferenceElementComponentManager } from "./useReferenceElement/manager";
+import { logger } from "../utils/logger";
 
 export type ReferenceElementType = "click" | "hover";
 
@@ -76,7 +77,7 @@ export type ReferenceElementComponent = LitElement & PublicProps & InternalProps
  * Creates a controller that resolves and tracks a component's reference element.
  *
  * It registers the component with the provided manager and keeps registration state
- * synchronized when `referenceElement`, `referenceEl`, or `open` changes.
+ * synchronized when `referenceElement`, `referenceEl`, `open`, or `triggerDisabled` changes.
  *
  * Note: reference elements are managed automatically when the component is disconnected.
  */
@@ -132,7 +133,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
 
       const { el, referenceElement, referenceEl } = component;
       if (warn && referenceElement && !referenceEl) {
-        console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+        logger.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
           el,
         });
       }
@@ -169,7 +170,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       if (changes.has("referenceEl")) {
         unregisterReferenceElement(changes.get("referenceEl") as ReferenceElement | undefined);
         registerReferenceElement(component.referenceEl);
-      } else if (changes.has("open")) {
+      } else if (changes.has("open") || changes.has("triggerDisabled")) {
         manager.updateElement(component, component.referenceEl);
       }
     });

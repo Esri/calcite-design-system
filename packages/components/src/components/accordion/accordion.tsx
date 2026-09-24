@@ -1,8 +1,8 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { Appearance, Position, IconType, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Position, IconType, Scale, SelectionMode } from "../types";
 import { createObserver } from "../../utils/observers";
-import { RequestedItem } from "./interfaces";
+import { RequestedItem } from "./types";
 import { CSS } from "./resources";
 import { styles } from "./accordion.scss";
 

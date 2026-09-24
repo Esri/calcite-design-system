@@ -12,12 +12,12 @@ import {
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
-import type { NavigationLogo as HTMLCalciteNavigationLogoElement } from "../navigation-logo/navigation-logo";
-import type { NavigationUser as HTMLCalciteNavigationUserElement } from "../navigation-user/navigation-user";
+import { isNavigationLogo } from "../navigation-logo/resources";
+import { isNavigationUser } from "../navigation-user/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { Scale } from "../types";
+import { CSS, ICONS, SLOTS, isNavigation } from "./resources";
 import { styles } from "./navigation.scss";
 
 declare global {
@@ -208,32 +208,35 @@ export class Navigation extends LitElement {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
   }
 
-  private getOwnedNavigationElements(slotName: string, selector: string): Element[] {
+  private getOwnedNavigationElements<T extends Element>(
+    slotName: string,
+    predicate: (element: Element) => element is T,
+  ): T[] {
     const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
 
     if (!slot) {
       return [];
     }
 
-    return slot.assignedElements({ flatten: true }).filter((item) => item.matches(selector));
+    return slot.assignedElements({ flatten: true }).filter(predicate);
   }
 
   private updateNavigationLogo(): void {
-    this.getOwnedNavigationElements(SLOTS.logo, "calcite-navigation-logo").forEach((item) => {
-      (item as HTMLCalciteNavigationLogoElement).scale = this.scale;
+    this.getOwnedNavigationElements(SLOTS.logo, isNavigationLogo).forEach((item) => {
+      item.scale = this.scale;
     });
   }
 
   private updateNavigationUser(): void {
-    this.getOwnedNavigationElements(SLOTS.user, "calcite-navigation-user").forEach((item) => {
-      (item as HTMLCalciteNavigationUserElement).scale = this.scale;
+    this.getOwnedNavigationElements(SLOTS.user, isNavigationUser).forEach((item) => {
+      item.scale = this.scale;
     });
   }
 
   private updateNestedNavigation(): void {
     const nestedNavigation = [
-      ...this.getOwnedNavigationElements(SLOTS.navSecondary, "calcite-navigation"),
-      ...this.getOwnedNavigationElements(SLOTS.navTertiary, "calcite-navigation"),
+      ...this.getOwnedNavigationElements(SLOTS.navSecondary, isNavigation),
+      ...this.getOwnedNavigationElements(SLOTS.navTertiary, isNavigation),
     ];
     nestedNavigation.forEach((item) => {
       if (item !== this.el) {

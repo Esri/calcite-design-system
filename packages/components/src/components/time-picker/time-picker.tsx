@@ -3,7 +3,7 @@ import { LitElement, property, createEvent, h, method, state, JsxNode } from "@a
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { isValidNumber } from "../../utils/number";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { getIconScale } from "../../utils/component";

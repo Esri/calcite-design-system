@@ -2,7 +2,7 @@ import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { hexify } from "../color-picker/utils";
 import { CHECKER_DIMENSIONS, COLORS, CSS, IDS } from "./resources";
 import { styles } from "./color-picker-swatch.scss";
@@ -14,7 +14,7 @@ declare global {
 }
 
 /**
- * @deprecated Use the `calcite-swatch-group` and `calcite-swatch` components instead.
+ * @deprecated in v3.3.0, removal target v6.0.0. Use the `calcite-swatch-group` and `calcite-swatch` components instead.
  */
 export class ColorPickerSwatch extends LitElement {
   // #region Static Members

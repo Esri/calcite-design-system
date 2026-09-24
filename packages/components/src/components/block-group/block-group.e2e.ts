@@ -3,12 +3,12 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
-import { Reorder } from "../sort-handle/interfaces";
+import { Reorder } from "../sort-handle/types";
 import { Block } from "../block/block";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { BlockDragDetail } from "./interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
+import { BlockDragDetail } from "./types";
 import type { BlockGroup } from "./block-group";
 
 mockConsole();

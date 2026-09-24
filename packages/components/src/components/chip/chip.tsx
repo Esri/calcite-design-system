@@ -2,10 +2,10 @@ import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Kind, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import type { Action } from "../action/action";
@@ -166,9 +166,6 @@ export class Chip extends LitElement {
   calciteChipSelect = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalChipKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalChipSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -231,13 +228,6 @@ export class Chip extends LitElement {
             event.preventDefault();
             this.close();
           }
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalChipKeyEvent.emit(event);
-          event.preventDefault();
           break;
       }
     }

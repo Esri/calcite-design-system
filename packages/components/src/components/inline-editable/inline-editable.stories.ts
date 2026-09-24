@@ -3,6 +3,10 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InlineEditable } from "./inline-editable";
+import "./inline-editable"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input-message/input-message"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 // Deprecated in v5.2.0, removal target v7.0.0
 
@@ -60,7 +64,7 @@ export const disabled = (): string => html`
 
 export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;">
-    <calcite-label class="calcite-mode-dark" status="idle" scale="m" layout="default">
+    <calcite-label class="calcite-mode-dark" status="idle" scale="m">
       My great label
       <calcite-inline-editable>
         <calcite-input alignment="start" placeholder="Placeholder text"> </calcite-input>

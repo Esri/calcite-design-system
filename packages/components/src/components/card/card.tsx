@@ -11,9 +11,9 @@ import {
 } from "@arcgis/lumina";
 import { getIconScale } from "../../utils/component";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { LogicalFlowPosition, Scale, SelectionMode } from "../interfaces";
+import { LogicalFlowPosition, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -21,6 +21,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./card.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -145,9 +146,6 @@ export class Card extends LitElement {
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   calciteCardSelect = createEvent({ cancelable: false });
 
-  /** @private */
-  calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
   //#endregion
 
   //#region Private Methods
@@ -181,16 +179,6 @@ export class Card extends LitElement {
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
-      } else {
-        switch (event.key) {
-          case "ArrowRight":
-          case "ArrowLeft":
-          case "Home":
-          case "End":
-            this.calciteInternalCardKeyEvent.emit(event);
-            event.preventDefault();
-            break;
-        }
       }
     }
   }
@@ -207,7 +195,7 @@ export class Card extends LitElement {
     this.calciteCardSelect.emit();
   }
 
-  private cardSelectClick(event): void {
+  private cardSelectClick(event: PointerEvent): void {
     if (!this.disabled) {
       event.preventDefault();
       this.calciteCardSelect.emit();
@@ -308,7 +296,10 @@ export class Card extends LitElement {
             </div>
           ) : null}
           {thumbnailStart && this.renderThumbnail()}
-          <section ariaBusy={this.loading} class={{ [CSS.container]: true }}>
+          <section
+            ariaBusy={toAriaBoolean(this.loading, undefined)}
+            class={{ [CSS.container]: true }}
+          >
             {this.renderHeader()}
             <div
               class={{

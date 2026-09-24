@@ -36,12 +36,12 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode, Status } from "../types";
 import { getIconScale, isHidden } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
@@ -58,7 +58,7 @@ import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
+import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./types";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
 import {
   getItemAncestors,
@@ -70,6 +70,9 @@ import {
   orderValuesByPrevious,
 } from "./utils";
 import { styles } from "./combobox.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { logger } from "../../utils/logger";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -86,7 +89,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -199,8 +202,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private fitFollowUpRefreshPromise?: Promise<void>;
 
   labelEl?: Label["el"];
-
-  labelable = useLabel(this);
 
   private listContainerEl?: HTMLDivElement;
 
@@ -599,6 +600,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   constructor() {
     super();
+    useLabel(this);
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen<ToEvents<ComboboxItem>["calciteComboboxItemChange"]>(
       "calciteComboboxItemChange",
@@ -1047,9 +1049,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         if (notDeletable) {
           return;
         }
-        const deleteTargetChip = event
-          .composedPath()
-          .find((node): node is Chip["el"] => isChip(node as Element));
+        const deleteTargetChip = event.composedPath().find(isChip);
         if (this.activeChipIndex > -1 && deleteTargetChip) {
           event.preventDefault();
           this.removeActiveChip(deleteTargetChip);
@@ -1117,7 +1117,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     const composedPath = event.composedPath();
 
-    if (composedPath.some((node) => isChip(node as HTMLElement))) {
+    if (composedPath.some((node) => isChip(node))) {
       this.open = false;
       event.preventDefault();
       return;
@@ -1422,6 +1422,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     chipContainerElWidth,
     inputWidth,
     largestSelectedIndicatorChipWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    inputWidth: number;
+    largestSelectedIndicatorChipWidth: number;
   }): void {
     const newCompactBreakpoint = Math.round(
       largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,
@@ -1835,7 +1840,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private handleSelectionModeWarning(): void {
     if (this.selectionMode === "single-persist" && this.clearDisabled) {
-      console.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
+      logger.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
     }
   }
 
@@ -2388,7 +2393,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             {showSingleIndicatorChips && this.renderSelectedIndicatorChipCompact()}
             {showIndicatorChips && this.renderAllSelectedIndicatorChip()}
             <label
-              class={CSS.screenReadersOnly}
+              class={CSS_UTILITY.screenReaderText}
               htmlFor={`${IDS.input(guid)}`}
               id={`${IDS.label(guid)}`}
             >
@@ -2410,7 +2415,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         <ul
           aria-labelledby={`${IDS.label(guid)}`}
           ariaMultiSelectable="true"
-          class={CSS.screenReadersOnly}
+          class={CSS_UTILITY.screenReaderText}
           id={`${IDS.listbox(guid)}`}
           role="listbox"
           tabIndex={-1}

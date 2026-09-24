@@ -9,10 +9,10 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { toAriaBoolean } from "../../utils/aria";
-import { RequestedItem } from "../dropdown-group/interfaces";
-import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/types";
+import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -295,7 +295,8 @@ export class DropdownItem extends LitElement {
           ? "menuitemcheckbox"
           : "menuitem";
 
-    const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
+    const isSelectable = selectionMode !== "none";
+    const itemAria = toAriaBoolean(isSelectable && this.selected, isSelectable ? "false" : null);
     const { disabled } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;

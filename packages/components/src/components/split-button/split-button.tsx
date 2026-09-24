@@ -8,9 +8,9 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { DropdownIconType } from "../button/interfaces";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { DropdownIconType } from "../button/types";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../types";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";

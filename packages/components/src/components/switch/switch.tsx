@@ -3,7 +3,7 @@ import { createRef } from "lit/directives/ref.js";
 import { isActivationKey } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -44,8 +44,6 @@ export class Switch extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
@@ -120,6 +118,7 @@ export class Switch extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }

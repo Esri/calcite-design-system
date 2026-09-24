@@ -69,7 +69,6 @@
     var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
   );
   border-block-end: 2px solid var(--calcite-color-transparent);
-  @include includes.transition-default($target-props: "background-color");
 }
 
 .container--link {

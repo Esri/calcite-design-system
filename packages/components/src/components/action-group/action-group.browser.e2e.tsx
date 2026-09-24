@@ -10,12 +10,13 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   slots,
   t9n,
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 import { ActionGroup } from "./action-group";
@@ -232,11 +233,10 @@ describe("selection change event and selectedActions state", () => {
   });
 });
 
-it("should honor scale of expand icon", async () => {
-  await mount(renderActionGroup);
-  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
-
-  await expect.element(menu).toHaveProperty("scale", "l");
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-action-group />, mountOptions), {
+    targetSelector: "calcite-action-menu",
+  });
 });
 
 it("should honor overlayPositioning", async () => {

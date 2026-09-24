@@ -2,6 +2,7 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { SortHandle } from "./sort-handle";
+import "./sort-handle"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, sortHandlePlacement } = ATTRIBUTES;
 

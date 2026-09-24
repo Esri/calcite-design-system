@@ -2,8 +2,8 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasContent } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { Appearance, Layout, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Appearance, Layout, Scale } from "../types";
+import { IconName } from "../icon/types";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./segmented-control-item.scss";
 

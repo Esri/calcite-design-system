@@ -1,3 +1,6 @@
+import "../components/dropdown-group/dropdown-group";
+import "../components/dropdown-item/dropdown-item";
+import "../components/split-button/split-button";
 import { html } from "../../support/formatting";
 
 export const splitButtonTokens = {

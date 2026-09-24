@@ -6,7 +6,7 @@ import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { HandleChange, HandleNudge } from "./interfaces";
+import { HandleChange, HandleNudge } from "./types";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import { styles } from "./handle.scss";
 
@@ -17,7 +17,7 @@ declare global {
 }
 
 /**
- * @deprecated Use the `calcite-sort-handle` component instead.
+ * @deprecated in v3.0.0, removal target v6.0.0. Use the `calcite-sort-handle` component instead.
  */
 export class Handle extends LitElement {
   //#region Static Members

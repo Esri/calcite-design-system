@@ -10,13 +10,43 @@ import {
   disabled,
   focusable,
   hidden,
+  labelable,
   renders,
+  scalePropagates,
   t9n,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 
 // Deprecated in v5.2.0, removal target v7.0.0
+
+describe("labelable", () => {
+  describe("default", () => {
+    labelable(
+      (mountOptions) =>
+        mount(
+          <calcite-inline-editable controls>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>,
+          mountOptions,
+        ),
+      { focusTarget: () => page.getBySelector("calcite-input").first() },
+    );
+  });
+
+  describe("when editing is enabled", () => {
+    labelable(
+      (mountOptions) =>
+        mount(
+          <calcite-inline-editable controls editing-enabled>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>,
+          mountOptions,
+        ),
+      { focusTarget: () => page.getBySelector("calcite-input").first() },
+    );
+  });
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -76,6 +106,12 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-inline-editable"));
 });
 
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-inline-editable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
+});
+
 describe("renders", () => {
   renders(
     () =>
@@ -120,7 +156,7 @@ describe("disabled", () => {
 
 describe("wrapped input variants", () => {
   it("activates edit mode when wrapped calcite-input-number is clicked", async () => {
-    const { el } = await mount<"calcite-input-number">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable>
         <calcite-input-number value="123" />
       </calcite-inline-editable>,
@@ -134,7 +170,7 @@ describe("wrapped input variants", () => {
   });
 
   it("routes Tab to confirm changes when wrapped calcite-input-number is editing", async () => {
-    const { el } = await mount<"calcite-input-number">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable controls>
         <calcite-input-number value="123" />
       </calcite-inline-editable>,
@@ -155,7 +191,7 @@ describe("wrapped input variants", () => {
   });
 
   it("routes Tab to confirm changes when wrapped calcite-input-text is editing", async () => {
-    const { el } = await mount<"calcite-input-text">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable controls>
         <calcite-input-text value="abc" />
       </calcite-inline-editable>,
@@ -176,7 +212,7 @@ describe("wrapped input variants", () => {
   });
 
   it("routes second Tab to cancel when wrapped calcite-input-text is editing", async () => {
-    const { el } = await mount<"calcite-input-text">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable controls>
         <calcite-input-text value="abc" />
       </calcite-inline-editable>,

@@ -3,6 +3,8 @@ import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { Slider } from "./slider";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./slider"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, sliderFillPlacement, status } = ATTRIBUTES;
 
@@ -1011,4 +1013,40 @@ export const validationMessageAllScales = (): string => html`
       label-handles
     ></calcite-slider>
   </div>
+`;
+
+export const negativeSignHandlingForDifferentNumberingSystems = (): string => html`
+  <calcite-slider
+    label-text="numbering-system=latn"
+    numbering-system="latn"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="ar"
+    label-text="numbering-system=arab"
+    numbering-system="arab"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="ar"
+    label-text="numbering-system=arabext"
+    numbering-system="arabext"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
 `;

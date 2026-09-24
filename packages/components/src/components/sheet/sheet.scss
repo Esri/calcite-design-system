@@ -72,6 +72,11 @@
   z-index: var(--calcite-z-index-overlay);
 }
 
+:host([modal-disabled]),
+:host([modal-disabled]) .container {
+  @apply pointer-events-none;
+}
+
 :host([position="inline-start"]) .container {
   @apply justify-start;
   inset-block: 0;

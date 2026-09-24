@@ -12,13 +12,14 @@ import {
 } from "@arcgis/lumina";
 import Color, { ColorInstance } from "color";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS, IDS, CHECKER_DIMENSIONS } from "./resources";
 import { styles } from "./swatch.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -122,9 +123,6 @@ export class Swatch extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalSwatchKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalSwatchSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -173,21 +171,9 @@ export class Swatch extends LitElement {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.handleEmittingEvent();
-          event.preventDefault();
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalSwatchKeyEvent.emit(event);
-          event.preventDefault();
-          break;
-      }
+    if (event.target === this.el && isActivationKey(event.key)) {
+      this.handleEmittingEvent();
+      event.preventDefault();
     }
   }
 
