@@ -4,6 +4,11 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
+ * @prop --calcite-link-text-color-hover: Specifies the component's text color when hovered or focused.
+ * @prop --calcite-link-text-color-press: Specifies the component's text color when pressed.
+ * @prop --calcite-link-visited-text-color: Specifies the component's text color after the link has been visited.
+ * @prop --calcite-link-visited-text-color-hover: Specifies the component's text color when a visited link is hovered or focused.
+ * @prop --calcite-link-visited-text-color-press: Specifies the component's text color when a visited link is pressed.
  */
 
 @use "../../styles/includes";
@@ -38,14 +43,42 @@
   @include includes.transition-default($extra-props: "text-decoration-color");
 }
 
+:host a:hover,
+:host a:focus {
+  color: var(--calcite-link-text-color-hover, var(--calcite-color-text-link));
+}
+
 :host a:hover .link--text,
 :host a:focus .link--text {
   text-decoration-color: currentColor;
 }
 
+:host a:visited {
+  color: var(--calcite-link-visited-text-color, var(--calcite-color-text-link-visited));
+}
+
+:host a:visited:hover,
+:host a:visited:focus {
+  color: var(
+    --calcite-link-visited-text-color-hover,
+    var(--calcite-link-text-color-hover, var(--calcite-color-text-link-visited))
+  );
+}
+
+:host a:active {
+  color: var(--calcite-link-text-color-press, var(--calcite-color-text-link));
+}
+
 :host a:active .link--text {
   text-decoration-color: currentColor;
   text-decoration-thickness: var(--calcite-border-width-md);
+}
+
+:host a:visited:active {
+  color: var(
+    --calcite-link-visited-text-color-press,
+    var(--calcite-link-text-color-press, var(--calcite-color-text-link-visited))
+  );
 }
 
 calcite-icon {
