@@ -1,6 +1,5 @@
 {
   "chooseTime": "Zaman seç",
-  "clear": "Değeri temizle",
   "fractionalSecond": "Kesirli saniye",
   "fractionalSecondDown": "Kesirli saniyeyi azalt",
   "fractionalSecondUp": "Kesirli saniyeyi artır",
@@ -13,7 +12,6 @@
   "minute": "Dakika",
   "minuteDown": "Dakikayı azalt",
   "minuteUp": "Dakikayı artır",
-  "required": "Gerekli",
   "second": "Saniye",
   "secondDown": "Saniyeyi azalt",
   "secondUp": "Saniyeyi artır"

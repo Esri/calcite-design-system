@@ -13,7 +13,7 @@ import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { RequestedItem } from "./types";
 import { styles } from "./accordion-item.scss";
-import T9nStrings from "./assets/t9n/messages.en.json";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -49,7 +49,7 @@ export class AccordionItem extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
 
   //#endregion
 
@@ -117,7 +117,7 @@ export class AccordionItem extends LitElement {
   @property({ reflect: true }) scale!: Scale;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: Pick<typeof this.messagesCommon._overrides, "collapse" | "expand">;
 
   //#endregion
 
@@ -329,8 +329,8 @@ export class AccordionItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl, heading, headingLevel, messages, expanded } = this;
-    const expandIconTitle = expanded ? messages.collapse : messages.expand;
+    const { iconFlipRtl, heading, headingLevel, expanded, messagesCommon } = this;
+    const expandIconTitle = expanded ? messagesCommon.collapse : messagesCommon.expand;
 
     const iconStartEl = this.iconStart ? (
       <calcite-icon

@@ -1,6 +1,5 @@
 {
   "chooseTime": "Zvolit čas",
-  "clear": "Vymazat hodnotu",
   "fractionalSecond": "Desetinná sekunda",
   "fractionalSecondDown": "Snížit desetinnou sekundu",
   "fractionalSecondUp": "Zvýšit desetinnou sekundu",
@@ -13,7 +12,6 @@
   "minute": "Minuta",
   "minuteDown": "Snížit minutu",
   "minuteUp": "Zvýšit minutu",
-  "required": "Povinné",
   "second": "Sekunda",
   "secondDown": "Snížit sekundu",
   "secondUp": "Zvýšit sekundu"

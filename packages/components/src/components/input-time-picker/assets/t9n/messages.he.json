@@ -1,6 +1,5 @@
 {
   "chooseTime": "בחר שעה",
-  "clear": "נקה ערך",
   "fractionalSecond": "שבר שנייה",
   "fractionalSecondDown": "הקטן שבר שנייה",
   "fractionalSecondUp": "הגדל שבר שנייה",
@@ -13,7 +12,6 @@
   "minute": "דקה",
   "minuteDown": "הקטן דקה",
   "minuteUp": "הגדל דקה",
-  "required": "נדרש",
   "second": "שנייה",
   "secondDown": "הקטן שנייה",
   "secondUp": "הגדל שנייה"
