@@ -104,8 +104,8 @@ Certain labels indicate that an issue is not ready for development:
 
 When an issue blocks or is blocked by other GitHub issues:
 
-- Confirm the blocking decision with `@esri/calcite-pes`
-  - If confirmed, the relevant context should be added to the issue for awareness
+- Confirm the blocking decision with `@esri/calcite-pes`.
+  - If confirmed, the relevant context should be added to the issue for awareness.
 - Link the issues using GitHub's issue relationships.
 - Apply the `blocked` label to support Monday syncing.
 
