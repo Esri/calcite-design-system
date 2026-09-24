@@ -32,6 +32,13 @@
 // --calcite-internal-shell-panel-container-padding-block-start
 // --calcite-internal-shell-panel-container-padding-inline-end
 // --calcite-internal-shell-panel-container-padding-inline-start
+// --calcite-internal-shell-panel-content-block-size
+// --calcite-internal-shell-panel-content-flex
+// --calcite-internal-shell-panel-content-inline-size
+// --calcite-internal-shell-panel-content-max-block-size
+// --calcite-internal-shell-panel-content-max-inline-size
+// --calcite-internal-shell-panel-content-min-block-size
+// --calcite-internal-shell-panel-content-min-inline-size
 // --calcite-internal-shell-panel-content-overlay-block-size
 // --calcite-internal-shell-panel-content-overlay-inline-size
 // --calcite-internal-shell-panel-content-overlay-inset-block-end
@@ -286,12 +293,18 @@
   position: relative;
   pointer-events: auto;
   display: flex;
-  flex: 1 1 auto;
+  flex: var(--calcite-internal-shell-panel-content-flex, 1 1 auto);
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
   align-self: stretch;
   box-sizing: border-box;
+  inline-size: var(--calcite-internal-shell-panel-content-inline-size, auto);
+  max-inline-size: var(--calcite-internal-shell-panel-content-max-inline-size, none);
+  min-inline-size: var(--calcite-internal-shell-panel-content-min-inline-size, auto);
+  block-size: var(--calcite-internal-shell-panel-content-block-size, auto);
+  max-block-size: var(--calcite-internal-shell-panel-content-max-block-size, none);
+  min-block-size: var(--calcite-internal-shell-panel-content-min-block-size, auto);
   padding-inline-start: var(--calcite-internal-shell-panel-content-padding-inline-start);
   padding-inline-end: var(--calcite-internal-shell-panel-content-padding-inline-end);
   padding-block-start: var(--calcite-internal-shell-panel-content-padding-block-start);
@@ -438,8 +451,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
 }
 
-:host([layout="vertical"][display-mode="float-all"]) .content {
-  flex: 2;
+:host([layout="vertical"][display-mode="float-all"]) {
+  --calcite-internal-shell-panel-content-flex: 2;
 }
 
 :host([layout="vertical"]:not([display-mode="float-all"])[width="s"]),
@@ -516,21 +529,21 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   min-block-size: var(--calcite-shell-panel-height, 40vh);
 }
 
-:host([layout="vertical"]:not([display-mode="float-all"])) .content {
-  inline-size: var(--calcite-internal-shell-panel-width);
-  max-inline-size: var(--calcite-internal-shell-panel-max-width);
-  min-inline-size: var(--calcite-internal-shell-panel-min-width);
+:host([layout="vertical"]:not([display-mode="float-all"])) {
+  --calcite-internal-shell-panel-content-inline-size: var(--calcite-internal-shell-panel-width);
+  --calcite-internal-shell-panel-content-max-inline-size: var(--calcite-internal-shell-panel-max-width);
+  --calcite-internal-shell-panel-content-min-inline-size: var(--calcite-internal-shell-panel-min-width);
 }
 
-:host([layout="vertical"][display-mode="float-all"]) .content {
-  inline-size: var(--calcite-internal-shell-panel-width);
-  min-inline-size: var(--calcite-internal-shell-panel-min-width);
+:host([layout="vertical"][display-mode="float-all"]) {
+  --calcite-internal-shell-panel-content-inline-size: var(--calcite-internal-shell-panel-width);
+  --calcite-internal-shell-panel-content-min-inline-size: var(--calcite-internal-shell-panel-min-width);
 }
 
-:host([layout="horizontal"]) .content {
-  block-size: var(--calcite-internal-shell-panel-height);
-  max-block-size: var(--calcite-internal-shell-panel-max-height);
-  min-block-size: var(--calcite-internal-shell-panel-min-height);
+:host([layout="horizontal"]) {
+  --calcite-internal-shell-panel-content-block-size: var(--calcite-internal-shell-panel-height);
+  --calcite-internal-shell-panel-content-max-block-size: var(--calcite-internal-shell-panel-max-height);
+  --calcite-internal-shell-panel-content-min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
 :host([layout="vertical"][position="start"]) {
