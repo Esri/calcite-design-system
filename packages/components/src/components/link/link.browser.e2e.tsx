@@ -177,7 +177,7 @@ describe("underline", () => {
   it("increases underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
-    const text = el.shadowRoot.querySelector<HTMLElement>(".calcite-link--text")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
     const { x, y, width, height } = anchor.getBoundingClientRect();
     const initialThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
 

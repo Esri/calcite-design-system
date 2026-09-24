@@ -29,7 +29,7 @@
   }
 }
 
-.calcite-link--text {
+.link--text {
   text-decoration-line: var(--calcite-internal-link-text-decoration-line, underline);
   text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
   text-decoration-thickness: var(--calcite-border-width-sm);
@@ -38,12 +38,12 @@
   @include includes.transition-default($extra-props: "text-decoration-color");
 }
 
-:host a:hover .calcite-link--text,
-:host a:focus .calcite-link--text {
+:host a:hover .link--text,
+:host a:focus .link--text {
   text-decoration-color: currentColor;
 }
 
-:host a:active .calcite-link--text {
+:host a:active .link--text {
   text-decoration-color: currentColor;
   text-decoration-thickness: var(--calcite-border-width-md);
 }
