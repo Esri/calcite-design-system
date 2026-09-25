@@ -4,6 +4,9 @@
       "attributes": {
         "category": "shadow"
       },
+      "$extensions": {
+        "calcite.theme": true
+      },
       "$type": "boxShadow",
       "$value": {
         "x": "{core.size.default.none}",
@@ -16,6 +19,9 @@
     "sm": {
       "attributes": {
         "category": "shadow"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "boxShadow",
       "$value": [
@@ -38,6 +44,9 @@
     "md": {
       "attributes": {
         "category": "shadow"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "boxShadow",
       "$value": [

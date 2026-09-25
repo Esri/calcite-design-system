@@ -1,11 +1,11 @@
 {
   "corner-radius": {
-    "$extensions": {
-      "calcite.theme": true
-    },
     "default": {
       "attributes": {
         "category": "corner-radius"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "borderRadius",
       "$value": "{corner-radius.none}"
@@ -15,9 +15,6 @@
         "category": "corner-radius",
         "docs": "deprecated"
       },
-      "$extensions": {
-        "calcite.theme": false
-      },
       "$type": "borderRadius",
       "$value": "{core.size.default.none}",
       "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead."
@@ -25,6 +22,9 @@
     "none": {
       "attributes": {
         "category": "corner-radius"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "borderRadius",
       "$value": "{corner-radius.sharp}",
@@ -34,12 +34,18 @@
       "attributes": {
         "category": "corner-radius"
       },
+      "$extensions": {
+        "calcite.theme": true
+      },
       "$type": "borderRadius",
       "$value": "{core.size.default.2}"
     },
     "sm": {
       "attributes": {
         "category": "corner-radius"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "borderRadius",
       "$value": "{corner-radius.round}",
@@ -50,9 +56,6 @@
         "category": "corner-radius",
         "docs": "deprecated"
       },
-      "$extensions": {
-        "calcite.theme": false
-      },
       "$type": "borderRadius",
       "$value": "{core.size.default.4}",
       "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead."
@@ -60,6 +63,9 @@
     "pill": {
       "attributes": {
         "category": "corner-radius"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.9999}"

@@ -19023,7 +19023,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width None",
-      "path": ["border", "width", "none"]
+      "path": ["border", "width", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-none)"
+      }
     },
     {
       "key": "{border.width.sm}",
@@ -19048,7 +19051,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Sm",
-      "path": ["border", "width", "sm"]
+      "path": ["border", "width", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-sm)"
+      }
     },
     {
       "key": "{border.width.md}",
@@ -19073,7 +19079,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Md",
-      "path": ["border", "width", "md"]
+      "path": ["border", "width", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-md)"
+      }
     },
     {
       "key": "{border.width.lg}",
@@ -19098,7 +19107,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Lg",
-      "path": ["border", "width", "lg"]
+      "path": ["border", "width", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-lg)"
+      }
     },
     {
       "key": "{container-size.height.xxs.min}",
@@ -19820,7 +19832,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Light",
-      "path": ["font", "weight", "light"]
+      "path": ["font", "weight", "light"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-light)"
+      }
     },
     {
       "key": "{font.weight.normal}",
@@ -19876,7 +19891,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Regular",
-      "path": ["font", "weight", "regular"]
+      "path": ["font", "weight", "regular"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-regular)"
+      }
     },
     {
       "key": "{font.weight.medium}",
@@ -19901,7 +19919,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Medium",
-      "path": ["font", "weight", "medium"]
+      "path": ["font", "weight", "medium"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-medium)"
+      }
     },
     {
       "key": "{font.weight.semibold}",
@@ -19926,7 +19947,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Semibold",
-      "path": ["font", "weight", "semibold"]
+      "path": ["font", "weight", "semibold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-semibold)"
+      }
     },
     {
       "key": "{font.weight.bold}",
@@ -19951,7 +19975,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Bold",
-      "path": ["font", "weight", "bold"]
+      "path": ["font", "weight", "bold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-bold)"
+      }
     },
     {
       "key": "{font.size.xs}",
@@ -21643,7 +21670,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow None",
-      "path": ["shadow", "none"]
+      "path": ["shadow", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-none)"
+      }
     },
     {
       "key": "{shadow.sm}",
@@ -21666,7 +21696,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Sm",
-      "path": ["shadow", "sm"]
+      "path": ["shadow", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-sm)"
+      }
     },
     {
       "key": "{shadow.md}",
@@ -21689,7 +21722,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Md",
-      "path": ["shadow", "md"]
+      "path": ["shadow", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-md)"
+      }
     },
     {
       "key": "{size.fixed.xxxs}",
@@ -22022,7 +22058,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 4xs",
-      "path": ["size", "4xs"]
+      "path": ["size", "4xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-4xs)"
+      }
     },
     {
       "key": "{size.xxxs}",
@@ -22071,7 +22110,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
-      "path": ["size", "3xs"]
+      "path": ["size", "3xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xs)"
+      }
     },
     {
       "key": "{size.xxs}",
@@ -22120,7 +22162,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
-      "path": ["size", "2xs"]
+      "path": ["size", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xs)"
+      }
     },
     {
       "key": "{size.xs}",
@@ -22144,7 +22189,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
-      "path": ["size", "xs"]
+      "path": ["size", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xs)"
+      }
     },
     {
       "key": "{size.sm}",
@@ -22168,7 +22216,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
-      "path": ["size", "sm"]
+      "path": ["size", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-size-sm)"
+      }
     },
     {
       "key": "{size.md}",
@@ -22192,7 +22243,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
-      "path": ["size", "md"]
+      "path": ["size", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-size-md)"
+      }
     },
     {
       "key": "{size.lg}",
@@ -22215,7 +22269,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Lg",
-      "path": ["size", "lg"]
+      "path": ["size", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-size-lg)"
+      }
     },
     {
       "key": "{size.xl}",
@@ -22238,7 +22295,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xl",
-      "path": ["size", "xl"]
+      "path": ["size", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xl)"
+      }
     },
     {
       "key": "{size.xxl}",
@@ -22287,7 +22347,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xl",
-      "path": ["size", "2xl"]
+      "path": ["size", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xl)"
+      }
     },
     {
       "key": "{size.xxxl}",
@@ -22336,7 +22399,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xl",
-      "path": ["size", "3xl"]
+      "path": ["size", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xl)"
+      }
     },
     {
       "key": "{spacing.fixed.xxs}",
@@ -22906,7 +22972,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space None",
-      "path": ["space", "none"]
+      "path": ["space", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-space-none)"
+      }
     },
     {
       "key": "{space.px}",
@@ -22930,7 +22999,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Px",
-      "path": ["space", "px"]
+      "path": ["space", "px"],
+      "theme": {
+        "css": "var(--calcite-theme-space-px)"
+      }
     },
     {
       "key": "{space.base}",
@@ -22954,7 +23026,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Base",
-      "path": ["space", "base"]
+      "path": ["space", "base"],
+      "theme": {
+        "css": "var(--calcite-theme-space-base)"
+      }
     },
     {
       "key": "{space.2xs}",
@@ -22978,7 +23053,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xs",
-      "path": ["space", "2xs"]
+      "path": ["space", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xs)"
+      }
     },
     {
       "key": "{space.xs}",
@@ -23002,7 +23080,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xs",
-      "path": ["space", "xs"]
+      "path": ["space", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xs)"
+      }
     },
     {
       "key": "{space.sm}",
@@ -23026,7 +23107,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm",
-      "path": ["space", "sm"]
+      "path": ["space", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm)"
+      }
     },
     {
       "key": "{space.sm-plus}",
@@ -23050,7 +23134,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm Plus",
-      "path": ["space", "sm-plus"]
+      "path": ["space", "sm-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm-plus)"
+      }
     },
     {
       "key": "{space.md}",
@@ -23074,7 +23161,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md",
-      "path": ["space", "md"]
+      "path": ["space", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md)"
+      }
     },
     {
       "key": "{space.md-plus}",
@@ -23098,7 +23188,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md Plus",
-      "path": ["space", "md-plus"]
+      "path": ["space", "md-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md-plus)"
+      }
     },
     {
       "key": "{space.lg}",
@@ -23122,7 +23215,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Lg",
-      "path": ["space", "lg"]
+      "path": ["space", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-space-lg)"
+      }
     },
     {
       "key": "{space.xl}",
@@ -23146,7 +23242,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xl",
-      "path": ["space", "xl"]
+      "path": ["space", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xl)"
+      }
     },
     {
       "key": "{space.2xl}",
@@ -23170,7 +23269,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xl",
-      "path": ["space", "2xl"]
+      "path": ["space", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xl)"
+      }
     },
     {
       "key": "{space.3xl}",
@@ -23194,7 +23296,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 3xl",
-      "path": ["space", "3xl"]
+      "path": ["space", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-3xl)"
+      }
     },
     {
       "key": "{space.4xl}",
@@ -23217,7 +23322,10 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 4xl",
-      "path": ["space", "4xl"]
+      "path": ["space", "4xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-4xl)"
+      }
     },
     {
       "key": "{typography.default.default}",
@@ -25811,7 +25919,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width None",
-      "path": ["border", "width", "none"]
+      "path": ["border", "width", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-none)"
+      }
     },
     {
       "key": "{border.width.sm}",
@@ -25836,7 +25947,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Sm",
-      "path": ["border", "width", "sm"]
+      "path": ["border", "width", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-sm)"
+      }
     },
     {
       "key": "{border.width.md}",
@@ -25861,7 +25975,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Md",
-      "path": ["border", "width", "md"]
+      "path": ["border", "width", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-md)"
+      }
     },
     {
       "key": "{border.width.lg}",
@@ -25886,7 +26003,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Lg",
-      "path": ["border", "width", "lg"]
+      "path": ["border", "width", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-lg)"
+      }
     },
     {
       "key": "{container-size.margin}",
@@ -26242,7 +26362,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Light",
-      "path": ["font", "weight", "light"]
+      "path": ["font", "weight", "light"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-light)"
+      }
     },
     {
       "key": "{font.weight.normal}",
@@ -26298,7 +26421,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Regular",
-      "path": ["font", "weight", "regular"]
+      "path": ["font", "weight", "regular"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-regular)"
+      }
     },
     {
       "key": "{font.weight.medium}",
@@ -26323,7 +26449,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Medium",
-      "path": ["font", "weight", "medium"]
+      "path": ["font", "weight", "medium"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-medium)"
+      }
     },
     {
       "key": "{font.weight.semibold}",
@@ -26348,7 +26477,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Semibold",
-      "path": ["font", "weight", "semibold"]
+      "path": ["font", "weight", "semibold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-semibold)"
+      }
     },
     {
       "key": "{font.weight.bold}",
@@ -26373,7 +26505,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Bold",
-      "path": ["font", "weight", "bold"]
+      "path": ["font", "weight", "bold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-bold)"
+      }
     },
     {
       "key": "{font.size.xs}",
@@ -28065,7 +28200,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow None",
-      "path": ["shadow", "none"]
+      "path": ["shadow", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-none)"
+      }
     },
     {
       "key": "{shadow.sm}",
@@ -28088,7 +28226,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Sm",
-      "path": ["shadow", "sm"]
+      "path": ["shadow", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-sm)"
+      }
     },
     {
       "key": "{shadow.md}",
@@ -28111,7 +28252,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Md",
-      "path": ["shadow", "md"]
+      "path": ["shadow", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-md)"
+      }
     },
     {
       "key": "{size.fixed.xxxs}",
@@ -28444,7 +28588,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 4xs",
-      "path": ["size", "4xs"]
+      "path": ["size", "4xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-4xs)"
+      }
     },
     {
       "key": "{size.xxxs}",
@@ -28493,7 +28640,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
-      "path": ["size", "3xs"]
+      "path": ["size", "3xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xs)"
+      }
     },
     {
       "key": "{size.xxs}",
@@ -28542,7 +28692,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
-      "path": ["size", "2xs"]
+      "path": ["size", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xs)"
+      }
     },
     {
       "key": "{size.xs}",
@@ -28566,7 +28719,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
-      "path": ["size", "xs"]
+      "path": ["size", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xs)"
+      }
     },
     {
       "key": "{size.sm}",
@@ -28590,7 +28746,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
-      "path": ["size", "sm"]
+      "path": ["size", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-size-sm)"
+      }
     },
     {
       "key": "{size.md}",
@@ -28614,7 +28773,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
-      "path": ["size", "md"]
+      "path": ["size", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-size-md)"
+      }
     },
     {
       "key": "{size.lg}",
@@ -28637,7 +28799,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Lg",
-      "path": ["size", "lg"]
+      "path": ["size", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-size-lg)"
+      }
     },
     {
       "key": "{size.xl}",
@@ -28660,7 +28825,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xl",
-      "path": ["size", "xl"]
+      "path": ["size", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xl)"
+      }
     },
     {
       "key": "{size.xxl}",
@@ -28709,7 +28877,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xl",
-      "path": ["size", "2xl"]
+      "path": ["size", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xl)"
+      }
     },
     {
       "key": "{size.xxxl}",
@@ -28758,7 +28929,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xl",
-      "path": ["size", "3xl"]
+      "path": ["size", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xl)"
+      }
     },
     {
       "key": "{spacing.fixed.xxs}",
@@ -29328,7 +29502,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space None",
-      "path": ["space", "none"]
+      "path": ["space", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-space-none)"
+      }
     },
     {
       "key": "{space.px}",
@@ -29352,7 +29529,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Px",
-      "path": ["space", "px"]
+      "path": ["space", "px"],
+      "theme": {
+        "css": "var(--calcite-theme-space-px)"
+      }
     },
     {
       "key": "{space.base}",
@@ -29376,7 +29556,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Base",
-      "path": ["space", "base"]
+      "path": ["space", "base"],
+      "theme": {
+        "css": "var(--calcite-theme-space-base)"
+      }
     },
     {
       "key": "{space.2xs}",
@@ -29400,7 +29583,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xs",
-      "path": ["space", "2xs"]
+      "path": ["space", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xs)"
+      }
     },
     {
       "key": "{space.xs}",
@@ -29424,7 +29610,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xs",
-      "path": ["space", "xs"]
+      "path": ["space", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xs)"
+      }
     },
     {
       "key": "{space.sm}",
@@ -29448,7 +29637,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm",
-      "path": ["space", "sm"]
+      "path": ["space", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm)"
+      }
     },
     {
       "key": "{space.sm-plus}",
@@ -29472,7 +29664,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm Plus",
-      "path": ["space", "sm-plus"]
+      "path": ["space", "sm-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm-plus)"
+      }
     },
     {
       "key": "{space.md}",
@@ -29496,7 +29691,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md",
-      "path": ["space", "md"]
+      "path": ["space", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md)"
+      }
     },
     {
       "key": "{space.md-plus}",
@@ -29520,7 +29718,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md Plus",
-      "path": ["space", "md-plus"]
+      "path": ["space", "md-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md-plus)"
+      }
     },
     {
       "key": "{space.lg}",
@@ -29544,7 +29745,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Lg",
-      "path": ["space", "lg"]
+      "path": ["space", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-space-lg)"
+      }
     },
     {
       "key": "{space.xl}",
@@ -29568,7 +29772,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xl",
-      "path": ["space", "xl"]
+      "path": ["space", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xl)"
+      }
     },
     {
       "key": "{space.2xl}",
@@ -29592,7 +29799,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xl",
-      "path": ["space", "2xl"]
+      "path": ["space", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xl)"
+      }
     },
     {
       "key": "{space.3xl}",
@@ -29616,7 +29826,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 3xl",
-      "path": ["space", "3xl"]
+      "path": ["space", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-3xl)"
+      }
     },
     {
       "key": "{space.4xl}",
@@ -29639,7 +29852,10 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 4xl",
-      "path": ["space", "4xl"]
+      "path": ["space", "4xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-4xl)"
+      }
     },
     {
       "key": "{z-index.deep}",
