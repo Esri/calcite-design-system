@@ -10,26 +10,25 @@
 
  */
 
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
 
 :host {
-  @apply contents;
+  display: contents;
 }
 
 :host([alignment="center"]) td:not(.selection-cell):not(.number-cell) {
-  @apply text-center;
+  text-align: center;
 }
 
 :host([alignment="end"]) td:not(.selection-cell):not(.number-cell) {
-  @apply text-end;
-}
-
-.assistive-text {
-  @apply sr-only;
+  text-align: end;
 }
 
 td {
-  @apply text-start align-middle  whitespace-normal;
+  text-align: start;
+  vertical-align: middle;
+  white-space: normal;
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
   background-color: var(
     --calcite-internal-table-cell-background-color,
@@ -43,19 +42,19 @@ td {
   padding: var(--calcite-internal-table-cell-padding);
 
   &:not(.static-cell) {
-    @apply focus-base;
+    outline-color: transparent;
     &:focus {
-      @apply focus-inset;
+      @include focus.focus-inset();
     }
   }
 }
 
 td.start.content-cell {
-  @apply align-top;
+  vertical-align: top;
 }
 
 td.end.content-cell {
-  @apply align-bottom;
+  vertical-align: bottom;
 }
 
 td.last-cell {
@@ -67,7 +66,7 @@ td.last-cell {
 }
 
 .footer-cell {
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
   background-color: var(
     --calcite-table-cell-background-color,
@@ -81,7 +80,7 @@ td.last-cell {
 
 .number-cell,
 .selection-cell {
-  @apply text-center;
+  text-align: center;
   border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   inline-size: 2rem;
@@ -102,7 +101,7 @@ td.last-cell {
 .selection-cell {
   color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
   &:not(.footer-cell) {
-    @apply cursor-pointer;
+    cursor: pointer;
     background-color: var(
       --calcite-table-selection-cell-background-color,
       var(--calcite-table-cell-background-color, transparent)
@@ -133,9 +132,10 @@ td.last-cell {
 }
 
 .selection-cell {
-  @apply align-middle;
+  vertical-align: middle;
   & ::slotted(calcite-icon) {
-    @apply pointer-events-none mt-1;
+    pointer-events: none;
+    margin-block-start: var(--calcite-space-2xs);
   }
 }
 

@@ -1,9 +1,10 @@
 import { isTag } from "../resources";
 
 export const CSS = {
-  calciteLinkIcon: "calcite-link--icon",
+  icon: "link--icon",
   iconStart: "icon-start",
   iconEnd: "icon-end",
+  text: "link--text",
 };
 
 /**
