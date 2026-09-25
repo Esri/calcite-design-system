@@ -62,7 +62,7 @@ export class DropdownItem extends LitElement {
    *
    * @private
    */
-  @property({ reflect: true }) activeDescendant = false;
+  @property({ reflect: true }) active = false;
 
   /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
