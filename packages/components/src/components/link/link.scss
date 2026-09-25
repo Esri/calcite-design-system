@@ -14,7 +14,7 @@
 
 :host a {
   @apply font-inherit
-    no-underline 
+    no-underline
     cursor-pointer
     focus-base;
   font-size: inherit;
@@ -53,16 +53,16 @@ calcite-icon {
   min-block-size: unset;
 }
 
-.calcite-link--icon {
+.link--icon {
   @apply align-middle;
   margin-block-start: -0.25em;
 }
 
-:host .calcite-link--icon.icon-start {
+.link--icon.icon-start {
   margin-inline-end: var(--calcite-space-2xs);
 }
 
-:host .calcite-link--icon.icon-end {
+.link--icon.icon-end {
   margin-inline-start: var(--calcite-space-2xs);
 }
 
