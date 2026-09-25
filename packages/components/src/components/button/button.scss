@@ -53,7 +53,7 @@
     display: flex;
     outline-color: transparent;
     font-family: inherit;
-    font-weight: var(--calcite-font-weight-normal);
+    font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
     block-size: 100%;
     align-items: center;
     justify-content: center;
