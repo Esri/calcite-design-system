@@ -38,8 +38,7 @@
   @include includes.transition-default($extra-props: "text-decoration-color");
 }
 
-:host a:hover .link--text,
-:host a:focus .link--text {
+:host a:hover .link--text {
   text-decoration-color: currentColor;
 }
 
