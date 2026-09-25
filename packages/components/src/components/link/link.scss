@@ -60,11 +60,11 @@ calcite-icon {
 }
 
 :host .calcite-link--icon.icon-start {
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-space-2xs);
 }
 
 :host .calcite-link--icon.icon-end {
-  margin-inline-start: theme("margin.2");
+  margin-inline-start: var(--calcite-space-2xs);
 }
 
 @include includes.disabled();
