@@ -43,7 +43,7 @@
   text-decoration-thickness: var(--calcite-border-width-sm);
   text-underline-offset: 0.33em;
 
-  @include includes.transition-default($extra-props: "text-decoration-color");
+  @include includes.transition-default($target-props: "text-decoration-color");
 }
 
 :host a:hover {
@@ -111,9 +111,9 @@
   color: var(
     --calcite-link-visited-text-color-press,
     var(
-      --calcite-link-text-color-press,
+      --calcite-link-visited-text-color-hover,
       var(
-        --calcite-link-visited-text-color-hover,
+        --calcite-link-text-color-press,
         var(
           --calcite-link-text-color-hover,
           var(
@@ -124,6 +124,12 @@
       )
     )
   );
+}
+
+:host a:hover .link--text,
+:host a:focus .link--text,
+:host a:active .link--text {
+  text-decoration-color: var(--calcite-theme-color-brand-underline, currentColor);
 }
 
 calcite-icon {
