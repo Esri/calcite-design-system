@@ -29,6 +29,7 @@
 }
 .heading {
   font-weight: var(--calcite-font-weight-bold);
+  min-inline-size: 0;
 }
 
 :host([scale="s"]) {

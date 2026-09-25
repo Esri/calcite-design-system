@@ -6692,3 +6692,38 @@ export const descriptionSlottedText = (): string =>
       </calcite-text>
     </calcite-list-item>
   </calcite-list>`;
+
+export const groupWithSlottedHeading = (): string => html`
+  <calcite-list style="width: 250px;">
+    <calcite-list-item-group heading="This is a long heading that should wrap correctly">
+      <calcite-list-item label="Item 1"></calcite-list-item>
+      <calcite-list-item label="Item 2"></calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group>
+      <calcite-text slot="heading">This is a long heading that should wrap correctly</calcite-text>
+      <calcite-list-item label="Item 3"></calcite-list-item>
+      <calcite-list-item label="Item 4"></calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group>
+      <calcite-text slot="heading" truncate-position="end"
+        >This is a long heading that should truncate at the end correctly</calcite-text
+      >
+      <calcite-list-item label="Item 5"></calcite-list-item>
+      <calcite-list-item label="Item 6"></calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group>
+      <calcite-text slot="heading" truncate-position="middle"
+        >This is a long heading that should truncate in the middle correctly</calcite-text
+      >
+      <calcite-list-item label="Item 7"></calcite-list-item>
+      <calcite-list-item label="Item 8"></calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group>
+      <calcite-text slot="heading" max-lines="2"
+        >This is a long heading that should wrap into multiple lines</calcite-text
+      >
+      <calcite-list-item label="Item 7"></calcite-list-item>
+      <calcite-list-item label="Item 8"></calcite-list-item>
+    </calcite-list-item-group>
+  </calcite-list>
+`;
