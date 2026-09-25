@@ -71,7 +71,7 @@
 
 // scales
 :host([scale="s"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-fixed-sm));
 
   & input {
     padding-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
@@ -103,7 +103,7 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-md);
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-fixed-md));
 
   & input {
     padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
@@ -131,7 +131,10 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+  --calcite-internal-input-text-icon-padding-inline: var(
+    --calcite-theme-space-md-plus,
+    var(--calcite-spacing-fixed-lg)
+  );
 
   & input {
     padding-inline-start: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
