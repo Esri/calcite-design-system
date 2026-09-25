@@ -27,10 +27,10 @@
 // --calcite-internal-button-padding-y
 // --calcite-internal-button-text-color
 
-@use "../../styles/component/focus";
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
-@use "../../styles/component/text";
-@use "../../styles/component/truncate";
+@use "../../styles/shared/text";
+@use "../../styles/shared/truncate";
 
 :host {
   display: inline-block;
