@@ -70,6 +70,7 @@
     pointer-events: none;
     opacity: 0;
     inline-size: 0;
+    margin-inline-start: 0;
   }
 
   --calcite-action-text-color: var(--calcite-inline-editable-button-text-color, var(--calcite-color-text-1));
@@ -79,6 +80,14 @@
 .confirm-changes-button,
 .cancel-editing-button {
   margin-inline-start: var(--calcite-space-2xs);
+}
+
+:host([editing-enabled]) .confirm-changes-button {
+  margin-inline-start: 0;
+}
+
+:host([editing-enabled]:not([controls])) .controls-wrapper {
+  display: none;
 }
 
 calcite-action {

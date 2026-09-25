@@ -116,6 +116,8 @@ describe("activeDate", () => {
 });
 
 describe("value", () => {
+  mockConsole();
+
   const today = new Date();
   const unsetValueCases = [
     { label: "empty string", value: "" },
