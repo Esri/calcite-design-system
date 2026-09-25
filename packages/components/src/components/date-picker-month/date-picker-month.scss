@@ -18,8 +18,8 @@
 .week-header-container {
   @apply flex;
   block-size: #{core.$calcite-size-16};
-  padding-inline: var(--calcite-spacing-sm);
-  padding-block: var(--calcite-spacing-md);
+  padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+  padding-block: var(--calcite-theme-space-md, var(--calcite-spacing-md));
 }
 
 .week-header {
@@ -47,8 +47,8 @@
   @apply grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: 1fr;
-  padding-inline: var(--calcite-spacing-sm);
-  padding-block-end: var(--calcite-spacing-sm);
+  padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+  padding-block-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 
 .month-header {
@@ -65,12 +65,12 @@
 
 :host([scale="s"]) {
   .week-days {
-    padding-inline: var(--calcite-spacing-xs);
-    padding-block-end: var(--calcite-spacing-xs);
+    padding-inline: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
+    padding-block-end: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
   }
   .week-header-container {
-    padding-inline: var(--calcite-spacing-xs);
-    padding-block: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
+    padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
   .day {
     font-size: var(--calcite-font-size-sm);
@@ -82,12 +82,12 @@
     @apply text-n1h;
   }
   .week-days {
-    padding-inline: var(--calcite-spacing-md);
-    padding-block-end: var(--calcite-spacing-md);
+    padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    padding-block-end: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
   .week-header-container {
-    padding-inline: var(--calcite-spacing-md);
-    padding-block: var(--calcite-spacing-md-plus);
+    padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    padding-block: var(--calcite-theme-space-md-plus, var(--calcite-spacing-md-plus));
   }
   .day {
     font-size: var(--calcite-font-size-md);

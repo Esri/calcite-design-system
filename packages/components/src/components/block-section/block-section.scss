@@ -70,35 +70,38 @@ calcite-switch {
 
 :host([scale="s"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-xxs);
-    gap: var(--calcite-spacing-sm);
+    padding-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+    gap: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     font-size: var(--calcite-font-size-sm);
   }
 
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-xxs));
+    padding-block: var(
+      --calcite-block-section-content-space,
+      var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
+    );
   }
 }
 
 :host([scale="m"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-sm);
-    gap: var(--calcite-spacing-md);
+    padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    gap: var(--calcite-theme-space-md, var(--calcite-spacing-md));
     font-size: var(--calcite-font-size);
   }
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm));
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-theme-space-sm, var(--calcite-spacing-sm)));
   }
 }
 
 :host([scale="l"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-md);
-    gap: var(--calcite-spacing-lg);
+    padding-block: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    gap: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
     font-size: var(--calcite-font-size-md);
   }
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-md));
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-theme-space-md, var(--calcite-spacing-md)));
   }
 }
 

@@ -61,8 +61,8 @@
 }
 
 .scale-s {
-  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-none);
-  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-padding: var(--calcite-theme-space-none, var(--calcite-spacing-none));
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 
   .content {
     @include text.text-n2h();
@@ -72,8 +72,8 @@
 }
 
 .scale-m {
-  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
-  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-padding: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 
   .content {
     @include text.text-n1h();
@@ -83,8 +83,8 @@
 }
 
 .scale-l {
-  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
-  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xs);
+  --calcite-internal-tab-title-close-padding: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
 
   .content {
     @include text.text-0h();
@@ -232,11 +232,11 @@
 
   .calcite-tab-title--icon {
     &.icon-start {
-      margin-inline-end: var(--calcite-spacing-sm);
+      margin-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
 
     &.icon-end {
-      margin-inline-start: var(--calcite-spacing-sm);
+      margin-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
   }
 }
@@ -244,7 +244,7 @@
 // bordered styles
 :host([bordered]) .container {
   border-color: transparent;
-  border-inline-width: var(--calcite-spacing-px);
+  border-inline-width: var(--calcite-theme-space-px, var(--calcite-spacing-px));
   border-inline-style: solid;
 
   &.container--bottom {
@@ -267,7 +267,7 @@
     inset-block-end: unset;
     inset-inline-start: -1px;
     inset-inline-end: 0;
-    inline-size: calc(100% + var(--calcite-spacing-base));
+    inline-size: calc(100% + var(--calcite-theme-space-base, var(--calcite-spacing-base)));
   }
 
   &:host(:not([selected])) {
@@ -340,7 +340,7 @@
 // compensate for spacing when no hastext and two icons
 :host([icon-start][icon-end]) {
   .calcite-tab-title--icon:first-child {
-    margin-inline-end: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 
@@ -385,7 +385,8 @@
   --calcite-action-background-color-hover: var(--calcite-tab-close-icon-background-color-hover);
 
   margin: auto;
-  margin-inline: var(--calcite-spacing-sm) var(--calcite-internal-tab-title-close-margin-start);
+  margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+    var(--calcite-internal-tab-title-close-margin-start);
 }
 
 @media (forced-colors: active) {

@@ -85,7 +85,9 @@
 
 :host([scale="s"]) {
   --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-2xs);
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-lg))};
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(
+      var(--calcite-theme-space-lg, var(--calcite-spacing-lg))
+    )};
 
   .clear-button {
     block-size: var(--calcite-space-2xl);
@@ -94,7 +96,9 @@
 
 :host([scale="m"]) {
   --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-sm);
-  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-xxl))};
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(
+      var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl))
+    )};
 
   .clear-button {
     block-size: var(--calcite-space-3xl);
@@ -104,7 +108,7 @@
 :host([scale="l"]) {
   --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-sm-plus);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(
-      var(--calcite-spacing-xxxl)
+      var(--calcite-theme-space-3xl, var(--calcite-spacing-xxxl))
     )};
 
   .clear-button {
@@ -237,15 +241,15 @@
 }
 
 :host([layout="horizontal"]) .divider-container {
-  inline-size: var(--calcite-spacing-px);
+  inline-size: var(--calcite-theme-space-px, var(--calcite-spacing-px));
 }
 
 .divider {
   @apply inline-block;
 
-  margin-block: var(--calcite-spacing-xxs);
+  margin-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   background-color: var(--calcite-input-date-picker-divider-color, var(--calcite-color-border-2));
-  inline-size: var(--calcite-spacing-px);
+  inline-size: var(--calcite-theme-space-px, var(--calcite-spacing-px));
 }
 
 :host([layout="vertical"]) .divider-container {
