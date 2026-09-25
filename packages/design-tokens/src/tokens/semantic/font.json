@@ -26,6 +26,9 @@
           "category": "font",
           "group": "weight"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "fontWeights",
         "$value": "{core.font.weight.light}",
         "$description": "For Avenir Next World (secondary font family)"
@@ -41,24 +44,27 @@
         },
         "$type": "fontWeights",
         "$value": "{core.font.weight.regular}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-font-weight-regular` instead."
+        "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-theme-font-weight-regular` instead."
       },
       "regular": {
         "attributes": {
           "category": "font",
           "group": "weight"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "fontWeights",
         "$value": "{font.weight.normal}",
-        "$description": "Replaces `--calcite-font-weight-normal`",
-        "$extensions": {
-          "calcite.outputReference": true
-        }
+        "$description": "Replaces `--calcite-font-weight-normal`"
       },
       "medium": {
         "attributes": {
           "category": "font",
           "group": "weight"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "fontWeights",
         "$value": "{core.font.weight.medium}"
@@ -68,6 +74,9 @@
           "category": "font",
           "group": "weight"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "fontWeights",
         "$value": "{core.font.weight.demi}"
       },
@@ -75,6 +84,9 @@
         "attributes": {
           "category": "font",
           "group": "weight"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "fontWeights",
         "$value": "{core.font.weight.demi}"
@@ -146,10 +158,7 @@
         },
         "$type": "fontSizes",
         "$value": "{font.size.xxl}",
-        "$description": "Replaces `--calcite-font-size-xxl`",
-        "$extensions": {
-          "calcite.outputReference": true
-        }
+        "$description": "Replaces `--calcite-font-size-xxl`"
       },
       "relative": {
         "xs": {

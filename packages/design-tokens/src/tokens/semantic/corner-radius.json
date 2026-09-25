@@ -4,11 +4,11 @@
       "attributes": {
         "category": "corner-radius"
       },
-      "$type": "borderRadius",
-      "$value": "{corner-radius.none}",
       "$extensions": {
-        "calcite.outputReference": true
-      }
+        "calcite.theme": true
+      },
+      "$type": "borderRadius",
+      "$value": "{corner-radius.none}"
     },
     "sharp": {
       "attributes": {
@@ -17,22 +17,25 @@
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.none}",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead."
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-theme-corner-radius-none` instead."
     },
     "none": {
       "attributes": {
         "category": "corner-radius"
       },
+      "$extensions": {
+        "calcite.theme": true
+      },
       "$type": "borderRadius",
       "$value": "{corner-radius.sharp}",
-      "$description": "Replaces `--calcite-corner-radius-sharp`",
-      "$extensions": {
-        "calcite.outputReference": true
-      }
+      "$description": "Replaces `--calcite-corner-radius-sharp`"
     },
     "xs": {
       "attributes": {
         "category": "corner-radius"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.2}"
@@ -41,12 +44,12 @@
       "attributes": {
         "category": "corner-radius"
       },
+      "$extensions": {
+        "calcite.theme": true
+      },
       "$type": "borderRadius",
       "$value": "{corner-radius.round}",
-      "$description": "Replaces `--calcite-corner-radius-round`",
-      "$extensions": {
-        "calcite.outputReference": true
-      }
+      "$description": "Replaces `--calcite-corner-radius-round`"
     },
     "round": {
       "attributes": {
@@ -55,11 +58,14 @@
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.4}",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead."
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-theme-corner-radius-sm` instead."
     },
     "pill": {
       "attributes": {
         "category": "corner-radius"
+      },
+      "$extensions": {
+        "calcite.theme": true
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.9999}"
