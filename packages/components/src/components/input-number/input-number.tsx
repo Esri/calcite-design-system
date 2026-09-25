@@ -355,7 +355,11 @@ export class InputNumber
   /** Specifies text to display at the end of the component. */
   @property() suffixText?: string;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @futureBreaking Remove boolean type since it blocks user-supplied icon from taking effect.
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -1024,16 +1028,13 @@ export class InputNumber
       if (!valid) {
         this.formSupport.setCustomValidity("Please enter a number.");
         this.status = "invalid";
-        this.validationIcon = true;
       } else {
         this.formSupport.setCustomValidity("");
         this.status = "valid";
-        this.validationIcon = undefined;
       }
     } else if (!this.required && origin !== "connected") {
       this.formSupport.setCustomValidity("");
       this.status = "valid";
-      this.validationIcon = undefined;
     }
 
     const validNewValue = isValidNumber(newValue)
