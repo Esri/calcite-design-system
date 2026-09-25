@@ -28,7 +28,12 @@ import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { getDepth, getListItemChildren, listSelector } from "./utils";
+import {
+  getClosestAncestorInComposedTree,
+  getDepth,
+  getListItemChildren,
+  listSelector,
+} from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
@@ -407,6 +412,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
       "calciteInternalListItemGroupDefaultSlotChange",
       this.handleCalciteInternalListDefaultSlotChanges,
     );
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupItemsChange"]>(
+      "calciteInternalListItemGroupItemsChange",
+      this.handleCalciteInternalListItemGroupItemsChange,
+    );
     this.listen<ToEvents<List>["calciteInternalListDefaultSlotChange"]>(
       "calciteInternalListDefaultSlotChange",
       this.handleCalciteInternalListDefaultSlotChanges,
@@ -414,9 +423,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   override connectedCallback(): void {
-    const { el } = this;
-    this.parentListEl = el.closest(listSelector) || undefined;
-    this.level = getDepth(el) + 1;
+    this.updateParentListAndLevel();
     this.setSelectionDefaults();
   }
 
@@ -483,6 +490,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   //#region Private Methods
 
+  /** @internal */
+  updateParentListAndLevel(): void {
+    const { el } = this;
+    this.parentListEl = getClosestAncestorInComposedTree<List["el"]>(el, listSelector) || undefined;
+    this.level = getDepth(el) + 1;
+  }
+
   private activeHandler(active: boolean): void {
     if (!active) {
       this.focusCell(undefined, false);
@@ -516,6 +530,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
     event.stopPropagation();
+    this.handleExpandableChange(this.defaultSlotRef.value);
+  }
+
+  private handleCalciteInternalListItemGroupItemsChange(): void {
     this.handleExpandableChange(this.defaultSlotRef.value);
   }
 
@@ -620,6 +638,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private handleDefaultSlotChange(event: Event): void {
     this.handleExpandableChange(event.target as HTMLSlotElement);
+    this.emitCalciteInternalListItemChange();
   }
 
   private handleToggleClick(): void {
