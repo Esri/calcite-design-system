@@ -15,7 +15,6 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-link-theme-interaction-underline-color
 // --calcite-internal-link-theme-text-color
 // --calcite-internal-link-theme-underline-color
 // --calcite-internal-link-theme-visited-text-color
@@ -27,7 +26,6 @@
 // --calcite-internal-link-theme-text-color
 // --calcite-internal-link-theme-visited-text-color
 // --calcite-internal-link-theme-underline-color
-// --calcite-internal-link-theme-interaction-underline-color
 
 :host {
   --calcite-internal-link-theme-text-color: var(--calcite-theme-color-text-link, var(--calcite-color-text-link));
@@ -39,8 +37,6 @@
     --calcite-theme-color-brand-underline,
     var(--calcite-color-brand-underline)
   );
-  --calcite-internal-link-theme-interaction-underline-color: var(--calcite-theme-color-brand-underline, currentColor);
-
   display: inline;
 }
 
@@ -77,10 +73,6 @@
   );
 }
 
-:host a:hover .link--text {
-  text-decoration-color: currentColor;
-}
-
 :host a:visited {
   color: var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-visited-text-color));
 }
@@ -113,10 +105,6 @@
   );
 }
 
-:host a:active .link--text {
-  text-decoration-color: currentColor;
-}
-
 :host a:visited:active {
   color: var(
     --calcite-link-visited-text-color-press,
@@ -135,7 +123,7 @@
 
 :host a:hover .link--text,
 :host a:active .link--text {
-  text-decoration-color: var(--calcite-internal-link-theme-interaction-underline-color);
+  text-decoration-color: currentColor;
 }
 
 calcite-icon {

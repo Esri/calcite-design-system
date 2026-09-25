@@ -184,7 +184,7 @@ describe("theme", () => {
 });
 
 describe("underline", () => {
-  it("preserves the semantic underline color while hovered and pressed", async () => {
+  it("uses semantic underline color at rest and text color while hovered and pressed", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
     const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
@@ -192,13 +192,16 @@ describe("underline", () => {
     const underlineColor = "rgb(12 34 56 / 40%)";
 
     el.style.setProperty("--calcite-theme-color-brand-underline", underlineColor);
-    await commands.mouseMove(x + width / 2, y + height / 2);
 
     expect(getComputedStyle(text).textDecorationColor).toBe("rgba(12, 34, 56, 0.4)");
+
+    await commands.mouseMove(x + width / 2, y + height / 2);
+
+    expect(getComputedStyle(text).textDecorationColor).toBe(getComputedStyle(anchor).color);
 
     await commands.mouseDown();
 
-    expect(getComputedStyle(text).textDecorationColor).toBe("rgba(12, 34, 56, 0.4)");
+    expect(getComputedStyle(text).textDecorationColor).toBe(getComputedStyle(anchor).color);
 
     await commands.mouseUp();
   });
