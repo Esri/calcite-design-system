@@ -16,7 +16,10 @@
 
 :host([bordered]) {
   box-shadow: inset 0 1px 0 var(--calcite-tab-border-color, var(--calcite-color-border-1));
-  background-color: var(--calcite-tab-background-color, var(--calcite-color-surface-2));
+  background-color: var(
+    --calcite-tab-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 
   section {
     border-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));

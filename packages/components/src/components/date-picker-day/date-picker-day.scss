@@ -77,7 +77,10 @@
 
 :host(:hover:not([disabled]):not([selected])) {
   & .day {
-    background-color: var(--calcite-date-picker-day-background-color-hover, var(--calcite-color-surface-3));
+    background-color: var(
+      --calcite-date-picker-day-background-color-hover,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
     color: var(--calcite-date-picker-day-text-color-hover, var(--calcite-color-text-1));
   }
 }
@@ -91,7 +94,7 @@
 
 :host(:focus[selected]) .day {
   @apply focus-outset z-default;
-  box-shadow: 0 0 0 2px var(--calcite-color-surface-2);
+  box-shadow: 0 0 0 2px var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
 }
 
 :host(:focus:not([disabled]):not([selected])) .day {
@@ -112,7 +115,7 @@
   .day {
     background-color: var(
       --calcite-date-picker-day-outside-range-background-color-hover,
-      var(--calcite-color-surface-3)
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
     );
     color: var(--calcite-date-picker-day-outside-range-text-color-hover, var(--calcite-color-text-1));
   }

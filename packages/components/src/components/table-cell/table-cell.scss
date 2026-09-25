@@ -71,7 +71,7 @@ td.last-cell {
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
   background-color: var(
     --calcite-table-cell-background-color,
-    var(--calcite-table-cell-background, var(--calcite-color-surface-1))
+    var(--calcite-table-cell-background, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
   );
 
   border-block-end: 0;
@@ -90,11 +90,14 @@ td.last-cell {
 
 .number-cell {
   color: var(--calcite-table-number-cell-text-color, var(--calcite-color-text-1));
-  background-color: var(--calcite-table-number-cell-background-color, var(--calcite-color-surface-3));
+  background-color: var(
+    --calcite-table-number-cell-background-color,
+    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+  );
   &.footer-cell {
     background-color: var(
       --calcite-table-number-cell-background-color,
-      var(--calcite-table-cell-background-color, var(--calcite-color-surface-1))
+      var(--calcite-table-cell-background-color, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
     );
   }
 }
@@ -111,7 +114,7 @@ td.last-cell {
   &.footer-cell {
     background-color: var(
       --calcite-table-selection-cell-background-color,
-      var(--calcite-table-cell-background-color, var(--calcite-color-surface-1))
+      var(--calcite-table-cell-background-color, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
     );
   }
 }

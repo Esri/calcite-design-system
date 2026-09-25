@@ -142,7 +142,10 @@
   padding: 0;
   flex-basis: auto;
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
-  background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-block-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 
 @include includes.disabled();
@@ -201,13 +204,19 @@
   background-color: var(--calcite-block-header-background-color, transparent);
 
   &:hover {
-    background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-surface-3));
+    background-color: var(
+      --calcite-block-header-background-color-hover,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
   }
   &:focus {
     @include focus.focus-inset();
   }
   &:active {
-    background-color: var(--calcite-block-header-background-color-press, var(--calcite-color-surface-4));
+    background-color: var(
+      --calcite-block-header-background-color-press,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
 }
 

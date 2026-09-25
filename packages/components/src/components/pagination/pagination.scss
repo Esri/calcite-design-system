@@ -114,7 +114,10 @@
     border-block-end-color: var(--calcite-pagination-color-border-hover, var(--calcite-color-border-2));
   }
   &:active {
-    background-color: var(--calcite-pagination-background-color, var(--calcite-color-surface-4));
+    background-color: var(
+      --calcite-pagination-background-color,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
   &.selected {
     @apply font-medium;
@@ -131,10 +134,16 @@
 
 .chevron {
   &:hover {
-    background-color: var(--calcite-pagination-icon-color-background-hover, var(--calcite-color-surface-3));
+    background-color: var(
+      --calcite-pagination-icon-color-background-hover,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
   }
   &:active {
-    background-color: var(--calcite-pagination-background-color, var(--calcite-color-surface-4));
+    background-color: var(
+      --calcite-pagination-background-color,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
   &.disabled {
     @apply pointer-events-none bg-transparent;

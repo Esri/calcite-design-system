@@ -128,6 +128,18 @@ describe("theme", () => {
       },
     });
   });
+
+  it("preserves deprecated reference token overrides and prioritizes the replacement theme token", async () => {
+    const { el } = await mount("calcite-card");
+    const contentWrapper = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.contentWrapper}`);
+
+    el.style.setProperty("--calcite-color-foreground-1", "rgb(1, 2, 3)");
+    await expect.poll(() => getComputedStyle(contentWrapper).backgroundColor).toBe("rgb(1, 2, 3)");
+
+    el.style.setProperty("--calcite-theme-color-surface-2", "rgb(4, 5, 6)");
+    await expect.poll(() => getComputedStyle(contentWrapper).backgroundColor).toBe("rgb(4, 5, 6)");
+  });
+
   describe("selectable", () => {
     describe("default", () => {
       themed(

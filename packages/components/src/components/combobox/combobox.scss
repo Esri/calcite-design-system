@@ -84,7 +84,10 @@
   padding-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
   border-radius: var(--calcite-combobox-corner-radius, var(--calcite-corner-radius));
-  background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-surface-2));
+  background-color: var(
+    --calcite-combobox-input-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
   border-color: var(--calcite-combobox-input-border-color, var(--calcite-color-border-input));
 
@@ -102,7 +105,7 @@
 
 :host([read-only]) {
   .wrapper {
-    background-color: var(--calcite-color-surface-1);
+    background-color: var(--calcite-theme-color-surface-1, var(--calcite-color-background));
   }
 
   .label {
@@ -266,7 +269,10 @@
   max-block-size: var(--calcite-internal-combobox-max-block-size);
   overflow-y: auto;
   inline-size: var(--calcite-dropdown-width, 100%);
-  background-color: var(--calcite-combobox-background-color, var(--calcite-color-surface-2));
+  background-color: var(
+    --calcite-combobox-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 
 .list {
@@ -300,7 +306,10 @@ calcite-chip {
 }
 
 .select-all {
-  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-surface-2));
+  background-color: var(
+    --calcite-combobox-item-background-color-active,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border-block-end-color: var(
     --calcite-combobox-divider-color,
     var(--calcite-combobox-item-border-color, var(--calcite-color-border-3))
@@ -317,7 +326,10 @@ calcite-chip {
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
 
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
-  background: var(--calcite-combobox-background-color, var(--calcite-color-surface-2));
+  background: var(
+    --calcite-combobox-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   cursor: pointer;
 }
 

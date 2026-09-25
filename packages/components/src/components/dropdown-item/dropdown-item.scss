@@ -120,12 +120,18 @@
 
 :host(:hover:not([disabled])) {
   .container {
-    background-color: var(--calcite-dropdown-item-background-color-hover, var(--calcite-color-surface-3));
+    background-color: var(
+      --calcite-dropdown-item-background-color-hover,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
   }
 }
 
 :host(:active:not([disabled])) .container {
-  background-color: var(--calcite-dropdown-item-background-color-press, var(--calcite-color-surface-4));
+  background-color: var(
+    --calcite-dropdown-item-background-color-press,
+    var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+  );
 }
 
 :host(:hover:not([disabled])),
