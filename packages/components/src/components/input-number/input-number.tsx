@@ -355,7 +355,11 @@ export class InputNumber
   /** Specifies text to display at the end of the component. */
   @property() suffixText?: string;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @futureBreaking Remove boolean type since it blocks user-supplied icon from taking effect.
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -839,12 +843,16 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      const inputElement = this.childNumberRef.value;
+      if (!this.value && !inputElement?.value) {
+        return;
+      }
+      if (this.value && inputElement?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
       if (
-        this.value &&
-        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
+        inputElement?.selectionStart === 0 &&
+        inputElement?.selectionEnd === inputElement.value.length
       ) {
         return;
       }
@@ -863,14 +871,7 @@ export class InputNumber
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value?.value) {
-        return;
-      }
-      if (
-        this.value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (this.childNumberRef.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -973,21 +974,18 @@ export class InputNumber
 
     const previousDraftValue = this.valueForEditing;
     const shouldStageValue = origin === "user" && this.isStagingInlineEditingValue;
-    const isValueDeleted =
+    const isValueLengthShortened =
       this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
     const hasTrailingDecimalSeparator =
+      valueHandleInteger.length >= 2 &&
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
-
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
+    const sanitizedValue = sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
@@ -1007,8 +1005,8 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
-      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    if ((hasTrailingDecimalSeparator && isValueLengthShortened) || value === ".") {
+      newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
     }
 
     // adds localized leading zeros
@@ -1023,9 +1021,27 @@ export class InputNumber
     this.displayedValue = newLocalizedValue;
     this.setPreviousNumberValue(previousValue ?? previousDraftValue);
     this.previousValueOrigin = origin;
-    // don't sanitize the start of negative/decimal numbers, but
-    // don't set value to an invalid number
-    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+    this.userChangedValue = origin === "user" && this.value !== newValue;
+
+    if (newValue) {
+      const valid = isValidNumber(newValue);
+      if (!valid) {
+        this.formSupport.setCustomValidity("Please enter a number.");
+        this.status = "invalid";
+      } else {
+        this.formSupport.setCustomValidity("");
+        this.status = "valid";
+      }
+    } else if (!this.required && origin !== "connected") {
+      this.formSupport.setCustomValidity("");
+      this.status = "valid";
+    }
+
+    const validNewValue = isValidNumber(newValue)
+      ? newValue
+      : newValue.endsWith(".") && !isNaN(Number(newValue))
+        ? String(Number(newValue))
+        : "";
 
     if (shouldStageValue) {
       this.draftValue = validNewValue;
