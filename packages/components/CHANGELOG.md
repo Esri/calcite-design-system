@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.83](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.82...@esri/calcite-components@5.2.0-next.83) (2026-09-25)
+
+### Features
+
+- **link:** refine interaction visuals and reduce icon spacing ([#15237](https://github.com/Esri/calcite-design-system/issues/15237)), closes [#15228](https://github.com/Esri/calcite-design-system/issues/15228)
+
 ## [5.2.0-next.82](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.81...@esri/calcite-components@5.2.0-next.82) (2026-09-24)
 
 ### Features

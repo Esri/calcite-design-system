@@ -46,16 +46,14 @@
   @include includes.transition-default($extra-props: "text-decoration-color");
 }
 
-:host a:hover,
-:host a:focus {
+:host a:hover {
   color: var(
     --calcite-link-text-color-hover,
     var(--calcite-link-text-color, var(--calcite-theme-color-text-link, var(--calcite-color-text-link)))
   );
 }
 
-:host a:hover .link--text,
-:host a:focus .link--text {
+:host a:hover .link--text {
   text-decoration-color: currentColor;
 }
 
@@ -107,7 +105,6 @@
 
 :host a:active .link--text {
   text-decoration-color: currentColor;
-  text-decoration-thickness: var(--calcite-border-width-md);
 }
 
 :host a:visited:active {
@@ -142,11 +139,11 @@ calcite-icon {
 }
 
 :host .calcite-link--icon.icon-start {
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-space-2xs);
 }
 
 :host .calcite-link--icon.icon-end {
-  margin-inline-start: theme("margin.2");
+  margin-inline-start: var(--calcite-space-2xs);
 }
 
 @include includes.disabled();
