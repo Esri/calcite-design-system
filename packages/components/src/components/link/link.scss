@@ -3,17 +3,44 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-link-text-color: Specifies the component's text color.
- * @prop --calcite-link-text-color-hover: Specifies the component's text color when hovered or focused.
- * @prop --calcite-link-text-color-press: Specifies the component's text color when pressed.
- * @prop --calcite-link-visited-text-color: Specifies the component's text color after the link has been visited.
- * @prop --calcite-link-visited-text-color-hover: Specifies the component's text color when a visited link is hovered or focused.
- * @prop --calcite-link-visited-text-color-press: Specifies the component's text color when a visited link is pressed.
+ * @prop --calcite-link-text-color: Specifies the component's text and icon color.
+ * @prop --calcite-link-text-color-hover: Specifies the component's text and icon color when hovered.
+ * @prop --calcite-link-text-color-press: Specifies the component's text and icon color when pressed.
+ * @prop --calcite-link-visited-text-color: Specifies the component's text and icon color for visited links.
+ * @prop --calcite-link-visited-text-color-hover: Specifies the component's text and icon color when a visited link is hovered.
+ * @prop --calcite-link-visited-text-color-press: Specifies the component's text and icon color when a visited link is pressed.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-link-theme-interaction-underline-color
+// --calcite-internal-link-theme-text-color
+// --calcite-internal-link-theme-underline-color
+// --calcite-internal-link-theme-visited-text-color
 
 @use "../../styles/includes";
 
+// Internal semantic defaults; Link-specific state overrides are applied in their state rules.
+//
+// --calcite-internal-link-theme-text-color
+// --calcite-internal-link-theme-visited-text-color
+// --calcite-internal-link-theme-underline-color
+// --calcite-internal-link-theme-interaction-underline-color
+
 :host {
+  --calcite-internal-link-theme-text-color: var(--calcite-theme-color-text-link, var(--calcite-color-text-link));
+  --calcite-internal-link-theme-visited-text-color: var(
+    --calcite-theme-color-text-link-visited,
+    var(--calcite-color-text-link-visited)
+  );
+  --calcite-internal-link-theme-underline-color: var(
+    --calcite-theme-color-brand-underline,
+    var(--calcite-color-brand-underline)
+  );
+  --calcite-internal-link-theme-interaction-underline-color: var(--calcite-theme-color-brand-underline, currentColor);
+
   display: inline;
 }
 
@@ -25,7 +52,7 @@
   font-size: inherit;
   -webkit-appearance: none;
 
-  color: var(--calcite-link-text-color, var(--calcite-theme-color-text-link, var(--calcite-color-text-link)));
+  color: var(--calcite-link-text-color, var(--calcite-internal-link-theme-text-color));
   line-height: inherit;
   white-space: initial;
 
@@ -36,10 +63,7 @@
 
 .link--text {
   text-decoration-line: var(--calcite-internal-link-text-decoration-line, underline);
-  text-decoration-color: var(
-    --calcite-link-text-color,
-    var(--calcite-theme-color-brand-underline, var(--calcite-color-brand-underline))
-  );
+  text-decoration-color: var(--calcite-link-text-color, var(--calcite-internal-link-theme-underline-color));
   text-decoration-thickness: var(--calcite-border-width-sm);
   text-underline-offset: 0.33em;
 
@@ -49,7 +73,7 @@
 :host a:hover {
   color: var(
     --calcite-link-text-color-hover,
-    var(--calcite-link-text-color, var(--calcite-theme-color-text-link, var(--calcite-color-text-link)))
+    var(--calcite-link-text-color, var(--calcite-internal-link-theme-text-color))
   );
 }
 
@@ -58,10 +82,7 @@
 }
 
 :host a:visited {
-  color: var(
-    --calcite-link-visited-text-color,
-    var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
-  );
+  color: var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-visited-text-color));
 }
 
 :host a:visited .link--text {
@@ -69,26 +90,18 @@
     --calcite-theme-color-brand-underline,
     color-mix(
       in srgb,
-      var(
-          --calcite-link-visited-text-color,
-          var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
-        )
-        40%,
+      var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-visited-text-color)) 40%,
       transparent
     )
   );
 }
 
-:host a:visited:hover,
-:host a:visited:focus {
+:host a:visited:hover {
   color: var(
     --calcite-link-visited-text-color-hover,
     var(
       --calcite-link-text-color-hover,
-      var(
-        --calcite-link-visited-text-color,
-        var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
-      )
+      var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-visited-text-color))
     )
   );
 }
@@ -96,10 +109,7 @@
 :host a:active {
   color: var(
     --calcite-link-text-color-press,
-    var(
-      --calcite-link-text-color-hover,
-      var(--calcite-link-text-color, var(--calcite-theme-color-text-link, var(--calcite-color-text-link)))
-    )
+    var(--calcite-link-text-color-hover, var(--calcite-link-text-color, var(--calcite-internal-link-theme-text-color)))
   );
 }
 
@@ -116,10 +126,7 @@
         --calcite-link-text-color-press,
         var(
           --calcite-link-text-color-hover,
-          var(
-            --calcite-link-visited-text-color,
-            var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
-          )
+          var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-visited-text-color))
         )
       )
     )
@@ -127,9 +134,8 @@
 }
 
 :host a:hover .link--text,
-:host a:focus .link--text,
 :host a:active .link--text {
-  text-decoration-color: var(--calcite-theme-color-brand-underline, currentColor);
+  text-decoration-color: var(--calcite-internal-link-theme-interaction-underline-color);
 }
 
 calcite-icon {
