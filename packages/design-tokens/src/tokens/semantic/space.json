@@ -8,7 +8,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.4}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-2xs` instead."
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-theme-space-2xs` instead."
       },
       "xs": {
         "attributes": {
@@ -17,7 +17,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.6}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-xs` instead."
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-theme-space-xs` instead."
       },
       "sm": {
         "attributes": {
@@ -26,7 +26,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.8}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-sm` instead."
+        "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-theme-space-sm` instead."
       },
       "md": {
         "attributes": {
@@ -35,7 +35,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.12}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-md` instead."
+        "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-theme-space-md` instead."
       },
       "lg": {
         "attributes": {
@@ -44,7 +44,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.14}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-md-plus` instead."
+        "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-theme-space-md-plus` instead."
       },
       "xl": {
         "attributes": {
@@ -53,7 +53,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.16}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-lg` instead."
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-theme-space-lg` instead."
       },
       "xxl": {
         "attributes": {
@@ -62,7 +62,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.20}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-xl` instead."
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-theme-space-xl` instead."
       },
       "xxxl": {
         "attributes": {
@@ -71,7 +71,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.32}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-3xl` instead."
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-theme-space-3xl` instead."
       }
     },
     "default": {
@@ -82,7 +82,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.none}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-none` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-none` instead."
       },
       "px": {
         "attributes": {
@@ -91,7 +91,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.1}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-px` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-px` instead."
       },
       "base": {
         "attributes": {
@@ -100,7 +100,7 @@
         },
         "$type": "spacing",
         "$value": "{core.size.default.2}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-base` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-base` instead."
       },
       "xxs": {
         "attributes": {
@@ -109,7 +109,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.4}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-2xs` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-2xs` instead."
       },
       "xs": {
         "attributes": {
@@ -118,7 +118,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.6}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-xs` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-xs` instead."
       },
       "sm": {
         "attributes": {
@@ -127,7 +127,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.8}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-sm` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-sm` instead."
       },
       "sm-plus": {
         "attributes": {
@@ -136,7 +136,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.10}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-sm-plus` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-sm-plus` instead."
       },
       "md": {
         "attributes": {
@@ -145,7 +145,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.12}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-md` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-md` instead."
       },
       "md-plus": {
         "attributes": {
@@ -154,7 +154,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.14}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-md-plus` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-md-plus` instead."
       },
       "lg": {
         "attributes": {
@@ -163,7 +163,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.16}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-lg` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-lg` instead."
       },
       "xl": {
         "attributes": {
@@ -172,7 +172,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.20}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-xl` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-xl` instead."
       },
       "xxl": {
         "attributes": {
@@ -181,7 +181,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.24}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-2xl` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-2xl` instead."
       },
       "xxxl": {
         "attributes": {
@@ -190,7 +190,7 @@
         },
         "$type": "dimension",
         "$value": "{core.size.default.32}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-3xl` instead."
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-theme-space-3xl` instead."
       }
     }
   },

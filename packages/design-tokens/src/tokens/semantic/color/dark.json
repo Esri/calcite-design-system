@@ -71,7 +71,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-210}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-1` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-theme-color-surface-1` instead."
       },
       "none": {
         "attributes": {
@@ -93,7 +93,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-200}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-2` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-theme-color-surface-2` instead."
       },
       "2": {
         "attributes": {
@@ -103,7 +103,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-190}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-3` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-theme-color-surface-3` instead."
       },
       "3": {
         "attributes": {
@@ -113,7 +113,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-180}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-4` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-theme-color-surface-4` instead."
       },
       "current": {
         "attributes": {
@@ -123,7 +123,7 @@
         },
         "$type": "color",
         "$value": "{core.color.medium-saturation.blue.m-bb-090}",
-        "$description": "Deprecated in v3.2.0, removal target v5.0.0 - Use `--calcite-color-surface-highlight` instead."
+        "$description": "Deprecated in v3.2.0, removal target v5.0.0 - Use `--calcite-theme-color-surface-highlight` instead."
       }
     },
     "text": {

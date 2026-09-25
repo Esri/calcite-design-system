@@ -17,7 +17,7 @@
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.none}",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead."
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-theme-corner-radius-none` instead."
     },
     "none": {
       "attributes": {
@@ -58,7 +58,7 @@
       },
       "$type": "borderRadius",
       "$value": "{core.size.default.4}",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead."
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-theme-corner-radius-sm` instead."
     },
     "pill": {
       "attributes": {
