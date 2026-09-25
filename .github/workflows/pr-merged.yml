@@ -9,6 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: benelan/milestone-action@v3
+  stale_cleanup:
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'Stale')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: "Remove Stale label"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh pr edit '${{ github.event.pull_request.number }}' --remove-label 'Stale'
   refactor:
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'refactor')
     runs-on: ubuntu-latest
