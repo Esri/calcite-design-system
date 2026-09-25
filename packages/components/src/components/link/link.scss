@@ -71,11 +71,11 @@ calcite-icon {
   margin-block-start: -0.25em;
 }
 
-:host .link--icon.icon-start {
+.link--icon.icon-start {
   margin-inline-end: theme("margin.2");
 }
 
-:host .link--icon.icon-end {
+.link--icon.icon-end {
   margin-inline-start: theme("margin.2");
 }
 
