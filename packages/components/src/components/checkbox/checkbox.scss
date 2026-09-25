@@ -46,7 +46,7 @@
   .check-svg {
     @include includes.transition-default();
 
-    background-color: var(--calcite-color-foreground-1);
+    background-color: var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
     pointer-events: none;
     box-sizing: border-box;
     display: block;
