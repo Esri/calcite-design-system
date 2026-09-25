@@ -6,13 +6,13 @@ import {
 } from "style-dictionary/enums";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types.ts";
-import { preprocessors, transformers, filters, headers, formats } from "../../build/registry/index.ts";
+import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
 import { primitiveValueOutputReferences } from "../../build/utils/output-references.ts";
 
 const config: Config = {
   source: ["src/tokens/semantic/color/dark.json"],
   include: ["src/tokens/semantic/color/dark.json", "src/tokens/core/[!$]*.json"],
-  preprocessors: ["tokens-studio", preprocessors.PreprocessorInheritThemeExtensions],
+  preprocessors: ["tokens-studio"],
   platforms: {
     scss: {
       transformGroup: transformers.TransformCalciteGroup,

@@ -27,7 +27,6 @@ const config: Config = {
   include: ["src/tokens/core/[!$]*.json", "src/tokens/semantic/color/[!$]*.json"],
   preprocessors: [
     "tokens-studio",
-    preprocessors.PreprocessorInheritThemeExtensions,
     preprocessors.PreprocessorStorePostMergeDictionary,
     preprocessors.PreprocessorStoreSameValueThemeTokens,
   ],
