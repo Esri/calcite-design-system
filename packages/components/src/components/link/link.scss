@@ -25,7 +25,7 @@
   font-size: inherit;
   -webkit-appearance: none;
 
-  color: var(--calcite-link-text-color, var(--calcite-color-text-link));
+  color: var(--calcite-link-text-color, var(--calcite-theme-color-text-link, var(--calcite-color-text-link)));
   line-height: inherit;
   white-space: initial;
 
@@ -36,7 +36,10 @@
 
 .link--text {
   text-decoration-line: var(--calcite-internal-link-text-decoration-line, underline);
-  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-decoration-color: var(
+    --calcite-link-text-color,
+    var(--calcite-theme-color-brand-underline, var(--calcite-color-brand-underline))
+  );
   text-decoration-thickness: var(--calcite-border-width-sm);
   text-underline-offset: 0.33em;
 
@@ -45,7 +48,10 @@
 
 :host a:hover,
 :host a:focus {
-  color: var(--calcite-link-text-color-hover, var(--calcite-color-text-link));
+  color: var(
+    --calcite-link-text-color-hover,
+    var(--calcite-link-text-color, var(--calcite-theme-color-text-link, var(--calcite-color-text-link)))
+  );
 }
 
 :host a:hover .link--text,
@@ -54,19 +60,49 @@
 }
 
 :host a:visited {
-  color: var(--calcite-link-visited-text-color, var(--calcite-color-text-link-visited));
+  color: var(
+    --calcite-link-visited-text-color,
+    var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
+  );
+}
+
+:host a:visited .link--text {
+  text-decoration-color: var(
+    --calcite-theme-color-brand-underline,
+    color-mix(
+      in srgb,
+      var(
+          --calcite-link-visited-text-color,
+          var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
+        )
+        40%,
+      transparent
+    )
+  );
 }
 
 :host a:visited:hover,
 :host a:visited:focus {
   color: var(
     --calcite-link-visited-text-color-hover,
-    var(--calcite-link-text-color-hover, var(--calcite-color-text-link-visited))
+    var(
+      --calcite-link-text-color-hover,
+      var(
+        --calcite-link-visited-text-color,
+        var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
+      )
+    )
   );
 }
 
 :host a:active {
-  color: var(--calcite-link-text-color-press, var(--calcite-color-text-link));
+  color: var(
+    --calcite-link-text-color-press,
+    var(
+      --calcite-link-text-color-hover,
+      var(--calcite-link-text-color, var(--calcite-theme-color-text-link, var(--calcite-color-text-link)))
+    )
+  );
 }
 
 :host a:active .link--text {
@@ -77,7 +113,19 @@
 :host a:visited:active {
   color: var(
     --calcite-link-visited-text-color-press,
-    var(--calcite-link-text-color-press, var(--calcite-color-text-link-visited))
+    var(
+      --calcite-link-text-color-press,
+      var(
+        --calcite-link-visited-text-color-hover,
+        var(
+          --calcite-link-text-color-hover,
+          var(
+            --calcite-link-visited-text-color,
+            var(--calcite-theme-color-text-link-visited, var(--calcite-color-text-link-visited))
+          )
+        )
+      )
+    )
   );
 }
 
