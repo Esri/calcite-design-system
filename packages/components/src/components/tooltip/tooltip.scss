@@ -65,7 +65,10 @@
   font-weight: var(--calcite-font-weight-medium);
   padding-block: var(--calcite-internal-tooltip-padding-block);
   padding-inline: var(--calcite-internal-tooltip-padding-inline);
-  border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-tooltip-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
   color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
   text-align: start;
 }
@@ -76,7 +79,10 @@
   box-shadow: var(--calcite-shadow-md);
   background-color: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
-  border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-tooltip-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
 }
 
 .calcite-floating-ui-arrow {
