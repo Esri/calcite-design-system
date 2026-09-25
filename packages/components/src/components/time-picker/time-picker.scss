@@ -107,12 +107,12 @@
     @apply text-n1;
     .button,
     .input {
-      padding-inline: var(--calcite-space-sm);
-      padding-block: var(--calcite-space-2xs);
+      padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+      padding-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-space-md);
+        padding-inline-end: var(--calcite-theme-space-md, var(--calcite-spacing-md));
       }
     }
   }
@@ -121,12 +121,12 @@
     @apply text-0;
     .button,
     .input {
-      padding-inline: var(--calcite-space-md);
-      padding-block: var(--calcite-space-sm);
+      padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+      padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-space-xl);
+        padding-inline-end: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
       }
     }
   }
@@ -135,12 +135,12 @@
     @apply text-1;
     .button,
     .input {
-      padding-inline: var(--calcite-space-lg);
-      padding-block: var(--calcite-space-md);
+      padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
+      padding-block: var(--calcite-theme-space-md, var(--calcite-spacing-md));
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-space-2xl);
+        padding-inline-end: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
       }
     }
   }

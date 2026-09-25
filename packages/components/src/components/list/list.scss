@@ -19,15 +19,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-space-2xs);
+  --calcite-internal-list-action-spacing: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 
 :host([scale="m"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-space-2xs);
+  --calcite-internal-list-action-spacing: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 
 :host([scale="l"]) {
-  --calcite-internal-list-action-spacing: var(--calcite-space-xs);
+  --calcite-internal-list-action-spacing: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
 }
 
 @include includes.disabled();

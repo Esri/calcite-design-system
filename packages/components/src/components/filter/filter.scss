@@ -35,17 +35,17 @@
 
 :host([scale="s"]) {
   .container {
-    padding: var(--calcite-filter-content-space, var(--calcite-space-sm));
+    padding: var(--calcite-filter-content-space, var(--calcite-theme-space-sm, var(--calcite-spacing-sm)));
   }
 }
 :host([scale="m"]) {
   .container {
-    padding: var(--calcite-filter-content-space, var(--calcite-space-md));
+    padding: var(--calcite-filter-content-space, var(--calcite-theme-space-md, var(--calcite-spacing-md)));
   }
 }
 :host([scale="l"]) {
   .container {
-    padding: var(--calcite-filter-content-space, var(--calcite-space-lg));
+    padding: var(--calcite-filter-content-space, var(--calcite-theme-space-lg, var(--calcite-spacing-lg)));
   }
 }
 

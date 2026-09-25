@@ -33,47 +33,50 @@
 
 :host([scale="s"]) {
   .container {
-    padding-inline: var(--calcite-space-sm);
+    padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
   .heading {
     font-size: var(--calcite-font-size-sm);
     line-height: var(--calcite-font-line-height-fixed-base);
-    padding-block: var(--calcite-space-sm) var(--calcite-space-2xs);
+    padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+      var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   }
 }
 :host([scale="s"]:not(:first-child)) {
   .container {
-    padding-block-start: var(--calcite-space-sm);
+    padding-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 :host([scale="m"]) {
   .container {
-    padding-inline: var(--calcite-space-md);
+    padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
   .heading {
     font-size: var(--calcite-font-size);
     line-height: var(--calcite-font-line-height-fixed-base);
-    padding-block: var(--calcite-space-lg) var(--calcite-space-sm);
+    padding-block: var(--calcite-theme-space-lg, var(--calcite-spacing-lg))
+      var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 :host([scale="m"]:not(:first-child)) {
   .container {
-    padding-block-start: var(--calcite-space-md);
+    padding-block-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 }
 :host([scale="l"]) {
   .container {
-    padding-inline: var(--calcite-space-lg);
+    padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
   .heading {
     font-size: var(--calcite-font-size-md);
     line-height: var(--calcite-font-line-height-fixed-lg);
-    padding-block: var(--calcite-space-xl) var(--calcite-space-sm-plus, 0.625rem);
+    padding-block: var(--calcite-theme-space-xl, var(--calcite-spacing-xl))
+      var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus, 0.625rem));
   }
 }
 :host([scale="l"]:not(:first-child)) {
   .container {
-    padding-block-start: var(--calcite-space-md-plus, 0.875rem);
+    padding-block-start: var(--calcite-theme-space-md-plus, var(--calcite-spacing-md-plus, 0.875rem));
   }
 }
 

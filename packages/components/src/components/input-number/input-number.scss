@@ -86,22 +86,31 @@
     block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & input {
-    padding-inline: var(--calcite-space-sm);
+    padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
-  @include input-affix-spacing(var(--calcite-space-sm), var(--calcite-space-2xs));
+  @include input-affix-spacing(
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm)),
+    var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
     block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & .clear-button {
-    block-size: var(--calcite-space-2xl);
+    block-size: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
   }
   &:host([number-button-type="horizontal"]) {
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-space-2xs);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-2xs,
+      var(--calcite-spacing-xxs)
+    );
   }
   &:host([number-button-type="vertical"]) {
     --calcite-internal-input-number-number-button-item-height: 8px;
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-space-2xs);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-2xs,
+      var(--calcite-spacing-xxs)
+    );
     --calcite-internal-input-number-number-button-item-vertical-padding: 3px;
   }
 }
@@ -116,9 +125,12 @@
     block-size: var(--calcite-input-number-height, 2rem);
   }
   & input {
-    padding-inline: var(--calcite-space-md);
+    padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
-  @include input-affix-spacing(var(--calcite-space-md), var(--calcite-space-xs));
+  @include input-affix-spacing(
+    var(--calcite-theme-space-md, var(--calcite-spacing-md)),
+    var(--calcite-theme-space-xs, var(--calcite-spacing-xs))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
     block-size: var(--calcite-input-number-height, 2rem);
@@ -143,19 +155,28 @@
     block-size: var(--calcite-input-number-height, 2.75rem);
   }
   & input {
-    padding-inline: var(--calcite-space-lg);
+    padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
-  @include input-affix-spacing(var(--calcite-space-lg), var(--calcite-space-sm));
+  @include input-affix-spacing(
+    var(--calcite-theme-space-lg, var(--calcite-spacing-lg)),
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
     block-size: var(--calcite-input-number-height, 2.75rem);
   }
   &:host([number-button-type="horizontal"]) {
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-space-sm-plus);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-sm-plus,
+      var(--calcite-spacing-sm-plus)
+    );
   }
   &:host([number-button-type="vertical"]) {
     --calcite-internal-input-number-number-button-item-height: 16px;
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-space-sm-plus);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-sm-plus,
+      var(--calcite-spacing-sm-plus)
+    );
     --calcite-internal-input-number-number-button-item-vertical-padding: 5px;
   }
 }
@@ -544,8 +565,8 @@ input[readonly]:focus {
 
   calcite-action {
     --calcite-internal-action-height: var(--calcite-internal-input-number-number-button-item-height);
-    --calcite-internal-action-padding-inline: var(--calcite-space-none);
-    --calcite-internal-action-padding-block: var(--calcite-space-none);
+    --calcite-internal-action-padding-inline: var(--calcite-theme-space-none, var(--calcite-spacing-none));
+    --calcite-internal-action-padding-block: var(--calcite-theme-space-none, var(--calcite-spacing-none));
 
     --calcite-action-background-color: var(--calcite-input-actions-background-color);
     --calcite-action-text-color: var(--calcite-input-actions-icon-color);

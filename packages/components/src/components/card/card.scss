@@ -175,7 +175,7 @@
 }
 
 :host([selectable]) .header {
-  padding-inline-end: var(--calcite-space-3xl);
+  padding-inline-end: var(--calcite-theme-space-3xl, var(--calcite-spacing-xxxl));
 }
 
 @include includes.slotted("heading", "*") {
@@ -216,8 +216,8 @@
 .checkbox-wrapper-deprecated {
   position: absolute;
   pointer-events: auto;
-  inset-block-start: var(--calcite-space-sm);
-  inset-inline-end: var(--calcite-space-sm);
+  inset-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+  inset-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   margin: 0;
   padding: 0;
   color: var(--calcite-card-selection-color, var(--calcite-color-text-3));

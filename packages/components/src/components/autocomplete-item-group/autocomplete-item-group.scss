@@ -19,11 +19,17 @@
 
 .scale--s {
   @apply text-n2h;
-  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-space-sm);
-  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-space-2xs);
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(
+    --calcite-theme-space-sm,
+    var(--calcite-spacing-sm)
+  );
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(
+    --calcite-theme-space-2xs,
+    var(--calcite-spacing-xxs)
+  );
 
   .first-title {
-    padding-block-start: var(--calcite-space-sm);
+    padding-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 
   .separator {
@@ -34,11 +40,17 @@
 
 .scale--m {
   @apply text-n1h;
-  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-space-md);
-  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-space-xs);
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(
+    --calcite-theme-space-md,
+    var(--calcite-spacing-md)
+  );
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(
+    --calcite-theme-space-xs,
+    var(--calcite-spacing-xs)
+  );
 
   .first-title {
-    padding-block-start: var(--calcite-space-md);
+    padding-block-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 
   .separator {
@@ -49,11 +61,17 @@
 
 .scale--l {
   @apply text-0h;
-  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-space-lg);
-  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-space-sm-plus);
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(
+    --calcite-theme-space-lg,
+    var(--calcite-spacing-lg)
+  );
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(
+    --calcite-theme-space-sm-plus,
+    var(--calcite-spacing-sm-plus)
+  );
 
   .first-title {
-    padding-block-start: var(--calcite-space-xl);
+    padding-block-start: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
 
   .separator {
@@ -79,7 +97,7 @@
 }
 
 .separator {
-  block-size: var(--calcite-space-px);
+  block-size: var(--calcite-theme-space-px, var(--calcite-spacing-px));
   background-color: var(--calcite-autocomplete-border-color, var(--calcite-color-border-3));
 }
 

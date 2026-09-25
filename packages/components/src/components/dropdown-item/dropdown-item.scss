@@ -72,11 +72,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-space-sm);
+    padding-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-space-sm);
+    padding-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 
@@ -87,11 +87,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-space-md);
+    padding-inline-end: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-space-md);
+    padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 }
 
@@ -102,11 +102,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-space-lg);
+    padding-inline-end: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-space-lg);
+    padding-inline-start: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 }
 

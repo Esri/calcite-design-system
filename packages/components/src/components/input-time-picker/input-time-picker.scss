@@ -78,7 +78,7 @@ calcite-time-picker {
   flex-wrap: nowrap;
   font-weight: var(--calcite-font-weight-normal);
   inline-size: 100%;
-  padding-block: var(--calcite-space-base);
+  padding-block: var(--calcite-theme-space-base, var(--calcite-spacing-base));
   user-select: none;
 
   &:focus-within {
@@ -138,7 +138,7 @@ calcite-time-picker {
   justify-content: center;
   min-inline-size: max-content;
   &.empty {
-    inline-size: var(--calcite-space-xl);
+    inline-size: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
   &:focus,
   &:hover:focus {
@@ -191,9 +191,9 @@ calcite-time-picker {
   .container {
     block-size: 1.5rem;
     font-size: var(--calcite-font-size-sm);
-    gap: var(--calcite-space-sm);
-    padding-inline-start: var(--calcite-space-sm);
-    padding-inline-end: var(--calcite-space-2xs);
+    gap: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    padding-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    padding-inline-end: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   }
   .input-container,
   .placeholder {
@@ -209,9 +209,9 @@ calcite-time-picker {
   .container {
     block-size: 2rem;
     font-size: var(--calcite-font-size);
-    gap: var(--calcite-space-md);
-    padding-inline-start: var(--calcite-space-md);
-    padding-inline-end: var(--calcite-space-sm);
+    gap: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    padding-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
   .input-container,
   .placeholder {
@@ -230,8 +230,8 @@ calcite-time-picker {
   .container {
     block-size: 2.75rem;
     font-size: var(--calcite-font-size-md);
-    gap: var(--calcite-space-lg);
-    padding-inline: var(--calcite-space-lg);
+    gap: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
+    padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
   .input-container,
   .placeholder {

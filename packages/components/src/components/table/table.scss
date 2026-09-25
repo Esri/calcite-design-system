@@ -82,11 +82,11 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-table-selection-action-spacing: var(--calcite-space-2xs);
+  --calcite-internal-table-selection-action-spacing: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 
 :host([scale="l"]) {
-  --calcite-internal-table-selection-action-spacing: var(--calcite-space-xs);
+  --calcite-internal-table-selection-action-spacing: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
   --calcite-internal-table-cell-padding: 1rem;
   --calcite-internal-table-cell-font-size: var(--calcite-font-size-0);
   --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--1);
