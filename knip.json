@@ -1,0 +1,32 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    "examples/components/*": {},
+    "examples/components/react-*": {
+      "vite": false
+    },
+    "examples/components/vue": {
+      "vite": false,
+      "vue": false
+    },
+    ".": {
+      "entry": [".github/scripts/**/*.{js,mjs}", "support/**/*.{ts,mts}", "vitest.workspace.ts"]
+    },
+    "packages/components": {
+      "entry": [
+        ".storybook/**/*.ts",
+        "api-extractor.config.ts",
+        "build/**/*.ts",
+        "src/**/*.{e2e,spec,stories}.{ts,tsx}",
+        "src/components/**/*.tsx",
+        "src/demos/_assets/**/*.ts",
+        "src/index.ts",
+        "src/lumina.ts",
+        "support/**/*.ts",
+        "tailwind.config.ts",
+        "vite*.config.ts"
+      ],
+      "vite": false
+    }
+  }
+}
