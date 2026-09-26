@@ -85,7 +85,7 @@ module.exports = async ({ github, context, core }) => {
         await github.rest.actions.createWorkflowDispatch({
           owner,
           repo,
-          workflow_id: "issue-monday-sync.yml",
+          workflow_id: "issue-monday-sync.yaml",
           ref: "dev",
           inputs: {
             issue_number: blockedIssueNumber.toString(),
