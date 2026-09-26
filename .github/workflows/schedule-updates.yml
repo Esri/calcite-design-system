@@ -42,7 +42,6 @@ jobs:
         uses: pnpm/setup@v3
         with:
           cache: true
-          install: true
       - name: Update 3rd party licenses
         run: |
           pnpm util:update-3rd-party-notices
