@@ -42,6 +42,7 @@ declare global {
 const focusMap = new Map<List["el"], number | undefined>();
 
 /**
+ * @parent calcite-list
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
  * @slot content-start - A slot for adding non-actionable elements before the component's `label` and `description`.

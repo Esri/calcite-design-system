@@ -6,7 +6,10 @@ declare global {
     "calcite-option-group": OptionGroup;
   }
 }
-/** @slot - A slot for adding `calcite-option`s. */
+/**
+ * @parent calcite-select
+ * @slot - A slot for adding `calcite-option`s.
+ */
 export class OptionGroup extends LitElement {
   //#region Public Properties
 
