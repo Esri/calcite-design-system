@@ -25,13 +25,20 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@actions/core": "3.0.1",
-    "@actions/github": "9.1.1",
-    "@commander-js/extra-typings": "15.0.0",
-    "@types/node": "24.10.0",
-    "commander": "15.0.0",
-    "dedent": "1.7.2",
-    "typescript": "6.0.3",
-    "vitest": "4.1.11"
+    "@actions/core": "catalog:",
+    "@actions/github": "catalog:",
+    "@commander-js/extra-typings": "catalog:",
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@esri/eslint-config-calcite": "workspace:*",
+    "@types/node": "catalog:",
+    "commander": "catalog:",
+    "concurrently": "catalog:",
+    "dedent": "catalog:",
+    "eslint": "catalog:",
+    "markdownlint-cli2": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vitest": "catalog:"
   }
 }

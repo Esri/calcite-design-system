@@ -16,15 +16,16 @@ jobs:
         with:
           token: ${{ secrets.ADMIN_TOKEN }}
           fetch-depth: 0
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Set pnpm + Node
+        uses: pnpm/setup@v3
         with:
-          node-version-file: package.json
+          cache: true
+          install: false
       - name: Remove Next Changelog Entries
         run: |
           git pull
-          npm install
-          npm run util:remove-prerelease-changelog-entries
+          pnpm install
+          pnpm util:remove-prerelease-changelog-entries
       - name: Push Changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

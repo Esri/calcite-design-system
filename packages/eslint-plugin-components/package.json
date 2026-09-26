@@ -19,7 +19,7 @@
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "test": "vitest run",
-    "test:ci": "npm test",
+    "test:ci": "pnpm test",
     "test:watch": "vitest",
     "clean": "rimraf node_modules dist .turbo",
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
@@ -28,8 +28,20 @@
     "@typescript-eslint/utils": ">=8.0.0",
     "eslint": ">=10"
   },
-  "packageManager": "npm@8.19.4",
   "devDependencies": {
-    "vitest": "4.1.11"
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@types/eslint": "catalog:",
+    "@types/estree": "catalog:",
+    "@types/node": "catalog:",
+    "@typescript-eslint/rule-tester": "catalog:",
+    "@typescript-eslint/utils": "catalog:",
+    "concurrently": "catalog:",
+    "eslint": "catalog:",
+    "markdownlint-cli2": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
   }
 }

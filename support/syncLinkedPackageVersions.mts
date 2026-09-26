@@ -26,7 +26,9 @@ import { gt } from "semver";
       location: string;
     }
 
-    const packagesData: Array<PackageData> = JSON.parse((await execAsync("npx lerna ls --json --all")).stdout.trim());
+    const packagesData: Array<PackageData> = JSON.parse(
+      (await execAsync("pnpm exec lerna ls --json --all")).stdout.trim(),
+    );
     const headPackageData = packagesData.find((data: PackageData) => data.name === LINKED_VERSIONS_HEAD_PACKAGE);
 
     if (!headPackageData) {
@@ -56,8 +58,8 @@ import { gt } from "semver";
           headPackageData.version,
         );
 
-        // update to HEAD version in package.json and package-lock.json
-        await execAsync(`npm version ${headPackageData.version} --no-commit-hooks --no-git-tag-version --workspace=${pkg}`);
+        // update to HEAD version in package.json
+        await execAsync(`pnpm --filter ${pkg} pkg set version=${headPackageData.version}`);
 
         // update version in changelog
         const packageChangelogPath = resolve(trackingPackageData.location, "CHANGELOG.md");
@@ -81,11 +83,13 @@ import { gt } from "semver";
     }
 
     // get updated data for deployable packages
-    const changedPackagesData: Array<PackageData> = JSON.parse((await execAsync("npx lerna changed --json")).stdout.trim());
+    const changedPackagesData: Array<PackageData> = JSON.parse(
+      (await execAsync("pnpm exec lerna changed --json")).stdout.trim(),
+    );
 
     console.log("Deployable packages:", changedPackagesData);
 
-    await execAsync("markdownlint-cli2 packages/{*}/CHANGELOG.md --fix --config \".markdownlint-cli2.jsonc\"");
+    await execAsync('markdownlint-cli2 packages/{*}/CHANGELOG.md --fix --config ".markdownlint-cli2.jsonc"');
 
     // add/commit changed files
     await execAsync(

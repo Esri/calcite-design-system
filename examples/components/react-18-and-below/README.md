@@ -1,14 +1,14 @@
 # React (version 18 and below) with TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react-18-and-below?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/react-18-and-below?configPath=examples/components/react-18-and-below)
 
 This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). The example uses [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), which provides React wrappers for Calcite components.
 
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install --ignore-workspace --lockfile=false
+pnpm dev
 ```
 
 ## Deprecation Notice
@@ -25,7 +25,7 @@ Consider upgrading to React 19+ and using <code>@esri/calcite-components</code> 
 To install `@esri/calcite-components-react`, run:
 
 ```sh
-npm install @esri/calcite-components-react
+pnpm add @esri/calcite-components-react --ignore-workspace --lockfile=false
 ```
 
 This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.

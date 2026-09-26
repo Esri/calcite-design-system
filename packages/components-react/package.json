@@ -18,9 +18,9 @@
     "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
-    "build": "rimraf dist && npm run compile",
+    "build": "rimraf dist && pnpm compile",
     "clean": "rimraf dist node_modules .turbo",
-    "compile": "npm run tsc",
+    "compile": "pnpm tsc",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
@@ -28,13 +28,25 @@
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "dependencies": {
-    "@arcgis/lumina": ">=5.2.0-next.96 <6.0.0",
-    "@esri/calcite-components": "5.2.0-next.83",
-    "@lit/react": "^1.0.8",
-    "lit": "^3.3.0"
+    "@arcgis/lumina": "catalog:",
+    "@esri/calcite-components": "workspace:*",
+    "@lit/react": "catalog:",
+    "lit": "catalog:"
   },
   "peerDependencies": {
     "react": ">=18.3",
     "react-dom": ">=18.3"
+  },
+  "devDependencies": {
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "concurrently": "catalog:",
+    "markdownlint-cli2": "catalog:",
+    "prettier": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
   }
 }

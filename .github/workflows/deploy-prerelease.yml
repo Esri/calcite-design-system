@@ -20,10 +20,13 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
           ref: ${{ github.base_ref || github.ref_name }}
-      - uses: actions/setup-node@v6
+      - name: Set pnpm + Node
+        uses: pnpm/setup@v3
         with:
-          node-version-file: package.json
-          registry-url: "https://registry.npmjs.org"
+          cache: true
+          install: false
+      - name: Configure npm authentication
+        run: pnpm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy prerelease and storybook
