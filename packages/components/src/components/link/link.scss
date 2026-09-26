@@ -78,14 +78,7 @@
 }
 
 :host a:visited .link--text {
-  text-decoration-color: var(
-    --calcite-theme-color-brand-underline,
-    color-mix(
-      in srgb,
-      var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-visited-text-color)) 40%,
-      transparent
-    )
-  );
+  text-decoration-color: var(--calcite-internal-link-theme-underline-color);
 }
 
 :host a:visited:hover {
