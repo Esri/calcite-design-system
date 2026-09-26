@@ -173,7 +173,10 @@
           "group": "text"
         },
         "$type": "color",
-        "$value": "{core.color.vibrant.violet.v-vv-120}"
+        "$value": "{core.color.vibrant.violet.v-vv-120}",
+        "$extensions": {
+          "calcite.theme": true
+        }
       },
       "highlight": {
         "attributes": {
