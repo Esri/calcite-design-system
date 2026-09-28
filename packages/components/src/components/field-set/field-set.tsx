@@ -1,5 +1,6 @@
 import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
 import type { Scale } from "../types";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -36,15 +37,11 @@ export class FieldSet extends LitElement {
 
   private controlsDisabledSyncQueued = false;
 
+  private controlElements: HTMLElement[] = [];
+
   private get disabledControls(): DisabledControl[] {
     return this.controlElements.filter(
       (element): element is DisabledControl => "disabled" in element,
-    );
-  }
-
-  private get controlElements(): HTMLElement[] {
-    return Array.from(this.el.querySelectorAll<HTMLElement>("*")).filter(
-      (element) => element.parentElement?.closest(controlBoundarySelector) === this.el,
     );
   }
 
@@ -92,7 +89,15 @@ export class FieldSet extends LitElement {
 
   //#region Private Methods
 
-  private handleInputSlotChange(): void {
+  private handleInputSlotChange(event: Event): void {
+    const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
+
+    this.controlElements = slottedElements.flatMap((element) =>
+      [element, ...element.querySelectorAll<HTMLElement>("*")].filter(
+        (control) => control.parentElement?.closest(controlBoundarySelector) === this.el,
+      ),
+    );
+
     this.syncControlsDisabled();
     this.syncControlsScale();
 
