@@ -5,7 +5,7 @@ import type { InputNumber } from "../input-number/input-number";
 import type { InputText } from "../input-text/input-text";
 import type { Autocomplete } from "../autocomplete/autocomplete";
 import type { Scale } from "../types";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { nextFrame, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-group.scss";
 
@@ -202,7 +202,7 @@ export class FieldGroup extends LitElement {
 
     this.controlsDisabledSyncQueued = true;
 
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await nextFrame();
 
     this.controlsDisabledSyncQueued = false;
 
@@ -283,7 +283,7 @@ export class FieldGroup extends LitElement {
       return;
     }
 
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await nextFrame();
 
     if (requestId !== this.affixWidthRequestIds[affix]) {
       return;
@@ -314,7 +314,7 @@ export class FieldGroup extends LitElement {
   }
 
   private async syncInputsAffixWidths(): Promise<void> {
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await nextFrame();
     await this.syncInputAffixWidth("prefix", this.prefixAutoWidth);
     await this.syncInputAffixWidth("suffix", this.suffixAutoWidth);
   }

@@ -1,6 +1,6 @@
 import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
 import type { Scale } from "../types";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { nextFrame, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -117,9 +117,7 @@ export class FieldSet extends LitElement {
 
     this.controlsDisabledSyncQueued = true;
 
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => resolve());
-    });
+    await nextFrame();
 
     this.controlsDisabledSyncQueued = false;
 
