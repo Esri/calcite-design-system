@@ -13,6 +13,7 @@ import {
   themed,
 } from "../../tests/common";
 import type { Link } from "./link";
+import { CSS } from "./resources";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -187,7 +188,7 @@ describe("underline", () => {
   it("uses semantic underline color at rest and text color while hovered and pressed", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
-    const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
     const { x, y, width, height } = anchor.getBoundingClientRect();
     const underlineColor = "rgb(12 34 56 / 40%)";
 
@@ -209,7 +210,7 @@ describe("underline", () => {
   it("preserves underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
-    const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
     const { x, y, width, height } = anchor.getBoundingClientRect();
     const initialThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
 
