@@ -203,11 +203,15 @@ describe("disabled propagation", () => {
     const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
     const enabledFieldSet = el.querySelector<UpdatableElement>("#enabled-field-set")!;
     const preDisabledFieldSet = el.querySelector<UpdatableElement>("#pre-disabled-field-set")!;
+    const legend = enabledFieldSet.shadowRoot!.querySelector<HTMLElement>(".legend")!;
+
+    el.style.setProperty("--calcite-color-text-3", "rgb(1, 2, 3)");
 
     await vi.waitFor(() => expect(directInput.disabled).toBe(true));
 
     expect(enabledFieldSet.disabled).toBe(true);
     expect(preDisabledFieldSet.disabled).toBe(true);
+    expect(getComputedStyle(legend).color).toBe("rgb(1, 2, 3)");
 
     fieldGroup.disabled = false;
     await waitForUpdate(fieldGroup);

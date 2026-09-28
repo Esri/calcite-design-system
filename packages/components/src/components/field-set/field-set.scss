@@ -43,6 +43,10 @@
   margin-block-end: var(--calcite-internal-field-set-legend-margin-block-end, var(--calcite-space-md));
 }
 
+:host([disabled]) .legend {
+  color: var(--calcite-color-text-3);
+}
+
 .field-wrapper {
   display: flex;
   flex-direction: column;
