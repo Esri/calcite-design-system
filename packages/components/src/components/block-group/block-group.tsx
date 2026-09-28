@@ -42,10 +42,20 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-block` elements.
- */
+interface BlockGroupSlots {
+  /**
+   * A slot for adding `calcite-block` elements.
+   */
+  "": Node[];
+}
+
 export class BlockGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: BlockGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = [styles, screenReaderStyles];

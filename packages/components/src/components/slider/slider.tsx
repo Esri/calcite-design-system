@@ -41,16 +41,71 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-slider-text-color": "*";
+    /**
+     * Specifies the component's track color.
+     */
+    "--calcite-slider-track-color": "*";
+    /**
+     * Specifies the component's track fill color.
+     */
+    "--calcite-slider-track-fill-color": "*";
+    /**
+     * Specifies the component's handle fill color.
+     */
+    "--calcite-slider-handle-fill-color": "*";
+    /**
+     * Specifies the component's handle extension color.
+     */
+    "--calcite-slider-handle-extension-color": "*";
+    /**
+     * Specifies the component's accent color.
+     */
+    "--calcite-slider-accent-color": "*";
+    /**
+     * Specifies the component's tick color.
+     */
+    "--calcite-slider-tick-color": "*";
+    /**
+     * Specifies the component's tick border color.
+     */
+    "--calcite-slider-tick-border-color": "*";
+    /**
+     * Specifies the component's tick color when in selected range.
+     */
+    "--calcite-slider-tick-selected-color": "*";
+    /**
+     * Specifies the component's graph color.
+     */
+    "--calcite-slider-graph-color": "*";
+  }
+}
+
+interface SliderSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
 const defaultValue = 0;
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
 export class Slider extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SliderSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;

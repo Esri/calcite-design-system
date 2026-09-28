@@ -53,14 +53,144 @@ declare global {
   }
 }
 
-/**
- * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component's `clearable` and `number-button-type` elements.
+     */
+    "--calcite-input-actions-background-color": "*";
+    /**
+     * Specifies the background color of the component's `clearable` and `number-button-type` elements when hovered.
+     */
+    "--calcite-input-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's `clearable` and `number-button-type` elements when pressed.
+     */
+    "--calcite-input-actions-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` and `number-button-type` elements.
+     */
+    "--calcite-input-actions-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` and `number-button-type` elements when hovered.
+     */
+    "--calcite-input-actions-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` and `number-button-type` elements when pressed.
+     */
+    "--calcite-input-actions-icon-color-press": "*";
+    /**
+     * When `loading`, specifies the background color of the component's `loading` element.
+     */
+    "--calcite-input-loading-background-color": "*";
+    /**
+     * When `loading`, specifies the fill color of the component's `loading` element.
+     */
+    "--calcite-input-loading-fill-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-input-number-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-input-number-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-input-number-corner-radius": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-input-number-icon-color": "*";
+    /**
+     * Specifies the component's height.
+     */
+    "--calcite-input-number-height": "*";
+    /**
+     * Specifies the text color of the component's placeholder.
+     */
+    "--calcite-input-number-placeholder-text-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-input-number-text-color": "*";
+    /**
+     * Specifies the component's text color when focused.
+     */
+    "--calcite-input-number-text-color-focus": "*";
+    /**
+     * When `prefixText` is provided, specifies the width of the component's prefix element.
+     */
+    "--calcite-input-prefix-size": "*";
+    /**
+     * When `prefixText` is provided, specifies the text color of the component's prefix element.
+     */
+    "--calcite-input-prefix-text-color": "*";
+    /**
+     * When `suffixText` is provided, specifies the width of the component's suffix element.
+     */
+    "--calcite-input-suffix-size": "*";
+    /**
+     * When `suffixText` is provided, specifies the text color of the component's suffix element.
+     */
+    "--calcite-input-suffix-text-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component, its inline edit elements and slotted `calcite-action` wrappers, when hovered.
+     */
+    "--calcite-input-number-inline-edit-background-color-hover": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls.
+     */
+    "--calcite-input-number-inline-edit-control-background-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when hovered.
+     */
+    "--calcite-input-number-inline-edit-control-background-color-hover": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when pressed.
+     */
+    "--calcite-input-number-inline-edit-control-background-color-press": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the corner radius of the component's inline edit controls.
+     */
+    "--calcite-input-number-inline-edit-control-corner-radius": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the loader color of the component's inline edit controls.
+     */
+    "--calcite-input-number-inline-edit-control-loader-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls.
+     */
+    "--calcite-input-number-inline-edit-control-text-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls, when pressed or hovered.
+     */
+    "--calcite-input-number-inline-edit-control-text-color-press": "*";
+  }
+}
+
+interface InputNumberSlots {
+  /**
+   * A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
+   */
+  action: Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputNumber
   extends LitElement
   implements LabelableComponent, NumericInputComponent, TextualInputComponent
 {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: InputNumberSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
