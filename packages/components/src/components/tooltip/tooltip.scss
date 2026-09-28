@@ -17,9 +17,7 @@
 // --calcite-internal-tooltip-padding-block
 // --calcite-internal-tooltip-padding-inline
 
-@use "../../styles/shared/floating-ui";
-@use "../../styles/includes";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
 :host {
   display: contents;
@@ -32,33 +30,33 @@
 }
 
 .position-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
   max-inline-size: var(--calcite-tooltip-max-size-x, 20rem);
   max-block-size: 20rem;
 }
 
-@include floating-ui.floating-ui-elem-anim(".position-container");
+@include shared.floating-ui-elem-anim(".position-container");
 
-@include floating-ui.floating-ui-arrow();
+@include shared.floating-ui-arrow();
 
 :host([scale="s"]) {
   --calcite-internal-tooltip-padding-block: var(--calcite-spacing-xxs);
   --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-sm);
 
   .container {
-    @include text.text-n3-wrap();
+    @include shared.text-n3-wrap();
   }
 }
 
 :host([scale="l"]) {
   .container {
-    @include text.text-n1-wrap();
+    @include shared.text-n1-wrap();
   }
 }
 
 .container {
-  @include text.text-n2-wrap();
-  @include includes.word-break();
+  @include shared.text-n2-wrap();
+  @include shared.word-break();
 
   position: relative;
   overflow: hidden;
@@ -87,4 +85,4 @@
   stroke: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
 }
 
-@include includes.base-component();
+@include shared.base-component();

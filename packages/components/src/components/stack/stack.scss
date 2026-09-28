@@ -7,7 +7,7 @@
  * @prop --calcite-stack-padding-block: Specifies the block padding of the component's content.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex flex-col flex-1;
@@ -71,4 +71,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

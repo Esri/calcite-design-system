@@ -21,7 +21,7 @@
 // --calcite-internal-link-text-decoration-line
 // --calcite-internal-tile-spacing
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
@@ -90,7 +90,7 @@ calcite-link {
 
 .content-container {
   flex-direction: column;
-  @include includes.word-break();
+  @include shared.word-break();
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
@@ -300,8 +300,8 @@ calcite-link {
   }
 }
 
-@include includes.disabled();
-@include includes.base-component();
+@include shared.disabled();
+@include shared.base-component();
 
 ::slotted(*) {
   max-inline-size: 100%;

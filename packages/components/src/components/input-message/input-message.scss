@@ -8,10 +8,10 @@
  * @prop --calcite-input-message-icon-color: Specifies the component's icon color.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply text-color-1 box-border flex h-auto w-full items-center font-medium opacity-100;
 
   margin-block-start: var(
@@ -21,7 +21,7 @@
 }
 
 .calcite-input-message-icon {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply pointer-events-none inline-flex flex-shrink-0;
   margin-inline-end: var(--calcite-spacing-sm);
 }
@@ -59,4 +59,4 @@
   @apply text-n1h;
 }
 
-@include includes.base-component();
+@include shared.base-component();

@@ -19,7 +19,7 @@
 // --calcite-internal-stepper-action-inline-size
 // --calcite-internal-stepper-item-spacing-unit-s
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
@@ -143,4 +143,4 @@
 }
 
 @include step-bar();
-@include includes.base-component();
+@include shared.base-component();

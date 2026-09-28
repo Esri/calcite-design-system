@@ -33,8 +33,7 @@
 // --calcite-internal-text-area-padding-inline
 // --calcite-internal-text-area-shadow
 
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: inline-block;
@@ -114,14 +113,14 @@
   }
 
   &:focus {
-    @include focus.focus-inset();
+    @include shared.focus-inset();
   }
 
   &.text-area--invalid {
     --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
     &:focus {
-      @include focus.focus-inset-danger();
+      @include shared.focus-inset-danger();
     }
   }
 
@@ -263,7 +262,7 @@
   --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
   .text-area:focus {
-    @include focus.focus-inset-danger();
+    @include shared.focus-inset-danger();
   }
 }
 
@@ -274,8 +273,8 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.disabled();
-@include includes.base-component();
-@include includes.input-placeholder-text("--calcite-text-area-placeholder-text-color");
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.disabled();
+@include shared.base-component();
+@include shared.input-placeholder-text("--calcite-text-area-placeholder-text-color");
