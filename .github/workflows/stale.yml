@@ -15,5 +15,5 @@ jobs:
           days-before-issue-stale: 730
           days-before-pr-stale: 7
           days-before-close: -1
-          stale-issue-message: "This issue has been automatically marked as stale because it has not had recent activity. cc @Esri/calcite-pes"
+          stale-issue-message: "This issue has been automatically marked as stale because it has not had recent activity. Please leave a comment for further consideration and/or follow-up. cc @Esri/calcite-pes"
           stale-pr-message: "This PR has been automatically marked as stale because it has not had recent activity. Please close your PR if it is no longer relevant. Thank you for your contributions."
