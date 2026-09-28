@@ -13,7 +13,17 @@
   line-height: var(--calcite-font-line-height-sm);
 }
 
+@mixin text-n1-wrap() {
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-relative-snug);
+}
+
 @mixin text-n2-wrap() {
   font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-relative-snug);
+}
+
+@mixin text-n3-wrap() {
+  font-size: var(--calcite-font-size-relative-xs);
   line-height: var(--calcite-font-line-height-relative-snug);
 }
