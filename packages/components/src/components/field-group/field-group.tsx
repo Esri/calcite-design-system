@@ -144,16 +144,25 @@ export class FieldGroup extends LitElement {
     ];
   }
 
+  private collectOwnedAffixInputs(element: HTMLElement): AffixInput[] {
+    if (element.matches(affixInputSelector)) {
+      return [element as AffixInput];
+    }
+
+    if (element.matches("calcite-field-group")) {
+      return [];
+    }
+
+    return Array.from(element.children).flatMap((child) =>
+      this.collectOwnedAffixInputs(child as HTMLElement),
+    );
+  }
+
   private handleSlotChange(event: Event): void {
     const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
 
     this.controlElements = slottedElements.flatMap((element) => this.collectOwnedControls(element));
-    this.affixInputs = slottedElements
-      .flatMap((element) => [
-        ...(element.matches(affixInputSelector) ? [element] : []),
-        ...element.querySelectorAll<AffixInput>(affixInputSelector),
-      ])
-      .filter((input): input is AffixInput => input.closest("calcite-field-group") === this.el);
+    this.affixInputs = slottedElements.flatMap((element) => this.collectOwnedAffixInputs(element));
 
     this.syncControlsScale();
     this.syncControlsDisabled();
