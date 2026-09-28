@@ -27,11 +27,10 @@
 // --calcite-internal-combobox-spacing-unit-s
 
 @use "../../styles/shared/floating-ui";
-@use "../../styles/component/focus";
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
-@use "../../styles/component/outline-none";
-@use "../../styles/component/sr-only";
-@use "../../styles/component/truncate";
+@use "../../styles/shared/outline-none";
+@use "../../styles/shared/truncate";
 
 :host {
   position: relative;
@@ -256,10 +255,6 @@
   .floating-ui-container {
     border: 1px solid canvasText;
   }
-}
-
-.screen-readers-only {
-  @include sr-only.sr-only();
 }
 
 .list-container {

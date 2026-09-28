@@ -21,14 +21,4 @@
   font-family: var(--calcite-font-family);
 }
 
-.calcite-mode-auto {
-  @media (prefers-color-scheme: dark) {
-    @include scss.calcite-mode-dark();
-  }
-
-  @media (prefers-color-scheme: light) {
-    @include scss.calcite-mode-light();
-  }
-}
-
 @include animation.animation-reduced-motion();
