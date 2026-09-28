@@ -1,4 +1,4 @@
-import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -301,7 +301,7 @@ describe("accessibility", () => {
     await expect.element(action).toHaveAttribute("role", "menuitem");
   });
 
-  it("sets active descendant on the host and menu", async () => {
+  it("focuses the first action and makes it the menu's tab stop", async () => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu>
         <calcite-action icon="plus" id="create-action" text="Add" />
@@ -311,10 +311,13 @@ describe("accessibility", () => {
     el.open = true;
     await component.updateComplete;
 
-    const menu = page.getByRole("menu").element();
+    const action = page.getByRole("menuitem", { name: "Add" });
+    const menu = page.getByRole("menu");
 
-    expect(el.ariaActiveDescendantElement?.id).toBe("create-action");
-    expect(menu?.ariaActiveDescendantElement?.id).toBe("create-action");
+    await expect.element(action).toHaveFocus();
+    await expect.element(action).toHaveAttribute("tabindex", "0");
+    await expect.element(action).toHaveProperty("activeDescendant", true);
+    await expect.element(menu).toHaveAttribute("aria-activedescendant", "create-action");
   });
 
   it("sets vertical aria orientation on the menu", async () => {
@@ -341,7 +344,7 @@ describe("accessibility", () => {
     await expect.element(menu).not.toHaveAttribute("aria-orientation");
   });
 
-  it("updates active descendant on the host and menu during keyboard navigation", async () => {
+  it("moves focus and the tab stop during keyboard navigation", async () => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu>
         <calcite-action icon="undo" id="undo-action" text="Undo" />
@@ -353,52 +356,65 @@ describe("accessibility", () => {
     el.open = true;
     await component.updateComplete;
 
-    const menu = page.getByRole("menu").element();
+    const undoAction = page.getByText("Undo").first().element().getRootNode() as ShadowRoot;
+    const redoAction = page.getByText("Redo").first().element().getRootNode() as ShadowRoot;
+    const saveAction = page.getByText("Save").first().element().getRootNode() as ShadowRoot;
+    const menu = page.getByRole("menu");
 
-    expect(el.ariaActiveDescendantElement?.id).toBe("undo-action");
-    expect(menu?.ariaActiveDescendantElement?.id).toBe("undo-action");
+    await (undoAction.host as Action["el"]).setFocus();
+    expect(undoAction.host).toHaveFocus();
+    expect(undoAction.host).toHaveAttribute("tabindex", "0");
+    expect((undoAction.host as Action["el"]).activeDescendant).toBe(true);
+    expect(redoAction.host).toHaveAttribute("tabindex", "-1");
+    expect(saveAction.host).toHaveAttribute("tabindex", "-1");
+    await expect.element(menu).toHaveAttribute("aria-activedescendant", "undo-action");
 
-    await el.setFocus();
     await userEvent.keyboard("{ArrowDown}");
     await component.updateComplete;
 
-    expect(el.ariaActiveDescendantElement?.id).toBe("redo-action");
-    expect(menu?.ariaActiveDescendantElement?.id).toBe("redo-action");
+    expect(undoAction.host).toHaveAttribute("tabindex", "-1");
+    expect(redoAction.host).toHaveFocus();
+    expect(redoAction.host).toHaveAttribute("tabindex", "0");
+    expect((redoAction.host as Action["el"]).activeDescendant).toBe(true);
+    expect(saveAction.host).toHaveAttribute("tabindex", "-1");
+    await expect.element(menu).toHaveAttribute("aria-activedescendant", "redo-action");
 
     await userEvent.keyboard("{ArrowDown}");
     await component.updateComplete;
 
-    expect(el.ariaActiveDescendantElement?.id).toBe("save-action");
-    expect(menu?.ariaActiveDescendantElement?.id).toBe("save-action");
+    expect(undoAction.host).toHaveAttribute("tabindex", "-1");
+    expect(redoAction.host).toHaveAttribute("tabindex", "-1");
+    expect(saveAction.host).toHaveFocus();
+    expect(saveAction.host).toHaveAttribute("tabindex", "0");
+    expect((saveAction.host as Action["el"]).activeDescendant).toBe(true);
+    await expect.element(menu).toHaveAttribute("aria-activedescendant", "save-action");
   });
 
   it.each([
     ["{ArrowLeft}", "redo-action"],
     ["{ArrowRight}", "undo-action"],
-  ])(
-    "opens a horizontal menu with %s and sets the active descendant to the first action",
-    async (key, elementId) => {
-      const { component, el } = await mount<"calcite-action-menu">(
-        <calcite-action-menu flipPlacements={["left", "right"]}>
-          <calcite-action icon="undo" id="undo-action" text="Undo" />
-          <calcite-action icon="redo" id="redo-action" text="Redo" />
-        </calcite-action-menu>,
-      );
+  ])("opens a horizontal menu with %s and focuses the boundary action", async (key, elementId) => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu flipPlacements={["left", "right"]}>
+        <calcite-action icon="undo" id="undo-action" text="Undo" />
+        <calcite-action icon="redo" id="redo-action" text="Redo" />
+      </calcite-action-menu>,
+    );
 
-      await component.updateComplete;
-      await el.setFocus();
-      await userEvent.keyboard(key);
-      await component.updateComplete;
+    await component.updateComplete;
+    await el.setFocus();
+    await userEvent.keyboard(key);
+    await component.updateComplete;
 
-      expect(el.open).toBe(true);
-      expect(el.ariaActiveDescendantElement?.id).toBe(elementId);
-    },
-  );
+    expect(el.open).toBe(true);
+    await expect.element(page.getBySelector(`#${elementId}`)).toHaveFocus();
+    await expect.element(page.getBySelector(`#${elementId}`)).toHaveAttribute("tabindex", "0");
+  });
 
   it.each([
     ["{ArrowUp}", "redo-action"],
     ["{ArrowDown}", "undo-action"],
-  ])("opens a vertical menu with %s and sets the active descendant", async (key, expectedId) => {
+  ])("opens a vertical menu with %s and focuses the boundary action", async (key, expectedId) => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu flipPlacements={["top", "bottom"]}>
         <calcite-action icon="undo" id="undo-action" text="Undo" />
@@ -412,7 +428,32 @@ describe("accessibility", () => {
     await component.updateComplete;
 
     expect(el.open).toBe(true);
-    expect(el.ariaActiveDescendantElement?.id).toBe(expectedId);
+    await expect.element(page.getBySelector(`#${expectedId}`)).toHaveFocus();
+    await expect.element(page.getBySelector(`#${expectedId}`)).toHaveAttribute("tabindex", "0");
+  });
+
+  it("does not scroll the page when opening with ArrowDown", async () => {
+    await mount(
+      <>
+        <div style={{ height: "200vh" }} />
+        <calcite-action-menu>
+          <calcite-action data-testid="menu-action" icon="plus" text="Add" />
+        </calcite-action-menu>
+      </>,
+    );
+    const actionMenu = page.getBySelector("calcite-action-menu").element() as ActionMenu["el"];
+
+    await actionMenu.componentOnReady();
+    window.scrollTo(0, document.documentElement.scrollHeight);
+    await actionMenu.setFocus();
+    const scrollY = window.scrollY;
+
+    expect(scrollY).toBeGreaterThan(0);
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    expect(actionMenu.open).toBe(true);
+    expect(window.scrollY).toBe(scrollY);
   });
 
   it("toggles action active state without selection mode semantics and closes", async () => {
@@ -441,31 +482,28 @@ describe("accessibility", () => {
     expect(actionEl).not.toHaveAttribute("aria-checked");
   });
 
-  it.each(["{Enter}", "{Space}"])(
-    "toggles the active descendant with %s and closes",
-    async (key) => {
-      const { component, el } = await mount<"calcite-action-menu">(
-        <calcite-action-menu>
-          <calcite-action icon="plus" text="Add" />
-        </calcite-action-menu>,
-      );
+  it.each(["{Enter}", "{Space}"])("toggles the focused action with %s and closes", async (key) => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="plus" text="Add" />
+      </calcite-action-menu>,
+    );
 
-      el.open = true;
-      await component.updateComplete;
+    el.open = true;
+    await component.updateComplete;
 
-      const action = page.getByRole("menuitem", { name: "Add" });
-      const actionEl = action.element() as Action["el"];
+    const action = page.getByRole("menuitem", { name: "Add" });
+    const actionEl = action.element() as Action["el"];
 
-      await el.setFocus();
-      await userEvent.keyboard(key);
-      await component.updateComplete;
+    await el.setFocus();
+    await userEvent.keyboard(key);
+    await component.updateComplete;
 
-      expect(actionEl.active).toBe(true);
-      expect(el.open).toBe(false);
-      expect(actionEl).toHaveAttribute("role", "menuitem");
-      expect(actionEl).not.toHaveAttribute("aria-checked");
-    },
-  );
+    expect(actionEl.active).toBe(true);
+    expect(el.open).toBe(false);
+    expect(actionEl).toHaveAttribute("role", "menuitem");
+    expect(actionEl).not.toHaveAttribute("aria-checked");
+  });
 
   it("should select the active action on Enter key and keep selectable action groups open", async () => {
     const { component, el } = await mount<"calcite-action-menu">(
@@ -485,7 +523,8 @@ describe("accessibility", () => {
     const action = el.actions[0];
 
     expect(el.open).toBe(true);
-    expect(action.activeDescendant).toBe(true);
+    expect(action).toHaveFocus();
+    expect(action).toHaveAttribute("tabindex", "0");
     expect(action.active).toBe(false);
 
     await userEvent.keyboard("{Enter}");
@@ -519,6 +558,7 @@ describe("accessibility", () => {
 
     expect(el.open).toBe(true);
     await expect.element(menuAction).toHaveProperty("active", false);
-    expect(el.ariaActiveDescendantElement?.id).toBe("menu-action");
+    await expect.element(menuAction).toHaveFocus();
+    await expect.element(menuAction).toHaveAttribute("tabindex", "0");
   });
 });

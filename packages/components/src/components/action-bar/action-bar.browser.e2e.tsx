@@ -1072,115 +1072,38 @@ describe("per-group overflow-actions-disabled", () => {
     expect(document.body).toHaveFocus();
   });
 
-  it("clears action focus styling after focus returns from an action menu", async () => {
-    const { component, el } = await mount<ActionBar>(
-      <calcite-action-bar expand-disabled>
-        <calcite-action icon="number-circle1" id="first-action" text="first" />
-        <calcite-action-menu data-testid="action-menu" id="action-menu">
-          <calcite-action icon="number-circle2" id="menu-action" text="second" />
+  it("maintains a roving tab index across navigation items", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled layout="horizontal">
+        <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
+        <calcite-action data-testid="second-action" icon="number-circle2" text="second" />
+        <calcite-action-menu data-testid="action-menu">
+          <calcite-action icon="number-circle3" text="third" />
         </calcite-action-menu>
       </calcite-action-bar>,
     );
 
-    const actionMenu = page.getByTestId("action-menu").element() as ActionMenu["el"];
-    const firstAction = page.getByText("first").first().element().getRootNode() as ShadowRoot;
-    const menuAction = page.getByText("second").first().element().getRootNode() as ShadowRoot;
+    const firstAction = page.getByTestId("first-action");
+    const secondAction = page.getByTestId("second-action");
+    const actionMenu = page.getByTestId("action-menu");
 
-    actionMenu.open = true;
-    menuAction.host.dispatchEvent(new FocusEvent("focusin", { bubbles: true, composed: true }));
-    await component.updateComplete;
-    expect(el).toHaveAttribute("aria-activedescendant", "menu-action");
+    await expect.element(firstAction).not.toHaveAttribute("tabindex");
+    await expect.element(secondAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(actionMenu).toHaveAttribute("tabindex", "-1");
 
-    actionMenu.open = false;
-    actionMenu.dispatchEvent(new FocusEvent("focusin", { bubbles: true, composed: true }));
-    await component.updateComplete;
-    expect(el).not.toHaveAttribute("aria-activedescendant");
-    expect((firstAction.host as Action["el"]).activeDescendant).toBe(false);
-  });
-
-  it("clears action focus styling when focus moves to another action bar", async () => {
-    await mount(
-      <>
-        <calcite-action-bar data-testid="first-action-bar" expand-disabled>
-          <calcite-action
-            data-testid="first-bar-action"
-            icon="number-circle1"
-            id="first-bar-action"
-            text="first"
-          />
-        </calcite-action-bar>
-        <calcite-action-bar data-testid="second-action-bar" expand-disabled>
-          <calcite-action
-            data-testid="second-bar-action"
-            icon="number-circle2"
-            id="second-bar-action"
-            text="second"
-          />
-        </calcite-action-bar>
-      </>,
-    );
-
-    const firstActionBar = page.getByTestId("first-action-bar");
-    const secondActionBar = page.getByTestId("second-action-bar");
-    const firstAction = page.getByTestId("first-bar-action");
-    const secondAction = page.getByTestId("second-bar-action");
-
-    await userEvent.keyboard("{Tab}");
-    await expect.element(firstAction).toHaveFocus();
-    await expect.element(firstAction).toHaveProperty("activeDescendant", true);
-    await expect
-      .element(firstActionBar)
-      .toHaveAttribute("aria-activedescendant", "first-bar-action");
-
-    await userEvent.keyboard("{Tab}");
-    await expect.element(secondAction).toHaveFocus();
-    await expect.element(firstAction).toHaveProperty("activeDescendant", false);
-    await expect.element(firstActionBar).not.toHaveAttribute("aria-activedescendant");
-    await expect.element(secondAction).toHaveProperty("activeDescendant", true);
-    await expect
-      .element(secondActionBar)
-      .toHaveAttribute("aria-activedescendant", "second-bar-action");
-  });
-
-  it("moves action focus styling when clicking another action bar", async () => {
-    await mount(
-      <>
-        <calcite-action-bar data-testid="first-action-bar" expand-disabled>
-          <calcite-action
-            data-testid="first-bar-action"
-            icon="number-circle1"
-            id="first-bar-action"
-            text="first"
-          />
-        </calcite-action-bar>
-        <calcite-action-bar data-testid="second-action-bar" expand-disabled>
-          <calcite-action
-            data-testid="second-bar-action"
-            icon="number-circle2"
-            id="second-bar-action"
-            text="second"
-          />
-        </calcite-action-bar>
-      </>,
-    );
-
-    const firstActionBar = page.getByTestId("first-action-bar");
-    const secondActionBar = page.getByTestId("second-action-bar");
-    const firstAction = page.getByTestId("first-bar-action");
-    const secondAction = page.getByTestId("second-bar-action");
-
-    await userEvent.click(firstAction);
-    await expect.element(firstAction).toHaveProperty("activeDescendant", true);
-
-    await userEvent.click(secondAction);
+    await userEvent.keyboard("{Tab}{ArrowRight}");
 
     await expect.element(secondAction).toHaveFocus();
-    await expect.element(firstAction).toHaveProperty("activeDescendant", false);
-    await expect.element(firstActionBar).not.toHaveAttribute("aria-activedescendant");
-    await expect.element(secondAction).toHaveProperty("activeDescendant", true);
-    await expect
-      .element(secondActionBar)
-      .toHaveAttribute("aria-activedescendant", "second-bar-action");
+    await expect.element(firstAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(secondAction).not.toHaveAttribute("tabindex");
+    await expect.element(actionMenu).toHaveAttribute("tabindex", "-1");
+
+    await userEvent.keyboard("{ArrowRight}");
+
+    await expect.element(actionMenu).toHaveFocus();
+    await expect.element(firstAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(secondAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(actionMenu).toHaveAttribute("tabindex", "0");
   });
 
   it("supports keyboard navigation after focus moves to another action bar", async () => {
@@ -1309,7 +1232,7 @@ describe("per-group overflow-actions-disabled", () => {
 
     const firstAction = page.getByTestId("first-action");
     const overflowMenu = page.getByTestId("overflow-action-group").getByRole("menu");
-    const thirdAction = page.getByTestId("third-action").element();
+    const thirdAction = page.getByTestId("third-action");
 
     await userEvent.keyboard("{Tab}");
     await expect.element(firstAction).toHaveFocus();
@@ -1318,8 +1241,8 @@ describe("per-group overflow-actions-disabled", () => {
     await userEvent.keyboard("{ArrowLeft}");
 
     await expect.element(overflowMenu).toBeVisible();
-    const overflowMenuEl = overflowMenu.element();
-    await expect.poll(() => overflowMenuEl.ariaActiveDescendantElement).toBe(thirdAction);
+    await expect.element(thirdAction).toHaveFocus();
+    await expect.element(thirdAction).toHaveAttribute("tabindex", "0");
   });
 
   it("opens a focused overflow action menu at its first item in a vertical action bar", async () => {
@@ -1346,7 +1269,7 @@ describe("per-group overflow-actions-disabled", () => {
 
     const firstAction = page.getByTestId("first-action");
     const overflowMenu = page.getByTestId("overflow-action-group").getByRole("menu");
-    const secondAction = page.getByTestId("second-action").element();
+    const secondAction = page.getByTestId("second-action");
 
     await userEvent.keyboard("{Tab}");
     await expect.element(firstAction).toHaveFocus();
@@ -1355,8 +1278,8 @@ describe("per-group overflow-actions-disabled", () => {
     await userEvent.keyboard("{ArrowRight}");
 
     await expect.element(overflowMenu).toBeVisible();
-    const overflowMenuEl = overflowMenu.element();
-    await expect.poll(() => overflowMenuEl.ariaActiveDescendantElement).toBe(secondAction);
+    await expect.element(secondAction).toHaveFocus();
+    await expect.element(secondAction).toHaveAttribute("tabindex", "0");
 
     await userEvent.keyboard("{Escape}");
     await expect.element(overflowMenu).not.toBeInTheDocument();
