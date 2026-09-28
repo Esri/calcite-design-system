@@ -75,7 +75,11 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /**
+   * Specifies the appearance style of the component.
+   *
+   * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
+   */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance
