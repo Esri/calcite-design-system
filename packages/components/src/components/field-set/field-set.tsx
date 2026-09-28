@@ -37,17 +37,9 @@ export class FieldSet extends LitElement {
 
   private controlsDisabledSyncQueued = false;
 
-  private controlElements: HTMLElement[] = [];
+  private disabledControls: DisabledControl[] = [];
 
-  private get disabledControls(): DisabledControl[] {
-    return this.controlElements.filter(
-      (element): element is DisabledControl => "disabled" in element,
-    );
-  }
-
-  private get scaledControls(): ScaledControl[] {
-    return this.controlElements.filter((element): element is ScaledControl => "scale" in element);
-  }
+  private scaledControls: ScaledControl[] = [];
 
   //#endregion
 
@@ -102,8 +94,14 @@ export class FieldSet extends LitElement {
 
   private handleInputSlotChange(event: Event): void {
     const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
+    const controls = slottedElements.flatMap((element) => this.collectOwnedControls(element));
 
-    this.controlElements = slottedElements.flatMap((element) => this.collectOwnedControls(element));
+    this.disabledControls = controls.filter(
+      (control): control is DisabledControl => "disabled" in control,
+    );
+    this.scaledControls = controls.filter(
+      (control): control is ScaledControl => "scale" in control,
+    );
 
     this.syncControlsDisabled();
     this.syncControlsScale();

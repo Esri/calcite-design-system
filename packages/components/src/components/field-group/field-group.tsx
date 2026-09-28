@@ -64,19 +64,11 @@ export class FieldGroup extends LitElement {
     Partial<Record<Affix, PreviousAffixStyle>>
   >();
 
-  private controlElements: HTMLElement[] = [];
+  private disabledControls: DisabledControl[] = [];
+
+  private scaledControls: ScaledControl[] = [];
 
   private affixInputs: AffixInput[] = [];
-
-  private get disabledControls(): DisabledControl[] {
-    return this.controlElements.filter(
-      (element): element is DisabledControl => "disabled" in element,
-    );
-  }
-
-  private get scaledControls(): ScaledControl[] {
-    return this.controlElements.filter((element): element is ScaledControl => "scale" in element);
-  }
 
   //#endregion
 
@@ -160,8 +152,14 @@ export class FieldGroup extends LitElement {
 
   private handleSlotChange(event: Event): void {
     const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
+    const controls = slottedElements.flatMap((element) => this.collectOwnedControls(element));
 
-    this.controlElements = slottedElements.flatMap((element) => this.collectOwnedControls(element));
+    this.disabledControls = controls.filter(
+      (control): control is DisabledControl => "disabled" in control,
+    );
+    this.scaledControls = controls.filter(
+      (control): control is ScaledControl => "scale" in control,
+    );
     this.affixInputs = slottedElements.flatMap((element) => this.collectOwnedAffixInputs(element));
 
     this.syncControlsScale();
