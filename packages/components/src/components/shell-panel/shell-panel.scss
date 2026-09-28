@@ -793,6 +793,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   }
 
   .action-bar-container {
+    flex: none;
     border-inline-start: var(--calcite-internal-shell-panel-action-bar-container-border-inline-start, 0);
     border-inline-end: var(--calcite-internal-shell-panel-action-bar-container-border-inline-end, 0);
     contain: inline-size;
