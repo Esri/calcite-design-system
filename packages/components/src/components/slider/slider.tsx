@@ -145,7 +145,7 @@ export class Slider extends LitElement implements LabelableComponent {
       useGrouping: this.groupSeparator,
     };
 
-    return numberStringFormatter.localize(value.toString());
+    return numberStringFormatter.localize(value.toString(), true);
   };
 
   formSupport = useForm<this>({

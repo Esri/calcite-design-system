@@ -1,5 +1,4 @@
 @use "../../styles/includes";
-@use "../../styles/component/sr-only";
 
 :host {
   display: block;
@@ -7,10 +6,6 @@
 
 .container {
   position: relative;
-}
-
-.assistive-text {
-  @include sr-only.sr-only();
 }
 
 @include includes.base-component();

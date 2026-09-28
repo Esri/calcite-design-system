@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.83](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.82...@esri/calcite-components@5.2.0-next.83) (2026-09-25)
+
+### Features
+
+- **link:** refine interaction visuals and reduce icon spacing ([#15237](https://github.com/Esri/calcite-design-system/issues/15237)), closes [#15228](https://github.com/Esri/calcite-design-system/issues/15228)
+
+## [5.2.0-next.82](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.81...@esri/calcite-components@5.2.0-next.82) (2026-09-24)
+
+### Features
+
+- **inline-editable:** remove extra space between input field and inline-editable controls ([#15231](https://github.com/Esri/calcite-design-system/issues/15231)), closes [#6153](https://github.com/Esri/calcite-design-system/issues/6153)
+
+## [5.2.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.80...@esri/calcite-components@5.2.0-next.81) (2026-09-24)
+
+### Features
+
+- **link:** replace gradient underline with native text decoration ([#15204](https://github.com/Esri/calcite-design-system/issues/15204)), closes [#14812](https://github.com/Esri/calcite-design-system/issues/14812)
+
+## [5.2.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.79...@esri/calcite-components@5.2.0-next.80) (2026-09-23)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.79](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.78...@esri/calcite-components@5.2.0-next.79) (2026-09-22)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.77...@esri/calcite-components@5.2.0-next.78) (2026-09-18)
+
+### Bug Fixes
+
+- **slider:** honor numbering-system negative sign direction ([#15164](https://github.com/Esri/calcite-design-system/issues/15164)), closes [#3167](https://github.com/Esri/calcite-design-system/issues/3167)
+
+## [5.2.0-next.77](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.76...@esri/calcite-components@5.2.0-next.77) (2026-09-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.76](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.75...@esri/calcite-components@5.2.0-next.76) (2026-09-17)
+
+### Bug Fixes
+
+- **swatch:** preserve layout when slotted in button ([#15177](https://github.com/Esri/calcite-design-system/issues/15177)), closes [#15057](https://github.com/Esri/calcite-design-system/issues/15057)
+
 ## [5.2.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.74...@esri/calcite-components@5.2.0-next.75) (2026-09-16)
 
 ### Features
