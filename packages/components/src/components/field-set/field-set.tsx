@@ -72,10 +72,6 @@ export class FieldSet extends LitElement {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-  }
-
   override updated(): void {
     this.syncControlsDisabled();
     this.syncControlsScale();
