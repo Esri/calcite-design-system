@@ -59,7 +59,7 @@
 
   :host([scale="l"]) {
     .internal-label-spacing--bottom {
-      margin-block-end: var(--calcite-spacing-md);
+      margin-block-end: var(--calcite-spacing-sm);
     }
     .internal-label-spacing-inline--end {
       margin-inline-end: var(--calcite-spacing-md);

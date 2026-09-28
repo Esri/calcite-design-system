@@ -50,7 +50,7 @@
       --calcite-action-text-color: var(#{$icon-color});
 
       &:hover {
-        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(#{$background-color}));
+        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
         --calcite-action-text-color-press: var(#{$icon-color-hover});
       }
 
