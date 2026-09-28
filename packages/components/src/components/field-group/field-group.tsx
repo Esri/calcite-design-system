@@ -5,6 +5,7 @@ import type { InputNumber } from "../input-number/input-number";
 import type { InputText } from "../input-text/input-text";
 import type { Autocomplete } from "../autocomplete/autocomplete";
 import type { Scale } from "../types";
+import type { Affix } from "../../controllers/useAffixWidth";
 import { nextFrame, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-group.scss";
@@ -25,8 +26,6 @@ type DisabledControl = HTMLElement & {
 };
 
 type ScaledControl = HTMLElement & { scale: Scale };
-
-type Affix = "prefix" | "suffix";
 
 type AffixInput = Autocomplete["el"] | Input["el"] | InputNumber["el"] | InputText["el"];
 
@@ -172,23 +171,11 @@ export class FieldGroup extends LitElement {
       return 0;
     }
 
-    return Math.ceil(
-      input.shadowRoot
-        ?.querySelector<HTMLElement>(".number-button-wrapper")
-        ?.getBoundingClientRect().width ?? 0,
-    );
-  }
-
-  private getAffixInput(input: AffixInput): AffixInput | undefined {
-    return input.matches("calcite-autocomplete")
-      ? (input.shadowRoot?.querySelector<Input["el"]>("calcite-input") ?? undefined)
-      : input;
+    return Math.ceil(input.numberButtonWrapperEl?.getBoundingClientRect().width ?? 0);
   }
 
   private getInputAffixElement(input: AffixInput, affix: Affix): HTMLElement | undefined {
-    return (
-      this.getAffixInput(input)?.shadowRoot?.querySelector<HTMLElement>(`.${affix}`) ?? undefined
-    );
+    return input.affixElementProvider?.getAffixElement(affix);
   }
 
   private handleAffixChange(): void {

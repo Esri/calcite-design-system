@@ -38,7 +38,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable"; // `ca
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { useAffixWidth } from "../../controllers/useAffixWidth";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -101,6 +101,11 @@ export class Input
     prefixRef: this.prefixRef,
     suffixRef: this.suffixRef,
   })(this);
+
+  /** @private */
+  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
+    return this.affixWidth;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 

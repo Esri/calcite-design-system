@@ -47,6 +47,7 @@ import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import type { UseAffixWidth } from "../../controllers/useAffixWidth";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -115,6 +116,11 @@ export class Autocomplete
   transitionProp = "opacity" as const;
 
   referenceEl?: Input["el"];
+
+  /** @private */
+  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth | undefined {
+    return this.referenceEl?.affixElementProvider;
+  }
 
   transitionRef = createRef<HTMLDivElement>();
 

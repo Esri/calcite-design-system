@@ -13,7 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { useAffixWidth } from "../../controllers/useAffixWidth";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
@@ -87,6 +87,18 @@ export class InputNumber
     prefixRef: this.prefixRef,
     suffixRef: this.suffixRef,
   })(this);
+
+  private numberButtonWrapperRef = createRef<HTMLDivElement>();
+
+  /** @private */
+  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
+    return this.affixWidth;
+  }
+
+  /** @private */
+  @property({ attribute: false }) get numberButtonWrapperEl(): HTMLDivElement | undefined {
+    return this.numberButtonWrapperRef.value;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
@@ -1184,7 +1196,7 @@ export class InputNumber
     );
 
     const numberButtonsVertical = (
-      <div class={CSS.numberButtonWrapper}>
+      <div class={CSS.numberButtonWrapper} ref={this.numberButtonWrapperRef}>
         {numberButtonsHorizontalUp}
         {numberButtonsHorizontalDown}
       </div>

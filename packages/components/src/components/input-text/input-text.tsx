@@ -14,7 +14,7 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { setRequestedIcon } from "../../utils/dom";
 import { useForm } from "../../controllers/useForm";
-import { useAffixWidth } from "../../controllers/useAffixWidth";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -73,6 +73,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     prefixRef: this.prefixRef,
     suffixRef: this.suffixRef,
   })(this);
+
+  /** @private */
+  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
+    return this.affixWidth;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
