@@ -4,7 +4,6 @@ import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import {
-  ActiveDescendantElement,
   Alignment,
   Appearance,
   AriaAttributesCamelCased,
@@ -33,7 +32,7 @@ declare global {
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  */
-export class Action extends LitElement implements ActiveDescendantElement {
+export class Action extends LitElement {
   //#region Static Members
 
   static formAssociated = true;
@@ -91,12 +90,6 @@ export class Action extends LitElement implements ActiveDescendantElement {
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
-
-  /**
-   * When `true`, the component appears as if it is focused.
-   * @private
-   */
-  @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment?: Alignment;

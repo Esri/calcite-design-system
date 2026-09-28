@@ -15,7 +15,7 @@ import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { ActiveDescendantManager, Appearance, Scale } from "../types";
+import { Appearance, Scale } from "../types";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -44,7 +44,7 @@ const VERTICAL_PLACEMENT_PREFIXES = ["top", "bottom"];
  * @slot trigger - A slot for adding a `calcite-action` to trigger opening the menu.
  * @slot tooltip - A slot for adding a tooltip for the menu.
  */
-export class ActionMenu extends LitElement implements ActiveDescendantManager {
+export class ActionMenu extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -123,7 +123,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       this.activeMenuItemIndex =
         key === "ArrowDown" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
       this.updateActions(navigableActions);
-      this.emitInternalActiveDescendantChange();
+      void this.focusActiveAction();
       return;
     }
 
@@ -173,20 +173,15 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   private tooltipEl?: Tooltip["el"];
 
   private updateAction = (action: Action["el"], index: number): void => {
-    const { activeDescendantControlDisabled, guid, activeMenuItemIndex } = this;
+    const { guid, activeMenuItemIndex, open } = this;
     const id = IDS.action(guid, index);
-    action.tabIndex = -1;
+    action.tabIndex = open && index === activeMenuItemIndex ? 0 : -1;
     action.setAttribute("aria-label", action.label || action.text);
     action.setAttribute("role", "menuitem");
     action.removeAttribute("aria-checked");
 
     if (!action.id) {
       action.id = id;
-    }
-
-    if (!activeDescendantControlDisabled) {
-      // Used to style the "activeMenuItemIndex" action using token focus styling.
-      action.activeDescendant = index === activeMenuItemIndex;
     }
   };
 
@@ -215,27 +210,8 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
 
   //#region Public Properties
 
-  /**
-   * The component's active descendant.
-   *
-   * @private
-   */
-  get activeDescendantElement(): Action["el"] | undefined {
-    const activeMenuItemIndex =
-      this.open && this.activeMenuItemIndex === -1 ? 0 : this.activeMenuItemIndex;
-
-    return this.navigableActions[activeMenuItemIndex];
-  }
-
   /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
-
-  /**
-   * When `true`, disables the component's internal active-descendant handling.
-   *
-   * @private
-   */
-  @property() activeDescendantControlDisabled = false;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
@@ -319,9 +295,6 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   /** Fires after the component's slotted `calcite-action`s change. */
   calciteInternalActionMenuActionsChange = createEvent({ cancelable: false });
 
-  /** Fires after the active descendant changes. */
-  calciteInternalActiveDescendantChange = createEvent({ cancelable: false });
-
   //#endregion
 
   //#region Lifecycle
@@ -353,11 +326,6 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       changes.has("activeMenuItemIndex") &&
       (this.hasUpdated || this.activeMenuItemIndex !== -1)
     ) {
-      this.updateActions(this.navigableActions);
-      this.emitInternalActiveDescendantChange();
-    }
-
-    if (changes.has("activeDescendantControlDisabled") && this.hasUpdated) {
       this.updateActions(this.navigableActions);
     }
 
@@ -398,12 +366,9 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     }
 
     this.activeMenuItemIndex = this.open ? 0 : -1;
+    this.updateActions(this.navigableActions);
     this.calciteActionMenuOpen.emit();
     this.setTooltipReferenceElement();
-
-    if (open) {
-      void this.setFocus();
-    }
   }
 
   private connectMenuButtonEl(): void {
@@ -633,20 +598,16 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
 
   private updateActions(actions: Action["el"][]): void {
     actions?.forEach(this.updateAction);
-    this.syncActiveDescendantElement();
   }
 
-  private getActiveDescendantElement(): Action["el"] | undefined {
-    return this.activeDescendantControlDisabled ? undefined : this.activeDescendantElement;
-  }
+  private async focusActiveAction(): Promise<void> {
+    await this.updateComplete;
 
-  private syncActiveDescendantElement(): void {
-    (this.el as HTMLElement).ariaActiveDescendantElement =
-      this.getActiveDescendantElement() ?? null;
-  }
+    if (!this.open) {
+      return;
+    }
 
-  private emitInternalActiveDescendantChange(): void {
-    this.calciteInternalActiveDescendantChange.emit();
+    await this.navigableActions[this.activeMenuItemIndex]?.setFocus({ preventScroll: true });
   }
 
   private async handleDefaultSlotChange(): Promise<void> {
@@ -702,6 +663,9 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     if (key === "ArrowDown") {
       this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
     }
+
+    this.updateActions(actions);
+    void this.focusActiveAction();
   }
 
   private toggleOpen(value = !this.open): void {
@@ -711,7 +675,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   private handlePopoverOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.open = true;
-    this.setFocus();
+    void this.focusActiveAction();
   }
 
   private handlePopoverClose(event: CustomEvent<void>): void {
@@ -756,21 +720,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   }
 
   private renderMenuItems(): JsxNode {
-    const {
-      navigableActions,
-      activeMenuItemIndex,
-      menuId,
-      menuButtonEl,
-      label,
-      placement,
-      overlayPositioning,
-      flipPlacements,
-    } = this;
-
-    const activeDescendantElement = this.getActiveDescendantElement();
-
-    const activeAction = navigableActions[activeMenuItemIndex];
-    const activeDescendantId = activeAction?.id || null;
+    const { menuId, menuButtonEl, label, placement, overlayPositioning, flipPlacements } = this;
 
     return (
       <calcite-popover
@@ -791,9 +741,7 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
         triggerDisabled={true}
       >
         <div
-          aria-activedescendant={activeDescendantId ?? undefined}
           aria-labelledby={menuButtonEl?.id}
-          ariaActiveDescendantElement={activeDescendantElement}
           ariaOrientation={this.placementOrientation === "vertical" ? "vertical" : undefined}
           class={CSS.menu}
           id={menuId}
