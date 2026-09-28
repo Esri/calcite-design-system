@@ -18,24 +18,24 @@
 
 :host {
   @apply block;
-  --calcite-internal-swatch-inset: var(--calcite-spacing-xxs);
+  --calcite-internal-swatch-inset: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 
 :host([scale="s"]) {
   .container {
-    --calcite-internal-swatch-size: var(--calcite-spacing-xl);
+    --calcite-internal-swatch-size: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
 }
 
 :host([scale="m"]) {
   .container {
-    --calcite-internal-swatch-size: var(--calcite-spacing-xxl);
+    --calcite-internal-swatch-size: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
   }
 }
 
 :host([scale="l"]) {
   .container {
-    --calcite-internal-swatch-size: var(--calcite-spacing-xxxl);
+    --calcite-internal-swatch-size: var(--calcite-theme-space-3xl, var(--calcite-spacing-xxxl));
   }
 }
 
@@ -90,7 +90,7 @@
 .image-container {
   @apply inline-flex overflow-hidden absolute;
   z-index: calc(var(--calcite-z-index) + 2);
-  inset: var(--calcite-spacing-px);
+  inset: var(--calcite-theme-space-px, var(--calcite-spacing-px));
   display: flex;
   align-items: center;
   justify-content: center;

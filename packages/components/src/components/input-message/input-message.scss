@@ -16,14 +16,14 @@
 
   margin-block-start: var(
     --calcite-input-message-spacing,
-    var(--calcite-input-message-spacing-value, var(--calcite-spacing-xxs))
+    var(--calcite-input-message-spacing-value, var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs)))
   );
 }
 
 .calcite-input-message-icon {
   @include includes.transition-default();
   @apply pointer-events-none inline-flex flex-shrink-0;
-  margin-inline-end: var(--calcite-spacing-sm);
+  margin-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {

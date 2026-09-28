@@ -36,45 +36,45 @@
 :host([scale="s"]) {
   @apply text-n2h;
   .title {
-    padding-block: var(--calcite-spacing-xxs);
-    padding-inline: var(--calcite-spacing-sm);
+    padding-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+    padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
   .first-title {
-    padding-block-start: var(--calcite-spacing-sm);
+    padding-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
   .separator {
-    margin-block: var(--calcite-spacing-xxs);
-    margin-inline: var(--calcite-spacing-sm);
+    margin-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+    margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 
 :host([scale="m"]) {
   @apply text-n1h;
   .title {
-    padding-block: var(--calcite-spacing-sm);
-    padding-inline: var(--calcite-spacing-md);
+    padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
   .first-title {
-    padding-block-start: var(--calcite-spacing-lg);
+    padding-block-start: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
   .separator {
-    margin-block: var(--calcite-spacing-sm);
-    margin-inline: var(--calcite-spacing-md);
+    margin-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    margin-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 }
 
 :host([scale="l"]) {
   @apply text-0h;
   .title {
-    padding-block: var(--calcite-spacing-sm-plus);
-    padding-inline: var(--calcite-spacing-lg);
+    padding-block: var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus));
+    padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
   .first-title {
-    padding-block-start: var(--calcite-spacing-xl);
+    padding-block-start: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
   .separator {
-    margin-block: var(--calcite-spacing-sm-plus);
-    margin-inline: var(--calcite-spacing-lg);
+    margin-block: var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus));
+    margin-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 }
 

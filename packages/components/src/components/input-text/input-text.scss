@@ -71,11 +71,14 @@
 
 // scales
 :host([scale="s"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-fixed-sm));
 
   & input {
-    padding-inline-start: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
+    padding-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    padding-inline-end: var(
+      --calcite-internal-input-text-input-padding-inline-end,
+      var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+    );
   }
 
   & input,
@@ -85,8 +88,8 @@
   }
 
   @include input-affix-spacing(
-    var(--calcite-spacing-sm),
-    var(--calcite-spacing-xxs),
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm)),
+    var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs)),
     var(--calcite-internal-input-text-input-padding-inline-end)
   );
 
@@ -95,16 +98,19 @@
   }
 
   & .clear-button {
-    block-size: var(--calcite-spacing-xxl);
+    block-size: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-md);
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-fixed-md));
 
   & input {
-    padding-inline-start: var(--calcite-spacing-md);
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-md));
+    padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    padding-inline-end: var(
+      --calcite-internal-input-text-input-padding-inline-end,
+      var(--calcite-theme-space-md, var(--calcite-spacing-md))
+    );
   }
 
   & input,
@@ -114,8 +120,8 @@
   }
 
   @include input-affix-spacing(
-    var(--calcite-spacing-md),
-    var(--calcite-spacing-xs),
+    var(--calcite-theme-space-md, var(--calcite-spacing-md)),
+    var(--calcite-theme-space-xs, var(--calcite-spacing-xs)),
     var(--calcite-internal-input-text-input-padding-inline-end)
   );
 
@@ -125,11 +131,17 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+  --calcite-internal-input-text-icon-padding-inline: var(
+    --calcite-theme-space-md-plus,
+    var(--calcite-spacing-fixed-lg)
+  );
 
   & input {
-    padding-inline-start: var(--calcite-spacing-lg);
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-lg));
+    padding-inline-start: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
+    padding-inline-end: var(
+      --calcite-internal-input-text-input-padding-inline-end,
+      var(--calcite-theme-space-lg, var(--calcite-spacing-lg))
+    );
   }
 
   & input,
@@ -139,8 +151,8 @@
   }
 
   @include input-affix-spacing(
-    var(--calcite-spacing-lg),
-    var(--calcite-spacing-sm),
+    var(--calcite-theme-space-lg, var(--calcite-spacing-lg)),
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm)),
     var(--calcite-internal-input-text-input-padding-inline-end)
   );
 
