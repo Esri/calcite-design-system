@@ -69,8 +69,8 @@
 }
 
 .position-container .calcite-floating-ui-anim {
-  border-style: solid;
   border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   box-shadow: var(--calcite-shadow-md);
   background-color: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
