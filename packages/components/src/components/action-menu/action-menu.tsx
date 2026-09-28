@@ -183,6 +183,8 @@ export class ActionMenu extends LitElement {
     if (!action.id) {
       action.id = id;
     }
+
+    action.activeDescendant = index === activeMenuItemIndex;
   };
 
   private focusSetter = useSetFocus<this>()(this);
@@ -720,7 +722,18 @@ export class ActionMenu extends LitElement {
   }
 
   private renderMenuItems(): JsxNode {
-    const { menuId, menuButtonEl, label, placement, overlayPositioning, flipPlacements } = this;
+    const {
+      navigableActions,
+      activeMenuItemIndex,
+      menuId,
+      menuButtonEl,
+      label,
+      placement,
+      overlayPositioning,
+      flipPlacements,
+    } = this;
+
+    const activeAction = navigableActions[activeMenuItemIndex];
 
     return (
       <calcite-popover
@@ -741,6 +754,7 @@ export class ActionMenu extends LitElement {
         triggerDisabled={true}
       >
         <div
+          aria-activedescendant={activeAction?.id}
           aria-labelledby={menuButtonEl?.id}
           ariaOrientation={this.placementOrientation === "vertical" ? "vertical" : undefined}
           class={CSS.menu}
