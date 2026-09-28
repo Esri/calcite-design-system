@@ -329,9 +329,15 @@
   --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
 }
 :host([kind="neutral"]) {
-  --calcite-internal-button-background-color: var(--calcite-color-foreground-3);
-  --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
-  --calcite-internal-button-background-color-press: var(--calcite-color-foreground-1);
+  --calcite-internal-button-background-color: var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3));
+  --calcite-internal-button-background-color-hover: var(
+    --calcite-theme-color-surface-3,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-internal-button-background-color-press: var(
+    --calcite-theme-color-surface-2,
+    var(--calcite-color-foreground-1)
+  );
   --calcite-internal-button-loader-color: var(--calcite-color-text-1);
   --calcite-internal-button-text-color: var(--calcite-color-text-1);
 }
@@ -344,9 +350,15 @@
 }
 
 :host([appearance="outline-fill"]) {
-  --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
-  --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
-  --calcite-internal-button-background-color-press: var(--calcite-color-foreground-3);
+  --calcite-internal-button-background-color: var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
+  --calcite-internal-button-background-color-hover: var(
+    --calcite-theme-color-surface-3,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-internal-button-background-color-press: var(
+    --calcite-theme-color-surface-4,
+    var(--calcite-color-foreground-3)
+  );
   button,
   a {
     border-style: solid;

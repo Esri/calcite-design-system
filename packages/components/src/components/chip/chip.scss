@@ -87,7 +87,10 @@
   --calcite-internal-chip-background-color: transparent;
 }
 :host([appearance="outline-fill"]) {
-  --calcite-internal-chip-background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-1));
+  --calcite-internal-chip-background-color: var(
+    --calcite-chip-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 :host([appearance="solid"]) {
   --calcite-internal-chip-border-color: transparent;
@@ -119,7 +122,10 @@
   }
 
   &:host([kind="neutral"]) {
-    --calcite-internal-chip-background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-2));
+    --calcite-internal-chip-background-color: var(
+      --calcite-chip-background-color,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
   }
 }
 :host([kind="neutral"]) {
@@ -134,7 +140,10 @@
 
 :host([appearance="solid"]) {
   &:host([kind="neutral"]) {
-    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-chip-selectable-hover-background-color: var(
+      --calcite-theme-color-surface-4,
+      var(--calcite-color-foreground-3)
+    );
     --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-border-2);
   }
 
@@ -151,16 +160,28 @@
 
 :host([appearance="outline-fill"]) {
   &:host([kind="neutral"]) {
-    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-chip-selectable-hover-background-color: var(
+      --calcite-theme-color-surface-3,
+      var(--calcite-color-foreground-2)
+    );
     --calcite-internal-chip-selectable-hover-border-color: var(--calcite-color-border-input);
-    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-chip-selectable-active-background-color: var(
+      --calcite-theme-color-surface-4,
+      var(--calcite-color-foreground-3)
+    );
     --calcite-internal-chip-selectable-active-border-color: var(--calcite-color-text-3);
   }
 
   &:host([kind="inverse"]),
   &:host([kind="brand"]) {
-    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-foreground-2);
-    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-chip-selectable-hover-background-color: var(
+      --calcite-theme-color-surface-3,
+      var(--calcite-color-foreground-2)
+    );
+    --calcite-internal-chip-selectable-active-background-color: var(
+      --calcite-theme-color-surface-4,
+      var(--calcite-color-foreground-3)
+    );
   }
 }
 

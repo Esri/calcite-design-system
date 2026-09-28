@@ -87,7 +87,7 @@ export class Avatar extends LitElement {
     const hex = id && isValidHex(id) ? id : stringToHex(name);
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
-      return `var(--calcite-avatar-background-color, var(--calcite-color-foreground-2))`;
+      return `var(--calcite-avatar-background-color, var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2)))`;
     }
     const hue = hexToHue(hex);
     return `var(--calcite-avatar-background-color, light-dark(hsl(${hue}, 60%, 90%), hsl(${hue}, 60%, 20%)))`;
