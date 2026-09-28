@@ -23,6 +23,22 @@
     "test:watch": "vitest",
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
+  "devDependencies": {
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@esri/eslint-config-calcite": "workspace:*",
+    "@morev/stylelint-testing-library": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/eslint-plugin": "catalog:",
+    "concurrently": "catalog:",
+    "eslint": "catalog:",
+    "globals": "catalog:",
+    "rimraf": "catalog:",
+    "stylelint": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  },
   "peerDependencies": {
     "stylelint": ">=17"
   }
