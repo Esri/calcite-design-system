@@ -33,10 +33,9 @@
 // --calcite-internal-block-padding-block
 // --calcite-internal-block-padding-inline
 
-@use "../../styles/component/focus";
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
 @use "../../styles/shared/animation";
-@use "../../styles/component/transition-color";
 @use "sass:meta";
 
 :host([scale="s"]) {
@@ -131,7 +130,8 @@
 
 :host {
   @extend %component-host;
-  transition-timing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
+  @include includes.transition-default($target-props: "margin");
+  transition-timing-function: var(--calcite-animation-easing-function);
   display: flex;
   flex-shrink: 0;
   flex-grow: 0;
@@ -276,7 +276,7 @@ calcite-sort-handle {
 }
 
 .toggle-icon {
-  @include transition-color.transition-color();
+  @include includes.transition-default($target-props: "color");
 
   align-self: center;
   justify-self: end;
