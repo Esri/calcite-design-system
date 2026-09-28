@@ -15,5 +15,19 @@
     "core.js",
     "jsx.js",
     "extensions/"
-  ]
+  ],
+  "devDependencies": {
+    "@cspell/eslint-plugin": "catalog:",
+    "@eslint-react/eslint-plugin": "catalog:",
+    "@eslint-react/kit": "catalog:",
+    "@eslint/js": "catalog:",
+    "@stylistic/eslint-plugin": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-jsdoc": "catalog:",
+    "eslint-plugin-perfectionist": "catalog:",
+    "eslint-plugin-unicorn": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
+  }
 }

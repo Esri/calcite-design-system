@@ -62,8 +62,7 @@
 }
 
 .swatch {
-  position: absolute;
-  @apply inline-flex overflow-hidden absolute;
+  @apply inline-flex overflow-hidden relative;
   z-index: calc(var(--calcite-z-index) + 1);
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);

@@ -13,5 +13,23 @@
   "license": "SEE LICENSE.md",
   "bin": {
     "snippet": "cli.ts"
+  },
+  "devDependencies": {
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@esri/eslint-config-calcite": "workspace:*",
+    "@inquirer/checkbox": "catalog:",
+    "@inquirer/prompts": "catalog:",
+    "@inquirer/select": "catalog:",
+    "@types/node": "catalog:",
+    "@types/yargs": "catalog:",
+    "change-case": "catalog:",
+    "eslint": "catalog:",
+    "lint-staged": "catalog:",
+    "markdownlint-cli2": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "yaml": "catalog:",
+    "yargs": "catalog:"
   }
 }

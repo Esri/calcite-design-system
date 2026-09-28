@@ -11,6 +11,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table-cell.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -22,7 +23,7 @@ declare global {
 export class TableCell extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -202,7 +203,7 @@ export class TableCell extends LitElement {
           tabIndex={staticCell ? -1 : 0}
         >
           {(this.selectionCell || this.readCellContentsToAT) && (
-            <span ariaLive={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
+            <span ariaLive={this.focused ? "polite" : "off"} class={CSS_UTILITY.screenReaderText}>
               {this.selectionCell && this.selectionText}
               {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
             </span>

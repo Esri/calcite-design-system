@@ -22,14 +22,15 @@
 @use "../../styles/includes";
 
 :host {
-  @apply contents;
+  display: contents;
 }
 
 @include includes.base-component();
 
 @include includes.disabled() {
   tr {
-    @apply opacity-disabled pointer-events-none;
+    opacity: var(--calcite-opacity-disabled);
+    pointer-events: none;
   }
 }
 

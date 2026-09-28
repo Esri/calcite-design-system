@@ -24,12 +24,17 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
-      - name: Setup Node
+      - name: Set pnpm + Node
         if: steps.release.outputs.releases_created == 'true'
-        uses: actions/setup-node@v6
+        uses: pnpm/setup@v3
         with:
-          node-version-file: package.json
-          registry-url: "https://registry.npmjs.org"
+          cache: true
+          require-lockfile: true
+      - name: Configure npm authentication
+        if: steps.release.outputs.releases_created == 'true'
+        run: pnpm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Build Packages and Publish to NPM
         if: steps.release.outputs.releases_created == 'true'
         env:
@@ -37,16 +42,15 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
-          npm ci
-          npm run build
+          pnpm build
 
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
           release_commit="$(git rev-parse HEAD)"
 
-          npm run publish:latest
-          npm run util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
+          pnpm publish:latest
+          pnpm util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
 
           release_version="$(node -p "require('./packages/components/package.json').version")"
 
@@ -66,7 +70,7 @@ jobs:
             conflicts="$(git diff --name-only --diff-filter=U)"
 
             if [ -n "$conflicts" ] && echo "$conflicts" |
-              grep -qvE '^(package-lock\.json|packages/.*/(CHANGELOG\.md|package\.json))$'; then
+              grep -qvE '^(pnpm-lock\.yaml|packages/.*/(CHANGELOG\.md|package\.json))$'; then
               echo "Aborting cherry-pick due to unexpected conflicts:"
               echo "$conflicts"
               git cherry-pick --abort
@@ -75,9 +79,9 @@ jobs:
           fi
 
           git checkout "$release_commit" -- packages/*/CHANGELOG.md
-          git checkout "$kept_commit" -- package-lock.json
+          git checkout "$kept_commit" -- pnpm-lock.yaml
           git checkout "$kept_commit" -- packages/*/package.json
-          git add package-lock.json packages/*/CHANGELOG.md packages/*/package.json
+          git add pnpm-lock.yaml packages/*/CHANGELOG.md packages/*/package.json
 
           if git diff --name-only --diff-filter=U | grep -q .; then
             echo "Aborting cherry-pick, as there are still conflicts after auto-resolution."
