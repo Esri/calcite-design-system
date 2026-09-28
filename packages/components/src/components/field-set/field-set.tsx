@@ -85,14 +85,25 @@ export class FieldSet extends LitElement {
 
   //#region Private Methods
 
+  private collectOwnedControls(element: HTMLElement): HTMLElement[] {
+    const controls = "disabled" in element || "scale" in element ? [element] : [];
+
+    if (element.matches(controlBoundarySelector)) {
+      return controls;
+    }
+
+    return [
+      ...controls,
+      ...Array.from(element.children).flatMap((child) =>
+        this.collectOwnedControls(child as HTMLElement),
+      ),
+    ];
+  }
+
   private handleInputSlotChange(event: Event): void {
     const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
 
-    this.controlElements = slottedElements.flatMap((element) =>
-      [element, ...element.querySelectorAll<HTMLElement>("*")].filter(
-        (control) => control.parentElement?.closest(controlBoundarySelector) === this.el,
-      ),
-    );
+    this.controlElements = slottedElements.flatMap((element) => this.collectOwnedControls(element));
 
     this.syncControlsDisabled();
     this.syncControlsScale();
