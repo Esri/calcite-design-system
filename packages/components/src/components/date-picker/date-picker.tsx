@@ -1,4 +1,5 @@
 import { isServer, PropertyValues } from "lit";
+import { isEqual } from "es-toolkit";
 import {
   createEvent,
   Fragment,
@@ -196,12 +197,29 @@ export class DatePicker extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    const previousValueAsDate = changes.get("valueAsDate");
+    const valueAsDate = this.valueAsDate;
+    const isForwardedRangeValue =
+      this.rangeValueChangedByUser &&
+      !changes.has("value") &&
+      this.range &&
+      isEqual(previousValueAsDate, valueAsDate);
+    const isUserRangeValueUpdate = changes.has("value") && changes.has("valueAsDate");
+
+    if (this.rangeValueChangedByUser && !isUserRangeValueUpdate && !isForwardedRangeValue) {
+      this.rangeValueChangedByUser = false;
+    }
+
     if (changes.has("value")) {
       this.valueHandler(this.value);
     }
 
     if (changes.has("valueAsDate")) {
       this.valueAsDateWatcher(this.valueAsDate);
+    }
+
+    if (isForwardedRangeValue) {
+      this.rangeValueChangedByUser = false;
     }
 
     const minSource = getMinMaxSource(changes, "min");

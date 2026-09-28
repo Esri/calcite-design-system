@@ -10,7 +10,7 @@
 @use "../../styles/includes";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 .container {

@@ -1,7 +1,6 @@
 import { isTag } from "../resources";
 
 export const CSS = {
-  assistiveText: "assistive-text",
   characterLimit: "character-limit",
   content: "content",
   container: "container",

@@ -267,6 +267,7 @@
   top-0
   h-0.5;
   background-color: var(--calcite-slider-track-fill-color, var(--calcite-color-brand));
+  border-radius: var(--calcite-corner-radius);
 }
 
 .container--range {

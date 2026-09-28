@@ -1,4 +1,4 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { Navigation } from "./navigation";
@@ -191,6 +191,8 @@ export const allSlots_darkModeRTL = (): string => html`
     </calcite-navigation>
   </div>
 `;
+
+allSlots_darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const withNavActionSlot = (): string => html`
   <calcite-navigation>
