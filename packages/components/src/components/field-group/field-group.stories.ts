@@ -1,6 +1,9 @@
 import "./field-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../autocomplete/autocomplete"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../field-set/field-set"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input-number/input-number"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input-text/input-text"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import { html } from "../../../support/formatting";
@@ -386,6 +389,24 @@ export const prefixAndSuffixAutoWidth = (args: FieldGroupStoryArgs): string => h
         suffix-text="centimeters"
         placeholder="Enter a size"
       ></calcite-input>
+      <calcite-input-text
+        label-text="Area"
+        prefix-text="square"
+        suffix-text="meters"
+        placeholder="Enter an area"
+      ></calcite-input-text>
+      <calcite-input-number
+        label-text="Length"
+        prefix-text="approximately"
+        suffix-text="kilometers"
+        placeholder="Enter a length"
+      ></calcite-input-number>
+      <calcite-autocomplete
+        label-text="Location"
+        prefix-text="nearest"
+        suffix-text="result"
+        placeholder="Search locations"
+      ></calcite-autocomplete>
     </calcite-field-set>
   </calcite-field-group>
 `;
@@ -411,6 +432,26 @@ export const prefixAndSuffixAutoWidthUsingLabel = (args: FieldGroupStoryArgs): s
       <calcite-label>
         Depth
         <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"></calcite-input>
+      </calcite-label>
+      <calcite-label>
+        Area
+        <calcite-input-text prefix-text="square" suffix-text="meters" placeholder="Enter an area"></calcite-input-text>
+      </calcite-label>
+      <calcite-label>
+        Length
+        <calcite-input-number
+          prefix-text="approximately"
+          suffix-text="kilometers"
+          placeholder="Enter a length"
+        ></calcite-input-number>
+      </calcite-label>
+      <calcite-label>
+        Location
+        <calcite-autocomplete
+          prefix-text="nearest"
+          suffix-text="result"
+          placeholder="Search locations"
+        ></calcite-autocomplete>
       </calcite-label>
     </calcite-field-set>
   </calcite-field-group>

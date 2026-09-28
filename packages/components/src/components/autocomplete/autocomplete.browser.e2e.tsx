@@ -608,14 +608,6 @@ describe("theme", () => {
       shadowSelector: `.${CSS.contentAnimation}`,
       targetProp: "maxBlockSize",
     },
-    "--calcite-autocomplete-input-prefix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-prefix-size",
-    },
-    "--calcite-autocomplete-input-suffix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-suffix-size",
-    },
     "--calcite-autocomplete-input-background-color": {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-background-color",

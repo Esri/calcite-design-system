@@ -1761,14 +1761,6 @@ describe("theme", () => {
 
   describe("with prefix and suffix", () => {
     themed(() => mount(<calcite-input prefix-text="prefix" suffix-text="suffix" />), {
-      "--calcite-input-prefix-size": {
-        shadowSelector: `.${CSS.prefix}`,
-        targetProp: "inlineSize",
-      },
-      "--calcite-input-suffix-size": {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "inlineSize",
-      },
       "--calcite-input-prefix-text-color": {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "color",
@@ -1779,19 +1771,14 @@ describe("theme", () => {
       },
     });
 
-    it("measures affix widths and stores them as internal host CSS properties", async () => {
+    it("stores measured affix widths as inline styles", async () => {
       const { el } = await mount<Input>(
         <calcite-input prefix-text="prefix" suffix-text="suffix" />,
       );
 
       await vi.waitFor(() => {
-        const computedStyle = window.getComputedStyle(el);
-        const prefixWidth = computedStyle
-          .getPropertyValue("--calcite-internal-input-prefix-width")
-          .trim();
-        const suffixWidth = computedStyle
-          .getPropertyValue("--calcite-internal-input-suffix-width")
-          .trim();
+        const prefixWidth = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width;
+        const suffixWidth = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width;
 
         expect(prefixWidth).toMatch(/^\d+px$/);
         expect(suffixWidth).toMatch(/^\d+px$/);
@@ -1799,44 +1786,30 @@ describe("theme", () => {
 
       const prefix = el.shadowRoot.querySelector(`.${CSS.prefix}`) as HTMLDivElement;
       const suffix = el.shadowRoot.querySelector(`.${CSS.suffix}`) as HTMLDivElement;
-      const computedStyle = window.getComputedStyle(el);
-
-      expect(computedStyle.getPropertyValue("--calcite-internal-input-prefix-width").trim()).toBe(
-        `${Math.ceil(prefix.getBoundingClientRect().width)}px`,
-      );
-      expect(computedStyle.getPropertyValue("--calcite-internal-input-suffix-width").trim()).toBe(
-        `${Math.ceil(suffix.getBoundingClientRect().width)}px`,
-      );
+      expect(prefix.style.width).toBe(`${Math.ceil(prefix.getBoundingClientRect().width)}px`);
+      expect(suffix.style.width).toBe(`${Math.ceil(suffix.getBoundingClientRect().width)}px`);
     });
 
-    it("clears internal affix width properties when affixes are removed", async () => {
+    it("clears inline affix widths when affixes are removed", async () => {
       const { el } = await mount<Input>(
         <calcite-input prefix-text="prefix" suffix-text="suffix" />,
       );
 
       await vi.waitFor(() => {
-        const computedStyle = window.getComputedStyle(el);
-
-        expect(
-          computedStyle.getPropertyValue("--calcite-internal-input-prefix-width").trim(),
-        ).not.toBe("");
-        expect(
-          computedStyle.getPropertyValue("--calcite-internal-input-suffix-width").trim(),
-        ).not.toBe("");
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).not.toBe(
+          "",
+        );
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).not.toBe(
+          "",
+        );
       });
 
       el.prefixText = undefined;
       el.suffixText = undefined;
 
       await vi.waitFor(() => {
-        const computedStyle = window.getComputedStyle(el);
-
-        expect(computedStyle.getPropertyValue("--calcite-internal-input-prefix-width").trim()).toBe(
-          "",
-        );
-        expect(computedStyle.getPropertyValue("--calcite-internal-input-suffix-width").trim()).toBe(
-          "",
-        );
+        expect(el.shadowRoot.querySelector(`.${CSS.prefix}`)).toBeNull();
+        expect(el.shadowRoot.querySelector(`.${CSS.suffix}`)).toBeNull();
       });
     });
   });

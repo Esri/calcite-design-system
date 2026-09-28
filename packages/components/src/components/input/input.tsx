@@ -38,6 +38,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable"; // `ca
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useAffixWidth } from "../../controllers/useAffixWidth";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -95,6 +96,11 @@ export class Input
   private prefixRef = createRef<HTMLDivElement>();
 
   private suffixRef = createRef<HTMLDivElement>();
+
+  private affixWidth = useAffixWidth<Input>({
+    prefixRef: this.prefixRef,
+    suffixRef: this.suffixRef,
+  })(this);
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
@@ -567,9 +573,9 @@ export class Input
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
-      this.syncAffixWidths();
+      const affixWidthsChanged = this.affixWidth.syncAffixWidths();
 
-      if (changes.has("prefixText") || changes.has("suffixText")) {
+      if (affixWidthsChanged) {
         this.calciteInternalInputAffixChange.emit();
       }
     }
@@ -585,29 +591,6 @@ export class Input
 
   private stopNudging() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
-  }
-
-  private syncAffixWidth(
-    affixWidthProperty:
-      | "--calcite-internal-input-prefix-width"
-      | "--calcite-internal-input-suffix-width",
-    affixRef: { value?: HTMLDivElement },
-    affixText: string | undefined,
-  ): void {
-    if (!affixText || !affixRef.value) {
-      this.el.style.removeProperty(affixWidthProperty);
-      return;
-    }
-
-    this.el.style.setProperty(
-      affixWidthProperty,
-      `${Math.ceil(affixRef.value.getBoundingClientRect().width)}px`,
-    );
-  }
-
-  private syncAffixWidths(): void {
-    this.syncAffixWidth("--calcite-internal-input-prefix-width", this.prefixRef, this.prefixText);
-    this.syncAffixWidth("--calcite-internal-input-suffix-width", this.suffixRef, this.suffixText);
   }
 
   private handleGlobalAttributesChanged(): void {

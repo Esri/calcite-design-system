@@ -1,8 +1,11 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Input } from "../input/input";
+import type { InputNumber } from "../input-number/input-number";
+import type { InputText } from "../input-text/input-text";
+import type { Autocomplete } from "../autocomplete/autocomplete";
 import type { Scale } from "../types";
-import { getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-group.scss";
 
@@ -11,13 +14,10 @@ type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
 const originalDisabledState = Symbol("calciteFieldGroupOriginalDisabledState");
 
-const internalPrefixWidthVar = "--calcite-internal-input-prefix-width";
-const internalSuffixWidthVar = "--calcite-internal-input-suffix-width";
-const prefixSizeVar = "--calcite-input-prefix-size";
-const suffixSizeVar = "--calcite-input-suffix-size";
-
 const controlBoundarySelector =
   "calcite-field-group, calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
+const affixInputSelector =
+  "calcite-autocomplete, calcite-input, calcite-input-number, calcite-input-text";
 
 type DisabledControl = HTMLElement & {
   disabled: boolean;
@@ -27,6 +27,8 @@ type DisabledControl = HTMLElement & {
 type ScaledControl = HTMLElement & { scale: Scale };
 
 type Affix = "prefix" | "suffix";
+
+type AffixInput = Autocomplete["el"] | Input["el"] | InputNumber["el"] | InputText["el"];
 
 type PreviousAffixStyle = {
   priority: string;
@@ -59,13 +61,13 @@ export class FieldGroup extends LitElement {
   };
 
   private previousAffixStyles = new WeakMap<
-    Input["el"],
+    AffixInput,
     Partial<Record<Affix, PreviousAffixStyle>>
   >();
 
   private controlElements: HTMLElement[] = [];
 
-  private inputs: Input["el"][] = [];
+  private affixInputs: AffixInput[] = [];
 
   private get disabledControls(): DisabledControl[] {
     return this.controlElements.filter(
@@ -90,18 +92,23 @@ export class FieldGroup extends LitElement {
   /** Specifies the component layout of the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) layout: Layout = "vertical";
 
-  /** When `true`, slotted `calcite-input` prefixes share the same width within the Field Group it's applied to (does not propagate). */
+  /** When `true`, slotted input component prefixes share the same width within the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) prefixAutoWidth = false;
 
   /** Specifies the scale of slotted controls, Field Groups, and Field Sets. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, slotted `calcite-input` suffixes share the same width within the Field Group it's applied to (does not propagate). */
+  /** When `true`, slotted input component suffixes share the same width within the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) suffixAutoWidth = false;
 
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalInputAffixChange", this.handleAffixChange);
+  }
 
   override updated(changes: PropertyValues<this>): void {
     this.syncControlsScale();
@@ -131,12 +138,12 @@ export class FieldGroup extends LitElement {
         (control) => control.parentElement?.closest(controlBoundarySelector) === this.el,
       ),
     );
-    this.inputs = slottedElements
+    this.affixInputs = slottedElements
       .flatMap((element) => [
-        ...(element.matches("calcite-input") ? [element] : []),
-        ...element.querySelectorAll<Input["el"]>("calcite-input"),
+        ...(element.matches(affixInputSelector) ? [element] : []),
+        ...element.querySelectorAll<AffixInput>(affixInputSelector),
       ])
-      .filter((input) => input.closest("calcite-field-group") === this.el);
+      .filter((input): input is AffixInput => input.closest("calcite-field-group") === this.el);
 
     this.syncControlsScale();
     this.syncControlsDisabled();
@@ -148,10 +155,7 @@ export class FieldGroup extends LitElement {
     void this.syncInputsAffixWidths();
   }
 
-  private async getInputAffixWidth(
-    input: Input["el"],
-    affixWidthProperty: typeof internalPrefixWidthVar | typeof internalSuffixWidthVar,
-  ): Promise<number> {
+  private async getInputAffixWidth(input: AffixInput, affix: Affix): Promise<number> {
     const readyInput = input as Input["el"] & {
       componentOnReady?: () => Promise<void>;
       updateComplete?: Promise<unknown>;
@@ -160,7 +164,35 @@ export class FieldGroup extends LitElement {
     await readyInput.componentOnReady?.();
     await readyInput.updateComplete;
 
-    return getStylePixelValue(getComputedStyle(input).getPropertyValue(affixWidthProperty).trim());
+    return Math.ceil(this.getInputAffixElement(input, affix)?.getBoundingClientRect().width ?? 0);
+  }
+
+  private getInputAffixTrailingWidth(input: AffixInput, affix: Affix): number {
+    if (affix !== "suffix" || !input.matches("calcite-input-number")) {
+      return 0;
+    }
+
+    return Math.ceil(
+      input.shadowRoot
+        ?.querySelector<HTMLElement>(".number-button-wrapper")
+        ?.getBoundingClientRect().width ?? 0,
+    );
+  }
+
+  private getAffixInput(input: AffixInput): AffixInput | undefined {
+    return input.matches("calcite-autocomplete")
+      ? (input.shadowRoot?.querySelector<Input["el"]>("calcite-input") ?? undefined)
+      : input;
+  }
+
+  private getInputAffixElement(input: AffixInput, affix: Affix): HTMLElement | undefined {
+    return (
+      this.getAffixInput(input)?.shadowRoot?.querySelector<HTMLElement>(`.${affix}`) ?? undefined
+    );
+  }
+
+  private handleAffixChange(): void {
+    void this.syncInputsAffixWidths();
   }
 
   private async queueControlsDisabledResync(): Promise<void> {
@@ -205,38 +237,42 @@ export class FieldGroup extends LitElement {
     });
   }
 
-  private async syncInputAffixWidth(
-    affixWidthProperty: typeof internalPrefixWidthVar | typeof internalSuffixWidthVar,
-    shouldSync: boolean,
-    styleProperty: typeof prefixSizeVar | typeof suffixSizeVar,
-  ): Promise<void> {
-    const affix = styleProperty === prefixSizeVar ? "prefix" : "suffix";
+  private async syncInputAffixWidth(affix: Affix, shouldSync: boolean): Promise<void> {
     const requestId = ++this.affixWidthRequestIds[affix];
-    const inputs = this.inputs;
+    const inputs = this.affixInputs;
 
     inputs.forEach((input) => {
+      const affixElement = this.getInputAffixElement(input, affix);
+
+      if (!affixElement) {
+        return;
+      }
+
       const previousStyles = this.previousAffixStyles.get(input) ?? {};
 
       if (!previousStyles[affix]) {
         previousStyles[affix] = {
-          priority: input.style.getPropertyPriority(styleProperty),
-          value: input.style.getPropertyValue(styleProperty),
+          priority: affixElement.style.getPropertyPriority("width"),
+          value: affixElement.style.width,
         };
         this.previousAffixStyles.set(input, previousStyles);
       }
 
-      input.style.removeProperty(styleProperty);
+      affixElement.style.removeProperty("width");
     });
 
     if (!shouldSync) {
       inputs.forEach((input) => {
+        const affixElement = this.getInputAffixElement(input, affix);
         const previousStyles = this.previousAffixStyles.get(input);
         const previousStyle = previousStyles?.[affix];
 
-        if (previousStyle?.value) {
-          input.style.setProperty(styleProperty, previousStyle.value, previousStyle.priority);
-        } else {
-          input.style.removeProperty(styleProperty);
+        if (affixElement) {
+          if (previousStyle?.value) {
+            affixElement.style.setProperty("width", previousStyle.value, previousStyle.priority);
+          } else {
+            affixElement.style.removeProperty("width");
+          }
         }
 
         if (previousStyles) {
@@ -256,7 +292,11 @@ export class FieldGroup extends LitElement {
     const nextWidth = Math.max(
       0,
       ...(await Promise.all(
-        inputs.map((input) => this.getInputAffixWidth(input, affixWidthProperty)),
+        inputs.map(
+          async (input) =>
+            (await this.getInputAffixWidth(input, affix)) +
+            this.getInputAffixTrailingWidth(input, affix),
+        ),
       )),
     );
 
@@ -265,16 +305,18 @@ export class FieldGroup extends LitElement {
     }
 
     inputs.forEach((input) => {
-      if (nextWidth) {
-        input.style.setProperty(styleProperty, `${nextWidth}px`);
+      const affixElement = this.getInputAffixElement(input, affix);
+
+      if (affixElement && nextWidth) {
+        affixElement.style.width = `${nextWidth - this.getInputAffixTrailingWidth(input, affix)}px`;
       }
     });
   }
 
   private async syncInputsAffixWidths(): Promise<void> {
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-    await this.syncInputAffixWidth(internalPrefixWidthVar, this.prefixAutoWidth, prefixSizeVar);
-    await this.syncInputAffixWidth(internalSuffixWidthVar, this.suffixAutoWidth, suffixSizeVar);
+    await this.syncInputAffixWidth("prefix", this.prefixAutoWidth);
+    await this.syncInputAffixWidth("suffix", this.suffixAutoWidth);
   }
 
   //#endregion
