@@ -16,8 +16,35 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding one or more `calcite-card`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the gap between slotted elements.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-group-space` instead.
+     */
+    "--calcite-card-group-gap": "*";
+    /**
+     * Specifies the space between slotted elements.
+     */
+    "--calcite-card-group-space": "*";
+  }
+}
+
+interface CardGroupSlots {
+  /**
+   * A slot for adding one or more `calcite-card`s.
+   */
+  "": Node[];
+}
+
 export class CardGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: CardGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;

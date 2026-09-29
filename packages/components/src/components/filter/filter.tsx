@@ -20,6 +20,67 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the padding of the component's content.
+     */
+    "--calcite-filter-content-space": "*";
+    /**
+     * Specifies the component's input background color.
+     */
+    "--calcite-filter-input-background-color": "*";
+    /**
+     * Specifies the component's input border color.
+     */
+    "--calcite-filter-input-border-color": "*";
+    /**
+     * Specifies the component's input corner radius.
+     */
+    "--calcite-filter-input-corner-radius": "*";
+    /**
+     * Specifies the component's input shadow.
+     */
+    "--calcite-filter-input-shadow": "*";
+    /**
+     * Specifies the component's input icon color.
+     */
+    "--calcite-filter-input-icon-color": "*";
+    /**
+     * Specifies the component's input text color.
+     */
+    "--calcite-filter-input-text-color": "*";
+    /**
+     * Specifies the component's input placeholder text color.
+     */
+    "--calcite-filter-input-placeholder-text-color": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element.
+     */
+    "--calcite-filter-input-actions-background-color": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element when hovered.
+     */
+    "--calcite-filter-input-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element when pressed.
+     */
+    "--calcite-filter-input-actions-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element.
+     */
+    "--calcite-filter-input-actions-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element when hovered.
+     */
+    "--calcite-filter-input-actions-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element when pressed.
+     */
+    "--calcite-filter-input-actions-icon-color-press": "*";
+  }
+}
+
 export class Filter extends LitElement {
   //#region Static Members
 
