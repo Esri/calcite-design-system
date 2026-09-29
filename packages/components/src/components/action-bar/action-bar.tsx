@@ -1647,7 +1647,9 @@ export class ActionBar extends LitElement {
   }
 
   private setNavigationItemTabIndexes(active: Action["el"] | ActionMenu["el"]): void {
-    this.currentFocusItem = active;
+    if (active.matches(":focus-within")) {
+      this.currentFocusItem = active;
+    }
 
     this.navigationItems.forEach((item) => {
       const isActive = item === active || item.id === active.id;
