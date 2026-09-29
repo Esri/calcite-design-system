@@ -25,15 +25,12 @@ jobs:
         with:
           cache: true
           install: false
+      - name: Configure npm authentication
+        run: |
+          # Lerna publishes using npm, so auth needs to be configured via npm not pnpm
+          npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
         env:
-          pnpm_config__auth: |
-            {
-              "https://registry.npmjs.org": {
-                "@": {
-                  "authToken": ${{ toJSON(secrets.NPM_TOKEN) }}
-                }
-              }
-            }
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy prerelease and storybook
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
