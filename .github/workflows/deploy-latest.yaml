@@ -30,11 +30,15 @@ jobs:
         with:
           cache: true
           require-lockfile: true
-      - name: Configure npm authentication
-        if: steps.release.outputs.releases_created == 'true'
-        run: pnpm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          pnpm_config__auth: |
+            {
+              "https://registry.npmjs.org": {
+                "@": {
+                  "authToken": ${{ toJSON(secrets.NPM_TOKEN) }}
+                }
+              }
+            }
       - name: Build Packages and Publish to NPM
         if: steps.release.outputs.releases_created == 'true'
         env:
