@@ -40,7 +40,6 @@ export const simple = (args: TextStoryArgs): string => html`
 
 simple.args = {
   maxLines: 0,
-  tooltipEnabled: false,
 };
 
 simple.argTypes = {

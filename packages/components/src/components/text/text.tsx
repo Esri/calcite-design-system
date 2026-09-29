@@ -5,10 +5,6 @@ import { styles } from "./text.scss";
 import { ELLIPSIS_CHAR } from "./resources";
 import { PropertyValues } from "lit";
 
-/**
- *  @slot - A slot for adding text.
- */
-
 type TruncatePosition = "middle" | "end";
 
 declare global {
@@ -16,6 +12,10 @@ declare global {
     "calcite-text": Text;
   }
 }
+
+/**
+ *  @slot - A slot for adding text.
+ */
 
 export class Text extends LitElement {
   //#region Static Members
@@ -33,7 +33,7 @@ export class Text extends LitElement {
   private resizeObserver = createObserver("resize", (): void => {
     const { truncatePosition, maxLines } = this;
 
-    if (truncatePosition === "end") {
+    if (truncatePosition === "end" || (maxLines && maxLines >= 1)) {
       this.syncTooltipState();
     } else if (truncatePosition === "middle" && !maxLines) {
       this.truncateMiddleText();
@@ -61,16 +61,12 @@ export class Text extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("maxLines") && this.hasUpdated) {
+    if (changes.has("maxLines")) {
       this.updateMaxLinesToken();
     }
     if (changes.has("truncatePosition") && this.hasUpdated) {
       this.handleTruncatePositionChange();
     }
-  }
-
-  async loaded(): Promise<void> {
-    this.updateMaxLinesToken();
   }
 
   override disconnectedCallback(): void {
@@ -189,7 +185,6 @@ export class Text extends LitElement {
       "--calcite-internal-text-max-lines",
       this.maxLines?.toString() || null,
     );
-    this.syncTooltipState();
   }
 
   //#endregion
