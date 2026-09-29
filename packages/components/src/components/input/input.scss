@@ -50,7 +50,7 @@
 // --calcite-internal-input-number-button-item-horizontal-padding
 // --calcite-internal-input-number-button-item-vertical-padding
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block;
@@ -168,7 +168,7 @@
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 input {
   @apply font-inherit
@@ -474,7 +474,7 @@ input[type="number"] {
 }
 
 .number-button-wrapper {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply pointer-events-none
     box-border
     flex
@@ -649,7 +649,7 @@ input[type="date"]::-webkit-input-placeholder {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @include includes.transition-default();
+    @include shared.transition-default();
 
     // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
     &.inline-editable-child {
@@ -688,7 +688,7 @@ input {
       input,
       .inline-edit,
       .action-wrapper {
-        @include includes.transition-default();
+        @include shared.transition-default();
         background-color: var(--calcite-input-inline-edit-background-color-hover, var(--calcite-color-foreground-2));
       }
     }
@@ -698,7 +698,7 @@ input {
 :host([inline-edit]) {
   .inline-edit,
   .action-wrapper {
-    @include includes.transition-default();
+    @include shared.transition-default();
     background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   }
 }
@@ -714,11 +714,11 @@ input {
   }
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
-@include includes.input-placeholder-text();
-@include includes.clear-button(
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();
+@include shared.input-placeholder-text();
+@include shared.clear-button(
   $background-color: "--calcite-input-actions-background-color",
   $background-color-hover: "--calcite-input-actions-background-color-hover",
   $background-color-press: "--calcite-input-actions-background-color-press",
@@ -726,7 +726,7 @@ input {
   $icon-color-hover: "--calcite-input-actions-icon-color-hover",
   $icon-color-press: "--calcite-input-actions-icon-color-press"
 );
-@include includes.inline-edit(
+@include shared.inline-edit(
   $background-color: "--calcite-input-inline-edit-control-background-color",
   $background-color-hover: "--calcite-input-inline-edit-control-background-color-hover",
   $background-color-press: "--calcite-input-inline-edit-control-background-color-press",

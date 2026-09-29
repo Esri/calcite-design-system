@@ -18,14 +18,14 @@
 //
 // --calcite-internal-rating-spacing
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([scale="s"]) {
   min-block-size: var(--calcite-space-2xl);
@@ -60,7 +60,7 @@
 }
 
 .star {
-  @include includes.transition-default();
+  @include shared.transition-default();
   position: relative;
   display: flex;
   flex-direction: column;
@@ -88,7 +88,7 @@
 }
 
 .fraction {
-  @include includes.transition-default();
+  @include shared.transition-default();
   position: absolute;
   pointer-events: none;
   inset-block-start: 0;
@@ -119,6 +119,6 @@ calcite-chip {
   @apply sr-only;
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();

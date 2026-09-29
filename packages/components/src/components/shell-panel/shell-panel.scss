@@ -65,7 +65,7 @@
 // --calcite-internal-shell-panel-slotted-panel-border-inline-start
 // --calcite-internal-shell-panel-width
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply relative
@@ -1325,4 +1325,4 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

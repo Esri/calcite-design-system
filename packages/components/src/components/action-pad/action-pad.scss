@@ -15,7 +15,7 @@
 // --calcite-internal-action-pad-gap
 // --calcite-internal-action-pad-padding
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-xxs));
@@ -78,4 +78,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

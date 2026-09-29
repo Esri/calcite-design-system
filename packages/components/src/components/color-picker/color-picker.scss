@@ -28,12 +28,10 @@
 //
 // --calcite-internal-color-picker-min-width
 
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
 :host {
-  @include text.text-n2h();
+  @include shared.text-n2h();
 
   display: inline-block;
   font-weight: var(--calcite-font-weight-normal);
@@ -41,7 +39,7 @@
   min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([scale="s"]) {
   --calcite-internal-color-picker-min-width: 200px;
@@ -57,7 +55,7 @@
   --calcite-internal-color-picker-min-width: 304px;
   --calcite-color-picker-spacing: var(--calcite-spacing-lg);
 
-  @include text.text-n1h();
+  @include shared.text-n1h();
 
   .section {
     &:first-of-type {
@@ -159,7 +157,7 @@ calcite-swatch {
   block-size: var(--calcite-size-px);
   pointer-events: none;
   &:focus {
-    @include focus.focus-outset();
+    @include shared.focus-outset();
 
     outline-offset: 6px;
   }
@@ -247,4 +245,4 @@ calcite-swatch {
   margin-block-start: var(--calcite-color-picker-spacing);
 }
 
-@include includes.base-component();
+@include shared.base-component();

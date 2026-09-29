@@ -40,9 +40,7 @@
 // --calcite-internal-carousel-pagination-space
 // --calcite-internal-carousel-pagination-space-wide
 
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
 :host {
   display: flex;
@@ -125,10 +123,10 @@
   color: var(--calcite-color-text-2);
   inline-size: 100%;
 
-  @include text.text-n1h();
+  @include shared.text-n1h();
 
   &:focus {
-    @include focus.focus-inset();
+    @include shared.focus-inset();
   }
 }
 
@@ -243,7 +241,7 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item {
-  @include includes.transition-default();
+  @include shared.transition-default();
 
   outline-color: transparent;
   margin: 0;
@@ -266,7 +264,7 @@ calcite-carousel-item:not([selected]) {
   &:focus {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
 
-    @include focus.focus-inset();
+    @include shared.focus-inset();
   }
   &:active {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
@@ -340,6 +338,6 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
-@include includes.base-component();
+@include shared.base-component();
