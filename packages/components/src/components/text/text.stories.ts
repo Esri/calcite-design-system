@@ -54,9 +54,15 @@ simple.argTypes = {
   },
 };
 
-export const middleTruncation = (): string => html`
-  <calcite-text truncate-position="middle" max-lines="0">
-    https://example.com/trails/north-america/rocky-mountains/alpine-lakes-route
+export const truncatePositionMiddle = (): string => html`
+  <calcite-text truncate-position="middle">
+    The Rocky Mountain range spans multiple states and includes several major peaks and protected ecosystems.
+  </calcite-text>
+`;
+
+export const truncatePositionEnd = (): string => html`
+  <calcite-text truncate-position="end">
+    The Rocky Mountain range spans multiple states and includes several major peaks and protected ecosystems.
   </calcite-text>
 `;
 
@@ -67,13 +73,7 @@ export const maxLines = (): string => html`
 `;
 
 export const maxLinesWithMiddleTruncatePosition = (): string => html`
-  <calcite-text max-lines="1" truncate-position="middle">
+  <calcite-text max-lines="3" truncate-position="middle">
     The Appalachian Mountains are a system of mountains in eastern North America, extending from Canada to Alabama.
-  </calcite-text>
-`;
-
-export const tooltipEnabled = (): string => html`
-  <calcite-text tooltip-enabled max-lines="1" truncate-position="middle">
-    Andes-Mountain-Observatory-Annual-Climate-Report-Archive-2026
   </calcite-text>
 `;
