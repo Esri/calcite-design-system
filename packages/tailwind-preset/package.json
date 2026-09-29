@@ -23,10 +23,25 @@
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "dependencies": {
-    "@esri/calcite-design-tokens": "4.2.0-next.0"
+    "@esri/calcite-design-tokens": "workspace:*"
   },
   "peerDependencies": {
-    "@esri/calcite-design-tokens": "^4.1.0",
+    "@esri/calcite-design-tokens": "workspace:*",
     "tailwindcss": "^3.0.0 < 4.0.0"
+  },
+  "devDependencies": {
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@esri/eslint-config-calcite": "workspace:*",
+    "concurrently": "catalog:",
+    "eslint": "catalog:",
+    "lint-staged": "catalog:",
+    "markdownlint-cli2": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-dts": "catalog:"
   }
 }

@@ -13,25 +13,28 @@
 //
 // --calcite-internal-tab-content-space-y
 
+@use "../../styles/shared/focus";
 @use "../../styles/includes";
 
 :host {
-  @apply hidden;
+  display: none;
 }
 
 :host,
 .container,
 .content {
-  @apply h-full w-full;
+  block-size: 100%;
+  inline-size: 100%;
 }
 
 :host([selected]),
 :host([selected]) .container {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
-  @apply box-border;
+  box-sizing: border-box;
 
   padding-block: var(
     --calcite-tab-content-space-y,
@@ -61,10 +64,14 @@
 }
 
 .container {
-  @apply focus-base hidden h-full w-full overflow-auto;
+  outline-color: transparent;
+  display: none;
+  block-size: 100%;
+  inline-size: 100%;
+  overflow: auto;
 
   &:focus {
-    @apply focus-inset;
+    @include focus.focus-inset();
   }
 }
 
