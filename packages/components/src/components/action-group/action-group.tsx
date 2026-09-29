@@ -64,6 +64,10 @@ export class ActionGroup extends LitElement {
 
   private menuActions: Action["el"][] = [];
 
+  private setActionMenuEl = (actionMenu?: ActionMenu["el"]): void => {
+    this.actionMenu = actionMenu;
+  };
+
   private _overflowActionsDisabled = false;
 
   //#endregion
@@ -149,6 +153,13 @@ export class ActionGroup extends LitElement {
   @property() get actions(): Action["el"][] {
     return this._actions;
   }
+
+  /**
+   * Specifies the internally rendered `calcite-action-menu`.
+   *
+   * @internal
+   */
+  @property() actionMenu?: ActionMenu["el"];
 
   /**
    * Specifies the active actions in the group.
@@ -417,6 +428,7 @@ export class ActionGroup extends LitElement {
         open={menuOpen}
         overlayPositioning={overlayPositioning}
         placement={menuPlacement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
+        ref={this.setActionMenuEl}
         scale={scale}
         topLayerDisabled={this.topLayerDisabled}
       >
