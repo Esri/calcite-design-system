@@ -1,5 +1,6 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as listItemResources from "../list-item/resources";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, hidden, renders, disabled, themed } from "../../tests/common";
@@ -62,5 +63,16 @@ describe("a11y attributes", () => {
     const heading = page.getByRole("cell");
 
     await expect.element(heading).not.toHaveAttribute("aria-colspan");
+  });
+
+  it("should assert aria-colspan when column count is non-zero", async () => {
+    const maxColumnsSpy = vi.spyOn(listItemResources, "MAX_COLUMNS", "get").mockReturnValue(2);
+
+    await mount(<calcite-list-item-group heading="Buildings" />);
+    const heading = page.getByRole("cell");
+
+    await expect.element(heading).toHaveAttribute("aria-colspan", "2");
+
+    maxColumnsSpy.mockRestore();
   });
 });
