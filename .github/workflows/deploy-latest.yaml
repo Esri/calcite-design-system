@@ -32,7 +32,9 @@ jobs:
           require-lockfile: true
       - name: Configure npm authentication
         if: steps.release.outputs.releases_created == 'true'
-        run: npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+        run: |
+          # Lerna publishes using npm, so auth needs to be configured via npm not pnpm
+          npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Build Packages and Publish to NPM
