@@ -712,7 +712,7 @@ describe("pagination", () => {
       .toHaveTextContent("Item 1 of 2");
 
     const paginationAriaLive = page
-      .getBySelector(`calcite-carousel .${CSS.paginationAriaLive}`)
+      .getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`)
       .element() as HTMLElement;
     expect(paginationAriaLive.getAttribute("aria-live")).toBe(null);
 
