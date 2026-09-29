@@ -85,19 +85,14 @@ export class Text extends LitElement {
     this.el.title = "";
   }
 
-  private getTruncatedText(
-    text: string,
-    maxWidth: number,
-    font: string,
-    ellipsisChar: string,
-  ): string {
+  private getTruncatedText(text: string, maxWidth: number, font: string): string {
     let startIndex = 0;
     let endIndex = text.length;
 
     const truncatedString = (index: number): string => {
       const leftCount = Math.ceil(index / 2);
       const rightCount = Math.floor(index / 2);
-      return text.slice(0, leftCount) + ellipsisChar + text.slice(text.length - rightCount);
+      return text.slice(0, leftCount) + ELLIPSIS_CHAR + text.slice(text.length - rightCount);
     };
 
     while (startIndex < endIndex) {
@@ -114,7 +109,7 @@ export class Text extends LitElement {
     const optimalIndex = Math.max(0, startIndex);
     // Ensure we always show at least something on both sides when possible.
     if (optimalIndex <= 1) {
-      return ellipsisChar;
+      return ELLIPSIS_CHAR;
     }
     return truncatedString(optimalIndex);
   }
@@ -162,8 +157,10 @@ export class Text extends LitElement {
     if (currentTextContent === value) {
       return;
     }
-    this.isProgrammaticTextUpdate = true;
-    this.el.textContent = value;
+    requestAnimationFrame(() => {
+      this.isProgrammaticTextUpdate = true;
+      this.el.textContent = value;
+    });
   }
 
   private truncateMiddleText(): void {
@@ -180,12 +177,7 @@ export class Text extends LitElement {
         this.syncRenderedText(this.value);
         this.clearTooltipTitle();
       } else {
-        const middleTruncatedText = this.getTruncatedText(
-          this.renderedText,
-          clientWidth,
-          font,
-          ELLIPSIS_CHAR,
-        );
+        const middleTruncatedText = this.getTruncatedText(this.renderedText, clientWidth, font);
         this.syncRenderedText(middleTruncatedText);
         this.setTooltipTitle();
       }

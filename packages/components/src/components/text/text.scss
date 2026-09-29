@@ -9,6 +9,10 @@
   white-space: nowrap;
 }
 
+:host([truncate-position="middle"]) {
+  white-space: nowrap;
+}
+
 :host([max-lines]) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
