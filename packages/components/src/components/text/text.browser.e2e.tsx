@@ -41,7 +41,7 @@ it("should be able to switch between middle and end truncate positions", async (
   await expect.element(el).toHaveTextContent("This i...ncated");
   el.truncatePosition = "end";
   await component.updateComplete;
-  expect(el.textContent).toBe(text);
+  await expect.element(el).toHaveTextContent(text);
 });
 
 describe("tooltip", () => {
