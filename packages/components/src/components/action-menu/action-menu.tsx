@@ -1,4 +1,5 @@
 import { PropertyValues } from "lit";
+import { tabbable } from "tabbable";
 import {
   LitElement,
   property,
@@ -24,6 +25,7 @@ import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { tabbableOptions } from "../../utils/dom";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
@@ -97,7 +99,24 @@ export class ActionMenu extends LitElement {
 
     if (key === "Tab" && open) {
       this.focusMenuButtonOnClose = false;
+
+      const tabbableElements = event.shiftKey
+        ? tabbable(this.el.ownerDocument.body, tabbableOptions)
+        : [];
+      const menuIndex = tabbableElements.findIndex(
+        (element) =>
+          element === this.el ||
+          element === this.menuButtonEl ||
+          !!this.menuButtonEl?.shadowRoot?.contains(element),
+      );
+      const previousTabbable = menuIndex > 0 ? tabbableElements[menuIndex - 1] : undefined;
+
+      if (previousTabbable) {
+        event.preventDefault();
+      }
+
       this.open = false;
+      previousTabbable?.focus();
       return;
     }
 
@@ -176,9 +195,9 @@ export class ActionMenu extends LitElement {
     const { guid, activeMenuItemIndex, open } = this;
     const id = IDS.action(guid, index);
     action.tabIndex = open && index === activeMenuItemIndex ? 0 : -1;
-    action.setAttribute("aria-label", action.label || action.text);
-    action.setAttribute("role", "menuitem");
-    action.removeAttribute("aria-checked");
+    action.ariaLabel = action.label || action.text;
+    action.role = "menuitem";
+    action.ariaChecked = null;
 
     if (!action.id) {
       action.id = id;

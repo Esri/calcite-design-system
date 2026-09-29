@@ -1,5 +1,6 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
+import { tabbable } from "tabbable";
 import {
   createEvent,
   h,
@@ -18,6 +19,7 @@ import {
   getSlotAssignedElements,
   getStylePixelValue,
   slotChangeGetAssignedElements,
+  tabbableOptions,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
@@ -643,7 +645,7 @@ export class ActionBar extends LitElement {
     });
 
     if (overflowedActionCount > 0) {
-      const menu = actionGroup.shadowRoot?.querySelector("calcite-action-menu");
+      const { actionMenu: menu } = actionGroup;
       const triggerAction = menu?.actions.find(
         (action) => action.slot === ACTION_MENU_SLOTS.trigger,
       );
@@ -906,12 +908,11 @@ export class ActionBar extends LitElement {
   }
 
   private handleDefaultSlotChange(): void {
+    this.syncSlotAndActions(() => this.syncDefaultSlot());
     this.updateGroups();
     this.updateNavigationItems();
     this.syncNavigationItemTabIndexes();
     this.updateActions();
-
-    this.syncSlotAndActions(() => this.syncDefaultSlot());
 
     if (this.usesWrap) {
       this.scheduleLineMeasure();
@@ -955,11 +956,7 @@ export class ActionBar extends LitElement {
       navigationItems.push(...this.getActionGroupNavigationItems(internalStartGroup));
     }
 
-    Array.from(this.el.children).forEach((child) => {
-      if (child.slot === SLOTS.actionsStart || child.slot === SLOTS.actionsEnd) {
-        return;
-      }
-
+    this.defaultSlotItems.forEach((child) => {
       if (isAction(child)) {
         if (this.isNavigableAction(child)) {
           navigationItems.push(child);
@@ -967,7 +964,7 @@ export class ActionBar extends LitElement {
         return;
       }
 
-      if (child.matches("calcite-action-menu")) {
+      if (isActionMenu(child)) {
         const actionMenu = child;
 
         if (this.isNavigableActionMenu(actionMenu)) {
@@ -976,7 +973,7 @@ export class ActionBar extends LitElement {
         return;
       }
 
-      if (child.matches("calcite-action-group")) {
+      if (isActionGroup(child)) {
         const actionGroup = child;
 
         navigationItems.push(...this.getActionGroupNavigationItems(actionGroup));
@@ -997,14 +994,9 @@ export class ActionBar extends LitElement {
       return [];
     }
 
-    const actions = [
-      ...Array.from(actionGroup.querySelectorAll("calcite-action")),
-      ...Array.from(actionGroup.querySelectorAll("slot")).flatMap((slot) =>
-        slot.assignedElements({ flatten: true }).filter((el): el is Action["el"] => isAction(el)),
-      ),
-    ].filter((action) => this.isNavigableAction(action));
+    const actions = actionGroup.actions.filter((action) => this.isNavigableAction(action));
 
-    const actionMenu = actionGroup.shadowRoot?.querySelector("calcite-action-menu");
+    const { actionMenu } = actionGroup;
 
     return actionMenu && this.isNavigableActionMenu(actionMenu)
       ? [...actions, actionMenu]
@@ -1126,6 +1118,7 @@ export class ActionBar extends LitElement {
     }
 
     this.syncActionsAndOverflow();
+    this.syncNavigationItemTabIndexes();
   }
 
   private handleActionMenuActionsChange(event: CustomEvent<void>): void {
@@ -1235,12 +1228,21 @@ export class ActionBar extends LitElement {
       case "Tab":
         this.setNavigationItemTabIndexes(current);
         if (event.shiftKey && isClosedActionMenu) {
-          current.tabIndex = -1;
-          setTimeout(() => {
-            if (this.currentFocusItem === current) {
-              current.tabIndex = 0;
-            }
-          });
+          const tabbableElements = tabbable(this.el.ownerDocument.body, tabbableOptions);
+          const menuIndex = tabbableElements.findIndex(
+            (element) =>
+              element === current ||
+              element === current.menuButtonEl ||
+              !!current.menuButtonEl?.shadowRoot?.contains(element),
+          );
+          const previousTabbable = menuIndex > 0 ? tabbableElements[menuIndex - 1] : undefined;
+
+          event.preventDefault();
+          if (previousTabbable) {
+            previousTabbable.focus();
+          } else {
+            current.blur();
+          }
         }
         break;
     }
@@ -1437,22 +1439,19 @@ export class ActionBar extends LitElement {
 
   private focusItem(item: Action["el"] | ActionMenu["el"]): void {
     if (item.matches("calcite-action-menu")) {
-      const triggerAction = [
-        item.querySelector("calcite-action[slot='trigger']"),
-        item.shadowRoot?.querySelector("calcite-action"),
-      ].find((el): el is Action["el"] => !!el && isAction(el));
+      const { menuButtonEl } = item;
 
       if ("setFocus" in item && typeof item.setFocus === "function") {
         void item.setFocus().then(() => {
-          if (!item.matches(":focus-within") && triggerAction) {
-            void triggerAction.setFocus();
+          if (!item.matches(":focus-within") && menuButtonEl) {
+            void menuButtonEl.setFocus();
           }
         });
         return;
       }
 
-      if (triggerAction) {
-        void triggerAction.setFocus();
+      if (menuButtonEl) {
+        void menuButtonEl.setFocus();
         return;
       }
     }
@@ -1644,11 +1643,7 @@ export class ActionBar extends LitElement {
   }
 
   private getActionMenuId(actionMenu: ActionMenu["el"]): string | undefined {
-    return (
-      actionMenu.id ||
-      (actionMenu.shadowRoot?.querySelector("[role='menu']") as HTMLElement | null)?.id ||
-      undefined
-    );
+    return actionMenu.id || undefined;
   }
 
   private setNavigationItemTabIndexes(active: Action["el"] | ActionMenu["el"]): void {
@@ -1669,12 +1664,10 @@ export class ActionBar extends LitElement {
 
       item.tabIndex = isActive ? 0 : -1;
 
-      const triggerAction =
-        item.querySelector("calcite-action[slot='trigger']") ||
-        item.shadowRoot?.querySelector("calcite-action");
+      const { menuButtonEl } = item;
 
-      if (triggerAction) {
-        triggerAction.setAttribute("tabindex", "-1");
+      if (menuButtonEl) {
+        menuButtonEl.setAttribute("tabindex", "-1");
       }
     });
   }
