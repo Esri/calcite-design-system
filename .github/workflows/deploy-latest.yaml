@@ -30,15 +30,6 @@ jobs:
         with:
           cache: true
           require-lockfile: true
-        env:
-          pnpm_config__auth: |
-            {
-              "https://registry.npmjs.org": {
-                "@": {
-                  "authToken": ${{ toJSON(secrets.NPM_TOKEN) }}
-                }
-              }
-            }
       - name: Build Packages and Publish to NPM
         if: steps.release.outputs.releases_created == 'true'
         env:
