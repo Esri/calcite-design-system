@@ -9,12 +9,14 @@ type AffixWidthComponent = {
 type AffixWidthRefs = {
   prefixRef: { value?: HTMLElement };
   suffixRef: { value?: HTMLElement };
+  getTrailingWidth?: (affix: Affix) => number;
 };
 
 export type Affix = "prefix" | "suffix";
 
 export interface UseAffixWidth {
   getAffixElement: (affix: Affix) => HTMLElement | undefined;
+  getTrailingWidth: (affix: Affix) => number;
   syncAffixWidths: () => boolean;
 }
 
@@ -54,6 +56,7 @@ export const useAffixWidth = <T extends AffixWidthComponent>(
 
     return {
       getAffixElement: (affix): HTMLElement | undefined => refs[`${affix}Ref`].value,
+      getTrailingWidth: (affix): number => refs.getTrailingWidth?.(affix) ?? 0,
       syncAffixWidths: (): boolean => {
         const prefixWidthChanged = syncAffixWidth(refs.prefixRef, component.prefixText);
         const suffixWidthChanged = syncAffixWidth(refs.suffixRef, component.suffixText);

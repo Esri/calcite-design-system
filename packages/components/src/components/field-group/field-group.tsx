@@ -1,11 +1,7 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
-import type { Input } from "../input/input";
-import type { InputNumber } from "../input-number/input-number";
-import type { InputText } from "../input-text/input-text";
-import type { Autocomplete } from "../autocomplete/autocomplete";
 import type { Scale } from "../types";
-import type { Affix } from "../../controllers/useAffixWidth";
+import type { Affix, UseAffixWidth } from "../../controllers/useAffixWidth";
 import { nextFrame, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-group.scss";
@@ -17,8 +13,6 @@ const originalDisabledState = Symbol("calciteFieldGroupOriginalDisabledState");
 
 const controlBoundarySelector =
   "calcite-field-group, calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
-const affixInputSelector =
-  "calcite-autocomplete, calcite-input, calcite-input-number, calcite-input-text";
 
 type DisabledControl = HTMLElement & {
   disabled: boolean;
@@ -27,7 +21,7 @@ type DisabledControl = HTMLElement & {
 
 type ScaledControl = HTMLElement & { scale: Scale };
 
-type AffixInput = Autocomplete["el"] | Input["el"] | InputNumber["el"] | InputText["el"];
+type AffixInput = HTMLElement & { affixElementProvider?: UseAffixWidth };
 
 type PreviousAffixStyle = {
   priority: string;
@@ -137,7 +131,7 @@ export class FieldGroup extends LitElement {
   }
 
   private collectOwnedAffixInputs(element: HTMLElement): AffixInput[] {
-    if (element.matches(affixInputSelector)) {
+    if ("affixElementProvider" in element) {
       return [element as AffixInput];
     }
 
@@ -173,7 +167,7 @@ export class FieldGroup extends LitElement {
   }
 
   private async getInputAffixWidth(input: AffixInput, affix: Affix): Promise<number> {
-    const readyInput = input as Input["el"] & {
+    const readyInput = input as AffixInput & {
       componentOnReady?: () => Promise<void>;
       updateComplete?: Promise<unknown>;
     };
@@ -185,11 +179,7 @@ export class FieldGroup extends LitElement {
   }
 
   private getInputAffixTrailingWidth(input: AffixInput, affix: Affix): number {
-    if (affix !== "suffix" || !input.matches("calcite-input-number")) {
-      return 0;
-    }
-
-    return Math.ceil(input.numberButtonWrapperEl?.getBoundingClientRect().width ?? 0);
+    return input.affixElementProvider?.getTrailingWidth(affix) ?? 0;
   }
 
   private getInputAffixElement(input: AffixInput, affix: Affix): HTMLElement | undefined {

@@ -86,6 +86,10 @@ export class InputNumber
   private affixWidth = useAffixWidth<InputNumber>({
     prefixRef: this.prefixRef,
     suffixRef: this.suffixRef,
+    getTrailingWidth: (affix) =>
+      affix === "suffix"
+        ? Math.ceil(this.numberButtonWrapperRef.value?.getBoundingClientRect().width ?? 0)
+        : 0,
   })(this);
 
   private numberButtonWrapperRef = createRef<HTMLDivElement>();
@@ -93,11 +97,6 @@ export class InputNumber
   /** @private */
   @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
     return this.affixWidth;
-  }
-
-  /** @private */
-  @property({ attribute: false }) get numberButtonWrapperEl(): HTMLDivElement | undefined {
-    return this.numberButtonWrapperRef.value;
   }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
