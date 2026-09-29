@@ -44,6 +44,9 @@ export class Text extends LitElement {
 
   //#region Public Properties
 
+  /**
+   * Specifies the maximum number of lines to display before truncating the text with an ellipsis.
+   */
   @property({ type: Number, reflect: true }) maxLines?: number;
 
   /**
