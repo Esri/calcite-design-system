@@ -16,7 +16,7 @@ describe("aria-live", () => {
     await reRender();
 
     const assistiveText = page
-      .getBySelector(`calcite-table-header ${CSS_UTILITY.screenReaderText}`)
+      .getBySelector(`calcite-table-header .${CSS_UTILITY.screenReaderText}`)
       .first()
       .element() as HTMLElement;
 

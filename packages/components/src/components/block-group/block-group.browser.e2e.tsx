@@ -356,7 +356,7 @@ describe("aria-live", () => {
       </calcite-block-group>,
     );
     const assistiveText = page
-      .getBySelector(`calcite-block-group ${CSS_UTILITY.screenReaderText}`)
+      .getBySelector(`calcite-block-group .${CSS_UTILITY.screenReaderText}`)
       .element() as HTMLElement;
 
     expect(assistiveText).toBeDefined();
