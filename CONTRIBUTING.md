@@ -43,7 +43,7 @@ Contributors can help most by:
 - Working on issues that have [low estimates](#estimates) - it is strongly recommended to work on issues with estimates of `estimate - 5` and lower
   - Ensure the issue has not been added to the [Freezer milestone](https://github.com/Esri/calcite-design-system/milestone/28)
   - **Prior to starting work on a new contribution**, please reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco) to coordinate and align on approaches, strategies, and goals across the repository. Sometimes additional context is needed, which may not be specified in the issue. Additionally, communication is needed to ensure the issue follows [Calcite's issue lifecycle](#lifecycle) and is assigned to the proper milestone
-- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development and reaching out to the code owners, please review our [component conventions](packages/components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
+- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development and reaching out to the code owners, please review our [coding conventions](https://github.com/Esri/calcite-design-system/wiki/coding-conventions) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -237,11 +237,11 @@ Calcite Components include [Vitest](https://vitest.dev)-based testing tools that
 
 If you're working on writing tests for a particular component, it can be helpful to use `pnpm --filter @esri/calcite-components test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `pnpm --filter @esri/calcite-components test:watch:node` or `pnpm --filter @esri/calcite-components test:watch:browser`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
-Please refer to Calcite's [testing conventions](./packages/components/conventions/Testing.md) for more information.
+Please refer to Calcite's [testing conventions](https://github.com/Esri/calcite-design-system/wiki/testing-conventions) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./packages/components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [coding conventions guide](https://github.com/Esri/calcite-design-system/wiki/coding-conventions). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -253,7 +253,7 @@ Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to 
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
-Please refer to the [Documentation Conventions](./packages/components/conventions/Documentation.md) for more information.
+Please refer to the [Documentation Conventions](https://github.com/Esri/calcite-design-system/wiki/Documentation-conventions) for more information.
 
 ## Branch naming conventions
 
