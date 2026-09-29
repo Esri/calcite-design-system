@@ -355,21 +355,21 @@ describe("aria-live", () => {
         <calcite-block heading="Block" />
       </calcite-block-group>,
     );
-    const assistiveText = page
-      .getBySelector(`calcite-block-group .${CSS_UTILITY.screenReaderText}`)
-      .element() as HTMLElement;
+    const assistiveText = el.shadowRoot?.querySelector<HTMLElement>(
+      `.${CSS_UTILITY.screenReaderText}`,
+    );
 
     expect(assistiveText).toBeDefined();
-    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+    expect(assistiveText?.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
     await reRender();
 
-    expect(assistiveText.getAttribute("aria-live")).toBe("polite");
+    expect(assistiveText?.getAttribute("aria-live")).toBe("polite");
 
     el.ariaLive = "invalid";
     await reRender();
 
-    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+    expect(assistiveText?.getAttribute("aria-live")).toBe(null);
   });
 });
