@@ -3,6 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { TableHeader } from "./table-header";
 import { focusable } from "../../tests/common";
+import { CSS_UTILITY } from "../../utils/resources";
 
 describe("focusable", () => {
   focusable(() => mount("calcite-table-header"));
@@ -15,7 +16,7 @@ describe("aria-live", () => {
     await reRender();
 
     const assistiveText = page
-      .getBySelector("calcite-table-header .assistive-text")
+      .getBySelector(`calcite-table-header ${CSS_UTILITY.screenReaderText}`)
       .first()
       .element() as HTMLElement;
 

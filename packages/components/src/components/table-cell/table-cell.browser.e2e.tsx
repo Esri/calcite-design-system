@@ -3,6 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { TableCell } from "./table-cell";
 import { defaults, focusable } from "../../tests/common";
+import { CSS_UTILITY } from "../../utils/resources";
 
 describe("defaults", () => {
   defaults(() => mount("calcite-table-cell"), [{ propertyName: "scale", defaultValue: "m" }]);
@@ -19,7 +20,7 @@ describe("aria-live", () => {
     await reRender();
 
     const assistiveText = page
-      .getBySelector("calcite-table-cell .assistive-text")
+      .getBySelector(`calcite-table-cell ${CSS_UTILITY.screenReaderText}`)
       .first()
       .element() as HTMLElement;
 

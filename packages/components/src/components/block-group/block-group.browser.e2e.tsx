@@ -16,6 +16,7 @@ import {
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
 import type { BlockGroup } from "./block-group";
+import { CSS_UTILITY } from "../../utils/resources";
 
 mockConsole();
 
@@ -355,7 +356,7 @@ describe("aria-live", () => {
       </calcite-block-group>,
     );
     const assistiveText = page
-      .getBySelector("calcite-block-group .assistive-text")
+      .getBySelector(`calcite-block-group ${CSS_UTILITY.screenReaderText}`)
       .element() as HTMLElement;
 
     expect(assistiveText).toBeDefined();
