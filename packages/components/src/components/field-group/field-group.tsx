@@ -11,9 +11,6 @@ type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
 const originalDisabledState = Symbol("calciteFieldGroupOriginalDisabledState");
 
-const controlBoundarySelector =
-  "calcite-field-group, calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
-
 type DisabledControl = HTMLElement & {
   disabled: boolean;
   [originalDisabledState]?: boolean;
@@ -77,6 +74,11 @@ export class FieldGroup extends LitElement {
   /** Specifies the component layout of the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) layout: Layout = "vertical";
 
+  /** @private */
+  @property({ attribute: false }) get manageDescendantControls(): true {
+    return true;
+  }
+
   /** When `true`, slotted input component prefixes share the same width within the Field Group it's applied to (does not propagate). */
   @property({ reflect: true }) prefixAutoWidth = false;
 
@@ -118,7 +120,7 @@ export class FieldGroup extends LitElement {
   private collectOwnedControls(element: HTMLElement): HTMLElement[] {
     const controls = "disabled" in element || "scale" in element ? [element] : [];
 
-    if (element.matches(controlBoundarySelector)) {
+    if ("manageDescendantControls" in element) {
       return controls;
     }
 

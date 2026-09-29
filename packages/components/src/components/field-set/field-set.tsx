@@ -4,9 +4,6 @@ import { nextFrame, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
-const controlBoundarySelector =
-  "calcite-field-group, calcite-field-set, calcite-radio-button-group, calcite-segmented-control";
-
 const originalDisabledState = Symbol("calciteFieldSetOriginalDisabledState");
 
 type DisabledControl = HTMLElement & {
@@ -57,6 +54,11 @@ export class FieldSet extends LitElement {
   /** Specifies the field set legend. */
   @property() legend?: string;
 
+  /** @private */
+  @property({ attribute: false }) get manageDescendantControls(): true {
+    return true;
+  }
+
   /** Specifies the scale of the component and its slotted controls and field groups. */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -80,7 +82,7 @@ export class FieldSet extends LitElement {
   private collectOwnedControls(element: HTMLElement): HTMLElement[] {
     const controls = "disabled" in element || "scale" in element ? [element] : [];
 
-    if (element.matches(controlBoundarySelector)) {
+    if ("manageDescendantControls" in element) {
       return controls;
     }
 
