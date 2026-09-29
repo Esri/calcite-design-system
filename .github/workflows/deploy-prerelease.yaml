@@ -25,10 +25,15 @@ jobs:
         with:
           cache: true
           install: false
-      - name: Configure npm authentication
-        run: pnpm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          pnpm_config__auth: |
+            {
+              "https://registry.npmjs.org": {
+                "@": {
+                  "authToken": ${{ toJSON(secrets.NPM_TOKEN) }}
+                }
+              }
+            }
       - name: Deploy prerelease and storybook
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
