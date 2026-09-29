@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   assistiveText: "assistive-text",
@@ -21,3 +22,8 @@ export const ICONS: Record<string, IconName> = {
   dragVertical: "drag-resize-vertical",
   dragHorizontal: "drag-resize-horizontal",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isSheet = isTag("calcite-sheet");

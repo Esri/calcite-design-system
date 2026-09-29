@@ -105,6 +105,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .queue-count {
+  @include includes.transition-default();
   @apply cursor-default
   flex
   font-medium
@@ -116,8 +117,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   overflow-hidden
   self-stretch
   text-center
-  text-color-2
-  transition-default;
+  text-color-2;
   border-inline: 0 solid transparent;
   border-start-end-radius: 0;
 

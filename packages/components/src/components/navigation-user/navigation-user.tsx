@@ -1,6 +1,6 @@
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-user.scss";
 

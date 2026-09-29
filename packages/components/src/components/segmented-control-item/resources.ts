@@ -1,4 +1,5 @@
-import { Scale } from "../interfaces";
+import { isTag } from "../resources";
+import { Scale } from "../types";
 
 export const SLOTS = {
   input: "input",
@@ -13,3 +14,8 @@ export const CSS = {
   icon: "icon",
   iconSolo: "icon--solo",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isSegmentedControlItem = isTag("calcite-segmented-control-item");

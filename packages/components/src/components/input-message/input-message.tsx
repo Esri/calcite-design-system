@@ -9,8 +9,8 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon } from "../../utils/dom";
-import { Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Scale, Status } from "../types";
+import { IconName } from "../icon/types";
 import { StatusIconDefaults } from "./resources";
 import { styles } from "./input-message.scss";
 import { CSS } from "./resources";

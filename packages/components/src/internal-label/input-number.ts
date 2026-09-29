@@ -1,4 +1,6 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/input-number/input-number";
 
 export const inputNumber = html`<calcite-input-number
   placeholder="Placeholder"

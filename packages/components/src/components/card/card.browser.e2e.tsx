@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
-import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   hidden,
@@ -12,7 +12,7 @@ import {
   reflects,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { CSS, SLOTS } from "./resources";
 
@@ -93,7 +93,19 @@ describe("translation support", () => {
   t9n(() => mount("calcite-card"));
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount("calcite-card");
+    const container = page.getBySelector(`calcite-card .${CSS.container}`);
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
+
   it("sets loader aria-live only when host value is valid", async () => {
     const { el, reRender } = await mount(
       <calcite-card loading>

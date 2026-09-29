@@ -3,6 +3,7 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TimePicker } from "./time-picker";
+import "./time-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { hourFormat, menuPlacement, numberingSystem, scale, supportedNlsLocale } = ATTRIBUTES;
 

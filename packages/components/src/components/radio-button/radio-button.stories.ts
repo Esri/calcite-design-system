@@ -2,6 +2,8 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButton } from "./radio-button";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./radio-button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status } = ATTRIBUTES;
 

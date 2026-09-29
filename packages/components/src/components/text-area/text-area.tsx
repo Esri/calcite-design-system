@@ -19,21 +19,23 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
-import { Status } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
+import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
-import { CharacterLengthObj } from "./interfaces";
+import { CharacterLengthObj } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -55,7 +57,7 @@ export class TextArea
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -133,8 +135,6 @@ export class TextArea
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
@@ -308,6 +308,11 @@ export class TextArea
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   override connectedCallback(): void {
     this.cancelable.add(this.updateSizeToAuto);
@@ -543,7 +548,7 @@ export class TextArea
             {this.isCharacterLimitExceeded() && (
               <span
                 ariaLive={resolveAriaLive(this.el.ariaLive)}
-                class={CSS.assistiveText}
+                class={CSS_UTILITY.screenReaderText}
                 id={this.guid}
               >
                 {this.replacePlaceholdersInMessages()}

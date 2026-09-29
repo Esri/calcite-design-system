@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, themed } from "../../tests/common";
 import { CSS } from "./resources";
 
 describe("defaults", () => {

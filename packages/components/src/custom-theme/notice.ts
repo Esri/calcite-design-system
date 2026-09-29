@@ -1,3 +1,4 @@
+import "../components/notice/notice";
 import { html } from "../../support/formatting";
 
 export const noticeTokens = {

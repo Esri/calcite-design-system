@@ -21,6 +21,7 @@ class TestClickComponent extends LitElement {
   @property() open = false;
   @property() referenceElement: string | HTMLElement | undefined;
   @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
+  @property() triggerDisabled = false;
   @state() referenceEl: HTMLElement | undefined;
   referenceElementController = useReferenceElement({ manager: refClickManager })(this);
 
@@ -110,6 +111,73 @@ async function assertSharedReferenceElementRegistration<T extends TestReferenceC
 }
 
 describe("click manager", () => {
+  it("does not set aria-expanded for a disabled trigger", async () => {
+    const referenceElement = document.createElement("button");
+    const { component } = await mount(TestClickComponent);
+
+    component.triggerDisabled = true;
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+
+    component.open = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+
+    component.triggerDisabled = false;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBe("true");
+  });
+
+  it("updates aria controls when trigger disabled changes", async () => {
+    const referenceElement = document.createElement("button");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+
+    component.triggerDisabled = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toBeNull();
+
+    component.triggerDisabled = false;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+  });
+
+  it("sets aria-expanded from enabled components sharing a reference element", async () => {
+    const referenceElement = document.createElement("button");
+    const { component: disabledComponent } = await mount(TestClickComponent);
+    const { component: enabledComponent } = await mount(TestClickComponent);
+
+    disabledComponent.triggerDisabled = true;
+    disabledComponent.open = true;
+    disabledComponent.referenceElement = referenceElement;
+    enabledComponent.referenceElement = referenceElement;
+    await Promise.all([disabledComponent.updateComplete, enabledComponent.updateComplete]);
+
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    enabledComponent.open = true;
+    await enabledComponent.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBe("true");
+
+    enabledComponent.referenceElement = undefined;
+    await enabledComponent.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+  });
+
   it("register and resolves reference element", async () => {
     await mount(
       html`<div>
@@ -179,6 +247,75 @@ describe("click manager", () => {
 
     expect(referenceElement1.ariaControlsElements).toBeNull();
     expect(referenceElement1.ariaExpanded).toBeNull();
+  });
+
+  it("cleans up ARIA state when disconnected before triggerDisabled update flushes", async () => {
+    const referenceElement = document.createElement("button");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    component.triggerDisabled = true;
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.ariaControlsElements).toBeNull();
+    expect(referenceElement.ariaExpanded).toBeNull();
+  });
+
+  it("preserves ARIA state owned by reference elements for disabled triggers", async () => {
+    const referenceElement = document.createElement("button");
+    const controlledElement = document.createElement("div");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement, controlledElement);
+    referenceElement.ariaControlsElements = [controlledElement];
+    referenceElement.ariaExpanded = "false";
+
+    component.triggerDisabled = true;
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([controlledElement]);
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.ariaControlsElements).toEqual([controlledElement]);
+    expect(referenceElement.ariaExpanded).toBe("false");
+  });
+
+  it("preserves pre-existing aria-controls entries that match the component", async () => {
+    const referenceElement = document.createElement("button");
+    const componentId = "controlled-component";
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+    component.el.id = componentId;
+    referenceElement.ariaControlsElements = [component.el];
+    const ariaControls = referenceElement.getAttribute("aria-controls");
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([component.el]);
+
+    component.triggerDisabled = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([component.el]);
+
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.getAttribute("aria-controls")).toBe(ariaControls);
   });
 
   it("registers multiple components with same reference element and unregisters independently", async () => {

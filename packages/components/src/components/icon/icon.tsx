@@ -4,10 +4,10 @@ import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { toAriaBoolean } from "../../utils/aria";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
-import { IconName } from "./interfaces";
+import { IconName } from "./types";
 import { styles } from "./icon.scss";
 
 declare global {

@@ -38,7 +38,10 @@ class TestComponent extends LitElement {
   @method()
   async setFocus(): Promise<void> {}
 
-  formTrigger = useFormTrigger()(this);
+  constructor() {
+    super();
+    useFormTrigger()(this);
+  }
 
   override render(): JsxNode {
     return <div>🎯</div>;
@@ -114,9 +117,12 @@ describe("conditional disabling", () => {
     @method()
     async setFocus(): Promise<void> {}
 
-    formTrigger = useFormTrigger({
-      disabled: () => disabled,
-    })(this);
+    constructor() {
+      super();
+      useFormTrigger({
+        disabled: () => disabled,
+      })(this);
+    }
 
     override render(): JsxNode {
       return <div>🎯</div>;

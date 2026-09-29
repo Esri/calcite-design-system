@@ -3,6 +3,10 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButtonGroup } from "./radio-button-group";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../radio-button/radio-button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./radio-button-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, scale, status } = ATTRIBUTES;
 

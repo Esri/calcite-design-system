@@ -1,8 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils/puppeteer";
-import type { TileGroup } from "./tile-group";
+import { createSelectedItemsAsserter, isElementFocused } from "../../tests/utils/puppeteer";
 
 describe("keyboard", () => {
   it("focuses tiles with the tab key and arrow keys and allows selection with the enter and space key", async () => {
@@ -90,32 +89,6 @@ describe("keyboard", () => {
     await page.waitForChanges();
 
     expect(await isElementFocused(page, "#item-1")).toBe(true);
-  });
-});
-
-describe("prop passing", () => {
-  it("tiles receive parent scale prop on initial load and when scale attribute is mutated", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-tile-group scale="s">
-        <calcite-tile></calcite-tile>
-        <calcite-tile></calcite-tile>
-        <calcite-tile></calcite-tile>
-      </calcite-tile-group>
-    `);
-
-    let tiles = await findAll(page, "calcite-tile");
-    tiles.forEach((tile) => {
-      expect(tile.getAttribute("scale")).toBe("s");
-    });
-
-    await page.$eval("calcite-tile-group", (element: TileGroup["el"]) => element.setAttribute("scale", "l"));
-    await page.waitForChanges();
-
-    tiles = await findAll(page, "calcite-tile");
-    tiles.forEach((tile) => {
-      expect(tile.getAttribute("scale")).toBe("l");
-    });
   });
 });
 

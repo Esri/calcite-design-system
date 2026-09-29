@@ -2,14 +2,16 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { resolveAriaLive } from "../../utils/aria";
-import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { RowType, TableInteractionMode } from "../table/interfaces";
+import { Alignment, Scale, SelectionMode } from "../types";
+import { RowType, TableInteractionMode } from "../table/types";
 import { getIconScale } from "../../utils/component";
+import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-header.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -20,7 +22,7 @@ declare global {
 export class TableHeader extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -220,7 +222,7 @@ export class TableHeader extends LitElement {
           />
         )}
         {(this.selectionCell || this.numberCell) && (
-          <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS.assistiveText}>
+          <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS_UTILITY.screenReaderText}>
             {this.screenReaderText}
           </span>
         )}

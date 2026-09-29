@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   header: "header",
   chevron: "chevron",
@@ -18,3 +20,8 @@ export const ICON = {
 } as const;
 
 export const ICON_WIDTH_M = 16;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isDatePickerMonthHeader = isTag("calcite-date-picker-month-header");

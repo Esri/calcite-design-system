@@ -1,16 +1,16 @@
 @use "../../styles/includes";
 
 :host {
-  @apply flex;
+  display: flex;
 }
 
 .container {
-  @apply hidden;
+  display: none;
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host([selected]) .container {
-  @apply block;
+  display: block;
 }
 
 @include includes.base-component();

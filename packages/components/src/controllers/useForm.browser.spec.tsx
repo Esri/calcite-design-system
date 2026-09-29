@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { useForm } from "./useForm";
-import { defaultValidity } from "../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../tests/common/defaults";
 import { html, PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { page, userEvent } from "vitest/browser";

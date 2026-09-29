@@ -24,12 +24,12 @@
 }
 
 .day {
+  @include includes.transition-default();
   @apply text-n2h
     flex
     items-center
     justify-center
     leading-none
-    transition-default
     w-full
     relative;
   line-height: var(--calcite-font-line-height-fixed-base);

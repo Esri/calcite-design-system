@@ -1,3 +1,4 @@
+import "../components/radio-button/radio-button";
 import { html } from "../../support/formatting";
 
 export const radioButtonTokens = {

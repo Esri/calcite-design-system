@@ -2,7 +2,7 @@ import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/common";
 import type { Option } from "./option";
 
 describe("accessible", () => {

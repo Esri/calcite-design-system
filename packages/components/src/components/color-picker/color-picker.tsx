@@ -5,7 +5,7 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { Direction, isPrimaryPointerButton } from "../../utils/dom";
-import { Dimensions, Scale } from "../interfaces";
+import { Dimensions, Scale } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
@@ -47,7 +47,7 @@ import {
   STATIC_DIMENSIONS,
   ICONS,
 } from "./resources";
-import { Channels, ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Channels, ColorMode, ColorValue, InternalColor } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
 import { logger } from "../../utils/logger";
@@ -348,7 +348,7 @@ export class ColorPicker extends LitElement {
    * The type will be preserved as the color is updated.
    *
    * @see [MDN - CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/types.ts#L10).
    */
   @property()
   get value(): ColorValue | null | undefined {
@@ -581,19 +581,20 @@ export class ColorPicker extends LitElement {
 
   private handleColorFieldScopeKeyDown(event: KeyboardEvent): void {
     const { key } = event;
-    const arrowKeyToXYOffset = {
+    const arrowKeyToXYOffset: Partial<Record<KeyboardEvent["key"], { x: number; y: number }>> = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
       ArrowDown: { x: 0, y: 10 },
       ArrowLeft: { x: -10, y: 0 },
     };
+    const offset = arrowKeyToXYOffset[key];
 
-    if (arrowKeyToXYOffset[key]) {
+    if (offset) {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
-        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
-        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
+        this.colorFieldScopeLeft === undefined ? 0 : this.colorFieldScopeLeft + offset.x,
+        this.colorFieldScopeTop === undefined ? 0 : this.colorFieldScopeTop + offset.y,
         false,
       );
     }
@@ -602,16 +603,17 @@ export class ColorPicker extends LitElement {
   private handleHueScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
-    const arrowKeyToXOffset = {
+    const arrowKeyToXOffset: Partial<Record<KeyboardEvent["key"], number>> = {
       ArrowUp: 1,
       ArrowRight: 1,
       ArrowDown: -1,
       ArrowLeft: -1,
     };
+    const offset = arrowKeyToXOffset[key];
 
-    if (arrowKeyToXOffset[key]) {
+    if (offset) {
       event.preventDefault();
-      const delta = arrowKeyToXOffset[key] * modifier;
+      const delta = offset * modifier;
       const hue = this.baseColorFieldColor.hue();
       const color = this.baseColorFieldColor.hue(hue + delta);
       this.internalColorSet(color, false);
@@ -649,8 +651,8 @@ export class ColorPicker extends LitElement {
     const limit = isAlphaChannel
       ? OPACITY_LIMITS.max
       : this.channelMode === "rgb"
-        ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
-        : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
+        ? Object.values(RGB_LIMITS)[channelIndex]
+        : Object.values(HSV_LIMITS)[channelIndex];
 
     let inputValue: string;
 
@@ -734,8 +736,8 @@ export class ColorPicker extends LitElement {
 
   private getChannelInputLimit(channelIndex: number): number {
     return this.channelMode === "rgb"
-      ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
-      : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
+      ? Object.values(RGB_LIMITS)[channelIndex]
+      : Object.values(HSV_LIMITS)[channelIndex];
   }
 
   private handleChannelChange(event: CustomEvent): void {
@@ -854,7 +856,7 @@ export class ColorPicker extends LitElement {
     this.mode = this.ensureCompatibleMode(mode, warn);
   }
 
-  private ensureCompatibleMode(mode: SupportedMode, warn): SupportedMode {
+  private ensureCompatibleMode(mode: SupportedMode, warn: boolean): SupportedMode {
     const { alphaChannel } = this;
     const isAlphaCompatible = alphaCompatible(mode);
 
@@ -928,7 +930,7 @@ export class ColorPicker extends LitElement {
     }
 
     if (format.includes("-css")) {
-      const value = color[format.replace("-css", "").replace("a", "")]().round().string();
+      const value = (format.startsWith("rgb") ? color.rgb() : color.hsl()).round().string();
 
       // Color omits alpha values when alpha is 1
       const needToInjectAlpha =
@@ -942,15 +944,43 @@ export class ColorPicker extends LitElement {
       return value;
     }
 
-    const colorObject =
+    const nonAlphaMode = toNonAlphaMode(format);
+    const roundedColor =
       /* Color() does not support hsva, hsla nor rgba, so we use the non-alpha mode */
-      color[toNonAlphaMode(format)]().round().object();
+      (
+        nonAlphaMode === "rgb" ? color.rgb() : nonAlphaMode === "hsl" ? color.hsl() : color.hsv()
+      ).round();
+    const colorObject = roundedColor.object();
 
     if (format.endsWith("a")) {
       return normalizeAlpha(colorObject);
     }
 
-    return colorObject;
+    if (nonAlphaMode === "rgb") {
+      const { r, g, b } = colorObject;
+
+      return {
+        r,
+        g,
+        b,
+      };
+    }
+
+    const { h, s } = colorObject;
+
+    if (nonAlphaMode === "hsl") {
+      return {
+        h,
+        s,
+        l: colorObject.l,
+      };
+    }
+
+    return {
+      h,
+      s,
+      v: colorObject.v,
+    };
   }
 
   private getSliderCapSpacing(): number {
@@ -1377,16 +1407,17 @@ export class ColorPicker extends LitElement {
   private handleOpacityScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
-    const arrowKeyToXOffset = {
+    const arrowKeyToXOffset: Partial<Record<KeyboardEvent["key"], number>> = {
       ArrowUp: 0.01,
       ArrowRight: 0.01,
       ArrowDown: -0.01,
       ArrowLeft: -0.01,
     };
+    const offset = arrowKeyToXOffset[key];
 
-    if (arrowKeyToXOffset[key]) {
+    if (offset) {
       event.preventDefault();
-      const delta = arrowKeyToXOffset[key] * modifier;
+      const delta = offset * modifier;
       const alpha = this.baseColorFieldColor.alpha();
       const color = this.baseColorFieldColor.alpha(alpha + delta);
       this.internalColorSet(color, false);
@@ -1403,7 +1434,7 @@ export class ColorPicker extends LitElement {
 
   private toChannels(color: ColorInstance): Channels {
     const { channelMode } = this;
-    const channels = color[channelMode]().round().array();
+    const channels = (channelMode === "rgb" ? color.rgb() : color.hsv()).round().array();
 
     if (channels.length === 3) {
       channels.push(1); // Color omits alpha when 1

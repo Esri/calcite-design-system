@@ -1,8 +1,8 @@
 import { TemplateResult } from "lit";
 import { h, LuminaJsx } from "@arcgis/lumina";
 import { resolveAriaLive } from "../../utils/aria";
-import { Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Scale, Status } from "../types";
+import { IconName } from "../icon/types";
 
 interface ValidationProps extends LuminaJsx.CustomAttributes {
   scale: Scale;

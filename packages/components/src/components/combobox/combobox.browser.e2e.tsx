@@ -2,7 +2,7 @@ import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it, test, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
-import { commands } from "../../tests/browser/commands";
+import { commands } from "../../tests/utils/commands";
 import {
   cancelable,
   defaults,
@@ -12,25 +12,31 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   openClose,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   themed,
   topLayer,
   accessible,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
-import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { waitForEvent } from "../../tests/common/utils";
 import type { ComboboxItem } from "../combobox-item/combobox-item";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
 
 mockConsole();
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-combobox", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -213,6 +219,21 @@ describe("internal label", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-combobox"), { display: "block" });
+});
+
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-combobox>
+          <calcite-combobox-item-group>
+            <calcite-combobox-item selected value="item" />
+          </calcite-combobox-item-group>
+        </calcite-combobox>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-combobox-item, calcite-combobox-item-group, calcite-chip" },
+  );
 });
 
 describe("focusable", () => {

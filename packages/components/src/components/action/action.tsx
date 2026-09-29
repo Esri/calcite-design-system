@@ -11,8 +11,8 @@ import {
   Scale,
   SelectionAppearance,
   Width,
-} from "../interfaces";
-import { IconName } from "../icon/interfaces";
+} from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -22,6 +22,7 @@ import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import { CSS_UTILITY } from "../../utils/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -63,8 +64,6 @@ export class Action extends LitElement {
   private indicatorRef = createRef<HTMLDivElement>();
 
   private interactiveContainer = useInteractive(this);
-
-  formTrigger = useFormTrigger()(this);
 
   private labelElRef = createRef<HTMLSpanElement>();
 
@@ -212,6 +211,11 @@ export class Action extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    useFormTrigger()(this);
+  }
+
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
@@ -352,7 +356,7 @@ export class Action extends LitElement {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
@@ -373,7 +377,7 @@ export class Action extends LitElement {
 
     return (
       <button
-        ariaBusy={loading}
+        ariaBusy={toAriaBoolean(loading, undefined)}
         ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}

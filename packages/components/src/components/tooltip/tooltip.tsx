@@ -18,7 +18,7 @@ import {
 } from "../../utils/floating-ui";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
   ReferenceElementComponent,

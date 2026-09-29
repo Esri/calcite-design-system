@@ -1,4 +1,7 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/combobox/combobox";
+import "../components/combobox-item/combobox-item";
 
 export const combobox = html`<calcite-combobox
   label="test"

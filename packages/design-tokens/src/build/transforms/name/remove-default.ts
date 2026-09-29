@@ -1,7 +1,7 @@
 import type { TransformedToken } from "style-dictionary";
 import type { NameTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 
 const defaultPart = "default";
 

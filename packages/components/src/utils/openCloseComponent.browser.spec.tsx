@@ -13,7 +13,7 @@ describe(toggleOpenClose, () => {
       open = false;
 
       transitionEl!: HTMLDivElement;
-      openProp = "open";
+      openProp = "open" as const;
       transitionProp = "opacity" as const;
 
       onBeforeOpen(): void {

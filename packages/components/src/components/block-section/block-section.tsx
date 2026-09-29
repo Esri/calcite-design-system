@@ -11,14 +11,14 @@ import {
 import { PropertyValues } from "lit";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { FlipContext, Scale, Status } from "../interfaces";
+import { FlipContext, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { BlockSectionToggleDisplay } from "./interfaces";
+import { BlockSectionToggleDisplay } from "./types";
 import { CSS, ICONS, IDS } from "./resources";
 import { styles } from "./block-section.scss";
 

@@ -12,7 +12,7 @@ import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { DatePicker } from "../date-picker/date-picker";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";

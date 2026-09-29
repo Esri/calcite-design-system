@@ -1,18 +1,25 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
-import { page } from "vitest/browser";
 import { CSS } from "./resources";
 import {
   defaults,
   focusable,
+  globalProps,
   hidden,
+  labelable,
   t9n,
   disabled,
   renders,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
+import { page } from "vitest/browser";
+import type { Button } from "./button";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-button", mountOptions));
+});
 
 describe("accessible", () => {
   describe("default", () => {
@@ -56,6 +63,16 @@ describe("accessible", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-button"), { display: "inline-block" });
+});
+
+describe("global props", () => {
+  globalProps(
+    () => mount<"calcite-button">(<calcite-button>Continue</calcite-button>),
+    () => page.getBySelector("button"),
+    {
+      ariaExpanded: "true",
+    },
+  );
 });
 
 describe("defaults", () => {
@@ -162,7 +179,33 @@ describe("disabled", () => {
   disabled(() => mount("calcite-button"));
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Button>(<calcite-button>Continue</calcite-button>);
+    const button = page.getByRole("button");
+
+    await expect.element(button).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(button).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("should omit aria-busy on links when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<Button>(
+      <calcite-button href="/">Continue</calcite-button>,
+    );
+    const link = page.getByRole("link");
+
+    await expect.element(link).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(link).toHaveAttribute("aria-busy", "true");
+  });
+
   it("sets internal control aria-live only when host value is valid", async () => {
     const { el, reRender } = await mount(<calcite-button>Continue</calcite-button>);
     const control = page.getBySelector("calcite-button button, calcite-button a").element() as

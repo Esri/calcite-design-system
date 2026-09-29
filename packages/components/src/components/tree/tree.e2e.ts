@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { SelectionMode } from "../interfaces";
+import { SelectionMode } from "../types";
 import { mockConsole } from "../../tests/utils/logging";
 
 /**
@@ -390,32 +390,6 @@ describe("item selection", () => {
       });
       const checkbox = await page.find(`calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxContainer}`);
       expect(checkbox).not.toBeNull();
-    });
-  });
-
-  describe(`when tree-item selection-mode is "none"`, () => {
-    it("emits selection event without updating selection", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-tree selection-mode="none">
-          <calcite-tree-item id="1">1</calcite-tree-item>
-          <calcite-tree-item id="2">2</calcite-tree-item>
-        </calcite-tree>
-      `);
-
-      const tree = await page.find(`calcite-tree`);
-      const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
-      const [item1, item2] = await findAll(page, `calcite-tree-item`);
-
-      await item1.click();
-      expect(selectEventSpy).toHaveReceivedEventTimes(1);
-      expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-      expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
-
-      await item2.click();
-      expect(selectEventSpy).toHaveReceivedEventTimes(2);
-      expect(await tree.getProperty("selectedItems")).toHaveLength(0);
-      expect(await findAll(page, "calcite-tree-item[selected]", { allowEmpty: true })).toHaveLength(0);
     });
   });
 

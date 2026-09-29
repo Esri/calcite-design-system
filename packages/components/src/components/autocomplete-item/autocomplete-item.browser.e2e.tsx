@@ -1,15 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import {
-  defaults,
-  reflects,
-  hidden,
-  renders,
-  slots,
-  disabled,
-  themed,
-} from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots, disabled, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 
 describe("defaults", () => {
@@ -75,8 +67,8 @@ describe("disabled", () => {
   });
 });
 
-describe("toggleSelection", () => {
-  it("toggles selected and emits calciteAutocompleteItemSelect", async () => {
+describe("requestSelection", () => {
+  it("emits calciteAutocompleteItemSelect without changing selected", async () => {
     const { el, reRender } = await mount("calcite-autocomplete-item");
     const selectSpy = vi.fn();
     el.addEventListener("calciteAutocompleteItemSelect", selectSpy);
@@ -84,13 +76,13 @@ describe("toggleSelection", () => {
     expect(el.selected).toBe(false);
     expect(typeof (el as any).emitSelectEvent).toBe("undefined");
 
-    (el as any).toggleSelection();
+    (el as any).requestSelection();
     await reRender();
 
-    expect(el.selected).toBe(true);
+    expect(el.selected).toBe(false);
     expect(selectSpy).toHaveBeenCalledTimes(1);
 
-    (el as any).toggleSelection();
+    (el as any).requestSelection();
     await reRender();
 
     expect(el.selected).toBe(false);

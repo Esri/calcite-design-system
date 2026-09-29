@@ -6,6 +6,19 @@ type ValidationResult = { validity: ValidityStateFlags; validationMessage: strin
 
 const allValid = Object.freeze({ validity: {}, validationMessage: "" });
 
+const validityFlagKeys = [
+  "badInput",
+  "customError",
+  "patternMismatch",
+  "rangeOverflow",
+  "rangeUnderflow",
+  "stepMismatch",
+  "tooLong",
+  "tooShort",
+  "typeMismatch",
+  "valueMissing",
+] as const satisfies readonly (keyof ValidityStateFlags)[];
+
 export function validate({
   component,
   input,
@@ -118,8 +131,8 @@ function validateValue(inputDelegate: HTMLInputElement, valueToValidate: any): b
 function getValidityFlags(validityState: ValidityState): ValidityStateFlags {
   const validityFlags: ValidityStateFlags = {};
 
-  for (const key in validityState) {
-    if (key !== "valid" && validityState[key]) {
+  for (const key of validityFlagKeys) {
+    if (validityState[key]) {
       validityFlags[key] = true;
     }
   }

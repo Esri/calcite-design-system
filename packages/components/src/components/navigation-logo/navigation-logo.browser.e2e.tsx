@@ -10,7 +10,7 @@ import {
   renders,
   focusable,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
 

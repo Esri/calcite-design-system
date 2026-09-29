@@ -2,11 +2,13 @@ import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
+import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
+import { isTableRow } from "../table-row/resources";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
@@ -15,10 +17,11 @@ import {
   TableLayout,
   TableRowFocusEvent,
   TableSelectionDisplay,
-} from "./interfaces";
+} from "./types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -35,7 +38,7 @@ declare global {
 export class Table extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -331,7 +334,7 @@ export class Table extends LitElement {
       return [];
     }
 
-    return el.assignedElements({ flatten: true }).filter((el) => el.matches("calcite-table-row"));
+    return el.assignedElements({ flatten: true }).filter(isTableRow);
   }
 
   private observeTableContainer(): void {
@@ -644,7 +647,7 @@ export class Table extends LitElement {
               /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
               render(
                 <>
-                  <caption class={CSS.assistiveText}>{this.caption}</caption>
+                  <caption class={CSS_UTILITY.screenReaderText}>{this.caption}</caption>
                   {this.renderTHead()}
                   {this.renderTBody()}
                   {this.renderTFoot()}

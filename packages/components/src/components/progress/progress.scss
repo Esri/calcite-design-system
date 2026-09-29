@@ -19,6 +19,7 @@
 .bar {
   @apply absolute top-0;
   block-size: 2px;
+  border-radius: var(--calcite-corner-radius);
 }
 
 .track {

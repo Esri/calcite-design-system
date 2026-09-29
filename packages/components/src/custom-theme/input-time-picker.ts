@@ -1,3 +1,4 @@
+import "../components/input-time-picker/input-time-picker";
 import { html } from "../../support/formatting";
 
 export const inputTimePickerTokens = {

@@ -1,13 +1,11 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { numberStringFormatter } from "../../utils/locale";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
-import { testWorkaroundForGlobalPropRemoval } from "./common/tests";
 import type { Input } from "./input";
 
 const delayFor2UpdatesInMs = 200;
@@ -21,10 +19,6 @@ const delayFor2UpdatesInMs = 200;
 async function typeNumberValue(page: E2EPage, numberAsText: string): Promise<void> {
   await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);
 }
-
-describe("labelable", () => {
-  labelable("calcite-input");
-});
 
 describe("emits events when value is modified", () => {
   type CodeBranchingTypes = Extract<Input["el"]["type"], "text" | "number">;
@@ -549,5 +543,3 @@ it("should not focus when clicking validation message", async () => {
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
 });
-
-testWorkaroundForGlobalPropRemoval("calcite-input");

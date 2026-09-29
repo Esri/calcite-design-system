@@ -1,6 +1,6 @@
 import { makeController } from "@arcgis/lumina/controllers";
 import { Ref } from "lit/directives/ref.js";
-import { ResizeValues } from "../components/interfaces";
+import { ResizeValues } from "../components/types";
 
 interface AxisBounds {
   min: number | null;

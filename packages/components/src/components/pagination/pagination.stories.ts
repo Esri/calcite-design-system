@@ -4,6 +4,7 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Pagination } from "./pagination";
+import "./pagination"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { numberingSystem, scale, supportedNlsLocale } = ATTRIBUTES;
 

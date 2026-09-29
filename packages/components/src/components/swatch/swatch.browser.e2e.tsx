@@ -2,6 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
   disabled,
   focusable,
   hidden,
@@ -9,8 +10,12 @@ import {
   slots,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, IDS, SLOTS } from "./resources";
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-swatch"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
 
 describe("accessible", () => {
   describe("default", () => {

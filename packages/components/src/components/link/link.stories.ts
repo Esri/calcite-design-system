@@ -1,8 +1,9 @@
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
-import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
+import * as icons from "@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Link } from "./link";
+import "./link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 // we can get all unique icon names from all size 16 non-filled icons.
 const iconNames = Object.keys(icons)

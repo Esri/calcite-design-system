@@ -1,4 +1,18 @@
 import { html } from "../support/formatting";
+import "./components/alert/alert";
+import "./components/autocomplete-item/autocomplete-item";
+import "./components/autocomplete/autocomplete";
+import "./components/button/button";
+import "./components/combobox-item/combobox-item";
+import "./components/combobox/combobox";
+import "./components/dialog/dialog";
+import "./components/dropdown-group/dropdown-group";
+import "./components/dropdown-item/dropdown-item";
+import "./components/dropdown/dropdown";
+import "./components/input-date-picker/input-date-picker";
+import "./components/link/link";
+import "./components/popover/popover";
+import "./components/tooltip/tooltip";
 
 export default {
   title: "Components/Floating UI/Open",

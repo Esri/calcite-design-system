@@ -2,8 +2,8 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
 import type { Graph } from "./graph";
-import type { Point } from "./interfaces";
-import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
+import type { Point } from "./types";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/common";
 import { CSS } from "./resources";
 
 const data: Point[] = [

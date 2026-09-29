@@ -2,7 +2,7 @@ import { h, Fragment } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders } from "../../tests/common";
 import { afterNextTask } from "../../tests/utils/timing";
 import type { FocusTrap } from "./focus-trap";
 

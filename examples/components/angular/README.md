@@ -1,12 +1,12 @@
 # Angular and TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/angular?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/angular?configPath=examples/components/angular)
 
 To install dependencies and start the server, run:
 
 ```sh
-npm install
-npm start
+pnpm install --ignore-workspace --lockfile=false
+pnpm start
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm start
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm add @esri/calcite-components --ignore-workspace --lockfile=false
 ```
 
 ### Setup components
@@ -69,7 +69,7 @@ Calcite components can now be used in your application like any other Angular co
 
 ### Copy the assets
 
-Calcite components' assets need to be copied to the `./public` directory when [using assets](https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets) locally. This example has a `copy` npm script, which will automatically run after installing dependencies. For example:
+Calcite components' assets need to be copied to the `./public` directory when [using assets](https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets) locally. This example has a `copy` package script, which will automatically run after installing dependencies. For example:
 
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/cdn/assets/ ./public

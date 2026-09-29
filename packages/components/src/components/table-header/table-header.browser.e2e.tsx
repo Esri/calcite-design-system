@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { focusable } from "../../tests/commonTests/browser";
 import { TableHeader } from "./table-header";
+import { focusable } from "../../tests/common";
 
 describe("focusable", () => {
   focusable(() => mount("calcite-table-header"));

@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { focusable } from "../../tests/commonTests/browser";
 import { TableCell } from "./table-cell";
+import { defaults, focusable } from "../../tests/common";
+
+describe("defaults", () => {
+  defaults(() => mount("calcite-table-cell"), [{ propertyName: "scale", defaultValue: "m" }]);
+});
 
 describe("focusable", () => {
   focusable(() => mount("calcite-table-cell"));
