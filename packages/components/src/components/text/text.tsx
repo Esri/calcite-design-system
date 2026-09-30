@@ -66,9 +66,13 @@ export class Text extends LitElement {
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("maxLines")) {
       this.updateMaxLinesToken();
+      if (!this.maxLines && this.hasUpdated) {
+        this.clearTooltipTitle();
+      }
     }
+
     if (changes.has("truncatePosition") && this.hasUpdated) {
-      this.handleTruncatePositionChange();
+      this.handleTruncatePositionChange(changes.get("truncatePosition"));
     }
   }
 
@@ -134,12 +138,15 @@ export class Text extends LitElement {
     }
   }
 
-  private handleTruncatePositionChange(): void {
-    if (!this.truncatePosition) {
+  private handleTruncatePositionChange(oldValue: TruncatePosition | undefined): void {
+    const newValue = this.truncatePosition;
+    if (!oldValue) {
+      return;
+    } else if (oldValue && !newValue) {
       this.resizeObserver?.disconnect();
       this.clearTooltipTitle();
-    }
-    if (this.truncatePosition === "end") {
+      this.syncRenderedText(this.value);
+    } else if (oldValue === "middle" && newValue === "end") {
       this.syncRenderedText(this.value);
     }
   }
@@ -156,10 +163,8 @@ export class Text extends LitElement {
     if (currentTextContent === value) {
       return;
     }
-    requestAnimationFrame(() => {
-      this.isProgrammaticTextUpdate = true;
-      this.el.textContent = value;
-    });
+    this.isProgrammaticTextUpdate = true;
+    this.el.textContent = value;
   }
 
   private truncateMiddleText(): void {

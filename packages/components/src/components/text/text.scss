@@ -1,3 +1,5 @@
+@use "../../styles/includes";
+
 :host {
   display: block;
   overflow-wrap: break-word;
@@ -19,3 +21,5 @@
   -webkit-line-clamp: var(--calcite-internal-text-max-lines, none);
   white-space: normal;
 }
+
+@include includes.base-component();

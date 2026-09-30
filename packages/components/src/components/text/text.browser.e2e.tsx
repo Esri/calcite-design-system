@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/common";
+import { defaults, reflects, hidden, renders, accessible } from "../../tests/common";
 import { Text } from "./text";
 
 const text = "This is a very long text that will be truncated";
@@ -31,7 +31,11 @@ describe("renders", () => {
   renders(() => mount("calcite-text"), { display: "block", visible: false });
 });
 
-it("should be able to switch between middle and end truncate positions", async () => {
+describe("accessible", () => {
+  accessible(() => mount<Text>(<calcite-text>{text}</calcite-text>));
+});
+
+it("should be able to switch truncate position", async () => {
   const { el, component } = await mount<Text>(
     <calcite-text style="width: 100px;" truncatePosition="middle">
       {text}
@@ -39,9 +43,19 @@ it("should be able to switch between middle and end truncate positions", async (
   );
   await component.updateComplete;
   await expect.element(el).toHaveTextContent("This i...ncated");
+  await expect.element(el).toHaveProperty("title", text);
   el.truncatePosition = "end";
   await component.updateComplete;
   await expect.element(el).toHaveTextContent(text);
+  await expect.element(el).toHaveProperty("title", text);
+  el.truncatePosition = "middle";
+  await component.updateComplete;
+  await expect.element(el).toHaveTextContent(text);
+  await expect.element(el).toHaveProperty("title", text);
+  el.truncatePosition = undefined;
+  await component.updateComplete;
+  await expect.element(el).toHaveTextContent(text);
+  await expect.element(el).toHaveProperty("title", "");
 });
 
 describe("tooltip", () => {
@@ -60,10 +74,10 @@ describe("tooltip", () => {
       </calcite-text>,
     );
     await component.updateComplete;
-    expect(el.title).toBe(text);
+    await expect.element(el).toHaveProperty("title", text);
     el.truncatePosition = undefined;
     await component.updateComplete;
-    expect(el.title).toBe("");
+    await expect.element(el).toHaveProperty("title", "");
   });
 
   it("should update title when truncatePosition is middle", async () => {
@@ -73,10 +87,10 @@ describe("tooltip", () => {
       </calcite-text>,
     );
     await component.updateComplete;
-    await expect.element(el).toHaveTextContent("This i...ncated");
+    await expect.element(el).toHaveProperty("title", text);
     el.truncatePosition = undefined;
     await component.updateComplete;
-    expect(el.title).toBe("");
+    await expect.element(el).toHaveProperty("title", "");
   });
 
   it("should update title when maxLines is set", async () => {
@@ -86,9 +100,15 @@ describe("tooltip", () => {
       </calcite-text>,
     );
     await component.updateComplete;
-    expect(el.title).toBe(text);
+    await expect.element(el).toHaveProperty("title", text);
     el.maxLines = undefined;
     await component.updateComplete;
-    expect(el.title).toBe("");
+    await expect.element(el).toHaveProperty("title", "");
+    el.maxLines = 3;
+    await component.updateComplete;
+    await expect.element(el).toHaveProperty("title", text);
+    el.maxLines = 4;
+    await component.updateComplete;
+    await expect.element(el).toHaveProperty("title", text);
   });
 });
