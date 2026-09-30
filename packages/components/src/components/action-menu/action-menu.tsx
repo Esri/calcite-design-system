@@ -1,5 +1,4 @@
 import { PropertyValues } from "lit";
-import { tabbable } from "tabbable";
 import {
   LitElement,
   property,
@@ -25,7 +24,6 @@ import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { tabbableOptions } from "../../utils/dom";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
@@ -99,24 +97,15 @@ export class ActionMenu extends LitElement {
 
     if (key === "Tab" && open) {
       this.focusMenuButtonOnClose = false;
-
-      const tabbableElements = event.shiftKey
-        ? tabbable(this.el.ownerDocument.body, tabbableOptions)
-        : [];
-      const menuIndex = tabbableElements.findIndex(
-        (element) =>
-          element === this.el ||
-          element === this.menuButtonEl ||
-          !!this.menuButtonEl?.shadowRoot?.contains(element),
-      );
-      const previousTabbable = menuIndex > 0 ? tabbableElements[menuIndex - 1] : undefined;
-
-      if (previousTabbable) {
-        event.preventDefault();
-      }
-
+      this.restoreMenuButtonTabIndexOnClose = false;
       this.open = false;
-      previousTabbable?.focus();
+      this.menuButtonTabIndexFrame = requestAnimationFrame(() => {
+        this.menuButtonTabIndexFrame = undefined;
+        if (!this.open) {
+          this.restoreMenuButtonTabIndex();
+        }
+        this.restoreMenuButtonTabIndexOnClose = true;
+      });
       return;
     }
 
@@ -209,6 +198,12 @@ export class ActionMenu extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   private focusMenuButtonOnClose = true;
+
+  private menuButtonTabIndex?: string | null;
+
+  private menuButtonTabIndexFrame?: number;
+
+  private restoreMenuButtonTabIndexOnClose = true;
 
   private mouseDownHandler = (event: MouseEvent): void => {
     if (!event.composedPath().some((el): boolean => el instanceof Element && isAction(el))) {
@@ -360,6 +355,10 @@ export class ActionMenu extends LitElement {
   }
 
   override disconnectedCallback(): void {
+    if (this.menuButtonTabIndexFrame != null) {
+      cancelAnimationFrame(this.menuButtonTabIndexFrame);
+      this.menuButtonTabIndexFrame = undefined;
+    }
     this.disconnectMenuButtonEl();
   }
 
@@ -388,6 +387,13 @@ export class ActionMenu extends LitElement {
 
     this.activeMenuItemIndex = this.open ? 0 : -1;
     this.updateActions(this.navigableActions);
+
+    if (open) {
+      this.disableMenuButtonTabStop();
+    } else if (this.restoreMenuButtonTabIndexOnClose) {
+      this.restoreMenuButtonTabIndex();
+    }
+
     this.calciteActionMenuOpen.emit();
     this.setTooltipReferenceElement();
   }
@@ -422,6 +428,10 @@ export class ActionMenu extends LitElement {
     menuButtonEl.active = open;
     this.syncMenuButtonAria();
 
+    if (open) {
+      this.disableMenuButtonTabStop();
+    }
+
     if (!menuButtonEl.id) {
       menuButtonEl.id = menuButtonId;
     }
@@ -451,6 +461,8 @@ export class ActionMenu extends LitElement {
       return;
     }
 
+    this.restoreMenuButtonTabIndex();
+
     menuButtonEl.removeEventListener(
       "click",
       this.menuButtonClick,
@@ -461,6 +473,36 @@ export class ActionMenu extends LitElement {
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
 
     this.menuButtonEl = undefined;
+  }
+
+  private disableMenuButtonTabStop(): void {
+    const { menuButtonEl } = this;
+
+    if (!menuButtonEl) {
+      return;
+    }
+
+    if (this.menuButtonTabIndex === undefined) {
+      this.menuButtonTabIndex = menuButtonEl.getAttribute("tabindex");
+    }
+
+    menuButtonEl.tabIndex = -1;
+  }
+
+  private restoreMenuButtonTabIndex(): void {
+    const { menuButtonEl, menuButtonTabIndex } = this;
+
+    if (!menuButtonEl || menuButtonTabIndex === undefined) {
+      return;
+    }
+
+    if (menuButtonTabIndex === null) {
+      menuButtonEl.removeAttribute("tabindex");
+    } else {
+      menuButtonEl.setAttribute("tabindex", menuButtonTabIndex);
+    }
+
+    this.menuButtonTabIndex = undefined;
   }
 
   private syncActions(): void {

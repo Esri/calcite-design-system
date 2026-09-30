@@ -1,6 +1,5 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { tabbable } from "tabbable";
 import {
   createEvent,
   h,
@@ -19,7 +18,6 @@ import {
   getSlotAssignedElements,
   getStylePixelValue,
   slotChangeGetAssignedElements,
-  tabbableOptions,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
@@ -38,9 +36,8 @@ import { isAction } from "../action/resources";
 import { isActionGroup } from "../action-group/resources";
 import { isActionMenu, SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { type ActionMenu } from "../action-menu/action-menu";
-import { guid } from "../../utils/guid";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { ActionBarItem, getWrapItemCrossOffset, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
@@ -71,8 +68,6 @@ export class ActionBar extends LitElement {
 
   private currentFocusItem?: Action["el"] | ActionMenu["el"];
 
-  private guid = guid();
-
   private containerRef = createRef<HTMLDivElement>();
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
@@ -92,8 +87,6 @@ export class ActionBar extends LitElement {
   private defaultSlotItems: ActionBarItem[] = [];
 
   private actionGroups: ActionGroup["el"][] = [];
-
-  private actionMenuIdIndex = 0;
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -801,7 +794,6 @@ export class ActionBar extends LitElement {
       group.scale = this.scale;
     });
 
-    this.ensureActionBarChildIds();
     void this.syncNavItemsAfterRender();
   }
 
@@ -946,8 +938,6 @@ export class ActionBar extends LitElement {
   }
 
   private updateNavigationItems(): void {
-    this.ensureActionBarChildIds();
-
     const navigationItems: Array<Action["el"] | ActionMenu["el"]> = [];
     const internalStartGroup = this.actionsStartGroupRef.value;
     const internalEndGroup = this.actionsEndGroupRef.value;
@@ -1013,12 +1003,7 @@ export class ActionBar extends LitElement {
   }
 
   private isNavigableActionMenu(actionMenu: ActionMenu["el"]): boolean {
-    if (actionMenu.hasAttribute("hidden")) {
-      return false;
-    }
-
-    this.syncActionMenuId(actionMenu);
-    return !!actionMenu.id;
+    return !actionMenu.hasAttribute("hidden");
   }
 
   private syncActions(): void {
@@ -1166,7 +1151,6 @@ export class ActionBar extends LitElement {
       !isClosedActionMenu
     ) {
       event.preventDefault();
-      event.stopPropagation();
       return;
     }
 
@@ -1179,71 +1163,44 @@ export class ActionBar extends LitElement {
         if (isVertical) {
           this.focusNavigationItem("next", current);
           event.preventDefault();
-          event.stopPropagation();
         } else if (this.focusActionGroupItem("next", current)) {
           event.preventDefault();
-          event.stopPropagation();
         }
         break;
       case "ArrowUp":
         if (isVertical) {
           this.focusNavigationItem("previous", current);
           event.preventDefault();
-          event.stopPropagation();
         } else if (this.focusActionGroupItem("previous", current)) {
           event.preventDefault();
-          event.stopPropagation();
         }
         break;
       case "ArrowRight":
         if (!isVertical) {
           this.focusNavigationItem("next", current);
           event.preventDefault();
-          event.stopPropagation();
         } else if (this.focusActionGroupItem("next", current)) {
           event.preventDefault();
-          event.stopPropagation();
         }
         break;
       case "ArrowLeft":
         if (!isVertical) {
           this.focusNavigationItem("previous", current);
           event.preventDefault();
-          event.stopPropagation();
         } else if (this.focusActionGroupItem("previous", current)) {
           event.preventDefault();
-          event.stopPropagation();
         }
         break;
       case "Home":
         this.focusNavigationItem("first", current);
         event.preventDefault();
-        event.stopPropagation();
         break;
       case "End":
         this.focusNavigationItem("last", current);
         event.preventDefault();
-        event.stopPropagation();
         break;
       case "Tab":
         this.setNavigationItemTabIndexes(current);
-        if (event.shiftKey && isClosedActionMenu) {
-          const tabbableElements = tabbable(this.el.ownerDocument.body, tabbableOptions);
-          const menuIndex = tabbableElements.findIndex(
-            (element) =>
-              element === current ||
-              element === current.menuButtonEl ||
-              !!current.menuButtonEl?.shadowRoot?.contains(element),
-          );
-          const previousTabbable = menuIndex > 0 ? tabbableElements[menuIndex - 1] : undefined;
-
-          event.preventDefault();
-          if (previousTabbable) {
-            previousTabbable.focus();
-          } else {
-            current.blur();
-          }
-        }
         break;
     }
   }
@@ -1265,7 +1222,6 @@ export class ActionBar extends LitElement {
     }
 
     event.preventDefault();
-    event.stopPropagation();
     this.openActionMenuAndFocusBoundaryItem(
       current,
       event.key === menuFirstItemOpenKey ? "first" : "last",
@@ -1362,9 +1318,7 @@ export class ActionBar extends LitElement {
     current: Action["el"] | ActionMenu["el"],
   ): void {
     const { navigationItems } = this;
-    const currentIndex = navigationItems.findIndex(
-      (item) => item === current || item.id === current.id,
-    );
+    const currentIndex = navigationItems.indexOf(current);
 
     if (currentIndex === -1) {
       return;
@@ -1408,7 +1362,7 @@ export class ActionBar extends LitElement {
     const groupItems = this.navigationItems.filter(
       (item) => this.getNavigationItemActionGroup(item) === currentGroup,
     );
-    const currentIndex = groupItems.findIndex((item) => item === current || item.id === current.id);
+    const currentIndex = groupItems.indexOf(current);
 
     if (groupItems.length < 2 || currentIndex === -1) {
       return false;
@@ -1479,20 +1433,9 @@ export class ActionBar extends LitElement {
         return activeItem as Action["el"] | ActionMenu["el"];
       }
 
-      if (activeItem) {
-        const activeItemId = (activeItem as Action["el"] | ActionMenu["el"]).id;
-        const activeNavigationItem = this.navigationItems.find((item) => item.id === activeItemId);
-        if (activeNavigationItem) {
-          return activeNavigationItem;
-        }
-      }
-
       const activeActionMenu = activeElement.closest("calcite-action-menu");
       if (activeActionMenu) {
-        const activeActionMenuId = this.getActionMenuId(activeActionMenu);
-        const activeActionMenuItem = this.navigationItems.find(
-          (item) => item.id === activeActionMenuId,
-        );
+        const activeActionMenuItem = this.navigationItems.find((item) => item === activeActionMenu);
         if (activeActionMenuItem) {
           return activeActionMenuItem;
         }
@@ -1512,9 +1455,7 @@ export class ActionBar extends LitElement {
     const { currentFocusItem } = this;
 
     return currentFocusItem
-      ? this.navigationItems.find(
-          (item) => item === currentFocusItem || item.id === currentFocusItem.id,
-        )
+      ? this.navigationItems.find((item) => item === currentFocusItem)
       : undefined;
   }
 
@@ -1557,9 +1498,7 @@ export class ActionBar extends LitElement {
 
   private syncClosedActionMenu(actionMenu: ActionMenu["el"]): void {
     this.updateNavigationItems();
-    const navigationActionMenu = this.navigationItems.find(
-      (item) => item === actionMenu || item.id === actionMenu.id,
-    );
+    const navigationActionMenu = this.navigationItems.find((item) => item === actionMenu);
 
     if (navigationActionMenu) {
       this.setNavigationItemTabIndexes(navigationActionMenu);
@@ -1575,9 +1514,7 @@ export class ActionBar extends LitElement {
         continue;
       }
 
-      const navigationItem = this.navigationItems.find(
-        (item) => item === pathEl || item.id === pathEl.id,
-      );
+      const navigationItem = this.navigationItems.find((item) => item === pathEl);
 
       if (navigationItem) {
         return navigationItem;
@@ -1585,10 +1522,7 @@ export class ActionBar extends LitElement {
 
       const actionMenu = pathEl.closest("calcite-action-menu");
       if (actionMenu) {
-        const actionMenuId = this.getActionMenuId(actionMenu);
-        const actionMenuNavigationItem = this.navigationItems.find(
-          (item) => item === actionMenu || item.id === actionMenuId,
-        );
+        const actionMenuNavigationItem = this.navigationItems.find((item) => item === actionMenu);
 
         if (actionMenuNavigationItem) {
           return actionMenuNavigationItem;
@@ -1599,28 +1533,11 @@ export class ActionBar extends LitElement {
     return null;
   }
 
-  private ensureActionBarChildIds(): void {
-    const groups = Array.from(this.el.getElementsByTagName("calcite-action-group"));
-    const actions = Array.from(this.el.getElementsByTagName("calcite-action"));
-
-    groups.forEach((group, index) => {
-      if (!group.id) {
-        group.id = IDS.actionGroup(this.guid, index);
-      }
-    });
-
-    actions.forEach((action, index) => {
-      if (!action.id) {
-        action.id = IDS.action(this.guid, index);
-      }
-    });
-  }
-
   private syncNavigationItemTabIndexes(activeItem?: Action["el"] | ActionMenu["el"]): void {
     this.updateNavigationItems();
 
     const activeItemInNavigation = activeItem
-      ? this.navigationItems.find((item) => item === activeItem || item.id === activeItem.id)
+      ? this.navigationItems.find((item) => item === activeItem)
       : undefined;
 
     const current = activeItemInNavigation || this.getCurrentNavigationItem();
@@ -1633,26 +1550,13 @@ export class ActionBar extends LitElement {
     this.updateActions();
   }
 
-  private syncActionMenuId(actionMenu: ActionMenu["el"]): void {
-    if (actionMenu.id) {
-      return;
-    }
-
-    const existingId = this.getActionMenuId(actionMenu);
-    actionMenu.id = existingId || `${this.guid}-action-menu-${this.actionMenuIdIndex++}`;
-  }
-
-  private getActionMenuId(actionMenu: ActionMenu["el"]): string | undefined {
-    return actionMenu.id || undefined;
-  }
-
   private setNavigationItemTabIndexes(active: Action["el"] | ActionMenu["el"]): void {
     if (active.matches(":focus-within")) {
       this.currentFocusItem = active;
     }
 
     this.navigationItems.forEach((item) => {
-      const isActive = item === active || item.id === active.id;
+      const isActive = item === active;
 
       if (isAction(item)) {
         if (isActive && !item.disabled && !item.hidden) {
@@ -1664,12 +1568,20 @@ export class ActionBar extends LitElement {
         return;
       }
 
-      item.tabIndex = isActive ? 0 : -1;
+      if (isActive) {
+        item.removeAttribute("tabindex");
+      } else {
+        item.tabIndex = -1;
+      }
 
       const { menuButtonEl } = item;
 
       if (menuButtonEl) {
-        menuButtonEl.setAttribute("tabindex", "-1");
+        if (isActive) {
+          menuButtonEl.removeAttribute("tabindex");
+        } else {
+          menuButtonEl.tabIndex = -1;
+        }
       }
     });
   }
