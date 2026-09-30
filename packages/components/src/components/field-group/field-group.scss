@@ -21,7 +21,7 @@
 //
 // --calcite-internal-field-group-gap
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: block;
@@ -73,4 +73,4 @@
   --calcite-internal-field-group-gap: var(--calcite-space-lg);
 }
 
-@include includes.base-component();
+@include shared.base-component();

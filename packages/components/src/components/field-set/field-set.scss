@@ -17,7 +17,7 @@
 // --calcite-internal-field-set-legend-min-block-size
 // --calcite-internal-text-area-block-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: block;
@@ -76,4 +76,4 @@
   --calcite-internal-field-set-legend-margin-block-end: var(--calcite-space-lg);
 }
 
-@include includes.base-component();
+@include shared.base-component();
