@@ -112,12 +112,12 @@ export class ActionBar extends LitElement {
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandToggleDisabled, layout, expandPosition } = this;
 
-    this.updateGroups();
-
     // resize is debounced, so the container ref may be empty when it runs — the action-bar can be torn down (or not yet rendered) between scheduling and execution.
-    if (!this.containerRef.value) {
+    if (!this.el.isConnected || !this.containerRef.value) {
       return;
     }
+
+    this.updateGroups();
 
     if (this.usesWrap) {
       this.scheduleLineMeasure();
@@ -588,7 +588,7 @@ export class ActionBar extends LitElement {
     );
 
     slottedActionGroupMenus.forEach((menu) => {
-      const triggerAction = menu.actions.find(
+      const triggerAction = (menu.actions ?? []).find(
         (action) => action.slot === ACTION_MENU_SLOTS.trigger,
       );
 
@@ -613,7 +613,7 @@ export class ActionBar extends LitElement {
       remainingCount: number;
     },
   ): number {
-    const directActions = actionGroup.actions
+    const directActions = (actionGroup.actions ?? [])
       .filter((action) => action.parentElement === actionGroup)
       .reverse();
     const canOverflowGroup = directActions.length > 2 && !actionGroup.overflowActionsDisabled;
@@ -639,7 +639,7 @@ export class ActionBar extends LitElement {
 
     if (overflowedActionCount > 0) {
       const { actionMenu: menu } = actionGroup;
-      const triggerAction = menu?.actions.find(
+      const triggerAction = (menu?.actions ?? []).find(
         (action) => action.slot === ACTION_MENU_SLOTS.trigger,
       );
 
@@ -984,7 +984,7 @@ export class ActionBar extends LitElement {
       return [];
     }
 
-    const actions = actionGroup.actions.filter((action) => this.isNavigableAction(action));
+    const actions = (actionGroup.actions ?? []).filter((action) => this.isNavigableAction(action));
 
     const { actionMenu } = actionGroup;
 
