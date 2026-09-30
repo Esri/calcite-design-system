@@ -33,7 +33,7 @@
 // --calcite-internal-stepper-item-spacing-unit-m
 // --calcite-internal-stepper-item-spacing-unit-s
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host([scale="s"]) {
@@ -190,7 +190,7 @@
   color: var(--calcite-stepper-item-description-text-color, var(--calcite-color-text-1));
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([complete]) .container {
   // todo dark mode
@@ -475,5 +475,5 @@
   @apply sr-only;
 }
 
-@include includes.base-component();
-@include includes.item-hidden();
+@include shared.base-component();
+@include shared.item-hidden();

@@ -14,7 +14,7 @@
 // --calcite-internal-action-menu-gap
 // --calcite-internal-action-menu-padding
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-xxs));
@@ -48,7 +48,7 @@
   self-stretch;
 }
 
-@include includes.slotted("trigger", "calcite-action") {
+@include shared.slotted("trigger", "calcite-action") {
   @apply relative
   h-full
   flex-initial
@@ -68,4 +68,4 @@
   padding: var(--calcite-internal-action-menu-padding);
 }
 
-@include includes.base-component();
+@include shared.base-component();

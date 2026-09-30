@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.84](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.83...@esri/calcite-components@5.2.0-next.84) (2026-09-29)
+
+### Bug Fixes
+
+- **switch:** update styles to work in high contrast mode ([#15262](https://github.com/Esri/calcite-design-system/issues/15262)), closes [#15252](https://github.com/Esri/calcite-design-system/issues/15252)
+- **text-area:** use correct corner-radius fallback ([#15259](https://github.com/Esri/calcite-design-system/issues/15259)), closes [#14675](https://github.com/Esri/calcite-design-system/issues/14675)
+
+## [5.2.0-next.83](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.82...@esri/calcite-components@5.2.0-next.83) (2026-09-25)
+
+### Features
+
+- **link:** refine interaction visuals and reduce icon spacing ([#15237](https://github.com/Esri/calcite-design-system/issues/15237)), closes [#15228](https://github.com/Esri/calcite-design-system/issues/15228)
+
+## [5.2.0-next.82](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.81...@esri/calcite-components@5.2.0-next.82) (2026-09-24)
+
+### Features
+
+- **inline-editable:** remove extra space between input field and inline-editable controls ([#15231](https://github.com/Esri/calcite-design-system/issues/15231)), closes [#6153](https://github.com/Esri/calcite-design-system/issues/6153)
+
+## [5.2.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.80...@esri/calcite-components@5.2.0-next.81) (2026-09-24)
+
+### Features
+
+- **link:** replace gradient underline with native text decoration ([#15204](https://github.com/Esri/calcite-design-system/issues/15204)), closes [#14812](https://github.com/Esri/calcite-design-system/issues/14812)
+
+## [5.2.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.79...@esri/calcite-components@5.2.0-next.80) (2026-09-23)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.79](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.78...@esri/calcite-components@5.2.0-next.79) (2026-09-22)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.2.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.77...@esri/calcite-components@5.2.0-next.78) (2026-09-18)
 
 ### Bug Fixes

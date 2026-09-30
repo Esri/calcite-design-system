@@ -9,7 +9,7 @@
  *
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply inline-block overflow-hidden;
@@ -47,4 +47,4 @@
   border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
-@include includes.base-component();
+@include shared.base-component();

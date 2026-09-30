@@ -18,6 +18,7 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
+import { CSS_UTILITY } from "../../utils/resources";
 import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
@@ -33,6 +34,7 @@ import { CharacterLengthObj } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -54,7 +56,7 @@ export class TextArea
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -543,7 +545,7 @@ export class TextArea
               {this.renderCharacterLimit()}
             </footer>
             {this.isCharacterLimitExceeded() && (
-              <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
+              <span ariaLive="polite" class={CSS_UTILITY.screenReaderText} id={this.guid}>
                 {this.replacePlaceholdersInMessages()}
               </span>
             )}

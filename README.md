@@ -142,19 +142,19 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kstinson14">
-      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
+    <a href="https://github.com/matgalla">
+      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
       <br />
-      <sub><b>Katrina Stinson</b></sub>
+      <sub><b>Matt Gallagher</b></sub>
     </a>
   </td>
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/matgalla">
-      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
+    <a href="https://github.com/kstinson14">
+      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
       <br />
-      <sub><b>Matt Gallagher</b></sub>
+      <sub><b>Katrina Stinson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -283,10 +283,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/jgibson02">
-      <img src="https://avatars.githubusercontent.com/u/5069711?v=4" width="100;" alt="jgibson02"/>
+    <a href="https://github.com/allieorth">
+      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
       <br />
-      <sub><b>John Gibson</b></sub>
+      <sub><b>Allie Raney</b></sub>
     </a>
   </td>
   <td align="center">
@@ -297,10 +297,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/allieorth">
-      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
+    <a href="https://github.com/jgibson02">
+      <img src="https://avatars.githubusercontent.com/u/5069711?v=4" width="100;" alt="jgibson02"/>
       <br />
-      <sub><b>Allie Raney</b></sub>
+      <sub><b>John Gibson</b></sub>
     </a>
   </td>
   <td align="center">

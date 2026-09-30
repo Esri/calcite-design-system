@@ -16,7 +16,7 @@
 // --calcite-internal-action-group-columns
 // --calcite-internal-action-group-gap
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-action-group-gap: var(--calcite-spacing-xxs);
@@ -95,4 +95,4 @@
   border-inline-end: var(--calcite-size-px);
 }
 
-@include includes.base-component();
+@include shared.base-component();

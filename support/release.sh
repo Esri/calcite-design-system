@@ -61,12 +61,12 @@ version() {
     fi
 
     # default to latest if no dist tag was provided in the second argument
-    npm run util:sync-linked-package-versions -- "${dist_tag:-latest}"
+    pnpm util:sync-linked-package-versions "${dist_tag:-latest}"
 }
 
 publish() {
-    # only add the dist-tag flag if the second argument was provided
-    lerna publish from-package --yes ${dist_tag:+--dist-tag $dist_tag}
+    # only add the tag flag if the second argument was provided
+    pnpm recursive publish --yes ${dist_tag:+--tag $dist_tag}
 }
 
 main() {

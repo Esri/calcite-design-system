@@ -19,17 +19,18 @@
 // --calcite-internal-table-row-border-block-end-color
 // --calcite-internal-table-row-border-block-end-width
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply contents;
+  display: contents;
 }
 
-@include includes.base-component();
+@include shared.base-component();
 
-@include includes.disabled() {
+@include shared.disabled() {
   tr {
-    @apply opacity-disabled pointer-events-none;
+    opacity: var(--calcite-opacity-disabled);
+    pointer-events: none;
   }
 }
 
@@ -67,4 +68,4 @@ tr.last-visible-row {
   --calcite-internal-table-row-border-block-end-color: transparent;
 }
 
-@include includes.item-hidden();
+@include shared.item-hidden();

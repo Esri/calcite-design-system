@@ -23,7 +23,7 @@
 // --calcite-internal-navigation-user-username-font-size
 // --calcite-internal-navigation-user-username-line-height
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-navigation-user-padding-inline: var(--calcite-space-md);
@@ -124,4 +124,4 @@ calcite-avatar ~ .text-container {
   border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
 }
 
-@include includes.base-component();
+@include shared.base-component();
