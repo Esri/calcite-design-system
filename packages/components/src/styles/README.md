@@ -12,7 +12,7 @@ The styles directory is organized by how each file is meant to be consumed.
 | `global/`    | Global Calcite styles.       | Import by the build through `global/index.scss` for project-level global style output.                                           | `global/index.scss` produces global CSS.                                                                                                 |
 | `shared/`    | Shared stylesheet resources. | `@use` from component stylesheets when common variables, mixins, placeholders, or supporting rules are needed.                   | Does not produce CSS from import alone. Output only appears when explicitly referenced or emitted by the consuming component stylesheet. |
 
-Only `global/index.scss` and component stylesheets in `components/*` should produce style output. Imports from `shared/` should be safe to use without generating extra CSS by themselves.
+The standalone style entrypoints are `global/index.scss` and component stylesheets in `components/*`. Files in `component/` also emit CSS when bundled into a component implementation. Imports from `shared/` should be safe to use without generating extra CSS by themselves.
 
 ## Static component style files
 
