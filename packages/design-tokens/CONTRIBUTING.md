@@ -8,7 +8,7 @@ This document contains information about contributing to the `calcite-design-tok
 
 Build the tokens to platform asset formats like CSS, SCSS, and JavaScript.
 
-`npm --workspace=packages/design-tokens run build`
+`pnpm --filter @esri/calcite-design-tokens build`
 
 ## Test
 
@@ -16,7 +16,7 @@ Be sure your code passes our integration and unit tests
 
 ```bash
 # Test current code
-npm --workspace=packages/design-tokens run test
+pnpm --filter @esri/calcite-design-tokens test
 ```
 
 ## Understanding token files
@@ -34,8 +34,8 @@ All token files may be updated by the Figma Token Studio plugin. These can also 
 
 ### Open a PR
 
-Designers working in Figma will need to manually open a PR through GitHub after updating their branch via the Figma plugin. PRs should be opened against main.
+Designers working in Figma will need to manually open a PR through GitHub after updating their branch via the Figma plugin. PRs should be opened against `dev`.
 
 ### Wait for reviewers
 
-All Token PRs require sign-off from a Calcite Designer and Engineer before merging into main.
+All Token PRs require sign-off from a Calcite Designer and Engineer before merging into `dev`.

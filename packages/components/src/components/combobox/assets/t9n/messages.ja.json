@@ -4,9 +4,10 @@
   "allSelected": "すべて選択",
   "clear": "値の削除",
   "noMatches": "一致なし",
-  "removeTag": "タグの削除",
+  "removeTag": "{value} タグの削除",
   "required": "必須",
   "selectAll": "すべて選択",
   "selected": "選択済み",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "読み取り専用 {value}",
+  "disabledSelectedCount": "+{count}"
 }

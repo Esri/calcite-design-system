@@ -4,23 +4,16 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
-import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import type { Config } from "../types/extensions.js";
-import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
-import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
-import { Platform } from "../build/utils/enums.js";
-import { primitiveValueOutputReferences } from "../build/utils/output-references.js";
+import type { Config } from "../types.ts";
+import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.ts";
+import { isBreakpointExpand } from "../build/utils/token-types.ts";
+import { stylesheetOutputReferences } from "../build/utils/output-references.ts";
 
 const commonExpand = {
   typesMap: {
     ...sdTypes,
   },
-};
-
-const stylesheetOutputReferences: OutputReferences = (token, options) => {
-  // output specific token references to match test output
-  return !!(isCornerRadius(token) && token.path.includes("default")) || primitiveValueOutputReferences(token, options);
 };
 
 const config: Config = {
@@ -32,7 +25,7 @@ const config: Config = {
     preprocessors.PreprocessorStoreSameValueThemeTokens,
   ],
   platforms: {
-    [Platform.scss]: {
+    scss: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
@@ -73,6 +66,11 @@ const config: Config = {
             imports: ["semantic", "breakpoints", "mixins"],
           },
         },
+        {
+          destination: "light-dark.scss",
+          format: formats.FormatLightDark,
+          filter: filters.FilterLightOrDarkColorTokens,
+        },
       ],
       expand: {
         ...commonExpand,
@@ -81,13 +79,13 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.scss,
+        platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
         outputReferences: stylesheetOutputReferences,
       },
     },
-    [Platform.css]: {
+    css: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
@@ -129,8 +127,8 @@ const config: Config = {
           },
         },
         {
-          destination: "component.css",
-          format: formats.FormatComponent,
+          destination: "light-dark.css",
+          format: formats.FormatLightDark,
           filter: filters.FilterLightOrDarkColorTokens,
         },
       ],
@@ -141,18 +139,19 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.css,
+        platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
         outputReferences: stylesheetOutputReferences,
       },
     },
-    [Platform.es6]: {
+    es6: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [
         ...transformers.platformTransforms.es6,
         transformers.TransformValueCorrectPropName,
         transformers.TransformValueMergeValues,
+        transformers.TransformValueEs6MergeBreakpoints,
       ],
       buildPath: "dist/es6/",
       prefix: "calcite",
@@ -163,7 +162,7 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.es6,
+        platform: "es6",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -207,16 +206,16 @@ const config: Config = {
         {
           destination: "breakpoints.js",
           format: sdFormats.javascriptEs6,
-          filter: filters.FilterBreakpointTokens,
+          filter: filters.FilterEs6BreakpointTokens,
         },
         {
           destination: "breakpoints.d.ts",
           format: sdFormats.typescriptEs6Declarations,
-          filter: filters.FilterBreakpointTokens,
+          filter: filters.FilterEs6BreakpointTokens,
         },
       ],
     },
-    [Platform.docs]: {
+    docs: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [
         transformers.TransformNameRemovePrefix,
@@ -233,7 +232,7 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.docs,
+        platform: "docs",
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },

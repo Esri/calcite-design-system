@@ -1,5 +1,6 @@
 {
   "chooseDate": "Odaberite datum",
+  "clear": "Očisti vrijednost",
   "date": "Datum",
   "dateFormat": "Format datuma:{format}",
   "endDate": "Datum kraja",

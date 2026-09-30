@@ -1,12 +1,6 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import { LitElement, property, h, method, JsxNode, LuminaJsx, Fragment } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import {
@@ -16,15 +10,18 @@ import {
   Scale,
   SelectionAppearance,
   Width,
-} from "../interfaces";
-import { IconName } from "../icon/interfaces";
+} from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import type { Tooltip } from "../tooltip/tooltip";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS, IDS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -34,18 +31,17 @@ declare global {
 
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
-export class Action extends LitElement implements InteractiveComponent, FormOwner {
+export class Action extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static formAssociated = true;
+
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
   //#region Private Properties
-
-  formEl: HTMLFormElement;
 
   private guid = guid();
 
@@ -66,14 +62,16 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private indicatorRef = createRef<HTMLDivElement>();
 
+  private interactiveContainer = useInteractive(this);
+
+  private labelElRef = createRef<HTMLSpanElement>();
+
   //#endregion
 
   //#region Public Properties
 
   /**
-   * Use this property to override or extend ARIA properties and attributes on the component's button.
-   *
-   * @internal
+   * When specified, overrides or extends ARIA properties and attributes on the component's button. Refer to the component's accessibility section for configuration considerations.
    */
   @property() aria?: Partial<
     Pick<
@@ -85,7 +83,9 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       | "labelledByElements"
       | "ownsElements"
       | "pressed"
-    >
+      | "checked"
+    > &
+      Pick<LuminaJsx.HTMLAttributes, "role">
   >;
 
   /** When `true`, the component is highlighted. */
@@ -98,15 +98,20 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
-  @property({ reflect: true }) alignment: Alignment;
+  @property({ reflect: true }) alignment?: Alignment;
 
-  /** Specifies the appearance of the component. */
-  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @deprecated in v5.0.0, removal target v6.0.0 - No longer necessary.
+   */
+  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
+    "transparent";
 
   /**
    * When `true`, the side padding of the component is reduced.
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v2.11.0, removal target v5.0.0 - No longer necessary.
    */
   @property({ reflect: true }) compact = false;
 
@@ -120,15 +125,11 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** Specifies an icon to display. */
-  @property({ type: String, reflect: true }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -136,14 +137,17 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
-  /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
-  @property() label: string;
+  /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
+  @property({ reflect: true }) overflowDisabled = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -160,15 +164,19 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    *
    * @required
    */
-  @property() text: string;
+  @property() text!: string;
 
-  /** When `true`, indicates whether the text is displayed. */
+  /**
+   * When `true`, displays `text` adjacent to the `icon`.
+   *
+   * When `true` and the component is used as a child of `calcite-action-bar`, the text will be shown initially regardless of the parent components `expanded` state.
+   */
   @property({ reflect: true }) textEnabled = false;
 
   /**
    * Specifies the default behavior of the component.
    *
-   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
@@ -177,7 +185,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
+  @property({ reflect: true }) selectionAppearance?: Extract<
     "neutral" | "highlight",
     SelectionAppearance
   >;
@@ -191,7 +199,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -202,17 +210,16 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    useFormTrigger()(this);
+  }
+
   override connectedCallback(): void {
-    this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
-    this.formEl = null;
     this.mutationObserver?.disconnect();
   }
 
@@ -220,28 +227,21 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   //#region Private Methods
 
-  private handleClick(): void {
-    const { type } = this;
+  private getAccessibleLabel(): string {
+    const labelFallback = this.label || this.text || "";
 
-    if (type === "submit") {
-      submitForm(this);
-    } else if (type === "reset") {
-      resetForm(this);
-    }
+    return this.indicator
+      ? this.messages.indicatorLabel.replace("{label}", labelFallback)
+      : labelFallback;
   }
 
-  private handleTooltipSlotChange(event: Event): void {
-    const tooltips = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .filter((el): el is Tooltip["el"] => el?.matches("calcite-tooltip"));
+  private getLabelledByElements(): Element[] | undefined {
+    const labelledByElements = [
+      ...(this.labelElRef.value ? [this.labelElRef.value] : []),
+      ...(this.aria?.labelledByElements ?? []),
+    ];
 
-    const tooltip = tooltips[0];
-
-    if (tooltip) {
-      tooltip.referenceElement = this.buttonRef.value;
-    }
+    return labelledByElements.length ? labelledByElements : undefined;
   }
 
   //#endregion
@@ -257,7 +257,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     };
 
     return text ? (
-      <div class={textContainerClasses} key="text-container">
+      <div ariaHidden="true" class={textContainerClasses} key="text-container">
         {text}
       </div>
     ) : null;
@@ -269,7 +269,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
-        class={CSS.indicatorText}
+        class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
         role="region"
       >
@@ -314,25 +314,20 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     ) : null;
   }
 
-  private renderButton(): JsxNode {
-    const {
-      compact,
-      disabled,
-      icon,
-      loading,
-      textEnabled,
-      label,
-      text,
-      indicator,
-      indicatorRef,
-      buttonId,
-      messages,
-    } = this;
-    const labelFallback = label || text || "";
+  private renderLabel(): JsxNode {
+    const ariaLabel = this.getAccessibleLabel();
 
-    const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+    return ariaLabel ? (
+      <span class={CSS_UTILITY.screenReaderText} ref={this.labelElRef}>
+        {ariaLabel}
+      </span>
+    ) : null;
+  }
+
+  private renderButton(): JsxNode {
+    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
+      this;
+    const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -345,6 +340,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
         {this.renderIconContainer()}
         {this.renderTextContainer()}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+        {this.renderLabel()}
       </>
     );
 
@@ -359,20 +355,19 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
-          ariaLabel={ariaLabel}
-          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={this.disabled ? null : 0}
+          tabIndex={this.disabled ? undefined : 0}
         >
           {buttonContent}
         </span>
@@ -381,20 +376,21 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
     return (
       <button
-        ariaBusy={loading}
+        ariaBusy={toAriaBoolean(loading, undefined)}
+        ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
-        ariaLabel={ariaLabel}
-        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
-        onClick={this.handleClick}
         ref={this.buttonRef}
+        role={this.aria?.role}
+        type={this.type}
       >
         {buttonContent}
       </button>
@@ -403,11 +399,10 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.renderButton()}
-        <slot name={SLOTS.tooltip} onSlotChange={this.handleTooltipSlotChange} />
         {this.renderIndicatorText()}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

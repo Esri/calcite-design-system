@@ -6,10 +6,12 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
 import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
+import unicornPlugin from "eslint-plugin-unicorn";
+import storybookPlugin from "eslint-plugin-storybook";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
+    ignores: ["**/dist", "**/docs", "**/*.d.ts"],
   },
 
   {
@@ -21,7 +23,12 @@ export default tseslint.config(
     },
 
     languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+      parser: tseslint.parser,
       parserOptions: {
+        jsxFragmentName: "Fragment",
+        jsxPragma: "h",
         tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig.eslint.json"],
       },
@@ -35,14 +42,13 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ["tests/commonTests/*"],
+              group: ["tests/common/*"],
               message:
-                "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
+                "Import named functions from tests/common instead of direct module imports, e.g., import { disabled } from 'tests/common'",
             },
             {
-              group: ["tests/commonTests/browser/*"],
-              message:
-                "Import named functions from commonTests/browser for browser mode (experimental) tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+              group: ["lit-html", "lit-html/*"],
+              message: "Import from 'lit' instead of 'lit-html'",
             },
           ],
         },
@@ -73,8 +79,11 @@ export default tseslint.config(
 
       "unused-imports/no-unused-imports": "error",
 
+      "unicorn/filename-case": "off",
+
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",
+      "@esri/calcite-components/require-deprecation-details": "warn",
       "@esri/calcite-components/ban-events": [
         "warn",
         {
@@ -90,7 +99,7 @@ export default tseslint.config(
   },
 
   {
-    files: ["**/*.{e2e,spec}.ts", "src/tests/**/*"],
+    files: ["**/*.{e2e,spec}.{ts,tsx}", "src/tests/**/*"],
     extends: [vitestPlugin.configs.recommended],
     settings: {
       vitest: {
@@ -107,6 +116,49 @@ export default tseslint.config(
         ...globals.browser,
         ...vitestPlugin.environments?.env.globals,
       },
+    },
+  },
+
+  {
+    files: ["src/**/*.stories.ts"],
+    extends: [storybookPlugin.configs["flat/recommended"]],
+    rules: {
+      "storybook/prefer-pascal-case": "off",
+    },
+  },
+
+  {
+    plugins: {
+      unicorn: unicornPlugin,
+    },
+    files: [
+      // scoped to allow for progressive adoption
+      ".storybook/**/*",
+      "src/*.{ts,tsx}",
+      "src/components/**/*",
+      "src/custom-theme/**/*",
+      "src/demos/**/*",
+      "src/internal-label/**/*",
+      "src/tests/common/**/*",
+      "src/tests/integration/**/*",
+      "src/tests/setup.ts",
+      "src/tests/utils/**/*",
+      "support/**/*",
+    ],
+    ignores: ["src/components/alert/AlertManager*", "src/components/functional/*"],
+    rules: {
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/controllers/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
     },
   },
 );

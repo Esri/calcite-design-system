@@ -1,14 +1,14 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { FormatFn, TransformedToken } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
-import { cleanAttributes } from "./utils/index.js";
+import type { RegisterFn } from "../../types.ts";
+import { cleanAttributes } from "./utils/index.ts";
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
   const output = {
     timestamp: Date.now(),
     tokens: dictionary.allTokens.map((token) => {
-      token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
+      token.$value = typeof token.$value !== "string" ? JSON.stringify(token.$value) : token.$value;
 
       delete (token as Partial<Pick<TransformedToken, "original">>).original;
       cleanAttributes(token);
@@ -17,7 +17,7 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
     }),
   };
 
-  return prettierSync.format(JSON.stringify(output, null, 2), { parser: "json" });
+  return prettierFormat(JSON.stringify(output, null, 2), { parser: "json" });
 };
 
 export const registerFormatDocs: RegisterFn = () => {

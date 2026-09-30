@@ -1,3 +1,8 @@
+import "../components/menu-item/menu-item";
+import "../components/menu/menu";
+import "../components/navigation-logo/navigation-logo";
+import "../components/navigation-user/navigation-user";
+import "../components/navigation/navigation";
 import { html } from "../../support/formatting";
 
 export const navigationTokens = {

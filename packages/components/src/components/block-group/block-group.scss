@@ -1,17 +1,19 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 .container {
   position: relative;
 }
 
-.assistive-text {
-  @apply sr-only;
+@include shared.base-component();
+
+@include shared.disabled();
+
+:host([slot="children"]) {
+  slot::slotted(calcite-block) {
+    border-block-end-width: 0;
+  }
 }
-
-@include includes.base-component();
-
-@include includes.disabled();

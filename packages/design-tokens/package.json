@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "4.0.0-next.6",
+  "version": "4.2.0-next.1",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -13,7 +13,7 @@
   "types": "./dist/es6/global.d.ts",
   "files": [
     "./dist/**/*",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "repository": {
     "type": "git",
@@ -28,22 +28,38 @@
   },
   "license": "SEE LICENSE.md",
   "scripts": {
-    "build": "echo $MODE $GITHUB_ACTION && tsx src/build-tokens.ts",
-    "build:watch": "tsx --watch src/build-tokens.ts",
+    "build": "echo $MODE $GITHUB_ACTION && node src/build-tokens.ts",
+    "build:watch": "node --watch src/build-tokens.ts",
     "clean": "rimraf node_modules dist .turbo",
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "lint": "concurrently npm:lint:*",
     "test": "vitest run",
+    "test:ci": "pnpm test",
     "test:watch": "vitest",
-    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts",
+    "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts",
     "util:update-test-snapshots": "vitest --update"
   },
-  "volta": {
-    "extends": "../../package.json"
-  },
   "devDependencies": {
-    "vitest": "3.2.4"
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@esri/eslint-config-calcite": "workspace:*",
+    "@tokens-studio/sd-transforms": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/eslint-plugin": "catalog:",
+    "change-case": "catalog:",
+    "concurrently": "catalog:",
+    "es-toolkit": "catalog:",
+    "eslint": "catalog:",
+    "globals": "catalog:",
+    "lint-staged": "catalog:",
+    "markdownlint-cli2": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "style-dictionary": "catalog:",
+    "type-fest": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vitest": "catalog:"
   }
 }

@@ -1,20 +1,21 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import { render } from "lit-html";
-import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
-import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { isActivationKey } from "../../utils/key";
+import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
+import { render } from "lit";
+import { createRef } from "lit/directives/ref.js";
+import { Alignment, Scale, SelectionMode } from "../types";
 import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
+  focusElementInGroup,
+  FocusElementInGroupDestination,
+  getSlotAssignedElements,
+} from "../../utils/dom";
+import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/types";
+import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
+import { isTableHeader } from "../table-header/resources";
 import type { TableCell } from "../table-cell/table-cell";
+import { isTableCell } from "../table-cell/resources";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-row.scss";
 
@@ -25,7 +26,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements. */
-export class TableRow extends LitElement implements InteractiveComponent {
+export class TableRow extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -34,13 +35,17 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  messages;
+  private numberedCellRef = createRef<TableCell["el"]>();
+
+  private numberedHeaderRef = createRef<TableHeader["el"]>();
 
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
-  private tableRowEl: HTMLTableRowElement;
+  private rowSlotRef = createRef<HTMLSlotElement>();
 
-  private tableRowSlotRef = createRef<HTMLSlotElement>();
+  private selectionCellRef = createRef<TableCell["el"]>();
+
+  private selectionHeaderRef = createRef<TableHeader["el"]>();
 
   private userTriggered = false;
 
@@ -59,12 +64,20 @@ export class TableRow extends LitElement implements InteractiveComponent {
     }
   };
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region Public Properties
 
-  /** Specifies the alignment of the component. */
-  @property({ reflect: true }) alignment: Alignment;
+  /**
+   * Specifies the vertical alignment of content within child `calcite-table-cell`s.
+   *
+   * - `"start"` positions content at the top of a `calcite-table-cell`.
+   * - `"center"` positions content in the middle of a `calcite-table-cell`.
+   * - `"end"` positions content at the bottom of a `calcite-table-cell`.
+   */
+  @property({ reflect: true }) alignment!: Alignment;
 
   /**
    * When `true`, the item will be hidden
@@ -74,10 +87,10 @@ export class TableRow extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) itemHidden = false;
 
   /** @private */
-  @property() bodyRowCount: number;
+  @property() bodyRowCount!: number;
 
   /** @private */
-  @property() cellCount: number;
+  @property() cellCount!: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -86,28 +99,31 @@ export class TableRow extends LitElement implements InteractiveComponent {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() lastVisibleRow: boolean;
+  @property() lastVisibleRow = false;
 
   /** @private */
   @property() numbered = false;
 
   /** @private */
-  @property() positionAll: number;
+  @property() positionAll!: number;
 
   /** @private */
-  @property() positionSection: number;
+  @property() positionSection!: number;
 
   /** @private */
-  @property() positionSectionLocalized: string;
+  @property() positionSectionLocalized!: string;
 
   /** @private */
-  @property() readCellContentsToAT: boolean;
+  @property() readCellContentsToAT!: boolean;
 
   /** @private */
-  @property() rowType: RowType;
+  @property() rowType!: RowType;
 
   /** @private */
-  @property() scale: Scale;
+  @property() scale!: Scale;
+
+  /** @private */
+  @property() stickyHeaderEnabled = false;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true })
@@ -123,10 +139,10 @@ export class TableRow extends LitElement implements InteractiveComponent {
   }
 
   /** @private */
-  @property() selectedRowCount: number;
+  @property() selectedRowCount!: number;
 
   /** @private */
-  @property() selectedRowCountLocalized: string;
+  @property() selectedRowCountLocalized!: string;
 
   /** @private */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
@@ -165,7 +181,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       changes.has("bodyRowCount") ||
       changes.has("scale") ||
@@ -192,12 +208,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       this.updateCells();
     }
   }
@@ -211,13 +223,13 @@ export class TableRow extends LitElement implements InteractiveComponent {
   }
 
   private handleCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       this.updateCells();
     }
   }
 
   private handleDelayedCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       requestAnimationFrame(() => this.updateCells());
     }
   }
@@ -251,11 +263,11 @@ export class TableRow extends LitElement implements InteractiveComponent {
     if (this.interactionMode !== "interactive") {
       return;
     }
-    const el = event.target as TableCell["el"] | TableHeader["el"];
+    const el = event.target;
     const key = event.key;
     const isControl = event.ctrlKey;
     const cells = this.rowCells;
-    if (el.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
+    if (isTableCell(el) || isTableHeader(el)) {
       switch (key) {
         case "ArrowUp":
           this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "previous");
@@ -307,13 +319,13 @@ export class TableRow extends LitElement implements InteractiveComponent {
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
-    lastCell?: boolean,
+    lastCell = false,
   ): void {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
       rowPosition,
       destination,
-      lastCell,
+      lastCell: lastCell,
     });
   }
 
@@ -323,21 +335,22 @@ export class TableRow extends LitElement implements InteractiveComponent {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = this.tableRowSlotRef.value
-      ?.assignedElements({ flatten: true })
-      ?.filter(
-        (el: TableCell["el"] | TableHeader["el"]) =>
-          el.matches("calcite-table-cell") || el.matches("calcite-table-header"),
-      );
-
-    const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
-    )?.filter((el: TableCell["el"] | TableHeader["el"]) => el.numberCell || el.selectionCell);
-
-    const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
+    const slottedCells = this.rowSlotRef.value
+      ? getSlotAssignedElements<TableCell["el"] | TableHeader["el"]>(
+          this.rowSlotRef.value,
+          "calcite-table-cell, calcite-table-header",
+        )
+      : [];
+    const renderedCells = [
+      this.numberedCellRef.value,
+      this.numberedHeaderRef.value,
+      this.selectionCellRef.value,
+      this.selectionHeaderRef.value,
+    ].filter((cell) => cell != null);
+    const cells = renderedCells.concat(slottedCells);
 
     if (cells.length > 0) {
-      cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
+      cells?.forEach((cell, index) => {
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
         cell.parentRowAlignment = alignment;
@@ -347,13 +360,20 @@ export class TableRow extends LitElement implements InteractiveComponent {
         cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
+          const rowSpan = cell.rowSpan || 1;
+          const reachesBodyEnd =
+            this.rowType === "body" &&
+            rowSpan > 1 &&
+            this.positionSection + rowSpan >= this.bodyRowCount;
+
           (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
           (cell as TableCell["el"]).disabled = this.disabled;
+          (cell as TableCell["el"]).reachesBodyEnd = reachesBodyEnd;
         }
       });
     }
 
-    this.rowCells = (cells as (TableCell["el"] | TableHeader["el"])[]) || [];
+    this.rowCells = cells || [];
     this.cellCount = cells?.length;
   }
 
@@ -392,6 +412,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
+        ref={this.selectionHeaderRef}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell={true}
@@ -406,6 +427,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.positionSectionLocalized}
+        ref={this.selectionCellRef}
         selectionCell={true}
       >
         {this.renderSelectionIcon()}
@@ -415,6 +437,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         alignment="center"
         key="selection-foot"
         parentRowAlignment={this.alignment}
+        ref={this.selectionCellRef}
         selectionCell={true}
       />
     );
@@ -427,6 +450,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         key="numbered-head"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={this.numberedHeaderRef}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
@@ -434,6 +458,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         key="numbered-body"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={this.numberedCellRef}
       >
         {this.positionSectionLocalized}
       </calcite-table-cell>
@@ -443,13 +468,14 @@ export class TableRow extends LitElement implements InteractiveComponent {
         key="numbered-foot"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={this.numberedCellRef}
       />
     );
   }
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <tr
           ariaRowIndex={this.positionAll + 1}
           ariaSelected={this.selected}
@@ -460,20 +486,18 @@ export class TableRow extends LitElement implements InteractiveComponent {
               return;
             }
 
-            this.tableRowEl = el;
-
             /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
             render(
               <>
                 {this.numbered && this.renderNumberedCell()}
                 {this.selectionMode !== "none" && this.renderSelectableCell()}
-                <slot ref={this.tableRowSlotRef} />
+                <slot ref={this.rowSlotRef} />
               </>,
               el,
             );
           }}
         />
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

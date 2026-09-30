@@ -1,5 +1,5 @@
 import StyleDictionary from "style-dictionary";
-import { state } from "../shared/state.js";
+import { state } from "../shared/state.ts";
 
 export function registerPreprocessorStorePostMergeDictionary(): void {
   StyleDictionary.registerPreprocessor({

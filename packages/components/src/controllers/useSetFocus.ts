@@ -1,7 +1,7 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { componentFocusable } from "../utils/component";
 import { FocusableElement, focusElement, getRootNode, SetFocusable } from "../utils/dom";
-import { type InteractiveComponent } from "../utils/interactive";
+import type { InteractiveComponent } from "./useInteractive";
 
 type FocusStrategy = "focusable" | "tabbable";
 type FocusConfig = { target: FocusableElement; includeContainer?: boolean; strategy?: FocusStrategy };

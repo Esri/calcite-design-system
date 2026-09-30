@@ -1,0 +1,187 @@
+name: Test
+description: Associate issue for a test (e.g., a new test, an unstable test that was skipped, Chromatic, etc.)
+labels: ["testing"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: dropdown
+    id: component
+    validations:
+      required: true
+    attributes:
+      label: Which Component
+      description: Which component(s) are related to this issue? (Select all that apply).
+      multiple: true
+      default: 0
+      options:
+        - N/A
+        - Unknown / Not Sure
+        - Accordion
+        - Accordion Item
+        - Action
+        - Action Bar
+        - Action Group
+        - Action Pad
+        - Alert
+        - Autocomplete
+        - Autocomplete Item
+        - Autocomplete Item Group
+        - Avatar
+        - Block
+        - Block Group
+        - Block Section
+        - Button
+        - Card
+        - Card Group
+        - Carousel
+        - Carousel Item
+        - Checkbox
+        - Chip
+        - Chip Group
+        - Color Picker
+        - Combobox
+        - Combobox Item
+        - Combobox Item Group
+        - Date Picker
+        - Dialog
+        - Dropdown
+        - Dropdown Group
+        - Dropdown Item
+        - Fab
+        - Filter
+        - Flow
+        - Flow Item
+        - Icon
+        - Inline Editable
+        - Input
+        - Input Date Picker
+        - Input Message
+        - Input Number
+        - Input Text
+        - Input Time Picker
+        - Input Time Zone
+        - Label
+        - Link
+        - List
+        - List Item
+        - List Item Group
+        - Loader
+        - Menu
+        - Menu Item
+        - Meter
+        - Modal
+        - Navigation
+        - Navigation Logo
+        - Navigation User
+        - Notice
+        - Option
+        - Option Group
+        - Pagination
+        - Panel
+        - Popover
+        - Progress
+        - Radio Button
+        - Radio Button Group
+        - Rating
+        - Scrim
+        - Segmented Control
+        - Segmented Control Item
+        - Select
+        - Sheet
+        - Shell
+        - Shell Center Row
+        - Shell Panel
+        - Slider
+        - Split Button
+        - Stepper
+        - Stepper Item
+        - Swatch
+        - Swatch Group
+        - Switch
+        - Tab
+        - Tab Nav
+        - Tab Title
+        - Table
+        - Table Cell
+        - Table Header
+        - Table Row
+        - Tabs
+        - Text Area
+        - Tile
+        - Tile Group
+        - Tile Select
+        - Tile Select Group
+        - Time Picker
+        - Tip
+        - Tip Group
+        - Tip Manager
+        - Tooltip
+        - Tree
+        - Tree Item
+  - type: dropdown
+    id: priority-impact
+    validations:
+      required: true
+    attributes:
+      label: Priority impact
+      multiple: false
+      description: What is the impact of the test? If the test is unstable, the priority may be high, where a new test may have a medium priority.
+      options:
+        - p - high
+        - p - medium
+        - p - low
+  - type: input
+    id: type
+    attributes:
+      label: Test type
+      description: What type of test is being requested?
+      placeholder: "e.g., new test, unstable test, Chromatic, etc."
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Unstable Tests
+      description: List the unstable test(s) or suite(s), if applicable
+      placeholder: "calcite-foo a11y check › setFocus › can focus some button"
+    validations:
+      required: false
+  - type: textarea
+    id: error
+    attributes:
+      label: Test error, if applicable
+      description: Copy and paste the error stack trace.
+      placeholder: |
+        FAIL src/components/calcite-foo/calcite-foo.e2e.ts (32.825 s)
+        ● calcite-foo a11y check › setFocus › can focus some button
+          expect(received).toBe(expected) // Object.is equality
+          Expected: true
+          Received: false
+            165 |   }
+            166 |
+          > 167 |   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+                |                                                                                                            ^
+            168 | }
+            169 |
+            at Object.focusable (src/tests/commonTests.ts:167:108)
+                at runMicrotasks (<anonymous>)
+    validations:
+      required: false
+  - type: input
+    id: pr
+    attributes:
+      label: PR skipped, if applicable
+      description: Which PR skipped the unstable test(s)?
+      value: "#"
+    validations:
+      required: false
+  - type: textarea
+    id: info
+    attributes:
+      label: Additional Info
+      description: Any info that may help fix the test.
+    validations:
+      required: false

@@ -1,5 +1,4 @@
-// @ts-strict-ignore
-import { LuminaJsx } from "@arcgis/lumina";
+import { LuminaJsx, LitElement } from "@arcgis/lumina";
 import { getConfig } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
@@ -10,9 +9,9 @@ type MajorVersion = number;
 type DeprecatedContext = "component" | "property" | "method" | "event" | "slot";
 
 type DeprecatedParams = {
+  component: LitElement;
   name: string;
   suggested?: string | string[];
-  component?: string;
   removalVersion: MajorVersion | "future";
 };
 
@@ -34,8 +33,8 @@ const logLevels = {
   off: 10,
 } as const;
 
-function willLog(level: LogLevel): boolean {
-  return logLevels[level] >= logLevels[getConfig().logLevel];
+function willLog(level: LogLevel): level is Exclude<LogLevel, "off"> {
+  return level !== "off" && logLevels[level] >= logLevels[getConfig().logLevel];
 }
 
 function forwardToConsole(level: LogLevel, ...data: any[]): void {
@@ -46,23 +45,24 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
   const badgeTemplate = "%ccalcite";
   const badgeStyle = "background: #007AC2; color: #fff; border-radius: 4px; padding: 2px 4px;";
 
-  console[level].call(this, badgeTemplate, badgeStyle, ...data);
+  // eslint-disable-next-line no-console -- logging is managed through this module
+  console[level](badgeTemplate, badgeStyle, ...data);
 }
 
 let listFormatter: Intl.ListFormat;
 
 export const logger = {
-  debug: (message: Message) => forwardToConsole("debug", message),
-  info: (message: Message) => forwardToConsole("info", message),
-  warn: (message: Message) => forwardToConsole("warn", message),
-  error: (message: Message) => forwardToConsole("error", message),
-  trace: (message: Message) => forwardToConsole("trace", message),
+  debug: (message: Message, ...data: any[]) => forwardToConsole("debug", message, ...data),
+  info: (message: Message, ...data: any[]) => forwardToConsole("info", message, ...data),
+  warn: (message: Message, ...data: any[]) => forwardToConsole("warn", message, ...data),
+  error: (message: Message, ...data: any[]) => forwardToConsole("error", message, ...data),
+  trace: (message: Message, ...data: any[]) => forwardToConsole("trace", message, ...data),
 
   deprecated,
 } as const;
 
 /**
- * Logs a deprecation warning to the console.
+ * Logs a deprecation warning to the logger.
  *
  * @param context the context in which the deprecation is occurring
  * @param params the deprecation details
@@ -74,6 +74,7 @@ function deprecated(
   { component, name, suggested, removalVersion }: DeprecatedParams | ComponentDeprecatedParams,
 ): void {
   const key = `${context}:${context === "component" ? "" : component}${name}`;
+  const removalVersionText = removalVersion === "future" ? `a future version` : `v${removalVersion}`;
 
   if (loggedDeprecations.has(key)) {
     return;
@@ -81,13 +82,18 @@ function deprecated(
 
   loggedDeprecations.add(key);
 
-  const multiSuggestions = Array.isArray(suggested);
+  let message: string = "";
+  message =
+    context === "component"
+      ? `This component is deprecated and will be removed in ${removalVersionText}.`
+      : `The [${name}] ${context} is deprecated and will be removed in ${removalVersionText}.`;
 
-  if (multiSuggestions && !listFormatter) {
+  if (suggested) {
     listFormatter = new Intl.ListFormat("en", { style: "long", type: "disjunction" });
+
+    message += ` Use ${listFormatter.format([suggested].flat().map((suggestion) => `"${suggestion}"`))} instead.`;
   }
 
-  const message = `[${name}] ${context} is deprecated and will be removed in ${removalVersion === "future" ? `a future version` : `v${removalVersion}`}.${suggested ? ` Use ${multiSuggestions ? listFormatter.format(suggested.map((suggestion) => `"${suggestion}"`)) : `"${suggested}"`} instead.` : ""}`;
-
-  forwardToConsole("warn", message);
+  const composed = `[${component.el.tagName.toLocaleLowerCase().slice("calcite-".length)}] - ${message}`;
+  forwardToConsole("warn", composed);
 }

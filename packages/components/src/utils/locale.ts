@@ -1,60 +1,12 @@
-// @ts-strict-ignore
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
-export const defaultLocale = "en";
-
-export const locales = [
-  "ar",
-  "bg",
-  "bs",
-  "ca",
-  "cs",
-  "da",
-  "de",
-  "de-AT",
-  "de-CH",
-  "el",
-  defaultLocale,
-  "en-AU",
-  "en-CA",
-  "en-GB",
-  "es",
-  "es-MX",
-  "et",
-  "fi",
-  "fr",
-  "fr-CH",
-  "he",
-  "hi",
-  "hr",
-  "hu",
-  "id",
-  "it",
-  "it-CH",
-  "ja",
-  "ko",
-  "lt",
-  "lv",
-  "mk",
-  "no",
-  "nl",
-  "pl",
-  "pt",
-  "pt-PT",
-  "ro",
-  "ru",
-  "sk",
-  "sl",
-  "sr",
-  "sv",
-  "th",
-  "tr",
-  "uk",
-  "vi",
-  "zh-CN",
-  "zh-HK",
-  "zh-TW",
-];
+/**
+ * Represents any BCP 47 locale code used for formatting and parsing numbers.
+ *
+ * For locales that are used for translations, please use the `SupportedLocale` type from `@arcgis/toolkit/intl`.
+ */
+export type Locale = HTMLElement["lang"];
 
 /**
  * To reference the CLDR meridiems for each supported locale navigate to:
@@ -91,16 +43,14 @@ export const localizedTwentyFourHourMeridiems = new Map(
 );
 
 export const numberingSystems = ["arab", "arabext", "latn"] as const;
-export const supportedLocales = [...locales] as const;
 
 export type NumberingSystem = (typeof numberingSystems)[number];
 
-export type SupportedLocale = (typeof supportedLocales)[number];
-
-const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
-  numberingSystems.includes(numberingSystem as NumberingSystem);
+const isNumberingSystemSupported = (numberingSystem?: string): numberingSystem is NumberingSystem =>
+  !!(numberingSystems && numberingSystems.includes(numberingSystem as NumberingSystem));
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
+const bidirectionalMarks = /[\u061C\u200E\u200F]/g;
 
 // for consistent browser behavior, we normalize numberingSystem to prevent the browser-inferred value
 // @see https://github.com/Esri/calcite-design-system/issues/3079#issuecomment-1168964195
@@ -109,61 +59,18 @@ export const defaultNumberingSystem =
     ? "latn"
     : browserNumberingSystem;
 
-export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+export const getSupportedNumberingSystem = (numberingSystem?: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
-
-/**
- * Gets the locale that best matches the context.
- *
- * @param locale – the BCP 47 locale code
- */
-export function getSupportedLocale(locale: string): SupportedLocale {
-  if (!locale) {
-    return defaultLocale;
-  }
-
-  if (supportedLocales.includes(locale)) {
-    return locale;
-  }
-
-  locale = locale.toLowerCase();
-  if (locale.includes("-")) {
-    locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
-
-    if (!supportedLocales.includes(locale)) {
-      locale = locale.split("-")[0];
-    }
-  }
-
-  // we support 'nn', 'nb' and 'no' (BCP 47) for Norwegian but only `no` includes corresponding bundle
-  if (locale === "nb" || locale === "nn") {
-    return "no";
-  }
-
-  // we can `zh-CN` as base translation for chinese locales which has no corresponding bundle.
-  if (locale === "zh") {
-    return "zh-CN";
-  }
-
-  if (!supportedLocales.includes(locale)) {
-    console.warn(
-      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`,
-    );
-    return defaultLocale;
-  }
-
-  return locale;
-}
 
 /**
  * Gets the locale that best matches the context for date formatting.
  *
  * Intl date formatting has some quirks with certain locales. This handles those quirks by mapping a locale to another for date formatting.
  *
- * @see https://github.com/Esri/calcite-design-system/issues/9387
+ * @see [Related Issue](https://github.com/Esri/calcite-design-system/issues/9387)
  *
  * @param locale – the BCP 47 locale code
- * @returns {string} a BCP 47 locale code
+ * @returns a BCP 47 locale code
  */
 export function getDateFormatSupportedLocale(locale: string): string {
   switch (locale) {
@@ -177,8 +84,8 @@ export function getDateFormatSupportedLocale(locale: string): string {
 }
 
 export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
-  numberingSystem: NumberingSystem;
-  locale: string;
+  numberingSystem?: NumberingSystem;
+  locale?: string;
 }
 
 /** This util formats and parses numbers for localization */
@@ -188,42 +95,42 @@ export class NumberStringFormat {
    * White-space group separators are changed to the non-breaking space (nbsp) unicode character.
    * so we replace them with a normal <SPACE>.
    */
-  private _actualGroup: string;
+  private _actualGroup!: string;
 
   /** the corrected group separator */
-  private _group: string;
+  private _group!: string;
 
   get group(): string {
     return this._group;
   }
 
-  private _decimal: string;
+  private _decimal!: string;
 
   get decimal(): string {
     return this._decimal;
   }
 
-  private _minusSign: string;
+  private _minusSign!: string;
 
   get minusSign(): string {
     return this._minusSign;
   }
 
-  private _digits: Array<string>;
+  private _digits!: Array<string>;
 
   get digits(): Array<string> {
     return this._digits;
   }
 
-  private _getDigitIndex;
+  private _getDigitIndex?: (digit: string, ...args: any[]) => string;
 
-  private _numberFormatter: Intl.NumberFormat;
+  private _numberFormatter!: Intl.NumberFormat;
 
   get numberFormatter(): Intl.NumberFormat {
     return this._numberFormatter;
   }
 
-  private _numberFormatOptions: NumberStringFormatOptions;
+  private _numberFormatOptions!: NumberStringFormatOptions;
 
   get numberFormatOptions(): NumberStringFormatOptions {
     return this._numberFormatOptions;
@@ -231,8 +138,8 @@ export class NumberStringFormat {
 
   /** numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date */
   set numberFormatOptions(options: NumberStringFormatOptions) {
-    options.locale = getSupportedLocale(options?.locale);
     options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
+    options.locale = options?.locale || defaultLocale;
 
     if (
       // No need to create the formatter if `locale` and `numberingSystem`
@@ -250,16 +157,13 @@ export class NumberStringFormat {
 
     this._numberFormatOptions = options;
 
-    this._numberFormatter = new Intl.NumberFormat(
-      this._numberFormatOptions.locale,
-      this._numberFormatOptions as Intl.NumberFormatOptions,
-    );
+    this._numberFormatter = new Intl.NumberFormat(this._numberFormatOptions.locale, this._numberFormatOptions);
 
     this._digits = [
       ...new Intl.NumberFormat(this._numberFormatOptions.locale, {
         useGrouping: false,
         numberingSystem: this._numberFormatOptions.numberingSystem,
-      } as Intl.NumberFormatOptions).format(9876543210),
+      }).format(9876543210),
     ].reverse();
 
     const index = new Map(this._digits.map((d, i) => [d, i]));
@@ -267,42 +171,72 @@ export class NumberStringFormat {
     // numberingSystem is parsed to return consistent decimal separator across browsers.
     const parts = new Intl.NumberFormat(this._numberFormatOptions.locale, {
       numberingSystem: this._numberFormatOptions.numberingSystem,
-    } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
+    }).formatToParts(-12345678.9);
 
-    this._actualGroup = parts.find((d) => d.type === "group").value;
+    this._actualGroup = parts.find((d) => d.type === "group")!.value;
     // change whitespace group separators to the unicode non-breaking space (nbsp)
     this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
     // @see https://issues.chromium.org/issues/40656070
     this._decimal =
-      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal").value;
-    this._minusSign = parts.find((d) => d.type === "minusSign").value;
-    this._getDigitIndex = (d: string) => index.get(d);
+      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal")!.value;
+    this._minusSign = parts.find((d) => d.type === "minusSign")!.value;
+    this._getDigitIndex = (d: string) => `${index.get(d) ?? ""}`;
   }
 
-  delocalize = (numberString: string): string =>
+  delocalize = (numberString: string): string => {
     // For performance, (de)localization is skipped if the formatter isn't initialized.
     // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
     // `numberFormatOptions` must be set in a component to create and cache the formatter.
-    this._numberFormatOptions
-      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-          nonExpoNumString
-            .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
-            .replace(new RegExp(`[${this._group}]`, "g"), "")
-            .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
-            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex),
-        )
-      : numberString;
+    if (!this._numberFormatOptions) {
+      return numberString;
+    }
 
-  localize = (numberString: string): string =>
-    this._numberFormatOptions
+    return sanitizeExponentialNumberString(numberString, (nonExponentialNumberString) =>
+      this.#normalizeDigitsAndSign(this.#normalizeSeparators(nonExponentialNumberString)),
+    );
+  };
+
+  /**
+   * Localizes a number string.
+   *
+   * @param numberString - number string to localize.
+   * @param includeDirectionalMarks - when true, preserves `Intl.NumberFormat` directional marks for read-only display.
+   */
+  localize = (numberString: string, includeDirectionalMarks = false): string => {
+    return this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           isValidNumber(nonExpoNumString.trim())
             ? new BigDecimal(nonExpoNumString.trim())
-                .format(this)
+                .format(this, includeDirectionalMarks)
                 .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
             : nonExpoNumString,
         )
       : numberString;
+  };
+
+  #normalizeDigitsAndSign(value: string): string {
+    return value
+      .replace(bidirectionalMarks, "")
+      .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
+      .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex!);
+  }
+
+  #normalizeSeparators(value: string): string {
+    if (this._group !== this._decimal) {
+      return value.replace(new RegExp(`[${this._group}]`, "g"), "").replace(new RegExp(`[${this._decimal}]`, "g"), ".");
+    }
+
+    const lastSeparatorIndex = value.lastIndexOf(this._decimal);
+
+    if (lastSeparatorIndex === -1) {
+      return value;
+    }
+
+    const wholePart = value.slice(0, lastSeparatorIndex).replace(new RegExp(`[${this._group}]`, "g"), "");
+    const fractionalPart = value.slice(lastSeparatorIndex + 1);
+
+    return `${wholePart}.${fractionalPart}`;
+  }
 }
 
 export const numberStringFormatter = new NumberStringFormat();
@@ -344,8 +278,6 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  * @private
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
-  locale = getSupportedLocale(locale);
-
   if (!dateTimeFormatCache) {
     dateTimeFormatCache = new Map();
   }

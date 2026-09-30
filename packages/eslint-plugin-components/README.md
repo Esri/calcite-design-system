@@ -7,7 +7,7 @@ ESLint rules specific to `@esri/calcite-components` development.
 Install the following deps in your Lumina project:
 
 ```bash
-npm i @esri/eslint-plugin-calcite-components --save-dev
+pnpm add -D @esri/eslint-plugin-calcite-components
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ Add a new `lint` script to `package.json`:
 Then you can run the linter:
 
 ```shell
-npm run lint
+pnpm lint
 ```
 
 ## Supported Rules
@@ -53,13 +53,17 @@ This rule ensures that calls to `document.createElement()` use string literals t
 
 This rule catches boolean props that are initialized in a way that does not conform to the HTML5 spec.
 
+- [`@esri/calcite-components/require-deprecation-details`](./docs/require-deprecation-details.md)
+
+This rule catches deprecation tags that are missing deprecation and removal target versions
+
 ## Contributing
 
 We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for an overview of contribution guidelines.
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -71,6 +75,6 @@ For additional information, refer to [Calcite's licensing](https://developers.ar
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

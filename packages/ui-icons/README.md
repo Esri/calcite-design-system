@@ -5,7 +5,7 @@ A collection of UI SVG icons created by Esri for mapping applications.
 
 ## Installation
 
-`npm install @esri/calcite-ui-icons --save`
+`pnpm add @esri/calcite-ui-icons`
 
 ## Description
 
@@ -81,7 +81,7 @@ Types are also available for projects leveraging TypeScript. `CalciteIconPath` d
 
 ### JSON Format
 
-All icons are also provided as part of a JSON file. If you installed via npm, you can import the full icon data set using the following:
+All icons are also provided as part of a JSON file. If you installed the NPM package, you can import the full icon data set using the following:
 
 ```js
 var calciteIcons = require("@esri/calcite-ui-icons/docs/icons.json");
@@ -145,13 +145,31 @@ svg:hover {
 }
 ```
 
+## Icon Font Usage
+
+In addition to SVG icons, an icon font is available for streamlined integration.
+
+To install the font, run:
+
+`pnpm add @esri/calcite-ui-icons`
+
+### Recommended Icon Sizes & Font Selection for Optimal Clarity
+
+We provide three fonts, each designed for a standard size, for pixel perfection use at their designed sizes; 16px, 24px, and 32px.
+
+- **16px font** → Use for 16px and smaller sizes.
+- **24px font** → Use for 24px and mid-range sizes.
+- **32px font** → Use for 32px and larger sizes.
+
+**Avoid odd or non-standard sizes** like 13px, 17px, or 23px, as these break pixel alignment and can appear fuzzy.
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -163,6 +181,6 @@ For additional information, refer to [Calcite's licensing](https://developers.ar
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

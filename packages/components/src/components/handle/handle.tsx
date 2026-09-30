@@ -1,17 +1,12 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { HandleChange, HandleNudge } from "./interfaces";
+import { HandleChange, HandleNudge } from "./types";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import { styles } from "./handle.scss";
 
@@ -22,9 +17,9 @@ declare global {
 }
 
 /**
- * @deprecated Use the `calcite-sort-handle` component instead.
+ * @deprecated in v3.0.0, removal target v6.0.0. Use the `calcite-sort-handle` component instead.
  */
-export class Handle extends LitElement implements InteractiveComponent {
+export class Handle extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -44,6 +39,8 @@ export class Handle extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region Public Properties
@@ -59,15 +56,15 @@ export class Handle extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) disabled = false;
 
   /** Value for the button title attribute. */
-  @property({ reflect: true }) dragHandle: string;
+  @property({ reflect: true }) dragHandle?: string;
 
   /**
-   *
+   * @copyDoc
    * @private
    */
-  @property() label: string;
+  @property() label?: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is selected. */
@@ -77,13 +74,13 @@ export class Handle extends LitElement implements InteractiveComponent {
    *
    * @private
    */
-  @property() setPosition: number;
+  @property() setPosition?: number;
 
   /**
    *
    * @private
    */
-  @property() setSize: number;
+  @property() setSize?: number;
 
   //#endregion
 
@@ -94,7 +91,7 @@ export class Handle extends LitElement implements InteractiveComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -126,7 +123,7 @@ export class Handle extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       changes.has("messages") ||
       changes.has("label") ||
@@ -138,14 +135,11 @@ export class Handle extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     logger.deprecated("component", {
+      component: this,
       name: "handle",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "sort-handle",
     });
   }
@@ -178,11 +172,11 @@ export class Handle extends LitElement implements InteractiveComponent {
     return messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label);
   }
 
-  private getAriaText(type: "label" | "live"): string {
+  private getAriaText(type: "label" | "live"): string | undefined {
     const { setPosition, setSize, label, messages, selected } = this;
 
     if (!messages || !label || typeof setSize !== "number" || typeof setPosition !== "number") {
-      return null;
+      return undefined;
     }
 
     const text =
@@ -244,24 +238,24 @@ export class Handle extends LitElement implements InteractiveComponent {
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <span
           // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
-          ariaChecked={this.disabled ? null : this.selected}
-          ariaDisabled={this.disabled ? this.disabled : null}
-          ariaLabel={this.disabled ? null : this.getAriaText("label")}
+          ariaChecked={this.disabled ? undefined : this.selected}
+          ariaDisabled={this.disabled ? this.disabled : undefined}
+          ariaLabel={this.disabled ? undefined : this.getAriaText("label")}
           class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
           ref={this.handleButtonRef}
           // role of radio is being applied to allow space key to select in screen readers
           role="radio"
-          tabIndex={this.disabled ? null : 0}
+          tabIndex={this.disabled ? undefined : 0}
           title={this.getTooltip()}
         >
           <calcite-icon icon={ICONS.drag} scale="s" />
         </span>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

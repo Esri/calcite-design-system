@@ -4,9 +4,10 @@
   "allSelected": "Όλα τα επιλεγμένα",
   "clear": "Απαλοιφή τιμής",
   "noMatches": "Καμία αντιστοιχία",
-  "removeTag": "Κατάργηση ετικέτας",
+  "removeTag": "Κατάργηση ετικέτας {value}",
   "required": "Απαιτείται",
   "selectAll": "Επιλογή όλων",
   "selected": "επιλέχθηκε",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Μόνο για ανάγνωση {value}",
+  "disabledSelectedCount": "+{count}"
 }

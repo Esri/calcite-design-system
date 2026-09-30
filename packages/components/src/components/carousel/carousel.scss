@@ -3,17 +3,17 @@
   *
   * These properties can be overridden using the component's tag as selector.
   *
-  * --calcite-carousel-pagination-background-color: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
-  * --calcite-carousel-pagination-background-color-hover: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
-  * --calcite-carousel-pagination-background-color-press: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
-  * --calcite-carousel-pagination-background-color-selected: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
-  * --calcite-carousel-pagination-icon-color: Specifies the icon color of the component's pagination items and autoplay controls.
-  * --calcite-carousel-pagination-icon-color-hover: Specifies the icon color of the component's pagination items when hovered or pressed.
-  * --calcite-carousel-pagination-icon-color-selected: Specifies the icon color of the component's pagination items when selected.
-  * --calcite-carousel-control-icon-color: Specifies the icon color of the component's navigation arrow controls.
-  * --calcite-carousel-control-icon-color-hover: Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
-  * --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's autoplay progress when `autoplay` is specified.
-  * --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
+  * @prop --calcite-carousel-pagination-background-color: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
+  * @prop --calcite-carousel-pagination-background-color-hover: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
+  * @prop --calcite-carousel-pagination-background-color-press: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
+  * @prop --calcite-carousel-pagination-background-color-selected: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
+  * @prop --calcite-carousel-pagination-icon-color: Specifies the icon color of the component's pagination items and autoplay controls.
+  * @prop --calcite-carousel-pagination-icon-color-hover: Specifies the icon color of the component's pagination items when hovered or pressed.
+  * @prop --calcite-carousel-pagination-icon-color-selected: Specifies the icon color of the component's pagination items when selected.
+  * @prop --calcite-carousel-control-icon-color: Specifies the icon color of the component's navigation arrow controls.
+  * @prop --calcite-carousel-control-icon-color-hover: Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
+  * @prop --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's autoplay progress when `autoplay` is specified.
+  * @prop --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
   *
 */
 
@@ -40,10 +40,12 @@
 // --calcite-internal-carousel-pagination-space
 // --calcite-internal-carousel-pagination-space-wide
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply flex w-full;
+  display: flex;
+  inline-size: 100%;
+
   --calcite-internal-carousel-pagination-space: 1.5rem;
   --calcite-internal-carousel-pagination-space-wide: 3.5rem;
   --calcite-internal-carousel-pagination-background-color: var(
@@ -113,16 +115,18 @@
 }
 
 .container {
-  @apply focus-base
-   relative
-    flex
-    flex-col
-    overflow-hidden
-    text-color-2
-    text-n1h
-    w-full;
+  outline-color: transparent;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--calcite-color-text-2);
+  inline-size: 100%;
+
+  @include shared.text-n1h();
+
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 }
 
@@ -132,18 +136,18 @@
 }
 
 .item-container {
-  @apply flex
-    items-start
-    justify-center
-    overflow-auto
-    flex-auto
-    p-1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: auto;
+  flex: 1 1 auto;
+  padding: var(--calcite-space-2xs);
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
 }
 
 .container--overlaid .item-container {
-  @apply p-0;
+  padding: 0;
 }
 
 .item-container--forward {
@@ -159,16 +163,18 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination {
-  @apply flex
-  flex-row
-  items-center
-  justify-center
-  m-3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: var(--calcite-space-md);
   inline-size: auto;
 }
 
 .pagination-items {
-  @apply flex flex-row items-center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .container--overlaid .pagination {
@@ -187,7 +193,8 @@ calcite-carousel-item:not([selected]) {
 .container--edged {
   .page-next,
   .page-previous {
-    @apply h-12 w-12;
+    block-size: var(--calcite-size-xl);
+    inline-size: var(--calcite-size-xl);
     position: absolute;
     inset-block-start: 50%;
     transform: translateY(-50%);
@@ -206,6 +213,11 @@ calcite-carousel-item:not([selected]) {
   inset-block-start: unset;
   inset-block-end: 0;
   inset-inline: 0;
+}
+
+:host([pagination-position="top"]) .container--overlaid .pagination {
+  inset-block-start: 0;
+  inset-block-end: unset;
 }
 
 .pagination-item.autoplay-control {
@@ -229,28 +241,30 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item {
-  @apply focus-base
-    transition-default
-    m-0
-    h-8
-    w-8
-    cursor-pointer
-    items-center
-    border-none
-    bg-transparent;
+  @include shared.transition-default();
+
+  outline-color: transparent;
+  margin: 0;
+  block-size: var(--calcite-space-3xl);
+  inline-size: var(--calcite-space-3xl);
+  cursor: pointer;
+  align-items: center;
+  border-style: none;
   -webkit-appearance: none;
   display: flex;
   align-content: center;
   justify-content: center;
   background-color: var(--calcite-internal-carousel-pagination-background-color);
   color: var(--calcite-internal-carousel-pagination-icon-color);
+
   &:hover {
     background-color: var(--calcite-internal-carousel-pagination-background-color-hover);
     color: var(--calcite-internal-carousel-pagination-icon-color-hover);
   }
   &:focus {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
-    @apply focus-inset;
+
+    @include shared.focus-inset();
   }
   &:active {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
@@ -267,7 +281,10 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item--individual {
-  @apply w-0 p-0 opacity-0 pointer-events-none;
+  inline-size: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
   visibility: hidden;
   transition:
     var(--calcite-animation-timing) ease-in-out inline-size,
@@ -275,7 +292,9 @@ calcite-carousel-item:not([selected]) {
     var(--calcite-animation-timing) ease-in-out opacity;
 
   &.pagination-item--visible {
-    @apply w-8 opacity-100 pointer-events-auto;
+    inline-size: var(--calcite-space-3xl);
+    opacity: 1;
+    pointer-events: auto;
     visibility: visible;
   }
 }
@@ -319,6 +338,6 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
-@include includes.base-component();
+@include shared.base-component();

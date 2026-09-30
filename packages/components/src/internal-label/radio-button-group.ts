@@ -1,4 +1,7 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/radio-button-group/radio-button-group";
+import "../components/radio-button/radio-button";
 
 export const radioButtonGroup = html`<calcite-radio-button-group
   scale="m"

@@ -1,12 +1,12 @@
 # Webpack
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/webpack?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/webpack?configPath=examples/components/webpack)
 
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm start
+pnpm install --ignore-workspace --lockfile=false
+pnpm start
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm start
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm add @esri/calcite-components --ignore-workspace --lockfile=false
 ```
 
 ### Setup components
@@ -36,21 +36,12 @@ import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-date-picker";
 ```
 
-Lastly, import the global Calcite components stylesheet (only do this once):
-
-```js
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
-> [!NOTE]
-> This requires setting up a CSS loader in your Webpack config (see [below](#add-css-loader))
-
 ### Configure Webpack
 
 Calcite components need to be copied to your output directory so they can be loaded from the client. The easiest way to do this is with [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First, install the package:
 
 ```sh
-npm install -D copy-webpack-plugin
+pnpm add -D copy-webpack-plugin --ignore-workspace --lockfile=false
 ```
 
 Then, import the package in `webpack.config.js` and set it up in the `plugins` section:
@@ -64,7 +55,7 @@ module.exports = {
       patterns: [
         {
           from: "**",
-          context: "node_modules/@esri/calcite-components/dist/calcite/",
+          context: "node_modules/@esri/calcite-components/dist/cdn/",
           to: "./",
         },
       ],
@@ -77,12 +68,12 @@ This will ensure the library is available to your application.
 
 #### Add CSS loader
 
-While we imported CSS file above, we need to output a CSS file in the final bundle. To do this, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
+To output a CSS file in the final bundle, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
 
 First, install the required plugin and loader packages:
 
 ```sh
-npm install -D mini-css-extract-plugin css-loader
+pnpm add -D mini-css-extract-plugin css-loader --ignore-workspace --lockfile=false
 ```
 
 Then, add them to your config:

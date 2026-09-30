@@ -2,11 +2,17 @@ import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { allModes } from "../../../.storybook/modes";
 import type { TileGroup } from "./tile-group";
+import "../tile/tile"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tile-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { dir, layout, scale } = ATTRIBUTES;
+const { alignment, dir, layout, scale, tileSelectionAppearance, tileSelectionMode } = ATTRIBUTES;
 
-interface TileGroupStoryArgs extends Pick<TileGroup, "disabled" | "layout" | "scale"> {
+interface TileGroupStoryArgs extends Pick<
+  TileGroup,
+  "alignment" | "disabled" | "layout" | "scale" | "selectionAppearance" | "selectionMode"
+> {
   dir: string;
 }
 
@@ -14,9 +20,12 @@ export default {
   title: "Components/Tiles/Tile Group",
   args: {
     dir: dir.defaultValue,
+    alignment: alignment.defaultValue,
     disabled: false,
     layout: layout.defaultValue,
     scale: scale.defaultValue,
+    selectionAppearance: "icon",
+    selectionMode: "none",
   },
   argTypes: {
     dir: {
@@ -36,13 +45,25 @@ export default {
       ),
       control: { type: "select" },
     },
+    alignment: {
+      options: alignment.values.filter((option) => option !== "center"),
+      control: { type: "select" },
+    },
     scale: {
       options: scale.values,
       control: { type: "select" },
     },
+    selectionMode: {
+      options: tileSelectionMode.values,
+      control: { type: "select" },
+    },
+    selectionAppearance: {
+      options: tileSelectionAppearance.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
-    chromatic: { delay: 10000, viewports: [1728] },
+    chromatic: { delay: 10000, modes: { wide: allModes.widthLarge } },
   },
 };
 
@@ -61,12 +82,18 @@ function getTileGroupHtml(
   layout: TileGroup["layout"],
   selectionMode: TileGroup["selectionMode"] = "none",
   scale: TileGroup["scale"],
+  selectionAppearance?: TileGroup["selectionAppearance"],
 ): string {
   return html`
-    <calcite-tile-group layout="${layout}" selection-mode="${selectionMode}" scale="${scale}">
+    <calcite-tile-group
+      layout="${layout}"
+      selection-mode="${selectionMode}"
+      scale="${scale}"
+      ${selectionAppearance ? `selection-appearance="${selectionAppearance}"` : ""}
+    >
       ${Array(4)
         .fill(null)
-        .map((value, index) => {
+        .map((_value, index) => {
           let selected = false;
 
           if (selectionMode === "single") {
@@ -127,10 +154,13 @@ function getTileHtml(options: Partial<TileHtmlOptions> = {}): string {
 
 export const simple = (args: TileGroupStoryArgs): string => html`
   <calcite-tile-group
+    alignment="${args.alignment}"
     dir="${args.dir}"
     ${boolean("disabled", args.disabled)}
     layout="${args.layout}"
     scale="${args.scale}"
+    selection-mode="${args.selectionMode}"
+    selection-appearance="${args.selectionAppearance}"
   >
     ${getTileHtml({ heading: true, description: true, icon: true })}
     ${getTileHtml({ heading: true, description: true, icon: true })}
@@ -231,9 +261,9 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
       </div>
     </div>
 
-    <!-- single selection-appearance="border" -->
+    <!-- single selection-appearance="highlight" -->
     <div class="parent">
-      <div class="child right-aligned-text">single selection-appearance="border"</div>
+      <div class="child right-aligned-text">single selection-appearance="highlight"</div>
       <div class="child">
         ${getTileGroupHtml(
           {
@@ -244,6 +274,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "single",
           "s",
+          "highlight",
         )}
       </div>
       <div class="child">
@@ -256,6 +287,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "single",
           "m",
+          "highlight",
         )}
       </div>
       <div class="child">
@@ -268,6 +300,51 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "single",
           "l",
+          "highlight",
+        )}
+      </div>
+    </div>
+
+    <!-- single selection-appearance="border" (deprecated) -->
+    <div class="parent">
+      <div class="child right-aligned-text">single selection-appearance="border" (deprecated)</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "s",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "m",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "l",
+          "border",
         )}
       </div>
     </div>
@@ -309,6 +386,94 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "multiple",
           "l",
+        )}
+      </div>
+    </div>
+
+    <!-- multiple selection-appearance="highlight" -->
+    <div class="parent">
+      <div class="child right-aligned-text">multiple selection-appearance="highlight"</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "s",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "m",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "l",
+          "highlight",
+        )}
+      </div>
+    </div>
+
+    <!-- multiple selection-appearance="border" (deprecated) -->
+    <div class="parent">
+      <div class="child right-aligned-text">multiple selection-appearance="border" (deprecated)</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "s",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "m",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "l",
+          "border",
         )}
       </div>
     </div>

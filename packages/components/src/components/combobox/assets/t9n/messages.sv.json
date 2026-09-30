@@ -4,9 +4,10 @@
   "allSelected": "Alla valda",
   "clear": "Rensa värde",
   "noMatches": "Inga matchningar",
-  "removeTag": "Ta bort tagg",
+  "removeTag": "Ta bort {value} tagg",
   "required": "Obligatoriskt",
   "selectAll": "Markera alla",
   "selected": "valt",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Skrivskyddad {value}",
+  "disabledSelectedCount": "+{count}"
 }

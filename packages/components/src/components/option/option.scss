@@ -1,7 +1,0 @@
-@use "../../styles/includes";
-
-:host {
-  @apply block;
-}
-
-@include includes.base-component();

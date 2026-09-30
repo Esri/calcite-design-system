@@ -1,3 +1,9 @@
+import "../components/action/action";
+import "../components/chip/chip";
+import "../components/table-cell/table-cell";
+import "../components/table-header/table-header";
+import "../components/table-row/table-row";
+import "../components/table/table";
 import { html } from "../../support/formatting";
 
 export const tableTokens = {

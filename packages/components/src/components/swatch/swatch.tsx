@@ -1,5 +1,5 @@
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -12,17 +12,14 @@ import {
 } from "@arcgis/lumina";
 import Color, { ColorInstance } from "color";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { Scale, SelectionMode } from "../types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS, IDS, CHECKER_DIMENSIONS } from "./resources";
 import { styles } from "./swatch.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -33,7 +30,7 @@ declare global {
 /**
  * @slot image - A slot for adding an image or pattern.
  */
-export class Swatch extends LitElement implements InteractiveComponent {
+export class Swatch extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -42,11 +39,13 @@ export class Swatch extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private internalColor: ColorInstance;
+  private internalColor?: ColorInstance;
 
   private containerRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -61,15 +60,15 @@ export class Swatch extends LitElement implements InteractiveComponent {
   /**
    * Specifies the component's color
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+   * @see [MDN - CSS color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
    */
-  @property() color: string;
+  @property() color?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` to emit.
+   * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` event to emit.
    * This is set to `true` by a parent Swatch Group component.
    *
    * @private
@@ -77,16 +76,15 @@ export class Swatch extends LitElement implements InteractiveComponent {
   @property() interactive = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** @private */
-  @property() parentSwatchGroup: SwatchGroup["el"];
+  @property() parentSwatchGroup?: SwatchGroup["el"];
 
-  /** Specifies the size of the component. When contained in a parent `calcite-swatch-group` inherits the parent's `scale` value. */
+  /** Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, the component is selected. */
@@ -125,9 +123,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
   //#region Events
 
   /** @private */
-  calciteInternalSwatchKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalSwatchSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -158,10 +153,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     if (this.selectionMode !== "none" && this.interactive && this.selected) {
       this.handleSelectionPropertyChange(this.selected);
@@ -180,21 +171,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.handleEmittingEvent();
-          event.preventDefault();
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalSwatchKeyEvent.emit(event);
-          event.preventDefault();
-          break;
-      }
+    if (event.target === this.el && isActivationKey(event.key)) {
+      this.handleEmittingEvent();
+      event.preventDefault();
     }
   }
 
@@ -212,7 +191,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
     if (this.selectionMode === "single") {
       this.calciteInternalSyncSelectedSwatches.emit();
     }
-    const selectedInParent = this.parentSwatchGroup.selectedItems.includes(this.el);
+    const selectedInParent = this.parentSwatchGroup?.selectedItems.includes(this.el);
 
     if (!selectedInParent && selected && this.selectionMode !== "multiple") {
       this.calciteInternalSwatchSelect.emit();
@@ -222,8 +201,8 @@ export class Swatch extends LitElement implements InteractiveComponent {
     }
   }
 
-  private handleColorChange(color: string | null): void {
-    this.internalColor = color ? Color(color) : null;
+  private handleColorChange(color: string | undefined): void {
+    this.internalColor = color ? Color(color) : undefined;
   }
 
   //#endregion
@@ -432,7 +411,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
     };
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           ariaChecked={
             this.selectionMode !== "none" && this.interactive ? this.selected : undefined
@@ -457,7 +436,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
             {this.renderSwatch()}
           </svg>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

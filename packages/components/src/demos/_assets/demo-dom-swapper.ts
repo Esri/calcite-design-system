@@ -7,7 +7,7 @@ type DomContext = "light" | "shadow";
  *
  * Note:* due to style encapsulation, demo styles need to be a child of the component
  */
-class DomSwapper extends HTMLElement {
+export class DomSwapper extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });

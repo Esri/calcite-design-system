@@ -4,5 +4,6 @@
   "play": "Воспроизведение",
   "pause": "Пауза",
   "carousel": "Карусель",
-  "carouselItemProgress": "Индикатор выполнения для элемента Карусель"
+  "carouselItemProgress": "Индикатор выполнения для элемента Карусель",
+  "paginationStatus": "Элемент {current} из {total}"
 }

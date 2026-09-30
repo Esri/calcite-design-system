@@ -64,7 +64,7 @@
     const isFilled = filled === "-f";
     const baseName = isFilled ? key.substring(0, key.length - 2) : key;
     const baseURL =
-      "https://raw.githubusercontent.com/Esri/calcite-design-system/main/packages/calcite-ui-icons/icons/" +
+      "https://raw.githubusercontent.com/Esri/calcite-design-system/dev/packages/calcite-ui-icons/icons/" +
       encodeURIComponent(baseName) +
       "-";
     const suffix = ".svg";

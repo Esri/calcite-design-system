@@ -3,15 +3,9 @@ import { escapeRegExp, forIn } from "es-toolkit/compat";
 export const filter = (data: Array<object>, value: string, filterProps?: string[]): Array<any> => {
   const escapedValue = escapeRegExp(value);
   const regex = new RegExp(escapedValue, "i");
-
-  if (data.length === 0) {
-    console.warn(`No data was passed to the filter function.
-    The data argument should be an array of objects`);
-  }
-
   const matchAll = value === "";
 
-  if (matchAll) {
+  if (matchAll || data.length === 0) {
     return data;
   }
 

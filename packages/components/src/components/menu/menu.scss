@@ -1,7 +1,8 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex;
+  line-height: var(--calcite-font-line-height-fixed-lg);
 }
 
 ul {
@@ -12,4 +13,4 @@ ul {
   @apply flex flex-col w-full;
 }
 
-@include includes.base-component();
+@include shared.base-component();

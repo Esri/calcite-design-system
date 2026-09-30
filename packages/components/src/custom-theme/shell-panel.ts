@@ -1,3 +1,9 @@
+import "../components/action/action";
+import "../components/button/button";
+import "../components/checkbox/checkbox";
+import "../components/label/label";
+import "../components/panel/panel";
+import "../components/shell-panel/shell-panel";
 import { html } from "../../support/formatting";
 
 export const shellPanelTokens = {

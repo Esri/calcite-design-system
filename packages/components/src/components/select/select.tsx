@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -11,30 +10,22 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useT9n } from "../../controllers/useT9n";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { createObserver } from "../../utils/observers";
-import { Scale, Status, Width } from "../interfaces";
+import { Scale, Status, Width } from "../types";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { Option } from "../option/option";
+import { isOption } from "../option/resources";
 import type { OptionGroup } from "../option-group/option-group";
+import { isOptionGroup } from "../option-group/resources";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -48,37 +39,28 @@ declare global {
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
-function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is Option["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION";
-}
-
-function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGroup["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
-}
-
 /**
  * @slot - A slot for adding `calcite-option`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Select
-  extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class Select extends LitElement implements LabelableComponent {
+  //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
-  defaultValue: Select["value"];
+  defaultValue?: Select["value"];
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({ inputType: "text" })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
@@ -93,36 +75,29 @@ export class Select
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** When provided, displays label text on the component. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -138,77 +113,68 @@ export class Select
    *
    * @readonly
    */
-  @property() selectedOption: Option["el"];
+  @property() selectedOption!: Option["el"];
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The current validation state of the component.
+   * @copyDoc
    *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's `selectedOption` value. */
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.selectRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `selectedOption` changes. */
   calciteSelectChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("calciteInternalOptionChange", this.handleOptionOrGroupChange);
     this.listen("calciteInternalOptionGroupChange", this.handleOptionOrGroupChange);
   }
@@ -218,16 +184,13 @@ export class Select
       subtree: true,
       childList: true,
     });
-
-    connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
       this.updateItemsFromValue(this.value);
     }
@@ -235,10 +198,6 @@ export class Select
     if (changes.has("selectedOption")) {
       this.value = this.selectedOption?.value;
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -250,21 +209,19 @@ export class Select
 
     const selected = this.selectRef.value?.selectedOptions[0];
     this.selectFromNativeOption(selected);
-    afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
+    this.formSupport.overrideDefaultValue(this.selectedOption?.value ?? "");
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLabel(this);
-    disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleInternalSelectChange(): void {
-    const selected = this.selectRef.value.selectedOptions[0];
+    const selected = this.selectRef.value!.selectedOptions[0];
     this.selectFromNativeOption(selected);
     requestAnimationFrame(() => this.emitChangeEvent());
   }
@@ -302,7 +259,7 @@ export class Select
     nativeOptionOrGroup: NativeOptionOrGroup,
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
-    nativeOptionOrGroup.label = optionOrGroup.label;
+    nativeOptionOrGroup.label = optionOrGroup.label!;
 
     if (isOption(optionOrGroup)) {
       const option = nativeOptionOrGroup as HTMLOptionElement;
@@ -311,16 +268,14 @@ export class Select
 
       // need to set innerText for mobile
       // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
-      option.innerText = optionOrGroup.label;
+      option.innerText = optionOrGroup.label!;
     }
   }
 
   private populateInternalSelect(): void {
     const optionsAndGroups = Array.from(
       this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>,
-    ).filter(
-      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP",
-    ) as OptionOrGroup[];
+    ).filter((child) => isOption(child) || isOptionGroup(child));
 
     this.clearInternalSelect();
 
@@ -334,12 +289,12 @@ export class Select
     this.componentToNativeEl.clear();
   }
 
-  private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
+  private selectFromNativeOption(nativeOption: HTMLOptionElement | undefined): void {
     if (!nativeOption) {
       return;
     }
 
-    let futureSelected: Option["el"];
+    let futureSelected: Option["el"] | undefined;
 
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
@@ -395,9 +350,9 @@ export class Select
     this.calciteSelectChange.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderChevron(): JsxNode {
     return (
@@ -411,7 +366,7 @@ export class Select
     const { disabled } = this;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -434,7 +389,6 @@ export class Select
             <slot />
           </select>
           {this.renderChevron()}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -445,9 +399,9 @@ export class Select
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

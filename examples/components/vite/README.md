@@ -1,12 +1,12 @@
 # Vite and TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/vite?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/vite?configPath=examples/components/vite)
 
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install --ignore-workspace --lockfile=false
+pnpm dev
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm run dev
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm add @esri/calcite-components --ignore-workspace --lockfile=false
 ```
 
 ### Setup components
@@ -38,13 +38,6 @@ import "@esri/calcite-components/dist/components/calcite-date-picker";
 import "@esri/calcite-components/dist/components/calcite-loader";
 ```
 
-Lastly, import the global Calcite components stylesheet (only do this once):
-
-```js
-// main.ts
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
 ### Copy the assets
 
 You can use the `vite-plugin-static-copy` package to copy Calcite components' assets to your application:
@@ -59,7 +52,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: normalizePath(resolve("node_modules", "@esri", "calcite-components", "dist", "calcite", "assets")),
+          src: normalizePath(resolve("node_modules", "@esri", "calcite-components", "dist", "cdn", "assets")),
           dest: normalizePath("."),
         },
       ],

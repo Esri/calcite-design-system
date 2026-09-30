@@ -2,81 +2,81 @@
   "core": {
     "container-size": {
       "0": {
-        "value": "0",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "0"
       },
       "154": {
-        "value": "154",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "154"
       },
       "320": {
-        "value": "320",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "320"
       },
       "328": {
-        "value": "328",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "328"
       },
       "476": {
-        "value": "476",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "476"
       },
       "504": {
-        "value": "504",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "504"
       },
       "678": {
-        "value": "678",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "678"
       },
       "768": {
-        "value": "768",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "768"
       },
       "854": {
-        "value": "854",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "854"
       },
       "1152": {
-        "value": "1152",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "1152"
       },
       "1440": {
-        "value": "1440",
-        "type": "sizing",
         "attributes": {
           "category": "breakpoint"
-        }
+        },
+        "$type": "sizing",
+        "$value": "1440"
       }
     }
   }

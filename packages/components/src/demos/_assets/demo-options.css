@@ -1,0 +1,19 @@
+:host {
+  direction: ltr;
+  position: fixed;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+}
+
+.demo-switches {
+  align-items: center;
+  column-gap: 2rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding-block: 1rem;
+  padding-inline: 2rem;
+}
+
+.demo-switches__label {
+  margin-block-start: 0.5rem;
+}

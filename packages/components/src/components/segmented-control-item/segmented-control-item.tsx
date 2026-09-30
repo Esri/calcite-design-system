@@ -1,9 +1,9 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
-import { Appearance, Layout, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { slotChangeHasContent } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
+import { Appearance, Layout, Scale } from "../types";
+import { IconName } from "../icon/types";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./segmented-control-item.scss";
 
@@ -35,17 +35,17 @@ export class SegmentedControlItem extends LitElement {
    */
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
@@ -83,7 +83,7 @@ export class SegmentedControlItem extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("checked") && (this.hasUpdated || this.checked !== false)) {
       this.calciteInternalSegmentedControlItemChange.emit();
     }
@@ -100,7 +100,7 @@ export class SegmentedControlItem extends LitElement {
 
   // #region Rendering
 
-  private renderIcon(icon: IconName, solo: boolean = false): JsxNode {
+  private renderIcon(icon: IconName | undefined, solo: boolean = false): JsxNode {
     return icon ? (
       <calcite-icon
         class={{

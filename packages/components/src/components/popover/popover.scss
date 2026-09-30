@@ -8,24 +8,32 @@
  * @prop --calcite-popover-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-popover-max-size-x: Specifies the component's maximum width.
  * @prop --calcite-popover-text-color: Specifies the component's text color.
- * @prop --calcite-popover-z-index: [Deprecated] No longer necessary. Specifies the component's z-index value.
  */
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-popover-close-spacing
+
+@use "../../styles/shared";
 
 :host {
   @apply contents;
 }
 
+:host([top-layer-disabled]) {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-popup);
+}
+
 .position-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
   max-inline-size: var(--calcite-popover-max-size-x, 100vw);
 }
 
-@include floating-ui.floating-ui-elem-anim(".position-container");
+@include shared.floating-ui-elem-anim(".position-container");
 
-@include floating-ui.floating-ui-arrow();
+@include shared.floating-ui-arrow();
 
 :host([scale="s"]) {
   .heading {
@@ -33,6 +41,10 @@
     px-3
     py-2;
   }
+}
+
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-xs);
 }
 
 :host([scale="m"]) {
@@ -44,6 +56,8 @@
 }
 
 :host([scale="l"]) {
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-sm);
+
   .heading {
     @apply text-1-wrap
     px-5
@@ -55,6 +69,7 @@
   @apply border
     border-solid;
 
+  box-shadow: var(--calcite-shadow-md);
   background-color: var(--calcite-popover-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
@@ -116,13 +131,14 @@
   self-center;
 }
 
+.close-button {
+  margin: auto;
+  margin-inline-end: var(--calcite-internal-popover-close-spacing);
+}
+
 .close-button-container {
-  @apply flex overflow-hidden;
+  @apply flex;
   flex: 0 0 auto;
-  border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-  border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-  --calcite-action-corner-radius-start-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
-  --calcite-action-corner-radius-end-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 ::slotted(calcite-panel),
@@ -130,4 +146,4 @@
   @apply h-full;
 }
 
-@include includes.base-component();
+@include shared.base-component();

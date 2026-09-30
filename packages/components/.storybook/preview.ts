@@ -1,6 +1,7 @@
-import { themeDecorator } from "./utils";
+import { theme } from "./decorators/theme";
+import { bodyDirReset } from "./decorators/body-dir-reset";
 
-export const decorators = [themeDecorator];
+export const decorators = [bodyDirReset, theme];
 
 export const parameters = {
   a11y: {

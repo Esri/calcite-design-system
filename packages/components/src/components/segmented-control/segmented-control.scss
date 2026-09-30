@@ -4,9 +4,10 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
+ * @prop --calcite-segmented-control-corner-radius: Specifies the component's corner radius.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex flex-col;
@@ -15,6 +16,7 @@
 .item-wrapper {
   @apply bg-foreground-1 flex;
   inline-size: fit-content;
+  border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
   outline: 1px solid var(--calcite-segmented-control-border-color, var(--calcite-color-border-input));
   outline-offset: -1px;
 }
@@ -23,7 +25,7 @@
   @apply bg-transparent;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([layout="vertical"]) > .item-wrapper {
   @apply flex-col items-start self-start;
@@ -45,7 +47,6 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.hidden-form-input();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();

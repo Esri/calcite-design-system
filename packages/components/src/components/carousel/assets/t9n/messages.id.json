@@ -4,5 +4,6 @@
   "play": "Putar",
   "pause": "Jeda",
   "carousel": "Karosel",
-  "carouselItemProgress": "Indikator Progres untuk Item Karosel"
+  "carouselItemProgress": "Indikator Progres untuk Item Karosel",
+  "paginationStatus": "Item {current} dari {total}"
 }

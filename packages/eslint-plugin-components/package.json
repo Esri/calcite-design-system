@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "2.0.4-next.1",
+  "version": "2.0.4-next.22",
   "description": "ESLint rules for @esri/calcite-components",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
   "main": "dist/index.js",
   "files": [
     "dist/index.js",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "build": "vite build",
@@ -19,19 +19,29 @@
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "test": "vitest run",
+    "test:ci": "pnpm test",
     "test:watch": "vitest",
     "clean": "rimraf node_modules dist .turbo",
-    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
+    "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.0.0",
-    "eslint": ">=8.0.0"
-  },
-  "packageManager": "npm@8.19.4",
-  "volta": {
-    "extends": "../../package.json"
+    "eslint": ">=10"
   },
   "devDependencies": {
-    "vitest": "3.2.4"
+    "@esri/calcite-typescript-config": "workspace:*",
+    "@types/eslint": "catalog:",
+    "@types/estree": "catalog:",
+    "@types/node": "catalog:",
+    "@typescript-eslint/rule-tester": "catalog:",
+    "@typescript-eslint/utils": "catalog:",
+    "concurrently": "catalog:",
+    "eslint": "catalog:",
+    "markdownlint-cli2": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
   }
 }

@@ -18,9 +18,10 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-link-text-decoration-line
 // --calcite-internal-tile-spacing
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
@@ -29,6 +30,7 @@
 }
 
 calcite-link {
+  --calcite-internal-link-text-decoration-line: none;
   --calcite-link-text-color: var(--calcite-tile-link-text-color);
 }
 
@@ -48,6 +50,10 @@ calcite-link {
     color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
   }
 
+  ::slotted(calcite-chip) {
+    --calcite-icon-color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
+  }
+
   &.interactive {
     cursor: pointer;
 
@@ -59,6 +65,14 @@ calcite-link {
 
       .selection-icon {
         color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+      }
+
+      .icon {
+        color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
+      }
+
+      ::slotted(calcite-chip) {
+        --calcite-icon-color: var(--calcite-tile-text-color, var(--calcite-color-text-1));
       }
     }
     &:focus {
@@ -76,7 +90,7 @@ calcite-link {
 
 .content-container {
   flex-direction: column;
-  @include includes.word-break();
+  @include shared.word-break();
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
@@ -92,10 +106,16 @@ calcite-link {
 }
 
 .heading {
-  color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
+  margin: 0;
+  padding: 0;
+  color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
   font-weight: var(--calcite-font-weight-medium);
   line-height: 1.20313rem;
   overflow-wrap: break-word;
+}
+
+.description {
+  color: var(--calcite-tile-text-color, var(--calcite-color-text-2));
 }
 
 .description {
@@ -103,7 +123,7 @@ calcite-link {
   overflow-wrap: break-word;
 }
 
-/* [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead */
+/* [Deprecated] - Use the content-top slot for rendering icon with alignment="center" instead */
 .large-visual-deprecated {
   align-items: center;
   justify-content: center;
@@ -139,9 +159,7 @@ calcite-link {
     text-align: center;
   }
   slot[name="content-bottom"]::slotted(*),
-  slot[name="content-top"]::slotted(*),
-  slot[name="content-start"]::slotted(*),
-  slot[name="content-end"]::slotted(*) {
+  slot[name="content-top"]::slotted(*) {
     align-self: center;
   }
 }
@@ -215,6 +233,12 @@ calcite-link {
   }
 }
 
+:host([selection-appearance="highlight"]) {
+  .container.selected {
+    background-color: var(--calcite-color-surface-highlight);
+  }
+}
+
 :host([selection-appearance="border"][layout="horizontal"]) {
   .container.selected {
     box-shadow: inset 0 -4px 0 0 var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
@@ -276,8 +300,8 @@ calcite-link {
   }
 }
 
-@include includes.disabled();
-@include includes.base-component();
+@include shared.disabled();
+@include shared.base-component();
 
 ::slotted(*) {
   max-inline-size: 100%;

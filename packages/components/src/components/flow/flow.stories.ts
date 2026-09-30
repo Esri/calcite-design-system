@@ -1,6 +1,10 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../panel/resources";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./flow"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow-item/flow-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 interface FlowStoryArgs {
   disabled: boolean;
@@ -19,6 +23,7 @@ export default {
     loading: false,
     menuOpen: false,
     description: "Description",
+    selected: false,
   },
 };
 
@@ -47,8 +52,8 @@ const menuActionsHTML = html`
 `;
 
 const footerActionsHTML = html`
-  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="outline">Cancel</calcite-button>
-  <calcite-button slot="${SLOTS.footerActions}" width="half">Save</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="full" appearance="outline">Cancel</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="full">Save</calcite-button>
 `;
 
 function createItemHTML(content: string): string {
@@ -139,14 +144,16 @@ export const simple = (args: FlowStoryArgs): string => html`
   </calcite-flow>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-flow class="calcite-mode-dark" dir="rtl">
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item1HTML)} </calcite-flow-item>
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item2HTML)} </calcite-flow-item>
   </calcite-flow>
 `;
 
-export const noDoubleScrollbars_TestOnly = (): string => html`
+darkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const noDoubleScrollbars = (): string => html`
   <style>
     #container {
       display: flex;

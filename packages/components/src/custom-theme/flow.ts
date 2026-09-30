@@ -1,24 +1,31 @@
+import "../components/action/action";
+import "../components/button/button";
+import "../components/flow-item/flow-item";
+import "../components/flow/flow";
 import { html } from "../../support/formatting";
 
 export const flowTokens = {
-  calciteFlowBackgroundColor: "",
-  calciteFlowHeaderBackgroundColor: "",
-  calciteFlowFooterBackgroundColor: "",
-  calciteFlowSpace: "",
-  calciteFlowHeaderContentSpace: "",
-  calciteFlowFooterSpace: "",
   calciteActionBackgroundColor: "",
   calciteActionBackgroundColorHover: "",
   calciteActionBackgroundColorPressed: "",
   calciteActionTextColorHover: "",
   calciteActionTextColorPressed: "",
-  calcitePopoverBorderColor: "",
+  calciteFlowBackgroundColor: "",
+  calciteFlowContentBottomSpace: "",
+  calciteFlowContentTopSpace: "",
+  calciteFlowFooterBackgroundColor: "",
+  calciteFlowFooterSpace: "",
+  calciteFlowHeaderActionBackgroundColor: "",
   calciteFlowHeaderActionBackgroundColorHover: "",
   calciteFlowHeaderActionBackgroundColorPress: "",
-  calciteFlowHeaderActionBackgroundColor: "",
   calciteFlowHeaderActionIndicatorColor: "",
-  calciteFlowHeaderActionTextColorPress: "",
   calciteFlowHeaderActionTextColor: "",
+  calciteFlowHeaderActionTextColorPress: "",
+  calciteFlowHeaderBackgroundColor: "",
+  calciteFlowHeaderContentSpace: "",
+  calciteFlowHeaderTopSpace: "",
+  calciteFlowSpace: "",
+  calcitePopoverBorderColor: "",
 };
 
 export const flow = html`
@@ -42,6 +49,7 @@ export const flow = html`
         label="View Layers"
         icon="layers"
       ></calcite-action>
+      <div slot="header-top">Header top</div>
       <div slot="content-top">Slot for a content-top.</div>
       Hello world!
       <div slot="content-bottom">Content bottom!</div>

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { describe, expect, it } from "vitest";
 import { DateLocaleData } from "../components/date-picker/utils";
 import arabic from "../components/date-picker/assets/nls/ar.json";
@@ -23,7 +22,7 @@ import {
   prevMonth,
   sameDate,
 } from "./date";
-import { NumberingSystem, numberStringFormatter } from "./locale";
+import { numberStringFormatter } from "./locale";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -40,8 +39,8 @@ describe("inRange", () => {
 });
 
 describe("dateFromRange", () => {
-  it("returns null from bad input", () => {
-    expect(dateFromRange("abcdefghijkl" as any)).toEqual(null);
+  it("returns undefined from bad input", () => {
+    expect(dateFromRange("abcdefghijkl" as any)).toBeUndefined();
   });
   it("returns date with no min/max", () => {
     const date = new Date();
@@ -58,26 +57,26 @@ describe("dateFromRange", () => {
 });
 
 describe("dateFromISO", () => {
-  it("returns null from bad input", () => {
-    expect(dateFromISO("")).toBeNull();
+  it("returns undefined from bad input", () => {
+    expect(dateFromISO("")).toBeUndefined();
     expect(() => {
       dateFromISO("abcdefghijklmn");
     }).toThrow();
   });
   it("correctly parses ISO format", () => {
     const time = new Date(2011, 10, 29).getTime();
-    expect(dateFromISO("2011-11-29").getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29")!.getTime()).toEqual(time);
     // note: if we expand dateFromISO to handle time,
     // these will need to be updated
-    expect(dateFromISO("2011-11-29T15:52:30.5").getTime()).toEqual(time);
-    expect(dateFromISO("2011-11-29T15:52:30.52").getTime()).toEqual(time);
-    expect(dateFromISO("2011-11-29T15:52:18.867").getTime()).toEqual(time);
-    expect(dateFromISO("2011-11-29T15:52:18.867Z").getTime()).toEqual(time);
-    expect(dateFromISO("2011-11-29T15:52:18.867-03:30").getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:30.5")!.getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:30.52")!.getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:18.867")!.getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:18.867Z")!.getTime()).toEqual(time);
+    expect(dateFromISO("2011-11-29T15:52:18.867-03:30")!.getTime()).toEqual(time);
   });
   it("defaults to first of any missing units", () => {
-    expect(dateFromISO("2011-11").getTime()).toEqual(new Date(2011, 10, 1).getTime());
-    expect(dateFromISO("2011").getTime()).toEqual(new Date(2011, 0, 1).getTime());
+    expect(dateFromISO("2011-11")!.getTime()).toEqual(new Date(2011, 10, 1).getTime());
+    expect(dateFromISO("2011")!.getTime()).toEqual(new Date(2011, 0, 1).getTime());
   });
 });
 
@@ -155,8 +154,8 @@ describe("format number", () => {
 
   it("preserves standard numerals", () => {
     numberStringFormatter.numberFormatOptions = {
-      locale: "dummyLocale",
-      numberingSystem: "dummyNumberingSystem" as any,
+      locale: "en",
+      numberingSystem: "latn",
     };
     expect(numberStringFormatter.localize("123")).toEqual("123");
   });
@@ -174,8 +173,8 @@ describe("parse number", () => {
 
   it("correctly parses number string", () => {
     numberStringFormatter.numberFormatOptions = {
-      locale: "dummyLocale",
-      numberingSystem: "dummyNumberingSystem" as NumberingSystem,
+      locale: "en",
+      numberingSystem: "latn",
     };
     expect(numberStringFormatter.localize("123")).toEqual("123");
   });

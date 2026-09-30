@@ -13,6 +13,20 @@ export function isBreakpointExpand(token: DesignToken): boolean {
   return token.filePath.includes("container-size");
 }
 
+function isBreakpointMinMaxToken(token: TransformedToken, boundary: "min" | "max"): boolean {
+  return (
+    token.path[0] === "container-size" && ["height", "width"].includes(token.path[1]) && token.path.at(-1) === boundary
+  );
+}
+
+export function isBreakpointMinToken(token: TransformedToken): boolean {
+  return isBreakpointMinMaxToken(token, "min");
+}
+
+export function isBreakpointMaxToken(token: TransformedToken): boolean {
+  return isBreakpointMinMaxToken(token, "max");
+}
+
 export function isCornerRadius(token: DesignToken): boolean {
   return token.path.includes("corner-radius");
 }
@@ -38,7 +52,7 @@ export function isLetterSpacing(token: TransformedToken): boolean {
 }
 
 export function isDimension(token: TransformedToken): boolean {
-  return token.type === "dimension";
+  return token.$type === "dimension";
 }
 
 export function isTypography(token: TransformedToken): boolean {
@@ -54,7 +68,7 @@ export function isThemed(token: DesignToken, options?: IsThemedOptions): boolean
   const targetProp = token.filePath;
 
   return (
-    token.type === "color" &&
+    token.$type === "color" &&
     (theme ? targetProp.includes(theme) : targetProp.includes("light") || targetProp.includes("dark"))
   );
 }

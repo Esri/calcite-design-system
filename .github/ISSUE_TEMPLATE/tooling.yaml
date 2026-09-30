@@ -1,0 +1,42 @@
+name: Tooling
+description: Request improvements to our component or repo workflows
+labels: ["tooling", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: dropdown
+    id: priority-impact
+    validations:
+      required: true
+    attributes:
+      label: Priority impact
+      multiple: false
+      description: What is the impact of the requested improvement? If the need is blocking release, the priority may be high, where a new improvement may have a low or medium priority.
+      options:
+        - p - low
+        - p - medium
+        - p - high
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Pain point, bottleneck, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired Outcome
+      description: What can be done to improve our workflows?
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: links to libraries or code snippets.
+    validations:
+      required: false

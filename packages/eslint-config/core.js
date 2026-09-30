@@ -1,7 +1,6 @@
 import cspellPlugin from "@cspell/eslint-plugin";
 import eslint from "@eslint/js";
 import prettierConfig from "eslint-config-prettier";
-import * as importPlugin from "eslint-plugin-import";
 import jsdocPlugin from "eslint-plugin-jsdoc";
 import unicornPlugin from "eslint-plugin-unicorn";
 import tseslint from "typescript-eslint";
@@ -14,23 +13,14 @@ export default tseslint.config(
     extends: [eslint.configs.recommended, tseslint.configs.recommended, jsdocPlugin.configs["flat/recommended"]],
     plugins: {
       "@cspell": cspellPlugin,
-      import: importPlugin,
       unicorn: unicornPlugin,
     },
-
-    languageOptions: {
-      ecmaVersion: 2021,
-      sourceType: "module",
-      parser: tseslint.parser,
-    },
-
     settings: {
       jsdoc: {
         ignoreInternal: true,
         ignorePrivate: true,
       },
     },
-
     rules: {
       "@cspell/spellchecker": ["warn", {}],
 
@@ -39,21 +29,9 @@ export default tseslint.config(
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
       "@typescript-eslint/explicit-module-boundary-types": "off", // enabled in override config object below, see https://typescript-eslint.io/rules/explicit-module-boundary-types/#configuring-in-a-mixed-jsts-codebase
 
-      "import/no-dynamic-require": [
-        "error",
-        {
-          esmodule: true,
-        },
-      ],
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "never",
-        },
-      ],
-
       "jsdoc/check-param-names": "off",
       "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param": "off",
       "jsdoc/require-param-description": "off",
       "jsdoc/require-param-type": "off",
       "jsdoc/require-property-type": "off",
@@ -84,6 +62,7 @@ export default tseslint.config(
 
       curly: "error",
       "one-var": ["error", "never"],
+      "no-console": "error",
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-new-func": "error",
@@ -95,8 +74,14 @@ export default tseslint.config(
           max: 1,
         },
       ],
-      radix: ["error", "as-needed"],
+      radix: ["error"],
 
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+        },
+      ],
       "unicorn/prefer-ternary": "error",
       "unicorn/prevent-abbreviations": [
         "error",
@@ -118,9 +103,14 @@ export default tseslint.config(
           checkFilenames: false,
         },
       ],
-    }
+    },
   },
-
+  {
+    files: ["src/controllers/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
+    },
+  },
   {
     files: ["**/*.{ts,tsx}"],
     rules: {
@@ -140,7 +130,7 @@ export default tseslint.config(
             "render",
           ],
         },
-      ]
+      ],
     },
   },
 );

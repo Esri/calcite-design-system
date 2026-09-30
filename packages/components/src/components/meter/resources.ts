@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   container: "container",
   fill: "fill",
@@ -13,3 +15,8 @@ export const CSS = {
   warning: "fill-warning",
   danger: "fill-danger",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isMeter = isTag("calcite-meter");

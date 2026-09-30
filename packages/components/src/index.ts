@@ -4,9 +4,8 @@
  * Place in this file any utility functions you wish to expose for the consumers
  * of your package
  */
-import { Runtime } from "@arcgis/lumina";
-import { setAssetPath as runtimeSetAssetPath } from "./runtime";
 
+/** @public */
 declare module "csstype" {
   interface Properties {
     [index: `--calcite-${string}`]: any;
@@ -14,11 +13,5 @@ declare module "csstype" {
 }
 
 /** @internal */
-export let assetPathChanged = false;
-
-export const setAssetPath: Runtime["setAssetPath"] = (path) => {
-  assetPathChanged = true;
-  runtimeSetAssetPath(path);
-};
-
-export { getAssetPath } from "./runtime";
+export { assetPathChanged } from "./runtime";
+export { setAssetPath, getAssetPath } from "./runtime";

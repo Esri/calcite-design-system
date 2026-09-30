@@ -4,7 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tab-content-space-y: Specifies the vertical space between the component's content in the `default` slot.
- * @prop --calcite-tab-content-block-padding: [Deprecated] Use `--calcite-tab-content-space-y` instead. Specifies the block padding of the component's content in the `default` slot.
+ * @prop --calcite-tab-content-block-padding: [Deprecated] in v3.2.0, removal target v6.0.0 - Use `--calcite-tab-content-space-y` instead. Specifies the block padding of the component's content in the `default` slot.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -13,25 +13,27 @@
 //
 // --calcite-internal-tab-content-space-y
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply hidden;
+  display: none;
 }
 
 :host,
 .container,
 .content {
-  @apply h-full w-full;
+  block-size: 100%;
+  inline-size: 100%;
 }
 
 :host([selected]),
 :host([selected]) .container {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
-  @apply box-border;
+  box-sizing: border-box;
 
   padding-block: var(
     --calcite-tab-content-space-y,
@@ -61,11 +63,15 @@
 }
 
 .container {
-  @apply focus-base hidden h-full w-full overflow-auto;
+  outline-color: transparent;
+  display: none;
+  block-size: 100%;
+  inline-size: 100%;
+  overflow: auto;
 
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

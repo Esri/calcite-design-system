@@ -1,7 +1,7 @@
 __docs-temp__/*
 docs/
-hydrate/
 *.js
 !/lint-staged.config.mjs
 src/components/icon/assets
+build/plugins/custom-element-dependencies.json
 node_modules

@@ -2,8 +2,9 @@ import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Meter } from "./meter";
+import "./meter"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { fillType, appearance, labelType } = ATTRIBUTES;
+const { fillType, appearance, labelType, scale } = ATTRIBUTES;
 
 type MeterStoryArgs = Pick<
   Meter,
@@ -14,7 +15,10 @@ type MeterStoryArgs = Pick<
   | "value"
   | "fillType"
   | "appearance"
+  | "disabled"
+  | "label"
   | "rangeLabelType"
+  | "scale"
   | "valueLabelType"
   | "unitLabel"
   | "groupSeparator"
@@ -32,7 +36,10 @@ export default {
     value: 0,
     fillType: fillType.defaultValue,
     appearance: appearance.values[2],
+    disabled: false,
+    label: "Meter example",
     rangeLabelType: labelType.defaultValue,
+    scale: scale.defaultValue,
     valueLabelType: labelType.defaultValue,
     unitLabel: "",
     groupSeparator: false,
@@ -56,12 +63,17 @@ export default {
       options: labelType.values,
       control: { type: "select" },
     },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: MeterStoryArgs): string =>
   html`<calcite-meter
-    label="Meter example"
+    ${boolean("disabled", args.disabled)}
+    label="${args.label}"
     min="${args.min}"
     max="${args.max}"
     low="${args.low}"
@@ -70,6 +82,7 @@ export const simple = (args: MeterStoryArgs): string =>
     fill-type="${args.fillType}"
     appearance="${args.appearance}"
     range-label-type="${args.rangeLabelType}"
+    scale="${args.scale}"
     value-label-type="${args.valueLabelType}"
     unit-label="${args.unitLabel}"
     ${boolean("group-separator", args.groupSeparator)}
@@ -94,10 +107,10 @@ export const complex = (): string =>
     value-label
   ></calcite-meter>`;
 
-export const swapLabelPlacementWhenCloseToMax_TestOnly = (): string =>
+export const swapLabelPlacementWhenCloseToMax = (): string =>
   html`<calcite-meter value-label range-labels min="0" max="100" low="30" high="90" value="10"></calcite-meter>`;
 
-export const swapLabelPlacementWhenCloseToMaxRTL_TestOnly = (): string =>
+export const swapLabelPlacementWhenCloseToMaxRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     value-label
@@ -109,10 +122,10 @@ export const swapLabelPlacementWhenCloseToMaxRTL_TestOnly = (): string =>
     value="10"
   ></calcite-meter>`;
 
-export const swapLabelPlacementWhenLowCloseToHigh_TestOnly = (): string =>
+export const swapLabelPlacementWhenLowCloseToHigh = (): string =>
   html`<calcite-meter value-label range-labels min="0" max="100" low="20" high="25" value="5"></calcite-meter>`;
 
-export const swapLabelPlacementWhenLowCloseToHighRTL_TestOnly = (): string =>
+export const swapLabelPlacementWhenLowCloseToHighRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     value-label
@@ -124,10 +137,10 @@ export const swapLabelPlacementWhenLowCloseToHighRTL_TestOnly = (): string =>
     value="5"
   ></calcite-meter>`;
 
-export const valueDoesNotPositionBelowMin_TestOnly = (): string =>
+export const valueDoesNotPositionBelowMin = (): string =>
   html`<calcite-meter value-label range-labels low="25" high="75" value="-100" min="0" max="100"></calcite-meter>`;
 
-export const valueDoesNotPositionBelowMinRTL_TestOnly = (): string =>
+export const valueDoesNotPositionBelowMinRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     value-label
@@ -139,10 +152,10 @@ export const valueDoesNotPositionBelowMinRTL_TestOnly = (): string =>
     max="100"
   ></calcite-meter>`;
 
-export const valueDoesNotPositionAboveMax_TestOnly = (): string =>
+export const valueDoesNotPositionAboveMax = (): string =>
   html`<calcite-meter value-label range-labels low="25" high="75" value="200" min="0" max="100"></calcite-meter>`;
 
-export const valueDoesNotPositionAboveMaxRTL_TestOnly = (): string =>
+export const valueDoesNotPositionAboveMaxRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     value-label
@@ -154,10 +167,10 @@ export const valueDoesNotPositionAboveMaxRTL_TestOnly = (): string =>
     max="100"
   ></calcite-meter>`;
 
-export const hideOverlappingLabel_TestOnly = (): string =>
+export const hideOverlappingLabel = (): string =>
   html`<calcite-meter value-label range-labels low="2" high="98" value="0" min="0" max="100"></calcite-meter>`;
 
-export const hideOverlappingLabelRTL_TestOnly = (): string =>
+export const hideOverlappingLabelRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     value-label
@@ -169,7 +182,7 @@ export const hideOverlappingLabelRTL_TestOnly = (): string =>
     max="100"
   ></calcite-meter>`;
 
-export const hideOverlappingLabelUnits_TestOnly = (): string =>
+export const hideOverlappingLabelUnits = (): string =>
   html`<calcite-meter
     value-label
     range-labels
@@ -182,7 +195,7 @@ export const hideOverlappingLabelUnits_TestOnly = (): string =>
     max="100"
   ></calcite-meter>`;
 
-export const hideOverlappingLabelUnitsRTL_TestOnly = (): string =>
+export const hideOverlappingLabelUnitsRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     value-label
@@ -196,7 +209,7 @@ export const hideOverlappingLabelUnitsRTL_TestOnly = (): string =>
     max="100"
   ></calcite-meter>`;
 
-export const complexPercent_TestOnly = (): string =>
+export const complexPercent = (): string =>
   html`<calcite-meter
     value-label
     range-labels
@@ -207,7 +220,7 @@ export const complexPercent_TestOnly = (): string =>
     value="2200"
   ></calcite-meter>`;
 
-export const complexUnit_TestOnly = (): string =>
+export const complexUnit = (): string =>
   html`<calcite-meter
     unit-label="GB"
     value-label
@@ -220,7 +233,7 @@ export const complexUnit_TestOnly = (): string =>
     value="2200"
   ></calcite-meter>`;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkModeRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     class="calcite-mode-dark"
@@ -232,9 +245,9 @@ export const darkModeRTL_TestOnly = (): string =>
     range-labels
   ></calcite-meter>`;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const complexPercentRTL_TestOnly = (): string =>
+export const complexPercentRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     value-label
@@ -246,7 +259,7 @@ export const complexPercentRTL_TestOnly = (): string =>
     value="2200"
   ></calcite-meter>`;
 
-export const complexUnitRTL_TestOnly = (): string =>
+export const complexUnitRTL = (): string =>
   html`<calcite-meter
     dir="rtl"
     unit-label="GB"
@@ -259,3 +272,31 @@ export const complexUnitRTL_TestOnly = (): string =>
     high="7600"
     value="2200"
   ></calcite-meter>`;
+
+const renderScaleMeter = (scale: "s" | "m" | "l", label: string): string => html`
+  <calcite-meter
+    label="${label}"
+    scale="${scale}"
+    min="0"
+    max="100"
+    low="25"
+    high="75"
+    value="50"
+    value-label
+    range-labels
+  ></calcite-meter>
+`;
+
+export const scales = (): string => {
+  const configs = [
+    { scale: "s", label: "Meter small" },
+    { scale: "m", label: "Meter medium" },
+    { scale: "l", label: "Meter large" },
+  ] as const;
+
+  return html`
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      ${configs.map(({ scale, label }) => renderScaleMeter(scale, label)).join("")}
+    </div>
+  `;
+};

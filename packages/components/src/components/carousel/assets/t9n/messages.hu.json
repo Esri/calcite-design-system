@@ -4,5 +4,6 @@
   "play": "Lejátszás",
   "pause": "Felfüggesztés",
   "carousel": "Forgótár",
-  "carouselItemProgress": "Folyamatjelző a Forgótár elemhez"
+  "carouselItemProgress": "Folyamatjelző a Forgótár elemhez",
+  "paginationStatus": "{current}/{total}. tétel"
 }

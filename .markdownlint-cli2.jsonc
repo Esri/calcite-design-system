@@ -9,5 +9,5 @@
     "ul-style": { "style": "dash" },
   },
   "gitignore": true,
-  "ignores": ["**/THIRD-PARTY-LICENSES.md", "node_modules"],
+  "ignores": ["**/THIRD-PARTY-NOTICES.md", "node_modules"],
 }

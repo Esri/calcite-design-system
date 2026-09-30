@@ -4,10 +4,11 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-shell-border-color: Specifies the component's border color.
- * @prop --calcite-shell-tip-spacing: [Deprecated] This component has been deprecated. The left and right spacing of the `calcite-tip-manager` when slotted in the component.
+ * @prop --calcite-shell-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-shell-shadow: Specifies the component's shadow.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @extend %component-host;
@@ -18,6 +19,8 @@
     w-full
     flex-col
     overflow-hidden;
+  border-radius: var(--calcite-shell-corner-radius);
+  box-shadow: var(--calcite-shell-shadow);
 }
 
 .main {
@@ -142,4 +145,22 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   inset: 0;
 }
 
-@include includes.base-component();
+.main.has-resizable-panel-top {
+  ::slotted(calcite-panel) {
+    border-block-start: none;
+  }
+}
+
+.main.has-resizable-panel-bottom {
+  ::slotted(calcite-panel) {
+    border-block-end: none;
+  }
+}
+
+.main.has-action-bar-position-panel {
+  ::slotted(calcite-panel) {
+    border: 0;
+  }
+}
+
+@include shared.base-component();

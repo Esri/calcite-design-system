@@ -1,13 +1,19 @@
 import { AccordionItem } from "../accordion-item/accordion-item";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Accordion } from "./accordion";
-const { scale, appearance, selectionMode } = ATTRIBUTES;
+const { appearance, iconType, position, scale, selectionMode } = ATTRIBUTES;
+import "./accordion"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../accordion-item/accordion-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../switch/switch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-type AccordionStoryArgs = Pick<Accordion, "scale" | "appearance" | "selectionMode"> &
+type AccordionStoryArgs = Pick<Accordion, "appearance" | "iconPosition" | "iconType" | "scale" | "selectionMode"> &
   Pick<AccordionItem, "heading" | "description" | "iconStart" | "iconEnd">;
 
 export default {
@@ -15,6 +21,8 @@ export default {
   args: {
     scale: scale.defaultValue,
     appearance: appearance.defaultValue,
+    iconPosition: "end",
+    iconType: iconType.defaultValue,
     selectionMode: selectionMode.defaultValue,
     heading: "Heading",
     description: "Description for item",
@@ -28,6 +36,14 @@ export default {
     },
     appearance: {
       options: appearance.values.filter((option) => option !== "outline" && option !== "outline-fill"),
+      control: { type: "select" },
+    },
+    iconPosition: {
+      options: position.values.filter((option) => option === "start" || option === "end"),
+      control: { type: "select" },
+    },
+    iconType: {
+      options: iconType.values,
       control: { type: "select" },
     },
     selectionMode: {
@@ -58,36 +74,42 @@ const accordionItemContent = `Custom content here<br/><img src="${placeholderIma
 })}"><br/>More custom content here`;
 
 export const simple = (args: AccordionStoryArgs): string => html`
-  <calcite-accordion scale="${args.scale}" appearance="${args.appearance}" selection-mode="${args.selectionMode}">
+  <calcite-accordion
+    scale="${args.scale}"
+    appearance="${args.appearance}"
+    icon-position="${args.iconPosition}"
+    icon-type="${args.iconType}"
+    selection-mode="${args.selectionMode}"
+  >
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     >
       ${accordionItemContent}
     </calcite-accordion-item>
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     >
       ${accordionItemContent}
     </calcite-accordion-item>
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     >
       ${accordionItemContent}
     </calcite-accordion-item>
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
       expanded
     >
       ${accordionItemContent}
@@ -228,7 +250,7 @@ export const headingLevelAllScales = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" class="calcite-mode-dark" dir="rtl">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
@@ -245,9 +267,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-accordion>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const transparentAppearance_TestOnly = (): string => html`
+export const transparentAppearance = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
     <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}
@@ -264,7 +286,7 @@ export const transparentAppearance_TestOnly = (): string => html`
   </calcite-accordion>
 `;
 
-export const withIconStartAndEnd_TestOnly = (): string => html`
+export const withIconStartAndEnd = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
       ${accordionItemContent}
@@ -323,9 +345,10 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
   )
   .join("");
 
-export const longHeading_MediumIconForLargeAccordionItem_TestOnly = (): string => html`
+export const longHeading_MediumIconForLargeAccordionItem = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
+
 export const slottedItemsStretched = (): string => html`
   <calcite-accordion scale="l">
     <calcite-accordion-item description="Yachts, boats, and dinghies" heading="Watercraft" icon-start="embark">

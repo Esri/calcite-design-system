@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "Otkaži",
   "clear": "Izbriši vrednosti",
+  "confirmInlineEditingChanges": "Sačuvaj",
+  "enableInlineEditing": "Izmeni",
   "loading": "Učitavanje",
   "required": "Obavezno"
 }

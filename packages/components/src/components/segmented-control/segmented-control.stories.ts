@@ -1,14 +1,26 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SegmentedControl } from "./segmented-control";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./segmented-control"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../segmented-control-item/segmented-control-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, appearance, scale, width, status } = ATTRIBUTES;
 
 type SegmentedControlStoryArgs = Pick<
   SegmentedControl,
-  "layout" | "appearance" | "scale" | "width" | "disabled" | "status" | "validationIcon" | "validationMessage"
+  | "layout"
+  | "appearance"
+  | "scale"
+  | "width"
+  | "disabled"
+  | "labelText"
+  | "required"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -19,6 +31,8 @@ export default {
     scale: scale.defaultValue,
     width: width.defaultValue,
     disabled: false,
+    labelText: "Label text",
+    required: false,
     status: status.defaultValue,
     validationIcon: "",
     validationMessage: "",
@@ -67,8 +81,10 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
     scale="${args.scale}"
     width="${args.width}"
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
+    ${boolean("required", args.required)}
     status="${args.status}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     validation-message="${args.validationMessage}"
   >
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
@@ -91,7 +107,7 @@ export const fullWidthWithIcons = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-segmented-control
     class="calcite-mode-dark"
     dir="rtl"
@@ -104,9 +120,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-segmented-control>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-segmented-control disabled>
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
     <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
@@ -128,7 +144,7 @@ export const WithIconStartAndEnd = (): string =>
     <calcite-segmented-control-item value="nothing">Nothing</calcite-segmented-control-item>
   </calcite-segmented-control>`;
 
-export const validationMessage_TestOnly = (): string => html`
+export const validationMessage = (): string => html`
   <style>
     .container {
       display: flex;

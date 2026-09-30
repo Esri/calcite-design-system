@@ -8,7 +8,6 @@
  * @prop --calcite-button-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-button-icon-color: Specifies the component's `iconStart` and `iconEnd` color.
  * @prop --calcite-button-loader-color: Specifies the component's loader color.
- * @prop --calcite-button-shadow-color: [Deprecated] Use `--calcite-button-shadow`. Specifies the component's box-shadow color.
  * @prop --calcite-button-text-color: Specifies the component's text color.
  * @prop --calcite-button-shadow: Specifies the component's shadow.
  */
@@ -18,6 +17,8 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-button-background-color
+// --calcite-internal-button-background-color-hover
+// --calcite-internal-button-background-color-press
 // --calcite-internal-button-border-color
 // --calcite-internal-button-content-margin
 // --calcite-internal-button-corner-radius
@@ -26,12 +27,16 @@
 // --calcite-internal-button-padding-y
 // --calcite-internal-button-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply inline-block w-auto align-middle;
-
-  border-radius: var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, 0));
+  display: inline-block;
+  inline-size: auto;
+  vertical-align: middle;
+  border-radius: var(
+    --calcite-button-corner-radius,
+    var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius))
+  );
 
   a,
   button {
@@ -39,22 +44,21 @@
     --calcite-internal-button-padding-x: 7px;
     --calcite-internal-button-padding-y: 3px;
 
-    @apply appearance-none
-    border-none
-    box-border
-    cursor-pointer
-    flex
-    focus-base
-    font-inherit
-    font-normal
-    h-full
-    items-center
-    justify-center
-    no-underline
-    relative
-    select-none
-    text-center
-    w-full;
+    appearance: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    outline-color: transparent;
+    font-family: inherit;
+    font-weight: var(--calcite-font-weight-normal);
+    block-size: 100%;
+    align-items: center;
+    justify-content: center;
+    text-decoration-line: none;
+    position: relative;
+    user-select: none;
+    text-align: center;
+    inline-size: 100%;
     box-shadow: var(--calcite-button-shadow, var(--calcite-shadow-none));
     background-color: var(
       --calcite-button-background-color,
@@ -90,7 +94,10 @@
     );
     border-style: solid;
     border-width: var(--calcite-border-width-sm);
-    border-radius: var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, 0));
+    border-radius: var(
+      --calcite-button-corner-radius,
+      var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius))
+    );
     color: var(--calcite-button-text-color, var(--calcite-internal-button-text-color, currentColor));
     padding-block: var(--calcite-internal-button-padding-y);
     padding-inline: var(--calcite-internal-button-padding-x);
@@ -103,15 +110,26 @@
       outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 
     &:hover {
-      @apply no-underline;
+      text-decoration-line: none;
+      background-color: var(
+        --calcite-button-background-color,
+        var(--calcite-internal-button-background-color-hover, var(--calcite-color-transparent))
+      );
     }
 
     &:focus {
-      @apply focus-outset;
+      @include shared.focus-outset();
+    }
+
+    &:active {
+      background-color: var(
+        --calcite-button-background-color,
+        var(--calcite-internal-button-background-color-press, var(--calcite-color-transparent))
+      );
     }
 
     span {
-      @apply truncate;
+      @include shared.truncate();
     }
 
     calcite-loader {
@@ -161,40 +179,40 @@
 
 // button width
 :host([width="auto"]) {
-  @apply w-auto;
+  inline-size: auto;
 }
 
 :host([width="half"]) {
-  @apply w-2/4;
+  inline-size: 50%;
 }
 
 :host([width="full"]) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 // alignment
 :host([alignment="center"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-center;
+    justify-content: center;
   }
 }
 :host([alignment="start"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-start;
+    justify-content: flex-start;
   }
 }
 :host([alignment="end"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-end;
+    justify-content: flex-end;
   }
 }
 :host([alignment*="space-between"]:not([width="auto"])) {
   a,
   button {
-    @apply justify-between;
+    justify-content: space-between;
   }
 }
 :host([alignment="icon-start-space-between"]:not([width="auto"])) {
@@ -230,7 +248,7 @@
 .icon--end {
   color: var(--calcite-button-icon-color, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
 }
-@include includes.disabled();
+@include shared.disabled();
 
 @keyframes loader-in {
   0% {
@@ -258,9 +276,9 @@
 }
 
 .calcite-button--loader {
-  @apply flex;
+  display: flex;
   calcite-loader {
-    @apply m-0;
+    margin: 0;
   }
 }
 
@@ -277,7 +295,7 @@
   a:not(.content--slotted) {
     .icon--start,
     .icon--end {
-      @apply hidden;
+      display: none;
     }
   }
 }
@@ -288,106 +306,67 @@
   a {
     --calcite-internal-button-border-color: var(--calcite-color-transparent);
 
-    @apply border-solid;
-
+    border-style: solid;
     border-width: var(--calcite-button-border-size, 1px);
   }
 }
 
 :host([kind="brand"]) {
-  button,
-  a {
-    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
-    --calcite-internal-button-background-color: var(--calcite-color-brand);
-    --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
-
-    &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-brand-hover);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-brand-press);
-    }
-  }
+  --calcite-internal-button-background-color: var(--calcite-color-brand);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-brand-hover);
+  --calcite-internal-button-background-color-press: var(--calcite-color-brand-press);
+  --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
+  --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
 }
 :host([kind="danger"]) {
-  button,
-  a {
-    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
-    --calcite-internal-button-background-color: var(--calcite-color-status-danger);
-    --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
-
-    &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-status-danger-hover);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-status-danger-press);
-    }
-  }
+  --calcite-internal-button-background-color: var(--calcite-color-status-danger);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-status-danger-hover);
+  --calcite-internal-button-background-color-press: var(--calcite-color-status-danger-press);
+  --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
+  --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
 }
 :host([kind="neutral"]) {
-  button,
-  a {
-    --calcite-internal-button-text-color: var(--calcite-color-text-1);
-    --calcite-internal-button-background-color: var(--calcite-color-foreground-3);
-    --calcite-internal-button-loader-color: var(--calcite-color-text-1);
-    &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-foreground-2);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
-    }
-  }
+  --calcite-internal-button-background-color: var(--calcite-color-foreground-3);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
+  --calcite-internal-button-background-color-press: var(--calcite-color-foreground-1);
+  --calcite-internal-button-loader-color: var(--calcite-color-text-1);
+  --calcite-internal-button-text-color: var(--calcite-color-text-1);
 }
 :host([kind="inverse"]) {
-  button,
-  a {
-    --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
-    --calcite-internal-button-background-color: var(--calcite-color-inverse);
-    --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
-    &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-inverse-hover);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-inverse-press);
-    }
-  }
+  --calcite-internal-button-background-color: var(--calcite-color-inverse);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-inverse-hover);
+  --calcite-internal-button-background-color-press: var(--calcite-color-inverse-press);
+  --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
+  --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
 }
 
 :host([appearance="outline-fill"]) {
+  --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
+  --calcite-internal-button-background-color-press: var(--calcite-color-foreground-3);
   button,
   a {
-    --calcite-internal-button-background-color: var(--calcite-color-foreground-1);
-    @apply border-solid;
+    border-style: solid;
     border-width: var(--calcite-button-border-size, 1px);
-    &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-foreground-2);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-foreground-3);
-    }
   }
 }
 :host([appearance="outline-fill"][kind="brand"]) {
   button,
   a {
     --calcite-internal-button-border-color: var(--calcite-color-brand);
-    --calcite-internal-button-text-color: theme("colors.brand");
+    --calcite-internal-button-text-color: var(--calcite-color-brand);
     --calcite-internal-button-loader-color: var(--calcite-color-brand);
 
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-brand-hover);
-      --calcite-internal-button-text-color: theme("colors.brand-hover");
-    }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-brand);
-      --calcite-internal-button-text-color: theme("colors.brand");
+      --calcite-internal-button-text-color: var(--calcite-color-brand-hover);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-brand-press);
-      --calcite-internal-button-text-color: theme("colors.brand-press");
+      --calcite-internal-button-text-color: var(--calcite-color-brand-press);
     }
     calcite-loader {
-      --calcite-internal-button-loader-color: theme("colors.brand");
+      --calcite-internal-button-loader-color: var(--calcite-color-brand);
     }
   }
 }
@@ -395,38 +374,31 @@
   button,
   a {
     --calcite-internal-button-border-color: var(--calcite-color-status-danger);
-    --calcite-internal-button-text-color: theme("colors.danger");
+    --calcite-internal-button-text-color: var(--calcite-color-status-danger);
     --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
 
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-status-danger-hover);
-      --calcite-internal-button-text-color: theme("colors.danger-hover");
-    }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-status-danger);
-      --calcite-internal-button-text-color: theme("colors.danger");
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-hover);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-status-danger-press);
-      --calcite-internal-button-text-color: theme("colors.danger-press");
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-press);
     }
     calcite-loader {
-      --calcite-internal-button-loader-color: theme("colors.danger");
+      --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
     }
   }
 }
 :host([appearance="outline-fill"][kind="neutral"]) {
   button,
   a {
-    --calcite-internal-button-border-color: theme("borderColor.color.1");
+    --calcite-internal-button-border-color: var(--calcite-color-border-1);
     --calcite-internal-button-text-color: var(--calcite-color-text-1);
     --calcite-internal-button-loader-color: var(--calcite-color-text-1);
 
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-border-input);
-    }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-foreground-3);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-text-3);
@@ -434,15 +406,8 @@
   }
 }
 :host([appearance="solid"][kind="neutral"]) {
-  button,
-  a {
-    &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-border-3);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-border-2);
-    }
-  }
+  --calcite-internal-button-background-color-hover: var(--calcite-color-border-2);
+  --calcite-internal-button-background-color-press: var(--calcite-color-border-1);
 }
 :host([appearance="outline-fill"][kind="inverse"]) {
   button,
@@ -454,51 +419,38 @@
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-inverse-hover);
     }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-inverse);
-    }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-inverse-press);
     }
   }
 }
 :host([appearance="outline"]) {
+  --calcite-internal-button-background-color: var(--calcite-color-transparent);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-transparent-hover);
+  --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
   button,
   a {
-    --calcite-internal-button-background-color: var(--calcite-color-transparent);
-
-    @apply border-solid;
+    border-style: solid;
     border-width: var(--calcite-button-border-size, 1px);
-
-    &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-transparent-press);
-    }
   }
 }
 :host([appearance="outline"][kind="brand"]) {
   button,
   a {
     --calcite-internal-button-border-color: var(--calcite-color-brand);
-    --calcite-internal-button-text-color: theme("colors.brand");
+    --calcite-internal-button-text-color: var(--calcite-color-brand);
     --calcite-internal-button-loader-color: var(--calcite-color-brand);
 
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-brand-hover);
-      --calcite-internal-button-text-color: theme("colors.brand-hover");
-    }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-brand);
-      --calcite-internal-button-text-color: theme("colors.brand");
+      --calcite-internal-button-text-color: var(--calcite-color-brand-hover);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-brand-press);
-      --calcite-internal-button-text-color: theme("colors.brand-press");
+      --calcite-internal-button-text-color: var(--calcite-color-brand-press);
     }
     calcite-loader {
-      --calcite-internal-button-loader-color: theme("colors.brand");
+      --calcite-internal-button-loader-color: var(--calcite-color-brand);
     }
   }
 }
@@ -506,23 +458,19 @@
   button,
   a {
     --calcite-internal-button-border-color: var(--calcite-color-status-danger);
-    --calcite-internal-button-text-color: theme("colors.danger");
+    --calcite-internal-button-text-color: var(--calcite-color-status-danger);
     --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
 
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-status-danger-hover);
-      --calcite-internal-button-text-color: theme("colors.danger-hover");
-    }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-status-danger);
-      --calcite-internal-button-text-color: theme("colors.danger");
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-hover);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-status-danger-press);
-      --calcite-internal-button-text-color: theme("colors.danger-press");
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-press);
     }
     calcite-loader {
-      --calcite-internal-button-loader-color: theme("colors.danger");
+      --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
     }
   }
 }
@@ -530,14 +478,11 @@
   button,
   a {
     --calcite-internal-button-text-color: var(--calcite-color-text-1);
-    --calcite-internal-button-border-color: theme("borderColor.color.1");
+    --calcite-internal-button-border-color: var(--calcite-color-border-1);
     --calcite-internal-button-loader-color: var(--calcite-color-text-1);
 
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-border-input);
-    }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-foreground-3);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-text-3);
@@ -552,9 +497,6 @@
     --calcite-internal-button-loader-color: var(--calcite-color-text-1);
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-inverse-hover);
-    }
-    &:focus {
-      --calcite-internal-button-border-color: var(--calcite-color-inverse);
     }
     &:active {
       --calcite-internal-button-border-color: var(--calcite-color-inverse-press);
@@ -580,47 +522,27 @@
 
 // transparent
 :host([appearance="transparent"]) {
-  button,
-  a {
-    --calcite-internal-button-background-color: var(--calcite-color-transparent);
-
-    &:hover,
-    &:focus {
-      --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
-    }
-    &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-transparent-press);
-    }
-  }
+  --calcite-internal-button-background-color: var(--calcite-color-transparent);
+  --calcite-internal-button-background-color-hover: var(--calcite-color-transparent-hover);
+  --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
 }
 :host([appearance="transparent"]:not(.enable-editing-button)) {
-  button,
-  a {
-    background-color: var(--calcite-color-transparent);
-    &:hover {
-      background-color: var(--calcite-color-transparent-hover);
-    }
-    &:active {
-      background-color: var(--calcite-color-transparent-press);
-    }
-  }
+  --calcite-internal-button-background-color-hover: var(--calcite-color-transparent-hover);
+  --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
 }
 :host([appearance="transparent"][kind="brand"]) {
   button,
   a {
-    --calcite-internal-button-text-color: theme("colors.brand");
+    --calcite-internal-button-text-color: var(--calcite-color-brand);
     --calcite-internal-button-loader-color: var(--calcite-color-brand);
     &:hover {
-      --calcite-internal-button-text-color: theme("colors.brand-hover");
-    }
-    &:focus {
-      --calcite-internal-button-text-color: theme("colors.brand");
+      --calcite-internal-button-text-color: var(--calcite-color-brand-hover);
     }
     &:active {
-      --calcite-internal-button-text-color: theme("colors.brand-press");
+      --calcite-internal-button-text-color: var(--calcite-color-brand-press);
     }
     calcite-loader {
-      --calcite-internal-button-loader-color: theme("colors.brand");
+      --calcite-internal-button-loader-color: var(--calcite-color-brand);
     }
   }
 }
@@ -628,19 +550,16 @@
 :host([appearance="transparent"][kind="danger"]) {
   button,
   a {
-    --calcite-internal-button-text-color: theme("colors.danger");
+    --calcite-internal-button-text-color: var(--calcite-color-status-danger);
     --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
     &:hover {
-      --calcite-internal-button-text-color: theme("colors.danger-hover");
-    }
-    &:focus {
-      --calcite-internal-button-text-color: theme("colors.danger");
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-hover);
     }
     &:active {
-      --calcite-internal-button-text-color: theme("colors.danger-press");
+      --calcite-internal-button-text-color: var(--calcite-color-status-danger-press);
     }
     calcite-loader {
-      --calcite-internal-button-loader-color: theme("colors.danger");
+      --calcite-internal-button-loader-color: var(--calcite-color-status-danger);
     }
   }
 }
@@ -675,14 +594,10 @@
 }
 
 :host([appearance="transparent"][kind="inverse"]) {
+  --calcite-internal-button-background-color-hover: var(--calcite-color-transparent-hover);
+  --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
   button,
   a {
-    &:hover {
-      background-color: var(--calcite-color-transparent-inverse-hover);
-    }
-    &:active {
-      background-color: var(--calcite-color-transparent-inverse-press);
-    }
     calcite-loader {
       --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
     }
@@ -692,7 +607,7 @@
 // generate button scales (scenario: text exists)
 :host([scale="s"]) button.content--slotted,
 :host([scale="s"]) a.content--slotted {
-  @apply text-n2h;
+  @include shared.text-n2h();
 }
 
 // accommodate for transparent buttons not having borders
@@ -709,7 +624,8 @@
 :host([scale="m"]) button.content--slotted,
 :host([scale="m"]) a.content--slotted {
   --calcite-internal-button-padding-x: 11px;
-  @apply text-n1h;
+
+  @include shared.text-n1h();
 }
 
 :host([scale="m"]) button,
@@ -725,7 +641,8 @@
 :host([scale="l"]) button.content--slotted,
 :host([scale="l"]) a.content--slotted {
   --calcite-internal-button-padding-x: 15px;
-  @apply text-0h;
+
+  @include shared.text-0h();
 }
 
 :host([scale="l"]) {
@@ -744,7 +661,10 @@
 :host([scale="s"]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 3px;
-  @apply text-0h w-6;
+
+  @include shared.text-0h();
+
+  inline-size: var(--calcite-space-2xl);
   min-block-size: theme("height.6");
 }
 
@@ -752,14 +672,20 @@
 :host([scale="m"]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 7px;
-  @apply text-0h w-8;
+
+  @include shared.text-0h();
+
+  inline-size: var(--calcite-space-3xl);
   min-block-size: theme("height.8");
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 9px;
-  @apply text-0h w-11;
+
+  @include shared.text-0h();
+
+  inline-size: var(--calcite-space-4xl);
   min-block-size: theme("height.11");
 }
 
@@ -782,7 +708,10 @@
 :host([scale="s"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 23px;
-  @apply text-0h h-6;
+
+  @include shared.text-0h();
+
+  block-size: var(--calcite-space-2xl);
 }
 // accommodate for transparent buttons not having borders
 :host([scale="s"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
@@ -792,7 +721,10 @@
 :host([scale="m"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="m"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding.8");
-  @apply text-0h h-8;
+
+  @include shared.text-0h();
+
+  block-size: var(--calcite-space-3xl);
 }
 // accommodate for transparent buttons not having borders
 :host([scale="m"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
@@ -802,7 +734,11 @@
 :host([scale="l"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 43px;
-  @apply text-0h h-11;
+
+  @include shared.text-0h();
+
+  block-size: var(--calcite-space-4xl);
+
   // add space between when only 2 icons
   .icon--start + .icon--end {
     margin-inline-start: theme("margin.4");
@@ -814,4 +750,4 @@
   --calcite-internal-button-padding-x: theme("padding.11");
 }
 
-@include includes.base-component();
+@include shared.base-component();

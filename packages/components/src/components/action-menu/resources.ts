@@ -1,5 +1,5 @@
-import { IconName } from "../icon/interfaces";
-
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 export const CSS = {
   menu: "menu",
   defaultTrigger: "default-trigger",
@@ -21,3 +21,8 @@ export const SLOTS = {
 export const ICONS: Record<string, IconName> = {
   menu: "ellipsis",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isActionMenu = isTag("calcite-action-menu");

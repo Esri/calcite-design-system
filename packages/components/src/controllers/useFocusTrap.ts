@@ -1,10 +1,22 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { createFocusTrap, FocusTrap, Options as Options } from "focus-trap";
+import { createFocusTrap, type FocusTrap, type Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
 import { SetReturnType } from "type-fest";
-import { createFocusTrapOptions } from "../utils/focusTrapComponent";
+import { FocusableElement, focusElement, tabbableOptions } from "../utils/dom";
+import { getConfig } from "../utils/config";
+
+export { type FocusTrap } from "focus-trap";
 
 export interface UseFocusTrap {
+  /**
+   * The underlying FocusTrap instance.
+   *
+   * Note: this is only exposed in test environments.
+   *
+   * @internal
+   */
+  readonly _instance?: FocusTrap;
+
   /**
    * Activates the focus trap.
    */
@@ -23,7 +35,7 @@ export interface UseFocusTrap {
   /**
    * Sets the extra containers to be used in the focus trap.
    *
-   * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
+   * @see [focus-trap trapUpdateContainerElements](https://github.com/focus-trap/focus-trap#trapupdatecontainerelements)
    */
   setExtraContainers: (extraContainers?: FocusTrapOptions["extraContainers"]) => void;
 
@@ -33,11 +45,13 @@ export interface UseFocusTrap {
   updateContainerElements: () => void;
 }
 
-interface UseFocusTrapOptions<T extends LitElement = LitElement> {
+export interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   /**
    * The name of the prop that will trigger the focus trap to activate.
+   *
+   * When omitted, activation is controlled only through controller methods.
    */
-  triggerProp: keyof T;
+  triggerProp?: keyof T;
 
   /**
    * Options to pass to the focus-trap library.
@@ -45,7 +59,7 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   focusTrapOptions?: Options;
 }
 
-interface FocusTrapComponent extends LitElement {
+export interface FocusTrapComponent extends LitElement {
   /*
    * When `true` prevents focus trapping.
    */
@@ -62,9 +76,10 @@ interface FocusTrapComponent extends LitElement {
   focusTrapOptions?: Partial<FocusTrapOptions>;
 }
 
+/** @public */
 export type FocusTrapOptions =
   /**
-   * @see https://github.com/focus-trap/focus-trap#createoptions
+   * @see [focus-trap createOptions](https://github.com/focus-trap/focus-trap#createoptions)
    */
   Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
     /**
@@ -103,6 +118,92 @@ function toContainerArray(containers: FocusTrapOptions["extraContainers"] = []) 
   return Array.isArray(containers) ? containers : [containers];
 }
 
+const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
+
+/**
+ * Default behavior for returning focus when the FocusTrap is deactivated.
+ *
+ * @see [focus-trap setReturnFocus](https://github.com/focus-trap/focus-trap#setreturnfocus)
+ */
+function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
+  const hasPreviousRelatedFocusedEl = el && el !== document.body && el !== document.documentElement; // see https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement#value
+
+  if (!outsideClickDeactivated.has(hostEl) && hasPreviousRelatedFocusedEl) {
+    focusElement(el as FocusableElement);
+  }
+
+  return false;
+}
+
+/**
+ * Helper to create the FocusTrap options.
+ */
+export function createFocusTrapOptions(
+  hostEl: HTMLElement,
+  options?: Omit<Options, "setReturnFocus"> & {
+    setReturnFocus?: FocusTrapOptions["setReturnFocus"];
+  },
+): Options {
+  const fallbackFocus = options?.fallbackFocus || hostEl;
+  const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
+  let abortController: AbortController | undefined;
+
+  return {
+    fallbackFocus,
+    ...options,
+
+    // the following options are not overridable
+    document: hostEl.ownerDocument,
+    tabbableOptions,
+    trapStack: getConfig().focusTrapStack,
+    clickOutsideDeactivates: (event) => {
+      if (!outsideClickDeactivated.has(hostEl)) {
+        outsideClickDeactivated.add(hostEl);
+      }
+      return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
+    },
+    onActivate: (params) => {
+      if (options?.escapeDeactivates) {
+        abortController = new AbortController();
+        hostEl.addEventListener(
+          "keydown",
+          (event) => {
+            // we check for Escape at each focus-trap host as the event bubbles
+            // in case non-focus-trapping elements in between handle (e.g., cancel) it
+            // before it reaches the focus-trap document-level listener
+            if (event.key === "Escape") {
+              const escapeDeactivates = options?.escapeDeactivates;
+              const deactivate =
+                typeof escapeDeactivates === "function" ? escapeDeactivates(event) : (escapeDeactivates ?? true);
+
+              if (deactivate) {
+                params.trap.deactivate();
+              }
+            }
+          },
+          { signal: abortController.signal },
+        );
+      }
+
+      options?.onActivate?.(params);
+    },
+    onDeactivate: (params) => {
+      abortController?.abort();
+      abortController = undefined;
+      options?.onDeactivate?.(params);
+    },
+    onPostDeactivate: () => {
+      outsideClickDeactivated.delete(hostEl);
+    },
+    setReturnFocus: (el) => {
+      const returnFocusTarget =
+        typeof options?.setReturnFocus === "function" ? options.setReturnFocus(el) : options?.setReturnFocus;
+
+      return returnFocusTarget === undefined ? defaultSetReturnFocus(hostEl, el) : returnFocusTarget;
+    },
+  };
+}
+
 /**
  * A controller for managing focus traps.
  *
@@ -111,59 +212,89 @@ function toContainerArray(containers: FocusTrapOptions["extraContainers"] = []) 
  * @param options
  */
 export const useFocusTrap = <T extends FocusTrapComponent>(
-  options: UseFocusTrapOptions<T>,
+  options: UseFocusTrapOptions<T> = {},
 ): ReturnType<typeof makeGenericController<UseFocusTrap, T>> => {
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
     let focusTrap: FocusTrap;
     let focusTrapEl: HTMLElement;
     let effectiveContainers: FocusTrapOptions["extraContainers"];
+    let requestedActive = false;
     const internalFocusTrapOptions = options.focusTrapOptions;
+    const isTriggerActive = (): boolean => (options.triggerProp ? Boolean(component[options.triggerProp]) : true);
+    const shouldAutoActivate = (): boolean => (options.triggerProp ? isTriggerActive() : requestedActive);
+    const canActivateTrap = (): boolean =>
+      typeof component.focusTrapDisabledOverride === "function"
+        ? !component.focusTrapDisabledOverride()
+        : !component.focusTrapDisabled;
+
+    const activateTrap = (): void => {
+      const targetEl = focusTrapEl || component.el;
+
+      if (!targetEl.isConnected) {
+        return;
+      }
+
+      if (!focusTrap) {
+        effectiveContainers ||= getEffectiveContainerElements(targetEl, component);
+
+        focusTrap = createFocusTrap(
+          effectiveContainers,
+          createFocusTrapOptions(targetEl, {
+            ...internalFocusTrapOptions,
+            ...component.focusTrapOptions,
+          }),
+        );
+      }
+
+      if (canActivateTrap()) {
+        focusTrap.activate();
+      }
+    };
+
+    const deactivateTrap = (): void => {
+      focusTrap?.deactivate();
+    };
 
     controller.onConnected(() => {
-      if (component[options.triggerProp] && focusTrap) {
-        utils.activate();
+      if (focusTrap && shouldAutoActivate()) {
+        activateTrap();
       }
     });
 
     controller.onUpdate((changes) => {
-      if (component.hasUpdated && changes.has("focusTrapDisabled")) {
-        if (component.focusTrapDisabled) {
-          utils.deactivate();
-        } else {
-          utils.activate();
-        }
+      if (!component.hasUpdated || !changes.has("focusTrapDisabled")) {
+        return;
+      }
+
+      if (component.focusTrapDisabled || !isTriggerActive()) {
+        deactivateTrap();
+        return;
+      }
+
+      if (shouldAutoActivate()) {
+        activateTrap();
       }
     });
 
-    controller.onDisconnected(() => utils.deactivate());
+    controller.onDisconnected(() => deactivateTrap());
 
     const utils: UseFocusTrap = {
-      activate: () => {
-        const targetEl = focusTrapEl || component.el;
-
-        if (!targetEl.isConnected) {
-          return;
+      get _instance() {
+        if (process.env.NODE_ENV === "test") {
+          return focusTrap;
         }
 
-        if (!focusTrap) {
-          const effectiveFocusTrapOptions = {
-            ...internalFocusTrapOptions,
-            ...component.focusTrapOptions,
-          };
-          effectiveContainers ||= getEffectiveContainerElements(targetEl, component);
-
-          focusTrap = createFocusTrap(effectiveContainers, createFocusTrapOptions(targetEl, effectiveFocusTrapOptions));
-        }
-
-        if (
-          typeof component.focusTrapDisabledOverride === "function"
-            ? !component.focusTrapDisabledOverride()
-            : !component.focusTrapDisabled
-        ) {
-          focusTrap.activate();
-        }
+        return undefined;
       },
-      deactivate: () => focusTrap?.deactivate(),
+
+      activate: () => {
+        requestedActive = true;
+        activateTrap();
+      },
+      deactivate: () => {
+        requestedActive = false;
+        deactivateTrap();
+      },
       overrideFocusTrapEl: (el: HTMLElement) => {
         if (focusTrap) {
           throw new Error("Focus trap already created");

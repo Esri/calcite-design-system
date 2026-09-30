@@ -1,16 +1,12 @@
-// @ts-strict-ignore
-import { describe, expect, it, beforeEach } from "vitest";
-import { mockConsole } from "../tests/utils/logging";
+import { describe, expect, it, beforeEach, MockInstance } from "vitest";
+import { defaultLocale } from "@arcgis/toolkit/intl";
+import { supportedNlsLocales } from "../components/date-picker/utils";
 import {
   dateTimeFormatCache,
-  defaultLocale,
   defaultNumberingSystem,
   getDateFormatSupportedLocale,
   getDateTimeFormat,
-  getSupportedLocale,
-  locales,
   numberingSystems,
-  NumberStringFormatOptions,
   numberStringFormatter,
 } from "./locale";
 
@@ -35,14 +31,14 @@ describe("NumberStringFormat", () => {
     // with the default locale/numberingSystem values
     numberStringFormatter.numberFormatOptions = {
       useGrouping: true,
-    } as NumberStringFormatOptions;
+    };
 
     expect(numberStringFormatter.numberFormatter).toBeDefined();
     expect(numberStringFormatter.numberFormatOptions.numberingSystem).toBe(defaultNumberingSystem);
     expect(numberStringFormatter.numberFormatOptions.locale).toBe(defaultLocale);
   });
 
-  describe.each(locales)("locales", (locale) => {
+  describe.each(supportedNlsLocales)("locales", (locale) => {
     const localesWithBrokenFormatting = ["bs", "mk"];
     const shouldSkip = localesWithBrokenFormatting.includes(locale);
     const skipMessage = `Skipped: Chromium does not format ${locale} correctly.`;
@@ -155,6 +151,9 @@ describe("getDateTimeFormat()", () => {
   beforeEach(() => dateTimeFormatCache?.clear());
 
   it("generates an instance of DateTimeFormat by locale", () => {
+    // we mock formatters in setup to workaround CI default language resolution issue (`en-US@posix` instead of `en-US`)
+    (Intl.DateTimeFormat as unknown as MockInstance).mockRestore();
+
     const enDateTimeFormat = getDateTimeFormat("en");
     expect(enDateTimeFormat).toBeInstanceOf(Intl.DateTimeFormat);
     expect(enDateTimeFormat.resolvedOptions().locale).toBe("en");
@@ -165,10 +164,14 @@ describe("getDateTimeFormat()", () => {
   });
 
   it("supports passing options", () => {
-    const options: Intl.DateTimeFormatOptions = { dateStyle: "full", numberingSystem: "latn" }; // using a subset and assuming other props will work the same
+    const options: Pick<Intl.ResolvedDateTimeFormatOptions, "dateStyle" | "numberingSystem"> = {
+      dateStyle: "full",
+      numberingSystem: "latn",
+    }; // using a subset and assuming other props will work the same
     const enDateTimeFormat = getDateTimeFormat("en", options);
 
-    for (const [key, value] of Object.entries(options)) {
+    for (const key of Object.keys(options) as (keyof typeof options)[]) {
+      const value = options[key];
       expect(enDateTimeFormat.resolvedOptions()[key]).toBe(value);
     }
   });
@@ -197,58 +200,6 @@ describe("getDateTimeFormat()", () => {
     expect(customizedEsDateTimeFormat).toBe(getDateTimeFormat("es", options));
     expect(simpleEsDateTimeFormat).not.toBe(customizedEsDateTimeFormat);
     expect(dateTimeFormatCache.size).toBe(2);
-  });
-});
-
-describe("getSupportedLocale", () => {
-  mockConsole();
-
-  function assertAllContexts(locale: string, expectedLocale: string): void {
-    expect(getSupportedLocale(locale)).toBe(expectedLocale);
-  }
-
-  it("returns `en` if there is no locale", () => {
-    assertAllContexts(null, "en");
-  });
-
-  it("falls back to `en` if the language tag or language + region tag isn't supported", () => {
-    assertAllContexts("zz", "en");
-    expect(console.warn).toHaveBeenCalledTimes(1);
-
-    assertAllContexts("zz-ZZ", "en");
-    expect(console.warn).toHaveBeenCalledTimes(2);
-  });
-
-  it("falls back to the language tag if the language + region tag isn't supported", () => {
-    assertAllContexts("es-AR", "es");
-    assertAllContexts("es-AR", "es");
-  });
-
-  it("matches locale with subregion if supported", () => {
-    // using pt-PT since it is supported in both cldr and t9n locale lists
-    assertAllContexts("pt-PT", "pt-PT");
-  });
-
-  it("matches regardless of casing", () => {
-    assertAllContexts("pt-pt", "pt-PT");
-    assertAllContexts("PT-PT", "pt-PT");
-
-    assertAllContexts("es-ar", "es");
-    assertAllContexts("ES-AR", "es");
-  });
-
-  describe("locale mappings", () => {
-    it("maps `nb` to `no`", () => {
-      assertAllContexts("nb", "no");
-    });
-
-    it("maps `nn` to `no`", () => {
-      assertAllContexts("nn", "no");
-    });
-
-    it("maps `zh` to `zh-CN`", () => {
-      assertAllContexts("zh", "zh-CN");
-    });
   });
 });
 

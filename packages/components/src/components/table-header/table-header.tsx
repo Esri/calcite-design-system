@@ -1,15 +1,16 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
-import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { RowType, TableInteractionMode } from "../table/interfaces";
+import { Alignment, Scale, SelectionMode } from "../types";
+import { RowType, TableInteractionMode } from "../table/types";
 import { getIconScale } from "../../utils/component";
+import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-header.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -20,7 +21,7 @@ declare global {
 export class TableHeader extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -53,24 +54,24 @@ export class TableHeader extends LitElement {
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** @private */
-  @property() bodyRowCount: number;
+  @property() bodyRowCount!: number;
 
   /** Specifies the number of columns the component should span. */
-  @property({ reflect: true }) colSpan: number;
+  @property({ reflect: true }) colSpan?: number;
 
-  /** A description to display beneath heading content. */
-  @property({ reflect: true }) description: string;
+  /** @copyDoc */
+  @property({ reflect: true }) description?: string;
 
-  /** A heading to display above description content. */
-  @property({ reflect: true }) heading: string;
+  /** @copyDoc */
+  @property({ reflect: true }) heading?: string;
 
   /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() lastCell: boolean;
+  @property() lastCell = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
@@ -80,31 +81,31 @@ export class TableHeader extends LitElement {
   @property() parentRowAlignment: Alignment = "start";
 
   /** @private */
-  @property() parentRowIsSelected: boolean;
+  @property() parentRowIsSelected = false;
 
   /** @private */
-  @property() parentRowType: RowType;
+  @property() parentRowType!: RowType;
 
   /** @private */
-  @property() positionInRow: number;
+  @property() positionInRow!: number;
 
   /** Specifies the number of rows the component should span. */
-  @property({ reflect: true }) rowSpan: number;
+  @property({ reflect: true }) rowSpan?: number;
 
   /** @private */
-  @property() scale: Scale;
+  @property() scale!: Scale;
 
   /** @private */
-  @property() selectedRowCount: number;
+  @property() selectedRowCount!: number;
 
   /** @private */
-  @property() selectedRowCountLocalized: string;
+  @property() selectedRowCountLocalized!: string;
 
   /** @private */
   @property() selectionCell = false;
 
   /** @private */
-  @property() selectionMode: SelectionMode;
+  @property() selectionMode!: SelectionMode;
 
   //#endregion
 
@@ -115,7 +116,7 @@ export class TableHeader extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -220,7 +221,7 @@ export class TableHeader extends LitElement {
           />
         )}
         {(this.selectionCell || this.numberCell) && (
-          <span ariaLive={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
+          <span ariaLive={this.focused ? "polite" : "off"} class={CSS_UTILITY.screenReaderText}>
             {this.screenReaderText}
           </span>
         )}

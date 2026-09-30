@@ -4,7 +4,7 @@
 //
 // --calcite-internal-day-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
@@ -12,7 +12,7 @@
   outline: none;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .day-wrapper {
   @apply flex
@@ -24,12 +24,12 @@
 }
 
 .day {
+  @include shared.transition-default();
   @apply text-n2h
     flex
     items-center
     justify-center
     leading-none
-    transition-default
     w-full
     relative;
   line-height: var(--calcite-font-line-height-fixed-base);
@@ -105,7 +105,7 @@
 :host([selected]) .day {
   @apply font-medium;
   background-color: var(--calcite-date-picker-day-background-color-selected, var(--calcite-color-brand));
-  color: var(--calcite-date-picker-day-text-color-selected, var(--calcite-color-foreground-1));
+  color: var(--calcite-date-picker-day-text-color-selected, var(--calcite-color-text-inverse));
 }
 
 :host([range-hover]:not([selected])) {
@@ -164,4 +164,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

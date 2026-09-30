@@ -1,9 +1,7 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { trim } from "es-toolkit";
 import { createObserver } from "../../utils/observers";
-import { styles } from "./option.scss";
 
 declare global {
   interface DeclareElements {
@@ -15,19 +13,15 @@ const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
 const whitespaceToReplaceRegexp = /[^\S\u00A0]+/g;
 
 export class Option extends LitElement {
-  // #region Static Members
-
-  static override styles = styles;
-
   // #endregion
 
   // #region Private Properties
 
-  private internallySetLabel: string;
+  private internallySetLabel?: string;
 
   private internallySetValue: any;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () => {
+  private mutationObserver = createObserver("mutation", () => {
     this.ensureTextContentDependentProps();
     this.calciteInternalOptionChange.emit();
   });
@@ -42,14 +36,14 @@ export class Option extends LitElement {
   })
   disabled = false;
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, the component is selected. */
   @property({
     reflect: true,
   })
-  selected: boolean;
+  selected = false;
 
   /** The component's value. */
   @property() value: any;
@@ -80,7 +74,7 @@ export class Option extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handlePropChange(this.disabled, changes.get("disabled"), "disabled");
     }

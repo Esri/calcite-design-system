@@ -1,16 +1,29 @@
 import { without } from "es-toolkit";
 import { ListItem } from "../list-item/list-item";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-menu/action-menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../avatar/avatar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item-group/list-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
+const { listDisplayMode, selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
-  extends Pick<
+  extends
+    Pick<
       List,
       | "disabled"
       | "displayMode"
@@ -20,8 +33,12 @@ interface ListStoryArgs
       | "label"
       | "loading"
       | "scale"
+      | "sortDisabled"
       | "selectionAppearance"
       | "selectionMode"
+      | "filterLabel"
+      | "filterPlaceholder"
+      | "filterText"
     >,
     Pick<ListItem, "iconStart" | "iconEnd"> {
   closable: boolean;
@@ -40,9 +57,13 @@ export default {
     interactionMode: interactionMode.values[0],
     label: "My List",
     loading: false,
+    sortDisabled: false,
     scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.defaultValue,
     selectionMode: selectionMode.values[1],
+    filterLabel: "Filter list",
+    filterPlaceholder: "Filter items",
+    filterText: "",
     iconStart: "",
     iconEnd: "",
   },
@@ -58,7 +79,7 @@ export default {
       control: { type: "select" },
     },
     displayMode: {
-      options: ["flat", "nested"],
+      options: listDisplayMode.values,
       control: { type: "select" },
     },
     scale: {
@@ -66,11 +87,11 @@ export default {
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: without(selectionAppearance.values, "neutral", "highlight"),
+      options: without(selectionAppearance.values, "neutral"),
       control: { type: "select" },
     },
     iconStart: {
-      options: iconNames,
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
     iconEnd: {
@@ -97,7 +118,11 @@ export const simple = (args: ListStoryArgs): string => html`
     ${boolean("drag-enabled", args.dragEnabled)}
     ${boolean("filter-enabled", args.filterEnabled)}
     ${boolean("loading", args.loading)}
+    ${boolean("sort-disabled", args.sortDisabled)}
     display-mode="${args.displayMode}"
+    filter-label="${args.filterLabel}"
+    filter-placeholder="${args.filterPlaceholder}"
+    filter-text="${args.filterText}"
     interaction-mode="${args.interactionMode}"
     label="${args.label}"
     scale="${args.scale}"
@@ -107,22 +132,22 @@ export const simple = (args: ListStoryArgs): string => html`
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       label="Ut aliquam sollicitudin leo."
       description="Aliquam tincidunt mauris eu risus."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       label="Vestibulum commodo felis quis tortor.
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       disabled
@@ -130,8 +155,8 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       drag-disabled
@@ -139,18 +164,65 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       unavailable
       label="Vestibulum commodo felis quis tortor."
       description="Vestibulum auctor dapibus neque."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
   </calcite-list>
 `;
+
+export const focus = (): string => html`
+  <div class="parent">
+    <div class="child">
+      <calcite-list scale="l" selection-mode="none" label="test">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+    </div>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-list-item");
+      const listItem = document.querySelector("calcite-list-item");
+      await listItem.componentOnReady();
+      await listItem.setFocus();
+    })();
+  </script>
+`;
+
+focus.parameters = {
+  chromatic: { delay: 1000 },
+};
 
 export const scales = (): string => html`
   <!-- scales -->
@@ -2448,11 +2520,11 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border</div>
+    <div class="child right-aligned-text">scales border (deprecated)</div>
 
     <div class="child">
       <calcite-list scale="s" selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item closable label="small" value="small" description="small hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2495,7 +2567,7 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item closable label="medium" value="medium" description="medium hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2538,7 +2610,7 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list scale="l" selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item closable label="large" value="large" description="large hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2584,11 +2656,11 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border nested</div>
+    <div class="child right-aligned-text">scales border (deprecated) nested</div>
 
     <div class="child">
       <calcite-list display-mode="nested" scale="s" selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item closable label="small" value="small" description="small hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2688,7 +2760,7 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item closable label="medium" value="medium" description="medium hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2782,7 +2854,7 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
       <calcite-list display-mode="nested" scale="l" selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item closable label="large" value="large" description="large hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2886,11 +2958,11 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border draggable</div>
+    <div class="child right-aligned-text">scales border (deprecated) draggable</div>
 
     <div class="child">
       <calcite-list drag-enabled scale="s" selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="small" value="small" description="small hello world">
+        <calcite-list-item closable label="small" value="small" description="small hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -2953,7 +3025,7 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list drag-enabled selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world">
+        <calcite-list-item closable label="medium" value="medium" description="medium hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3016,7 +3088,7 @@ export const scales = (): string => html`
       </calcite-list>
 
       <calcite-list drag-enabled scale="l" selection-appearance="border" selection-mode="single" label="test">
-        <calcite-list-item closable label="large" value="large" description="large hello world">
+        <calcite-list-item closable label="large" value="large" description="large hello world" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3082,7 +3154,7 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border draggable nested</div>
+    <div class="child right-aligned-text">scales border (deprecated) draggable nested</div>
 
     <div class="child">
       <calcite-list
@@ -3093,7 +3165,7 @@ export const scales = (): string => html`
         selection-mode="single"
         label="test"
       >
-        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s">
+        <calcite-list-item closable label="small" value="small" description="small hello world" scale="s" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3199,7 +3271,7 @@ export const scales = (): string => html`
         selection-mode="single"
         label="test"
       >
-        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m">
+        <calcite-list-item closable label="medium" value="medium" description="medium hello world" scale="m" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3306,7 +3378,7 @@ export const scales = (): string => html`
         selection-mode="single"
         label="test"
       >
-        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l">
+        <calcite-list-item closable label="large" value="large" description="large hello world" scale="l" selected>
           <calcite-action
             appearance="transparent"
             icon="sort-ascending"
@@ -3374,6 +3446,1265 @@ export const scales = (): string => html`
               value="large"
               description="large hello world"
               scale="l"
+            >
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="l"
+                slot="actions-start"
+              ></calcite-action>
+              <calcite-avatar
+                scale="l"
+                slot="content-start"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
+                scale="l"
+                slot="content-end"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="l"
+                slot="actions-end"
+              ></calcite-action>
+            </calcite-list-item>
+          </calcite-list-item>
+        </calcite-list-item>
+      </calcite-list>
+    </div>
+  </div>
+
+  <!-- scales -->
+  <div class="parent">
+    <div class="child right-aligned-text">scales highlight</div>
+
+    <div class="child">
+      <calcite-list scale="s" selection-mode="single" label="test" selection-appearance="highlight">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+
+      <calcite-list selection-mode="single" label="test" selection-appearance="highlight">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+
+      <calcite-list scale="l" selection-mode="single" label="test" selection-appearance="highlight">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+    </div>
+  </div>
+
+  <!-- scales -->
+  <div class="parent">
+    <div class="child right-aligned-text">scales highlight nested</div>
+
+    <div class="child">
+      <calcite-list
+        display-mode="nested"
+        scale="s"
+        selection-mode="single"
+        label="test"
+        selection-appearance="highlight"
+      >
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="small parent"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+          <calcite-list-item
+            closable
+            label="small child"
+            value="small"
+            description="small hello world"
+            scale="s"
+            icon-start="banana"
+            icon-end="banana"
+          >
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="s"
+              slot="actions-start"
+            ></calcite-action>
+            <calcite-avatar
+              scale="s"
+              slot="content-start"
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="s"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list-item
+              closable
+              label="small grandchild"
+              value="small"
+              description="small hello world"
+              scale="s"
+              icon-start="banana"
+              icon-end="banana"
+            >
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="s"
+                slot="actions-start"
+              ></calcite-action>
+              <calcite-avatar
+                scale="s"
+                slot="content-start"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
+                scale="s"
+                slot="content-end"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="s"
+                slot="actions-end"
+              ></calcite-action>
+            </calcite-list-item>
+          </calcite-list-item>
+        </calcite-list-item>
+      </calcite-list>
+      <calcite-list display-mode="nested" selection-mode="single" label="test" selection-appearance="highlight">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="medium parent"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+          <calcite-list-item
+            closable
+            label="medium child"
+            value="medium"
+            description="medium hello world"
+            scale="m"
+            icon-start="banana"
+            icon-end="banana"
+          >
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="m"
+              slot="actions-start"
+            ></calcite-action>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="m"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list-item
+              closable
+              label="medium grandchild"
+              value="medium"
+              description="medium hello world"
+              scale="m"
+              icon-start="banana"
+              icon-end="banana"
+            >
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="m"
+                slot="actions-start"
+              ></calcite-action>
+              <calcite-avatar
+                scale="m"
+                slot="content-start"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
+                scale="m"
+                slot="content-end"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="m"
+                slot="actions-end"
+              ></calcite-action>
+            </calcite-list-item>
+          </calcite-list-item>
+        </calcite-list-item>
+      </calcite-list>
+      <calcite-list
+        display-mode="nested"
+        scale="l"
+        selection-mode="single"
+        label="test"
+        selection-appearance="highlight"
+      >
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="large parent"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+          <calcite-list-item
+            closable
+            label="large child"
+            value="large"
+            description="large hello world"
+            scale="l"
+            icon-start="banana"
+            icon-end="banana"
+          >
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="l"
+              slot="actions-start"
+            ></calcite-action>
+            <calcite-avatar
+              scale="l"
+              slot="content-start"
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="l"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list-item
+              closable
+              label="large grandchild"
+              value="large"
+              description="large hello world"
+              scale="l"
+              icon-start="banana"
+              icon-end="banana"
+            >
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="l"
+                slot="actions-start"
+              ></calcite-action>
+              <calcite-avatar
+                scale="l"
+                slot="content-start"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
+                scale="l"
+                slot="content-end"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="l"
+                slot="actions-end"
+              ></calcite-action>
+            </calcite-list-item>
+          </calcite-list-item>
+        </calcite-list-item>
+      </calcite-list>
+    </div>
+  </div>
+
+  <!-- scales -->
+  <div class="parent">
+    <div class="child right-aligned-text">scales highlight draggable</div>
+
+    <div class="child">
+      <calcite-list drag-enabled scale="s" selection-mode="single" label="test" selection-appearance="highlight">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+
+      <calcite-list drag-enabled selection-mode="single" label="test" selection-appearance="highlight">
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+
+      <calcite-list drag-enabled scale="l" selection-mode="single" label="test" selection-appearance="highlight">
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+    </div>
+  </div>
+
+  <!-- scales -->
+  <div class="parent">
+    <div class="child right-aligned-text">scales highlight draggable nested</div>
+
+    <div class="child">
+      <calcite-list
+        display-mode="nested"
+        drag-enabled
+        scale="s"
+        selection-mode="single"
+        label="test"
+        selection-appearance="highlight"
+      >
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="small parent"
+          value="small"
+          description="small hello world"
+          scale="s"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+          <calcite-list-item
+            closable
+            label="small child"
+            value="small"
+            description="small hello world"
+            scale="s"
+            icon-start="banana"
+            icon-end="banana"
+          >
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="s"
+              slot="actions-start"
+            ></calcite-action>
+            <calcite-avatar
+              scale="s"
+              slot="content-start"
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="s"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list-item
+              closable
+              label="small grandchild"
+              value="small"
+              description="small hello world"
+              scale="s"
+              icon-start="banana"
+              icon-end="banana"
+            >
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="s"
+                slot="actions-start"
+              ></calcite-action>
+              <calcite-avatar
+                scale="s"
+                slot="content-start"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
+                scale="s"
+                slot="content-end"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="s"
+                slot="actions-end"
+              ></calcite-action>
+            </calcite-list-item>
+          </calcite-list-item>
+        </calcite-list-item>
+      </calcite-list>
+      <calcite-list
+        display-mode="nested"
+        drag-enabled
+        selection-mode="single"
+        label="test"
+        selection-appearance="highlight"
+      >
+        <calcite-list-item
+          closable
+          label="medium"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="medium parent"
+          value="medium"
+          description="medium hello world"
+          scale="m"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="m" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="m"
+            slot="actions-end"
+          ></calcite-action>
+          <calcite-list-item
+            closable
+            label="medium child"
+            value="medium"
+            description="medium hello world"
+            scale="m"
+            icon-start="banana"
+            icon-end="banana"
+          >
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="m"
+              slot="actions-start"
+            ></calcite-action>
+            <calcite-avatar
+              scale="m"
+              slot="content-start"
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="m" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="m"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list-item
+              closable
+              label="medium grandchild"
+              value="medium"
+              description="medium hello world"
+              scale="m"
+              icon-start="banana"
+              icon-end="banana"
+            >
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="m"
+                slot="actions-start"
+              ></calcite-action>
+              <calcite-avatar
+                scale="m"
+                slot="content-start"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-avatar
+                scale="m"
+                slot="content-end"
+                thumbnail="./_assets/images/placeholder.svg"
+              ></calcite-avatar>
+              <calcite-action
+                appearance="transparent"
+                icon="sort-ascending"
+                text="menu"
+                label="menu"
+                scale="m"
+                slot="actions-end"
+              ></calcite-action>
+            </calcite-list-item>
+          </calcite-list-item>
+        </calcite-list-item>
+      </calcite-list>
+      <calcite-list
+        display-mode="nested"
+        drag-enabled
+        scale="l"
+        selection-mode="single"
+        label="test"
+        selection-appearance="highlight"
+      >
+        <calcite-list-item
+          closable
+          label="large"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="large parent"
+          value="large"
+          description="large hello world"
+          scale="l"
+          icon-start="banana"
+          icon-end="banana"
+          selected
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="l" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="l"
+            slot="actions-end"
+          ></calcite-action>
+          <calcite-list-item
+            closable
+            label="large child"
+            value="large"
+            description="large hello world"
+            scale="l"
+            icon-start="banana"
+            icon-end="banana"
+          >
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="l"
+              slot="actions-start"
+            ></calcite-action>
+            <calcite-avatar
+              scale="l"
+              slot="content-start"
+              thumbnail="./_assets/images/placeholder.svg"
+            ></calcite-avatar>
+            <calcite-avatar scale="l" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+            <calcite-action
+              appearance="transparent"
+              icon="sort-ascending"
+              text="menu"
+              label="menu"
+              scale="l"
+              slot="actions-end"
+            ></calcite-action>
+            <calcite-list-item
+              closable
+              label="large grandchild"
+              value="large"
+              description="large hello world"
+              scale="l"
+              icon-start="banana"
+              icon-end="banana"
             >
               <calcite-action
                 appearance="transparent"
@@ -3965,7 +5296,36 @@ export const scales = (): string => html`
   </div>
 `;
 
-export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
+const selectionModes: List["selectionMode"][] = ["none", "single", "single-persist", "multiple"];
+const selectionAppearances: List["selectionAppearance"][] = ["icon", "border", "highlight"];
+
+export const selection = (): string => {
+  return selectionModes
+    .map(
+      (mode) => html`
+        <h1>selection-mode="${mode}"</h1>
+        ${selectionAppearances
+          .map(
+            (appearance) => html`
+              <h2>selection-appearance="${appearance}"</h2>
+              <calcite-list label="a list" selection-mode="${mode}" selection-appearance="${appearance}">
+                <calcite-list-item label="Item 1" description="Description 1" selected></calcite-list-item>
+                <calcite-list-item
+                  label="Item 2"
+                  description="Description 2"
+                  ${mode === "multiple" ? "selected" : ""}
+                ></calcite-list-item>
+                <calcite-list-item label="Item 3" description="Description 3"></calcite-list-item>
+              </calcite-list>
+            `,
+          )
+          .join("")}
+      `,
+    )
+    .join("");
+};
+
+export const onlyLabelVersusOnlyDescription = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
@@ -3974,10 +5334,22 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-export const stretchSlottedContent = (): string => html`
+export const actionsSlots = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description.">
-      <calcite-handle slot="actions-start"></calcite-handle>
+      <calcite-action-menu appearance="transparent" slot="actions-start">
+        <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
+      </calcite-action-menu>
+      <calcite-dropdown slot="actions-start">
+        <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
+        <calcite-dropdown-group selection-mode="single" group-title="Sort by">
+          <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+          <calcite-dropdown-item>Date modified</calcite-dropdown-item>
+          <calcite-dropdown-item>Title</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
       <calcite-action
         slot="actions-start"
         appearance="transparent"
@@ -4298,7 +5670,7 @@ export const filterEnabledWithHiddenItems = (): string => html`
   </calcite-list>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <h1>selection-mode="none" + selection-appearance="icon"</h1>
   <calcite-list class="calcite-mode-dark" dir="rtl" ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
@@ -4353,11 +5725,23 @@ export const darkModeRTL_TestOnly = (): string => html`
     <calcite-list-item label="My first list item" selected>First </calcite-list-item>
     <calcite-list-item label="My second list item">Second </calcite-list-item>
   </calcite-list>
+
+  <h1>selection-mode="single-persist" + selection-appearance="highlight" + dir="rtl"</h1>
+  <calcite-list
+    class="calcite-mode-dark"
+    label="RTL list"
+    selection-appearance="highlight"
+    selection-mode="single-persist"
+    dir="rtl"
+  >
+    <calcite-list-item label="My first list item" selected>First </calcite-list-item>
+    <calcite-list-item label="My second list item">Second </calcite-list-item>
+  </calcite-list>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-list disabled>
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
@@ -4376,29 +5760,47 @@ export const disabled_TestOnly = (): string =>
     ></calcite-list-item>
   </calcite-list>`;
 
-export const customContent_TestOnly = (): string =>
+export const customContent = (): string =>
   html`<calcite-list disabled>
     <calcite-list-item>
       <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
+      </div>
+    </calcite-list-item>
     <calcite-list-item disabled>
       <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
-    <calcite-list-item
-      ><div slot="content">
+      </div>
+    </calcite-list-item>
+    <calcite-list-item>
+      <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
+      </div>
+    </calcite-list-item>
+    <calcite-list-item icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
+    <calcite-list-item disabled icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
+    <calcite-list-item icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
   </calcite-list>`;
 
-export const singlePersist_TestOnly = (): string =>
+export const singlePersist = (): string =>
   html`<calcite-list selection-mode="single-persist" label="test">
     <calcite-list-item selected label="basic" value="basic" description="hello world">
       <calcite-icon
@@ -4430,7 +5832,7 @@ export const singlePersist_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const closableListItems_TestOnly = (): string =>
+export const closableListItems = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
     <calcite-list-item selected closable label="basic" value="basic" description="hello world">
       <calcite-icon
@@ -4462,7 +5864,7 @@ export const closableListItems_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const filteredChildListItems_TestOnly = (): string =>
+export const filteredChildListItems = (): string =>
   html`<calcite-list
       display-mode="nested"
       filter-enabled
@@ -4647,11 +6049,11 @@ export const filteredChildListItems_TestOnly = (): string =>
       </calcite-list-item-group>
     </calcite-list>`;
 
-filteredChildListItems_TestOnly.parameters = {
+filteredChildListItems.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const filterActions_TestOnly = (): string =>
+export const filterActions = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
     <calcite-action
       appearance="transparent"
@@ -4711,7 +6113,7 @@ export const filterActions_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const sortableList_TestOnly = (): string =>
+export const sortableList = (): string =>
   html`<calcite-list drag-enabled selection-mode="single" label="List 1" filter-enabled>
     <calcite-action
       appearance="transparent"
@@ -4778,7 +6180,7 @@ export const sortableList_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const sortableNestedList_TestOnly = (): string =>
+export const sortableNestedList = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled group="nested" label="List 1" selection-mode="multiple">
     <calcite-list-item expanded label="Hi! 1" description="hello world">
       <calcite-list display-mode="nested" drag-enabled label="List 2" group="nested" selection-mode="multiple">
@@ -4803,7 +6205,7 @@ export const sortableNestedList_TestOnly = (): string =>
     <calcite-list-item expanded label="Hi! 7" description="hello world"></calcite-list-item>
   </calcite-list>`;
 
-export const emptyExpandedLists_TestOnly = (): string =>
+export const emptyExpandedLists = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled group="nested" label="List 1" selection-mode="multiple">
     <calcite-list-item expanded label="Hi! 1" description="hello world">
       <calcite-list display-mode="nested" drag-enabled label="List 2" group="nested" selection-mode="multiple">
@@ -4866,7 +6268,7 @@ export const emptyExpandedLists_TestOnly = (): string =>
       ></calcite-list></calcite-list-item
   ></calcite-list>`;
 
-export const listWithEmptyChildList_TestOnly = (): string =>
+export const listWithEmptyChildList = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled label="List 1" group="nested" selection-mode="single">
     <calcite-list-item expanded label="Hi! 4" description="hello world">
       <calcite-list
@@ -4879,7 +6281,7 @@ export const listWithEmptyChildList_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const listWithGroupedAndSlottedItems_TestOnly = (): string =>
+export const listWithGroupedAndSlottedItems = (): string =>
   html`<calcite-list filter-enabled>
     <calcite-list-item-group heading="Outdoor recreation">
       <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
@@ -4920,7 +6322,7 @@ export const listWithGroupedAndSlottedItems_TestOnly = (): string =>
     </calcite-list-item-group>
   </calcite-list>`;
 
-export const filteredListItemsNoResults_TestOnly = (): string =>
+export const filteredListItemsNoResults = (): string =>
   html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
     <calcite-list-item label="Apples" value="apples"></calcite-list-item>
     <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
@@ -4931,7 +6333,7 @@ export const filteredListItemsNoResults_TestOnly = (): string =>
     </calcite-notice>
   </calcite-list>`;
 
-export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</h4>
+export const nestingLists = (): string => html`<h4>Nesting List Items</h4>
   <calcite-list display-mode="nested">
     <calcite-list-item label="List Item" expanded>
       <calcite-list-item label="List Item"></calcite-list-item>
@@ -4951,7 +6353,7 @@ export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</
     </calcite-list-item>
   </calcite-list>`;
 
-export const closedItems_TestOnly = (): string =>
+export const closedItems = (): string =>
   html` <calcite-list>
     <calcite-list-item
       closable
@@ -5073,7 +6475,11 @@ export const interactiveMode = (): string => html`
 
   <calcite-list interaction-mode="static" selection-appearance="icon" selection-mode="single">
     <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
-    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item
+      label="List Item 2"
+      description="Descriptive description about something"
+      selected
+    ></calcite-list-item>
     <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
   </calcite-list>
   <br />
@@ -5082,7 +6488,24 @@ export const interactiveMode = (): string => html`
 
   <calcite-list interaction-mode="static" selection-appearance="border" selection-mode="single">
     <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
-    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item
+      label="List Item 2"
+      description="Descriptive description about something"
+      selected
+    ></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="static" and selection-appearance="highlight" (interactive)</h2>
+
+  <calcite-list interaction-mode="static" selection-appearance="highlight" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item
+      label="List Item 2"
+      description="Descriptive description about something"
+      selected
+    ></calcite-list-item>
     <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
   </calcite-list>
   <br />
@@ -5091,7 +6514,11 @@ export const interactiveMode = (): string => html`
 
   <calcite-list interaction-mode="interactive" selection-mode="single">
     <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
-    <calcite-list-item label="List Item 2" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item
+      label="List Item 2"
+      description="Descriptive description about something"
+      selected
+    ></calcite-list-item>
     <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
   </calcite-list>
 `;
@@ -5127,3 +6554,117 @@ export const filterGroups = (): string =>
 
 export const emptyFixedHeight = (): string =>
   html`<calcite-list style="block-size: 600px; inline-size: 400px;" loading></calcite-list>`;
+
+export const emptyContent = (): string =>
+  html`<h1>Empty List</h1>
+    <calcite-list group="items" drag-enabled label="Park features">
+      <div slot="empty-content">
+        <h2>Start configuring a form for the layer</h2>
+        <p>Drag items here to add them to the form.</p>
+      </div>
+    </calcite-list>
+    <h1>Populated List</h1>
+    <calcite-list group="items" drag-enabled label="Park features">
+      <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
+        <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+      </calcite-list-item>
+      <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+        <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+      </calcite-list-item>
+      <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+        <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+      </calcite-list-item>
+    </calcite-list>`;
+
+function getStickyGroupHeaderHTML(filterEnabled = false): string {
+  return html`<div style="height:300px; overflow: auto;">
+    <calcite-list label="Park features" selection-mode="single" ${filterEnabled ? "filter-enabled" : ""}>
+      <calcite-list-item-group heading="Outdoor recreation">
+        <calcite-list-item
+          label="Hiking trails"
+          description="Designated routes for hikers to use."
+          value="hiking-trails"
+        >
+        </calcite-list-item>
+        <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+        </calcite-list-item>
+        <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+        </calcite-list-item>
+        <calcite-list-item label="Estuaries" description="Where the river meets the sea." value="estuaries">
+        </calcite-list-item>
+        <calcite-list-item
+          label="Campgrounds"
+          description="Designated areas for overnight camping."
+          value="campgrounds"
+        >
+        </calcite-list-item>
+        <calcite-list-item
+          label="Scenic viewpoints"
+          description="Overlooks with panoramic landscape views."
+          value="scenic-viewpoints"
+        >
+        </calcite-list-item>
+        <calcite-list-item
+          label="Picnic areas"
+          description="Spots with tables and facilities for outdoor meals."
+          value="picnic-areas"
+        >
+        </calcite-list-item>
+        <calcite-list-item
+          label="Rock climbing routes"
+          description="Marked paths and walls for climbing activities."
+          value="rock-climbing-routes"
+        >
+        </calcite-list-item>
+        <calcite-list-item
+          selected
+          label="Birdwatching zones"
+          description="Habitats where visitors can observe local bird species."
+          value="birdwatching-zones"
+        >
+        </calcite-list-item>
+        <calcite-list-item
+          label="Visitor centers"
+          description="Information hubs with maps, exhibits, and guidance."
+          value="visitor-centers"
+        >
+        </calcite-list-item>
+      </calcite-list-item-group>
+      <script>
+        (async () => {
+          await customElements.whenDefined("calcite-list-item");
+          const selectedItem = document.querySelector("calcite-list-item[selected]");
+          await selectedItem.componentOnReady();
+          selectedItem.scrollIntoView({ block: "nearest" });
+        })();
+      </script>
+    </calcite-list>
+  </div>`;
+}
+
+export const stickyGroupHeader = (): string => getStickyGroupHeaderHTML();
+
+export const stickyGroupHeaderFilterEnabled = (): string => getStickyGroupHeaderHTML(true);
+
+export const nestedSelectionModes = (): string =>
+  html`<calcite-list drag-enabled label="Top-level label" display-mode="nested" selection-mode="single-persist">
+      <calcite-list-item expanded label="Top-level list-item">
+        <calcite-list drag-enabled label="Sub-level list" display-mode="flat" selection-mode="none">
+          <calcite-list-item label="Sub-level list-item - should not have any selection"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>
+    <calcite-list drag-enabled label="Top-level label" display-mode="nested" selection-mode="single-persist">
+      <calcite-list-item expanded label="Top-level list-item">
+        <calcite-list label="Sub-level list" display-mode="flat" selection-mode="none">
+          <calcite-list-item label="Sub-level list-item - should not have any selection"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>
+    <calcite-list drag-enabled label="Top-level label" display-mode="nested" selection-mode="single-persist">
+      <calcite-list-item expanded label="Top-level list-item">
+        <calcite-list label="Sub-level list" display-mode="flat" selection-mode="multiple">
+          <calcite-list-item label="Sub-level list-item - should have selection"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>`;

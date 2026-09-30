@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -9,17 +8,14 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { dateToISO } from "../../utils/date";
-import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { DatePicker } from "../date-picker/date-picker";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./date-picker-day.scss";
 import { CSS } from "./resources";
 
@@ -29,22 +25,24 @@ declare global {
   }
 }
 
-export class DatePickerDay extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class DatePickerDay extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
-  private parentDatePickerEl: DatePicker["el"];
+  private parentDatePickerEl?: DatePicker["el"];
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is active. */
   @property({ reflect: true }) active = false;
@@ -57,14 +55,14 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
    *
    * @private
    */
-  @property() dateTimeFormat: Intl.DateTimeFormat;
+  @property() dateTimeFormat!: Intl.DateTimeFormat;
 
   /**
    * Day of the month to be shown.
    *
    * @required
    */
-  @property() day: number;
+  @property() day!: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -78,18 +76,11 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
-  /**
-   * When `true`, highlight styling for edge dates is applied.
-   *
-   * @private
-   */
-  @property({ reflect: true }) rangeEdge: "start" | "end" | undefined;
-
   /** Date is being hovered and within the set range. */
   @property({ reflect: true }) rangeHover = false;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
@@ -98,27 +89,27 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) startOfRange = false;
 
   /** The component's value. */
-  @property() value: Date;
+  @property() value!: Date;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.el, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when user hovers over a day.
@@ -134,9 +125,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
    */
   calciteInternalDaySelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -146,16 +137,13 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   }
 
   load(): void {
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
+    this.parentDatePickerEl =
+      closestElementCrossShadowBoundary(this.el, "calcite-date-picker") ?? undefined;
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private onClick(): void {
     if (this.disabled) {
@@ -182,9 +170,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
     this.calciteInternalDayHover.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dayId = dateToISO(this.value).replaceAll("-", "");
@@ -198,7 +186,7 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
-    const dayLabel = this.dateTimeFormat.format(this.value);
+    const dayLabel = this.dateTimeFormat.format(this.value) ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = dayLabel;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -211,15 +199,15 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabIndex", this.active && !this.disabled ? 0 : -1);
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div ariaHidden="true" class={CSS.dayWrapper}>
           <span class={CSS.day}>
             <span class={CSS.text}>{formattedDay}</span>
           </span>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

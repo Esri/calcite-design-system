@@ -1,22 +1,40 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
+import type { Stack } from "./stack";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-menu/action-menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../avatar/avatar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../handle/handle"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./stack"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 export default {
   title: "Components/Support/Stack",
+  args: {
+    disabled: false,
+  },
 };
+
+type StackStoryArgs = Pick<Stack, "disabled">;
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
-const simpleHTML = html`<calcite-stack>
-  <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
-  Hello World
-  <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
-  <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
-  <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
-</calcite-stack>`;
+const simpleHTML = (args: StackStoryArgs): string =>
+  html`<calcite-stack ${boolean("disabled", args.disabled)}>
+    <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
+    Hello World
+    <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
+    <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
+    <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
+  </calcite-stack>`;
 
-export const simple = (): string => simpleHTML;
+export const simple = (args: StackStoryArgs): string => simpleHTML(args);
 
 export const stretchSlottedContent = (): string => html`
   <calcite-stack>
@@ -41,10 +59,10 @@ export const stretchSlottedContent = (): string => html`
   </calcite-stack>
 `;
 
-export const simpleDarkMode_TestOnly = (): string => simpleHTML;
-simpleDarkMode_TestOnly.parameters = { themes: modesDarkDefault };
+export const simpleDarkMode = (): string => simpleHTML({ disabled: false });
+simpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-stack disabled>
     <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
     Hello World
@@ -53,7 +71,7 @@ export const disabled_TestOnly = (): string =>
     <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
   </calcite-stack>`;
 
-export const panelFooter_TestOnly = (): string =>
+export const panelFooter = (): string =>
   html`<calcite-panel>
     <div slot="header-content">My Panel</div>
     <p>My content</p>

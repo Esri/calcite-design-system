@@ -5,8 +5,8 @@ import copy from "rollup-plugin-copy";
 import postcss from "rollup-plugin-postcss";
 import { defineConfig } from "rollup";
 
-// `npm run build` -> `production` is true
-// `npm run dev` -> `production` is false
+// `pnpm build` -> `production` is true
+// `pnpm dev` -> `production` is false
 const production = !process.env.ROLLUP_WATCH;
 
 export default defineConfig({
@@ -26,7 +26,7 @@ export default defineConfig({
       // copy over the calcite-components assets
       targets: [
         {
-          src: "./node_modules/@esri/calcite-components/dist/calcite/assets",
+          src: "./node_modules/@esri/calcite-components/dist/cdn/assets",
           dest: "./public",
         },
       ],

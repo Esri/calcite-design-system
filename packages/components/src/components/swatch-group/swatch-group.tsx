@@ -1,17 +1,14 @@
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import type { Swatch } from "../swatch/swatch";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./swatch-group.scss";
+import { isSwatch } from "../swatch/resources";
 
 declare global {
   interface DeclareElements {
@@ -19,14 +16,14 @@ declare global {
   }
 }
 /** @slot - A slot for adding one or more `calcite-swatch`s. */
-export class SwatchGroup extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class SwatchGroup extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private items: Swatch["el"][] = [];
 
@@ -34,21 +31,22 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Specifies the size of the component. Child `calcite-swatch`s inherit the component's value. */
+  /** Specifies the component's size. Child `calcite-swatch`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -59,24 +57,21 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
   @property() selectedItems: Swatch["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component's first focusable element.
@@ -88,57 +83,69 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.el, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's selection changes. */
   calciteSwatchGroupSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
-    this.listen("calciteInternalSwatchKeyEvent", this.calciteInternalSwatchKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteSwatchSelect", this.calciteSwatchSelectListener);
     this.listen("calciteInternalSwatchSelect", this.calciteInternalSwatchSelectListener);
     this.listen("calciteInternalSyncSelectedSwatches", this.calciteInternalSyncSelectedSwatches);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) {
+    if (
+      (changes.has("scale") || changes.has("selectionMode")) &&
+      (this.hasUpdated || this.selectionMode !== "none")
+    ) {
       this.updateItems();
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
+  //#endregion
 
-  // #endregion
+  //#region Private Methods
 
-  // #region Private Methods
-  private calciteInternalSwatchKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
-          break;
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
-          break;
-      }
+  private keyDownHandler(event: KeyboardEvent): void {
+    const target = event.composedPath().find(isSwatch);
+
+    if (event.defaultPrevented || !target || !this.el.contains(target)) {
+      return;
     }
-    event.stopPropagation();
+
+    const interactiveItems = this.items.filter((el) => !el.disabled);
+
+    if (!interactiveItems.includes(target)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+        focusElementInGroup(interactiveItems, target, "next");
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        focusElementInGroup(interactiveItems, target, "previous");
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(interactiveItems, target, "first");
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(interactiveItems, target, "last");
+        event.preventDefault();
+        break;
+    }
   }
 
   private calciteSwatchSelectListener(event: CustomEvent): void {
@@ -165,18 +172,18 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
     event.stopPropagation();
   }
 
-  private updateItems(event?: Event): void {
-    const itemsFromSlot = this.slotRef.value
-      ?.assignedElements({ flatten: true })
-      .filter((el): el is Swatch["el"] => el?.matches("calcite-swatch"));
+  private handleSlotChange(event: Event): void {
+    this.updateItems(slotChangeGetAssignedElements<Swatch["el"]>(event, "calcite-swatch"));
+  }
 
-    this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Swatch["el"]>(event);
+  private updateItems(items = this.items): void {
+    this.items = items;
 
-    if (this.items?.length < 1) {
+    if (this.items.length < 1) {
       return;
     }
 
-    this.items?.forEach((el) => {
+    this.items.forEach((el) => {
       el.interactive = true;
       el.scale = this.scale;
       el.selectionMode = this.selectionMode;
@@ -187,12 +194,12 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
   }
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.items?.filter((el) => el.selected);
+    this.selectedItems = this.items.filter((el) => el.selected);
   }
 
   private setSelectedItems(emit: boolean, elToMatch?: Swatch["el"]): void {
     if (elToMatch) {
-      this.items?.forEach((el) => {
+      this.items.forEach((el) => {
         const matchingEl = elToMatch === el;
         switch (this.selectionMode) {
           case "multiple":
@@ -219,9 +226,9 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const role =
@@ -229,13 +236,13 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
     const { disabled } = this;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div ariaLabel={this.label} class={CSS.container} role={role}>
-          <slot onSlotChange={this.updateItems} ref={this.slotRef} />
+          <slot onSlotChange={this.handleSlotChange} ref={this.slotRef} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

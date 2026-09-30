@@ -5,9 +5,8 @@ import { filter } from "./filter";
 describe("filter function", () => {
   mockConsole();
 
-  it("warns and returns empty array for empty data", () => {
+  it("returns empty array for empty data", () => {
     const result = filter([], "test");
-    expect(console.warn).toHaveBeenCalledTimes(1);
     expect(result).toEqual([]);
   });
 

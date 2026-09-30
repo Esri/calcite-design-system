@@ -8,42 +8,70 @@
  * @prop --calcite-tooltip-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-tooltip-max-size-x: Specifies the component's maximum width.
  * @prop --calcite-tooltip-text-color: Specifies the component's text color.
- * @prop --calcite-tooltip-z-index: [Deprecated] No longer necessary. Specifies the z-index value for the component.
  */
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tooltip-padding-block
+// --calcite-internal-tooltip-padding-inline
+
+@use "../../styles/shared";
 
 :host {
-  @apply contents;
+  display: contents;
+  --calcite-internal-tooltip-padding-block: var(--calcite-spacing-sm);
+  --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-md);
+}
+
+:host([top-layer-disabled]) {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-tooltip);
 }
 
 .position-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
   max-inline-size: var(--calcite-tooltip-max-size-x, 20rem);
   max-block-size: 20rem;
 }
 
-@include floating-ui.floating-ui-elem-anim(".position-container");
+@include shared.floating-ui-elem-anim(".position-container");
 
-@include floating-ui.floating-ui-arrow();
+@include shared.floating-ui-arrow();
+
+:host([scale="s"]) {
+  --calcite-internal-tooltip-padding-block: var(--calcite-spacing-xxs);
+  --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-sm);
+
+  .container {
+    @include shared.text-n3-wrap();
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    @include shared.text-n1-wrap();
+  }
+}
 
 .container {
-  @apply text-n2-wrap
-    relative
-    overflow-hidden
-    py-3
-    px-4
-    font-medium
-    word-break;
+  @include shared.text-n2-wrap();
+  @include shared.word-break();
+
+  position: relative;
+  overflow: hidden;
+  font-weight: var(--calcite-font-weight-medium);
+  padding-block: var(--calcite-internal-tooltip-padding-block);
+  padding-inline: var(--calcite-internal-tooltip-padding-inline);
   border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
   color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
   text-align: start;
 }
 
 .position-container .calcite-floating-ui-anim {
-  @apply border
-    border-solid;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  box-shadow: var(--calcite-shadow-md);
   background-color: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
@@ -57,4 +85,4 @@
   stroke: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
 }
 
-@include includes.base-component();
+@include shared.base-component();

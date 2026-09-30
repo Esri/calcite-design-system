@@ -1,6 +1,5 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -11,24 +10,23 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { nodeListToArray } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { FlipContext, Scale } from "../interfaces";
-import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { FlipContext, Scale } from "../types";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/types";
+import { TabID, TabLayout, TabPosition } from "../tabs/types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
-import { XButton } from "../functional/XButton";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
+import { isTabs } from "../tabs/resources";
+import { useInteractive } from "../../controllers/useInteractive";
+import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, isTabTitle } from "./resources";
 import { styles } from "./tab-title.scss";
 
 declare global {
@@ -42,7 +40,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class TabTitle extends LitElement implements InteractiveComponent {
+export class TabTitle extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -51,18 +49,18 @@ export class TabTitle extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
-  private containerEl: HTMLDivElement;
+  private containerEl?: HTMLDivElement;
+
+  private direction = useDirection();
 
   private guid = IDS.host(guid());
 
   /** watches for changing text content */
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateHasText(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.updateHasText());
 
-  private parentTabsEl: Tabs["el"];
+  private parentTabsEl: Tabs["el"] | null = null;
 
   private resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
@@ -75,11 +73,13 @@ export class TabTitle extends LitElement implements InteractiveComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region State Properties
 
-  @state() controls: string;
+  @state() controls: string | null = null;
 
   /** determine if there is slotted text for styling purposes */
   @state() hasText = false;
@@ -91,34 +91,34 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, a close button is added to the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, does not display or position the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @private */
-  @property({ reflect: true }) layout: TabLayout;
+  @property({ reflect: true }) layout!: TabLayout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`.
    *
-   *  `@internal`
+   * @internal
    */
   @property() position: TabPosition = "top";
 
@@ -141,7 +141,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @property({ reflect: true }) tab: string;
+  @property({ reflect: true }) tab!: string;
 
   //#endregion
 
@@ -177,9 +177,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((el) =>
-        el.matches("calcite-tab-title"),
-      ),
+      nodeListToArray(this.el.parentElement!.children).filter(isTabTitle),
       this.el,
     );
   }
@@ -204,18 +202,17 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
+  /** @private */
+  calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
+
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts#L1).
    * @private
    */
   calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
 
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts).
    * @private
    */
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });
@@ -271,19 +268,19 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.selectedHandler();
+    }
+
+    if (changes.has("closed") && this.hasUpdated) {
+      this.calciteInternalTabTitleCloseChange.emit();
     }
 
     if (this.parentTabsEl) {
       this.layout = this.parentTabsEl.layout;
       this.bordered = this.parentTabsEl.bordered;
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   /** This lifecycle method is not expected to return a promise. The returned promise will be ignored by Lit rather than awaited. */
@@ -313,9 +310,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   }
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const targetTabsEl = event
-      .composedPath()
-      .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
+    const targetTabsEl = event.composedPath().find(isTabs);
 
     if (targetTabsEl !== this.parentTabsEl) {
       return;
@@ -340,14 +335,14 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     switch (event.key) {
       case " ":
       case "Enter":
-        if (!event.composedPath().includes(this.closeButtonRef.value)) {
+        if (!event.composedPath().includes(this.closeButtonRef.value!)) {
           this.activateTab();
           event.preventDefault();
         }
         break;
       case "ArrowRight":
         event.preventDefault();
-        if (getElementDir(this.el) === "ltr") {
+        if (this.direction === "ltr") {
           this.calciteInternalTabsFocusNext.emit();
         } else {
           this.calciteInternalTabsFocusPrevious.emit();
@@ -355,7 +350,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
         break;
       case "ArrowLeft":
         event.preventDefault();
-        if (getElementDir(this.el) === "ltr") {
+        if (this.direction === "ltr") {
           this.calciteInternalTabsFocusPrevious.emit();
         } else {
           this.calciteInternalTabsFocusNext.emit();
@@ -434,7 +429,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabIndex", this.selected && !this.disabled ? 0 : -1);
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -453,7 +448,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
           {this.renderCloseButton()}
           <div class={CSS.selectedIndicator} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
@@ -461,16 +456,14 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     const { closable, messages } = this;
 
     return closable ? (
-      <XButton
-        disabled={false}
-        focusable={true}
+      <calcite-action
+        class={CSS.close}
+        icon="x"
         key="close-button"
-        label={messages.close}
         onClick={this.closeClickHandler}
         ref={this.closeButtonRef}
-        round={false}
         scale={this.scale}
-        title={messages.close}
+        text={messages.close}
       />
     ) : null;
   }

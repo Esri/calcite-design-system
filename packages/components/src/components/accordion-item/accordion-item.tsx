@@ -1,22 +1,17 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import {
-  closestElementCrossShadowBoundary,
-  getElementDir,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { createRef } from "lit/directives/ref.js";
+import { closestElementCrossShadowBoundary, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
-import { IconName } from "../icon/interfaces";
-import type { Accordion } from "../accordion/accordion";
+import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../types";
+import { IconName } from "../icon/types";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { SLOTS, CSS, IDS, ICONS } from "./resources";
-import { RequestedItem } from "./interfaces";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { RequestedItem } from "./types";
 import { styles } from "./accordion-item.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
@@ -27,6 +22,7 @@ declare global {
 }
 
 /**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
@@ -42,7 +38,9 @@ export class AccordionItem extends LitElement {
 
   //#region Private Properties
 
-  private headerRef = createRef<HTMLDivElement>();
+  private direction = useDirection();
+
+  private headerRef = createRef<HTMLButtonElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -69,63 +67,56 @@ export class AccordionItem extends LitElement {
 
   //#region Public Properties
 
-  /**
-   * The containing `accordion` element.
-   *
-   * @private
-   */
-  @property() accordionParent: Accordion["el"];
-
-  /** Specifies a description for the component. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies heading text for the component. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
    * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() appearance: Extract<"solid" | "transparent", Appearance>;
+  @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() iconPosition: Extract<"start" | "end", Position>;
+  @property() iconPosition!: Extract<"start" | "end", Position>;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
+  @property() iconType!: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -137,7 +128,7 @@ export class AccordionItem extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -298,16 +289,24 @@ export class AccordionItem extends LitElement {
   //#region Rendering
 
   private renderActionsStart(): JsxNode {
+    const { hasActionsStart } = this;
     return (
-      <div class={CSS.actionsStart} hidden={!this.hasActionsStart}>
+      <div
+        class={{ [CSS.actionsStart]: true, [CSS.hasActions]: hasActionsStart }}
+        hidden={!hasActionsStart}
+      >
         <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
       </div>
     );
   }
 
   private renderActionsEnd(): JsxNode {
+    const { hasActionsEnd } = this;
     return (
-      <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
+      <div
+        class={{ [CSS.actionsEnd]: true, [CSS.hasActions]: hasActionsEnd }}
+        hidden={!hasActionsEnd}
+      >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
       </div>
     );
@@ -331,7 +330,6 @@ export class AccordionItem extends LitElement {
 
   override render(): JsxNode {
     const { iconFlipRtl, heading, headingLevel, messages, expanded } = this;
-    const dir = getElementDir(this.el);
     const expandIconTitle = expanded ? messages.collapse : messages.expand;
 
     const iconStartEl = this.iconStart ? (
@@ -363,20 +361,19 @@ export class AccordionItem extends LitElement {
         <div
           class={{
             [CSS.header]: true,
-            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS_UTILITY.rtl]: this.direction === "rtl",
             [CSS.headerAppearance(this.appearance)]: true,
           }}
         >
           {this.renderActionsStart()}
-          <div
+          <button
             aria-controls={IDS.section}
             ariaExpanded={expanded}
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
             ref={this.headerRef}
-            role="button"
-            tabIndex="0"
+            type="button"
           >
             <div class={CSS.headerContainer}>
               {this.renderContentStart()}
@@ -404,7 +401,7 @@ export class AccordionItem extends LitElement {
               scale={getIconScale(this.scale)}
               title={expandIconTitle}
             />
-          </div>
+          </button>
           {this.renderActionsEnd()}
         </div>
         <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>

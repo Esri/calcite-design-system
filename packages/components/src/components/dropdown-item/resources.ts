@@ -1,16 +1,21 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   container: "container",
   containerNone: "container--none-selection",
-  icon: "dropdown-item-icon",
-  iconEnd: "dropdown-item-icon--end",
-  iconStart: "dropdown-item-icon--start",
-  itemContent: "dropdown-item-content",
-  link: "dropdown-link",
+  icon: "icon",
+  iconEnd: "icon--end",
+  iconStart: "icon--start",
+  itemContent: "content",
+  link: "link",
 };
 
 export const ICONS: Record<string, IconName> = {
   check: "check",
-  bulletPoint: "bullet-point",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isDropdownItem = isTag("calcite-dropdown-item");

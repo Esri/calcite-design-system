@@ -1,18 +1,18 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   actionsEnd: "actions-end",
-  bulletPointIcon: "bullet-point",
   checkbox: "checkbox",
   checkboxContainer: "checkbox-container",
   checkboxLabel: "checkbox-label",
-  checkmarkIcon: "checkmark",
   chevron: "chevron",
   childrenContainer: "children-container",
   iconStart: "icon-start",
   itemExpanded: "item--expanded",
   nodeAndActionsContainer: "node-actions-container",
   nodeContainer: "node-container",
+  selectionIcon: "selection-icon",
 };
 
 export const SLOTS = {
@@ -29,3 +29,8 @@ export const ICONS: Record<string, IconName> = {
   minusSquareF: "minus-square-f",
   square: "square",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTreeItem = isTag("calcite-tree-item");

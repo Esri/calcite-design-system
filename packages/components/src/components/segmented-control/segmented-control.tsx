@@ -1,5 +1,4 @@
-// @ts-strict-ignore
-import { PropertyValues, isServer } from "lit";
+import { type PropertyValues, isServer } from "lit";
 import {
   LitElement,
   property,
@@ -7,32 +6,25 @@ import {
   Fragment,
   h,
   method,
-  JsxNode,
+  type JsxNode,
   stringOrBoolean,
+  type ToEvents,
 } from "@arcgis/lumina";
-import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
-import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import type { Appearance, Layout, Scale, Status, Width } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/types";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
+import { isSegmentedControlItem } from "../segmented-control-item/resources";
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./segmented-control.scss";
@@ -47,25 +39,26 @@ declare global {
  * @slot - A slot for adding `calcite-segmented-control-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class SegmentedControl
-  extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class SegmentedControl extends LitElement implements LabelableComponent {
+  //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
-  defaultValue: SegmentedControl["value"];
+  defaultValue?: SegmentedControl["value"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
+
+  formSupport = useForm({ inputType: "text" })(this);
 
   private items: SegmentedControlItem["el"][] = [];
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   /**
    * Made into a prop for testing purposes only
@@ -76,11 +69,17 @@ export class SegmentedControl
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
 
-  /** Specifies the appearance style of the component. */
+  //#region Public Properties
+
+  /**
+   * Specifies the appearance style of the component.
+   *
+   * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
+   */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance
@@ -89,28 +88,20 @@ export class SegmentedControl
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** When provided, displays label text on the component. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -126,89 +117,78 @@ export class SegmentedControl
    *
    * @readonly
    */
-  @property() selectedItem: SegmentedControlItem["el"];
+  @property() selectedItem!: SegmentedControlItem["el"];
 
   /** Specifies the status of the validation message. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The current validation state of the component.
+   * @copyDoc
    *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's `selectedItem` value. */
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.selectedItem || this.items[0], options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `calcite-segmented-control-item` selection changes. */
   calciteSegmentedControlChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
-    this.listen("calciteInternalSegmentedControlItemChange", this.handleSelected);
+    useLabel(this);
+    this.listen<ToEvents<SegmentedControlItem>["calciteInternalSegmentedControlItemChange"]>(
+      "calciteInternalSegmentedControlItemChange",
+      this.handleSelected,
+    );
     this.listen("keydown", this.handleKeyDown);
     this.listen("click", this.handleClick);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
@@ -226,22 +206,13 @@ export class SegmentedControl
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.value);
+    this.formSupport.overrideDefaultValue(this.value);
   }
 
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private valueHandler(value: string): void {
     const { items } = this;
@@ -271,8 +242,8 @@ export class SegmentedControl
       return;
     }
 
-    if ((event.target as HTMLElement).localName === "calcite-segmented-control-item") {
-      this.selectItem(event.target as SegmentedControlItem["el"], true);
+    if (isSegmentedControlItem(event.target)) {
+      this.selectItem(event.target, true);
     }
   }
 
@@ -288,7 +259,7 @@ export class SegmentedControl
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
-    const { el, selectedItem } = this;
+    const { selectedItem } = this;
 
     if (keys.indexOf(key) === -1) {
       return;
@@ -296,7 +267,7 @@ export class SegmentedControl
 
     let adjustedKey = key;
 
-    if (getElementDir(el) === "rtl") {
+    if (this.direction === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }
@@ -361,9 +332,7 @@ export class SegmentedControl
   }
 
   private async handleDefaultSlotChange(event: Event): Promise<void> {
-    const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is SegmentedControlItem["el"] => el.matches("calcite-segmented-control-item"),
-    );
+    const items = slotChangeGetAssignedElements(event).filter(isSegmentedControlItem);
 
     await Promise.all(items.map((item) => item.componentOnReady()));
     this.items = items;
@@ -381,7 +350,7 @@ export class SegmentedControl
     }
 
     const { items } = this;
-    let match: SegmentedControlItem["el"] = null;
+    let match: SegmentedControlItem["el"] | undefined;
 
     items.forEach((item) => {
       const matches = item === selected;
@@ -397,6 +366,7 @@ export class SegmentedControl
       }
     });
 
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.selectedItem = match;
 
     if (match && emit) {
@@ -409,9 +379,9 @@ export class SegmentedControl
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -433,10 +403,9 @@ export class SegmentedControl
           ariaRequired={this.required}
           class={CSS.itemWrapper}
         >
-          <InteractiveContainer disabled={this.disabled}>
+          <this.interactiveContainer disabled={this.disabled}>
             <slot onSlotChange={this.handleDefaultSlotChange} />
-            <HiddenFormInputSlot component={this} />
-          </InteractiveContainer>
+          </this.interactiveContainer>
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -451,5 +420,5 @@ export class SegmentedControl
     );
   }
 
-  // #endregion
+  //#endregion
 }

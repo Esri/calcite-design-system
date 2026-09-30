@@ -1,6 +1,5 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -12,25 +11,12 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../interfaces";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -40,23 +26,26 @@ import {
   sanitizeNumberString,
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/types";
 import { getIconScale } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
+import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
 import { Validation } from "../functional/Validation";
-import {
-  NumericInputComponent,
-  syncHiddenFormInput,
-  TextualInputComponent,
-} from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import type { InlineEditable } from "../inline-editable/inline-editable";
+import { inlineEditConverter, UseInlineEdit } from "../../controllers/useInlineEdit";
+import type { Action } from "../action/action";
+import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
+import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -65,19 +54,16 @@ declare global {
 }
 
 /**
- * @slot action - A slot for positioning a `calcite-action` or other interactive content.
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputNumber
   extends LitElement
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    NumericInputComponent,
-    TextualInputComponent
+  implements LabelableComponent, NumericInputComponent, TextualInputComponent
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -95,36 +81,32 @@ export class InputNumber
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
 
-  defaultValue: InputNumber["value"];
+  private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
-  formEl: HTMLFormElement;
+  defaultValue?: InputNumber["value"];
 
-  private inlineEditableEl: InlineEditable["el"];
+  private direction = useDirection();
+
+  formSupport = useForm<this>({
+    inputType: "number",
+  })(this);
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+  private inlineEditableEl?: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private maxString?: string;
 
   private minString?: string;
 
-  private nudgeNumberValueIntervalId: number;
+  private nudgeNumberValueIntervalId?: number;
 
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setNumberValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
+  private previousEmittedNumberValue?: string;
 
-  private previousEmittedNumberValue: string;
-
-  private previousValue: string;
+  private previousValue!: string;
 
   private previousValueOrigin: SetValueOrigin = "initial";
 
@@ -140,15 +122,76 @@ export class InputNumber
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  private inlineEditManager = new UseInlineEdit({
+    getInlineEditing: () => this.inlineEditing,
+    setInlineEditing: (inlineEditing) => {
+      this.inlineEditing = inlineEditing;
+    },
+    getValue: () => this.value,
+    restoreValue: (value) => {
+      this.restoreInlineEditingValue(value);
+    },
+    commitValue: () => this.commitInlineEditingValue(),
+    setFocus: () => {
+      void this.setFocus();
+    },
+    emitCancel: () => {
+      this.calciteInputNumberInlineEditingCancel.emit();
+    },
+    emitConfirm: () => {
+      this.calciteInputNumberInlineEditingConfirm.emit();
+    },
+    emitEnableEditingChange: () => {
+      this.calciteInputNumberInlineEditingChange.emit();
+    },
+  });
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
+  private get selfManagedInlineEdit(): boolean {
+    return !!this.inlineEdit && !this.inlineEditableEl;
+  }
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !!this.inlineEditableEl)
+  private get hasInlineEditContext(): boolean {
+    return !!this.inlineEdit || !!this.inlineEditableEl;
+  }
+
+  private get inlineEditControlsDisabled(): boolean {
+    return this.inlineEdit === "controls-disabled";
+  }
+
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove this.inlineEditableEl ? this.inlineEditableEl.editingEnabled)
+  private get inlineEditingEnabledInContext(): boolean {
+    return this.inlineEditableEl ? this.inlineEditableEl.editingEnabled : this.inlineEditing;
+  }
+
+  private get isStagingInlineEditingValue(): boolean {
+    return this.selfManagedInlineEdit && this.inlineEditing;
+  }
+
+  private get valueForEditing(): string {
+    return this.draftValue ?? this.value;
+  }
+
+  get isClearable(): boolean {
+    return this.clearable && this.valueForEditing.length > 0;
+  }
 
   //#endregion
 
   //#region State Properties
 
-  @state() displayedValue: string;
+  @state() private draftValue?: string;
+
+  @state() displayedValue!: string;
+
+  @state() inlineEditingLoading = false;
 
   @state() slottedActionElDisabledInternally = false;
 
@@ -156,36 +199,40 @@ export class InputNumber
 
   //#region Public Properties
 
-  /** Specifies the text alignment of the component's value. */
+  /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: AutoFill;
+  @property() autocomplete?: AutoFill;
 
-  /** When `true`, a clear button is displayed when the component has a value. */
+  /** When `true` and the component has a `value`, a clear button is displayed. */
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, prevents interaction and decreases the component's opacity.
    *
-   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
-  /** @private */
-  @property({ reflect: true }) editingEnabled = false;
+  /** When `true`, the component displays its inline editing mode. */
+  @property({ reflect: true }) inlineEditing = false;
 
-  /**
-   * The `id` of the form that will be associated with the component.
-   *
-   * When not set, the component will be associated with its ancestor form element, if any.
-   */
-  @property({ reflect: true }) form: string;
+  /** Enables built-in inline editing. Set to `"controls-disabled"` to hide save and cancel controls. */
+  @property({ reflect: true, converter: inlineEditConverter }) inlineEdit:
+    | boolean
+    | "controls-disabled" = false;
+
+  /** Specifies an optional callback to be executed when saving inline editing changes, inline editing controls must be present */
+  @property() inlineEditingBeforeConfirm?: () => Promise<void>;
+
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
@@ -195,21 +242,21 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
   @property() integer = false;
 
-  /** Accessible name for the component's button or hyperlink. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** When provided, displays label text on the component. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When `true`, displays a busy indicator. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -221,122 +268,105 @@ export class InputNumber
 
   /**
    * When the component resides in a form,
-   * specifies the maximum value.
+   * specifies the maximum `value`.
    *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @property({ reflect: true }) max: number;
+  @property({ reflect: true }) max?: number;
 
   /**
    * When the component resides in a form,
-   * specifies the maximum length of text for the component's value.
+   * specifies the maximum length of text for the component's `value`.
    *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
-   * @deprecated This property has no effect on the component.
+   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
-   * specifies the minimum value.
+   * specifies the minimum `value`.
    *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @property({ reflect: true }) min: number;
+  @property({ reflect: true }) min?: number;
 
   /**
    * When the component resides in a form,
-   * specifies the minimum length of text for the component's value.
+   * specifies the minimum length of text for the component's `value`.
    *
-   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
-   * @deprecated This property has no effect on the component.
+   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
+   * @copyDoc
    *
-   * Required to pass the component's `value` on form submission.
-   *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the placement of the buttons. */
   @property({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
-   * Specifies placeholder text for the component.
+   * Specifies the component's placeholder text.
    *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
-  /** Adds text to the start of the component. */
-  @property() prefixText: string;
+  /** Specifies text to display at the start of the component. */
+  @property() prefixText?: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity that the component's value must adhere to.
+   * Specifies the granularity that the component's `value` must adhere to.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @property({ reflect: true }) step: number | "any";
+  @property({ reflect: true }) step?: number | "any";
 
-  /** Adds text to the end of the component. */
-  @property() suffixText: string;
+  /** Specifies text to display at the end of the component. */
+  @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The current validation state of the component.
+   * @copyDoc
    *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property()
@@ -372,7 +402,7 @@ export class InputNumber
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -383,10 +413,19 @@ export class InputNumber
 
   //#region Events
 
-  /** Fires each time a new value is typed and committed. */
+  /** Fires each time a new `value` is typed and committed. */
   calciteInputNumberChange = createEvent({ cancelable: false });
 
-  /** Fires each time a new value is typed. */
+  /** Fires when built-in inline editing is cancelled. */
+  calciteInputNumberInlineEditingCancel = createEvent({ cancelable: false });
+
+  /** Fires when built-in inline editing is enabled or disabled. */
+  calciteInputNumberInlineEditingChange = createEvent({ cancelable: false });
+
+  /** Fires after built-in inline editing confirmation completes. */
+  calciteInputNumberInlineEditingConfirm = createEvent({ cancelable: false });
+
+  /** Fires each time a new `value` is typed. */
   calciteInputNumberInput = createEvent();
 
   /** @private */
@@ -401,21 +440,14 @@ export class InputNumber
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }
 
   override connectedCallback(): void {
-    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
-    if (this.inlineEditableEl) {
-      this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
-    }
-    connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable") ?? undefined;
   }
 
   async load(): Promise<void> {
@@ -440,11 +472,11 @@ export class InputNumber
 
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("max")) {
-      this.maxString = this.max?.toString() || null;
+      this.maxString = this.max?.toString() || undefined;
     }
 
     if (changes.has("min")) {
-      this.minString = this.min?.toString() || null;
+      this.minString = this.min?.toString() || undefined;
     }
 
     if (changes.has("icon")) {
@@ -458,27 +490,22 @@ export class InputNumber
         useGrouping: false,
       };
     }
-  }
 
-  override updated(): void {
-    updateHostInteraction(this);
+    if (changes.has("readOnly")) {
+      this.stopNudging();
+    }
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+    this.stopNudging();
   }
 
   //#endregion
 
   //#region Private Methods
 
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
+  private stopNudging() {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
   }
 
   private handleGlobalAttributesChanged(): void {
@@ -513,18 +540,41 @@ export class InputNumber
       return;
     }
 
-    if (this.isClearable && event.key === "Escape") {
+    if (this.selfManagedInlineEdit && this.inlineEditing && event.key === "Escape") {
+      event.preventDefault();
+
+      if (this.isClearable) {
+        this.clearInputValue(event);
+        return;
+      }
+
+      this.inlineEditManager.cancelEditing();
+      requestAnimationFrame(() => {
+        this.enableInlineEditingButtonRef.value?.setFocus();
+      });
+      return;
+    }
+
+    if (
+      this.isClearable &&
+      event.key === "Escape" &&
+      (!this.hasInlineEditContext || this.inlineEditingEnabledInContext)
+    ) {
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+    if (event.key === "Enter" && this.formSupport.active) {
+      this.formSupport.requestSubmit();
+      event.preventDefault();
     }
   }
 
   onLabelClick(): void {
+    if (this.selfManagedInlineEdit && !this.inlineEditing) {
+      this.inlineEditManager.enable();
+      return;
+    }
+
     this.setFocus();
   }
 
@@ -534,7 +584,7 @@ export class InputNumber
     inputMin: number | null,
     nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
-    const { value } = this;
+    const value = this.valueForEditing;
 
     if (value === "Infinity" || value === "-Infinity") {
       return;
@@ -542,7 +592,7 @@ export class InputNumber
 
     const adjustment = direction === "up" ? 1 : -1;
     const stepHandleInteger =
-      this.integer && this.step !== "any" ? Math.round(this.step) : this.step;
+      this.integer && typeof this.step === "number" ? Math.round(this.step) : this.step;
     const inputStep = stepHandleInteger === "any" ? 1 : Math.abs(stepHandleInteger || 1);
     const inputVal = new BigDecimal(value !== "" ? value : "0");
     const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
@@ -580,7 +630,34 @@ export class InputNumber
     });
   }
 
+  private clearButtonPointerDownHandler(event: PointerEvent): void {
+    if (this.hasInlineEditContext && this.inlineEditingEnabledInContext) {
+      event.preventDefault();
+    }
+  }
+
+  private commitInlineEditingValue(): void {
+    const draftValue = this.draftValue;
+
+    if (draftValue === undefined) {
+      return;
+    }
+
+    this.draftValue = undefined;
+    if (draftValue !== this.value) {
+      this.previousValueOrigin = "user";
+      this.userChangedValue = true;
+      this.value = draftValue;
+      this.calciteInputNumberChange.emit();
+      this.setPreviousEmittedNumberValue(draftValue);
+    }
+  }
+
   private emitChangeIfUserModified(): void {
+    if (this.isStagingInlineEditingValue) {
+      return;
+    }
+
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedNumberValue) {
       this.calciteInputNumberChange.emit();
       this.setPreviousEmittedNumberValue(this.value);
@@ -588,8 +665,19 @@ export class InputNumber
   }
 
   private inputNumberBlurHandler() {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
+
+    if (this.isStagingInlineEditingValue && this.inlineEditControlsDisabled) {
+      this.commitInlineEditingValue();
+    }
+
     this.calciteInternalInputNumberBlur.emit();
+
+    if (this.selfManagedInlineEdit && this.inlineEditing && this.inlineEditControlsDisabled) {
+      this.inlineEditManager.disable();
+      this.calciteInputNumberInlineEditingChange.emit();
+    }
+
     this.emitChangeIfUserModified();
   }
 
@@ -599,11 +687,23 @@ export class InputNumber
     }
 
     const composedPath = event.composedPath();
+    const clickedInlineEditControls = composedPath.some(
+      (element) =>
+        element instanceof HTMLElement &&
+        element.classList.contains(InlineEditControlsCSS.container),
+    );
 
     if (
-      !composedPath.includes(this.inputWrapperRef.value) ||
-      composedPath.includes(this.actionWrapperRef.value)
+      !composedPath.includes(this.inputWrapperRef.value!) ||
+      composedPath.includes(this.actionWrapperRef.value!) ||
+      clickedInlineEditControls
     ) {
+      return;
+    }
+
+    if (this.selfManagedInlineEdit && !this.inlineEditing) {
+      event.preventDefault();
+      this.inlineEditManager.enable();
       return;
     }
 
@@ -612,6 +712,26 @@ export class InputNumber
 
   private inputNumberFocusHandler(): void {
     this.calciteInternalInputNumberFocus.emit();
+  }
+
+  private focusEnableInlineEditingButton(): void {
+    void this.updateComplete.then(() => {
+      requestAnimationFrame(() => {
+        void this.enableInlineEditingButtonRef.value?.setFocus();
+      });
+    });
+  }
+
+  private inlineEditCancelEditingHandler(): void {
+    this.inlineEditManager.cancelEditing();
+    this.focusEnableInlineEditingButton();
+  }
+
+  private async inlineEditConfirmChangesHandler(): Promise<void> {
+    await this.inlineEditManager.confirm(this.inlineEditingBeforeConfirm, (loading) => {
+      this.inlineEditingLoading = loading;
+    });
+    this.focusEnableInlineEditingButton();
   }
 
   private inputNumberInputHandler(nativeEvent: InputEvent): void {
@@ -642,7 +762,9 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberRef.value.value = this.displayedValue;
+      if (this.childNumberRef.value) {
+        this.childNumberRef.value.value = this.displayedValue;
+      }
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -652,7 +774,7 @@ export class InputNumber
     }
   }
 
-  private inputNumberKeyDownHandler(event: KeyboardEvent): void {
+  private async inputNumberKeyDownHandler(event: KeyboardEvent): Promise<void> {
     if (this.disabled || this.readOnly) {
       return;
     }
@@ -692,6 +814,19 @@ export class InputNumber
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
     if (supportedKeys.includes(event.key) || isShiftTabEvent) {
       if (event.key === "Enter") {
+        if (this.isStagingInlineEditingValue) {
+          event.preventDefault();
+          const input = event.currentTarget as HTMLInputElement;
+          if (!this.inlineEditControlsDisabled) {
+            await this.inlineEditManager.confirm(this.inlineEditingBeforeConfirm, (loading) => {
+              this.inlineEditingLoading = loading;
+            });
+            this.focusEnableInlineEditingButton();
+          } else {
+            input.blur();
+          }
+          return;
+        }
         this.emitChangeIfUserModified();
       }
       return;
@@ -704,30 +839,38 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberRef.value.value) {
+      if (!this.value && !this.childNumberRef.value?.value) {
         return;
       }
       if (
         this.value &&
-        this.childNumberRef.value.value.indexOf(numberStringFormatter.decimal) === -1
+        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
       ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberRef.value.value) {
+      if (!this.value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberRef.value.value)) {
+      if (
+        this.value &&
+        this.childNumberRef.value &&
+        !/[eE]/.test(this.childNumberRef.value.value)
+      ) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value.value) {
+      if (!this.value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (this.value && this.childNumberRef.value.value.split("-").length <= 2) {
+      if (
+        this.value &&
+        this.childNumberRef.value &&
+        this.childNumberRef.value.value.split("-").length <= 2
+      ) {
         return;
       }
     }
@@ -744,12 +887,11 @@ export class InputNumber
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
     if (this.nudgeNumberValueIntervalId) {
-      window.clearInterval(this.nudgeNumberValueIntervalId);
+      this.stopNudging();
     }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
@@ -759,18 +901,18 @@ export class InputNumber
       }
 
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    }, valueNudgeDelayInMs);
+    }, NUDGE_DELAY_IN_MS);
   }
 
   private nudgeButtonPointerUpHandler(event: PointerEvent): void {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private nudgeButtonPointerOutHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private nudgeButtonPointerDownHandler(event: PointerEvent): void {
@@ -779,14 +921,11 @@ export class InputNumber
     }
 
     event.preventDefault();
-    const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
+    const direction = (event.currentTarget as HTMLDivElement).dataset
+      .adjustment as NumberNudgeDirection;
     if (!this.disabled) {
       this.nudgeNumberValue(direction, event);
     }
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("number", this, input);
   }
 
   private setInputNumberValue(newInputValue: string): void {
@@ -808,6 +947,11 @@ export class InputNumber
     this.previousValue = this.normalizeValue(value);
   }
 
+  private restoreInlineEditingValue(value: string): void {
+    this.draftValue = undefined;
+    this.setNumberValue({ origin: "direct", value });
+  }
+
   private setNumberValue({
     committing = false,
     nativeEvent,
@@ -827,8 +971,10 @@ export class InputNumber
       useGrouping: this.groupSeparator,
     };
 
+    const previousDraftValue = this.valueForEditing;
+    const shouldStageValue = origin === "user" && this.isStagingInlineEditingValue;
     const isValueDeleted =
-      this.previousValue?.length > value.length || this.value?.length > value.length;
+      this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
@@ -875,13 +1021,18 @@ export class InputNumber
     }
 
     this.displayedValue = newLocalizedValue;
-    this.setPreviousNumberValue(previousValue ?? this.value);
+    this.setPreviousNumberValue(previousValue ?? previousDraftValue);
     this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && this.value !== newValue;
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
-    this.value = validNewValue;
+
+    if (shouldStageValue) {
+      this.draftValue = validNewValue;
+    } else {
+      this.userChangedValue = origin === "user" && this.value !== validNewValue;
+      this.value = validNewValue;
+    }
 
     const localizedCharAllowlist = new Set([
       "e",
@@ -905,28 +1056,29 @@ export class InputNumber
     }
 
     if (origin === "direct") {
+      this.draftValue = undefined;
       this.setInputNumberValue(newLocalizedValue);
       this.setPreviousEmittedNumberValue(validNewValue);
     }
 
-    if (nativeEvent) {
+    if (nativeEvent && !shouldStageValue) {
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
       if (calciteInputNumberInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.displayedValue = numberStringFormatter.localize(this.previousValue);
-      } else if (committing) {
+      } else if (committing && !shouldStageValue) {
         this.emitChangeIfUserModified();
       }
     }
   }
 
   private inputNumberKeyUpHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private warnAboutInvalidNumberValue(value: string): void {
     if (value && !isValidNumber(value)) {
-      console.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
+      logger.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
     }
   }
 
@@ -935,72 +1087,84 @@ export class InputNumber
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
-    const inputClearButton = (
-      <button
-        ariaLabel={this.messages.clear}
+    const clearButton = (
+      <div
         class={CSS.clearButton}
-        disabled={this.disabled || this.readOnly}
-        onClick={this.clearInputValue}
-        tabIndex={-1}
-        type="button"
+        onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
+        onPointerDown={this.clearButtonPointerDownHandler}
       >
-        <calcite-icon icon={ICONS.clear} scale={getIconScale(this.scale)} />
-      </button>
+        <ClearButton
+          ariaLabel={this.messages.clear}
+          disabled={this.disabled || this.readOnly}
+          scale={this.scale}
+          title={this.messages.clear}
+        />
+      </div>
     );
+
     const iconEl = (
-      <calcite-icon
-        class={CSS.inputIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.requestedIcon}
-        scale={getIconScale(this.scale)}
-      />
+      <div class={CSS.inputIcon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={this.requestedIcon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
     );
 
     const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
-      <button
+      <div
         ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.up}
-        disabled={this.disabled || this.readOnly}
+        data-testid="number-button-up"
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
         onPointerUp={this.nudgeButtonPointerUpHandler}
-        tabIndex={-1}
-        type="button"
       >
-        <calcite-icon icon={ICONS.chevronUp} scale={getIconScale(this.scale)} />
-      </button>
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronUp}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
     );
 
     const numberButtonsHorizontalDown = (
-      <button
+      <div
         ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.down}
-        disabled={this.disabled || this.readOnly}
+        data-testid="number-button-down"
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
         onPointerUp={this.nudgeButtonPointerUpHandler}
-        tabIndex={-1}
-        type="button"
       >
-        <calcite-icon icon={ICONS.chevronDown} scale={getIconScale(this.scale)} />
-      </button>
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronDown}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
     );
 
     const numberButtonsVertical = (
@@ -1011,7 +1175,6 @@ export class InputNumber
     );
 
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
     const childEl = (
@@ -1021,6 +1184,11 @@ export class InputNumber
         ariaLabel={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus}
+        class={{
+          [CSS.inlineEditing]: this.inlineEditingEnabledInContext,
+          [CSS.inlineChild]: this.hasInlineEditContext,
+          [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+        }}
         defaultValue={this.defaultValue}
         disabled={this.disabled}
         enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
@@ -1030,24 +1198,28 @@ export class InputNumber
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
-        name={undefined}
         onBlur={this.inputNumberBlurHandler}
         onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}
         onKeyDown={this.inputNumberKeyDownHandler}
-        // eslint-disable-next-line react/forbid-dom-props -- intentional onKeyUp usage
+        // eslint-disable-next-line @eslint-react/kit/forbid-dom-props -- intentional onKeyUp usage
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.childNumberRef}
         required={this.required}
+        tabIndex={
+          this.disabled || (this.hasInlineEditContext && !this.inlineEditingEnabledInContext)
+            ? -1
+            : undefined
+        }
         type="text"
         value={this.displayedValue}
       />
     );
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -1066,25 +1238,41 @@ export class InputNumber
           }}
           ref={this.inputWrapperRef}
         >
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            {this.requestedIcon ? iconEl : null}
+            {childEl}
+            {this.isClearable ? clearButton : null}
+            {this.suffixText ? suffixText : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
           </div>
+          {this.selfManagedInlineEdit && (
+            <div class={CSS.inlineEdit}>
+              <InlineEditControls
+                cancelEditingLabel={this.messages.cancelInlineEditing}
+                confirmChangesLabel={this.messages.confirmInlineEditingChanges}
+                enableEditingButtonRef={this.enableInlineEditingButtonRef}
+                enableEditingLabel={this.messages.enableInlineEditing}
+                inlineEditing={this.inlineEditing}
+                loading={this.inlineEditingLoading}
+                onCancelEditing={this.inlineEditCancelEditingHandler}
+                onConfirmChanges={this.inlineEditConfirmChangesHandler}
+                onEnableEditing={() => this.inlineEditManager.enable()}
+                scale={this.scale}
+                showControls={this.inlineEditing && !this.inlineEditControlsDisabled}
+              />
+            </div>
+          )}
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
-          {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
-          {this.suffixText ? suffixText : null}
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalUp
-            : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -1095,7 +1283,7 @@ export class InputNumber
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

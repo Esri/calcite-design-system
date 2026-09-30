@@ -1,12 +1,11 @@
-// @ts-strict-ignore
-import { PropertyValues } from "lit";
+import type { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
   associateExplicitLabelToUnlabeledComponent,
   labelConnectedEvent,
   labelDisconnectedEvent,
-} from "../../utils/label";
-import { Alignment, Scale } from "../interfaces";
+} from "../../controllers/useLabel";
+import type { Alignment, Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./label.scss";
 
@@ -26,15 +25,19 @@ export class Label extends LitElement {
 
   // #region Public Properties
 
-  /** Specifies the text alignment of the component. */
+  /** Specifies the component's text alignment. */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
-  @property({ reflect: true }) for: string;
+  @property({ reflect: true }) for?: string;
 
-  /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
+  /**
+   * Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.
+   *
+   * [Deprecated] The `"default"` value is deprecated in v3.3.0, removal target v6.0.0 - use `"block"` instead.
+   */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
-    "default";
+    "block";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -75,7 +78,7 @@ export class Label extends LitElement {
 
   // #region Private Methods
   private labelClickHandler(event: MouseEvent): void {
-    if (window.getSelection()?.type === "Range") {
+    if (window.getSelection()?.type === "Range" || event.defaultPrevented) {
       return;
     }
 

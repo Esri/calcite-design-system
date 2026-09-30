@@ -1,3 +1,4 @@
+import "../components/handle/handle";
 import { html } from "../../support/formatting";
 
 export const handleTokens = {

@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const DURATIONS = {
   slow: 14000,
   medium: 10000,
@@ -33,3 +35,8 @@ export const CSS = {
   textContainer: "text-container",
   focused: "focused",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isAlert = isTag("calcite-alert");

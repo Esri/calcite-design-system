@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   container: "container",
   table: "table",
@@ -9,10 +11,16 @@ export const CSS = {
   containerHeight: "container-height",
 };
 
-export type SelectionAppearance = "border" | "icon";
+export type SelectionAppearance = "border" | "highlight" | "icon";
 
 export const SLOTS = {
+  emptyContent: "empty-content",
   filterNoResults: "filter-no-results",
   filterActionsStart: "filter-actions-start",
   filterActionsEnd: "filter-actions-end",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isList = isTag("calcite-list");

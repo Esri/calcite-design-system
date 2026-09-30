@@ -1,11 +1,12 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "independent",
+  "npmClient": "pnpm",
   "changelogPreset": "conventionalcommits",
   "command": {
     "version": {
       "conventionalCommits": true,
-      "allowBranch": ["main", "rc", "dev"],
+      "allowBranch": ["releases/**", "rc", "dev"],
       "exact": true
     }
   }

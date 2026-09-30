@@ -1,3 +1,4 @@
+import "../components/input-text/input-text";
 import { html } from "../../support/formatting";
 
 export const inputTextTokens = {
@@ -23,6 +24,14 @@ export const inputTextTokens = {
   calciteInputTextPlaceholderTextColor: "",
   calciteInputTextTextColor: "",
   calciteInputTextTextColorFocus: "",
+  calciteInputTextInlineEditBackgroundColorHover: "",
+  calciteInputTextInlineEditControlBackgroundColor: "",
+  calciteInputTextInlineEditControlBackgroundColorHover: "",
+  calciteInputTextInlineEditControlBackgroundColorPress: "",
+  calciteInputTextInlineEditControlCornerRadius: "",
+  calciteInputTextInlineEditControlLoaderColor: "",
+  calciteInputTextInlineEditControlTextColor: "",
+  calciteInputTextInlineEditControlTextColorPress: "",
 };
 
 export const inputText = html`<calcite-input-text placeholder="Placeholder text"></calcite-input-text>`;

@@ -7,7 +7,7 @@ These scripts are called by [our workflows](../workflows) via the [`github-scrip
 - uses: actions/github-script@v6
   with:
     script: |
-      const action = require('${{ github.workspace }}/.github/scripts/<SCRIPT NAME HERE>.js')
+      const action = require('${{ github.workspace }}/.github/scripts/<SCRIPT NAME HERE>.cjs')
       await action({github, context, core})
 ```
 

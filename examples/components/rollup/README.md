@@ -1,12 +1,12 @@
 # Rollup
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/rollup?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/rollup?configPath=examples/components/rollup)
 
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install --ignore-workspace --lockfile=false
+pnpm dev
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm run dev
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm add @esri/calcite-components --ignore-workspace --lockfile=false
 ```
 
 ### Setup components
@@ -35,12 +35,6 @@ Next, import the components used in your application:
 import "@esri/calcite-components/dist/components/calcite-button";
 import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-date-picker";
-```
-
-Lastly, import the global Calcite components stylesheet (only do this once):
-
-```js
-import "@esri/calcite-components/dist/calcite/calcite.css";
 ```
 
 ### Configure Rollup
@@ -95,7 +89,7 @@ plugins: [
   copy({
     targets: [
       {
-        src: path.resolve(__dirname, 'node_modules/@esri/calcite-components/dist/calcite/assets'),
+        src: path.resolve(__dirname, 'node_modules/@esri/calcite-components/dist/cdn/assets'),
         dest: path.resolve(__dirname, 'public')
       },
     ],

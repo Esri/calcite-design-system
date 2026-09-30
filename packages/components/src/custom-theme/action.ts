@@ -1,3 +1,8 @@
+import "../components/action-bar/action-bar";
+import "../components/action-group/action-group";
+import "../components/action-menu/action-menu";
+import "../components/action-pad/action-pad";
+import "../components/action/action";
 import { html } from "../../support/formatting";
 
 export const actionTokens = {
@@ -7,6 +12,7 @@ export const actionTokens = {
   calciteActionBackgroundColorPressed: "",
   calciteActionTextColor: "",
   calciteActionTextColorPressed: "",
+  calciteActionLoaderColor: "",
 };
 
 export const actionBarTokens = {
@@ -25,9 +31,8 @@ export const actionBar = html`<calcite-action-bar layout="horizontal" style="wid
     <calcite-action text="Save" active icon="save"> </calcite-action>
     <calcite-action text="Layers" icon="layers"> </calcite-action>
   </calcite-action-group>
-  <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
-  <!-- The "bottom-actions" slot is deprecated -->
-  <calcite-action slot="bottom-actions" text="hello world 2" icon="information"> </calcite-action>
+  <calcite-action slot="actions-end" text="hello world" icon="layers"></calcite-action>
+  <calcite-action slot="actions-end" text="hello world 2" icon="information"></calcite-action>
 </calcite-action-bar>`;
 
 export const actionGroupTokens = {

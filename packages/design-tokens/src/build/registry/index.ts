@@ -1,8 +1,8 @@
-import { registerTransformers } from "../transforms/index.js";
-import { registerFileHeaders } from "../header/index.js";
-import { registerFormats } from "../format/index.js";
-import { registerFilters } from "../filter/index.js";
-import { registerPreprocessors } from "../preprocessors/index.js";
+import { registerTransformers } from "../transforms/index.ts";
+import { registerFileHeaders } from "../header/index.ts";
+import { registerFormats } from "../format/index.ts";
+import { registerFilters } from "../filter/index.ts";
+import { registerPreprocessors } from "../preprocessors/index.ts";
 
 export function register(): void {
   registerPreprocessors();
@@ -12,8 +12,8 @@ export function register(): void {
   registerTransformers();
 }
 
-export * as headers from "../header/index.js";
-export * as filters from "../filter/index.js";
-export * as formats from "../format/index.js";
-export * as transformers from "../transforms/index.js";
-export * as preprocessors from "../preprocessors/index.js";
+export * as headers from "../header/index.ts";
+export * as filters from "../filter/index.ts";
+export * as formats from "../format/index.ts";
+export * as transformers from "../transforms/index.ts";
+export * as preprocessors from "../preprocessors/index.ts";

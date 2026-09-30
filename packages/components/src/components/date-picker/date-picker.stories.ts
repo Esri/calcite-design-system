@@ -1,12 +1,17 @@
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { locales, defaultLocale } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { DatePicker } from "./date-picker";
+import "./date-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { scale } = ATTRIBUTES;
+const { calendarCount, horizontalVerticalLayout, monthStyle, numberingSystemWithNone, scale, supportedNlsLocale } =
+  ATTRIBUTES;
 
-interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" | "scale" | "value"> {
+interface DatePickerStoryArgs extends Pick<
+  DatePicker,
+  "calendars" | "layout" | "max" | "min" | "monthStyle" | "numberingSystem" | "range" | "scale" | "value"
+> {
   dir: string;
   lang: string;
   nextMonthLabel: string;
@@ -16,11 +21,15 @@ interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" |
 export default {
   title: "Components/Controls/DatePicker",
   args: {
+    calendars: 2,
     dir: "",
+    layout: "horizontal",
     lang: defaultLocale,
     max: "",
     min: "",
+    monthStyle: "wide",
     nextMonthLabel: "",
+    numberingSystem: "",
     prevMonthLabel: "",
     range: false,
     scale: scale.defaultValue,
@@ -28,11 +37,27 @@ export default {
   },
   argTypes: {
     lang: {
-      options: locales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    calendars: {
+      options: calendarCount.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: horizontalVerticalLayout.values,
+      control: { type: "select" },
+    },
+    monthStyle: {
+      options: monthStyle.values,
+      control: { type: "select" },
+    },
+    numberingSystem: {
+      options: numberingSystemWithNone.values,
       control: { type: "select" },
     },
   },
@@ -50,8 +75,12 @@ export const simple = (args: DatePickerStoryArgs): string => html`
     <calcite-date-picker
       dir="${args.dir}"
       lang="${args.lang}"
+      calendars="${args.calendars}"
+      layout="${args.layout}"
       max="${args.max}"
       min="${args.min}"
+      month-style="${args.monthStyle}"
+      numbering-system="${args.numberingSystem}"
       ${boolean("range", args.range)}
       scale="${args.scale}"
       value="${args.value}"
@@ -77,7 +106,7 @@ export const rangeOneCalendar = (): string => html`
   </div>
 `;
 
-export const rangeHighlighted_TestOnly = (): string => html`
+export const rangeHighlighted = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker range></calcite-date-picker>
   </div>
@@ -103,7 +132,7 @@ export const rangeOneCalendarWithValue = (): string => html`
   </script>
 `;
 
-export const rangeValuesNotInSameMonthAndYear_TestOnly = (): string => html`
+export const rangeValuesNotInSameMonthAndYear = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker range></calcite-date-picker>
   </div>
@@ -146,13 +175,13 @@ Focus.parameters = {
   chromatic: { delay: 2000 },
 };
 
-export const rangeRTL_TestOnly = (): string => html`
+export const rangeRTL = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker value="2020-02-28" dir="rtl" range></calcite-date-picker>
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker
       dir="rtl"
@@ -164,70 +193,58 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const bgLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="bg" scale="m" value="2020-02-28"></calcite-date-picker>
-  </div>
-`;
+export const localized = (): string => {
+  const locales = [
+    { label: "Arabic (ar):", lang: "ar" },
+    { label: "Arabic (ar) + Arabic numbering system:", lang: "ar", numberingSystem: "arab" },
+    { label: "Bulgarian (bg):", lang: "bg" },
+    { label: "British English (en-gb):", lang: "en-gb" },
+    { label: "Chinese (zh-cn):", lang: "zh-cn" },
+    { label: "German (de):", lang: "de" },
+    { label: "French Canadian (fr-CA):", lang: "fr-CA" },
+    { label: "Norwegian (nb):", lang: "nb" },
+    { label: "Portuguese (pt-PT):", lang: "pt-PT" },
+    { label: "Spanish (es):", lang: "es" },
+  ];
 
-export const ptPTLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="pt-PT" scale="m" value="2020-02-28"></calcite-date-picker>
-  </div>
-`;
-
-export const germanLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="de" scale="m" value="2022-08-11"></calcite-date-picker>
-  </div>
-`;
-
-export const spanishLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="es" scale="m" value="2023-05-11"></calcite-date-picker>
-  </div>
-`;
-
-export const norwegianLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="nb" scale="m" value="2023-05-11"></calcite-date-picker>
-  </div>
-`;
-
-export const britishLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="en-gb" scale="m" value="2024-01-11"></calcite-date-picker>
-  </div>
-`;
-
-export const chineseLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="zh-cn" scale="m" value="2024-01-11"></calcite-date-picker>
-  </div>
-`;
-
-export const arabLangNumberingSystem_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="ar" numbering-system="arab" scale="m" value="2022-08-11"></calcite-date-picker>
-  </div>
-`;
-
-arabLangNumberingSystem_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 },
+  return html`
+    <div style="width: 400px; display: flex; flex-direction: column; gap: 16px;">
+      ${locales
+        .map(
+          ({ label, lang, numberingSystem }) => html`
+            <div>
+              <strong>${label}</strong>
+              <calcite-date-picker
+                lang="${lang}"
+                value="2020-02-28"
+                ${numberingSystem ? `numbering-system="${numberingSystem}"` : ""}
+              ></calcite-date-picker>
+            </div>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
+};
+localized.parameters = {
+  chromatic: {
+    delay: 1000,
+    diffThreshold: 1,
+  },
 };
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`<calcite-date-picker scale="{scale}" value="2000-11-27"></calcite-date-picker>`);
 
-export const defaultWidthAllScales_TestOnly = (): string => html`
+export const defaultWidthAllScales = (): string => html`
   <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
   <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
   <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
 `;
 
-export const smallerThanMinWidthAllScales_TestOnly = (): string => html`
+export const smallerThanMinWidthAllScales = (): string => html`
   <style>
     calcite-date-picker {
       width: 50px;
@@ -238,7 +255,7 @@ export const smallerThanMinWidthAllScales_TestOnly = (): string => html`
   <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
 `;
 
-export const greaterThanMaxWidthAllScales_TestOnly = (): string => html`
+export const greaterThanMaxWidthAllScales = (): string => html`
   <style>
     calcite-date-picker {
       width: 1000px;

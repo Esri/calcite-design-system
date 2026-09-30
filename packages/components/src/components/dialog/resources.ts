@@ -1,4 +1,5 @@
-import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
+import { isTag } from "../resources";
+import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 
 export const CSS = {
   dialog: "dialog",
@@ -8,20 +9,21 @@ export const CSS = {
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
   assistiveText: "assistive-text",
-  openingActive: "dialog--opening-active",
 };
 
 export const SLOTS = {
   actionBar: "action-bar",
   alerts: "alerts",
-  content: "content",
   customContent: "custom-content",
   contentTop: "content-top",
   contentBottom: "content-bottom",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
+  description: "description",
+  heading: "heading",
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
+  headerTop: "header-top",
   fab: "fab",
   footer: "footer",
   footerStart: "footer-start",
@@ -39,5 +41,10 @@ export const dialogPlacements: DialogPlacement[] = [
   "center",
 ];
 
-export const initialDragPosition: DialogDragPosition = { x: null, y: null };
-export const initialResizePosition: DialogResizePosition = { top: null, right: null, bottom: null, left: null };
+export const initialDragPosition: DialogDragPosition = { x: 0, y: 0 };
+export const initialResizePosition: DialogResizePosition = { top: 0, right: 0, bottom: 0, left: 0 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isDialog = isTag("calcite-dialog");

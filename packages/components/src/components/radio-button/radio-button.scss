@@ -7,8 +7,6 @@
  * @prop --calcite-radio-button-border-color: Specifies the component's border color.
  * @prop --calcite-radio-button-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-radio-button-size: Specifies the component's size.
- * @prop --calcite-radio-size: [Deprecated] Use `--calcite-radio-button-size`. Specifies the component's size.
- *
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -17,7 +15,7 @@
 //
 // --calcite-internal-radio-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block
@@ -30,9 +28,9 @@
   }
 
   .radio {
+    @include shared.transition-default();
     @apply cursor-pointer
-    focus-base
-    transition-default;
+    focus-base;
     border-radius: var(--calcite-radio-button-corner-radius, var(--calcite-corner-radius-pill));
     background-color: var(--calcite-radio-button-background-color, var(--calcite-color-foreground-1));
     box-shadow: inset 0 0 0 var(--calcite-border-width-sm)
@@ -58,7 +56,7 @@
   }
 }
 
-@include includes.disabled() {
+@include shared.disabled() {
   .radio {
     @apply opacity-disabled
     cursor-default;
@@ -73,22 +71,13 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-radio-size: var(
-    --calcite-radio-button-size,
-    var(--calcite-radio-size, var(--calcite-size-fixed-md))
-  );
+  --calcite-internal-radio-size: var(--calcite-radio-button-size, var(--calcite-size-fixed-md));
 }
 :host([scale="m"]) {
-  --calcite-internal-radio-size: var(
-    --calcite-radio-button-size,
-    var(--calcite-radio-size, var(--calcite-size-fixed-md-plus))
-  );
+  --calcite-internal-radio-size: var(--calcite-radio-button-size, var(--calcite-size-fixed-md-plus));
 }
 :host([scale="l"]) {
-  --calcite-internal-radio-size: var(
-    --calcite-radio-button-size,
-    var(--calcite-radio-size, var(--calcite-size-fixed-lg))
-  );
+  --calcite-internal-radio-size: var(--calcite-radio-button-size, var(--calcite-size-fixed-lg));
 }
 
 .radio {
@@ -138,6 +127,15 @@
   }
 }
 
+:host([status="invalid"]:not([checked])) {
+  --calcite-radio-button-border-color: var(--calcite-color-status-danger);
+}
+:host([status="invalid"]:not([checked]):focus) {
+  .radio {
+    @apply focus-outset-danger;
+  }
+}
+
 @media (forced-colors: active) {
   :host([checked]),
   :host([checked][disabled]) {
@@ -151,6 +149,5 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.hidden-form-input();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.base-component();

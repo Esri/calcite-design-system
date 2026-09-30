@@ -1,4 +1,4 @@
-import { TemplateResult } from "lit-html";
+import { TemplateResult } from "lit";
 import { h, LuminaJsx } from "@arcgis/lumina";
 import { FloatingLayout } from "../../utils/floating-ui";
 

@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   container: "container",
@@ -26,7 +27,10 @@ export const ICONS: Record<string, IconName> = {
 
 export const SLOTS = {
   contentBottom: "content-bottom",
-  contentEnd: "content-end",
-  contentStart: "content-start",
   contentTop: "content-top",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTile = isTag("calcite-tile");

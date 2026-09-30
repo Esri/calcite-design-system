@@ -43,6 +43,7 @@ Steffen
 signifiers
 stringifying
 uppercased
+milestoned
 
 ## GIS
 ArcGIS

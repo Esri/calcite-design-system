@@ -1,7 +1,6 @@
-// @ts-strict-ignore
-import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
+import { getDateTimeFormat, Locale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
-import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
 
 const hourToMinutes = 60;
 
@@ -51,7 +50,7 @@ export async function getNormalizer(mode: TimeZoneMode): Promise<(timeZone: Time
 }
 
 export async function createTimeZoneItems(
-  locale: SupportedLocale,
+  locale: Locale,
   messages: InputTimeZone["messages"],
   mode: TimeZoneMode,
   referenceDate: Date,
@@ -85,6 +84,7 @@ export async function createTimeZoneItems(
         standardTime === "utc"
         ? "fr"
         : "en-GB";
+
   const referenceDateInMs: number = referenceDate.getTime();
 
   if (mode === "region") {
@@ -106,8 +106,8 @@ export async function createTimeZoneItems(
             const offsetStringA = timeZoneA.substring(gmtTimeZoneString.length);
             const offsetStringB = timeZoneB.substring(gmtTimeZoneString.length);
 
-            const offsetA = offsetStringA === "" ? 0 : parseInt(offsetStringA);
-            const offsetB = offsetStringB === "" ? 0 : parseInt(offsetStringB);
+            const offsetA = offsetStringA === "" ? 0 : parseInt(offsetStringA, 10);
+            const offsetB = offsetStringB === "" ? 0 : parseInt(offsetStringB, 10);
 
             return offsetB - offsetA;
           }
@@ -205,7 +205,7 @@ export async function createTimeZoneItems(
 }
 
 function getTimeZoneLabel(timeZone: string, messages: InputTimeZone["messages"]): string {
-  return messages[timeZone] || getCity(timeZone);
+  return getMessage(messages, timeZone) || getCity(timeZone);
 }
 
 export function getSelectedRegionTimeZoneLabel(
@@ -218,7 +218,12 @@ export function getSelectedRegionTimeZoneLabel(
 }
 
 export function getMessageOrKeyFallback(messages: InputTimeZone["messages"], key: string): string {
-  return messages[key] || key;
+  return getMessage(messages, key) || key;
+}
+
+function getMessage(messages: InputTimeZone["messages"], key: string): string | undefined {
+  const message = (messages as Record<string, unknown>)[key];
+  return typeof message === "string" ? message : undefined;
 }
 
 /**
@@ -227,7 +232,7 @@ export function getMessageOrKeyFallback(messages: InputTimeZone["messages"], key
  * @private
  */
 export function getCity(timeZone: string): string {
-  return timeZone.split("/").pop();
+  return timeZone.split("/").pop() ?? "";
 }
 
 /**
@@ -247,11 +252,7 @@ function createTimeZoneOffsetLabel(
   return messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
 }
 
-function getTimeZoneShortOffset(
-  timeZone: TimeZone,
-  locale: SupportedLocale,
-  referenceDateInMs: number = Date.now(),
-): string {
+function getTimeZoneShortOffset(timeZone: TimeZone, locale: Locale, referenceDateInMs: number = Date.now()): string {
   // workaround for https://issues.chromium.org/issues/381620359
   // see https://github.com/Esri/calcite-design-system/issues/10895 for more info
   if (timeZone === "Factory") {
@@ -260,7 +261,7 @@ function getTimeZoneShortOffset(
 
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
-  return parts.find(({ type }) => type === "timeZoneName").value;
+  return parts.find(({ type }) => type === "timeZoneName")!.value;
 }
 
 function hasGroups(items: TimeZoneItem[] | TimeZoneItemGroup[]): items is TimeZoneItemGroup[] {
@@ -272,12 +273,12 @@ function flattenTimeZoneItems(timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[
 }
 
 export function findTimeZoneItemByProp(
-  timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[],
-  prop: string,
-  valueToMatch: string | number | null,
-): TimeZoneItem | null {
-  return valueToMatch == null
-    ? null
+  timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[] | undefined,
+  prop: keyof Pick<TimeZoneItem, "label" | "value">,
+  valueToMatch: string | number | undefined,
+): TimeZoneItem | undefined {
+  return valueToMatch === undefined || timeZoneItems === undefined
+    ? undefined
     : flattenTimeZoneItems(timeZoneItems).find(
         (item) =>
           // intentional == to match string to number

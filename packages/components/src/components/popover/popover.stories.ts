@@ -1,9 +1,14 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { placements } from "../../utils/floating-ui";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { allModes } from "../../../.storybook/modes";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
-import { Popover } from "./popover";
+import type { Popover } from "./popover";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./popover"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+
+const { placement, scale } = ATTRIBUTES;
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -16,17 +21,25 @@ const contentHTML = `
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Nested Reference Element" id="reference-element-nested">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface PopoverStoryArgs
-  extends Pick<
-    Popover,
-    "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
-  > {
+interface PopoverStoryArgs extends Pick<
+  Popover,
+  | "autoClose"
+  | "closable"
+  | "flipDisabled"
+  | "offsetDistance"
+  | "offsetSkidding"
+  | "open"
+  | "placement"
+  | "pointerDisabled"
+  | "scale"
+> {
   textClose: string;
 }
 
 export default {
   title: "Components/Popover",
   args: {
+    autoClose: false,
     closable: false,
     flipDisabled: false,
     pointerDisabled: false,
@@ -34,11 +47,16 @@ export default {
     offsetDistance: 6,
     offsetSkidding: 0,
     open: true,
+    scale: scale.defaultValue,
     textClose: "Close",
   },
   argTypes: {
     placement: {
-      options: placements,
+      options: placement.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
   },
@@ -54,10 +72,12 @@ export const simple = (args: PopoverStoryArgs): string => html`
     ${referenceElementHTML}
     <calcite-popover
       ${boolean("closable", args.closable)}
+      ${boolean("auto-close", args.autoClose)}
       ${boolean("flip-disabled", args.flipDisabled)}
       ${boolean("pointer-disabled", args.pointerDisabled)}
       reference-element="reference-element"
       placement="${args.placement}"
+      scale="${args.scale}"
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
       ${boolean("open", args.open)}
@@ -79,9 +99,9 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { small: allModes.widthSmall } } };
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkModeRTL = (): string =>
   html` <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -98,7 +118,7 @@ export const darkModeRTL_TestOnly = (): string =>
     </calcite-popover>
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const nested = (): string => html`
   <div style="width: 400px;">
@@ -127,7 +147,7 @@ nested.parameters = {
   chromatic: { delay: 1500 },
 };
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacements = (): string => html`
   <div style="height: 100px; overflow:scroll; width: 200px;">
     <div class="my-popover-reference">
       <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
@@ -141,7 +161,7 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
+export const scaleConsistencyPopoverHeadingActionSlottedIcon = (): string => html`
   <div style="width: 800px; height:800px;">
     <div style="width: 400px;">
       ${referenceElementHTML}
@@ -159,7 +179,7 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): stri
   </div>
 `;
 
-export const smallScaleLayout_TestOnly = (): string => html`
+export const smallScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -175,7 +195,7 @@ export const smallScaleLayout_TestOnly = (): string => html`
   </div>
 `;
 
-export const mediumScaleLayout_TestOnly = (): string => html`
+export const mediumScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -191,7 +211,7 @@ export const mediumScaleLayout_TestOnly = (): string => html`
   </div>
 `;
 
-export const largeScaleLayout_TestOnly = (): string => html`
+export const largeScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -207,7 +227,7 @@ export const largeScaleLayout_TestOnly = (): string => html`
   </div>
 `;
 
-export const transparentBG_TestOnly = (): string => html`
+export const transparentBG = (): string => html`
   <style>
     calcite-popover {
       --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
@@ -234,3 +254,16 @@ export const closedShouldNotCauseScrollbars = (): string =>
       <div style="width:10000px; height:10000px;">Popover</div>
     </calcite-popover>
     <calcite-button id="button">Button</calcite-button>`;
+
+export const sharedReferenceElement = (): string =>
+  html`<p>
+      Some text
+      <button id="ref1">Button</button>
+    </p>
+    <calcite-popover placement="trailing-start" reference-element="ref1" open>Content 1</calcite-popover>
+    <calcite-popover placement="trailing-start" offset-skidding="30" reference-element="ref1" open
+      >Content 2</calcite-popover
+    >
+    <calcite-popover placement="trailing-start" offset-skidding="60" reference-element="ref1" open
+      >Content 3</calcite-popover
+    >`;

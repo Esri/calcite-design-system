@@ -1,21 +1,29 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
 import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import { get } from "es-toolkit/compat";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
-import { state } from "../shared/state.js";
-import { FlattenedTransformedToken } from "../../types/extensions.js";
+import type { RegisterFn, Stylesheet } from "../../types.ts";
+import { state } from "../shared/state.ts";
+import type { FlattenedTransformedToken } from "../../types.ts";
 
-function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
+function getValue(property: string, value: string, dictionary: Dictionary): string {
   if (!dictionary.unfilteredTokens) {
     throw new Error(`Unfiltered tokens are required`);
   }
 
   // heuristic: typography tokens only have a single reference
   const [mappedToken] = getReferences(value, dictionary.unfilteredTokens);
-  return outputRef ? `var(--${mappedToken.name});` : mappedToken.value;
+  const isCoreToken = mappedToken.path[0] === "core";
+  if (!isCoreToken) {
+    return `var(--${mappedToken.name});`;
+  }
+
+  const mappedValue = mappedToken.$value;
+  return property === "lineHeight" && typeof mappedValue === "string" && mappedValue.endsWith("%")
+    ? `${Number.parseFloat(mappedValue) / 100}`
+    : mappedValue;
 }
 
 function outputComment(comment: string, format: Stylesheet): string {
@@ -50,8 +58,8 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
   dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
     const preprocessedToken = get(state.postMergeDictionary, token.path.join("."));
 
-    if (typeof preprocessedToken.value === "string" && preprocessedToken.value.startsWith("{semantic.typography")) {
-      const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.value);
+    if (typeof preprocessedToken.$value === "string" && preprocessedToken.$value.startsWith("{typography")) {
+      const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.$value);
       if (referencedExtensionToken) {
         selfReferencingTokens.set(token.key, referencedExtensionToken);
       }
@@ -61,19 +69,18 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
   const groupToDeclarations = new Map<string, string[]>();
 
   dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
-    const originalValue = token.original.value;
+    const originalValue = token.original.$value;
     const extendedToken = selfReferencingTokens.get(token.key) || extendedTokenReferences.get(token.key);
     const include = format === "scss" && extendedToken ? `@include ${extendedToken.name}` : "";
-    const outputRefs = format === "scss" ? !!extendedToken : !selfReferencingTokens.has(token.key);
     const classGroupStrategy = format === "scss" ? "@mixin " : ".";
 
     const declarations = Object.entries(
       (typeof originalValue === "object"
         ? originalValue
         : // we use original token to get unresolved values (resolved below)
-          getReferences(originalValue, dictionary.tokens)[0].original.value) as Record<string, string>,
+          getReferences(originalValue, dictionary.tokens)[0].original.$value) as Record<string, string>,
     ).map(([key, value]) => {
-      return `${kebabCase(key)}: ${getValue(value, dictionary, outputRefs)} ${outputComment(token.comment, format)}`;
+      return `${kebabCase(key)}: ${getValue(key, value, dictionary)} ${outputComment(token.comment, format)}`;
     });
 
     groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);
@@ -98,7 +105,7 @@ export const formatTypography: FormatFn = async (args) => {
 
   const format = fileExtension.replace(".", "") as Stylesheet;
   const header = await fileHeader({ file, formatting, options });
-  return prettierSync.format(`${header}${getContent(args, format)}`, {
+  return prettierFormat(`${header}${getContent(args, format)}`, {
     parser: format,
   });
 };

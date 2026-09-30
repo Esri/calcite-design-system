@@ -1,3 +1,4 @@
+import "../components/alert/alert";
 import { html } from "../../support/formatting";
 import { SLOTS } from "../components/alert/resources";
 
