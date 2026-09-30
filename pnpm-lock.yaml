@@ -13,19 +13,13 @@ catalogs:
       specifier: 9.1.1
       version: 9.1.1
     '@arcgis/api-extractor':
-      specifier: '>=5.2.0-next.96 <6.0.0'
+      specifier: 5.2.0-next.118
       version: 5.2.0-next.118
     '@arcgis/eslint-config':
-      specifier: '>=5.2.0-next.96 <6.0.0'
-      version: 5.2.0-next.118
-    '@arcgis/lumina':
-      specifier: '>=5.2.0-next.96 <6.0.0'
+      specifier: 5.2.0-next.118
       version: 5.2.0-next.118
     '@arcgis/lumina-compiler':
-      specifier: '>=5.2.0-next.96 <6.0.0'
-      version: 5.2.0-next.118
-    '@arcgis/toolkit':
-      specifier: '>=5.2.0-next.96 <6.0.0'
+      specifier: 5.2.0-next.118
       version: 5.2.0-next.118
     '@cloudfour/simple-svg-placeholder':
       specifier: 1.2.0
@@ -54,12 +48,6 @@ catalogs:
     '@eslint/js':
       specifier: 9.39.5
       version: 9.39.5
-    '@floating-ui/dom':
-      specifier: ^1.8.0
-      version: 1.8.0
-    '@floating-ui/utils':
-      specifier: ^0.2.8
-      version: 0.2.12
     '@inquirer/checkbox':
       specifier: 5.2.1
       version: 5.2.1
@@ -69,12 +57,6 @@ catalogs:
     '@inquirer/select':
       specifier: 5.2.1
       version: 5.2.1
-    '@interactjs/types':
-      specifier: ^1.10.27
-      version: 1.10.27
-    '@lit/react':
-      specifier: ^1.0.8
-      version: 1.0.8
     '@morev/stylelint-testing-library':
       specifier: 1.1.0
       version: 1.1.0
@@ -150,9 +132,6 @@ catalogs:
     '@types/shell-quote':
       specifier: 1.7.5
       version: 1.7.5
-    '@types/sortablejs':
-      specifier: ^1.15.8
-      version: 1.15.9
     '@types/yargs':
       specifier: 17.0.35
       version: 17.0.35
@@ -196,17 +175,11 @@ catalogs:
       specifier: 16.6.3
       version: 16.6.3
     cli-progress:
-      specifier: ^3.12.0
+      specifier: 3.12.0
       version: 3.12.0
-    color:
-      specifier: ^5.0.3
-      version: 5.0.3
     commander:
       specifier: 15.0.0
       version: 15.0.0
-    composed-offset-position:
-      specifier: ^0.0.6
-      version: 0.0.6
     concurrently:
       specifier: 9.2.1
       version: 9.2.1
@@ -226,7 +199,7 @@ catalogs:
       specifier: 1.7.2
       version: 1.7.2
     es-toolkit:
-      specifier: ^1.39.8
+      specifier: 1.49.0
       version: 1.49.0
     eslint:
       specifier: 10.10.0
@@ -252,9 +225,6 @@ catalogs:
     fantasticon:
       specifier: 4.1.0
       version: 4.1.0
-    focus-trap:
-      specifier: ^8.2.1
-      version: 8.2.2
     fs-extra:
       specifier: 11.3.6
       version: 11.3.6
@@ -276,9 +246,6 @@ catalogs:
     husky:
       specifier: 9.1.7
       version: 9.1.7
-    interactjs:
-      specifier: ^1.10.27
-      version: 1.10.27
     jest-axe:
       specifier: 10.0.0
       version: 10.0.0
@@ -288,9 +255,6 @@ catalogs:
     lint-staged:
       specifier: 16.4.0
       version: 16.4.0
-    lit:
-      specifier: ^3.3.0
-      version: 3.3.3
     markdownlint-cli2:
       specifier: 0.22.1
       version: 0.22.1
@@ -330,9 +294,6 @@ catalogs:
     shell-quote:
       specifier: 1.8.4
       version: 1.8.4
-    sortablejs:
-      specifier: ^1.15.6
-      version: 1.15.7
     storybook:
       specifier: 10.3.6
       version: 10.3.6
@@ -352,7 +313,7 @@ catalogs:
       specifier: 5.0.1
       version: 5.0.1
     svgo:
-      specifier: ^4.0.0
+      specifier: 4.0.2
       version: 4.0.2
     svgson:
       specifier: 5.3.1
@@ -360,15 +321,9 @@ catalogs:
     svgstore-cli:
       specifier: 2.0.1
       version: 2.0.1
-    tabbable:
-      specifier: ^6.5.0
-      version: 6.5.0
     tailwindcss:
       specifier: 3.4.19
       version: 3.4.19
-    timezone-groups:
-      specifier: ^1.0.1
-      version: 1.0.1
     turbo:
       specifier: 2.9.18
       version: 2.9.18
@@ -399,7 +354,55 @@ catalogs:
     yargs:
       specifier: 18.0.0
       version: 18.0.0
-  type-fest-v4:
+  runtime-ranges:
+    '@arcgis/lumina':
+      specifier: '>=5.2.0-next.96 <6.0.0'
+      version: 5.2.0-next.118
+    '@arcgis/toolkit':
+      specifier: '>=5.2.0-next.96 <6.0.0'
+      version: 5.2.0-next.118
+    '@floating-ui/dom':
+      specifier: ^1.8.0
+      version: 1.8.0
+    '@floating-ui/utils':
+      specifier: ^0.2.8
+      version: 0.2.12
+    '@interactjs/types':
+      specifier: ^1.10.27
+      version: 1.10.27
+    '@lit/react':
+      specifier: ^1.0.8
+      version: 1.0.8
+    '@types/sortablejs':
+      specifier: ^1.15.8
+      version: 1.15.9
+    color:
+      specifier: ^5.0.3
+      version: 5.0.3
+    composed-offset-position:
+      specifier: ^0.0.6
+      version: 0.0.6
+    es-toolkit:
+      specifier: ^1.39.8
+      version: 1.49.0
+    focus-trap:
+      specifier: ^8.2.1
+      version: 8.2.2
+    interactjs:
+      specifier: ^1.10.27
+      version: 1.10.27
+    lit:
+      specifier: ^3.3.0
+      version: 3.3.3
+    sortablejs:
+      specifier: ^1.15.6
+      version: 1.15.7
+    tabbable:
+      specifier: ^6.5.0
+      version: 6.5.0
+    timezone-groups:
+      specifier: ^1.0.1
+      version: 1.0.1
     type-fest:
       specifier: ^4.30.1
       version: 4.41.0
@@ -538,10 +541,10 @@ importers:
   packages/components:
     dependencies:
       '@arcgis/lumina':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 5.2.0-next.118(lit@3.3.3)
       '@arcgis/toolkit':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 5.2.0-next.118
       '@esri/calcite-design-tokens':
         specifier: workspace:*
@@ -550,46 +553,46 @@ importers:
         specifier: workspace:*
         version: link:../ui-icons
       '@floating-ui/dom':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.8.0
       '@floating-ui/utils':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 0.2.12
       '@interactjs/types':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.10.27
       '@types/sortablejs':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.15.9
       color:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 5.0.3
       composed-offset-position:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 0.0.6(@floating-ui/utils@0.2.12)
       es-toolkit:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.49.0
       focus-trap:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 8.2.2
       interactjs:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.10.27
       lit:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 3.3.3
       sortablejs:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.15.7
       tabbable:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 6.5.0
       timezone-groups:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.0.1
       type-fest:
-        specifier: catalog:type-fest-v4
+        specifier: catalog:runtime-ranges
         version: 4.41.0
     devDependencies:
       '@arcgis/api-extractor':
@@ -788,16 +791,16 @@ importers:
   packages/components-react:
     dependencies:
       '@arcgis/lumina':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 5.2.0-next.118(lit@3.3.3)
       '@esri/calcite-components':
         specifier: workspace:*
         version: link:../components
       '@lit/react':
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 1.0.8(@types/react@18.3.12)
       lit:
-        specifier: 'catalog:'
+        specifier: catalog:runtime-ranges
         version: 3.3.3
     devDependencies:
       '@esri/calcite-typescript-config':
