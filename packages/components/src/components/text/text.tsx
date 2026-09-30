@@ -51,7 +51,7 @@ export class Text extends LitElement {
 
   /**
    * Specifies the position of truncation ellipsis when text overflows.
-   * `maxLines` property is not supported when `truncatePosition` is configured, as multi-line truncation defaults to the end of the text.
+   * `truncatePosition` is ignored when `maxLines` is configured, as multi-line truncation always occurs at the end.
    */
   @property({ reflect: true }) truncatePosition?: TruncatePosition;
 
@@ -143,7 +143,6 @@ export class Text extends LitElement {
     if (!oldValue) {
       return;
     } else if (oldValue && !newValue) {
-      this.resizeObserver?.disconnect();
       this.clearTooltipTitle();
       this.syncRenderedText(this.value);
     } else if (oldValue === "middle" && newValue === "end") {
