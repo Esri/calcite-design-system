@@ -24,9 +24,14 @@ export default {
         return story();
       }
       return html`
-        <div style="width: ${containerWidth}px; border: 1px solid var(--calcite-color-border-3); padding: 8px;">
-          ${story()}
-        </div>
+        <style>
+          .text-container {
+            width: ${containerWidth}px;
+            border: 1px solid var(--calcite-color-border-3);
+            padding: 8px;
+          }
+        </style>
+        <div class="text-container">${story()}</div>
       `;
     },
   ],
