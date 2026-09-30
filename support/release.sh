@@ -66,7 +66,9 @@ version() {
 
 publish() {
     # only add the tag flag if the second argument was provided
-    pnpm recursive publish --yes ${dist_tag:+--tag $dist_tag}
+    pnpm recursive publish \
+        --publish-branch "$branch" \
+        ${dist_tag:+--tag "$dist_tag"}
 }
 
 main() {
