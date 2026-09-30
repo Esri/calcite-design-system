@@ -3,6 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-input-prefix-size: [Deprecated] in v5.2.0, removal target v7.0.0 - the component now automatically calculates affix width. When `prefixText` is provided, specifies the width of the component's prefix element.
+ * @prop --calcite-input-suffix-size: [Deprecated] in v5.2.0, removal target v7.0.0 - the component now automatically calculates affix width. When `suffixText` is provided, specifies the width of the component's suffix element.
  * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
  * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the text color of the component's suffix element.
  *
@@ -422,6 +424,7 @@ input[type="time"]::-webkit-clear-button {
 .prefix {
   order: 0;
   border-inline-end-width: theme("borderWidth.0");
+  inline-size: var(--calcite-input-prefix-size, auto);
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
@@ -429,6 +432,7 @@ input[type="time"]::-webkit-clear-button {
 .suffix {
   order: 5;
   border-inline-start-width: theme("borderWidth.0");
+  inline-size: var(--calcite-input-suffix-size, auto);
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }

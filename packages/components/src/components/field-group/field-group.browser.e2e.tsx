@@ -463,6 +463,69 @@ describe("affix width coordination", () => {
       expect(getAffixWidth(inputNumber, "prefix")).toBe(prefixWidth);
     });
   });
+
+  it("overrides deprecated affix size CSS custom properties across supported input components while coordinating", async () => {
+    const { el } = await mount(
+      <calcite-field-group prefix-auto-width suffix-auto-width>
+        <calcite-input
+          id="input"
+          prefix-text="a very long prefix"
+          style={{ "--calcite-input-prefix-size": "5px", "--calcite-input-suffix-size": "5px" }}
+          suffix-text="a very long suffix"
+        />
+        <calcite-input-number
+          id="input-number"
+          prefix-text="a very long prefix"
+          style={{ "--calcite-input-prefix-size": "5px", "--calcite-input-suffix-size": "5px" }}
+          suffix-text="a very long suffix"
+        />
+        <calcite-input-text
+          id="input-text"
+          prefix-text="a very long prefix"
+          style={{ "--calcite-input-prefix-size-x": "5px", "--calcite-input-suffix-size-x": "5px" }}
+          suffix-text="a very long suffix"
+        />
+        <calcite-autocomplete
+          id="autocomplete"
+          prefix-text="a very long prefix"
+          style={{
+            "--calcite-autocomplete-input-prefix-size": "5px",
+            "--calcite-autocomplete-input-suffix-size": "5px",
+          }}
+          suffix-text="a very long suffix"
+        />
+        <calcite-input
+          id="unconstrained"
+          prefix-text="a very long prefix"
+          suffix-text="a very long suffix"
+        />
+      </calcite-field-group>,
+    );
+    const input = el.querySelector<UpdatableElement>("#input")!;
+    const inputNumber = el.querySelector<UpdatableElement>("#input-number")!;
+    const inputText = el.querySelector<UpdatableElement>("#input-text")!;
+    const autocomplete = el.querySelector<UpdatableElement>("#autocomplete")!;
+    const unconstrained = el.querySelector<UpdatableElement>("#unconstrained")!;
+
+    await vi.waitFor(() => {
+      const prefixWidth = getAffixWidth(unconstrained, "prefix");
+
+      expect(prefixWidth).toMatch(/^\d+px$/);
+      expect(prefixWidth).not.toBe("5px");
+      expect(getAffixWidth(input, "prefix")).toBe(prefixWidth);
+      expect(getAffixWidth(inputNumber, "prefix")).toBe(prefixWidth);
+      expect(getAffixWidth(inputText, "prefix")).toBe(prefixWidth);
+      expect(getAffixWidth(autocomplete, "prefix")).toBe(prefixWidth);
+
+      const suffixFootprintWidth = getSuffixFootprintWidth(unconstrained);
+
+      expect(getAffixWidth(unconstrained, "suffix")).not.toBe("5px");
+      expect(getSuffixFootprintWidth(input)).toBe(suffixFootprintWidth);
+      expect(getSuffixFootprintWidth(inputNumber)).toBe(suffixFootprintWidth);
+      expect(getSuffixFootprintWidth(inputText)).toBe(suffixFootprintWidth);
+      expect(getSuffixFootprintWidth(autocomplete)).toBe(suffixFootprintWidth);
+    });
+  });
 });
 
 describe("scale gap values", () => {

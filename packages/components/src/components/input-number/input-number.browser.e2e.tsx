@@ -1438,6 +1438,25 @@ describe("theme", () => {
       },
     });
 
+    it("respects deprecated prefix/suffix size CSS custom properties set before the affix first renders", async () => {
+      const { el } = await mount<InputNumber>(
+        <calcite-input-number
+          prefix-text="prefix"
+          style={{ "--calcite-input-prefix-size": "42px", "--calcite-input-suffix-size": "42px" }}
+          suffix-text="suffix"
+        />,
+      );
+
+      await vi.waitFor(() => {
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toBe(
+          "42px",
+        );
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toBe(
+          "42px",
+        );
+      });
+    });
+
     it("measures and clears inline affix widths", async () => {
       const { el } = await mount<InputNumber>(
         <calcite-input-number prefix-text="prefix" suffix-text="suffix" />,

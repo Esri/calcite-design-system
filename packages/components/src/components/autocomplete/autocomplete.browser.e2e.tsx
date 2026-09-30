@@ -608,6 +608,14 @@ describe("theme", () => {
       shadowSelector: `.${CSS.contentAnimation}`,
       targetProp: "maxBlockSize",
     },
+    "--calcite-autocomplete-input-prefix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-prefix-size",
+    },
+    "--calcite-autocomplete-input-suffix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-suffix-size",
+    },
     "--calcite-autocomplete-input-background-color": {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-background-color",
@@ -676,5 +684,24 @@ describe("theme", () => {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-suffix-text-color",
     },
+  });
+
+  it("respects deprecated prefix/suffix size CSS custom properties set before the affix first renders", async () => {
+    const { el } = await mount<Autocomplete>(
+      <calcite-autocomplete
+        prefix-text="prefix"
+        style={{
+          "--calcite-autocomplete-input-prefix-size": "42px",
+          "--calcite-autocomplete-input-suffix-size": "42px",
+        }}
+        suffix-text="suffix"
+      />,
+    );
+    const input = el.shadowRoot.querySelector(`.${CSS.input}`)!;
+
+    await vi.waitFor(() => {
+      expect(input.shadowRoot!.querySelector<HTMLElement>(".prefix")!.style.width).toBe("42px");
+      expect(input.shadowRoot!.querySelector<HTMLElement>(".suffix")!.style.width).toBe("42px");
+    });
   });
 });
