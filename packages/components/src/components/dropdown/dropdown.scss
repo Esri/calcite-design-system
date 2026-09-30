@@ -14,22 +14,21 @@
 //
 // --calcite-internal-dropdown-width
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+@use "../../styles/shared";
 
 :host {
   @apply inline-block;
 }
 
 .wrapper {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
 }
 
 :host([top-layer-disabled]) .wrapper {
   --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
-@include floating-ui.floating-ui-elem-anim(".wrapper");
+@include shared.floating-ui-elem-anim(".wrapper");
 
 .wrapper .calcite-floating-ui-anim {
   box-shadow: var(--calcite-shadow-md);
@@ -46,7 +45,7 @@
 
 .trigger-container {
   @apply relative flex flex-auto h-full;
-  @include includes.word-break;
+  @include shared.word-break;
 }
 
 .width-s {
@@ -68,5 +67,5 @@
   }
 }
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();

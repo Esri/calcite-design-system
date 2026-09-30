@@ -17,7 +17,7 @@
 //
 // --calcite-internal-dropdown-item-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 @mixin item-styling {
   @apply relative
@@ -173,5 +173,5 @@
   @apply opacity-100;
 }
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();

@@ -16,7 +16,7 @@
 // --calcite-internal-segmented-control-icon-margin-end
 // --calcite-internal-segmented-control-icon-margin-start
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex
@@ -52,6 +52,7 @@
   @apply focus-inset;
   outline-offset: -1px;
   z-index: var(--calcite-z-index);
+  border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
 .label--scale-s {
@@ -151,4 +152,4 @@
   --calcite-internal-segmented-control-icon-margin-end: 0;
 }
 
-@include includes.base-component();
+@include shared.base-component();

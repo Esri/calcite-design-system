@@ -7,10 +7,10 @@
  * @prop --calcite-card-group-space: Specifies the space between slotted elements.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 .container {
@@ -19,5 +19,5 @@
   gap: var(--calcite-card-group-space, var(--calcite-card-group-gap, var(--calcite-spacing-md)));
 }
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();

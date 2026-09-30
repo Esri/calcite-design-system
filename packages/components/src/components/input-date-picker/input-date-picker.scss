@@ -61,11 +61,10 @@
 // --calcite-internal-input-text-input-border-inline-end-width
 // --calcite-internal-input-text-input-padding-inline-end
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+@use "../../styles/shared";
 
 :host {
-  @include floating-ui.floating-ui-elem-anim(".menu-container");
+  @include shared.floating-ui-elem-anim(".menu-container");
   @apply relative
     inline-block
     w-full
@@ -112,7 +111,7 @@
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .calendar-wrapper {
   box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
@@ -288,10 +287,10 @@
 
 .menu-container {
   --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
 }
 
-@include floating-ui.floating-ui-elem-anim(".menu-container");
+@include shared.floating-ui-elem-anim(".menu-container");
 
 .input .calcite-input__wrapper {
   @apply mt-0;
@@ -360,7 +359,7 @@
 .input {
   --calcite-input-text-background-color: var(--calcite-input-date-picker-background-color);
   --calcite-input-text-border-color: var(--calcite-input-date-picker-border-color);
-  --calcite-input-text-corner-radius: var(--calcite-input-date-picker-corner-radius);
+  --calcite-input-text-corner-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
   --calcite-input-text-shadow: var(--calcite-input-date-picker-shadow);
   --calcite-input-text-icon-color: var(--calcite-input-date-picker-icon-color);
   --calcite-input-text-text-color: var(--calcite-input-date-picker-text-color);
@@ -421,7 +420,10 @@
 
 calcite-date-picker {
   --calcite-date-picker-border-color: var(--calcite-input-date-picker-calendar-border-color);
-  --calcite-date-picker-corner-radius: var(--calcite-input-date-picker-calendar-corner-radius);
+  --calcite-date-picker-corner-radius: var(
+    --calcite-input-date-picker-calendar-corner-radius,
+    var(--calcite-corner-radius-sm)
+  );
   --calcite-date-picker-range-calendar-divider-color: var(--calcite-input-date-picker-calendar-range-divider-color);
   --calcite-date-picker-week-header-text-color: var(--calcite-input-date-picker-calendar-text-color);
   --calcite-date-picker-header-action-background-color: var(
@@ -471,10 +473,10 @@ calcite-date-picker {
   @apply sr-only;
 }
 
-@include includes.form-validation-message();
-@include includes.form-internal-label();
-@include includes.base-component();
-@include includes.clear-button(
+@include shared.form-validation-message();
+@include shared.form-internal-label();
+@include shared.base-component();
+@include shared.clear-button(
   $background-color: "--calcite-input-date-picker-input-action-background-color",
   $background-color-hover: "--calcite-input-date-picker-input-action-background-color-hover",
   $background-color-press: "--calcite-input-date-picker-input-action-background-color-press",

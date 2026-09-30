@@ -11,6 +11,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -46,6 +47,7 @@ function isRange(value: number | number[]): value is number[] {
 }
 
 const defaultValue = 0;
+const leftToRightMark = "\u200E";
 
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
@@ -64,6 +66,8 @@ export class Slider extends LitElement implements LabelableComponent {
   //#region Private Properties
 
   defaultValue?: Slider["value"];
+
+  private direction = useDirection();
 
   private dragEnd = (event: PointerEvent): void => {
     if (this.disabled) {
@@ -145,7 +149,11 @@ export class Slider extends LitElement implements LabelableComponent {
       useGrouping: this.groupSeparator,
     };
 
-    return numberStringFormatter.localize(value.toString());
+    const formattedValue = numberStringFormatter.localize(value.toString(), true);
+
+    return this.direction === "rtl" && formattedValue.startsWith(numberStringFormatter.minusSign)
+      ? `${leftToRightMark}${formattedValue}`
+      : formattedValue;
   };
 
   formSupport = useForm<this>({

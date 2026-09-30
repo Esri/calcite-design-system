@@ -22,7 +22,7 @@
 // --calcite-internal-select-icon-container-padding-inline
 // --calcite-internal-select-spacing-inline
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
@@ -44,7 +44,7 @@
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([scale="s"]) {
   --calcite-internal-select-font-size: theme("fontSize.n2h");
@@ -142,6 +142,6 @@ select:disabled {
   @apply border-color-transparent;
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();
