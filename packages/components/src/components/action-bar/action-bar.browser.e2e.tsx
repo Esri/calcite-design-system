@@ -1077,7 +1077,7 @@ describe("per-group overflow-actions-disabled", () => {
       <calcite-action-bar expand-toggle-disabled layout="horizontal">
         <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
         <calcite-action data-testid="second-action" icon="number-circle2" text="second" />
-        <calcite-action-menu data-testid="action-menu">
+        <calcite-action-menu data-testid="action-menu" label="More">
           <calcite-action icon="number-circle3" text="third" />
         </calcite-action-menu>
       </calcite-action-bar>,
@@ -1086,6 +1086,7 @@ describe("per-group overflow-actions-disabled", () => {
     const firstAction = page.getByTestId("first-action");
     const secondAction = page.getByTestId("second-action");
     const actionMenu = page.getByTestId("action-menu");
+    const actionMenuTrigger = actionMenu.getByRole("button", { name: "More" });
 
     await expect.element(firstAction).not.toHaveAttribute("tabindex");
     await expect.element(secondAction).toHaveAttribute("tabindex", "-1");
@@ -1103,7 +1104,8 @@ describe("per-group overflow-actions-disabled", () => {
     await expect.element(actionMenu).toHaveFocus();
     await expect.element(firstAction).toHaveAttribute("tabindex", "-1");
     await expect.element(secondAction).toHaveAttribute("tabindex", "-1");
-    await expect.element(actionMenu).toHaveAttribute("tabindex", "0");
+    await expect.element(actionMenu).not.toHaveAttribute("tabindex");
+    await expect.element(actionMenuTrigger).toHaveAttribute("tabindex", "0");
   });
 
   it("supports keyboard navigation after focus moves to another action bar", async () => {
