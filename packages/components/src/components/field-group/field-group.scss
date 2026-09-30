@@ -73,4 +73,5 @@
   --calcite-internal-field-group-gap: var(--calcite-space-lg);
 }
 
+@include shared.disabled();
 @include shared.base-component();

@@ -86,15 +86,12 @@ describe("structure", () => {
     expect(el.querySelector('[slot="legend"]')?.textContent).toBe("Slotted legend");
   });
 
-  it("uses muted legend text when disabled", async () => {
+  it("reduces opacity when disabled", async () => {
     const { el } = await mount<"calcite-field-set">(
       <calcite-field-set disabled legend="Disabled legend" />,
     );
-    const legend = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
 
-    el.style.setProperty("--calcite-color-text-3", "rgb(1, 2, 3)");
-
-    expect(getComputedStyle(legend).color).toBe("rgb(1, 2, 3)");
+    expect(getComputedStyle(el).opacity).toBe("0.5");
   });
 
   it("stacks controls and field groups vertically", async () => {
