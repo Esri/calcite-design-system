@@ -82,7 +82,7 @@ export class Input
   private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
+    ["aria-live", "autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 

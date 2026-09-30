@@ -30,9 +30,9 @@ describe("disabled", () => {
   disabled(() => mount("calcite-stepper-item"));
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
   it("sets internal control aria-live only when host value is valid", async () => {
-    const { el, reRender } = await mount(<calcite-stepper-item complete heading="Step 1" />);
+    const { el } = await mount(<calcite-stepper-item complete heading="Step 1" />);
     const assistiveText = page
       .getBySelector(`calcite-stepper-item .${CSS.visuallyHidden}`)
       .element() as HTMLElement;
@@ -41,14 +41,10 @@ describe("aria-live", () => {
     expect(assistiveText.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
-    await reRender();
-
-    expect(assistiveText.getAttribute("aria-live")).toBe("polite");
+    await expect.element(page.elementLocator(assistiveText)).toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await reRender();
-
-    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+    await expect.element(page.elementLocator(assistiveText)).not.toHaveAttribute("aria-live");
   });
 });
 

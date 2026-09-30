@@ -1186,9 +1186,9 @@ describe("warning messages", () => {
   });
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
   it("sets host aria-live", async () => {
-    const { reRender } = await mount(
+    await mount(
       <div>
         <calcite-tooltip id="aria-live-tooltip" reference-element="ref">
           Tip
@@ -1203,7 +1203,6 @@ describe("aria-live", () => {
     expect(tooltip.getAttribute("aria-live")).toBe(null);
 
     tooltip.ariaLive = "polite";
-    await reRender();
 
     expect(tooltip.getAttribute("aria-live")).toBe("polite");
   });

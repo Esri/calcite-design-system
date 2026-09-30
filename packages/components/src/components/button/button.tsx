@@ -54,7 +54,10 @@ export class Button extends LitElement {
 
   //#region Private Properties
 
-  attributeWatch = useWatchAttributes(["aria-expanded"], this.handleGlobalAttributesChanged);
+  attributeWatch = useWatchAttributes(
+    ["aria-expanded", "aria-live"],
+    this.handleGlobalAttributesChanged,
+  );
 
   /** the rendered child element */
   private childEl?: HTMLElement;

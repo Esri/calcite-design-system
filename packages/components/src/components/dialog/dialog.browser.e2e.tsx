@@ -326,7 +326,7 @@ describe("translation support", () => {
 describe("keyboard assistive text", () => {
   it("renders assistive text when resizable without default aria-live", async () => {
     const messages = await import("./assets/t9n/messages.json");
-    await mount(
+    const { el } = await mount(
       <calcite-dialog heading="Hello world" open resizable width-scale="m">
         Hello world!
       </calcite-dialog>,
@@ -338,6 +338,16 @@ describe("keyboard assistive text", () => {
     expect(assistiveTextElement).toBeDefined();
     expect(assistiveTextElement?.getAttribute("aria-live")).toBe(null);
     expect(assistiveTextElement?.textContent?.trim()).toBe(messages.resizeEnabled);
+
+    el.ariaLive = "polite";
+    await expect
+      .element(page.elementLocator(assistiveTextElement))
+      .toHaveAttribute("aria-live", "polite");
+
+    el.removeAttribute("aria-live");
+    await expect
+      .element(page.elementLocator(assistiveTextElement))
+      .not.toHaveAttribute("aria-live");
   });
 
   it("renders assistive text when dragEnabled without default aria-live", async () => {

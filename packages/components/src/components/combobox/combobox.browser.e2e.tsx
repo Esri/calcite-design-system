@@ -1888,9 +1888,9 @@ describe("filtering", () => {
   });
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
   it("sets internal control aria-live only when host value is valid", async () => {
-    const { el, reRender } = await mount(
+    const { el } = await mount(
       <calcite-combobox label="Trees">
         <calcite-combobox-item heading="Pine" value="pine" />
       </calcite-combobox>,
@@ -1901,14 +1901,10 @@ describe("aria-live", () => {
     expect(wrapper.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
-    await reRender();
-
-    expect(wrapper.getAttribute("aria-live")).toBe("polite");
+    await expect.element(page.elementLocator(wrapper)).toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await reRender();
-
-    expect(wrapper.getAttribute("aria-live")).toBe(null);
+    await expect.element(page.elementLocator(wrapper)).not.toHaveAttribute("aria-live");
   });
 });
 

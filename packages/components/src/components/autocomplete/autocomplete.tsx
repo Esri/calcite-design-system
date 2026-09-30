@@ -84,7 +84,7 @@ export class Autocomplete
   private guid = guid();
 
   attributeWatch = useWatchAttributes(
-    ["autofocus", "enterkeyhint", "inputmode"],
+    ["aria-live", "autofocus", "enterkeyhint", "inputmode"],
     this.handleGlobalAttributesChanged,
   );
 

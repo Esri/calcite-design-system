@@ -107,7 +107,7 @@ describe("a11y attributes", () => {
   });
 
   it("sets loader aria-live only when host value is valid", async () => {
-    const { el, reRender } = await mount(
+    const { el } = await mount(
       <calcite-card loading>
         <span slot="heading">Card heading</span>
       </calcite-card>,
@@ -120,14 +120,12 @@ describe("a11y attributes", () => {
     expect(loaderContainer.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
-    await reRender();
-
-    expect(loaderContainer.getAttribute("aria-live")).toBe("polite");
+    await expect
+      .element(page.elementLocator(loaderContainer))
+      .toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await reRender();
-
-    expect(loaderContainer.getAttribute("aria-live")).toBe(null);
+    await expect.element(page.elementLocator(loaderContainer)).not.toHaveAttribute("aria-live");
   });
 });
 

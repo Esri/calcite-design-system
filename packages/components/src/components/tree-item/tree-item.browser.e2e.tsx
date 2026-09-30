@@ -104,9 +104,9 @@ describe("slots", () => {
   slots(() => mount("calcite-tree-item"), SLOTS);
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
   it("sets host aria-live", async () => {
-    const { reRender } = await mount(
+    await mount(
       <calcite-tree>
         <calcite-tree-item id="aria-live-tree-item">Item</calcite-tree-item>
       </calcite-tree>,
@@ -116,7 +116,6 @@ describe("aria-live", () => {
     expect(treeItem.getAttribute("aria-live")).toBe(null);
 
     treeItem.ariaLive = "polite";
-    await reRender();
 
     expect(treeItem.getAttribute("aria-live")).toBe("polite");
   });

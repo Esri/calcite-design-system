@@ -11,6 +11,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { resolveAriaLive } from "../../utils/aria";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../types";
@@ -74,6 +75,8 @@ export class List extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   dragSelector = listItemSelector;
 

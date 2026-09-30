@@ -14,6 +14,7 @@ import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { useT9n } from "../../controllers/useT9n";
 import { IconName } from "../icon/types";
 import type { RadioButton } from "../radio-button/radio-button";
@@ -41,6 +42,8 @@ export class RadioButtonGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   /**
    * Made into a prop for testing purposes only

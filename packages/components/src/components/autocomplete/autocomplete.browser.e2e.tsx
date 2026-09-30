@@ -590,9 +590,9 @@ describe("keyboard selection", () => {
   });
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
   it("sets screen reader list aria-live only when host value is valid", async () => {
-    const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const { el } = await mount<Autocomplete>(renderAutocomplete);
     const screenReaderList = page
       .getBySelector(`#myAutocomplete .${CSS.screenReadersOnly}`)
       .element() as HTMLElement;
@@ -601,14 +601,12 @@ describe("aria-live", () => {
     expect(screenReaderList.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
-    await reRender();
-
-    expect(screenReaderList.getAttribute("aria-live")).toBe("polite");
+    await expect
+      .element(page.elementLocator(screenReaderList))
+      .toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await reRender();
-
-    expect(screenReaderList.getAttribute("aria-live")).toBe(null);
+    await expect.element(page.elementLocator(screenReaderList)).not.toHaveAttribute("aria-live");
   });
 });
 

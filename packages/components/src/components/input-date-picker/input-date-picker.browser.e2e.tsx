@@ -423,9 +423,9 @@ function getMonthSelectMenu(): Locator {
   return page.getByRole("combobox", { name: "Month menu" }).first();
 }
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
   it("sets internal control aria-live only when host value is valid", async () => {
-    const { el, reRender } = await mount(<calcite-input-date-picker />);
+    const { el } = await mount(<calcite-input-date-picker />);
     const menu = page
       .getBySelector(`calcite-input-date-picker .${CSS.menu}`)
       .element() as HTMLElement;
@@ -434,14 +434,10 @@ describe("aria-live", () => {
     expect(menu.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
-    await reRender();
-
-    expect(menu.getAttribute("aria-live")).toBe("polite");
+    await expect.element(page.elementLocator(menu)).toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await reRender();
-
-    expect(menu.getAttribute("aria-live")).toBe(null);
+    await expect.element(page.elementLocator(menu)).not.toHaveAttribute("aria-live");
   });
 });
 

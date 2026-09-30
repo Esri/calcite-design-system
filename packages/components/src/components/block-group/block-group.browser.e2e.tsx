@@ -169,6 +169,28 @@ describe("a11y attributes", () => {
 
     await expect.element(group).toHaveAttribute("aria-busy", "true");
   });
+
+  it("sets assistive text aria-live only when host value is valid", async () => {
+    const { el } = await mount(
+      <calcite-block-group drag-enabled>
+        <calcite-block heading="Block" />
+      </calcite-block-group>,
+    );
+    const assistiveText = el.shadowRoot?.querySelector<HTMLElement>(
+      `.${CSS_UTILITY.screenReaderText}`,
+    );
+
+    expect(assistiveText).toBeDefined();
+    expect(assistiveText?.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect
+      .element(page.elementLocator(assistiveText!))
+      .toHaveAttribute("aria-live", "polite");
+
+    el.ariaLive = "invalid";
+    await expect.element(page.elementLocator(assistiveText!)).not.toHaveAttribute("aria-live");
+  });
 });
 
 describe("expandMode", () => {
@@ -345,31 +367,5 @@ describe("expandMode", () => {
     await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
     await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", true);
     await expect.element(descendantBlockElements.nth(3)).toHaveProperty("expanded", true);
-  });
-});
-
-describe("aria-live", () => {
-  it("sets assistive text aria-live only when host value is valid", async () => {
-    const { el, reRender } = await mount(
-      <calcite-block-group drag-enabled>
-        <calcite-block heading="Block" />
-      </calcite-block-group>,
-    );
-    const assistiveText = el.shadowRoot?.querySelector<HTMLElement>(
-      `.${CSS_UTILITY.screenReaderText}`,
-    );
-
-    expect(assistiveText).toBeDefined();
-    expect(assistiveText?.getAttribute("aria-live")).toBe(null);
-
-    el.ariaLive = "polite";
-    await reRender();
-
-    expect(assistiveText?.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "invalid";
-    await reRender();
-
-    expect(assistiveText?.getAttribute("aria-live")).toBe(null);
   });
 });

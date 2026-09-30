@@ -14,7 +14,7 @@ import {
   stringOrBoolean,
   ToEvents,
 } from "@arcgis/lumina";
-import { useDirection } from "@arcgis/lumina/controllers";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -95,6 +95,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private direction = useDirection();
 

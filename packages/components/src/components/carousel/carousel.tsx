@@ -1,7 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { useDirection } from "@arcgis/lumina/controllers";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { resolveAriaLive } from "../../utils/aria";
 import {
   focusElementInGroup,
@@ -39,6 +39,8 @@ export class Carousel extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private autoplayHandler = (): void => {
     this.clearIntervals();
@@ -704,7 +706,7 @@ export class Carousel extends LitElement {
       <div
         ariaLive={resolveAriaLive(this.el.ariaLive)}
         class={CSS_UTILITY.screenReaderText}
-        role="status"
+        role={resolveAriaLive(this.el.ariaLive) ? "status" : undefined}
       >
         {messages.paginationStatus
           .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))

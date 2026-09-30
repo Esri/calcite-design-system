@@ -64,7 +64,7 @@ export class TextArea
   //#region Private Properties
 
   attributeWatch = useWatchAttributes(
-    ["autofocus", "spellcheck"],
+    ["aria-live", "autofocus", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 

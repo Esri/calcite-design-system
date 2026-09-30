@@ -10,7 +10,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useDirection } from "@arcgis/lumina/controllers";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { useFocusTrap } from "../../controllers/useFocusTrap";
 import {
   dateFromISO,
@@ -97,6 +97,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private commonDateSeparators = [".", "-", "/"];
 

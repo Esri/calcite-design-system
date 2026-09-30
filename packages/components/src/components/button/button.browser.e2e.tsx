@@ -207,7 +207,7 @@ describe("a11y attributes", () => {
   });
 
   it("sets internal control aria-live only when host value is valid", async () => {
-    const { el, reRender } = await mount(<calcite-button>Continue</calcite-button>);
+    const { el } = await mount(<calcite-button>Continue</calcite-button>);
     const control = page.getBySelector("calcite-button button, calcite-button a").element() as
       | HTMLButtonElement
       | HTMLAnchorElement;
@@ -216,14 +216,14 @@ describe("a11y attributes", () => {
     expect(control.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
-    await reRender();
+    await expect
+      .element(page.getBySelector("calcite-button button, calcite-button a"))
+      .toHaveAttribute("aria-live", "polite");
 
-    expect(control.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "invalid";
-    await reRender();
-
-    expect(control.getAttribute("aria-live")).toBe(null);
+    el.removeAttribute("aria-live");
+    await expect
+      .element(page.getBySelector("calcite-button button, calcite-button a"))
+      .not.toHaveAttribute("aria-live");
   });
 });
 

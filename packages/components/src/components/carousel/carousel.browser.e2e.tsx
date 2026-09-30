@@ -698,7 +698,7 @@ describe("pagination", () => {
   });
 
   it("renders pagination for one item and respects optional aria-live when pagination is disabled", async () => {
-    const { el, reRender } = await mount<Carousel>(
+    const { el } = await mount<Carousel>(
       <calcite-carousel label="Carousel example" paginationDisabled>
         <calcite-carousel-item label="one" />
         <calcite-carousel-item label="two" />
@@ -717,14 +717,12 @@ describe("pagination", () => {
     expect(paginationAriaLive.getAttribute("aria-live")).toBe(null);
 
     el.ariaLive = "polite";
-    await reRender();
-
-    expect(paginationAriaLive.getAttribute("aria-live")).toBe("polite");
+    await expect
+      .element(page.elementLocator(paginationAriaLive))
+      .toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await reRender();
-
-    expect(paginationAriaLive.getAttribute("aria-live")).toBe(null);
+    await expect.element(page.elementLocator(paginationAriaLive)).not.toHaveAttribute("aria-live");
   });
 });
 

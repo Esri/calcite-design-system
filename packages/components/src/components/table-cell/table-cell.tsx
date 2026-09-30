@@ -1,7 +1,7 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
-import { useDirection } from "@arcgis/lumina/controllers";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { resolveAriaLive } from "../../utils/aria";
 import { Alignment, Scale } from "../types";
 import { RowType, TableInteractionMode } from "../table/types";
@@ -29,6 +29,8 @@ export class TableCell extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private containerRef = createRef<HTMLTableCellElement>();
 

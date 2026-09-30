@@ -11,6 +11,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { resolveAriaLive } from "../../utils/aria";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { createObserver } from "../../utils/observers";
 import {
   MoveEventDetail,
@@ -54,6 +55,8 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   dragSelector = blockSelector;
 

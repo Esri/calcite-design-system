@@ -294,9 +294,9 @@ describe("auto-close", () => {
   });
 });
 
-describe("aria-live", () => {
+describe("a11y attributes", () => {
   it("sets host aria-live", async () => {
-    const { reRender } = await mount(
+    await mount(
       <div>
         <calcite-popover id="aria-live-popover" reference-element="ref">
           Content
@@ -311,7 +311,6 @@ describe("aria-live", () => {
     expect(popover.getAttribute("aria-live")).toBe(null);
 
     popover.ariaLive = "polite";
-    await reRender();
 
     expect(popover.getAttribute("aria-live")).toBe("polite");
   });
