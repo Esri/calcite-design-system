@@ -32,8 +32,7 @@
  * @prop --calcite-autocomplete-input-suffix-text-color:  Specifies the text color of the Input's suffix, when present.
  */
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+@use "../../styles/shared";
 
 :host {
   @apply relative
@@ -74,7 +73,7 @@
   --calcite-input-suffix-text-color: var(--calcite-autocomplete-input-suffix-text-color);
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .content-container {
   @apply w-full
@@ -82,14 +81,14 @@
 }
 
 .floating-ui-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
 }
 
 :host([top-layer-disabled]) .floating-ui-container {
   --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
-@include floating-ui.floating-ui-elem-anim(".floating-ui-container");
+@include shared.floating-ui-elem-anim(".floating-ui-container");
 
 .content-container .calcite-floating-ui-anim {
   @apply overflow-y-auto
@@ -115,6 +114,6 @@
   @apply sr-only;
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();

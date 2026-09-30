@@ -63,7 +63,7 @@
 // --calcite-internal-table-selection-action-spacing
 // --calcite-internal-table-sticky-header-border-shadow
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: flex;
@@ -243,4 +243,4 @@ calcite-pagination {
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

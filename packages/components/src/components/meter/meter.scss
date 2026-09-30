@@ -29,10 +29,10 @@
 // --calcite-internal-meter-space
 // --calcite-internal-meter-value-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();
 
 :host {
   @apply flex;
