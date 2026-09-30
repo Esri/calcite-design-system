@@ -34,9 +34,7 @@
 // --calcite-internal-card-slotted-content-padding
 
 @use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
 :host {
   display: block;
@@ -106,7 +104,7 @@
       outline-color: transparent;
     }
     &:not(.non-interactive):focus {
-      @include focus.focus-outset();
+      @include shared.focus-outset();
     }
   }
 }
@@ -163,7 +161,7 @@
 .card-content {
   block-size: auto;
 
-  @include text.text-n2-wrap();
+  @include shared.text-n2-wrap();
 }
 
 .has-slotted-content {
@@ -178,7 +176,7 @@
   padding-inline-end: var(--calcite-spacing-xxxl);
 }
 
-@include includes.slotted("heading", "*") {
+@include shared.slotted("heading", "*") {
   color: var(--calcite-color-text-1);
   margin: 0;
   font-weight: var(--calcite-font-weight-medium);
@@ -186,7 +184,7 @@
   font-size: var(--calcite-internal-card-heading-font-size);
 }
 
-@include includes.slotted("description", "*") {
+@include shared.slotted("description", "*") {
   color: var(--calcite-color-text-2);
   margin: 0;
   font-weight: var(--calcite-font-weight-normal);
@@ -194,20 +192,20 @@
   font-size: var(--calcite-internal-card-description-font-size);
 }
 
-@include includes.slotted("thumbnail", "img") {
+@include shared.slotted("thumbnail", "img") {
   min-inline-size: 100%;
   max-inline-size: 100%;
 }
 
-@include includes.slotted("footer-start", "*") {
-  @include text.text-n2-wrap();
+@include shared.slotted("footer-start", "*") {
+  @include shared.text-n2-wrap();
 
   align-self: center;
   margin-inline-end: auto;
 }
 
-@include includes.slotted("footer-end", "*") {
-  @include text.text-n2-wrap();
+@include shared.slotted("footer-end", "*") {
+  @include shared.text-n2-wrap();
 
   align-self: center;
 }
@@ -308,7 +306,7 @@
     inline-size: 40%;
   }
 
-  @include includes.slotted("thumbnail", "img") {
+  @include shared.slotted("thumbnail", "img") {
     inline-size: 100%;
   }
 }
@@ -319,5 +317,5 @@ slot[name="footer-end"]::slotted(*) {
   gap: var(--calcite-internal-card-footer-start-end-gap);
 }
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();

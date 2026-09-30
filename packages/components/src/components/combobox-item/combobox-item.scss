@@ -24,15 +24,12 @@
 // --calcite-internal-combobox-item-spacing-unit-l
 // --calcite-internal-combobox-item-spacing-unit-s
 
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/outline-none";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
-@include includes.base-component();
+@include shared.base-component();
 
 .scale--s {
-  @include text.text-n2h();
+  @include shared.text-n2h();
 
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.2");
@@ -41,7 +38,7 @@
 }
 
 .scale--m {
-  @include text.text-n1h();
+  @include shared.text-n1h();
 
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[1.5]");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.3");
@@ -50,7 +47,7 @@
 }
 
 .scale--l {
-  @include text.text-0h();
+  @include shared.text-0h();
 
   --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[2.5]");
   --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.4");
@@ -68,7 +65,7 @@
   box-shadow: var(--calcite-shadow-none);
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host,
 ul {
@@ -80,11 +77,11 @@ ul {
 
 :host(:focus),
 ul:focus {
-  @include outline-none.outline-none();
+  @include shared.outline-none();
 }
 
 .label {
-  @include includes.word-break();
+  @include shared.word-break();
 
   outline-color: transparent;
   position: relative;
@@ -110,7 +107,7 @@ ul:focus {
 }
 
 .label--active {
-  @include focus.focus-inset();
+  @include shared.focus-inset();
 }
 
 .label:hover {
@@ -187,5 +184,5 @@ ul:focus {
   background-color: var(--calcite-color-surface-highlight);
 }
 
-@include includes.item-hidden();
-@include includes.text-highlight-item();
+@include shared.item-hidden();
+@include shared.text-highlight-item();

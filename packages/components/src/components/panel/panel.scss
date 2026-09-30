@@ -36,7 +36,7 @@
 // --calcite-internal-panel-default-space
 // --calcite-internal-panel-header-vertical-padding
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "sass:meta";
 
 :host {
@@ -48,7 +48,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
   block-size: 0;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-space: var(--calcite-spacing-sm);
@@ -329,4 +329,4 @@ calcite-icon {
   --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)));
 }
 
-@include includes.base-component();
+@include shared.base-component();

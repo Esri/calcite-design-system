@@ -31,7 +31,7 @@
  *
 */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @extend %component-host;
@@ -81,4 +81,4 @@
   @apply outline-none;
 }
 
-@include includes.base-component();
+@include shared.base-component();
