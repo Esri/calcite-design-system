@@ -1,169 +1,88 @@
-# Calcite Design System Workspace Instructions
+# Calcite Design System workspace instructions
 
-## Scope
+Follow `AGENTS.md` and the repository's contributing, component, testing, and documentation conventions.
 
-- This repo is a Turbo monorepo with npm workspaces. Most component work happens in `packages/components`.
-- Use Node as specified in `package.json` (`engines.node`). Prefer `mise` so the repo's configured runtime is used automatically.
-- Prefer package-scoped commands while iterating on a single package: `npm --workspace=packages/components run <script>`.
+## Workspace
 
-## Where To Work
+- This repository is a Turbo monorepo using pnpm workspaces.
+- Use the Node version declared in `package.json`; prefer `mise` so the configured runtime is selected automatically.
+- Install dependencies from the repository root with `pnpm install`.
+- Prefer filtered commands when working on one package, for example `pnpm --filter @esri/calcite-components <script>`.
 
-- `packages/components`: source for Calcite web components.
-- `packages/components-react`: React wrappers generated around component APIs. Avoid manual edits here unless the task is explicitly React-wrapper specific.
-- `packages/design-tokens`, `packages/ui-icons`, `packages/eslint-plugin-components`, and `packages/tailwind-preset`: shared package-level concerns. Only change them when the task clearly requires it.
-- Some workspace packages are internal or private tooling packages. Only change them when the task explicitly targets those package-level concerns.
+## Package responsibilities
 
-## Priorities
+- `packages/components` contains the Calcite web component source.
+- `packages/components-react` contains generated React wrappers. Avoid manual changes unless the task specifically targets React wrappers.
+- `packages/design-tokens`, `packages/ui-icons`, `packages/eslint-plugin-components`, and `packages/tailwind-preset` contain shared package-level concerns. Change them only when required by the task.
+- Some workspace packages are private tools. Change them only when the task targets that tooling.
 
-In descending order when rules conflict:
-
-1. Correctness
-2. Native platform alignment
-3. Clarity
-4. Consistency with nearby code
-5. Small reviewable diffs
-
-## Core Principles
-
-- Prefer clarity over cleverness.
-- Follow existing patterns in the codebase.
-- Make the smallest possible change to satisfy the request.
-- If requirements are ambiguous, ask clarifying questions before acting.
-
-## Boundaries and Constraints
-
-- Only make changes that are explicitly requested, plus directly related tests, stories, or documentation updates required by the repo's conventions.
-- Do NOT refactor, reformat, rename, or reorganize code unless asked.
-- Do NOT introduce new libraries, frameworks, or dependencies unless approved.
-- Do NOT modify unrelated files.
-- If you notice a potential improvement, suggest it but wait for approval.
-- When browser baseline updates or modern web development resources suggest a new pattern, propose it with supporting references (e.g., MDN, web.dev, Baseline status) and wait for approval before applying it.
-- Avoid browser-specific fixes. Prefer feature detection instead.
-
-## Code Quality
-
-- Favor readable, maintainable solutions.
-- Avoid premature optimization.
-- Keep functions and components small and focused.
-- Use descriptive names. Avoid abbreviations unless already established in the codebase.
-- Do not add comments for obvious code. Improve naming or structure instead.
-- Reduce branching and duplication when it improves readability, but do not compress code into dense expressions just to be shorter.
-- Sort properties alphabetically where the existing repo patterns expect it, but do not create unrelated churn just to reorder code.
-- Use strict TypeScript typings and avoid unnecessary type widening.
-
-## Component Conventions
+## Component conventions
 
 - Follow `packages/components/BOILERPLATE_COMPONENT.md` for new component structure and file layout.
-- Treat [component conventions reference docs](#component-conventions-reference-docs) as the source of truth for component responsibilities, event naming, property reflection, focus APIs, styling, and accessibility expectations.
-- Calcite components should stay minimal and reusable. Do not add network requests, routing, or application-specific state management unless an existing convention explicitly supports it.
-- Public APIs need explicit typing and JSDoc. Avoid `any`.
-- Match existing component patterns. Avoid introducing new abstractions unless they clearly improve reuse, correctness, or maintainability.
+- Use the component convention references below as the source of truth for APIs, events, property reflection, focus behavior, styling, accessibility, internationalization, documentation, and testing.
+- Keep components minimal and reusable. Do not add application-specific networking, routing, or state management unless an established convention supports it.
+- Give public APIs explicit TypeScript types and JSDoc. Avoid `any`.
+- Avoid browser-specific fixes; use feature detection when platform support varies.
+- When proposing a modern platform pattern based on changing browser support, provide an authoritative reference and wait for approval before applying it.
 
-### Component Conventions Reference Docs
+## Styling and stories
 
-- [Coding conventions][Coding conventions]
-- [Accessibility][Accessibility]
-- [Documentation][Documentation]
-- [Internationalization][Internationalization]
-- [Styling][Styling]
-- [Testing][Testing]
+- Follow the [Styling] reference for class naming and host attribute patterns.
+- Keep reusable strings and class names in established resources such as `resources.ts`.
+- Do not invent colors, spacing values, or typography scales.
+- Do not change layout, spacing, or interaction behavior unless requested.
+- Use CSS classes in stories instead of repeating inline styles.
+- For behavior with a visual effect, update the relevant story in addition to automated tests. For purely visual changes, prefer story coverage unless interaction testing is needed.
 
-## Platform Behavior
+## Testing mechanics
 
-- Match native behavior for forms, focus, validation, events, keyboard interaction, and accessibility whenever possible.
-- When wrapping native controls, preserve native semantics and timing as closely as possible.
-- Do not add custom behavior that conflicts with platform expectations unless there is a documented reason.
+- Follow the test-selection, locator, migration, and determinism guidance in `AGENTS.md`.
+- New component browser tests use `*.browser.e2e.tsx`; update legacy `*.e2e.ts` tests when a safe migration is not practical.
+- Reuse helpers from `packages/components/src/tests/common` and `packages/components/src/tests/utils`.
+- Keep tests focused on the changed behavior and avoid unrelated assertions or setup.
+- If a test is unstable, skip it and create or reference a follow-up issue rather than retaining flaky coverage.
 
-## Styling
+Targeted component commands:
 
-- Follow [Styling reference doc][Styling] for class naming and host attribute patterns.
-- Prefer existing resources/constants patterns such as `resources.ts` instead of scattering strings and class names through render code.
+```sh
+pnpm --filter @esri/calcite-components test:node <path>
+pnpm --filter @esri/calcite-components test:browser <path>
+pnpm --filter @esri/calcite-components test:watch <path>
+pnpm --filter @esri/calcite-components lint
+pnpm --filter @esri/calcite-components build
+```
 
-## UI and Frontend Guidelines
+Start the component development server with `pnpm start:components`. Build the full monorepo with `pnpm build`.
 
-- Prioritize accessibility (semantic HTML, ARIA only when necessary).
-- Do not invent new colors, spacing values, or typography scales.
-- Prefer composition over complex components.
-- Keep visual and interaction logic separated where possible.
+## Documentation and generated sources
 
-## UX Sensitivity
+- Keep JSDoc, examples, and generated API sources aligned with implementation changes.
+- Do not leave stale comments, examples, or documentation.
 
-- Do not change layout, spacing, or behavior unless explicitly requested.
-- Flag potential UX regressions instead of silently fixing them.
+## Pull requests and communication
 
-## Testing
+- Pull requests should originate from a branch in the cloned repository rather than a fork because visual-test workflows require secrets.
+- Write review comments and PR text in a direct, collaborative, and specific tone.
+- Explain what should change and why without sounding absolute or dismissive.
+- When useful, prefix review comments with:
+  - `blocking:` correctness, accessibility, security, or breaking API issue that must be resolved
+  - `suggestion:` optional improvement
+  - `nit:` minor polish that should not create extended discussion
+  - `question:` request for clarification or rationale
 
-- Every bug fix or feature change should include automated test coverage.
-- Prefer `*.browser.e2e.tsx` for new component tests that use **Vitest locators** (use the project’s established locator patterns first). Legacy `*.e2e.ts` tests still exist and continue to run, so update them when required by the changed behavior.
-- Use shared helpers from `packages/components/src/tests/common` and `packages/components/src/tests/utils` instead of duplicating test utilities.
-- If a change impacts user interaction, include assertions that validate the intended UX behavior and avoid flaky selectors.
-- If changes are visual, prefer updating stories in addition to tests when behavior also changes.
-- If a change is purely visual, prefer updating stories over adding end-to-end tests unless new interaction coverage is needed.
-- If you’re unsure whether a story or test is warranted, propose the smallest useful one and explain why.
-- Follow [Testing reference doc][Testing] for story and test expectations.
-- Prefer focused behavioral tests over implementation detail tests.
-- Do not add unrelated test coverage in the same change.
-- Always use CSS classes when adding/updating stories instead of repeating styles.
-- Targeted commands for component work:
-  - `npm --workspace=packages/components run test:node -- <path>`
-  - `npm --workspace=packages/components run test:browser -- <path>`
-  - `npm --workspace=packages/components run test:watch -- <path>`
-- Avoid defensive test code; keep tests deterministic and make assertions reflect the intended behavior.
-- Keep tests as minimal as possible, focusing on the specific behavior being tested. Avoid extra assertions or setup not directly related to the change.
-
-## Documentation
-
-- Keep JSDoc, examples, and generated API sources in sync with code changes.
-- Do not leave stale comments or examples behind.
-
-## Development Commands
-
-- Install dependencies from the repo root with `npm install`.
-- Start the local component dev server with `npm run start:components`.
-- Lint a single package with `npm --workspace=packages/components run lint`.
-- Build the components package with `npm --workspace=packages/components run build`.
-- Build the whole monorepo with `npm run build`.
-
-## PR And CI Notes
-
-- Pull requests are expected to come from a cloned repo branch, not a fork, because forked workflows cannot access required secrets for visual testing.
-- If a test is unstable, follow the repo testing convention: skip it and create or reference a follow-up issue instead of leaving flaky coverage in place.
-
-## Communication
-
-- When drafting review comments or PR text, be direct, collaborative, and specific.
-- Avoid sounding absolute, dismissive, or overly corrective.
-- Prefer wording that explains what changed and why in concrete terms.
-- When helpful, prefix review comments with a label so intent is clear. Format: `<label>:`. Suggested labels:
-  - `blocking:` must be addressed before merge (correctness, accessibility, security, breaking API)
-  - `suggestion:` optional improvement; author may adopt or explain why not
-  - `nit:` minor polish; not worth back-and-forth
-  - `question:` asking for clarification or rationale
-
-## Reference Docs
+## Reference documentation
 
 - `CONTRIBUTING.md`
 - `packages/components/README.md`
 - `packages/components/BOILERPLATE_COMPONENT.md`
+- [Coding conventions]
+- [Accessibility]
+- [Documentation]
+- [Internationalization]
+- [Styling]
+- [Testing]
 
-## Supported Browsers
-
-- See the supported browsers and versions in `packages/components/README.md#browser-support`.
-
-## Safety
-
-- Assume production impact unless told otherwise.
-
-## Final Check
-
-Before finalizing code, verify:
-
-- Names are clear and not abbreviated unless the abbreviation is established in the codebase.
-- Behavior is preserved unless a change was explicitly requested.
-- Native platform behavior is respected (forms, focus, events, keyboard, accessibility).
-- Tests cover the change and favor behavioral assertions over implementation details.
-- JSDoc, examples, and docs remain accurate and are not stale.
-- The diff is tightly scoped with no unrelated changes mixed in.
+Supported browsers are documented in `packages/components/README.md#browser-support`.
 
 <!-- references -->
 
