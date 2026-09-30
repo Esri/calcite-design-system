@@ -17,7 +17,7 @@ Only `global/index.scss` and component stylesheets in `components/*` should prod
 
 ## Static component style files
 
-The `component/` directory is reserved for static styles that are imported by component implementation files, not component stylesheets. These files are factored out only when multiple components need the same static style block.
+The `component/` directory is reserved for static styles that are imported by component implementation files, not component stylesheets. Prefer factoring a style into this directory when multiple components need the same static style block.
 
 ## Resources
 
