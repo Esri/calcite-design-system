@@ -1,4 +1,4 @@
-@use "../../styles/includes/index";
+@use "../../styles/shared";
 
 :host {
   display: block;
@@ -22,4 +22,4 @@
   white-space: normal;
 }
 
-@include includes.base-component();
+@include shared.base-component();
