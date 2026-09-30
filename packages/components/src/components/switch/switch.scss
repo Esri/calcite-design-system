@@ -12,7 +12,7 @@
  * @prop --calcite-switch-handle-shadow: [Deprecated] in v3.2.0, removal target v6.0.0 - No longer necessary. Specifies the handle's shadow.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 // sizes
 :host([scale="s"]) {
@@ -61,7 +61,7 @@
   tap-highlight-color: transparent;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .container {
   outline: none;
@@ -141,5 +141,5 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.base-component();

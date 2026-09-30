@@ -20,7 +20,7 @@
 // --calcite-internal-action-bar-padding
 // --calcite-internal-action-group-dividing-border-margin
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
@@ -282,4 +282,4 @@
   overflow-y: auto;
 }
 
-@include includes.base-component();
+@include shared.base-component();

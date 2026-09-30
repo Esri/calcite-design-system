@@ -39,7 +39,7 @@
 // --calcite-internal-accordion-item-icon-spacing-end
 // --calcite-internal-accordion-item-icon-spacing-start
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 %icon-position {
   /* icon rotation variables */
@@ -176,7 +176,7 @@
     @apply flex
       items-center
       ease-in-out;
-    @include includes.word-break();
+    @include shared.word-break();
   }
   .has-actions {
     gap: var(--calcite-internal-accordion-item-action-slot-spacing);
@@ -387,4 +387,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

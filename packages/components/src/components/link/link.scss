@@ -6,7 +6,7 @@
  * @prop --calcite-link-text-color: Specifies the component's text color.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: inline;
@@ -35,7 +35,7 @@
   text-decoration-thickness: var(--calcite-border-width-sm);
   text-underline-offset: 0.33em;
 
-  @include includes.transition-default($extra-props: "text-decoration-color");
+  @include shared.transition-default($extra-props: "text-decoration-color");
 }
 
 :host a:hover .link--text {
@@ -66,5 +66,5 @@ calcite-icon {
   margin-inline-start: var(--calcite-space-2xs);
 }
 
-@include includes.disabled();
-@include includes.base-component();
+@include shared.disabled();
+@include shared.base-component();

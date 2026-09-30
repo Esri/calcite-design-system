@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "5.2.0-next.83",
+  "version": "5.2.0-next.85",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -74,24 +74,24 @@
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "dependencies": {
-    "@arcgis/lumina": "catalog:",
-    "@arcgis/toolkit": "catalog:",
+    "@arcgis/lumina": "catalog:runtime-ranges",
+    "@arcgis/toolkit": "catalog:runtime-ranges",
     "@esri/calcite-design-tokens": "workspace:*",
     "@esri/calcite-ui-icons": "workspace:*",
-    "@floating-ui/dom": "catalog:",
-    "@floating-ui/utils": "catalog:",
-    "@interactjs/types": "catalog:",
-    "@types/sortablejs": "catalog:",
-    "color": "catalog:",
-    "composed-offset-position": "catalog:",
-    "es-toolkit": "catalog:",
-    "focus-trap": "catalog:",
-    "interactjs": "catalog:",
-    "lit": "catalog:",
-    "sortablejs": "catalog:",
-    "tabbable": "catalog:",
-    "timezone-groups": "catalog:",
-    "type-fest": "catalog:type-fest-v4"
+    "@floating-ui/dom": "catalog:runtime-ranges",
+    "@floating-ui/utils": "catalog:runtime-ranges",
+    "@interactjs/types": "catalog:runtime-ranges",
+    "@types/sortablejs": "catalog:runtime-ranges",
+    "color": "catalog:runtime-ranges",
+    "composed-offset-position": "catalog:runtime-ranges",
+    "es-toolkit": "catalog:runtime-ranges",
+    "focus-trap": "catalog:runtime-ranges",
+    "interactjs": "catalog:runtime-ranges",
+    "lit": "catalog:runtime-ranges",
+    "sortablejs": "catalog:runtime-ranges",
+    "tabbable": "catalog:runtime-ranges",
+    "timezone-groups": "catalog:runtime-ranges",
+    "type-fest": "catalog:runtime-ranges"
   },
   "devDependencies": {
     "@arcgis/api-extractor": "catalog:",

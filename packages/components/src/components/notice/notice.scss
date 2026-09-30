@@ -19,16 +19,16 @@
  */
 
 @use "sass:list";
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 // scale variables
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: theme("spacing.2");
   --calcite-notice-spacing-token-large: theme("spacing.3");
-  @include includes.slotted("title", "*", ".container") {
+  @include shared.slotted("title", "*", ".container") {
     @apply text-n1-wrap;
   }
-  @include includes.slotted("message", "*", ".container") {
+  @include shared.slotted("message", "*", ".container") {
     @apply text-n2-wrap;
   }
   ::slotted(calcite-link) {
@@ -39,10 +39,10 @@
 :host([scale="m"]) {
   --calcite-notice-spacing-token-small: theme("spacing.3");
   --calcite-notice-spacing-token-large: theme("spacing.4");
-  @include includes.slotted("title", "*", ".container") {
+  @include shared.slotted("title", "*", ".container") {
     @apply text-0-wrap;
   }
-  @include includes.slotted("message", "*", ".container") {
+  @include shared.slotted("message", "*", ".container") {
     @apply text-n1-wrap;
   }
   ::slotted(calcite-link) {
@@ -53,10 +53,10 @@
 :host([scale="l"]) {
   --calcite-notice-spacing-token-small: theme("spacing.4");
   --calcite-notice-spacing-token-large: theme("spacing.5");
-  @include includes.slotted("title", "*", ".container") {
+  @include shared.slotted("title", "*", ".container") {
     @apply text-1-wrap;
   }
-  @include includes.slotted("message", "*", ".container") {
+  @include shared.slotted("message", "*", ".container") {
     @apply text-0-wrap;
   }
   ::slotted(calcite-link) {
@@ -126,28 +126,28 @@
   border: var(--calcite-border-width-sm) solid;
 }
 
-@include includes.slotted("title", "*", ".container") {
+@include shared.slotted("title", "*", ".container") {
   @apply m-0 font-medium;
 
   color: var(--calcite-notice-title-text-color, var(--calcite-color-text-1));
 }
 
-@include includes.slotted("message", "*", ".container") {
+@include shared.slotted("message", "*", ".container") {
   @apply m-0 inline font-normal;
 
   color: var(--calcite-notice-content-text-color, var(--calcite-color-text-2));
 }
 
-@include includes.slotted("title", "*", ":host(:not([kind=" neutral "])[appearance=" solid "]) .container") {
+@include shared.slotted("title", "*", ":host(:not([kind=" neutral "])[appearance=" solid "]) .container") {
   color: var(--calcite-notice-title-text-color, var(--calcite-color-text-inverse));
 }
 
-@include includes.slotted("message", "*", ":host(:not([kind=" neutral "])[appearance=" solid "]) .container") {
+@include shared.slotted("message", "*", ":host(:not([kind=" neutral "])[appearance=" solid "]) .container") {
   color: var(--calcite-notice-content-text-color, var(--calcite-color-text-inverse));
 }
 
 @mixin notice-element-base() {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply box-border;
   padding-block: var(--calcite-notice-spacing-token-small);
   padding-inline: var(--calcite-notice-spacing-token-large);
@@ -177,7 +177,7 @@
 }
 
 .notice-close {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply flex cursor-pointer items-center box-border;
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-spacing-xs);
@@ -236,4 +236,4 @@ $notice-kinds:
   background-color: transparent;
 }
 
-@include includes.base-component();
+@include shared.base-component();
