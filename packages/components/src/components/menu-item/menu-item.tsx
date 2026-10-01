@@ -161,7 +161,7 @@ export class MenuItem extends LitElement {
   }
 
   load(): void {
-    this.listenOn(window, "click", this.handleClickOut);
+    this.listenOn(document, "click", this.handleClickOut);
   }
 
   //#endregion
