@@ -35,6 +35,7 @@
     "util:update-3rd-party-notices": "turbo run util:update-3rd-party-notices --log-order=stream"
   },
   "devDependencies": {
+    "@chromatic-com/vitest": "^1.0.1",
     "@cspell/dict-gis": "catalog:",
     "@cspell/dict-pokemon": "catalog:",
     "@cspell/dict-scientific-terms-us": "catalog:",
@@ -47,6 +48,7 @@
     "@types/node": "catalog:",
     "@types/semver": "catalog:",
     "@types/shell-quote": "catalog:",
+    "chromatic": "catalog:",
     "concurrently": "catalog:",
     "conventional-changelog-conventionalcommits": "catalog:",
     "dedent": "catalog:",

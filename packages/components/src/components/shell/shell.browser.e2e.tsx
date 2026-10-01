@@ -6,6 +6,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import type { ShellPanel } from "../shell-panel/shell-panel";
 import { CSS as SHELL_PANEL_CSS } from "../shell-panel/resources";
 import { SLOTS } from "./resources";
+import { takeSnapshot } from "@chromatic-com/vitest";
 
 describe("accessible", () => {
   accessible(() =>
@@ -53,6 +54,8 @@ describe("shell provides sizing context", () => {
       </calcite-shell>,
     );
 
+    await takeSnapshot("before");
+
     const panel = el.querySelector<ShellPanel["el"]>(
       `calcite-shell-panel[slot="${SLOTS.panelEnd}"]`,
     )!;
@@ -78,6 +81,8 @@ describe("shell provides sizing context", () => {
     await panel.updateSize({ inline: shellWidth });
     await component.updateComplete;
     await panel.manager.component.updateComplete;
+
+    await takeSnapshot("after");
 
     const widthWithSibling = parseFloat(getComputedStyle(content).inlineSize);
 
