@@ -12,8 +12,6 @@
           "fontWeight": "{core.font.weight.regular}",
           "lineHeight": "{core.size.relative.115}",
           "letterSpacing": "{core.size.default.none}",
-          "paragraphSpacing": "{core.size.default.4}",
-          "textCase": "{core.font.text-case.none}",
           "textDecoration": "{core.font.text-decoration.none}"
         }
       },
