@@ -34,6 +34,38 @@ function outputComment(comment: string, format: Stylesheet): string {
   return format === "scss" ? `// ${comment}` : `/* ${comment} */`;
 }
 
+function getInheritedTypographyValues(
+  token: FlattenedTransformedToken,
+  dictionary: Dictionary,
+  extendedTokenReferences: Map<string, TransformedToken>,
+  selfReferencingTokens: Map<string, TransformedToken>,
+): Record<string, string> {
+  const inheritedToken = selfReferencingTokens.get(token.key) || extendedTokenReferences.get(token.key);
+  const inheritedValues = inheritedToken
+    ? getInheritedTypographyValues(
+        inheritedToken as FlattenedTransformedToken,
+        dictionary,
+        extendedTokenReferences,
+        selfReferencingTokens,
+      )
+    : {};
+  const originalValue = token.original.$value;
+
+  if (typeof originalValue === "object") {
+    return { ...inheritedValues, ...originalValue } as Record<string, string>;
+  }
+
+  if (inheritedToken) {
+    return inheritedValues;
+  }
+
+  const [referencedToken] = getReferences(originalValue, dictionary.tokens);
+  return {
+    ...inheritedValues,
+    ...(referencedToken.original.$value as Record<string, string>),
+  };
+}
+
 function getContent(args: FormatFnArguments, format: Stylesheet): string {
   const { dictionary } = args;
 
@@ -73,13 +105,14 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
     const extendedToken = selfReferencingTokens.get(token.key) || extendedTokenReferences.get(token.key);
     const include = format === "scss" && extendedToken ? `@include ${extendedToken.name}` : "";
     const classGroupStrategy = format === "scss" ? "@mixin " : ".";
+    const typographyValues =
+      format === "css"
+        ? getInheritedTypographyValues(token, dictionary, extendedTokenReferences, selfReferencingTokens)
+        : typeof originalValue === "object"
+          ? originalValue
+          : (getReferences(originalValue, dictionary.tokens)[0].original.$value as Record<string, string>);
 
-    const declarations = Object.entries(
-      (typeof originalValue === "object"
-        ? originalValue
-        : // we use original token to get unresolved values (resolved below)
-          getReferences(originalValue, dictionary.tokens)[0].original.$value) as Record<string, string>,
-    ).map(([key, value]) => {
+    const declarations = Object.entries(typographyValues).map(([key, value]) => {
       return `${kebabCase(key)}: ${getValue(key, value, dictionary)} ${outputComment(token.comment, format)}`;
     });
 
