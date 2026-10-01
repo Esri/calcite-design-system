@@ -10,9 +10,7 @@
           "fontFamily": "{font.family.default}",
           "fontSize": "{core.size.rem.0-875}",
           "fontWeight": "{core.font.weight.regular}",
-          "lineHeight": "{core.size.relative.115}",
-          "letterSpacing": "{core.size.default.none}",
-          "textDecoration": "{core.font.text-decoration.none}"
+          "lineHeight": "{core.size.relative.115}"
         }
       },
       "light": {
