@@ -14,7 +14,6 @@ import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { RequestedItem } from "./types";
 import { styles } from "./accordion-item.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import type { Accordion } from "../accordion/accordion";
 
 declare global {
   interface DeclareElements {
@@ -172,7 +171,6 @@ export class AccordionItem extends LitElement {
       "calciteInternalAccordionItemsSync",
       this.accordionItemSyncHandler,
     );
-    this.syncAccordionItemProperties();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -213,24 +211,24 @@ export class AccordionItem extends LitElement {
     event.stopPropagation();
   }
 
-  private accordionItemSyncHandler(event: CustomEvent<Accordion["el"]>): void {
-    if (event.detail !== closestElementCrossShadowBoundary(this.el, "calcite-accordion")) {
+  private accordionItemSyncHandler(event: CustomEvent): void {
+    const [accordion] = event.composedPath();
+    const accordionItem = this.el;
+
+    // we sync with our accordion parent via event only if the item is wrapped within another component's shadow DOM,
+    // otherwise, the accordion parent will sync the item directly
+
+    const willBeSyncedByDirectParent = accordionItem.parentElement === accordion;
+    if (willBeSyncedByDirectParent) {
       return;
     }
 
-    this.syncAccordionItemProperties();
-    event.stopPropagation();
-  }
-
-  private syncAccordionItemProperties(): void {
-    const accordionItem = this.el;
     const closestAccordionParent = closestElementCrossShadowBoundary(
       accordionItem,
       "calcite-accordion",
     );
 
-    // The direct parent synchronizes direct children; this handles items across a Shadow DOM boundary.
-    if (!closestAccordionParent || accordionItem.parentElement === closestAccordionParent) {
+    if (accordion !== closestAccordionParent) {
       return;
     }
 
@@ -238,6 +236,7 @@ export class AccordionItem extends LitElement {
     this.iconPosition = closestAccordionParent.iconPosition;
     this.iconType = closestAccordionParent.iconType;
     this.scale = closestAccordionParent.scale;
+    event.stopPropagation();
   }
 
   private handleActionsStartSlotChange(event: Event): void {
