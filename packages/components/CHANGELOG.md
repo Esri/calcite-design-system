@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.85](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.84...@esri/calcite-components@5.2.0-next.85) (2026-09-30)
+
+### Bug Fixes
+
+- **slider:** consider `dir` when displaying formatted values with negative sign ([#15270](https://github.com/Esri/calcite-design-system/issues/15270)), closes [#3167](https://github.com/Esri/calcite-design-system/issues/3167)
+
 ## [5.2.0-next.84](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.83...@esri/calcite-components@5.2.0-next.84) (2026-09-29)
 
 ### Bug Fixes
