@@ -777,7 +777,6 @@
         "$type": "typography",
         "$value": {
           "fontSize": "{core.size.rem.0-75}",
-          "textCase": "{core.font.text-case.uppercase}",
           "fontWeight": "{core.font.weight.demi}",
           "lineHeight": "{core.size.relative.100}"
         }
