@@ -1,8 +1,10 @@
 import { LitElement, property, createEvent, h, JsxNode, ToEvents } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import { PropertyValues } from "lit";
 import { createObserver } from "../../utils/observers";
 import type { HandleNudge } from "../handle/types";
 import type { Layout } from "../types";
-import { focusElement } from "../../utils/dom";
+import { focusElement, getSlotAssignedElements } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { useInteractive } from "../../controllers/useInteractive";
 import { type DragDetail, useSortable } from "../../controllers/useSortable";
@@ -29,6 +31,7 @@ export class SortableList extends LitElement {
 
   //#region Private Properties
 
+  defaultSlotEl = createRef<HTMLSlotElement>();
   dragEnabled = true;
 
   items: Element[] = [];
@@ -78,6 +81,13 @@ export class SortableList extends LitElement {
 
   //#region Events
 
+  /**
+   * Fires before the order of the list changes.
+   *
+   * Calling `event.preventDefault()` skips Calcite reorder handling and order-change emission,
+   * allowing apps to control final item order.
+   */
+  calciteListBeforeOrderChange = createEvent({ cancelable: true });
   /** Fires when the order of the list changes. */
   calciteListOrderChange = createEvent({ cancelable: false });
 
@@ -111,6 +121,12 @@ export class SortableList extends LitElement {
     this.endObserving();
   }
 
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+      this.sortable.reset();
+    }
+  }
+
   //#endregion
 
   //#region Private Methods
@@ -131,9 +147,19 @@ export class SortableList extends LitElement {
 
   onDragStart(): void {}
 
+  onDragBeforeSort(): Event {
+    return this.calciteListBeforeOrderChange.emit();
+  }
+
   onDragSort(): void {
     this.items = Array.from(this.el.children);
     this.calciteListOrderChange.emit();
+  }
+
+  getSortableItems(): HTMLElement[] {
+    return this.defaultSlotEl.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+      : [];
   }
 
   private handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
@@ -216,7 +242,7 @@ export class SortableList extends LitElement {
             [CSS.containerHorizontal]: horizontal,
           }}
         >
-          <slot />
+          <slot ref={this.defaultSlotEl} />
         </div>
       </this.interactiveContainer>
     );

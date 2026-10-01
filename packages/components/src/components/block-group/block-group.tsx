@@ -1,5 +1,6 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -19,7 +20,11 @@ import {
 } from "../sort-handle/types";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  getRootNode,
+  getSlotAssignedElements,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -30,6 +35,7 @@ import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resource
 import { styles } from "./block-group.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { BlockDragDetail } from "./types";
+import type { BlockDragStartDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
@@ -53,6 +59,8 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  defaultSlotEl = createRef<HTMLSlotElement>();
 
   dragSelector = blockSelector;
 
@@ -170,7 +178,7 @@ export class BlockGroup extends LitElement {
   calciteBlockGroupDragEnd = createEvent<BlockDragDetail>({ cancelable: false });
 
   /** Fires when the component's dragging has started. */
-  calciteBlockGroupDragStart = createEvent<BlockDragDetail>({ cancelable: false });
+  calciteBlockGroupDragStart = createEvent<BlockDragStartDetail>({ cancelable: false });
 
   /**
    * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
@@ -178,6 +186,14 @@ export class BlockGroup extends LitElement {
    * @deprecated in v3.3.0, removal target v6.0.0 - No longer necessary.
    */
   calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
+
+  /**
+   * Fires before the component's item order changes.
+   *
+   * Calling `event.preventDefault()` skips Calcite reorder handling and order-change emission,
+   * allowing apps to control final item order.
+   */
+  calciteBlockGroupBeforeOrderChange = createEvent<BlockDragDetail>({ cancelable: true });
 
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
@@ -223,6 +239,7 @@ export class BlockGroup extends LitElement {
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("canPull") && this.hasUpdated) ||
       (changes.has("canPut") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
@@ -242,6 +259,12 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  getSortableItems(): HTMLElement[] {
+    return this.defaultSlotEl.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+      : [];
+  }
 
   private updateBlockItems(): void {
     this.updateGroupItems();
@@ -352,9 +375,13 @@ export class BlockGroup extends LitElement {
     this.calciteBlockGroupDragEnd.emit(detail);
   }
 
-  onDragStart(detail: BlockDragDetail): void {
+  onDragStart(detail: BlockDragStartDetail): void {
     detail.dragEl.sortHandleOpen = false;
     this.calciteBlockGroupDragStart.emit(detail);
+  }
+
+  onDragBeforeSort(detail: BlockDragDetail): Event {
+    return this.calciteBlockGroupBeforeOrderChange.emit(detail);
   }
 
   onDragSort(detail: BlockDragDetail): void {
@@ -619,7 +646,7 @@ export class BlockGroup extends LitElement {
             class={CSS.groupContainer}
             role="group"
           >
-            <slot onSlotChange={this.handleDefaultSlotChange} />
+            <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
           </div>
         </div>
       </this.interactiveContainer>
