@@ -1,14 +1,6 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
-
-const worksUsingMouse = async (page: E2EPage): Promise<void> => {
-  await dragAndDrop(page, `#one calcite-handle`, `#two calcite-handle`);
-
-  const [first, second] = await findAll(page, "div");
-  expect(await first.getProperty("id")).toBe("two");
-  expect(await second.getProperty("id")).toBe("one");
-};
+import { findAll } from "../../tests/utils/puppeteer";
 
 const worksUsingKeyboard = async (page: E2EPage): Promise<void> => {
   await page.keyboard.press("Tab");
@@ -32,8 +24,6 @@ describe("drag and drop", () => {
     });
   });
 
-  it("works using a mouse", () => worksUsingMouse(page));
-
   it("works using a keyboard", () => worksUsingKeyboard(page));
 });
 
@@ -48,8 +38,6 @@ describe("drag and drop with dragSelector", () => {
       </calcite-sortable-list>`,
     });
   });
-
-  it("works using a mouse", () => worksUsingMouse(page));
 
   it("works using a keyboard", () => worksUsingKeyboard(page));
 });

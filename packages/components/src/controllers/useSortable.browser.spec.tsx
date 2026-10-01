@@ -1,23 +1,76 @@
 import { LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { beforeEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { useSortable } from "./useSortable";
 
-const { createSpy, destroySpy } = vi.hoisted(() => ({
-  createSpy: vi.fn(),
-  destroySpy: vi.fn(),
-}));
+const { createSortableSpy, destroySortableSpy, destroyManagerSpy, monitorListeners } = vi.hoisted(
+  () => ({
+    createSortableSpy: vi.fn(),
+    destroySortableSpy: vi.fn(),
+    destroyManagerSpy: vi.fn(),
+    monitorListeners: new Map<string, unknown>(),
+  }),
+);
 
-vi.mock("sortablejs", () => ({
-  default: {
-    create: createSpy.mockImplementation(() => ({ destroy: destroySpy })),
-  },
-}));
+vi.mock("@dnd-kit/dom", () => {
+  class PointerSensor {
+    static configure(options: unknown): unknown {
+      return { sensor: PointerSensor, options };
+    }
+  }
+
+  class Distance {
+    constructor(readonly options: unknown) {}
+  }
+
+  class DragDropManager {
+    monitor = {
+      addEventListener: vi.fn((type: string, listener: unknown) => {
+        monitorListeners.set(type, listener);
+        return vi.fn();
+      }),
+    };
+
+    constructor() {}
+
+    destroy(): void {
+      destroyManagerSpy();
+    }
+  }
+
+  return {
+    DragDropManager,
+    PointerActivationConstraints: { Distance },
+    PointerSensor,
+  };
+});
+
+vi.mock("@dnd-kit/dom/sortable", () => {
+  class Sortable {
+    constructor(
+      readonly options: Record<string, unknown>,
+      manager: unknown,
+    ) {
+      void manager;
+      createSortableSpy(options);
+    }
+
+    destroy(): void {
+      destroySortableSpy();
+    }
+  }
+
+  return {
+    Sortable,
+    isSortable: (draggable: unknown) =>
+      !!draggable && typeof draggable === "object" && "data" in draggable,
+  };
+});
 
 class Test extends LitElement {
   static tagName = "sortable-test";
-  handleSelector = "calcite-sort-handle";
+  handleSelector = ".handle";
   sortable = useSortable<this>()(this);
 
   onGlobalDragStart = vi.fn();
@@ -27,104 +80,93 @@ class Test extends LitElement {
   onDragSort = vi.fn();
 
   @property({ type: Boolean }) dragEnabled = false;
-
-  canPull(): boolean {
-    return true;
-  }
-
-  canPut(): boolean {
-    return true;
-  }
+  @property() group?: string;
 }
 
+const mountedComponents: Test[] = [];
+
 beforeEach(() => {
-  createSpy.mockClear();
-  destroySpy.mockClear();
+  createSortableSpy.mockClear();
+  destroySortableSpy.mockClear();
+  destroyManagerSpy.mockClear();
+  monitorListeners.clear();
 });
 
-const mountDragEnabled = () =>
-  mount(html`<sortable-test drag-enabled></sortable-test>`, {
-    dynamicComponents: [Test],
+afterEach(() => {
+  mountedComponents.forEach((component) => component.remove());
+  mountedComponents.length = 0;
+});
+
+const mountDragEnabled = async () => {
+  const result = await mount(
+    html`<sortable-test drag-enabled group="test-group">
+      <div id="one"><button class="handle"></button></div>
+      <div id="two"><button class="handle"></button></div>
+    </sortable-test>`,
+    { dynamicComponents: [Test] },
+  );
+  mountedComponents.push(result.component);
+  return result;
+};
+
+it("does not create sortables when dragEnabled is false", async () => {
+  const { component } = await mount(Test);
+  mountedComponents.push(component);
+
+  expect(createSortableSpy).not.toHaveBeenCalled();
+});
+
+it("creates one dnd-kit sortable per assigned item with the configured handle", async () => {
+  const { component } = await mountDragEnabled();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+
+  const [firstOptions, secondOptions] = createSortableSpy.mock.calls.map(([options]) => options);
+
+  expect(firstOptions).toMatchObject({ id: "one", index: 0, group: "test-group" });
+  expect(secondOptions).toMatchObject({ id: "two", index: 1, group: "test-group" });
+  const firstHandle = component.el.querySelector<HTMLButtonElement>("#one .handle");
+  expect(firstHandle).toBeDefined();
+  expect(firstOptions.handle).toBe(firstHandle);
+});
+
+it("does not notify components whose dragging is disabled", async () => {
+  const { component: inactiveComponent } = await mount(Test);
+  mountedComponents.push(inactiveComponent);
+  const { component: activeComponent } = await mountDragEnabled();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+
+  const dragStartListener = monitorListeners.get("dragstart") as (event: unknown) => void;
+  const sortableOptions = createSortableSpy.mock.calls[0][0];
+
+  dragStartListener({
+    operation: {
+      source: {
+        data: sortableOptions.data,
+        initialIndex: sortableOptions.index,
+      },
+    },
   });
 
-it("does not create Sortable when dragEnabled is false", async () => {
-  await mount(Test);
-
-  expect(createSpy).not.toHaveBeenCalled();
+  expect(activeComponent.onGlobalDragStart).toHaveBeenCalledTimes(1);
+  expect(inactiveComponent.onGlobalDragStart).not.toHaveBeenCalled();
 });
 
-it("creates Sortable when dragEnabled is true", async () => {
-  await mountDragEnabled();
-
-  expect(createSpy).toHaveBeenCalledTimes(1);
-});
-
-it("sets fallbackOnBody for stable fallback ghost placement", async () => {
-  await mountDragEnabled();
-
-  const [, sortableOptions] = createSpy.mock.calls[0];
-
-  expect(sortableOptions.fallbackOnBody).toBe(true);
-});
-
-it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
+it("destroys and recreates sortables when dragEnabled changes", async () => {
   const { component } = await mountDragEnabled();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
 
   component.dragEnabled = false;
   component.sortable.reset();
 
-  expect(destroySpy).toHaveBeenCalledTimes(1);
-  expect(createSpy).toHaveBeenCalledTimes(1);
-});
+  await vi.waitFor(() => expect(destroySortableSpy).toHaveBeenCalledTimes(2));
+  expect(createSortableSpy).toHaveBeenCalledTimes(2);
 
-it("does not teardown Sortable when reset runs during choose/start drag window", async () => {
-  const { component } = await mountDragEnabled();
-  const [, sortableOptions] = createSpy.mock.calls[0];
-
-  sortableOptions.onChoose?.();
+  component.dragEnabled = true;
   component.sortable.reset();
 
-  expect(destroySpy).not.toHaveBeenCalled();
-  expect(createSpy).toHaveBeenCalledTimes(1);
-
-  sortableOptions.onUnchoose?.();
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(1);
-  expect(createSpy).toHaveBeenCalledTimes(2);
-});
-
-it("dedupes global drag notifications across choose/start and end/unchoose", async () => {
-  const { component } = await mountDragEnabled();
-  const [, sortableOptions] = createSpy.mock.calls[0];
-
-  const dragDetail = {
-    from: component.el,
-    item: component.el,
-    to: component.el,
-    newDraggableIndex: 0,
-    oldDraggableIndex: 0,
-  };
-
-  sortableOptions.onChoose?.();
-  sortableOptions.onStart?.(dragDetail);
-  sortableOptions.onEnd?.(dragDetail);
-  sortableOptions.onUnchoose?.();
-
-  expect(component.onGlobalDragStart).toHaveBeenCalledTimes(1);
-  expect(component.onGlobalDragEnd).toHaveBeenCalledTimes(1);
-});
-
-it("does not leave global drag state active when component disconnects mid-drag", async () => {
-  const { component } = await mountDragEnabled();
-  const [, sortableOptions] = createSpy.mock.calls[0];
-
-  sortableOptions.onChoose?.();
-  component.remove();
-
-  await mountDragEnabled();
-
-  expect(component.onGlobalDragEnd).not.toHaveBeenCalled();
-  expect(destroySpy).toHaveBeenCalledTimes(1);
-  expect(createSpy).toHaveBeenCalledTimes(2);
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+  expect(destroySortableSpy).toHaveBeenCalledTimes(2);
 });

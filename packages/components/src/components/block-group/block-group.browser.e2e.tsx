@@ -1,6 +1,6 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
 import {
   accessible,
@@ -15,6 +15,8 @@ import {
 } from "../../tests/common";
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
+import type { Block } from "../block/block";
+import type { SortHandle } from "../sort-handle/sort-handle";
 import type { BlockGroup } from "./block-group";
 
 mockConsole();
@@ -344,5 +346,41 @@ describe("expandMode", () => {
     await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
     await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", true);
     await expect.element(descendantBlockElements.nth(3)).toHaveProperty("expanded", true);
+  });
+});
+
+describe("drag and drop", () => {
+  const renderBlockGroup = () =>
+    mount(
+      <calcite-block-group drag-enabled label="Blocks">
+        <calcite-block heading="one" id="one" />
+        <calcite-block heading="two" id="two" />
+      </calcite-block-group>,
+    );
+
+  it("reorders blocks with keyboard input and emits order-change after the mutation", async () => {
+    const { el } = await renderBlockGroup();
+    const firstBlock = el.querySelector<Block["el"]>("#one")!;
+    await vi.waitFor(() =>
+      expect(
+        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    let firstHeadingWhenOrdered = "";
+
+    el.addEventListener("calciteBlockGroupOrderChange", () => {
+      firstHeadingWhenOrdered = el.querySelector<Block["el"]>("calcite-block")!.heading ?? "";
+    });
+
+    await handle.setFocus();
+    await userEvent.keyboard("{Space}{ArrowDown}{Space}");
+    await vi.waitFor(() => expect(firstHeadingWhenOrdered).toBe("two"));
+
+    expect(
+      Array.from(el.querySelectorAll<Block["el"]>("calcite-block"))
+        .filter((block) => !block.hasAttribute("data-dnd-placeholder"))
+        .map((block) => block.heading),
+    ).toEqual(["two", "one"]);
   });
 });
