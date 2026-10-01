@@ -7,7 +7,7 @@
  * @prop --calcite-label-text-color: Specifies the component's text color.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex;
@@ -77,7 +77,7 @@
   }
 }
 
-@include includes.disabled() {
+@include shared.disabled() {
   & > .container {
     @apply opacity-disabled;
   }
@@ -92,4 +92,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

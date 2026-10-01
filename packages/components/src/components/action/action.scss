@@ -30,7 +30,7 @@
 // --calcite-internal-action-spacing
 // --calcite-internal-action-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--2);
@@ -303,5 +303,5 @@
   }
 }
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();

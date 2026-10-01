@@ -15,7 +15,7 @@
 //
 // --calcite-internal-radio-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block
@@ -28,7 +28,7 @@
   }
 
   .radio {
-    @include includes.transition-default();
+    @include shared.transition-default();
     @apply cursor-pointer
     focus-base;
     border-radius: var(--calcite-radio-button-corner-radius, var(--calcite-corner-radius-pill));
@@ -56,7 +56,7 @@
   }
 }
 
-@include includes.disabled() {
+@include shared.disabled() {
   .radio {
     @apply opacity-disabled
     cursor-default;
@@ -149,5 +149,5 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.base-component();

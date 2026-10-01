@@ -6,7 +6,7 @@
  * @prop --calcite-link-text-color: Specifies the component's text color.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: inline;
@@ -14,7 +14,7 @@
 
 :host a {
   @apply font-inherit
-    no-underline 
+    no-underline
     cursor-pointer
     focus-base;
   font-size: inherit;
@@ -35,17 +35,15 @@
   text-decoration-thickness: var(--calcite-border-width-sm);
   text-underline-offset: 0.33em;
 
-  @include includes.transition-default($extra-props: "text-decoration-color");
+  @include shared.transition-default($extra-props: "text-decoration-color");
 }
 
-:host a:hover .link--text,
-:host a:focus .link--text {
+:host a:hover .link--text {
   text-decoration-color: currentColor;
 }
 
 :host a:active .link--text {
   text-decoration-color: currentColor;
-  text-decoration-thickness: var(--calcite-border-width-md);
 }
 
 calcite-icon {
@@ -55,18 +53,18 @@ calcite-icon {
   min-block-size: unset;
 }
 
-.calcite-link--icon {
+.link--icon {
   @apply align-middle;
   margin-block-start: -0.25em;
 }
 
-:host .calcite-link--icon.icon-start {
-  margin-inline-end: theme("margin.2");
+.link--icon.icon-start {
+  margin-inline-end: var(--calcite-space-2xs);
 }
 
-:host .calcite-link--icon.icon-end {
-  margin-inline-start: theme("margin.2");
+.link--icon.icon-end {
+  margin-inline-start: var(--calcite-space-2xs);
 }
 
-@include includes.disabled();
-@include includes.base-component();
+@include shared.disabled();
+@include shared.base-component();

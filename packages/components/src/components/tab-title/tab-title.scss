@@ -30,13 +30,10 @@
 // --calcite-internal-tab-title-close-margin-start
 // --calcite-internal-tab-title-close-padding
 
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/outline-none";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
 :host {
-  @include outline-none.outline-none();
+  @include shared.outline-none();
 
   display: block;
   margin-inline-start: theme("margin.0");
@@ -65,7 +62,7 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
 
   .content {
-    @include text.text-n2h();
+    @include shared.text-n2h();
 
     padding-block: var(--calcite-space-2xs);
   }
@@ -76,7 +73,7 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
 
   .content {
-    @include text.text-n1h();
+    @include shared.text-n1h();
 
     padding-block: var(--calcite-space-sm);
   }
@@ -87,7 +84,7 @@
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xs);
 
   .content {
-    @include text.text-0h();
+    @include shared.text-0h();
 
     padding-block: var(--calcite-space-sm-plus);
   }
@@ -118,8 +115,8 @@
 }
 
 .container {
-  @include includes.transition-default();
-  @include text.text-n1h();
+  @include shared.transition-default();
+  @include shared.text-n1h();
 
   position: relative;
   box-sizing: border-box;
@@ -137,7 +134,7 @@
 }
 
 .selected-indicator {
-  @include includes.transition-default();
+  @include shared.transition-default();
   position: absolute;
   display: block;
   block-size: var(--calcite-space-base);
@@ -148,7 +145,7 @@
 }
 
 :host([bordered][selected]) .container::after {
-  @include includes.transition-default();
+  @include shared.transition-default();
   position: absolute;
   display: block;
   block-size: var(--calcite-space-base);
@@ -197,7 +194,7 @@
   align-self: center;
 
   & svg {
-    @include includes.transition-default();
+    @include shared.transition-default();
   }
 }
 
@@ -330,7 +327,7 @@
 }
 
 :host(:focus) .container {
-  @include focus.focus-inset();
+  @include shared.focus-inset();
 
   &:focus-within {
     outline-color: transparent;
@@ -411,8 +408,8 @@
   }
 }
 
-@include includes.base-component();
-@include includes.disabled() {
+@include shared.base-component();
+@include shared.disabled() {
   .container {
     pointer-events: none;
     opacity: 0.5;

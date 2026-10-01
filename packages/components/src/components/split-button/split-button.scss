@@ -26,7 +26,7 @@
 // --calcite-internal-split-button-divider-border-color
 // --calcite-internal-split-button-divider-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply inline-block;
@@ -122,7 +122,7 @@
 }
 
 .divider-container {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply flex w-px items-stretch;
   background-color: var(
     --calcite-split-button-divider-color,
@@ -205,7 +205,7 @@ calcite-dropdown {
   --calcite-dropdown-width: var(--calcite-split-button-dropdown-width);
 }
 
-@include includes.disabled() {
+@include shared.disabled() {
   calcite-dropdown > calcite-button {
     @apply pointer-events-none;
   }
@@ -216,4 +216,4 @@ calcite-dropdown {
     background-color: transparent;
   }
 }
-@include includes.base-component();
+@include shared.base-component();

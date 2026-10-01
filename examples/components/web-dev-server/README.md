@@ -1,12 +1,12 @@
 # Modern Web Dev Server
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/web-dev-server?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/web-dev-server?configPath=examples/components/web-dev-server)
 
 To install dependencies and start the server, run:
 
 ```sh
-npm install
-npm start
+pnpm install --ignore-workspace --lockfile=false
+pnpm start
 ```
 
 ## Developer info

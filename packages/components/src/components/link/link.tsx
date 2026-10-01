@@ -171,7 +171,7 @@ export class Link extends LitElement {
     return (
       <calcite-icon
         class={{
-          [CSS.calciteLinkIcon]: true,
+          [CSS.icon]: true,
           [isStart ? CSS.iconStart : CSS.iconEnd]: true,
         }}
         flipRtl={shouldFlip}

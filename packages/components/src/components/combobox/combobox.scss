@@ -26,11 +26,7 @@
 // --calcite-internal-combobox-spacing-unit-l
 // --calcite-internal-combobox-spacing-unit-s
 
-@use "../../styles/shared/floating-ui";
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/outline-none";
-@use "../../styles/shared/truncate";
+@use "../../styles/shared";
 
 :host {
   position: relative;
@@ -96,7 +92,7 @@
 
 :host(:focus-within) .wrapper,
 .wrapper--active {
-  @include focus.focus-inset();
+  @include shared.focus-inset();
 }
 
 :host([read-only]) {
@@ -114,7 +110,7 @@
 }
 
 :host([status="invalid"]:focus-within) .wrapper {
-  @include focus.focus-inset-danger();
+  @include shared.focus-inset-danger();
 }
 
 .wrapper--single {
@@ -125,7 +121,7 @@
 }
 
 .grid-input {
-  @include truncate.truncate();
+  @include shared.truncate();
 
   display: flex;
   flex-grow: 1;
@@ -144,7 +140,7 @@
 }
 
 .input {
-  @include truncate.truncate();
+  @include shared.truncate();
 
   appearance: none;
   background-color: transparent;
@@ -161,7 +157,7 @@
   min-inline-size: 4.8125rem;
 
   &:focus {
-    @include outline-none.outline-none();
+    @include shared.outline-none();
   }
 
   &:placeholder-shown {
@@ -206,7 +202,7 @@
 }
 
 .label {
-  @include truncate.truncate();
+  @include shared.truncate();
 
   pointer-events: none;
   max-inline-size: 100%;
@@ -237,14 +233,14 @@
 }
 
 .floating-ui-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
 }
 
 :host([top-layer-disabled]) .floating-ui-container {
   --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
-@include floating-ui.floating-ui-elem-anim(".floating-ui-container");
+@include shared.floating-ui-elem-anim(".floating-ui-container");
 
 .floating-ui-container .calcite-floating-ui-anim {
   box-shadow: var(--calcite-shadow-md);
@@ -325,10 +321,10 @@ calcite-chip {
   opacity: 0.5;
 }
 
-@include includes.disabled();
-@include includes.clear-button();
-@include includes.form-validation-message();
-@include includes.base-component();
-@include includes.text-highlight-item();
-@include includes.form-internal-label();
-@include includes.input-placeholder-text();
+@include shared.disabled();
+@include shared.clear-button();
+@include shared.form-validation-message();
+@include shared.base-component();
+@include shared.text-highlight-item();
+@include shared.form-internal-label();
+@include shared.input-placeholder-text();
