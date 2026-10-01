@@ -114,7 +114,10 @@
   white-space: nowrap;
   line-height: var(--calcite-font-line-height-relative-tight);
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
-  border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(
+    --calcite-table-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
   overflow: auto;
 }
