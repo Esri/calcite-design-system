@@ -15,7 +15,7 @@ import tailwindConfig from "./tailwind.config";
 import { chromaticPlugin } from "@chromatic-com/vitest/plugin";
 
 const nonEsmDependencies = ["interactjs"];
-const runBrowserTests = process.env.BROWSER_TESTS !== "true";
+const runBrowserTests = process.env.BROWSER_TESTS === "true";
 
 const allDirsAndFiles = "**/*";
 const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
