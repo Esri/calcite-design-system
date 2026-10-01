@@ -19,7 +19,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding content, usually text content. */
+/**
+ * @parent calcite-table
+ * @slot - A slot for adding content, usually text content.
+ */
 export class TableCell extends LitElement {
   //#region Static Members
 

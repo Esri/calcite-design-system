@@ -30,6 +30,7 @@ declare global {
 
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @parent calcite-block
  * @slot - A slot for adding custom content.
  */
 export class BlockSection extends LitElement {
