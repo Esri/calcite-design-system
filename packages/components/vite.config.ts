@@ -75,7 +75,7 @@ export function createConfig({
       lumina,
       customBrowserModeCommandsPlugin(),
       customElementDependenciesPlugin(lumina),
-      chromaticPlugin({ disableAutoSnapshot: true, turboSnap: true }),
+      chromaticPlugin({ disableAutoSnapshot: true }),
     ],
 
     css: {
