@@ -68,10 +68,10 @@ export class FieldGroup extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `layout` is `"columns"`, specifies the number of columns in the Field Group it's applied to (does not propagate). */
+  /** When `layout` is `"columns"`, specifies the number of columns in the component. */
   @property({ type: Number, reflect: true }) columns?: Columns;
 
-  /** Specifies the component layout of the Field Group it's applied to (does not propagate). */
+  /** Defines the component's layout. */
   @property({ reflect: true }) layout: Layout = "vertical";
 
   /** @private */
@@ -79,13 +79,13 @@ export class FieldGroup extends LitElement {
     return true;
   }
 
-  /** When `true`, slotted input component prefixes share the same width within the Field Group it's applied to (does not propagate). */
+  /** When `true`, slotted `calcite-input` prefixes share the same width. */
   @property({ reflect: true }) prefixAutoWidth = false;
 
-  /** Specifies the scale of slotted controls, Field Groups, and Field Sets. */
+  /** Specifies the size of slotted components. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, slotted input component suffixes share the same width within the Field Group it's applied to (does not propagate). */
+  /** When `true`, slotted `calcite-input` suffixes share the same width. */
   @property({ reflect: true }) suffixAutoWidth = false;
 
   //#endregion

@@ -20,8 +20,8 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding controls and `calcite-field-group` components to the field set.
- * @slot legend - A slot for adding legend content to the field set.
+ * @slot - A slot for adding controls and `calcite-field-group`s.
+ * @slot legend - A slot for adding legend content.
  */
 export class FieldSet extends LitElement {
   //#region Static Members
@@ -51,7 +51,7 @@ export class FieldSet extends LitElement {
   /** When `true`, disables slotted controls. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the field set legend. */
+  /** Specifies the component's legend text. */
   @property() legend?: string;
 
   /** @private */
@@ -59,7 +59,7 @@ export class FieldSet extends LitElement {
     return true;
   }
 
-  /** Specifies the scale of the component and its slotted controls and field groups. */
+  /** Specifies the size of slotted components. */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
