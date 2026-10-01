@@ -59,42 +59,41 @@ export const overflowActions = ({
   overflowCount: number;
 }): void => {
   let needToSlotCount = overflowCount;
-
   [...actionGroups].reverse().forEach((group) => {
+    let slottedWithinGroupCount = 0;
+
     const directGroupActions = group.actions.filter((action) => action.parentElement === group).reverse();
-    const canOverflowGroup = directGroupActions.length > 2 && !group.overflowActionsDisabled;
-    let visibleActionCount = directGroupActions.length;
-    let slotsChanged = false;
 
     directGroupActions.forEach((groupAction) => {
-      const shouldOverflow =
-        needToSlotCount > 0 && canOverflowGroup && visibleActionCount > 1 && !groupAction.overflowDisabled;
-      const isOverflowed = groupAction.slot === ACTION_GROUP_SLOTS.menuActions;
-
-      if (shouldOverflow) {
-        visibleActionCount--;
-        needToSlotCount--;
-      }
-
-      if (shouldOverflow || isOverflowed) {
-        groupAction.textEnabled = shouldOverflow ? true : expanded;
-      }
-
-      if (shouldOverflow === isOverflowed) {
-        return;
-      }
-
-      slotsChanged = true;
-
-      if (shouldOverflow) {
-        groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
-      } else {
+      if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {
         groupAction.removeAttribute("slot");
+        groupAction.textEnabled = expanded;
       }
     });
 
-    if (slotsChanged) {
-      group.manager.component.requestUpdate();
+    if (needToSlotCount > 0 && !group.overflowActionsDisabled) {
+      directGroupActions.some((groupAction) => {
+        const unslottedActions = directGroupActions.filter((action) => !action.slot);
+
+        if (
+          unslottedActions.length > 1 &&
+          directGroupActions.length > 2 &&
+          !groupAction.closest("calcite-action-menu") &&
+          !groupAction.overflowDisabled
+        ) {
+          groupAction.textEnabled = true;
+          groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
+          slottedWithinGroupCount++;
+
+          if (slottedWithinGroupCount > 1) {
+            needToSlotCount--;
+          }
+        }
+
+        return needToSlotCount < 1;
+      });
     }
+
+    group.manager.component.requestUpdate();
   });
 };
