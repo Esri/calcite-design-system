@@ -316,7 +316,7 @@ export class ActionGroup extends LitElement {
       .assignedElements({ flatten: true })
       .filter((el): el is Action["el"] => isAction(el));
 
-    this.menuActions = menuActions.length > 0 ? menuActions : this.getMenuActions();
+    this.menuActions = menuActions;
     this.hasMenuActions = slotChangeHasAssignedElement(event);
     this.syncActionsAndEmitChange();
   }
@@ -354,12 +354,6 @@ export class ActionGroup extends LitElement {
 
   private getSelectableActions(): Action["el"][] {
     return this.actions ?? [];
-  }
-
-  private getMenuActions(): Action["el"][] {
-    return Array.from(this.el.children).filter(
-      (el): el is Action["el"] => isAction(el) && el.slot === SLOTS.menuActions,
-    );
   }
 
   private setActionAriaChecked(action: Action["el"], checked: boolean): void {

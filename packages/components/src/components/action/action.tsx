@@ -216,12 +216,7 @@ export class Action extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, {
-      attributeFilter: ["tabindex"],
-      attributes: true,
-      childList: true,
-      subtree: true,
-    });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   override disconnectedCallback(): void {
@@ -356,12 +351,6 @@ export class Action extends LitElement {
       ...internalControlsElements,
     ];
 
-    const tabIndex = this.disabled
-      ? undefined
-      : this.el.hasAttribute("tabindex")
-        ? this.el.tabIndex
-        : 0;
-
     if (this.dragHandle) {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
@@ -378,7 +367,7 @@ export class Action extends LitElement {
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={tabIndex}
+          tabIndex={disabled ? undefined : 0}
         >
           {buttonContent}
         </span>
@@ -401,7 +390,6 @@ export class Action extends LitElement {
         id={buttonId}
         ref={this.buttonRef}
         role={this.aria?.role}
-        tabIndex={tabIndex}
         type={this.type}
       >
         {buttonContent}

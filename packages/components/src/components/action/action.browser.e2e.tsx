@@ -163,17 +163,6 @@ describe("renders", () => {
 
 describe("focusable", () => {
   focusable(() => mount("calcite-action"));
-
-  it("applies the host tabindex to the internal control", async () => {
-    const { el } = await mount("calcite-action");
-    const button = page.getByRole("button");
-
-    el.tabIndex = -1;
-    await expect.element(button).toHaveAttribute("tabindex", "-1");
-
-    el.removeAttribute("tabindex");
-    await expect.element(button).toHaveAttribute("tabindex", "0");
-  });
 });
 
 describe("translation support", () => {

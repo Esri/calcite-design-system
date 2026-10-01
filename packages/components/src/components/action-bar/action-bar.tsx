@@ -88,8 +88,6 @@ export class ActionBar extends LitElement {
 
   private actionGroups: ActionGroup["el"][] = [];
 
-  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
-
   private actionMenus: ActionMenu["el"][] = [];
 
   private actionsStart: ActionBarItem[] = [];
@@ -480,12 +478,6 @@ export class ActionBar extends LitElement {
     this.syncNavigationItemTabIndexes();
     this.overflowActions();
     this.updateActions();
-    this.mutationObserver?.observe(this.el, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["selection-mode", "overflow-actions-disabled"],
-    });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.overflowModeHandler();
     this.cancelable.add(this.resize);
@@ -566,7 +558,6 @@ export class ActionBar extends LitElement {
   }
 
   override disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     if (this.lineMeasureFrame != null) {
       cancelAnimationFrame(this.lineMeasureFrame);
@@ -709,14 +700,6 @@ export class ActionBar extends LitElement {
       }
     });
 
-    this.updateActions();
-  }
-
-  private mutationObserverHandler(): void {
-    this.updateGroups();
-    this.overflowActions();
-    this.updateNavigationItems();
-    this.syncNavigationItemTabIndexes();
     this.updateActions();
   }
 
