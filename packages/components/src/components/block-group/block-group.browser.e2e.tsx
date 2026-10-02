@@ -358,7 +358,7 @@ describe("drag and drop", () => {
       </calcite-block-group>,
     );
 
-  it("reorders blocks with keyboard input and emits order-change after the mutation", async () => {
+  it("reorders blocks with the keyboard sort menu and emits order-change after the mutation", async () => {
     const { el } = await renderBlockGroup();
     const firstBlock = el.querySelector<Block["el"]>("#one")!;
     await vi.waitFor(() =>
@@ -367,16 +367,20 @@ describe("drag and drop", () => {
       ).not.toBeNull(),
     );
     const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    expect(handle.getAttribute("tabindex")).toBeNull();
     let firstHeadingWhenOrdered = "";
+    let menuReorderCalled = false;
 
+    el.addEventListener("calciteSortHandleReorder", () => (menuReorderCalled = true));
     el.addEventListener("calciteBlockGroupOrderChange", () => {
       firstHeadingWhenOrdered = el.querySelector<Block["el"]>("calcite-block")!.heading ?? "";
     });
 
     await handle.setFocus();
-    await userEvent.keyboard("{Space}{ArrowDown}{Space}");
+    await userEvent.keyboard("{Enter}{ArrowDown}{Enter}");
     await vi.waitFor(() => expect(firstHeadingWhenOrdered).toBe("two"));
 
+    expect(menuReorderCalled).toBe(true);
     expect(
       Array.from(el.querySelectorAll<Block["el"]>("calcite-block"))
         .filter((block) => !block.hasAttribute("data-dnd-placeholder"))

@@ -4,14 +4,29 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { useSortable } from "./useSortable";
 
-const { createSortableSpy, destroySortableSpy, destroyManagerSpy, monitorListeners } = vi.hoisted(
-  () => ({
-    createSortableSpy: vi.fn(),
-    destroySortableSpy: vi.fn(),
-    destroyManagerSpy: vi.fn(),
-    monitorListeners: new Map<string, unknown>(),
-  }),
-);
+const {
+  createSortableSpy,
+  destroySortableSpy,
+  destroyManagerSpy,
+  accessibilityPlugin,
+  configuredPlugins,
+  keyboardSensor,
+  configuredSensors,
+  keyboardPlugin,
+  optimisticSortingPlugin,
+  monitorListeners,
+} = vi.hoisted(() => ({
+  createSortableSpy: vi.fn(),
+  destroySortableSpy: vi.fn(),
+  destroyManagerSpy: vi.fn(),
+  accessibilityPlugin: vi.fn(),
+  configuredPlugins: vi.fn(),
+  keyboardSensor: vi.fn(),
+  configuredSensors: vi.fn(),
+  keyboardPlugin: vi.fn(),
+  optimisticSortingPlugin: vi.fn(),
+  monitorListeners: new Map<string, unknown>(),
+}));
 
 vi.mock("@dnd-kit/dom", () => {
   class PointerSensor {
@@ -32,7 +47,13 @@ vi.mock("@dnd-kit/dom", () => {
       }),
     };
 
-    constructor() {}
+    constructor(options: {
+      plugins: (plugins: unknown[]) => unknown[];
+      sensors: (sensors: unknown[]) => unknown[];
+    }) {
+      configuredPlugins(options.plugins([accessibilityPlugin, optimisticSortingPlugin]));
+      configuredSensors(options.sensors([PointerSensor, keyboardSensor]));
+    }
 
     destroy(): void {
       destroyManagerSpy();
@@ -40,7 +61,9 @@ vi.mock("@dnd-kit/dom", () => {
   }
 
   return {
+    Accessibility: accessibilityPlugin,
     DragDropManager,
+    KeyboardSensor: keyboardSensor,
     PointerActivationConstraints: { Distance },
     PointerSensor,
   };
@@ -63,6 +86,8 @@ vi.mock("@dnd-kit/dom/sortable", () => {
 
   return {
     Sortable,
+    OptimisticSortingPlugin: optimisticSortingPlugin,
+    SortableKeyboardPlugin: keyboardPlugin,
     isSortable: (draggable: unknown) =>
       !!draggable && typeof draggable === "object" && "data" in draggable,
   };
@@ -89,6 +114,8 @@ beforeEach(() => {
   createSortableSpy.mockClear();
   destroySortableSpy.mockClear();
   destroyManagerSpy.mockClear();
+  configuredPlugins.mockClear();
+  configuredSensors.mockClear();
   monitorListeners.clear();
 });
 
@@ -116,6 +143,22 @@ it("does not create sortables when dragEnabled is false", async () => {
   expect(createSortableSpy).not.toHaveBeenCalled();
 });
 
+it("uses pointer input without the dnd-kit keyboard sensor", async () => {
+  await mountDragEnabled();
+
+  expect(configuredSensors).toHaveBeenCalledTimes(1);
+  expect(configuredSensors.mock.calls[0][0]).toHaveLength(1);
+  expect(configuredSensors.mock.calls[0][0]).not.toContain(keyboardSensor);
+});
+
+it("does not install dnd-kit's accessibility plugin", async () => {
+  await mountDragEnabled();
+
+  expect(configuredPlugins).toHaveBeenCalledTimes(1);
+  expect(configuredPlugins.mock.calls[0][0]).toEqual([optimisticSortingPlugin]);
+  expect(configuredPlugins.mock.calls[0][0]).not.toContain(accessibilityPlugin);
+});
+
 it("creates one dnd-kit sortable per assigned item with the configured handle", async () => {
   const { component } = await mountDragEnabled();
 
@@ -128,6 +171,21 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
   const firstHandle = component.el.querySelector<HTMLButtonElement>("#one .handle");
   expect(firstHandle).toBeDefined();
   expect(firstOptions.handle).toBe(firstHandle);
+});
+
+it("omits dnd-kit keyboard sorting while preserving other sortable plugins", async () => {
+  await mountDragEnabled();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+
+  const sortableOptions = createSortableSpy.mock.calls[0][0] as Record<string, unknown>;
+  const getPlugins = sortableOptions.plugins as (plugins: unknown[]) => unknown[];
+  const additionalPlugin = vi.fn();
+
+  expect(getPlugins([keyboardPlugin, optimisticSortingPlugin, additionalPlugin])).toEqual([
+    optimisticSortingPlugin,
+    additionalPlugin,
+  ]);
 });
 
 it("does not notify components whose dragging is disabled", async () => {

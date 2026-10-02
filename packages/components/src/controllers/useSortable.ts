@@ -1,7 +1,13 @@
 import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { DragDropManager, PointerActivationConstraints, PointerSensor } from "@dnd-kit/dom";
-import { Sortable, isSortable } from "@dnd-kit/dom/sortable";
+import {
+  Accessibility,
+  DragDropManager,
+  KeyboardSensor,
+  PointerActivationConstraints,
+  PointerSensor,
+} from "@dnd-kit/dom";
+import { Sortable, SortableKeyboardPlugin, isSortable } from "@dnd-kit/dom/sortable";
 import { guid } from "../utils/guid";
 import type { BivariantHandler } from "../components/types";
 
@@ -242,15 +248,18 @@ function getManagerRecord(document: Document): SortableManagerRecord {
   }
 
   const manager = new DragDropManager({
+    plugins: (plugins) => plugins.filter((plugin) => plugin !== Accessibility),
     sensors: (sensors) =>
-      sensors.map((sensor) =>
-        sensor === PointerSensor
-          ? PointerSensor.configure({
-              activationConstraints: (event) =>
-                event.pointerType === "mouse" ? [new PointerActivationConstraints.Distance({ value: 5 })] : undefined,
-            })
-          : sensor,
-      ),
+      sensors
+        .filter((sensor) => sensor !== KeyboardSensor)
+        .map((sensor) =>
+          sensor === PointerSensor
+            ? PointerSensor.configure({
+                activationConstraints: (event) =>
+                  event.pointerType === "mouse" ? [new PointerActivationConstraints.Distance({ value: 5 })] : undefined,
+              })
+            : sensor,
+        ),
   });
 
   record = {
@@ -473,6 +482,7 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
         handle: handle ?? undefined,
         disabled: !!component.disabled || handleDisabled,
         data: { component, item },
+        plugins: (plugins) => plugins.filter((plugin) => plugin !== SortableKeyboardPlugin),
         accept: (draggable) => {
           const sourceData = getSortableItemData(draggable);
 
