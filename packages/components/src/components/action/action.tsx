@@ -367,7 +367,7 @@ export class Action extends LitElement {
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={this.disabled ? undefined : 0}
+          tabIndex={disabled ? undefined : 0}
         >
           {buttonContent}
         </span>

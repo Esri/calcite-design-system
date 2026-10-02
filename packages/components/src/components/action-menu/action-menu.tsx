@@ -11,7 +11,6 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
-import { toAriaBoolean } from "../../utils/aria";
 import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
@@ -20,7 +19,7 @@ import { Appearance, Scale } from "../types";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
-import { isActionGroup } from "../action-group/resources";
+import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
@@ -35,6 +34,10 @@ declare global {
 }
 
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
+const HORIZONTAL_MENU_OPEN_KEYS = ["ArrowLeft", "ArrowRight"];
+const VERTICAL_MENU_OPEN_KEYS = ["ArrowUp", "ArrowDown"];
+const HORIZONTAL_PLACEMENT_PREFIXES = ["left", "right", "leading", "trailing"];
+const VERTICAL_PLACEMENT_PREFIXES = ["top", "bottom"];
 
 /**
  * @slot - A slot for adding `calcite-action`s.
@@ -79,21 +82,30 @@ export class ActionMenu extends LitElement {
     if (isActivationKey(key)) {
       event.preventDefault();
 
-      if (!open) {
-        this.toggleOpen();
+      const action = navigableActions[activeMenuItemIndex];
+
+      if (open) {
+        if (action) {
+          action.click();
+        }
         return;
       }
 
-      const action = navigableActions[activeMenuItemIndex];
-      if (action) {
-        action.click();
-      } else {
-        this.toggleOpen(false);
-      }
+      this.toggleOpen(true);
+      return;
     }
 
-    if (key === "Tab") {
+    if (key === "Tab" && open) {
+      this.focusMenuButtonOnClose = false;
+      this.restoreMenuButtonTabIndexOnClose = false;
       this.open = false;
+      this.menuButtonTabIndexFrame = requestAnimationFrame(() => {
+        this.menuButtonTabIndexFrame = undefined;
+        if (!this.open) {
+          this.restoreMenuButtonTabIndex();
+        }
+        this.restoreMenuButtonTabIndexOnClose = true;
+      });
       return;
     }
 
@@ -103,10 +115,62 @@ export class ActionMenu extends LitElement {
       return;
     }
 
+    const placementOrientation = !open ? this.placementOrientation : undefined;
+    const supportedOpenKeys = !open
+      ? placementOrientation === "horizontal"
+        ? HORIZONTAL_MENU_OPEN_KEYS
+        : placementOrientation === "vertical" || !placementOrientation
+          ? VERTICAL_MENU_OPEN_KEYS
+          : undefined
+      : undefined;
+
+    if (supportedOpenKeys && this.isValidKey(key, supportedOpenKeys)) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.toggleOpen(true);
+      this.activeMenuItemIndex =
+        key === "ArrowDown" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
+      this.updateActions(navigableActions);
+      void this.focusActiveAction();
+      return;
+    }
+
     this.handleActionNavigation(event, key, navigableActions);
   };
 
+  private handleHostKeyDown = (event: KeyboardEvent): void => {
+    if (event.composedPath()[0] !== this.el) {
+      return;
+    }
+
+    this.menuButtonKeyDown(event);
+  };
+
   private menuId = IDS.menu(this.guid);
+
+  private get placementOrientation(): "horizontal" | "vertical" | undefined {
+    const placements = this.flipPlacements?.length ? this.flipPlacements : [this.placement];
+    const placement = placements.find((placement) =>
+      this.hasPlacementPrefix(
+        placement,
+        HORIZONTAL_PLACEMENT_PREFIXES.concat(VERTICAL_PLACEMENT_PREFIXES),
+      ),
+    );
+
+    if (!placement) {
+      return;
+    }
+
+    if (this.hasPlacementPrefix(placement, HORIZONTAL_PLACEMENT_PREFIXES)) {
+      return "horizontal";
+    }
+
+    if (this.hasPlacementPrefix(placement, VERTICAL_PLACEMENT_PREFIXES)) {
+      return "vertical";
+    }
+
+    return undefined;
+  }
 
   private _open = false;
 
@@ -117,26 +181,36 @@ export class ActionMenu extends LitElement {
   private tooltipEl?: Tooltip["el"];
 
   private updateAction = (action: Action["el"], index: number): void => {
-    const { guid, activeMenuItemIndex } = this;
+    const { guid, activeMenuItemIndex, open } = this;
     const id = IDS.action(guid, index);
-    action.tabIndex = -1;
-    action.setAttribute("role", "menuitem");
+    action.tabIndex = open && index === activeMenuItemIndex ? 0 : -1;
+    action.ariaLabel = action.label || action.text;
+    action.role = "menuitem";
+    action.ariaChecked = null;
 
     if (!action.id) {
       action.id = id;
     }
 
-    // Used to style the "activeMenuItemIndex" action using token focus styling.
     action.activeDescendant = index === activeMenuItemIndex;
   };
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private focusMenuButtonOnClose = true;
+
+  private menuButtonTabIndex?: string | null;
+
+  private menuButtonTabIndexFrame?: number;
+
+  private restoreMenuButtonTabIndexOnClose = true;
+
   private mouseDownHandler = (event: MouseEvent): void => {
-    if (!event.composedPath().some(isAction)) {
+    if (!event.composedPath().some((el): boolean => el instanceof Element && isAction(el))) {
       return;
     }
 
+    this.focusMenuButtonOnClose = false;
     this.activeMenuItemIndex = this.navigableActions.findIndex((action) => action === event.target);
   };
 
@@ -218,7 +292,7 @@ export class ActionMenu extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.menuButtonEl, options);
+    return this.focusSetter(() => this.menuButtonEl || this.el, options);
   }
 
   //#endregion
@@ -251,6 +325,7 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
+    this.listen("keydown", this.handleHostKeyDown);
     this.listen("mousedown", this.mouseDownHandler);
   }
 
@@ -280,6 +355,10 @@ export class ActionMenu extends LitElement {
   }
 
   override disconnectedCallback(): void {
+    if (this.menuButtonTabIndexFrame != null) {
+      cancelAnimationFrame(this.menuButtonTabIndexFrame);
+      this.menuButtonTabIndexFrame = undefined;
+    }
     this.disconnectMenuButtonEl();
   }
 
@@ -292,12 +371,14 @@ export class ActionMenu extends LitElement {
     this.setTooltipReferenceElement();
   }
 
+  private focusMenuButton(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.menuButtonEl, options);
+  }
+
   private openHandler(open: boolean): void {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
-      this.menuButtonEl.aria = {
-        expanded: open,
-      };
+      this.syncMenuButtonAria();
     }
 
     if (this.popoverEl) {
@@ -305,12 +386,20 @@ export class ActionMenu extends LitElement {
     }
 
     this.activeMenuItemIndex = this.open ? 0 : -1;
+    this.updateActions(this.navigableActions);
+
+    if (open) {
+      this.disableMenuButtonTabStop();
+    } else if (this.restoreMenuButtonTabIndexOnClose) {
+      this.restoreMenuButtonTabIndex();
+    }
+
     this.calciteActionMenuOpen.emit();
     this.setTooltipReferenceElement();
   }
 
   private connectMenuButtonEl(): void {
-    const { menuButtonId, menuId, open, label } = this;
+    const { menuButtonId, open, label } = this;
     const menuButtonEl = this.slottedMenuButtonEl || this.defaultMenuButtonEl;
 
     if (this.menuButtonEl === menuButtonEl) {
@@ -321,6 +410,15 @@ export class ActionMenu extends LitElement {
 
     this.menuButtonEl = menuButtonEl;
 
+    if (this.popoverEl && menuButtonEl) {
+      this.popoverEl.referenceElement = menuButtonEl;
+      this.popoverEl.referenceEl = menuButtonEl;
+
+      if (this.open) {
+        void this.popoverEl.reposition(true);
+      }
+    }
+
     this.setTooltipReferenceElement();
 
     if (!menuButtonEl) {
@@ -328,9 +426,11 @@ export class ActionMenu extends LitElement {
     }
 
     menuButtonEl.active = open;
-    menuButtonEl.setAttribute("aria-controls", menuId);
-    menuButtonEl.setAttribute("aria-expanded", toAriaBoolean(open));
-    menuButtonEl.setAttribute("aria-haspopup", "true");
+    this.syncMenuButtonAria();
+
+    if (open) {
+      this.disableMenuButtonTabStop();
+    }
 
     if (!menuButtonEl.id) {
       menuButtonEl.id = menuButtonId;
@@ -361,6 +461,8 @@ export class ActionMenu extends LitElement {
       return;
     }
 
+    this.restoreMenuButtonTabIndex();
+
     menuButtonEl.removeEventListener(
       "click",
       this.menuButtonClick,
@@ -371,6 +473,36 @@ export class ActionMenu extends LitElement {
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
 
     this.menuButtonEl = undefined;
+  }
+
+  private disableMenuButtonTabStop(): void {
+    const { menuButtonEl } = this;
+
+    if (!menuButtonEl) {
+      return;
+    }
+
+    if (this.menuButtonTabIndex === undefined) {
+      this.menuButtonTabIndex = menuButtonEl.getAttribute("tabindex");
+    }
+
+    menuButtonEl.tabIndex = -1;
+  }
+
+  private restoreMenuButtonTabIndex(): void {
+    const { menuButtonEl, menuButtonTabIndex } = this;
+
+    if (!menuButtonEl || menuButtonTabIndex === undefined) {
+      return;
+    }
+
+    if (menuButtonTabIndex === null) {
+      menuButtonEl.removeAttribute("tabindex");
+    } else {
+      menuButtonEl.setAttribute("tabindex", menuButtonTabIndex);
+    }
+
+    this.menuButtonTabIndex = undefined;
   }
 
   private syncActions(): void {
@@ -386,6 +518,10 @@ export class ActionMenu extends LitElement {
       ? getSlotAssignedElements(this.defaultSlotRef.value).flatMap((element) => {
           if (isAction(element)) {
             return element;
+          }
+
+          if (element instanceof HTMLSlotElement) {
+            return getSlotAssignedElements<Action["el"]>(element, "calcite-action");
           }
 
           if (isActionGroup(element)) {
@@ -432,6 +568,20 @@ export class ActionMenu extends LitElement {
     this.connectMenuButtonEl();
   }
 
+  private syncMenuButtonAria(): void {
+    const { menuButtonEl, open } = this;
+
+    if (!menuButtonEl) {
+      return;
+    }
+
+    menuButtonEl.aria = {
+      ...menuButtonEl.aria,
+      expanded: open,
+      hasPopup: "menu",
+    };
+  }
+
   private syncActionsAndEmitChange(): void {
     this.syncActions();
     this.calciteInternalActionMenuActionsChange.emit();
@@ -452,14 +602,42 @@ export class ActionMenu extends LitElement {
       return;
     }
     this.popoverEl = el;
+    if (this.menuButtonEl) {
+      el.referenceElement = this.menuButtonEl;
+      el.referenceEl = this.menuButtonEl;
+    }
     el.open = this.open;
   }
 
   private handleCalciteActionClick(event: MouseEvent): void {
-    if (this.navigableActions.some((action) => event.composedPath().includes(action))) {
-      this.open = false;
-      this.setFocus();
+    const action = this.navigableActions.find((action) => event.composedPath().includes(action));
+    if (!action) {
+      return;
     }
+
+    this.activeMenuItemIndex = this.navigableActions.indexOf(action);
+    this.focusMenuButtonOnClose = false;
+
+    const actionGroup = action.closest("calcite-action-group");
+    const keepSelectableActionGroupOpen =
+      !!actionGroup?.selectionMode && actionGroup.selectionMode !== "none";
+
+    if (keepSelectableActionGroupOpen) {
+      void this.setFocus();
+      return;
+    }
+
+    const isNonSelectableActionBarOverflowAction =
+      action.slot === ACTION_GROUP_SLOTS.menuActions &&
+      actionGroup?.selectionMode === "none" &&
+      !!actionGroup.closest("calcite-action-bar");
+
+    if (!isNonSelectableActionBarOverflowAction) {
+      action.active = !action.active;
+    }
+
+    this.open = false;
+    void this.setFocus();
   }
 
   private updateTooltip(event: Event): void {
@@ -482,7 +660,17 @@ export class ActionMenu extends LitElement {
   }
 
   private updateActions(actions: Action["el"][]): void {
-    actions.forEach(this.updateAction);
+    actions?.forEach(this.updateAction);
+  }
+
+  private async focusActiveAction(): Promise<void> {
+    await this.updateComplete;
+
+    if (!this.open) {
+      return;
+    }
+
+    await this.navigableActions[this.activeMenuItemIndex]?.setFocus({ preventScroll: true });
   }
 
   private async handleDefaultSlotChange(): Promise<void> {
@@ -510,26 +698,16 @@ export class ActionMenu extends LitElement {
     return !!supportedKeys.find((k) => k === key);
   }
 
+  private hasPlacementPrefix(placement: LogicalPlacement, prefixes: string[]): boolean {
+    return prefixes.some((prefix) => placement === prefix || placement.startsWith(`${prefix}-`));
+  }
+
   private handleActionNavigation(event: KeyboardEvent, key: string, actions: Action["el"][]): void {
-    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
+    if (!this.open || !this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
     }
 
     event.preventDefault();
-
-    if (!this.open) {
-      this.toggleOpen();
-
-      if (key === "Home" || key === "ArrowDown") {
-        this.activeMenuItemIndex = 0;
-      }
-
-      if (key === "End" || key === "ArrowUp") {
-        this.activeMenuItemIndex = actions.length - 1;
-      }
-
-      return;
-    }
 
     if (key === "Home") {
       this.activeMenuItemIndex = 0;
@@ -548,6 +726,9 @@ export class ActionMenu extends LitElement {
     if (key === "ArrowDown") {
       this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
     }
+
+    this.updateActions(actions);
+    void this.focusActiveAction();
   }
 
   private toggleOpen(value = !this.open): void {
@@ -557,12 +738,19 @@ export class ActionMenu extends LitElement {
   private handlePopoverOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.open = true;
-    this.setFocus();
+    void this.focusActiveAction();
   }
 
   private handlePopoverClose(event: CustomEvent<void>): void {
+    const { focusMenuButtonOnClose } = this;
+
+    this.focusMenuButtonOnClose = true;
     event.stopPropagation();
     this.open = false;
+
+    if (focusMenuButtonOnClose) {
+      void this.focusMenuButton();
+    }
   }
 
   //#endregion
@@ -607,7 +795,6 @@ export class ActionMenu extends LitElement {
     } = this;
 
     const activeAction = navigableActions[activeMenuItemIndex];
-    const activeDescendantId = activeAction?.id || null;
 
     return (
       <calcite-popover
@@ -628,11 +815,13 @@ export class ActionMenu extends LitElement {
         triggerDisabled={true}
       >
         <div
-          aria-activedescendant={activeDescendantId ?? undefined}
+          aria-activedescendant={activeAction?.id}
           aria-labelledby={menuButtonEl?.id}
+          ariaOrientation={this.placementOrientation === "vertical" ? "vertical" : undefined}
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
+          onKeyDown={this.menuButtonKeyDown}
           role="menu"
           tabIndex={-1}
         >
