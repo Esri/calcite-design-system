@@ -12,7 +12,7 @@
 //
 // --calcite-internal-list-action-spacing
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block;
@@ -30,7 +30,7 @@
   --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .container {
   position: relative;
@@ -85,4 +85,4 @@
   margin-inline-end: var(--calcite-internal-list-action-spacing);
 }
 
-@include includes.base-component();
+@include shared.base-component();

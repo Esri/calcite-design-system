@@ -1,3 +1,5 @@
+@use "../../styles/shared";
+
 :host {
   display: block;
   overflow-wrap: break-word;
@@ -13,9 +15,20 @@
   white-space: nowrap;
 }
 
+:host([truncate-position="middle"]:not([max-lines])) slot {
+  display: none;
+}
+
+:host(:not([truncate-position="middle"])) .middle-truncated-text,
+:host([max-lines]) .middle-truncated-text {
+  display: none;
+}
+
 :host([max-lines]) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: var(--calcite-internal-text-max-lines, none);
   white-space: normal;
 }
+
+@include shared.base-component();

@@ -7,7 +7,7 @@
  * @prop --calcite-segmented-control-corner-radius: Specifies the component's corner radius.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex flex-col;
@@ -25,7 +25,7 @@
   @apply bg-transparent;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([layout="vertical"]) > .item-wrapper {
   @apply flex-col items-start self-start;
@@ -47,6 +47,6 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();

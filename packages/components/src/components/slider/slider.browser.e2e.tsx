@@ -743,6 +743,32 @@ describe("number locale support", () => {
     await expect.element(tickLabels.nth(0)).toHaveTextContent("\u061C-١٠");
     await expect.element(tickLabels.nth(1)).toHaveTextContent("\u061C-٥");
   });
+
+  it("preserves negative sign placement in RTL handle and tick labels with Latin digits", async () => {
+    await mount<Slider>(
+      <calcite-slider
+        dir="rtl"
+        label-handles
+        label-ticks
+        max={10}
+        maxValue={-5}
+        min={-10}
+        minValue={-10}
+        numberingSystem="latn"
+        ticks={5}
+      />,
+    );
+
+    const handleLabels = page.getBySelector(
+      `calcite-slider .${CSS.handleLabel}:not(.${CSS.static}):not(.${CSS.transformed})`,
+    );
+    const tickLabels = page.getBySelector(`calcite-slider .${CSS.tickLabel}`);
+
+    await expect.element(handleLabels.nth(0)).toHaveTextContent("\u200E-10");
+    await expect.element(handleLabels.nth(1)).toHaveTextContent("\u200E-5");
+    await expect.element(tickLabels.nth(0)).toHaveTextContent("\u200E-10");
+    await expect.element(tickLabels.nth(1)).toHaveTextContent("\u200E-5");
+  });
 });
 
 describe("themed", () => {

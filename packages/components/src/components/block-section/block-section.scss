@@ -11,8 +11,7 @@
  * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in `default` slot.
  */
 
-@use "../../styles/includes";
-@use "../../styles/shared/focus";
+@use "../../styles/shared";
 
 :host {
   box-sizing: border-box;
@@ -118,7 +117,7 @@ calcite-switch {
   line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
-    @include focus.focus-normal();
+    @include shared.focus-normal();
     // required to ensure the focus ring is visible when slotted with other block-section components in block
     z-index: var(--calcite-z-index);
   }
@@ -178,4 +177,4 @@ calcite-switch {
   color: theme("colors.danger");
 }
 
-@include includes.base-component();
+@include shared.base-component();

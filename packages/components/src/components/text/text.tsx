@@ -1,13 +1,10 @@
-import { LitElement, h, property, type JsxNode } from "@arcgis/lumina";
+import { LitElement, h, property, type JsxNode, Fragment } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { slotChangeGetTextContent, getTextWidth } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./text.scss";
 import { ELLIPSIS_CHAR } from "./resources";
 import { PropertyValues } from "lit";
-
-/**
- *  @slot - A slot for adding text.
- */
 
 type TruncatePosition = "middle" | "end";
 
@@ -16,6 +13,10 @@ declare global {
     "calcite-text": Text;
   }
 }
+
+/**
+ *  @slot - A slot for adding text.
+ */
 
 export class Text extends LitElement {
   //#region Static Members
@@ -26,29 +27,41 @@ export class Text extends LitElement {
 
   //#region Private Properties
 
-  private isProgrammaticTextUpdate = false;
-
   private value?: string;
 
-  private resizeObserver = createObserver("resize", (): void => {
-    const { truncatePosition, maxLines } = this;
+  private defaultSlotRef = createRef<HTMLSlotElement>();
 
-    if (truncatePosition === "end") {
-      this.syncTooltipState();
-    } else if (truncatePosition === "middle" && !maxLines) {
-      this.truncateMiddleText();
+  private middleTruncatedSpanRef = createRef<HTMLSpanElement>();
+
+  private mutationObserver = createObserver("mutation", (mutations) => {
+    const assignedTextNodes = this.getAssignedTextNodes();
+
+    if (mutations.some(({ target }) => assignedTextNodes.includes(target as CharacterData))) {
+      this.setValue(
+        assignedTextNodes
+          .map((node) => node.textContent)
+          .join("")
+          .trim(),
+      );
     }
+  });
+
+  private resizeObserver = createObserver("resize", (): void => {
+    this.handleTruncation();
   });
 
   //#endregion
 
   //#region Public Properties
 
+  /**
+   * Specifies the maximum number of lines to display before truncating the text with an ellipsis.
+   */
   @property({ type: Number, reflect: true }) maxLines?: number;
 
   /**
    * Specifies the position of truncation ellipsis when text overflows.
-   * `maxLines` property is not supported when `truncatePosition` is set to `middle`, as multi-line truncation is only supported at the end of the text.
+   * `truncatePosition` is ignored when `maxLines` is configured, as multi-line truncation always occurs at the end.
    */
   @property({ reflect: true }) truncatePosition?: TruncatePosition;
 
@@ -58,23 +71,30 @@ export class Text extends LitElement {
 
   override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
+    this.mutationObserver?.observe(this.el, {
+      characterData: true,
+      subtree: true,
+    });
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("maxLines") && this.hasUpdated) {
+    if (changes.has("maxLines")) {
+      if (!this.maxLines && this.hasUpdated) {
+        this.clearTooltipTitle();
+      }
       this.updateMaxLinesToken();
-    }
-    if (changes.has("truncatePosition") && this.hasUpdated) {
-      this.handleTruncatePositionChange();
     }
   }
 
-  async loaded(): Promise<void> {
-    this.updateMaxLinesToken();
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("truncatePosition") && !this.maxLines) {
+      this.handleTruncatePositionChange(changes.get("truncatePosition"));
+    }
   }
 
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   //#endregion
@@ -115,12 +135,30 @@ export class Text extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    if (this.isProgrammaticTextUpdate) {
-      this.isProgrammaticTextUpdate = false;
-      return;
+    this.setValue(slotChangeGetTextContent(event));
+  }
+
+  private getAssignedTextNodes(): CharacterData[] {
+    return (
+      (this.defaultSlotRef.value
+        ?.assignedNodes({ flatten: true })
+        .filter((node) => node.nodeType === Node.TEXT_NODE) as CharacterData[] | undefined) ?? []
+    );
+  }
+
+  private setValue(value: string): void {
+    this.value = value;
+    this.renderedText = value;
+    this.handleTruncation();
+  }
+
+  private handleTruncation(): void {
+    const { truncatePosition, maxLines } = this;
+    if (this.truncatePosition === "middle" && !this.maxLines) {
+      this.truncateMiddleText();
+    } else if (truncatePosition === "end" || (maxLines && maxLines >= 1)) {
+      this.syncTooltipState();
     }
-    this.value = slotChangeGetTextContent(event);
-    this.renderedText = this.value;
   }
 
   private hasOverflow(): boolean {
@@ -135,13 +173,12 @@ export class Text extends LitElement {
     }
   }
 
-  private handleTruncatePositionChange(): void {
-    if (!this.truncatePosition) {
-      this.resizeObserver?.disconnect();
+  private handleTruncatePositionChange(oldValue: TruncatePosition | undefined): void {
+    const newValue = this.truncatePosition;
+    if (oldValue && !newValue) {
       this.clearTooltipTitle();
-    }
-    if (this.truncatePosition === "end") {
-      this.syncRenderedText(this.value);
+    } else {
+      this.handleTruncation();
     }
   }
 
@@ -149,18 +186,12 @@ export class Text extends LitElement {
     this.el.title = this.value || "";
   }
 
-  private syncRenderedText(value: string | undefined): void {
-    if (!value) {
+  private setMiddleTruncatedText(value: string | undefined): void {
+    const middleTruncatedTextEl = this.middleTruncatedSpanRef.value;
+    if (!middleTruncatedTextEl) {
       return;
     }
-    const currentTextContent = (this.el.textContent || "").trim();
-    if (currentTextContent === value) {
-      return;
-    }
-    requestAnimationFrame(() => {
-      this.isProgrammaticTextUpdate = true;
-      this.el.textContent = value;
-    });
+    middleTruncatedTextEl.textContent = value || "";
   }
 
   private truncateMiddleText(): void {
@@ -174,11 +205,11 @@ export class Text extends LitElement {
       const textWidth = getTextWidth(this.value, font);
 
       if (textWidth <= clientWidth) {
-        this.syncRenderedText(this.value);
+        this.setMiddleTruncatedText(this.value);
         this.clearTooltipTitle();
       } else {
         const middleTruncatedText = this.getTruncatedText(this.renderedText, clientWidth, font);
-        this.syncRenderedText(middleTruncatedText);
+        this.setMiddleTruncatedText(middleTruncatedText);
         this.setTooltipTitle();
       }
     });
@@ -189,7 +220,6 @@ export class Text extends LitElement {
       "--calcite-internal-text-max-lines",
       this.maxLines?.toString() || null,
     );
-    this.syncTooltipState();
   }
 
   //#endregion
@@ -199,7 +229,12 @@ export class Text extends LitElement {
   private renderedText = "";
 
   override render(): JsxNode {
-    return <slot onSlotChange={this.handleDefaultSlotChange} />;
+    return (
+      <Fragment>
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
+        <span class="middle-truncated-text" ref={this.middleTruncatedSpanRef} />
+      </Fragment>
+    );
   }
 
   //#endregion

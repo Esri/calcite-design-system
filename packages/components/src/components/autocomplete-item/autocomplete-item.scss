@@ -17,7 +17,7 @@
 // --calcite-internal-autocomplete-item-spacing-unit-l
 // --calcite-internal-autocomplete-item-spacing-unit-s
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 .scale--s {
   @apply text-n2h;
@@ -58,7 +58,7 @@
   gap: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-inline: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-block: var(--calcite-internal-autocomplete-item-spacing-unit-s);
-  @include includes.word-break();
+  @include shared.word-break();
   justify-content: space-around;
 }
 
@@ -109,6 +109,6 @@
   min-inline-size: 0;
 }
 
-@include includes.text-highlight-item();
-@include includes.base-component();
-@include includes.disabled();
+@include shared.text-highlight-item();
+@include shared.base-component();
+@include shared.disabled();

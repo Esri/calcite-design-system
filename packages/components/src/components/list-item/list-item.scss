@@ -20,7 +20,7 @@
 //
 // --calcite-internal-list-action-spacing
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex flex-col;
@@ -47,7 +47,7 @@
   border-block-end: 1px solid var(--calcite-list-border-color, var(--calcite-color-border-3));
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .container {
   @apply box-border
@@ -499,4 +499,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

@@ -155,10 +155,13 @@ export class MenuItem extends LitElement {
 
   constructor() {
     super();
-    this.listenOn(window, "click", this.handleClickOut);
     this.listen("focusout", this.handleFocusOut);
     this.listen("blur", this.blurHandler);
     this.listen("focus", this.focusHandler);
+  }
+
+  load(): void {
+    this.listenOn(window, "click", this.handleClickOut);
   }
 
   //#endregion

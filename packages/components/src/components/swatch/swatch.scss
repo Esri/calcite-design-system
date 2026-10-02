@@ -14,7 +14,7 @@
 // --calcite-internal-swatch-inset
 // --calcite-internal-swatch-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block;
@@ -144,4 +144,4 @@
   fill: #cacaca;
 }
 
-@include includes.base-component();
+@include shared.base-component();
