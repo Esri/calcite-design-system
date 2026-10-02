@@ -2,6 +2,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
+import { resolveAriaLive } from "../../utils/aria";
 import {
   defaultOffsetDistance,
   connectFloatingUI,
@@ -424,6 +425,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   override render(): JsxNode {
     const { referenceEl, heading, label, open, pointerDisabled, floatingLayout } = this;
+    const ariaLive = resolveAriaLive(this.el.ariaLive);
     const displayed = referenceEl && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
@@ -433,8 +435,9 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLive = "polite";
+    if (ariaLive) {
+      this.el.ariaLive = ariaLive;
+    }
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 

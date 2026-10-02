@@ -12,6 +12,7 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
+import { resolveAriaLive } from "../../utils/aria";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
@@ -63,7 +64,7 @@ export class TextArea
   //#region Private Properties
 
   attributeWatch = useWatchAttributes(
-    ["autofocus", "spellcheck"],
+    ["aria-live", "autofocus", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -545,13 +546,18 @@ export class TextArea
               {this.renderCharacterLimit()}
             </footer>
             {this.isCharacterLimitExceeded() && (
-              <span ariaLive="polite" class={CSS_UTILITY.screenReaderText} id={this.guid}>
+              <span
+                ariaLive={resolveAriaLive(this.el.ariaLive)}
+                class={CSS_UTILITY.screenReaderText}
+                id={this.guid}
+              >
                 {this.replacePlaceholdersInMessages()}
               </span>
             )}
           </div>
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
+              ariaLive={this.el.ariaLive}
               icon={this.validationIcon}
               id={IDS.validationMessage}
               message={this.validationMessage}

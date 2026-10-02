@@ -527,6 +527,26 @@ describe("disabled", () => {
   disabled(() => mount("calcite-input-text"));
 });
 
+describe("a11y attributes", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el } = await mount(<calcite-input-text status="invalid" validation-message="Help" />);
+    const validationMessage = page
+      .getBySelector("calcite-input-text calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect
+      .element(page.elementLocator(validationMessage))
+      .toHaveAttribute("aria-live", "polite");
+
+    el.ariaLive = "invalid";
+    await expect.element(page.elementLocator(validationMessage)).not.toHaveAttribute("aria-live");
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-text"), {

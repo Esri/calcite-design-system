@@ -1888,6 +1888,26 @@ describe("filtering", () => {
   });
 });
 
+describe("a11y attributes", () => {
+  it("sets internal control aria-live only when host value is valid", async () => {
+    const { el } = await mount(
+      <calcite-combobox label="Trees">
+        <calcite-combobox-item heading="Pine" value="pine" />
+      </calcite-combobox>,
+    );
+    const wrapper = page.getBySelector(`calcite-combobox .${CSS.wrapper}`).element() as HTMLElement;
+
+    expect(wrapper).toBeDefined();
+    expect(wrapper.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect.element(page.elementLocator(wrapper)).toHaveAttribute("aria-live", "polite");
+
+    el.ariaLive = "invalid";
+    await expect.element(page.elementLocator(wrapper)).not.toHaveAttribute("aria-live");
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     const comboboxHTML = (

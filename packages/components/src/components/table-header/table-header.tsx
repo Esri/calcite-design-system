@@ -1,6 +1,8 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { Alignment, Scale, SelectionMode } from "../types";
 import { RowType, TableInteractionMode } from "../table/types";
 import { getIconScale } from "../../utils/component";
@@ -26,6 +28,8 @@ export class TableHeader extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private containerRef = createRef<HTMLTableCellElement>();
 
@@ -221,7 +225,7 @@ export class TableHeader extends LitElement {
           />
         )}
         {(this.selectionCell || this.numberCell) && (
-          <span ariaLive={this.focused ? "polite" : "off"} class={CSS_UTILITY.screenReaderText}>
+          <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS_UTILITY.screenReaderText}>
             {this.screenReaderText}
           </span>
         )}

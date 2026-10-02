@@ -10,7 +10,7 @@ import {
   stringOrBoolean,
   type ToEvents,
 } from "@arcgis/lumina";
-import { useDirection } from "@arcgis/lumina/controllers";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -49,6 +49,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   defaultValue?: SegmentedControl["value"];
 
@@ -409,6 +411,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
+            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

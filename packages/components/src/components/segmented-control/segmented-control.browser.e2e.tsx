@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import {
@@ -247,6 +247,30 @@ describe("disabled", () => {
       ),
     { focusTarget: "child" },
   );
+});
+
+describe("a11y attributes", () => {
+  it("sets validation message aria-live only when host value is valid", async () => {
+    const { el } = await mount(
+      <calcite-segmented-control status="invalid" validation-message="Help">
+        <calcite-segmented-control-item value="1" />
+      </calcite-segmented-control>,
+    );
+    const validationMessage = page
+      .getBySelector("calcite-segmented-control calcite-input-message")
+      .element() as HTMLElement;
+
+    expect(validationMessage).toBeDefined();
+    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect
+      .element(page.elementLocator(validationMessage))
+      .toHaveAttribute("aria-live", "polite");
+
+    el.ariaLive = "invalid";
+    await expect.element(page.elementLocator(validationMessage)).not.toHaveAttribute("aria-live");
+  });
 });
 
 describe("theme", () => {

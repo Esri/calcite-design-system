@@ -205,6 +205,26 @@ describe("a11y attributes", () => {
 
     await expect.element(link).toHaveAttribute("aria-busy", "true");
   });
+
+  it("sets internal control aria-live only when host value is valid", async () => {
+    const { el } = await mount(<calcite-button>Continue</calcite-button>);
+    const control = page.getBySelector("calcite-button button, calcite-button a").element() as
+      | HTMLButtonElement
+      | HTMLAnchorElement;
+
+    expect(control).toBeDefined();
+    expect(control.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect
+      .element(page.getBySelector("calcite-button button, calcite-button a"))
+      .toHaveAttribute("aria-live", "polite");
+
+    el.removeAttribute("aria-live");
+    await expect
+      .element(page.getBySelector("calcite-button button, calcite-button a"))
+      .not.toHaveAttribute("aria-live");
+  });
 });
 
 describe("theme", () => {

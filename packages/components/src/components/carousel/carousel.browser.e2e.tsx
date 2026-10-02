@@ -697,8 +697,8 @@ describe("pagination", () => {
     expect(page.getBySelector(`calcite-carousel .${CSS.pagination}`)).toBeInTheDocument();
   });
 
-  it("renders pagination for one item and aria-live information when pagination is disabled", async () => {
-    await mount<Carousel>(
+  it("renders pagination for one item and respects optional aria-live when pagination is disabled", async () => {
+    const { el } = await mount<Carousel>(
       <calcite-carousel label="Carousel example" paginationDisabled>
         <calcite-carousel-item label="one" />
         <calcite-carousel-item label="two" />
@@ -710,6 +710,19 @@ describe("pagination", () => {
     await expect
       .element(page.getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`))
       .toHaveTextContent("Item 1 of 2");
+
+    const paginationAriaLive = page
+      .getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`)
+      .element() as HTMLElement;
+    expect(paginationAriaLive.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect
+      .element(page.elementLocator(paginationAriaLive))
+      .toHaveAttribute("aria-live", "polite");
+
+    el.ariaLive = "invalid";
+    await expect.element(page.elementLocator(paginationAriaLive)).not.toHaveAttribute("aria-live");
   });
 });
 
