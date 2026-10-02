@@ -116,8 +116,6 @@ export const withAvatarAndIcon = (): string => {
   `;
 };
 
-// <div style="background-color:var(--calcite-color-surface-highlight); padding:50px; display=inline-grid; grid-template-columns: 1fr; gap:var(--calcite-spacing-xxs);">
-
 export const withClosable = (args: ChipStoryArgs): string => html`
   <div
     style="display: grid; background-color:var(--calcite-color-surface-highlight); padding: 50px; gap:var(--calcite-spacing-xxs);"
