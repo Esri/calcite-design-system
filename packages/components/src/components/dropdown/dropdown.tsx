@@ -290,8 +290,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   load(): void {
-    this.listenOn(window, "click", this.closeCalciteDropdownOnClick);
-    this.listenOn(window, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
+    this.listenOn(document, "click", this.closeCalciteDropdownOnClick);
+    this.listenOn(document, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
   }
 
   override connectedCallback(): void {
