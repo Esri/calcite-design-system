@@ -58,7 +58,7 @@ export class AutocompleteItem extends LitElement {
    * @copyDoc
    * @required
    */
-  @property() heading!: string;
+  @property() heading?: string;
 
   /** @copyDoc */
   @property({ reflect: true }) iconEnd?: IconName;
@@ -174,18 +174,27 @@ export class AutocompleteItem extends LitElement {
           {this.renderIcon("start")}
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
-            <div class={CSS.heading}>
-              {highlightText({
-                text: heading,
-                pattern: inputValueMatchPattern,
-              })}
-            </div>
-            <div class={CSS.description}>
-              {highlightText({
-                text: description,
-                pattern: inputValueMatchPattern,
-              })}
-            </div>
+            {heading ? (
+              <div class={CSS.heading}>
+                {highlightText({
+                  text: heading,
+                  pattern: inputValueMatchPattern,
+                })}
+              </div>
+            ) : (
+              <slot name={SLOTS.heading} />
+            )}
+
+            {description ? (
+              <div class={CSS.description}>
+                {highlightText({
+                  text: description,
+                  pattern: inputValueMatchPattern,
+                })}
+              </div>
+            ) : (
+              <slot name={SLOTS.description} />
+            )}
           </div>
           <slot name={SLOTS.contentEnd} />
           {this.renderIcon("end")}
