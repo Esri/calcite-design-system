@@ -478,7 +478,7 @@ describe("keyboard interaction", () => {
       });
 
       describe("when empty is allowed", () => {
-        it.skip("commits hexa characters on Tab and Enter", async () => {
+        it("commits hexa characters on Tab and Enter", async () => {
           const mounted = await mountInput(startingHexa, {
             allowEmpty: true,
             alphaChannel: true,
@@ -492,7 +492,7 @@ describe("keyboard interaction", () => {
           await assertTabAndEnterBehavior(mounted, "", undefined, true);
         });
 
-        it.skip("prevents committing invalid hexa values", async () => {
+        it("prevents committing invalid hexa values", async () => {
           const mounted = await mountInput(startingHexa, {
             allowEmpty: true,
             alphaChannel: true,
