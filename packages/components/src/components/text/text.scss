@@ -15,6 +15,15 @@
   white-space: nowrap;
 }
 
+:host([truncate-position="middle"]:not([max-lines])) slot {
+  display: none;
+}
+
+:host(:not([truncate-position="middle"])) .middle-truncated-text,
+:host([max-lines]) .middle-truncated-text {
+  display: none;
+}
+
 :host([max-lines]) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
