@@ -25,7 +25,7 @@ import {
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import {
@@ -62,7 +62,7 @@ export class DatePicker extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 

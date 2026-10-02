@@ -3,7 +3,7 @@ import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "..
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -31,7 +31,7 @@ export class Tile extends LitElement implements SelectableComponent {
 
   private containerEl?: HTMLDivElement;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

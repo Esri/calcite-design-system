@@ -30,7 +30,7 @@ import { CollapseDirection, Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import { isActionBar } from "../action-bar/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { IconName } from "../icon/types";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -88,7 +88,7 @@ export class Panel extends LitElement {
 
   private _closed = false;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private focusTrapController = useFocusTrap<this>({
     focusTrapOptions: {

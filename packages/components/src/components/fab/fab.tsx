@@ -3,7 +3,7 @@ import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { Appearance, Kind, Scale } from "../types";
 import { IconName } from "../icon/types";
 import type { Button } from "../button/button";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./fab.scss";
@@ -25,7 +25,7 @@ export class Fab extends LitElement {
 
   private buttonRef = createRef<Button["el"]>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

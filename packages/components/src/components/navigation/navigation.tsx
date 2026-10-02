@@ -14,7 +14,7 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
 import { isNavigationLogo } from "../navigation-logo/resources";
 import { isNavigationUser } from "../navigation-user/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../types";
 import { CSS, ICONS, SLOTS, isNavigation } from "./resources";
@@ -48,7 +48,7 @@ export class Navigation extends LitElement {
 
   private navigationActionRef = createRef<Action["el"]>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private mutationObserver = createObserver("mutation", () => {
     this.updateNavigationLogo();

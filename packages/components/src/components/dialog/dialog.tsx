@@ -16,7 +16,7 @@ import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { IconName } from "../icon/types";
 import { ResizeValues } from "../types";
@@ -105,7 +105,7 @@ export class Dialog extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private sizeOverride = useSizeOverride({
     targetElement: () => ({ value: this.transitionEl }),

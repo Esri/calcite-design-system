@@ -13,7 +13,7 @@ import {
 } from "../types";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -58,7 +58,7 @@ export class Action extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private indicatorRef = createRef<HTMLDivElement>();
 

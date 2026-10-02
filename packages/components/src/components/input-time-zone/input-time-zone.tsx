@@ -18,7 +18,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
 import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, SLOTS } from "./resources";
@@ -77,7 +77,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

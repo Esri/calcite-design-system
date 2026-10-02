@@ -41,7 +41,7 @@ import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { useTopLayer } from "../../controllers/useTopLayer";
@@ -122,7 +122,7 @@ export class Autocomplete
 
   private inputValueMatchPattern?: RegExp;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();

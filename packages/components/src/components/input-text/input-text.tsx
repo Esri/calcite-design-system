@@ -31,7 +31,7 @@ import { inlineEditConverter, UseInlineEdit } from "../../controllers/useInlineE
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -100,7 +100,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private formSupport = useForm<this>({
     inputType: "text",

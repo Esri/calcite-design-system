@@ -8,7 +8,7 @@ import {
 } from "../../utils/dom";
 import { Scale, SelectionMode } from "../types";
 import type { Chip } from "../chip/chip";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./chip-group.scss";
 import { isChip } from "../chip/resources";
@@ -32,7 +32,7 @@ export class ChipGroup extends LitElement {
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

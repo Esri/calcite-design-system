@@ -10,7 +10,7 @@ import type { Input } from "../input/input";
 import type { InputNumber } from "../input-number/input-number";
 import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./inline-editable.scss";
 import { CSS, ICONS } from "./resources";
@@ -60,7 +60,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

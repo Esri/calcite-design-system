@@ -11,7 +11,7 @@ import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils
 import { DropdownIconType } from "../button/types";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../types";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./split-button.scss";
@@ -44,7 +44,7 @@ export class SplitButton extends LitElement {
           : ICONS.handleVertical;
   }
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

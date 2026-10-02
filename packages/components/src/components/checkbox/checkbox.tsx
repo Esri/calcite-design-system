@@ -8,7 +8,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -60,7 +60,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
