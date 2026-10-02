@@ -55,18 +55,23 @@
   border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
+// POC: scale-derived sizing multiplied by cascading --calcite-size-factor.
 .label--scale-s {
   @apply text-n2h px-2;
-  padding-block: 0.125rem;
+  padding-inline: calc(var(--calcite-spacing-sm) * var(--calcite-size-factor, 1));
+  padding-block: calc(0.125rem * var(--calcite-size-factor, 1));
 }
 
 .label--scale-m {
   @apply text-n1h px-3;
-  padding-block: 0.375rem;
+  padding-inline: calc(var(--calcite-spacing-md) * var(--calcite-size-factor, 1));
+  padding-block: calc(0.375rem * var(--calcite-size-factor, 1));
 }
 
 .label--scale-l {
   @apply text-0h px-4 py-2.5;
+  padding-inline: calc(var(--calcite-spacing-lg) * var(--calcite-size-factor, 1));
+  padding-block: calc(var(--calcite-spacing-sm-plus) * var(--calcite-size-factor, 1));
 }
 
 :host(:hover) .label {

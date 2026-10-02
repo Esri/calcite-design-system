@@ -102,8 +102,10 @@
       var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius))
     );
     color: var(--calcite-button-text-color, var(--calcite-internal-button-text-color, currentColor));
-    padding-block: var(--calcite-internal-button-padding-y);
-    padding-inline: var(--calcite-internal-button-padding-x);
+    // POC: height comes from a scaled min-block-size + vertical centering, so vertical padding is dropped
+    // (keeps single-line text buttons and icon buttons the same height at any factor).
+    padding-block: 0;
+    padding-inline: calc(var(--calcite-internal-button-padding-x) * var(--calcite-size-factor, 1));
 
     // include transition from focus
     transition:
@@ -153,7 +155,8 @@
 }
 
 .content {
-  margin-inline: var(--calcite-internal-button-content-margin);
+  // POC: scale-derived icon/text gap multiplied by cascading --calcite-size-factor.
+  margin-inline: calc(var(--calcite-internal-button-content-margin) * var(--calcite-size-factor, 1));
 }
 
 .icon-start-empty {
@@ -611,6 +614,9 @@
 :host([scale="s"]) button.content--slotted,
 :host([scale="s"]) a.content--slotted {
   @include text.text-n2h();
+
+  // POC: scaled min-height per scale (24/32/44px at factor 1); matches icon buttons and allows wrap growth.
+  min-block-size: calc(var(--calcite-size-sm) * var(--calcite-size-factor, 1));
 }
 
 // accommodate for transparent buttons not having borders
@@ -629,6 +635,8 @@
   --calcite-internal-button-padding-x: 11px;
 
   @include text.text-n1h();
+
+  min-block-size: calc(var(--calcite-size-md) * var(--calcite-size-factor, 1));
 }
 
 :host([scale="m"]) button,
@@ -646,6 +654,8 @@
   --calcite-internal-button-padding-x: 15px;
 
   @include text.text-0h();
+
+  min-block-size: calc(var(--calcite-size-lg) * var(--calcite-size-factor, 1));
 }
 
 :host([scale="l"]) {
@@ -667,8 +677,9 @@
 
   @include text.text-0h();
 
-  inline-size: var(--calcite-space-2xl);
-  min-block-size: theme("height.6");
+  // POC: scaled square via min-block-size == inline-size (vertical padding is 0, so the icon can't inflate height).
+  inline-size: calc(var(--calcite-space-2xl) * var(--calcite-size-factor, 1));
+  min-block-size: calc(var(--calcite-space-2xl) * var(--calcite-size-factor, 1));
 }
 
 :host([scale="m"]) button:not(.content--slotted),
@@ -678,8 +689,8 @@
 
   @include text.text-0h();
 
-  inline-size: var(--calcite-space-3xl);
-  min-block-size: theme("height.8");
+  inline-size: calc(var(--calcite-space-3xl) * var(--calcite-size-factor, 1));
+  min-block-size: calc(var(--calcite-space-3xl) * var(--calcite-size-factor, 1));
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
@@ -688,8 +699,8 @@
 
   @include text.text-0h();
 
-  inline-size: var(--calcite-space-4xl);
-  min-block-size: theme("height.11");
+  inline-size: calc(var(--calcite-space-4xl) * var(--calcite-size-factor, 1));
+  min-block-size: calc(var(--calcite-space-4xl) * var(--calcite-size-factor, 1));
 }
 
 :host(:is([scale="s"], [scale="m"], [scale="l"])[width="full"]) {

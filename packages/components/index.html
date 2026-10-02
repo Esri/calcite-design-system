@@ -5,17 +5,461 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
+
+    <!--
+      POC: CSS-cascading component sizing as an evolution of the component-level `scale` system.
+
+      A single inheriting custom property drives sizing and cascades through normal DOM wrappers and
+      across Calcite shadow roots (no zoom, transforms, JS propagation, or runtime scale mutation):
+        --calcite-size-factor  dimensions, spacing, padding, control sizing
+      The default value 1 equals the current `scale="m"` baseline, so `scale="s|m|l"` is unchanged
+      and components that never see this variable keep their current behavior.
+
+      Typography is intentionally out of scope: font scaling is better handled at the design-token layer
+      (e.g. a font-size base/ramp) since Calcite type is already token-driven.
+
+      Compatibility note: the legacy discrete scale steps are non-linear (size s/m = 0.75, l/m = 1.375),
+      so factor-based small/large will NOT pixel-match legacy scale="s"/"l". Only medium (factor 1) is an
+      exact match.
+    -->
+    <style>
+      /* POC: component size factor (dimensions, spacing, padding, controls). */
+      .size-s {
+        --calcite-size-factor: 0.75;
+      }
+      .size-m {
+        --calcite-size-factor: 1;
+      }
+      .size-l {
+        --calcite-size-factor: 1.375;
+      }
+
+      .poc-region {
+        padding: var(--calcite-spacing-md);
+        border-block-end: 1px solid var(--calcite-color-border-3);
+      }
+      .poc-region__title {
+        display: block;
+        margin-block-end: var(--calcite-spacing-sm);
+        font-weight: var(--calcite-font-weight-medium);
+        color: var(--calcite-color-text-2);
+      }
+      .poc-actions {
+        display: flex;
+        gap: var(--calcite-spacing-sm);
+        margin-block-start: var(--calcite-spacing-sm);
+      }
+      .poc-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: var(--calcite-spacing-md);
+      }
+
+      /* POC: override callouts, gated by the inheriting --poc-callouts (crosses shadow roots). */
+      .poc-override {
+        position: relative;
+        outline: calc(2px * var(--poc-callouts, 0)) dashed var(--calcite-color-text-1);
+        outline-offset: 2px;
+      }
+      .poc-override[data-poc-override]::after {
+        content: attr(data-poc-override);
+        position: absolute;
+        inset-block-end: calc(100% + 4px);
+        inset-inline-start: 0;
+        z-index: var(--calcite-z-index-toast);
+        padding: 0 var(--calcite-spacing-xxs);
+        border-radius: var(--calcite-corner-radius);
+        background-color: var(--calcite-color-text-1);
+        color: var(--calcite-color-text-inverse);
+        font-family: var(--calcite-font-family);
+        font-size: 0.625rem;
+        line-height: 1rem;
+        white-space: nowrap;
+        opacity: var(--poc-callouts, 0);
+        pointer-events: none;
+      }
+
+      /* POC: height readout overlay, shown while callouts are on (positioned by script). */
+      .poc-measure {
+        position: fixed;
+        inset: 0;
+        z-index: var(--calcite-z-index-tooltip);
+        pointer-events: none;
+      }
+      .poc-measure__item {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        border-inline-start: 1px dashed var(--calcite-color-text-1);
+      }
+      .poc-measure__item::before,
+      .poc-measure__item::after {
+        content: "";
+        position: absolute;
+        inline-size: 5px;
+        inset-inline-start: -1px;
+        border-block-start: 1px solid var(--calcite-color-text-1);
+      }
+      .poc-measure__item::before {
+        inset-block-start: 0;
+      }
+      .poc-measure__item::after {
+        inset-block-end: 0;
+      }
+      .poc-measure__label {
+        margin-inline-start: 6px;
+        padding: 0 var(--calcite-spacing-xxs);
+        border-radius: var(--calcite-corner-radius);
+        background-color: var(--calcite-color-text-1);
+        color: var(--calcite-color-text-inverse);
+        font-family: var(--calcite-font-family);
+        font-size: 0.625rem;
+        line-height: 1rem;
+        white-space: nowrap;
+      }
+
+      /* POC: local control that drives the shell-level factors (index.html only). */
+      .poc-control {
+        position: fixed;
+        inset-block-end: var(--calcite-spacing-md);
+        inset-inline-start: var(--calcite-spacing-md);
+        z-index: var(--calcite-z-index-toast);
+        display: flex;
+        flex-direction: column;
+        gap: var(--calcite-spacing-xs);
+        padding: var(--calcite-spacing-sm) var(--calcite-spacing-md);
+        border: 1px solid var(--calcite-color-border-2);
+        border-radius: var(--calcite-corner-radius);
+        background-color: var(--calcite-color-foreground-1);
+        color: var(--calcite-color-text-1);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size--2);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+      .poc-control__title {
+        font-weight: var(--calcite-font-weight-medium);
+      }
+      .poc-control__hint {
+        max-inline-size: 14rem;
+        color: var(--calcite-color-text-3);
+      }
+      .poc-control__row {
+        display: flex;
+        align-items: center;
+        gap: var(--calcite-spacing-xs);
+      }
+      .poc-control__row > span {
+        inline-size: 2.5rem;
+      }
+      .poc-control__row button {
+        min-inline-size: 1.75rem;
+        padding: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
+        border: 1px solid var(--calcite-color-border-input);
+        border-radius: var(--calcite-corner-radius);
+        background-color: var(--calcite-color-foreground-1);
+        color: var(--calcite-color-text-2);
+        font: inherit;
+        cursor: pointer;
+      }
+      .poc-control__row button[aria-pressed="true"] {
+        border-color: var(--calcite-color-brand);
+        background-color: var(--calcite-color-brand);
+        color: var(--calcite-color-text-inverse);
+      }
+    </style>
   </head>
 
   <body>
-    <demo-dom-swapper>
-      <!-- demo snippet start -->
+    <!-- POC: local control (index.html only) that drives the shell-level factors below. -->
+    <div class="poc-control">
+      <span class="poc-control__title">Shell context (POC)</span>
+      <div class="poc-control__row" data-factor="size">
+        <span>Size</span>
+        <button type="button" data-value="0.75">S</button>
+        <button type="button" data-value="1" aria-pressed="true">M</button>
+        <button type="button" data-value="1.375">L</button>
+      </div>
+      <div class="poc-control__row">
+        <span>Callouts</span>
+        <button type="button" id="poc-callouts" aria-pressed="false">Off</button>
+      </div>
+      <span class="poc-control__hint">Drives the action bar + Layers panel; the matrix keeps its own overrides.</span>
+    </div>
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `pnpm snippet` -->
+    <!-- Wrapper-defined context: size-l cascades into the shell and every descendant. -->
+    <demo-dom-swapper class="size-l">
+      <!-- Shell-defined override: driven by the local control above, overriding the wrapper context. -->
+      <calcite-shell style="--calcite-size-factor: 1">
+        <calcite-shell-panel slot="panel-start" width="l">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action-group>
+              <calcite-action text="Add action" icon="plus" text-enabled active></calcite-action>
+              <!-- Child override: size only (small); overrides just this action, not its siblings. -->
+              <calcite-action
+                class="size-s poc-override"
+                data-poc-override="child override · size s"
+                active
+                text="Layers"
+                indicator
+                icon="layers"
+                text-enabled
+              ></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Undo" icon="undo" text-enabled></calcite-action>
+              <calcite-action text="Redo" indicator icon="redo" text-enabled></calcite-action>
+              <calcite-action text="Save" disabled icon="save" text-enabled></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group slot="bottom-actions">
+              <calcite-action text="Tips" icon="question" text-enabled></calcite-action>
+              <calcite-action text="Settings" indicator icon="gear" text-enabled></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+          <!-- Descendants inherit the shell's medium context. -->
+          <calcite-panel heading="Layers">
+            <calcite-block
+              collapsible
+              expanded
+              heading="Layer effects"
+              description="Adjust blur, highlight, and more"
+              icon-start="effects"
+            >
+              <calcite-label>
+                Effect type
+                <calcite-segmented-control width="full">
+                  <calcite-segmented-control-item value="One">One</calcite-segmented-control-item>
+                  <calcite-segmented-control-item checked value="Two">Two</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="Three">Three</calcite-segmented-control-item>
+                </calcite-segmented-control>
+              </calcite-label>
+              <calcite-label>
+                Effect intensity
+                <calcite-slider></calcite-slider>
+              </calcite-label>
+              <div class="poc-actions">
+                <calcite-button icon-start="plus" data-poc-measure>Add</calcite-button>
+                <calcite-button icon-start="globe" width="full" kind="neutral" icon-end="check">Button</calcite-button>
+              </div>
+              <div class="poc-actions">
+                <calcite-button icon-start="plus"></calcite-button>
+                <calcite-button icon-end="check" kind="neutral"></calcite-button>
+                <calcite-fab icon="trash" kind="danger" data-poc-measure></calcite-fab>
+              </div>
+            </calcite-block>
+            <calcite-block collapsible expanded heading="Another block" toggle-display="switch">
+              <div class="poc-inputs">
+                <calcite-input-number
+                  label-text="Input Number"
+                  placeholder="Enter an offset distance"
+                  step="1"
+                  value="123"
+                  clearable
+                  data-poc-measure="field"
+                >
+                </calcite-input-number>
+                <calcite-input-text
+                  prefix-text="Prefix"
+                  label-text="Input Text"
+                  placeholder="Enter your region"
+                  clearable
+                  value="Some value"
+                  data-poc-measure="field"
+                ></calcite-input-text>
+              </div>
+            </calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
 
-      <!-- demo snippet end -->
+        <calcite-panel heading="Component size scale">
+          <!-- Small component size. -->
+          <div class="poc-region size-s">
+            <span class="poc-region__title">Small (size-s)</span>
+            <div class="poc-inputs">
+              <calcite-segmented-control width="full" label-text="Segmented Control">
+                <calcite-segmented-control-item value="One">One</calcite-segmented-control-item>
+                <calcite-segmented-control-item checked value="Two">Two</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="Three">Three</calcite-segmented-control-item>
+              </calcite-segmented-control>
+              <calcite-slider label-text="Slider"></calcite-slider>
+              <calcite-input-number
+                label-text="Input Number"
+                placeholder="Enter an offset distance"
+                step="1"
+                value="123"
+                clearable
+              >
+              </calcite-input-number>
+              <calcite-input-text
+                prefix-text="Prefix"
+                label-text="Input Text"
+                placeholder="Enter your region"
+                clearable
+                value="Some value"
+              ></calcite-input-text>
+            </div>
+            <div class="poc-actions">
+              <calcite-action text="Add action" icon="plus" text-enabled></calcite-action>
+              <calcite-button icon-start="save">Save button</calcite-button>
+            </div>
+          </div>
+
+          <!-- Medium component size. -->
+          <div class="poc-region size-m">
+            <span class="poc-region__title">Medium (size-m)</span>
+            <div class="poc-inputs">
+              <calcite-segmented-control width="full" label-text="Segmented Control">
+                <calcite-segmented-control-item value="One">One</calcite-segmented-control-item>
+                <calcite-segmented-control-item checked value="Two">Two</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="Three">Three</calcite-segmented-control-item>
+              </calcite-segmented-control>
+              <calcite-slider label-text="Slider"></calcite-slider>
+              <calcite-input-number
+                label-text="Input Number"
+                placeholder="Enter an offset distance"
+                step="1"
+                value="123"
+                clearable
+              >
+              </calcite-input-number>
+              <calcite-input-text
+                prefix-text="Prefix"
+                label-text="Input Text"
+                placeholder="Enter your region"
+                clearable
+                value="Some value"
+              ></calcite-input-text>
+            </div>
+            <div class="poc-actions">
+              <calcite-action text="Add action" icon="plus" text-enabled></calcite-action>
+              <calcite-button icon-start="save">Save button</calcite-button>
+            </div>
+          </div>
+
+          <!-- Large component size. -->
+          <div class="poc-region size-l">
+            <span class="poc-region__title">Large (size-l)</span>
+            <div class="poc-inputs">
+              <calcite-segmented-control width="full" label-text="Segmented Control">
+                <calcite-segmented-control-item value="One">One</calcite-segmented-control-item>
+                <calcite-segmented-control-item checked value="Two">Two</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="Three">Three</calcite-segmented-control-item>
+              </calcite-segmented-control>
+              <calcite-slider label-text="Slider"></calcite-slider>
+              <calcite-input-number
+                label-text="Input Number"
+                placeholder="Enter an offset distance"
+                step="1"
+                value="123"
+                clearable
+              >
+              </calcite-input-number>
+              <calcite-input-text
+                prefix-text="Prefix"
+                label-text="Input Text"
+                placeholder="Enter your region"
+                clearable
+                value="Some value"
+              ></calcite-input-text>
+            </div>
+            <div class="poc-actions">
+              <calcite-action text="Add action" icon="plus" text-enabled></calcite-action>
+              <calcite-button icon-start="save">Save button</calcite-button>
+            </div>
+          </div>
+        </calcite-panel>
+      </calcite-shell>
     </demo-dom-swapper>
     <demo-options></demo-options>
+
+    <script>
+      (() => {
+        // The shell moves into demo-dom-swapper's shadow root when "Shadowed" is toggled.
+        const getShell = () => {
+          const swapper = document.querySelector("demo-dom-swapper");
+          return document.querySelector("calcite-shell") ?? swapper?.shadowRoot?.querySelector("calcite-shell") ?? null;
+        };
+        document.querySelectorAll(".poc-control__row").forEach((row) => {
+          const property = "--calcite-size-factor";
+          row.addEventListener("click", (event) => {
+            const button = event.target.closest("button[data-value]");
+            if (!button) {
+              return;
+            }
+            getShell()?.style.setProperty(property, button.dataset.value);
+            row.querySelectorAll("button").forEach((other) => {
+              other.setAttribute("aria-pressed", String(other === button));
+            });
+          });
+        });
+
+        // Callouts toggle sets --poc-callouts on the document root so it reaches shadowed elements.
+        const callouts = document.getElementById("poc-callouts");
+        callouts.addEventListener("click", () => {
+          const on = callouts.getAttribute("aria-pressed") !== "true";
+          callouts.setAttribute("aria-pressed", String(on));
+          callouts.textContent = on ? "On" : "Off";
+          document.documentElement.style.setProperty("--poc-callouts", on ? "1" : "0");
+          updateMeasurements(on);
+        });
+
+        // Height readouts for [data-poc-measure] elements, shown while callouts are on.
+        const measureLayer = document.createElement("div");
+        measureLayer.className = "poc-measure";
+        document.body.appendChild(measureLayer);
+
+        const measureTargets = () => {
+          const swapper = document.querySelector("demo-dom-swapper");
+          const roots = [document, swapper?.shadowRoot].filter(Boolean);
+          return roots.flatMap((root) => Array.from(root.querySelectorAll("[data-poc-measure]")));
+        };
+
+        const measureRect = (el) => {
+          // Inputs: measure the inner field (.wrapper) so the label-text isn't counted.
+          if (el.dataset.pocMeasure === "field" && el.shadowRoot) {
+            const field = el.shadowRoot.querySelector(".wrapper");
+            if (field) {
+              return field.getBoundingClientRect();
+            }
+          }
+          return el.getBoundingClientRect();
+        };
+
+        const renderMeasurements = () => {
+          const fragment = document.createDocumentFragment();
+          for (const el of measureTargets()) {
+            const rect = measureRect(el);
+            if (!rect.height) {
+              continue;
+            }
+            const item = document.createElement("div");
+            item.className = "poc-measure__item";
+            item.style.top = `${rect.top}px`;
+            item.style.left = `${rect.right + 4}px`;
+            item.style.height = `${rect.height}px`;
+            const label = document.createElement("span");
+            label.className = "poc-measure__label";
+            label.textContent = `${Math.round(rect.height)}px`;
+            item.appendChild(label);
+            fragment.appendChild(item);
+          }
+          measureLayer.replaceChildren(fragment);
+        };
+
+        let measureRaf = null;
+        const measureLoop = () => {
+          renderMeasurements();
+          measureRaf = requestAnimationFrame(measureLoop);
+        };
+        const updateMeasurements = (on) => {
+          if (on && measureRaf === null) {
+            measureLoop();
+          } else if (!on && measureRaf !== null) {
+            cancelAnimationFrame(measureRaf);
+            measureRaf = null;
+            measureLayer.replaceChildren();
+          }
+        };
+      })();
+    </script>
   </body>
 </html>

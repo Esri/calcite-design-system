@@ -214,20 +214,20 @@
 
   :host([scale="s"]) {
     .clear-button--container {
-      padding: var(--calcite-space-2xs);
+      padding: calc(var(--calcite-space-2xs) * var(--calcite-size-factor, 1));
     }
   }
 
   :host([scale="m"]) {
     .clear-button--container {
-      padding: var(--calcite-space-2xs);
-      padding-inline-end: var(--calcite-space-sm);
+      padding: calc(var(--calcite-space-2xs) * var(--calcite-size-factor, 1));
+      padding-inline-end: calc(var(--calcite-space-sm) * var(--calcite-size-factor, 1));
     }
   }
 
   :host([scale="l"]) {
     .clear-button--container {
-      padding-inline-end: var(--calcite-space-sm-plus);
+      padding-inline-end: calc(var(--calcite-space-sm-plus) * var(--calcite-size-factor, 1));
     }
   }
 }

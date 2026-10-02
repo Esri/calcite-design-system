@@ -83,18 +83,22 @@
   & .prefix,
   & .suffix {
     @apply text-n2h;
-    block-size: var(--calcite-input-number-height, 1.5rem);
+    // POC: field height + padding scaled by cascading --calcite-size-factor.
+    block-size: calc(var(--calcite-input-number-height, 1.5rem) * var(--calcite-size-factor, 1));
   }
   & input {
-    padding-inline: var(--calcite-spacing-sm);
+    padding-inline: calc(var(--calcite-spacing-sm) * var(--calcite-size-factor, 1));
   }
-  @include input-affix-spacing(var(--calcite-spacing-sm), var(--calcite-spacing-xxs));
+  @include input-affix-spacing(
+    calc(var(--calcite-spacing-sm) * var(--calcite-size-factor, 1)),
+    calc(var(--calcite-spacing-xxs) * var(--calcite-size-factor, 1))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
-    block-size: var(--calcite-input-number-height, 1.5rem);
+    block-size: calc(var(--calcite-input-number-height, 1.5rem) * var(--calcite-size-factor, 1));
   }
   & .clear-button {
-    block-size: var(--calcite-spacing-xxl);
+    block-size: calc(var(--calcite-spacing-xxl) * var(--calcite-size-factor, 1));
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
@@ -113,15 +117,18 @@
   & .prefix,
   & .suffix {
     @apply text-n1h;
-    block-size: var(--calcite-input-number-height, 2rem);
+    block-size: calc(var(--calcite-input-number-height, 2rem) * var(--calcite-size-factor, 1));
   }
   & input {
-    padding-inline: var(--calcite-spacing-md);
+    padding-inline: calc(var(--calcite-spacing-md) * var(--calcite-size-factor, 1));
   }
-  @include input-affix-spacing(var(--calcite-spacing-md), var(--calcite-spacing-xs));
+  @include input-affix-spacing(
+    calc(var(--calcite-spacing-md) * var(--calcite-size-factor, 1)),
+    calc(var(--calcite-spacing-xs) * var(--calcite-size-factor, 1))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
-    block-size: var(--calcite-input-number-height, 2rem);
+    block-size: calc(var(--calcite-input-number-height, 2rem) * var(--calcite-size-factor, 1));
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-space-sm);
@@ -140,15 +147,18 @@
   & .prefix,
   & .suffix {
     @apply text-0h;
-    block-size: var(--calcite-input-number-height, 2.75rem);
+    block-size: calc(var(--calcite-input-number-height, 2.75rem) * var(--calcite-size-factor, 1));
   }
   & input {
-    padding-inline: var(--calcite-spacing-lg);
+    padding-inline: calc(var(--calcite-spacing-lg) * var(--calcite-size-factor, 1));
   }
-  @include input-affix-spacing(var(--calcite-spacing-lg), var(--calcite-spacing-sm));
+  @include input-affix-spacing(
+    calc(var(--calcite-spacing-lg) * var(--calcite-size-factor, 1)),
+    calc(var(--calcite-spacing-sm) * var(--calcite-size-factor, 1))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
-    block-size: var(--calcite-input-number-height, 2.75rem);
+    block-size: calc(var(--calcite-input-number-height, 2.75rem) * var(--calcite-size-factor, 1));
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);

@@ -15,39 +15,46 @@
 @use "../../styles/includes";
 
 // sizes
+// POC: scale-derived switch dimensions multiplied by cascading --calcite-size-factor.
 :host([scale="s"]) {
   .container {
-    @apply h-3;
+    block-size: calc(0.75rem * var(--calcite-size-factor, 1));
   }
   .track {
-    @apply h-3 w-6;
+    block-size: calc(0.75rem * var(--calcite-size-factor, 1));
+    inline-size: calc(1.5rem * var(--calcite-size-factor, 1));
   }
   .handle {
-    @apply h-2 w-2;
+    block-size: calc(0.5rem * var(--calcite-size-factor, 1));
+    inline-size: calc(0.5rem * var(--calcite-size-factor, 1));
   }
 }
 
 :host([scale="m"]) {
   .container {
-    @apply h-4;
+    block-size: calc(1rem * var(--calcite-size-factor, 1));
   }
   .track {
-    @apply h-4 w-8;
+    block-size: calc(1rem * var(--calcite-size-factor, 1));
+    inline-size: calc(2rem * var(--calcite-size-factor, 1));
   }
   .handle {
-    @apply h-3 w-3;
+    block-size: calc(0.75rem * var(--calcite-size-factor, 1));
+    inline-size: calc(0.75rem * var(--calcite-size-factor, 1));
   }
 }
 
 :host([scale="l"]) {
   .container {
-    @apply h-6;
+    block-size: calc(1.5rem * var(--calcite-size-factor, 1));
   }
   .track {
-    @apply h-6 w-12;
+    block-size: calc(1.5rem * var(--calcite-size-factor, 1));
+    inline-size: calc(3rem * var(--calcite-size-factor, 1));
   }
   .handle {
-    @apply h-5 w-5;
+    block-size: calc(1.25rem * var(--calcite-size-factor, 1));
+    inline-size: calc(1.25rem * var(--calcite-size-factor, 1));
   }
 }
 
@@ -95,8 +102,8 @@
     block
     transition-all
     ease-in-out;
-  inset-block-start: var(--calcite-spacing-base);
-  inset-inline: var(--calcite-spacing-base) auto;
+  inset-block-start: calc(var(--calcite-spacing-base) * var(--calcite-size-factor, 1));
+  inset-inline: calc(var(--calcite-spacing-base) * var(--calcite-size-factor, 1)) auto;
   background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-switch-handle-border-color);
   border-radius: var(--calcite-switch-corner-radius, 9999px);
@@ -108,7 +115,7 @@
     background-color: var(--calcite-switch-background-color, var(--calcite-color-brand));
   }
   .handle {
-    inset-inline: auto var(--calcite-spacing-base);
+    inset-inline: auto calc(var(--calcite-spacing-base) * var(--calcite-size-factor, 1));
   }
 
   &:host(:hover:not([disabled])) {

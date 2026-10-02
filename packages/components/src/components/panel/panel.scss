@@ -50,9 +50,12 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
 @include includes.disabled();
 
+// POC: scale-derived sizing multiplied by cascading --calcite-size-factor.
 :host([scale="s"]) {
-  --calcite-internal-panel-default-space: var(--calcite-spacing-sm);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-panel-default-space: calc(var(--calcite-spacing-sm) * var(--calcite-size-factor, 1));
+  --calcite-internal-panel-header-vertical-padding: calc(
+    var(--calcite-spacing-sm-plus) * var(--calcite-size-factor, 1)
+  );
 
   .header-content {
     .heading {
@@ -70,8 +73,10 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 :host([scale="m"]) {
-  --calcite-internal-panel-default-space: var(--calcite-spacing-md);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-md-plus);
+  --calcite-internal-panel-default-space: calc(var(--calcite-spacing-md) * var(--calcite-size-factor, 1));
+  --calcite-internal-panel-header-vertical-padding: calc(
+    var(--calcite-spacing-md-plus) * var(--calcite-size-factor, 1)
+  );
 
   .header-content {
     .heading {
@@ -89,13 +94,13 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-panel-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-panel-action-spacing: calc(var(--calcite-spacing-xxs) * var(--calcite-size-factor, 1));
 }
 
 :host([scale="l"]) {
-  --calcite-internal-panel-action-spacing: var(--calcite-spacing-xs);
-  --calcite-internal-panel-default-space: var(--calcite-spacing-lg);
-  --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xl);
+  --calcite-internal-panel-action-spacing: calc(var(--calcite-spacing-xs) * var(--calcite-size-factor, 1));
+  --calcite-internal-panel-default-space: calc(var(--calcite-spacing-lg) * var(--calcite-size-factor, 1));
+  --calcite-internal-panel-header-vertical-padding: calc(var(--calcite-spacing-xl) * var(--calcite-size-factor, 1));
 
   .header-content {
     .heading {

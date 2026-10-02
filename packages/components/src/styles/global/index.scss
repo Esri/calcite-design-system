@@ -9,6 +9,11 @@
   @extend %type-vars;
   @include floating-ui.floating-ui-base();
   @include animation.animation-base();
+
+  // POC: cascading component size factor (see packages/components/index.html).
+  // Inherits through DOM + shadow roots; default 1 keeps the current scale="m" baseline.
+  --calcite-size-factor: 1;
+
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-offset-invert-focus: 0; // should be 0 or 1

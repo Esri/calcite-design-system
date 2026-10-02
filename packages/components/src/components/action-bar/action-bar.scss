@@ -22,17 +22,24 @@
 
 @use "../../styles/includes";
 
+// POC: scale-derived sizing multiplied by cascading --calcite-size-factor.
 :host([scale="s"]) {
-  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-action-bar-gap: calc(
+    var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs)) * var(--calcite-size-factor, 1)
+  );
+  --calcite-internal-action-bar-padding: calc(var(--calcite-spacing-xxs) * var(--calcite-size-factor, 1));
 }
 :host([scale="m"]) {
-  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm);
+  --calcite-internal-action-bar-gap: calc(
+    var(--calcite-action-bar-items-space, var(--calcite-spacing-sm)) * var(--calcite-size-factor, 1)
+  );
+  --calcite-internal-action-bar-padding: calc(var(--calcite-spacing-sm) * var(--calcite-size-factor, 1));
 }
 :host([scale="l"]) {
-  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-action-bar-gap: calc(
+    var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus)) * var(--calcite-size-factor, 1)
+  );
+  --calcite-internal-action-bar-padding: calc(var(--calcite-spacing-sm-plus) * var(--calcite-size-factor, 1));
 }
 
 :host {
