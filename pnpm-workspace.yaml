@@ -17,7 +17,7 @@ catalog:
   "@eslint/js": "9.39.5"
   "@floating-ui/dom": "1.8.0"
   "@floating-ui/utils": "0.2.12"
-  "@inquirer/checkbox": "5.2.1"
+  "@inquirer/checkbox": "5.2.5"
   "@inquirer/prompts": "8.4.2"
   "@inquirer/select": "5.2.1"
   "@interactjs/types": "1.10.27"
