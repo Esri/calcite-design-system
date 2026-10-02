@@ -19,9 +19,9 @@
  * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the component's placeholder.
  * @prop --calcite-input-number-text-color: Specifies the component's text color.
  * @prop --calcite-input-number-text-color-focus: Specifies the component's text color when focused.
- * @prop --calcite-input-prefix-size: When `prefixText` is provided, specifies the width of the component's prefix element.
+ * @prop --calcite-input-prefix-size: [Deprecated] in v5.2.0, removal target v7.0.0 - the component now automatically calculates affix width. When `prefixText` is provided, specifies the width of the component's prefix element.
  * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
- * @prop --calcite-input-suffix-size: When `suffixText` is provided, specifies the width of the component's suffix element.
+ * @prop --calcite-input-suffix-size: [Deprecated] in v5.2.0, removal target v7.0.0 - the component now automatically calculates affix width. When `suffixText` is provided, specifies the width of the component's suffix element.
  * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the text color of the component's suffix element.
 
  * @prop --calcite-input-number-inline-edit-background-color-hover: When `inline-edit` is enabled, specifies the background color of the component, its inline edit elements and slotted `calcite-action` wrappers, when hovered.

@@ -47,6 +47,7 @@ import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import type { UseAffixWidth } from "../../controllers/useAffixWidth";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -115,6 +116,11 @@ export class Autocomplete
   transitionProp = "opacity" as const;
 
   referenceEl?: Input["el"];
+
+  /** @private */
+  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth | undefined {
+    return this.referenceEl?.affixElementProvider;
+  }
 
   transitionRef = createRef<HTMLDivElement>();
 
@@ -394,6 +400,9 @@ export class Autocomplete
 
   /** Fires each time a new `inputValue` is typed. */
   calciteAutocompleteTextInput = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalInputAffixChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -757,6 +766,11 @@ export class Autocomplete
     this.calciteAutocompleteTextInput.emit();
   }
 
+  private inputAffixChangeHandler(event: Event): void {
+    event.stopPropagation();
+    this.calciteInternalInputAffixChange.emit();
+  }
+
   private setFloatingEl(el: HTMLDivElement | undefined): void {
     this.floatingEl = el;
     connectFloatingUI(this);
@@ -812,6 +826,7 @@ export class Autocomplete
             name={this.name}
             oncalciteInputChange={this.changeHandler}
             oncalciteInputInput={this.inputHandler}
+            oncalciteInternalInputAffixChange={this.inputAffixChangeHandler}
             oncalciteInternalInputFocus={this.handleInputFocus}
             onClick={this.inputClickHandler}
             onKeyDown={this.keyDownHandler}

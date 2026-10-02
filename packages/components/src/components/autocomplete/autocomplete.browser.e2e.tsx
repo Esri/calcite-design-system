@@ -685,4 +685,22 @@ describe("theme", () => {
       targetProp: "--calcite-input-suffix-text-color",
     },
   });
+
+  it("respects deprecated prefix/suffix size CSS custom properties set before the affix first renders", async () => {
+    await mount<Autocomplete>(
+      <calcite-autocomplete
+        prefix-text="prefix"
+        style={{
+          "--calcite-autocomplete-input-prefix-size": "42px",
+          "--calcite-autocomplete-input-suffix-size": "42px",
+        }}
+        suffix-text="suffix"
+      />,
+    );
+    const prefix = page.getBySelector(`calcite-autocomplete .${CSS.input} .prefix`);
+    const suffix = page.getBySelector(`calcite-autocomplete .${CSS.input} .suffix`);
+
+    await expect.element(prefix).toHaveProperty("style.width", "42px");
+    await expect.element(suffix).toHaveProperty("style.width", "42px");
+  });
 });

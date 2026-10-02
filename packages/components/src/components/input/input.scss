@@ -3,8 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-prefix-size: When `prefixText` is provided, specifies the width of the component's prefix element.
- * @prop --calcite-input-suffix-size: When `suffixText` is provided, specifies the width of the component's suffix element.
+ * @prop --calcite-input-prefix-size: [Deprecated] in v5.2.0, removal target v7.0.0 - the component now automatically calculates affix width. When `prefixText` is provided, specifies the width of the component's prefix element.
+ * @prop --calcite-input-suffix-size: [Deprecated] in v5.2.0, removal target v7.0.0 - the component now automatically calculates affix width. When `suffixText` is provided, specifies the width of the component's suffix element.
  * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
  * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the text color of the component's suffix element.
  *
