@@ -1,5 +1,5 @@
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-user.scss";
@@ -21,7 +21,7 @@ export class NavigationUser extends LitElement {
 
   // #region Private Properties
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   // #endregion
 

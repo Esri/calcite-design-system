@@ -21,7 +21,7 @@ import { isTooltip } from "../tooltip/resources";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
 import { type ActionMenu } from "../action-menu/action-menu";
@@ -71,7 +71,7 @@ export class ActionPad extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 

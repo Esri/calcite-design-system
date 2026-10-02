@@ -24,7 +24,7 @@ import { isActionGroup } from "../action-group/resources";
 import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
@@ -130,7 +130,7 @@ export class ActionMenu extends LitElement {
     action.activeDescendant = index === activeMenuItemIndex;
   };
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private mouseDownHandler = (event: MouseEvent): void => {
     if (!event.composedPath().some(isAction)) {

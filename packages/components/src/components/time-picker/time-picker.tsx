@@ -10,7 +10,7 @@ import { getIconScale } from "../../utils/component";
 import { componentFocusable } from "../../utils/component";
 import { decimalPlaces } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -56,7 +56,7 @@ export class TimePicker extends LitElement implements TimeComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 

@@ -1,6 +1,6 @@
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { styles } from "./focus-trap.scss";
 
 declare global {
@@ -21,7 +21,7 @@ export class FocusTrap extends LitElement {
 
   private _active = false;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private focusTrapController = useFocusTrap<this>({
     focusTrapOptions: {

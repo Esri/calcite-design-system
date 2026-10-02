@@ -6,7 +6,7 @@ import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale } from "../types";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
@@ -41,7 +41,7 @@ export class Switch extends LitElement implements LabelableComponent {
 
   private switchRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

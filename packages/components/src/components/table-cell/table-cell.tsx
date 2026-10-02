@@ -6,7 +6,7 @@ import { Alignment, Scale } from "../types";
 import { RowType, TableInteractionMode } from "../table/types";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -40,7 +40,7 @@ export class TableCell extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

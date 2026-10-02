@@ -24,7 +24,7 @@ import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
 import {
@@ -96,7 +96,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.open && !this.referenceEl,

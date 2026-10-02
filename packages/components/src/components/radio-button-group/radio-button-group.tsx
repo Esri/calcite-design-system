@@ -17,7 +17,7 @@ import { Validation } from "../functional/Validation";
 import { useT9n } from "../../controllers/useT9n";
 import { IconName } from "../icon/types";
 import type { RadioButton } from "../radio-button/radio-button";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
@@ -51,7 +51,7 @@ export class RadioButtonGroup extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private _disabled = false;
 
