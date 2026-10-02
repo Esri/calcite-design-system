@@ -410,6 +410,40 @@ describe("overflowing actions", () => {
     expect(authoredCount()).toBe(2);
   });
 
+  it("only recalculates overflow when its overflow axis changes", async () => {
+    const { component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal">
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="gear" text="Settings" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+    const actionBar = component as unknown as {
+      resizeHandler: (entry: ResizeObserverEntry) => void;
+      runOverflowActions: (...args: unknown[]) => void;
+    };
+    const runOverflowActions = vi.spyOn(actionBar, "runOverflowActions");
+    const createResizeEntry = (width: number, height: number): ResizeObserverEntry =>
+      ({ contentRect: { width, height } }) as ResizeObserverEntry;
+
+    vi.clearAllTimers();
+
+    actionBar.resizeHandler(createResizeEntry(320, 48));
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    actionBar.resizeHandler(createResizeEntry(320, 96));
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    expect(runOverflowActions).toHaveBeenCalledTimes(1);
+
+    actionBar.resizeHandler(createResizeEntry(240, 96));
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    expect(runOverflowActions).toHaveBeenCalledTimes(2);
+  });
+
   it("overflows when an actions-end group adds trailing divider and wrapper gaps", async () => {
     await mount<ActionBar>(
       <calcite-action-bar expanded style={{ height: "515px" }}>

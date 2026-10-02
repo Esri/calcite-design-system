@@ -436,19 +436,26 @@ export class ShellPanel extends LitElement {
   private getAvailableSize(axis: "inline" | "block"): number | null {
     const dimension = axis === "inline" ? "width" : "height";
     const shellSizingData = this.shellSizingDataProvider?.(axis);
-    const actionBarContainerSize =
-      this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0;
-    const actionBarSize = Math.max(
-      actionBarContainerSize,
-      this.actionBars.reduce(
-        (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
-        0,
-      ),
-    );
 
     if (!shellSizingData) {
       return null;
     }
+
+    const container = this.containerRef.value;
+    const stackAxis =
+      container && window.getComputedStyle(container).flexDirection.startsWith("column")
+        ? "block"
+        : "inline";
+    const actionBarSize =
+      stackAxis === axis
+        ? Math.max(
+            this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0,
+            this.actionBars.reduce(
+              (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
+              0,
+            ),
+          )
+        : 0;
 
     const { availableSize } = shellSizingData;
     const containerSpacingSize = this.getContainerSpacingSize(axis);
@@ -614,6 +621,13 @@ export class ShellPanel extends LitElement {
     if (!actionBar) {
       return;
     }
+
+    actionBar.position =
+      this.layout === "vertical"
+        ? this.position
+        : this.actionBarPosition === "end"
+          ? "end"
+          : "start";
 
     if (this.actionBarPosition) {
       actionBar.layout =
