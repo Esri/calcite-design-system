@@ -238,7 +238,7 @@ export class DatePicker extends LitElement {
     }
 
     if (
-      (changes.has("range") && this.range) ||
+      ((changes.has("range") || changes.has("calendars")) && this.range) ||
       changes.has("maxAsDate") ||
       changes.has("minAsDate")
     ) {
@@ -610,6 +610,8 @@ export class DatePicker extends LitElement {
 
   private setActiveStartAndEndDates(): void {
     if (this.range) {
+      const hasIdenticalRangeValue =
+        Array.isArray(this.valueAsDate) && sameDate(this.valueAsDate[0], this.valueAsDate[1]);
       const startDate = dateFromRange(
         Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
         this.minAsDate,
@@ -625,7 +627,11 @@ export class DatePicker extends LitElement {
       this.activeStartDate = this.getActiveDate(startDate, this.minAsDate, this.maxAsDate);
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
-      if (sameDate(this.activeStartDate, this.activeEndDate)) {
+      if (
+        this.calendars === 2 &&
+        !hasIdenticalRangeValue &&
+        sameDate(this.activeStartDate, this.activeEndDate)
+      ) {
         const previousMonthActiveDate = getFirstValidDateInMonth(
           this.activeEndDate ? prevMonth(this.activeEndDate) : undefined,
           this.minAsDate,

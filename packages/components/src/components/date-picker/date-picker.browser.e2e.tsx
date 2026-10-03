@@ -229,6 +229,51 @@ describe("value", () => {
     await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "November");
   });
 
+  it.each([
+    { calendars: 1 as const, expectedMonths: ["October"] },
+    { calendars: 2 as const, expectedMonths: ["October", "November"] },
+  ])(
+    "keeps $calendars calendar(s) on the range month when an identical range is reassigned",
+    async ({ calendars, expectedMonths }) => {
+      const { el, component } = await mount<DatePicker>(
+        <calcite-date-picker calendars={calendars} range />,
+      );
+      const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+
+      el.activeDate = new Date(2025, 9, 5);
+      el.valueAsDate = [new Date(2025, 9, 5), new Date(2025, 9, 7)];
+      await waitForCalendarUpdate(el, component);
+
+      el.activeDate = undefined;
+      el.valueAsDate = [new Date(2025, 9, 7), new Date(2025, 9, 7)];
+      await waitForCalendarUpdate(el, component);
+
+      el.valueAsDate = [new Date(2025, 9, 7), new Date(2025, 9, 7)];
+      await waitForCalendarUpdate(el, component);
+
+      expect(monthSelectMenus.elements()).toHaveLength(expectedMonths.length);
+      for (const [index, expectedMonth] of expectedMonths.entries()) {
+        await expect.element(monthSelectMenus.nth(index)).toHaveProperty("value", expectedMonth);
+      }
+    },
+  );
+
+  it.each([
+    { expectedMonths: ["November", "December"], max: "2023-12-18" },
+    { expectedMonths: ["July", "August"], max: "2016-08-09" },
+  ])(
+    "displays the previous and maximum months for an empty range with max $max",
+    async ({ expectedMonths, max }) => {
+      const { el, component } = await mount<DatePicker>(<calcite-date-picker max={max} range />);
+      const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+      await waitForCalendarUpdate(el, component);
+
+      for (const [index, expectedMonth] of expectedMonths.entries()) {
+        await expect.element(monthSelectMenus.nth(index)).toHaveProperty("value", expectedMonth);
+      }
+    },
+  );
+
   async function waitForCalendarUpdate(el: DatePicker["el"], component: DatePicker): Promise<void> {
     await component.updateComplete;
     await (getMonth(el) as DatePickerMonth | null)?.updateComplete;
