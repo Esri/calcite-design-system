@@ -44,6 +44,7 @@
 
 :host {
   display: inline-block;
+  min-inline-size: min-content;
 }
 
 @include shared.disabled();
