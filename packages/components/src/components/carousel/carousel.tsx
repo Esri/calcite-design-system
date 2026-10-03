@@ -745,6 +745,16 @@ export class Carousel extends LitElement {
       </section>
     );
 
+    const content = [itemContainer, paginationArea];
+
+    if (paginationPosition === "top") {
+      content.reverse();
+    }
+
+    if (this.arrowType === "edge" && this.hasMultiple) {
+      content.push(this.renderArrow("previous"), this.renderArrow("next"));
+    }
+
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div
@@ -765,10 +775,7 @@ export class Carousel extends LitElement {
           role="group"
           tabIndex={0}
         >
-          {paginationPosition === "top" ? paginationArea : itemContainer}
-          {paginationPosition === "top" ? itemContainer : paginationArea}
-          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("previous")}
-          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("next")}
+          {content}
         </div>
       </this.interactiveContainer>
     );
