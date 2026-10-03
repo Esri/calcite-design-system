@@ -93,7 +93,9 @@ export class ListItemGroup extends LitElement {
       <this.interactiveContainer disabled={disabled}>
         <div class={CSS.container} role="row">
           <div
-            ariaColSpan={listItemResources.MAX_COLUMNS > 0 ? listItemResources.MAX_COLUMNS : undefined}
+            ariaColSpan={
+              listItemResources.MAX_COLUMNS > 0 ? listItemResources.MAX_COLUMNS : undefined
+            }
             class={CSS.heading}
             role="cell"
           >
