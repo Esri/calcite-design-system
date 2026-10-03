@@ -13,14 +13,14 @@ catalogs:
       specifier: 9.1.1
       version: 9.1.1
     '@arcgis/api-extractor':
-      specifier: 5.2.0-next.118
-      version: 5.2.0-next.118
+      specifier: 5.2.0-next.126
+      version: 5.2.0-next.126
     '@arcgis/eslint-config':
-      specifier: 5.2.0-next.118
-      version: 5.2.0-next.118
+      specifier: 5.2.0-next.126
+      version: 5.2.0-next.126
     '@arcgis/lumina-compiler':
-      specifier: 5.2.0-next.118
-      version: 5.2.0-next.118
+      specifier: 5.2.0-next.126
+      version: 5.2.0-next.126
     '@cloudfour/simple-svg-placeholder':
       specifier: 1.2.0
       version: 1.2.0
@@ -597,13 +597,13 @@ importers:
     devDependencies:
       '@arcgis/api-extractor':
         specifier: 'catalog:'
-        version: 5.2.0-next.118(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)
+        version: 5.2.0-next.126(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)
       '@arcgis/eslint-config':
         specifier: 'catalog:'
-        version: 5.2.0-next.118(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
+        version: 5.2.0-next.126(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
       '@arcgis/lumina-compiler':
         specifier: 'catalog:'
-        version: 5.2.0-next.118(@arcgis/lumina@5.2.0-next.118(lit@3.3.3))(jiti@1.21.7)(lit@3.3.3)(puppeteer@23.4.1(supports-color@10.2.2)(typescript@6.0.3))(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(vitest@4.1.11)(yaml@2.9.1)
+        version: 5.2.0-next.126(@arcgis/lumina@5.2.0-next.118(lit@3.3.3))(jiti@1.21.7)(lit@3.3.3)(puppeteer@23.4.1(supports-color@10.2.2)(typescript@6.0.3))(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(vitest@4.1.11)(yaml@2.9.1)
       '@cloudfour/simple-svg-placeholder':
         specifier: 'catalog:'
         version: 1.2.0
@@ -1298,8 +1298,8 @@ packages:
   '@altano/repository-tools@2.0.3':
     resolution: {integrity: sha512-cSR/ZYDF6Wp9OeAJMyLYYN1GenAAhV17W+w38ELP+3c5Ltsy9jkkCymi33nz/qnXyef3n6Fbr1h2yt3dvUN5sQ==}
 
-  '@arcgis/api-extractor@5.2.0-next.118':
-    resolution: {integrity: sha512-RUXYaks6subI8Jdolfp79mZKoe8s2mEPNHJEWbW6SXAhtxGHR67QNizBQ5g1/ze9apbRYU2u6RbyXCpBCAgiAw==}
+  '@arcgis/api-extractor@5.2.0-next.126':
+    resolution: {integrity: sha512-TxjttCdvwCqr6HEcvRCf7blWCcPY4Oe5EUPrl5lgQTJFMvo3OcaXvqXukG1uo8ICbmmAW+G0Z1fGD+rnsImDlg==}
     deprecated: This version is no longer supported. Upgrade to @latest
     hasBin: true
     peerDependencies:
@@ -1309,18 +1309,18 @@ packages:
       vite:
         optional: true
 
-  '@arcgis/eslint-config@5.2.0-next.118':
-    resolution: {integrity: sha512-7RXzjmMwd98gxNbQsNlNd3ECtPt8eHTaJnO3pRv0FZPoGKDzi+B6EpImGjQAD2E2bBxexNMZ6UUylZdGH/4t4w==}
+  '@arcgis/eslint-config@5.2.0-next.126':
+    resolution: {integrity: sha512-NVudYJgLrkz4awZrHkg9IeBiMuW/85dfZVtTVEnTXR+yOYckQNKZK/guzGf+zqVvCWLpGLOJkcEzc4mI3YOHAA==}
     deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       eslint: ^10.6.0
 
-  '@arcgis/lumina-compiler@5.2.0-next.118':
-    resolution: {integrity: sha512-AxWnqfsz39/VSOB2e77PIrct9wE00Taap/Af91uBYWBKRvYrIpmhTfFEMIcgu8+MvlEgZw149Cb3g2fvuobc3Q==}
+  '@arcgis/lumina-compiler@5.2.0-next.126':
+    resolution: {integrity: sha512-2eaaZ1UN5eKd9nQ859+tiOUh0F4xAjJTZQhzTUXtsmse6AU9IOUqeGQbtmUT5NfuIIwv7mlfflu7eGEr0I8CNA==}
     engines: {node: '>=24.11.0'}
     deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
-      '@arcgis/lumina': ~5.2.0-next.118
+      '@arcgis/lumina': ~5.2.0-next.126
       lit: ^3.3.0
       puppeteer: ^24.30.0
       typescript: ~6.0.3
@@ -1342,12 +1342,20 @@ packages:
       '@lit/context':
         optional: true
 
-  '@arcgis/node-toolkit@5.2.0-next.118':
-    resolution: {integrity: sha512-i4JQbbJpFjtc7VJiL0SBwDNrJmH/MM/Jgs2nUvxM50eh0yDk9JYJW7lDjjiKE3VUEnVaQTaHqh9t76WPW0nuTg==}
+  '@arcgis/node-toolkit@5.2.0-next.126':
+    resolution: {integrity: sha512-SXzMTV8gcLnwfdVrjz8/SBtas81sgwzVzkwZ989zO5C7UJPl56Y/mMGF+IJ2LhhF+PymwGJdvQi0peHZlO467A==}
     deprecated: This version is no longer supported. Upgrade to @latest
 
   '@arcgis/toolkit@5.2.0-next.118':
     resolution: {integrity: sha512-1SFRPBU53uNZrYzwn8pXf6bLy9AbGzypc3SfPDInY5BsNa/fPtG9PH4aTuYv2hdDaBw1rRTkeEYnVn009gYAyA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
+
+  '@arcgis/toolkit@5.2.0-next.126':
+    resolution: {integrity: sha512-ZGsqFLziVfJSRUdJJ0OhrXls2KutxOgSfq6SDuocJBYcaUhCxIH7RdNwR+Dj2k6jAZt8ypt5+ytXEPMIJtDxIA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
+
+  '@arcgis/toolkit@5.2.0-next.129':
+    resolution: {integrity: sha512-7V3PQreSADVY66XEb+crrTSbZ1tyA06skDPTdMMIK36ZNybr4YcaGVge6qmvL7HynW/x73aKYpdycAXhb3W7Mw==}
     deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
@@ -2185,15 +2193,6 @@ packages:
   '@eslint/core@1.2.1':
     resolution: {integrity: sha512-MwcE1P+AZ4C6DWlpin/OmOA54mmIZ/+xZuJiQd4SyB29oAJjN30UW9wkKNptW2ctp4cEsvhlLY/CsQ1uoHDloQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
-
-  '@eslint/js@10.0.1':
-    resolution: {integrity: sha512-zeR9k5pd4gxjZ0abRoIaxdc7I3nDktoXZk2qOv9gCNWx3mVwEn32VRhyLaRsDiJjTs0xq/T8mfPtyuXu7GWBcA==}
-    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
-    peerDependencies:
-      eslint: ^10.0.0
-    peerDependenciesMeta:
-      eslint:
-        optional: true
 
   '@eslint/js@9.39.5':
     resolution: {integrity: sha512-QywQuszQh77pIXCsq998c8hbhSTI/azTty1Z6N53dmAudKHhy573j3yvRLsX2BSp8YpLtoCEG8E9DJe+8zUh4A==}
@@ -9783,10 +9782,10 @@ snapshots:
 
   '@altano/repository-tools@2.0.3': {}
 
-  '@arcgis/api-extractor@5.2.0-next.118(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)':
+  '@arcgis/api-extractor@5.2.0-next.126(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)':
     dependencies:
-      '@arcgis/node-toolkit': 5.2.0-next.118(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(yaml@2.9.1)
-      '@arcgis/toolkit': 5.2.0-next.118
+      '@arcgis/node-toolkit': 5.2.0-next.126(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(yaml@2.9.1)
+      '@arcgis/toolkit': 5.2.0-next.126
       '@commander-js/extra-typings': 15.0.0(commander@15.0.0)
       commander: 15.0.0
       tslib: 2.8.1
@@ -9807,10 +9806,9 @@ snapshots:
       - tsx
       - yaml
 
-  '@arcgis/eslint-config@5.2.0-next.118(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)':
+  '@arcgis/eslint-config@5.2.0-next.126(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
-      '@arcgis/toolkit': 5.2.0-next.118
-      '@eslint/js': 10.0.1(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))
+      '@arcgis/toolkit': 5.2.0-next.126
       '@eslint/markdown': 8.0.3(supports-color@10.2.2)
       '@types/confusing-browser-globals': 1.0.3
       '@typescript-eslint/utils': 8.70.1(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
@@ -9837,12 +9835,12 @@ snapshots:
       - eslint-plugin-import
       - supports-color
 
-  '@arcgis/lumina-compiler@5.2.0-next.118(@arcgis/lumina@5.2.0-next.118(lit@3.3.3))(jiti@1.21.7)(lit@3.3.3)(puppeteer@23.4.1(supports-color@10.2.2)(typescript@6.0.3))(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(vitest@4.1.11)(yaml@2.9.1)':
+  '@arcgis/lumina-compiler@5.2.0-next.126(@arcgis/lumina@5.2.0-next.118(lit@3.3.3))(jiti@1.21.7)(lit@3.3.3)(puppeteer@23.4.1(supports-color@10.2.2)(typescript@6.0.3))(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(vitest@4.1.11)(yaml@2.9.1)':
     dependencies:
-      '@arcgis/api-extractor': 5.2.0-next.118(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)
+      '@arcgis/api-extractor': 5.2.0-next.126(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)
       '@arcgis/lumina': 5.2.0-next.118(lit@3.3.3)
-      '@arcgis/node-toolkit': 5.2.0-next.118(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(yaml@2.9.1)
-      '@arcgis/toolkit': 5.2.0-next.118
+      '@arcgis/node-toolkit': 5.2.0-next.126(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(yaml@2.9.1)
+      '@arcgis/toolkit': 5.2.0-next.129
       esbuild: 0.28.1
       js-beautify: 1.15.4
       lit: 3.3.3
@@ -9870,12 +9868,12 @@ snapshots:
 
   '@arcgis/lumina@5.2.0-next.118(lit@3.3.3)':
     dependencies:
-      '@arcgis/toolkit': 5.2.0-next.118
+      '@arcgis/toolkit': 5.2.0-next.129
       csstype: 3.2.3
       lit: 3.3.3
       tslib: 2.8.1
 
-  '@arcgis/node-toolkit@5.2.0-next.118(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(yaml@2.9.1)':
+  '@arcgis/node-toolkit@5.2.0-next.126(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(yaml@2.9.1)':
     dependencies:
       '@pnpm/workspace.read-manifest': 1000.3.1
       '@types/node': 24.11.2
@@ -9899,6 +9897,14 @@ snapshots:
       - yaml
 
   '@arcgis/toolkit@5.2.0-next.118':
+    dependencies:
+      tslib: 2.8.1
+
+  '@arcgis/toolkit@5.2.0-next.126':
+    dependencies:
+      tslib: 2.8.1
+
+  '@arcgis/toolkit@5.2.0-next.129':
     dependencies:
       tslib: 2.8.1
 
@@ -10640,10 +10646,6 @@ snapshots:
   '@eslint/core@1.2.1':
     dependencies:
       '@types/json-schema': 7.0.15
-
-  '@eslint/js@10.0.1(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))':
-    optionalDependencies:
-      eslint: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
 
   '@eslint/js@9.39.5': {}
 
