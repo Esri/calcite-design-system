@@ -385,11 +385,6 @@ export class Carousel extends LitElement {
 
   private handleSlotChange(event: Event): void {
     const items = slotChangeGetAssignedElements<CarouselItem["el"]>(event);
-
-    if (items.length < 1) {
-      return;
-    }
-
     const activeItemIndex = items.findIndex((item) => item.selected);
     const requestedSelectedIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
@@ -613,25 +608,31 @@ export class Carousel extends LitElement {
     );
   }
 
-  private renderPaginationArea(): JsxNode {
+  private renderControlsArea(): JsxNode {
+    const showRotationControl =
+      (this.playing ||
+        this.autoplay === "" ||
+        this.autoplay === true ||
+        this.autoplay === "paused") &&
+      this.hasMultiple;
+    const showInlineArrows = this.arrowType === "inline" && this.hasMultiple;
+
+    if (this.paginationDisabled && !showRotationControl && !showInlineArrows) {
+      return;
+    }
+
     return (
       <div
         class={{
-          [CSS.pagination]: true,
-          [CSS.containerOverlaid]: this.controlOverlay,
+          [CSS.controlsArea]: true,
         }}
-        onKeyDown={this.tabListKeyDownHandler}
-        ref={this.tabListRef}
       >
-        {(this.playing ||
-          this.autoplay === "" ||
-          this.autoplay === true ||
-          this.autoplay === "paused") &&
-          this.hasMultiple &&
-          this.renderRotationControl()}
-        {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("previous")}
-        {this.paginationDisabled ? this.renderPaginationAriaLive() : this.renderPaginationItems()}
-        {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("next")}
+        {showRotationControl && this.renderRotationControl()}
+        {showInlineArrows && this.renderArrow("previous")}
+        {!this.paginationDisabled && (
+          <div class={CSS.pagination}>{this.renderPaginationItems()}</div>
+        )}
+        {showInlineArrows && this.renderArrow("next")}
       </div>
     );
   }
@@ -639,7 +640,13 @@ export class Carousel extends LitElement {
   private renderPaginationItems(): JsxNode {
     const { selectedIndex, maxItems, items, label, handleItemSelection } = this;
     return (
-      <div ariaLabel={label} class={CSS.paginationItems} role="tablist">
+      <div
+        ariaLabel={label}
+        class={CSS.paginationItems}
+        onKeyDown={this.tabListKeyDownHandler}
+        ref={this.tabListRef}
+        role="tablist"
+      >
         {items.map((item, index) => {
           const itemCount = items.length;
           const match = index === selectedIndex;
@@ -729,8 +736,10 @@ export class Carousel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { itemDirection, paginationPosition } = this;
-    const paginationArea = this.renderPaginationArea();
+    const { itemDirection, items, paginationDisabled, paginationPosition } = this;
+    const controlsArea = items.length > 0 ? this.renderControlsArea() : undefined;
+    const paginationStatus =
+      paginationDisabled && items.length > 0 ? this.renderPaginationAriaLive() : undefined;
     const itemContainer = (
       <section
         class={{
@@ -744,6 +753,16 @@ export class Carousel extends LitElement {
         <slot onSlotChange={this.handleSlotChange} />
       </section>
     );
+
+    const content = [itemContainer, controlsArea, paginationStatus];
+
+    if (paginationPosition === "top") {
+      content.reverse();
+    }
+
+    if (this.arrowType === "edge" && this.hasMultiple) {
+      content.push(this.renderArrow("previous"), this.renderArrow("next"));
+    }
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
@@ -765,10 +784,7 @@ export class Carousel extends LitElement {
           role="group"
           tabIndex={0}
         >
-          {paginationPosition === "top" ? paginationArea : itemContainer}
-          {paginationPosition === "top" ? itemContainer : paginationArea}
-          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("previous")}
-          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("next")}
+          {content}
         </div>
       </this.interactiveContainer>
     );

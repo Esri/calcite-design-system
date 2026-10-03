@@ -162,7 +162,7 @@ calcite-carousel-item:not([selected]) {
   opacity: 0;
 }
 
-.pagination {
+.controls-area {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -171,13 +171,20 @@ calcite-carousel-item:not([selected]) {
   inline-size: auto;
 }
 
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .pagination-items {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.container--overlaid .pagination {
+.container--overlaid .controls-area {
   position: absolute;
 }
 
@@ -209,13 +216,13 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-.container--overlaid .pagination {
+.container--overlaid .controls-area {
   inset-block-start: unset;
   inset-block-end: 0;
   inset-inline: 0;
 }
 
-:host([pagination-position="top"]) .container--overlaid .pagination {
+:host([pagination-position="top"]) .container--overlaid .controls-area {
   inset-block-start: 0;
   inset-block-end: unset;
 }
