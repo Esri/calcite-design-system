@@ -1,6 +1,5 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import * as listItemResources from "../list-item/resources";
 import { Scale } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
@@ -92,13 +91,7 @@ export class ListItemGroup extends LitElement {
     return (
       <this.interactiveContainer disabled={disabled}>
         <div class={CSS.container} role="row">
-          <div
-            ariaColSpan={
-              listItemResources.MAX_COLUMNS > 0 ? listItemResources.MAX_COLUMNS : undefined
-            }
-            class={CSS.heading}
-            role="cell"
-          >
+          <div class={CSS.heading} role="cell">
             {heading}
           </div>
         </div>
