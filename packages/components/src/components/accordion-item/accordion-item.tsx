@@ -162,7 +162,7 @@ export class AccordionItem extends LitElement {
 
   load(): void {
     this.listenOn<CustomEvent>(
-      document.body,
+      document,
       "calciteInternalAccordionChange",
       this.updateActiveItemOnChange,
     );
