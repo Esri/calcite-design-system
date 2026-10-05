@@ -20,14 +20,14 @@
  * @prop --calcite-filter-input-actions-icon-color-press: Specifies the icon color of the component's input `clearable` element when pressed.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @extend %component-host;
   @apply flex w-full;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .container {
   @apply flex w-full;
@@ -74,4 +74,4 @@ calcite-input {
   --calcite-input-actions-icon-color-press: var(--calcite-filter-input-actions-icon-color-press);
 }
 
-@include includes.base-component();
+@include shared.base-component();

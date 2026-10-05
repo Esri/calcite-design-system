@@ -33,7 +33,7 @@
  * @prop --calcite-flow-header-action-text-color: Specifies the text color of any `calcite-action`s in the component's header.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @extend %component-host;
@@ -44,7 +44,7 @@
   @apply flex;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 calcite-panel {
   --calcite-panel-background-color: var(--calcite-flow-background-color);
@@ -69,4 +69,4 @@ calcite-panel {
   --calcite-panel-content-bottom-space: var(--calcite-flow-content-bottom-space);
 }
 
-@include includes.base-component();
+@include shared.base-component();

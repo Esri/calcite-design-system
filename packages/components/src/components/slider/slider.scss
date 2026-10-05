@@ -16,7 +16,7 @@
  *
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 .scale--s {
   --calcite-slider-handle-size: theme("spacing[2.5]");
@@ -78,7 +78,7 @@
   user-select: none;
 }
 
-@include includes.disabled() {
+@include shared.disabled() {
   .track__range,
   .tick--active {
     background-color: var(--calcite-color-text-3);
@@ -404,6 +404,6 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();

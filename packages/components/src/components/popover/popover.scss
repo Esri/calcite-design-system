@@ -16,8 +16,7 @@
 //
 // --calcite-internal-popover-close-spacing
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+@use "../../styles/shared";
 
 :host {
   @apply contents;
@@ -28,13 +27,13 @@
 }
 
 .position-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
   max-inline-size: var(--calcite-popover-max-size-x, 100vw);
 }
 
-@include floating-ui.floating-ui-elem-anim(".position-container");
+@include shared.floating-ui-elem-anim(".position-container");
 
-@include floating-ui.floating-ui-arrow();
+@include shared.floating-ui-arrow();
 
 :host([scale="s"]) {
   .heading {
@@ -147,4 +146,4 @@
   @apply h-full;
 }
 
-@include includes.base-component();
+@include shared.base-component();

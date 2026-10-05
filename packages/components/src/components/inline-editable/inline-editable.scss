@@ -16,7 +16,7 @@
 
 // Deprecated in v5.2.0, removal target v7.0.0
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block;
@@ -41,7 +41,7 @@
 }
 
 .wrapper {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply box-border
     flex
     justify-between;
@@ -119,6 +119,6 @@ calcite-action {
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
-@include includes.base-component();
+@include shared.base-component();

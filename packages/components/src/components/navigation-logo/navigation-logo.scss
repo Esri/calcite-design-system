@@ -21,7 +21,7 @@
 // --calcite-internal-navigation-logo-padding-inline
 // --calcite-internal-navigation-logo-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply inline-flex;
@@ -157,4 +157,4 @@
   line-height: var(--calcite-internal-navigation-logo-description-line-height);
 }
 
-@include includes.base-component();
+@include shared.base-component();

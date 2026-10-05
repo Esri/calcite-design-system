@@ -402,13 +402,16 @@ export class Autocomplete
   constructor() {
     super();
     useLabel(this);
-    this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
     this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);
     this.listen(
       "calciteInternalAutocompleteItemGroupItemsChange",
       this.handleAutocompleteItemGroupItemsChange,
     );
+  }
+
+  load(): void {
+    this.listenOn(document, "click", this.documentClickHandler);
   }
 
   override connectedCallback(): void {

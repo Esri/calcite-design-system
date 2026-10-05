@@ -11,7 +11,7 @@
  * @prop --calcite-handle-icon-color-selected: Specifies the component's icon color when selected.
  */
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex;
@@ -53,6 +53,6 @@
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
-@include includes.base-component();
+@include shared.base-component();

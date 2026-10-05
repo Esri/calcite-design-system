@@ -30,7 +30,7 @@
 // --calcite-internal-menu-item-padding-inline
 // --calcite-internal-menu-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   --calcite-internal-menu-item-breadcrumb-icon-margin-inline-start: 0;
@@ -494,4 +494,4 @@
   @apply opacity-100 -end-1;
 }
 
-@include includes.base-component();
+@include shared.base-component();

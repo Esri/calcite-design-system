@@ -18,9 +18,9 @@
 // --calcite-internal-navigation-secondary-height
 // --calcite-internal-navigation-tertiary-height
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
-@include includes.base-component();
+@include shared.base-component();
 
 :host {
   @apply block;

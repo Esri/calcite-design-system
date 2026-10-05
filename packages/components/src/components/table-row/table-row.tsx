@@ -166,14 +166,14 @@ export class TableRow extends LitElement {
 
   constructor() {
     super();
+  }
+
+  load(): void {
     this.listenOn<CustomEvent>(
       document,
       "calciteInternalTableRowFocusChange",
       this.calciteInternalTableRowFocusChangeHandler,
     );
-  }
-
-  load(): void {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 

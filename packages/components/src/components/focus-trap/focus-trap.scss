@@ -1,7 +1,7 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: contents;
 }
 
-@include includes.base-component();
+@include shared.base-component();
