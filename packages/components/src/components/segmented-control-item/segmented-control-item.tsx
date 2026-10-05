@@ -13,6 +13,9 @@ declare global {
   }
 }
 
+/**
+ * @parent calcite-segmented-control
+ */
 export class SegmentedControlItem extends LitElement {
   // #region Static Members
 

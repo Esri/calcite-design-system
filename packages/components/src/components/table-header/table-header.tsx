@@ -18,6 +18,9 @@ declare global {
   }
 }
 
+/**
+ * @parent calcite-table
+ */
 export class TableHeader extends LitElement {
   //#region Static Members
 
