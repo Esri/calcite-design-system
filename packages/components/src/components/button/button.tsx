@@ -20,7 +20,7 @@ import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -67,7 +67,7 @@ export class Button extends LitElement {
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   /**
    * Made into a prop for testing purposes only

@@ -27,7 +27,7 @@ import { BigDecimal } from "../../utils/number";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
@@ -207,7 +207,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private trackRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

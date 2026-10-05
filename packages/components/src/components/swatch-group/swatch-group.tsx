@@ -3,7 +3,7 @@ import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Scale, SelectionMode } from "../types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import type { Swatch } from "../swatch/swatch";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
@@ -29,7 +29,7 @@ export class SwatchGroup extends LitElement {
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

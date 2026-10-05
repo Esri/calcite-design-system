@@ -14,7 +14,7 @@ import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../types";
 import type { DatePicker } from "../date-picker/date-picker";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./date-picker-day.scss";
 import { CSS } from "./resources";
@@ -36,7 +36,7 @@ export class DatePickerDay extends LitElement {
 
   private parentDatePickerEl?: DatePicker["el"];
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

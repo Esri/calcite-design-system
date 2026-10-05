@@ -18,7 +18,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionMenu } from "../action-menu/action-menu";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { SelectionMode } from "../types";
 import { Columns } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -56,7 +56,7 @@ export class ActionGroup extends LitElement {
 
   private _actions: Action["el"][] = [];
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 

@@ -4,7 +4,7 @@ import { createRef } from "lit/directives/ref.js";
 import { getSlotAssignedElements, whenAnimationDone } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import type { FlowItem } from "../flow-item/flow-item";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { FlowDirection, FlowItemLikeElement } from "./types";
 import { CSS, SELECTORS } from "./resources";
 import { styles } from "./flow.scss";
@@ -39,7 +39,7 @@ export class Flow extends LitElement {
 
   private selectedIndex = -1;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   // #endregion
 

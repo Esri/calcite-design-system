@@ -7,7 +7,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../types";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -42,7 +42,7 @@ export class AccordionItem extends LitElement {
 
   private headerRef = createRef<HTMLButtonElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   /**
    * Made into a prop for testing purposes only

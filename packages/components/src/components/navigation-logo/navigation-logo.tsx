@@ -1,7 +1,7 @@
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
@@ -23,7 +23,7 @@ export class NavigationLogo extends LitElement {
 
   // #region Private Properties
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   // #endregion
 

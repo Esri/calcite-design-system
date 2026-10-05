@@ -22,7 +22,7 @@ import type { SegmentedControlItem } from "../segmented-control-item/segmented-c
 import { isSegmentedControlItem } from "../segmented-control-item/resources";
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS } from "./resources";
@@ -67,7 +67,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
