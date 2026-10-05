@@ -61,16 +61,16 @@ describe("focusable", () => {
     await mount(<calcite-date-picker value="2025-09-15" />);
 
     const grid = page.getByRole("grid");
-    const activeDay = page.getByRole("gridcell", { name: "Monday, September 15, 2025" });
-    const activeDayEl = activeDay.element() as DatePickerDay["el"];
-    const nextDay = page.getByRole("gridcell", { name: "Tuesday, September 16, 2025" });
+    const gridCells = page.getByRole("gridcell").elements() as DatePickerDay["el"][];
+    const activeDay = gridCells.find((day) => day.id === "20250915")!;
+    const nextDay = gridCells.find((day) => day.id === "20250916")!;
 
-    expect(grid.element().contains(activeDayEl)).toBe(true);
+    expect(grid.element().contains(activeDay)).toBe(true);
 
-    await activeDayEl.setFocus();
+    await activeDay.setFocus();
     await userEvent.keyboard("{ArrowRight}");
 
-    await expect.poll(() => nextDay.element().matches(":focus")).toBe(true);
+    expect((nextDay.getRootNode() as ShadowRoot).activeElement).toBe(nextDay);
   });
 });
 
