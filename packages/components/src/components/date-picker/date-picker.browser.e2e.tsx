@@ -15,6 +15,7 @@ import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { DatePicker } from "./date-picker";
 import { mockConsole } from "../../tests/utils/logging";
+import type { DatePickerDay } from "../date-picker-day/date-picker-day";
 import type { DatePickerMonth } from "../date-picker-month/date-picker-month";
 
 describe("defaults", () => {
@@ -54,6 +55,22 @@ describe("propagates", () => {
 describe("focusable", () => {
   focusable(() => mount("calcite-date-picker"), {
     shadowFocusTargetSelector: "calcite-date-picker-month",
+  });
+
+  it("moves focus between gridcells with arrow keys", async () => {
+    await mount(<calcite-date-picker value="2025-09-15" />);
+
+    const grid = page.getByRole("grid");
+    const activeDay = page.getByRole("gridcell", { name: "Monday, September 15, 2025" });
+    const activeDayEl = activeDay.element() as DatePickerDay["el"];
+    const nextDay = page.getByRole("gridcell", { name: "Tuesday, September 16, 2025" });
+
+    expect(grid.element().contains(activeDayEl)).toBe(true);
+
+    await activeDayEl.setFocus();
+    await userEvent.keyboard("{ArrowRight}");
+
+    await expect.poll(() => nextDay.element().matches(":focus")).toBe(true);
   });
 });
 
