@@ -62,6 +62,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     border-inline: $border-style;
     border-block-end: $border-style;
     max-inline-size: calc(100% - (var(--calcite-alert-offset-size, theme("spacing.8")) * 2));
+    min-inline-size: 0;
     transition:
       opacity var(--calcite-internal-animation-timing-slow) shared.$easing-function,
       all var(--calcite-animation-timing) ease-in-out;
@@ -267,10 +268,14 @@ $border-style: 1px solid var(--calcite-color-border-3);
 @include shared.slotted("message", "*") {
   @apply text-n1-wrap
     m-0
-    inline
     font-normal;
   margin-inline-end: theme("margin.2");
   color: var(--calcite-color-text-2);
+}
+
+// required for max-lines property to work as expected.
+slot[name="message"]::slotted(:not(calcite-text)) {
+  @apply inline;
 }
 
 @include shared.slotted("link", "*") {
