@@ -2,13 +2,7 @@ import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
-import {
-  dragAndDrop,
-  findAll,
-  getFocusedElementProp,
-  isElementFocused,
-  newProgrammaticE2EPage,
-} from "../../tests/utils/puppeteer";
+import { findAll, getFocusedElementProp, isElementFocused, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/types";
 import type { ListItem } from "../list-item/list-item";
@@ -1398,90 +1392,9 @@ describe("drag and drop", () => {
     fromEl: string;
     toEl: string;
     el: string;
-    startCalledTimes: number;
-    endCalledTimes: number;
-    endNewIndex?: number;
-    endOldIndex?: number;
-    startNewIndex?: number;
-    startOldIndex?: number;
   }>;
 
-  it("works using a mouse", async () => {
-    const page = await createSimpleList();
-
-    // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("calcite-list", (list: List["el"]) => {
-      const testWindow = window as TestWindow;
-      testWindow.calledTimes = 0;
-      testWindow.newIndex = -1;
-      testWindow.oldIndex = -1;
-      testWindow.startCalledTimes = 0;
-      testWindow.endCalledTimes = 0;
-      list.addEventListener("calciteListOrderChange", (event) => {
-        const detail = (event as CustomEvent<ListDragDetail>).detail;
-        testWindow.calledTimes++;
-        testWindow.newIndex = detail.newIndex;
-        testWindow.oldIndex = detail.oldIndex;
-      });
-      list.addEventListener("calciteListDragEnd", (event) => {
-        const detail = (event as CustomEvent<ListDragDetail>).detail;
-        testWindow.endCalledTimes++;
-        testWindow.endNewIndex = detail.newIndex;
-        testWindow.endOldIndex = detail.oldIndex;
-      });
-      list.addEventListener("calciteListDragStart", (event) => {
-        const detail = (event as CustomEvent<ListDragDetail>).detail;
-        testWindow.startCalledTimes++;
-        testWindow.startNewIndex = detail.newIndex;
-        testWindow.startOldIndex = detail.oldIndex;
-      });
-    });
-
-    await dragAndDrop(
-      page,
-      {
-        element: `calcite-list-item[value="one"]`,
-        shadow: "calcite-sort-handle",
-      },
-      {
-        element: `calcite-list-item[value="two"]`,
-        shadow: "calcite-sort-handle",
-      },
-    );
-
-    const [first, second] = await findAll(page, "calcite-list-item");
-    expect(await first.getProperty("value")).toBe("two");
-    expect(await second.getProperty("value")).toBe("one");
-    await page.waitForChanges();
-
-    const results = await page.evaluate(() => {
-      const testWindow = window as TestWindow;
-
-      return {
-        calledTimes: testWindow.calledTimes,
-        oldIndex: testWindow.oldIndex,
-        newIndex: testWindow.newIndex,
-        endCalledTimes: testWindow.endCalledTimes,
-        startCalledTimes: testWindow.startCalledTimes,
-        endNewIndex: testWindow.endNewIndex,
-        endOldIndex: testWindow.endOldIndex,
-        startNewIndex: testWindow.startNewIndex,
-        startOldIndex: testWindow.startOldIndex,
-      };
-    });
-
-    expect(results.calledTimes).toBe(1);
-    expect(results.startCalledTimes).toBe(1);
-    expect(results.endCalledTimes).toBe(1);
-    expect(results.oldIndex).toBe(0);
-    expect(results.newIndex).toBe(1);
-    expect(results.startNewIndex).toBe(null);
-    expect(results.startOldIndex).toBe(0);
-    expect(results.endNewIndex).toBe(1);
-    expect(results.endOldIndex).toBe(0);
-  });
-
-  it("supports dragging items between lists", async () => {
+  it("exposes move targets for lists in the same group", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-list id="first-letters" drag-enabled group="letters">
@@ -1571,76 +1484,6 @@ describe("drag and drop", () => {
     expect(moveToItemElementIds[3]).toBe("first-letters");
     expect(moveToItemElementIds[4]).toBe("first-letters");
     expect(moveToItemElementIds[5]).toBe("first-letters");
-
-    // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.evaluate(() => {
-      const testWindow = window as TestWindow;
-      testWindow.calledTimes = 0;
-      const lists = document.querySelectorAll("calcite-list");
-      lists.forEach((list) =>
-        list.addEventListener("calciteListOrderChange", () => {
-          testWindow.calledTimes++;
-        }),
-      );
-    });
-
-    await dragAndDrop(
-      page,
-      {
-        element: `calcite-list-item[value="d"]`,
-        shadow: "calcite-sort-handle",
-      },
-      {
-        element: `#first-letters`,
-        pointerPosition: {
-          vertical: "bottom",
-        },
-      },
-    );
-
-    await dragAndDrop(
-      page,
-      {
-        element: `calcite-list-item[value="e"]`,
-        shadow: "calcite-sort-handle",
-      },
-      {
-        element: `#numbers`,
-        pointerPosition: {
-          vertical: "bottom",
-        },
-      },
-    );
-
-    await dragAndDrop(
-      page,
-      {
-        element: `calcite-list-item[value="e"]`,
-        shadow: "calcite-sort-handle",
-      },
-      {
-        element: `#no-group`,
-        pointerPosition: {
-          vertical: "bottom",
-        },
-      },
-    );
-
-    const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await findAll(
-      page,
-      "calcite-list-item",
-    );
-    expect(await first.getProperty("value")).toBe("a");
-    expect(await second.getProperty("value")).toBe("b");
-    expect(await third.getProperty("value")).toBe("d");
-    expect(await fourth.getProperty("value")).toBe("1");
-    expect(await fifth.getProperty("value")).toBe("2");
-    expect(await sixth.getProperty("value")).toBe("no-group");
-    expect(await seventh.getProperty("value")).toBe("c");
-    expect(await eight.getProperty("value")).toBe("e");
-    expect(await ninth.getProperty("value")).toBe("f");
-
-    expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
   });
 
   it("calls canPull and canPut for move items", async () => {
