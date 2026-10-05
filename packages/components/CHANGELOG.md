@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.87](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.86...@esri/calcite-components@5.2.0-next.87) (2026-10-05)
+
+### Bug Fixes
+
+- **combobox:** warn only about `clearDisabled` in development builds ([#15242](https://github.com/Esri/calcite-design-system/issues/15242)), closes [#13036](https://github.com/Esri/calcite-design-system/issues/13036)
+
 ## [5.2.0-next.86](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.85...@esri/calcite-components@5.2.0-next.86) (2026-10-05)
 
 ### Bug Fixes
