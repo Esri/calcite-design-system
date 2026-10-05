@@ -386,3 +386,27 @@ export const withQueue = (): string => html`
     </script>
   </div>
 `;
+
+export const slottedTextComponent = (): string => html`
+  <calcite-alert icon="rangefinder" kind="brand" open label="A report alert" slot="alerts">
+    <calcite-text slot="title" truncate-position="end">
+      In_theloveliest_town_of_all_where_the_houses_were_white_and_high_and_the_elms_trees_were_green_and_higher_than_the_houses,_where_the_front_yards_were_wide_and_pleasant_and_the_back_yards_were_bushy_and_worth_finding_out_about,_where_the_streets_sloped_down_to_the_stream_and_the_stream_flowed_quietly_under_the_bridge,_where_the_lawns_ended_in_orchards_and_the_orchards_ended_in_fields_and_the_fields_ended_in_pastures_and_the_pastures_climbed_the_hill_and_disappeared_over_the_top_toward_the_wonderful_wide_sky,_in_this_loveliest_of_all_towns_Stuart_stopped_to_get_a_drink_of_sarsaparilla.
+    </calcite-text>
+    <calcite-text slot="message" truncate-position="middle">
+      In_theloveliest_town_of_all_where_the_houses_were_white_and_high_and_the_elms_trees_were_green_and_higher_than_the_houses,_where_the_front_yards_were_wide_and_pleasant_and_the_back_yards_were_bushy_and_worth_finding_out_about,_where_the_streets_sloped_down_to_the_stream_and_the_stream_flowed_quietly_under_the_bridge,_where_the_lawns_ended_in_orchards_and_the_orchards_ended_in_fields_and_the_fields_ended_in_pastures_and_the_pastures_climbed_the_hill_and_disappeared_over_the_top_toward_the_wonderful_wide_sky,_in_this_loveliest_of_all_towns_Stuart_stopped_to_get_a_drink_of_sarsaparilla.
+    </calcite-text>
+    <calcite-link slot="link">Take action</calcite-link>
+  </calcite-alert>
+`;
+
+export const slottedTextComponentWithMaxLines = (): string => html`
+  <calcite-alert icon="rangefinder" kind="brand" open label="A report alert" slot="alerts">
+    <calcite-text slot="title" max-lines="2">
+      In_theloveliest_town_of_all_where_the_houses_were_white_and_high_and_the_elms_trees_were_green_and_higher_than_the_houses,_where_the_front_yards_were_wide_and_pleasant_and_the_back_yards_were_bushy_and_worth_finding_out_about,_where_the_streets_sloped_down_to_the_stream_and_the_stream_flowed_quietly_under_the_bridge,_where_the_lawns_ended_in_orchards_and_the_orchards_ended_in_fields_and_the_fields_ended_in_pastures_and_the_pastures_climbed_the_hill_and_disappeared_over_the_top_toward_the_wonderful_wide_sky,_in_this_loveliest_of_all_towns_Stuart_stopped_to_get_a_drink_of_sarsaparilla.
+    </calcite-text>
+    <calcite-text slot="message" max-lines="3">
+      In_theloveliest_town_of_all_where_the_houses_were_white_and_high_and_the_elms_trees_were_green_and_higher_than_the_houses,_where_the_front_yards_were_wide_and_pleasant_and_the_back_yards_were_bushy_and_worth_finding_out_about,_where_the_streets_sloped_down_to_the_stream_and_the_stream_flowed_quietly_under_the_bridge,_where_the_lawns_ended_in_orchards_and_the_orchards_ended_in_fields_and_the_fields_ended_in_pastures_and_the_pastures_climbed_the_hill_and_disappeared_over_the_top_toward_the_wonderful_wide_sky,_in_this_loveliest_of_all_towns_Stuart_stopped_to_get_a_drink_of_sarsaparilla.
+    </calcite-text>
+    <calcite-link slot="link">Take action</calcite-link>
+  </calcite-alert>
+`;
