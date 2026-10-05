@@ -1898,9 +1898,12 @@ describe("selection mode warning", () => {
 
   afterEach(() => {
     vi.mocked(logger.warn).mockRestore();
+    vi.unstubAllEnvs();
   });
 
   it("warns in development builds when clear-disabled is combined with single-persist", async () => {
+    vi.stubEnv("DEV", true);
+
     await mount(
       <calcite-combobox clear-disabled label="Trees" selection-mode="single-persist">
         <calcite-combobox-item heading="Pine" value="Pine" />
@@ -1910,7 +1913,21 @@ describe("selection mode warning", () => {
     expect(logger.warn).toHaveBeenCalledWith(message);
   });
 
+  it("does not warn in production builds when clear-disabled is combined with single-persist", async () => {
+    vi.stubEnv("DEV", false);
+
+    await mount(
+      <calcite-combobox clear-disabled label="Trees" selection-mode="single-persist">
+        <calcite-combobox-item heading="Pine" value="Pine" />
+      </calcite-combobox>,
+    );
+
+    expect(logger.warn).not.toHaveBeenCalledWith(message);
+  });
+
   it("does not warn without clear-disabled", async () => {
+    vi.stubEnv("DEV", true);
+
     await mount(
       <calcite-combobox label="Trees" selection-mode="single-persist">
         <calcite-combobox-item heading="Pine" value="Pine" />
@@ -1919,6 +1936,21 @@ describe("selection mode warning", () => {
 
     expect(logger.warn).not.toHaveBeenCalledWith(message);
   });
+
+  it.each(["single", "multiple", "ancestors"] as const)(
+    "does not warn when clear-disabled is combined with %s",
+    async (selectionMode) => {
+      vi.stubEnv("DEV", true);
+
+      await mount(
+        <calcite-combobox clear-disabled label="Trees" selection-mode={selectionMode}>
+          <calcite-combobox-item heading="Pine" value="Pine" />
+        </calcite-combobox>,
+      );
+
+      expect(logger.warn).not.toHaveBeenCalledWith(message);
+    },
+  );
 });
 
 describe("theme", () => {
