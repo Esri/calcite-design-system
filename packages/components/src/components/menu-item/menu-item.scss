@@ -138,7 +138,7 @@
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-sm);
   --calcite-internal-menu-item-line-height: var(--calcite-space-lg);
-  --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-md);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
 }
@@ -175,6 +175,7 @@
 
 :host([breadcrumb][scale="s"]:not([layout="vertical"])) {
   .content {
+    padding-inline-start: var(--calcite-space-md);
     padding-inline-end: var(--calcite-space-sm);
   }
 }
