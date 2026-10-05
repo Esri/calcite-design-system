@@ -322,6 +322,22 @@ describe("overflowing actions", () => {
     vi.useRealTimers();
   });
 
+  it("disables text transitions for contained actions", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const action = el.querySelector("calcite-action") as Action["el"];
+    const textContainer = action.shadowRoot?.querySelector<HTMLElement>(".text-container");
+
+    expect(textContainer).toBeTruthy();
+    expect(getComputedStyle(textContainer as HTMLElement).transitionDuration).toBe("0s");
+  });
+
   it("only collapses and expand direct actions and trigger actions for direct action-menus", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar expand-toggle-disabled expanded layout="horizontal">
@@ -442,6 +458,56 @@ describe("overflowing actions", () => {
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
     expect(runOverflowActions).toHaveBeenCalledTimes(2);
+  });
+
+  it("prepares future overflow counts without changing the current UI", async () => {
+    const { component, el } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" style={{ width: "240px" }}>
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="plus" text="New" />
+          <calcite-action icon="folder-open" text="Open" />
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+    const actionBar = component as unknown as {
+      overflowCounts: Map<boolean, number>;
+      prepareOverflowCounts: () => void;
+      updateOverflow: (...args: unknown[]) => void;
+      runOverflowActions: (...args: unknown[]) => void;
+    };
+    const runOverflowActions = vi.spyOn(actionBar, "runOverflowActions");
+    const updateOverflow = vi.spyOn(actionBar, "updateOverflow");
+    const actions = Array.from(el.querySelectorAll("calcite-action"));
+    const textEnabled = actions.map((action) => action.textEnabled);
+    const slots = actions.map((action) => action.slot);
+
+    vi.clearAllTimers();
+    actionBar.prepareOverflowCounts();
+
+    expect(actionBar.overflowCounts.get(false)).toBeTypeOf("number");
+    const expandedOverflowCount = actionBar.overflowCounts.get(true);
+
+    expect(expandedOverflowCount).toBeTypeOf("number");
+    expect(actions.map((action) => action.textEnabled)).toEqual(textEnabled);
+    expect(actions.map((action) => action.slot)).toEqual(slots);
+
+    el.expanded = true;
+    await component.updateComplete;
+
+    const plan = await el.getOverflowPlan();
+    const overflowedActions = page
+      .getBySelector("calcite-action[slot='menu-actions']")
+      .elements() as Action["el"][];
+
+    expect(runOverflowActions).toHaveBeenCalledTimes(1);
+    expect(updateOverflow).toHaveBeenCalledWith(
+      expect.objectContaining({ expanded: true, overflowCount: expandedOverflowCount }),
+    );
+    expect(plan?.expanded).toBe(true);
+    expect(plan?.groups.flatMap(({ actions }) => actions)).toEqual(overflowedActions);
   });
 
   it("overflows when an actions-end group adds trailing divider and wrapper gaps", async () => {

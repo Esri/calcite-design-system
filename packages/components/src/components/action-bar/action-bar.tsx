@@ -32,7 +32,7 @@ import { isTooltip } from "../tooltip/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
-import { isAction } from "../action/resources";
+import { CSS as ACTION_CSS, isAction } from "../action/resources";
 import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { isActionMenu, SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { getOverflowCount } from "../../utils/overflow";
@@ -41,6 +41,12 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { ActionBarItem, getWrapItemCrossOffset, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
+
+export type ActionBarOverflowPlan = {
+  expanded: boolean;
+  groups: { actions: Action["el"][]; group: ActionGroup["el"] }[];
+  overflowCount: number;
+};
 
 declare global {
   interface DeclareElements {
@@ -104,132 +110,14 @@ export class ActionBar extends LitElement {
 
   private lineMeasureFrame?: number;
 
+  private overflowPlan?: ActionBarOverflowPlan;
+
+  private overflowCounts = new Map<boolean, number>();
+
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { expanded, expandToggleDisabled, layout, expandPosition } = this;
-
-    // resize is debounced, so the container ref may be empty when it runs — the action-bar can be torn down (or not yet rendered) between scheduling and execution.
-    if (!this.containerRef.value) {
-      return;
-    }
-
-    if (this.usesWrap) {
-      this.scheduleLineMeasure();
-      return;
-    }
-
-    if (
-      this.overflowMode !== "collapse" ||
-      (layout === "vertical" && !height) ||
-      (layout === "horizontal" && !width)
-    ) {
-      return;
-    }
-
-    this.updateGroups();
-
-    const itemSizes = this.getItemSizes();
-
-    const {
-      actionGroups: defaultActionGroups,
-      actionsEnd,
-      actionsEndGroups,
-      actionsStart,
-      actionsStartGroups,
-      defaultSlotItems,
-    } = this;
-    const slottedActionGroups = [
-      ...actionsStartGroups,
-      ...defaultActionGroups,
-      ...actionsEndGroups,
-    ];
-
-    const actionsEndCount =
-      this.hasActionsEnd || (!expandToggleDisabled && expandPosition === "end") ? 1 : 0;
-
-    const actionsStartCount =
-      this.hasActionsStart || (!expandToggleDisabled && expandPosition === "start") ? 1 : 0;
-
-    const visibleSectionCount = defaultSlotItems.length + actionsEndCount + actionsStartCount;
-
-    let bufferSize = visibleSectionCount;
-    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
-
-    bufferSize +=
-      getStylePixelValue(
-        layout === "horizontal"
-          ? actionBarContainerStyle.paddingInlineStart
-          : actionBarContainerStyle.paddingBlockStart,
-      ) +
-      getStylePixelValue(
-        layout === "horizontal"
-          ? actionBarContainerStyle.paddingInlineEnd
-          : actionBarContainerStyle.paddingBlockEnd,
-      );
-
-    if (slottedActionGroups.length > 0) {
-      const lastSlottedActionGroupIndex = slottedActionGroups.length - 1;
-
-      slottedActionGroups.forEach((actionGroup, index) => {
-        const actionGroupStyle = getComputedStyle(actionGroup);
-        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const actionGroupItemCount = this.getVisibleActionGroupItemCount(actionGroup);
-        const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
-        bufferSize += actionGroupGap * actionGroupGapQuantity;
-
-        if (index !== lastSlottedActionGroupIndex) {
-          bufferSize += getStylePixelValue(
-            layout === "horizontal"
-              ? actionGroupStyle.paddingInlineEnd
-              : actionGroupStyle.paddingBlockEnd,
-          );
-          bufferSize += getStylePixelValue(
-            layout === "horizontal"
-              ? actionGroupStyle.borderInlineEndWidth
-              : actionGroupStyle.borderBlockEndWidth,
-          );
-        }
-      });
-    }
-
-    const addWrappedSectionGap = (
-      items: ActionBarItem[],
-      wrapper: ActionGroup["el"] | undefined,
-      hasExpandToggle: boolean,
-    ): void => {
-      if (!wrapper || items.length < 1) {
-        return;
-      }
-
-      const wrapperStyle = getComputedStyle(wrapper);
-      const wrapperGap = getStylePixelValue(wrapperStyle.gap);
-      const wrapperItemCount = items.length + (hasExpandToggle ? 1 : 0);
-
-      bufferSize += wrapperGap * Math.max(wrapperItemCount - 1, 0);
-    };
-
-    const hasExpandToggleAtStart = !expandToggleDisabled && expandPosition === "start";
-    const hasExpandToggleAtEnd = !expandToggleDisabled && expandPosition === "end";
-
-    addWrappedSectionGap(actionsStart, this.actionsStartGroupRef.value, hasExpandToggleAtStart);
-    addWrappedSectionGap(actionsEnd, this.actionsEndGroupRef.value, hasExpandToggleAtEnd);
-
-    if (visibleSectionCount > 1) {
-      bufferSize += getStylePixelValue(actionBarContainerStyle.gap) * (visibleSectionCount - 1);
-    }
-
-    const overflowCount = getOverflowCount({
-      bufferSize,
-      containerSize: layout === "horizontal" ? width : height,
-      itemSizes,
-    });
-
-    this.runOverflowActions({
-      actionGroups: slottedActionGroups,
-      expanded,
-      overflowCount,
-    });
+    this.updateOverflow({ width, height });
   }, DEBOUNCE.resize);
 
   private resizeHandler = (entry: ResizeObserverEntry): void => {
@@ -271,6 +159,14 @@ export class ActionBar extends LitElement {
   private setExpandToggleEl = (el: Action["el"] | undefined): void => {
     this.expandToggleEl = el;
   };
+
+  /**
+   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
+   * `"wrap"`.
+   */
+  private get usesWrap(): boolean {
+    return this.overflowMode === "wrap" && this.layout !== "grid";
+  }
 
   //#endregion
 
@@ -400,6 +296,12 @@ export class ActionBar extends LitElement {
 
   //#region Public Methods
 
+  /** Returns the measured menu-action allocation from the latest overflow calculation. */
+  @method()
+  async getOverflowPlan(): Promise<ActionBarOverflowPlan | undefined> {
+    return this.overflowPlan;
+  }
+
   /**
    * Overflows actions that won't fit into menus.
    *
@@ -523,18 +425,19 @@ export class ActionBar extends LitElement {
     }
   }
 
+  override updated(): void {
+    if (this.usesWrap && this.lineMeasureFrame == null) {
+      this.scheduleLineMeasure();
+    }
+  }
+
   loaded(): void {
     this.syncDefaultSlot();
     this.syncActionsStartSlot();
     this.syncActionsEndSlot();
     this.syncActionsState();
     this.overflowActions();
-  }
-
-  override updated(): void {
-    if (this.usesWrap && this.lineMeasureFrame == null) {
-      this.scheduleLineMeasure();
-    }
+    this.prepareOverflowCounts();
   }
 
   override disconnectedCallback(): void {
@@ -549,11 +452,196 @@ export class ActionBar extends LitElement {
 
   //#region Private Methods
 
-  private getItemSizes(): number[] {
+  private updateOverflow({
+    width,
+    height,
+    expanded = this.expanded,
+    overflowCount: cachedOverflowCount,
+    apply = true,
+  }: {
+    width: number;
+    height: number;
+    expanded?: boolean;
+    overflowCount?: number;
+    apply?: boolean;
+  }): void {
+    const { expandToggleDisabled, layout, expandPosition } = this;
+
+    // resize is debounced, so the container ref may be empty when it runs — the action-bar can be torn down (or not yet rendered) between scheduling and execution.
+    if (!this.containerRef.value) {
+      return;
+    }
+
+    if (this.usesWrap) {
+      this.scheduleLineMeasure();
+      return;
+    }
+
+    if (
+      this.overflowMode !== "collapse" ||
+      (layout === "vertical" && !height) ||
+      (layout === "horizontal" && !width)
+    ) {
+      return;
+    }
+
+    this.updateGroups();
+
+    const itemSizes = this.getItemSizes(expanded);
+
+    const {
+      actionGroups: defaultActionGroups,
+      actionsEnd,
+      actionsEndGroups,
+      actionsStart,
+      actionsStartGroups,
+      defaultSlotItems,
+    } = this;
+    const slottedActionGroups = [
+      ...actionsStartGroups,
+      ...defaultActionGroups,
+      ...actionsEndGroups,
+    ];
+
+    const actionsEndCount =
+      this.hasActionsEnd || (!expandToggleDisabled && expandPosition === "end") ? 1 : 0;
+
+    const actionsStartCount =
+      this.hasActionsStart || (!expandToggleDisabled && expandPosition === "start") ? 1 : 0;
+
+    const visibleSectionCount = defaultSlotItems.length + actionsEndCount + actionsStartCount;
+
+    let bufferSize = visibleSectionCount;
+    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
+
+    bufferSize +=
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineStart
+          : actionBarContainerStyle.paddingBlockStart,
+      ) +
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineEnd
+          : actionBarContainerStyle.paddingBlockEnd,
+      );
+
+    if (slottedActionGroups.length > 0) {
+      const lastSlottedActionGroupIndex = slottedActionGroups.length - 1;
+
+      slottedActionGroups.forEach((actionGroup, index) => {
+        const actionGroupStyle = getComputedStyle(actionGroup);
+        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
+        const actionGroupItemCount = this.getVisibleActionGroupItemCount(actionGroup);
+        const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
+        bufferSize += actionGroupGap * actionGroupGapQuantity;
+
+        if (index !== lastSlottedActionGroupIndex) {
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.paddingInlineEnd
+              : actionGroupStyle.paddingBlockEnd,
+          );
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.borderInlineEndWidth
+              : actionGroupStyle.borderBlockEndWidth,
+          );
+        }
+      });
+    }
+
+    const addWrappedSectionGap = (
+      items: ActionBarItem[],
+      wrapper: ActionGroup["el"] | undefined,
+      hasExpandToggle: boolean,
+    ): void => {
+      if (!wrapper || items.length < 1) {
+        return;
+      }
+
+      const wrapperStyle = getComputedStyle(wrapper);
+      const wrapperGap = getStylePixelValue(wrapperStyle.gap);
+      const wrapperItemCount = items.length + (hasExpandToggle ? 1 : 0);
+
+      bufferSize += wrapperGap * Math.max(wrapperItemCount - 1, 0);
+    };
+
+    const hasExpandToggleAtStart = !expandToggleDisabled && expandPosition === "start";
+    const hasExpandToggleAtEnd = !expandToggleDisabled && expandPosition === "end";
+
+    addWrappedSectionGap(actionsStart, this.actionsStartGroupRef.value, hasExpandToggleAtStart);
+    addWrappedSectionGap(actionsEnd, this.actionsEndGroupRef.value, hasExpandToggleAtEnd);
+
+    if (visibleSectionCount > 1) {
+      bufferSize += getStylePixelValue(actionBarContainerStyle.gap) * (visibleSectionCount - 1);
+    }
+
+    const overflowCount =
+      cachedOverflowCount ??
+      getOverflowCount({
+        bufferSize,
+        containerSize: layout === "horizontal" ? width : height,
+        itemSizes,
+      });
+
+    this.overflowCounts.set(expanded, overflowCount);
+
+    if (!apply) {
+      return;
+    }
+
+    this.runOverflowActions({
+      actionGroups: slottedActionGroups,
+      expanded,
+      overflowCount,
+    });
+
+    this.overflowPlan = {
+      expanded,
+      groups: slottedActionGroups.map((group) => ({
+        actions: group.actions.filter((action) => action.slot === ACTION_GROUP_SLOTS.menuActions),
+        group,
+      })),
+      overflowCount,
+    };
+
+    this.prepareOverflowCounts();
+  }
+
+  private expandedHandler(): void {
+    this.syncActionsState(this.expanded);
+    this.updateOverflow({
+      width: this.el.clientWidth,
+      height: this.el.clientHeight,
+      expanded: this.expanded,
+      overflowCount: this.overflowCounts.get(this.expanded),
+    });
+    this.prepareOverflowCounts();
+  }
+
+  private prepareOverflowCounts(): void {
+    if (this.overflowMode !== "collapse" || this.usesWrap) {
+      return;
+    }
+
+    [false, true].forEach((expanded) => {
+      this.updateOverflow({
+        width: this.el.clientWidth,
+        height: this.el.clientHeight,
+        expanded,
+        apply: false,
+      });
+    });
+  }
+
+  private getItemSizes(expanded: boolean): number[] {
     const { layout, expandToggleEl } = this;
     const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
 
-    const itemSizes = this.actions.map((action) => action[clientSize] || 0);
+    const itemSizes = this.actions.map((action) =>
+      this.getProjectedActionSize(action, clientSize, expanded),
+    );
     const slottedActionGroupMenus = this.getTrackedActionGroups().flatMap((group) =>
       filterDirectChildren<ActionMenu["el"]>(group, "calcite-action-menu"),
     );
@@ -562,17 +650,47 @@ export class ActionBar extends LitElement {
       const triggerAction = menu.actions.find(
         (action) => action.slot === ACTION_MENU_SLOTS.trigger,
       );
+      const trigger = triggerAction ?? menu;
 
       // Use the host element size when no custom trigger is slotted.
-      itemSizes.push((triggerAction ?? menu)[clientSize] || 0);
+      itemSizes.push(
+        isAction(trigger)
+          ? this.getProjectedActionSize(trigger, clientSize, expanded)
+          : trigger[clientSize] || 0,
+      );
     });
 
     if (expandToggleEl) {
-      itemSizes.push(expandToggleEl[clientSize] || 0);
+      itemSizes.push(this.getProjectedActionSize(expandToggleEl, clientSize, expanded));
     }
 
     const fallbackSize = Math.max(...itemSizes, 0);
     return itemSizes.map((size) => size || fallbackSize);
+  }
+
+  private getProjectedActionSize(
+    action: Action["el"],
+    clientSize: "clientHeight" | "clientWidth",
+    expanded: boolean,
+  ): number {
+    const size = action[clientSize] || 0;
+
+    if (clientSize === "clientHeight" || action.textEnabled === expanded) {
+      return size;
+    }
+
+    const button = action.shadowRoot?.querySelector<HTMLElement>(`.${ACTION_CSS.button}`);
+    const text = action.shadowRoot?.querySelector<HTMLElement>(`.${ACTION_CSS.textContainer}`);
+
+    if (!button || !text) {
+      return size;
+    }
+
+    const hasIcon = action.shadowRoot?.querySelector(`.${ACTION_CSS.iconContainer}`);
+    const textSize =
+      text.scrollWidth + (hasIcon ? getStylePixelValue(getComputedStyle(button).gap) : 0);
+
+    return expanded ? size + textSize : Math.max(size - textSize, 0);
   }
 
   private getVisibleActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
@@ -591,11 +709,6 @@ export class ActionBar extends LitElement {
     );
 
     return defaultActionsCount + (hasMenuActions ? 1 : 0);
-  }
-
-  private expandedHandler(): void {
-    this.syncActionsState(true);
-    this.overflowActions();
   }
 
   private overflowModeHandler(): void {
@@ -709,14 +822,6 @@ export class ActionBar extends LitElement {
       group.layout = this.layout;
       group.scale = this.scale;
     });
-  }
-
-  /**
-   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
-   * `"wrap"`.
-   */
-  private get usesWrap(): boolean {
-    return this.overflowMode === "wrap" && this.layout !== "grid";
   }
 
   /**
@@ -851,11 +956,11 @@ export class ActionBar extends LitElement {
     this.syncActionsAndOverflow();
   }
 
-  private syncActionsState(syncExpandedState = false): void {
+  private syncActionsState(expanded?: boolean): void {
     this.syncActions();
     this.updateActions();
 
-    if (!syncExpandedState) {
+    if (expanded == null) {
       return;
     }
 
@@ -866,7 +971,7 @@ export class ActionBar extends LitElement {
         ...this.getTrackedActionMenus(),
         ...this.getSectionWrapperGroups(),
       ],
-      expanded: this.expanded,
+      expanded,
     });
   }
 

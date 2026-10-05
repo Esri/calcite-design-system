@@ -19,6 +19,7 @@
 // --calcite-internal-action-bar-line-gap
 // --calcite-internal-action-bar-padding
 // --calcite-internal-action-group-dividing-border-margin
+// --calcite-internal-action-text-transition-duration
 
 @use "../../styles/includes";
 
@@ -41,6 +42,7 @@
     self-stretch;
   background: transparent;
 
+  --calcite-internal-action-text-transition-duration: 0s;
   --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-spacing-base) + 1px);
 }
 
@@ -144,10 +146,15 @@
   );
 }
 
+// #expand-toggle {
+//   position: sticky;
+//   right: 0;
+//   background: white;
+// }
+
 :host([overflow-mode="wrap"][layout="horizontal"]),
 :host([overflow-mode="wrap"][layout="vertical"]) {
   .container {
-    position: relative;
     flex-wrap: wrap;
     align-content: flex-start;
 

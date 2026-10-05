@@ -168,6 +168,7 @@
     ease-in-out;
 
   transition-property: inline-size;
+  transition-duration: var(--calcite-internal-action-text-transition-duration, var(--calcite-animation-timing));
 }
 
 .text-container--visible {
