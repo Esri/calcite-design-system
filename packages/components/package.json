@@ -94,9 +94,9 @@
     "type-fest": "catalog:runtime-ranges"
   },
   "devDependencies": {
-    "@arcgis/api-extractor": "catalog:",
-    "@arcgis/eslint-config": "catalog:",
-    "@arcgis/lumina-compiler": "catalog:",
+    "@arcgis/api-extractor": "catalog:runtime-ranges",
+    "@arcgis/eslint-config": "catalog:runtime-ranges",
+    "@arcgis/lumina-compiler": "catalog:runtime-ranges",
     "@cloudfour/simple-svg-placeholder": "catalog:",
     "@esri/calcite-tailwind-preset": "workspace:*",
     "@esri/calcite-typescript-config": "workspace:*",
