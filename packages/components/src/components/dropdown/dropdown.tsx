@@ -76,7 +76,9 @@ interface DropdownSlots {
    */
   "": Node[];
   /**
-   * [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
+   * A slot for the element that triggers the component.
+   *
+   * @deprecated in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead.
    */
   trigger: Node[];
 }
