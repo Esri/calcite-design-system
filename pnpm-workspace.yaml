@@ -1,11 +1,6 @@
 catalog:
   "@actions/core": "3.0.1"
   "@actions/github": "9.1.1"
-  "@arcgis/api-extractor": "5.2.0-next.118"
-  "@arcgis/eslint-config": "5.2.0-next.118"
-  "@arcgis/lumina": "5.2.0-next.118"
-  "@arcgis/lumina-compiler": "5.2.0-next.118"
-  "@arcgis/toolkit": "5.2.0-next.118"
   "@cloudfour/simple-svg-placeholder": "1.2.0"
   "@commander-js/extra-typings": "15.0.0"
   "@cspell/dict-gis": "1.0.3"
@@ -131,9 +126,12 @@ catalog:
   "yaml": "2.9.1"
   "yargs": "18.0.0"
 catalogs:
-  runtime-ranges:
-    "@arcgis/lumina": ">=5.2.0-next.96 <6.0.0"
-    "@arcgis/toolkit": ">=5.2.0-next.96 <6.0.0"
+  dependency-ranges:
+    "@arcgis/api-extractor": ">=5.2.0-next.129 <6.0.0"
+    "@arcgis/eslint-config": ">=5.2.0-next.129 <6.0.0"
+    "@arcgis/lumina": ">=5.2.0-next.129 <6.0.0"
+    "@arcgis/lumina-compiler": ">=5.2.0-next.129 <6.0.0"
+    "@arcgis/toolkit": ">=5.2.0-next.129 <6.0.0"
     "@floating-ui/dom": "^1.8.0"
     "@floating-ui/utils": "^0.2.8"
     "@interactjs/types": "^1.10.27"
