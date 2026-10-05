@@ -308,7 +308,7 @@ export class Button extends LitElement {
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
               : undefined
           }
-          ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}
+          ariaLabel={!this.loading ? getLabelText(this) || undefined : this.messages.loading}
           ariaLive="polite"
           class={{
             [CSS.buttonPadding]: noStartEndIcons,
