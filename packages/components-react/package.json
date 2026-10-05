@@ -28,10 +28,10 @@
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "dependencies": {
-    "@arcgis/lumina": "catalog:runtime-ranges",
+    "@arcgis/lumina": "catalog:dependency-ranges",
     "@esri/calcite-components": "workspace:*",
-    "@lit/react": "catalog:runtime-ranges",
-    "lit": "catalog:runtime-ranges"
+    "@lit/react": "catalog:dependency-ranges",
+    "lit": "catalog:dependency-ranges"
   },
   "peerDependencies": {
     "react": ">=18.3",

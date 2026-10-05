@@ -345,7 +345,7 @@ catalogs:
     yargs:
       specifier: 18.0.0
       version: 18.0.0
-  runtime-ranges:
+  dependency-ranges:
     '@arcgis/api-extractor':
       specifier: '>=5.2.0-next.129 <6.0.0'
       version: 5.2.0-next.132
@@ -541,10 +541,10 @@ importers:
   packages/components:
     dependencies:
       '@arcgis/lumina':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 5.2.0-next.132(lit@3.3.3)
       '@arcgis/toolkit':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 5.2.0-next.132
       '@esri/calcite-design-tokens':
         specifier: workspace:*
@@ -553,56 +553,56 @@ importers:
         specifier: workspace:*
         version: link:../ui-icons
       '@floating-ui/dom':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.8.0
       '@floating-ui/utils':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 0.2.12
       '@interactjs/types':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.10.27
       '@types/sortablejs':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.15.9
       color:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 5.0.3
       composed-offset-position:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 0.0.6(@floating-ui/utils@0.2.12)
       es-toolkit:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.49.0
       focus-trap:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 8.2.2
       interactjs:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.10.27
       lit:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 3.3.3
       sortablejs:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.15.7
       tabbable:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 6.5.0
       timezone-groups:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.0.1
       type-fest:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 4.41.0
     devDependencies:
       '@arcgis/api-extractor':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 5.2.0-next.132(jiti@1.21.7)(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)
       '@arcgis/eslint-config':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 5.2.0-next.132(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
       '@arcgis/lumina-compiler':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 5.2.0-next.132(@arcgis/lumina@5.2.0-next.132(lit@3.3.3))(jiti@1.21.7)(lit@3.3.3)(puppeteer@23.4.1(supports-color@10.2.2)(typescript@6.0.3))(rollup@4.62.2)(sass-embedded@1.104.1)(sass@1.104.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(vitest@4.1.11)(yaml@2.9.1)
       '@cloudfour/simple-svg-placeholder':
         specifier: 'catalog:'
@@ -791,16 +791,16 @@ importers:
   packages/components-react:
     dependencies:
       '@arcgis/lumina':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 5.2.0-next.132(lit@3.3.3)
       '@esri/calcite-components':
         specifier: workspace:*
         version: link:../components
       '@lit/react':
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 1.0.8(@types/react@18.3.12)
       lit:
-        specifier: catalog:runtime-ranges
+        specifier: catalog:dependency-ranges
         version: 3.3.3
     devDependencies:
       '@esri/calcite-typescript-config':

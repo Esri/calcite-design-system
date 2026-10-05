@@ -126,7 +126,7 @@ catalog:
   "yaml": "2.9.1"
   "yargs": "18.0.0"
 catalogs:
-  runtime-ranges:
+  dependency-ranges:
     "@arcgis/api-extractor": ">=5.2.0-next.129 <6.0.0"
     "@arcgis/eslint-config": ">=5.2.0-next.129 <6.0.0"
     "@arcgis/lumina": ">=5.2.0-next.129 <6.0.0"
