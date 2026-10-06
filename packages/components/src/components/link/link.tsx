@@ -4,7 +4,7 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../types";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { isActivationKey } from "../../utils/key";
 import { styles } from "./link.scss";
@@ -38,7 +38,7 @@ export class Link extends LitElement {
 
   private direction = useDirection();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

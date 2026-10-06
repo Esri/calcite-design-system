@@ -5,7 +5,7 @@ import { focusElementInGroup } from "../../utils/dom";
 import { Scale, SelectionMode } from "../types";
 import type { Card } from "../card/card";
 import { isCard } from "../card/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./card-group.scss";
 import { CSS } from "./resources";
@@ -30,7 +30,7 @@ export class CardGroup extends LitElement {
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

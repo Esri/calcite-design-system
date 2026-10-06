@@ -15,7 +15,7 @@ import type { InputNumber } from "../input-number/input-number";
 import type { Swatch } from "../swatch/swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
 import { createObserver } from "../../utils/observers";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import {
   alphaCompatible,
@@ -245,7 +245,7 @@ export class ColorPicker extends LitElement {
     };
   };
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

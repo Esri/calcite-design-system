@@ -17,7 +17,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, SLOTS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu-item.scss";
@@ -53,7 +53,7 @@ export class MenuItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
@@ -161,7 +161,7 @@ export class MenuItem extends LitElement {
   }
 
   load(): void {
-    this.listenOn(window, "click", this.handleClickOut);
+    this.listenOn(document, "click", this.handleClickOut);
   }
 
   //#endregion

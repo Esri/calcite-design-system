@@ -14,7 +14,7 @@ import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/types";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./dropdown-item.scss";
@@ -46,7 +46,7 @@ export class DropdownItem extends LitElement {
   /** requested item */
   private requestedDropdownItem?: DropdownItem["el"];
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

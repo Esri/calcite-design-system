@@ -25,7 +25,7 @@ import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/types";
 import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
@@ -82,7 +82,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

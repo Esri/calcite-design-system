@@ -51,7 +51,7 @@ import {
 } from "../combobox-item/combobox-item";
 import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
@@ -256,7 +256,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
@@ -1839,7 +1839,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private handleSelectionModeWarning(): void {
-    if (this.selectionMode === "single-persist" && this.clearDisabled) {
+    if (import.meta.env.DEV && this.selectionMode === "single-persist" && this.clearDisabled) {
       logger.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
     }
   }

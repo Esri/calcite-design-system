@@ -21,7 +21,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -66,7 +66,7 @@ export class BlockGroup extends LitElement {
 
   private cancelable = useCancelable<this>()(this);
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private parentBlockGroupEl?: BlockGroup["el"];
 

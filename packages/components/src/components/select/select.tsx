@@ -23,7 +23,7 @@ import { isOption } from "../option/resources";
 import type { OptionGroup } from "../option-group/option-group";
 import { isOptionGroup } from "../option-group/resources";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
@@ -73,7 +73,7 @@ export class Select extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

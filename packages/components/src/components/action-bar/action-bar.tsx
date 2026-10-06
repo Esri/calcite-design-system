@@ -30,7 +30,7 @@ import { logger } from "../../utils/logger";
 import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import type { ActionGroup } from "../action-group/action-group";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
@@ -256,7 +256,7 @@ export class ActionBar extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private setExpandToggleEl = (el: Action["el"] | undefined): void => {
     this.expandToggleEl = el;

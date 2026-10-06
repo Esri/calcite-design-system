@@ -35,7 +35,7 @@ import { Scale, Width } from "../types";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { isDropdownGroup } from "../dropdown-group/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
@@ -111,7 +111,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -290,8 +290,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   load(): void {
-    this.listenOn(window, "click", this.closeCalciteDropdownOnClick);
-    this.listenOn(window, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
+    this.listenOn(document, "click", this.closeCalciteDropdownOnClick);
+    this.listenOn(document, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
   }
 
   override connectedCallback(): void {
