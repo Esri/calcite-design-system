@@ -14,11 +14,20 @@ declare global {
   }
 }
 
-/**
- *  @slot - A slot for adding text.
- */
+interface TextSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
 
 export class Text extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TextSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
