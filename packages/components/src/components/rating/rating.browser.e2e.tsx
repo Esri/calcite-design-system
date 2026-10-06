@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 
 import {
   disabled,
@@ -111,6 +111,27 @@ describe("disabled", () => {
 
 describe("is form-associated", () => {
   formAssociated(() => mount("calcite-rating"), { testValue: 3 });
+});
+
+describe("keyboard interaction", () => {
+  it("moves value in the physical arrow key direction when dir is rtl", async () => {
+    const { el } = await mount(<calcite-rating dir="rtl" value={3} />);
+    const changeHandler = vi.fn();
+    el.addEventListener("calciteRatingChange", changeHandler);
+
+    await userEvent.tab();
+    await userEvent.keyboard("{ArrowRight}");
+
+    expect(el).toHaveProperty("value", 2);
+    expect(changeHandler).toHaveBeenCalledTimes(1);
+    await expect.element(page.getByRole("radio").nth(1)).toBeChecked();
+
+    await userEvent.keyboard("{ArrowLeft}");
+
+    expect(el).toHaveProperty("value", 3);
+    expect(changeHandler).toHaveBeenCalledTimes(2);
+    await expect.element(page.getByRole("radio").nth(2)).toBeChecked();
+  });
 });
 
 describe("theme", () => {
