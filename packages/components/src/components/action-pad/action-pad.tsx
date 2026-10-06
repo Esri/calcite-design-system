@@ -35,12 +35,44 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-action-pad-corner-radius": "*";
+    /**
+     * When `expanded` and `layout` is `"vertical"`, specifies the component's maximum width.
+     */
+    "--calcite-action-pad-expanded-max-width": "*";
+    /**
+     * Specifies the component's space between slotted components.
+     */
+    "--calcite-action-pad-items-space": "*";
+  }
+}
+
+interface ActionPadSlots {
+  /**
+   * A slot for adding `calcite-action`s to the component.
+   */
+  "": Node[];
+  /**
+   * A slot to set the `calcite-tooltip` for the expand toggle.
+   */
+  "expand-tooltip": Node[];
+}
+
 /**
  * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-action-bar` component instead.
- * @slot - A slot for adding `calcite-action`s to the component.
- * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionPad extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ActionPadSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

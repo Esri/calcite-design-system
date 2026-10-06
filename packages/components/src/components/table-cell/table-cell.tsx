@@ -19,8 +19,43 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding content, usually text content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-cell-background-color` instead.
+     */
+    "--calcite-table-cell-background": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-table-cell-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-table-cell-border-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-table-cell-text-color": "*";
+  }
+}
+
+interface TableCellSlots {
+  /**
+   * A slot for adding content, usually text content.
+   */
+  "": Node[];
+}
+
 export class TableCell extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TableCellSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = [styles, screenReaderStyles];

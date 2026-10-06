@@ -22,6 +22,31 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's height and width.
+     */
+    "--calcite-checkbox-size": "*";
+    /**
+     * Specifies the component's color.
+     */
+    "--calcite-checkbox-border-color": "*";
+    /**
+     * Specifies the component's color when hovered.
+     */
+    "--calcite-checkbox-border-color-hover": "*";
+    /**
+     * Specifies the component's color when pressed.
+     */
+    "--calcite-checkbox-border-color-press": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-checkbox-icon-color": "*";
+  }
+}
+
 export class Checkbox extends LitElement implements LabelableComponent {
   //#region Static Members
 
