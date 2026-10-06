@@ -51,6 +51,8 @@ export class TabTitle extends LitElement {
 
   private _closed = false;
 
+  private closeRequest?: Promise<void>;
+
   private closeButtonRef = createRef<Action["el"]>();
 
   private containerEl?: HTMLDivElement;
@@ -105,7 +107,7 @@ export class TabTitle extends LitElement {
     return this._closed;
   }
   set closed(value: boolean) {
-    if (value !== this._closed) {
+    if (value !== this._closed || (!value && this.closeRequest)) {
       this.setClosedState(value);
     }
   }
@@ -401,28 +403,55 @@ export class TabTitle extends LitElement {
   }
 
   private async setClosedState(value: boolean, notify = false): Promise<void> {
-    if (value) {
-      this.calciteTabTitleBeforeClose.emit();
+    if (!value) {
+      this.closeRequest = undefined;
+      this.updateClosedState(false);
+      return;
     }
 
-    if (this.beforeClose && value) {
-      try {
-        await this.beforeClose();
-      } catch {
+    if (this.closeRequest) {
+      return this.closeRequest;
+    }
+
+    const closeRequest = Promise.resolve().then(async () => {
+      this.calciteTabTitleBeforeClose.emit();
+
+      if (this.beforeClose) {
+        try {
+          await this.beforeClose();
+        } catch {
+          return;
+        }
+      }
+
+      if (this.closeRequest !== closeRequest) {
         return;
       }
-    }
 
+      this.updateClosedState(true);
+
+      if (notify) {
+        this.calciteInternalTabsClose.emit({ tab: this.tab });
+
+        // emit in the next frame to let internal events sync up
+        requestAnimationFrame(() => this.calciteTabsClose.emit());
+      }
+    });
+    this.closeRequest = closeRequest;
+
+    try {
+      await closeRequest;
+    } finally {
+      if (this.closeRequest === closeRequest) {
+        this.closeRequest = undefined;
+      }
+    }
+  }
+
+  private updateClosedState(value: boolean): void {
     const oldValue = this._closed;
     this._closed = value;
     this.requestUpdate("closed", oldValue);
-
-    if (notify) {
-      this.calciteInternalTabsClose.emit({ tab: this.tab });
-
-      // emit in the next frame to let internal events sync up
-      requestAnimationFrame(() => this.calciteTabsClose.emit());
-    }
   }
 
   //#endregion
