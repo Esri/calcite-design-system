@@ -1771,7 +1771,7 @@ describe("theme", () => {
       },
     });
 
-    it("respects deprecated prefix/suffix size CSS custom properties set before the affix first renders", async () => {
+    it("respects prefix/suffix size CSS custom properties when used standalone", async () => {
       const { el } = await mount<Input>(
         <calcite-input
           prefix-text="prefix"
@@ -1781,47 +1781,33 @@ describe("theme", () => {
       );
 
       await vi.waitFor(() => {
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toBe(
-          "42px",
-        );
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toBe(
-          "42px",
-        );
+        expect(
+          Math.ceil(
+            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.getBoundingClientRect()
+              .width,
+          ),
+        ).toBe(42);
+        expect(
+          Math.ceil(
+            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.getBoundingClientRect()
+              .width,
+          ),
+        ).toBe(42);
       });
     });
 
-    it("stores measured affix widths as inline styles", async () => {
+    it("does not apply an inline affix width when used standalone", async () => {
       const { el } = await mount<Input>(
         <calcite-input prefix-text="prefix" suffix-text="suffix" />,
       );
 
       await vi.waitFor(() => {
-        const prefixWidth = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width;
-        const suffixWidth = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width;
-
-        expect(prefixWidth).toMatch(/^\d+px$/);
-        expect(suffixWidth).toMatch(/^\d+px$/);
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)).not.toBeNull();
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)).not.toBeNull();
       });
 
-      const prefix = el.shadowRoot.querySelector(`.${CSS.prefix}`) as HTMLDivElement;
-      const suffix = el.shadowRoot.querySelector(`.${CSS.suffix}`) as HTMLDivElement;
-      expect(prefix.style.width).toBe(`${Math.ceil(prefix.getBoundingClientRect().width)}px`);
-      expect(suffix.style.width).toBe(`${Math.ceil(suffix.getBoundingClientRect().width)}px`);
-    });
-
-    it("clears inline affix widths when affixes are removed", async () => {
-      const { el } = await mount<Input>(
-        <calcite-input prefix-text="prefix" suffix-text="suffix" />,
-      );
-
-      await vi.waitFor(() => {
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).not.toBe(
-          "",
-        );
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).not.toBe(
-          "",
-        );
-      });
+      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toBe("");
+      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toBe("");
 
       el.prefixText = undefined;
       el.suffixText = undefined;

@@ -417,9 +417,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   }
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
-      if (this.affixWidth.syncAffixWidths()) {
-        this.calciteInternalInputAffixChange.emit();
-      }
+      this.calciteInternalInputAffixChange.emit();
     }
   }
 

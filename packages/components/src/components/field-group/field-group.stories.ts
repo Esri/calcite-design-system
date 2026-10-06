@@ -132,7 +132,7 @@ export const complex = (args: FieldGroupStoryArgs): string => {
         </calcite-field-group>
         <calcite-input label-text="Label"></calcite-input>
       </calcite-field-set>
-      <calcite-field-set legend="Legend 1">
+      <calcite-field-set legend="Legend 2">
         <calcite-field-group layout="columns" columns="2">
           <calcite-input label-text="Label"></calcite-input>
           <calcite-input label-text="Label"></calcite-input>
@@ -171,7 +171,7 @@ export const complexUsingLabel = (args: FieldGroupStoryArgs): string => {
         </calcite-field-group>
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       </calcite-field-set>
-      <calcite-field-set legend="Legend 1">
+      <calcite-field-set legend="Legend 2">
         <calcite-field-group layout="columns" columns="2">
           <calcite-label>Label<calcite-input></calcite-input></calcite-label>
           <calcite-label>Label<calcite-input></calcite-input></calcite-label>
@@ -349,7 +349,7 @@ const labels = (args: FieldGroupStoryArgs): string => {
         </calcite-field-group>
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       </calcite-field-set>
-      <calcite-field-set legend="Legend 1">
+      <calcite-field-set legend="Legend 2">
         <calcite-field-group layout="columns" columns="2">
           <calcite-label>Label<calcite-input></calcite-input></calcite-label>
           <calcite-label>Label<calcite-input></calcite-input></calcite-label>
@@ -370,39 +370,27 @@ export const prefixAndSuffixAutoWidth = (args: FieldGroupStoryArgs): string => h
     ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
     ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
   >
-    <calcite-field-set legend="Measurements">
+    <calcite-field-set legend="Input components that support prefix/suffix">
       <calcite-input
-        label-text="Width"
+        label-text="calcite-input"
         prefix-text="prefix"
         suffix-text="px"
         placeholder="Enter a size"
       ></calcite-input>
-      <calcite-input
-        label-text="Height"
-        prefix-text="longer prefix"
-        suffix-text="pixels"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Depth"
-        prefix-text="abc"
-        suffix-text="centimeters"
-        placeholder="Enter a size"
-      ></calcite-input>
       <calcite-input-text
-        label-text="Area"
+        label-text="calcite-input-text"
         prefix-text="square"
         suffix-text="meters"
         placeholder="Enter an area"
       ></calcite-input-text>
       <calcite-input-number
-        label-text="Length"
+        label-text="calcite-input-number"
         prefix-text="approximately"
         suffix-text="kilometers"
         placeholder="Enter a length"
       ></calcite-input-number>
       <calcite-autocomplete
-        label-text="Location"
+        label-text="calcite-autocomplete"
         prefix-text="nearest"
         suffix-text="result"
         placeholder="Search locations"
@@ -420,25 +408,17 @@ export const prefixAndSuffixAutoWidthUsingLabel = (args: FieldGroupStoryArgs): s
     ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
     ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
   >
-    <calcite-field-set legend="Measurements">
+    <calcite-field-set legend="Input components that support prefix/suffix">
       <calcite-label>
-        Width
+        calcite-input
         <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"></calcite-input>
       </calcite-label>
       <calcite-label>
-        Height
-        <calcite-input prefix-text="longer prefix" suffix-text="pixels" placeholder="Enter a size"></calcite-input>
-      </calcite-label>
-      <calcite-label>
-        Depth
-        <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"></calcite-input>
-      </calcite-label>
-      <calcite-label>
-        Area
+        calcite-input-text
         <calcite-input-text prefix-text="square" suffix-text="meters" placeholder="Enter an area"></calcite-input-text>
       </calcite-label>
       <calcite-label>
-        Length
+        calcite-input-number
         <calcite-input-number
           prefix-text="approximately"
           suffix-text="kilometers"
@@ -446,7 +426,7 @@ export const prefixAndSuffixAutoWidthUsingLabel = (args: FieldGroupStoryArgs): s
         ></calcite-input-number>
       </calcite-label>
       <calcite-label>
-        Location
+        calcite-autocomplete
         <calcite-autocomplete
           prefix-text="nearest"
           suffix-text="result"

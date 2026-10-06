@@ -578,11 +578,7 @@ export class Input
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
-      const affixWidthsChanged = this.affixWidth.syncAffixWidths();
-
-      if (affixWidthsChanged) {
-        this.calciteInternalInputAffixChange.emit();
-      }
+      this.calciteInternalInputAffixChange.emit();
     }
   }
 

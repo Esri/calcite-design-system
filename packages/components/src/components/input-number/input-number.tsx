@@ -517,9 +517,7 @@ export class InputNumber
   }
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
-      if (this.affixWidth.syncAffixWidths()) {
-        this.calciteInternalInputAffixChange.emit();
-      }
+      this.calciteInternalInputAffixChange.emit();
     }
   }
 

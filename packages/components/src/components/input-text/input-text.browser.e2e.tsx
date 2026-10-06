@@ -638,7 +638,7 @@ describe("theme", () => {
       },
     );
 
-    it("respects deprecated prefix/suffix size CSS custom properties set before the affix first renders", async () => {
+    it("respects prefix/suffix size CSS custom properties when used standalone", async () => {
       const { el } = await mount<InputText>(
         <calcite-input-text
           prefix-text="prefix"
@@ -651,28 +651,33 @@ describe("theme", () => {
       );
 
       await vi.waitFor(() => {
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toBe(
-          "42px",
-        );
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toBe(
-          "42px",
-        );
+        expect(
+          Math.ceil(
+            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.getBoundingClientRect()
+              .width,
+          ),
+        ).toBe(42);
+        expect(
+          Math.ceil(
+            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.getBoundingClientRect()
+              .width,
+          ),
+        ).toBe(42);
       });
     });
 
-    it("measures and clears inline affix widths", async () => {
+    it("does not apply an inline affix width when used standalone", async () => {
       const { el } = await mount<InputText>(
         <calcite-input-text prefix-text="prefix" suffix-text="suffix" />,
       );
 
       await vi.waitFor(() => {
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toMatch(
-          /^\d+px$/,
-        );
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toMatch(
-          /^\d+px$/,
-        );
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)).not.toBeNull();
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)).not.toBeNull();
       });
+
+      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toBe("");
+      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toBe("");
 
       el.prefixText = undefined;
       el.suffixText = undefined;

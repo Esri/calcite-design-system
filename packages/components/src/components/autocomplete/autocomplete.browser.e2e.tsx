@@ -686,7 +686,7 @@ describe("theme", () => {
     },
   });
 
-  it("respects deprecated prefix/suffix size CSS custom properties set before the affix first renders", async () => {
+  it("respects prefix/suffix size CSS custom properties when used standalone", async () => {
     await mount<Autocomplete>(
       <calcite-autocomplete
         prefix-text="prefix"
@@ -700,7 +700,9 @@ describe("theme", () => {
     const prefix = page.getBySelector(`calcite-autocomplete .${CSS.input} .prefix`);
     const suffix = page.getBySelector(`calcite-autocomplete .${CSS.input} .suffix`);
 
-    await expect.element(prefix).toHaveProperty("style.width", "42px");
-    await expect.element(suffix).toHaveProperty("style.width", "42px");
+    await vi.waitFor(() => {
+      expect(Math.ceil((prefix.element() as HTMLElement).getBoundingClientRect().width)).toBe(42);
+      expect(Math.ceil((suffix.element() as HTMLElement).getBoundingClientRect().width)).toBe(42);
+    });
   });
 });

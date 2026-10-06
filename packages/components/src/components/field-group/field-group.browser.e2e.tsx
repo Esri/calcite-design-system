@@ -247,7 +247,7 @@ describe("affix width coordination", () => {
     expect(getAffixWidth(nested, "suffix")).not.toBe(getAffixWidth(direct, "suffix"));
   });
 
-  it("restores individual affix widths when auto width is disabled", async () => {
+  it("clears affix widths when auto width is disabled", async () => {
     const { el } = await mount(
       <calcite-field-group prefix-auto-width suffix-auto-width>
         <calcite-input id="input" prefix-text="Prefix" suffix-text="Suffix" />
@@ -266,8 +266,8 @@ describe("affix width coordination", () => {
     await waitForUpdate(fieldGroup);
 
     await vi.waitFor(() => {
-      expect(getAffixWidth(input, "prefix")).toMatch(/^\d+px$/);
-      expect(getAffixWidth(input, "suffix")).toMatch(/^\d+px$/);
+      expect(getAffixWidth(input, "prefix")).toBe("");
+      expect(getAffixWidth(input, "suffix")).toBe("");
     });
   });
 
@@ -283,12 +283,12 @@ describe("affix width coordination", () => {
     fieldGroup.prefixAutoWidth = false;
 
     await vi.waitFor(() => {
-      expect(getAffixWidth(el.querySelector("calcite-input")!, "prefix")).toMatch(/^\d+px$/);
+      expect(getAffixWidth(el.querySelector("calcite-input")!, "prefix")).toBe("");
     });
 
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-    expect(getAffixWidth(el.querySelector("calcite-input")!, "prefix")).toMatch(/^\d+px$/);
+    expect(getAffixWidth(el.querySelector("calcite-input")!, "prefix")).toBe("");
   });
 
   it("restores inline affix widths when auto width is disabled", async () => {
@@ -343,8 +343,8 @@ describe("affix width coordination", () => {
 
     await vi.waitFor(() => {
       inputs.forEach((input) => {
-        expect(getAffixWidth(input, "prefix")).toMatch(/^\d+px$/);
-        expect(getAffixWidth(input, "suffix")).toMatch(/^\d+px$/);
+        expect(getAffixWidth(input, "prefix")).toBe("");
+        expect(getAffixWidth(input, "suffix")).toBe("");
       });
     });
   });
