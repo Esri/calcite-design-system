@@ -35,7 +35,7 @@ import { Scale, Width } from "../types";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { isDropdownGroup } from "../dropdown-group/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
@@ -53,13 +53,45 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the width of the component's wrapper.
+     */
+    "--calcite-dropdown-width": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-dropdown-background-color": "*";
+    /**
+     * Specifies the maximum height of the component's wrapper.
+     */
+    "--calcite-dropdown-max-height": "*";
+  }
+}
+
+interface DropdownSlots {
+  /**
+   * A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
+   */
+  "": Node[];
+  /**
+   * A slot for the element that triggers the component.
+   *
+   * @deprecated in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead.
+   */
+  trigger: Node[];
+}
+
 const manager = referenceElementManager({ click: true, hover: true });
 
-/**
- * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
- */
 export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: DropdownSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -111,7 +143,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -289,16 +321,16 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     );
   }
 
-  load(): void {
-    this.listenOn(document, "click", this.closeCalciteDropdownOnClick);
-    this.listenOn(document, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
-  }
-
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     this.updateItems();
     connectFloatingUI(this);
+  }
+
+  load(): void {
+    this.listenOn(document, "click", this.closeCalciteDropdownOnClick);
+    this.listenOn(document, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

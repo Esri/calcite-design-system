@@ -32,7 +32,7 @@ import { inlineEditConverter, UseInlineEdit } from "../../controllers/useInlineE
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -44,11 +44,137 @@ declare global {
   }
 }
 
-/**
- * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component's `clearable` element.
+     */
+    "--calcite-input-action-background-color": "*";
+    /**
+     * Specifies the background color of the component's `clearable` element when hovered.
+     */
+    "--calcite-input-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's `clearable` element when pressed.
+     */
+    "--calcite-input-action-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` element.
+     */
+    "--calcite-input-action-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` element when hovered.
+     */
+    "--calcite-input-action-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's `clearable` element when pressed.
+     */
+    "--calcite-input-action-icon-color-press": "*";
+    /**
+     * When `loading`, specifies the background color of the component`s `loading` element.
+     */
+    "--calcite-input-loading-background-color": "*";
+    /**
+     * When `loading`, specifies the fill color of the component`s `loading` element.
+     */
+    "--calcite-input-loading-fill-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component, its inline edit elements and slotted `calcite-action` wrappers, when hovered.
+     */
+    "--calcite-input-text-inline-edit-background-color-hover": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls.
+     */
+    "--calcite-input-text-inline-edit-control-background-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when hovered.
+     */
+    "--calcite-input-text-inline-edit-control-background-color-hover": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when pressed.
+     */
+    "--calcite-input-text-inline-edit-control-background-color-press": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the corner radius of the component's inline edit controls.
+     */
+    "--calcite-input-text-inline-edit-control-corner-radius": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the loader color of the component's inline edit controls.
+     */
+    "--calcite-input-text-inline-edit-control-loader-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls.
+     */
+    "--calcite-input-text-inline-edit-control-text-color": "*";
+    /**
+     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls, when pressed or hovered.
+     */
+    "--calcite-input-text-inline-edit-control-text-color-press": "*";
+    /**
+     * When `prefixText` is provided, specifies the width of the component's prefix element.
+     */
+    "--calcite-input-prefix-size-x": "*";
+    /**
+     * When `prefixText` is provided, specifies the text color of the component's prefix element.
+     */
+    "--calcite-input-prefix-text-color": "*";
+    /**
+     * When `suffixText` is provided, specifies the width of the component's suffix element.
+     */
+    "--calcite-input-suffix-size-x": "*";
+    /**
+     * When `suffixText` is provided, specifies the color of the component's suffix element.
+     */
+    "--calcite-input-suffix-text-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-input-text-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-input-text-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-input-text-corner-radius": "*";
+    /**
+     * Specifies the component's `icon` color.
+     */
+    "--calcite-input-text-icon-color": "*";
+    /**
+     * Specifies the component's `placeholder` text color.
+     */
+    "--calcite-input-text-placeholder-text-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-input-text-text-color": "*";
+    /**
+     * Specifies the component's text color when focused.
+     */
+    "--calcite-input-text-text-color-focus": "*";
+  }
+}
+
+interface InputTextSlots {
+  /**
+   * A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
+   */
+  action: Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputText extends LitElement implements LabelableComponent, TextualInputComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: InputTextSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -112,7 +238,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private formSupport = useForm<this>({
     inputType: "text",

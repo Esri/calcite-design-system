@@ -51,7 +51,7 @@ import {
 } from "../combobox-item/combobox-item";
 import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
@@ -80,11 +80,65 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-combobox-item`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's divider color.
+     */
+    "--calcite-combobox-divider-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-combobox-icon-color": "*";
+    /**
+     * Specifies the component's icon color when hovered.
+     */
+    "--calcite-combobox-icon-color-hover": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-combobox-corner-radius": "*";
+    /**
+     * Specifies the background color of the component's listbox.
+     */
+    "--calcite-combobox-background-color": "*";
+    /**
+     * Specifies the border color of the component's input.
+     */
+    "--calcite-combobox-input-border-color": "*";
+    /**
+     * Specifies the background color of the component's input.
+     */
+    "--calcite-combobox-input-background-color": "*";
+    /**
+     * Specifies the height of the component's input.
+     */
+    "--calcite-combobox-input-height": "*";
+    /**
+     * When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
+     */
+    "--calcite-combobox-input-text-color": "*";
+  }
+}
+
+interface ComboboxSlots {
+  /**
+   * A slot for adding `calcite-combobox-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ComboboxSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -256,7 +310,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
@@ -1839,7 +1893,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private handleSelectionModeWarning(): void {
-    if (this.selectionMode === "single-persist" && this.clearDisabled) {
+    if (import.meta.env.DEV && this.selectionMode === "single-persist" && this.clearDisabled) {
       logger.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
     }
   }
