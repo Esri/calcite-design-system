@@ -199,7 +199,7 @@ describe("theme", () => {
         </calcite-field-set>,
       ),
     {
-      "--calcite-field-set-input-gap": {
+      "--calcite-field-set-gap": {
         shadowSelector: `.${CSS.fieldWrapper}`,
         targetProp: "gap",
       },

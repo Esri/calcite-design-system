@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-field-set-input-gap: Specifies the component's gap between slotted elements.
+ * @prop --calcite-field-set-gap: Specifies the component's gap between slotted elements.
  * @prop --calcite-field-set-legend-text-color: Specifies the legend's text color.
  */
 
@@ -46,14 +46,14 @@
 .field-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--calcite-field-group-gap, var(--calcite-field-set-input-gap, var(--calcite-space-md)));
+  gap: var(--calcite-field-group-gap, var(--calcite-field-set-gap, var(--calcite-space-md)));
 }
 
 :host([scale="s"]) {
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-xs);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-sm);
-  --calcite-field-set-input-gap: var(--calcite-field-group-gap, var(--calcite-space-sm));
+  --calcite-field-set-gap: var(--calcite-field-group-gap, var(--calcite-space-sm));
   --calcite-internal-field-set-legend-margin-block-end: var(--calcite-space-sm);
 }
 
@@ -61,14 +61,14 @@
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-base);
   --calcite-internal-field-set-legend-min-block-size: var(--calcite-size-md);
-  --calcite-field-set-input-gap: var(--calcite-field-group-gap, var(--calcite-space-md));
+  --calcite-field-set-gap: var(--calcite-field-group-gap, var(--calcite-space-md));
 }
 
 :host([scale="l"]) {
   --calcite-internal-field-set-legend-font-size: var(--calcite-font-size-md);
   --calcite-internal-field-set-legend-line-height: var(--calcite-font-line-height-fixed-lg);
   --calcite-internal-field-set-legend-min-block-size: 2.5rem; // TODO: we don't have a variable for this; should we do math on two others? (e.g., calc(var(--calcite-size-sm) + var(--calcite-size-sm))
-  --calcite-field-set-input-gap: var(--calcite-field-group-gap, var(--calcite-space-lg));
+  --calcite-field-set-gap: var(--calcite-field-group-gap, var(--calcite-space-lg));
   --calcite-internal-field-set-legend-margin-block-end: var(--calcite-space-lg);
 }
 

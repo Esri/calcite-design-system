@@ -9,7 +9,7 @@ type FieldSetStoryArgs = {
   disabled: boolean;
   legend: string;
   legendTextColor?: string;
-  inputGap?: string;
+  gap?: string;
   scale: "s" | "m" | "l";
 };
 
@@ -24,14 +24,14 @@ export default {
     disabled: false,
     legend: "Field Set legend",
     legendTextColor: "",
-    inputGap: "",
+    gap: "",
     scale: "m",
   },
   argTypes: {
     disabled: { control: { type: "boolean" } },
     legend: { control: { type: "text" } },
     legendTextColor: { name: "legend text color", control: { type: "text" } },
-    inputGap: { name: "input gap", control: { type: "text" } },
+    gap: { control: { type: "text" } },
     scale: {
       options: ["s", "m", "l"],
       control: { type: "radio", labels: { m: "m (default)" } },
@@ -41,7 +41,7 @@ export default {
 
 function getStyle(args: FieldSetStoryArgs): string {
   return [
-    args.inputGap ? `--calcite-field-set-input-gap: ${args.inputGap};` : "",
+    args.gap ? `--calcite-field-set-gap: ${args.gap};` : "",
     args.legendTextColor ? `--calcite-field-set-legend-text-color: ${args.legendTextColor};` : "",
   ]
     .filter(Boolean)
@@ -122,15 +122,15 @@ scalesUsingLabel.storyName = "Scales (using 'Label')";
 scalesUsingLabel.parameters = { controls: { disable: true } };
 
 export const customGap = (args: FieldSetStoryArgs): string => renderFieldSet(args);
-customGap.args = { inputGap: "40px" };
+customGap.args = { gap: "40px" };
 customGap.argTypes = {
-  inputGap: { name: "input gap", control: { type: "text" } },
+  gap: { control: { type: "text" } },
   ...hiddenCustomGapArgTypes,
 };
 
 export const customGapUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
 customGapUsingLabel.storyName = "Custom gap (using 'Label')";
-customGapUsingLabel.args = { inputGap: "40px" };
+customGapUsingLabel.args = { gap: "40px" };
 customGapUsingLabel.argTypes = customGap.argTypes;
 
 export const customLegendColor = (args: FieldSetStoryArgs): string => renderFieldSet(args);
