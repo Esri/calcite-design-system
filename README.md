@@ -223,17 +223,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/justinhough">
-      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
-      <br />
-      <sub><b>Justin Hough</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/maxpatiiuk">
       <img src="https://avatars.githubusercontent.com/u/40512816?v=4" width="100;" alt="maxpatiiuk"/>
       <br />
       <sub><b>Max Patiiuk</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/justinhough">
+      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
+      <br />
+      <sub><b>Justin Hough</b></sub>
     </a>
   </td>
 </tr>
