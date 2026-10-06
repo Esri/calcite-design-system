@@ -173,6 +173,31 @@ describe("theme", () => {
   });
 });
 
+describe("falsey href/rel/target attributes", () => {
+  it("does not render href/rel/target as the string \"false\" when acting as a button", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    const anchor = el.shadowRoot!.querySelector("a")!;
+
+    expect(anchor.hasAttribute("href")).toBe(false);
+    expect(anchor.hasAttribute("rel")).toBe(false);
+    expect(anchor.hasAttribute("target")).toBe(false);
+    expect(anchor.getAttribute("href")).not.toBe("false");
+    expect(anchor.getAttribute("rel")).not.toBe("false");
+    expect(anchor.getAttribute("target")).not.toBe("false");
+  });
+
+  it("omits unset rel/target when href is present", async () => {
+    const { el } = await mount<Link>(<calcite-link href="/">link</calcite-link>);
+    const anchor = el.shadowRoot!.querySelector("a")!;
+
+    expect(anchor.getAttribute("href")).toBe("/");
+    expect(anchor.hasAttribute("rel")).toBe(false);
+    expect(anchor.hasAttribute("target")).toBe(false);
+    expect(anchor.getAttribute("rel")).not.toBe("false");
+    expect(anchor.getAttribute("target")).not.toBe("false");
+  });
+});
+
 describe("underline", () => {
   it("preserves underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
