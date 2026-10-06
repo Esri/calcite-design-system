@@ -1,8 +1,8 @@
-import "./field-set"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../field-group/field-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../text-area/text-area"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./field-set";
+import "../field-group/field-group";
+import "../input/input";
+import "../label/label";
+import "../text-area/text-area";
 import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
