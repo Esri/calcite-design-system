@@ -11,6 +11,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -26,7 +27,7 @@ import { BigDecimal } from "../../utils/number";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
@@ -41,16 +42,72 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-slider-text-color": "*";
+    /**
+     * Specifies the component's track color.
+     */
+    "--calcite-slider-track-color": "*";
+    /**
+     * Specifies the component's track fill color.
+     */
+    "--calcite-slider-track-fill-color": "*";
+    /**
+     * Specifies the component's handle fill color.
+     */
+    "--calcite-slider-handle-fill-color": "*";
+    /**
+     * Specifies the component's handle extension color.
+     */
+    "--calcite-slider-handle-extension-color": "*";
+    /**
+     * Specifies the component's accent color.
+     */
+    "--calcite-slider-accent-color": "*";
+    /**
+     * Specifies the component's tick color.
+     */
+    "--calcite-slider-tick-color": "*";
+    /**
+     * Specifies the component's tick border color.
+     */
+    "--calcite-slider-tick-border-color": "*";
+    /**
+     * Specifies the component's tick color when in selected range.
+     */
+    "--calcite-slider-tick-selected-color": "*";
+    /**
+     * Specifies the component's graph color.
+     */
+    "--calcite-slider-graph-color": "*";
+  }
+}
+
+interface SliderSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
 const defaultValue = 0;
+const leftToRightMark = "\u200E";
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
 export class Slider extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SliderSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -64,6 +121,8 @@ export class Slider extends LitElement implements LabelableComponent {
   //#region Private Properties
 
   defaultValue?: Slider["value"];
+
+  private direction = useDirection();
 
   private dragEnd = (event: PointerEvent): void => {
     if (this.disabled) {
@@ -145,7 +204,11 @@ export class Slider extends LitElement implements LabelableComponent {
       useGrouping: this.groupSeparator,
     };
 
-    return numberStringFormatter.localize(value.toString(), true);
+    const formattedValue = numberStringFormatter.localize(value.toString(), true);
+
+    return this.direction === "rtl" && formattedValue.startsWith(numberStringFormatter.minusSign)
+      ? `${leftToRightMark}${formattedValue}`
+      : formattedValue;
   };
 
   formSupport = useForm<this>({
@@ -199,7 +262,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private trackRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
