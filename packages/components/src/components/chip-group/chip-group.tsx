@@ -8,7 +8,7 @@ import {
 } from "../../utils/dom";
 import { Scale, SelectionMode } from "../types";
 import type { Chip } from "../chip/chip";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./chip-group.scss";
 import { isChip } from "../chip/resources";
@@ -18,8 +18,20 @@ declare global {
     "calcite-chip-group": ChipGroup;
   }
 }
-/** @slot - A slot for adding one or more `calcite-chip`s. */
+
+interface ChipGroupSlots {
+  /**
+   * A slot for adding one or more `calcite-chip`s.
+   */
+  "": Node[];
+}
 export class ChipGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ChipGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -32,7 +44,7 @@ export class ChipGroup extends LitElement {
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

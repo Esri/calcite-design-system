@@ -16,7 +16,7 @@ import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./types";
 import { CSS, ICONS, IDS } from "./resources";
@@ -28,11 +28,52 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-block-section-background-color": "*";
+    /**
+     * Specifies the component's border color. When `expanded`, applies to the component's bottom border.
+     */
+    "--calcite-block-section-border-color": "*";
+    /**
+     * Specifies the component's header text color.
+     */
+    "--calcite-block-section-header-text-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-block-section-text-color": "*";
+    /**
+     * Specifies the component's text color on hover.
+     */
+    "--calcite-block-section-text-color-hover": "*";
+    /**
+     * Specifies the padding of the component's content in `default` slot.
+     */
+    "--calcite-block-section-content-space": "*";
+  }
+}
+
+interface BlockSectionSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
- * @slot - A slot for adding custom content.
  */
 export class BlockSection extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: BlockSectionSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -48,11 +89,11 @@ export class BlockSection extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() defaultSlotHasElements = false;
 
