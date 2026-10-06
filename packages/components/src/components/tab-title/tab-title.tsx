@@ -49,6 +49,8 @@ export class TabTitle extends LitElement {
 
   //#region Private Properties
 
+  private _closed = false;
+
   private closeButtonRef = createRef<Action["el"]>();
 
   private containerEl?: HTMLDivElement;
@@ -88,6 +90,9 @@ export class TabTitle extends LitElement {
 
   //#region Public Properties
 
+  /** Specifies a function to run before the component closes. */
+  @property() beforeClose?: () => Promise<void>;
+
   /** @private */
   @property({ reflect: true }) bordered = false;
 
@@ -95,7 +100,15 @@ export class TabTitle extends LitElement {
   @property({ reflect: true }) closable = false;
 
   /** @copyDoc */
-  @property({ reflect: true }) closed = false;
+  @property({ reflect: true })
+  get closed(): boolean {
+    return this._closed;
+  }
+  set closed(value: boolean) {
+    if (value !== this._closed) {
+      this.setClosedState(value);
+    }
+  }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -231,6 +244,9 @@ export class TabTitle extends LitElement {
 
   /** Fires when a `calcite-tab` is selected. */
   calciteTabsActivate = createEvent({ cancelable: false });
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteTabTitleBeforeClose = createEvent({ cancelable: false });
 
   /** Fires when a `calcite-tab` is closed. */
   calciteTabsClose = createEvent({ cancelable: false });
@@ -368,7 +384,7 @@ export class TabTitle extends LitElement {
   }
 
   private closeClickHandler(): void {
-    this.closeTabTitleAndNotify();
+    this.setClosedState(true, true);
   }
 
   private updateHasText(): void {
@@ -384,12 +400,29 @@ export class TabTitle extends LitElement {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  private closeTabTitleAndNotify(): void {
-    this.closed = true;
-    this.calciteInternalTabsClose.emit({ tab: this.tab });
+  private async setClosedState(value: boolean, notify = false): Promise<void> {
+    if (value) {
+      this.calciteTabTitleBeforeClose.emit();
+    }
 
-    // emit in the next frame to let internal events sync up
-    requestAnimationFrame(() => this.calciteTabsClose.emit());
+    if (this.beforeClose && value) {
+      try {
+        await this.beforeClose();
+      } catch {
+        return;
+      }
+    }
+
+    const oldValue = this._closed;
+    this._closed = value;
+    this.requestUpdate("closed", oldValue);
+
+    if (notify) {
+      this.calciteInternalTabsClose.emit({ tab: this.tab });
+
+      // emit in the next frame to let internal events sync up
+      requestAnimationFrame(() => this.calciteTabsClose.emit());
+    }
   }
 
   //#endregion

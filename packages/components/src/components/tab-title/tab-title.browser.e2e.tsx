@@ -1,12 +1,72 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import { defaults, hidden, renders, disabled, themed, scalePropagates } from "../../tests/common";
 import { CSS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
+import { TabTitle } from "./tab-title";
 
 describe("defaults", () => {
-  defaults(() => mount("calcite-tab-title"), [{ propertyName: "scale", defaultValue: "m" }]);
+  defaults(
+    () => mount("calcite-tab-title"),
+    [
+      { propertyName: "beforeClose", defaultValue: undefined },
+      { propertyName: "scale", defaultValue: "m" },
+    ],
+  );
+});
+
+describe("beforeClose", () => {
+  it("waits for approval before closing and emitting close events", async () => {
+    const { el } = await mount<TabTitle>(<calcite-tab-title closable>Tab</calcite-tab-title>);
+    const approval = Promise.withResolvers<void>();
+    const beforeClose = vi.fn(() => approval.promise);
+    const beforeCloseEvent = vi.fn();
+    const close = vi.fn();
+    const internalClose = vi.fn();
+    el.beforeClose = beforeClose;
+    el.addEventListener("calciteTabTitleBeforeClose", beforeCloseEvent);
+    el.addEventListener("calciteTabsClose", close);
+    el.addEventListener("calciteInternalTabsClose", internalClose);
+
+    await page.getByRole("button", { name: "Close" }).click();
+
+    expect(beforeClose).toHaveBeenCalledTimes(1);
+    expect(beforeCloseEvent).toHaveBeenCalledTimes(1);
+    expect(el.closed).toBe(false);
+    expect(internalClose).not.toHaveBeenCalled();
+    expect(close).not.toHaveBeenCalled();
+
+    approval.resolve();
+
+    await expect.element(page.elementLocator(el)).toHaveAttribute("closed");
+    await expect.poll(() => close.mock.calls.length).toBe(1);
+    expect(internalClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps the title open without emitting close events when approval is rejected", async () => {
+    const { el } = await mount<TabTitle>(<calcite-tab-title closable>Tab</calcite-tab-title>);
+    const beforeClose = vi.fn(async () => {
+      throw new Error("Close canceled");
+    });
+    const beforeCloseEvent = vi.fn();
+    const close = vi.fn();
+    const internalClose = vi.fn();
+    el.beforeClose = beforeClose;
+    el.addEventListener("calciteTabTitleBeforeClose", beforeCloseEvent);
+    el.addEventListener("calciteTabsClose", close);
+    el.addEventListener("calciteInternalTabsClose", internalClose);
+
+    await page.getByRole("button", { name: "Close" }).click();
+
+    expect(beforeClose).toHaveBeenCalledTimes(1);
+    expect(beforeCloseEvent).toHaveBeenCalledTimes(1);
+    expect(el.closed).toBe(false);
+    await expect.element(page.elementLocator(el)).not.toHaveAttribute("closed");
+    expect(internalClose).not.toHaveBeenCalled();
+    expect(close).not.toHaveBeenCalled();
+  });
 });
 
 describe("honors hidden attribute", () => {
