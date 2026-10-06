@@ -174,7 +174,7 @@ describe("theme", () => {
 });
 
 describe("underline", () => {
-  it("increases underline thickness while active", async () => {
+  it("preserves underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
     const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
@@ -186,7 +186,7 @@ describe("underline", () => {
 
     const activeThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
 
-    expect(activeThickness).toBeGreaterThan(initialThickness);
+    expect(activeThickness).toBe(initialThickness);
 
     await commands.mouseUp();
   });

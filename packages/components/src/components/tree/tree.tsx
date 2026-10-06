@@ -23,21 +23,33 @@ declare global {
   }
 }
 
-/** @slot - A slot for `calcite-tree-item` elements. */
+interface TreeSlots {
+  /**
+   * A slot for `calcite-tree-item` elements.
+   */
+  "": Node[];
+}
+
 export class Tree extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TreeSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private items: TreeItem["el"][] = [];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** @private */
   @property({ reflect: true }) child = false;
@@ -71,16 +83,16 @@ export class Tree extends LitElement {
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the user selects/deselects `calcite-tree-items`. */
   calciteTreeSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -111,9 +123,10 @@ export class Tree extends LitElement {
     this.child = !!parent;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private onFocus(): void {
     if (!this.child) {
       const focusTarget =
@@ -446,9 +459,9 @@ export class Tree extends LitElement {
     return !this.child ? 0 : -1;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const isRoot = !this.child;
@@ -467,5 +480,5 @@ export class Tree extends LitElement {
     return <slot onSlotChange={this.handleDefaultSlotChange} />;
   }
 
-  // #endregion
+  //#endregion
 }

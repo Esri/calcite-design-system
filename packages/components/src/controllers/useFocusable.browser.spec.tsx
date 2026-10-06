@@ -3,11 +3,11 @@ import { createRef } from "lit/directives/ref.js";
 import { h, JsxNode, LitElement, ToElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { Input } from "../components/input/input";
-import { useSetFocus } from "./useSetFocus";
+import { useFocusable } from "./useFocusable";
 
 it("focuses native elements", async () => {
   class Test extends LitElement {
-    private focusSetter = useSetFocus()(this);
+    private focusSetter = useFocusable()(this);
     private inputRef = createRef<HTMLInputElement>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -28,7 +28,7 @@ it("focuses native elements", async () => {
 
 it("focuses custom elements", async () => {
   class Test extends LitElement {
-    private focusSetter = useSetFocus()(this);
+    private focusSetter = useFocusable()(this);
     private inputRef = createRef<ToElement<Input["el"]>>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -49,7 +49,7 @@ it("focuses custom elements", async () => {
 
 it("focuses focusable host component", async () => {
   class Test extends LitElement {
-    private focusSetter = useSetFocus()(this);
+    private focusSetter = useFocusable()(this);
 
     async setFocus(options?: FocusOptions): Promise<void> {
       return this.focusSetter(() => this.el, options);
@@ -69,7 +69,7 @@ it("focuses focusable host component", async () => {
 
 it("bails if component is disabled", async () => {
   class Test extends LitElement {
-    private focusSetter = useSetFocus()(this);
+    private focusSetter = useFocusable()(this);
 
     disabled = true;
 
@@ -95,7 +95,7 @@ it("bails if component is disabled", async () => {
 
 it("bails if component is blurred before setFocus resolves", async () => {
   class Test extends LitElement {
-    focusSetter = useSetFocus()(this);
+    focusSetter = useFocusable()(this);
     private inputRef = createRef<ToElement<Input["el"]>>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -127,7 +127,7 @@ it("bails if component is blurred before setFocus resolves", async () => {
 
 it("bails if target focus element is not available", async () => {
   class Test extends LitElement {
-    private focusSetter = useSetFocus()(this);
+    private focusSetter = useFocusable()(this);
     private inputRef = createRef<ToElement<Input["el"]>>();
     private ready = false;
 
@@ -149,7 +149,7 @@ it("bails if target focus element is not available", async () => {
 
 it("bails if component already has focus", async () => {
   class Test extends LitElement {
-    focusSetter = useSetFocus()(this);
+    focusSetter = useFocusable()(this);
     private inputRef = createRef<ToElement<Input["el"]>>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -183,7 +183,7 @@ it("bails if component already has focus", async () => {
 
 it("bails if focus moves from previously focused element to another before component's setFocus resolves", async () => {
   class Test extends LitElement {
-    focusSetter = useSetFocus()(this);
+    focusSetter = useFocusable()(this);
 
     private inputRef = createRef<ToElement<Input["el"]>>();
 
@@ -215,7 +215,7 @@ it("bails if focus moves from previously focused element to another before compo
 describe("focus behavior options", () => {
   it("allows setting includeContainer", async () => {
     class Test extends LitElement {
-      private focusSetter = useSetFocus()(this);
+      private focusSetter = useFocusable()(this);
       private ref = createRef<HTMLDivElement>();
 
       async setFocus(options?: FocusOptions): Promise<void> {
@@ -245,7 +245,7 @@ describe("focus behavior options", () => {
 
   it("allows setting focus strategy", async () => {
     class Test extends LitElement {
-      private focusSetter = useSetFocus()(this);
+      private focusSetter = useFocusable()(this);
       private ref = createRef<HTMLDivElement>();
 
       async setFocus(options?: FocusOptions): Promise<void> {
@@ -277,7 +277,7 @@ describe("focus behavior options", () => {
 
 it("supports passing focus options", async () => {
   class Test extends LitElement {
-    private focusSetter = useSetFocus()(this);
+    private focusSetter = useFocusable()(this);
 
     inputRef = createRef<HTMLInputElement>();
 

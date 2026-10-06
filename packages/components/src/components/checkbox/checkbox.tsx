@@ -8,7 +8,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -19,6 +19,31 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 declare global {
   interface DeclareElements {
     "calcite-checkbox": Checkbox;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's height and width.
+     */
+    "--calcite-checkbox-size": "*";
+    /**
+     * Specifies the component's color.
+     */
+    "--calcite-checkbox-border-color": "*";
+    /**
+     * Specifies the component's color when hovered.
+     */
+    "--calcite-checkbox-border-color-hover": "*";
+    /**
+     * Specifies the component's color when pressed.
+     */
+    "--calcite-checkbox-border-color-press": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-checkbox-icon-color": "*";
   }
 }
 
@@ -60,7 +85,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

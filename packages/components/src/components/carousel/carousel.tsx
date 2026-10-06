@@ -15,7 +15,7 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { CarouselItem } from "../carousel-item/carousel-item";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -29,8 +29,69 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-carousel-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
+     */
+    "--calcite-carousel-pagination-background-color": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
+     */
+    "--calcite-carousel-pagination-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
+     */
+    "--calcite-carousel-pagination-background-color-press": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
+     */
+    "--calcite-carousel-pagination-background-color-selected": "*";
+    /**
+     * Specifies the icon color of the component's pagination items and autoplay controls.
+     */
+    "--calcite-carousel-pagination-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's pagination items when hovered or pressed.
+     */
+    "--calcite-carousel-pagination-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's pagination items when selected.
+     */
+    "--calcite-carousel-pagination-icon-color-selected": "*";
+    /**
+     * Specifies the icon color of the component's navigation arrow controls.
+     */
+    "--calcite-carousel-control-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
+     */
+    "--calcite-carousel-control-icon-color-hover": "*";
+    /**
+     * Specifies the background color of the component's autoplay progress when `autoplay` is specified.
+     */
+    "--calcite-carousel-autoplay-progress-background-color": "*";
+    /**
+     * Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
+     */
+    "--calcite-carousel-autoplay-progress-fill-color": "*";
+  }
+}
+
+interface CarouselSlots {
+  /**
+   * A slot for adding `calcite-carousel-item`s.
+   */
+  "": Node[];
+}
+
 export class Carousel extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: CarouselSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = [styles, screenReaderStyles];
@@ -91,7 +152,7 @@ export class Carousel extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
