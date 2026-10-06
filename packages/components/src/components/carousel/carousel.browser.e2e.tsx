@@ -728,15 +728,16 @@ describe("pagination", () => {
         </calcite-carousel>,
       );
       const pagination = page.getBySelector(`calcite-carousel .${CSS.pagination}`);
+      const status = page.getByRole("status");
 
       await expect.element(pagination).not.toBeInTheDocument();
       await expect.element(page.getByRole("tablist")).not.toBeInTheDocument();
-      await expect.element(page.getByRole("status")).toHaveTextContent("Item 1 of 2");
+      await expect.element(status).toHaveTextContent("Item 1 of 2");
 
       await el.setFocus();
       await userEvent.keyboard("{ArrowRight}");
 
-      await expect.element(page.getByRole("status")).toHaveTextContent("Item 2 of 2");
+      await expect.element(status).toHaveTextContent("Item 2 of 2");
 
       el.paginationDisabled = false;
       await reRender();
@@ -750,7 +751,7 @@ describe("pagination", () => {
       await reRender();
 
       await expect.element(pagination).not.toBeInTheDocument();
-      await expect.element(page.getByRole("status")).toHaveTextContent("Item 2 of 2");
+      await expect.element(status).toHaveTextContent("Item 2 of 2");
     },
   );
 
@@ -763,23 +764,20 @@ describe("pagination", () => {
           <calcite-carousel-item label="two" />
         </calcite-carousel>,
       );
-      await expect
-        .element(page.getBySelector(`calcite-carousel .${CSS.pagination}`))
-        .not.toBeInTheDocument();
-      await expect
-        .element(page.getBySelector(`calcite-carousel .${CSS.pageNext}`))
-        .toBeInTheDocument();
-      await expect
-        .element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`))
-        .toBeInTheDocument();
+      const pageNext = page.getBySelector(`calcite-carousel .${CSS.pageNext}`);
+      const pagePrev = page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`);
+
+      await expect.element(pagePrev).not.toBeInTheDocument();
+      await expect.element(pageNext).toBeInTheDocument();
+      await expect.element(pagePrev).toBeInTheDocument();
       await expect
         .element(page.getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`))
         .toHaveTextContent("Item 1 of 2");
 
-      await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
+      await userEvent.click(pageNext);
       await expect.element(selectedItem()).toHaveProperty("label", "two");
       await expect.element(page.getByRole("status")).toHaveTextContent("Item 2 of 2");
-      await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
+      await userEvent.click(pagePrev);
       await expect.element(selectedItem()).toHaveProperty("label", "one");
     },
   );

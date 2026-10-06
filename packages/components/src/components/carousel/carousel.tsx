@@ -736,7 +736,8 @@ export class Carousel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { itemDirection, items, paginationDisabled, paginationPosition } = this;
+    const { arrowType, hasMultiple, itemDirection, items, paginationDisabled, paginationPosition } =
+      this;
     const controlsArea = items.length > 0 ? this.renderControlsArea() : undefined;
     const paginationStatus =
       paginationDisabled && items.length > 0 ? this.renderPaginationAriaLive() : undefined;
@@ -760,7 +761,7 @@ export class Carousel extends LitElement {
       content.reverse();
     }
 
-    if (this.arrowType === "edge" && this.hasMultiple) {
+    if (arrowType === "edge" && hasMultiple) {
       content.push(this.renderArrow("previous"), this.renderArrow("next"));
     }
 
@@ -773,7 +774,7 @@ export class Carousel extends LitElement {
           class={{
             [CSS.container]: true,
             [CSS.containerOverlaid]: this.controlOverlay,
-            [CSS.containerEdged]: this.arrowType === "edge",
+            [CSS.containerEdged]: arrowType === "edge",
           }}
           onFocusIn={this.handleFocusIn}
           onFocusOut={this.handleFocusOut}
