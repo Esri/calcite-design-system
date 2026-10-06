@@ -60,12 +60,6 @@ const rules = {
       severity: "error",
     },
   ],
-  "@esri/calcite-components/deprecation-format": [
-    true,
-    {
-      severity: "error",
-    },
-  ],
 };
 
 scssPatternRules.forEach((rule) => {
