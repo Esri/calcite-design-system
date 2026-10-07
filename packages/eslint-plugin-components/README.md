@@ -11,7 +11,7 @@ This package was introduced to help component projects align with Calcite's conv
 
 Existing releases will remain available, but consumers should plan to remove the plugin and use the linting and compiler checks provided by their project instead. There is no direct replacement package.
 
-### Calcite Components migration plan
+### Calcite components migration plan
 
 The `@esri/calcite-components` package currently uses all four rules. The proposed migration is:
 
