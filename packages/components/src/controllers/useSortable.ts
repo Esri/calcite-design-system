@@ -3,6 +3,7 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import {
   Accessibility,
   DragDropManager,
+  Feedback,
   KeyboardSensor,
   PointerActivationConstraints,
   PointerSensor,
@@ -248,7 +249,10 @@ function getManagerRecord(document: Document): SortableManagerRecord {
   }
 
   const manager = new DragDropManager({
-    plugins: (plugins) => plugins.filter((plugin) => plugin !== Accessibility),
+    plugins: (plugins) =>
+      plugins
+        .filter((plugin) => plugin !== Accessibility)
+        .map((plugin) => (plugin === Feedback ? Feedback.configure({ dropAnimation: null }) : plugin)),
     sensors: (sensors) =>
       sensors
         .filter((sensor) => sensor !== KeyboardSensor)
@@ -283,15 +287,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     }
 
     record.components.forEach((component) => component.onGlobalDragEnd());
-  };
-
-  const clearDragClasses = (): void => {
-    record.components.forEach((component) => {
-      component.el.classList.remove(CSS.chosenClass, CSS.dragClass, CSS.fallbackClass, CSS.ghostClass);
-      getSortableItems(component).forEach((item) => {
-        item.classList.remove(CSS.chosenClass, CSS.dragClass, CSS.fallbackClass, CSS.ghostClass);
-      });
-    });
   };
 
   const getSortableTarget = (target: unknown): Sortable | undefined => {
@@ -332,7 +327,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       };
       record.lastOver = undefined;
       record.dropPosition = undefined;
-      item.classList.add(CSS.chosenClass, CSS.dragClass);
       component.onDragStart(makeDragStartDetail(component.el, item, source.initialIndex));
       setGlobalDragActive(true);
     }),
@@ -369,7 +363,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         : undefined;
 
       fromComponent.onDragMove?.({ ...detail, relatedEl });
-      relatedEl.classList.add(CSS.ghostClass);
 
       if (record.lastOver === signature) {
         return;
@@ -396,7 +389,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         record.activeDrag = undefined;
         record.lastOver = undefined;
         record.dropPosition = undefined;
-        clearDragClasses();
         setGlobalDragActive(false);
 
         if (!activeDrag) {

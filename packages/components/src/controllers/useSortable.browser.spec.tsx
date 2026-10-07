@@ -9,6 +9,9 @@ const {
   destroySortableSpy,
   destroyManagerSpy,
   accessibilityPlugin,
+  feedbackPlugin,
+  configureFeedbackPlugin,
+  otherManagerPlugin,
   configuredPlugins,
   keyboardSensor,
   configuredSensors,
@@ -20,6 +23,9 @@ const {
   destroySortableSpy: vi.fn(),
   destroyManagerSpy: vi.fn(),
   accessibilityPlugin: vi.fn(),
+  feedbackPlugin: vi.fn(),
+  configureFeedbackPlugin: vi.fn((options: unknown) => ({ plugin: feedbackPlugin, options })),
+  otherManagerPlugin: vi.fn(),
   configuredPlugins: vi.fn(),
   keyboardSensor: vi.fn(),
   configuredSensors: vi.fn(),
@@ -51,7 +57,7 @@ vi.mock("@dnd-kit/dom", () => {
       plugins: (plugins: unknown[]) => unknown[];
       sensors: (sensors: unknown[]) => unknown[];
     }) {
-      configuredPlugins(options.plugins([accessibilityPlugin, optimisticSortingPlugin]));
+      configuredPlugins(options.plugins([accessibilityPlugin, feedbackPlugin, otherManagerPlugin]));
       configuredSensors(options.sensors([PointerSensor, keyboardSensor]));
     }
 
@@ -63,6 +69,7 @@ vi.mock("@dnd-kit/dom", () => {
   return {
     Accessibility: accessibilityPlugin,
     DragDropManager,
+    Feedback: Object.assign(feedbackPlugin, { configure: configureFeedbackPlugin }),
     KeyboardSensor: keyboardSensor,
     PointerActivationConstraints: { Distance },
     PointerSensor,
@@ -115,6 +122,7 @@ beforeEach(() => {
   destroySortableSpy.mockClear();
   destroyManagerSpy.mockClear();
   configuredPlugins.mockClear();
+  configureFeedbackPlugin.mockClear();
   configuredSensors.mockClear();
   monitorListeners.clear();
 });
@@ -151,11 +159,15 @@ it("uses pointer input without the dnd-kit keyboard sensor", async () => {
   expect(configuredSensors.mock.calls[0][0]).not.toContain(keyboardSensor);
 });
 
-it("does not install dnd-kit's accessibility plugin", async () => {
+it("disables dnd-kit drop animation and accessibility attributes", async () => {
   await mountDragEnabled();
 
   expect(configuredPlugins).toHaveBeenCalledTimes(1);
-  expect(configuredPlugins.mock.calls[0][0]).toEqual([optimisticSortingPlugin]);
+  expect(configureFeedbackPlugin).toHaveBeenCalledWith({ dropAnimation: null });
+  expect(configuredPlugins.mock.calls[0][0]).toContain(
+    configureFeedbackPlugin.mock.results[0].value,
+  );
+  expect(configuredPlugins.mock.calls[0][0]).toContain(otherManagerPlugin);
   expect(configuredPlugins.mock.calls[0][0]).not.toContain(accessibilityPlugin);
 });
 
@@ -168,6 +180,7 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
 
   expect(firstOptions).toMatchObject({ id: "one", index: 0, group: "test-group" });
   expect(secondOptions).toMatchObject({ id: "two", index: 1, group: "test-group" });
+  expect(firstOptions.transition).toBeUndefined();
   const firstHandle = component.el.querySelector<HTMLButtonElement>("#one .handle");
   expect(firstHandle).toBeDefined();
   expect(firstOptions.handle).toBe(firstHandle);
