@@ -17,7 +17,7 @@ catalog:
   "@inquirer/select": "5.2.6"
   "@interactjs/types": "1.10.27"
   "@lit/react": "1.0.8"
-  "@morev/stylelint-testing-library": "1.1.0"
+  "@morev/stylelint-testing-library": "1.1.1"
   "@nx/nx-darwin-arm64": "21.6.11"
   "@nx/nx-linux-x64-gnu": "21.6.11"
   "@nx/nx-win32-x64-msvc": "21.6.11"

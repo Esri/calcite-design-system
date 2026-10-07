@@ -49,8 +49,8 @@ catalogs:
       specifier: 5.2.6
       version: 5.2.6
     '@morev/stylelint-testing-library':
-      specifier: 1.1.0
-      version: 1.1.0
+      specifier: 1.1.1
+      version: 1.1.1
     '@nx/nx-darwin-arm64':
       specifier: 21.6.11
       version: 21.6.11
@@ -1087,7 +1087,7 @@ importers:
         version: link:../eslint-config
       '@morev/stylelint-testing-library':
         specifier: 'catalog:'
-        version: 1.1.0(stylelint@17.13.0(supports-color@10.2.2)(typescript@6.0.3))
+        version: 1.1.1(stylelint@17.13.0(supports-color@10.2.2)(typescript@6.0.3))
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.0
@@ -2752,8 +2752,8 @@ packages:
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
 
-  '@morev/stylelint-testing-library@1.1.0':
-    resolution: {integrity: sha512-WrvQyLTCGQBgaM9W8xND5sRlppBa0HJsVZxrJBPYZeTv2rhjb9k4FvDwWJp5tDPQGkQ0ENWWEDSztaFPoDYHwQ==}
+  '@morev/stylelint-testing-library@1.1.1':
+    resolution: {integrity: sha512-/lfE5s31UutqPt3OdYUFwDIx8hAHRVPyPkxovAmWmy+rKQQ/MMJ37Yr35VajDWZ4TtCXVOfc8Yhpa6mdCj8a+g==}
     engines: {node: '>=18'}
     peerDependencies:
       stylelint: '>=16'
@@ -11209,7 +11209,7 @@ snapshots:
 
   '@microsoft/tsdoc@0.16.0': {}
 
-  '@morev/stylelint-testing-library@1.1.0(stylelint@17.13.0(supports-color@10.2.2)(typescript@6.0.3))':
+  '@morev/stylelint-testing-library@1.1.1(stylelint@17.13.0(supports-color@10.2.2)(typescript@6.0.3))':
     dependencies:
       '@morev/utils': 3.15.0
       stylelint: 17.13.0(supports-color@10.2.2)(typescript@6.0.3)
