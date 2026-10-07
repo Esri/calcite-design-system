@@ -21,7 +21,7 @@ import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -36,14 +36,58 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-button-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-button-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-button-corner-radius": "*";
+    /**
+     * Specifies the component's `iconStart` and `iconEnd` color.
+     */
+    "--calcite-button-icon-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-button-loader-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-button-text-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-button-shadow": "*";
+  }
+}
+
+interface ButtonSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
- *
- * @slot - A slot for adding text.
  */
 export class Button extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ButtonSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -71,7 +115,7 @@ export class Button extends LitElement {
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -312,7 +356,7 @@ export class Button extends LitElement {
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
               : undefined
           }
-          ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}
+          ariaLabel={!this.loading ? getLabelText(this) || undefined : this.messages.loading}
           ariaLive={resolveAriaLive(this.el.ariaLive)}
           class={{
             [CSS.buttonPadding]: noStartEndIcons,

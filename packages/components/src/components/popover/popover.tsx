@@ -25,7 +25,7 @@ import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
 import {
@@ -43,10 +43,47 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-popover-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-popover-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-popover-corner-radius": "*";
+    /**
+     * Specifies the component's maximum width.
+     */
+    "--calcite-popover-max-size-x": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-popover-text-color": "*";
+  }
+}
+
+interface PopoverSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 const manager = referenceElementManager({ click: true });
 
-/** @slot - A slot for adding custom content. */
 export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: PopoverSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -97,7 +134,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.open && !this.referenceEl,

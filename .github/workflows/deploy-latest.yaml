@@ -32,14 +32,13 @@ jobs:
           require-lockfile: true
       - name: Configure npm authentication
         if: steps.release.outputs.releases_created == 'true'
-        run: pnpm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
+        run: pnpm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Build Packages and Publish to NPM
         if: steps.release.outputs.releases_created == 'true'
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_CONFIG_PROVENANCE: true
+          PNPM_CONFIG_PROVENANCE: true
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
           pnpm build

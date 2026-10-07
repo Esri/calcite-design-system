@@ -28,7 +28,7 @@ import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CharacterLengthObj } from "./types";
@@ -43,16 +43,96 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding text.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- * @slot footer-start - A slot for adding content to the start of the component's footer.
- * @slot footer-end - A slot for adding content to the end of the component's footer.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-text-area-background-color": "*";
+    /**
+     * Specifies the component's text area border color.
+     */
+    "--calcite-text-area-border-color": "*";
+    /**
+     * Specifies the color of the character limit text displayed in the footer of the component.
+     */
+    "--calcite-text-area-character-limit-text-color": "*";
+    /**
+     * Specifies the color of the divider between the text area and footer.
+     */
+    "--calcite-text-area-divider-color": "*";
+    /**
+     * Specifies the font size of the text area and footer.
+     */
+    "--calcite-text-area-font-size": "*";
+    /**
+     * Specifies the component's text area maximum height.
+     */
+    "--calcite-text-area-max-height": "*";
+    /**
+     * Specifies the component's text area minimum height.
+     */
+    "--calcite-text-area-min-height": "*";
+    /**
+     * Specifies the component's text area maximum width.
+     */
+    "--calcite-text-area-max-width": "*";
+    /**
+     * Specifies the component's text area minimum width.
+     */
+    "--calcite-text-area-min-width": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-text-area-text-color": "*";
+    /**
+     * Specifies the footer's border color.
+     */
+    "--calcite-text-area-footer-border-color": "*";
+    /**
+     * Specifies component's corner radius.
+     */
+    "--calcite-text-area-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-text-area-shadow": "*";
+    /**
+     * Specifies the footer's background color.
+     */
+    "--calcite-text-area-footer-background-color": "*";
+  }
+}
+
+interface TextAreaSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+  /**
+   * A slot for adding content to the start of the component's footer.
+   */
+  "footer-start": Node[];
+  /**
+   * A slot for adding content to the end of the component's footer.
+   */
+  "footer-end": Node[];
+}
+
 export class TextArea
   extends LitElement
   implements LabelableComponent, Omit<TextualInputComponent, "pattern">
 {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TextAreaSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -132,7 +212,7 @@ export class TextArea
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

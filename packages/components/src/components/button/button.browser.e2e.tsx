@@ -206,6 +206,12 @@ describe("a11y attributes", () => {
     await expect.element(link).toHaveAttribute("aria-busy", "true");
   });
 
+  it("should omit aria-label when no label is provided", async () => {
+    await mount(<calcite-button>Continue</calcite-button>);
+
+    await expect.element(page.getByRole("button")).not.toHaveAttribute("aria-label");
+  });
+
   it("sets internal control aria-live only when host value is valid", async () => {
     const { el } = await mount(<calcite-button>Continue</calcite-button>);
     const control = page.getBySelector("calcite-button button, calcite-button a").element() as

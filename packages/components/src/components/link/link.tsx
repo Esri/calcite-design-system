@@ -4,7 +4,7 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../types";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { isActivationKey } from "../../utils/key";
 import { styles } from "./link.scss";
@@ -16,16 +16,36 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-link-text-color": "*";
+  }
+}
+
+interface LinkSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
  * Passing a 'href' allows the component to behave like a link
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
- *
- * @slot - A slot for adding text.
  */
 export class Link extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: LinkSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -38,7 +58,7 @@ export class Link extends LitElement {
 
   private direction = useDirection();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

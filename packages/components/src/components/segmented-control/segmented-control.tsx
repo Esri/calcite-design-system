@@ -22,7 +22,7 @@ import type { SegmentedControlItem } from "../segmented-control-item/segmented-c
 import { isSegmentedControlItem } from "../segmented-control-item/resources";
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS } from "./resources";
@@ -35,11 +35,37 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-segmented-control-item`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-segmented-control-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-segmented-control-corner-radius": "*";
+  }
+}
+
+interface SegmentedControlSlots {
+  /**
+   * A slot for adding `calcite-segmented-control-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class SegmentedControl extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SegmentedControlSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -69,7 +95,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -77,7 +103,11 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /**
+   * Specifies the appearance style of the component.
+   *
+   * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
+   */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance

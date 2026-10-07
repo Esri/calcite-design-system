@@ -1,17 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-table-cell-background: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-table-cell-background-color` instead. Specifies the component's background color.
- * @prop --calcite-table-cell-background-color: Specifies the component's background color.
- * @prop --calcite-table-cell-border-color: Specifies the component's border color.
- * @prop --calcite-table-cell-text-color: Specifies the component's text color.
-
- */
-
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: contents;
@@ -44,7 +31,7 @@ td {
   &:not(.static-cell) {
     outline-color: transparent;
     &:focus {
-      @include focus.focus-inset();
+      @include shared.focus-inset();
     }
   }
 }
@@ -139,4 +126,4 @@ td.last-cell {
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();

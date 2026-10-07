@@ -6,19 +6,19 @@ import type { InteractiveComponent } from "./useInteractive";
 type FocusStrategy = "focusable" | "tabbable";
 type FocusConfig = { target: FocusableElement; includeContainer?: boolean; strategy?: FocusStrategy };
 
-export interface UseSetFocus {
+export interface UseFocusable {
   (getFocusTarget: () => FocusableElement | FocusConfig | undefined, options?: FocusOptions): Promise<void>;
 }
 
-type SetFocusComponent = SetFocusable & Partial<Pick<InteractiveComponent, "disabled">>;
+type FocusableComponent = SetFocusable & Partial<Pick<InteractiveComponent, "disabled">>;
 
 /**
- * A controller for centralized setFocus behavior.
+ * A controller for shared focus behavior, currently providing a focus setter for component setFocus methods.
  */
-export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
-  typeof makeGenericController<UseSetFocus, T>
+export const useFocusable = <T extends FocusableComponent>(): ReturnType<
+  typeof makeGenericController<UseFocusable, T>
 > => {
-  return makeGenericController<UseSetFocus, T>((component, controller) => {
+  return makeGenericController<UseFocusable, T>((component, controller) => {
     let abortController: AbortController;
 
     function handleFocusOut(): void {
