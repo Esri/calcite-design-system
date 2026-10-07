@@ -79,7 +79,7 @@
   }
 
   .tab-titles-slot-wrapper {
-    gap: var(--calcite-internal-tab-nav-gap);
+    gap: var(--calcite-tab-nav-gap, var(--calcite-internal-tab-nav-gap));
   }
 }
 
