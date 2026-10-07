@@ -180,36 +180,12 @@
   }
 }
 
-:host(.is-child[scale="s"][layout="vertical"]) {
-  .parent--vertical {
-    block-size: theme("spacing.9");
-  }
-
-  .content {
-    --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
-  }
+:host([scale="s"][layout="vertical"]) .content:not([href]) {
+  --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
 }
 
 :host([scale="s"][layout="vertical"]):has(.dropdown-action) {
-  --calcite-internal-menu-item-dropdown-action-block-size: theme("spacing.9");
-  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-sm);
-  --calcite-internal-menu-item-dropdown-action-flex: 0 0 var(--calcite-size-md);
-
-  .dropdown-action {
-    align-items: center;
-    box-sizing: border-box;
-    padding-inline: var(--calcite-space-2xs);
-  }
-}
-
-:host([scale="s"]) .dropdown-action,
-:host([scale="l"]:not([layout="vertical"])) .dropdown-action {
-  margin-inline: 0;
-  margin-inline-start: var(--calcite-space-px);
-
-  &::after {
-    inset-inline-start: calc(-1 * var(--calcite-space-px));
-  }
+  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-base);
 }
 
 :host([scale="s"][layout="vertical"]) .content:not([href]) {
@@ -268,11 +244,6 @@
   padding-inline-end: var(--calcite-space-md);
 }
 
-:host([scale="l"][layout="vertical"]) .dropdown-action {
-  margin-inline-end: 0;
-  padding-inline: var(--calcite-space-xs);
-}
-
 :host([scale="l"]:not([layout="vertical"])):has(.dropdown-action) {
   --calcite-internal-menu-item-dropdown-action-block-size: var(--calcite-size-lg);
   --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-xs);
@@ -293,10 +264,6 @@
   padding-inline-end: var(--calcite-space-lg);
 }
 
-:host([scale="l"][layout="vertical"]):is([slot="submenu-item"], .is-child) .parent--vertical {
-  padding-inline-start: var(--calcite-size-md);
-}
-
 :host([active]) {
   .content {
     --calcite-internal-menu-text-color: var(--calcite-color-text-1);
@@ -312,11 +279,6 @@
 
 :host([active][scale="l"][layout="vertical"]) .content {
   border-inline-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
-}
-
-:host(.is-child[layout="vertical"]) .parent--vertical {
-  box-sizing: border-box;
-  padding-inline-start: var(--calcite-space-xl);
 }
 
 :host([slot="submenu-item"]) .parent--vertical {
@@ -477,7 +439,7 @@
       border-block-start: var(--calcite-internal-menu-item-border);
       position: absolute;
       inset-block-start: 0;
-      inset-inline: var(--calcite-space-md) 0;
+      inset-inline: var(--calcite-space-2xl) 0;
     }
   }
 }
