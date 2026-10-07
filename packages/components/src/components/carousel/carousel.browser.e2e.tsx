@@ -767,7 +767,9 @@ describe("pagination", () => {
       const pageNext = page.getBySelector(`calcite-carousel .${CSS.pageNext}`);
       const pagePrev = page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`);
 
-      await expect.element(pagePrev).not.toBeInTheDocument();
+      await expect
+        .element(page.getBySelector(`calcite-carousel .${CSS.pagination}`))
+        .not.toBeInTheDocument();
       await expect.element(pageNext).toBeInTheDocument();
       await expect.element(pagePrev).toBeInTheDocument();
       await expect
