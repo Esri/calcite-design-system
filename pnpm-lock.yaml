@@ -40,8 +40,8 @@ catalogs:
       specifier: 9.39.5
       version: 9.39.5
     '@inquirer/checkbox':
-      specifier: 5.2.1
-      version: 5.2.1
+      specifier: 5.2.6
+      version: 5.2.6
     '@inquirer/prompts':
       specifier: 8.4.2
       version: 8.4.2
@@ -844,7 +844,7 @@ importers:
         version: link:../eslint-config
       '@inquirer/checkbox':
         specifier: 'catalog:'
-        version: 5.2.1(@types/node@24.10.0)
+        version: 5.2.6(@types/node@24.10.0)
       '@inquirer/prompts':
         specifier: 'catalog:'
         version: 8.4.2(@types/node@24.10.0)
@@ -2264,8 +2264,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@inquirer/checkbox@5.2.1':
-    resolution: {integrity: sha512-b6xmA/VlTe0ZgDQHDui+Nav470u7u49nRd8/iuhOcQPO9Ch7lGuogydhi2VOmNlZ+zXcM8IcPuNSwQcdJaF/kw==}
+  '@inquirer/checkbox@5.2.6':
+    resolution: {integrity: sha512-XkOardciF3tow2NUlY6/Qjk1QqYa+6WpmVLTpxXl97Uv4erczDEZ+xg1j6LqBf0ekcRSUiICQA4nQXHHkVKQ9w==}
     engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
@@ -10681,10 +10681,10 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.10.0
 
-  '@inquirer/checkbox@5.2.1(@types/node@24.10.0)':
+  '@inquirer/checkbox@5.2.6(@types/node@24.10.0)':
     dependencies:
       '@inquirer/ansi': 2.0.9
-      '@inquirer/core': 11.2.1(@types/node@24.10.0)
+      '@inquirer/core': 12.0.4(@types/node@24.10.0)
       '@inquirer/figures': 2.0.9
       '@inquirer/type': 4.2.0(@types/node@24.10.0)
     optionalDependencies:
@@ -10851,7 +10851,7 @@ snapshots:
 
   '@inquirer/prompts@8.4.2(@types/node@24.10.0)':
     dependencies:
-      '@inquirer/checkbox': 5.2.1(@types/node@24.10.0)
+      '@inquirer/checkbox': 5.2.6(@types/node@24.10.0)
       '@inquirer/confirm': 6.1.1(@types/node@24.10.0)
       '@inquirer/editor': 5.2.2(@types/node@24.10.0)
       '@inquirer/expand': 5.1.1(@types/node@24.10.0)
