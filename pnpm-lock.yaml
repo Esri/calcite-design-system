@@ -172,8 +172,8 @@ catalogs:
       specifier: 15.0.0
       version: 15.0.0
     concurrently:
-      specifier: 9.2.1
-      version: 9.2.1
+      specifier: 9.2.4
+      version: 9.2.4
     conventional-changelog-conventionalcommits:
       specifier: 9.3.1
       version: 9.3.1
@@ -463,7 +463,7 @@ importers:
         version: 1.7.5
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       conventional-changelog-conventionalcommits:
         specifier: 'catalog:'
         version: 9.3.1
@@ -687,7 +687,7 @@ importers:
         version: 16.6.3
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       cpy:
         specifier: 'catalog:'
         version: 12.1.0
@@ -814,7 +814,7 @@ importers:
         version: 18.3.1
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       markdownlint-cli2:
         specifier: 'catalog:'
         version: 0.22.1(supports-color@10.2.2)
@@ -907,7 +907,7 @@ importers:
         version: 5.4.4
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       es-toolkit:
         specifier: 'catalog:'
         version: 1.49.0
@@ -1006,7 +1006,7 @@ importers:
         version: 8.64.0(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       eslint:
         specifier: 'catalog:'
         version: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
@@ -1054,7 +1054,7 @@ importers:
         version: 15.0.0
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       dedent:
         specifier: 'catalog:'
         version: 1.7.2
@@ -1096,7 +1096,7 @@ importers:
         version: 1.6.20(@typescript-eslint/eslint-plugin@8.64.0(@typescript-eslint/parser@8.64.0(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)(vitest@4.1.11)
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       eslint:
         specifier: 'catalog:'
         version: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
@@ -1136,7 +1136,7 @@ importers:
         version: link:../eslint-config
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       eslint:
         specifier: 'catalog:'
         version: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
@@ -1195,7 +1195,7 @@ importers:
         version: 3.12.0
       concurrently:
         specifier: 'catalog:'
-        version: 9.2.1
+        version: 9.2.4
       cpy:
         specifier: 'catalog:'
         version: 12.1.0
@@ -1300,6 +1300,7 @@ packages:
 
   '@arcgis/api-extractor@5.2.0-next.132':
     resolution: {integrity: sha512-bhA1dAQMQ2rWiOH3r2yI77PZ+jGyjV4Z7a2T1mMVY1vQIez2VxGglmr6xOIhqpMDplcccZXEdwA4ezVn6mR/Mw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     hasBin: true
     peerDependencies:
       typescript: ~6.0.3
@@ -1310,12 +1311,14 @@ packages:
 
   '@arcgis/eslint-config@5.2.0-next.132':
     resolution: {integrity: sha512-e3EJxC+fvEjeI7JhjftD1KDYngpf5UfbPMLUFPWLDUnf52nmE6tsKXAwTcj8X+Y4Co/KgQTc2wo3UpxVtE7BrA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       eslint: ^10.6.0
 
   '@arcgis/lumina-compiler@5.2.0-next.132':
     resolution: {integrity: sha512-3kmTqnF5sAMa2fuEH1rMlTHO4ztYGW+4PgHOTmA7v91CdXXhHcirUxVg39F2NxYxu779hn7HWYyynnnJM+kXBg==}
     engines: {node: '>=24.11.0'}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@arcgis/lumina': ~5.2.0-next.132
       lit: ^3.3.0
@@ -1331,6 +1334,7 @@ packages:
 
   '@arcgis/lumina@5.2.0-next.132':
     resolution: {integrity: sha512-/PmCIq+is/xq0272fVkTMCIqIe7Hi+XnFslTihg8cvuhw/oxd386wQA9Ka88gfvfJb0XNMJbrshrOsa92z3sdA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@lit/context': ^1.1.6
       lit: ^3.3.0
@@ -1340,9 +1344,11 @@ packages:
 
   '@arcgis/node-toolkit@5.2.0-next.132':
     resolution: {integrity: sha512-hSO+f4chhz1j6/940iGP0OqQhX/9N9hqYhcENrXfjOt1QNFNWDi/1v52BF8/a/s1gOvHin1gJuLL5dKmR+HTlQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@arcgis/toolkit@5.2.0-next.132':
     resolution: {integrity: sha512-0wyFUD+a1Zw9RpySsKogfuThZ7dhXohXcp9bL7YRt7SdhvXpESnHVxxRz295x8gin0Hv39LzwmonG0PzdSfglg==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -4857,8 +4863,8 @@ packages:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
     engines: {'0': node >= 6.0}
 
-  concurrently@9.2.1:
-    resolution: {integrity: sha512-fsfrO0MxV64Znoy8/l1vVIjjHa29SZyyqPgQBwhiDcaW8wJc2W3XWVOGx4M3oJBnv/zdUZIIp1gDeS98GzP8Ng==}
+  concurrently@9.2.4:
+    resolution: {integrity: sha512-TZ0CEhyzvFjgtAvHTusDMgj7wNdihCh7LLLrzdUOXIhdlnL2JBBGA9eJxR24rtqgmdjh3OA3hrN1rCHj6HM8qA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -8557,12 +8563,12 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  shell-quote@1.8.3:
-    resolution: {integrity: sha512-ObmnIF4hXNg1BqhnHmgbDETF8dLPCggZWBjkQfhZpbszZnYur5DUljTcCHii5LC3J5E0yeO/1LIMyH+UvHQgyw==}
-    engines: {node: '>= 0.4'}
-
   shell-quote@1.8.4:
     resolution: {integrity: sha512-VsC6n6vz1ihYYyZZwX7YZSF5l5x36ca17OC+a69h94YqB7X6XLwf+5MOgynYir2SLFUbl8gIYvBo8K8RoNQ6bQ==}
+    engines: {node: '>= 0.4'}
+
+  shell-quote@1.9.0:
+    resolution: {integrity: sha512-Iov+JwFv/2HcTpcwNMKd8+IWNb8tboQJNQTkAY/LLVK7gGH9jy+LGkVqPxfekHl+yMmiqXszdGWXgkfml7hjqA==}
     engines: {node: '>= 0.4'}
 
   side-channel-list@1.0.1:
@@ -13491,11 +13497,11 @@ snapshots:
       readable-stream: 3.6.2
       typedarray: 0.0.6
 
-  concurrently@9.2.1:
+  concurrently@9.2.4:
     dependencies:
       chalk: 4.1.2
       rxjs: 7.8.2
-      shell-quote: 1.8.3
+      shell-quote: 1.9.0
       supports-color: 8.1.1
       tree-kill: 1.2.2
       yargs: 17.7.2
@@ -17944,9 +17950,9 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
-  shell-quote@1.8.3: {}
-
   shell-quote@1.8.4: {}
+
+  shell-quote@1.9.0: {}
 
   side-channel-list@1.0.1:
     dependencies:

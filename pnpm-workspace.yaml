@@ -61,7 +61,7 @@ catalog:
   "color": "5.0.3"
   "commander": "15.0.0"
   "composed-offset-position": "0.0.6"
-  "concurrently": "9.2.1"
+  "concurrently": "9.2.4"
   "conventional-changelog-conventionalcommits": "9.3.1"
   "cpy": "12.1.0"
   "cpy-cli": "6.0.0"
