@@ -290,6 +290,11 @@ export class Notice extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
+    const { open } = this;
+    const hidden = !open;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.inert = hidden;
+
     const closeButton = (
       <calcite-action
         class={CSS.close}
