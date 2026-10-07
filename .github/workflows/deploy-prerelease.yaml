@@ -20,17 +20,20 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
           ref: ${{ github.base_ref || github.ref_name }}
-      - uses: actions/setup-node@v6
+      - name: Set pnpm + Node
+        uses: pnpm/setup@v3
         with:
-          node-version-file: package.json
-          registry-url: "https://registry.npmjs.org"
+          cache: true
+          install: false
+      - name: Configure npm authentication
+        run: pnpm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy prerelease and storybook
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+          PNPM_CONFIG_PROVENANCE: true
           BRANCH: ${{ github.base_ref || github.ref_name }}
         run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
       - name: notify teams

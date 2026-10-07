@@ -1,17 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-button-background-color: Specifies the component's background color.
- * @prop --calcite-button-border-color: Specifies the component's border color.
- * @prop --calcite-button-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-button-icon-color: Specifies the component's `iconStart` and `iconEnd` color.
- * @prop --calcite-button-loader-color: Specifies the component's loader color.
- * @prop --calcite-button-text-color: Specifies the component's text color.
- * @prop --calcite-button-shadow: Specifies the component's shadow.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -27,10 +13,7 @@
 // --calcite-internal-button-padding-y
 // --calcite-internal-button-text-color
 
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/text";
-@use "../../styles/shared/truncate";
+@use "../../styles/shared";
 
 :host {
   display: inline-block;
@@ -121,7 +104,7 @@
     }
 
     &:focus {
-      @include focus.focus-outset();
+      @include shared.focus-outset();
     }
 
     &:active {
@@ -132,7 +115,7 @@
     }
 
     span {
-      @include truncate.truncate();
+      @include shared.truncate();
     }
 
     calcite-loader {
@@ -251,7 +234,7 @@
 .icon--end {
   color: var(--calcite-button-icon-color, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
 }
-@include includes.disabled();
+@include shared.disabled();
 
 @keyframes loader-in {
   0% {
@@ -610,7 +593,7 @@
 // generate button scales (scenario: text exists)
 :host([scale="s"]) button.content--slotted,
 :host([scale="s"]) a.content--slotted {
-  @include text.text-n2h();
+  @include shared.text-n2h();
 }
 
 // accommodate for transparent buttons not having borders
@@ -628,7 +611,7 @@
 :host([scale="m"]) a.content--slotted {
   --calcite-internal-button-padding-x: 11px;
 
-  @include text.text-n1h();
+  @include shared.text-n1h();
 }
 
 :host([scale="m"]) button,
@@ -645,7 +628,7 @@
 :host([scale="l"]) a.content--slotted {
   --calcite-internal-button-padding-x: 15px;
 
-  @include text.text-0h();
+  @include shared.text-0h();
 }
 
 :host([scale="l"]) {
@@ -665,7 +648,7 @@
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 3px;
 
-  @include text.text-0h();
+  @include shared.text-0h();
 
   inline-size: var(--calcite-space-2xl);
   min-block-size: theme("height.6");
@@ -676,7 +659,7 @@
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 7px;
 
-  @include text.text-0h();
+  @include shared.text-0h();
 
   inline-size: var(--calcite-space-3xl);
   min-block-size: theme("height.8");
@@ -686,7 +669,7 @@
   --calcite-internal-button-padding-x: theme("padding[0.5]");
   --calcite-internal-button-padding-y: 9px;
 
-  @include text.text-0h();
+  @include shared.text-0h();
 
   inline-size: var(--calcite-space-4xl);
   min-block-size: theme("height.11");
@@ -712,7 +695,7 @@
 :host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 23px;
 
-  @include text.text-0h();
+  @include shared.text-0h();
 
   block-size: var(--calcite-space-2xl);
 }
@@ -725,7 +708,7 @@
 :host([scale="m"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: theme("padding.8");
 
-  @include text.text-0h();
+  @include shared.text-0h();
 
   block-size: var(--calcite-space-3xl);
 }
@@ -738,7 +721,7 @@
 :host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
   --calcite-internal-button-padding-x: 43px;
 
-  @include text.text-0h();
+  @include shared.text-0h();
 
   block-size: var(--calcite-space-4xl);
 
@@ -753,4 +736,4 @@
   --calcite-internal-button-padding-x: theme("padding.11");
 }
 
-@include includes.base-component();
+@include shared.base-component();

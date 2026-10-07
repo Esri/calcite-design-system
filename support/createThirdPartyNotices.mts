@@ -10,8 +10,7 @@ import { getProjectLicenses } from "generate-license-file";
   const execAsync = promisify(exec);
 
   try {
-    // we need a local `npm install` for `generate-license-file` to resolve licenses properly
-    await execAsync("npm install --no-workspaces");
+    await execAsync("pnpm install");
 
     const coveredByEsriLicense = [
       "@arcgis/lumina",
@@ -30,7 +29,7 @@ import { getProjectLicenses } from "generate-license-file";
       exclude: [...coveredByEsriLicense],
       omitVersions: true,
       replace: {
-        "type-fest": "./node_modules/type-fest/license-mit",
+        "type-fest": "../../node_modules/type-fest/license-mit",
       },
     });
 
@@ -61,7 +60,5 @@ ${licensesContent}\n
   } catch (error) {
     console.error(error);
     process.exitCode = 1;
-  } finally {
-    await execAsync("rimraf ./node_modules ./package-lock.json");
   }
 })();
