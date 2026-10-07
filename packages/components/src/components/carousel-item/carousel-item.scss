@@ -1,4 +1,4 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: flex;
@@ -13,4 +13,4 @@
   display: block;
 }
 
-@include includes.base-component();
+@include shared.base-component();

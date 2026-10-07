@@ -1,12 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-swatch-corner-radius: Specifies the component's corner radius.
- *
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -14,7 +5,7 @@
 // --calcite-internal-swatch-inset
 // --calcite-internal-swatch-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block;
@@ -62,8 +53,7 @@
 }
 
 .swatch {
-  position: absolute;
-  @apply inline-flex overflow-hidden absolute;
+  @apply inline-flex overflow-hidden relative;
   z-index: calc(var(--calcite-z-index) + 1);
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
@@ -145,4 +135,4 @@
   fill: #cacaca;
 }
 
-@include includes.base-component();
+@include shared.base-component();

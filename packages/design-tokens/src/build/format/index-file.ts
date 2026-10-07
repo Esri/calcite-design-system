@@ -30,7 +30,7 @@ export const formatIndexFile: FormatFn = async (args) => {
   const isCss = format === "css";
   const lightDarkBlock = createBlock(
     isCss ? ":root" : "@mixin calcite-light-dark-tokens",
-    isCss ? ["color-scheme: light dark;", ...declarations] : declarations,
+    isCss ? ["color-scheme: light;", ...declarations] : declarations,
   );
   const modeBlocks = Object.entries(themeColorSchemes).map(([theme, colorScheme]) =>
     createBlock(

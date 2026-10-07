@@ -14,9 +14,9 @@ Users can help most by:<a href="#users-help" id="users-help" />
 
 - Adding reactions, feedback, and/or comments to [existing issues](https://github.com/Esri/calcite-design-system/issues) 👍
 - Searching and exploring existing issues, including exploration of the [before filing an issue](#before-filing-an-issue) section prior to filing a new issue 🔎
-- Reporting issues by [filing a bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml) 🐛
-- Requesting features for existing components by [creating an enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml) ⭐
-- Adding ideas for components by [creating a new component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml) 🆕
+- Reporting issues by [filing a bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yaml) 🐛
+- Requesting features for existing components by [creating an enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yaml) ⭐
+- Adding ideas for components by [creating a new component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yaml) 🆕
 
 ### Contributors
 
@@ -43,7 +43,7 @@ Contributors can help most by:
 - Working on issues that have [low estimates](#estimates) - it is strongly recommended to work on issues with estimates of `estimate - 5` and lower
   - Ensure the issue has not been added to the [Freezer milestone](https://github.com/Esri/calcite-design-system/milestone/28)
   - **Prior to starting work on a new contribution**, please reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco) to coordinate and align on approaches, strategies, and goals across the repository. Sometimes additional context is needed, which may not be specified in the issue. Additionally, communication is needed to ensure the issue follows [Calcite's issue lifecycle](#lifecycle) and is assigned to the proper milestone
-- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development and reaching out to the code owners, please review our [component conventions](packages/components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
+- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development and reaching out to the code owners, please review our [coding conventions](https://github.com/Esri/calcite-design-system/wiki/coding-conventions) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -104,6 +104,8 @@ Certain labels indicate that an issue is not ready for development:
 
 When an issue blocks or is blocked by other GitHub issues:
 
+- Confirm the blocking decision with `@esri/calcite-pes`.
+  - If confirmed, the relevant context should be added to the issue for awareness.
 - Link the issues using GitHub's issue relationships.
 - Apply the `blocked` label to support Monday syncing.
 
@@ -191,13 +193,13 @@ First, clone the repo and then install the NPM dependencies:
 ```sh
 git clone git@github.com:Esri/calcite-design-system.git
 cd calcite-design-system
-npm install
+pnpm install
 ```
 
 Next, start the local Vite development server on localhost:
 
 ```sh
-npm run start:components
+pnpm start:components
 ```
 
 This will open main demo page in the browser. You can edit `index.html` under [`packages/components`](packages/components) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
@@ -209,37 +211,37 @@ By default, the page is blank with a few controls for common test scenarios, suc
 This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. Each package has it's own linting NPM scripts, so check there for more options. For example, calcite-components has NPM scripts that lint by different filetypes. To run the `lint` NPM script for all packages that have one, do:
 
 ```sh
-npm run lint
+pnpm lint
 ```
 
-Or use the `--workspace` flag to lint a single package.
+Or use the `--filter` flag to lint a single package.
 
 ```sh
-npm --workspace=packages/components run lint
+pnpm --filter @esri/calcite-components lint
 ```
 
-You can avoid using the `--workspace` flag in every command by `cd`ing into the package you're working on:
+You can avoid using the `--filter` flag in every command by `cd`ing into the package you're working on:
 
 ```sh
 cd packages/components
 # the following will only lint and test calcite-components
-npm run lint
-npm test
+pnpm lint
+pnpm test
 ```
 
 ## Running the tests
 
-`npm test` will run the test suites.
+`pnpm test` will run the test suites.
 
 Calcite Components include [Vitest](https://vitest.dev)-based testing tools that use [Puppeteer](https://github.com/GoogleChrome/puppeteer) and [Playwright](https://playwright.dev/), including Playwright for Vitest browser mode.
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/components run test:watch:node` or `npm --workspace=packages/components run test:watch:browser`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
+If you're working on writing tests for a particular component, it can be helpful to use `pnpm --filter @esri/calcite-components test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `pnpm --filter @esri/calcite-components test:watch:node` or `pnpm --filter @esri/calcite-components test:watch:browser`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
-Please refer to Calcite's [testing conventions](./packages/components/conventions/Testing.md) for more information.
+Please refer to Calcite's [testing conventions](https://github.com/Esri/calcite-design-system/wiki/testing-conventions) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./packages/components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [coding conventions guide](https://github.com/Esri/calcite-design-system/wiki/coding-conventions). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -247,11 +249,11 @@ Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to 
 
 1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories
-3. Run the documentation locally with `npm --workspace=packages/components run docs:preview`
+3. Run the documentation locally with `pnpm --filter @esri/calcite-components docs:preview`
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
-Please refer to the [Documentation Conventions](./packages/components/conventions/Documentation.md) for more information.
+Please refer to the [Documentation Conventions](https://github.com/Esri/calcite-design-system/wiki/Documentation-conventions) for more information.
 
 ## Branch naming conventions
 

@@ -1,13 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-autocomplete-background-color: Specifies the component's background color.
- * @prop --calcite-autocomplete-border-color: Specifies the component's border color.
- * @prop --calcite-autocomplete-text-color: Specifies the component's text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -15,7 +5,7 @@
 // --calcite-internal-autocomplete-item-group-horizontal-spacing-unit
 // --calcite-internal-autocomplete-item-group-vertical-spacing-unit
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 .scale--s {
   @apply text-n2h;
@@ -95,4 +85,4 @@
   padding-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
 }
 
-@include includes.base-component();
+@include shared.base-component();

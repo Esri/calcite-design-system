@@ -1,22 +1,3 @@
-/**
-  * CSS Custom Properties
-  *
-  * These properties can be overridden using the component's tag as selector.
-  *
-  * @prop --calcite-carousel-pagination-background-color: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
-  * @prop --calcite-carousel-pagination-background-color-hover: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
-  * @prop --calcite-carousel-pagination-background-color-press: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
-  * @prop --calcite-carousel-pagination-background-color-selected: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
-  * @prop --calcite-carousel-pagination-icon-color: Specifies the icon color of the component's pagination items and autoplay controls.
-  * @prop --calcite-carousel-pagination-icon-color-hover: Specifies the icon color of the component's pagination items when hovered or pressed.
-  * @prop --calcite-carousel-pagination-icon-color-selected: Specifies the icon color of the component's pagination items when selected.
-  * @prop --calcite-carousel-control-icon-color: Specifies the icon color of the component's navigation arrow controls.
-  * @prop --calcite-carousel-control-icon-color-hover: Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
-  * @prop --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's autoplay progress when `autoplay` is specified.
-  * @prop --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
-  *
-*/
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -40,10 +21,7 @@
 // --calcite-internal-carousel-pagination-space
 // --calcite-internal-carousel-pagination-space-wide
 
-@use "../../styles/component/focus";
-@use "../../styles/includes";
-@use "../../styles/component/sr-only";
-@use "../../styles/component/text";
+@use "../../styles/shared";
 
 :host {
   display: flex;
@@ -126,10 +104,10 @@
   color: var(--calcite-color-text-2);
   inline-size: 100%;
 
-  @include text.text-n1h();
+  @include shared.text-n1h();
 
   &:focus {
-    @include focus.focus-inset();
+    @include shared.focus-inset();
   }
 }
 
@@ -165,11 +143,7 @@ calcite-carousel-item:not([selected]) {
   opacity: 0;
 }
 
-.pagination-aria-live {
-  @include sr-only.sr-only();
-}
-
-.pagination {
+.controls-area {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -178,13 +152,20 @@ calcite-carousel-item:not([selected]) {
   inline-size: auto;
 }
 
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .pagination-items {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.container--overlaid .pagination {
+.container--overlaid .controls-area {
   position: absolute;
 }
 
@@ -216,13 +197,13 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-.container--overlaid .pagination {
+.container--overlaid .controls-area {
   inset-block-start: unset;
   inset-block-end: 0;
   inset-inline: 0;
 }
 
-:host([pagination-position="top"]) .container--overlaid .pagination {
+:host([pagination-position="top"]) .container--overlaid .controls-area {
   inset-block-start: 0;
   inset-block-end: unset;
 }
@@ -248,7 +229,7 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item {
-  @include includes.transition-default();
+  @include shared.transition-default();
 
   outline-color: transparent;
   margin: 0;
@@ -271,7 +252,7 @@ calcite-carousel-item:not([selected]) {
   &:focus {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
 
-    @include focus.focus-inset();
+    @include shared.focus-inset();
   }
   &:active {
     background-color: var(--calcite-internal-carousel-pagination-background-color-press);
@@ -345,6 +326,6 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
-@include includes.base-component();
+@include shared.base-component();

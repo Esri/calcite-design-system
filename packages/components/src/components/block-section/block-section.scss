@@ -1,18 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-block-section-background-color: Specifies the component's background color.
- * @prop --calcite-block-section-border-color: Specifies the component's border color. When `expanded`, applies to the component's bottom border.
- * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
- * @prop --calcite-block-section-text-color: Specifies the component's text color.
- * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
- * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in `default` slot.
- */
-
-@use "../../styles/includes";
-@use "../../styles/component/focus";
+@use "../../styles/shared";
 
 :host {
   box-sizing: border-box;
@@ -118,7 +104,7 @@ calcite-switch {
   line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
-    @include focus.focus-normal();
+    @include shared.focus-normal();
     // required to ensure the focus ring is visible when slotted with other block-section components in block
     z-index: var(--calcite-z-index);
   }
@@ -178,4 +164,4 @@ calcite-switch {
   color: theme("colors.danger");
 }
 
-@include includes.base-component();
+@include shared.base-component();

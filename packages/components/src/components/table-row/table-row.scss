@@ -1,16 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-table-row-background: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-table-row-background-color` instead. Specifies the background color of the component.
- * @prop --calcite-table-row-background-color: Specifies the component's background color.
- * @prop --calcite-table-row-background-color-striped: When `striped` is `true` on `calcite-table`, specifies the background color of the component's `striped` rows.
- * @prop --calcite-table-row-background-color-selected: When `selected`, specifies the background color of the component's `selected` rows.
- * @prop --calcite-table-row-accent-color-selected: Specifies the component's selected accent color.
- * @prop --calcite-table-row-border-color: Specifies the component's border color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -19,17 +6,18 @@
 // --calcite-internal-table-row-border-block-end-color
 // --calcite-internal-table-row-border-block-end-width
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply contents;
+  display: contents;
 }
 
-@include includes.base-component();
+@include shared.base-component();
 
-@include includes.disabled() {
+@include shared.disabled() {
   tr {
-    @apply opacity-disabled pointer-events-none;
+    opacity: var(--calcite-opacity-disabled);
+    pointer-events: none;
   }
 }
 
@@ -67,4 +55,4 @@ tr.last-visible-row {
   --calcite-internal-table-row-border-block-end-color: transparent;
 }
 
-@include includes.item-hidden();
+@include shared.item-hidden();

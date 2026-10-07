@@ -22,8 +22,49 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-stepper-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the space between the component's `calcite-stepper-item`s.
+     */
+    "--calcite-stepper-bar-gap": "*";
+    /**
+     * Specifies the `calcite-stepper-item`s' bar fill color of the component's `calcite-stepper-item`s.
+     *
+     * @deprecated in 5.1.0, removal target v6.0.0 - Use `--calcite-stepper-bar-fill-color` instead.
+     */
+    "--calcite-stepper-bar-inactive-fill-color": "*";
+    /**
+     * Specifies the `calcite-stepper-item`s' bar fill color of the component's active `calcite-stepper-item`s.
+     *
+     * @deprecated in 5.1.0, removal target v6.0.0 - Use `--calcite-stepper-bar-selected-fill-color` instead.
+     */
+    "--calcite-stepper-bar-active-fill-color": "*";
+    /**
+     * When `calcite-stepper-item`s are `complete`, specifies the component's `calcite-stepper-item`s' bar fill color.
+     */
+    "--calcite-stepper-bar-complete-fill-color": "*";
+    /**
+     * When `calcite-stepper-item`s contain an `error`, specifies the component's `calcite-stepper-item`s' bar fill color.
+     */
+    "--calcite-stepper-bar-error-fill-color": "*";
+  }
+}
+
+interface StepperSlots {
+  /**
+   * A slot for adding `calcite-stepper-item`s.
+   */
+  "": Node[];
+}
+
 export class Stepper extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: StepperSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
