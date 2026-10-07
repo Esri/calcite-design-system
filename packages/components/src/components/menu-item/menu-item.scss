@@ -281,8 +281,16 @@
   border-inline-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
 }
 
-:host([slot="submenu-item"]) .parent--vertical {
-  @apply ps-6;
+:host([slot="submenu-item"][layout="vertical"][scale="s"]) .parent--vertical {
+  padding-inline-start: var(--calcite-space-xl);
+}
+
+:host([slot="submenu-item"][layout="vertical"][scale="m"]) .parent--vertical {
+  padding-inline-start: var(--calcite-space-2xl);
+}
+
+:host([slot="submenu-item"][layout="vertical"][scale="l"]) .parent--vertical {
+  padding-inline-start: var(--calcite-space-3xl);
 }
 
 :host([layout="vertical"]) .text-container {
@@ -317,8 +325,16 @@
   --calcite-internal-menu-item-icon-spacing-end: auto;
 }
 
+:host([layout="vertical"][scale="s"]) .icon--end {
+  padding-inline-start: var(--calcite-space-sm);
+}
+
 :host([layout="vertical"][scale="m"]) .icon--end {
-  @apply ps-3;
+  padding-inline-start: var(--calcite-space-md);
+}
+
+:host([layout="vertical"][scale="l"]) .icon--end {
+  padding-inline-start: var(--calcite-space-lg);
 }
 
 .icon--dropdown {
@@ -331,10 +347,6 @@
 
 :host([layout="vertical"]) .hover-href-icon {
   @apply ps-2;
-}
-
-:host([layout="vertical"]) .hover-href-icon ~ .icon--end {
-  --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--breadcrumb {
