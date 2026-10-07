@@ -20,11 +20,6 @@ type ScaledControl = HTMLElement & { scale: Scale };
 
 type AffixInput = HTMLElement & { affixElementProvider?: UseAffixWidth };
 
-type PreviousAffixStyle = {
-  priority: string;
-  value: string;
-};
-
 declare global {
   interface DeclareElements {
     "calcite-field-group": FieldGroup;
@@ -49,11 +44,6 @@ export class FieldGroup extends LitElement {
     prefix: 0,
     suffix: 0,
   };
-
-  private previousAffixStyles = new WeakMap<
-    AffixInput,
-    Partial<Record<Affix, PreviousAffixStyle>>
-  >();
 
   private disabledControls: DisabledControl[] = [];
 
@@ -239,44 +229,10 @@ export class FieldGroup extends LitElement {
     const inputs = this.affixInputs;
 
     inputs.forEach((input) => {
-      const affixElement = this.getInputAffixElement(input, affix);
-
-      if (!affixElement) {
-        return;
-      }
-
-      const previousStyles = this.previousAffixStyles.get(input) ?? {};
-
-      if (!previousStyles[affix]) {
-        previousStyles[affix] = {
-          priority: affixElement.style.getPropertyPriority("width"),
-          value: affixElement.style.width,
-        };
-        this.previousAffixStyles.set(input, previousStyles);
-      }
-
-      affixElement.style.removeProperty("width");
+      input.affixElementProvider?.setAffixWidth(affix, undefined);
     });
 
     if (!shouldSync) {
-      inputs.forEach((input) => {
-        const affixElement = this.getInputAffixElement(input, affix);
-        const previousStyles = this.previousAffixStyles.get(input);
-        const previousStyle = previousStyles?.[affix];
-
-        if (affixElement) {
-          if (previousStyle?.value) {
-            affixElement.style.setProperty("width", previousStyle.value, previousStyle.priority);
-          } else {
-            affixElement.style.removeProperty("width");
-          }
-        }
-
-        if (previousStyles) {
-          delete previousStyles[affix];
-        }
-      });
-
       return;
     }
 
@@ -302,10 +258,11 @@ export class FieldGroup extends LitElement {
     }
 
     inputs.forEach((input) => {
-      const affixElement = this.getInputAffixElement(input, affix);
-
-      if (affixElement && nextWidth) {
-        affixElement.style.width = `${nextWidth - this.getInputAffixTrailingWidth(input, affix)}px`;
+      if (nextWidth) {
+        input.affixElementProvider?.setAffixWidth(
+          affix,
+          nextWidth - this.getInputAffixTrailingWidth(input, affix),
+        );
       }
     });
   }

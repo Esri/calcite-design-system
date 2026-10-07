@@ -2,6 +2,8 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-input-affix-prefix-width
+// --calcite-internal-input-affix-suffix-width
 // --calcite-internal-input-text-alignment
 // --calcite-internal-input-text-focus-outline-color
 // --calcite-internal-input-text-icon-border-inline-start-width
@@ -18,6 +20,8 @@
     --calcite-color-focus,
     var(--calcite-ui-focus-color, var(--calcite-color-brand))
   );
+  --calcite-internal-input-affix-prefix-width: unset;
+  --calcite-internal-input-affix-suffix-width: unset;
 }
 
 @mixin input-affix-spacing($main-padding, $affix-padding, $custom-padding) {
@@ -358,14 +362,14 @@ input[type="text"]::-ms-reveal {
 .prefix {
   order: 0;
   border-inline-end-width: theme("borderWidth.0");
-  inline-size: var(--calcite-input-prefix-size-x, auto);
+  inline-size: var(--calcite-internal-input-affix-prefix-width, var(--calcite-input-prefix-size-x, auto));
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
 .suffix {
   order: 5;
   border-inline-start-width: theme("borderWidth.0");
-  inline-size: var(--calcite-input-suffix-size-x, auto);
+  inline-size: var(--calcite-internal-input-affix-suffix-width, var(--calcite-input-suffix-size-x, auto));
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }

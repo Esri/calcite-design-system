@@ -19,7 +19,9 @@ async function waitForUpdate(element: UpdatableElement): Promise<void> {
 }
 
 function getAffixWidth(element: Element, affix: "prefix" | "suffix"): string {
-  return getAffixElement(element, affix)?.style.width ?? "";
+  const affixElement = getAffixElement(element, affix);
+
+  return affixElement ? getComputedStyle(affixElement).width : "";
 }
 
 function getAffixElement(element: Element, affix: "prefix" | "suffix"): HTMLElement | undefined {
@@ -250,15 +252,21 @@ describe("affix width coordination", () => {
   it("clears affix widths when auto width is disabled", async () => {
     const { el } = await mount(
       <calcite-field-group prefix-auto-width suffix-auto-width>
-        <calcite-input id="input" prefix-text="Prefix" suffix-text="Suffix" />
+        <calcite-input id="short" prefix-text="a" suffix-text="b" />
+        <calcite-input
+          id="long"
+          prefix-text="a much longer prefix"
+          suffix-text="a much longer suffix"
+        />
       </calcite-field-group>,
     );
     const fieldGroup = el as UpdatableElement;
-    const input = el.querySelector<UpdatableElement>("#input")!;
+    const shortInput = el.querySelector<UpdatableElement>("#short")!;
+    const longInput = el.querySelector<UpdatableElement>("#long")!;
 
     await vi.waitFor(() => {
-      expect(getAffixWidth(input, "prefix")).toMatch(/^\d+px$/);
-      expect(getAffixWidth(input, "suffix")).toMatch(/^\d+px$/);
+      expect(getAffixWidth(shortInput, "prefix")).toBe(getAffixWidth(longInput, "prefix"));
+      expect(getAffixWidth(shortInput, "suffix")).toBe(getAffixWidth(longInput, "suffix"));
     });
 
     fieldGroup.prefixAutoWidth = false;
@@ -266,8 +274,8 @@ describe("affix width coordination", () => {
     await waitForUpdate(fieldGroup);
 
     await vi.waitFor(() => {
-      expect(getAffixWidth(input, "prefix")).toBe("");
-      expect(getAffixWidth(input, "suffix")).toBe("");
+      expect(getAffixWidth(shortInput, "prefix")).not.toBe(getAffixWidth(longInput, "prefix"));
+      expect(getAffixWidth(shortInput, "suffix")).not.toBe(getAffixWidth(longInput, "suffix"));
     });
   });
 
@@ -279,31 +287,32 @@ describe("affix width coordination", () => {
       </calcite-field-group>,
     );
     const fieldGroup = el as UpdatableElement;
+    const [first, second] = Array.from(el.querySelectorAll<UpdatableElement>("calcite-input"));
 
     fieldGroup.prefixAutoWidth = false;
 
     await vi.waitFor(() => {
-      expect(getAffixWidth(el.querySelector("calcite-input")!, "prefix")).toBe("");
+      expect(getAffixWidth(first, "prefix")).not.toBe(getAffixWidth(second, "prefix"));
     });
 
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-    expect(getAffixWidth(el.querySelector("calcite-input")!, "prefix")).toBe("");
+    expect(getAffixWidth(first, "prefix")).not.toBe(getAffixWidth(second, "prefix"));
   });
 
-  it("restores inline affix widths when auto width is disabled", async () => {
+  it("honors the public affix size override once auto width is disabled", async () => {
     const { el } = await mount(
       <calcite-field-group>
-        <calcite-input id="input" prefix-text="prefix" suffix-text="suffix" />
+        <calcite-input
+          id="input"
+          prefix-text="prefix"
+          style={{ "--calcite-input-prefix-size": "24px", "--calcite-input-suffix-size": "32px" }}
+          suffix-text="suffix"
+        />
       </calcite-field-group>,
     );
     const fieldGroup = el as UpdatableElement;
     const input = el.querySelector<UpdatableElement>("#input")!;
-    const prefix = input.shadowRoot!.querySelector<HTMLElement>(".prefix")!;
-    const suffix = input.shadowRoot!.querySelector<HTMLElement>(".suffix")!;
-
-    prefix.style.width = "24px";
-    suffix.style.width = "32px";
 
     fieldGroup.prefixAutoWidth = true;
     fieldGroup.suffixAutoWidth = true;
@@ -342,10 +351,8 @@ describe("affix width coordination", () => {
     await waitForUpdate(fieldGroup);
 
     await vi.waitFor(() => {
-      inputs.forEach((input) => {
-        expect(getAffixWidth(input, "prefix")).toBe("");
-        expect(getAffixWidth(input, "suffix")).toBe("");
-      });
+      expect(getAffixWidth(inputs[0], "prefix")).not.toBe(getAffixWidth(inputs[1], "prefix"));
+      expect(getAffixWidth(inputs[1], "prefix")).not.toBe(getAffixWidth(inputs[2], "prefix"));
     });
   });
 
