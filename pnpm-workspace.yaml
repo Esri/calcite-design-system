@@ -15,7 +15,7 @@ catalog:
   "@inquirer/checkbox": "5.2.1"
   "@inquirer/prompts": "8.4.2"
   "@inquirer/select": "5.2.6"
-  "@interactjs/types": "1.10.27"
+  "@interactjs/types": "1.10.28"
   "@lit/react": "1.0.8"
   "@morev/stylelint-testing-library": "1.1.0"
   "@nx/nx-darwin-arm64": "21.6.11"
