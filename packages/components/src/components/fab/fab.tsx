@@ -3,7 +3,7 @@ import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { Appearance, Kind, Scale } from "../types";
 import { IconName } from "../icon/types";
 import type { Button } from "../button/button";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./fab.scss";
@@ -11,6 +11,35 @@ import { styles } from "./fab.scss";
 declare global {
   interface DeclareElements {
     "calcite-fab": Fab;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-fab-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-fab-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-fab-corner-radius": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-fab-text-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-fab-loader-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-fab-shadow": "*";
   }
 }
 
@@ -25,7 +54,7 @@ export class Fab extends LitElement {
 
   private buttonRef = createRef<Button["el"]>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

@@ -3,7 +3,7 @@ import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { HandleChange, HandleNudge } from "./types";
@@ -16,8 +16,37 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-handle-background-color": "*";
+    /**
+     * Specifies the component's background color on hover.
+     */
+    "--calcite-handle-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when selected.
+     */
+    "--calcite-handle-background-color-selected": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-handle-icon-color": "*";
+    /**
+     * Specifies the component's icon color on hover.
+     */
+    "--calcite-handle-icon-color-hover": "*";
+    /**
+     * Specifies the component's icon color when selected.
+     */
+    "--calcite-handle-icon-color-selected": "*";
+  }
+}
+
 /**
- * @deprecated Use the `calcite-sort-handle` component instead.
+ * @deprecated in v3.0.0, removal target v6.0.0. Use the `calcite-sort-handle` component instead.
  */
 export class Handle extends LitElement {
   //#region Static Members
@@ -37,7 +66,7 @@ export class Handle extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

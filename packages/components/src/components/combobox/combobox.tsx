@@ -51,7 +51,7 @@ import {
 } from "../combobox-item/combobox-item";
 import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
@@ -70,7 +70,9 @@ import {
   orderValuesByPrevious,
 } from "./utils";
 import { styles } from "./combobox.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import { logger } from "../../utils/logger";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -78,16 +80,70 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-combobox-item`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's divider color.
+     */
+    "--calcite-combobox-divider-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-combobox-icon-color": "*";
+    /**
+     * Specifies the component's icon color when hovered.
+     */
+    "--calcite-combobox-icon-color-hover": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-combobox-corner-radius": "*";
+    /**
+     * Specifies the background color of the component's listbox.
+     */
+    "--calcite-combobox-background-color": "*";
+    /**
+     * Specifies the border color of the component's input.
+     */
+    "--calcite-combobox-input-border-color": "*";
+    /**
+     * Specifies the background color of the component's input.
+     */
+    "--calcite-combobox-input-background-color": "*";
+    /**
+     * Specifies the height of the component's input.
+     */
+    "--calcite-combobox-input-height": "*";
+    /**
+     * When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
+     */
+    "--calcite-combobox-input-text-color": "*";
+  }
+}
+
+interface ComboboxSlots {
+  /**
+   * A slot for adding `calcite-combobox-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ComboboxSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -254,7 +310,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
@@ -599,7 +655,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   constructor() {
     super();
     useLabel(this);
-    this.listenOn(document, "click", this.documentClickHandler);
     this.listen<ToEvents<ComboboxItem>["calciteComboboxItemChange"]>(
       "calciteComboboxItemChange",
       this.calciteComboboxItemChangeHandler,
@@ -620,6 +675,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   async load(): Promise<void> {
+    this.listenOn(document, "click", this.documentClickHandler);
     this.handleSelectionModeWarning();
   }
 
@@ -1837,7 +1893,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private handleSelectionModeWarning(): void {
-    if (this.selectionMode === "single-persist" && this.clearDisabled) {
+    if (import.meta.env.DEV && this.selectionMode === "single-persist" && this.clearDisabled) {
       logger.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
     }
   }
@@ -2391,7 +2447,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             {showSingleIndicatorChips && this.renderSelectedIndicatorChipCompact()}
             {showIndicatorChips && this.renderAllSelectedIndicatorChip()}
             <label
-              class={CSS.screenReadersOnly}
+              class={CSS_UTILITY.screenReaderText}
               htmlFor={`${IDS.input(guid)}`}
               id={`${IDS.label(guid)}`}
             >
@@ -2413,7 +2469,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         <ul
           aria-labelledby={`${IDS.label(guid)}`}
           ariaMultiSelectable="true"
-          class={CSS.screenReadersOnly}
+          class={CSS_UTILITY.screenReaderText}
           id={`${IDS.listbox(guid)}`}
           role="listbox"
           tabIndex={-1}

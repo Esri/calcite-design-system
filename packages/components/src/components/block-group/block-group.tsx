@@ -21,18 +21,20 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resources";
 import { styles } from "./block-group.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
 import { toAriaBoolean } from "../../utils/aria";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -40,13 +42,23 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-block` elements.
- */
+interface BlockGroupSlots {
+  /**
+   * A slot for adding `calcite-block` elements.
+   */
+  "": Node[];
+}
+
 export class BlockGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: BlockGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -64,7 +76,7 @@ export class BlockGroup extends LitElement {
 
   private cancelable = useCancelable<this>()(this);
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private parentBlockGroupEl?: BlockGroup["el"];
 
@@ -606,7 +618,7 @@ export class BlockGroup extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.dragEnabled ? (
-            <span ariaLive="assertive" class={CSS.assistiveText}>
+            <span ariaLive="assertive" class={CSS_UTILITY.screenReaderText}>
               {this.assistiveText}
             </span>
           ) : null}

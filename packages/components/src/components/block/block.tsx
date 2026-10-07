@@ -19,10 +19,9 @@ import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { SortHandle } from "../sort-handle/sort-handle";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
-import { styles as transitionMarginStyles } from "../../styles/component/transition-margin.scss";
 import { SortMenuItem } from "../sort-handle/types";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -39,18 +38,140 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
- * @slot content-end - A slot for adding non-actionable elements after the component's header text.
- * @slot content-start - A slot for adding non-actionable elements before the component's header text.
- * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
- * @slot children - A slot for adding `calcite-block` & `calcite-block-group` elements.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-block-border-color": "*";
+    /**
+     * Specifies the space of the component's `default` slot.
+     */
+    "--calcite-block-content-space": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-block-background-color": "*";
+    /**
+     * Specifies the component's `heading` background color.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-background-color` instead.
+     */
+    "--calcite-block-header-background-color": "*";
+    /**
+     * Specifies the component's `heading` background color when hovered.
+     */
+    "--calcite-block-header-background-color-hover": "*";
+    /**
+     * Specifies the component's `heading` background color when pressed.
+     */
+    "--calcite-block-header-background-color-press": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-block-heading-text-color": "*";
+    /**
+     * When the component is `expanded`, specifies the `heading` text color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-heading-text-color` instead.
+     */
+    "--calcite-block-heading-text-color-press": "*";
+    /**
+     * Specifies the padding of the component's `default` slot.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead.
+     */
+    "--calcite-block-padding": "*";
+    /**
+     * Specifies the component's text color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0.
+     */
+    "--calcite-block-text-color": "*";
+    /**
+     * Specifies the component's `description` text color.
+     */
+    "--calcite-block-description-text-color": "*";
+    /**
+     * Specifies the component's `expandable` icon, `iconStart` and `iconEnd` color.
+     *
+     * @deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color`, `--calcite-block-icon-start-color` and `--calcite-block-icon-end-color` instead.
+     */
+    "--calcite-block-icon-color": "*";
+    /**
+     * Specifies the component's `expandable` icon color when hovered.
+     *
+     * @deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color-hover` instead.
+     */
+    "--calcite-block-icon-color-hover": "*";
+    /**
+     * Specifies the component's `iconStart` color.
+     */
+    "--calcite-block-icon-start-color": "*";
+    /**
+     * Specifies the component's `iconEnd` color.
+     */
+    "--calcite-block-icon-end-color": "*";
+    /**
+     * Specifies the component's `expandable` icon color.
+     */
+    "--calcite-block-expandable-icon-color": "*";
+    /**
+     * Specifies the component's `expandable` icon color when hovered.
+     */
+    "--calcite-block-expandable-icon-color-hover": "*";
+    /**
+     * Specifies the component's `expandable` or `collapsible` (deprecated) icon color.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color` instead.
+     */
+    "--calcite-block-collapsible-icon-color": "*";
+    /**
+     * Specifies the component's `expandable` or `collapsible` (deprecated) icon color when hovered.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color-hover` instead.
+     */
+    "--calcite-block-collapsible-icon-color-hover": "*";
+  }
+}
+
+interface BlockSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
+   */
+  "actions-end": Node[];
+  /**
+   * A slot for adding non-actionable elements after the component's header text.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding non-actionable elements before the component's header text.
+   */
+  "content-start": Node[];
+  /**
+   * A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
+   */
+  "header-menu-actions": Node[];
+  /**
+   * A slot for adding `calcite-block` & `calcite-block-group` elements.
+   */
+  children: Node[];
+}
+
 export class Block extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: BlockSlots;
+
+  //#endregion
+
   //#region Static Members
 
-  static override styles = [headerStyles, styles, sortableStyles, transitionMarginStyles];
+  static override styles = [headerStyles, styles, sortableStyles];
 
   //#endregion
 
@@ -73,7 +194,7 @@ export class Block extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -313,15 +434,15 @@ export class Block extends LitElement {
    *
    * @private
    */
-  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
+  calciteInternalBlockChange = createEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>({
+    cancelable: false,
+  });
 
   /**
    *
    * @private
    */
-  calciteInternalBlockChange = createEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>({
-    cancelable: false,
-  });
+  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
   //#endregion
 

@@ -1,5 +1,4 @@
-@use "../../styles/includes";
-@use "../../styles/component/sr-only";
+@use "../../styles/shared";
 
 :host {
   display: block;
@@ -9,13 +8,9 @@
   position: relative;
 }
 
-.assistive-text {
-  @include sr-only.sr-only();
-}
+@include shared.base-component();
 
-@include includes.base-component();
-
-@include includes.disabled();
+@include shared.disabled();
 
 :host([slot="children"]) {
   slot::slotted(calcite-block) {

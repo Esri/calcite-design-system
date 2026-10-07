@@ -16,11 +16,23 @@ declare global {
   }
 }
 
+interface SortableListSlots {
+  /**
+   * A slot for adding sortable items.
+   */
+  "": Node[];
+}
+
 /**
- * @deprecated Use the `calcite-block-group` component instead.
- * @slot - A slot for adding sortable items.
+ * @deprecated in v3.0.0, removal target v6.0.0. Use the `calcite-block-group` component instead.
  */
 export class SortableList extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SortableListSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
