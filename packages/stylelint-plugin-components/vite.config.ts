@@ -20,6 +20,7 @@ See https://github.com/Esri/calcite-design-system/blob/${packageJson.version}/LI
   },
 
   test: {
+    passWithNoTests: true,
     testTimeout: 0,
     setupFiles: "./vitest.setup.ts",
     globals: true,
