@@ -297,6 +297,27 @@
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);
+
+  ::slotted(calcite-flow),
+  ::slotted(calcite-panel:not([closed])) {
+    border: var(--calcite-internal-shell-panel-border);
+    border-inline-start: var(
+      --calcite-internal-shell-panel-content-slotted-panel-border-inline-start,
+      var(--calcite-internal-shell-panel-slotted-panel-border-inline-start, var(--calcite-internal-shell-panel-border))
+    );
+    border-inline-end: var(
+      --calcite-internal-shell-panel-content-slotted-panel-border-inline-end,
+      var(--calcite-internal-shell-panel-slotted-panel-border-inline-end, var(--calcite-internal-shell-panel-border))
+    );
+    border-block-start: var(
+      --calcite-internal-shell-panel-content-slotted-panel-border-block-start,
+      var(--calcite-internal-shell-panel-slotted-panel-border-block-start, var(--calcite-internal-shell-panel-border))
+    );
+    border-block-end: var(
+      --calcite-internal-shell-panel-content-slotted-panel-border-block-end,
+      var(--calcite-internal-shell-panel-slotted-panel-border-block-end, var(--calcite-internal-shell-panel-border))
+    );
+  }
 }
 
 .content--action-bar-expanded {
@@ -336,6 +357,42 @@
     4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  block-size: 100%;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  max-block-size: unset;
+  max-inline-size: unset;
+}
+
+.float--content {
+  margin-block-end: auto;
+  block-size: auto;
+  overflow: hidden;
+  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
+  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  margin-inline: var(--calcite-spacing-sm);
+  margin-block-start: var(--calcite-spacing-sm);
+  max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
+  ::slotted(calcite-panel),
+  ::slotted(calcite-flow) {
+    max-block-size: unset;
+  }
+}
+
+slot[name="action-bar"]::slotted(calcite-action-bar) {
+  border: var(--calcite-internal-shell-panel-border);
+  border-block-start: var(
+    --calcite-internal-shell-panel-action-bar-border-block-start,
+    var(--calcite-internal-shell-panel-border)
+  );
+  border-block-end: var(
+    --calcite-internal-shell-panel-action-bar-border-block-end,
+    var(--calcite-internal-shell-panel-border)
+  );
+}
+
 :host([layout="vertical"]) {
   --calcite-internal-shell-panel-content-overlay-inset-block-start: 0;
   --calcite-internal-shell-panel-content-overlay-block-size: 100%;
@@ -364,67 +421,6 @@
 :host([layout="horizontal"][position="end"]) {
   --calcite-internal-shell-panel-content-overlay-inset-block-end: 100%;
   --calcite-internal-shell-panel-content-overlay-shadow: var(--calcite-internal-shell-panel-shadow-block-end);
-}
-
-.float--content {
-  margin-block-end: auto;
-  block-size: auto;
-  overflow: hidden;
-  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-  margin-inline: var(--calcite-spacing-sm);
-  margin-block-start: var(--calcite-spacing-sm);
-  max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
-  ::slotted(calcite-panel),
-  ::slotted(calcite-flow) {
-    max-block-size: unset;
-  }
-}
-
-slot[name="action-bar"]::slotted(calcite-action-bar),
-.content ::slotted(calcite-flow),
-.content ::slotted(calcite-panel:not([closed])) {
-  border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-}
-
-.content ::slotted(calcite-flow),
-.content ::slotted(calcite-panel:not([closed])) {
-  border-inline-start: var(
-    --calcite-internal-shell-panel-content-slotted-panel-border-inline-start,
-    var(--calcite-internal-shell-panel-slotted-panel-border-inline-start, var(--calcite-internal-shell-panel-border))
-  );
-  border-inline-end: var(
-    --calcite-internal-shell-panel-content-slotted-panel-border-inline-end,
-    var(--calcite-internal-shell-panel-slotted-panel-border-inline-end, var(--calcite-internal-shell-panel-border))
-  );
-  border-block-start: var(
-    --calcite-internal-shell-panel-content-slotted-panel-border-block-start,
-    var(--calcite-internal-shell-panel-slotted-panel-border-block-start, var(--calcite-internal-shell-panel-border))
-  );
-  border-block-end: var(
-    --calcite-internal-shell-panel-content-slotted-panel-border-block-end,
-    var(--calcite-internal-shell-panel-slotted-panel-border-block-end, var(--calcite-internal-shell-panel-border))
-  );
-}
-
-slot[name="action-bar"]::slotted(calcite-action-bar) {
-  border-block-start: var(
-    --calcite-internal-shell-panel-action-bar-border-block-start,
-    var(--calcite-internal-shell-panel-border)
-  );
-  border-block-end: var(
-    --calcite-internal-shell-panel-action-bar-border-block-end,
-    var(--calcite-internal-shell-panel-border)
-  );
-}
-
-::slotted(calcite-panel),
-::slotted(calcite-flow) {
-  block-size: 100%;
-  inline-size: 100%;
-  flex: 1 1 auto;
-  max-block-size: unset;
-  max-inline-size: unset;
 }
 
 :host([layout="vertical"]) {
