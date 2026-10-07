@@ -50,7 +50,7 @@ catalog:
   "@vitest/coverage-v8": "4.1.11"
   "@vitest/eslint-plugin": "1.6.20"
   "@whitespace/storybook-addon-html": "9.0.0"
-  "autoprefixer": "10.6.0"
+  "autoprefixer": "10.6.1"
   "axe-core": "4.13.0"
   "browser-sync": "3.0.4"
   "browserslist": "4.28.6"
