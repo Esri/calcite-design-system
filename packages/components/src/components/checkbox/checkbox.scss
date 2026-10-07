@@ -1,17 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-checkbox-size: Specifies the component's height and width.
- * @prop --calcite-checkbox-border-color: Specifies the component's color.
- * @prop --calcite-checkbox-border-color-hover: Specifies the component's color when hovered.
- * @prop --calcite-checkbox-border-color-press: Specifies the component's color when pressed.
- * @prop --calcite-checkbox-icon-color: Specifies the component's icon color.
- */
-
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   .check-svg,
@@ -44,7 +31,7 @@
   -webkit-tap-highlight-color: transparent;
 
   .check-svg {
-    @include includes.transition-default();
+    @include shared.transition-default();
 
     background-color: var(--calcite-color-foreground-1);
     pointer-events: none;
@@ -74,7 +61,7 @@
     }
   }
   .toggle:focus {
-    @include focus.focus-outset-danger();
+    @include shared.focus-outset-danger();
   }
 }
 
@@ -118,7 +105,7 @@
   &:active,
   &:focus,
   &:focus-visible {
-    @include focus.focus-outset();
+    @include shared.focus-outset();
   }
 
   &::after,
@@ -152,6 +139,6 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.disabled();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.disabled();
+@include shared.base-component();

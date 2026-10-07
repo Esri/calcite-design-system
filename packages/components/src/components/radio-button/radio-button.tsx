@@ -8,7 +8,7 @@ import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Scale, Status } from "../types";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
@@ -17,6 +17,27 @@ import { styles } from "./radio-button.scss";
 declare global {
   interface DeclareElements {
     "calcite-radio-button": RadioButton;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-radio-button-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-radio-button-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-radio-button-corner-radius": "*";
+    /**
+     * Specifies the component's size.
+     */
+    "--calcite-radio-button-size": "*";
   }
 }
 
@@ -45,7 +66,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   private rootNode!: HTMLElement;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

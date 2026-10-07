@@ -3,7 +3,7 @@ import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Scale, SelectionMode } from "../types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import type { Swatch } from "../swatch/swatch";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
@@ -15,8 +15,29 @@ declare global {
     "calcite-swatch-group": SwatchGroup;
   }
 }
-/** @slot - A slot for adding one or more `calcite-swatch`s. */
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the space between slotted elements.
+     */
+    "--calcite-swatch-group-space": "*";
+  }
+}
+
+interface SwatchGroupSlots {
+  /**
+   * A slot for adding one or more `calcite-swatch`s.
+   */
+  "": Node[];
+}
 export class SwatchGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SwatchGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -29,7 +50,7 @@ export class SwatchGroup extends LitElement {
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-typescript-config",
-  "version": "0.0.1-next.5",
+  "version": "0.0.1-next.6",
   "private": true,
   "type": "module",
   "description": "The shared TypeScript config for Esri's Calcite Design System",
@@ -13,6 +13,7 @@
   "license": "SEE LICENSE.md",
   "files": [
     "tsconfig.base.json",
-    "tsconfig.lumina.json"
+    "tsconfig.lumina.json",
+    "tsconfig.node.json"
   ]
 }
