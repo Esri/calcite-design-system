@@ -290,14 +290,18 @@ export const timePartsAlignedInBothDirectionsWhenWide = (): string => html`
 `;
 
 export const hasMinContentWidth = (): string => html`
-    <style>
-      calcite-input-time-picker {
-        width: 1rem;
-      }
-    </style>
-    <calcite-input-time-picker label-text="Default"></calcite-input-time-picker>
-    <br>
-    <br>
-    <calcite-input-time-picker label-text="With fractional seconds" step="0.1"></calcite-input-time-picker>
+  <style>
+    .narrow-input-time-picker {
+      width: 1rem;
+    }
+  </style>
+  <calcite-input-time-picker class="narrow-input-time-picker" label-text="Default"></calcite-input-time-picker>
+  <br />
+  <br />
+  <calcite-input-time-picker
+    class="narrow-input-time-picker"
+    label-text="With fractional seconds"
+    step="0.1"
+  ></calcite-input-time-picker>
   </div>
 `;
