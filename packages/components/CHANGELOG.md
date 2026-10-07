@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.87...@esri/calcite-components@5.2.0-next.88) (2026-10-07)
+
+### Bug Fixes
+
+- **carousel:** avoid rendering pagination when disabled ([#15296](https://github.com/Esri/calcite-design-system/issues/15296)), closes [#15193](https://github.com/Esri/calcite-design-system/issues/15193)
+
 ## [5.2.0-next.87](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.86...@esri/calcite-components@5.2.0-next.87) (2026-10-05)
 
 ### Bug Fixes
