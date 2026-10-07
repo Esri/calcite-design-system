@@ -145,8 +145,8 @@ catalogs:
       specifier: 9.0.0
       version: 9.0.0
     autoprefixer:
-      specifier: 10.6.0
-      version: 10.6.0
+      specifier: 10.6.1
+      version: 10.6.1
     axe-core:
       specifier: 4.13.0
       version: 4.13.0
@@ -669,7 +669,7 @@ importers:
         version: 9.0.0(prettier@3.8.4)(storybook@10.3.6(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1))
       autoprefixer:
         specifier: 'catalog:'
-        version: 10.6.0(postcss@8.5.28)
+        version: 10.6.1(postcss@8.5.28)
       axe-core:
         specifier: 'catalog:'
         version: 4.13.0
@@ -1300,6 +1300,7 @@ packages:
 
   '@arcgis/api-extractor@5.2.0-next.132':
     resolution: {integrity: sha512-bhA1dAQMQ2rWiOH3r2yI77PZ+jGyjV4Z7a2T1mMVY1vQIez2VxGglmr6xOIhqpMDplcccZXEdwA4ezVn6mR/Mw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     hasBin: true
     peerDependencies:
       typescript: ~6.0.3
@@ -1310,12 +1311,14 @@ packages:
 
   '@arcgis/eslint-config@5.2.0-next.132':
     resolution: {integrity: sha512-e3EJxC+fvEjeI7JhjftD1KDYngpf5UfbPMLUFPWLDUnf52nmE6tsKXAwTcj8X+Y4Co/KgQTc2wo3UpxVtE7BrA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       eslint: ^10.6.0
 
   '@arcgis/lumina-compiler@5.2.0-next.132':
     resolution: {integrity: sha512-3kmTqnF5sAMa2fuEH1rMlTHO4ztYGW+4PgHOTmA7v91CdXXhHcirUxVg39F2NxYxu779hn7HWYyynnnJM+kXBg==}
     engines: {node: '>=24.11.0'}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@arcgis/lumina': ~5.2.0-next.132
       lit: ^3.3.0
@@ -1331,6 +1334,7 @@ packages:
 
   '@arcgis/lumina@5.2.0-next.132':
     resolution: {integrity: sha512-/PmCIq+is/xq0272fVkTMCIqIe7Hi+XnFslTihg8cvuhw/oxd386wQA9Ka88gfvfJb0XNMJbrshrOsa92z3sdA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@lit/context': ^1.1.6
       lit: ^3.3.0
@@ -1340,9 +1344,11 @@ packages:
 
   '@arcgis/node-toolkit@5.2.0-next.132':
     resolution: {integrity: sha512-hSO+f4chhz1j6/940iGP0OqQhX/9N9hqYhcENrXfjOt1QNFNWDi/1v52BF8/a/s1gOvHin1gJuLL5dKmR+HTlQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@arcgis/toolkit@5.2.0-next.132':
     resolution: {integrity: sha512-0wyFUD+a1Zw9RpySsKogfuThZ7dhXohXcp9bL7YRt7SdhvXpESnHVxxRz295x8gin0Hv39LzwmonG0PzdSfglg==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -4303,8 +4309,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  autoprefixer@10.6.0:
-    resolution: {integrity: sha512-A26d6qs9kqGgkmImIXMYvXTzqb4Qv7AVgpY1NXzr9Y659J8qHHnLOO/zE8ewIGFMprOolAoRAQYDgNryXIJKBw==}
+  autoprefixer@10.6.1:
+    resolution: {integrity: sha512-cL1Qz6ADZhcEbny/8HPfe99J6HhNoYtpX2LFLIbhgGE7Q1hlQVkYFdetDN7Id3KiQxhDrHwzlHr/YQCnZ8+xSA==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
@@ -12919,7 +12925,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  autoprefixer@10.6.0(postcss@8.5.28):
+  autoprefixer@10.6.1(postcss@8.5.28):
     dependencies:
       browserslist: 4.29.0
       caniuse-lite: 1.0.30001810
