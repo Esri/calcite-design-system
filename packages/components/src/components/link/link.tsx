@@ -168,10 +168,10 @@ export class Link extends LitElement {
           onClick={this.anchorClickHandler}
           onKeyDown={actAsButton ? this.keyDownHandler : undefined}
           ref={this.anchorRef}
-          rel={this.rel}
+          rel={this.rel || undefined}
           role={actAsButton ? "button" : undefined}
           tabIndex={actAsButton ? 0 : undefined}
-          target={this.href ? this.target : undefined}
+          target={this.href ? this.target || undefined : undefined}
         >
           {this.iconStart ? this.renderIcon("start") : null}
           <span class={CSS.text}>
