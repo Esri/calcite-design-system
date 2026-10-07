@@ -1,24 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-text-area-background-color: Specifies the component's background color.
- * @prop --calcite-text-area-border-color: Specifies the component's text area border color.
- * @prop --calcite-text-area-character-limit-text-color: Specifies the color of the character limit text displayed in the footer of the component.
- * @prop --calcite-text-area-divider-color: Specifies the color of the divider between the text area and footer.
- * @prop --calcite-text-area-font-size: Specifies the font size of the text area and footer.
- * @prop --calcite-text-area-max-height: Specifies the component's text area maximum height.
- * @prop --calcite-text-area-min-height: Specifies the component's text area minimum height.
- * @prop --calcite-text-area-max-width: Specifies the component's text area maximum width.
- * @prop --calcite-text-area-min-width: Specifies the component's text area minimum width.
- * @prop --calcite-text-area-text-color: Specifies the component's text color.
- * @prop --calcite-text-area-footer-border-color: Specifies the footer's border color.
- * @prop --calcite-text-area-corner-radius: Specifies component's corner radius.
- * @prop --calcite-text-area-shadow: Specifies the component's shadow.
- * @prop --calcite-text-area-footer-background-color: Specifies the footer's background color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -33,19 +12,20 @@
 // --calcite-internal-text-area-padding-inline
 // --calcite-internal-text-area-shadow
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply inline-block relative w-full h-full box-border;
+  display: inline-block;
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  box-sizing: border-box;
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
   --calcite-internal-text-area-footer-border-color: var(
     --calcite-text-area-footer-border-color,
     var(--calcite-internal-text-area-border-color)
   );
-  --calcite-internal-text-area-corner-radius: var(
-    --calcite-text-area-corner-radius,
-    var(--calcite-corner-radius-default)
-  );
+  --calcite-internal-text-area-corner-radius: var(--calcite-text-area-corner-radius, var(--calcite-corner-radius));
   --calcite-internal-text-area-shadow: var(--calcite-text-area-shadow, var(--calcite-shadow-none));
   --calcite-internal-text-area-footer-background-color: var(
     --calcite-text-area-footer-background-color,
@@ -61,7 +41,9 @@
 }
 
 .wrapper {
-  @apply h-full w-full box-border;
+  block-size: 100%;
+  inline-size: 100%;
+  box-sizing: border-box;
   box-shadow: var(--calcite-internal-text-area-shadow);
   border-radius: var(--calcite-internal-text-area-corner-radius);
 }
@@ -79,7 +61,11 @@
 }
 
 .text-area {
-  @apply relative block box-border w-full m-0;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin: 0;
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-border-color);
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
@@ -98,22 +84,22 @@
   );
   border-radius: var(--calcite-internal-text-area-corner-radius) var(--calcite-internal-text-area-corner-radius) 0 0;
   &::placeholder {
-    @apply font-normal;
+    font-weight: var(--calcite-font-weight-normal);
   }
 
   @media screen and (max-width: 480px) {
-    @apply resize-none;
+    resize: none;
   }
 
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 
   &.text-area--invalid {
     --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
     &:focus {
-      @apply focus-inset-danger;
+      @include shared.focus-inset-danger();
     }
   }
 
@@ -146,7 +132,9 @@
 }
 
 .footer {
-  @apply flex box-border items-center;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
   line-height: var(--calcite-font-line-height-base);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-footer-border-color);
   border-block-start: var(--calcite-border-width-none);
@@ -154,7 +142,10 @@
 }
 
 .character-limit {
-  @apply flex justify-end items-center whitespace-nowrap;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  white-space: nowrap;
 
   font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
   font-weight: var(--calcite-font-weight-regular);
@@ -184,36 +175,34 @@
 
 .content,
 .hide {
-  @apply hidden;
+  display: none;
 }
 
 .container {
-  @apply flex justify-between w-full;
+  display: flex;
+  justify-content: space-between;
+  inline-size: 100%;
 }
 
 .footer--end-only {
-  @apply justify-end;
-}
-
-.assistive-text {
-  @apply sr-only;
+  justify-content: flex-end;
 }
 
 .text-area.text-area--only {
-  @apply h-full;
+  block-size: 100%;
   min-block-size: var(--calcite-text-area-min-height, 0);
 }
 
 :host([resize="none"]) .text-area {
-  @apply resize-none;
+  resize: none;
 }
 
 :host([resize="horizontal"]) .text-area {
-  @apply resize-x;
+  resize: horizontal;
 }
 
 :host([resize="vertical"]) .text-area {
-  @apply resize-y;
+  resize: vertical;
 }
 
 :host([scale="s"]) {
@@ -258,7 +247,7 @@
   --calcite-internal-text-area-border-color: var(--calcite-color-status-danger);
 
   .text-area:focus {
-    @apply focus-inset-danger;
+    @include shared.focus-inset-danger();
   }
 }
 
@@ -269,8 +258,8 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.disabled();
-@include includes.base-component();
-@include includes.input-placeholder-text("--calcite-text-area-placeholder-text-color");
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.disabled();
+@include shared.base-component();
+@include shared.input-placeholder-text("--calcite-text-area-placeholder-text-color");

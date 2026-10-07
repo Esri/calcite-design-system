@@ -1,22 +1,6 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-inline-editable-background-color-hover: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the component's background color when hovered.
- * @prop --calcite-inline-editable-background-color: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the component's background color.
- * @prop --calcite-inline-editable-button-background-color: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the background color of the component's button element.
- * @prop --calcite-inline-editable-button-background-color-hover: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the background color of the component's button element when hovered.
- * @prop --calcite-inline-editable-button-background-color-press: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the background color of the component's button element when pressed.
- * @prop --calcite-inline-editable-button-corner-radius: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the corner radius of the component's button element.
- * @prop --calcite-inline-editable-button-loader-color: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the loader color of the component's button element.
- * @prop --calcite-inline-editable-button-text-color: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the text color of the component's button element.
- * @prop --calcite-inline-editable-button-text-color-press: [Deprecated] in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead. Specifies the text color of the component's button element when hovered or pressed.
- */
-
 // Deprecated in v5.2.0, removal target v7.0.0
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply block;
@@ -41,7 +25,7 @@
 }
 
 .wrapper {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply box-border
     flex
     justify-between;
@@ -76,6 +60,7 @@
     pointer-events: none;
     opacity: 0;
     inline-size: 0;
+    margin-inline-start: 0;
   }
 
   --calcite-action-text-color: var(--calcite-inline-editable-button-text-color, var(--calcite-color-text-1));
@@ -85,6 +70,14 @@
 .confirm-changes-button,
 .cancel-editing-button {
   margin-inline-start: var(--calcite-space-2xs);
+}
+
+:host([editing-enabled]) .confirm-changes-button {
+  margin-inline-start: 0;
+}
+
+:host([editing-enabled]:not([controls])) .controls-wrapper {
+  display: none;
 }
 
 calcite-action {
@@ -116,6 +109,6 @@ calcite-action {
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
-@include includes.base-component();
+@include shared.base-component();

@@ -1,13 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-tab-background-color: Specifies the component's background color.
- * @prop --calcite-tab-border-color: When `calcite-tabs` is `bordered`, specifies the component's border color.
- * @prop --calcite-tab-text-color: Specifies the component's `iconStart`, `iconEnd`, and text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -17,11 +7,12 @@
 // --calcite-internal-tab-nav-button-width
 // --calcite-internal-tab-nav-gap
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
-  @apply relative flex;
+  position: relative;
+  display: flex;
 }
 
 :host([bordered]) {
@@ -99,19 +90,21 @@
 }
 
 .tab-titles-slot-wrapper {
-  @apply flex-1;
+  flex: 1 1 0%;
 }
 
 .container,
 .tab-titles-slot-wrapper {
-  @apply flex w-full
-  justify-start
-  whitespace-nowrap
-  overflow-hidden;
+  display: flex;
+  inline-size: 100%;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .scroll-button {
-  @apply absolute bottom-0 top-0;
+  position: absolute;
+  inset-block: 0;
 
   calcite-button {
     --calcite-button-text-color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
@@ -122,7 +115,7 @@
 }
 
 .scroll-button-container {
-  @apply flex;
+  display: flex;
   inset-block-start: var(--calcite-border-width-md);
   inset-block-end: var(--calcite-border-width-md);
   inset-inline-end: 0;
@@ -153,4 +146,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

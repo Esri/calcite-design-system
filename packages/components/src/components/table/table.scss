@@ -1,56 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-table-border-color: Specifies the component's border color.
- * @prop --calcite-table-corner-radius: Specifies the component's border radius.
- * @prop --calcite-table-shadow: Specifies the component's shadow.
-
- * @prop --calcite-table-number-cell-background-color: Specifies the background color of the component's `numbered` cell.
- * @prop --calcite-table-number-cell-text-color: Specifies the text color of the component's `numbered` cell.
-
- * @prop --calcite-table-selection-cell-background-color: When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons.
- * @prop --calcite-table-selection-cell-background-color-selected: When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons on `selected` `calcite-table-row`s.
- * @prop --calcite-table-selection-cell-icon-color: When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `calcite-table-row`s where `selected` is `false`.
- * @prop --calcite-table-selection-cell-icon-color-selected: When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `selected` `calcite-table-row`s.
-
- * @prop --calcite-table-selection-chip-background-color: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the background color of the component's selection chip.
- * @prop --calcite-table-selection-chip-border-color: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the border color of the component's selection chip.
- * @prop --calcite-table-selection-chip-corner-radius: When `selectionMode` is `"multiple"` or `"single"`, specifies the corner radius of the component's selection chip.
- * @prop --calcite-table-selection-chip-shadow: When `selectionMode` is `"multiple"` or `"single"`, specifies the shadow of the component's selection chip.
- * @prop --calcite-table-selection-chip-text-color: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the text color of the component's selection chip.
- * @prop --calcite-table-selection-chip-background-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection chip.
- * @prop --calcite-table-selection-chip-border-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection chip.
- * @prop --calcite-table-selection-chip-text-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection chip.
-
- * @prop --calcite-table-selection-out-of-view-chip-background-color: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the background color of the component's selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-border-color: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the border color of the component's selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-corner-radius: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the corner radius of the component's selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-icon-color: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the icon color of the component's selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-shadow: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the shadow of the component's selection out of view chip.
- * @prop --calcite-table-selection-out-of-view-chip-text-color: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the text color of the component's selection out of view chip.
-
- * @prop --calcite-table-selection-dismiss-button-background-color-active:  When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when active.
- * @prop --calcite-table-selection-dismiss-button-background-color-hover: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when hovered.
- * @prop --calcite-table-selection-dismiss-button-background-color: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip.
- * @prop --calcite-table-selection-dismiss-button-border-color-active: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when active.
- * @prop --calcite-table-selection-dismiss-button-border-color-hover: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when hovered.
- * @prop --calcite-table-selection-dismiss-button-border-color: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip.
- * @prop --calcite-table-selection-dismiss-button-corner-radius: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the corner radius of the component's selection dismiss chip.
- * @prop --calcite-table-selection-dismiss-button-shadow: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the shadow of the component's selection dismiss chip.
- * @prop --calcite-table-selection-dismiss-button-text-color-active: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when active.
- * @prop --calcite-table-selection-dismiss-button-text-color-hover: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when hovered.
- * @prop --calcite-table-selection-dismiss-button-text-color: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip.
-
- * @prop --calcite-table-pagination-color: When `pageSize` is set, specifies the component's pagination item color.
- * @prop --calcite-table-pagination-color-hover: When `pageSize` is set, specifies the component's pagination item color when hovered or selected.
- * @prop --calcite-table-pagination-color-border-hover: When `pageSize` is set, specifies the component's pagination item bottom border color when hovered.
- * @prop --calcite-table-pagination-color-border-active: When `pageSize` is set, specifies the component's pagination item bottom border color when selected.
- * @prop --calcite-table-pagination-background-color: When `pageSize` is set, specifies the component's pagination item background color when active.
- * @prop --calcite-table-pagination-icon-color-background-hover: When `pageSize` is set, specifies the component's pagination chevron item background color when hovered.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -63,10 +10,10 @@
 // --calcite-internal-table-selection-action-spacing
 // --calcite-internal-table-sticky-header-border-shadow
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply flex;
+  display: flex;
   --calcite-internal-table-border-collapse: collapse;
 }
 
@@ -104,13 +51,14 @@
 }
 
 .container {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
   inline-size: var(--calcite-container-size-content-fluid);
   block-size: var(--calcite-container-size-content-fluid);
 }
 
 .table-container {
-  @apply whitespace-nowrap;
+  white-space: nowrap;
   line-height: var(--calcite-font-line-height-relative-tight);
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
@@ -120,10 +68,6 @@
 
 .table-container--overflow {
   overscroll-behavior-y: none;
-}
-
-.assistive-text {
-  @apply sr-only;
 }
 
 table {
@@ -136,13 +80,13 @@ table {
 /* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
 @-moz-document url-prefix() {
   table {
-    @apply border-separate;
+    border-collapse: separate;
     border-spacing: 0;
   }
 }
 
 .table--fixed {
-  @apply table-fixed;
+  table-layout: fixed;
 }
 
 .bordered {
@@ -161,26 +105,29 @@ table {
 }
 
 .selection-actions {
-  @apply flex flex-row;
+  display: flex;
+  flex-direction: row;
   gap: var(--calcite-internal-table-selection-action-spacing);
   margin-inline-start: auto;
 }
 
 .selection-area {
-  @apply flex flex-row items-center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding-block: var(--calcite-internal-table-cell-padding);
 }
 
 .selection-area calcite-chip:last-of-type {
-  @apply me-2;
+  margin-inline-end: var(--calcite-space-sm);
 }
 
 .selection-area calcite-chip:last-of-type:not(:first-of-type) {
-  @apply ms-2;
+  margin-inline-start: var(--calcite-space-sm);
 }
 
 .selection-area calcite-button {
-  @apply me-4;
+  margin-inline-end: var(--calcite-space-lg);
 }
 
 .selection-chip {
@@ -206,7 +153,10 @@ table {
 }
 
 .pagination-area {
-  @apply flex flex-row w-full justify-center;
+  display: flex;
+  flex-direction: row;
+  inline-size: 100%;
+  justify-content: center;
   padding-block: var(--calcite-internal-table-cell-padding);
 }
 
@@ -222,7 +172,7 @@ calcite-pagination {
 }
 
 .dismiss-button {
-  @apply me-4;
+  margin-inline-end: var(--calcite-space-lg);
   --calcite-button-background-color: var(--calcite-table-selection-dismiss-button-background-color);
   --calcite-button-border-color: var(--calcite-table-selection-dismiss-button-border-color);
   --calcite-button-corner-radius: var(--calcite-table-selection-dismiss-button-corner-radius);
@@ -240,4 +190,4 @@ calcite-pagination {
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

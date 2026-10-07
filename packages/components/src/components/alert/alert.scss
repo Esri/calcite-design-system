@@ -1,15 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-alert-width: Specifies the component's width.
- * @prop --calcite-alert-background-color: Specifies the component's background color.
- * @prop --calcite-alert-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-alert-shadow: Specifies the component's shadow.
- * @prop --calcite-alert-offset-size: Specifies the component's `placement` offset.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -18,8 +6,7 @@
 // --calcite-internal-alert-min-height
 
 @use "sass:list";
-@use "../../styles/includes";
-@use "../../styles/shared/animation";
+@use "../../styles/shared";
 
 $border-style: 1px solid var(--calcite-color-border-3);
 
@@ -67,7 +54,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     border-block-end: $border-style;
     max-inline-size: calc(100% - (var(--calcite-alert-offset-size, theme("spacing.8")) * 2));
     transition:
-      opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      opacity var(--calcite-internal-animation-timing-slow) shared.$easing-function,
       all var(--calcite-animation-timing) ease-in-out;
     overflow: visible;
   }
@@ -108,7 +95,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .queue-count {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply cursor-default
   flex
   font-medium
@@ -167,13 +154,13 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 // scale variables
 :host([scale="s"]) {
-  @include includes.slotted("title", "*") {
+  @include shared.slotted("title", "*") {
     @apply text-n1-wrap;
   }
-  @include includes.slotted("message", "*") {
+  @include shared.slotted("message", "*") {
     @apply text-n2-wrap;
   }
-  @include includes.slotted("link", "*") {
+  @include shared.slotted("link", "*") {
     @apply text-n2-wrap;
   }
   .queue-count {
@@ -193,13 +180,13 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([scale="m"]) {
-  @include includes.slotted("title", "*") {
+  @include shared.slotted("title", "*") {
     @apply text-0-wrap;
   }
-  @include includes.slotted("message", "*") {
+  @include shared.slotted("message", "*") {
     @apply text-n1-wrap;
   }
-  @include includes.slotted("link", "*") {
+  @include shared.slotted("link", "*") {
     @apply text-n1-wrap;
   }
   .queue-count {
@@ -219,13 +206,13 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host([scale="l"]) {
-  @include includes.slotted("title", "*") {
+  @include shared.slotted("title", "*") {
     @apply text-1-wrap;
   }
-  @include includes.slotted("message", "*") {
+  @include shared.slotted("message", "*") {
     @apply text-0-wrap;
   }
-  @include includes.slotted("link", "*") {
+  @include shared.slotted("link", "*") {
     @apply text-0-wrap;
   }
   .queue-count {
@@ -261,14 +248,14 @@ $border-style: 1px solid var(--calcite-color-border-3);
   border-inline-end: 0 solid transparent;
 }
 
-@include includes.slotted("title", "*") {
+@include shared.slotted("title", "*") {
   @apply text-0-wrap
     font-medium;
 
   color: var(--calcite-color-text-1);
 }
 
-@include includes.slotted("message", "*") {
+@include shared.slotted("message", "*") {
   @apply text-n1-wrap
     m-0
     inline
@@ -277,7 +264,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   color: var(--calcite-color-text-2);
 }
 
-@include includes.slotted("link", "*") {
+@include shared.slotted("link", "*") {
   @apply text-color-link;
 }
 
@@ -347,5 +334,5 @@ $alert-durations:
   position: absolute;
 }
 
-@include includes.base-component();
-@include includes.calcite-hydrated-hidden();
+@include shared.base-component();
+@include shared.calcite-hydrated-hidden();

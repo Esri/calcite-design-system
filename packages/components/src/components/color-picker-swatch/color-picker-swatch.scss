@@ -1,4 +1,4 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 $size-s: 20px;
 $size-m: 24px;
@@ -44,4 +44,4 @@ $size-l: 28px;
   fill: #cacaca;
 }
 
-@include includes.base-component();
+@include shared.base-component();

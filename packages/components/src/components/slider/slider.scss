@@ -1,22 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-slider-text-color: Specifies the component's text color.
- * @prop --calcite-slider-track-color: Specifies the component's track color.
- * @prop --calcite-slider-track-fill-color: Specifies the component's track fill color.
- * @prop --calcite-slider-handle-fill-color: Specifies the component's handle fill color.
- * @prop --calcite-slider-handle-extension-color: Specifies the component's handle extension color.
- * @prop --calcite-slider-accent-color: Specifies the component's accent color.
- * @prop --calcite-slider-tick-color: Specifies the component's tick color.
- * @prop --calcite-slider-tick-border-color: Specifies the component's tick border color.
- * @prop --calcite-slider-tick-selected-color: Specifies the component's tick color when in selected range.
- * @prop --calcite-slider-graph-color: Specifies the component's graph color.
- *
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 .scale--s {
   --calcite-slider-handle-size: theme("spacing[2.5]");
@@ -78,7 +60,7 @@
   user-select: none;
 }
 
-@include includes.disabled() {
+@include shared.disabled() {
   .track__range,
   .tick--active {
     background-color: var(--calcite-color-text-3);
@@ -410,6 +392,6 @@
   }
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();

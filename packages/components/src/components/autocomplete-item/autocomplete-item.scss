@@ -1,14 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-autocomplete-background-color: Specifies the component's background color.
- * @prop --calcite-autocomplete-description-text-color: Specifies the text color of the component's `description`.
- * @prop --calcite-autocomplete-heading-text-color: Specifies the text color of the component's `heading`.
- * @prop --calcite-autocomplete-text-color: Specifies the component's text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -17,7 +6,7 @@
 // --calcite-internal-autocomplete-item-spacing-unit-l
 // --calcite-internal-autocomplete-item-spacing-unit-s
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 .scale--s {
   @apply text-n2h;
@@ -61,7 +50,7 @@
   gap: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-inline: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-block: var(--calcite-internal-autocomplete-item-spacing-unit-s);
-  @include includes.word-break();
+  @include shared.word-break();
   justify-content: space-around;
 }
 
@@ -114,6 +103,6 @@
   padding-block: 0;
 }
 
-@include includes.text-highlight-item();
-@include includes.base-component();
-@include includes.disabled();
+@include shared.text-highlight-item();
+@include shared.base-component();
+@include shared.disabled();

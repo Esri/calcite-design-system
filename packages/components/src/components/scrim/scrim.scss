@@ -1,12 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-scrim-background: Specifies the component's background color.
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply absolute
@@ -45,4 +37,4 @@
   @apply p-4;
 }
 
-@include includes.base-component();
+@include shared.base-component();

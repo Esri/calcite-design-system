@@ -3,20 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-split-button-background-color: Specifies the component's background color.
- * @prop --calcite-split-button-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-split-button-background-color-focus: Specifies the component's background color when focused.
- * @prop --calcite-split-button-background-color-press: Specifies the component's background color when active.
- * @prop --calcite-split-button-border-color: Specifies the component's border color.
- * @prop --calcite-split-button-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-split-button-icon-color: Specifies the component's `iconStart` and `iconEnd` color.
- * @prop --calcite-split-button-loader-color: Specifies the component's loader color.
- * @prop --calcite-split-button-text-color: Specifies the component's text color.
- * @prop --calcite-split-button-shadow: Specifies the component's shadow.
- * @prop --calcite-split-button-divider-border-color: Specifies the component's divider border color.
- * @prop --calcite-split-button-divider-color: Specifies the component's divider color.
- * @prop --calcite-split-button-dropdown-width: Specifies the width of the component's dropdown.
- * @prop --calcite-split-button-dropdown-background-color: Specifies the component's dropdown background color.
 **/
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -26,7 +12,7 @@
 // --calcite-internal-split-button-divider-border-color
 // --calcite-internal-split-button-divider-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply inline-block;
@@ -140,7 +126,7 @@
 }
 
 .divider-container {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply flex w-px items-stretch;
   background-color: var(
     --calcite-split-button-divider-color,
@@ -223,7 +209,7 @@ calcite-dropdown {
   --calcite-dropdown-width: var(--calcite-split-button-dropdown-width);
 }
 
-@include includes.disabled() {
+@include shared.disabled() {
   calcite-dropdown > calcite-button {
     @apply pointer-events-none;
   }
@@ -234,4 +220,4 @@ calcite-dropdown {
     background-color: transparent;
   }
 }
-@include includes.base-component();
+@include shared.base-component();
