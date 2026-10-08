@@ -13,9 +13,8 @@ type TeamStatusOptions = {
 };
 
 type StatusInfo = {
-  issueCount: number;
-  pullCount: number;
-  milestoneTitle: string;
+  issues: { query: string; count: number };
+  pulls: { query: string; count: number };
   assignees: { username: string; firstName: string; issueCount: number }[];
 };
 
@@ -76,7 +75,7 @@ async function run({ token }: TeamStatusOptions): Promise<void> {
       }
       /* eslint-disable-next-line no-console -- Required for CLI output. */
       console.log(
-        `\nTeam status: http://127.0.0.1:${address.port}\n\nPress Ctrl+C to stop. Rerun the command to refresh data.`,
+        `\nServer: http://127.0.0.1:${address.port}\n\nPress Ctrl+C to stop. Rerun the command to refresh data.`,
       );
     });
   } catch (error) {
@@ -123,31 +122,26 @@ export async function getStatusInfo(token: string): Promise<StatusInfo> {
     sort: "due_on",
     direction: "asc",
   });
-  const milestone = milestones.find(({ due_on }) => due_on !== null) ?? null;
-  const counts = new Map<string, number>();
-
+  const milestone = milestones.find(({ due_on }) => due_on !== null);
   if (!milestone) {
     throw new Error("No open milestone with a due date found.");
   }
 
-  const pullRequests = await github.paginate(github.rest.pulls.list, {
-    ...repository,
-    state: "open",
-    per_page: 100,
+  const counts = new Map<string, number>();
+  const issueQuery = `sort:updated-desc is:issue state:open -label:"4 - installed" milestone:"${milestone.title}"`;
+  const pullRequestQuery = "sort:updated-desc is:pr state:open review:required draft:false";
+
+  const {
+    data: { total_count: pullCount },
+  } = await github.rest.search.issuesAndPullRequests({
+    q: `repo:${repository.owner}/${repository.repo} ${pullRequestQuery}`,
+    per_page: 1,
   });
 
-  const issueList = await github.paginate(github.rest.issues.listForRepo, {
-    ...repository,
-    state: "open",
-    milestone: String(milestone.number),
+  const issues = await github.paginate(github.rest.search.issuesAndPullRequests, {
+    q: `repo:${repository.owner}/${repository.repo} ${issueQuery}`,
     per_page: 100,
   });
-
-  const issues = issueList.filter(
-    (issue) =>
-      !issue.pull_request &&
-      !issue.labels.some((label) => (typeof label === "string" ? label : label.name) === "4 - installed"),
-  );
 
   issues.forEach((issue) => {
     for (const assignee of issue.assignees ?? []) {
@@ -167,41 +161,29 @@ export async function getStatusInfo(token: string): Promise<StatusInfo> {
   }
 
   return {
-    issueCount: issues.length,
-    pullCount: issueList.filter((issue) => issue.pull_request).length,
-    milestoneTitle: milestone.title,
+    issues: { query: issueQuery, count: issues.length },
+    pulls: { query: pullRequestQuery, count: pullCount },
     assignees,
   };
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
 }
 
 /**
  * Generates a self-contained snapshot with links to each member's matching issues.
  */
-export function renderTeamStatus({ issueCount, pullCount, milestoneTitle, assignees }: StatusInfo): string {
+export function renderTeamStatus({ issues, pulls, assignees }: StatusInfo): string {
   const calciteVersion = calcitePackageJson.version ?? "latest";
   const baseUrl = new URL(`https://github.com/${repository.owner}/${repository.repo}/issues`);
-  const milestoneParams = `sort:updated-desc is:issue state:open -label:"4 - installed" milestone:"${milestoneTitle}"`;
 
   const openIssuesUrl = new URL(baseUrl.href);
-  openIssuesUrl.searchParams.set("q", milestoneParams);
+  openIssuesUrl.searchParams.set("q", issues.query);
 
   const openPullsUrl = new URL(baseUrl.href);
-  openPullsUrl.searchParams.set("q", `sort:updated-desc is:pr state:open review:required draft:false`);
+  openPullsUrl.searchParams.set("q", pulls.query);
 
   const items = assignees.map(({ username, firstName, issueCount }) => {
-    const name = escapeHtml(firstName);
-    const url = new URL(baseUrl.href);
-    url.searchParams.set("q", `${milestoneParams} assignee:${username}`);
-    return `<li><a href="${escapeHtml(url.href)}" target="_blank" rel="noreferrer">${name}</a> - ${issueCount}</li>`;
+    const url = baseUrl;
+    url.searchParams.set("q", `${issues.query} assignee:${username}`);
+    return `<li><a href="${url.href}" target="_blank" rel="noreferrer">${firstName}</a> - ${issueCount}</li>`;
   });
 
   return dedent`
@@ -218,12 +200,11 @@ export function renderTeamStatus({ issueCount, pullCount, milestoneTitle, assign
           <h1 style="font-weight: 500;">Calcite team status</h1>
           <section id="copy">
             <div>
-              <a href="${openIssuesUrl}" target="_blank" rel="noreferrer">Open issues:</a>&nbsp;${issueCount}
+              <a href="${openIssuesUrl}" target="_blank" rel="noreferrer">Open issues:</a>&nbsp;${issues.count}
             </div>
             <div>
-              <a href="${openPullsUrl}" target="_blank" rel="noreferrer">Open pull requests:</a>&nbsp;${pullCount}
+              <a href="${openPullsUrl}" target="_blank" rel="noreferrer">Open pull requests:</a>&nbsp;${pulls.count}
             </div>
-            <p>Order</p>
             <ul>
               ${items.join("\n")}
             </ul>
@@ -232,14 +213,14 @@ export function renderTeamStatus({ issueCount, pullCount, milestoneTitle, assign
         </main>
         <script>
           const copyButtonEl = document.querySelector("calcite-button");
-          const copyContentEl = document.querySelector("#copy");
+          const contentEl = document.querySelector("#copy");
 
-          copyButton.addEventListener("click", async () => {
+          copyButtonEl.addEventListener("click", async () => {
             try {
               await navigator.clipboard.write([
                 new ClipboardItem({
-                  "text/html": new Blob([copyContent.innerHTML], { type: "text/html" }),
-                  "text/plain": new Blob([copyContent.innerText], { type: "text/plain" }),
+                  "text/html": new Blob([contentEl.innerHTML], { type: "text/html" }),
+                  "text/plain": new Blob([contentEl.innerText], { type: "text/plain" }),
                 }),
               ]);
             } catch (error) {
