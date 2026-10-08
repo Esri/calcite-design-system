@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.91...@esri/calcite-components@5.2.0-next.92) (2026-10-08)
+
+### Bug Fixes
+
+- **menu-item:** fix scales and padding ([#15303](https://github.com/Esri/calcite-design-system/issues/15303))
+
 ## [5.2.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.90...@esri/calcite-components@5.2.0-next.91) (2026-10-08)
 
 ### Features
