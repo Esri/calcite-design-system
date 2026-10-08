@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.89...@esri/calcite-components@5.2.0-next.90) (2026-10-07)
+
+### Bug Fixes
+
+- **input-time-picker:** keep time picker parts within bounds when narrow ([#15297](https://github.com/Esri/calcite-design-system/issues/15297)), closes [#14988](https://github.com/Esri/calcite-design-system/issues/14988)
+
 ## [5.2.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.88...@esri/calcite-components@5.2.0-next.89) (2026-10-07)
 
 **Note:** Version bump only for package @esri/calcite-components
