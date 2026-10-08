@@ -60,17 +60,24 @@ describe("focusable", () => {
   it("moves focus between gridcells with arrow keys", async () => {
     await mount(<calcite-date-picker value="2025-09-15" />);
 
-    const grid = page.getByRole("grid");
-    const gridCells = page.getByRole("gridcell").elements() as DatePickerDay["el"][];
-    const activeDay = gridCells.find((day) => day.id === "20250915")!;
-    const nextDay = gridCells.find((day) => day.id === "20250916")!;
-
-    expect(grid.element().contains(activeDay)).toBe(true);
+    const grid = page.getByRole("grid", { includeHidden: true });
+    const activeDay = grid
+      .getByRole("gridcell", {
+        includeHidden: true,
+        name: "Monday, September 15, 2025",
+      })
+      .element() as DatePickerDay["el"];
+    const nextDay = grid
+      .getByRole("gridcell", {
+        includeHidden: true,
+        name: "Tuesday, September 16, 2025",
+      })
+      .element() as DatePickerDay["el"];
 
     await activeDay.setFocus();
     await userEvent.keyboard("{ArrowRight}");
 
-    expect((nextDay.getRootNode() as ShadowRoot).activeElement).toBe(nextDay);
+    expect(nextDay.getRootNode()).toHaveProperty("activeElement", nextDay);
   });
 });
 
