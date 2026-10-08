@@ -80,7 +80,7 @@ export class FieldSet extends LitElement {
   //#region Private Methods
 
   private collectOwnedControls(element: HTMLElement): HTMLElement[] {
-    const controls = "disabled" in element || "scale" in element ? [element] : [];
+    const controls = this.isOwnedControl(element) ? [element] : [];
 
     if ("manageDescendantControls" in element) {
       return controls;
@@ -88,10 +88,14 @@ export class FieldSet extends LitElement {
 
     return [
       ...controls,
-      ...Array.from(element.children).flatMap((child) =>
-        this.collectOwnedControls(child as HTMLElement),
-      ),
+      ...(Array.from(element.children).filter((child) =>
+        this.isOwnedControl(child as HTMLElement),
+      ) as HTMLElement[]),
     ];
+  }
+
+  private isOwnedControl(element: Element): boolean {
+    return "disabled" in element || "scale" in element;
   }
 
   private handleInputSlotChange(event: Event): void {

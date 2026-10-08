@@ -141,6 +141,24 @@ describe("propagation", () => {
     expect(nestedInput.scale).toBe("s");
   });
 
+  it("does not propagate scale to controls nested two or more levels deep in a plain wrapper", async () => {
+    const { el } = await mount(
+      <calcite-field-set scale="s">
+        <div>
+          <calcite-label>
+            Label
+            <calcite-input id="input" />
+          </calcite-label>
+        </div>
+      </calcite-field-set>,
+    );
+    const input = el.querySelector<UpdatableElement>("#input")!;
+
+    await input.updateComplete;
+
+    expect(input.scale).toBe("m");
+  });
+
   it("propagates disabled and restores each control's original state", async () => {
     const { el } = await mount(
       <calcite-field-set disabled>
@@ -187,6 +205,24 @@ describe("propagation", () => {
     const input = el.querySelector<UpdatableElement>("#input")!;
 
     await vi.waitFor(() => expect(input.disabled).toBe(true));
+  });
+
+  it("does not propagate disabled to controls nested two or more levels deep in a plain wrapper", async () => {
+    const { el } = await mount(
+      <calcite-field-set disabled>
+        <div>
+          <calcite-label>
+            Label
+            <calcite-input id="input" />
+          </calcite-label>
+        </div>
+      </calcite-field-set>,
+    );
+    const input = el.querySelector<UpdatableElement>("#input")!;
+
+    await input.updateComplete;
+
+    expect(input.disabled).toBe(false);
   });
 });
 

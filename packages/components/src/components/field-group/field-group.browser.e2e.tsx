@@ -190,6 +190,24 @@ describe("scale propagation", () => {
 
     await vi.waitFor(() => expect(input.scale).toBe("s"));
   });
+
+  it("does not propagate scale to controls nested two or more levels deep in a plain wrapper", async () => {
+    const { el } = await mount(
+      <calcite-field-group scale="s">
+        <div>
+          <calcite-label>
+            Label
+            <calcite-input id="input" />
+          </calcite-label>
+        </div>
+      </calcite-field-group>,
+    );
+    const input = el.querySelector<UpdatableElement>("#input")!;
+
+    await input.updateComplete;
+
+    expect(input.scale).toBe("m");
+  });
 });
 
 describe("disabled propagation", () => {
@@ -219,6 +237,24 @@ describe("disabled propagation", () => {
     expect(directInput.disabled).toBe(false);
     expect(enabledFieldSet.disabled).toBe(false);
     expect(preDisabledFieldSet.disabled).toBe(true);
+  });
+
+  it("does not propagate disabled to controls nested two or more levels deep in a plain wrapper", async () => {
+    const { el } = await mount(
+      <calcite-field-group disabled>
+        <div>
+          <calcite-label>
+            Label
+            <calcite-input id="input" />
+          </calcite-label>
+        </div>
+      </calcite-field-group>,
+    );
+    const input = el.querySelector<UpdatableElement>("#input")!;
+
+    await input.updateComplete;
+
+    expect(input.disabled).toBe(false);
   });
 });
 
