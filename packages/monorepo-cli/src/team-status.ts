@@ -172,17 +172,16 @@ export async function getStatusInfo(token: string): Promise<StatusInfo> {
  */
 export function renderTeamStatus({ issues, pulls, assignees }: StatusInfo): string {
   const calciteVersion = calcitePackageJson.version ?? "latest";
-  const baseUrl = new URL(`https://github.com/${repository.owner}/${repository.repo}/issues`);
+  const baseUrl = `https://github.com/${repository.owner}/${repository.repo}/issues`;
 
-  const openIssuesUrl = new URL(baseUrl.href);
-  openIssuesUrl.searchParams.set("q", issues.query);
-
-  const openPullsUrl = new URL(baseUrl.href);
-  openPullsUrl.searchParams.set("q", pulls.query);
+  function getSearchUrl(query: string): URL {
+    const url = new URL(baseUrl);
+    url.searchParams.set("q", query);
+    return url;
+  }
 
   const items = assignees.map(({ username, firstName, issueCount }) => {
-    const url = baseUrl;
-    url.searchParams.set("q", `${issues.query} assignee:${username}`);
+    const url = getSearchUrl(`${issues.query} assignee:${username}`);
     return `<li><a href="${url.href}" target="_blank" rel="noreferrer">${firstName}</a> - ${issueCount}</li>`;
   });
 
@@ -200,10 +199,10 @@ export function renderTeamStatus({ issues, pulls, assignees }: StatusInfo): stri
           <h1 style="font-weight: 500;">Calcite team status</h1>
           <section id="copy">
             <div>
-              <a href="${openIssuesUrl}" target="_blank" rel="noreferrer">Open issues:</a>&nbsp;${issues.count}
+              <a href="${getSearchUrl(issues.query)}" target="_blank" rel="noreferrer">Open issues:</a>&nbsp;${issues.count}
             </div>
             <div>
-              <a href="${openPullsUrl}" target="_blank" rel="noreferrer">Open pull requests:</a>&nbsp;${pulls.count}
+              <a href="${getSearchUrl(pulls.query)}" target="_blank" rel="noreferrer">Pull requests needing review:</a>&nbsp;${pulls.count}
             </div>
             <ul>
               ${items.join("\n")}
