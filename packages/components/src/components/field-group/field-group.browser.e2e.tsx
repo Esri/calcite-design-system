@@ -208,6 +208,63 @@ describe("scale propagation", () => {
 
     expect(input.scale).toBe("m");
   });
+
+  it("checks direct children but not grandchildren for scale propagation", async () => {
+    const { el } = await mount(
+      <calcite-field-group scale="s">
+        <calcite-input id="direct" />
+        <div>
+          <calcite-input id="direct-child" />
+          <div>
+            <calcite-input id="grandchild" />
+          </div>
+        </div>
+      </calcite-field-group>,
+    );
+    const direct = el.querySelector<UpdatableElement>("#direct")!;
+    const directChild = el.querySelector<UpdatableElement>("#direct-child")!;
+    const grandchild = el.querySelector<UpdatableElement>("#grandchild")!;
+
+    await waitForUpdate(direct);
+
+    expect(direct.scale).toBe("s");
+    expect(directChild.scale).toBe("s");
+    expect(grandchild.scale).toBe("m");
+  });
+
+  it("verifies propagation boundaries across directly slotted inputs, field groups, and field sets for scale", async () => {
+    const { el } = await mount(
+      <calcite-field-group scale="s">
+        <calcite-input id="direct-input" />
+        <calcite-field-group id="direct-field-group">
+          <calcite-input id="field-group-child" />
+        </calcite-field-group>
+        <calcite-field-set id="direct-field-set">
+          <calcite-input id="field-set-child" />
+        </calcite-field-set>
+        <div>
+          <div>
+            <calcite-input id="two-levels-deep" />
+          </div>
+        </div>
+      </calcite-field-group>,
+    );
+    const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
+    const directFieldGroup = el.querySelector<UpdatableElement>("#direct-field-group")!;
+    const fieldGroupChild = el.querySelector<UpdatableElement>("#field-group-child")!;
+    const directFieldSet = el.querySelector<UpdatableElement>("#direct-field-set")!;
+    const fieldSetChild = el.querySelector<UpdatableElement>("#field-set-child")!;
+    const twoLevelsDeep = el.querySelector<UpdatableElement>("#two-levels-deep")!;
+
+    await waitForUpdate(directInput);
+
+    expect(directInput.scale).toBe("s");
+    expect(directFieldGroup.scale).toBe("s");
+    expect(fieldGroupChild.scale).toBe("s");
+    expect(directFieldSet.scale).toBe("s");
+    expect(fieldSetChild.scale).toBe("s");
+    expect(twoLevelsDeep.scale).toBe("m");
+  });
 });
 
 describe("disabled propagation", () => {
@@ -255,6 +312,63 @@ describe("disabled propagation", () => {
     await input.updateComplete;
 
     expect(input.disabled).toBe(false);
+  });
+
+  it("checks direct children but not grandchildren for disabled propagation", async () => {
+    const { el } = await mount(
+      <calcite-field-group disabled>
+        <calcite-input id="direct" />
+        <div>
+          <calcite-input id="direct-child" />
+          <div>
+            <calcite-input id="grandchild" />
+          </div>
+        </div>
+      </calcite-field-group>,
+    );
+    const direct = el.querySelector<UpdatableElement>("#direct")!;
+    const directChild = el.querySelector<UpdatableElement>("#direct-child")!;
+    const grandchild = el.querySelector<UpdatableElement>("#grandchild")!;
+
+    await vi.waitFor(() => expect(direct.disabled).toBe(true));
+
+    expect(directChild.disabled).toBe(true);
+    expect(grandchild.disabled).toBe(false);
+  });
+
+  it("verifies propagation boundaries across directly slotted inputs, field groups, and field sets for disabled", async () => {
+    const { el } = await mount(
+      <calcite-field-group disabled>
+        <calcite-input id="direct-input" />
+        <calcite-field-group id="direct-field-group">
+          <calcite-input id="field-group-child" />
+        </calcite-field-group>
+        <calcite-field-set id="direct-field-set">
+          <calcite-input id="field-set-child" />
+        </calcite-field-set>
+        <div>
+          <div>
+            <calcite-input id="two-levels-deep" />
+          </div>
+        </div>
+      </calcite-field-group>,
+    );
+    const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
+    const directFieldGroup = el.querySelector<UpdatableElement>("#direct-field-group")!;
+    const fieldGroupChild = el.querySelector<UpdatableElement>("#field-group-child")!;
+    const directFieldSet = el.querySelector<UpdatableElement>("#direct-field-set")!;
+    const fieldSetChild = el.querySelector<UpdatableElement>("#field-set-child")!;
+    const twoLevelsDeep = el.querySelector<UpdatableElement>("#two-levels-deep")!;
+
+    await vi.waitFor(() => {
+      expect(directInput.disabled).toBe(true);
+      expect(directFieldGroup.disabled).toBe(true);
+      expect(fieldGroupChild.disabled).toBe(true);
+      expect(directFieldSet.disabled).toBe(true);
+      expect(fieldSetChild.disabled).toBe(true);
+    });
+
+    expect(twoLevelsDeep.disabled).toBe(false);
   });
 });
 

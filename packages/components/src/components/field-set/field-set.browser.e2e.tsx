@@ -224,6 +224,64 @@ describe("propagation", () => {
 
     expect(input.disabled).toBe(false);
   });
+
+  it("checks direct children but not grandchildren for scale and disabled propagation", async () => {
+    const { el } = await mount(
+      <calcite-field-set disabled scale="s">
+        <calcite-input id="direct" />
+        <div>
+          <calcite-input id="direct-child" />
+          <div>
+            <calcite-input id="grandchild" />
+          </div>
+        </div>
+      </calcite-field-set>,
+    );
+    const direct = el.querySelector<UpdatableElement>("#direct")!;
+    const directChild = el.querySelector<UpdatableElement>("#direct-child")!;
+    const grandchild = el.querySelector<UpdatableElement>("#grandchild")!;
+
+    await vi.waitFor(() => expect(direct.disabled).toBe(true));
+    expect(direct.scale).toBe("s");
+
+    expect(directChild.disabled).toBe(true);
+    expect(directChild.scale).toBe("s");
+
+    expect(grandchild.disabled).toBe(false);
+    expect(grandchild.scale).toBe("m");
+  });
+
+  it("verifies propagation boundaries across directly slotted inputs and field groups", async () => {
+    const { el } = await mount(
+      <calcite-field-set disabled scale="s">
+        <calcite-input id="direct-input" />
+        <calcite-field-group id="direct-field-group">
+          <calcite-input id="field-group-child" />
+        </calcite-field-group>
+        <div>
+          <div>
+            <calcite-input id="two-levels-deep" />
+          </div>
+        </div>
+      </calcite-field-set>,
+    );
+    const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
+    const directFieldGroup = el.querySelector<UpdatableElement>("#direct-field-group")!;
+    const fieldGroupChild = el.querySelector<UpdatableElement>("#field-group-child")!;
+    const twoLevelsDeep = el.querySelector<UpdatableElement>("#two-levels-deep")!;
+
+    await vi.waitFor(() => {
+      expect(directInput.disabled).toBe(true);
+      expect(directFieldGroup.disabled).toBe(true);
+      expect(fieldGroupChild.disabled).toBe(true);
+    });
+    expect(directInput.scale).toBe("s");
+    expect(directFieldGroup.scale).toBe("s");
+    expect(fieldGroupChild.scale).toBe("s");
+
+    expect(twoLevelsDeep.disabled).toBe(false);
+    expect(twoLevelsDeep.scale).toBe("m");
+  });
 });
 
 describe("theme", () => {
