@@ -26,8 +26,37 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-tab-title`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tab-background-color": "*";
+    /**
+     * When `calcite-tabs` is `bordered`, specifies the component's border color.
+     */
+    "--calcite-tab-border-color": "*";
+    /**
+     * Specifies the component's `iconStart`, `iconEnd`, and text color.
+     */
+    "--calcite-tab-text-color": "*";
+  }
+}
+
+interface TabNavSlots {
+  /**
+   * A slot for adding `calcite-tab-title`s.
+   */
+  "": Node[];
+}
+
 export class TabNav extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TabNavSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -60,6 +89,17 @@ export class TabNav extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  get enabledTabTitles(): TabTitle["el"][] {
+    return filterDirectChildren<TabTitle["el"]>(
+      this.el,
+      "calcite-tab-title:not([disabled])",
+    ).filter((tabTitle) => !tabTitle.closed);
+  }
+
+  get tabTitles(): TabTitle["el"][] {
+    return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
+  }
 
   //#endregion
 
@@ -230,17 +270,6 @@ export class TabNav extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  get enabledTabTitles(): TabTitle["el"][] {
-    return filterDirectChildren<TabTitle["el"]>(
-      this.el,
-      "calcite-tab-title:not([disabled])",
-    ).filter((tabTitle) => !tabTitle.closed);
-  }
-
-  get tabTitles(): TabTitle["el"][] {
-    return filterDirectChildren<TabTitle["el"]>(this.el, "calcite-tab-title");
-  }
 
   private focusPreviousTabHandler(event: CustomEvent): void {
     this.handleTabFocus(event, event.target as TabTitle["el"], "previous");
