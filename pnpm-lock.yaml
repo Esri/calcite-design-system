@@ -425,6 +425,9 @@ importers:
         specifier: 'catalog:'
         version: 8.0.1
     devDependencies:
+      '@chromatic-com/vitest':
+        specifier: ^1.0.1
+        version: 1.0.1(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)(vitest@4.1.11)
       '@cspell/dict-gis':
         specifier: 'catalog:'
         version: 1.0.3
@@ -461,6 +464,9 @@ importers:
       '@types/shell-quote':
         specifier: 'catalog:'
         version: 1.7.5
+      chromatic:
+        specifier: 'catalog:'
+        version: 16.6.3(@chromatic-com/vitest@1.0.1(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)(vitest@4.1.11))
       concurrently:
         specifier: 'catalog:'
         version: 9.2.4
@@ -684,7 +690,7 @@ importers:
         version: 5.4.4
       chromatic:
         specifier: 'catalog:'
-        version: 16.6.3
+        version: 16.6.3(@chromatic-com/vitest@1.0.1(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)(vitest@4.1.11))
       concurrently:
         specifier: 'catalog:'
         version: 9.2.4
@@ -1402,6 +1408,15 @@ packages:
 
   '@cacheable/utils@2.5.0':
     resolution: {integrity: sha512-buipgOVDkkPXNR5+xBpDw7Zk2n1EvU7qBJCNUcL7rhQ//kfpOXPAvQ511Os0vpLYJ1pZnvudNytkQt2hst3wqA==}
+
+  '@chromatic-com/vitest@1.0.1':
+    resolution: {integrity: sha512-A6slRcJ8FxT++X3YUJ3sPySiXGARplSKWh5yrZDr/WA8FK86NBGrtDpe3E6uhYFvOpqzMiR2z3kM0dcMrZWfqw==}
+    hasBin: true
+    peerDependencies:
+      vitest: ^4 || ^5
+
+  '@chromaui/rrweb-snapshot@2.0.0-alpha.19-noAbsolute':
+    resolution: {integrity: sha512-FTsZCNv4dBR8q4UcazvxRw721r6xtsRKkC6Xo8NiEXDekA/JbVDHuWkPxxM0IvyX9Vo/yhCsYviXFrUqqeOaVQ==}
 
   '@cloudfour/simple-svg-placeholder@1.2.0':
     resolution: {integrity: sha512-J/fKamKQUdEZevKiiq2pragf1G5OqqCoDy+ERZa7afPIBj/9eEPJ1i/pxHIqggxDSqhO1avx4lmfszOPKfh/yA==}
@@ -8756,6 +8771,15 @@ packages:
     peerDependencies:
       storybook: ^10.0.0
 
+  storybook@10.2.13:
+    resolution: {integrity: sha512-heMfJjOfbHvL+wlCAwFZlSxcakyJ5yQDam6e9k2RRArB1veJhRnsjO6lO1hOXjJYrqxfHA/ldIugbBVlCDqfvQ==}
+    hasBin: true
+    peerDependencies:
+      prettier: ^2 || ^3
+    peerDependenciesMeta:
+      prettier:
+        optional: true
+
   storybook@10.3.6:
     resolution: {integrity: sha512-vbSz7g/1rGMC1uAULqMZjALkIuLu2QABqfhRYhyr/11kzyesi+vAmwyJLukZP1FfecxGOgMwOh6GS0YsGpHAvQ==}
     hasBin: true
@@ -9933,6 +9957,25 @@ snapshots:
     dependencies:
       hashery: 1.5.1
       keyv: 5.6.0
+
+  '@chromatic-com/vitest@1.0.1(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)(vitest@4.1.11)':
+    dependencies:
+      '@chromaui/rrweb-snapshot': 2.0.0-alpha.19-noAbsolute
+      std-env: 4.2.0
+      storybook: 10.2.13(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)
+      tinyexec: 1.2.4
+      tinyrainbow: 3.1.0
+      vitest: 4.1.11(@types/node@24.10.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(happy-dom@20.12.2)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))
+    transitivePeerDependencies:
+      - '@testing-library/dom'
+      - bufferutil
+      - prettier
+      - react
+      - utf-8-validate
+
+  '@chromaui/rrweb-snapshot@2.0.0-alpha.19-noAbsolute':
+    dependencies:
+      postcss: 8.5.28
 
   '@cloudfour/simple-svg-placeholder@1.2.0': {}
 
@@ -13307,9 +13350,11 @@ snapshots:
 
   chownr@3.0.0: {}
 
-  chromatic@16.6.3:
+  chromatic@16.6.3(@chromatic-com/vitest@1.0.1(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)(vitest@4.1.11)):
     dependencies:
       semver: 7.8.5
+    optionalDependencies:
+      '@chromatic-com/vitest': 1.0.1(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)(vitest@4.1.11)
 
   chromium-bidi@0.6.5(devtools-protocol@0.0.1342118):
     dependencies:
@@ -18174,6 +18219,28 @@ snapshots:
   storybook-addon-rtl@3.0.1(storybook@10.3.6(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)):
     dependencies:
       storybook: 10.3.6(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1)
+
+  storybook@10.2.13(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1):
+    dependencies:
+      '@storybook/global': 5.0.0
+      '@storybook/icons': 2.1.0(react@18.3.1)
+      '@testing-library/jest-dom': 6.9.1
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.1)
+      '@vitest/expect': 3.2.4
+      '@vitest/spy': 3.2.4
+      esbuild: 0.27.7
+      open: 10.2.0
+      recast: 0.23.12
+      semver: 7.8.5
+      use-sync-external-store: 1.6.0(react@18.3.1)
+      ws: 8.21.1
+    optionalDependencies:
+      prettier: 3.8.4
+    transitivePeerDependencies:
+      - '@testing-library/dom'
+      - bufferutil
+      - react
+      - utf-8-validate
 
   storybook@10.3.6(@testing-library/dom@10.4.1)(prettier@3.8.4)(react@18.3.1):
     dependencies:

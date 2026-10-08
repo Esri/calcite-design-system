@@ -485,11 +485,13 @@ export class Shell extends LitElement {
   private renderContent(): JsxNode {
     const { panelIsResizing } = this;
     const defaultSlotNode: JsxNode = <slot key="default-slot" ref={this.defaultSlotRef} />;
-    const defaultSlotContainerNode = panelIsResizing ? (
-      <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>
-    ) : (
-      defaultSlotNode
-    );
+    let defaultSlotContainerNode;
+    // eslint-disable-next-line
+    if (panelIsResizing) {
+      defaultSlotContainerNode = <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>;
+    } else {
+      defaultSlotContainerNode = defaultSlotNode;
+    }
     const panelBottomSlotNode: JsxNode = (
       <slot
         key="panel-bottom-slot"
