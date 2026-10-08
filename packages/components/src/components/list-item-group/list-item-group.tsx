@@ -1,5 +1,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { MAX_COLUMNS } from "../list-item/resources";
 import { Scale } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
@@ -25,6 +26,13 @@ export class ListItemGroup extends LitElement {
   //#endregion
 
   //#region Public Properties
+
+  /**
+   * Specifies the number of columns spanned by the group heading.
+   *
+   * @internal
+   */
+  @property({ type: Number }) columnCount = MAX_COLUMNS;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -87,11 +95,13 @@ export class ListItemGroup extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { disabled, heading } = this;
+    const { columnCount, disabled, heading } = this;
+    const ariaColSpan = typeof columnCount === "number" && columnCount >= 1 ? columnCount : 1;
+
     return (
       <this.interactiveContainer disabled={disabled}>
         <div class={CSS.container} role="row">
-          <div class={CSS.heading} role="cell">
+          <div ariaColSpan={ariaColSpan} class={CSS.heading} role="cell">
             {heading}
           </div>
         </div>

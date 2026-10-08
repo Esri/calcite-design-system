@@ -57,10 +57,24 @@ describe("themed", () => {
 });
 
 describe("a11y attributes", () => {
-  it("should omit aria-colspan", async () => {
+  it("should set aria-colspan to 1 by default when column count is 0", async () => {
     await mount(<calcite-list-item-group heading="Buildings" />);
     const heading = page.getByRole("cell");
 
-    await expect.element(heading).not.toHaveAttribute("aria-colspan");
+    await expect.element(heading).toHaveAttribute("aria-colspan", "1");
+  });
+
+  it("should set aria-colspan to 1 when column count is less than 1", async () => {
+    await mount(<calcite-list-item-group columnCount={0} heading="Buildings" />);
+    const heading = page.getByRole("cell");
+
+    await expect.element(heading).toHaveAttribute("aria-colspan", "1");
+  });
+
+  it("should render aria-colspan with column count when greater than 1", async () => {
+    await mount(<calcite-list-item-group columnCount={2} heading="Buildings" />);
+    const heading = page.getByRole("cell");
+
+    await expect.element(heading).toHaveAttribute("aria-colspan", "2");
   });
 });
