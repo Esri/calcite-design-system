@@ -93,51 +93,97 @@ export const simple = (args: FieldSetStoryArgs): string => renderFieldSet(args);
 export const simpleUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
 simpleUsingLabel.storyName = "Simple (using 'Label')";
 
-export const disabled = (args: FieldSetStoryArgs): string => renderFieldSet(args);
+export const complex = (args: FieldSetStoryArgs): string => {
+  const style = getStyle(args);
+
+  return html`
+    <calcite-field-set
+      ${args.disabled ? "disabled" : ""}
+      legend="${args.legend}"
+      scale="${args.scale}"
+      ${style ? `style="${style}"` : ""}
+    >
+      <calcite-field-group layout="columns" columns="2">
+        <calcite-input label-text="Label"></calcite-input>
+        <calcite-input label-text="Label"></calcite-input>
+      </calcite-field-group>
+      <calcite-field-group layout="horizontal">
+        <calcite-input label-text="Label"></calcite-input>
+        <calcite-input label-text="Label"></calcite-input>
+      </calcite-field-group>
+      <calcite-input label-text="Label"></calcite-input>
+    </calcite-field-set>
+  `;
+};
+
+export const complexUsingLabel = (args: FieldSetStoryArgs): string => {
+  const style = getStyle(args);
+
+  return html`
+    <calcite-field-set
+      ${args.disabled ? "disabled" : ""}
+      legend="${args.legend}"
+      scale="${args.scale}"
+      ${style ? `style="${style}"` : ""}
+    >
+      <calcite-field-group layout="columns" columns="2">
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+      </calcite-field-group>
+      <calcite-field-group layout="horizontal">
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+      </calcite-field-group>
+      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+    </calcite-field-set>
+  `;
+};
+complexUsingLabel.storyName = "Complex (using 'Label')";
+
+export const disabled = (args: FieldSetStoryArgs): string => complex(args);
 disabled.args = { disabled: true };
 disabled.parameters = { controls: { disable: true } };
 
-export const disabledUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
+export const disabledUsingLabel = (args: FieldSetStoryArgs): string => complexUsingLabel(args);
 disabledUsingLabel.storyName = "Disabled (using 'Label')";
 disabledUsingLabel.args = { disabled: true };
 disabledUsingLabel.parameters = { controls: { disable: true } };
 
 export const scales = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; gap: 3rem;">
-    ${renderFieldSet({ ...args, legend: "Small", scale: "s" })}
-    ${renderFieldSet({ ...args, legend: "Medium (default)", scale: "m" })}
-    ${renderFieldSet({ ...args, legend: "Large", scale: "l" })}
+    ${complex({ ...args, legend: "Small", scale: "s" })} ${complex({ ...args, legend: "Medium (default)", scale: "m" })}
+    ${complex({ ...args, legend: "Large", scale: "l" })}
   </div>
 `;
 scales.parameters = { controls: { disable: true } };
 
 export const scalesUsingLabel = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; gap: 3rem;">
-    ${renderFieldSet({ ...args, legend: "Small", scale: "s" }, true)}
-    ${renderFieldSet({ ...args, legend: "Medium (default)", scale: "m" }, true)}
-    ${renderFieldSet({ ...args, legend: "Large", scale: "l" }, true)}
+    ${complexUsingLabel({ ...args, legend: "Small", scale: "s" })}
+    ${complexUsingLabel({ ...args, legend: "Medium (default)", scale: "m" })}
+    ${complexUsingLabel({ ...args, legend: "Large", scale: "l" })}
   </div>
 `;
 scalesUsingLabel.storyName = "Scales (using 'Label')";
 scalesUsingLabel.parameters = { controls: { disable: true } };
 
-export const customGap = (args: FieldSetStoryArgs): string => renderFieldSet(args);
+export const customGap = (args: FieldSetStoryArgs): string => complex(args);
 customGap.args = { gap: "40px" };
 customGap.argTypes = {
   gap: { control: { type: "text" } },
   ...hiddenCustomGapArgTypes,
 };
 
-export const customGapUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
+export const customGapUsingLabel = (args: FieldSetStoryArgs): string => complexUsingLabel(args);
 customGapUsingLabel.storyName = "Custom gap (using 'Label')";
 customGapUsingLabel.args = { gap: "40px" };
 customGapUsingLabel.argTypes = customGap.argTypes;
 
-export const customLegendColor = (args: FieldSetStoryArgs): string => renderFieldSet(args);
+export const customLegendColor = (args: FieldSetStoryArgs): string => complex(args);
 customLegendColor.args = { legendTextColor: "pink" };
 customLegendColor.parameters = { controls: { disable: true } };
 
-export const customLegendColorUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
+export const customLegendColorUsingLabel = (args: FieldSetStoryArgs): string => complexUsingLabel(args);
 customLegendColorUsingLabel.storyName = "Custom legend color (using 'Label')";
 customLegendColorUsingLabel.args = { legendTextColor: "pink" };
 customLegendColorUsingLabel.parameters = { controls: { disable: true } };
