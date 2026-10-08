@@ -1,9 +1,13 @@
 import { LitElement, h, property, type JsxNode, Fragment } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { slotChangeGetTextContent, getTextWidth } from "../../utils/dom";
+import {
+  slotChangeGetTextContent,
+  getTextWidth,
+  getAssignedTextNodesFromSlotEl,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./text.scss";
-import { ELLIPSIS_CHAR } from "./resources";
+import { ELLIPSIS_CHAR, CSS } from "./resources";
 import { PropertyValues } from "lit";
 
 type TruncatePosition = "middle" | "end";
@@ -43,7 +47,7 @@ export class Text extends LitElement {
   private middleTruncatedSpanRef = createRef<HTMLSpanElement>();
 
   private mutationObserver = createObserver("mutation", (mutations) => {
-    const assignedTextNodes = this.getAssignedTextNodes();
+    const assignedTextNodes = getAssignedTextNodesFromSlotEl(this.defaultSlotRef.value!);
 
     if (mutations.some(({ target }) => assignedTextNodes.includes(target as CharacterData))) {
       this.setValue(
@@ -147,14 +151,6 @@ export class Text extends LitElement {
     this.setValue(slotChangeGetTextContent(event));
   }
 
-  private getAssignedTextNodes(): CharacterData[] {
-    return (
-      (this.defaultSlotRef.value
-        ?.assignedNodes({ flatten: true })
-        .filter((node) => node.nodeType === Node.TEXT_NODE) as CharacterData[] | undefined) ?? []
-    );
-  }
-
   private setValue(value: string): void {
     this.value = value;
     this.renderedText = value;
@@ -241,7 +237,7 @@ export class Text extends LitElement {
     return (
       <Fragment>
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
-        <span class="middle-truncated-text" ref={this.middleTruncatedSpanRef} />
+        <span class={CSS.middleTruncatedText} ref={this.middleTruncatedSpanRef} />
       </Fragment>
     );
   }
