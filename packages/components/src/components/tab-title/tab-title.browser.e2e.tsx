@@ -18,78 +18,102 @@ describe("defaults", () => {
 });
 
 describe("beforeClose", () => {
+  async function mountClosableTabs() {
+    const { el: tabs, reRender } = await mount(
+      <calcite-tabs last-tab-closable>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title closable id="before-close-title-1" selected>
+            First tab
+          </calcite-tab-title>
+          <calcite-tab-title closable id="before-close-title-2">
+            Second tab
+          </calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab id="before-close-tab-1" selected>
+          First tab content
+        </calcite-tab>
+        <calcite-tab id="before-close-tab-2">Second tab content</calcite-tab>
+      </calcite-tabs>,
+    );
+
+    return {
+      firstTitle: tabs.querySelector<TabTitle["el"]>("#before-close-title-1")!,
+      secondTitle: tabs.querySelector<TabTitle["el"]>("#before-close-title-2")!,
+      reRender,
+    };
+  }
+
   it("waits for approval before closing and emitting close events", async () => {
-    const { el } = await mount<TabTitle>(<calcite-tab-title closable>Tab</calcite-tab-title>);
+    const { firstTitle, secondTitle } = await mountClosableTabs();
     const approval = Promise.withResolvers<void>();
     const beforeClose = vi.fn(() => approval.promise);
-    const beforeCloseEvent = vi.fn();
     const close = vi.fn();
-    const internalClose = vi.fn();
-    el.beforeClose = beforeClose;
-    el.addEventListener("calciteTabTitleBeforeClose", beforeCloseEvent);
-    el.addEventListener("calciteTabsClose", close);
-    el.addEventListener("calciteInternalTabsClose", internalClose);
+    firstTitle.beforeClose = beforeClose;
+    firstTitle.addEventListener("calciteTabsClose", close);
 
-    const closeButton = page.getByRole("button", { name: "Close" });
-    await closeButton.click();
-    await closeButton.click();
+    await page
+      .getBySelector("#before-close-title-1")
+      .getByRole("button", { name: "Close" })
+      .click({ clickCount: 2 });
 
     expect(beforeClose).toHaveBeenCalledTimes(1);
-    expect(beforeCloseEvent).toHaveBeenCalledTimes(1);
-    expect(el.closed).toBe(false);
-    expect(internalClose).not.toHaveBeenCalled();
+    expect(firstTitle.closed).toBe(false);
+    expect(firstTitle.selected).toBe(true);
+    expect(secondTitle.selected).toBe(false);
     expect(close).not.toHaveBeenCalled();
 
     approval.resolve();
 
-    await expect.element(page.elementLocator(el)).toHaveAttribute("closed");
+    await expect.element(page.elementLocator(firstTitle)).toHaveAttribute("closed");
     await expect.poll(() => close.mock.calls.length).toBe(1);
-    expect(internalClose).toHaveBeenCalledTimes(1);
+    await expect.poll(() => secondTitle.selected).toBe(true);
+    expect(firstTitle.selected).toBe(false);
   });
 
   it("does not close after a pending request is superseded by reopening", async () => {
-    const { el } = await mount<TabTitle>(<calcite-tab-title closable>Tab</calcite-tab-title>);
+    const { firstTitle, secondTitle, reRender } = await mountClosableTabs();
     const approval = Promise.withResolvers<void>();
     const beforeClose = vi.fn(() => approval.promise);
-    const internalClose = vi.fn();
     const close = vi.fn();
-    el.beforeClose = beforeClose;
-    el.addEventListener("calciteInternalTabsClose", internalClose);
-    el.addEventListener("calciteTabsClose", close);
+    firstTitle.beforeClose = beforeClose;
+    firstTitle.addEventListener("calciteTabsClose", close);
 
-    await page.getByRole("button", { name: "Close" }).click();
+    await page
+      .getBySelector("#before-close-title-1")
+      .getByRole("button", { name: "Close" })
+      .click();
     expect(beforeClose).toHaveBeenCalledTimes(1);
 
-    el.closed = false;
+    firstTitle.closed = false;
     approval.resolve();
-    await Promise.resolve();
+    await reRender();
 
-    expect(el.closed).toBe(false);
-    expect(internalClose).not.toHaveBeenCalled();
+    expect(firstTitle.closed).toBe(false);
+    expect(firstTitle.selected).toBe(true);
+    expect(secondTitle.selected).toBe(false);
     expect(close).not.toHaveBeenCalled();
-    await expect.element(page.elementLocator(el)).not.toHaveAttribute("closed");
+    await expect.element(page.elementLocator(firstTitle)).not.toHaveAttribute("closed");
   });
 
   it("keeps the title open without emitting close events when approval is rejected", async () => {
-    const { el } = await mount<TabTitle>(<calcite-tab-title closable>Tab</calcite-tab-title>);
+    const { firstTitle, secondTitle } = await mountClosableTabs();
     const beforeClose = vi.fn(async () => {
       throw new Error("Close canceled");
     });
-    const beforeCloseEvent = vi.fn();
     const close = vi.fn();
-    const internalClose = vi.fn();
-    el.beforeClose = beforeClose;
-    el.addEventListener("calciteTabTitleBeforeClose", beforeCloseEvent);
-    el.addEventListener("calciteTabsClose", close);
-    el.addEventListener("calciteInternalTabsClose", internalClose);
+    firstTitle.beforeClose = beforeClose;
+    firstTitle.addEventListener("calciteTabsClose", close);
 
-    await page.getByRole("button", { name: "Close" }).click();
+    await page
+      .getBySelector("#before-close-title-1")
+      .getByRole("button", { name: "Close" })
+      .click();
 
     expect(beforeClose).toHaveBeenCalledTimes(1);
-    expect(beforeCloseEvent).toHaveBeenCalledTimes(1);
-    expect(el.closed).toBe(false);
-    await expect.element(page.elementLocator(el)).not.toHaveAttribute("closed");
-    expect(internalClose).not.toHaveBeenCalled();
+    expect(firstTitle.closed).toBe(false);
+    expect(firstTitle.selected).toBe(true);
+    expect(secondTitle.selected).toBe(false);
+    await expect.element(page.elementLocator(firstTitle)).not.toHaveAttribute("closed");
     expect(close).not.toHaveBeenCalled();
   });
 });

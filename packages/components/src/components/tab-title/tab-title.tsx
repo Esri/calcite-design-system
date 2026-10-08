@@ -247,9 +247,6 @@ export class TabTitle extends LitElement {
   /** Fires when a `calcite-tab` is selected. */
   calciteTabsActivate = createEvent({ cancelable: false });
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteTabTitleBeforeClose = createEvent({ cancelable: false });
-
   /** Fires when a `calcite-tab` is closed. */
   calciteTabsClose = createEvent({ cancelable: false });
 
@@ -414,8 +411,6 @@ export class TabTitle extends LitElement {
     }
 
     const closeRequest = Promise.resolve().then(async () => {
-      this.calciteTabTitleBeforeClose.emit();
-
       if (this.beforeClose) {
         try {
           await this.beforeClose();
