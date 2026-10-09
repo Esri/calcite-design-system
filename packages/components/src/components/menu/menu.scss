@@ -1,4 +1,4 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex;
@@ -13,4 +13,4 @@ ul {
   @apply flex flex-col w-full;
 }
 
-@include includes.base-component();
+@include shared.base-component();

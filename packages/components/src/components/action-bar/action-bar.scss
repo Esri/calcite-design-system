@@ -1,15 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-action-bar-background-color: Specifies the component's background color.
- * @prop --calcite-action-bar-corner-radius: Specifies the component's border radius when `floating` is `true`.
- * @prop --calcite-action-bar-expanded-max-width: When `layout` is `"vertical"`, specifies the component's maximum width.
- * @prop --calcite-action-bar-items-space: Specifies the space between slotted components in the component.
- * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -20,7 +8,7 @@
 // --calcite-internal-action-bar-padding
 // --calcite-internal-action-group-dividing-border-margin
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
@@ -282,4 +270,4 @@
   overflow-y: auto;
 }
 
-@include includes.base-component();
+@include shared.base-component();
