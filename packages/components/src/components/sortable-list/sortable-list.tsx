@@ -87,7 +87,7 @@ export class SortableList extends LitElement {
    * Calling `event.preventDefault()` skips Calcite reorder handling and order-change emission,
    * allowing apps to control final item order.
    */
-  calciteListBeforeOrderChange = createEvent({ cancelable: true });
+  calciteListBeforeOrderChange = createEvent<DragDetail>({ cancelable: true });
   /** Fires when the order of the list changes. */
   calciteListOrderChange = createEvent({ cancelable: false });
 
@@ -147,12 +147,13 @@ export class SortableList extends LitElement {
 
   onDragStart(): void {}
 
-  onDragBeforeSort(): Event {
-    return this.calciteListBeforeOrderChange.emit();
+  onDragBeforeSort(detail: DragDetail): Event {
+    return this.calciteListBeforeOrderChange.emit(detail);
   }
 
   onDragSort(): void {
     this.items = Array.from(this.el.children);
+    this.sortable.reset();
     this.calciteListOrderChange.emit();
   }
 
@@ -177,21 +178,40 @@ export class SortableList extends LitElement {
     const startingIndex = sortItem ? this.items.indexOf(sortItem) : -1;
     let appendInstead = false;
     let buddyIndex: number;
+    let newIndex: number;
 
     if (direction === "up") {
       if (startingIndex === 0) {
         appendInstead = true;
+        newIndex = lastIndex;
       } else {
         buddyIndex = startingIndex - 1;
+        newIndex = buddyIndex;
       }
     } else {
       if (startingIndex === lastIndex) {
         buddyIndex = 0;
+        newIndex = 0;
       } else if (startingIndex === lastIndex - 1) {
         appendInstead = true;
+        newIndex = lastIndex;
       } else {
         buddyIndex = startingIndex + 2;
+        newIndex = startingIndex + 1;
       }
+    }
+
+    const oldIndex = startingIndex;
+    const beforeOrderChange = this.calciteListBeforeOrderChange.emit({
+      fromEl: this.el,
+      toEl: this.el,
+      dragEl: sortItem as HTMLElement,
+      oldIndex,
+      newIndex,
+    });
+
+    if (beforeOrderChange.defaultPrevented) {
+      return;
     }
 
     this.endObserving();
@@ -202,7 +222,7 @@ export class SortableList extends LitElement {
       sortItem.parentElement!.insertBefore(sortItem, this.items[buddyIndex!]);
     }
 
-    this.items = Array.from(this.el.children);
+    this.onDragSort();
 
     this.beginObserving();
     requestAnimationFrame(() => focusElement(handle));
