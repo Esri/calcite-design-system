@@ -82,9 +82,9 @@ export const config: ApiExtractorConfig = {
         },
         inlineEdit: {
           description: `Enables built-in inline editing.
-            When \`false\`, inline editing is disabled.
-            When \`true\`, inline editing is enabled with save and cancel controls where users must explicitly save or cancel changes.
-            When \`"controls-disabled"\`, inline editing does not show save or cancel controls and save occurs on blur.`,
+When \`false\`, inline editing is disabled.
+When \`true\`, inline editing is enabled with save and cancel controls where users must explicitly save or cancel changes.
+When \`"controls-disabled"\`, inline editing does not show save or cancel controls and save occurs on blur.`,
         },
         inlineEditing: {
           description: "When `true` and `inline-edit` is defined, the component is editable.",
