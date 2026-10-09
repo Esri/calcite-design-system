@@ -98,10 +98,10 @@ export class BlockGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can move from the component. */
+  /** When provided, the method will be called to determine whether the element can be moved from the component. */
   @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
-  /** When provided, the method will be called to determine whether the element can be added from another component. */
+  /** When provided, the method will be called to determine whether the element can be added from another `calcite-block-group`. */
   @property() canPut?: (detail: BlockDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -113,7 +113,7 @@ export class BlockGroup extends LitElement {
   /**
    * Specifies the component's group identifier.
    *
-   * To drag elements from one group into another, both groups must have the same group value.
+   * To drag elements from one `calcite-block-group` into another, both must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 

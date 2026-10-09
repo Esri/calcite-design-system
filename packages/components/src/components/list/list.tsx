@@ -219,10 +219,10 @@ export class List extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can move from the list. */
+  /** When provided, the method will be called to determine whether the element can be moved from the component. */
   @property() canPull?: (detail: ListDragDetail) => boolean | "clone";
 
-  /** When provided, the method will be called to determine whether the element can be added from another list. */
+  /** When provided, the method will be called to determine whether the element can be added from another `calcite-list`. */
   @property() canPut?: (detail: ListDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -272,9 +272,9 @@ export class List extends LitElement {
   @property() filteredItems: ListItem["el"][] = [];
 
   /**
-   * The component's group identifier.
+   * Specifies the component's group identifier.
    *
-   * To drag elements from one list into another, both lists must have the same group value.
+   * To drag elements from one `calcite-list` into another, both must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
