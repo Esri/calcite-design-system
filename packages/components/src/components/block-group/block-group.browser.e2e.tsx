@@ -176,20 +176,18 @@ describe("a11y attributes", () => {
         <calcite-block heading="Block" />
       </calcite-block-group>,
     );
-    const assistiveText = el.shadowRoot?.querySelector<HTMLElement>(
-      `.${CSS_UTILITY.screenReaderText}`,
-    );
+    const assistiveText = page
+      .getBySelector(`calcite-block-group .${CSS_UTILITY.screenReaderText}`)
+      .first();
 
-    expect(assistiveText).toBeDefined();
-    expect(assistiveText?.getAttribute("aria-live")).toBe(null);
+    await expect.element(assistiveText).toBeInTheDocument();
+    await expect.element(assistiveText).not.toHaveAttribute("aria-live");
 
     el.ariaLive = "polite";
-    await expect
-      .element(page.elementLocator(assistiveText!))
-      .toHaveAttribute("aria-live", "polite");
+    await expect.element(assistiveText).toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(assistiveText!)).not.toHaveAttribute("aria-live");
+    await expect.element(assistiveText).not.toHaveAttribute("aria-live");
   });
 });
 
