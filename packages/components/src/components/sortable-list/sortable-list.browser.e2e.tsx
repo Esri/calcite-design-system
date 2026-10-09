@@ -188,6 +188,32 @@ describe("drag and drop", () => {
     expect(orderCalledTimes).toBe(0);
   });
 
+  it("emits order change after a successful handle nudge", async () => {
+    const { el } = await renderSortableList();
+    const handles = page.getByRole("radio");
+    const callSequence: string[] = [];
+    let beforeOrderDetail: { oldIndex: number; newIndex: number } | undefined;
+    let firstItemWhenOrdered = "";
+
+    el.addEventListener("calciteListBeforeOrderChange", (event) => {
+      callSequence.push("before");
+      beforeOrderDetail = (event as CustomEvent<{ oldIndex: number; newIndex: number }>).detail;
+    });
+    el.addEventListener("calciteListOrderChange", () => {
+      callSequence.push("order");
+      firstItemWhenOrdered = (el.firstElementChild as HTMLElement).id;
+    });
+
+    await userEvent.click(handles.nth(1));
+    await userEvent.keyboard("{Space}{ArrowUp}");
+
+    expect(Array.from(el.children, (item) => item.id)).toEqual(["two", "one"]);
+    expect(beforeOrderDetail?.oldIndex).toBe(1);
+    expect(beforeOrderDetail?.newIndex).toBe(0);
+    expect(callSequence).toEqual(["before", "order"]);
+    expect(firstItemWhenOrdered).toBe("two");
+  });
+
   it("appends drops on populated and empty component containers", async () => {
     const { el: source } = await mount(
       <div>
