@@ -442,6 +442,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
       this.handleDisabledChange();
     }
 
+    if (changes.has("dragDisabled") && this.hasUpdated) {
+      this.emitCalciteInternalListItemChange();
+    }
+
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.handleSelectedChange();
     }

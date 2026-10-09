@@ -236,6 +236,10 @@ export class BlockGroup extends LitElement {
       "calciteInternalBlockChange",
       this.updateBlockChildrenExpanded,
     );
+    this.listen<ToEvents<Block>["calciteInternalBlockDragDisabledChange"]>(
+      "calciteInternalBlockDragDisabledChange",
+      this.handleCalciteInternalBlockDragDisabledChange,
+    );
   }
 
   override connectedCallback(): void {
@@ -336,6 +340,17 @@ export class BlockGroup extends LitElement {
   private handleCalciteInternalAssistiveTextChange(event: CustomEvent): void {
     this.assistiveText = event.detail.message;
     event.stopPropagation();
+  }
+
+  private handleCalciteInternalBlockDragDisabledChange(
+    event: CustomEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>,
+  ): void {
+    if (event.detail.parentElement !== this.el) {
+      return;
+    }
+
+    event.stopPropagation();
+    this.updateBlockItemsDebounced();
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {

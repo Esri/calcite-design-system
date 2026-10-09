@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import { dragAndDrop } from "../../tests/utils/browser";
-import { afterNextFrame } from "../../tests/utils/timing";
+import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { hidden, renders, disabled, accessible } from "../../tests/common";
 
 describe("accessible", () => {
@@ -130,6 +130,44 @@ describe("drag and drop", () => {
     expect(orderCalledTimes).toBe(0);
   });
 
+  it("updates draggable state when a sortable-list handle is disabled dynamically", async () => {
+    const { el } = await mount(
+      <calcite-sortable-list>
+        <div id="one">
+          <calcite-handle />1
+        </div>
+        <div id="two">
+          <calcite-handle />2
+        </div>
+      </calcite-sortable-list>,
+    );
+    const list = page.elementLocator(el);
+    const firstHandle = list.getBySelector("#one calcite-handle").element();
+    const secondItem = list.getBySelector("#two").element();
+    let orderCalledTimes = 0;
+
+    el.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+    firstHandle.disabled = true;
+    await vi.waitFor(() => expect(firstHandle.disabled).toBe(true));
+
+    await dragAndDrop(firstHandle, secondItem);
+
+    expect(Array.from(el.children, (item) => item.id)).toEqual(["one", "two"]);
+    expect(orderCalledTimes).toBe(0);
+
+    firstHandle.disabled = false;
+    await vi.waitFor(() => expect(firstHandle.disabled).toBe(false));
+    const reordered = new Promise<void>((resolve) =>
+      el.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+    );
+
+    await dragAndDrop(firstHandle, secondItem);
+    await reordered;
+
+    expect(Array.from(el.children, (item) => item.id)).toEqual(["two", "one"]);
+    expect(orderCalledTimes).toBe(1);
+  });
+
   it("reports the adjusted proposed index for same-list horizontal reorders", async () => {
     const { el } = await mount(
       <calcite-sortable-list layout="horizontal" style="width: 320px">
@@ -151,9 +189,11 @@ describe("drag and drop", () => {
     const draggedHandle = list.getBySelector("#two calcite-handle").element();
     const targetItem = list.getBySelector("#three").element();
     const beforeOrderIndexes: number[] = [];
+    let itemOrderAtBefore: string[] = [];
     const beforeOrderChange = new Promise<void>((resolve) =>
       el.addEventListener("calciteListBeforeOrderChange", (event) => {
         beforeOrderIndexes.push((event as CustomEvent<{ newIndex: number }>).detail.newIndex);
+        itemOrderAtBefore = Array.from(el.children, (item) => item.id);
         resolve();
       }),
     );
@@ -164,6 +204,7 @@ describe("drag and drop", () => {
     await vi.waitFor(() => {
       expect(beforeOrderIndexes[beforeOrderIndexes.length - 1]).toBe(2);
     });
+    expect(itemOrderAtBefore).toEqual(["one", "two", "three", "four"]);
     expect(Array.from(el.children, (item) => item.id)).toEqual(["one", "three", "two", "four"]);
   });
 
@@ -268,6 +309,136 @@ describe("drag and drop", () => {
     expect(secondItem.parentElement).toBe(empty);
   });
 
+  it("accepts a drop after its final item is transferred out", async () => {
+    const { el: source } = await mount(
+      <div>
+        <calcite-sortable-list group="letters" id="source">
+          <div id="source-item">
+            <calcite-handle />
+            Source
+          </div>
+        </calcite-sortable-list>
+        <calcite-sortable-list
+          group="letters"
+          id="destination"
+          style="min-height: 160px; width: 200px"
+        >
+          <div id="last-item">
+            <calcite-handle />
+            Last item
+          </div>
+        </calcite-sortable-list>
+      </div>,
+    );
+    const sourceLocator = page.elementLocator(source);
+    const destination = page.getBySelector("#destination").element();
+    const lastItem = page.getBySelector("#last-item").element();
+    const lastItemHandle = page.getBySelector("#last-item calcite-handle").element();
+    const sourceItem = sourceLocator.getBySelector("#source-item").element();
+    const sourceHandle = sourceLocator.getBySelector("#source-item calcite-handle").element();
+    const refilled = new Promise<void>((resolve) =>
+      destination.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+    );
+
+    await dragAndDrop(lastItemHandle, source, "bottom");
+    await vi.waitFor(() => expect(destination.children.length).toBe(0));
+    expect(destination.children.length).toBe(0);
+    expect(lastItem.parentElement).toBe(source);
+    await afterNextTask();
+
+    await dragAndDrop(sourceHandle, destination, "center");
+    await refilled;
+
+    expect(sourceItem.parentElement).toBe(destination);
+  });
+
+  it("cancels an active drag when its source component disconnects", async () => {
+    const { el: source } = await mount(
+      <div>
+        <calcite-sortable-list group="letters" id="source">
+          <div id="source-item">
+            <calcite-handle />
+            Source
+          </div>
+        </calcite-sortable-list>
+        <calcite-sortable-list group="letters" id="remaining">
+          <div id="remaining-one">
+            <calcite-handle />
+            One
+          </div>
+          <div id="remaining-two">
+            <calcite-handle />
+            Two
+          </div>
+        </calcite-sortable-list>
+      </div>,
+    );
+    const sourceHandle = page.getBySelector("#source-item calcite-handle").element();
+    const remaining = page.getBySelector("#remaining").element();
+    const remainingOneHandle = page.getBySelector("#remaining-one calcite-handle").element();
+    const remainingTwo = page.getBySelector("#remaining-two").element();
+
+    await dragAndDrop(sourceHandle, remainingTwo, "bottom", {
+      afterFirstMove: () => source.remove(),
+      skipPointerUp: true,
+    });
+    expect(source.isConnected).toBe(false);
+
+    const reordered = new Promise<void>((resolve) =>
+      remaining.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+    );
+    await dragAndDrop(remainingOneHandle, remainingTwo, "bottom");
+    await reordered;
+
+    expect(remaining.firstElementChild).toBe(remainingTwo);
+  });
+
+  it("uses clone behavior only for the final destination", async () => {
+    const { el: sourceList } = await mount(
+      <div>
+        <calcite-sortable-list group="letters" id="clone-source">
+          <div id="clone-source-item">
+            <calcite-handle />
+            Source
+          </div>
+        </calcite-sortable-list>
+        <calcite-sortable-list group="letters" id="clone-candidate" />
+        <calcite-sortable-list group="letters" id="move-destination">
+          <div id="move-target">
+            <calcite-handle />
+            Target
+          </div>
+        </calcite-sortable-list>
+      </div>,
+    );
+    const cloneCandidate = page.getBySelector("#clone-candidate").element();
+    const destination = page.getBySelector("#move-destination").element();
+    const sourceHandle = page.getBySelector("#clone-source-item calcite-handle").element();
+    const target = page.getBySelector("#move-target").element();
+    let cloneCandidateEvaluations = 0;
+
+    sourceList.canPull = ({ toEl }) => {
+      if (toEl === cloneCandidate) {
+        cloneCandidateEvaluations++;
+        return "clone";
+      }
+
+      return true;
+    };
+
+    const dragEnd = new Promise<void>((resolve) =>
+      destination.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+    );
+    await dragAndDrop(sourceHandle, target, "bottom");
+    await dragEnd;
+
+    expect(cloneCandidateEvaluations).toBeGreaterThan(0);
+    expect(cloneCandidate.children.length).toBe(0);
+    expect(page.getBySelector("#move-destination > div").nth(1).element().id).toBe(
+      "clone-source-item",
+    );
+  });
+
   it("fires before and order-change around the reorder mutation", async () => {
     const { el } = await renderSortableList();
     const firstItem = el.querySelector<HTMLElement>("#one")!;
@@ -289,6 +460,34 @@ describe("drag and drop", () => {
 
     expect(callSequence).toEqual(["before", "order"]);
     expect(orderFirstId).toBe("two");
+  });
+
+  it("reaches the destination with a custom move step count", async () => {
+    await mount(
+      <div>
+        <calcite-sortable-list group="letters">
+          <div id="one">
+            <calcite-handle />
+            One
+          </div>
+        </calcite-sortable-list>
+        <calcite-sortable-list group="letters" style="margin-block-start: 300px">
+          <div id="two">
+            <calcite-handle />
+            Two
+          </div>
+        </calcite-sortable-list>
+      </div>,
+    );
+    const firstItem = page.getBySelector("#one").element();
+    const firstHandle = page.getBySelector("#one calcite-handle").element();
+    const secondItem = page.getBySelector("#two").element();
+    const destination = page.getBySelector("#two").element().parentElement!;
+
+    await dragAndDrop(firstHandle, secondItem, "bottom", { moveSteps: 2 });
+    await vi.waitFor(() => expect(firstItem.parentElement).toBe(destination));
+
+    expect(firstItem.parentElement).toBe(destination);
   });
 
   it("supports horizontal transfers between lists in the same group", async () => {

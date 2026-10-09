@@ -108,6 +108,9 @@ export class Handle extends LitElement {
   /** Fires when the handle is selected and the up or down arrow key is pressed. */
   calciteHandleNudge = createEvent<HandleNudge>({ cancelable: false });
 
+  /** @private */
+  calciteInternalHandleDisabledChange = createEvent({ cancelable: false });
+
   /**
    * Fires when the assistive text has changed.
    *
@@ -120,6 +123,10 @@ export class Handle extends LitElement {
   //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("disabled") && this.hasUpdated) {
+      this.calciteInternalHandleDisabledChange.emit();
+    }
+
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.

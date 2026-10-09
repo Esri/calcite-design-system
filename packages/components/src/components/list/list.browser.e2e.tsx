@@ -1103,6 +1103,75 @@ describe("drag and drop", () => {
     }
   });
 
+  it.each(["touch", "pen"] as const)(
+    "keeps sort-handle clicks available for a %s pointer",
+    async (pointerType) => {
+      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+      try {
+        const { el } = await renderList();
+        const firstItem = page.elementLocator(el).getBySelector("#one").element() as ListItem["el"];
+        await vi.waitFor(() =>
+          expect(
+            firstItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+          ).not.toBeNull(),
+        );
+        // The sort handle is internal to the list item's shadow root.
+        const handle =
+          firstItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+        let dragStartCount = 0;
+
+        el.addEventListener("calciteListDragStart", () => dragStartCount++);
+
+        await dragAndDrop(handle, handle, "center", { moveSteps: 0, pointerType });
+        expect(dragStartCount).toBe(0);
+
+        await userEvent.click(page.getByRole("button", { name: "One" }));
+        await expect.element(page.getByRole("menuitem").first()).toBeVisible();
+      } finally {
+        warnSpy.mockRestore();
+      }
+    },
+  );
+
+  it("updates sorting when a list item's dragDisabled state changes", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el } = await mount(
+        <calcite-list drag-enabled>
+          <calcite-list-item drag-disabled id="one" label="One" value="one" />
+          <calcite-list-item id="two" label="Two" value="two" />
+        </calcite-list>,
+      );
+      const list = page.elementLocator(el);
+      const firstItem = list.getBySelector("#one").element() as ListItem["el"];
+      const secondItem = list.getBySelector("#two").element() as ListItem["el"];
+      await vi.waitFor(() =>
+        expect(
+          firstItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the list item's shadow root.
+      const handle = firstItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      await vi.waitFor(() => expect(handle.disabled).toBe(true));
+
+      firstItem.dragDisabled = false;
+      await vi.waitFor(() => expect(handle.disabled).toBe(false));
+      const orderChange = new Promise<void>((resolve) =>
+        el.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+      );
+
+      await dragAndDrop(handle, secondItem);
+      await orderChange;
+
+      expect(el.firstElementChild).toBe(secondItem);
+      expect(el.lastElementChild).toBe(firstItem);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
   it("honors cancellation when moving an item from the sort menu", async () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
 
@@ -1295,6 +1364,68 @@ describe("drag and drop", () => {
       await dragEnd;
 
       expect(sourceItem.parentElement).toBe(source);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("accepts a pointer drop after the list's final item is transferred out", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el: source } = await mount(
+        <div>
+          <calcite-list drag-enabled group="letters" id="source" label="Source">
+            <calcite-list-item id="source-item" label="Source item" value="source-item" />
+          </calcite-list>
+          <calcite-list drag-enabled group="letters" id="destination" label="Destination">
+            <div
+              id="destination-empty-content"
+              slot="empty-content"
+              style="min-block-size: 160px; inline-size: 200px; display: grid; place-items: center"
+            >
+              Drop an item here
+            </div>
+            <calcite-list-item id="last-item" label="Last item" value="last-item" />
+          </calcite-list>
+        </div>,
+      );
+      const sourceLocator = page.elementLocator(source);
+      const destination = page.getBySelector("#destination").element() as List["el"];
+      const emptyContent = page.getBySelector("#destination-empty-content").element();
+      const sourceItem = sourceLocator.getBySelector("#source-item").element() as ListItem["el"];
+      const lastItem = page.getBySelector("#last-item").element() as ListItem["el"];
+
+      await vi.waitFor(() => {
+        expect(
+          sourceItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull();
+        expect(
+          lastItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull();
+      });
+
+      // Sort handles are inside list-item shadow roots.
+      const sourceDragHandle =
+        sourceItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      const lastItemDragHandle =
+        lastItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      const emptied = new Promise<void>((resolve) =>
+        destination.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+      );
+
+      await dragAndDrop(lastItemDragHandle, sourceItem, "bottom");
+      await emptied;
+      expect(lastItem.parentElement).toBe(source);
+      await expect.element(page.getBySelector("#destination-empty-content")).toBeVisible();
+
+      const refilled = new Promise<void>((resolve) =>
+        destination.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+      );
+      await dragAndDrop(sourceDragHandle, emptyContent, "center");
+      await refilled;
+
+      expect(sourceItem.parentElement).toBe(destination);
     } finally {
       warnSpy.mockRestore();
     }

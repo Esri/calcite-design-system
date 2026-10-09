@@ -9,7 +9,7 @@ import {
   PointerActivationConstraints,
   PointerSensor,
 } from "@dnd-kit/dom";
-import { Sortable, SortableKeyboardPlugin, isSortable } from "@dnd-kit/dom/sortable";
+import { OptimisticSortingPlugin, Sortable, SortableKeyboardPlugin, isSortable } from "@dnd-kit/dom/sortable";
 import { guid } from "../utils/guid";
 import type { BivariantHandler } from "../components/types";
 
@@ -52,7 +52,14 @@ const managerRecords = new WeakMap<Document, SortableManagerRecord>();
 const componentGroupIds = new WeakMap<SortableComponent, string>();
 const sortableItemIds = new WeakMap<HTMLElement, string>();
 const sortableItemIndexes = new WeakMap<HTMLElement, number>();
-const clonePullItems = new WeakSet<HTMLElement>();
+
+function isHandleDisabled(handle?: HTMLElement): boolean {
+  return (
+    !handle ||
+    handle.hasAttribute("disabled") ||
+    ("disabled" in handle && Boolean((handle as HTMLButtonElement).disabled))
+  );
+}
 
 export interface MoveDetail<
   To extends HTMLElement = HTMLElement,
@@ -249,10 +256,6 @@ function canAcceptDrop(fromComponent: SortableComponent, toComponent: SortableCo
   const canPut = toComponent.canPut?.(detail) !== false;
   const canPull = pullResult !== false;
 
-  if (canPull && canPut && pullResult === "clone") {
-    clonePullItems.add(detail.dragEl);
-  }
-
   return canPull && canPut;
 }
 
@@ -325,7 +328,14 @@ function getManagerRecord(document: Document): SortableManagerRecord {
           sensor === PointerSensor
             ? PointerSensor.configure({
                 activationConstraints: (event) =>
-                  event.pointerType === "mouse" ? [new PointerActivationConstraints.Distance({ value: 5 })] : undefined,
+                  event.pointerType === "mouse"
+                    ? [new PointerActivationConstraints.Distance({ value: 5 })]
+                    : event.pointerType === "touch"
+                      ? [new PointerActivationConstraints.Delay({ value: 250, tolerance: 5 })]
+                      : [
+                          new PointerActivationConstraints.Delay({ value: 200, tolerance: 10 }),
+                          new PointerActivationConstraints.Distance({ value: 5 }),
+                        ],
               })
             : sensor,
         ),
@@ -542,11 +552,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         if (!canceled && dropPosition?.component === toComponent && dropPosition.custom) {
           if (!dropPosition.item) {
             toComponent.el.append(dragEl);
-          } else if (
-            dropPosition.item !== dragEl &&
-            dropPosition.item.parentElement === toComponent.el &&
-            dragEl.parentElement === toComponent.el
-          ) {
+          } else if (dropPosition.item !== dragEl && dropPosition.item.parentElement === toComponent.el) {
             toComponent.el.insertBefore(dragEl, dropPosition.after ? dropPosition.item.nextSibling : dropPosition.item);
           }
         }
@@ -561,7 +567,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         fromComponent.onDragEnd(detail);
 
         if (!canceled && (fromComponent !== toComponent || oldIndex !== newIndex)) {
-          if (fromComponent !== toComponent && clonePullItems.has(dragEl)) {
+          if (fromComponent !== toComponent && fromComponent.canPull?.(detail) === "clone") {
             const clone = cloneSortableItem(dragEl);
             const cloneId = guid();
 
@@ -580,8 +586,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
             toComponent.onDragSort(detail);
           }
         }
-
-        clonePullItems.delete(dragEl);
       });
     }),
   );
@@ -602,6 +606,7 @@ function tearDownSortable(component: SortableComponent, record: SortableManagerR
 function createSortable(component: SortableComponent, record: SortableManagerRecord): void {
   const sortables = new Map<HTMLElement, Sortable>();
   const group = getSortableGroup(component);
+  const horizontal = (component as SortableComponent & { layout?: string }).layout === "horizontal";
   const containerDroppable = new Droppable<SortableItemData>(
     {
       id: `${group}:container`,
@@ -635,8 +640,6 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
     const handle =
       item.shadowRoot?.querySelector<HTMLElement>(component.handleSelector) ??
       item.querySelector<HTMLElement>(component.handleSelector);
-    const handleDisabled =
-      !handle || handle.hasAttribute("disabled") || ("disabled" in handle && !!(handle as HTMLButtonElement).disabled);
     const sortable = new Sortable(
       {
         id: getSortableItemId(item),
@@ -644,9 +647,12 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
         group,
         element: item,
         handle: handle ?? undefined,
-        disabled: !!component.disabled || handleDisabled,
+        disabled: !!component.disabled || isHandleDisabled(handle ?? undefined),
         data: { component, item },
-        plugins: (plugins) => plugins.filter((plugin) => plugin !== SortableKeyboardPlugin),
+        plugins: (plugins) =>
+          plugins.filter(
+            (plugin) => plugin !== SortableKeyboardPlugin && (!horizontal || plugin !== OptimisticSortingPlugin),
+          ),
         accept: (draggable) => {
           const sourceData = getSortableItemData(draggable);
 
@@ -734,6 +740,10 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
 
       if (!record || (!force && dragActive())) {
         return;
+      }
+
+      if (record.activeDrag?.component === sortableComponent) {
+        record.manager.actions.stop({ canceled: true });
       }
 
       tearDownSortable(sortableComponent, record);

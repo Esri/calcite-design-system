@@ -425,6 +425,39 @@ describe("drag and drop", () => {
     expect((blocks.nth(1).element() as Block["el"]).heading).toBe("two");
   });
 
+  it("updates sorting when a block's dragDisabled state changes", async () => {
+    const { el } = await mount(
+      <calcite-block-group drag-enabled id="block-group">
+        <calcite-block drag-disabled heading="one" id="one" />
+        <calcite-block heading="two" id="two" />
+      </calcite-block-group>,
+    );
+    const group = page.getBySelector("#block-group");
+    const firstBlock = group.getBySelector("#one").element() as Block["el"];
+    const secondBlock = group.getBySelector("#two").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    // The sort handle is internal to the block's shadow root.
+    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    await vi.waitFor(() => expect(handle.disabled).toBe(true));
+
+    firstBlock.dragDisabled = false;
+    await vi.waitFor(() => expect(handle.disabled).toBe(false));
+    const orderChange = new Promise<void>((resolve) =>
+      el.addEventListener("calciteBlockGroupOrderChange", () => resolve(), { once: true }),
+    );
+
+    await dragAndDrop(handle, secondBlock);
+    await orderChange;
+
+    const blocks = group.getBySelector("calcite-block");
+    expect((blocks.nth(0).element() as Block["el"]).heading).toBe("two");
+    expect((blocks.nth(1).element() as Block["el"]).heading).toBe("one");
+  });
+
   it("honors cancellation when moving a block from the sort menu", async () => {
     const { el: source } = await mount(
       <div>
