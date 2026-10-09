@@ -21461,5 +21461,97 @@
     "category": "GIS",
     "release": "4.6.0",
     "codepoint": 61954
+  },
+  "dictionary": {
+    "alias": [
+      "4.6.0",
+      "generic",
+      "book",
+      "letter",
+      "word",
+      "list",
+      "language"
+    ],
+    "category": "Generic",
+    "release": "4.6.0",
+    "codepoint": null
+  },
+  "block-height-medium": {
+    "alias": [
+      "4.6.0",
+      "windows",
+      "urban planning",
+      "land use",
+      "datasets",
+      "remote sensing",
+      "scale"
+    ],
+    "category": "Windows",
+    "release": "4.6.0",
+    "codepoint": null
+  },
+  "block-height-short": {
+    "alias": [
+      "4.6.0",
+      "windows",
+      "data",
+      "polygon",
+      "urban planning",
+      "remote sensing"
+    ],
+    "category": "Windows",
+    "release": "4.6.0",
+    "codepoint": null
+  },
+  "block-height-tall": {
+    "alias": [
+      "4.6.0",
+      "windows",
+      "vector",
+      "urban planning",
+      "raster analysis"
+    ],
+    "category": "Windows",
+    "release": "4.6.0",
+    "codepoint": null
+  },
+  "cursor-circle": {
+    "alias": [
+      "4.6.0",
+      "generic",
+      "radius",
+      "measurement",
+      "snapping tolerance",
+      "scale"
+    ],
+    "category": "Generic",
+    "release": "4.6.0",
+    "codepoint": null
+  },
+  "reference-chip": {
+    "alias": [
+      "4.6.0",
+      "objects",
+      "data source",
+      "raster",
+      "feature"
+    ],
+    "category": "Objects",
+    "release": "4.6.0",
+    "codepoint": null
+  },
+  "job-dependency": {
+    "alias": [
+      "4.6.0",
+      "objects",
+      "tasks",
+      "workflows",
+      "digital items",
+      "sequential",
+      "complete"
+    ],
+    "category": "Objects",
+    "release": "4.6.0",
+    "codepoint": null
   }
 }

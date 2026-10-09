@@ -23,7 +23,7 @@ import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/reso
 import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
@@ -33,18 +33,43 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the space between actions in the menu.
+     */
+    "--calcite-action-menu-items-space": "*";
+  }
+}
+
+interface ActionMenuSlots {
+  /**
+   * A slot for adding `calcite-action`s.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a `calcite-action` to trigger opening the menu.
+   */
+  trigger: Node[];
+  /**
+   * A slot for adding a tooltip for the menu.
+   */
+  tooltip: Node[];
+}
+
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 const HORIZONTAL_MENU_OPEN_KEYS = ["ArrowLeft", "ArrowRight"];
 const VERTICAL_MENU_OPEN_KEYS = ["ArrowUp", "ArrowDown"];
 const HORIZONTAL_PLACEMENT_PREFIXES = ["left", "right", "leading", "trailing"];
 const VERTICAL_PLACEMENT_PREFIXES = ["top", "bottom"];
 
-/**
- * @slot - A slot for adding `calcite-action`s.
- * @slot trigger - A slot for adding a `calcite-action` to trigger opening the menu.
- * @slot tooltip - A slot for adding a tooltip for the menu.
- */
 export class ActionMenu extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ActionMenuSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -195,7 +220,7 @@ export class ActionMenu extends LitElement {
     action.activeDescendant = index === activeMenuItemIndex;
   };
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private focusMenuButtonOnClose = true;
 
