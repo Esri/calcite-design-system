@@ -324,15 +324,15 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component displays its inline editing mode. */
+  /** @copyDoc  */
   @property({ reflect: true }) inlineEditing = false;
 
-  /** Enables built-in inline editing. Set to `"controls-disabled"` to hide save and cancel controls. */
+  /** @copyDoc  */
   @property({ reflect: true, converter: inlineEditConverter }) inlineEdit:
     | boolean
     | "controls-disabled" = false;
 
-  /** Specifies an optional callback to be executed when saving inline editing changes, inline edit controls must be present */
+  /** @copyDoc  */
   @property() inlineEditingBeforeConfirm?: () => Promise<void>;
 
   /** @copyDoc */
