@@ -78,35 +78,35 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-input-loading-fill-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component, its inline edit elements and slotted `calcite-action` wrappers, when hovered.
+     * When `inline-edit` is defined and `inline-editing` is `false`, specifies the background color of the component when hovered.
      */
     "--calcite-input-text-inline-edit-background-color-hover": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls.
+     * When `inline-edit` is defined, specifies the background color of the component's `inline-edit` controls.
      */
     "--calcite-input-text-inline-edit-control-background-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when hovered.
+     * When `inline-edit` is defined, specifies the background color of the component's `inline-edit` controls when hovered.
      */
     "--calcite-input-text-inline-edit-control-background-color-hover": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when pressed.
+     * When `inline-edit` is defined, specifies the background color of the component's `inline-edit` controls when pressed.
      */
     "--calcite-input-text-inline-edit-control-background-color-press": "*";
     /**
-     * When `inline-edit` is enabled, specifies the corner radius of the component's inline edit controls.
+     * When `inline-edit` is defined, specifies the corner radius of the component's `inline-edit` controls.
      */
     "--calcite-input-text-inline-edit-control-corner-radius": "*";
     /**
-     * When `inline-edit` is enabled, specifies the loader color of the component's inline edit controls.
+     * When `inline-edit` is `true`, specifies the loader color of the component's `inline-edit` confirm control.
      */
     "--calcite-input-text-inline-edit-control-loader-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls.
+     * When `inline-edit` is defined, specifies the text color of the component's `inline-edit` controls.
      */
     "--calcite-input-text-inline-edit-control-text-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls, when pressed or hovered.
+     * When `inline-edit` is defined, specifies the text color of the component's `inline-edit` controls when pressed or hovered.
      */
     "--calcite-input-text-inline-edit-control-text-color-press": "*";
     /**
@@ -324,15 +324,15 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component displays its inline editing mode. */
+  /** @copyDoc  */
   @property({ reflect: true }) inlineEditing = false;
 
-  /** Enables built-in inline editing. Set to `"controls-disabled"` to hide save and cancel controls. */
+  /** @copyDoc  */
   @property({ reflect: true, converter: inlineEditConverter }) inlineEdit:
     | boolean
     | "controls-disabled" = false;
 
-  /** Specifies an optional callback to be executed when saving inline editing changes, inline edit controls must be present */
+  /** @copyDoc  */
   @property() inlineEditingBeforeConfirm?: () => Promise<void>;
 
   /** @copyDoc */
@@ -476,19 +476,19 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   //#region Events
 
-  /** Fires each time a new `value` is typed and committed. */
+  /** Fires each time a new `value` is committed. */
   calciteInputTextChange = createEvent();
 
-  /** Fires when built-in inline editing is cancelled. */
+  /** When `inline-edit` is defined, fires when editing is cancelled. */
   calciteInputTextInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled or disabled. */
+  /** When `inline-edit` is defined, fires when `inline-editing` is enabled or disabled. */
   calciteInputTextInlineEditingChange = createEvent({ cancelable: false });
 
-  /** Fires after built-in inline editing confirmation completes. */
+  /** When `inline-edit` is `true`, fires after editing is confirmed. */
   calciteInputTextInlineEditingConfirm = createEvent({ cancelable: false });
 
-  /** Fires each time a new `value` is typed. */
+  /**  When `inline-edit` is `false`, fires each time a new `value` is typed. */
   calciteInputTextInput = createEvent();
 
   /** @private */
