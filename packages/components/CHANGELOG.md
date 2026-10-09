@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.93...@esri/calcite-components@5.2.0-next.94) (2026-10-09)
+
+### Bug Fixes
+
+- **shell-panel, action-bar:** fix Action Bar overflow issue, apply proper direction for expand arrow ([#14963](https://github.com/Esri/calcite-design-system/issues/14963)), closes [#13559](https://github.com/Esri/calcite-design-system/issues/13559)
+
 ## [5.2.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.92...@esri/calcite-components@5.2.0-next.93) (2026-10-08)
 
 ### Bug Fixes
