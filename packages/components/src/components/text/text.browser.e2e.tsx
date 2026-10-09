@@ -44,14 +44,14 @@ it("should be able to switch truncate position", async () => {
   const middleTruncatedTextEl = page.getBySelector("span");
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).toBeVisible();
-  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i...ncated");
+  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i\u2026cated");
   el.truncatePosition = "end";
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).not.toBeVisible();
   el.truncatePosition = "middle";
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).toBeVisible();
-  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i...ncated");
+  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i\u2026cated");
   el.truncatePosition = undefined;
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).not.toBeVisible();
@@ -129,7 +129,7 @@ describe("tooltip", () => {
       .element(el)
       .toHaveProperty("title", "Updated reactive text that is also long enough to truncate");
     await expect.element(middleTruncatedTextEl).not.toHaveTextContent(text);
-    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\.\.\./);
+    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\u2026/);
 
     assignedTextNode.textContent = "";
     await expect.element(middleTruncatedTextEl).toHaveTextContent("");
@@ -151,7 +151,7 @@ describe("tooltip", () => {
       .element(el)
       .toHaveProperty("title", "Updated textContent that is also long enough to truncate");
     await expect.element(middleTruncatedTextEl).not.toHaveTextContent(text);
-    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\.\.\./);
+    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\u2026/);
   });
 
   it("should update title when maxLines is set", async () => {
