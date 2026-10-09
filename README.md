@@ -6,7 +6,7 @@ This is a monorepo containing [Calcite Design System](https://developers.arcgis.
 - [`@esri/calcite-components-react`](./packages/components-react/README.md)
 - [`@esri/calcite-design-tokens`](./packages/design-tokens/README.md)
 - [`@esri/calcite-ui-icons`](./packages/ui-icons/README.md)
-- [`@esri/eslint-plugin-calcite-components`](./packages/eslint-plugin-components/README.md)
+- [`@esri/eslint-plugin-calcite-components`](./packages/eslint-plugin-components/README.md) (deprecated)
 
 ## Contributing
 

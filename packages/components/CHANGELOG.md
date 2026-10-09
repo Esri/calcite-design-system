@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.92...@esri/calcite-components@5.2.0-next.93) (2026-10-08)
+
+### Bug Fixes
+
+- **date-picker, date-picker-day, date-picker-month:** enable arrow navigation with NVDA ([#15304](https://github.com/Esri/calcite-design-system/issues/15304)), closes [#12653](https://github.com/Esri/calcite-design-system/issues/12653)
+
+## [5.2.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.91...@esri/calcite-components@5.2.0-next.92) (2026-10-08)
+
+### Bug Fixes
+
+- **menu-item:** fix scales and padding ([#15303](https://github.com/Esri/calcite-design-system/issues/15303))
+
+## [5.2.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.90...@esri/calcite-components@5.2.0-next.91) (2026-10-08)
+
+### Features
+
+- **tab-title:** add beforeClose property to support prevention of tab close ([#15314](https://github.com/Esri/calcite-design-system/issues/15314)), closes [#10502](https://github.com/Esri/calcite-design-system/issues/10502)
+
+## [5.2.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.89...@esri/calcite-components@5.2.0-next.90) (2026-10-07)
+
+### Bug Fixes
+
+- **input-time-picker:** keep time picker parts within bounds when narrow ([#15297](https://github.com/Esri/calcite-design-system/issues/15297)), closes [#14988](https://github.com/Esri/calcite-design-system/issues/14988)
+
+## [5.2.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.88...@esri/calcite-components@5.2.0-next.89) (2026-10-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.2.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.87...@esri/calcite-components@5.2.0-next.88) (2026-10-07)
 
 ### Bug Fixes
