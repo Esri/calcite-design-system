@@ -253,6 +253,51 @@ describe("value", () => {
     await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "November");
   });
 
+  it.each([
+    { calendars: 1 as const, expectedMonths: ["October"] },
+    { calendars: 2 as const, expectedMonths: ["October", "November"] },
+  ])(
+    "keeps $calendars calendar(s) on the selected month when a same-day range is reassigned",
+    async ({ calendars, expectedMonths }) => {
+      const { el, component } = await mount<DatePicker>(
+        <calcite-date-picker calendars={calendars} range />,
+      );
+      const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+
+      const date1 = new Date(2025, 9, 5);
+      const date2 = new Date(2025, 9, 7);
+
+      el.activeDate = date1;
+      el.valueAsDate = [date1, date2];
+      await waitForCalendarUpdate(el, component);
+
+      el.activeDate = undefined;
+      el.valueAsDate = [date2, date2];
+      await waitForCalendarUpdate(el, component);
+
+      el.valueAsDate = [date2, date2];
+      await waitForCalendarUpdate(el, component);
+
+      expect(monthSelectMenus.elements()).toHaveLength(expectedMonths.length);
+      for (const [index, expectedMonth] of expectedMonths.entries()) {
+        await expect.element(monthSelectMenus.nth(index)).toHaveProperty("value", expectedMonth);
+      }
+    },
+  );
+
+  it("keeps a same-day range in the maximum month visible with two calendars", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker max="2025-12-18" range />,
+    );
+    const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+
+    el.value = ["2025-12-07", "2025-12-07"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "November");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "December");
+  });
+
   async function waitForCalendarUpdate(el: DatePicker["el"], component: DatePicker): Promise<void> {
     await component.updateComplete;
     await (getMonth(el) as DatePickerMonth | null)?.updateComplete;

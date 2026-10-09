@@ -731,16 +731,20 @@ export class DatePicker extends LitElement {
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
       if (sameDate(this.activeStartDate, this.activeEndDate)) {
-        const previousMonthActiveDate = getFirstValidDateInMonth(
-          this.activeEndDate ? prevMonth(this.activeEndDate) : undefined,
-          this.minAsDate,
-          this.maxAsDate,
-        );
         const nextMonthActiveDate = this.activeEndDate ? nextMonth(this.activeEndDate) : undefined;
-        if (inRange(previousMonthActiveDate, this.minAsDate, this.maxAsDate)) {
-          this.activeStartDate = previousMonthActiveDate;
-        } else if (inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)) {
+
+        if (inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)) {
           this.activeEndDate = nextMonthActiveDate;
+        } else if (this.calendars === 2) {
+          const previousMonthActiveDate = getFirstValidDateInMonth(
+            this.activeStartDate ? prevMonth(this.activeStartDate) : undefined,
+            this.minAsDate,
+            this.maxAsDate,
+          );
+
+          if (inRange(previousMonthActiveDate, this.minAsDate, this.maxAsDate)) {
+            this.activeStartDate = previousMonthActiveDate;
+          }
         }
       }
     }
