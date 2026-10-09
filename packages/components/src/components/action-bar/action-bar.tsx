@@ -286,7 +286,10 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    const { width, height } = entry.contentRect;
+    const { width, height } =
+      entry.target && entry.target !== this.el
+        ? { width: this.el.clientWidth, height: this.el.clientHeight }
+        : entry.contentRect;
     const axis = this.layout === "horizontal" ? "width" : "height";
     const size = axis === "width" ? width : height;
 
