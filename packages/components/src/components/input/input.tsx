@@ -160,7 +160,7 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-input-inline-edit-control-corner-radius": "*";
     /**
-     * When `inline-edit` is `true`, specifies the loader color of the component's `inline-edit` controls.
+     * When `inline-edit` is `true`, specifies the loader color of the component's `inline-edit` confirm control.
      */
     "--calcite-input-inline-edit-control-loader-color": "*";
     /**
