@@ -476,19 +476,19 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   //#region Events
 
-  /** Fires each time a new `value` is typed and committed. */
+  /** Fires each time a new `value` is committed. */
   calciteInputTextChange = createEvent();
 
-  /** Fires when built-in inline editing is cancelled. */
+  /** When `inline-edit` is defined, fires when editing is cancelled. */
   calciteInputTextInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled or disabled. */
+  /** When `inline-edit` is defined, fires when `inline-editing` is enabled or disabled. */
   calciteInputTextInlineEditingChange = createEvent({ cancelable: false });
 
-  /** Fires after built-in inline editing confirmation completes. */
+  /** When `inline-edit` is `true`, fires after editing is confirmed. */
   calciteInputTextInlineEditingConfirm = createEvent({ cancelable: false });
 
-  /** Fires each time a new `value` is typed. */
+  /**  When `inline-edit` is 'false`, fires each time a new `value` is typed. */
   calciteInputTextInput = createEvent();
 
   /** @private */
