@@ -7,18 +7,11 @@
  * @prop --calcite-field-set-legend-text-color: Specifies the legend's text color.
  */
 
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-text-area-block-size
-
 @use "../../styles/shared";
 
 :host {
   display: block;
   inline-size: 100%;
-  --calcite-internal-text-area-block-size: auto;
 }
 
 .container {
