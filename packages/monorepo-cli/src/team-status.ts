@@ -2,12 +2,13 @@ import { getOctokit } from "@actions/github";
 import { Command } from "@commander-js/extra-typings";
 import dedent from "dedent";
 import { execFileSync } from "node:child_process";
-import { randomInt } from "node:crypto";
 import { createServer, type Server } from "node:http";
 import { errorAndExit, getSummary } from "./utils/commands.ts";
 import calcitePackageJson from "../../components/package.json" with { type: "json" };
 
 type TeamStatusOptions = {
+  /** Show only the local roster without fetching GitHub data. */
+  listOnly?: boolean;
   /** GitHub token with read access to repository issues. */
   token?: string;
 };
@@ -45,12 +46,12 @@ const team = [
 /* eslint-enable @cspell/spellchecker */
 
 const description = dedent`
-  Show the team's open issues in the current milestone.
+  Display the team's outstanding issues in the current milestone via a HTML page.
 
-  Fetches a snapshot from Esri/calcite-design-system and serves an HTML page on
-  localhost. Uses the earliest-due open milestone and excludes pull requests
-  and issues labeled "4 - installed". The team order is randomized on each run.
-  No browser is opened.
+  When running locally, the command can be run without a token if the GitHub CLI
+  is installed and authorized for the Esri organization via SSO.
+
+  A HTML page is used to support rich text copying into applications like Microsoft Teams.
 `;
 const tokenUsage = "-t, --token <TOKEN>";
 
@@ -59,13 +60,13 @@ export const registerCommand = (command: Command): void =>
     .command("team-status")
     .summary(getSummary(description))
     .description(description)
+    .option("--list-only", "Show only the team list, without GitHub overview, links, or counts.")
     .option(tokenUsage, "GitHub token. Defaults to GH_TOKEN, then local gh authentication.")
     .action(run);
 
-async function run({ token }: TeamStatusOptions): Promise<void> {
+async function run({ listOnly, token }: TeamStatusOptions): Promise<void> {
   try {
-    const validatedToken = getTeamStatusToken(token);
-    const statusInfo = await getStatusInfo(validatedToken);
+    const statusInfo = listOnly ? undefined : await getStatusInfo(getTeamStatusToken(token));
     const server = createTeamStatusServer(renderTeamStatus(statusInfo));
     server.on("error", (error) => errorAndExit(`Failed to serve team status. ${error.message}`));
     server.listen(0, "127.0.0.1", () => {
@@ -75,7 +76,7 @@ async function run({ token }: TeamStatusOptions): Promise<void> {
       }
       /* eslint-disable-next-line no-console -- Required for CLI output. */
       console.log(
-        `\nServer: http://127.0.0.1:${address.port}\n\nPress Ctrl+C to stop. Rerun the command to refresh data.`,
+        `\nServer: http://127.0.0.1:${address.port}\n\nPress Ctrl+C to stop.${listOnly ? "" : " Rerun the command to refresh data."}`,
       );
     });
   } catch (error) {
@@ -112,7 +113,7 @@ export function getTeamStatusToken(token?: string): string {
 }
 
 /**
- * Fetches open milestone issues and returns team members' outstanding work in randomized order.
+ * Fetches open milestone issues and returns team members' outstanding work in roster order.
  */
 export async function getStatusInfo(token: string): Promise<StatusInfo> {
   const github = getOctokit(token);
@@ -155,11 +156,6 @@ export async function getStatusInfo(token: string): Promise<StatusInfo> {
     issueCount: counts.get(member.username.toLowerCase()) ?? 0,
   }));
 
-  for (let index = assignees.length - 1; index > 0; index--) {
-    const swapIndex = randomInt(index + 1);
-    [assignees[index], assignees[swapIndex]] = [assignees[swapIndex], assignees[index]];
-  }
-
   return {
     issues: { query: issueQuery, count: issues.length },
     pulls: { query: pullRequestQuery, count: pullCount },
@@ -168,9 +164,9 @@ export async function getStatusInfo(token: string): Promise<StatusInfo> {
 }
 
 /**
- * Generates a self-contained snapshot with links to each member's matching issues.
+ * Generates a snapshot with issue links and counts, or just the local roster when no status is provided.
  */
-export function renderTeamStatus({ issues, pulls, assignees }: StatusInfo): string {
+export function renderTeamStatus(statusInfo?: StatusInfo): string {
   const calciteVersion = calcitePackageJson.version ?? "latest";
   const baseUrl = `https://github.com/${repository.owner}/${repository.repo}/issues`;
 
@@ -180,10 +176,22 @@ export function renderTeamStatus({ issues, pulls, assignees }: StatusInfo): stri
     return url;
   }
 
-  const items = assignees.map(({ username, firstName, issueCount }) => {
-    const url = getSearchUrl(`${issues.query} assignee:${username}`);
-    return `<li><a href="${url.href}" target="_blank" rel="noreferrer">${firstName}</a> - ${issueCount}</li>`;
-  });
+  const items = statusInfo
+    ? statusInfo.assignees.map(({ username, firstName, issueCount }) => {
+        const url = getSearchUrl(`${statusInfo.issues.query} assignee:${username}`);
+        return `<li><a href="${url.href}" target="_blank" rel="noreferrer">${firstName}</a> - ${issueCount}</li>`;
+      })
+    : team.map(({ firstName }) => `<li>${firstName}</li>`);
+  const totals = statusInfo
+    ? dedent`
+        <div>
+          <a href="${getSearchUrl(statusInfo.issues.query)}" target="_blank" rel="noreferrer">Open issues:</a>&nbsp;${statusInfo.issues.count}
+        </div>
+        <div>
+          <a href="${getSearchUrl(statusInfo.pulls.query)}" target="_blank" rel="noreferrer">Pull requests needing review:</a>&nbsp;${statusInfo.pulls.count}
+        </div>
+      `
+    : "";
 
   return dedent`
     <!doctype html>
@@ -193,26 +201,41 @@ export function renderTeamStatus({ issues, pulls, assignees }: StatusInfo): stri
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Calcite team status</title>
         <script type="module" src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@${calciteVersion}/dist/cdn/index.js"></script>
+        <style>
+          a {
+            color: var(--calcite-color-text-link);
+          }
+        </style>
       </head>
       <body>
         <main>
           <h1 style="font-weight: 500;">Calcite team status</h1>
           <section id="copy">
-            <div>
-              <a href="${getSearchUrl(issues.query)}" target="_blank" rel="noreferrer">Open issues:</a>&nbsp;${issues.count}
-            </div>
-            <div>
-              <a href="${getSearchUrl(pulls.query)}" target="_blank" rel="noreferrer">Pull requests needing review:</a>&nbsp;${pulls.count}
-            </div>
-            <ul>
+            ${totals}
+            <ul id="team">
               ${items.join("\n")}
             </ul>
           </section>
-          <calcite-button>Copy team status</calcite-button>
+          <calcite-button id="randomize-button" kind="neutral">Randomize order</calcite-button>
+          <calcite-button id="copy-button" icon-end="copy-to-clipboard">Copy</calcite-button>
         </main>
         <script>
-          const copyButtonEl = document.querySelector("calcite-button");
+          const copyButtonEl = document.querySelector("#copy-button");
           const contentEl = document.querySelector("#copy");
+          const randomizeButtonEl = document.querySelector("#randomize-button");
+          const teamEl = document.querySelector("#team");
+
+          function randomizeOrder() {
+            const items = Array.from(teamEl.children);
+            for (let index = items.length - 1; index > 0; index--) {
+              const swapIndex = Math.floor(Math.random() * (index + 1));
+              [items[index], items[swapIndex]] = [items[swapIndex], items[index]];
+            }
+            teamEl.replaceChildren(...items);
+          }
+
+          randomizeButtonEl.addEventListener("click", randomizeOrder);
+          randomizeOrder();
 
           copyButtonEl.addEventListener("click", async () => {
             try {
