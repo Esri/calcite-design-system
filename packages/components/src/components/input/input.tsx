@@ -38,6 +38,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable"; // `ca
 import type { Label } from "../label/label";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -217,6 +218,20 @@ export class Input
 
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
+
+  private prefixRef = createRef<HTMLDivElement>();
+
+  private suffixRef = createRef<HTMLDivElement>();
+
+  private affixWidth = useAffixWidth<Input>({
+    prefixRef: this.prefixRef,
+    suffixRef: this.suffixRef,
+  })(this);
+
+  /** @private */
+  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
+    return this.affixWidth;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
@@ -619,6 +634,9 @@ export class Input
   calciteInternalInputBlur = createEvent({ cancelable: false });
 
   /** @private */
+  calciteInternalInputAffixChange = createEvent({ cancelable: false });
+
+  /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
   //#endregion
@@ -681,6 +699,12 @@ export class Input
 
     if (changes.has("type") && (this.hasUpdated || this.type !== "text")) {
       this.formSupport.overrideInputType(this.type);
+    }
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
+      this.calciteInternalInputAffixChange.emit();
     }
   }
 
@@ -1370,8 +1394,16 @@ export class Input
       </div>
     );
 
-    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+    const prefixText = (
+      <div class={CSS.prefix} ref={this.prefixRef}>
+        {this.prefixText}
+      </div>
+    );
+    const suffixText = (
+      <div class={CSS.suffix} ref={this.suffixRef}>
+        {this.suffixText}
+      </div>
+    );
 
     const autofocus = this.el.autofocus;
     const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];

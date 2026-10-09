@@ -5,6 +5,8 @@
 // --calcite-internal-action-height
 // --calcite-internal-action-padding-block
 // --calcite-internal-action-padding-inline
+// --calcite-internal-input-affix-prefix-width
+// --calcite-internal-input-affix-suffix-width
 // --calcite-internal-input-focus-outline-color
 // --calcite-internal-input-icon-padding-inline
 // --calcite-internal-input-number-button-item-height
@@ -21,6 +23,8 @@
     var(--calcite-ui-focus-color, var(--calcite-color-brand))
   );
   --calcite-internal-input-number-button-item-height: auto;
+  --calcite-internal-input-affix-prefix-width: unset;
+  --calcite-internal-input-affix-suffix-width: unset;
 }
 
 @mixin input-affix-spacing($main-padding, $affix-padding) {
@@ -385,7 +389,7 @@ input[type="time"]::-webkit-clear-button {
 .prefix {
   order: 0;
   border-inline-end-width: theme("borderWidth.0");
-  inline-size: var(--calcite-input-prefix-size, auto);
+  inline-size: var(--calcite-internal-input-affix-prefix-width, var(--calcite-input-prefix-size, auto));
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
@@ -393,7 +397,7 @@ input[type="time"]::-webkit-clear-button {
 .suffix {
   order: 5;
   border-inline-start-width: theme("borderWidth.0");
-  inline-size: var(--calcite-input-suffix-size, auto);
+  inline-size: var(--calcite-internal-input-affix-suffix-width, var(--calcite-input-suffix-size, auto));
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }

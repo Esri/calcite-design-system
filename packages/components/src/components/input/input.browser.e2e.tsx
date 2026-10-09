@@ -1761,14 +1761,6 @@ describe("theme", () => {
 
   describe("with prefix and suffix", () => {
     themed(() => mount(<calcite-input prefix-text="prefix" suffix-text="suffix" />), {
-      "--calcite-input-prefix-size": {
-        shadowSelector: `.${CSS.prefix}`,
-        targetProp: "inlineSize",
-      },
-      "--calcite-input-suffix-size": {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "inlineSize",
-      },
       "--calcite-input-prefix-text-color": {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "color",
@@ -1777,6 +1769,53 @@ describe("theme", () => {
         shadowSelector: `.${CSS.suffix}`,
         targetProp: "color",
       },
+    });
+
+    it("respects prefix/suffix size CSS custom properties when used standalone", async () => {
+      const { el } = await mount<Input>(
+        <calcite-input
+          prefix-text="prefix"
+          style={{ "--calcite-input-prefix-size": "42px", "--calcite-input-suffix-size": "42px" }}
+          suffix-text="suffix"
+        />,
+      );
+
+      await vi.waitFor(() => {
+        expect(
+          Math.ceil(
+            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.getBoundingClientRect()
+              .width,
+          ),
+        ).toBe(42);
+        expect(
+          Math.ceil(
+            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.getBoundingClientRect()
+              .width,
+          ),
+        ).toBe(42);
+      });
+    });
+
+    it("does not apply an inline affix width when used standalone", async () => {
+      const { el } = await mount<Input>(
+        <calcite-input prefix-text="prefix" suffix-text="suffix" />,
+      );
+
+      await vi.waitFor(() => {
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)).not.toBeNull();
+        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)).not.toBeNull();
+      });
+
+      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toBe("");
+      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toBe("");
+
+      el.prefixText = undefined;
+      el.suffixText = undefined;
+
+      await vi.waitFor(() => {
+        expect(el.shadowRoot.querySelector(`.${CSS.prefix}`)).toBeNull();
+        expect(el.shadowRoot.querySelector(`.${CSS.suffix}`)).toBeNull();
+      });
     });
   });
 
