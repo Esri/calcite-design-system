@@ -488,7 +488,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /** When `inline-edit` is `true`, fires after editing is confirmed. */
   calciteInputTextInlineEditingConfirm = createEvent({ cancelable: false });
 
-  /**  When `inline-edit` is 'false`, fires each time a new `value` is typed. */
+  /**  When `inline-edit` is `false`, fires each time a new `value` is typed. */
   calciteInputTextInput = createEvent();
 
   /** @private */

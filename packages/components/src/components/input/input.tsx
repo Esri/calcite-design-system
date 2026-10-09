@@ -612,7 +612,7 @@ export class Input
   /** When `inline-edit` is `true`, fires after editing is confirmed. */
   calciteInputInlineEditingConfirm = createEvent({ cancelable: false });
 
-  /** When `inline-edit` is 'false`, fires each time a new `value` is typed. */
+  /** When `inline-edit` is `false`, fires each time a new `value` is typed. */
   calciteInputInput = createEvent();
 
   /** @private */
