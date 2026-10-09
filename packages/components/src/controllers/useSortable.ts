@@ -126,7 +126,7 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
   /** Called when a component's dragging ends. */
   onDragEnd: BivariantHandler<D, void>;
 
-  /** Called when a component's dragging ends. */
+  /** Called when a component's drag position changes. */
   onDragMove?: BivariantHandler<M, void>;
 
   /** Called when a component's dragging starts. */
