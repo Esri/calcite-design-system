@@ -6,36 +6,27 @@ import "../text-area/text-area";
 import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
-  disabled: boolean;
   legend: string;
   legendTextColor?: string;
   gap?: string;
-  scale: "s" | "m" | "l";
 };
 
 const hiddenCustomGapArgTypes = Object.fromEntries(
-  ["disabled", "legend", "legendTextColor", "scale"].map((key) => [key, { table: { disable: true }, control: false }]),
+  ["legend", "legendTextColor"].map((key) => [key, { table: { disable: true }, control: false }]),
 ) as Partial<Record<keyof FieldSetStoryArgs, { table: { disable: true }; control: false }>>;
 
 export default {
   title: "Components/Field Set",
   parameters: { layout: "padded" },
   args: {
-    disabled: false,
     legend: "Field Set legend",
     legendTextColor: "",
     gap: "",
-    scale: "m",
   },
   argTypes: {
-    disabled: { control: { type: "boolean" } },
     legend: { control: { type: "text" } },
     legendTextColor: { name: "legend text color", control: { type: "text" } },
     gap: { control: { type: "text" } },
-    scale: {
-      options: ["s", "m", "l"],
-      control: { type: "radio", labels: { m: "m (default)" } },
-    },
   },
 };
 
@@ -77,14 +68,7 @@ function renderFieldSet(args: FieldSetStoryArgs, useLabel = false): string {
       `;
 
   return html`
-    <calcite-field-set
-      ${args.disabled ? "disabled" : ""}
-      legend="${args.legend}"
-      scale="${args.scale}"
-      ${style ? `style="${style}"` : ""}
-    >
-      ${controls}
-    </calcite-field-set>
+    <calcite-field-set legend="${args.legend}" ${style ? `style="${style}"` : ""}> ${controls} </calcite-field-set>
   `;
 }
 
@@ -97,12 +81,7 @@ export const complex = (args: FieldSetStoryArgs): string => {
   const style = getStyle(args);
 
   return html`
-    <calcite-field-set
-      ${args.disabled ? "disabled" : ""}
-      legend="${args.legend}"
-      scale="${args.scale}"
-      ${style ? `style="${style}"` : ""}
-    >
+    <calcite-field-set legend="${args.legend}" ${style ? `style="${style}"` : ""}>
       <calcite-field-group layout="columns" columns="2">
         <calcite-input label-text="Label"></calcite-input>
         <calcite-input label-text="Label"></calcite-input>
@@ -120,12 +99,7 @@ export const complexUsingLabel = (args: FieldSetStoryArgs): string => {
   const style = getStyle(args);
 
   return html`
-    <calcite-field-set
-      ${args.disabled ? "disabled" : ""}
-      legend="${args.legend}"
-      scale="${args.scale}"
-      ${style ? `style="${style}"` : ""}
-    >
+    <calcite-field-set legend="${args.legend}" ${style ? `style="${style}"` : ""}>
       <calcite-field-group layout="columns" columns="2">
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
@@ -139,33 +113,6 @@ export const complexUsingLabel = (args: FieldSetStoryArgs): string => {
   `;
 };
 complexUsingLabel.storyName = "Complex (using 'Label')";
-
-export const disabled = (args: FieldSetStoryArgs): string => complex(args);
-disabled.args = { disabled: true };
-disabled.parameters = { controls: { disable: true } };
-
-export const disabledUsingLabel = (args: FieldSetStoryArgs): string => complexUsingLabel(args);
-disabledUsingLabel.storyName = "Disabled (using 'Label')";
-disabledUsingLabel.args = { disabled: true };
-disabledUsingLabel.parameters = { controls: { disable: true } };
-
-export const scales = (args: FieldSetStoryArgs): string => html`
-  <div style="display: flex; gap: 3rem;">
-    ${complex({ ...args, legend: "Small", scale: "s" })} ${complex({ ...args, legend: "Medium (default)", scale: "m" })}
-    ${complex({ ...args, legend: "Large", scale: "l" })}
-  </div>
-`;
-scales.parameters = { controls: { disable: true } };
-
-export const scalesUsingLabel = (args: FieldSetStoryArgs): string => html`
-  <div style="display: flex; gap: 3rem;">
-    ${complexUsingLabel({ ...args, legend: "Small", scale: "s" })}
-    ${complexUsingLabel({ ...args, legend: "Medium (default)", scale: "m" })}
-    ${complexUsingLabel({ ...args, legend: "Large", scale: "l" })}
-  </div>
-`;
-scalesUsingLabel.storyName = "Scales (using 'Label')";
-scalesUsingLabel.parameters = { controls: { disable: true } };
 
 export const customGap = (args: FieldSetStoryArgs): string => complex(args);
 customGap.args = { gap: "40px" };
@@ -188,8 +135,8 @@ customLegendColorUsingLabel.storyName = "Custom legend color (using 'Label')";
 customLegendColorUsingLabel.args = { legendTextColor: "pink" };
 customLegendColorUsingLabel.parameters = { controls: { disable: true } };
 
-export const slottedFieldGroups = (args: FieldSetStoryArgs): string => html`
-  <calcite-field-set legend="Field Set legend" scale="${args.scale}">
+export const slottedFieldGroups = (): string => html`
+  <calcite-field-set legend="Field Set legend">
     <calcite-field-group layout="columns" columns="2">
       <calcite-input label-text="Label"></calcite-input>
       <calcite-input label-text="Label"></calcite-input>
@@ -208,8 +155,8 @@ export const slottedFieldGroups = (args: FieldSetStoryArgs): string => html`
 `;
 slottedFieldGroups.parameters = { controls: { disable: true } };
 
-export const slottedFieldGroupsUsingLabel = (args: FieldSetStoryArgs): string => html`
-  <calcite-field-set legend="Field Set legend" scale="${args.scale}">
+export const slottedFieldGroupsUsingLabel = (): string => html`
+  <calcite-field-set legend="Field Set legend">
     <calcite-field-group columns="2" layout="columns">
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>

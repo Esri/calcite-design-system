@@ -1,6 +1,5 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
-import type { Scale } from "../types";
 import type { Affix, UseAffixWidth } from "../../controllers/useAffixWidth";
 import { nextFrame, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
@@ -8,15 +7,6 @@ import { styles } from "./field-group.scss";
 
 type Layout = "columns" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
-
-const originalDisabledState = Symbol("calciteFieldGroupOriginalDisabledState");
-
-type DisabledControl = HTMLElement & {
-  disabled: boolean;
-  [originalDisabledState]?: boolean;
-};
-
-type ScaledControl = HTMLElement & { scale: Scale };
 
 type AffixInput = HTMLElement & { affixElementProvider?: UseAffixWidth };
 
@@ -38,16 +28,10 @@ export class FieldGroup extends LitElement {
 
   //#region Private Properties
 
-  private controlsDisabledSyncQueued = false;
-
   private affixWidthRequestIds = {
     prefix: 0,
     suffix: 0,
   };
-
-  private disabledControls: DisabledControl[] = [];
-
-  private scaledControls: ScaledControl[] = [];
 
   private affixInputs: AffixInput[] = [];
 
@@ -55,25 +39,14 @@ export class FieldGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @property({ reflect: true }) disabled = false;
-
   /** When `layout` is `"columns"`, specifies the number of columns in the component. */
   @property({ type: Number, reflect: true }) columns?: Columns;
 
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: Layout = "vertical";
 
-  /** @private */
-  @property({ attribute: false }) get manageDescendantControls(): true {
-    return true;
-  }
-
   /** When `true`, slotted `calcite-input` prefixes share the same width. */
   @property({ reflect: true }) prefixAutoWidth = false;
-
-  /** Specifies the size of slotted components. */
-  @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, slotted `calcite-input` suffixes share the same width. */
   @property({ reflect: true }) suffixAutoWidth = false;
@@ -88,17 +61,7 @@ export class FieldGroup extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    this.syncControlsScale();
-
-    if (changes.has("disabled")) {
-      this.syncControlsDisabled();
-
-      if (this.disabled) {
-        void this.queueControlsDisabledResync();
-      }
-    }
-
-    if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
+    if (changes.has("prefixAutoWidth") || changes.has("suffixAutoWidth")) {
       void this.syncInputsAffixWidths();
     }
   }
@@ -106,25 +69,6 @@ export class FieldGroup extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  private collectOwnedControls(element: HTMLElement): HTMLElement[] {
-    const controls = this.isOwnedControl(element) ? [element] : [];
-
-    if ("manageDescendantControls" in element) {
-      return controls;
-    }
-
-    return [
-      ...controls,
-      ...(Array.from(element.children).filter((child) =>
-        this.isOwnedControl(child as HTMLElement),
-      ) as HTMLElement[]),
-    ];
-  }
-
-  private isOwnedControl(element: Element): boolean {
-    return "disabled" in element || "scale" in element;
-  }
 
   private collectOwnedAffixInputs(element: HTMLElement): AffixInput[] {
     if ("affixElementProvider" in element) {
@@ -142,22 +86,8 @@ export class FieldGroup extends LitElement {
 
   private handleSlotChange(event: Event): void {
     const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
-    const controls = slottedElements.flatMap((element) => this.collectOwnedControls(element));
 
-    this.disabledControls = controls.filter(
-      (control): control is DisabledControl => "disabled" in control,
-    );
-    this.scaledControls = controls.filter(
-      (control): control is ScaledControl => "scale" in control,
-    );
     this.affixInputs = slottedElements.flatMap((element) => this.collectOwnedAffixInputs(element));
-
-    this.syncControlsScale();
-    this.syncControlsDisabled();
-
-    if (this.disabled) {
-      void this.queueControlsDisabledResync();
-    }
 
     void this.syncInputsAffixWidths();
   }
@@ -180,48 +110,6 @@ export class FieldGroup extends LitElement {
 
   private handleAffixChange(): void {
     void this.syncInputsAffixWidths();
-  }
-
-  private async queueControlsDisabledResync(): Promise<void> {
-    if (this.controlsDisabledSyncQueued) {
-      return;
-    }
-
-    this.controlsDisabledSyncQueued = true;
-
-    await nextFrame();
-
-    this.controlsDisabledSyncQueued = false;
-
-    if (this.disabled) {
-      this.syncControlsDisabled();
-    }
-  }
-
-  private syncControlsDisabled(): void {
-    this.disabledControls.forEach((control) => {
-      if (this.disabled) {
-        if (control[originalDisabledState] === undefined) {
-          control[originalDisabledState] = control.disabled;
-        }
-
-        control.disabled = true;
-        return;
-      }
-
-      if (control[originalDisabledState] === undefined) {
-        return;
-      }
-
-      control.disabled = control[originalDisabledState];
-      delete control[originalDisabledState];
-    });
-  }
-
-  private syncControlsScale(): void {
-    this.scaledControls.forEach((control) => {
-      control.scale = this.scale;
-    });
   }
 
   private async syncInputAffixWidth(affix: Affix, shouldSync: boolean): Promise<void> {

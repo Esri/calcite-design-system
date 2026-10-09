@@ -9,8 +9,6 @@ import "../button/button"; // Force Vite to statically trace the file for Chroma
 import { html } from "../../../support/formatting";
 
 type FieldGroupStoryArgs = {
-  disabled: boolean;
-  scale: "s" | "m" | "l";
   layout: "columns" | "horizontal" | "vertical";
   columns: 1 | 2 | 3 | 4 | 5 | 6;
   gap: string;
@@ -23,8 +21,6 @@ export default {
   title: "Components/Field Group",
   parameters: { layout: "padded" },
   args: {
-    disabled: false,
-    scale: "m",
     layout: "vertical",
     columns: 2,
     gap: "",
@@ -33,8 +29,6 @@ export default {
     suffixAutoWidth: false,
   },
   argTypes: {
-    disabled: { control: { type: "boolean" } },
-    scale: { options: ["s", "m", "l"], control: { type: "radio" } },
     layout: { options: ["vertical", "horizontal", "columns"], control: { type: "radio" } },
     columns: { options: [1, 2, 3, 4, 5, 6], control: { type: "radio" }, if: { arg: "layout", eq: "columns" } },
     gap: { control: { type: "text" } },
@@ -57,13 +51,7 @@ export const simple = (args: FieldGroupStoryArgs): string => {
     .join(" ");
 
   return html`
-    <calcite-field-group
-      columns="${args.columns}"
-      ${args.disabled ? "disabled" : ""}
-      layout="${args.layout}"
-      scale="${args.scale}"
-      ${style ? `style="${style}"` : ""}
-    >
+    <calcite-field-group columns="${args.columns}" layout="${args.layout}" ${style ? `style="${style}"` : ""}>
       <calcite-input label-text="Label"></calcite-input>
       <calcite-input label-text="Label"></calcite-input>
       <calcite-input label-text="Label"></calcite-input>
@@ -86,13 +74,7 @@ export const simpleUsingLabel = (args: FieldGroupStoryArgs): string => {
     .join(" ");
 
   return html`
-    <calcite-field-group
-      columns="${args.columns}"
-      ${args.disabled ? "disabled" : ""}
-      layout="${args.layout}"
-      scale="${args.scale}"
-      ${style ? `style="${style}"` : ""}
-    >
+    <calcite-field-group columns="${args.columns}" layout="${args.layout}" ${style ? `style="${style}"` : ""}>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
@@ -118,10 +100,8 @@ export const complex = (args: FieldGroupStoryArgs): string => {
   return html`
     <calcite-field-group
       columns="${args.columns}"
-      ${args.disabled ? "disabled" : ""}
       layout="${args.layout}"
       ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
-      scale="${args.scale}"
       ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
       ${style ? `style="${style}"` : ""}
     >
@@ -157,10 +137,8 @@ export const complexUsingLabel = (args: FieldGroupStoryArgs): string => {
   return html`
     <calcite-field-group
       columns="${args.columns}"
-      ${args.disabled ? "disabled" : ""}
       layout="${args.layout}"
       ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
-      scale="${args.scale}"
       ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
       ${style ? `style="${style}"` : ""}
     >
@@ -186,21 +164,6 @@ complexUsingLabel.parameters = {
   controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
 
-export const scales = (args: FieldGroupStoryArgs): string => html`
-  <div style="display: flex; flex-direction: column; gap: 3rem;">
-    ${complex({ ...args, scale: "s" })} ${complex({ ...args, scale: "m" })} ${complex({ ...args, scale: "l" })}
-  </div>
-`;
-scales.parameters = { controls: { disable: true } };
-
-export const scalesUsingLabel = (args: FieldGroupStoryArgs): string => html`
-  <div style="display: flex; flex-direction: column; gap: 3rem;">
-    ${labels({ ...args, scale: "s" })} ${labels({ ...args, scale: "m" })} ${labels({ ...args, scale: "l" })}
-  </div>
-`;
-scalesUsingLabel.storyName = "Scale (using 'Label')";
-scalesUsingLabel.parameters = { controls: { disable: true } };
-
 const renderLayoutExample = (
   args: FieldGroupStoryArgs,
   layout: FieldGroupStoryArgs["layout"],
@@ -215,12 +178,7 @@ const renderLayoutExample = (
     .join(" ");
 
   return html`
-    <calcite-field-group
-      columns="${columns}"
-      layout="${layout}"
-      scale="${args.scale}"
-      ${style ? `style="${style}"` : ""}
-    >
+    <calcite-field-group columns="${columns}" layout="${layout}" ${style ? `style="${style}"` : ""}>
       ${Array.from(
         { length: fieldSetCount },
         (_, index) => html`
@@ -248,12 +206,7 @@ const renderLabelLayoutExample = (
     .join(" ");
 
   return html`
-    <calcite-field-group
-      columns="${columns}"
-      layout="${layout}"
-      scale="${args.scale}"
-      ${style ? `style="${style}"` : ""}
-    >
+    <calcite-field-group columns="${columns}" layout="${layout}" ${style ? `style="${style}"` : ""}>
       ${Array.from(
         { length: fieldSetCount },
         (_, index) => html`
@@ -291,9 +244,7 @@ layoutsUsingLabel.parameters = { controls: { disable: true } };
 export const customGap = (args: FieldGroupStoryArgs): string => html`
   <calcite-field-group
     columns="${args.columns}"
-    ${args.disabled ? "disabled" : ""}
     layout="${args.layout}"
-    scale="${args.scale}"
     style="--calcite-field-group-gap: ${args.gap};"
   >
     <calcite-field-set legend="Legend 1">
@@ -320,10 +271,6 @@ customGapUsingLabel.storyName = "Custom Gap (using 'Label')";
 customGapUsingLabel.args = { gap: "40px" };
 customGapUsingLabel.parameters = { controls: { include: ["gap"] } };
 
-export const disabled = (args: FieldGroupStoryArgs): string => complex(args);
-disabled.args = { disabled: true };
-disabled.parameters = { controls: { disable: true } };
-
 const labels = (args: FieldGroupStoryArgs): string => {
   const style = [
     args.gap ? `--calcite-field-group-gap: ${args.gap};` : "",
@@ -335,10 +282,8 @@ const labels = (args: FieldGroupStoryArgs): string => {
   return html`
     <calcite-field-group
       columns="${args.columns}"
-      ${args.disabled ? "disabled" : ""}
       layout="${args.layout}"
       ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
-      scale="${args.scale}"
       ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
       ${style ? `style="${style}"` : ""}
     >
@@ -359,11 +304,6 @@ const labels = (args: FieldGroupStoryArgs): string => {
     </calcite-field-group>
   `;
 };
-
-export const disabledUsingLabel = (args: FieldGroupStoryArgs): string => labels(args);
-disabledUsingLabel.storyName = "Disabled (using 'Label')";
-disabledUsingLabel.args = { disabled: true };
-disabledUsingLabel.parameters = { controls: { disable: true } };
 
 export const prefixAndSuffixAutoWidth = (args: FieldGroupStoryArgs): string => html`
   <calcite-field-group
@@ -517,10 +457,8 @@ const renderNativeFieldGroupStory = (args: FieldGroupStoryArgs, options: NativeF
       <form id="${options.formId}" style="display: flex; flex-direction: column; gap: 1rem;">
         <calcite-field-group
           columns="${args.columns}"
-          ${args.disabled ? "disabled" : ""}
           layout="${args.layout}"
           ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
-          scale="${args.scale}"
           ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
           ${style ? `style="${style}"` : ""}
         >

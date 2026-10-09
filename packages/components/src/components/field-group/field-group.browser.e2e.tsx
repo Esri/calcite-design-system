@@ -5,10 +5,8 @@ import { defaults, hidden, reflects, renders, themed } from "../../tests/common"
 import { CSS } from "./resources";
 
 type UpdatableElement = HTMLElement & {
-  disabled?: boolean;
   prefixAutoWidth?: boolean;
   prefixText?: string;
-  scale?: string;
   suffixAutoWidth?: boolean;
   suffixText?: string;
   updateComplete?: Promise<unknown>;
@@ -48,10 +46,8 @@ function getSuffixFootprintWidth(element: Element): number {
 describe("defaults", () => {
   defaults(() => mount("calcite-field-group"), {
     columns: undefined,
-    disabled: false,
     layout: "vertical",
     prefixAutoWidth: false,
-    scale: "m",
     suffixAutoWidth: false,
   });
 });
@@ -59,10 +55,8 @@ describe("defaults", () => {
 describe("reflects", () => {
   reflects(() => mount("calcite-field-group"), {
     columns: 2,
-    disabled: true,
     layout: "columns",
     prefixAutoWidth: true,
-    scale: "s",
     suffixAutoWidth: true,
   });
 });
@@ -128,247 +122,6 @@ describe("layout", () => {
 
     expect(second.top).toBe(first.top);
     expect(second.left).toBeGreaterThan(first.left);
-  });
-});
-
-describe("scale propagation", () => {
-  it("propagates scale through nested field groups", async () => {
-    const { el } = await mount(
-      <calcite-field-group scale="s">
-        <calcite-field-group id="direct">
-          <calcite-field-set />
-        </calcite-field-group>
-        <calcite-field-set id="direct-field-set" />
-        <calcite-field-group>
-          <calcite-field-set id="nested" />
-        </calcite-field-group>
-      </calcite-field-group>,
-    );
-    const direct = el.querySelector<UpdatableElement>("#direct")!;
-    const nested = el.querySelector<UpdatableElement>("#nested")!;
-
-    expect(direct.scale).toBe("s");
-    expect(nested.scale).toBe("s");
-  });
-
-  it("updates the scale of slotted field sets when the field group scale changes", async () => {
-    const { el } = await mount(
-      <calcite-field-group>
-        <calcite-input id="direct-input" />
-        <calcite-field-set id="direct" />
-        <calcite-field-group>
-          <calcite-field-set id="nested" />
-        </calcite-field-group>
-      </calcite-field-group>,
-    );
-    const fieldGroup = el as UpdatableElement;
-    const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
-    const direct = el.querySelector<UpdatableElement>("#direct")!;
-    const nested = el.querySelector<UpdatableElement>("#nested")!;
-
-    fieldGroup.scale = "l";
-
-    await waitForUpdate(fieldGroup);
-    await Promise.all([waitForUpdate(directInput), waitForUpdate(direct), waitForUpdate(nested)]);
-
-    expect(directInput.scale).toBe("l");
-    expect(direct.scale).toBe("l");
-    expect(nested.scale).toBe("l");
-  });
-
-  it("propagates scale to controls added after mount", async () => {
-    const { el } = await mount(
-      <calcite-field-group scale="s">
-        <calcite-input />
-      </calcite-field-group>,
-    );
-    const label = document.createElement("calcite-label");
-    const input = document.createElement("calcite-input") as UpdatableElement;
-
-    label.append(input);
-    el.append(label);
-
-    await vi.waitFor(() => expect(input.scale).toBe("s"));
-  });
-
-  it("does not propagate scale to controls nested two or more levels deep in a plain wrapper", async () => {
-    const { el } = await mount(
-      <calcite-field-group scale="s">
-        <div>
-          <calcite-label>
-            Label
-            <calcite-input id="input" />
-          </calcite-label>
-        </div>
-      </calcite-field-group>,
-    );
-    const input = el.querySelector<UpdatableElement>("#input")!;
-
-    await input.updateComplete;
-
-    expect(input.scale).toBe("m");
-  });
-
-  it("checks direct children but not grandchildren for scale propagation", async () => {
-    const { el } = await mount(
-      <calcite-field-group scale="s">
-        <calcite-input id="direct" />
-        <div>
-          <calcite-input id="direct-child" />
-          <div>
-            <calcite-input id="grandchild" />
-          </div>
-        </div>
-      </calcite-field-group>,
-    );
-    const direct = el.querySelector<UpdatableElement>("#direct")!;
-    const directChild = el.querySelector<UpdatableElement>("#direct-child")!;
-    const grandchild = el.querySelector<UpdatableElement>("#grandchild")!;
-
-    await waitForUpdate(direct);
-
-    expect(direct.scale).toBe("s");
-    expect(directChild.scale).toBe("s");
-    expect(grandchild.scale).toBe("m");
-  });
-
-  it("verifies propagation boundaries across directly slotted inputs, field groups, and field sets for scale", async () => {
-    const { el } = await mount(
-      <calcite-field-group scale="s">
-        <calcite-input id="direct-input" />
-        <calcite-field-group id="direct-field-group">
-          <calcite-input id="field-group-child" />
-        </calcite-field-group>
-        <calcite-field-set id="direct-field-set">
-          <calcite-input id="field-set-child" />
-        </calcite-field-set>
-        <div>
-          <div>
-            <calcite-input id="two-levels-deep" />
-          </div>
-        </div>
-      </calcite-field-group>,
-    );
-    const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
-    const directFieldGroup = el.querySelector<UpdatableElement>("#direct-field-group")!;
-    const fieldGroupChild = el.querySelector<UpdatableElement>("#field-group-child")!;
-    const directFieldSet = el.querySelector<UpdatableElement>("#direct-field-set")!;
-    const fieldSetChild = el.querySelector<UpdatableElement>("#field-set-child")!;
-    const twoLevelsDeep = el.querySelector<UpdatableElement>("#two-levels-deep")!;
-
-    await waitForUpdate(directInput);
-
-    expect(directInput.scale).toBe("s");
-    expect(directFieldGroup.scale).toBe("s");
-    expect(fieldGroupChild.scale).toBe("s");
-    expect(directFieldSet.scale).toBe("s");
-    expect(fieldSetChild.scale).toBe("s");
-    expect(twoLevelsDeep.scale).toBe("m");
-  });
-});
-
-describe("disabled propagation", () => {
-  it("propagates disabled to slotted field sets and restores their original state", async () => {
-    const { el } = await mount(
-      <calcite-field-group disabled>
-        <calcite-input id="direct-input" />
-        <calcite-field-set id="enabled-field-set" />
-        <calcite-field-set disabled id="pre-disabled-field-set" />
-      </calcite-field-group>,
-    );
-    const fieldGroup = el as UpdatableElement;
-    const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
-    const enabledFieldSet = el.querySelector<UpdatableElement>("#enabled-field-set")!;
-    const preDisabledFieldSet = el.querySelector<UpdatableElement>("#pre-disabled-field-set")!;
-
-    await vi.waitFor(() => expect(directInput.disabled).toBe(true));
-
-    expect(enabledFieldSet.disabled).toBe(true);
-    expect(preDisabledFieldSet.disabled).toBe(true);
-    await vi.waitFor(() => expect(getComputedStyle(fieldGroup).opacity).toBe("0.5"));
-
-    fieldGroup.disabled = false;
-    await waitForUpdate(fieldGroup);
-    await Promise.all([waitForUpdate(enabledFieldSet), waitForUpdate(preDisabledFieldSet)]);
-
-    expect(directInput.disabled).toBe(false);
-    expect(enabledFieldSet.disabled).toBe(false);
-    expect(preDisabledFieldSet.disabled).toBe(true);
-  });
-
-  it("does not propagate disabled to controls nested two or more levels deep in a plain wrapper", async () => {
-    const { el } = await mount(
-      <calcite-field-group disabled>
-        <div>
-          <calcite-label>
-            Label
-            <calcite-input id="input" />
-          </calcite-label>
-        </div>
-      </calcite-field-group>,
-    );
-    const input = el.querySelector<UpdatableElement>("#input")!;
-
-    await input.updateComplete;
-
-    expect(input.disabled).toBe(false);
-  });
-
-  it("checks direct children but not grandchildren for disabled propagation", async () => {
-    const { el } = await mount(
-      <calcite-field-group disabled>
-        <calcite-input id="direct" />
-        <div>
-          <calcite-input id="direct-child" />
-          <div>
-            <calcite-input id="grandchild" />
-          </div>
-        </div>
-      </calcite-field-group>,
-    );
-    const direct = el.querySelector<UpdatableElement>("#direct")!;
-    const directChild = el.querySelector<UpdatableElement>("#direct-child")!;
-    const grandchild = el.querySelector<UpdatableElement>("#grandchild")!;
-
-    await vi.waitFor(() => expect(direct.disabled).toBe(true));
-
-    expect(directChild.disabled).toBe(true);
-    expect(grandchild.disabled).toBe(false);
-  });
-
-  it("verifies propagation boundaries across directly slotted inputs, field groups, and field sets for disabled", async () => {
-    const { el } = await mount(
-      <calcite-field-group disabled>
-        <calcite-input id="direct-input" />
-        <calcite-field-group id="direct-field-group">
-          <calcite-input id="field-group-child" />
-        </calcite-field-group>
-        <calcite-field-set id="direct-field-set">
-          <calcite-input id="field-set-child" />
-        </calcite-field-set>
-        <div>
-          <div>
-            <calcite-input id="two-levels-deep" />
-          </div>
-        </div>
-      </calcite-field-group>,
-    );
-    const directInput = el.querySelector<UpdatableElement>("#direct-input")!;
-    const directFieldGroup = el.querySelector<UpdatableElement>("#direct-field-group")!;
-    const fieldGroupChild = el.querySelector<UpdatableElement>("#field-group-child")!;
-    const directFieldSet = el.querySelector<UpdatableElement>("#direct-field-set")!;
-    const fieldSetChild = el.querySelector<UpdatableElement>("#field-set-child")!;
-    const twoLevelsDeep = el.querySelector<UpdatableElement>("#two-levels-deep")!;
-
-    await vi.waitFor(() => {
-      expect(directInput.disabled).toBe(true);
-      expect(directFieldGroup.disabled).toBe(true);
-      expect(fieldGroupChild.disabled).toBe(true);
-      expect(directFieldSet.disabled).toBe(true);
-      expect(fieldSetChild.disabled).toBe(true);
-    });
-
-    expect(twoLevelsDeep.disabled).toBe(false);
   });
 });
 
@@ -679,24 +432,6 @@ describe("affix width coordination", () => {
       expect(getSuffixFootprintWidth(inputText)).toBe(suffixFootprintWidth);
       expect(getSuffixFootprintWidth(autocomplete)).toBe(suffixFootprintWidth);
     });
-  });
-});
-
-describe("scale gap values", () => {
-  it.each([
-    ["s", "8px"],
-    ["m", "12px"],
-    ["l", "16px"],
-  ] as const)("uses the scale gap for column layouts at scale %s", async (scale, expectedGap) => {
-    const { el } = await mount(
-      <calcite-field-group columns={2} layout="columns" scale={scale}>
-        <calcite-input />
-        <calcite-input />
-      </calcite-field-group>,
-    );
-    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
-
-    expect(getComputedStyle(container).columnGap).toBe(expectedGap);
   });
 });
 

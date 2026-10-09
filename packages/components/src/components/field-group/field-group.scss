@@ -8,19 +8,6 @@
  * @prop --calcite-field-group-gap: Specifies the gap between the component's slotted elements.
  */
 
-// AUTO-GENERATED - do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-field-group-gap
-// --calcite-internal-field-group-columns
-
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-field-group-gap
-
 @use "../../styles/shared";
 
 :host {
@@ -30,10 +17,7 @@
 
 .container {
   display: flex;
-  gap: var(
-    --calcite-field-group-gap,
-    var(--calcite-field-set-gap, var(--calcite-internal-field-group-gap, var(--calcite-space-md)))
-  );
+  gap: var(--calcite-field-group-gap, var(--calcite-field-set-gap, var(--calcite-space-md)));
 
   &--vertical {
     flex-direction: column;
@@ -51,10 +35,7 @@
     align-items: start;
     column-gap: var(
       --calcite-field-group-column-gap,
-      var(
-        --calcite-field-group-gap,
-        var(--calcite-field-set-gap, var(--calcite-internal-field-group-gap, var(--calcite-space-md)))
-      )
+      var(--calcite-field-group-gap, var(--calcite-field-set-gap, var(--calcite-space-md)))
     );
     grid-template-columns: repeat(
       var(--calcite-field-group-columns, var(--calcite-internal-field-group-columns, 1)),
@@ -67,17 +48,4 @@
   inline-size: auto;
 }
 
-:host([scale="s"]) {
-  --calcite-internal-field-group-gap: var(--calcite-space-sm);
-}
-
-:host([scale="m"]) {
-  --calcite-internal-field-group-gap: var(--calcite-space-md);
-}
-
-:host([scale="l"]) {
-  --calcite-internal-field-group-gap: var(--calcite-space-lg);
-}
-
-@include shared.disabled();
 @include shared.base-component();
