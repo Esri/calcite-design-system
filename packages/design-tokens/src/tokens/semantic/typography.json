@@ -10,11 +10,7 @@
           "fontFamily": "{font.family.default}",
           "fontSize": "{core.size.rem.0-875}",
           "fontWeight": "{core.font.weight.regular}",
-          "lineHeight": "{core.size.relative.115}",
-          "letterSpacing": "{core.size.default.none}",
-          "paragraphSpacing": "{core.size.default.4}",
-          "textCase": "{core.font.text-case.none}",
-          "textDecoration": "{core.font.text-decoration.none}"
+          "lineHeight": "{core.size.relative.115}"
         }
       },
       "light": {
@@ -781,7 +777,6 @@
         "$type": "typography",
         "$value": {
           "fontSize": "{core.size.rem.0-75}",
-          "textCase": "{core.font.text-case.uppercase}",
           "fontWeight": "{core.font.weight.demi}",
           "lineHeight": "{core.size.relative.100}"
         }
