@@ -49,7 +49,7 @@ export class SortableList extends LitElement {
   //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the list. */
-  @property() canPull?: (detail: DragDetail) => boolean;
+  @property() canPull?: (detail: DragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut?: (detail: DragDetail) => boolean;

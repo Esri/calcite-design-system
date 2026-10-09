@@ -5,6 +5,8 @@ import { page, userEvent } from "vitest/browser";
 import { dragAndDrop } from "../../tests/utils/browser";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { hidden, renders, disabled, accessible } from "../../tests/common";
+import type { Handle } from "../handle/handle";
+import type { SortableList } from "./sortable-list";
 
 describe("accessible", () => {
   accessible(() => mount("calcite-sortable-list"));
@@ -142,7 +144,7 @@ describe("drag and drop", () => {
       </calcite-sortable-list>,
     );
     const list = page.elementLocator(el);
-    const firstHandle = list.getBySelector("#one calcite-handle").element();
+    const firstHandle = list.getBySelector("#one calcite-handle").element() as Handle["el"];
     const secondItem = list.getBySelector("#two").element();
     let orderCalledTimes = 0;
 
@@ -394,7 +396,7 @@ describe("drag and drop", () => {
   });
 
   it("uses clone behavior only for the final destination", async () => {
-    const { el: sourceList } = await mount(
+    const { el: sourceListElement } = await mount(
       <div>
         <calcite-sortable-list group="letters" id="clone-source">
           <div id="clone-source-item">
@@ -411,6 +413,7 @@ describe("drag and drop", () => {
         </calcite-sortable-list>
       </div>,
     );
+    const sourceList = sourceListElement as SortableList["el"];
     const cloneCandidate = page.getBySelector("#clone-candidate").element();
     const destination = page.getBySelector("#move-destination").element();
     const sourceHandle = page.getBySelector("#clone-source-item calcite-handle").element();
@@ -463,7 +466,7 @@ describe("drag and drop", () => {
   });
 
   it("reaches the destination with a custom move step count", async () => {
-    await mount(
+    const { el: source } = await mount(
       <div>
         <calcite-sortable-list group="letters">
           <div id="one">
@@ -479,10 +482,11 @@ describe("drag and drop", () => {
         </calcite-sortable-list>
       </div>,
     );
-    const firstItem = page.getBySelector("#one").element();
-    const firstHandle = page.getBySelector("#one calcite-handle").element();
+    const sourceLocator = page.elementLocator(source);
+    const firstItem = sourceLocator.getBySelector("#one").element();
+    const firstHandle = sourceLocator.getBySelector("#one calcite-handle").element();
     const secondItem = page.getBySelector("#two").element();
-    const destination = page.getBySelector("#two").element().parentElement!;
+    const destination = page.getBySelector("calcite-sortable-list").nth(1).element();
 
     await dragAndDrop(firstHandle, secondItem, "bottom", { moveSteps: 2 });
     await vi.waitFor(() => expect(firstItem.parentElement).toBe(destination));
@@ -491,7 +495,7 @@ describe("drag and drop", () => {
   });
 
   it("supports horizontal transfers between lists in the same group", async () => {
-    const { el: firstList } = await mount(
+    const { el: firstListElement } = await mount(
       <calcite-sortable-list group="letters" id="first" layout="horizontal">
         <div id="a" style="min-width: 80px; min-height: 40px">
           <calcite-handle />A
@@ -501,7 +505,8 @@ describe("drag and drop", () => {
         </div>
       </calcite-sortable-list>,
     );
-    const { el: secondList } = await mount(
+    const firstList = firstListElement as SortableList["el"];
+    const { el: secondListElement } = await mount(
       <calcite-sortable-list group="letters" id="second" layout="horizontal">
         <div id="c" style="min-width: 80px; min-height: 40px">
           <calcite-handle />C
@@ -511,6 +516,7 @@ describe("drag and drop", () => {
         </div>
       </calcite-sortable-list>,
     );
+    const secondList = secondListElement as SortableList["el"];
     const draggedHandle = secondList.querySelector<HTMLElement>("#d calcite-handle")!;
     const destinationItem = firstList.querySelector<HTMLElement>("#b")!;
     let canPullNewIndex: number | undefined;
