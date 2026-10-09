@@ -18,8 +18,7 @@ const affixWidthCustomProperty: Record<Affix, string> = {
 };
 
 export interface UseAffixWidth {
-  /** Returns the affix element for measurement only — do not mutate its style directly. */
-  getAffixElement: (affix: Affix) => HTMLElement | undefined;
+  getAffixWidth: (affix: Affix) => number;
   getTrailingWidth: (affix: Affix) => number;
   setAffixWidth: (affix: Affix, width: number | undefined) => void;
 }
@@ -32,7 +31,7 @@ export const useAffixWidth = <T extends AffixWidthComponent>(
 ): ReturnType<typeof makeGenericController<UseAffixWidth, T>> => {
   return makeGenericController<UseAffixWidth, T>((component) => {
     return {
-      getAffixElement: (affix): HTMLElement | undefined => refs[`${affix}Ref`].value,
+      getAffixWidth: (affix): number => Math.ceil(refs[`${affix}Ref`].value?.getBoundingClientRect().width ?? 0),
       getTrailingWidth: (affix): number => refs.getTrailingWidth?.(affix) ?? 0,
       setAffixWidth: (affix, width): void => {
         const property = affixWidthCustomProperty[affix];

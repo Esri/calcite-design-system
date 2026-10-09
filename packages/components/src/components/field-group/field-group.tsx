@@ -171,15 +171,11 @@ export class FieldGroup extends LitElement {
     await readyInput.componentOnReady?.();
     await readyInput.updateComplete;
 
-    return Math.ceil(this.getInputAffixElement(input, affix)?.getBoundingClientRect().width ?? 0);
+    return input.affixElementProvider?.getAffixWidth(affix) ?? 0;
   }
 
   private getInputAffixTrailingWidth(input: AffixInput, affix: Affix): number {
     return input.affixElementProvider?.getTrailingWidth(affix) ?? 0;
-  }
-
-  private getInputAffixElement(input: AffixInput, affix: Affix): HTMLElement | undefined {
-    return input.affixElementProvider?.getAffixElement(affix);
   }
 
   private handleAffixChange(): void {
