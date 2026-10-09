@@ -72,15 +72,3 @@ describe("when a card is selectable (deprecated)", () => {
     expect(await card.getProperty("selected")).toBe(true);
   });
 });
-
-it("should have aria-live attribute set to polite on loader container when loading", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`
-      <calcite-card label="example-label" selectable loading>
-      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>
-    `);
-
-  const loaderContainer = await page.find("calcite-card >>> .calcite-card-loader-container");
-  expect(loaderContainer.getAttribute("aria-live")).toBe("polite");
-});

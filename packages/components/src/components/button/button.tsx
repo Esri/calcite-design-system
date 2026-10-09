@@ -11,6 +11,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
+import { resolveAriaLive } from "../../utils/aria";
 import { getLabelText } from "../../utils/label";
 import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -97,7 +98,10 @@ export class Button extends LitElement {
 
   //#region Private Properties
 
-  attributeWatch = useWatchAttributes(["aria-expanded"], this.handleGlobalAttributesChanged);
+  attributeWatch = useWatchAttributes(
+    ["aria-expanded", "aria-live"],
+    this.handleGlobalAttributesChanged,
+  );
 
   /** the rendered child element */
   private childEl?: HTMLElement;
@@ -353,7 +357,7 @@ export class Button extends LitElement {
               : undefined
           }
           ariaLabel={!this.loading ? getLabelText(this) || undefined : this.messages.loading}
-          ariaLive="polite"
+          ariaLive={resolveAriaLive(this.el.ariaLive)}
           class={{
             [CSS.buttonPadding]: noStartEndIcons,
             [CSS.buttonPaddingShrunk]: !noStartEndIcons,

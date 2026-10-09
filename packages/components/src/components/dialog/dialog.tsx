@@ -3,6 +3,8 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -246,6 +248,8 @@ export class Dialog extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private dragPosition: DialogDragPosition = { ...initialDragPosition };
 
@@ -998,7 +1002,11 @@ export class Dialog extends LitElement {
           ref={this.setTransitionEl}
         >
           {assistiveText ? (
-            <div ariaLive="polite" class={CSS.assistiveText} key="assistive-text">
+            <div
+              ariaLive={resolveAriaLive(this.el.ariaLive)}
+              class={CSS.assistiveText}
+              key="assistive-text"
+            >
               {assistiveText}
             </div>
           ) : null}
