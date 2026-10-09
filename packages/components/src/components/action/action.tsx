@@ -188,8 +188,7 @@ export class Action extends LitElement {
    *
    * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary for `"transparent"`.
    *
-   * For a `"solid"` appearance where the component is not within a parent component, use the
-   * component's background color tokens instead.
+   * For a `"solid"` appearance, use the component's background color tokens instead.
    */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
     "transparent";
