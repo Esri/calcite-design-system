@@ -188,7 +188,11 @@ function getSortableGroup(component: SortableComponent): string {
     componentGroupIds.set(component, id);
   }
 
-  return component.group ?? id;
+  return id;
+}
+
+function canTransferBetweenComponents(fromComponent: SortableComponent, toComponent: SortableComponent): boolean {
+  return !!fromComponent.group && fromComponent.group === toComponent.group;
 }
 
 function getSortableItemData(draggable: { data: unknown }): SortableItemData | undefined {
@@ -347,6 +351,12 @@ function getManagerRecord(document: Document): SortableManagerRecord {
 
       const { component: fromComponent, item: dragEl } = sourceData;
       const { component: toComponent, item: relatedEl } = targetData;
+
+      if (fromComponent !== toComponent && !canTransferBetweenComponents(fromComponent, toComponent)) {
+        event.preventDefault();
+        return;
+      }
+
       const newIndex = targetSortable.index;
       const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, source.initialIndex, newIndex);
       const signature = `${getSortableItemId(relatedEl)}:${newIndex}`;
@@ -383,7 +393,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     manager.monitor.addEventListener("dragend", (event) => {
       const activeDrag = record.activeDrag;
       const dropPosition = record.dropPosition;
-      const canceled = event.canceled;
+      let canceled = event.canceled;
 
       requestAnimationFrame(() => {
         record.activeDrag = undefined;
@@ -396,8 +406,14 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         }
 
         const { component: fromComponent, item: dragEl, oldIndex } = activeDrag;
-        const toComponent =
+        let toComponent =
           Array.from(record.components).find((component) => dragEl.parentElement === component.el) ?? fromComponent;
+
+        if (fromComponent !== toComponent && !canTransferBetweenComponents(fromComponent, toComponent)) {
+          activeDrag.oldParent.insertBefore(dragEl, activeDrag.nextSibling);
+          canceled = true;
+          toComponent = fromComponent;
+        }
 
         if (
           !canceled &&
@@ -486,6 +502,10 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
 
           if (fromComponent === component) {
             return !component.sortDisabled;
+          }
+
+          if (!canTransferBetweenComponents(fromComponent, component)) {
+            return false;
           }
 
           const sourceSortable = record.sortables.get(fromComponent)?.get(dragEl);

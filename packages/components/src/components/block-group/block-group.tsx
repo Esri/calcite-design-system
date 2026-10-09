@@ -159,6 +159,16 @@ export class BlockGroup extends LitElement {
   }
 
   /**
+   * Emits the `calciteBlockGroupBeforeOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitBeforeOrderChangeEvent(detail: BlockDragDetail): Event {
+    return this.calciteBlockGroupBeforeOrderChange.emit(detail);
+  }
+
+  /**
    * Sets focus on the component's first focusable element.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
@@ -515,6 +525,15 @@ export class BlockGroup extends LitElement {
       return;
     }
 
+    const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
+
+    const fromEvent = this.calciteBlockGroupBeforeOrderChange.emit(eventDetail);
+    const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
+
+    if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
+      return;
+    }
+
     dragEl.sortHandleOpen = false;
 
     this.disconnectObserver();
@@ -523,14 +542,6 @@ export class BlockGroup extends LitElement {
     toEl.prepend(newEl);
     this.updateBlockItemsDebounced();
     this.connectObserver();
-
-    const eventDetail = {
-      dragEl,
-      fromEl,
-      toEl,
-      newIndex,
-      oldIndex,
-    };
 
     this.calciteBlockGroupOrderChange.emit(eventDetail);
     toEl.emitOrderChangeEvent(eventDetail);
@@ -550,6 +561,15 @@ export class BlockGroup extends LitElement {
       return;
     }
 
+    const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
+
+    const fromEvent = this.calciteBlockGroupBeforeOrderChange.emit(eventDetail);
+    const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
+
+    if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
+      return;
+    }
+
     dragEl.sortHandleOpen = false;
 
     this.disconnectObserver();
@@ -558,14 +578,6 @@ export class BlockGroup extends LitElement {
 
     this.updateBlockItemsDebounced();
     this.connectObserver();
-
-    const eventDetail = {
-      dragEl,
-      fromEl,
-      toEl,
-      newIndex,
-      oldIndex,
-    };
 
     this.calciteBlockGroupOrderChange.emit(eventDetail);
     toEl.emitOrderChangeEvent(eventDetail);
@@ -604,6 +616,12 @@ export class BlockGroup extends LitElement {
         break;
     }
 
+    const eventDetail = { dragEl, fromEl: parentEl, toEl: parentEl, newIndex, oldIndex };
+
+    if (this.calciteBlockGroupBeforeOrderChange.emit(eventDetail).defaultPrevented) {
+      return;
+    }
+
     this.disconnectObserver();
 
     const referenceEl =
@@ -616,13 +634,7 @@ export class BlockGroup extends LitElement {
     this.updateBlockItemsDebounced();
     this.connectObserver();
 
-    this.calciteBlockGroupOrderChange.emit({
-      dragEl,
-      fromEl: parentEl,
-      toEl: parentEl,
-      newIndex,
-      oldIndex,
-    });
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
   }
 
   //#endregion

@@ -338,6 +338,16 @@ export class List extends LitElement {
   }
 
   /**
+   * Emits the `calciteListBeforeOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitBeforeOrderChangeEvent(detail: ListDragDetail): Event {
+    return this.calciteListBeforeOrderChange.emit(detail);
+  }
+
+  /**
    * Sets focus on the component's first focusable element.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
@@ -1136,6 +1146,15 @@ export class List extends LitElement {
       return;
     }
 
+    const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
+
+    const fromEvent = this.calciteListBeforeOrderChange.emit(eventDetail);
+    const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
+
+    if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
+      return;
+    }
+
     dragEl.sortHandleOpen = false;
 
     this.disconnectObserver();
@@ -1145,14 +1164,6 @@ export class List extends LitElement {
     expandedAncestors(dragEl);
     this.updateListItemsDebounced();
     this.connectObserver();
-
-    const eventDetail = {
-      dragEl,
-      fromEl,
-      toEl,
-      newIndex,
-      oldIndex,
-    };
 
     this.calciteListOrderChange.emit(eventDetail);
     toEl.emitOrderChangeEvent(eventDetail);
@@ -1172,6 +1183,15 @@ export class List extends LitElement {
       return;
     }
 
+    const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
+
+    const fromEvent = this.calciteListBeforeOrderChange.emit(eventDetail);
+    const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
+
+    if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
+      return;
+    }
+
     dragEl.sortHandleOpen = false;
 
     this.disconnectObserver();
@@ -1180,14 +1200,6 @@ export class List extends LitElement {
     expandedAncestors(dragEl);
     this.updateListItemsDebounced();
     this.connectObserver();
-
-    const eventDetail = {
-      dragEl,
-      fromEl,
-      toEl,
-      newIndex,
-      oldIndex,
-    };
 
     this.calciteListOrderChange.emit(eventDetail);
     toEl.emitOrderChangeEvent(eventDetail);
@@ -1226,6 +1238,12 @@ export class List extends LitElement {
         break;
     }
 
+    const eventDetail = { dragEl, fromEl: parentEl, toEl: parentEl, newIndex, oldIndex };
+
+    if (this.calciteListBeforeOrderChange.emit(eventDetail).defaultPrevented) {
+      return;
+    }
+
     this.disconnectObserver();
 
     const referenceEl =
@@ -1238,13 +1256,7 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
     this.connectObserver();
 
-    this.calciteListOrderChange.emit({
-      dragEl,
-      fromEl: parentEl,
-      toEl: parentEl,
-      newIndex,
-      oldIndex,
-    });
+    this.calciteListOrderChange.emit(eventDetail);
   }
 
   //#endregion

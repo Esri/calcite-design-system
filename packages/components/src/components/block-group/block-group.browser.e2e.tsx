@@ -18,6 +18,7 @@ import { TemplateResult } from "lit";
 import type { Block } from "../block/block";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { BlockGroup } from "./block-group";
+import { dragAndDrop } from "../../tests/utils/browser";
 
 mockConsole();
 
@@ -352,7 +353,7 @@ describe("expandMode", () => {
 describe("drag and drop", () => {
   const renderBlockGroup = () =>
     mount(
-      <calcite-block-group drag-enabled label="Blocks">
+      <calcite-block-group drag-enabled id="block-group" label="Blocks">
         <calcite-block heading="one" id="one" />
         <calcite-block heading="two" id="two" />
       </calcite-block-group>,
@@ -386,5 +387,237 @@ describe("drag and drop", () => {
         .filter((block) => !block.hasAttribute("data-dnd-placeholder"))
         .map((block) => block.heading),
     ).toEqual(["two", "one"]);
+  });
+
+  it("honors cancellation of keyboard sort-menu reordering", async () => {
+    const { el } = await renderBlockGroup();
+    const firstBlock = page.elementLocator(el).getBySelector("#one").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    // The sort handle is internal to the block's shadow root.
+    let orderCalledTimes = 0;
+    const beforeOrderChange = new Promise<void>((resolve) => {
+      el.addEventListener(
+        "calciteBlockGroupBeforeOrderChange",
+        (event) => {
+          event.preventDefault();
+          resolve();
+        },
+        { once: true },
+      );
+    });
+
+    el.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+
+    await handle.setFocus();
+    await userEvent.keyboard("{Enter}{ArrowDown}{Enter}");
+    await beforeOrderChange;
+
+    expect(orderCalledTimes).toBe(0);
+    const blocks = page
+      .elementLocator(el)
+      .getBySelector("calcite-block:not([data-dnd-placeholder])");
+    expect((blocks.nth(0).element() as Block["el"]).heading).toBe("one");
+    expect((blocks.nth(1).element() as Block["el"]).heading).toBe("two");
+  });
+
+  it("honors cancellation when moving a block from the sort menu", async () => {
+    const { el: source } = await mount(
+      <div>
+        <calcite-block-group drag-enabled group="letters" id="source">
+          <calcite-block heading="one" id="one" />
+        </calcite-block-group>
+        <calcite-block-group drag-enabled group="letters" id="destination">
+          <calcite-block heading="two" id="two" />
+        </calcite-block-group>
+      </div>,
+    );
+    const sourceLocator = page.elementLocator(source);
+    const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
+    const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const destinationBlock = page.getBySelector("#two").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    // The sort handle is internal to the block's shadow root.
+    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    let orderCalledTimes = 0;
+    const beforeOrderChange = new Promise<void>((resolve) =>
+      destination.addEventListener(
+        "calciteBlockGroupBeforeOrderChange",
+        (event) => {
+          event.preventDefault();
+          resolve();
+        },
+        { once: true },
+      ),
+    );
+
+    source.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+    destination.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+
+    await handle.setFocus();
+    await userEvent.keyboard("{Enter}");
+    const moveAction = page.getByRole("menuitem", { name: "Destination" });
+    await expect.element(moveAction).toBeVisible();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await beforeOrderChange;
+
+    expect(sourceBlock.parentElement).toBe(source);
+    expect(destinationBlock.parentElement).toBe(destination);
+    expect(orderCalledTimes).toBe(0);
+  });
+
+  it("honors cancellation when adding a block from the sort menu", async () => {
+    const { el: source } = await mount(
+      <div>
+        <calcite-block-group drag-enabled group="letters" id="source">
+          <calcite-block heading="one" id="one" />
+        </calcite-block-group>
+        <calcite-block-group drag-enabled group="letters" id="destination">
+          <calcite-block heading="two" id="two" />
+        </calcite-block-group>
+      </div>,
+    );
+    const sourceLocator = page.elementLocator(source);
+    const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
+    const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const destinationBlock = page.getBySelector("#two").element() as Block["el"];
+    source.canPull = () => "clone";
+    await vi.waitFor(() =>
+      expect(
+        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    // The sort handle is internal to the block's shadow root.
+    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    let orderCalledTimes = 0;
+    const beforeOrderChange = new Promise<void>((resolve) =>
+      source.addEventListener(
+        "calciteBlockGroupBeforeOrderChange",
+        (event) => {
+          event.preventDefault();
+          resolve();
+        },
+        { once: true },
+      ),
+    );
+
+    source.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+    destination.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+
+    await handle.setFocus();
+    await userEvent.keyboard("{Enter}");
+    const addAction = page.getByRole("menuitem", { name: "Destination" });
+    await expect.element(addAction).toBeVisible();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await beforeOrderChange;
+
+    expect(sourceBlock.parentElement).toBe(source);
+    expect(destinationBlock.parentElement).toBe(destination);
+    expect(orderCalledTimes).toBe(0);
+  });
+
+  it("reorders blocks with pointer drag", async () => {
+    const { el } = await renderBlockGroup();
+    const groupLocator = page.getBySelector("#block-group");
+    const blocks = groupLocator.getBySelector("calcite-block:not([data-dnd-placeholder])");
+    const firstBlock = groupLocator.getBySelector("#one").element() as Block["el"];
+    const secondBlock = groupLocator.getBySelector("#two").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    // The sort handle is internal to the block's shadow root.
+    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+
+    await dragAndDrop(handle, secondBlock);
+    await vi.waitFor(() => {
+      expect((blocks.nth(0).element() as Block["el"]).heading).toBe("two");
+      expect((blocks.nth(1).element() as Block["el"]).heading).toBe("one");
+      expect(firstBlock.parentElement).toBe(el);
+    });
+  });
+
+  it("rejects pointer transfers between mismatched groups", async () => {
+    const { el: source } = await mount(
+      <div>
+        <calcite-block-group drag-enabled group="letters" id="source">
+          <calcite-block heading="one" id="one" />
+        </calcite-block-group>
+        <calcite-block-group drag-enabled group="numbers" id="destination">
+          <calcite-block heading="two" id="two" />
+        </calcite-block-group>
+      </div>,
+    );
+    const sourceLocator = page.elementLocator(source);
+    const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
+    const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const destinationBlock = page.getBySelector("#two").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    // The sort handle is internal to the block's shadow root.
+    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    const waitForDragEnd = (): Promise<void> =>
+      new Promise((resolve) =>
+        source.addEventListener("calciteBlockGroupDragEnd", () => resolve(), { once: true }),
+      );
+
+    expect(source.group).toBe("letters");
+    expect(destination.group).toBe("numbers");
+
+    const dragEnd = waitForDragEnd();
+    await dragAndDrop(handle, destinationBlock);
+    await dragEnd;
+    expect(sourceBlock.parentElement).toBe(source);
+  });
+
+  it("honors canPut and transfers blocks between matching groups", async () => {
+    const { el: source } = await mount(
+      <div>
+        <calcite-block-group drag-enabled group="letters" id="source">
+          <calcite-block heading="one" id="one" />
+        </calcite-block-group>
+        <calcite-block-group drag-enabled group="letters" id="destination">
+          <calcite-block heading="two" id="two" />
+        </calcite-block-group>
+      </div>,
+    );
+    const sourceLocator = page.elementLocator(source);
+    const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
+    const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const destinationBlock = page.getBySelector("#two").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    const waitForDragEnd = (): Promise<void> =>
+      new Promise((resolve) =>
+        source.addEventListener("calciteBlockGroupDragEnd", () => resolve(), { once: true }),
+      );
+
+    destination.canPut = () => false;
+    const rejectedDragEnd = waitForDragEnd();
+    await dragAndDrop(handle, destinationBlock);
+    await rejectedDragEnd;
+    expect(sourceBlock.parentElement).toBe(source);
+
+    destination.canPut = () => true;
+    const acceptedDragEnd = waitForDragEnd();
+    await dragAndDrop(handle, destinationBlock);
+    await acceptedDragEnd;
+    await vi.waitFor(() => expect(sourceBlock.parentElement).toBe(destination));
   });
 });
