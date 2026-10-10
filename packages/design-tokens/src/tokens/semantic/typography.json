@@ -690,8 +690,10 @@
       "display": {
         "1": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "extensions": {
             "calcite.extends": "{typography.default.default}"
           },
@@ -704,8 +706,10 @@
         },
         "2": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "$type": "typography",
           "$value": "{typography.wrap.bold.2}"
         }
@@ -713,8 +717,10 @@
       "heading": {
         "1": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "extensions": {
             "calcite.extends": "{typography.default.default}"
           },
@@ -727,29 +733,37 @@
         },
         "2": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "$type": "typography",
           "$value": "{typography.wrap.medium.2}"
         },
         "3": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "$type": "typography",
           "$value": "{typography.wrap.medium.1}"
         },
         "4": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "$type": "typography",
           "$value": "{typography.wrap.medium.0}"
         },
         "5": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "$type": "typography",
           "$value": "{typography.wrap.medium.-1}"
         }
@@ -757,23 +771,29 @@
       "body": {
         "snug": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "$type": "typography",
           "$value": "{typography.wrap.regular.-1}"
         },
         "default": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
           "$type": "typography",
           "$value": "{typography.default.default}"
         }
       },
       "overline": {
         "attributes": {
-          "category": "typography"
+          "category": "typography",
+          "docs": "deprecated"
         },
+        "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
         "$type": "typography",
         "$value": {
           "fontSize": "{core.size.rem.0-75}",
@@ -783,8 +803,10 @@
       },
       "caption": {
         "attributes": {
-          "category": "typography"
+          "category": "typography",
+          "docs": "deprecated"
         },
+        "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
         "$type": "typography",
         "$value": "{typography.wrap.regular.-2}"
       }
