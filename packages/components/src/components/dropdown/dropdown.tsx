@@ -1,5 +1,4 @@
 import { PropertyValues } from "lit";
-import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -36,6 +35,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { isDropdownGroup } from "../dropdown-group/resources";
 import { useFocusable } from "../../controllers/useFocusable";
+import { useRovingTabIndex } from "../../controllers/useRovingTabIndex";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
@@ -121,8 +121,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     return true;
   }
 
-  private activeItemIndex = -1;
-
   private groups: DropdownGroup["el"][] = [];
 
   private items: DropdownItem["el"][] = [];
@@ -137,13 +135,18 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private scrollerEl?: HTMLDivElement;
 
-  private triggerSlotRef = createRef<HTMLSlotElement>();
-
   transitionEl: HTMLDivElement | undefined;
 
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
   private focusSetter = useFocusable<this>()(this);
+
+  private rovingTabIndex = useRovingTabIndex<DropdownItem["el"]>({
+    getElements: () => this.items,
+    getEntryElement: () => (this.referenceEl instanceof HTMLElement ? this.referenceEl : undefined),
+    getTraversableElements: () => this.getTraversableItems(),
+    isActive: () => this.open && !this.disabled,
+  })(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -154,8 +157,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#endregion
 
   //#region State Properties
-
-  @state() activeDescendantElement?: DropdownItem["el"];
 
   @state() referenceEl?: ReferenceElement;
 
@@ -326,7 +327,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   override connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, {
+      attributeFilter: ["disabled", "hidden", "inert"],
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
     this.setFilteredPlacements();
     this.updateItems();
     connectFloatingUI(this);
@@ -342,12 +348,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.openHandler();
-    }
-
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange(this.disabled);
+    }
+
+    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      this.openHandler();
     }
 
     if (changes.has("flipPlacements")) {
@@ -379,13 +385,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl") && this.referenceElementType) {
-      const previousReferenceEl = changes.get("referenceEl");
-
-      if (previousReferenceEl instanceof HTMLElement) {
-        previousReferenceEl.ariaActiveDescendantElement = null;
-      }
-
-      this.syncActiveDescendantOwnerElement();
+      this.syncTabStops();
       connectFloatingUI(this);
     }
   }
@@ -396,16 +396,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   override disconnectedCallback(): void {
-    const triggerSlotEl = this.triggerSlotRef.value;
-
-    if (triggerSlotEl) {
-      triggerSlotEl.ariaActiveDescendantElement = null;
-    }
-
-    if (this.referenceEl instanceof HTMLElement) {
-      this.referenceEl.ariaActiveDescendantElement = null;
-    }
-
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectFloatingUI(this);
@@ -416,17 +406,22 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#region Private Methods
 
   private openHandler(): void {
-    if (this.disabled) {
+    if (this.disabled && this.open) {
+      this.rovingTabIndex.setActiveIndex(-1);
       return;
     }
 
     toggleOpenClose(this);
+    if (!this.open) {
+      this.rovingTabIndex.setActiveIndex(-1);
+    }
     this.reposition(true);
   }
 
   private handleDisabledChange(value: boolean): void {
-    if (!value) {
+    if (value) {
       this.open = false;
+      this.rovingTabIndex.setActiveIndex(-1);
     }
   }
 
@@ -478,7 +473,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private getTraversableItems(): DropdownItem["el"][] {
-    return this.items.filter((item) => !item.disabled && !item.hidden);
+    return this.items.filter((item) => !item.disabled && !item.closest("[hidden], [inert]"));
   }
 
   private async handleItemSelect(event: CustomEvent<RequestedItem>): Promise<void> {
@@ -486,9 +481,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.syncActiveItemFromTraversableItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
-    await this.setFocus();
     if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
+      this.rovingTabIndex.restoreFocus();
+    } else {
+      const index = this.getTraversableItems().indexOf(event.detail.requestedDropdownItem);
+      this.rovingTabIndex.setActiveIndex(index);
+      await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem);
     }
   }
 
@@ -583,12 +582,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   onBeforeClose(): void {
+    this.rovingTabIndex.restoreFocusIfWithin();
     this.calciteDropdownBeforeClose.emit();
   }
 
   onClose(): void {
     this.calciteDropdownClose.emit();
-    this.syncActiveDescendantOwnerElement();
     hideFloatingUI(this);
     this.topLayer.hide();
   }
@@ -605,7 +604,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     this.referenceEl = el;
-    this.syncActiveDescendantOwnerElement();
+    this.syncTabStops();
 
     connectFloatingUI(this);
   }
@@ -616,13 +615,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private handleTriggerSlotChange(): void {
-    this.syncActiveDescendantOwnerElement();
+    this.syncTabStops();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
     if (
-      !(this.referenceEl instanceof HTMLElement) ||
-      !event.composedPath().includes(this.referenceEl)
+      this.disabled ||
+      (!event.composedPath().includes(this.floatingEl!) &&
+        (!(this.referenceEl instanceof HTMLElement) ||
+          !event.composedPath().includes(this.referenceEl)))
     ) {
       return;
     }
@@ -635,6 +636,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
     if (this.open && key === "Escape") {
       this.closeCalciteDropdown();
+      this.rovingTabIndex.restoreFocus();
       event.preventDefault();
       return;
     }
@@ -657,6 +659,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     if (key === "Tab") {
+      this.rovingTabIndex.restoreFocus();
       this.closeCalciteDropdown();
       return;
     }
@@ -714,7 +717,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private closeCalciteDropdown(): void {
     this.open = false;
-    this.setActiveItemByIndex(-1);
+    this.rovingTabIndex.setActiveIndex(-1);
   }
 
   private async setInitialActiveItem(): Promise<void> {
@@ -726,65 +729,51 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.focusLastDropdownItem = false;
 
     if (!target) {
-      this.setActiveItemByIndex(-1);
+      this.rovingTabIndex.setActiveIndex(-1);
       return;
     }
 
     const targetIndex = traversableItems.findIndex((item) => item === target);
-    this.setActiveItemByIndex(targetIndex);
+    this.rovingTabIndex.setActiveIndex(targetIndex);
 
     await this.scrollActiveItemIntoView(target);
   }
 
   private syncActiveItemFromTraversableItems(): void {
     const traversableItems = this.getTraversableItems();
+    const previousActiveItem = this.rovingTabIndex.activeElement;
 
-    if (!traversableItems.length) {
-      this.setActiveItemByIndex(-1);
+    if (!this.open || !traversableItems.length) {
+      this.rovingTabIndex.setActiveIndex(-1);
+      if (this.open && previousActiveItem) {
+        void this.setFocus();
+      }
       return;
     }
 
-    if (this.activeItemIndex < 0 || this.activeItemIndex >= traversableItems.length) {
-      this.setActiveItemByIndex(0);
-      return;
+    const previousIndex = previousActiveItem ? traversableItems.indexOf(previousActiveItem) : -1;
+    this.rovingTabIndex.setActiveIndex(
+      previousIndex >= 0
+        ? previousIndex
+        : Math.min(Math.max(this.rovingTabIndex.activeIndex, 0), traversableItems.length - 1),
+    );
+    const activeItem = this.rovingTabIndex.activeElement;
+    if (previousActiveItem && previousActiveItem !== activeItem && activeItem) {
+      void this.scrollActiveItemIntoView(activeItem);
     }
-
-    this.updateActiveDescendantElement(traversableItems[this.activeItemIndex]);
   }
 
-  private setActiveItemByIndex(index: number): void {
-    this.activeItemIndex = index;
-    const traversableItems = this.getTraversableItems();
-    const activeItem = index >= 0 ? traversableItems[index] : null;
-
-    this.updateActiveDescendantElement(activeItem);
+  private syncTabStops(): void {
+    this.rovingTabIndex.update(this.items, this.rovingTabIndex.activeElement);
   }
 
-  private updateActiveDescendantElement(activeItem: DropdownItem["el"] | null): void {
-    this.items.forEach((item) => {
-      item.activeDescendant = item === activeItem;
-    });
-
-    this.activeDescendantElement = activeItem ?? undefined;
-    this.syncActiveDescendantOwnerElement();
-  }
-
-  private syncActiveDescendantOwnerElement(): void {
-    const { referenceEl, referenceElementType } = this;
-    const triggerSlotEl = this.triggerSlotRef.value;
-    const activeDescendantEl = this.open ? (this.activeDescendantElement ?? null) : null;
-    const referenceOwnerEl = referenceEl instanceof HTMLElement ? referenceEl : null;
-    const isReferenceMode = Boolean(referenceElementType);
-
-    if (triggerSlotEl) {
-      triggerSlotEl.ariaActiveDescendantElement = isReferenceMode ? null : activeDescendantEl;
+  private handleItemFocus(event: FocusEvent): void {
+    const focusedItem = this.getTraversableItems().find((item) =>
+      event.composedPath().includes(item),
+    );
+    if (focusedItem) {
+      this.rovingTabIndex.setActiveIndex(this.getTraversableItems().indexOf(focusedItem));
     }
-
-    if (!referenceOwnerEl) {
-      return;
-    }
-
-    referenceOwnerEl.ariaActiveDescendantElement = isReferenceMode ? activeDescendantEl : null;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
@@ -795,7 +784,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     const totalItems = traversableItems.length;
-    let index = this.activeItemIndex;
+    let index = this.rovingTabIndex.activeIndex;
 
     if (index < 0 || index >= totalItems) {
       index = direction === "previous" || direction === "last" ? totalItems - 1 : 0;
@@ -810,7 +799,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     const activeItem = traversableItems[index];
-    this.setActiveItemByIndex(index);
+    this.rovingTabIndex.setActiveIndex(index);
     void this.scrollActiveItemIntoView(activeItem);
   }
 
@@ -825,23 +814,35 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     await nextFrame();
     await nextFrame();
 
+    if (!this.open || this.rovingTabIndex.activeElement !== target || !target.isConnected) {
+      return;
+    }
+
+    await target.setFocus({ preventScroll: true });
     target.scrollIntoView({ block: "nearest" });
   }
 
   private activateActiveItem(): void {
     const traversableItems = this.getTraversableItems();
-    const activeItem = traversableItems[this.activeItemIndex] || traversableItems[0];
+    const activeItem = traversableItems[this.rovingTabIndex.activeIndex] || traversableItems[0];
 
     if (!activeItem) {
       return;
     }
 
-    this.setActiveItemByIndex(traversableItems.findIndex((item) => item === activeItem));
+    this.rovingTabIndex.setActiveIndex(traversableItems.findIndex((item) => item === activeItem));
     activeItem.activateItem();
   }
 
   private openHoverDropdown(): void {
-    if (this.open || this.disabled || this.type !== "hover") {
+    if (this.disabled || this.rovingTabIndex.isRestoringFocus || this.type !== "hover") {
+      return;
+    }
+
+    if (this.open) {
+      if (this.rovingTabIndex.activeElement) {
+        void this.scrollActiveItemIntoView(this.rovingTabIndex.activeElement);
+      }
       return;
     }
 
@@ -897,7 +898,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
               ariaHasPopup="menu"
               name={SLOTS.trigger}
               onSlotChange={this.handleTriggerSlotChange}
-              ref={this.triggerSlotRef}
             />
           </div>
         ) : null}
@@ -909,6 +909,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
             ),
           }}
           inert={!open}
+          onFocusIn={this.handleItemFocus}
+          onFocusOut={this.closeHoverDropdown}
+          onKeyDown={this.keyDownHandler}
           popover="manual"
           ref={this.setFloatingEl}
         >
