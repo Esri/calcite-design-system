@@ -101,13 +101,6 @@ export class DropdownItem extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, the component appears as if it is focused.
-   *
-   * @private
-   */
-  @property({ reflect: true }) activeDescendant = false;
-
-  /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    *
    * Determines if the component will render as an anchor.
@@ -331,24 +324,26 @@ export class DropdownItem extends LitElement {
     );
 
     const itemRole = href
-      ? null
+      ? "menuitem"
       : selectionMode === "single"
         ? "menuitemradio"
         : selectionMode === "multiple"
           ? "menuitemcheckbox"
           : "menuitem";
 
-    const isSelectable = selectionMode !== "none";
+    const isSelectable = !href && selectionMode !== "none";
     const itemAria = toAriaBoolean(isSelectable && this.selected, isSelectable ? "false" : null);
     const { disabled } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = !href ? (label ?? null) : "";
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = itemRole;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "tabIndex", -1);
+    if (!this.el.hasAttribute("tabindex")) {
+      setAttribute(this.el, "tabIndex", -1);
+    }
 
     return (
       <this.interactiveContainer disabled={disabled}>
