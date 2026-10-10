@@ -337,65 +337,76 @@ exports[`CSS > classes should match 1`] = `
   font-weight: 600;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-display-1 {
   font-family: var(--calcite-font-family);
   font-size: 1.625rem;
   font-weight: 600;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-display-2 {
   font-family: var(--calcite-font-family);
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-1 {
   font-family: var(--calcite-font-family);
   font-size: 1.625rem;
   font-weight: 500;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-2 {
   font-family: var(--calcite-font-family);
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-3 {
   font-family: var(--calcite-font-family);
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-4 {
   font-family: var(--calcite-font-family);
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-5 {
   font-family: var(--calcite-font-family);
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-body-snug {
   font-family: var(--calcite-font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-body {
   font-family: var(--calcite-font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.15;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-overline {
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-caption {
   font-family: var(--calcite-font-family);
   font-size: 0.75rem;
@@ -34220,53 +34231,62 @@ exports[`SCSS > mixins should match 1`] = `
   line-height: 1.375;
   font-size: 0.875rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-display-1 {
   @include calcite-typography;
   font-size: 1.625rem;
   font-weight: 600;
   line-height: 1.375;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-display-2 {
   @include calcite-typography-wrap-bold-2;
   font-weight: 600;
   line-height: 1.375;
   font-size: 1.25rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-1 {
   @include calcite-typography;
   font-size: 1.625rem;
   font-weight: 500;
   line-height: 1.375;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-2 {
   @include calcite-typography-wrap-medium-2;
   font-weight: 500;
   line-height: 1.375;
   font-size: 1.25rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-3 {
   @include calcite-typography-wrap-medium-1;
   font-weight: 500;
   line-height: 1.375;
   font-size: 1.125rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-4 {
   @include calcite-typography-wrap-medium-0;
   font-weight: 500;
   line-height: 1.375;
   font-size: 1rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-5 {
   @include calcite-typography-wrap-medium-minus-1;
   font-weight: 500;
   line-height: 1.375;
   font-size: 0.875rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-body-snug {
   @include calcite-typography-wrap-regular-minus-1;
   line-height: 1.375;
   font-size: 0.875rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-body {
   @include calcite-typography;
   font-family: var(--calcite-font-family);
@@ -34274,11 +34294,13 @@ exports[`SCSS > mixins should match 1`] = `
   font-weight: 400;
   line-height: 1.15;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-overline {
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-caption {
   @include calcite-typography-wrap-regular-minus-2;
   line-height: 1.375;
