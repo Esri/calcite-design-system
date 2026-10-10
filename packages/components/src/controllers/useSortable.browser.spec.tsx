@@ -45,7 +45,23 @@ vi.mock("@dnd-kit/dom", () => {
     constructor(readonly options: unknown) {}
   }
 
+  class Droppable {
+    constructor(
+      readonly options: Record<string, unknown>,
+      manager: unknown,
+    ) {
+      void manager;
+      void options;
+    }
+
+    destroy(): void {}
+  }
+
   class DragDropManager {
+    actions = {
+      stop: vi.fn(),
+    };
+
     monitor = {
       addEventListener: vi.fn((type: string, listener: unknown) => {
         monitorListeners.set(type, listener);
@@ -69,6 +85,7 @@ vi.mock("@dnd-kit/dom", () => {
   return {
     Accessibility: accessibilityPlugin,
     DragDropManager,
+    Droppable,
     Feedback: Object.assign(feedbackPlugin, { configure: configureFeedbackPlugin }),
     KeyboardSensor: keyboardSensor,
     PointerActivationConstraints: { Distance },
@@ -178,8 +195,10 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
 
   const [firstOptions, secondOptions] = createSortableSpy.mock.calls.map(([options]) => options);
 
-  expect(firstOptions).toMatchObject({ id: "one", index: 0, group: "test-group" });
-  expect(secondOptions).toMatchObject({ id: "two", index: 1, group: "test-group" });
+  expect(firstOptions).toMatchObject({ id: "one", index: 0 });
+  expect(secondOptions).toMatchObject({ id: "two", index: 1 });
+  expect(firstOptions.group).toBe(secondOptions.group);
+  expect(firstOptions.group).not.toBe("test-group");
   expect(firstOptions.transition).toBeUndefined();
   const firstHandle = component.el.querySelector<HTMLButtonElement>("#one .handle");
   expect(firstHandle).toBeDefined();
@@ -222,6 +241,39 @@ it("does not notify components whose dragging is disabled", async () => {
 
   expect(activeComponent.onGlobalDragStart).toHaveBeenCalledTimes(1);
   expect(inactiveComponent.onGlobalDragStart).not.toHaveBeenCalled();
+});
+
+it("queues a reset while a drag is active and flushes it after the drag ends", async () => {
+  const { component } = await mountDragEnabled();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+
+  const dragStartListener = monitorListeners.get("dragstart") as (event: unknown) => void;
+  const dragEndListener = monitorListeners.get("dragend") as (event: unknown) => void;
+  const sortableOptions = createSortableSpy.mock.calls[0][0];
+
+  dragStartListener({
+    operation: {
+      source: {
+        data: sortableOptions.data,
+        initialIndex: sortableOptions.index,
+      },
+    },
+  });
+
+  component.sortable.reset();
+
+  expect(destroySortableSpy).not.toHaveBeenCalled();
+
+  dragEndListener({
+    canceled: false,
+    operation: {
+      position: { current: { x: 0, y: 0 } },
+    },
+  });
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+  expect(destroySortableSpy.mock.calls.length).toBeGreaterThan(0);
 });
 
 it("destroys and recreates sortables when dragEnabled changes", async () => {

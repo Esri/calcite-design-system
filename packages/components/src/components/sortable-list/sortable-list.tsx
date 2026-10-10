@@ -126,7 +126,10 @@ export class SortableList extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+    if (
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
+      (changes.has("layout") && this.hasUpdated)
+    ) {
       this.sortable.reset();
     }
   }

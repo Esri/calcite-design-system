@@ -41,10 +41,12 @@ interface SortableManagerRecord {
   sortables: Map<SortableComponent, Map<HTMLElement, Sortable>>;
   containerTargets: Map<SortableComponent, Droppable<SortableItemData>>;
   dragging: boolean;
+  alive: boolean;
   activeDrag?: ActiveDrag;
   lastOver?: string;
   dropPosition?: DropPosition;
   dropCanceled: boolean;
+  pendingReset: Set<SortableComponent>;
   removeListeners: (() => void)[];
 }
 
@@ -137,6 +139,9 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
 
   /** Called by any change to the list (add / update / remove). */
   onDragSort: BivariantHandler<D, void>;
+
+  /** Resets the manager state for this component when sort metadata changes. */
+  sortable?: { reset: () => void };
 
   /** Returns the sortable items managed by the component. */
   getSortableItems?: () => HTMLElement[];
@@ -345,8 +350,20 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     sortables: new Map(),
     containerTargets: new Map(),
     dragging: false,
+    alive: true,
     dropCanceled: false,
+    pendingReset: new Set(),
     removeListeners: [],
+  };
+
+  const flushPendingReset = (): void => {
+    if (!record.pendingReset.size) {
+      return;
+    }
+
+    const pending = [...record.pendingReset];
+    record.pendingReset.clear();
+    pending.forEach((component) => component.sortable?.reset());
   };
 
   const setGlobalDragActive = (active: boolean): void => {
@@ -362,6 +379,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     }
 
     record.components.forEach((component) => component.onGlobalDragEnd());
+    flushPendingReset();
   };
 
   const getSortableTarget = (target: unknown): Sortable | undefined => {
@@ -707,14 +725,20 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
     }
 
     async function setUpSortable(): Promise<void> {
-      if (dragActive() || !record) {
+      if (!record || !record.alive) {
+        return;
+      }
+
+      if (dragActive()) {
+        record.pendingReset.add(sortableComponent);
         return;
       }
 
       const generation = ++setupGeneration;
       const currentRecord = record;
-      tearDownSortable(sortableComponent, record);
-      record.components.delete(sortableComponent);
+      tearDownSortable(sortableComponent, currentRecord);
+      currentRecord.components.delete(sortableComponent);
+      currentRecord.pendingReset.delete(sortableComponent);
 
       if (!sortableComponent.dragEnabled || sortableComponent.disabled) {
         return;
@@ -726,18 +750,28 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
         items.map((item) => (item as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete),
       );
 
-      if (generation !== setupGeneration || !sortableComponent.isConnected || record !== currentRecord) {
+      if (
+        generation !== setupGeneration ||
+        !sortableComponent.isConnected ||
+        !currentRecord.alive ||
+        record !== currentRecord ||
+        currentRecord.dragging ||
+        currentRecord.activeDrag
+      ) {
         return;
       }
 
-      record.components.add(sortableComponent);
-      createSortable(sortableComponent, record);
+      currentRecord.components.add(sortableComponent);
+      createSortable(sortableComponent, currentRecord);
     }
 
     function tearDown(force = false): void {
       setupGeneration++;
 
       if (!record || (!force && dragActive())) {
+        if (record && dragActive()) {
+          record.pendingReset.add(sortableComponent);
+        }
         return;
       }
 
@@ -747,12 +781,14 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
 
       tearDownSortable(sortableComponent, record);
       record.components.delete(sortableComponent);
+      record.pendingReset.delete(sortableComponent);
 
       if (!record.components.size) {
         if (record.activeDrag) {
           record.activeDrag.component.onGlobalDragEnd();
         }
 
+        record.alive = false;
         record.removeListeners.forEach((removeListener) => removeListener());
         record.manager.destroy();
         managerRecords.delete(sortableComponent.el.ownerDocument);
@@ -771,6 +807,12 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
 
     return {
       reset: () => {
+        if (record?.alive && dragActive()) {
+          record.pendingReset.add(sortableComponent);
+          return;
+        }
+
+        record?.pendingReset.delete(sortableComponent);
         void setUpSortable();
       },
     };

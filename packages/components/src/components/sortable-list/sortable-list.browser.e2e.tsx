@@ -6,7 +6,7 @@ import { dragAndDrop } from "../../tests/utils/browser";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { hidden, renders, disabled, accessible } from "../../tests/common";
 import type { Handle } from "../handle/handle";
-import type { SortableList } from "./sortable-list";
+import { SortableList } from "./sortable-list";
 
 describe("accessible", () => {
   accessible(() => mount("calcite-sortable-list"));
@@ -168,6 +168,30 @@ describe("drag and drop", () => {
 
     expect(Array.from(el.children, (item) => item.id)).toEqual(["two", "one"]);
     expect(orderCalledTimes).toBe(1);
+  });
+
+  it("resets sorting setup when the layout changes", async () => {
+    const { el } = await mount(
+      <calcite-sortable-list layout="vertical">
+        <div id="one">
+          <calcite-handle />1
+        </div>
+        <div id="two">
+          <calcite-handle />2
+        </div>
+      </calcite-sortable-list>,
+    );
+    const list = el as SortableList;
+    const resetSpy = vi.fn();
+
+    (list as SortableList & { sortable: { reset: () => void } }).sortable = { reset: resetSpy };
+    Object.defineProperty(list, "hasUpdated", { value: true, configurable: true });
+    SortableList.prototype.willUpdate.call(
+      list,
+      new Map([["layout", "vertical"]]) as unknown as Parameters<SortableList["willUpdate"]>[0],
+    );
+
+    expect(resetSpy).toHaveBeenCalledTimes(1);
   });
 
   it("reports the adjusted proposed index for same-list horizontal reorders", async () => {
