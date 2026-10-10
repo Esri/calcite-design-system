@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import { defaults, hidden, renders, disabled, themed } from "../../tests/common";
 import { CSS } from "./resources";
 
@@ -52,5 +53,28 @@ describe("themed", () => {
         targetProp: "color",
       },
     });
+  });
+});
+
+describe("a11y attributes", () => {
+  it("should set aria-colspan to 1 by default when column count is 0", async () => {
+    await mount(<calcite-list-item-group heading="Buildings" />);
+    const heading = page.getByRole("cell");
+
+    await expect.element(heading).toHaveAttribute("aria-colspan", "1");
+  });
+
+  it("should set aria-colspan to 1 when column count is less than 1", async () => {
+    await mount(<calcite-list-item-group columnCount={0} heading="Buildings" />);
+    const heading = page.getByRole("cell");
+
+    await expect.element(heading).toHaveAttribute("aria-colspan", "1");
+  });
+
+  it("should render aria-colspan with column count when greater than 1", async () => {
+    await mount(<calcite-list-item-group columnCount={2} heading="Buildings" />);
+    const heading = page.getByRole("cell");
+
+    await expect.element(heading).toHaveAttribute("aria-colspan", "2");
   });
 });
