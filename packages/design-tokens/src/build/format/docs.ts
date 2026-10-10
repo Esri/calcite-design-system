@@ -5,10 +5,18 @@ import type { RegisterFn } from "../../types.ts";
 import { cleanAttributes } from "./utils/index.ts";
 import { isThemeableToken } from "../utils/token-types.ts";
 
-function themeCssName(token: TransformedToken): string | undefined {
-  const names = (token.attributes as { names?: { css?: string } } | undefined)?.names;
+function themeNames(token: TransformedToken): { css: string; scss: string; es6: string } | undefined {
+  const names = (token.attributes as { names?: { css?: string; scss?: string; es6?: string } } | undefined)?.names;
 
-  return names?.css?.replace("--calcite-", "--calcite-theme-");
+  if (!names?.css || !names.scss || !names.es6) {
+    return undefined;
+  }
+
+  return {
+    css: names.css.replace("--calcite-", "--calcite-theme-"),
+    scss: names.scss.replace("$calcite-", "$calcite-theme-"),
+    es6: names.es6.replace("calcite", "calciteTheme"),
+  };
 }
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
@@ -16,7 +24,7 @@ export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
     timestamp: Date.now(),
     tokens: dictionary.allTokens.map((token) => {
       const docsToken = structuredClone(token);
-      const theme = isThemeableToken(docsToken) ? { css: themeCssName(docsToken) } : undefined;
+      const theme = isThemeableToken(docsToken) ? themeNames(docsToken) : undefined;
 
       docsToken.$value = typeof docsToken.$value !== "string" ? JSON.stringify(docsToken.$value) : docsToken.$value;
 

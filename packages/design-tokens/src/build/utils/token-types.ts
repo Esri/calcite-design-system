@@ -62,18 +62,17 @@ export function isTypography(token: TransformedToken): boolean {
 interface TokenWithThemeExtension {
   $extensions?: Record<string, unknown>;
   extensions?: Record<string, unknown>;
-  original?: {
-    $extensions?: Record<string, unknown>;
-    extensions?: Record<string, unknown>;
-  };
+  original?: unknown;
 }
 
 export function isThemeableToken(token: TokenWithThemeExtension): boolean {
+  const original = token.original as TokenWithThemeExtension | undefined;
+
   return !!(
     token.$extensions?.["calcite.theme"] ||
     token.extensions?.["calcite.theme"] ||
-    token.original?.$extensions?.["calcite.theme"] ||
-    token.original?.extensions?.["calcite.theme"]
+    original?.$extensions?.["calcite.theme"] ||
+    original?.extensions?.["calcite.theme"]
   );
 }
 

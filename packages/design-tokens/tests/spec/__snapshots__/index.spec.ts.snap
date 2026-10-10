@@ -17601,7 +17601,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Surface 1",
       "path": ["color", "surface", "1"],
       "theme": {
-        "css": "var(--calcite-theme-color-surface-1)"
+        "css": "var(--calcite-theme-color-surface-1)",
+        "scss": "$calcite-theme-color-surface-1",
+        "es6": "calciteThemeColorSurface1"
       }
     },
     {
@@ -17630,7 +17632,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Surface 2",
       "path": ["color", "surface", "2"],
       "theme": {
-        "css": "var(--calcite-theme-color-surface-2)"
+        "css": "var(--calcite-theme-color-surface-2)",
+        "scss": "$calcite-theme-color-surface-2",
+        "es6": "calciteThemeColorSurface2"
       }
     },
     {
@@ -17659,7 +17663,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Surface 3",
       "path": ["color", "surface", "3"],
       "theme": {
-        "css": "var(--calcite-theme-color-surface-3)"
+        "css": "var(--calcite-theme-color-surface-3)",
+        "scss": "$calcite-theme-color-surface-3",
+        "es6": "calciteThemeColorSurface3"
       }
     },
     {
@@ -17688,7 +17694,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Surface 4",
       "path": ["color", "surface", "4"],
       "theme": {
-        "css": "var(--calcite-theme-color-surface-4)"
+        "css": "var(--calcite-theme-color-surface-4)",
+        "scss": "$calcite-theme-color-surface-4",
+        "es6": "calciteThemeColorSurface4"
       }
     },
     {
@@ -17717,7 +17725,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Surface Highlight",
       "path": ["color", "surface", "highlight"],
       "theme": {
-        "css": "var(--calcite-theme-color-surface-highlight)"
+        "css": "var(--calcite-theme-color-surface-highlight)",
+        "scss": "$calcite-theme-color-surface-highlight",
+        "es6": "calciteThemeColorSurfaceHighlight"
       }
     },
     {
@@ -17907,7 +17917,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Text 1",
       "path": ["color", "text", "1"],
       "theme": {
-        "css": "var(--calcite-theme-color-text-1)"
+        "css": "var(--calcite-theme-color-text-1)",
+        "scss": "$calcite-theme-color-text-1",
+        "es6": "calciteThemeColorText1"
       }
     },
     {
@@ -17935,7 +17947,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Text 2",
       "path": ["color", "text", "2"],
       "theme": {
-        "css": "var(--calcite-theme-color-text-2)"
+        "css": "var(--calcite-theme-color-text-2)",
+        "scss": "$calcite-theme-color-text-2",
+        "es6": "calciteThemeColorText2"
       }
     },
     {
@@ -17963,7 +17977,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Text 3",
       "path": ["color", "text", "3"],
       "theme": {
-        "css": "var(--calcite-theme-color-text-3)"
+        "css": "var(--calcite-theme-color-text-3)",
+        "scss": "$calcite-theme-color-text-3",
+        "es6": "calciteThemeColorText3"
       }
     },
     {
@@ -17991,7 +18007,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Text Inverse",
       "path": ["color", "text", "inverse"],
       "theme": {
-        "css": "var(--calcite-theme-color-text-inverse)"
+        "css": "var(--calcite-theme-color-text-inverse)",
+        "scss": "$calcite-theme-color-text-inverse",
+        "es6": "calciteThemeColorTextInverse"
       }
     },
     {
@@ -18019,7 +18037,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Text Link",
       "path": ["color", "text", "link"],
       "theme": {
-        "css": "var(--calcite-theme-color-text-link)"
+        "css": "var(--calcite-theme-color-text-link)",
+        "scss": "$calcite-theme-color-text-link",
+        "es6": "calciteThemeColorTextLink"
       }
     },
     {
@@ -18047,7 +18067,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Text Highlight",
       "path": ["color", "text", "highlight"],
       "theme": {
-        "css": "var(--calcite-theme-color-text-highlight)"
+        "css": "var(--calcite-theme-color-text-highlight)",
+        "scss": "$calcite-theme-color-text-highlight",
+        "es6": "calciteThemeColorTextHighlight"
       }
     },
     {
@@ -18075,7 +18097,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Border 1",
       "path": ["color", "border", "1"],
       "theme": {
-        "css": "var(--calcite-theme-color-border-1)"
+        "css": "var(--calcite-theme-color-border-1)",
+        "scss": "$calcite-theme-color-border-1",
+        "es6": "calciteThemeColorBorder1"
       }
     },
     {
@@ -18103,7 +18127,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Border 2",
       "path": ["color", "border", "2"],
       "theme": {
-        "css": "var(--calcite-theme-color-border-2)"
+        "css": "var(--calcite-theme-color-border-2)",
+        "scss": "$calcite-theme-color-border-2",
+        "es6": "calciteThemeColorBorder2"
       }
     },
     {
@@ -18131,7 +18157,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Border 3",
       "path": ["color", "border", "3"],
       "theme": {
-        "css": "var(--calcite-theme-color-border-3)"
+        "css": "var(--calcite-theme-color-border-3)",
+        "scss": "$calcite-theme-color-border-3",
+        "es6": "calciteThemeColorBorder3"
       }
     },
     {
@@ -18159,7 +18187,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Border Input",
       "path": ["color", "border", "input"],
       "theme": {
-        "css": "var(--calcite-theme-color-border-input)"
+        "css": "var(--calcite-theme-color-border-input)",
+        "scss": "$calcite-theme-color-border-input",
+        "es6": "calciteThemeColorBorderInput"
       }
     },
     {
@@ -18241,7 +18271,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Brand",
       "path": ["color", "brand", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-brand)"
+        "css": "var(--calcite-theme-color-brand)",
+        "scss": "$calcite-theme-color-brand",
+        "es6": "calciteThemeColorBrand"
       }
     },
     {
@@ -18269,7 +18301,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Brand Hover",
       "path": ["color", "brand", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-brand-hover)"
+        "css": "var(--calcite-theme-color-brand-hover)",
+        "scss": "$calcite-theme-color-brand-hover",
+        "es6": "calciteThemeColorBrandHover"
       }
     },
     {
@@ -18297,7 +18331,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Brand Press",
       "path": ["color", "brand", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-brand-press)"
+        "css": "var(--calcite-theme-color-brand-press)",
+        "scss": "$calcite-theme-color-brand-press",
+        "es6": "calciteThemeColorBrandPress"
       }
     },
     {
@@ -18325,7 +18361,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Brand Underline",
       "path": ["color", "brand", "underline"],
       "theme": {
-        "css": "var(--calcite-theme-color-brand-underline)"
+        "css": "var(--calcite-theme-color-brand-underline)",
+        "scss": "$calcite-theme-color-brand-underline",
+        "es6": "calciteThemeColorBrandUnderline"
       }
     },
     {
@@ -18353,7 +18391,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Inverse",
       "path": ["color", "inverse", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-inverse)"
+        "css": "var(--calcite-theme-color-inverse)",
+        "scss": "$calcite-theme-color-inverse",
+        "es6": "calciteThemeColorInverse"
       }
     },
     {
@@ -18381,7 +18421,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Inverse Hover",
       "path": ["color", "inverse", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-inverse-hover)"
+        "css": "var(--calcite-theme-color-inverse-hover)",
+        "scss": "$calcite-theme-color-inverse-hover",
+        "es6": "calciteThemeColorInverseHover"
       }
     },
     {
@@ -18409,7 +18451,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Inverse Press",
       "path": ["color", "inverse", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-inverse-press)"
+        "css": "var(--calcite-theme-color-inverse-press)",
+        "scss": "$calcite-theme-color-inverse-press",
+        "es6": "calciteThemeColorInversePress"
       }
     },
     {
@@ -18439,7 +18483,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Info",
       "path": ["color", "status", "info", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-info)"
+        "css": "var(--calcite-theme-color-status-info)",
+        "scss": "$calcite-theme-color-status-info",
+        "es6": "calciteThemeColorStatusInfo"
       }
     },
     {
@@ -18469,7 +18515,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Info Hover",
       "path": ["color", "status", "info", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-info-hover)"
+        "css": "var(--calcite-theme-color-status-info-hover)",
+        "scss": "$calcite-theme-color-status-info-hover",
+        "es6": "calciteThemeColorStatusInfoHover"
       }
     },
     {
@@ -18499,7 +18547,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Info Press",
       "path": ["color", "status", "info", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-info-press)"
+        "css": "var(--calcite-theme-color-status-info-press)",
+        "scss": "$calcite-theme-color-status-info-press",
+        "es6": "calciteThemeColorStatusInfoPress"
       }
     },
     {
@@ -18529,7 +18579,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Success",
       "path": ["color", "status", "success", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-success)"
+        "css": "var(--calcite-theme-color-status-success)",
+        "scss": "$calcite-theme-color-status-success",
+        "es6": "calciteThemeColorStatusSuccess"
       }
     },
     {
@@ -18559,7 +18611,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Success Hover",
       "path": ["color", "status", "success", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-success-hover)"
+        "css": "var(--calcite-theme-color-status-success-hover)",
+        "scss": "$calcite-theme-color-status-success-hover",
+        "es6": "calciteThemeColorStatusSuccessHover"
       }
     },
     {
@@ -18589,7 +18643,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Success Press",
       "path": ["color", "status", "success", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-success-press)"
+        "css": "var(--calcite-theme-color-status-success-press)",
+        "scss": "$calcite-theme-color-status-success-press",
+        "es6": "calciteThemeColorStatusSuccessPress"
       }
     },
     {
@@ -18619,7 +18675,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Warning",
       "path": ["color", "status", "warning", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-warning)"
+        "css": "var(--calcite-theme-color-status-warning)",
+        "scss": "$calcite-theme-color-status-warning",
+        "es6": "calciteThemeColorStatusWarning"
       }
     },
     {
@@ -18649,7 +18707,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Warning Hover",
       "path": ["color", "status", "warning", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-warning-hover)"
+        "css": "var(--calcite-theme-color-status-warning-hover)",
+        "scss": "$calcite-theme-color-status-warning-hover",
+        "es6": "calciteThemeColorStatusWarningHover"
       }
     },
     {
@@ -18679,7 +18739,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Warning Press",
       "path": ["color", "status", "warning", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-warning-press)"
+        "css": "var(--calcite-theme-color-status-warning-press)",
+        "scss": "$calcite-theme-color-status-warning-press",
+        "es6": "calciteThemeColorStatusWarningPress"
       }
     },
     {
@@ -18709,7 +18771,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Danger",
       "path": ["color", "status", "danger", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-danger)"
+        "css": "var(--calcite-theme-color-status-danger)",
+        "scss": "$calcite-theme-color-status-danger",
+        "es6": "calciteThemeColorStatusDanger"
       }
     },
     {
@@ -18739,7 +18803,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Danger Hover",
       "path": ["color", "status", "danger", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-danger-hover)"
+        "css": "var(--calcite-theme-color-status-danger-hover)",
+        "scss": "$calcite-theme-color-status-danger-hover",
+        "es6": "calciteThemeColorStatusDangerHover"
       }
     },
     {
@@ -18769,7 +18835,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Status Danger Press",
       "path": ["color", "status", "danger", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-status-danger-press)"
+        "css": "var(--calcite-theme-color-status-danger-press)",
+        "scss": "$calcite-theme-color-status-danger-press",
+        "es6": "calciteThemeColorStatusDangerPress"
       }
     },
     {
@@ -18797,7 +18865,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Transparent",
       "path": ["color", "transparent", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-transparent)"
+        "css": "var(--calcite-theme-color-transparent)",
+        "scss": "$calcite-theme-color-transparent",
+        "es6": "calciteThemeColorTransparent"
       }
     },
     {
@@ -18825,7 +18895,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Transparent Hover",
       "path": ["color", "transparent", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-transparent-hover)"
+        "css": "var(--calcite-theme-color-transparent-hover)",
+        "scss": "$calcite-theme-color-transparent-hover",
+        "es6": "calciteThemeColorTransparentHover"
       }
     },
     {
@@ -18853,7 +18925,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Transparent Press",
       "path": ["color", "transparent", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-transparent-press)"
+        "css": "var(--calcite-theme-color-transparent-press)",
+        "scss": "$calcite-theme-color-transparent-press",
+        "es6": "calciteThemeColorTransparentPress"
       }
     },
     {
@@ -18881,7 +18955,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Transparent Scrim",
       "path": ["color", "transparent", "scrim"],
       "theme": {
-        "css": "var(--calcite-theme-color-transparent-scrim)"
+        "css": "var(--calcite-theme-color-transparent-scrim)",
+        "scss": "$calcite-theme-color-transparent-scrim",
+        "es6": "calciteThemeColorTransparentScrim"
       }
     },
     {
@@ -18909,7 +18985,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Transparent Tint",
       "path": ["color", "transparent", "tint"],
       "theme": {
-        "css": "var(--calcite-theme-color-transparent-tint)"
+        "css": "var(--calcite-theme-color-transparent-tint)",
+        "scss": "$calcite-theme-color-transparent-tint",
+        "es6": "calciteThemeColorTransparentTint"
       }
     },
     {
@@ -18939,7 +19017,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Transparent Inverse Hover",
       "path": ["color", "transparent", "inverse", "hover"],
       "theme": {
-        "css": "var(--calcite-theme-color-transparent-inverse-hover)"
+        "css": "var(--calcite-theme-color-transparent-inverse-hover)",
+        "scss": "$calcite-theme-color-transparent-inverse-hover",
+        "es6": "calciteThemeColorTransparentInverseHover"
       }
     },
     {
@@ -18969,7 +19049,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Transparent Inverse Press",
       "path": ["color", "transparent", "inverse", "press"],
       "theme": {
-        "css": "var(--calcite-theme-color-transparent-inverse-press)"
+        "css": "var(--calcite-theme-color-transparent-inverse-press)",
+        "scss": "$calcite-theme-color-transparent-inverse-press",
+        "es6": "calciteThemeColorTransparentInversePress"
       }
     },
     {
@@ -18997,7 +19079,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Color Focus",
       "path": ["color", "focus", "default"],
       "theme": {
-        "css": "var(--calcite-theme-color-focus)"
+        "css": "var(--calcite-theme-color-focus)",
+        "scss": "$calcite-theme-color-focus",
+        "es6": "calciteThemeColorFocus"
       }
     },
     {
@@ -19025,7 +19109,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Border Width None",
       "path": ["border", "width", "none"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-none)"
+        "css": "var(--calcite-theme-border-width-none)",
+        "scss": "$calcite-theme-border-width-none",
+        "es6": "calciteThemeBorderWidthNone"
       }
     },
     {
@@ -19053,7 +19139,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Border Width Sm",
       "path": ["border", "width", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-sm)"
+        "css": "var(--calcite-theme-border-width-sm)",
+        "scss": "$calcite-theme-border-width-sm",
+        "es6": "calciteThemeBorderWidthSm"
       }
     },
     {
@@ -19081,7 +19169,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Border Width Md",
       "path": ["border", "width", "md"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-md)"
+        "css": "var(--calcite-theme-border-width-md)",
+        "scss": "$calcite-theme-border-width-md",
+        "es6": "calciteThemeBorderWidthMd"
       }
     },
     {
@@ -19109,7 +19199,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Border Width Lg",
       "path": ["border", "width", "lg"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-lg)"
+        "css": "var(--calcite-theme-border-width-lg)",
+        "scss": "$calcite-theme-border-width-lg",
+        "es6": "calciteThemeBorderWidthLg"
       }
     },
     {
@@ -19597,7 +19689,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Corner Radius",
       "path": ["corner-radius", "default"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius)"
+        "css": "var(--calcite-theme-corner-radius)",
+        "scss": "$calcite-theme-corner-radius",
+        "es6": "calciteThemeCornerRadius"
       }
     },
     {
@@ -19649,7 +19743,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Corner Radius None",
       "path": ["corner-radius", "none"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-none)"
+        "css": "var(--calcite-theme-corner-radius-none)",
+        "scss": "$calcite-theme-corner-radius-none",
+        "es6": "calciteThemeCornerRadiusNone"
       }
     },
     {
@@ -19675,7 +19771,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Corner Radius Xs",
       "path": ["corner-radius", "xs"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-xs)"
+        "css": "var(--calcite-theme-corner-radius-xs)",
+        "scss": "$calcite-theme-corner-radius-xs",
+        "es6": "calciteThemeCornerRadiusXs"
       }
     },
     {
@@ -19702,7 +19800,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Corner Radius Sm",
       "path": ["corner-radius", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-sm)"
+        "css": "var(--calcite-theme-corner-radius-sm)",
+        "scss": "$calcite-theme-corner-radius-sm",
+        "es6": "calciteThemeCornerRadiusSm"
       }
     },
     {
@@ -19753,7 +19853,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Corner Radius Pill",
       "path": ["corner-radius", "pill"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-pill)"
+        "css": "var(--calcite-theme-corner-radius-pill)",
+        "scss": "$calcite-theme-corner-radius-pill",
+        "es6": "calciteThemeCornerRadiusPill"
       }
     },
     {
@@ -19834,7 +19936,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Font Weight Light",
       "path": ["font", "weight", "light"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-light)"
+        "css": "var(--calcite-theme-font-weight-light)",
+        "scss": "$calcite-theme-font-weight-light",
+        "es6": "calciteThemeFontWeightLight"
       }
     },
     {
@@ -19893,7 +19997,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Font Weight Regular",
       "path": ["font", "weight", "regular"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-regular)"
+        "css": "var(--calcite-theme-font-weight-regular)",
+        "scss": "$calcite-theme-font-weight-regular",
+        "es6": "calciteThemeFontWeightRegular"
       }
     },
     {
@@ -19921,7 +20027,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Font Weight Medium",
       "path": ["font", "weight", "medium"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-medium)"
+        "css": "var(--calcite-theme-font-weight-medium)",
+        "scss": "$calcite-theme-font-weight-medium",
+        "es6": "calciteThemeFontWeightMedium"
       }
     },
     {
@@ -19949,7 +20057,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Font Weight Semibold",
       "path": ["font", "weight", "semibold"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-semibold)"
+        "css": "var(--calcite-theme-font-weight-semibold)",
+        "scss": "$calcite-theme-font-weight-semibold",
+        "es6": "calciteThemeFontWeightSemibold"
       }
     },
     {
@@ -19977,7 +20087,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Font Weight Bold",
       "path": ["font", "weight", "bold"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-bold)"
+        "css": "var(--calcite-theme-font-weight-bold)",
+        "scss": "$calcite-theme-font-weight-bold",
+        "es6": "calciteThemeFontWeightBold"
       }
     },
     {
@@ -21672,7 +21784,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Shadow None",
       "path": ["shadow", "none"],
       "theme": {
-        "css": "var(--calcite-theme-shadow-none)"
+        "css": "var(--calcite-theme-shadow-none)",
+        "scss": "$calcite-theme-shadow-none",
+        "es6": "calciteThemeShadowNone"
       }
     },
     {
@@ -21698,7 +21812,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Shadow Sm",
       "path": ["shadow", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-shadow-sm)"
+        "css": "var(--calcite-theme-shadow-sm)",
+        "scss": "$calcite-theme-shadow-sm",
+        "es6": "calciteThemeShadowSm"
       }
     },
     {
@@ -21724,7 +21840,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Shadow Md",
       "path": ["shadow", "md"],
       "theme": {
-        "css": "var(--calcite-theme-shadow-md)"
+        "css": "var(--calcite-theme-shadow-md)",
+        "scss": "$calcite-theme-shadow-md",
+        "es6": "calciteThemeShadowMd"
       }
     },
     {
@@ -22060,7 +22178,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size 4xs",
       "path": ["size", "4xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-4xs)"
+        "css": "var(--calcite-theme-size-4xs)",
+        "scss": "$calcite-theme-size-4xs",
+        "es6": "calciteThemeSize4xs"
       }
     },
     {
@@ -22112,7 +22232,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size 3xs",
       "path": ["size", "3xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-3xs)"
+        "css": "var(--calcite-theme-size-3xs)",
+        "scss": "$calcite-theme-size-3xs",
+        "es6": "calciteThemeSize3xs"
       }
     },
     {
@@ -22164,7 +22286,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size 2xs",
       "path": ["size", "2xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-2xs)"
+        "css": "var(--calcite-theme-size-2xs)",
+        "scss": "$calcite-theme-size-2xs",
+        "es6": "calciteThemeSize2xs"
       }
     },
     {
@@ -22191,7 +22315,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size Xs",
       "path": ["size", "xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-xs)"
+        "css": "var(--calcite-theme-size-xs)",
+        "scss": "$calcite-theme-size-xs",
+        "es6": "calciteThemeSizeXs"
       }
     },
     {
@@ -22218,7 +22344,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size Sm",
       "path": ["size", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-size-sm)"
+        "css": "var(--calcite-theme-size-sm)",
+        "scss": "$calcite-theme-size-sm",
+        "es6": "calciteThemeSizeSm"
       }
     },
     {
@@ -22245,7 +22373,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size Md",
       "path": ["size", "md"],
       "theme": {
-        "css": "var(--calcite-theme-size-md)"
+        "css": "var(--calcite-theme-size-md)",
+        "scss": "$calcite-theme-size-md",
+        "es6": "calciteThemeSizeMd"
       }
     },
     {
@@ -22271,7 +22401,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size Lg",
       "path": ["size", "lg"],
       "theme": {
-        "css": "var(--calcite-theme-size-lg)"
+        "css": "var(--calcite-theme-size-lg)",
+        "scss": "$calcite-theme-size-lg",
+        "es6": "calciteThemeSizeLg"
       }
     },
     {
@@ -22297,7 +22429,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size Xl",
       "path": ["size", "xl"],
       "theme": {
-        "css": "var(--calcite-theme-size-xl)"
+        "css": "var(--calcite-theme-size-xl)",
+        "scss": "$calcite-theme-size-xl",
+        "es6": "calciteThemeSizeXl"
       }
     },
     {
@@ -22349,7 +22483,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size 2xl",
       "path": ["size", "2xl"],
       "theme": {
-        "css": "var(--calcite-theme-size-2xl)"
+        "css": "var(--calcite-theme-size-2xl)",
+        "scss": "$calcite-theme-size-2xl",
+        "es6": "calciteThemeSize2xl"
       }
     },
     {
@@ -22401,7 +22537,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Size 3xl",
       "path": ["size", "3xl"],
       "theme": {
-        "css": "var(--calcite-theme-size-3xl)"
+        "css": "var(--calcite-theme-size-3xl)",
+        "scss": "$calcite-theme-size-3xl",
+        "es6": "calciteThemeSize3xl"
       }
     },
     {
@@ -22974,7 +23112,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space None",
       "path": ["space", "none"],
       "theme": {
-        "css": "var(--calcite-theme-space-none)"
+        "css": "var(--calcite-theme-space-none)",
+        "scss": "$calcite-theme-space-none",
+        "es6": "calciteThemeSpaceNone"
       }
     },
     {
@@ -23001,7 +23141,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Px",
       "path": ["space", "px"],
       "theme": {
-        "css": "var(--calcite-theme-space-px)"
+        "css": "var(--calcite-theme-space-px)",
+        "scss": "$calcite-theme-space-px",
+        "es6": "calciteThemeSpacePx"
       }
     },
     {
@@ -23028,7 +23170,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Base",
       "path": ["space", "base"],
       "theme": {
-        "css": "var(--calcite-theme-space-base)"
+        "css": "var(--calcite-theme-space-base)",
+        "scss": "$calcite-theme-space-base",
+        "es6": "calciteThemeSpaceBase"
       }
     },
     {
@@ -23055,7 +23199,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space 2xs",
       "path": ["space", "2xs"],
       "theme": {
-        "css": "var(--calcite-theme-space-2xs)"
+        "css": "var(--calcite-theme-space-2xs)",
+        "scss": "$calcite-theme-space-2xs",
+        "es6": "calciteThemeSpace2xs"
       }
     },
     {
@@ -23082,7 +23228,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Xs",
       "path": ["space", "xs"],
       "theme": {
-        "css": "var(--calcite-theme-space-xs)"
+        "css": "var(--calcite-theme-space-xs)",
+        "scss": "$calcite-theme-space-xs",
+        "es6": "calciteThemeSpaceXs"
       }
     },
     {
@@ -23109,7 +23257,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Sm",
       "path": ["space", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-space-sm)"
+        "css": "var(--calcite-theme-space-sm)",
+        "scss": "$calcite-theme-space-sm",
+        "es6": "calciteThemeSpaceSm"
       }
     },
     {
@@ -23136,7 +23286,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Sm Plus",
       "path": ["space", "sm-plus"],
       "theme": {
-        "css": "var(--calcite-theme-space-sm-plus)"
+        "css": "var(--calcite-theme-space-sm-plus)",
+        "scss": "$calcite-theme-space-sm-plus",
+        "es6": "calciteThemeSpaceSmPlus"
       }
     },
     {
@@ -23163,7 +23315,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Md",
       "path": ["space", "md"],
       "theme": {
-        "css": "var(--calcite-theme-space-md)"
+        "css": "var(--calcite-theme-space-md)",
+        "scss": "$calcite-theme-space-md",
+        "es6": "calciteThemeSpaceMd"
       }
     },
     {
@@ -23190,7 +23344,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Md Plus",
       "path": ["space", "md-plus"],
       "theme": {
-        "css": "var(--calcite-theme-space-md-plus)"
+        "css": "var(--calcite-theme-space-md-plus)",
+        "scss": "$calcite-theme-space-md-plus",
+        "es6": "calciteThemeSpaceMdPlus"
       }
     },
     {
@@ -23217,7 +23373,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Lg",
       "path": ["space", "lg"],
       "theme": {
-        "css": "var(--calcite-theme-space-lg)"
+        "css": "var(--calcite-theme-space-lg)",
+        "scss": "$calcite-theme-space-lg",
+        "es6": "calciteThemeSpaceLg"
       }
     },
     {
@@ -23244,7 +23402,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space Xl",
       "path": ["space", "xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-xl)"
+        "css": "var(--calcite-theme-space-xl)",
+        "scss": "$calcite-theme-space-xl",
+        "es6": "calciteThemeSpaceXl"
       }
     },
     {
@@ -23271,7 +23431,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space 2xl",
       "path": ["space", "2xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-2xl)"
+        "css": "var(--calcite-theme-space-2xl)",
+        "scss": "$calcite-theme-space-2xl",
+        "es6": "calciteThemeSpace2xl"
       }
     },
     {
@@ -23298,7 +23460,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space 3xl",
       "path": ["space", "3xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-3xl)"
+        "css": "var(--calcite-theme-space-3xl)",
+        "scss": "$calcite-theme-space-3xl",
+        "es6": "calciteThemeSpace3xl"
       }
     },
     {
@@ -23324,7 +23488,9 @@ exports[`DOCS (internal) > global should match 1`] = `
       "name": "Space 4xl",
       "path": ["space", "4xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-4xl)"
+        "css": "var(--calcite-theme-space-4xl)",
+        "scss": "$calcite-theme-space-4xl",
+        "es6": "calciteThemeSpace4xl"
       }
     },
     {
@@ -25921,7 +26087,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Border Width None",
       "path": ["border", "width", "none"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-none)"
+        "css": "var(--calcite-theme-border-width-none)",
+        "scss": "$calcite-theme-border-width-none",
+        "es6": "calciteThemeBorderWidthNone"
       }
     },
     {
@@ -25949,7 +26117,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Border Width Sm",
       "path": ["border", "width", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-sm)"
+        "css": "var(--calcite-theme-border-width-sm)",
+        "scss": "$calcite-theme-border-width-sm",
+        "es6": "calciteThemeBorderWidthSm"
       }
     },
     {
@@ -25977,7 +26147,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Border Width Md",
       "path": ["border", "width", "md"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-md)"
+        "css": "var(--calcite-theme-border-width-md)",
+        "scss": "$calcite-theme-border-width-md",
+        "es6": "calciteThemeBorderWidthMd"
       }
     },
     {
@@ -26005,7 +26177,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Border Width Lg",
       "path": ["border", "width", "lg"],
       "theme": {
-        "css": "var(--calcite-theme-border-width-lg)"
+        "css": "var(--calcite-theme-border-width-lg)",
+        "scss": "$calcite-theme-border-width-lg",
+        "es6": "calciteThemeBorderWidthLg"
       }
     },
     {
@@ -26127,7 +26301,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Corner Radius",
       "path": ["corner-radius", "default"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius)"
+        "css": "var(--calcite-theme-corner-radius)",
+        "scss": "$calcite-theme-corner-radius",
+        "es6": "calciteThemeCornerRadius"
       }
     },
     {
@@ -26179,7 +26355,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Corner Radius None",
       "path": ["corner-radius", "none"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-none)"
+        "css": "var(--calcite-theme-corner-radius-none)",
+        "scss": "$calcite-theme-corner-radius-none",
+        "es6": "calciteThemeCornerRadiusNone"
       }
     },
     {
@@ -26205,7 +26383,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Corner Radius Xs",
       "path": ["corner-radius", "xs"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-xs)"
+        "css": "var(--calcite-theme-corner-radius-xs)",
+        "scss": "$calcite-theme-corner-radius-xs",
+        "es6": "calciteThemeCornerRadiusXs"
       }
     },
     {
@@ -26232,7 +26412,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Corner Radius Sm",
       "path": ["corner-radius", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-sm)"
+        "css": "var(--calcite-theme-corner-radius-sm)",
+        "scss": "$calcite-theme-corner-radius-sm",
+        "es6": "calciteThemeCornerRadiusSm"
       }
     },
     {
@@ -26283,7 +26465,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Corner Radius Pill",
       "path": ["corner-radius", "pill"],
       "theme": {
-        "css": "var(--calcite-theme-corner-radius-pill)"
+        "css": "var(--calcite-theme-corner-radius-pill)",
+        "scss": "$calcite-theme-corner-radius-pill",
+        "es6": "calciteThemeCornerRadiusPill"
       }
     },
     {
@@ -26364,7 +26548,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Font Weight Light",
       "path": ["font", "weight", "light"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-light)"
+        "css": "var(--calcite-theme-font-weight-light)",
+        "scss": "$calcite-theme-font-weight-light",
+        "es6": "calciteThemeFontWeightLight"
       }
     },
     {
@@ -26423,7 +26609,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Font Weight Regular",
       "path": ["font", "weight", "regular"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-regular)"
+        "css": "var(--calcite-theme-font-weight-regular)",
+        "scss": "$calcite-theme-font-weight-regular",
+        "es6": "calciteThemeFontWeightRegular"
       }
     },
     {
@@ -26451,7 +26639,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Font Weight Medium",
       "path": ["font", "weight", "medium"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-medium)"
+        "css": "var(--calcite-theme-font-weight-medium)",
+        "scss": "$calcite-theme-font-weight-medium",
+        "es6": "calciteThemeFontWeightMedium"
       }
     },
     {
@@ -26479,7 +26669,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Font Weight Semibold",
       "path": ["font", "weight", "semibold"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-semibold)"
+        "css": "var(--calcite-theme-font-weight-semibold)",
+        "scss": "$calcite-theme-font-weight-semibold",
+        "es6": "calciteThemeFontWeightSemibold"
       }
     },
     {
@@ -26507,7 +26699,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Font Weight Bold",
       "path": ["font", "weight", "bold"],
       "theme": {
-        "css": "var(--calcite-theme-font-weight-bold)"
+        "css": "var(--calcite-theme-font-weight-bold)",
+        "scss": "$calcite-theme-font-weight-bold",
+        "es6": "calciteThemeFontWeightBold"
       }
     },
     {
@@ -28202,7 +28396,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Shadow None",
       "path": ["shadow", "none"],
       "theme": {
-        "css": "var(--calcite-theme-shadow-none)"
+        "css": "var(--calcite-theme-shadow-none)",
+        "scss": "$calcite-theme-shadow-none",
+        "es6": "calciteThemeShadowNone"
       }
     },
     {
@@ -28228,7 +28424,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Shadow Sm",
       "path": ["shadow", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-shadow-sm)"
+        "css": "var(--calcite-theme-shadow-sm)",
+        "scss": "$calcite-theme-shadow-sm",
+        "es6": "calciteThemeShadowSm"
       }
     },
     {
@@ -28254,7 +28452,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Shadow Md",
       "path": ["shadow", "md"],
       "theme": {
-        "css": "var(--calcite-theme-shadow-md)"
+        "css": "var(--calcite-theme-shadow-md)",
+        "scss": "$calcite-theme-shadow-md",
+        "es6": "calciteThemeShadowMd"
       }
     },
     {
@@ -28590,7 +28790,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size 4xs",
       "path": ["size", "4xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-4xs)"
+        "css": "var(--calcite-theme-size-4xs)",
+        "scss": "$calcite-theme-size-4xs",
+        "es6": "calciteThemeSize4xs"
       }
     },
     {
@@ -28642,7 +28844,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size 3xs",
       "path": ["size", "3xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-3xs)"
+        "css": "var(--calcite-theme-size-3xs)",
+        "scss": "$calcite-theme-size-3xs",
+        "es6": "calciteThemeSize3xs"
       }
     },
     {
@@ -28694,7 +28898,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size 2xs",
       "path": ["size", "2xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-2xs)"
+        "css": "var(--calcite-theme-size-2xs)",
+        "scss": "$calcite-theme-size-2xs",
+        "es6": "calciteThemeSize2xs"
       }
     },
     {
@@ -28721,7 +28927,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size Xs",
       "path": ["size", "xs"],
       "theme": {
-        "css": "var(--calcite-theme-size-xs)"
+        "css": "var(--calcite-theme-size-xs)",
+        "scss": "$calcite-theme-size-xs",
+        "es6": "calciteThemeSizeXs"
       }
     },
     {
@@ -28748,7 +28956,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size Sm",
       "path": ["size", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-size-sm)"
+        "css": "var(--calcite-theme-size-sm)",
+        "scss": "$calcite-theme-size-sm",
+        "es6": "calciteThemeSizeSm"
       }
     },
     {
@@ -28775,7 +28985,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size Md",
       "path": ["size", "md"],
       "theme": {
-        "css": "var(--calcite-theme-size-md)"
+        "css": "var(--calcite-theme-size-md)",
+        "scss": "$calcite-theme-size-md",
+        "es6": "calciteThemeSizeMd"
       }
     },
     {
@@ -28801,7 +29013,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size Lg",
       "path": ["size", "lg"],
       "theme": {
-        "css": "var(--calcite-theme-size-lg)"
+        "css": "var(--calcite-theme-size-lg)",
+        "scss": "$calcite-theme-size-lg",
+        "es6": "calciteThemeSizeLg"
       }
     },
     {
@@ -28827,7 +29041,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size Xl",
       "path": ["size", "xl"],
       "theme": {
-        "css": "var(--calcite-theme-size-xl)"
+        "css": "var(--calcite-theme-size-xl)",
+        "scss": "$calcite-theme-size-xl",
+        "es6": "calciteThemeSizeXl"
       }
     },
     {
@@ -28879,7 +29095,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size 2xl",
       "path": ["size", "2xl"],
       "theme": {
-        "css": "var(--calcite-theme-size-2xl)"
+        "css": "var(--calcite-theme-size-2xl)",
+        "scss": "$calcite-theme-size-2xl",
+        "es6": "calciteThemeSize2xl"
       }
     },
     {
@@ -28931,7 +29149,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Size 3xl",
       "path": ["size", "3xl"],
       "theme": {
-        "css": "var(--calcite-theme-size-3xl)"
+        "css": "var(--calcite-theme-size-3xl)",
+        "scss": "$calcite-theme-size-3xl",
+        "es6": "calciteThemeSize3xl"
       }
     },
     {
@@ -29504,7 +29724,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space None",
       "path": ["space", "none"],
       "theme": {
-        "css": "var(--calcite-theme-space-none)"
+        "css": "var(--calcite-theme-space-none)",
+        "scss": "$calcite-theme-space-none",
+        "es6": "calciteThemeSpaceNone"
       }
     },
     {
@@ -29531,7 +29753,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Px",
       "path": ["space", "px"],
       "theme": {
-        "css": "var(--calcite-theme-space-px)"
+        "css": "var(--calcite-theme-space-px)",
+        "scss": "$calcite-theme-space-px",
+        "es6": "calciteThemeSpacePx"
       }
     },
     {
@@ -29558,7 +29782,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Base",
       "path": ["space", "base"],
       "theme": {
-        "css": "var(--calcite-theme-space-base)"
+        "css": "var(--calcite-theme-space-base)",
+        "scss": "$calcite-theme-space-base",
+        "es6": "calciteThemeSpaceBase"
       }
     },
     {
@@ -29585,7 +29811,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space 2xs",
       "path": ["space", "2xs"],
       "theme": {
-        "css": "var(--calcite-theme-space-2xs)"
+        "css": "var(--calcite-theme-space-2xs)",
+        "scss": "$calcite-theme-space-2xs",
+        "es6": "calciteThemeSpace2xs"
       }
     },
     {
@@ -29612,7 +29840,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Xs",
       "path": ["space", "xs"],
       "theme": {
-        "css": "var(--calcite-theme-space-xs)"
+        "css": "var(--calcite-theme-space-xs)",
+        "scss": "$calcite-theme-space-xs",
+        "es6": "calciteThemeSpaceXs"
       }
     },
     {
@@ -29639,7 +29869,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Sm",
       "path": ["space", "sm"],
       "theme": {
-        "css": "var(--calcite-theme-space-sm)"
+        "css": "var(--calcite-theme-space-sm)",
+        "scss": "$calcite-theme-space-sm",
+        "es6": "calciteThemeSpaceSm"
       }
     },
     {
@@ -29666,7 +29898,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Sm Plus",
       "path": ["space", "sm-plus"],
       "theme": {
-        "css": "var(--calcite-theme-space-sm-plus)"
+        "css": "var(--calcite-theme-space-sm-plus)",
+        "scss": "$calcite-theme-space-sm-plus",
+        "es6": "calciteThemeSpaceSmPlus"
       }
     },
     {
@@ -29693,7 +29927,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Md",
       "path": ["space", "md"],
       "theme": {
-        "css": "var(--calcite-theme-space-md)"
+        "css": "var(--calcite-theme-space-md)",
+        "scss": "$calcite-theme-space-md",
+        "es6": "calciteThemeSpaceMd"
       }
     },
     {
@@ -29720,7 +29956,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Md Plus",
       "path": ["space", "md-plus"],
       "theme": {
-        "css": "var(--calcite-theme-space-md-plus)"
+        "css": "var(--calcite-theme-space-md-plus)",
+        "scss": "$calcite-theme-space-md-plus",
+        "es6": "calciteThemeSpaceMdPlus"
       }
     },
     {
@@ -29747,7 +29985,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Lg",
       "path": ["space", "lg"],
       "theme": {
-        "css": "var(--calcite-theme-space-lg)"
+        "css": "var(--calcite-theme-space-lg)",
+        "scss": "$calcite-theme-space-lg",
+        "es6": "calciteThemeSpaceLg"
       }
     },
     {
@@ -29774,7 +30014,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space Xl",
       "path": ["space", "xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-xl)"
+        "css": "var(--calcite-theme-space-xl)",
+        "scss": "$calcite-theme-space-xl",
+        "es6": "calciteThemeSpaceXl"
       }
     },
     {
@@ -29801,7 +30043,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space 2xl",
       "path": ["space", "2xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-2xl)"
+        "css": "var(--calcite-theme-space-2xl)",
+        "scss": "$calcite-theme-space-2xl",
+        "es6": "calciteThemeSpace2xl"
       }
     },
     {
@@ -29828,7 +30072,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space 3xl",
       "path": ["space", "3xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-3xl)"
+        "css": "var(--calcite-theme-space-3xl)",
+        "scss": "$calcite-theme-space-3xl",
+        "es6": "calciteThemeSpace3xl"
       }
     },
     {
@@ -29854,7 +30100,9 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "name": "Space 4xl",
       "path": ["space", "4xl"],
       "theme": {
-        "css": "var(--calcite-theme-space-4xl)"
+        "css": "var(--calcite-theme-space-4xl)",
+        "scss": "$calcite-theme-space-4xl",
+        "es6": "calciteThemeSpace4xl"
       }
     },
     {
