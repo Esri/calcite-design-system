@@ -179,8 +179,8 @@
   }
 
   &.float-all {
-    margin-block: var(--calcite-spacing-sm);
-    margin-inline: var(--calcite-spacing-sm);
+    margin-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 
   :host([action-bar-position]) & {
@@ -587,8 +587,8 @@
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 
   border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-  margin-inline: var(--calcite-spacing-sm);
-  margin-block-start: var(--calcite-spacing-sm);
+  margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+  margin-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
@@ -597,7 +597,7 @@
 }
 
 :host([layout="horizontal"]) .float--content {
-  margin-block: var(--calcite-spacing-sm);
+  margin-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 
 :host([position="start"]) .float--content,
