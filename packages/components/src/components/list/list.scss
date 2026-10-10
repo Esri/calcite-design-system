@@ -26,7 +26,10 @@
 
 .container {
   position: relative;
-  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-list-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 
 .container-height {
@@ -57,7 +60,10 @@
   @apply sticky
   top-0;
   z-index: calc(var(--calcite-z-index-sticky) + 1);
-  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-list-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 
 .assistive-text {
