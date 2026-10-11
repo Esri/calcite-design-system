@@ -81,7 +81,7 @@
   background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
   border-radius: var(--calcite-internal-text-area-corner-radius) var(--calcite-internal-text-area-corner-radius) 0 0;
   &::placeholder {
-    font-weight: var(--calcite-font-weight-normal);
+    font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   }
 
   @media screen and (max-width: 480px) {
