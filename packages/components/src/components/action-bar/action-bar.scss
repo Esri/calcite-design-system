@@ -44,7 +44,10 @@
   @apply inline-flex
   flex-col
   flex-auto;
-  background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-action-bar-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   gap: var(--calcite-internal-action-bar-gap);
   padding: var(--calcite-internal-action-bar-padding);
 }
@@ -53,7 +56,10 @@
   .container {
     @apply animate-in
     overflow-hidden;
-    border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-round));
+    border-radius: var(
+      --calcite-action-bar-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
     box-shadow: var(--calcite-action-bar-shadow, var(--calcite-shadow-md));
   }
 }

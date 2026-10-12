@@ -10,6 +10,7 @@
 
 :host {
   display: inline-block;
+  min-inline-size: min-content;
 }
 
 @include shared.disabled();
@@ -34,7 +35,10 @@ calcite-time-picker {
     var(--calcite-ui-icon-color, var(--calcite-color-text-3))
   );
   align-items: center;
-  background-color: var(--calcite-input-time-picker-input-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-time-picker-input-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border: 1px solid var(--calcite-input-time-picker-input-border-color, var(--calcite-color-border-input));
   border-radius: var(--calcite-input-time-picker-input-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-input-time-picker-input-shadow, var(--calcite-shadow-none));
@@ -42,7 +46,7 @@ calcite-time-picker {
   display: flex;
   color: var(--calcite-input-time-picker-input-text-color, var(--calcite-color-text-1));
   flex-wrap: nowrap;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   inline-size: 100%;
   padding-block: var(--calcite-theme-space-base, var(--calcite-spacing-base));
   user-select: none;
@@ -53,7 +57,7 @@ calcite-time-picker {
   }
 
   &.read-only {
-    background-color: var(--calcite-color-background);
+    background-color: var(--calcite-theme-color-surface-1, var(--calcite-color-background));
     font-weight: var(--calcite-font-weight-medium);
   }
 }
@@ -224,7 +228,10 @@ calcite-time-picker {
 }
 
 calcite-popover {
-  --calcite-popover-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius-round));
+  --calcite-popover-corner-radius: var(
+    --calcite-input-time-picker-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
 }
 
 @include shared.form-internal-label();

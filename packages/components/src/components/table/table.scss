@@ -61,7 +61,10 @@
   white-space: nowrap;
   line-height: var(--calcite-font-line-height-relative-tight);
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
-  border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(
+    --calcite-table-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
   overflow: auto;
 }
@@ -99,7 +102,7 @@ table {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
     --calcite-table-row-background-color: var(
       --calcite-table-row-background-color-striped,
-      var(--calcite-color-foreground-2)
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
     );
   }
 }

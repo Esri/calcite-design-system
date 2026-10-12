@@ -193,7 +193,10 @@
 .float-all {
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-shell-panel-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
   overflow: hidden;
 }
 
@@ -240,14 +243,20 @@
 .resize-handle:hover {
   .resize-handle-bar {
     color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-text-1));
-    background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-shell-panel-resize-background-color,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
 }
 
 .resize-handle-bar {
   @apply flex justify-center items-center pointer-events-none;
   color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-background));
+  background-color: var(
+    --calcite-shell-panel-resize-background-color,
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+  );
 }
 
 .resize-handle:focus .resize-handle-bar {
@@ -271,8 +280,14 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-end-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 
   &:host([action-bar-position]) {
@@ -320,8 +335,14 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-end-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 
   &:host([action-bar-position]) {
@@ -366,8 +387,14 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-end-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-end-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 
   &:host([action-bar-position]) .resize-handle {
@@ -393,8 +420,14 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-start-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 
   &:host([action-bar-position]) {
@@ -450,7 +483,10 @@
   relative
   box-border
   flex-auto;
-  background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
+  background-color: var(
+    --calcite-shell-panel-background-color,
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+  );
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);
@@ -584,7 +620,10 @@
 
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-shell-panel-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
   margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   margin-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));

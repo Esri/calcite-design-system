@@ -964,11 +964,11 @@ exports[`CSS > dark should match 1`] = `
  */
 
 :root {
-  --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-color-background: #212121; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: rgba(255, 255, 255, 0); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-foreground-1: #2b2b2b; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-  --calcite-color-foreground-2: #363636; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-  --calcite-color-foreground-3: #404040; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-1: #2b2b2b; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: #363636; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: #404040; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead. */
   --calcite-color-foreground-current: #2b465f; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
   --calcite-color-text-1: #ffffff;
   --calcite-color-text-2: #bfbfbf;
@@ -1008,11 +1008,11 @@ exports[`CSS > dark should match 1`] = `
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-surface-1: var(--calcite-color-background); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: var(--calcite-color-foreground-1); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: var(--calcite-color-foreground-2); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-surface-1: #212121; /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: #2b2b2b; /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: #363636; /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: #404040; /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: #2b465f; /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -1035,14 +1035,14 @@ exports[`CSS > global should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
+  --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-xs: 2px;
-  --calcite-corner-radius-round: 4px; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
+  --calcite-corner-radius-round: 4px; /** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
   --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
@@ -1116,13 +1116,13 @@ exports[`CSS > global should match 1`] = `
   --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm-plus: 10px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
-  --calcite-size-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-fixed-md-plus: 14px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-fixed-lg: 16px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+  --calcite-size-fixed-sm-plus: 10px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead. */
+  --calcite-size-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-fixed-md-plus: 14px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-fixed-lg: 16px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead. */
   --calcite-size-fixed-xl: 20px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
-  --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+  --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead. */
+  --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead. */
   --calcite-size-px: 1px;
   --calcite-size-xxxs: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
   --calcite-size-xxs: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
@@ -1132,25 +1132,25 @@ exports[`CSS > global should match 1`] = `
   --calcite-size-xxxl: 6rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
   --calcite-spacing-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
   --calcite-spacing-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-fixed-lg: 14px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-fixed-lg: 14px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
   --calcite-spacing-fixed-xl: 16px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
   --calcite-spacing-fixed-xxl: 20px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
   --calcite-spacing-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
-  --calcite-spacing-none: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead. */
-  --calcite-spacing-px: 1px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead. */
-  --calcite-spacing-base: 2px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead. */
-  --calcite-spacing-xxs: 0.25rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
-  --calcite-spacing-xs: 0.375rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-sm: 0.5rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-sm-plus: 0.625rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
-  --calcite-spacing-md: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-md-plus: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
-  --calcite-spacing-lg: 1rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
-  --calcite-spacing-xl: 1.25rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
-  --calcite-spacing-xxl: 1.5rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
-  --calcite-spacing-xxxl: 2rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+  --calcite-spacing-none: 0; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead. */
+  --calcite-spacing-px: 1px; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead. */
+  --calcite-spacing-base: 2px; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead. */
+  --calcite-spacing-xxs: 0.25rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead. */
+  --calcite-spacing-xs: 0.375rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead. */
+  --calcite-spacing-sm: 0.5rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-sm-plus: 0.625rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead. */
+  --calcite-spacing-md: 0.75rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-md-plus: 0.875rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-lg: 1rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead. */
+  --calcite-spacing-xl: 1.25rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead. */
+  --calcite-spacing-xxl: 1.5rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead. */
+  --calcite-spacing-xxxl: 2rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead. */
   --calcite-space-4xl: 2.75rem;
   --calcite-z-index-deep: -999999;
   --calcite-z-index: 1;
@@ -1162,31 +1162,31 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
-  --calcite-corner-radius-none: var(--calcite-corner-radius-sharp); /** Replaces \`--calcite-corner-radius-sharp\` */
-  --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
-  --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
-  --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
-  --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
-  --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
-  --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
-  --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
-  --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-space-2xs: var(--calcite-spacing-xxs); /** Replaces \`--calcite-spacing-xxs\` */
-  --calcite-space-xs: var(--calcite-spacing-xs); /** Replaces \`--calcite-spacing-xs\` */
-  --calcite-space-sm: var(--calcite-spacing-sm); /** Replaces \`--calcite-spacing-sm\` */
-  --calcite-space-sm-plus: var(--calcite-spacing-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-space-md: var(--calcite-spacing-md); /** Replaces \`--calcite-spacing-md\` */
-  --calcite-space-md-plus: var(--calcite-spacing-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
-  --calcite-space-lg: var(--calcite-spacing-lg); /** Replaces \`--calcite-spacing-lg\` */
-  --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
-  --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
+  --calcite-corner-radius-none: 0; /** Replaces \`--calcite-corner-radius-sharp\` */
+  --calcite-corner-radius-sm: 4px; /** Replaces \`--calcite-corner-radius-round\` */
+  --calcite-font-weight-regular: 400; /** Replaces \`--calcite-font-weight-normal\` */
+  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
+  --calcite-size-4xs: 0.625rem; /** Replaces \`--calcite-size-fixed-sm-plus\` */
+  --calcite-size-3xs: 0.75rem; /** Replaces \`--calcite-size-fixed-md\` */
+  --calcite-size-2xs: 0.875rem; /** Replaces \`--calcite-size-fixed-md-plus\` */
+  --calcite-size-xs: 1rem; /** Replaces \`--calcite-size-fixed-lg\` */
+  --calcite-size-sm: 1.5rem; /** Replaces \`--calcite-size-fixed-xxl\` */
+  --calcite-size-md: 2rem; /** Replaces \`--calcite-size-fixed-xxxl\` */
+  --calcite-size-2xl: 4rem; /** Replaces \`--calcite-size-xxl\` */
+  --calcite-size-3xl: 6rem; /** Replaces \`--calcite-size-xxxl\` */
+  --calcite-space-none: 0; /** Replaces \`--calcite-spacing-none\` */
+  --calcite-space-px: 1px; /** Replaces \`--calcite-spacing-px\` */
+  --calcite-space-base: 2px; /** Replaces \`--calcite-spacing-base\` */
+  --calcite-space-2xs: 0.25rem; /** Replaces \`--calcite-spacing-xxs\` */
+  --calcite-space-xs: 0.375rem; /** Replaces \`--calcite-spacing-xs\` */
+  --calcite-space-sm: 0.5rem; /** Replaces \`--calcite-spacing-sm\` */
+  --calcite-space-sm-plus: 0.625rem; /** Replaces \`--calcite-spacing-sm-plus\` */
+  --calcite-space-md: 0.75rem; /** Replaces \`--calcite-spacing-md\` */
+  --calcite-space-md-plus: 0.875rem; /** Replaces \`--calcite-spacing-md-plus\` */
+  --calcite-space-lg: 1rem; /** Replaces \`--calcite-spacing-lg\` */
+  --calcite-space-xl: 1.25rem; /** Replaces \`--calcite-spacing-xl\` */
+  --calcite-space-2xl: 1.5rem; /** Replaces \`--calcite-spacing-xxl\` */
+  --calcite-space-3xl: 2rem; /** Replaces \`--calcite-spacing-xxxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
@@ -1202,25 +1202,30 @@ exports[`CSS > index should match 1`] = `
 @import url("./classes.css");
 :root {
   color-scheme: light;
-  --calcite-color-surface-1: var(
-    --calcite-color-background
+  --calcite-color-surface-1: light-dark(
+    #f7f7f7,
+    #212121
   ); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
+  --calcite-color-surface-2: light-dark(
+    #ffffff,
+    #2b2b2b
   ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
+  --calcite-color-surface-3: light-dark(
+    #f2f2f2,
+    #363636
   ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
+  --calcite-color-surface-4: light-dark(
+    #ebebeb,
+    #404040
   ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
+  --calcite-color-surface-highlight: light-dark(
+    #d6efff,
+    #2b465f
   ); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-background: light-dark(
     #f7f7f7,
     #212121
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: light-dark(
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0)
@@ -1228,15 +1233,15 @@ exports[`CSS > index should match 1`] = `
   --calcite-color-foreground-1: light-dark(
     #ffffff,
     #2b2b2b
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead. */
   --calcite-color-foreground-2: light-dark(
     #f2f2f2,
     #363636
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead. */
   --calcite-color-foreground-3: light-dark(
     #ebebeb,
     #404040
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead. */
   --calcite-color-foreground-current: light-dark(
     #d6efff,
     #2b465f
@@ -1330,11 +1335,11 @@ exports[`CSS > light should match 1`] = `
  */
 
 :root {
-  --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  --calcite-color-background: #f7f7f7; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: rgba(255, 255, 255, 0); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-color-foreground-1: #ffffff; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  --calcite-color-foreground-1: #ffffff; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  --calcite-color-foreground-2: #f2f2f2; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  --calcite-color-foreground-3: #ebebeb; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead. */
   --calcite-color-foreground-current: #d6efff; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
   --calcite-color-text-1: #141414;
   --calcite-color-text-2: #4a4a4a;
@@ -1374,11 +1379,11 @@ exports[`CSS > light should match 1`] = `
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-surface-1: var(--calcite-color-background); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: var(--calcite-color-foreground-1); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: var(--calcite-color-foreground-2); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-surface-1: #f7f7f7; /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: #ffffff; /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: #f2f2f2; /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: #ebebeb; /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: #d6efff; /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -1392,25 +1397,30 @@ exports[`CSS > light-dark should match 1`] = `
 
 :root {
   color-scheme: light dark;
-  --calcite-color-surface-1: var(
-    --calcite-color-background
+  --calcite-color-surface-1: light-dark(
+    #f7f7f7,
+    #212121
   ); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
+  --calcite-color-surface-2: light-dark(
+    #ffffff,
+    #2b2b2b
   ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
+  --calcite-color-surface-3: light-dark(
+    #f2f2f2,
+    #363636
   ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
+  --calcite-color-surface-4: light-dark(
+    #ebebeb,
+    #404040
   ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
+  --calcite-color-surface-highlight: light-dark(
+    #d6efff,
+    #2b465f
   ); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-background: light-dark(
     #f7f7f7,
     #212121
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: light-dark(
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0)
@@ -1418,15 +1428,15 @@ exports[`CSS > light-dark should match 1`] = `
   --calcite-color-foreground-1: light-dark(
     #ffffff,
     #2b2b2b
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead. */
   --calcite-color-foreground-2: light-dark(
     #f2f2f2,
     #363636
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead. */
   --calcite-color-foreground-3: light-dark(
     #ebebeb,
     #404040
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead. */
   --calcite-color-foreground-current: light-dark(
     #d6efff,
     #2b465f
@@ -1519,14 +1529,14 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
+  --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-xs: 2px;
-  --calcite-corner-radius-round: 4px; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
+  --calcite-corner-radius-round: 4px; /** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
   --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
@@ -1600,13 +1610,13 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm-plus: 10px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
-  --calcite-size-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-fixed-md-plus: 14px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-fixed-lg: 16px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+  --calcite-size-fixed-sm-plus: 10px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead. */
+  --calcite-size-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-fixed-md-plus: 14px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-fixed-lg: 16px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead. */
   --calcite-size-fixed-xl: 20px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
-  --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+  --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead. */
+  --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead. */
   --calcite-size-px: 1px;
   --calcite-size-xxxs: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
   --calcite-size-xxs: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
@@ -1616,25 +1626,25 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-size-xxxl: 6rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
   --calcite-spacing-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
   --calcite-spacing-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-fixed-lg: 14px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-fixed-lg: 14px; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
   --calcite-spacing-fixed-xl: 16px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
   --calcite-spacing-fixed-xxl: 20px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
   --calcite-spacing-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
-  --calcite-spacing-none: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead. */
-  --calcite-spacing-px: 1px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead. */
-  --calcite-spacing-base: 2px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead. */
-  --calcite-spacing-xxs: 0.25rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
-  --calcite-spacing-xs: 0.375rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-sm: 0.5rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-sm-plus: 0.625rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
-  --calcite-spacing-md: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-md-plus: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
-  --calcite-spacing-lg: 1rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
-  --calcite-spacing-xl: 1.25rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
-  --calcite-spacing-xxl: 1.5rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
-  --calcite-spacing-xxxl: 2rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+  --calcite-spacing-none: 0; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead. */
+  --calcite-spacing-px: 1px; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead. */
+  --calcite-spacing-base: 2px; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead. */
+  --calcite-spacing-xxs: 0.25rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead. */
+  --calcite-spacing-xs: 0.375rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead. */
+  --calcite-spacing-sm: 0.5rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-sm-plus: 0.625rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead. */
+  --calcite-spacing-md: 0.75rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-md-plus: 0.875rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-lg: 1rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead. */
+  --calcite-spacing-xl: 1.25rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead. */
+  --calcite-spacing-xxl: 1.5rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead. */
+  --calcite-spacing-xxxl: 2rem; /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead. */
   --calcite-space-4xl: 2.75rem;
   --calcite-z-index-deep: -999999;
   --calcite-z-index: 1;
@@ -1646,31 +1656,31 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
-  --calcite-corner-radius-none: var(--calcite-corner-radius-sharp); /** Replaces \`--calcite-corner-radius-sharp\` */
-  --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
-  --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
-  --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
-  --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
-  --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
-  --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
-  --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
-  --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-space-2xs: var(--calcite-spacing-xxs); /** Replaces \`--calcite-spacing-xxs\` */
-  --calcite-space-xs: var(--calcite-spacing-xs); /** Replaces \`--calcite-spacing-xs\` */
-  --calcite-space-sm: var(--calcite-spacing-sm); /** Replaces \`--calcite-spacing-sm\` */
-  --calcite-space-sm-plus: var(--calcite-spacing-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-space-md: var(--calcite-spacing-md); /** Replaces \`--calcite-spacing-md\` */
-  --calcite-space-md-plus: var(--calcite-spacing-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
-  --calcite-space-lg: var(--calcite-spacing-lg); /** Replaces \`--calcite-spacing-lg\` */
-  --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
-  --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
+  --calcite-corner-radius-none: 0; /** Replaces \`--calcite-corner-radius-sharp\` */
+  --calcite-corner-radius-sm: 4px; /** Replaces \`--calcite-corner-radius-round\` */
+  --calcite-font-weight-regular: 400; /** Replaces \`--calcite-font-weight-normal\` */
+  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
+  --calcite-size-4xs: 0.625rem; /** Replaces \`--calcite-size-fixed-sm-plus\` */
+  --calcite-size-3xs: 0.75rem; /** Replaces \`--calcite-size-fixed-md\` */
+  --calcite-size-2xs: 0.875rem; /** Replaces \`--calcite-size-fixed-md-plus\` */
+  --calcite-size-xs: 1rem; /** Replaces \`--calcite-size-fixed-lg\` */
+  --calcite-size-sm: 1.5rem; /** Replaces \`--calcite-size-fixed-xxl\` */
+  --calcite-size-md: 2rem; /** Replaces \`--calcite-size-fixed-xxxl\` */
+  --calcite-size-2xl: 4rem; /** Replaces \`--calcite-size-xxl\` */
+  --calcite-size-3xl: 6rem; /** Replaces \`--calcite-size-xxxl\` */
+  --calcite-space-none: 0; /** Replaces \`--calcite-spacing-none\` */
+  --calcite-space-px: 1px; /** Replaces \`--calcite-spacing-px\` */
+  --calcite-space-base: 2px; /** Replaces \`--calcite-spacing-base\` */
+  --calcite-space-2xs: 0.25rem; /** Replaces \`--calcite-spacing-xxs\` */
+  --calcite-space-xs: 0.375rem; /** Replaces \`--calcite-spacing-xs\` */
+  --calcite-space-sm: 0.5rem; /** Replaces \`--calcite-spacing-sm\` */
+  --calcite-space-sm-plus: 0.625rem; /** Replaces \`--calcite-spacing-sm-plus\` */
+  --calcite-space-md: 0.75rem; /** Replaces \`--calcite-spacing-md\` */
+  --calcite-space-md-plus: 0.875rem; /** Replaces \`--calcite-spacing-md-plus\` */
+  --calcite-space-lg: 1rem; /** Replaces \`--calcite-spacing-lg\` */
+  --calcite-space-xl: 1.25rem; /** Replaces \`--calcite-spacing-xl\` */
+  --calcite-space-2xl: 1.5rem; /** Replaces \`--calcite-spacing-xxl\` */
+  --calcite-space-3xl: 2rem; /** Replaces \`--calcite-spacing-xxxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
@@ -17589,7 +17599,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 1",
-      "path": ["color", "surface", "1"]
+      "path": ["color", "surface", "1"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-1)",
+        "scss": "$calcite-theme-color-surface-1",
+        "es6": "calciteThemeColorSurface1"
+      }
     },
     {
       "key": "{color.surface.2}",
@@ -17615,7 +17630,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 2",
-      "path": ["color", "surface", "2"]
+      "path": ["color", "surface", "2"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-2)",
+        "scss": "$calcite-theme-color-surface-2",
+        "es6": "calciteThemeColorSurface2"
+      }
     },
     {
       "key": "{color.surface.3}",
@@ -17641,7 +17661,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 3",
-      "path": ["color", "surface", "3"]
+      "path": ["color", "surface", "3"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-3)",
+        "scss": "$calcite-theme-color-surface-3",
+        "es6": "calciteThemeColorSurface3"
+      }
     },
     {
       "key": "{color.surface.4}",
@@ -17667,7 +17692,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 4",
-      "path": ["color", "surface", "4"]
+      "path": ["color", "surface", "4"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-4)",
+        "scss": "$calcite-theme-color-surface-4",
+        "es6": "calciteThemeColorSurface4"
+      }
     },
     {
       "key": "{color.surface.highlight}",
@@ -17693,7 +17723,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface Highlight",
-      "path": ["color", "surface", "highlight"]
+      "path": ["color", "surface", "highlight"],
+      "theme": {
+        "css": "var(--calcite-theme-color-surface-highlight)",
+        "scss": "$calcite-theme-color-surface-highlight",
+        "es6": "calciteThemeColorSurfaceHighlight"
+      }
     },
     {
       "key": "{color.background.default}",
@@ -17716,7 +17751,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "color",
       "$value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#212121\\"}",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Background",
@@ -17770,7 +17805,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "color",
       "$value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#2b2b2b\\"}",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground 1",
@@ -17797,7 +17832,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "color",
       "$value": "{\\"light\\":\\"#f2f2f2\\",\\"dark\\":\\"#363636\\"}",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground 2",
@@ -17824,7 +17859,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "color",
       "$value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground 3",
@@ -17880,7 +17915,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 1",
-      "path": ["color", "text", "1"]
+      "path": ["color", "text", "1"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-1)",
+        "scss": "$calcite-theme-color-text-1",
+        "es6": "calciteThemeColorText1"
+      }
     },
     {
       "key": "{color.text.2}",
@@ -17905,7 +17945,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 2",
-      "path": ["color", "text", "2"]
+      "path": ["color", "text", "2"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-2)",
+        "scss": "$calcite-theme-color-text-2",
+        "es6": "calciteThemeColorText2"
+      }
     },
     {
       "key": "{color.text.3}",
@@ -17930,7 +17975,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 3",
-      "path": ["color", "text", "3"]
+      "path": ["color", "text", "3"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-3)",
+        "scss": "$calcite-theme-color-text-3",
+        "es6": "calciteThemeColorText3"
+      }
     },
     {
       "key": "{color.text.inverse}",
@@ -17955,7 +18005,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Inverse",
-      "path": ["color", "text", "inverse"]
+      "path": ["color", "text", "inverse"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-inverse)",
+        "scss": "$calcite-theme-color-text-inverse",
+        "es6": "calciteThemeColorTextInverse"
+      }
     },
     {
       "key": "{color.text.link}",
@@ -17980,7 +18035,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Link",
-      "path": ["color", "text", "link"]
+      "path": ["color", "text", "link"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-link)",
+        "scss": "$calcite-theme-color-text-link",
+        "es6": "calciteThemeColorTextLink"
+      }
     },
     {
       "key": "{color.text.highlight}",
@@ -18005,7 +18065,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Highlight",
-      "path": ["color", "text", "highlight"]
+      "path": ["color", "text", "highlight"],
+      "theme": {
+        "css": "var(--calcite-theme-color-text-highlight)",
+        "scss": "$calcite-theme-color-text-highlight",
+        "es6": "calciteThemeColorTextHighlight"
+      }
     },
     {
       "key": "{color.border.1}",
@@ -18030,7 +18095,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 1",
-      "path": ["color", "border", "1"]
+      "path": ["color", "border", "1"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-1)",
+        "scss": "$calcite-theme-color-border-1",
+        "es6": "calciteThemeColorBorder1"
+      }
     },
     {
       "key": "{color.border.2}",
@@ -18055,7 +18125,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 2",
-      "path": ["color", "border", "2"]
+      "path": ["color", "border", "2"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-2)",
+        "scss": "$calcite-theme-color-border-2",
+        "es6": "calciteThemeColorBorder2"
+      }
     },
     {
       "key": "{color.border.3}",
@@ -18080,7 +18155,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 3",
-      "path": ["color", "border", "3"]
+      "path": ["color", "border", "3"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-3)",
+        "scss": "$calcite-theme-color-border-3",
+        "es6": "calciteThemeColorBorder3"
+      }
     },
     {
       "key": "{color.border.input}",
@@ -18105,7 +18185,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border Input",
-      "path": ["color", "border", "input"]
+      "path": ["color", "border", "input"],
+      "theme": {
+        "css": "var(--calcite-theme-color-border-input)",
+        "scss": "$calcite-theme-color-border-input",
+        "es6": "calciteThemeColorBorderInput"
+      }
     },
     {
       "key": "{color.border.ghost}",
@@ -18184,7 +18269,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand",
-      "path": ["color", "brand", "default"]
+      "path": ["color", "brand", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand)",
+        "scss": "$calcite-theme-color-brand",
+        "es6": "calciteThemeColorBrand"
+      }
     },
     {
       "key": "{color.brand.hover}",
@@ -18209,7 +18299,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Hover",
-      "path": ["color", "brand", "hover"]
+      "path": ["color", "brand", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand-hover)",
+        "scss": "$calcite-theme-color-brand-hover",
+        "es6": "calciteThemeColorBrandHover"
+      }
     },
     {
       "key": "{color.brand.press}",
@@ -18234,7 +18329,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Press",
-      "path": ["color", "brand", "press"]
+      "path": ["color", "brand", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand-press)",
+        "scss": "$calcite-theme-color-brand-press",
+        "es6": "calciteThemeColorBrandPress"
+      }
     },
     {
       "key": "{color.brand.underline}",
@@ -18259,7 +18359,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Underline",
-      "path": ["color", "brand", "underline"]
+      "path": ["color", "brand", "underline"],
+      "theme": {
+        "css": "var(--calcite-theme-color-brand-underline)",
+        "scss": "$calcite-theme-color-brand-underline",
+        "es6": "calciteThemeColorBrandUnderline"
+      }
     },
     {
       "key": "{color.inverse.default}",
@@ -18284,7 +18389,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse",
-      "path": ["color", "inverse", "default"]
+      "path": ["color", "inverse", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-inverse)",
+        "scss": "$calcite-theme-color-inverse",
+        "es6": "calciteThemeColorInverse"
+      }
     },
     {
       "key": "{color.inverse.hover}",
@@ -18309,7 +18419,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse Hover",
-      "path": ["color", "inverse", "hover"]
+      "path": ["color", "inverse", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-inverse-hover)",
+        "scss": "$calcite-theme-color-inverse-hover",
+        "es6": "calciteThemeColorInverseHover"
+      }
     },
     {
       "key": "{color.inverse.press}",
@@ -18334,7 +18449,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse Press",
-      "path": ["color", "inverse", "press"]
+      "path": ["color", "inverse", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-inverse-press)",
+        "scss": "$calcite-theme-color-inverse-press",
+        "es6": "calciteThemeColorInversePress"
+      }
     },
     {
       "key": "{color.status.info.default}",
@@ -18361,7 +18481,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info",
-      "path": ["color", "status", "info", "default"]
+      "path": ["color", "status", "info", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-info)",
+        "scss": "$calcite-theme-color-status-info",
+        "es6": "calciteThemeColorStatusInfo"
+      }
     },
     {
       "key": "{color.status.info.hover}",
@@ -18388,7 +18513,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info Hover",
-      "path": ["color", "status", "info", "hover"]
+      "path": ["color", "status", "info", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-info-hover)",
+        "scss": "$calcite-theme-color-status-info-hover",
+        "es6": "calciteThemeColorStatusInfoHover"
+      }
     },
     {
       "key": "{color.status.info.press}",
@@ -18415,7 +18545,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info Press",
-      "path": ["color", "status", "info", "press"]
+      "path": ["color", "status", "info", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-info-press)",
+        "scss": "$calcite-theme-color-status-info-press",
+        "es6": "calciteThemeColorStatusInfoPress"
+      }
     },
     {
       "key": "{color.status.success.default}",
@@ -18442,7 +18577,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success",
-      "path": ["color", "status", "success", "default"]
+      "path": ["color", "status", "success", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-success)",
+        "scss": "$calcite-theme-color-status-success",
+        "es6": "calciteThemeColorStatusSuccess"
+      }
     },
     {
       "key": "{color.status.success.hover}",
@@ -18469,7 +18609,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success Hover",
-      "path": ["color", "status", "success", "hover"]
+      "path": ["color", "status", "success", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-success-hover)",
+        "scss": "$calcite-theme-color-status-success-hover",
+        "es6": "calciteThemeColorStatusSuccessHover"
+      }
     },
     {
       "key": "{color.status.success.press}",
@@ -18496,7 +18641,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success Press",
-      "path": ["color", "status", "success", "press"]
+      "path": ["color", "status", "success", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-success-press)",
+        "scss": "$calcite-theme-color-status-success-press",
+        "es6": "calciteThemeColorStatusSuccessPress"
+      }
     },
     {
       "key": "{color.status.warning.default}",
@@ -18523,7 +18673,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning",
-      "path": ["color", "status", "warning", "default"]
+      "path": ["color", "status", "warning", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-warning)",
+        "scss": "$calcite-theme-color-status-warning",
+        "es6": "calciteThemeColorStatusWarning"
+      }
     },
     {
       "key": "{color.status.warning.hover}",
@@ -18550,7 +18705,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning Hover",
-      "path": ["color", "status", "warning", "hover"]
+      "path": ["color", "status", "warning", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-warning-hover)",
+        "scss": "$calcite-theme-color-status-warning-hover",
+        "es6": "calciteThemeColorStatusWarningHover"
+      }
     },
     {
       "key": "{color.status.warning.press}",
@@ -18577,7 +18737,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning Press",
-      "path": ["color", "status", "warning", "press"]
+      "path": ["color", "status", "warning", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-warning-press)",
+        "scss": "$calcite-theme-color-status-warning-press",
+        "es6": "calciteThemeColorStatusWarningPress"
+      }
     },
     {
       "key": "{color.status.danger.default}",
@@ -18604,7 +18769,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger",
-      "path": ["color", "status", "danger", "default"]
+      "path": ["color", "status", "danger", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-danger)",
+        "scss": "$calcite-theme-color-status-danger",
+        "es6": "calciteThemeColorStatusDanger"
+      }
     },
     {
       "key": "{color.status.danger.hover}",
@@ -18631,7 +18801,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger Hover",
-      "path": ["color", "status", "danger", "hover"]
+      "path": ["color", "status", "danger", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-danger-hover)",
+        "scss": "$calcite-theme-color-status-danger-hover",
+        "es6": "calciteThemeColorStatusDangerHover"
+      }
     },
     {
       "key": "{color.status.danger.press}",
@@ -18658,7 +18833,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger Press",
-      "path": ["color", "status", "danger", "press"]
+      "path": ["color", "status", "danger", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-status-danger-press)",
+        "scss": "$calcite-theme-color-status-danger-press",
+        "es6": "calciteThemeColorStatusDangerPress"
+      }
     },
     {
       "key": "{color.transparent.default}",
@@ -18683,7 +18863,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent",
-      "path": ["color", "transparent", "default"]
+      "path": ["color", "transparent", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent)",
+        "scss": "$calcite-theme-color-transparent",
+        "es6": "calciteThemeColorTransparent"
+      }
     },
     {
       "key": "{color.transparent.hover}",
@@ -18708,7 +18893,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Hover",
-      "path": ["color", "transparent", "hover"]
+      "path": ["color", "transparent", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-hover)",
+        "scss": "$calcite-theme-color-transparent-hover",
+        "es6": "calciteThemeColorTransparentHover"
+      }
     },
     {
       "key": "{color.transparent.press}",
@@ -18733,7 +18923,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Press",
-      "path": ["color", "transparent", "press"]
+      "path": ["color", "transparent", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-press)",
+        "scss": "$calcite-theme-color-transparent-press",
+        "es6": "calciteThemeColorTransparentPress"
+      }
     },
     {
       "key": "{color.transparent.scrim}",
@@ -18758,7 +18953,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Scrim",
-      "path": ["color", "transparent", "scrim"]
+      "path": ["color", "transparent", "scrim"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-scrim)",
+        "scss": "$calcite-theme-color-transparent-scrim",
+        "es6": "calciteThemeColorTransparentScrim"
+      }
     },
     {
       "key": "{color.transparent.tint}",
@@ -18783,7 +18983,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Tint",
-      "path": ["color", "transparent", "tint"]
+      "path": ["color", "transparent", "tint"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-tint)",
+        "scss": "$calcite-theme-color-transparent-tint",
+        "es6": "calciteThemeColorTransparentTint"
+      }
     },
     {
       "key": "{color.transparent.inverse.hover}",
@@ -18810,7 +19015,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Inverse Hover",
-      "path": ["color", "transparent", "inverse", "hover"]
+      "path": ["color", "transparent", "inverse", "hover"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-inverse-hover)",
+        "scss": "$calcite-theme-color-transparent-inverse-hover",
+        "es6": "calciteThemeColorTransparentInverseHover"
+      }
     },
     {
       "key": "{color.transparent.inverse.press}",
@@ -18837,7 +19047,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Inverse Press",
-      "path": ["color", "transparent", "inverse", "press"]
+      "path": ["color", "transparent", "inverse", "press"],
+      "theme": {
+        "css": "var(--calcite-theme-color-transparent-inverse-press)",
+        "scss": "$calcite-theme-color-transparent-inverse-press",
+        "es6": "calciteThemeColorTransparentInversePress"
+      }
     },
     {
       "key": "{color.focus.default}",
@@ -18862,7 +19077,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Focus",
-      "path": ["color", "focus", "default"]
+      "path": ["color", "focus", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-color-focus)",
+        "scss": "$calcite-theme-color-focus",
+        "es6": "calciteThemeColorFocus"
+      }
     },
     {
       "key": "{border.width.none}",
@@ -18887,7 +19107,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width None",
-      "path": ["border", "width", "none"]
+      "path": ["border", "width", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-none)",
+        "scss": "$calcite-theme-border-width-none",
+        "es6": "calciteThemeBorderWidthNone"
+      }
     },
     {
       "key": "{border.width.sm}",
@@ -18912,7 +19137,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Sm",
-      "path": ["border", "width", "sm"]
+      "path": ["border", "width", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-sm)",
+        "scss": "$calcite-theme-border-width-sm",
+        "es6": "calciteThemeBorderWidthSm"
+      }
     },
     {
       "key": "{border.width.md}",
@@ -18937,7 +19167,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Md",
-      "path": ["border", "width", "md"]
+      "path": ["border", "width", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-md)",
+        "scss": "$calcite-theme-border-width-md",
+        "es6": "calciteThemeBorderWidthMd"
+      }
     },
     {
       "key": "{border.width.lg}",
@@ -18962,7 +19197,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Lg",
-      "path": ["border", "width", "lg"]
+      "path": ["border", "width", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-lg)",
+        "scss": "$calcite-theme-border-width-lg",
+        "es6": "calciteThemeBorderWidthLg"
+      }
     },
     {
       "key": "{container-size.height.xxs.min}",
@@ -19447,7 +19687,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius",
-      "path": ["corner-radius", "default"]
+      "path": ["corner-radius", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius)",
+        "scss": "$calcite-theme-corner-radius",
+        "es6": "calciteThemeCornerRadius"
+      }
     },
     {
       "key": "{corner-radius.sharp}",
@@ -19468,7 +19713,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.",
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.",
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
@@ -19496,7 +19741,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius None",
-      "path": ["corner-radius", "none"]
+      "path": ["corner-radius", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-none)",
+        "scss": "$calcite-theme-corner-radius-none",
+        "es6": "calciteThemeCornerRadiusNone"
+      }
     },
     {
       "key": "{corner-radius.xs}",
@@ -19519,7 +19769,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Xs",
-      "path": ["corner-radius", "xs"]
+      "path": ["corner-radius", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-xs)",
+        "scss": "$calcite-theme-corner-radius-xs",
+        "es6": "calciteThemeCornerRadiusXs"
+      }
     },
     {
       "key": "{corner-radius.sm}",
@@ -19543,7 +19798,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Sm",
-      "path": ["corner-radius", "sm"]
+      "path": ["corner-radius", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-sm)",
+        "scss": "$calcite-theme-corner-radius-sm",
+        "es6": "calciteThemeCornerRadiusSm"
+      }
     },
     {
       "key": "{corner-radius.round}",
@@ -19564,7 +19824,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "4px",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.",
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.",
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Round",
@@ -19591,7 +19851,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Pill",
-      "path": ["corner-radius", "pill"]
+      "path": ["corner-radius", "pill"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-pill)",
+        "scss": "$calcite-theme-corner-radius-pill",
+        "es6": "calciteThemeCornerRadiusPill"
+      }
     },
     {
       "key": "{font.family.default}",
@@ -19669,7 +19934,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Light",
-      "path": ["font", "weight", "light"]
+      "path": ["font", "weight", "light"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-light)",
+        "scss": "$calcite-theme-font-weight-light",
+        "es6": "calciteThemeFontWeightLight"
+      }
     },
     {
       "key": "{font.weight.normal}",
@@ -19695,7 +19965,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "fontWeight",
       "$value": "400",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead.",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Normal",
@@ -19725,7 +19995,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Regular",
-      "path": ["font", "weight", "regular"]
+      "path": ["font", "weight", "regular"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-regular)",
+        "scss": "$calcite-theme-font-weight-regular",
+        "es6": "calciteThemeFontWeightRegular"
+      }
     },
     {
       "key": "{font.weight.medium}",
@@ -19750,7 +20025,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Medium",
-      "path": ["font", "weight", "medium"]
+      "path": ["font", "weight", "medium"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-medium)",
+        "scss": "$calcite-theme-font-weight-medium",
+        "es6": "calciteThemeFontWeightMedium"
+      }
     },
     {
       "key": "{font.weight.semibold}",
@@ -19775,7 +20055,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Semibold",
-      "path": ["font", "weight", "semibold"]
+      "path": ["font", "weight", "semibold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-semibold)",
+        "scss": "$calcite-theme-font-weight-semibold",
+        "es6": "calciteThemeFontWeightSemibold"
+      }
     },
     {
       "key": "{font.weight.bold}",
@@ -19800,7 +20085,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Bold",
-      "path": ["font", "weight", "bold"]
+      "path": ["font", "weight", "bold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-bold)",
+        "scss": "$calcite-theme-font-weight-bold",
+        "es6": "calciteThemeFontWeightBold"
+      }
     },
     {
       "key": "{font.size.xs}",
@@ -21492,7 +21782,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow None",
-      "path": ["shadow", "none"]
+      "path": ["shadow", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-none)",
+        "scss": "$calcite-theme-shadow-none",
+        "es6": "calciteThemeShadowNone"
+      }
     },
     {
       "key": "{shadow.sm}",
@@ -21515,7 +21810,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Sm",
-      "path": ["shadow", "sm"]
+      "path": ["shadow", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-sm)",
+        "scss": "$calcite-theme-shadow-sm",
+        "es6": "calciteThemeShadowSm"
+      }
     },
     {
       "key": "{shadow.md}",
@@ -21538,7 +21838,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Md",
-      "path": ["shadow", "md"]
+      "path": ["shadow", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-md)",
+        "scss": "$calcite-theme-shadow-md",
+        "es6": "calciteThemeShadowMd"
+      }
     },
     {
       "key": "{size.fixed.xxxs}",
@@ -21664,7 +21969,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "10px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Sm Plus",
@@ -21690,7 +21995,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "12px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md",
@@ -21716,7 +22021,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "14px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md Plus",
@@ -21742,7 +22047,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "16px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Lg",
@@ -21794,7 +22099,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "24px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxl",
@@ -21820,7 +22125,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "32px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxxl",
@@ -21871,7 +22176,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 4xs",
-      "path": ["size", "4xs"]
+      "path": ["size", "4xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-4xs)",
+        "scss": "$calcite-theme-size-4xs",
+        "es6": "calciteThemeSize4xs"
+      }
     },
     {
       "key": "{size.xxxs}",
@@ -21920,7 +22230,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
-      "path": ["size", "3xs"]
+      "path": ["size", "3xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xs)",
+        "scss": "$calcite-theme-size-3xs",
+        "es6": "calciteThemeSize3xs"
+      }
     },
     {
       "key": "{size.xxs}",
@@ -21969,7 +22284,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
-      "path": ["size", "2xs"]
+      "path": ["size", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xs)",
+        "scss": "$calcite-theme-size-2xs",
+        "es6": "calciteThemeSize2xs"
+      }
     },
     {
       "key": "{size.xs}",
@@ -21993,7 +22313,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
-      "path": ["size", "xs"]
+      "path": ["size", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xs)",
+        "scss": "$calcite-theme-size-xs",
+        "es6": "calciteThemeSizeXs"
+      }
     },
     {
       "key": "{size.sm}",
@@ -22017,7 +22342,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
-      "path": ["size", "sm"]
+      "path": ["size", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-size-sm)",
+        "scss": "$calcite-theme-size-sm",
+        "es6": "calciteThemeSizeSm"
+      }
     },
     {
       "key": "{size.md}",
@@ -22041,7 +22371,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
-      "path": ["size", "md"]
+      "path": ["size", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-size-md)",
+        "scss": "$calcite-theme-size-md",
+        "es6": "calciteThemeSizeMd"
+      }
     },
     {
       "key": "{size.lg}",
@@ -22064,7 +22399,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Lg",
-      "path": ["size", "lg"]
+      "path": ["size", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-size-lg)",
+        "scss": "$calcite-theme-size-lg",
+        "es6": "calciteThemeSizeLg"
+      }
     },
     {
       "key": "{size.xl}",
@@ -22087,7 +22427,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xl",
-      "path": ["size", "xl"]
+      "path": ["size", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xl)",
+        "scss": "$calcite-theme-size-xl",
+        "es6": "calciteThemeSizeXl"
+      }
     },
     {
       "key": "{size.xxl}",
@@ -22136,7 +22481,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xl",
-      "path": ["size", "2xl"]
+      "path": ["size", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xl)",
+        "scss": "$calcite-theme-size-2xl",
+        "es6": "calciteThemeSize2xl"
+      }
     },
     {
       "key": "{size.xxxl}",
@@ -22185,7 +22535,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xl",
-      "path": ["size", "3xl"]
+      "path": ["size", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xl)",
+        "scss": "$calcite-theme-size-3xl",
+        "es6": "calciteThemeSize3xl"
+      }
     },
     {
       "key": "{spacing.fixed.xxs}",
@@ -22259,7 +22614,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "8px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Sm",
@@ -22285,7 +22640,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "12px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Md",
@@ -22311,7 +22666,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "14px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Lg",
@@ -22415,7 +22770,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing None",
@@ -22441,7 +22796,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1px",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Px",
@@ -22467,7 +22822,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2px",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Base",
@@ -22493,7 +22848,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.25rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xxs",
@@ -22519,7 +22874,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.375rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xs",
@@ -22545,7 +22900,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.5rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Sm",
@@ -22571,7 +22926,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.625rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Sm Plus",
@@ -22597,7 +22952,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.75rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Md",
@@ -22623,7 +22978,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.875rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Md Plus",
@@ -22649,7 +23004,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Lg",
@@ -22675,7 +23030,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.25rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xl",
@@ -22701,7 +23056,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.5rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xxl",
@@ -22727,7 +23082,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xxxl",
@@ -22755,7 +23110,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space None",
-      "path": ["space", "none"]
+      "path": ["space", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-space-none)",
+        "scss": "$calcite-theme-space-none",
+        "es6": "calciteThemeSpaceNone"
+      }
     },
     {
       "key": "{space.px}",
@@ -22779,7 +23139,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Px",
-      "path": ["space", "px"]
+      "path": ["space", "px"],
+      "theme": {
+        "css": "var(--calcite-theme-space-px)",
+        "scss": "$calcite-theme-space-px",
+        "es6": "calciteThemeSpacePx"
+      }
     },
     {
       "key": "{space.base}",
@@ -22803,7 +23168,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Base",
-      "path": ["space", "base"]
+      "path": ["space", "base"],
+      "theme": {
+        "css": "var(--calcite-theme-space-base)",
+        "scss": "$calcite-theme-space-base",
+        "es6": "calciteThemeSpaceBase"
+      }
     },
     {
       "key": "{space.2xs}",
@@ -22827,7 +23197,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xs",
-      "path": ["space", "2xs"]
+      "path": ["space", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xs)",
+        "scss": "$calcite-theme-space-2xs",
+        "es6": "calciteThemeSpace2xs"
+      }
     },
     {
       "key": "{space.xs}",
@@ -22851,7 +23226,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xs",
-      "path": ["space", "xs"]
+      "path": ["space", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xs)",
+        "scss": "$calcite-theme-space-xs",
+        "es6": "calciteThemeSpaceXs"
+      }
     },
     {
       "key": "{space.sm}",
@@ -22875,7 +23255,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm",
-      "path": ["space", "sm"]
+      "path": ["space", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm)",
+        "scss": "$calcite-theme-space-sm",
+        "es6": "calciteThemeSpaceSm"
+      }
     },
     {
       "key": "{space.sm-plus}",
@@ -22899,7 +23284,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm Plus",
-      "path": ["space", "sm-plus"]
+      "path": ["space", "sm-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm-plus)",
+        "scss": "$calcite-theme-space-sm-plus",
+        "es6": "calciteThemeSpaceSmPlus"
+      }
     },
     {
       "key": "{space.md}",
@@ -22923,7 +23313,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md",
-      "path": ["space", "md"]
+      "path": ["space", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md)",
+        "scss": "$calcite-theme-space-md",
+        "es6": "calciteThemeSpaceMd"
+      }
     },
     {
       "key": "{space.md-plus}",
@@ -22947,7 +23342,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md Plus",
-      "path": ["space", "md-plus"]
+      "path": ["space", "md-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md-plus)",
+        "scss": "$calcite-theme-space-md-plus",
+        "es6": "calciteThemeSpaceMdPlus"
+      }
     },
     {
       "key": "{space.lg}",
@@ -22971,7 +23371,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Lg",
-      "path": ["space", "lg"]
+      "path": ["space", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-space-lg)",
+        "scss": "$calcite-theme-space-lg",
+        "es6": "calciteThemeSpaceLg"
+      }
     },
     {
       "key": "{space.xl}",
@@ -22995,7 +23400,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xl",
-      "path": ["space", "xl"]
+      "path": ["space", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xl)",
+        "scss": "$calcite-theme-space-xl",
+        "es6": "calciteThemeSpaceXl"
+      }
     },
     {
       "key": "{space.2xl}",
@@ -23019,7 +23429,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xl",
-      "path": ["space", "2xl"]
+      "path": ["space", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xl)",
+        "scss": "$calcite-theme-space-2xl",
+        "es6": "calciteThemeSpace2xl"
+      }
     },
     {
       "key": "{space.3xl}",
@@ -23043,7 +23458,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 3xl",
-      "path": ["space", "3xl"]
+      "path": ["space", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-3xl)",
+        "scss": "$calcite-theme-space-3xl",
+        "es6": "calciteThemeSpace3xl"
+      }
     },
     {
       "key": "{space.4xl}",
@@ -23066,7 +23486,12 @@ exports[`DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 4xl",
-      "path": ["space", "4xl"]
+      "path": ["space", "4xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-4xl)",
+        "scss": "$calcite-theme-space-4xl",
+        "es6": "calciteThemeSpace4xl"
+      }
     },
     {
       "key": "{typography.default.default}",
@@ -25660,7 +26085,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width None",
-      "path": ["border", "width", "none"]
+      "path": ["border", "width", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-none)",
+        "scss": "$calcite-theme-border-width-none",
+        "es6": "calciteThemeBorderWidthNone"
+      }
     },
     {
       "key": "{border.width.sm}",
@@ -25685,7 +26115,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Sm",
-      "path": ["border", "width", "sm"]
+      "path": ["border", "width", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-sm)",
+        "scss": "$calcite-theme-border-width-sm",
+        "es6": "calciteThemeBorderWidthSm"
+      }
     },
     {
       "key": "{border.width.md}",
@@ -25710,7 +26145,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Md",
-      "path": ["border", "width", "md"]
+      "path": ["border", "width", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-md)",
+        "scss": "$calcite-theme-border-width-md",
+        "es6": "calciteThemeBorderWidthMd"
+      }
     },
     {
       "key": "{border.width.lg}",
@@ -25735,7 +26175,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/border.json",
       "isSource": true,
       "name": "Border Width Lg",
-      "path": ["border", "width", "lg"]
+      "path": ["border", "width", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-border-width-lg)",
+        "scss": "$calcite-theme-border-width-lg",
+        "es6": "calciteThemeBorderWidthLg"
+      }
     },
     {
       "key": "{container-size.margin}",
@@ -25854,7 +26299,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius",
-      "path": ["corner-radius", "default"]
+      "path": ["corner-radius", "default"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius)",
+        "scss": "$calcite-theme-corner-radius",
+        "es6": "calciteThemeCornerRadius"
+      }
     },
     {
       "key": "{corner-radius.sharp}",
@@ -25875,7 +26325,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.",
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.",
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Sharp",
@@ -25903,7 +26353,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius None",
-      "path": ["corner-radius", "none"]
+      "path": ["corner-radius", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-none)",
+        "scss": "$calcite-theme-corner-radius-none",
+        "es6": "calciteThemeCornerRadiusNone"
+      }
     },
     {
       "key": "{corner-radius.xs}",
@@ -25926,7 +26381,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Xs",
-      "path": ["corner-radius", "xs"]
+      "path": ["corner-radius", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-xs)",
+        "scss": "$calcite-theme-corner-radius-xs",
+        "es6": "calciteThemeCornerRadiusXs"
+      }
     },
     {
       "key": "{corner-radius.sm}",
@@ -25950,7 +26410,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Sm",
-      "path": ["corner-radius", "sm"]
+      "path": ["corner-radius", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-sm)",
+        "scss": "$calcite-theme-corner-radius-sm",
+        "es6": "calciteThemeCornerRadiusSm"
+      }
     },
     {
       "key": "{corner-radius.round}",
@@ -25971,7 +26436,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "4px",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.",
+      "$description": "Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.",
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Round",
@@ -25998,7 +26463,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/corner-radius.json",
       "isSource": true,
       "name": "Corner Radius Pill",
-      "path": ["corner-radius", "pill"]
+      "path": ["corner-radius", "pill"],
+      "theme": {
+        "css": "var(--calcite-theme-corner-radius-pill)",
+        "scss": "$calcite-theme-corner-radius-pill",
+        "es6": "calciteThemeCornerRadiusPill"
+      }
     },
     {
       "key": "{font.family.default}",
@@ -26076,7 +26546,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Light",
-      "path": ["font", "weight", "light"]
+      "path": ["font", "weight", "light"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-light)",
+        "scss": "$calcite-theme-font-weight-light",
+        "es6": "calciteThemeFontWeightLight"
+      }
     },
     {
       "key": "{font.weight.normal}",
@@ -26102,7 +26577,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "fontWeight",
       "$value": "400",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead.",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Normal",
@@ -26132,7 +26607,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Regular",
-      "path": ["font", "weight", "regular"]
+      "path": ["font", "weight", "regular"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-regular)",
+        "scss": "$calcite-theme-font-weight-regular",
+        "es6": "calciteThemeFontWeightRegular"
+      }
     },
     {
       "key": "{font.weight.medium}",
@@ -26157,7 +26637,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Medium",
-      "path": ["font", "weight", "medium"]
+      "path": ["font", "weight", "medium"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-medium)",
+        "scss": "$calcite-theme-font-weight-medium",
+        "es6": "calciteThemeFontWeightMedium"
+      }
     },
     {
       "key": "{font.weight.semibold}",
@@ -26182,7 +26667,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Semibold",
-      "path": ["font", "weight", "semibold"]
+      "path": ["font", "weight", "semibold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-semibold)",
+        "scss": "$calcite-theme-font-weight-semibold",
+        "es6": "calciteThemeFontWeightSemibold"
+      }
     },
     {
       "key": "{font.weight.bold}",
@@ -26207,7 +26697,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Bold",
-      "path": ["font", "weight", "bold"]
+      "path": ["font", "weight", "bold"],
+      "theme": {
+        "css": "var(--calcite-theme-font-weight-bold)",
+        "scss": "$calcite-theme-font-weight-bold",
+        "es6": "calciteThemeFontWeightBold"
+      }
     },
     {
       "key": "{font.size.xs}",
@@ -27899,7 +28394,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow None",
-      "path": ["shadow", "none"]
+      "path": ["shadow", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-none)",
+        "scss": "$calcite-theme-shadow-none",
+        "es6": "calciteThemeShadowNone"
+      }
     },
     {
       "key": "{shadow.sm}",
@@ -27922,7 +28422,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Sm",
-      "path": ["shadow", "sm"]
+      "path": ["shadow", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-sm)",
+        "scss": "$calcite-theme-shadow-sm",
+        "es6": "calciteThemeShadowSm"
+      }
     },
     {
       "key": "{shadow.md}",
@@ -27945,7 +28450,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/shadow.json",
       "isSource": true,
       "name": "Shadow Md",
-      "path": ["shadow", "md"]
+      "path": ["shadow", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-shadow-md)",
+        "scss": "$calcite-theme-shadow-md",
+        "es6": "calciteThemeShadowMd"
+      }
     },
     {
       "key": "{size.fixed.xxxs}",
@@ -28071,7 +28581,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "10px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Sm Plus",
@@ -28097,7 +28607,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "12px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md",
@@ -28123,7 +28633,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "14px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Md Plus",
@@ -28149,7 +28659,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "16px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Lg",
@@ -28201,7 +28711,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "24px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxl",
@@ -28227,7 +28737,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "32px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Fixed Xxxl",
@@ -28278,7 +28788,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 4xs",
-      "path": ["size", "4xs"]
+      "path": ["size", "4xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-4xs)",
+        "scss": "$calcite-theme-size-4xs",
+        "es6": "calciteThemeSize4xs"
+      }
     },
     {
       "key": "{size.xxxs}",
@@ -28327,7 +28842,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
-      "path": ["size", "3xs"]
+      "path": ["size", "3xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xs)",
+        "scss": "$calcite-theme-size-3xs",
+        "es6": "calciteThemeSize3xs"
+      }
     },
     {
       "key": "{size.xxs}",
@@ -28376,7 +28896,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
-      "path": ["size", "2xs"]
+      "path": ["size", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xs)",
+        "scss": "$calcite-theme-size-2xs",
+        "es6": "calciteThemeSize2xs"
+      }
     },
     {
       "key": "{size.xs}",
@@ -28400,7 +28925,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
-      "path": ["size", "xs"]
+      "path": ["size", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xs)",
+        "scss": "$calcite-theme-size-xs",
+        "es6": "calciteThemeSizeXs"
+      }
     },
     {
       "key": "{size.sm}",
@@ -28424,7 +28954,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
-      "path": ["size", "sm"]
+      "path": ["size", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-size-sm)",
+        "scss": "$calcite-theme-size-sm",
+        "es6": "calciteThemeSizeSm"
+      }
     },
     {
       "key": "{size.md}",
@@ -28448,7 +28983,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
-      "path": ["size", "md"]
+      "path": ["size", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-size-md)",
+        "scss": "$calcite-theme-size-md",
+        "es6": "calciteThemeSizeMd"
+      }
     },
     {
       "key": "{size.lg}",
@@ -28471,7 +29011,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Lg",
-      "path": ["size", "lg"]
+      "path": ["size", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-size-lg)",
+        "scss": "$calcite-theme-size-lg",
+        "es6": "calciteThemeSizeLg"
+      }
     },
     {
       "key": "{size.xl}",
@@ -28494,7 +29039,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xl",
-      "path": ["size", "xl"]
+      "path": ["size", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-xl)",
+        "scss": "$calcite-theme-size-xl",
+        "es6": "calciteThemeSizeXl"
+      }
     },
     {
       "key": "{size.xxl}",
@@ -28543,7 +29093,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xl",
-      "path": ["size", "2xl"]
+      "path": ["size", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-2xl)",
+        "scss": "$calcite-theme-size-2xl",
+        "es6": "calciteThemeSize2xl"
+      }
     },
     {
       "key": "{size.xxxl}",
@@ -28592,7 +29147,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xl",
-      "path": ["size", "3xl"]
+      "path": ["size", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-size-3xl)",
+        "scss": "$calcite-theme-size-3xl",
+        "es6": "calciteThemeSize3xl"
+      }
     },
     {
       "key": "{spacing.fixed.xxs}",
@@ -28666,7 +29226,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "8px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Sm",
@@ -28692,7 +29252,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "12px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Md",
@@ -28718,7 +29278,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "14px",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.",
+      "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Fixed Lg",
@@ -28822,7 +29382,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing None",
@@ -28848,7 +29408,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1px",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Px",
@@ -28874,7 +29434,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2px",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Base",
@@ -28900,7 +29460,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.25rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xxs",
@@ -28926,7 +29486,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.375rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xs",
@@ -28952,7 +29512,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.5rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Sm",
@@ -28978,7 +29538,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.625rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Sm Plus",
@@ -29004,7 +29564,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.75rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Md",
@@ -29030,7 +29590,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.875rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Md Plus",
@@ -29056,7 +29616,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Lg",
@@ -29082,7 +29642,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.25rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xl",
@@ -29108,7 +29668,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.5rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xxl",
@@ -29134,7 +29694,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2rem",
-      "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.",
+      "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead.",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Spacing Xxxl",
@@ -29162,7 +29722,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space None",
-      "path": ["space", "none"]
+      "path": ["space", "none"],
+      "theme": {
+        "css": "var(--calcite-theme-space-none)",
+        "scss": "$calcite-theme-space-none",
+        "es6": "calciteThemeSpaceNone"
+      }
     },
     {
       "key": "{space.px}",
@@ -29186,7 +29751,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Px",
-      "path": ["space", "px"]
+      "path": ["space", "px"],
+      "theme": {
+        "css": "var(--calcite-theme-space-px)",
+        "scss": "$calcite-theme-space-px",
+        "es6": "calciteThemeSpacePx"
+      }
     },
     {
       "key": "{space.base}",
@@ -29210,7 +29780,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Base",
-      "path": ["space", "base"]
+      "path": ["space", "base"],
+      "theme": {
+        "css": "var(--calcite-theme-space-base)",
+        "scss": "$calcite-theme-space-base",
+        "es6": "calciteThemeSpaceBase"
+      }
     },
     {
       "key": "{space.2xs}",
@@ -29234,7 +29809,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xs",
-      "path": ["space", "2xs"]
+      "path": ["space", "2xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xs)",
+        "scss": "$calcite-theme-space-2xs",
+        "es6": "calciteThemeSpace2xs"
+      }
     },
     {
       "key": "{space.xs}",
@@ -29258,7 +29838,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xs",
-      "path": ["space", "xs"]
+      "path": ["space", "xs"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xs)",
+        "scss": "$calcite-theme-space-xs",
+        "es6": "calciteThemeSpaceXs"
+      }
     },
     {
       "key": "{space.sm}",
@@ -29282,7 +29867,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm",
-      "path": ["space", "sm"]
+      "path": ["space", "sm"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm)",
+        "scss": "$calcite-theme-space-sm",
+        "es6": "calciteThemeSpaceSm"
+      }
     },
     {
       "key": "{space.sm-plus}",
@@ -29306,7 +29896,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm Plus",
-      "path": ["space", "sm-plus"]
+      "path": ["space", "sm-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-sm-plus)",
+        "scss": "$calcite-theme-space-sm-plus",
+        "es6": "calciteThemeSpaceSmPlus"
+      }
     },
     {
       "key": "{space.md}",
@@ -29330,7 +29925,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md",
-      "path": ["space", "md"]
+      "path": ["space", "md"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md)",
+        "scss": "$calcite-theme-space-md",
+        "es6": "calciteThemeSpaceMd"
+      }
     },
     {
       "key": "{space.md-plus}",
@@ -29354,7 +29954,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md Plus",
-      "path": ["space", "md-plus"]
+      "path": ["space", "md-plus"],
+      "theme": {
+        "css": "var(--calcite-theme-space-md-plus)",
+        "scss": "$calcite-theme-space-md-plus",
+        "es6": "calciteThemeSpaceMdPlus"
+      }
     },
     {
       "key": "{space.lg}",
@@ -29378,7 +29983,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Lg",
-      "path": ["space", "lg"]
+      "path": ["space", "lg"],
+      "theme": {
+        "css": "var(--calcite-theme-space-lg)",
+        "scss": "$calcite-theme-space-lg",
+        "es6": "calciteThemeSpaceLg"
+      }
     },
     {
       "key": "{space.xl}",
@@ -29402,7 +30012,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xl",
-      "path": ["space", "xl"]
+      "path": ["space", "xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-xl)",
+        "scss": "$calcite-theme-space-xl",
+        "es6": "calciteThemeSpaceXl"
+      }
     },
     {
       "key": "{space.2xl}",
@@ -29426,7 +30041,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xl",
-      "path": ["space", "2xl"]
+      "path": ["space", "2xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-2xl)",
+        "scss": "$calcite-theme-space-2xl",
+        "es6": "calciteThemeSpace2xl"
+      }
     },
     {
       "key": "{space.3xl}",
@@ -29450,7 +30070,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 3xl",
-      "path": ["space", "3xl"]
+      "path": ["space", "3xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-3xl)",
+        "scss": "$calcite-theme-space-3xl",
+        "es6": "calciteThemeSpace3xl"
+      }
     },
     {
       "key": "{space.4xl}",
@@ -29473,7 +30098,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 4xl",
-      "path": ["space", "4xl"]
+      "path": ["space", "4xl"],
+      "theme": {
+        "css": "var(--calcite-theme-space-4xl)",
+        "scss": "$calcite-theme-space-4xl",
+        "es6": "calciteThemeSpace4xl"
+      }
     },
     {
       "key": "{z-index.deep}",
@@ -31077,11 +31707,11 @@ export const calciteColorSurfaceHighlight = {
   light: "#d6efff",
   dark: "#2b465f",
 }; // Replaces \`--calcite-color-foreground-current\`
-export const calciteColorBackground = { light: "#f7f7f7", dark: "#212121" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.
+export const calciteColorBackground = { light: "#f7f7f7", dark: "#212121" }; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead.
 export const calciteColorBackgroundNone = "rgba(255, 255, 255, 0)"; // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
-export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.
-export const calciteColorForeground2 = { light: "#f2f2f2", dark: "#363636" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead.
-export const calciteColorForeground3 = { light: "#ebebeb", dark: "#404040" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead.
+export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" }; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead.
+export const calciteColorForeground2 = { light: "#f2f2f2", dark: "#363636" }; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead.
+export const calciteColorForeground3 = { light: "#ebebeb", dark: "#404040" }; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead.
 export const calciteColorForegroundCurrent = {
   light: "#d6efff",
   dark: "#2b465f",
@@ -31199,11 +31829,11 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
+export const calciteCornerRadiusSharp = "0"; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.
 export const calciteCornerRadiusNone = "0"; // Replaces \`--calcite-corner-radius-sharp\`
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px"; // Replaces \`--calcite-corner-radius-round\`
-export const calciteCornerRadiusRound = "4px"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
+export const calciteCornerRadiusRound = "4px"; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.
 export const calciteCornerRadiusPill = "9999px";
 export const calciteFontFamily = [
   "Avenir Next",
@@ -31219,7 +31849,7 @@ export const calciteFontFamilyCode = [
   "monospace",
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
-export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead.
 export const calciteFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
@@ -31331,13 +31961,13 @@ export const calciteSizeFixedXxxs = "2px"; // Deprecated in v3.0.0, removal targ
 export const calciteSizeFixedXxs = "4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteSizeFixedXs = "6px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteSizeFixedSm = "8px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteSizeFixedSmPlus = "10px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead.
-export const calciteSizeFixedMd = "12px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-export const calciteSizeFixedMdPlus = "14px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-export const calciteSizeFixedLg = "16px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead.
+export const calciteSizeFixedSmPlus = "10px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead.
+export const calciteSizeFixedMd = "12px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.
+export const calciteSizeFixedMdPlus = "14px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.
+export const calciteSizeFixedLg = "16px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead.
 export const calciteSizeFixedXl = "20px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
-export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
+export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead.
+export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead.
 export const calciteSizePx = "1px";
 export const calciteSize4xs = "0.625rem"; // Replaces \`--calcite-size-fixed-sm-plus\`
 export const calciteSizeXxxs = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
@@ -31355,25 +31985,25 @@ export const calciteSizeXxxl = "6rem"; // Deprecated in v4.0.0, removal target v
 export const calciteSize3xl = "6rem"; // Replaces \`--calcite-size-xxxl\`
 export const calciteSpacingFixedXxs = "4px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
 export const calciteSpacingFixedXs = "6px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-export const calciteSpacingFixedSm = "8px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-export const calciteSpacingFixedMd = "12px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-export const calciteSpacingFixedLg = "14px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
+export const calciteSpacingFixedSm = "8px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+export const calciteSpacingFixedMd = "12px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+export const calciteSpacingFixedLg = "14px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
 export const calciteSpacingFixedXl = "16px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
 export const calciteSpacingFixedXxl = "20px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
 export const calciteSpacingFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
-export const calciteSpacingNone = "0"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead.
-export const calciteSpacingPx = "1px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead.
-export const calciteSpacingBase = "2px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead.
-export const calciteSpacingXxs = "0.25rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
-export const calciteSpacingXs = "0.375rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-export const calciteSpacingSm = "0.5rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-export const calciteSpacingSmPlus = "0.625rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead.
-export const calciteSpacingMd = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-export const calciteSpacingMdPlus = "0.875rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
-export const calciteSpacingLg = "1rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
-export const calciteSpacingXl = "1.25rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
-export const calciteSpacingXxl = "1.5rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.
-export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
+export const calciteSpacingNone = "0"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead.
+export const calciteSpacingPx = "1px"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead.
+export const calciteSpacingBase = "2px"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead.
+export const calciteSpacingXxs = "0.25rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead.
+export const calciteSpacingXs = "0.375rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead.
+export const calciteSpacingSm = "0.5rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+export const calciteSpacingSmPlus = "0.625rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead.
+export const calciteSpacingMd = "0.75rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+export const calciteSpacingMdPlus = "0.875rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
+export const calciteSpacingLg = "1rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead.
+export const calciteSpacingXl = "1.25rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead.
+export const calciteSpacingXxl = "1.5rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead.
+export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead.
 export const calciteSpaceNone = "0"; // Replaces \`--calcite-spacing-none\`
 export const calciteSpacePx = "1px"; // Replaces \`--calcite-spacing-px\`
 export const calciteSpaceBase = "2px"; // Replaces \`--calcite-spacing-base\`
@@ -31721,15 +32351,15 @@ export const calciteColorSurface3: { light: string; dark: string };
 export const calciteColorSurface4: { light: string; dark: string };
 /** Replaces \`--calcite-color-foreground-current\` */
 export const calciteColorSurfaceHighlight: { light: string; dark: string };
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead. */
 export const calciteColorBackground: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteColorBackgroundNone: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead. */
 export const calciteColorForeground1: { light: string; dark: string };
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead. */
 export const calciteColorForeground2: { light: string; dark: string };
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead. */
 export const calciteColorForeground3: { light: string; dark: string };
 /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
 export const calciteColorForegroundCurrent: { light: string; dark: string };
@@ -31819,14 +32449,14 @@ export const calciteContainerSizeContentFluid: string;
 /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
-/** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
+/** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead. */
 export const calciteCornerRadiusSharp: string;
 /** Replaces \`--calcite-corner-radius-sharp\` */
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
 /** Replaces \`--calcite-corner-radius-round\` */
 export const calciteCornerRadiusSm: string;
-/** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
+/** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
@@ -31835,7 +32465,7 @@ export const calciteFontFamily: [string, string, string, string];
 export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead. */
 export const calciteFontWeightNormal: string;
 /** Replaces \`--calcite-font-weight-normal\` */
 export const calciteFontWeightRegular: string;
@@ -31966,19 +32596,19 @@ export const calciteSizeFixedXxs: string;
 export const calciteSizeFixedXs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedSm: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead. */
 export const calciteSizeFixedSmPlus: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead. */
 export const calciteSizeFixedMd: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead. */
 export const calciteSizeFixedMdPlus: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead. */
 export const calciteSizeFixedLg: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXl: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead. */
 export const calciteSizeFixedXxl: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead. */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
 /** Replaces \`--calcite-size-fixed-sm-plus\` */
@@ -32011,11 +32641,11 @@ export const calciteSize3xl: string;
 export const calciteSpacingFixedXxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
 export const calciteSpacingFixedXs: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
 export const calciteSpacingFixedSm: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
 export const calciteSpacingFixedMd: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
 export const calciteSpacingFixedLg: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
 export const calciteSpacingFixedXl: string;
@@ -32023,31 +32653,31 @@ export const calciteSpacingFixedXl: string;
 export const calciteSpacingFixedXxl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
 export const calciteSpacingFixedXxxl: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead. */
 export const calciteSpacingNone: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead. */
 export const calciteSpacingPx: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead. */
 export const calciteSpacingBase: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead. */
 export const calciteSpacingXxs: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead. */
 export const calciteSpacingXs: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
 export const calciteSpacingSm: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead. */
 export const calciteSpacingSmPlus: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
 export const calciteSpacingMd: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
 export const calciteSpacingMdPlus: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead. */
 export const calciteSpacingLg: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead. */
 export const calciteSpacingXl: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead. */
 export const calciteSpacingXxl: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead. */
 export const calciteSpacingXxxl: string;
 /** Replaces \`--calcite-spacing-none\` */
 export const calciteSpaceNone: string;
@@ -32407,11 +33037,11 @@ export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
 export const calciteContainerSizeContentFixed = "1440px"; // only for lg breakpoint fixed grid width
 export const calciteCornerRadius = "0";
-export const calciteCornerRadiusSharp = "0"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
+export const calciteCornerRadiusSharp = "0"; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.
 export const calciteCornerRadiusNone = "0"; // Replaces \`--calcite-corner-radius-sharp\`
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px"; // Replaces \`--calcite-corner-radius-round\`
-export const calciteCornerRadiusRound = "4px"; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
+export const calciteCornerRadiusRound = "4px"; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.
 export const calciteCornerRadiusPill = "9999px";
 export const calciteFontFamily = [
   "Avenir Next",
@@ -32427,7 +33057,7 @@ export const calciteFontFamilyCode = [
   "monospace",
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
-export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead.
 export const calciteFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
@@ -32539,13 +33169,13 @@ export const calciteSizeFixedXxxs = "2px"; // Deprecated in v3.0.0, removal targ
 export const calciteSizeFixedXxs = "4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteSizeFixedXs = "6px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteSizeFixedSm = "8px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteSizeFixedSmPlus = "10px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead.
-export const calciteSizeFixedMd = "12px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-export const calciteSizeFixedMdPlus = "14px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-export const calciteSizeFixedLg = "16px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead.
+export const calciteSizeFixedSmPlus = "10px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead.
+export const calciteSizeFixedMd = "12px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.
+export const calciteSizeFixedMdPlus = "14px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.
+export const calciteSizeFixedLg = "16px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead.
 export const calciteSizeFixedXl = "20px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
-export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
+export const calciteSizeFixedXxl = "24px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead.
+export const calciteSizeFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead.
 export const calciteSizePx = "1px";
 export const calciteSize4xs = "0.625rem"; // Replaces \`--calcite-size-fixed-sm-plus\`
 export const calciteSizeXxxs = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
@@ -32563,25 +33193,25 @@ export const calciteSizeXxxl = "6rem"; // Deprecated in v4.0.0, removal target v
 export const calciteSize3xl = "6rem"; // Replaces \`--calcite-size-xxxl\`
 export const calciteSpacingFixedXxs = "4px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
 export const calciteSpacingFixedXs = "6px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-export const calciteSpacingFixedSm = "8px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-export const calciteSpacingFixedMd = "12px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-export const calciteSpacingFixedLg = "14px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
+export const calciteSpacingFixedSm = "8px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+export const calciteSpacingFixedMd = "12px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+export const calciteSpacingFixedLg = "14px"; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
 export const calciteSpacingFixedXl = "16px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
 export const calciteSpacingFixedXxl = "20px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
 export const calciteSpacingFixedXxxl = "32px"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
-export const calciteSpacingNone = "0"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead.
-export const calciteSpacingPx = "1px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead.
-export const calciteSpacingBase = "2px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead.
-export const calciteSpacingXxs = "0.25rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
-export const calciteSpacingXs = "0.375rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-export const calciteSpacingSm = "0.5rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-export const calciteSpacingSmPlus = "0.625rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead.
-export const calciteSpacingMd = "0.75rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-export const calciteSpacingMdPlus = "0.875rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
-export const calciteSpacingLg = "1rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
-export const calciteSpacingXl = "1.25rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
-export const calciteSpacingXxl = "1.5rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.
-export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
+export const calciteSpacingNone = "0"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead.
+export const calciteSpacingPx = "1px"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead.
+export const calciteSpacingBase = "2px"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead.
+export const calciteSpacingXxs = "0.25rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead.
+export const calciteSpacingXs = "0.375rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead.
+export const calciteSpacingSm = "0.5rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+export const calciteSpacingSmPlus = "0.625rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead.
+export const calciteSpacingMd = "0.75rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+export const calciteSpacingMdPlus = "0.875rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
+export const calciteSpacingLg = "1rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead.
+export const calciteSpacingXl = "1.25rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead.
+export const calciteSpacingXxl = "1.5rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead.
+export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead.
 export const calciteSpaceNone = "0"; // Replaces \`--calcite-spacing-none\`
 export const calciteSpacePx = "1px"; // Replaces \`--calcite-spacing-px\`
 export const calciteSpaceBase = "2px"; // Replaces \`--calcite-spacing-base\`
@@ -32626,14 +33256,14 @@ export const calciteContainerSizeContentFluid: string;
 /** only for lg breakpoint fixed grid width */
 export const calciteContainerSizeContentFixed: string;
 export const calciteCornerRadius: string;
-/** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
+/** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead. */
 export const calciteCornerRadiusSharp: string;
 /** Replaces \`--calcite-corner-radius-sharp\` */
 export const calciteCornerRadiusNone: string;
 export const calciteCornerRadiusXs: string;
 /** Replaces \`--calcite-corner-radius-round\` */
 export const calciteCornerRadiusSm: string;
-/** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
+/** Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead. */
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
@@ -32642,7 +33272,7 @@ export const calciteFontFamily: [string, string, string, string];
 export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead. */
 export const calciteFontWeightNormal: string;
 /** Replaces \`--calcite-font-weight-normal\` */
 export const calciteFontWeightRegular: string;
@@ -32773,19 +33403,19 @@ export const calciteSizeFixedXxs: string;
 export const calciteSizeFixedXs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedSm: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead. */
 export const calciteSizeFixedSmPlus: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead. */
 export const calciteSizeFixedMd: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead. */
 export const calciteSizeFixedMdPlus: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead. */
 export const calciteSizeFixedLg: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXl: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead. */
 export const calciteSizeFixedXxl: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead. */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
 /** Replaces \`--calcite-size-fixed-sm-plus\` */
@@ -32818,11 +33448,11 @@ export const calciteSize3xl: string;
 export const calciteSpacingFixedXxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
 export const calciteSpacingFixedXs: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
 export const calciteSpacingFixedSm: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
 export const calciteSpacingFixedMd: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+/** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
 export const calciteSpacingFixedLg: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
 export const calciteSpacingFixedXl: string;
@@ -32830,31 +33460,31 @@ export const calciteSpacingFixedXl: string;
 export const calciteSpacingFixedXxl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
 export const calciteSpacingFixedXxxl: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead. */
 export const calciteSpacingNone: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead. */
 export const calciteSpacingPx: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead. */
 export const calciteSpacingBase: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead. */
 export const calciteSpacingXxs: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead. */
 export const calciteSpacingXs: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead. */
 export const calciteSpacingSm: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead. */
 export const calciteSpacingSmPlus: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead. */
 export const calciteSpacingMd: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead. */
 export const calciteSpacingMdPlus: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead. */
 export const calciteSpacingLg: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead. */
 export const calciteSpacingXl: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead. */
 export const calciteSpacingXxl: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+/** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead. */
 export const calciteSpacingXxxl: string;
 /** Replaces \`--calcite-spacing-none\` */
 export const calciteSpaceNone: string;
@@ -33540,11 +34170,11 @@ exports[`SCSS > dark should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-color-background: #212121; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.
+$calcite-color-background: #212121; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead.
 $calcite-color-background-none: rgba(255, 255, 255, 0); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
-$calcite-color-foreground-1: #2b2b2b; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.
-$calcite-color-foreground-2: #363636; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead.
-$calcite-color-foreground-3: #404040; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead.
+$calcite-color-foreground-1: #2b2b2b; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead.
+$calcite-color-foreground-2: #363636; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead.
+$calcite-color-foreground-3: #404040; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead.
 $calcite-color-foreground-current: #2b465f; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead.
 $calcite-color-text-1: #ffffff;
 $calcite-color-text-2: #bfbfbf;
@@ -33584,11 +34214,11 @@ $calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\`
-$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\`
-$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\`
-$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
-$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
+$calcite-color-surface-1: #212121; // Replaces \`--calcite-color-background\`
+$calcite-color-surface-2: #2b2b2b; // Replaces \`--calcite-color-foreground-1\`
+$calcite-color-surface-3: #363636; // Replaces \`--calcite-color-foreground-2\`
+$calcite-color-surface-4: #404040; // Replaces \`--calcite-color-foreground-3\`
+$calcite-color-surface-highlight: #2b465f; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
 "
 `;
@@ -33608,14 +34238,14 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
+$calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-xs: 2px;
-$calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
+$calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.
 $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead.
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-semibold: 600;
 $calcite-font-weight-bold: 600;
@@ -33689,13 +34319,13 @@ $calcite-size-fixed-xxxs: 2px; // Deprecated in v3.0.0, removal target v5.0.0 - 
 $calcite-size-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-sm: 8px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-size-fixed-sm-plus: 10px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead.
-$calcite-size-fixed-md: 12px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-$calcite-size-fixed-md-plus: 14px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-$calcite-size-fixed-lg: 16px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead.
+$calcite-size-fixed-sm-plus: 10px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead.
+$calcite-size-fixed-md: 12px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.
+$calcite-size-fixed-md-plus: 14px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.
+$calcite-size-fixed-lg: 16px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead.
 $calcite-size-fixed-xl: 20px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-size-fixed-xxl: 24px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
-$calcite-size-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
+$calcite-size-fixed-xxl: 24px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead.
+$calcite-size-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead.
 $calcite-size-px: 1px;
 $calcite-size-xxxs: 0.75rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
 $calcite-size-xxs: 0.875rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
@@ -33705,25 +34335,25 @@ $calcite-size-xxl: 4rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`
 $calcite-size-xxxl: 6rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead.
 $calcite-spacing-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
 $calcite-spacing-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-$calcite-spacing-fixed-sm: 8px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-$calcite-spacing-fixed-md: 12px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-$calcite-spacing-fixed-lg: 14px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
+$calcite-spacing-fixed-sm: 8px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+$calcite-spacing-fixed-md: 12px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+$calcite-spacing-fixed-lg: 14px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
 $calcite-spacing-fixed-xl: 16px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
 $calcite-spacing-fixed-xxl: 20px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
 $calcite-spacing-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
-$calcite-spacing-none: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead.
-$calcite-spacing-px: 1px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead.
-$calcite-spacing-base: 2px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead.
-$calcite-spacing-xxs: 0.25rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
-$calcite-spacing-xs: 0.375rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-$calcite-spacing-sm: 0.5rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-$calcite-spacing-sm-plus: 0.625rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead.
-$calcite-spacing-md: 0.75rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-$calcite-spacing-md-plus: 0.875rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
-$calcite-spacing-lg: 1rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
-$calcite-spacing-xl: 1.25rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
-$calcite-spacing-xxl: 1.5rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.
-$calcite-spacing-xxxl: 2rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
+$calcite-spacing-none: 0; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead.
+$calcite-spacing-px: 1px; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead.
+$calcite-spacing-base: 2px; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead.
+$calcite-spacing-xxs: 0.25rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead.
+$calcite-spacing-xs: 0.375rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead.
+$calcite-spacing-sm: 0.5rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+$calcite-spacing-sm-plus: 0.625rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead.
+$calcite-spacing-md: 0.75rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+$calcite-spacing-md-plus: 0.875rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
+$calcite-spacing-lg: 1rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead.
+$calcite-spacing-xl: 1.25rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead.
+$calcite-spacing-xxl: 1.5rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead.
+$calcite-spacing-xxxl: 2rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead.
 $calcite-space-4xl: 2.75rem;
 $calcite-z-index-deep: -999999;
 $calcite-z-index: 1;
@@ -33735,31 +34365,31 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
-$calcite-corner-radius-none: $calcite-corner-radius-sharp; // Replaces \`--calcite-corner-radius-sharp\`
-$calcite-corner-radius-sm: $calcite-corner-radius-round; // Replaces \`--calcite-corner-radius-round\`
-$calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
-$calcite-font-size-2xl: $calcite-font-size-xxl; // Replaces \`--calcite-font-size-xxl\`
-$calcite-size-4xs: $calcite-size-fixed-sm-plus; // Replaces \`--calcite-size-fixed-sm-plus\`
-$calcite-size-3xs: $calcite-size-fixed-md; // Replaces \`--calcite-size-fixed-md\`
-$calcite-size-2xs: $calcite-size-fixed-md-plus; // Replaces \`--calcite-size-fixed-md-plus\`
-$calcite-size-xs: $calcite-size-fixed-lg; // Replaces \`--calcite-size-fixed-lg\`
-$calcite-size-sm: $calcite-size-fixed-xxl; // Replaces \`--calcite-size-fixed-xxl\`
-$calcite-size-md: $calcite-size-fixed-xxxl; // Replaces \`--calcite-size-fixed-xxxl\`
-$calcite-size-2xl: $calcite-size-xxl; // Replaces \`--calcite-size-xxl\`
-$calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
-$calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
-$calcite-space-px: $calcite-spacing-px; // Replaces \`--calcite-spacing-px\`
-$calcite-space-base: $calcite-spacing-base; // Replaces \`--calcite-spacing-base\`
-$calcite-space-2xs: $calcite-spacing-xxs; // Replaces \`--calcite-spacing-xxs\`
-$calcite-space-xs: $calcite-spacing-xs; // Replaces \`--calcite-spacing-xs\`
-$calcite-space-sm: $calcite-spacing-sm; // Replaces \`--calcite-spacing-sm\`
-$calcite-space-sm-plus: $calcite-spacing-sm-plus; // Replaces \`--calcite-spacing-sm-plus\`
-$calcite-space-md: $calcite-spacing-md; // Replaces \`--calcite-spacing-md\`
-$calcite-space-md-plus: $calcite-spacing-md-plus; // Replaces \`--calcite-spacing-md-plus\`
-$calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
-$calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
-$calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
-$calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
+$calcite-corner-radius-none: 0; // Replaces \`--calcite-corner-radius-sharp\`
+$calcite-corner-radius-sm: 4px; // Replaces \`--calcite-corner-radius-round\`
+$calcite-font-weight-regular: 400; // Replaces \`--calcite-font-weight-normal\`
+$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
+$calcite-size-4xs: 0.625rem; // Replaces \`--calcite-size-fixed-sm-plus\`
+$calcite-size-3xs: 0.75rem; // Replaces \`--calcite-size-fixed-md\`
+$calcite-size-2xs: 0.875rem; // Replaces \`--calcite-size-fixed-md-plus\`
+$calcite-size-xs: 1rem; // Replaces \`--calcite-size-fixed-lg\`
+$calcite-size-sm: 1.5rem; // Replaces \`--calcite-size-fixed-xxl\`
+$calcite-size-md: 2rem; // Replaces \`--calcite-size-fixed-xxxl\`
+$calcite-size-2xl: 4rem; // Replaces \`--calcite-size-xxl\`
+$calcite-size-3xl: 6rem; // Replaces \`--calcite-size-xxxl\`
+$calcite-space-none: 0; // Replaces \`--calcite-spacing-none\`
+$calcite-space-px: 1px; // Replaces \`--calcite-spacing-px\`
+$calcite-space-base: 2px; // Replaces \`--calcite-spacing-base\`
+$calcite-space-2xs: 0.25rem; // Replaces \`--calcite-spacing-xxs\`
+$calcite-space-xs: 0.375rem; // Replaces \`--calcite-spacing-xs\`
+$calcite-space-sm: 0.5rem; // Replaces \`--calcite-spacing-sm\`
+$calcite-space-sm-plus: 0.625rem; // Replaces \`--calcite-spacing-sm-plus\`
+$calcite-space-md: 0.75rem; // Replaces \`--calcite-spacing-md\`
+$calcite-space-md-plus: 0.875rem; // Replaces \`--calcite-spacing-md-plus\`
+$calcite-space-lg: 1rem; // Replaces \`--calcite-spacing-lg\`
+$calcite-space-xl: 1.25rem; // Replaces \`--calcite-spacing-xl\`
+$calcite-space-2xl: 1.5rem; // Replaces \`--calcite-spacing-xxl\`
+$calcite-space-3xl: 2rem; // Replaces \`--calcite-spacing-xxxl\`
 $calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
@@ -33774,25 +34404,30 @@ exports[`SCSS > index should match 1`] = `
 @use "./breakpoints.scss";
 @use "./mixins.scss";
 @mixin calcite-light-dark-tokens {
-  --calcite-color-surface-1: var(
-    --calcite-color-background
+  --calcite-color-surface-1: light-dark(
+    #f7f7f7,
+    #212121
   ); /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: var(
-    --calcite-color-foreground-1
+  --calcite-color-surface-2: light-dark(
+    #ffffff,
+    #2b2b2b
   ); /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: var(
-    --calcite-color-foreground-2
+  --calcite-color-surface-3: light-dark(
+    #f2f2f2,
+    #363636
   ); /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: var(
-    --calcite-color-foreground-3
+  --calcite-color-surface-4: light-dark(
+    #ebebeb,
+    #404040
   ); /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: var(
-    --calcite-color-foreground-current
+  --calcite-color-surface-highlight: light-dark(
+    #d6efff,
+    #2b465f
   ); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-background: light-dark(
     #f7f7f7,
     #212121
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead. */
   --calcite-color-background-none: light-dark(
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0)
@@ -33800,15 +34435,15 @@ exports[`SCSS > index should match 1`] = `
   --calcite-color-foreground-1: light-dark(
     #ffffff,
     #2b2b2b
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead. */
   --calcite-color-foreground-2: light-dark(
     #f2f2f2,
     #363636
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead. */
   --calcite-color-foreground-3: light-dark(
     #ebebeb,
     #404040
-  ); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+  ); /** Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead. */
   --calcite-color-foreground-current: light-dark(
     #d6efff,
     #2b465f
@@ -33903,11 +34538,11 @@ exports[`SCSS > light should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-color-background: #f7f7f7; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.
+$calcite-color-background: #f7f7f7; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead.
 $calcite-color-background-none: rgba(255, 255, 255, 0); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
-$calcite-color-foreground-1: #ffffff; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.
-$calcite-color-foreground-2: #f2f2f2; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead.
-$calcite-color-foreground-3: #ebebeb; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead.
+$calcite-color-foreground-1: #ffffff; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead.
+$calcite-color-foreground-2: #f2f2f2; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead.
+$calcite-color-foreground-3: #ebebeb; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead.
 $calcite-color-foreground-current: #d6efff; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead.
 $calcite-color-text-1: #141414;
 $calcite-color-text-2: #4a4a4a;
@@ -33947,11 +34582,11 @@ $calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
 $calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
 $calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\`
-$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\`
-$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\`
-$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
-$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
+$calcite-color-surface-1: #f7f7f7; // Replaces \`--calcite-color-background\`
+$calcite-color-surface-2: #ffffff; // Replaces \`--calcite-color-foreground-1\`
+$calcite-color-surface-3: #f2f2f2; // Replaces \`--calcite-color-foreground-2\`
+$calcite-color-surface-4: #ebebeb; // Replaces \`--calcite-color-foreground-3\`
+$calcite-color-surface-highlight: #d6efff; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
 "
 `;
@@ -33962,15 +34597,30 @@ exports[`SCSS > light-dark should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\` */
-$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\` */
-$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\` */
-$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\` */
-$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\` */
+$calcite-color-surface-1: light-dark(
+  #f7f7f7,
+  #212121
+); // Replaces \`--calcite-color-background\` */
+$calcite-color-surface-2: light-dark(
+  #ffffff,
+  #2b2b2b
+); // Replaces \`--calcite-color-foreground-1\` */
+$calcite-color-surface-3: light-dark(
+  #f2f2f2,
+  #363636
+); // Replaces \`--calcite-color-foreground-2\` */
+$calcite-color-surface-4: light-dark(
+  #ebebeb,
+  #404040
+); // Replaces \`--calcite-color-foreground-3\` */
+$calcite-color-surface-highlight: light-dark(
+  #d6efff,
+  #2b465f
+); // Replaces \`--calcite-color-foreground-current\` */
 $calcite-color-background: light-dark(
   #f7f7f7,
   #212121
-); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
+); // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-1\` instead. */
 $calcite-color-background-none: light-dark(
   rgba(255, 255, 255, 0),
   rgba(255, 255, 255, 0)
@@ -33978,15 +34628,15 @@ $calcite-color-background-none: light-dark(
 $calcite-color-foreground-1: light-dark(
   #ffffff,
   #2b2b2b
-); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
+); // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-2\` instead. */
 $calcite-color-foreground-2: light-dark(
   #f2f2f2,
   #363636
-); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
+); // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-3\` instead. */
 $calcite-color-foreground-3: light-dark(
   #ebebeb,
   #404040
-); // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
+); // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-color-surface-4\` instead. */
 $calcite-color-foreground-current: light-dark(
   #d6efff,
   #2b465f
@@ -34446,14 +35096,14 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
+$calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-xs: 2px;
-$calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-sm\` instead.
+$calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.
 $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead.
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-semibold: 600;
 $calcite-font-weight-bold: 600;
@@ -34527,13 +35177,13 @@ $calcite-size-fixed-xxxs: 2px; // Deprecated in v3.0.0, removal target v5.0.0 - 
 $calcite-size-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-sm: 8px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-size-fixed-sm-plus: 10px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead.
-$calcite-size-fixed-md: 12px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
-$calcite-size-fixed-md-plus: 14px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
-$calcite-size-fixed-lg: 16px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead.
+$calcite-size-fixed-sm-plus: 10px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-4xs\` instead.
+$calcite-size-fixed-md: 12px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.
+$calcite-size-fixed-md-plus: 14px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.
+$calcite-size-fixed-lg: 16px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-xs\` instead.
 $calcite-size-fixed-xl: 20px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-size-fixed-xxl: 24px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead.
-$calcite-size-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead.
+$calcite-size-fixed-xxl: 24px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-sm\` instead.
+$calcite-size-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-size-md\` instead.
 $calcite-size-px: 1px;
 $calcite-size-xxxs: 0.75rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead.
 $calcite-size-xxs: 0.875rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead.
@@ -34543,25 +35193,25 @@ $calcite-size-xxl: 4rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`
 $calcite-size-xxxl: 6rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead.
 $calcite-spacing-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
 $calcite-spacing-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-$calcite-spacing-fixed-sm: 8px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-$calcite-spacing-fixed-md: 12px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-$calcite-spacing-fixed-lg: 14px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
+$calcite-spacing-fixed-sm: 8px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+$calcite-spacing-fixed-md: 12px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+$calcite-spacing-fixed-lg: 14px; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
 $calcite-spacing-fixed-xl: 16px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
 $calcite-spacing-fixed-xxl: 20px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
 $calcite-spacing-fixed-xxxl: 32px; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
-$calcite-spacing-none: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead.
-$calcite-spacing-px: 1px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead.
-$calcite-spacing-base: 2px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead.
-$calcite-spacing-xxs: 0.25rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead.
-$calcite-spacing-xs: 0.375rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead.
-$calcite-spacing-sm: 0.5rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead.
-$calcite-spacing-sm-plus: 0.625rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead.
-$calcite-spacing-md: 0.75rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead.
-$calcite-spacing-md-plus: 0.875rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead.
-$calcite-spacing-lg: 1rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead.
-$calcite-spacing-xl: 1.25rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead.
-$calcite-spacing-xxl: 1.5rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead.
-$calcite-spacing-xxxl: 2rem; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead.
+$calcite-spacing-none: 0; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-none\` instead.
+$calcite-spacing-px: 1px; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-px\` instead.
+$calcite-spacing-base: 2px; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-base\` instead.
+$calcite-spacing-xxs: 0.25rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xs\` instead.
+$calcite-spacing-xs: 0.375rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xs\` instead.
+$calcite-spacing-sm: 0.5rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm\` instead.
+$calcite-spacing-sm-plus: 0.625rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-sm-plus\` instead.
+$calcite-spacing-md: 0.75rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md\` instead.
+$calcite-spacing-md-plus: 0.875rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-md-plus\` instead.
+$calcite-spacing-lg: 1rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-lg\` instead.
+$calcite-spacing-xl: 1.25rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-xl\` instead.
+$calcite-spacing-xxl: 1.5rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-2xl\` instead.
+$calcite-spacing-xxxl: 2rem; // Deprecated in v4.0.0, removal target v6.0.0 - Use \`--calcite-space-3xl\` instead.
 $calcite-space-4xl: 2.75rem;
 $calcite-z-index-deep: -999999;
 $calcite-z-index: 1;
@@ -34573,31 +35223,31 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
-$calcite-corner-radius-none: $calcite-corner-radius-sharp; // Replaces \`--calcite-corner-radius-sharp\`
-$calcite-corner-radius-sm: $calcite-corner-radius-round; // Replaces \`--calcite-corner-radius-round\`
-$calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
-$calcite-font-size-2xl: $calcite-font-size-xxl; // Replaces \`--calcite-font-size-xxl\`
-$calcite-size-4xs: $calcite-size-fixed-sm-plus; // Replaces \`--calcite-size-fixed-sm-plus\`
-$calcite-size-3xs: $calcite-size-fixed-md; // Replaces \`--calcite-size-fixed-md\`
-$calcite-size-2xs: $calcite-size-fixed-md-plus; // Replaces \`--calcite-size-fixed-md-plus\`
-$calcite-size-xs: $calcite-size-fixed-lg; // Replaces \`--calcite-size-fixed-lg\`
-$calcite-size-sm: $calcite-size-fixed-xxl; // Replaces \`--calcite-size-fixed-xxl\`
-$calcite-size-md: $calcite-size-fixed-xxxl; // Replaces \`--calcite-size-fixed-xxxl\`
-$calcite-size-2xl: $calcite-size-xxl; // Replaces \`--calcite-size-xxl\`
-$calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
-$calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
-$calcite-space-px: $calcite-spacing-px; // Replaces \`--calcite-spacing-px\`
-$calcite-space-base: $calcite-spacing-base; // Replaces \`--calcite-spacing-base\`
-$calcite-space-2xs: $calcite-spacing-xxs; // Replaces \`--calcite-spacing-xxs\`
-$calcite-space-xs: $calcite-spacing-xs; // Replaces \`--calcite-spacing-xs\`
-$calcite-space-sm: $calcite-spacing-sm; // Replaces \`--calcite-spacing-sm\`
-$calcite-space-sm-plus: $calcite-spacing-sm-plus; // Replaces \`--calcite-spacing-sm-plus\`
-$calcite-space-md: $calcite-spacing-md; // Replaces \`--calcite-spacing-md\`
-$calcite-space-md-plus: $calcite-spacing-md-plus; // Replaces \`--calcite-spacing-md-plus\`
-$calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
-$calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
-$calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
-$calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
+$calcite-corner-radius-none: 0; // Replaces \`--calcite-corner-radius-sharp\`
+$calcite-corner-radius-sm: 4px; // Replaces \`--calcite-corner-radius-round\`
+$calcite-font-weight-regular: 400; // Replaces \`--calcite-font-weight-normal\`
+$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
+$calcite-size-4xs: 0.625rem; // Replaces \`--calcite-size-fixed-sm-plus\`
+$calcite-size-3xs: 0.75rem; // Replaces \`--calcite-size-fixed-md\`
+$calcite-size-2xs: 0.875rem; // Replaces \`--calcite-size-fixed-md-plus\`
+$calcite-size-xs: 1rem; // Replaces \`--calcite-size-fixed-lg\`
+$calcite-size-sm: 1.5rem; // Replaces \`--calcite-size-fixed-xxl\`
+$calcite-size-md: 2rem; // Replaces \`--calcite-size-fixed-xxxl\`
+$calcite-size-2xl: 4rem; // Replaces \`--calcite-size-xxl\`
+$calcite-size-3xl: 6rem; // Replaces \`--calcite-size-xxxl\`
+$calcite-space-none: 0; // Replaces \`--calcite-spacing-none\`
+$calcite-space-px: 1px; // Replaces \`--calcite-spacing-px\`
+$calcite-space-base: 2px; // Replaces \`--calcite-spacing-base\`
+$calcite-space-2xs: 0.25rem; // Replaces \`--calcite-spacing-xxs\`
+$calcite-space-xs: 0.375rem; // Replaces \`--calcite-spacing-xs\`
+$calcite-space-sm: 0.5rem; // Replaces \`--calcite-spacing-sm\`
+$calcite-space-sm-plus: 0.625rem; // Replaces \`--calcite-spacing-sm-plus\`
+$calcite-space-md: 0.75rem; // Replaces \`--calcite-spacing-md\`
+$calcite-space-md-plus: 0.875rem; // Replaces \`--calcite-spacing-md-plus\`
+$calcite-space-lg: 1rem; // Replaces \`--calcite-spacing-lg\`
+$calcite-space-xl: 1.25rem; // Replaces \`--calcite-spacing-xl\`
+$calcite-space-2xl: 1.5rem; // Replaces \`--calcite-spacing-xxl\`
+$calcite-space-3xl: 2rem; // Replaces \`--calcite-spacing-xxxl\`
 $calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;

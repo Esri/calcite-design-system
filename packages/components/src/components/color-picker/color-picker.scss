@@ -10,7 +10,7 @@
   @include shared.text-n2h();
 
   display: inline-block;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   inline-size: var(--calcite-internal-color-picker-min-width);
   min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
@@ -102,7 +102,10 @@ calcite-swatch {
   flex-direction: column;
   block-size: min-content;
   border: 1px solid var(--calcite-color-picker-border-color, var(--calcite-color-border-3));
-  background-color: var(--calcite-color-picker-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-color-picker-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-color-picker-shadow, var(--calcite-shadow-none));
 }
