@@ -19,10 +19,12 @@ class Test extends LitElement {
   override render(): JsxNode {
     return (
       <>
-        <button type="button">First</button>
-        <button tabIndex={2} type="button">
-          Second
-        </button>
+        <div>
+          <button type="button">First</button>
+          <button tabIndex={2} type="button">
+            Second
+          </button>
+        </div>
         <button tabIndex={-1} type="button">
           Third
         </button>
@@ -113,6 +115,48 @@ it("manages the entry tab stop and exposes focus restoration only during focus e
   controller.update(items, null);
   await expect.element(entry).toHaveAttribute("tabindex", "2");
   await expect.element(first).toHaveAttribute("tabindex", "-1");
+});
+
+it("preserves the focused entry descendant through activation and closure", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const second = page.getByRole("button", { name: "Second" });
+  const item = page.getByRole("button", { name: "Third" });
+  const itemElement = item.element() as HTMLButtonElement;
+  component.entryElement = component.el.querySelector("div")!;
+
+  await userEvent.click(second);
+  controller.update([itemElement], itemElement);
+  await userEvent.click(item);
+  controller.update([itemElement], itemElement);
+  controller.update([itemElement], null);
+  controller.restoreFocus();
+  await expect.element(second).toHaveFocus();
+
+  await userEvent.click(first);
+  controller.update([itemElement], itemElement);
+  await userEvent.click(item);
+  controller.restoreFocusIfWithin();
+  await expect.element(first).toHaveFocus();
+});
+
+it("falls back to the first candidate when the preserved target no longer belongs to the entry", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const second = page.getByRole("button", { name: "Second" });
+  const item = page.getByRole("button", { name: "Third" });
+  const itemElement = item.element() as HTMLButtonElement;
+  component.entryElement = component.el.querySelector("div")!;
+
+  await userEvent.click(second);
+  controller.update([itemElement], itemElement);
+  await userEvent.click(item);
+  component.entryElement = first.element() as HTMLButtonElement;
+  controller.update([itemElement], null);
+  controller.restoreFocus();
+  await expect.element(first).toHaveFocus();
 });
 
 it("returns focus to a non-tabbable entry without changing its tabindex", async () => {
