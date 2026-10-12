@@ -93,7 +93,8 @@
     {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
-      "rangeStrategy": "bump",
+      "versioning": "semver-partial",
+      "rangeStrategy": "replace",
       "ignoreUnstable": false,
       "respectLatest": false
     },
