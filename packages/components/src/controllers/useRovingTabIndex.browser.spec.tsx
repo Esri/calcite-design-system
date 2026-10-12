@@ -195,6 +195,26 @@ it("restores focus conditionally without stealing focus from outside the managed
   await expect.element(entry).toHaveFocus();
 });
 
+it("does not restore focus after the user has moved focus away from the managed controls", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const entry = page.getByRole("button", { name: "Second" });
+  const outside = page.getByRole("button", { name: "Third" });
+  const firstElement = first.element() as HTMLButtonElement;
+  component.entryElement = entry.element();
+
+  controller.update([firstElement], firstElement);
+  await userEvent.click(outside);
+  controller.restoreFocus();
+  await expect.element(outside).toHaveFocus();
+
+  await userEvent.click(first);
+  controller.update([firstElement], null);
+  controller.restoreFocus();
+  await expect.element(entry).toHaveFocus();
+});
+
 it("activates items by index and clears the active tab stop for invalid indices", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;

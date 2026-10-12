@@ -127,7 +127,12 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         restore(entryTabStops);
         const nextEntryTabStops = getTabbableEntryElements(entryElement);
         const managedEntryTabStops =
-          nextEntryTabStops.length > 0 ? nextEntryTabStops : entryTabStops.filter((element) => element.isConnected);
+          nextEntryTabStops.length > 0
+            ? nextEntryTabStops
+            : entryTabStops.filter(
+                (element) =>
+                  element.isConnected && (element === entryElement || (entryElement && entryElement.contains(element))),
+              );
         itemElements = elements;
         const traversableElements = options.getTraversableElements?.() ?? elements;
         activeIndex =
@@ -140,7 +145,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
           entryFocusCandidates.find((element) => getRootNode(element).activeElement === element) ??
           (entryFocusTarget && entryFocusCandidates.includes(entryFocusTarget)
             ? entryFocusTarget
-            : (entryFocusCandidates[0] ?? entryFocusTarget));
+            : entryFocusCandidates[0]);
         entryTabStops = managedEntryTabStops;
         const managedElements = activeElement ? [...elements, ...entryTabStops] : elements;
         const currentElements = new Set<Element>(managedElements);
@@ -168,9 +173,19 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       restore,
       restoreFocus(): void {
+        const currentlyFocusedElement = entryFocusTarget ? getRootNode(entryFocusTarget).activeElement : null;
+        const focusIsWithinManagedControls =
+          itemElements.some((element) => getRootNode(element).activeElement === element) ||
+          entryTabStops.some((element) => getRootNode(element).activeElement === element) ||
+          (entryFocusTarget !== undefined && currentlyFocusedElement === entryFocusTarget);
+
+        if (!focusIsWithinManagedControls || !entryFocusTarget || !entryFocusTarget.isConnected) {
+          return;
+        }
+
         isRestoringFocus = true;
         try {
-          entryFocusTarget?.focus();
+          entryFocusTarget.focus();
         } finally {
           isRestoringFocus = false;
         }

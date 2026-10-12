@@ -775,6 +775,37 @@ describe("menu item focus", () => {
     await expect.element(triggerOneButton).toHaveProperty("tabIndex", 0);
     await expect.element(triggerTwoButton).toHaveProperty("tabIndex", -1);
   });
+
+  it("releases stale trigger tab stops when the referenceElement changes to a non-tabbable trigger", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown reference-element="trigger-one">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">Dropdown Item Content</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger-one">Open dropdown one</calcite-button>
+        <button id="trigger-two" tabIndex={-1} type="button">
+          Open dropdown two
+        </button>
+      </>,
+    );
+
+    const triggerOne = page.getBySelector("#trigger-one");
+    const triggerTwo = page.getBySelector("#trigger-two");
+    const triggerOneButton = triggerOne.getByRole("button", { name: "Open dropdown one" });
+
+    await userEvent.click(triggerOne);
+
+    await expect.element(page.getBySelector("#item-1")).toHaveFocus();
+    await expect.element(triggerOneButton).toHaveProperty("tabIndex", -1);
+
+    component.referenceElement = "trigger-two";
+
+    await expect.element(triggerOneButton).toHaveProperty("tabIndex", 0);
+    await expect.element(triggerTwo).toHaveProperty("tabIndex", -1);
+  });
 });
 
 describe("referenceElement keydown", () => {
