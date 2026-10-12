@@ -10,6 +10,7 @@
 
 :host {
   display: inline-block;
+  min-inline-size: min-content;
 }
 
 @include shared.disabled();
@@ -45,7 +46,7 @@ calcite-time-picker {
   display: flex;
   color: var(--calcite-input-time-picker-input-text-color, var(--calcite-color-text-1));
   flex-wrap: nowrap;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   inline-size: 100%;
   padding-block: var(--calcite-spacing-base);
   user-select: none;
@@ -227,7 +228,10 @@ calcite-time-picker {
 }
 
 calcite-popover {
-  --calcite-popover-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius-round));
+  --calcite-popover-corner-radius: var(
+    --calcite-input-time-picker-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
 }
 
 @include shared.form-internal-label();

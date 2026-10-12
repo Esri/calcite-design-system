@@ -69,7 +69,10 @@
     --calcite-autocomplete-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-  border-radius: var(--calcite-autocomplete-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-autocomplete-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
 }
 
 .content--hidden {

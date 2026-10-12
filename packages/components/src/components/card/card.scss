@@ -68,7 +68,10 @@
   justify-content: space-between;
   overflow: hidden;
   border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color, var(--calcite-color-border-3));
-  border-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(
+    --calcite-card-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
   background-color: var(
     --calcite-card-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -170,7 +173,7 @@
 @include shared.slotted("description", "*") {
   color: var(--calcite-color-text-2);
   margin: 0;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   line-height: var(--calcite-font-line-height-relative-snug);
   font-size: var(--calcite-internal-card-description-font-size);
 }
