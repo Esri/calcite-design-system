@@ -5,7 +5,7 @@ import { resolve } from "node:path";
  * @type {import('lint-staged').Configuration}
  */
 export default {
-  "*.{json,html,yml}": (absolutePaths) => {
+  "*.{json,html,yaml}": (absolutePaths) => {
     const files = absolutePaths.join(" ");
     const { dirname } = import.meta;
     return [`prettier --ignore-path ${resolve(dirname, "./.prettierignore")} --write ${files}`];

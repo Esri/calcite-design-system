@@ -4,7 +4,7 @@
 //
 // --calcite-internal-day-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
@@ -12,7 +12,7 @@
   outline: none;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 .day-wrapper {
   @apply flex
@@ -24,7 +24,7 @@
 }
 
 .day {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply text-n2h
     flex
     items-center
@@ -164,4 +164,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

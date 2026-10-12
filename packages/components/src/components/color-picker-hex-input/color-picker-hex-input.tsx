@@ -20,7 +20,7 @@ import { OPACITY_LIMITS } from "../color-picker/resources";
 import type { InputNumber } from "../input-number/input-number";
 import type { InputText } from "../input-text/input-text";
 import type { ColorPicker } from "../color-picker/color-picker";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS } from "./resources";
 import { styles } from "./color-picker-hex-input.scss";
 
@@ -47,7 +47,7 @@ export class ColorPickerHexInput extends LitElement {
 
   private previousDefinedValue?: string;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   // #endregion
 

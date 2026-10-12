@@ -1,31 +1,17 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-rating-spacing: Specifies the amount of left and right margin spacing between each item.
- * @prop --calcite-rating-color-hover: Specifies the component's item color when hovered.
- * @prop --calcite-rating-color-press: Specifies the component's item color when active.
- * @prop --calcite-rating-color: Specifies the component's item color.
- * @prop --calcite-rating-average-color: When `average` is set, specifies the component's item color.
- * @prop --calcite-rating-average-text-color: When `average` is set, specifies the component's `average` text color.
- * @prop --calcite-rating-count-text-color: Specifies the component's text color for `count`.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-rating-spacing
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([scale="s"]) {
   min-block-size: var(--calcite-space-2xl);
@@ -60,7 +46,7 @@
 }
 
 .star {
-  @include includes.transition-default();
+  @include shared.transition-default();
   position: relative;
   display: flex;
   flex-direction: column;
@@ -88,7 +74,7 @@
 }
 
 .fraction {
-  @include includes.transition-default();
+  @include shared.transition-default();
   position: absolute;
   pointer-events: none;
   inset-block-start: 0;
@@ -119,6 +105,6 @@ calcite-chip {
   @apply sr-only;
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();

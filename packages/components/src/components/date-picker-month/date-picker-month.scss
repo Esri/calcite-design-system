@@ -1,7 +1,7 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
-@include includes.base-component();
+@include shared.base-component();
 
 .calendar-container {
   @apply flex w-full;

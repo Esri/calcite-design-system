@@ -6,7 +6,7 @@ update_stylelint_config_if_sass_file_edited() {
   )"
 
   if [ -n "$staged_files" ]; then
-    npm run util:update-stylelint-custom-sass-functions
+    pnpm util:update-stylelint-custom-sass-functions
     git add "packages/components/.stylelintrc.cjs" >/dev/null 2>&1 || true
   fi
 
@@ -56,7 +56,7 @@ check_ui_icon_keywords() {
   )"
 
   if [ -n "$staged_files" ]; then
-    npm --workspace=packages/ui-icons run util:fix-keywords || {
+    pnpm --filter @esri/calcite-ui-icons util:fix-keywords || {
       echo "Error: Failed to fix UI icon keywords."
       exit 1
     }

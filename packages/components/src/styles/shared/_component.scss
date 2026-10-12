@@ -1,0 +1,131 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-height
+// --calcite-internal-action-padding-block
+// --calcite-internal-action-padding-inline
+
+@mixin base-component() {
+  /* stylelint-disable selector-attribute-name-disallowed-list -- base component mixin needs to use [hidden] */
+  :host([hidden]) {
+    @apply hidden;
+  }
+
+  [hidden] {
+    @apply hidden;
+  }
+  /* stylelint-enable selector-attribute-name-disallowed-list */
+}
+
+@mixin clear-button(
+  $background-color: "--calcite-clear-button-background-color",
+  $background-color-hover: "--calcite-clear-button-background-color-hover",
+  $background-color-press: "--calcite-clear-button-background-color-press",
+  $icon-color: "--calcite-clear-button-icon-color",
+  $icon-color-hover: "--calcite-clear-button-icon-color-hover",
+  $icon-color-press: "--calcite-clear-button-icon-color-press"
+) {
+  .clear-button--container {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+
+    &:hover calcite-action {
+      --calcite-action-background-color: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
+      --calcite-action-text-color: var(#{$icon-color-hover}, var(--calcite-color-text-1));
+    }
+
+    &:active calcite-action {
+      --calcite-action-background-color: var(#{$background-color-press}, var(--calcite-color-border-2));
+      --calcite-action-text-color: var(#{$icon-color-press}, var(--calcite-color-text-1));
+    }
+
+    calcite-action {
+      --calcite-internal-action-height: 100%;
+      --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
+      --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+
+      --calcite-action-background-color: var(#{$background-color}, var(--calcite-color-foreground-2));
+      --calcite-action-text-color: var(#{$icon-color});
+
+      &:hover {
+        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
+        --calcite-action-text-color-press: var(#{$icon-color-hover});
+      }
+
+      &:active {
+        --calcite-action-background-color-press: var(#{$background-color-press}, var(#{$background-color}));
+        --calcite-action-text-color-press: var(#{$icon-color-press});
+      }
+    }
+  }
+
+  :host([scale="s"]) {
+    .clear-button--container {
+      padding: var(--calcite-space-2xs);
+    }
+  }
+
+  :host([scale="m"]) {
+    .clear-button--container {
+      padding: var(--calcite-space-2xs);
+      padding-inline-end: var(--calcite-space-sm);
+    }
+  }
+
+  :host([scale="l"]) {
+    .clear-button--container {
+      padding-inline-end: var(--calcite-space-sm-plus);
+    }
+  }
+}
+
+@mixin inline-edit(
+  $background-color: "--calcite-inline-edit-background-color",
+  $background-color-hover: "--calcite-inline-edit-background-color-hover",
+  $background-color-press: "--calcite-inline-edit-background-color-press",
+  $corner-radius: "--calcite-inline-edit-corner-radius",
+  $loader-color: "--calcite-inline-edit-loader-color",
+  $text-color: "--calcite-inline-edit-text-color",
+  $text-color-press: "--calcite-inline-edit-text-color-press"
+) {
+  .inline-edit--container {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+
+    .enable-editing,
+    .confirm-changes,
+    .cancel-editing {
+      margin-inline-start: var(--calcite-space-2xs);
+    }
+
+    .enable-editing {
+      --calcite-action-text-color: var(#{$text-color}, var(--calcite-color-text-1));
+    }
+
+    calcite-action {
+      --calcite-action-background-color: var(#{$background-color});
+      --calcite-action-corner-radius: var(#{$corner-radius});
+      --calcite-action-loader-color: var(#{$loader-color});
+      --calcite-action-text-color: var(#{$text-color});
+
+      &:hover {
+        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(#{$background-color}));
+        --calcite-action-text-color-press: var(#{$text-color-press}, var(#{$text-color}));
+      }
+
+      &:active {
+        --calcite-action-background-color-press: var(#{$background-color-press}, var(#{$background-color}));
+        --calcite-action-text-color-press: var(#{$text-color-press}, var(#{$text-color}));
+      }
+    }
+  }
+}
+
+@mixin item-hidden() {
+  :host([item-hidden]) {
+    @apply hidden;
+  }
+}

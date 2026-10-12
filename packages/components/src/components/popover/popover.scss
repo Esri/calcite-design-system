@@ -1,23 +1,10 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-popover-background-color: Specifies the component's background color.
- * @prop --calcite-popover-border-color: Specifies the component's border color.
- * @prop --calcite-popover-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-popover-max-size-x: Specifies the component's maximum width.
- * @prop --calcite-popover-text-color: Specifies the component's text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-popover-close-spacing
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+@use "../../styles/shared";
 
 :host {
   @apply contents;
@@ -28,13 +15,13 @@
 }
 
 .position-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
   max-inline-size: var(--calcite-popover-max-size-x, 100vw);
 }
 
-@include floating-ui.floating-ui-elem-anim(".position-container");
+@include shared.floating-ui-elem-anim(".position-container");
 
-@include floating-ui.floating-ui-arrow();
+@include shared.floating-ui-arrow();
 
 :host([scale="s"]) {
   .heading {
@@ -147,4 +134,4 @@
   @apply h-full;
 }
 
-@include includes.base-component();
+@include shared.base-component();

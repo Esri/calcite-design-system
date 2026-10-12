@@ -10,7 +10,7 @@
 // --calcite-internal-select-spacing-block
 // --calcite-internal-select-spacing-inline
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
@@ -64,7 +64,7 @@
 }
 
 .chevron {
-  @include includes.transition-default();
+  @include shared.transition-default();
   @apply focus-base
     box-content
     flex
@@ -199,4 +199,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

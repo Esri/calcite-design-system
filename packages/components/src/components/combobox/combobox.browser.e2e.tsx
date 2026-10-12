@@ -1,5 +1,5 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, test, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/utils/commands";
@@ -25,6 +25,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
+import { logger } from "../../utils/logger";
 import { waitForEvent } from "../../tests/common/utils";
 import type { ComboboxItem } from "../combobox-item/combobox-item";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
@@ -1886,6 +1887,70 @@ describe("filtering", () => {
 
     expect(visibleItems.elements().map((item) => item.id)).toEqual(["description-match"]);
   });
+});
+
+describe("selection mode warning", () => {
+  const message = `clearDisabled is ignored when selection-mode is set to "single-persist"`;
+
+  beforeEach(() => {
+    vi.spyOn(logger, "warn");
+  });
+
+  afterEach(() => {
+    vi.mocked(logger.warn).mockRestore();
+    vi.unstubAllEnvs();
+  });
+
+  it("warns in development builds when clear-disabled is combined with single-persist", async () => {
+    vi.stubEnv("DEV", true);
+
+    await mount(
+      <calcite-combobox clear-disabled label="Trees" selection-mode="single-persist">
+        <calcite-combobox-item heading="Pine" value="Pine" />
+      </calcite-combobox>,
+    );
+
+    expect(logger.warn).toHaveBeenCalledWith(message);
+  });
+
+  it("does not warn in production builds when clear-disabled is combined with single-persist", async () => {
+    vi.stubEnv("DEV", false);
+
+    await mount(
+      <calcite-combobox clear-disabled label="Trees" selection-mode="single-persist">
+        <calcite-combobox-item heading="Pine" value="Pine" />
+      </calcite-combobox>,
+    );
+
+    expect(logger.warn).not.toHaveBeenCalledWith(message);
+  });
+
+  it("does not warn without clear-disabled", async () => {
+    vi.stubEnv("DEV", true);
+
+    await mount(
+      <calcite-combobox label="Trees" selection-mode="single-persist">
+        <calcite-combobox-item heading="Pine" value="Pine" />
+      </calcite-combobox>,
+    );
+
+    expect(logger.warn).not.toHaveBeenCalledWith(message);
+  });
+
+  it.each(["single", "multiple", "ancestors"] as const)(
+    "does not warn when clear-disabled is combined with %s",
+    async (selectionMode) => {
+      vi.stubEnv("DEV", true);
+
+      await mount(
+        <calcite-combobox clear-disabled label="Trees" selection-mode={selectionMode}>
+          <calcite-combobox-item heading="Pine" value="Pine" />
+        </calcite-combobox>,
+      );
+
+      expect(logger.warn).not.toHaveBeenCalledWith(message);
+    },
+  );
 });
 
 describe("theme", () => {

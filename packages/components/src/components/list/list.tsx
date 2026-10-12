@@ -36,7 +36,7 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
@@ -54,18 +54,50 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-list-background-color": "*";
+  }
+}
+
+interface ListSlots {
+  /**
+   * A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+   */
+  "": Node[];
+  /**
+   * A slot for adding content to display when the component has no `calcite-list-item`s.
+   */
+  "empty-content": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements before the filter component.
+   */
+  "filter-actions-start": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements after the filter component.
+   */
+  "filter-actions-end": Node[];
+  /**
+   * When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
+   */
+  "filter-no-results": Node[];
+}
+
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
- *
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
- * @slot empty-content - A slot for adding content to display when the component has no `calcite-list-item`s.
- * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
- * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
- * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
 export class List extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ListSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -118,7 +150,7 @@ export class List extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   get hasActiveFilter(): boolean {
     return !!(
@@ -187,10 +219,10 @@ export class List extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can move from the list. */
+  /** When provided, the method will be called to determine whether the element can be moved from the component. */
   @property() canPull?: (detail: ListDragDetail) => boolean | "clone";
 
-  /** When provided, the method will be called to determine whether the element can be added from another list. */
+  /** When provided, the method will be called to determine whether the element can be added from another `calcite-list`. */
   @property() canPut?: (detail: ListDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -240,9 +272,9 @@ export class List extends LitElement {
   @property() filteredItems: ListItem["el"][] = [];
 
   /**
-   * The component's group identifier.
+   * Specifies the component's group identifier.
    *
-   * To drag elements from one list into another, both lists must have the same group value.
+   * To drag elements from one `calcite-list` into another, both must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 

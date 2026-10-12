@@ -3,6 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.93...@esri/calcite-components@5.2.0-next.94) (2026-10-09)
+
+### Bug Fixes
+
+- **shell-panel, action-bar:** fix Action Bar overflow issue, apply proper direction for expand arrow ([#14963](https://github.com/Esri/calcite-design-system/issues/14963)), closes [#13559](https://github.com/Esri/calcite-design-system/issues/13559)
+
+## [5.2.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.92...@esri/calcite-components@5.2.0-next.93) (2026-10-08)
+
+### Bug Fixes
+
+- **date-picker, date-picker-day, date-picker-month:** enable arrow navigation with NVDA ([#15304](https://github.com/Esri/calcite-design-system/issues/15304)), closes [#12653](https://github.com/Esri/calcite-design-system/issues/12653)
+
+## [5.2.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.91...@esri/calcite-components@5.2.0-next.92) (2026-10-08)
+
+### Bug Fixes
+
+- **menu-item:** fix scales and padding ([#15303](https://github.com/Esri/calcite-design-system/issues/15303))
+
+## [5.2.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.90...@esri/calcite-components@5.2.0-next.91) (2026-10-08)
+
+### Features
+
+- **tab-title:** add beforeClose property to support prevention of tab close ([#15314](https://github.com/Esri/calcite-design-system/issues/15314)), closes [#10502](https://github.com/Esri/calcite-design-system/issues/10502)
+
+## [5.2.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.89...@esri/calcite-components@5.2.0-next.90) (2026-10-07)
+
+### Bug Fixes
+
+- **input-time-picker:** keep time picker parts within bounds when narrow ([#15297](https://github.com/Esri/calcite-design-system/issues/15297)), closes [#14988](https://github.com/Esri/calcite-design-system/issues/14988)
+
+## [5.2.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.88...@esri/calcite-components@5.2.0-next.89) (2026-10-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.87...@esri/calcite-components@5.2.0-next.88) (2026-10-07)
+
+### Bug Fixes
+
+- **carousel:** avoid rendering pagination when disabled ([#15296](https://github.com/Esri/calcite-design-system/issues/15296)), closes [#15193](https://github.com/Esri/calcite-design-system/issues/15193)
+
+## [5.2.0-next.87](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.86...@esri/calcite-components@5.2.0-next.87) (2026-10-05)
+
+### Bug Fixes
+
+- **combobox:** warn only about `clearDisabled` in development builds ([#15242](https://github.com/Esri/calcite-design-system/issues/15242)), closes [#13036](https://github.com/Esri/calcite-design-system/issues/13036)
+
+## [5.2.0-next.86](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.85...@esri/calcite-components@5.2.0-next.86) (2026-10-05)
+
+### Bug Fixes
+
+- **button:** omit empty aria-label when label is not set ([#15253](https://github.com/Esri/calcite-design-system/issues/15253)), closes [#14702](https://github.com/Esri/calcite-design-system/issues/14702)
+
+## [5.2.0-next.85](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.84...@esri/calcite-components@5.2.0-next.85) (2026-09-30)
+
+### Bug Fixes
+
+- **slider:** consider `dir` when displaying formatted values with negative sign ([#15270](https://github.com/Esri/calcite-design-system/issues/15270)), closes [#3167](https://github.com/Esri/calcite-design-system/issues/3167)
+
+## [5.2.0-next.84](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.83...@esri/calcite-components@5.2.0-next.84) (2026-09-29)
+
+### Bug Fixes
+
+- **switch:** update styles to work in high contrast mode ([#15262](https://github.com/Esri/calcite-design-system/issues/15262)), closes [#15252](https://github.com/Esri/calcite-design-system/issues/15252)
+- **text-area:** use correct corner-radius fallback ([#15259](https://github.com/Esri/calcite-design-system/issues/15259)), closes [#14675](https://github.com/Esri/calcite-design-system/issues/14675)
+
 ## [5.2.0-next.83](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.82...@esri/calcite-components@5.2.0-next.83) (2026-09-25)
 
 ### Features

@@ -1,39 +1,13 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-color-picker-background-color: Specifies the component's background color.
- * @prop --calcite-color-picker-border-color: Specifies the component's border color.
- * @prop --calcite-color-picker-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-color-picker-shadow: Specifies the component's shadow.
- * @prop --calcite-color-picker-text-color: Specifies the component's text color.
- * @prop --calcite-color-picker-input-background-color: Specifies the component's input background color.
- * @prop --calcite-color-picker-input-border-color: Specifies the component's input border color.
- * @prop --calcite-color-picker-input-text-color: Specifies the component's input text color.
- * @prop --calcite-color-picker-input-prefix-text-color:  When `hexDisabled` is not `true`, specifies the component's input prefix text color.
- * @prop --calcite-color-picker-input-suffix-text-color:  When `alphaChannel` is `true`, specifies the component's input suffix text color.
- * @prop --calcite-color-picker-tab-border-color: Specifies the component's tab border color.
- * @prop --calcite-color-picker-tab-text-color: Specifies the component's tab text color.
- * @prop --calcite-color-picker-tab-accent-color-press: Specifies the component's tab accent color when selected or active.
- * @prop --calcite-color-picker-swatch-corner-radius: Specifies the component's swatch corner radius.
- * @prop --calcite-color-picker-action-text-color-press: Specifies the component's `savedColors` action text color when pressed.
- * @prop --calcite-color-picker-action-text-color-hover: Specifies the component's `savedColors` action text color when hovered.
- * @prop --calcite-color-picker-action-text-color: Specifies the component's `savedColors` action text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-color-picker-min-width
 
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
 :host {
-  @include text.text-n2h();
+  @include shared.text-n2h();
 
   display: inline-block;
   font-weight: var(--calcite-font-weight-normal);
@@ -41,7 +15,7 @@
   min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([scale="s"]) {
   --calcite-internal-color-picker-min-width: 200px;
@@ -57,7 +31,7 @@
   --calcite-internal-color-picker-min-width: 304px;
   --calcite-color-picker-spacing: var(--calcite-spacing-lg);
 
-  @include text.text-n1h();
+  @include shared.text-n1h();
 
   .section {
     &:first-of-type {
@@ -159,7 +133,7 @@ calcite-swatch {
   block-size: var(--calcite-size-px);
   pointer-events: none;
   &:focus {
-    @include focus.focus-outset();
+    @include shared.focus-outset();
 
     outline-offset: 6px;
   }
@@ -247,4 +221,4 @@ calcite-swatch {
   margin-block-start: var(--calcite-color-picker-spacing);
 }
 
-@include includes.base-component();
+@include shared.base-component();

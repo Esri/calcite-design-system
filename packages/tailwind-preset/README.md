@@ -7,7 +7,7 @@ This package provides a Tailwind CSS preset for Calcite Design System, enabling 
 Install the Calcite Tailwind preset:
 
 ```bash
-npm install -D @esri/calcite-tailwind-preset
+pnpm add -D @esri/calcite-tailwind-preset
 ```
 
 Then import it in your Tailwind CSS configuration file:
