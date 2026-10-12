@@ -123,6 +123,11 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         return isRestoringFocus;
       },
       update(elements, nextActiveElement): void {
+        const entryElement = options.getEntryElement?.();
+        restore(entryTabStops);
+        const nextEntryTabStops = getTabbableEntryElements(entryElement);
+        const managedEntryTabStops =
+          nextEntryTabStops.length > 0 ? nextEntryTabStops : entryTabStops.filter((element) => element.isConnected);
         itemElements = elements;
         const traversableElements = options.getTraversableElements?.() ?? elements;
         activeIndex =
@@ -130,16 +135,13 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
             ? traversableElements.indexOf(nextActiveElement)
             : -1;
         activeElement = activeIndex >= 0 ? nextActiveElement : null;
-        const nextEntryTabStops = getTabbableEntryElements(options.getEntryElement?.());
-        restore(entryTabStops.filter((element) => !nextEntryTabStops.includes(element)));
-        const entryElement = options.getEntryElement?.();
         const entryFocusCandidates = getFocusableEntryElements(entryElement);
         entryFocusTarget =
           entryFocusCandidates.find((element) => getRootNode(element).activeElement === element) ??
           (entryFocusTarget && entryFocusCandidates.includes(entryFocusTarget)
             ? entryFocusTarget
-            : entryFocusCandidates[0]);
-        entryTabStops = nextEntryTabStops;
+            : (entryFocusCandidates[0] ?? entryFocusTarget));
+        entryTabStops = managedEntryTabStops;
         const managedElements = activeElement ? [...elements, ...entryTabStops] : elements;
         const currentElements = new Set<Element>(managedElements);
         originalTabIndexes.forEach((tabIndex, element) => {
