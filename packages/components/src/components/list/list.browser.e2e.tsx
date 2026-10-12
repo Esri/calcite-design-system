@@ -1231,7 +1231,7 @@ describe("drag and drop", () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
 
     try {
-      const { el: source } = await mount(
+      const { el: source } = await mount<List>(
         <div>
           <calcite-list drag-enabled group="letters" id="source" label="Source">
             <calcite-list-item id="source-item" label="A" value="a" />
@@ -1242,11 +1242,10 @@ describe("drag and drop", () => {
         </div>,
       );
       const sourceLocator = page.elementLocator(source);
-      const sourceList = source.querySelector<List["el"]>("#source")!;
       const destination = page.getBySelector("#destination").element() as List["el"];
       const sourceItem = sourceLocator.getBySelector("#source-item").element() as ListItem["el"];
       const destinationItem = page.getBySelector("#destination-item").element() as ListItem["el"];
-      sourceList.canPull = () => "clone";
+      source.canPull = () => "clone";
       await vi.waitFor(() =>
         expect(
           sourceItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),

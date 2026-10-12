@@ -508,7 +508,7 @@ describe("drag and drop", () => {
   });
 
   it("honors cancellation when adding a block from the sort menu", async () => {
-    const { el: source } = await mount(
+    const { el: source } = await mount<BlockGroup>(
       <div>
         <calcite-block-group drag-enabled group="letters" id="source">
           <calcite-block heading="one" id="one" />
@@ -519,11 +519,10 @@ describe("drag and drop", () => {
       </div>,
     );
     const sourceLocator = page.elementLocator(source);
-    const sourceGroup = source.querySelector<BlockGroup["el"]>("#source")!;
     const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
     const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
     const destinationBlock = page.getBySelector("#two").element() as Block["el"];
-    sourceGroup.canPull = () => "clone";
+    source.canPull = () => "clone";
     await vi.waitFor(() =>
       expect(
         sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
@@ -581,7 +580,7 @@ describe("drag and drop", () => {
   });
 
   it("rejects pointer transfers between mismatched groups", async () => {
-    const { el: source } = await mount(
+    const { el: source } = await mount<BlockGroup>(
       <div>
         <calcite-block-group drag-enabled group="letters" id="source">
           <calcite-block heading="one" id="one" />
@@ -592,7 +591,6 @@ describe("drag and drop", () => {
       </div>,
     );
     const sourceLocator = page.elementLocator(source);
-    const sourceGroup = source.querySelector<BlockGroup["el"]>("#source")!;
     const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
     const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
     const destinationBlock = page.getBySelector("#two").element() as Block["el"];
@@ -608,7 +606,7 @@ describe("drag and drop", () => {
         source.addEventListener("calciteBlockGroupDragEnd", () => resolve(), { once: true }),
       );
 
-    expect(sourceGroup.group).toBe("letters");
+    expect(source.group).toBe("letters");
     expect(destination.group).toBe("numbers");
 
     const dragEnd = waitForDragEnd();

@@ -131,6 +131,7 @@ class Test extends LitElement {
   @property({ type: Boolean }) dragEnabled = false;
   @property({ type: Boolean }) sortDisabled = false;
   @property() group?: string;
+  @property() layout: "horizontal" | "vertical" = "vertical";
 }
 
 const mountedComponents: Test[] = [];
@@ -150,9 +151,9 @@ afterEach(() => {
   mountedComponents.length = 0;
 });
 
-const mountDragEnabled = async () => {
+const mountDragEnabled = async (layout: "horizontal" | "vertical" = "vertical") => {
   const result = await mount(
-    html`<sortable-test drag-enabled group="test-group">
+    html`<sortable-test drag-enabled group="test-group" layout=${layout}>
       <div id="one"><button class="handle"></button></div>
       <div id="two"><button class="handle"></button></div>
     </sortable-test>`,
@@ -244,20 +245,23 @@ it("preserves ungrouped sorting when sortDisabled is true", async () => {
   expect(groupedAccept({ data: groupedSource.data })).toBe(false);
 });
 
-it("omits dnd-kit keyboard sorting while preserving other sortable plugins", async () => {
-  await mountDragEnabled();
+it.each(["horizontal", "vertical"] as const)(
+  "preserves optimistic sorting for %s layout without keyboard sorting",
+  async (layout) => {
+    await mountDragEnabled(layout);
 
-  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+    await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
 
-  const sortableOptions = createSortableSpy.mock.calls[0][0] as Record<string, unknown>;
-  const getPlugins = sortableOptions.plugins as (plugins: unknown[]) => unknown[];
-  const additionalPlugin = vi.fn();
+    const sortableOptions = createSortableSpy.mock.calls[0][0] as Record<string, unknown>;
+    const getPlugins = sortableOptions.plugins as (plugins: unknown[]) => unknown[];
+    const additionalPlugin = vi.fn();
 
-  expect(getPlugins([keyboardPlugin, optimisticSortingPlugin, additionalPlugin])).toEqual([
-    optimisticSortingPlugin,
-    additionalPlugin,
-  ]);
-});
+    expect(getPlugins([keyboardPlugin, optimisticSortingPlugin, additionalPlugin])).toEqual([
+      optimisticSortingPlugin,
+      additionalPlugin,
+    ]);
+  },
+);
 
 it("does not notify components whose dragging is disabled", async () => {
   const { component: inactiveComponent } = await mount(Test);

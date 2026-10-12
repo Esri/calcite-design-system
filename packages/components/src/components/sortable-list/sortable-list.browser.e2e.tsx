@@ -132,43 +132,258 @@ describe("drag and drop", () => {
     expect(orderCalledTimes).toBe(0);
   });
 
-  it("updates draggable state when a sortable-list handle is disabled dynamically", async () => {
-    const { el } = await mount(
-      <calcite-sortable-list>
-        <div id="one">
-          <calcite-handle />1
-        </div>
-        <div id="two">
-          <calcite-handle />2
-        </div>
-      </calcite-sortable-list>,
-    );
-    const list = page.elementLocator(el);
-    const firstHandle = list.getBySelector("#one calcite-handle").element() as Handle["el"];
-    const secondItem = list.getBySelector("#two").element();
-    let orderCalledTimes = 0;
+  it.each([false, true])(
+    "updates draggable state when a handle starts disabled=%s",
+    async (disabled) => {
+      const { el } = await mount(
+        <calcite-sortable-list>
+          <div id="one">
+            <calcite-handle disabled={disabled} />1
+          </div>
+          <div id="two">
+            <calcite-handle />2
+          </div>
+        </calcite-sortable-list>,
+      );
+      const list = page.elementLocator(el);
+      const firstHandle = list.getBySelector("#one calcite-handle").element() as Handle["el"];
+      const secondItem = list.getBySelector("#two").element();
+      let orderCalledTimes = 0;
 
-    el.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
-    firstHandle.disabled = true;
-    await vi.waitFor(() => expect(firstHandle.disabled).toBe(true));
+      el.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+      firstHandle.disabled = true;
+      await vi.waitFor(() => expect(firstHandle.disabled).toBe(true));
 
-    await dragAndDrop(firstHandle, secondItem);
+      await dragAndDrop(firstHandle, secondItem);
 
-    expect(Array.from(el.children, (item) => item.id)).toEqual(["one", "two"]);
-    expect(orderCalledTimes).toBe(0);
+      expect(Array.from(el.children, (item) => item.id)).toEqual(["one", "two"]);
+      expect(orderCalledTimes).toBe(0);
 
-    firstHandle.disabled = false;
-    await vi.waitFor(() => expect(firstHandle.disabled).toBe(false));
-    const reordered = new Promise<void>((resolve) =>
-      el.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
-    );
+      firstHandle.disabled = false;
+      await vi.waitFor(() => expect(firstHandle.disabled).toBe(false));
+      const reordered = new Promise<void>((resolve) =>
+        el.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+      );
 
-    await dragAndDrop(firstHandle, secondItem);
-    await reordered;
+      await dragAndDrop(firstHandle, secondItem);
+      await reordered;
 
-    expect(Array.from(el.children, (item) => item.id)).toEqual(["two", "one"]);
-    expect(orderCalledTimes).toBe(1);
-  });
+      expect(Array.from(el.children, (item) => item.id)).toEqual(["two", "one"]);
+      expect(orderCalledTimes).toBe(1);
+    },
+  );
+
+  it.each([
+    { verticalFirst: true, canceled: true },
+    { verticalFirst: false, canceled: true },
+    { verticalFirst: true, canceled: false },
+    { verticalFirst: false, canceled: false },
+  ])(
+    "preserves horizontal order events with a shared manager ($verticalFirst, $canceled)",
+    async ({ verticalFirst, canceled }) => {
+      if (verticalFirst) {
+        await renderSortableList();
+      }
+
+      const { el } = await mount(
+        <calcite-sortable-list layout="horizontal" style="width: 320px">
+          <div id="horizontal-one" style="min-width: 80px; min-height: 40px">
+            <calcite-handle />1
+          </div>
+          <div id="horizontal-two" style="min-width: 80px; min-height: 40px">
+            <calcite-handle />2
+          </div>
+        </calcite-sortable-list>,
+      );
+      if (!verticalFirst) {
+        await renderSortableList();
+      }
+
+      const list = page.elementLocator(el);
+      const handle = list.getBySelector("#horizontal-one calcite-handle").element();
+      const target = list.getBySelector("#horizontal-two").element();
+      let orderAtBefore: string[] = [];
+      let orderCalledTimes = 0;
+
+      el.addEventListener("calciteListBeforeOrderChange", (event) => {
+        orderAtBefore = Array.from(el.children)
+          .filter((item) => !item.hasAttribute("data-dnd-placeholder"))
+          .map((item) => item.id);
+        if (canceled) {
+          event.preventDefault();
+        }
+      });
+      el.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+
+      await dragAndDrop(handle, target, "right");
+
+      expect(orderAtBefore).toEqual(["horizontal-one", "horizontal-two"]);
+      expect(Array.from(el.children, (item) => item.id)).toEqual(
+        canceled ? ["horizontal-one", "horizontal-two"] : ["horizontal-two", "horizontal-one"],
+      );
+      expect(orderCalledTimes).toBe(canceled ? 0 : 1);
+    },
+  );
+
+  it.each([false, true])(
+    "notifies an accepted move when a later proposal is canceled (transfer=%s)",
+    async (transfer) => {
+      const { component: source } = await mount<SortableList>(
+        <calcite-sortable-list group="letters" id="source">
+          <div id="one">
+            <calcite-handle />1
+          </div>
+          <div id="two">
+            <calcite-handle />2
+          </div>
+          <div id="three">
+            <calcite-handle />3
+          </div>
+        </calcite-sortable-list>,
+      );
+      const { component: destination } = await mount<SortableList>(
+        <calcite-sortable-list group="letters" id="destination">
+          <div id="four">
+            <calcite-handle />4
+          </div>
+          <div id="five">
+            <calcite-handle />5
+          </div>
+        </calcite-sortable-list>,
+      );
+      const sourceLocator = page.elementLocator(source.el);
+      const destinationLocator = page.elementLocator(destination.el);
+      const handle = sourceLocator.getBySelector("#one calcite-handle").element();
+      const draggedItem = sourceLocator.getBySelector("#one").element();
+      const acceptedList = transfer ? destination : source;
+      const acceptedLocator = transfer ? destinationLocator : sourceLocator;
+      const acceptedTarget = acceptedLocator.getBySelector(transfer ? "#four" : "#two").element();
+      const rejectedTarget = acceptedLocator.getBySelector(transfer ? "#five" : "#three").element();
+      const beforeSpy = vi.fn((event: Event) => event.preventDefault());
+      const sourceOrderSpy = vi.fn();
+      const destinationOrderSpy = vi.fn();
+      const dragEndSpy = vi.spyOn(source, "onDragEnd");
+      source.el.addEventListener("calciteListOrderChange", sourceOrderSpy);
+      destination.el.addEventListener("calciteListOrderChange", destinationOrderSpy);
+
+      await dragAndDrop(handle, acceptedTarget, "bottom", { skipPointerUp: true });
+      await vi.waitFor(() => {
+        expect(draggedItem.parentElement).toBe(acceptedList.el);
+        expect(draggedItem.previousElementSibling).toBe(acceptedTarget);
+      });
+
+      acceptedList.el.addEventListener("calciteListBeforeOrderChange", beforeSpy);
+      await dragAndDrop(handle, rejectedTarget, "bottom");
+
+      expect(beforeSpy).toHaveBeenCalled();
+      expect(Array.from(acceptedList.el.children, (item) => item.id)).toEqual(
+        transfer ? ["four", "one", "five"] : ["two", "one", "three"],
+      );
+      expect(sourceOrderSpy).toHaveBeenCalledTimes(1);
+      expect(dragEndSpy).toHaveBeenCalledWith({
+        fromEl: source.el,
+        toEl: acceptedList.el,
+        dragEl: draggedItem,
+        oldIndex: 0,
+        newIndex: 1,
+      });
+      expect(destinationOrderSpy).toHaveBeenCalledTimes(transfer ? 1 : 0);
+    },
+  );
+
+  it.each([
+    { transfer: false, anchorChange: "none" },
+    { transfer: true, anchorChange: "none" },
+    { transfer: true, anchorChange: "remove" },
+    { transfer: true, anchorChange: "remove-all" },
+    { transfer: true, anchorChange: "transfer" },
+  ])(
+    "restores the original order when Escape cancels an optimistic move ($transfer, $anchorChange)",
+    async ({ transfer, anchorChange }) => {
+      const { component: source } = await mount<SortableList>(
+        <calcite-sortable-list group="letters" id="source">
+          <div id="one">
+            <calcite-handle />1
+          </div>
+          <div id="two">
+            <calcite-handle />2
+          </div>
+          <div id="four">
+            <calcite-handle />4
+          </div>
+        </calcite-sortable-list>,
+      );
+      const { component: destination } = await mount<SortableList>(
+        <calcite-sortable-list group="letters" id="destination">
+          <div id="three">
+            <calcite-handle />3
+          </div>
+        </calcite-sortable-list>,
+      );
+      const sourceLocator = page.elementLocator(source.el);
+      const destinationLocator = page.elementLocator(destination.el);
+      const handle = sourceLocator.getBySelector("#one calcite-handle").element();
+      const draggedItem = sourceLocator.getBySelector("#one").element();
+      const sibling = sourceLocator.getBySelector("#two").element();
+      const remainingSibling = sourceLocator.getBySelector("#four").element();
+      const target = transfer
+        ? destinationLocator.getBySelector("#three").element()
+        : sourceLocator.getBySelector("#two").element();
+      const sourceOrderSpy = vi.fn();
+      const destinationOrderSpy = vi.fn();
+      const dragEndSpy = vi.spyOn(source, "onDragEnd");
+      source.el.addEventListener("calciteListOrderChange", sourceOrderSpy);
+      destination.el.addEventListener("calciteListOrderChange", destinationOrderSpy);
+
+      await dragAndDrop(handle, target, "bottom", { skipPointerUp: true });
+      await vi.waitFor(() =>
+        expect(transfer ? draggedItem.parentElement : draggedItem.previousElementSibling).toBe(
+          transfer ? destination.el : target,
+        ),
+      );
+
+      if (anchorChange === "remove" || anchorChange === "remove-all") {
+        sibling.remove();
+      } else if (anchorChange === "transfer") {
+        destination.el.append(sibling);
+      }
+
+      if (anchorChange === "remove-all") {
+        remainingSibling.remove();
+      }
+
+      await userEvent.keyboard("{Escape}");
+
+      await vi.waitFor(() => {
+        expect(Array.from(source.el.children, (item) => item.id)).toEqual(
+          anchorChange === "none"
+            ? ["one", "two", "four"]
+            : anchorChange === "remove-all"
+              ? ["one"]
+              : ["one", "four"],
+        );
+        expect(Array.from(destination.el.children, (item) => item.id)).toEqual(
+          anchorChange === "transfer" ? ["three", "two"] : ["three"],
+        );
+      });
+      expect(draggedItem.parentElement).toBe(source.el);
+      expect(sourceOrderSpy).not.toHaveBeenCalled();
+      expect(destinationOrderSpy).not.toHaveBeenCalled();
+      expect(dragEndSpy).toHaveBeenCalledWith({
+        fromEl: source.el,
+        toEl: source.el,
+        dragEl: draggedItem,
+        oldIndex: 0,
+        newIndex: 0,
+      });
+
+      await dragAndDrop(handle, target, "bottom");
+
+      expect(draggedItem.parentElement).toBe(transfer ? destination.el : source.el);
+      expect(sourceOrderSpy).toHaveBeenCalledTimes(1);
+      expect(destinationOrderSpy).toHaveBeenCalledTimes(transfer ? 1 : 0);
+    },
+  );
 
   it("resets sorting setup when the layout changes", async () => {
     const { el } = await mount(
@@ -219,7 +434,9 @@ describe("drag and drop", () => {
     const beforeOrderChange = new Promise<void>((resolve) =>
       el.addEventListener("calciteListBeforeOrderChange", (event) => {
         beforeOrderIndexes.push((event as CustomEvent<{ newIndex: number }>).detail.newIndex);
-        itemOrderAtBefore = Array.from(el.children, (item) => item.id);
+        itemOrderAtBefore = Array.from(el.children)
+          .filter((item) => !item.hasAttribute("data-dnd-placeholder"))
+          .map((item) => item.id);
         resolve();
       }),
     );
@@ -518,58 +735,66 @@ describe("drag and drop", () => {
     expect(firstItem.parentElement).toBe(destination);
   });
 
-  it("supports horizontal transfers between lists in the same group", async () => {
-    const { el: firstListElement } = await mount(
-      <calcite-sortable-list group="letters" id="first" layout="horizontal">
-        <div id="a" style="min-width: 80px; min-height: 40px">
-          <calcite-handle />A
-        </div>
-        <div id="b" style="min-width: 80px; min-height: 40px">
-          <calcite-handle />B
-        </div>
-      </calcite-sortable-list>,
-    );
-    const firstList = firstListElement as SortableList["el"];
-    const { el: secondListElement } = await mount(
-      <calcite-sortable-list group="letters" id="second" layout="horizontal">
-        <div id="c" style="min-width: 80px; min-height: 40px">
-          <calcite-handle />C
-        </div>
-        <div id="d" style="min-width: 80px; min-height: 40px">
-          <calcite-handle />D
-        </div>
-      </calcite-sortable-list>,
-    );
-    const secondList = secondListElement as SortableList["el"];
-    const draggedHandle = secondList.querySelector<HTMLElement>("#d calcite-handle")!;
-    const destinationItem = firstList.querySelector<HTMLElement>("#b")!;
-    let canPullNewIndex: number | undefined;
-    let canPutNewIndex: number | undefined;
-    let beforeOrderNewIndex: number | undefined;
+  it.each(["left", "right"] as const)(
+    "supports %s-side transfers between lists in the same group",
+    async (position) => {
+      const { component: firstList } = await mount<SortableList>(
+        <calcite-sortable-list group="letters" id="first" layout="horizontal">
+          <div id="a" style="min-width: 80px; min-height: 40px">
+            <calcite-handle />A
+          </div>
+          <div id="b" style="min-width: 80px; min-height: 40px">
+            <calcite-handle />B
+          </div>
+        </calcite-sortable-list>,
+      );
+      const { component: secondList } = await mount<SortableList>(
+        <calcite-sortable-list group="letters" id="second" layout="horizontal">
+          <div id="c" style="min-width: 80px; min-height: 40px">
+            <calcite-handle />C
+          </div>
+          <div id="d" style="min-width: 80px; min-height: 40px">
+            <calcite-handle />D
+          </div>
+        </calcite-sortable-list>,
+      );
+      const draggedHandle = page
+        .elementLocator(secondList.el)
+        .getBySelector("#d calcite-handle")
+        .element();
+      const destinationItem = page.elementLocator(firstList.el).getBySelector("#b").element();
+      let canPullNewIndex: number | undefined;
+      let canPutNewIndex: number | undefined;
+      let beforeOrderNewIndex: number | undefined;
+      let permissionIndexesAtBefore: (number | undefined)[] = [];
 
-    secondList.canPull = ({ newIndex }) => {
-      canPullNewIndex = newIndex;
-      return true;
-    };
-    firstList.canPut = ({ newIndex }) => {
-      canPutNewIndex = newIndex;
-      return true;
-    };
-    firstList.addEventListener("calciteListBeforeOrderChange", (event) => {
-      beforeOrderNewIndex = (event as CustomEvent<{ newIndex: number }>).detail.newIndex;
-    });
+      secondList.canPull = ({ newIndex }) => {
+        canPullNewIndex = newIndex;
+        return true;
+      };
+      firstList.canPut = ({ newIndex }) => {
+        canPutNewIndex = newIndex;
+        return true;
+      };
+      firstList.el.addEventListener("calciteListBeforeOrderChange", (event) => {
+        beforeOrderNewIndex = (event as CustomEvent<{ newIndex: number }>).detail.newIndex;
+        permissionIndexesAtBefore = [canPullNewIndex, canPutNewIndex];
+      });
 
-    await dragAndDrop(draggedHandle, destinationItem, "right");
+      await dragAndDrop(draggedHandle, destinationItem, position);
 
-    await vi.waitFor(() => {
-      expect(Array.from(firstList.children, (item) => item.id)).toEqual(["a", "b", "d"]);
-      expect(Array.from(secondList.children, (item) => item.id)).toEqual(["c"]);
-    });
+      await vi.waitFor(() => {
+        expect(Array.from(firstList.el.children, (item) => item.id)).toEqual(
+          position === "left" ? ["a", "d", "b"] : ["a", "b", "d"],
+        );
+        expect(Array.from(secondList.el.children, (item) => item.id)).toEqual(["c"]);
+      });
 
-    expect(canPullNewIndex).toBe(2);
-    expect(canPutNewIndex).toBe(2);
-    expect(beforeOrderNewIndex).toBe(2);
-  });
+      const newIndex = position === "left" ? 1 : 2;
+      expect(permissionIndexesAtBefore).toEqual([newIndex, newIndex]);
+      expect(beforeOrderNewIndex).toBe(newIndex);
+    },
+  );
 
   it("rebuilds item registrations after a vertical transfer", async () => {
     const { el: firstList } = await mount(
