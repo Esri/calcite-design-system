@@ -6,6 +6,9 @@
           "category": "border",
           "group": "width"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "borderWidth",
         "$value": "{core.size.default.none}"
       },
@@ -13,6 +16,9 @@
         "attributes": {
           "category": "border",
           "group": "width"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "borderWidth",
         "$value": "{core.size.default.1}"
@@ -22,6 +28,9 @@
           "category": "border",
           "group": "width"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "borderWidth",
         "$value": "{core.size.default.2}"
       },
@@ -29,6 +38,9 @@
         "attributes": {
           "category": "border",
           "group": "width"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "borderWidth",
         "$value": "{core.size.default.4}"

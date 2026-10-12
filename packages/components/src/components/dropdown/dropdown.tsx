@@ -222,7 +222,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the type of action on the container element to open the component. */
+  /**
+   * Specifies the type of action on the container element to open the component.
+   *
+   * [Deprecated] The `"hover"` value is deprecated in 5.2.0, removal target v7.0.0 - use `"click"` instead.
+   */
   @property({ reflect: true }) type: "hover" | "click" = "click";
 
   /**
