@@ -21474,7 +21474,7 @@
     ],
     "category": "Generic",
     "release": "4.6.0",
-    "codepoint": null
+    "codepoint": 61958
   },
   "block-height-medium": {
     "alias": [
@@ -21488,7 +21488,7 @@
     ],
     "category": "Windows",
     "release": "4.6.0",
-    "codepoint": null
+    "codepoint": 61962
   },
   "block-height-short": {
     "alias": [
@@ -21501,7 +21501,7 @@
     ],
     "category": "Windows",
     "release": "4.6.0",
-    "codepoint": null
+    "codepoint": 61961
   },
   "block-height-tall": {
     "alias": [
@@ -21513,7 +21513,7 @@
     ],
     "category": "Windows",
     "release": "4.6.0",
-    "codepoint": null
+    "codepoint": 61960
   },
   "cursor-circle": {
     "alias": [
@@ -21526,7 +21526,7 @@
     ],
     "category": "Generic",
     "release": "4.6.0",
-    "codepoint": null
+    "codepoint": 61959
   },
   "reference-chip": {
     "alias": [
@@ -21538,7 +21538,7 @@
     ],
     "category": "Objects",
     "release": "4.6.0",
-    "codepoint": null
+    "codepoint": 61956
   },
   "job-dependency": {
     "alias": [
@@ -21552,6 +21552,6 @@
     ],
     "category": "Objects",
     "release": "4.6.0",
-    "codepoint": null
+    "codepoint": 61957
   }
 }
