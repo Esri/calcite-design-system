@@ -129,6 +129,7 @@ class Test extends LitElement {
   onDragSort = vi.fn();
 
   @property({ type: Boolean }) dragEnabled = false;
+  @property({ type: Boolean }) sortDisabled = false;
   @property() group?: string;
 }
 
@@ -203,6 +204,44 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
   const firstHandle = component.el.querySelector<HTMLButtonElement>("#one .handle");
   expect(firstHandle).toBeDefined();
   expect(firstOptions.handle).toBe(firstHandle);
+});
+
+it("preserves ungrouped sorting when sortDisabled is true", async () => {
+  const ungrouped = await mount(
+    html`<sortable-test drag-enabled sort-disabled>
+      <div id="one"><button class="handle"></button></div>
+      <div id="two"><button class="handle"></button></div>
+    </sortable-test>`,
+    { dynamicComponents: [Test] },
+  );
+  mountedComponents.push(ungrouped.component);
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+
+  const [ungroupedSource, ungroupedTarget] = createSortableSpy.mock.calls.map(
+    ([options]) => options,
+  );
+  const ungroupedAccept = ungroupedTarget.accept as (draggable: { data: unknown }) => boolean;
+
+  expect(ungroupedAccept({ data: ungroupedSource.data })).toBe(true);
+
+  const grouped = await mount(
+    html`<sortable-test drag-enabled group="test-group" sort-disabled>
+      <div id="one"><button class="handle"></button></div>
+      <div id="two"><button class="handle"></button></div>
+    </sortable-test>`,
+    { dynamicComponents: [Test] },
+  );
+  mountedComponents.push(grouped.component);
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+
+  const [groupedSource, groupedTarget] = createSortableSpy.mock.calls
+    .slice(2)
+    .map(([options]) => options);
+  const groupedAccept = groupedTarget.accept as (draggable: { data: unknown }) => boolean;
+
+  expect(groupedAccept({ data: groupedSource.data })).toBe(false);
 });
 
 it("omits dnd-kit keyboard sorting while preserving other sortable plugins", async () => {

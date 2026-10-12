@@ -248,7 +248,7 @@ function getProposedSortableIndex(
 
 function canAcceptDrop(fromComponent: SortableComponent, toComponent: SortableComponent, detail: DragDetail): boolean {
   if (fromComponent === toComponent) {
-    return !toComponent.sortDisabled;
+    return !toComponent.group || !toComponent.sortDisabled;
   }
 
   if (!canTransferBetweenComponents(fromComponent, toComponent)) {
