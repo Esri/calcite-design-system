@@ -194,12 +194,17 @@ export class SortableList extends LitElement {
       .composedPath()
       .find((el): el is Handle["el"] => (el as Handle["el"]).matches(this.handleSelector));
 
-    const sortItem = this.items.find((item) => {
+    const sortableItems = this.getSortableItems();
+    const sortItem = sortableItems.find((item) => {
       return (handle && item.contains(handle)) || event.composedPath().includes(item);
-    })!;
+    });
 
-    const lastIndex = this.items.length - 1;
-    const startingIndex = sortItem ? this.items.indexOf(sortItem) : -1;
+    if (!sortItem) {
+      return;
+    }
+
+    const lastIndex = sortableItems.length - 1;
+    const startingIndex = sortableItems.indexOf(sortItem);
     let appendInstead = false;
     let buddyIndex: number;
     let newIndex: number;
@@ -229,7 +234,7 @@ export class SortableList extends LitElement {
     const beforeOrderChange = this.calciteListBeforeOrderChange.emit({
       fromEl: this.el,
       toEl: this.el,
-      dragEl: sortItem as HTMLElement,
+      dragEl: sortItem,
       oldIndex,
       newIndex,
     });
@@ -243,7 +248,7 @@ export class SortableList extends LitElement {
     if (appendInstead) {
       sortItem.parentElement!.appendChild(sortItem);
     } else {
-      sortItem.parentElement!.insertBefore(sortItem, this.items[buddyIndex!]);
+      sortItem.parentElement!.insertBefore(sortItem, sortableItems[buddyIndex!]);
     }
 
     this.onDragSort();

@@ -81,6 +81,10 @@ vi.mock("@dnd-kit/dom", () => {
       stop: vi.fn(),
     };
 
+    renderer = {
+      rendering: Promise.resolve(),
+    };
+
     monitor = {
       addEventListener: vi.fn((type: string, listener: unknown) => {
         monitorListeners.set(type, listener);
@@ -417,4 +421,24 @@ it("destroys and recreates sortables when dragEnabled changes", async () => {
 
   await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
   expect(destroySortableSpy).toHaveBeenCalledTimes(2);
+});
+
+it("reacquires the shared manager after its last peer disconnects", async () => {
+  const { component } = await mountDragEnabled();
+  const { component: peer } = await mountDragEnabled();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+
+  component.dragEnabled = false;
+  component.sortable.reset();
+
+  await vi.waitFor(() => expect(destroySortableSpy).toHaveBeenCalledTimes(2));
+
+  peer.remove();
+  expect(destroyManagerSpy).toHaveBeenCalledTimes(1);
+
+  component.dragEnabled = true;
+  component.sortable.reset();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(6));
 });

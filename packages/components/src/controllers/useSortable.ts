@@ -538,7 +538,9 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       const canceledBeforeOrder = record.dropCanceled;
       let canceled = event.canceled;
 
-      requestAnimationFrame(() => {
+      requestAnimationFrame(async () => {
+        await record.manager.renderer.rendering;
+
         record.activeDrag = undefined;
         record.lastOver = undefined;
         record.dropPosition = undefined;
@@ -704,8 +706,12 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
     }
 
     async function setUpSortable(): Promise<void> {
-      if (!record || !record.alive) {
+      if (!sortableComponent.isConnected) {
         return;
+      }
+
+      if (!record?.alive) {
+        record = getManagerRecord(sortableComponent.el.ownerDocument);
       }
 
       if (dragActive()) {

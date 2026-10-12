@@ -541,6 +541,50 @@ describe("drag and drop", () => {
     expect(firstItemWhenOrdered).toBe("two");
   });
 
+  it("uses filtered indices for handle nudges", async () => {
+    const { component } = await mount<SortableList>(
+      <calcite-sortable-list drag-selector=".sortable" id="sortable-list">
+        <div class="sortable" id="one">
+          <calcite-handle />1
+        </div>
+        <div id="ignored">
+          <calcite-handle />
+          Ignored
+        </div>
+        <div class="sortable" id="two">
+          <calcite-handle />2
+        </div>
+      </calcite-sortable-list>,
+    );
+    const handles = page.getByRole("radio");
+    const callSequence: string[] = [];
+    const beforeOrderDetails: Array<{ oldIndex: number; newIndex: number }> = [];
+    component.el.addEventListener("calciteListBeforeOrderChange", (event) => {
+      const { oldIndex, newIndex } = (event as CustomEvent<{ oldIndex: number; newIndex: number }>)
+        .detail;
+      beforeOrderDetails.push({ oldIndex, newIndex });
+      callSequence.push("before");
+    });
+    component.el.addEventListener("calciteListOrderChange", () => callSequence.push("order"));
+
+    await userEvent.click(handles.nth(0));
+    await userEvent.keyboard("{Space}{ArrowDown}");
+
+    expect(beforeOrderDetails).toEqual([{ oldIndex: 0, newIndex: 1 }]);
+    expect(callSequence).toEqual(["before", "order"]);
+    expect(
+      Array.from(component.el.children)
+        .filter((item) => item.classList.contains("sortable"))
+        .map((item) => item.id),
+    ).toEqual(["two", "one"]);
+
+    await userEvent.click(handles.nth(0));
+    await userEvent.keyboard("{Space}{ArrowDown}");
+
+    expect(beforeOrderDetails).toEqual([{ oldIndex: 0, newIndex: 1 }]);
+    expect(callSequence).toEqual(["before", "order"]);
+  });
+
   it("appends drops on populated and empty component containers", async () => {
     const { el: source } = await mount(
       <div>
