@@ -86,11 +86,11 @@ When \`true\`, enables the inline edit mode and requires users to explicitly sav
 When \`"controls-disabled"\`, enables the inline edit mode with changes saved on blur.`,
         },
         inlineEditing: {
-          description: "When `true` and `inline-edit` is defined, the component is editable.",
+          description: "When `true` and `inlineEdit` is defined, the component is editable.",
         },
         inlineEditingBeforeConfirm: {
           description:
-            "When `inline-edit` is `true`, specifies an optional callback to be executed when saving changes.",
+            "When `inlineEdit` is `true`, specifies an optional callback to be executed when saving changes.",
         },
         label(_apiProperty, apiClass) {
           const baseDescription = "Specifies an accessible label for the component.";
