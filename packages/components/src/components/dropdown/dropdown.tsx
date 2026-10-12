@@ -127,6 +127,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private items: DropdownItem["el"][] = [];
 
+  private focusedDropdownItem?: DropdownItem["el"];
+
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   transitionProp = "opacity" as const;
@@ -763,8 +765,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
     if (!this.open || !traversableItems.length) {
       this.rovingTabIndex.setActiveIndex(-1);
-      if (this.open && previousActiveItem) {
+      if (this.open && previousActiveItem && this.focusedDropdownItem) {
         this.rovingTabIndex.restoreFocus(true);
+        this.focusedDropdownItem = undefined;
       }
       return;
     }
@@ -776,7 +779,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
         : Math.min(Math.max(this.rovingTabIndex.activeIndex, 0), traversableItems.length - 1),
     );
     const activeItem = this.rovingTabIndex.activeElement;
-    if (previousActiveItem && previousActiveItem !== activeItem && activeItem) {
+    if (
+      previousActiveItem &&
+      previousActiveItem !== activeItem &&
+      activeItem &&
+      this.focusedDropdownItem
+    ) {
       void this.scrollActiveItemIntoView(activeItem);
     }
   }
@@ -790,8 +798,32 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       event.composedPath().includes(item),
     );
     if (focusedItem) {
+      this.focusedDropdownItem = focusedItem;
       this.rovingTabIndex.setActiveIndex(this.getTraversableItems().indexOf(focusedItem));
     }
+  }
+
+  private handleItemFocusOut(event: FocusEvent): void {
+    const relatedTarget = event.relatedTarget;
+    const focusRemainsWithinMenu =
+      relatedTarget instanceof Node && this.floatingEl?.contains(relatedTarget);
+
+    if (!focusRemainsWithinMenu && relatedTarget instanceof Element) {
+      this.focusedDropdownItem = undefined;
+    } else if (!focusRemainsWithinMenu && this.focusedDropdownItem) {
+      const focusedItem = this.focusedDropdownItem;
+      queueMicrotask(() => {
+        if (
+          this.focusedDropdownItem === focusedItem &&
+          focusedItem.isConnected &&
+          this.getTraversableItems().includes(focusedItem)
+        ) {
+          this.focusedDropdownItem = undefined;
+        }
+      });
+    }
+
+    this.closeHoverDropdown(event);
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
@@ -935,7 +967,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
           }}
           inert={!open}
           onFocusIn={this.handleItemFocus}
-          onFocusOut={this.closeHoverDropdown}
+          onFocusOut={this.handleItemFocusOut}
           onKeyDown={this.keyDownHandler}
           popover="manual"
           ref={this.setFloatingEl}

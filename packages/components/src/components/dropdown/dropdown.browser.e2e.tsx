@@ -383,6 +383,69 @@ describe("hover type", () => {
     await expect.element(outside).toHaveFocus();
   });
 
+  it("does not restore focus when a pointer-opened item's focus was never in the menu", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="outside-focus-target" type="button">
+          Outside
+        </button>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown referenceElement="external-trigger" type="hover">
+          <calcite-dropdown-group selectionMode="single">
+            <calcite-dropdown-item>Only item</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>,
+    );
+    const outside = page.getByRole("button", { name: "Outside" });
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const item = page.getByRole("menuitemradio", { name: "Only item" });
+
+    await userEvent.click(outside);
+    await userEvent.hover(trigger);
+    await vi.waitFor(() => expect(component.open).toBe(true));
+    await afterNextFrame();
+    await afterNextFrame();
+    await expect.element(outside).toHaveFocus();
+
+    item.element().setAttribute("hidden", "");
+
+    await expect.element(outside).toHaveFocus();
+  });
+
+  it("does not restore focus after focus leaves the menu before its item is removed", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <button id="outside-focus-target" type="button">
+          Outside
+        </button>
+        <calcite-dropdown referenceElement="external-trigger">
+          <calcite-dropdown-group selectionMode="single">
+            <calcite-dropdown-item>Only item</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>,
+    );
+    const outside = page.getByRole("button", { name: "Outside" });
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const item = page.getByRole("menuitemradio", { name: "Only item" });
+
+    await userEvent.click(trigger);
+    await expect.element(item).toHaveFocus();
+    outside.element().focus();
+    await expect.element(outside).toHaveFocus();
+
+    item.element().remove();
+
+    await expect.element(outside).toHaveFocus();
+    expect(component.open).toBe(true);
+  });
+
   it("closes when focus leaves trigger with Tab", async () => {
     const { el } = await mount<Dropdown>(
       <div>
