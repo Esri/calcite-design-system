@@ -100,7 +100,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         activeElement = activeIndex >= 0 ? nextActiveElement : null;
         restore(entryTabStops);
         const entryElement = options.getEntryElement?.();
-        const entryFocusCandidates = entryElement
+        const entryFocusCandidates: FocusableElement[] = entryElement
           ? focusable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(isFocusableElement)
           : [];
         entryFocusTarget =
