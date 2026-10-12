@@ -7,7 +7,7 @@ import { useRovingTabIndex } from "./useRovingTabIndex";
 class Test extends LitElement {
   static override shadowRootOptions = noShadowRoot;
 
-  entryElement?: HTMLElement;
+  entryElement?: Element;
 
   traversableElements?: HTMLElement[];
 
@@ -97,7 +97,7 @@ it("manages the entry tab stop and exposes focus restoration only during focus e
   const entry = page.getByRole("button", { name: "Second" });
   const third = page.getByRole("button", { name: "Third" });
   const items = [first, third].map((button) => button.element() as HTMLButtonElement);
-  component.entryElement = entry.element() as HTMLButtonElement;
+  component.entryElement = entry.element();
   const restorationStates: boolean[] = [];
   entry
     .element()
@@ -153,7 +153,7 @@ it("falls back to the first candidate when the preserved target no longer belong
   await userEvent.click(second);
   controller.update([itemElement], itemElement);
   await userEvent.click(item);
-  component.entryElement = first.element() as HTMLButtonElement;
+  component.entryElement = first.element();
   controller.update([itemElement], null);
   controller.restoreFocus();
   await expect.element(first).toHaveFocus();
@@ -165,7 +165,7 @@ it("returns focus to a non-tabbable entry without changing its tabindex", async 
   const first = page.getByRole("button", { name: "First" });
   const entry = page.getByRole("button", { name: "Third" });
   const firstElement = first.element() as HTMLButtonElement;
-  component.entryElement = entry.element() as HTMLButtonElement;
+  component.entryElement = entry.element();
 
   controller.update([firstElement], firstElement);
   await userEvent.click(first);
@@ -182,7 +182,7 @@ it("restores focus conditionally without stealing focus from outside the managed
   const entry = page.getByRole("button", { name: "Second" });
   const outside = page.getByRole("button", { name: "Third" });
   const firstElement = first.element() as HTMLButtonElement;
-  component.entryElement = entry.element() as HTMLButtonElement;
+  component.entryElement = entry.element();
 
   controller.update([firstElement], firstElement);
   await userEvent.click(outside);
@@ -252,7 +252,7 @@ it.each(["ineligible", "removed"])(
     const firstElement = first.element() as HTMLButtonElement;
     const thirdElement = third.element() as HTMLButtonElement;
     const items = [firstElement, thirdElement];
-    component.entryElement = entry.element() as HTMLButtonElement;
+    component.entryElement = entry.element();
 
     controller.update(items, firstElement);
     await expect.element(entry).toHaveAttribute("tabindex", "-1");
@@ -272,6 +272,33 @@ it.each(["ineligible", "removed"])(
     await expect.element(entry).toHaveAttribute("tabindex", "2");
   },
 );
+
+it("includes focusable SVG entry elements in tab-stop management", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const third = page.getByRole("button", { name: "Third" });
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("tabindex", "0");
+  svg.setAttribute("aria-label", "Trigger");
+  component.el.append(svg);
+  component.entryElement = svg;
+
+  controller.update(
+    [first.element() as HTMLButtonElement, third.element() as HTMLButtonElement],
+    first.element() as HTMLButtonElement,
+  );
+  expect(svg.tabIndex).toBe(-1);
+
+  svg.focus();
+  controller.update(
+    [first.element() as HTMLButtonElement, third.element() as HTMLButtonElement],
+    null,
+  );
+  expect(svg.tabIndex).toBe(0);
+  controller.restoreFocus();
+  await expect.element(svg).toHaveFocus();
+});
 
 it("restores original attributes on disconnect", async () => {
   const { el, component } = await mount(Test);

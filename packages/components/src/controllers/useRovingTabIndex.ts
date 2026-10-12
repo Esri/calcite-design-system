@@ -13,6 +13,38 @@ function isFocusableElement(element: Element): element is FocusableElement {
   );
 }
 
+function getFocusableEntryElements(entryElement: Element | undefined): FocusableElement[] {
+  if (!entryElement) {
+    return [];
+  }
+
+  const focusableElements = focusable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(
+    isFocusableElement,
+  );
+
+  if (isFocusableElement(entryElement) && entryElement.tabIndex >= 0) {
+    focusableElements.push(entryElement);
+  }
+
+  return [...new Set(focusableElements)];
+}
+
+function getTabbableEntryElements(entryElement: Element | undefined): FocusableElement[] {
+  if (!entryElement) {
+    return [];
+  }
+
+  const tabbableElements = tabbable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(
+    isFocusableElement,
+  );
+
+  if (isFocusableElement(entryElement) && entryElement.tabIndex >= 0) {
+    tabbableElements.push(entryElement);
+  }
+
+  return [...new Set(tabbableElements)];
+}
+
 interface RovingTabIndexOptions<ElementType extends HTMLElement> {
   /** Resolves the current managed items for index-based activation. */
   getElements?: () => ElementType[];
@@ -98,19 +130,16 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
             ? traversableElements.indexOf(nextActiveElement)
             : -1;
         activeElement = activeIndex >= 0 ? nextActiveElement : null;
-        restore(entryTabStops);
+        const nextEntryTabStops = getTabbableEntryElements(options.getEntryElement?.());
+        restore(entryTabStops.filter((element) => !nextEntryTabStops.includes(element)));
         const entryElement = options.getEntryElement?.();
-        const entryFocusCandidates: FocusableElement[] = entryElement
-          ? focusable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(isFocusableElement)
-          : [];
+        const entryFocusCandidates = getFocusableEntryElements(entryElement);
         entryFocusTarget =
           entryFocusCandidates.find((element) => getRootNode(element).activeElement === element) ??
           (entryFocusTarget && entryFocusCandidates.includes(entryFocusTarget)
             ? entryFocusTarget
             : entryFocusCandidates[0]);
-        entryTabStops = entryElement
-          ? tabbable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(isFocusableElement)
-          : [];
+        entryTabStops = nextEntryTabStops;
         const managedElements = activeElement ? [...elements, ...entryTabStops] : elements;
         const currentElements = new Set<Element>(managedElements);
         originalTabIndexes.forEach((tabIndex, element) => {
