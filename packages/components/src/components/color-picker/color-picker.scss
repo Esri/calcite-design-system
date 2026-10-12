@@ -10,7 +10,7 @@
   @include shared.text-n2h();
 
   display: inline-block;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   inline-size: var(--calcite-internal-color-picker-min-width);
   min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
