@@ -2,11 +2,22 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import { focusable, tabbable } from "tabbable";
 import { getRootNode, tabbableOptions } from "../utils/dom";
 
+type FocusableElement = Element & Pick<HTMLElement, "focus" | "tabIndex">;
+
+function isFocusableElement(element: Element): element is FocusableElement {
+  return (
+    "focus" in element &&
+    typeof element.focus === "function" &&
+    "tabIndex" in element &&
+    typeof element.tabIndex === "number"
+  );
+}
+
 interface RovingTabIndexOptions<ElementType extends HTMLElement> {
   /** Resolves the current managed items for index-based activation. */
   getElements?: () => ElementType[];
   /** Resolves the element containing the composite's entry control. */
-  getEntryElement?: () => HTMLElement | undefined;
+  getEntryElement?: () => Element | undefined;
   /** Resolves eligible items in navigation order, defaulting to the managed items. */
   getTraversableElements?: () => readonly ElementType[] | undefined;
   /** Determines whether managed items can have an active tab stop. */
@@ -24,7 +35,7 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   /** Activates an eligible item by index, clearing the active tab stop for invalid indices. */
   setActiveIndex: (index: number) => void;
   /** Restores specified elements, or all managed elements when omitted. */
-  restore: (elements?: readonly HTMLElement[]) => void;
+  restore: (elements?: readonly Element[]) => void;
   /** Returns focus to the entry control without changing its tabindex. */
   restoreFocus: () => void;
   /** Returns focus only while one of the managed items is focused. */
@@ -36,15 +47,15 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
   options: RovingTabIndexOptions<ElementType> = {},
 ): ReturnType<typeof makeGenericController<RovingTabIndex<ElementType>>> =>
   makeGenericController<RovingTabIndex<ElementType>>((_component, controller) => {
-    const originalTabIndexes = new Map<HTMLElement, string | null>();
+    const originalTabIndexes = new Map<Element, string | null>();
     let itemElements: ElementType[] = [];
     let activeElement: ElementType | null = null;
     let activeIndex = -1;
-    let entryTabStops: HTMLElement[] = [];
-    let entryFocusTarget: HTMLElement | undefined;
+    let entryTabStops: FocusableElement[] = [];
+    let entryFocusTarget: FocusableElement | undefined;
     let isRestoringFocus = false;
 
-    function restoreElement(element: HTMLElement, tabIndex: string | null): void {
+    function restoreElement(element: Element, tabIndex: string | null): void {
       if (tabIndex === null) {
         element.removeAttribute("tabindex");
       } else {
@@ -53,7 +64,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       originalTabIndexes.delete(element);
     }
 
-    function restore(elements?: readonly HTMLElement[]): void {
+    function restore(elements?: readonly Element[]): void {
       if (!elements) {
         originalTabIndexes.forEach((tabIndex, element) => restoreElement(element, tabIndex));
         return;
@@ -90,17 +101,13 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         restore(entryTabStops);
         const entryElement = options.getEntryElement?.();
         entryFocusTarget = entryElement
-          ? focusable(entryElement, { ...tabbableOptions, includeContainer: true }).find(
-              (element) => element instanceof HTMLElement,
-            )
+          ? focusable(entryElement, { ...tabbableOptions, includeContainer: true }).find(isFocusableElement)
           : undefined;
         entryTabStops = entryElement
-          ? tabbable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(
-              (element) => element instanceof HTMLElement,
-            )
+          ? tabbable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(isFocusableElement)
           : [];
         const managedElements = activeElement ? [...elements, ...entryTabStops] : elements;
-        const currentElements = new Set(managedElements);
+        const currentElements = new Set<Element>(managedElements);
         originalTabIndexes.forEach((tabIndex, element) => {
           if (!currentElements.has(element)) {
             restoreElement(element, tabIndex);

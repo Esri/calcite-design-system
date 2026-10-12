@@ -705,6 +705,32 @@ describe("menu item focus", () => {
     await expect.element(page.getBySelector("#item-1")).toHaveFocus();
   });
 
+  it.each([0, 2, -1])("manages an SVG referenceElement with tabindex %s", async (tabIndex) => {
+    await mount<Dropdown>(
+      <>
+        <calcite-dropdown reference-element="svg-trigger">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <svg height="40" id="svg-trigger" tabIndex={tabIndex} width="40">
+          <rect height="40" width="40" />
+        </svg>
+      </>,
+    );
+    const trigger = page.getBySelector("#svg-trigger");
+
+    await userEvent.click(trigger);
+
+    await expect.element(page.getBySelector("#item-1")).toHaveFocus();
+    await expect.element(trigger).toHaveAttribute("tabindex", "-1");
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(trigger).toHaveFocus();
+    await expect.element(trigger).toHaveAttribute("tabindex", String(tabIndex));
+  });
+
   it("restores the referenceElement tab stop when dropdown disconnects", async () => {
     const { el } = await mount<Dropdown>(renderReferenceElementDropdown);
     const trigger = page.getBySelector("#trigger");

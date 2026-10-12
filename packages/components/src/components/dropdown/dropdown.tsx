@@ -143,7 +143,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private rovingTabIndex = useRovingTabIndex<DropdownItem["el"]>({
     getElements: () => this.items,
-    getEntryElement: () => (this.referenceEl instanceof HTMLElement ? this.referenceEl : undefined),
+    getEntryElement: () => (this.referenceEl instanceof Element ? this.referenceEl : undefined),
     getTraversableElements: () => this.getTraversableItems(),
     isActive: () => this.open && !this.disabled,
   })(this);
