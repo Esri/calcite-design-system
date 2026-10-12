@@ -361,12 +361,15 @@ describe("drag and drop", () => {
 
   it("reorders blocks with the keyboard sort menu and emits order-change after the mutation", async () => {
     const { el } = await renderBlockGroup();
-    const firstBlock = el.querySelector<Block["el"]>("#one")!;
+    const group = page.getBySelector("#block-group");
+    const blocks = page.getBySelector("#block-group > calcite-block:not([data-dnd-placeholder])");
+    const firstBlock = group.getBySelector("#one").element() as Block["el"];
     await vi.waitFor(() =>
       expect(
         firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
       ).not.toBeNull(),
     );
+    // The sort handle is internal to the block's shadow root.
     const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
     expect(handle.getAttribute("tabindex")).toBeNull();
     let firstHeadingWhenOrdered = "";
@@ -374,7 +377,7 @@ describe("drag and drop", () => {
 
     el.addEventListener("calciteSortHandleReorder", () => (menuReorderCalled = true));
     el.addEventListener("calciteBlockGroupOrderChange", () => {
-      firstHeadingWhenOrdered = el.querySelector<Block["el"]>("calcite-block")!.heading ?? "";
+      firstHeadingWhenOrdered = (blocks.nth(0).element() as Block["el"]).heading ?? "";
     });
 
     await handle.setFocus();
@@ -382,11 +385,10 @@ describe("drag and drop", () => {
     await vi.waitFor(() => expect(firstHeadingWhenOrdered).toBe("two"));
 
     expect(menuReorderCalled).toBe(true);
-    expect(
-      Array.from(el.querySelectorAll<Block["el"]>("calcite-block"))
-        .filter((block) => !block.hasAttribute("data-dnd-placeholder"))
-        .map((block) => block.heading),
-    ).toEqual(["two", "one"]);
+    expect([
+      (blocks.nth(0).element() as Block["el"]).heading,
+      (blocks.nth(1).element() as Block["el"]).heading,
+    ]).toEqual(["two", "one"]);
   });
 
   it("honors cancellation of keyboard sort-menu reordering", async () => {

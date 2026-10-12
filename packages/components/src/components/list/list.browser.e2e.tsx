@@ -975,7 +975,7 @@ describe("themed", () => {
 describe("drag and drop", () => {
   const renderList = () =>
     mount(
-      <calcite-list drag-enabled label="Items">
+      <calcite-list drag-enabled id="list" label="Items">
         <calcite-list-item id="one" label="One" value="one" />
         <calcite-list-item id="two" label="Two" value="two" />
       </calcite-list>,
@@ -986,7 +986,9 @@ describe("drag and drop", () => {
 
     try {
       const { el } = await renderList();
-      const firstItem = el.querySelector<ListItem["el"]>("#one")!;
+      const list = page.getBySelector("#list");
+      const firstItem = list.getBySelector("#one").element() as ListItem["el"];
+      const items = list.getBySelector("calcite-list-item:not([data-dnd-placeholder])");
       const secondItemLocator = page.getBySelector("#two");
       await expect.element(secondItemLocator).toBeVisible();
       const secondItem = secondItemLocator.element();
@@ -995,6 +997,7 @@ describe("drag and drop", () => {
           firstItem.shadowRoot?.querySelector<HTMLElement>("calcite-sort-handle"),
         ).not.toBeNull(),
       );
+      // The sort handle is internal to the list item's shadow root.
       const handle = firstItem.shadowRoot!.querySelector<HTMLElement>("calcite-sort-handle")!;
       const callSequence: string[] = [];
       let firstValueWhenOrdered = "";
@@ -1002,21 +1005,17 @@ describe("drag and drop", () => {
       el.addEventListener("calciteListBeforeOrderChange", () => callSequence.push("before"));
       el.addEventListener("calciteListOrderChange", () => {
         callSequence.push("order");
-        firstValueWhenOrdered =
-          Array.from(el.querySelectorAll<ListItem["el"]>("calcite-list-item")).find(
-            (item) => !item.hasAttribute("data-dnd-placeholder"),
-          )?.value ?? "";
+        firstValueWhenOrdered = (items.nth(0).element() as ListItem["el"]).value;
       });
 
       await dragAndDrop(handle, secondItem);
       await vi.waitFor(() => expect(firstValueWhenOrdered).toBe("two"));
 
       expect(callSequence).toEqual(["before", "order"]);
-      expect(
-        Array.from(el.querySelectorAll<ListItem["el"]>("calcite-list-item"))
-          .filter((item) => !item.hasAttribute("data-dnd-placeholder"))
-          .map((item) => item.value),
-      ).toEqual(["two", "one"]);
+      expect([
+        (items.nth(0).element() as ListItem["el"]).value,
+        (items.nth(1).element() as ListItem["el"]).value,
+      ]).toEqual(["two", "one"]);
     } finally {
       warnSpy.mockRestore();
     }
@@ -1027,7 +1026,9 @@ describe("drag and drop", () => {
 
     try {
       const { el } = await renderList();
-      const firstItem = el.querySelector<ListItem["el"]>("#one")!;
+      const list = page.getBySelector("#list");
+      const firstItem = list.getBySelector("#one").element() as ListItem["el"];
+      const items = list.getBySelector("calcite-list-item");
       const secondItemLocator = page.getBySelector("#two");
       await expect.element(secondItemLocator).toBeVisible();
       const secondItem = secondItemLocator.element();
@@ -1036,6 +1037,7 @@ describe("drag and drop", () => {
           firstItem.shadowRoot?.querySelector<HTMLElement>("calcite-sort-handle"),
         ).not.toBeNull(),
       );
+      // The sort handle is internal to the list item's shadow root.
       const handle = firstItem.shadowRoot!.querySelector<HTMLElement>("calcite-sort-handle")!;
       let beforeCalledTimes = 0;
       let orderCalledTimes = 0;
@@ -1049,12 +1051,10 @@ describe("drag and drop", () => {
       await dragAndDrop(handle, secondItem);
       await vi.waitFor(() => {
         expect(beforeCalledTimes).toBeGreaterThan(0);
-        expect(
-          Array.from(
-            el.querySelectorAll<ListItem["el"]>("calcite-list-item"),
-            (item) => item.value,
-          ),
-        ).toEqual(["one", "two"]);
+        expect([
+          (items.nth(0).element() as ListItem["el"]).value,
+          (items.nth(1).element() as ListItem["el"]).value,
+        ]).toEqual(["one", "two"]);
       });
 
       expect(orderCalledTimes).toBe(0);

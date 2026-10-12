@@ -1,3 +1,5 @@
+import { commands } from "./commands";
+
 type DestinationPosition = "bottom" | "center" | "left" | "right" | "top";
 type PointerType = "mouse" | "pen" | "touch";
 
@@ -38,19 +40,31 @@ export async function dragAndDrop(
           ? destinationRect.bottom - 1
           : destinationRect.top + destinationRect.height / 2,
   };
-  const dispatch = (
+  const dispatch = async (
     target: EventTarget,
     type: "pointerdown" | "pointermove" | "pointerup",
     clientX: number,
     clientY: number,
-  ): void => {
+  ): Promise<void> => {
+    if (!options.pointerType || options.pointerType === "mouse") {
+      if (type === "pointerdown") {
+        await commands.mouseMove(clientX, clientY);
+        await commands.mouseDown();
+      } else if (type === "pointermove") {
+        await commands.mouseMove(clientX, clientY);
+      } else {
+        await commands.mouseUp();
+      }
+      return;
+    }
+
     target.dispatchEvent(
       new PointerEvent(type, {
         bubbles: true,
         cancelable: true,
         composed: true,
         pointerId: 1,
-        pointerType: options.pointerType ?? "mouse",
+        pointerType: options.pointerType,
         isPrimary: true,
         button: 0,
         buttons: type === "pointerup" ? 0 : 1,
@@ -61,13 +75,13 @@ export async function dragAndDrop(
   };
 
   await nextFrame();
-  dispatch(handle, "pointerdown", start.clientX, start.clientY);
+  await dispatch(handle, "pointerdown", start.clientX, start.clientY);
 
   const moveSteps = options.moveSteps ?? 5;
 
   for (let step = 1; step <= moveSteps; step++) {
     const progress = step / moveSteps;
-    dispatch(
+    await dispatch(
       document,
       "pointermove",
       start.clientX + (end.clientX - start.clientX) * progress,
@@ -81,7 +95,7 @@ export async function dragAndDrop(
   }
 
   if (!options.skipPointerUp) {
-    dispatch(document, "pointerup", end.clientX, end.clientY);
+    await dispatch(document, "pointerup", end.clientX, end.clientY);
   }
 
   await nextFrame();
