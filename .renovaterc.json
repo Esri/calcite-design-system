@@ -3,6 +3,7 @@
   "extends": ["config:recommended", "security:minimumReleaseAgeNpm", "workarounds:typesNodeVersioning"],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": "auto",
+  "versioning": "npm",
   "postUpdateOptions": ["pnpmDedupe"],
   "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
@@ -93,8 +94,7 @@
     {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
-      "versioning": "semver-partial",
-      "rangeStrategy": "replace",
+      "rangeStrategy": "bump",
       "ignoreUnstable": false,
       "respectLatest": false
     },
