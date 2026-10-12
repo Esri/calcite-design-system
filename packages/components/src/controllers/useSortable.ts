@@ -108,6 +108,9 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
   /** The selector for the handle elements. */
   handleSelector: string;
 
+  /** The sortable items' layout direction. */
+  layout?: "horizontal" | "vertical" | "grid";
+
   /** Whether the element can move from the list. */
   canPull?: BivariantHandler<D, boolean | "clone">;
 
@@ -221,6 +224,7 @@ function getAppendIndex(
 
 function getDropIndex(
   record: SortableManagerRecord,
+  toComponent: SortableComponent,
   sourceSortable: Sortable | undefined,
   targetSortable: Sortable,
 ): number {
@@ -232,12 +236,28 @@ function getDropIndex(
 
   const position = record.manager.dragOperation.shape?.current.center ?? record.manager.dragOperation.position.current;
   const targetShape = targetSortable.droppable.shape;
-  const after = !!targetShape && Math.round(position.y) > Math.round(targetShape.center.y);
+  const horizontal =
+    toComponent.layout === "horizontal" ||
+    (toComponent.layout === "grid" &&
+      !!targetShape &&
+      Math.abs(position.x - targetShape.center.x) > Math.abs(position.y - targetShape.center.y));
+  const rightToLeft = horizontal && getComputedStyle(toComponent.el).direction === "rtl";
+  const after =
+    !!targetShape &&
+    (horizontal
+      ? rightToLeft
+        ? Math.round(position.x) < Math.round(targetShape.center.x)
+        : Math.round(position.x) > Math.round(targetShape.center.x)
+      : Math.round(position.y) > Math.round(targetShape.center.y));
 
   return targetIndex + Number(after);
 }
 
 function canAcceptDrop(fromComponent: SortableComponent, toComponent: SortableComponent, detail: DragDetail): boolean {
+  if (detail.dragEl.contains(toComponent.el)) {
+    return false;
+  }
+
   if (fromComponent === toComponent) {
     return !toComponent.group || !toComponent.sortDisabled;
   }
@@ -456,7 +476,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       }
 
       const newIndex = targetSortable
-        ? getDropIndex(record, source.sortable, targetSortable)
+        ? getDropIndex(record, toComponent, source.sortable, targetSortable)
         : getAppendIndex(record, fromComponent, toComponent);
       const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, source.initialIndex, newIndex);
       const signature = `${getSortableGroup(toComponent)}:${relatedEl ? getSortableItemId(relatedEl) : "container"}:${newIndex}`;
@@ -634,7 +654,7 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
           const sourceSortable = record.sortables.get(fromComponent)?.get(dragEl);
           const oldIndex = sourceSortable?.initialIndex ?? 0;
           const targetSortable = record.sortables.get(component)?.get(item);
-          const newIndex = targetSortable ? getDropIndex(record, sourceSortable, targetSortable) : index;
+          const newIndex = targetSortable ? getDropIndex(record, component, sourceSortable, targetSortable) : index;
           const detail = makeDragDetail(fromComponent.el, component.el, dragEl, oldIndex, newIndex);
           return canAcceptDrop(fromComponent, component, detail);
         },

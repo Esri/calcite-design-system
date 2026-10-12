@@ -2,7 +2,7 @@ import { LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { useSortable } from "./useSortable";
+import { useSortable, type DragDetail } from "./useSortable";
 
 const {
   createSortableSpy,
@@ -18,6 +18,8 @@ const {
   keyboardPlugin,
   optimisticSortingPlugin,
   monitorListeners,
+  sortableInstances,
+  dragOperation,
 } = vi.hoisted(() => ({
   createSortableSpy: vi.fn(),
   destroySortableSpy: vi.fn(),
@@ -32,6 +34,18 @@ const {
   keyboardPlugin: vi.fn(),
   optimisticSortingPlugin: vi.fn(),
   monitorListeners: new Map<string, unknown>(),
+  sortableInstances: [] as Array<{
+    options: Record<string, unknown>;
+    index: number;
+    initialIndex: number;
+    group: unknown;
+    data: unknown;
+    droppable: { shape: { center: { x: number; y: number } } };
+  }>,
+  dragOperation: {
+    shape: { current: { center: { x: 0, y: 0 } } },
+    position: { current: { x: 0, y: 0 } },
+  },
 }));
 
 vi.mock("@dnd-kit/dom", () => {
@@ -58,6 +72,8 @@ vi.mock("@dnd-kit/dom", () => {
   }
 
   class DragDropManager {
+    dragOperation = dragOperation;
+
     actions = {
       stop: vi.fn(),
     };
@@ -95,11 +111,23 @@ vi.mock("@dnd-kit/dom", () => {
 
 vi.mock("@dnd-kit/dom/sortable", () => {
   class Sortable {
+    readonly index: number;
+    readonly initialIndex: number;
+    readonly group: unknown;
+    readonly data: unknown;
+    readonly droppable: { shape: { center: { x: number; y: number } } };
+
     constructor(
       readonly options: Record<string, unknown>,
       manager: unknown,
     ) {
       void manager;
+      this.index = options.index as number;
+      this.initialIndex = this.index;
+      this.group = options.group;
+      this.data = options.data;
+      this.droppable = { shape: { center: { x: this.index * 100 + 50, y: 50 } } };
+      sortableInstances.push(this);
       createSortableSpy(options);
     }
 
@@ -127,11 +155,12 @@ class Test extends LitElement {
   onDragEnd = vi.fn();
   onDragStart = vi.fn();
   onDragSort = vi.fn();
+  canPut?: (detail: DragDetail) => boolean;
 
   @property({ type: Boolean }) dragEnabled = false;
   @property({ type: Boolean }) sortDisabled = false;
   @property() group?: string;
-  @property() layout: "horizontal" | "vertical" = "vertical";
+  @property() layout: "horizontal" | "vertical" | "grid" = "vertical";
 }
 
 const mountedComponents: Test[] = [];
@@ -144,6 +173,11 @@ beforeEach(() => {
   configureFeedbackPlugin.mockClear();
   configuredSensors.mockClear();
   monitorListeners.clear();
+  sortableInstances.length = 0;
+  dragOperation.shape.current.center.x = 0;
+  dragOperation.shape.current.center.y = 0;
+  dragOperation.position.current.x = 0;
+  dragOperation.position.current.y = 0;
 });
 
 afterEach(() => {
@@ -151,7 +185,7 @@ afterEach(() => {
   mountedComponents.length = 0;
 });
 
-const mountDragEnabled = async (layout: "horizontal" | "vertical" = "vertical") => {
+const mountDragEnabled = async (layout: "horizontal" | "vertical" | "grid" = "vertical") => {
   const result = await mount(
     html`<sortable-test drag-enabled group="test-group" layout=${layout}>
       <div id="one"><button class="handle"></button></div>
@@ -162,6 +196,12 @@ const mountDragEnabled = async (layout: "horizontal" | "vertical" = "vertical") 
   mountedComponents.push(result.component);
   return result;
 };
+
+const getSortableFor = (component: Test, itemId: string) =>
+  sortableInstances.find(({ options }) => {
+    const data = options.data as { component: Test; item: HTMLElement };
+    return data.component === component && data.item.id === itemId;
+  });
 
 it("does not create sortables when dragEnabled is false", async () => {
   const { component } = await mount(Test);
@@ -206,6 +246,44 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
   expect(firstHandle).toBeDefined();
   expect(firstOptions.handle).toBe(firstHandle);
 });
+
+it("rejects a destination nested inside the dragged item", async () => {
+  const source = await mountDragEnabled();
+  const target = await mountDragEnabled();
+  source.component.el.querySelector<HTMLElement>("#one")!.append(target.component.el);
+
+  const sourceSortable = getSortableFor(source.component, "one")!;
+  const targetSortable = getSortableFor(target.component, "one")!;
+  const accept = targetSortable.options.accept as (draggable: { data: unknown }) => boolean;
+
+  expect(accept({ data: sourceSortable.data })).toBe(false);
+});
+
+it.each([
+  { layout: "horizontal", direction: "ltr", position: { x: 100, y: 50 } },
+  { layout: "horizontal", direction: "rtl", position: { x: 0, y: 50 } },
+  { layout: "vertical", direction: "ltr", position: { x: 50, y: 100 } },
+  { layout: "grid", direction: "ltr", position: { x: 100, y: 60 } },
+] as const)(
+  "uses the $layout destination axis ($direction)",
+  async ({ layout, direction, position }) => {
+    const source = await mountDragEnabled();
+    const target = await mountDragEnabled(layout);
+    target.component.el.dir = direction;
+    target.component.canPut = vi.fn(() => true);
+
+    await vi.waitFor(() => expect(sortableInstances).toHaveLength(4));
+
+    const sourceSortable = getSortableFor(source.component, "one")!;
+    const targetSortable = getSortableFor(target.component, "one")!;
+    const accept = targetSortable.options.accept as (draggable: { data: unknown }) => boolean;
+    dragOperation.shape.current.center.x = position.x;
+    dragOperation.shape.current.center.y = position.y;
+
+    expect(accept({ data: sourceSortable.data })).toBe(true);
+    expect(target.component.canPut).toHaveBeenCalledWith(expect.objectContaining({ newIndex: 1 }));
+  },
+);
 
 it("preserves ungrouped sorting when sortDisabled is true", async () => {
   const ungrouped = await mount(
