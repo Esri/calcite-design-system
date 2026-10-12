@@ -757,11 +757,11 @@ describe("drag and drop", () => {
       callbackOrder.push("destination-sort"),
     );
     const originalDragEnd = source.onDragEnd.bind(source);
-    vi.spyOn(source, "onDragEnd").mockImplementation((detail) => {
+    vi.spyOn(source, "onDragEnd").mockImplementation(() => {
       callbackOrder.push("drag-end");
       expect(draggedItem.parentElement).toBe(source.el);
       expect(destination.el.children).toHaveLength(2);
-      originalDragEnd(detail);
+      originalDragEnd();
     });
 
     await dragAndDrop(handle, target, "bottom");
