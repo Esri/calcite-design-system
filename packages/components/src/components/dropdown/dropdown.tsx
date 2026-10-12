@@ -117,6 +117,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private focusLastDropdownItem = false;
 
+  private focusActiveItemOnOpen = true;
+
   get autoClose(): true {
     return true;
   }
@@ -411,6 +413,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
+    if (!this.open) {
+      this.focusActiveItemOnOpen = true;
+    }
+
     toggleOpenClose(this);
     if (!this.open) {
       this.rovingTabIndex.setActiveIndex(-1);
@@ -459,6 +465,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private pointerEnterHandler(): void {
     if (this.referenceElementType || this.disabled || this.type !== "hover") {
       return;
+    }
+
+    if (!this.open) {
+      this.focusActiveItemOnOpen = false;
     }
 
     this.open = true;
@@ -642,6 +652,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
 
     if (!this.open && isActivationKey(key)) {
+      this.focusActiveItemOnOpen = true;
       this.open = true;
       event.preventDefault();
       return;
@@ -649,6 +660,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
     if (!this.open && (key === "ArrowDown" || key === "ArrowUp")) {
       event.preventDefault();
+      this.focusActiveItemOnOpen = true;
       this.focusLastDropdownItem = key === "ArrowUp";
       this.open = true;
       return;
@@ -736,7 +748,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     const targetIndex = traversableItems.findIndex((item) => item === target);
     this.rovingTabIndex.setActiveIndex(targetIndex);
 
-    await this.scrollActiveItemIntoView(target);
+    if (this.focusActiveItemOnOpen) {
+      await this.scrollActiveItemIntoView(target);
+    }
   }
 
   private syncActiveItemFromTraversableItems(): void {
@@ -839,6 +853,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
+    this.focusActiveItemOnOpen = true;
+
     if (this.open) {
       if (this.rovingTabIndex.activeElement) {
         void this.scrollActiveItemIntoView(this.rovingTabIndex.activeElement);
@@ -872,6 +888,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
+    this.focusActiveItemOnOpen = true;
     this.open = !this.open;
   }
 

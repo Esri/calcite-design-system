@@ -288,6 +288,30 @@ describe("hover type", () => {
     expect(el.open).toBe(true);
   });
 
+  it("does not move focus when opened or closed by pointer hover", async () => {
+    const { component } = await mount<Dropdown>(
+      <div>
+        {renderHoverDropdownHTML()}
+        <button id="outside-focus-target" type="button">
+          Outside
+        </button>
+      </div>,
+    );
+    const outside = page.getByRole("button", { name: "Outside" });
+    const dropdown = page.getBySelector("calcite-dropdown");
+
+    await userEvent.click(outside);
+    await userEvent.hover(dropdown);
+
+    expect(component.open).toBe(true);
+    await expect.element(outside).toHaveFocus();
+
+    await userEvent.hover(outside);
+
+    expect(component.open).toBe(false);
+    await expect.element(outside).toHaveFocus();
+  });
+
   it("does not toggle closed on click when type is hover", async () => {
     const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
     const trigger = page.getByText("Open dropdown");
