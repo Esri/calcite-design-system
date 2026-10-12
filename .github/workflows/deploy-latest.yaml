@@ -38,7 +38,7 @@ jobs:
       - name: Build Packages and Publish to NPM
         if: steps.release.outputs.releases_created == 'true'
         env:
-          NPM_CONFIG_PROVENANCE: true
+          PNPM_CONFIG_PROVENANCE: true
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
           pnpm build

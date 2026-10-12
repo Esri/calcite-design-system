@@ -140,9 +140,6 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
   /** Called by any change to the list (add / update / remove). */
   onDragSort: BivariantHandler<D, void>;
 
-  /** Resets the manager state for this component when sort metadata changes. */
-  sortable?: { reset: () => void };
-
   /** Returns the sortable items managed by the component. */
   getSortableItems?: () => HTMLElement[];
 }
@@ -363,7 +360,9 @@ function getManagerRecord(document: Document): SortableManagerRecord {
 
     const pending = [...record.pendingReset];
     record.pendingReset.clear();
-    pending.forEach((component) => component.sortable?.reset());
+    pending.forEach((component) => {
+      (component as unknown as { sortable?: { reset: () => void } }).sortable?.reset();
+    });
   };
 
   const setGlobalDragActive = (active: boolean): void => {

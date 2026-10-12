@@ -120,7 +120,7 @@ vi.mock("@dnd-kit/dom/sortable", () => {
 class Test extends LitElement {
   static tagName = "sortable-test";
   handleSelector = ".handle";
-  sortable = useSortable<this>()(this);
+  sortable: { reset: () => void } = useSortable<this>()(this);
 
   onGlobalDragStart = vi.fn();
   onGlobalDragEnd = vi.fn();

@@ -1,23 +1,19 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { h, JsxNode, LitElement, LuminaJsx } from "@arcgis/lumina";
-import { TemplateResult } from "lit";
-import { SetOptional } from "type-fest";
+import { h, type JsxNode, LitElement } from "@arcgis/lumina";
+import type { TemplateResult } from "lit";
+import type { SetOptional } from "type-fest";
+import type { CustomAttributes } from "@arcgis/lumina/jsx/baseTypes";
 
 export interface InteractiveComponent extends LitElement {
   /**
    * When true, prevents user interaction.
-   *
-   * Notes:
-   *
-   * This prop should use the `@Prop` decorator and reflect.
-   * The `disabled` Sass mixin must be added to the component's stylesheet.
    */
   disabled: boolean;
 }
 
 type UseInteractive = typeof InteractiveContainer;
 
-interface InteractiveContainerProps extends LuminaJsx.CustomAttributes {
+interface InteractiveContainerProps extends CustomAttributes {
   disabled: boolean;
 }
 
@@ -34,6 +30,46 @@ const InteractiveContainer = ({
   </div>
 );
 
+/**
+ * Provides shared disabled-state behavior for interactive components, keeping interaction handling
+ * consistent across components.
+ *
+ * The controller synchronizes host-level disabled behavior when the component updates, including
+ * setting `aria-disabled`, removing focus from a focused descendant, and making the wrapped content
+ * inert. Forward `disabled` to child controls that support it so they can apply their own disabled
+ * behavior and appearance.
+ *
+ * @returns A JSX container component that accepts `disabled` and wraps the component's interactive
+ * content.
+ *
+ * @example Controller setup
+ * ```tsx
+ * import { h, LitElement, property, type JsxNode } from "@arcgis/lumina";
+ * import { useInteractive } from "../../controllers/useInteractive";
+ *
+ * class ExampleComponent extends LitElement {
+ *   @property({ reflect: true }) disabled = false;
+ *
+ *   private interactiveContainer = useInteractive(this);
+ *
+ *   override render(): JsxNode {
+ *     return (
+ *       <this.interactiveContainer disabled={this.disabled}>
+ *         <calcite-button disabled={this.disabled}>Save</calcite-button>
+ *         <a href="#details">Details</a>
+ *       </this.interactiveContainer>
+ *     );
+ *   }
+ * }
+ * ```
+ *
+ * @example Disabled styles
+ * ```scss
+ * @use "../../styles/shared";
+ *
+ * @include shared.disabled();
+ * ```
+ */
 export const useInteractive = makeGenericController<UseInteractive, InteractiveComponent>(
   (component, controller) => {
     controller.onUpdated(() => updateHostInteraction(component));

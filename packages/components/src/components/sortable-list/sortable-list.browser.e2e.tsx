@@ -184,7 +184,7 @@ describe("drag and drop", () => {
     const list = el as SortableList;
     const resetSpy = vi.fn();
 
-    (list as SortableList & { sortable: { reset: () => void } }).sortable = { reset: resetSpy };
+    (list as unknown as { sortable: { reset: () => void } }).sortable = { reset: resetSpy };
     Object.defineProperty(list, "hasUpdated", { value: true, configurable: true });
     SortableList.prototype.willUpdate.call(
       list,

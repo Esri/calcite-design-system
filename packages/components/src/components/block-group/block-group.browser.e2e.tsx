@@ -519,10 +519,11 @@ describe("drag and drop", () => {
       </div>,
     );
     const sourceLocator = page.elementLocator(source);
+    const sourceGroup = source.querySelector<BlockGroup["el"]>("#source")!;
     const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
     const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
     const destinationBlock = page.getBySelector("#two").element() as Block["el"];
-    source.canPull = () => "clone";
+    sourceGroup.canPull = () => "clone";
     await vi.waitFor(() =>
       expect(
         sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
@@ -591,6 +592,7 @@ describe("drag and drop", () => {
       </div>,
     );
     const sourceLocator = page.elementLocator(source);
+    const sourceGroup = source.querySelector<BlockGroup["el"]>("#source")!;
     const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
     const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
     const destinationBlock = page.getBySelector("#two").element() as Block["el"];
@@ -606,7 +608,7 @@ describe("drag and drop", () => {
         source.addEventListener("calciteBlockGroupDragEnd", () => resolve(), { once: true }),
       );
 
-    expect(source.group).toBe("letters");
+    expect(sourceGroup.group).toBe("letters");
     expect(destination.group).toBe("numbers");
 
     const dragEnd = waitForDragEnd();

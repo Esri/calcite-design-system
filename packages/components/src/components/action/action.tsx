@@ -13,7 +13,7 @@ import {
 } from "../types";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -29,10 +29,93 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-action-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when active.
+     */
+    "--calcite-action-background-color-press": "*";
+    /**
+     * Specifies the component's background color when active.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-background-color-press` instead.
+     */
+    "--calcite-action-background-color-pressed": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-action-background-color": "*";
+    /**
+     * Specifies the component's corner radius end end.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-end-end": "*";
+    /**
+     * Specifies the component's corner radius end start.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-end-start": "*";
+    /**
+     * Specifies the component's corner radius start end.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-start-end": "*";
+    /**
+     * Specifies the component's corner radius start start.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-start-start": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-action-corner-radius": "*";
+    /**
+     * Specifies the component's indicator color.
+     */
+    "--calcite-action-indicator-color": "*";
+    /**
+     * Specifies the component's text color when pressed or hovered.
+     */
+    "--calcite-action-text-color-press": "*";
+    /**
+     * Specifies the component's text color when hovered.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-text-color-press` instead.
+     */
+    "--calcite-action-text-color-pressed": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-action-text-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-action-loader-color": "*";
+  }
+}
+
+interface ActionSlots {
+  /**
+   * A slot for adding non-interactive content, such as a `calcite-icon`.
+   */
+  "": Node[];
+}
+
 export class Action extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ActionSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -58,7 +141,7 @@ export class Action extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private indicatorRef = createRef<HTMLDivElement>();
 
@@ -103,7 +186,9 @@ export class Action extends LitElement {
   /**
    * Specifies the appearance of the component.
    *
-   * @deprecated in v5.0.0, removal target v6.0.0 - No longer necessary.
+   * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary for `"transparent"`.
+   *
+   * For a `"solid"` appearance, use the component's background color tokens instead.
    */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
     "transparent";
