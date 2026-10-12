@@ -12,6 +12,27 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `active`, specifies the component's border color.
+     */
+    "--calcite-navigation-accent-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-navigation-background-color": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-navigation-logo-heading-text-color": "*";
+    /**
+     * Specifies the component's `description` text color.
+     */
+    "--calcite-navigation-logo-text-color": "*";
+  }
+}
+
 export class NavigationLogo extends LitElement {
   // #region Static Members
 

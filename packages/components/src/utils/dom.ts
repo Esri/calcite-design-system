@@ -711,3 +711,17 @@ export function viewportUnitToPixel(value: number, viewportSize: number): number
   // intentionally dividing last to avoid rounding errors
   return (value * viewportSize) / 100;
 }
+
+/**
+ * This helper retrieves the assigned text nodes from a given slot element.
+ *
+ * @param slotEl - The slot element to retrieve text nodes from.
+ * @returns An array of assigned text nodes.
+ */
+export function getAssignedTextNodesFromSlotEl(slotEl: HTMLSlotElement): CharacterData[] {
+  return (
+    (slotEl.assignedNodes({ flatten: true }).filter((node) => node.nodeType === Node.TEXT_NODE) as
+      | CharacterData[]
+      | undefined) ?? []
+  );
+}

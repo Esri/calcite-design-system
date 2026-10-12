@@ -9,8 +9,20 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding focus-trapped content. */
+interface FocusTrapSlots {
+  /**
+   * A slot for adding focus-trapped content.
+   */
+  "": Node[];
+}
+
 export class FocusTrap extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: FocusTrapSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;

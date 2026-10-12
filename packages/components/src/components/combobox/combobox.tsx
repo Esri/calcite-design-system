@@ -80,11 +80,65 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-combobox-item`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's divider color.
+     */
+    "--calcite-combobox-divider-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-combobox-icon-color": "*";
+    /**
+     * Specifies the component's icon color when hovered.
+     */
+    "--calcite-combobox-icon-color-hover": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-combobox-corner-radius": "*";
+    /**
+     * Specifies the background color of the component's listbox.
+     */
+    "--calcite-combobox-background-color": "*";
+    /**
+     * Specifies the border color of the component's input.
+     */
+    "--calcite-combobox-input-border-color": "*";
+    /**
+     * Specifies the background color of the component's input.
+     */
+    "--calcite-combobox-input-background-color": "*";
+    /**
+     * Specifies the height of the component's input.
+     */
+    "--calcite-combobox-input-height": "*";
+    /**
+     * When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
+     */
+    "--calcite-combobox-input-text-color": "*";
+  }
+}
+
+interface ComboboxSlots {
+  /**
+   * A slot for adding `calcite-combobox-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ComboboxSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;

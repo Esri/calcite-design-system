@@ -44,14 +44,14 @@ it("should be able to switch truncate position", async () => {
   const middleTruncatedTextEl = page.getBySelector("span");
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).toBeVisible();
-  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i...ncated");
+  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i\u2026cated");
   el.truncatePosition = "end";
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).not.toBeVisible();
   el.truncatePosition = "middle";
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).toBeVisible();
-  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i...ncated");
+  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i\u2026cated");
   el.truncatePosition = undefined;
   await component.updateComplete;
   await expect.element(middleTruncatedTextEl).not.toBeVisible();
@@ -59,10 +59,7 @@ it("should be able to switch truncate position", async () => {
 
 describe("tooltip", () => {
   it("should not set title when truncatePosition is undefined", async () => {
-    const { el, component } = await mount<Text>(
-      <calcite-text style="width: 100px;">{text}</calcite-text>,
-    );
-    await component.updateComplete;
+    const { el } = await mount<Text>(<calcite-text style="width: 100px;">{text}</calcite-text>);
     expect(el.title).toBe("");
   });
 
@@ -72,7 +69,6 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    await component.updateComplete;
     await expect.element(el).toHaveProperty("title", text);
     el.truncatePosition = undefined;
     await component.updateComplete;
@@ -87,10 +83,8 @@ describe("tooltip", () => {
     );
     await expect.element(el).toHaveProperty("title", text);
 
-    const assignedTextNode = getAssignedTextNode(el);
-    if (assignedTextNode) {
-      assignedTextNode.textContent = "Updated text that still overflows";
-    }
+    const assignedTextNode = getAssignedTextNode(el)!;
+    assignedTextNode.textContent = "Updated text that still overflows";
     await component.updateComplete;
     await expect.element(el).toHaveProperty("title", "Updated text that still overflows");
   });
@@ -114,7 +108,6 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    await component.updateComplete;
     await expect.element(el).toHaveProperty("title", text);
     el.truncatePosition = undefined;
     await component.updateComplete;
@@ -129,16 +122,14 @@ describe("tooltip", () => {
     );
     const middleTruncatedTextEl = page.getBySelector("span");
     const assignedTextNode = getAssignedTextNode(el)!;
-    if (assignedTextNode) {
-      assignedTextNode.textContent = "Updated reactive text that is also long enough to truncate";
-      await component.updateComplete;
-    }
+    assignedTextNode.textContent = "Updated reactive text that is also long enough to truncate";
+    await component.updateComplete;
 
     await expect
       .element(el)
       .toHaveProperty("title", "Updated reactive text that is also long enough to truncate");
     await expect.element(middleTruncatedTextEl).not.toHaveTextContent(text);
-    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\.\.\./);
+    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\u2026/);
 
     assignedTextNode.textContent = "";
     await expect.element(middleTruncatedTextEl).toHaveTextContent("");
@@ -160,7 +151,7 @@ describe("tooltip", () => {
       .element(el)
       .toHaveProperty("title", "Updated textContent that is also long enough to truncate");
     await expect.element(middleTruncatedTextEl).not.toHaveTextContent(text);
-    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\.\.\./);
+    await expect.element(middleTruncatedTextEl).toHaveTextContent(/\u2026/);
   });
 
   it("should update title when maxLines is set", async () => {
@@ -169,7 +160,7 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    await component.updateComplete;
+
     await expect.element(el).toHaveProperty("title", text);
     el.maxLines = undefined;
     await component.updateComplete;
@@ -184,8 +175,7 @@ describe("tooltip", () => {
 });
 
 function getAssignedTextNode(el: HTMLElement): CharacterData | undefined {
-  const node = Array.from(el.childNodes).find(
+  return Array.from(el.childNodes).find(
     (node): node is CharacterData => node.nodeType === Node.TEXT_NODE,
   );
-  return node;
 }

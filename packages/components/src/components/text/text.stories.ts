@@ -20,15 +20,16 @@ export default {
   decorators: [
     (story: () => string, context: StoryContext): string => {
       const { containerWidth } = context.args;
-      if (context.parameters.disableDecorators) {
-        return story();
-      }
       return html`
         <style>
           .text-container {
+            display: grid;
+            gap: 8px;
+          }
+          .text-container > calcite-text {
             width: ${containerWidth}px;
             border: 1px solid var(--calcite-color-border-3);
-            padding: 8px;
+            padding: 4px;
           }
         </style>
         <div class="text-container">${story()}</div>
@@ -38,45 +39,44 @@ export default {
 };
 
 export const simple = (args: TextStoryArgs): string => html`
-  <calcite-text truncate-position="${args.truncatePosition}" max-lines="${args.maxLines}">
+  <calcite-text truncate-position="${args.truncatePosition}">
     The Rocky Mountain range spans multiple states and includes several major peaks and protected ecosystems.
   </calcite-text>
 `;
-
-simple.args = {
-  maxLines: 0,
-};
 
 simple.argTypes = {
   truncatePosition: {
     options: ["end", "middle"],
     control: { type: "select" },
   },
-  maxLines: {
-    control: { type: "number" },
-  },
+  // maxLines: {
+  //   control: { type: "number" },
+  // },
 };
 
-export const truncatePositionEnd = (): string => html`
+export const truncatePosition = (): string => html`
+  <p>truncatePosition="end"</p>
   <calcite-text truncate-position="end">
     The Rocky Mountain range spans multiple states and includes several major peaks and protected ecosystems.
   </calcite-text>
-`;
 
-export const truncatePositionMiddle = (): string => html`
+  <p>truncatePosition="middle"</p>
   <calcite-text truncate-position="middle">
     The Rocky Mountain range spans multiple states and includes several major peaks and protected ecosystems.
   </calcite-text>
 `;
 
-export const maxLines = (): string => html`
-  <calcite-text max-lines="3">
-    The Mississippi River is one of the world&apos;s major river systems and drains much of the central United States.
+export const maxLines = (args: TextStoryArgs): string => html`
+  <p>maxLines="${args.maxLines}"</p>
+  <calcite-text max-lines="${args.maxLines}">
+    The Appalachian Mountains are a system of mountains in eastern North America, extending from Canada to Alabama.
   </calcite-text>
-`;
-
-export const maxLinesWithTruncatePositionMiddle = (): string => html`
-  <calcite-text max-lines="3" truncate-position="middle">
+  <p>maxLines="${args.maxLines}" + truncatePosition="middle"</p>
+  <calcite-text max-lines="${args.maxLines}" truncate-position="middle">
     The Appalachian Mountains are a system of mountains in eastern North America, extending from Canada to Alabama.
   </calcite-text>
 `;
+
+maxLines.args = {
+  maxLines: 3,
+};

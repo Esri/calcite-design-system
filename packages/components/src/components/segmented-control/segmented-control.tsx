@@ -35,11 +35,37 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-segmented-control-item`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-segmented-control-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-segmented-control-corner-radius": "*";
+  }
+}
+
+interface SegmentedControlSlots {
+  /**
+   * A slot for adding `calcite-segmented-control-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class SegmentedControl extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SegmentedControlSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
