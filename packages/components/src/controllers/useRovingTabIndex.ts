@@ -2,7 +2,7 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import { focusable, tabbable } from "tabbable";
 import { getRootNode, tabbableOptions } from "../utils/dom";
 
-type FocusableElement = Element & Pick<HTMLElement, "focus" | "tabIndex">;
+type FocusableElement = HTMLElement | SVGElement;
 
 function isFocusableElement(element: Element): element is FocusableElement {
   return (
