@@ -361,6 +361,9 @@ catalogs:
     '@arcgis/toolkit':
       specifier: '>=5.2.0-next.129 <6.0.0'
       version: 5.2.0-next.132
+    '@dnd-kit/dom':
+      specifier: ^0.5.0
+      version: 0.5.0
     '@floating-ui/dom':
       specifier: ^1.8.0
       version: 1.8.0
@@ -541,7 +544,7 @@ importers:
         specifier: catalog:dependency-ranges
         version: 5.2.0-next.132
       '@dnd-kit/dom':
-        specifier: ^0.5.0
+        specifier: catalog:dependency-ranges
         version: 0.5.0
       '@esri/calcite-design-tokens':
         specifier: workspace:*

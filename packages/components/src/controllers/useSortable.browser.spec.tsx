@@ -2,6 +2,7 @@ import { LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { page } from "vitest/browser";
 import { useSortable, type DragDetail } from "./useSortable";
 
 const {
@@ -50,6 +51,8 @@ const {
 
 vi.mock("@dnd-kit/dom", () => {
   class PointerSensor {
+    static defaults = {};
+
     static configure(options: unknown): unknown {
       return { sensor: PointerSensor, options };
     }
@@ -242,9 +245,10 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
   expect(firstOptions.group).toBe(secondOptions.group);
   expect(firstOptions.group).not.toBe("test-group");
   expect(firstOptions.transition).toBeUndefined();
-  const firstHandle = component.el.querySelector<HTMLButtonElement>("#one .handle");
-  expect(firstHandle).toBeDefined();
-  expect(firstOptions.handle).toBe(firstHandle);
+  const list = page.elementLocator(component.el);
+  const firstHandle = list.getBySelector("#one .handle");
+  expect(firstOptions.handle).toBe(list.getBySelector("#one").element());
+  await expect.element(firstHandle).toBeInTheDocument();
 });
 
 it("rejects a destination nested inside the dragged item", async () => {

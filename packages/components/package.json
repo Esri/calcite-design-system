@@ -76,7 +76,7 @@
   "dependencies": {
     "@arcgis/lumina": "catalog:dependency-ranges",
     "@arcgis/toolkit": "catalog:dependency-ranges",
-    "@dnd-kit/dom": "^0.5.0",
+    "@dnd-kit/dom": "catalog:dependency-ranges",
     "@esri/calcite-design-tokens": "workspace:*",
     "@esri/calcite-ui-icons": "workspace:*",
     "@floating-ui/dom": "catalog:dependency-ranges",

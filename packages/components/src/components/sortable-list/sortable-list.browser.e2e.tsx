@@ -83,6 +83,34 @@ describe("drag and drop", () => {
     await afterNextFrame();
   });
 
+  it("allows dragging from any enabled matching handle", async () => {
+    const { component } = await mount<SortableList>(
+      <calcite-sortable-list id="sortable-list">
+        <div id="one">
+          <calcite-handle disabled />
+          <calcite-handle />
+          One
+        </div>
+        <div id="two">
+          <calcite-handle />
+          Two
+        </div>
+      </calcite-sortable-list>,
+    );
+    const list = page.elementLocator(component.el);
+    const disabledHandle = list.getBySelector("#one calcite-handle[disabled]").element();
+    const enabledHandle = list.getBySelector("#one calcite-handle:not([disabled])").element();
+    const target = list.getBySelector("#two").element();
+
+    await dragAndDrop(disabledHandle, target);
+    expect(Array.from(component.el.children, (item) => item.id)).toEqual(["one", "two"]);
+
+    await dragAndDrop(enabledHandle, target);
+    await vi.waitFor(() => {
+      expect(Array.from(component.el.children, (item) => item.id)).toEqual(["two", "one"]);
+    });
+  });
+
   it("skips reorder handling when the before-order event is canceled", async () => {
     const { el } = await renderSortableList();
     const list = page.getBySelector("#sortable-list");
@@ -697,6 +725,50 @@ describe("drag and drop", () => {
     expect(page.getBySelector("#move-destination > div").nth(1).element().id).toBe(
       "clone-source-item",
     );
+  });
+
+  it("fires drag end after clone finalization and both order-change events", async () => {
+    const { component: source } = await mount<SortableList>(
+      <calcite-sortable-list group="letters" id="clone-source">
+        <div id="clone-source-item">
+          <calcite-handle />
+          Source
+        </div>
+      </calcite-sortable-list>,
+    );
+    const { component: destination } = await mount<SortableList>(
+      <calcite-sortable-list group="letters" id="clone-destination">
+        <div id="destination-item">
+          <calcite-handle />
+          Destination
+        </div>
+      </calcite-sortable-list>,
+    );
+    const sourceLocator = page.elementLocator(source.el);
+    const destinationLocator = page.elementLocator(destination.el);
+    const draggedItem = sourceLocator.getBySelector("#clone-source-item").element();
+    const handle = sourceLocator.getBySelector("#clone-source-item calcite-handle").element();
+    const target = destinationLocator.getBySelector("#destination-item").element();
+    const callbackOrder: string[] = [];
+    source.canPull = () => "clone";
+
+    source.el.addEventListener("calciteListOrderChange", () => callbackOrder.push("source-sort"));
+    destination.el.addEventListener("calciteListOrderChange", () =>
+      callbackOrder.push("destination-sort"),
+    );
+    const originalDragEnd = source.onDragEnd.bind(source);
+    vi.spyOn(source, "onDragEnd").mockImplementation((detail) => {
+      callbackOrder.push("drag-end");
+      expect(draggedItem.parentElement).toBe(source.el);
+      expect(destination.el.children).toHaveLength(2);
+      originalDragEnd(detail);
+    });
+
+    await dragAndDrop(handle, target, "bottom");
+
+    await vi.waitFor(() => {
+      expect(callbackOrder).toEqual(["source-sort", "destination-sort", "drag-end"]);
+    });
   });
 
   it("fires before and order-change around the reorder mutation", async () => {

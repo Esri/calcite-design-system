@@ -8,6 +8,7 @@ import {
   KeyboardSensor,
   PointerActivationConstraints,
   PointerSensor,
+  type Draggable,
 } from "@dnd-kit/dom";
 import { Sortable, SortableKeyboardPlugin, isSortable } from "@dnd-kit/dom/sortable";
 import { guid } from "../utils/guid";
@@ -56,6 +57,28 @@ function isHandleDisabled(handle?: HTMLElement): boolean {
     handle.hasAttribute("disabled") ||
     ("disabled" in handle && Boolean((handle as HTMLButtonElement).disabled))
   );
+}
+
+function getEventHandle(event: Event, source: Draggable): HTMLElement | undefined {
+  if (!isSortable(source)) {
+    return undefined;
+  }
+
+  const data = getSortableItemData(source);
+  const item = data?.item;
+
+  if (!data || !item) {
+    return undefined;
+  }
+
+  return event
+    .composedPath()
+    .find(
+      (target): target is HTMLElement =>
+        target instanceof HTMLElement &&
+        target.matches(data.component.handleSelector) &&
+        (item.contains(target) || item.shadowRoot?.contains(target) === true),
+    );
 }
 
 export interface MoveDetail<
@@ -342,7 +365,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
           sensor === PointerSensor
             ? PointerSensor.configure({
                 preventActivation: (event, source) =>
-                  isHandleDisabled(source.handle instanceof HTMLElement ? source.handle : undefined) ||
+                  isHandleDisabled(getEventHandle(event, source)) ||
                   PointerSensor.defaults.preventActivation?.(event, source) === true,
                 activationConstraints: (event) =>
                   event.pointerType === "mouse"
@@ -555,7 +578,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         }
 
         const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, oldIndex, newIndex);
-        fromComponent.onDragEnd(detail);
 
         if (!canceled && (fromComponent !== toComponent || oldIndex !== newIndex)) {
           if (fromComponent !== toComponent && fromComponent.canPull?.(detail) === "clone") {
@@ -577,6 +599,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
             toComponent.onDragSort(detail);
           }
         }
+        fromComponent.onDragEnd(detail);
       });
     }),
   );
@@ -625,17 +648,14 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
   record.containerTargets.set(component, containerDroppable);
 
   getSortableItems(component).forEach((item, index) => {
-    const handle =
-      item.shadowRoot?.querySelector<HTMLElement>(component.handleSelector) ??
-      item.querySelector<HTMLElement>(component.handleSelector);
     const sortable = new Sortable(
       {
         id: getSortableItemId(item),
         index,
         group,
         element: item,
-        handle: handle ?? undefined,
-        disabled: !!component.disabled || !handle,
+        handle: item,
+        disabled: !!component.disabled,
         data: { component, item },
         plugins: (plugins) => plugins.filter((plugin) => plugin !== SortableKeyboardPlugin),
         accept: (draggable) => {
