@@ -11,6 +11,20 @@ type FallbackTestCase = {
 };
 
 const testCases: Record<string, FallbackTestCase> = {
+  cornerRadiusRound: {
+    referenceToken: "--calcite-corner-radius-round",
+    referenceValue: "2px",
+    targetProperty: "border-radius",
+    themeToken: "--calcite-theme-corner-radius-sm",
+    themeValue: "4px",
+  },
+  cornerRadiusSharp: {
+    referenceToken: "--calcite-corner-radius-sharp",
+    referenceValue: "2px",
+    targetProperty: "border-radius",
+    themeToken: "--calcite-theme-corner-radius-none",
+    themeValue: "4px",
+  },
   fontWeight: {
     referenceToken: "--calcite-font-weight-normal",
     referenceValue: "500",
