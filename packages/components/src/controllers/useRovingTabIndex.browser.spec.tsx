@@ -90,7 +90,7 @@ it("restores only requested elements without resetting the active tab stop", asy
   expect(buttons.map((button) => button.getAttribute("tabindex"))).toEqual([null, "2", "-1"]);
 });
 
-it("manages the entry tab stop and exposes focus restoration only during focus events", async () => {
+it("manages the entry tab stop and restores focus to the entry control", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;
   const first = page.getByRole("button", { name: "First" });
@@ -98,10 +98,6 @@ it("manages the entry tab stop and exposes focus restoration only during focus e
   const third = page.getByRole("button", { name: "Third" });
   const items = [first, third].map((button) => button.element() as HTMLButtonElement);
   component.entryElement = entry.element();
-  const restorationStates: boolean[] = [];
-  entry
-    .element()
-    .addEventListener("focusin", () => restorationStates.push(controller.isRestoringFocus));
 
   controller.update(items, items[0]);
   await expect.element(first).toHaveAttribute("tabindex", "0");
@@ -109,8 +105,6 @@ it("manages the entry tab stop and exposes focus restoration only during focus e
   await userEvent.click(first);
   controller.restoreFocus();
   await expect.element(entry).toHaveFocus();
-  expect(restorationStates).toEqual([true]);
-  expect(controller.isRestoringFocus).toBe(false);
 
   controller.update(items, null);
   await expect.element(entry).toHaveAttribute("tabindex", "2");

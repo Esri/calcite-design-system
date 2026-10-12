@@ -418,6 +418,13 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     const composedPath = event.composedPath();
     const components = queryComponents(composedPath, "hover");
 
+    if (
+      components?.some((component) => event.relatedTarget instanceof Node && component.el.contains(event.relatedTarget))
+    ) {
+      clearHoverTimeout();
+      return;
+    }
+
     if (pathHasOpenHoverComponent(components, composedPath)) {
       clearHoverTimeout();
       return;

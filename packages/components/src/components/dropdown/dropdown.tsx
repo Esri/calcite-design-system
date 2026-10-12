@@ -848,8 +848,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     activeItem.activateItem();
   }
 
-  private openHoverDropdown(): void {
-    if (this.disabled || this.rovingTabIndex.isRestoringFocus || this.type !== "hover") {
+  private openHoverDropdown(event: FocusEvent): void {
+    if (this.disabled || this.type !== "hover") {
+      return;
+    }
+
+    if (event.relatedTarget instanceof Node && this.el.contains(event.relatedTarget)) {
       return;
     }
 

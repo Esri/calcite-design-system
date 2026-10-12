@@ -327,6 +327,29 @@ describe("hover type", () => {
     expect(el.open).toBe(true);
   });
 
+  it("does not reopen when programmatic close restores focus to an external hover reference", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown referenceElement="trigger" type="hover">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>,
+    );
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const item = page.getByRole("menuitemradio", { name: "First" });
+
+    await userEvent.tab();
+    await expect.element(item).toHaveFocus();
+    component.open = false;
+    await expect.element(trigger).toHaveFocus();
+    expect(component.open).toBe(false);
+  });
+
   it("closes when focus leaves trigger with Tab", async () => {
     const { el } = await mount<Dropdown>(
       <div>

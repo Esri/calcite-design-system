@@ -61,8 +61,6 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   readonly activeElement: ElementType | null;
   /** The active item's index among eligible items, or -1 when none is active. */
   readonly activeIndex: number;
-  /** Indicates whether focus is being returned to the entry control. */
-  readonly isRestoringFocus: boolean;
   update: (elements: ElementType[], activeElement: ElementType | null) => void;
   /** Activates an eligible item by index, clearing the active tab stop for invalid indices. */
   setActiveIndex: (index: number) => void;
@@ -85,7 +83,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
     let activeIndex = -1;
     let entryTabStops: FocusableElement[] = [];
     let entryFocusTarget: FocusableElement | undefined;
-    let isRestoringFocus = false;
 
     function restoreElement(element: Element, tabIndex: string | null): void {
       if (tabIndex === null) {
@@ -118,9 +115,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       get activeIndex(): number {
         return activeIndex;
-      },
-      get isRestoringFocus(): boolean {
-        return isRestoringFocus;
       },
       update(elements, nextActiveElement): void {
         const entryElement = options.getEntryElement?.();
@@ -183,12 +177,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
           return;
         }
 
-        isRestoringFocus = true;
-        try {
-          entryFocusTarget.focus();
-        } finally {
-          isRestoringFocus = false;
-        }
+        entryFocusTarget.focus();
       },
       restoreFocusIfWithin(): void {
         if (itemElements.some((element) => getRootNode(element).activeElement === element)) {
