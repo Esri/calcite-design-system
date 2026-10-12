@@ -141,6 +141,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
+  onReferenceElementPointerOpen = (): void => {
+    this.focusActiveItemOnOpen = false;
+  };
+
   private focusSetter = useFocusable<this>()(this);
 
   private rovingTabIndex = useRovingTabIndex<DropdownItem["el"]>({

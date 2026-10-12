@@ -277,6 +277,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
         clearHoverCloseTimeout();
         closeComponentsIfNotActive(components);
+        components.forEach((component) => component.onReferenceElementPointerOpen?.());
         toggleHoverComponents(components, true);
       },
       activeComponents?.some((component) => component.open) ? HOVER_QUICK_OPEN_DELAY_MS : HOVER_OPEN_DELAY_MS,

@@ -350,6 +350,39 @@ describe("hover type", () => {
     expect(component.open).toBe(false);
   });
 
+  it("does not move focus when an external hover reference opens by pointer", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="outside-focus-target" type="button">
+          Outside
+        </button>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown referenceElement="external-trigger" type="hover">
+          <calcite-dropdown-group selectionMode="single">
+            <calcite-dropdown-item>Dropdown Item</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>,
+    );
+    const outside = page.getByRole("button", { name: "Outside" });
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+
+    await userEvent.click(outside);
+    await userEvent.hover(trigger);
+    await vi.waitFor(() => expect(component.open).toBe(true));
+    await afterNextFrame();
+    await afterNextFrame();
+
+    await expect.element(outside).toHaveFocus();
+
+    await userEvent.hover(outside);
+    await vi.waitFor(() => expect(component.open).toBe(false));
+
+    await expect.element(outside).toHaveFocus();
+  });
+
   it("closes when focus leaves trigger with Tab", async () => {
     const { el } = await mount<Dropdown>(
       <div>

@@ -66,6 +66,9 @@ type InternalProps = {
    * ```
    */
   onReferenceElementKeyDown?: (event: KeyboardEvent) => void;
+
+  /** Called when the reference element opens the component through pointer hover. */
+  onReferenceElementPointerOpen?: () => void;
 };
 
 /**
