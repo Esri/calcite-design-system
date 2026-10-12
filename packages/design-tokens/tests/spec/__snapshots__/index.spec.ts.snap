@@ -337,56 +337,68 @@ exports[`CSS > classes should match 1`] = `
   font-weight: 600;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-display-1 {
   font-size: 1.625rem;
   font-weight: 600;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-display-2 {
   font-weight: 600;
   line-height: 1.375;
   font-size: 1.25rem;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-1 {
   font-size: 1.625rem;
   font-weight: 500;
   line-height: 1.375;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-2 {
   font-weight: 500;
   line-height: 1.375;
   font-size: 1.25rem;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-3 {
   font-weight: 500;
   line-height: 1.375;
   font-size: 1.125rem;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-4 {
   font-weight: 500;
   line-height: 1.375;
   font-size: 1rem;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-heading-5 {
   font-weight: 500;
   line-height: 1.375;
   font-size: 0.875rem;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-body-snug {
   line-height: 1.375;
   font-size: 0.875rem;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-body {
   font-family: var(--calcite-font-family);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.15;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-overline {
   font-size: 0.75rem;
+  text-case: uppercase;
   font-weight: 600;
   line-height: 1;
 }
+/* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-caption {
   line-height: 1.375;
   font-size: 0.75rem;
@@ -24952,6 +24964,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.display.1}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "display",
         "subitem": "1",
@@ -24966,6 +24979,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24990,6 +25004,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.display.2}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "display",
         "subitem": "2",
@@ -25004,6 +25019,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -25015,6 +25031,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.heading.1}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "heading",
         "subitem": "1",
@@ -25029,6 +25046,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -25053,6 +25071,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.heading.2}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "heading",
         "subitem": "2",
@@ -25067,6 +25086,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -25078,6 +25098,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.heading.3}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "heading",
         "subitem": "3",
@@ -25092,6 +25113,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -25103,6 +25125,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.heading.4}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "heading",
         "subitem": "4",
@@ -25117,6 +25140,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -25128,6 +25152,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.heading.5}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "heading",
         "subitem": "5",
@@ -25142,6 +25167,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -25153,6 +25179,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.body.snug}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "body",
         "subitem": "snug",
@@ -25167,6 +25194,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -25178,6 +25206,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.body.default}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "body",
         "subitem": "default",
@@ -25192,6 +25221,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -25203,6 +25233,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.overline}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "overline",
         "names": {
@@ -25216,8 +25247,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1}",
+      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"textCase\\":\\"uppercase\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Overline",
@@ -25227,6 +25259,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "key": "{typography.hierarchy.caption}",
       "attributes": {
         "category": "typography",
+        "docs": "deprecated",
         "type": "hierarchy",
         "item": "caption",
         "names": {
@@ -25240,6 +25273,7 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
@@ -31477,56 +31511,57 @@ export const calciteTypographyHierarchyDisplay1 = {
   fontSize: "1.625rem",
   fontWeight: "600",
   lineHeight: 1.375,
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyDisplay2 = {
   fontWeight: "600",
   lineHeight: 1.375,
   fontSize: "1.25rem",
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyHeading1 = {
   fontSize: "1.625rem",
   fontWeight: "500",
   lineHeight: 1.375,
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyHeading2 = {
   fontWeight: "500",
   lineHeight: 1.375,
   fontSize: "1.25rem",
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyHeading3 = {
   fontWeight: "500",
   lineHeight: 1.375,
   fontSize: "1.125rem",
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyHeading4 = {
   fontWeight: "500",
   lineHeight: 1.375,
   fontSize: "1rem",
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyHeading5 = {
   fontWeight: "500",
   lineHeight: 1.375,
   fontSize: "0.875rem",
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyBodySnug = {
   lineHeight: 1.375,
   fontSize: "0.875rem",
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyBody = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "0.875rem",
   fontWeight: "400",
   lineHeight: 1.15,
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyOverline = {
   fontSize: "0.75rem",
+  textCase: "uppercase",
   fontWeight: "600",
   lineHeight: 1,
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteTypographyHierarchyCaption = {
   lineHeight: 1.375,
   fontSize: "0.75rem",
-};
+}; // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
 export const calciteZIndexSticky = "300";
@@ -32148,56 +32183,68 @@ export const calciteTypographyWrapBoldMinus1: {
   lineHeight: number;
   fontSize: string;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyDisplay1: {
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyDisplay2: {
   fontWeight: string;
   lineHeight: number;
   fontSize: string;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyHeading1: {
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyHeading2: {
   fontWeight: string;
   lineHeight: number;
   fontSize: string;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyHeading3: {
   fontWeight: string;
   lineHeight: number;
   fontSize: string;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyHeading4: {
   fontWeight: string;
   lineHeight: number;
   fontSize: string;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyHeading5: {
   fontWeight: string;
   lineHeight: number;
   fontSize: string;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyBodySnug: {
   lineHeight: number;
   fontSize: string;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyBody: {
   fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   lineHeight: number;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyOverline: {
   fontSize: string;
+  textCase: string;
   fontWeight: string;
   lineHeight: number;
 };
+/** Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 export const calciteTypographyHierarchyCaption: {
   lineHeight: number;
   fontSize: string;
@@ -34176,53 +34223,62 @@ exports[`SCSS > mixins should match 1`] = `
   line-height: 1.375;
   font-size: 0.875rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-display-1 {
   @include calcite-typography;
   font-size: 1.625rem;
   font-weight: 600;
   line-height: 1.375;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-display-2 {
   @include calcite-typography-wrap-bold-2;
   font-weight: 600;
   line-height: 1.375;
   font-size: 1.25rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-1 {
   @include calcite-typography;
   font-size: 1.625rem;
   font-weight: 500;
   line-height: 1.375;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-2 {
   @include calcite-typography-wrap-medium-2;
   font-weight: 500;
   line-height: 1.375;
   font-size: 1.25rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-3 {
   @include calcite-typography-wrap-medium-1;
   font-weight: 500;
   line-height: 1.375;
   font-size: 1.125rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-4 {
   @include calcite-typography-wrap-medium-0;
   font-weight: 500;
   line-height: 1.375;
   font-size: 1rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-heading-5 {
   @include calcite-typography-wrap-medium-minus-1;
   font-weight: 500;
   line-height: 1.375;
   font-size: 0.875rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-body-snug {
   @include calcite-typography-wrap-regular-minus-1;
   line-height: 1.375;
   font-size: 0.875rem;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-body {
   @include calcite-typography;
   font-family: var(--calcite-font-family);
@@ -34230,11 +34286,14 @@ exports[`SCSS > mixins should match 1`] = `
   font-weight: 400;
   line-height: 1.15;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-overline {
   font-size: 0.75rem;
+  text-case: uppercase;
   font-weight: 600;
   line-height: 1;
 }
+// Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-caption {
   @include calcite-typography-wrap-regular-minus-2;
   line-height: 1.375;

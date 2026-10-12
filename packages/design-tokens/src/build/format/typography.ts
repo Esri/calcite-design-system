@@ -113,10 +113,14 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
           : (getReferences(originalValue, dictionary.tokens)[0].original.$value as Record<string, string>);
 
     const declarations = Object.entries(typographyValues).map(([key, value]) => {
-      return `${kebabCase(key)}: ${getValue(key, value, dictionary)} ${outputComment(token.comment, format)}`;
+      return `${kebabCase(key)}: ${getValue(key, value, dictionary)}`;
     });
 
-    groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);
+    const comment = outputComment(token.comment ?? token.$description, format);
+    groupToDeclarations.set(`${comment ? `${comment}\n` : ""}${classGroupStrategy}${token.name}`, [
+      include,
+      ...declarations,
+    ]);
   });
 
   return Array.from(groupToDeclarations)
@@ -125,7 +129,7 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
       ${value.join(";")}
     }`,
     )
-    .join("");
+    .join("\n");
 }
 
 export const formatTypography: FormatFn = async (args) => {
