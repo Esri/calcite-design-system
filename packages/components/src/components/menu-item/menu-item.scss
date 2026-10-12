@@ -1,15 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-menu-item-accent-color: When `active`, specifies the component's border color.
- * @prop --calcite-menu-background-color: Specifies the component's background color.
- * @prop --calcite-menu-item-sub-menu-border-color: Specifies the submenu's border color.
- * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the submenu's border radius.
- * @prop --calcite-menu-text-color: Specifies the component's text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -138,7 +126,7 @@
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-sm);
   --calcite-internal-menu-item-line-height: var(--calcite-space-lg);
-  --calcite-internal-menu-item-padding-inline: var(--calcite-space-sm);
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-md);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
 }
@@ -146,7 +134,6 @@
 :host([scale="s"]:not([layout="vertical"])) {
   --calcite-internal-menu-item-dropdown-action-block-size: var(--calcite-space-2xl);
   --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-base);
-  --calcite-internal-menu-item-dropdown-action-flex: 0 0 theme("spacing.7");
 
   .icon--dropdown {
     padding-inline-start: var(--calcite-space-xs);
@@ -155,7 +142,6 @@
   .dropdown-action {
     padding-block: 0;
     padding-inline: 0;
-    padding-inline-start: var(--calcite-space-2xs);
   }
 }
 
@@ -175,40 +161,17 @@
 
 :host([breadcrumb][scale="s"]:not([layout="vertical"])) {
   .content {
+    padding-inline-start: var(--calcite-space-md);
     padding-inline-end: var(--calcite-space-sm);
   }
 }
 
-:host(.is-child[scale="s"][layout="vertical"]) {
-  .parent--vertical {
-    block-size: theme("spacing.9");
-  }
-
-  .content {
-    --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
-  }
+:host([scale="s"][layout="vertical"]) .content:not([href]) {
+  --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
 }
 
 :host([scale="s"][layout="vertical"]):has(.dropdown-action) {
-  --calcite-internal-menu-item-dropdown-action-block-size: theme("spacing.9");
-  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-sm);
-  --calcite-internal-menu-item-dropdown-action-flex: 0 0 var(--calcite-size-md);
-
-  .dropdown-action {
-    align-items: center;
-    box-sizing: border-box;
-    padding-inline: var(--calcite-space-2xs);
-  }
-}
-
-:host([scale="s"]) .dropdown-action,
-:host([scale="l"]:not([layout="vertical"])) .dropdown-action {
-  margin-inline: 0;
-  margin-inline-start: var(--calcite-space-px);
-
-  &::after {
-    inset-inline-start: calc(-1 * var(--calcite-space-px));
-  }
+  --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-base);
 }
 
 :host([scale="s"][layout="vertical"]) .content:not([href]) {
@@ -225,7 +188,7 @@
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-lg);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-lg);
   --calcite-internal-menu-item-line-height: var(--calcite-space-2xl);
-  --calcite-internal-menu-item-padding-inline: var(--calcite-space-lg);
+  --calcite-internal-menu-item-padding-inline: var(--calcite-space-xl);
 
   min-block-size: var(--calcite-internal-menu-item-content-min-block-size);
 }
@@ -267,15 +230,9 @@
   padding-inline-end: var(--calcite-space-md);
 }
 
-:host([scale="l"][layout="vertical"]) .dropdown-action {
-  margin-inline-end: 0;
-  padding-inline: var(--calcite-space-xs);
-}
-
 :host([scale="l"]:not([layout="vertical"])):has(.dropdown-action) {
   --calcite-internal-menu-item-dropdown-action-block-size: var(--calcite-size-lg);
   --calcite-internal-menu-item-dropdown-action-divider-inset-block: var(--calcite-space-xs);
-  --calcite-internal-menu-item-dropdown-action-flex: 0 0 3.125rem;
 
   .content {
     padding-inline-end: var(--calcite-space-xl);
@@ -283,12 +240,12 @@
 
   .dropdown-action {
     box-sizing: border-box;
-    padding-inline-start: var(--calcite-space-xs);
   }
 }
 
-:host([scale="l"][layout="vertical"]):is([slot="submenu-item"], .is-child) .parent--vertical {
-  padding-inline-start: var(--calcite-size-md);
+:host([breadcrumb][scale="l"]:not([layout="vertical"])) .content {
+  padding-inline-start: var(--calcite-space-xl);
+  padding-inline-end: var(--calcite-space-lg);
 }
 
 :host([active]) {
@@ -308,13 +265,16 @@
   border-inline-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
 }
 
-:host(.is-child[layout="vertical"]) .parent--vertical {
-  box-sizing: border-box;
+:host([slot="submenu-item"][layout="vertical"][scale="s"]) .parent--vertical {
   padding-inline-start: var(--calcite-space-xl);
 }
 
-:host([slot="submenu-item"]) .parent--vertical {
-  @apply ps-6;
+:host([slot="submenu-item"][layout="vertical"][scale="m"]) .parent--vertical {
+  padding-inline-start: var(--calcite-space-2xl);
+}
+
+:host([slot="submenu-item"][layout="vertical"][scale="l"]) .parent--vertical {
+  padding-inline-start: var(--calcite-space-3xl);
 }
 
 :host([layout="vertical"]) .text-container {
@@ -349,8 +309,16 @@
   --calcite-internal-menu-item-icon-spacing-end: auto;
 }
 
+:host([layout="vertical"][scale="s"]) .icon--end {
+  padding-inline-start: var(--calcite-space-sm);
+}
+
 :host([layout="vertical"][scale="m"]) .icon--end {
-  @apply ps-3;
+  padding-inline-start: var(--calcite-space-md);
+}
+
+:host([layout="vertical"][scale="l"]) .icon--end {
+  padding-inline-start: var(--calcite-space-lg);
 }
 
 .icon--dropdown {
@@ -363,10 +331,6 @@
 
 :host([layout="vertical"]) .hover-href-icon {
   @apply ps-2;
-}
-
-:host([layout="vertical"]) .hover-href-icon ~ .icon--end {
-  --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--breadcrumb {
@@ -425,6 +389,14 @@
   margin-inline-end: var(--calcite-spacing-xxs);
 }
 
+:host([scale="l"][layout="vertical"]) .dropdown-action {
+  margin-inline: var(--calcite-space-xs);
+
+  &::after {
+    inset-inline-start: calc(-1 * var(--calcite-space-xs));
+  }
+}
+
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   box-shadow: var(--calcite-shadow-md);
@@ -471,7 +443,7 @@
       border-block-start: var(--calcite-internal-menu-item-border);
       position: absolute;
       inset-block-start: 0;
-      inset-inline: var(--calcite-space-md) 0;
+      inset-inline: var(--calcite-internal-menu-item-padding-inline) 0;
     }
   }
 }

@@ -18,8 +18,20 @@ declare global {
     "calcite-chip-group": ChipGroup;
   }
 }
-/** @slot - A slot for adding one or more `calcite-chip`s. */
+
+interface ChipGroupSlots {
+  /**
+   * A slot for adding one or more `calcite-chip`s.
+   */
+  "": Node[];
+}
 export class ChipGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ChipGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
