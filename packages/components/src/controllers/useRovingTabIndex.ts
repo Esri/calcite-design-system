@@ -67,7 +67,7 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   /** Restores specified elements, or all managed elements when omitted. */
   restore: (elements?: readonly Element[]) => void;
   /** Returns focus to the entry control without changing its tabindex. */
-  restoreFocus: () => void;
+  restoreFocus: (force?: boolean) => void;
   /** Returns focus only while one of the managed items is focused. */
   restoreFocusIfWithin: () => void;
 }
@@ -166,14 +166,14 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         rovingTabIndex.update(elements, nextActiveElement);
       },
       restore,
-      restoreFocus(): void {
+      restoreFocus(force = false): void {
         const currentlyFocusedElement = entryFocusTarget ? getRootNode(entryFocusTarget).activeElement : null;
         const focusIsWithinManagedControls =
           itemElements.some((element) => getRootNode(element).activeElement === element) ||
           entryTabStops.some((element) => getRootNode(element).activeElement === element) ||
           (entryFocusTarget !== undefined && currentlyFocusedElement === entryFocusTarget);
 
-        if (!focusIsWithinManagedControls || !entryFocusTarget || !entryFocusTarget.isConnected) {
+        if ((!force && !focusIsWithinManagedControls) || !entryFocusTarget || !entryFocusTarget.isConnected) {
           return;
         }
 

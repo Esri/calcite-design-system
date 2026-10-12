@@ -632,7 +632,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     if (
       this.disabled ||
       (!event.composedPath().includes(this.floatingEl!) &&
-        (!(this.referenceEl instanceof HTMLElement) ||
+        (!(this.referenceEl instanceof Element) ||
           !event.composedPath().includes(this.referenceEl)))
     ) {
       return;
@@ -760,7 +760,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     if (!this.open || !traversableItems.length) {
       this.rovingTabIndex.setActiveIndex(-1);
       if (this.open && previousActiveItem) {
-        void this.setFocus();
+        this.rovingTabIndex.restoreFocus(true);
       }
       return;
     }

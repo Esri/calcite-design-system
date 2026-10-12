@@ -778,6 +778,38 @@ describe("menu item focus", () => {
     await expect.element(trigger).toHaveAttribute("tabindex", String(tabIndex));
   });
 
+  it.each(["hidden", "inert", "disabled", "removed"])(
+    "restores focus to an SVG referenceElement when the active item becomes %s",
+    async (unavailableState) => {
+      const { component } = await mount<Dropdown>(
+        <>
+          <calcite-dropdown referenceElement="svg-trigger">
+            <calcite-dropdown-group>
+              <calcite-dropdown-item id="only-item">Only item</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <svg height="40" id="svg-trigger" tabIndex={-1} width="40">
+            <rect height="40" width="40" />
+          </svg>
+        </>,
+      );
+      const trigger = page.getBySelector("#svg-trigger");
+      const item = page.getByRole("menuitemradio", { name: "Only item" });
+
+      await userEvent.click(trigger);
+      await expect.element(item).toHaveFocus();
+
+      if (unavailableState === "removed") {
+        item.element().remove();
+      } else {
+        item.element().setAttribute(unavailableState, "");
+      }
+
+      await expect.element(trigger).toHaveFocus();
+      expect(component.open).toBe(true);
+    },
+  );
+
   it("restores the referenceElement tab stop when dropdown disconnects", async () => {
     const { el } = await mount<Dropdown>(renderReferenceElementDropdown);
     const trigger = page.getBySelector("#trigger");
@@ -883,6 +915,31 @@ describe("referenceElement keydown", () => {
 
     expect(component.open).toBe(true);
   });
+
+  it.each(["ArrowDown", "ArrowUp"])(
+    "opens when %s is pressed on an SVG referenceElement",
+    async (key) => {
+      const { component } = await mount<Dropdown>(
+        <>
+          <svg height="40" id="svg-trigger" tabIndex={0} width="40">
+            <rect height="40" width="40" />
+          </svg>
+          <calcite-dropdown referenceElement="svg-trigger">
+            <calcite-dropdown-group selectionMode="single">
+              <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </>,
+      );
+      const trigger = page.getBySelector("#svg-trigger");
+
+      trigger.element().focus();
+      await userEvent.keyboard(`{${key}}`);
+
+      await expect.element(page.getByRole("menuitemradio")).toHaveFocus();
+      expect(component.open).toBe(true);
+    },
+  );
 });
 
 describe("autoClose", () => {
