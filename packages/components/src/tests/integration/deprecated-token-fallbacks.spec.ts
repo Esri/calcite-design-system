@@ -5,6 +5,10 @@ import { globby } from "globby";
 import { describe, expect, it } from "vitest";
 
 const deprecatedTokenMappings = {
+  "--calcite-color-background": "--calcite-theme-color-surface-1",
+  "--calcite-color-foreground-1": "--calcite-theme-color-surface-2",
+  "--calcite-color-foreground-2": "--calcite-theme-color-surface-3",
+  "--calcite-color-foreground-3": "--calcite-theme-color-surface-4",
   "--calcite-corner-radius-round": "--calcite-theme-corner-radius-sm",
   "--calcite-corner-radius-sharp": "--calcite-theme-corner-radius-none",
   "--calcite-font-weight-normal": "--calcite-theme-font-weight-regular",
