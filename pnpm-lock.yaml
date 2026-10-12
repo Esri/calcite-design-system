@@ -347,19 +347,19 @@ catalogs:
       version: 18.0.0
   dependency-ranges:
     '@arcgis/api-extractor':
-      specifier: '>=5.2.0-next.129 <6.0.0'
+      specifier: '>=5.2.0-next.129 <7.0.0'
       version: 5.2.0-next.132
     '@arcgis/eslint-config':
-      specifier: '>=5.2.0-next.129 <6.0.0'
+      specifier: '>=5.2.0-next.129 <7.0.0'
       version: 5.2.0-next.132
     '@arcgis/lumina':
-      specifier: '>=5.2.0-next.129 <6.0.0'
+      specifier: '>=5.2.0-next.129 <7.0.0'
       version: 5.2.0-next.132
     '@arcgis/lumina-compiler':
-      specifier: '>=5.2.0-next.129 <6.0.0'
+      specifier: '>=5.2.0-next.129 <7.0.0'
       version: 5.2.0-next.132
     '@arcgis/toolkit':
-      specifier: '>=5.2.0-next.129 <6.0.0'
+      specifier: '>=5.2.0-next.129 <7.0.0'
       version: 5.2.0-next.132
     '@floating-ui/dom':
       specifier: ^1.8.0
