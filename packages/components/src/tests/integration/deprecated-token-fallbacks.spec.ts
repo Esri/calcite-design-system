@@ -88,6 +88,6 @@ describe("deprecated token migration fallbacks", () => {
       }),
     );
 
-    expect(violations.join("\n")).toBe("");
+    expect(violations.toSorted().join("\n")).toBe("");
   });
 });
