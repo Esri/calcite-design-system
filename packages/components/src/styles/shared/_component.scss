@@ -46,8 +46,8 @@
 
     calcite-action {
       --calcite-internal-action-height: 100%;
-      --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
-      --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+      --calcite-internal-action-padding-inline: var(--calcite-theme-space-none, var(--calcite-spacing-none));
+      --calcite-internal-action-padding-block: var(--calcite-theme-space-none, var(--calcite-spacing-none));
 
       --calcite-action-background-color: var(
         #{$background-color},
