@@ -55,7 +55,7 @@
           "calcite.theme": true
         },
         "$type": "fontWeights",
-        "$value": "{font.weight.normal}",
+        "$value": "{core.font.weight.regular}",
         "$description": "Replaces `--calcite-font-weight-normal`"
       },
       "medium": {

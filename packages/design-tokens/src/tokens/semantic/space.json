@@ -203,7 +203,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.none}",
+      "$value": "{core.size.default.none}",
       "$description": "Replaces `--calcite-spacing-none`"
     },
     "px": {
@@ -214,7 +214,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.px}",
+      "$value": "{core.size.default.1}",
       "$description": "Replaces `--calcite-spacing-px`"
     },
     "base": {
@@ -225,7 +225,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.base}",
+      "$value": "{core.size.default.2}",
       "$description": "Replaces `--calcite-spacing-base`"
     },
     "2xs": {
@@ -236,7 +236,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xxs}",
+      "$value": "{core.size.default.4}",
       "$description": "Replaces `--calcite-spacing-xxs`"
     },
     "xs": {
@@ -247,7 +247,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xs}",
+      "$value": "{core.size.default.6}",
       "$description": "Replaces `--calcite-spacing-xs`"
     },
     "sm": {
@@ -258,7 +258,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.sm}",
+      "$value": "{core.size.default.8}",
       "$description": "Replaces `--calcite-spacing-sm`"
     },
     "sm-plus": {
@@ -269,7 +269,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.sm-plus}",
+      "$value": "{core.size.default.10}",
       "$description": "Replaces `--calcite-spacing-sm-plus`"
     },
     "md": {
@@ -280,7 +280,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.md}",
+      "$value": "{core.size.default.12}",
       "$description": "Replaces `--calcite-spacing-md`"
     },
     "md-plus": {
@@ -291,7 +291,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.md-plus}",
+      "$value": "{core.size.default.14}",
       "$description": "Replaces `--calcite-spacing-md-plus`"
     },
     "lg": {
@@ -302,7 +302,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.lg}",
+      "$value": "{core.size.default.16}",
       "$description": "Replaces `--calcite-spacing-lg`"
     },
     "xl": {
@@ -313,7 +313,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xl}",
+      "$value": "{core.size.default.20}",
       "$description": "Replaces `--calcite-spacing-xl`"
     },
     "2xl": {
@@ -324,7 +324,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xxl}",
+      "$value": "{core.size.default.24}",
       "$description": "Replaces `--calcite-spacing-xxl`"
     },
     "3xl": {
@@ -335,7 +335,7 @@
         "calcite.theme": true
       },
       "$type": "spacing",
-      "$value": "{spacing.default.xxxl}",
+      "$value": "{core.size.default.32}",
       "$description": "Replaces `--calcite-spacing-xxxl`"
     },
     "4xl": {

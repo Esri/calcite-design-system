@@ -1008,7 +1008,9 @@ export class Input
       return;
     }
 
-    if (this.value === "Infinity" || this.value === "-Infinity") {
+    const value = this.valueForEditing;
+
+    if (value === "Infinity" || value === "-Infinity") {
       event.preventDefault();
       if (event.key === "Backspace" || event.key === "Delete") {
         this.clearInputValue(event);
@@ -1065,35 +1067,28 @@ export class Input
       useGrouping: this.groupSeparator,
     };
     if (event.key === numberStringFormatter.decimal) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (
-        this.value &&
-        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
-      ) {
+      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
     if (/[eE]/.test(event.key)) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (
-        this.value &&
-        this.childNumberRef.value &&
-        !/[eE]/.test(this.childNumberRef.value.value)
-      ) {
+      if (value && this.childNumberRef.value && !/[eE]/.test(this.childNumberRef.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
       if (
-        this.value &&
+        value &&
         this.childNumberRef.value &&
         this.childNumberRef.value.value.split("-").length <= 2
       ) {

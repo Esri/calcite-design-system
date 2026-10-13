@@ -144,6 +144,8 @@ export class ActionBar extends LitElement {
   // Suppresses the temporary actions-change event emitted while an overflow pass is mutating a group.
   private suppressedActionGroupActionsChange = new WeakMap<ActionGroup["el"], number>();
 
+  private lastOverflowAxisSize?: { axis: "width" | "height"; size: number };
+
   private lineMeasureFrame?: number;
 
   private cancelable = useCancelable<this>()(this);
@@ -281,6 +283,14 @@ export class ActionBar extends LitElement {
     }
 
     const { width, height } = entry.contentRect;
+    const axis = this.layout === "horizontal" ? "width" : "height";
+    const size = axis === "width" ? width : height;
+
+    if (this.lastOverflowAxisSize?.axis === axis && this.lastOverflowAxisSize.size === size) {
+      return;
+    }
+
+    this.lastOverflowAxisSize = { axis, size };
     this.resize({ width, height });
   };
 
