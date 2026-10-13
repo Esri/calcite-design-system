@@ -652,7 +652,7 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
   getSortableItems(component).forEach((item, index) => {
     const sortable = new Sortable(
       {
-        id: getSortableItemId(item),
+        id: `${group}:item:${getSortableItemId(item)}`,
         index,
         group,
         element: item,
@@ -760,7 +760,7 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
         return;
       }
 
-      if (record.activeDrag?.component === sortableComponent) {
+      if (record.activeDrag?.component === sortableComponent || record.dropPosition?.component === sortableComponent) {
         record.manager.actions.stop({ canceled: true });
       }
 

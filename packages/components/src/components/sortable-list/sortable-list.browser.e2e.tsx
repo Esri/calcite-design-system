@@ -325,6 +325,72 @@ describe("drag and drop", () => {
     },
   );
 
+  it("transfers items with duplicate ids across component lists", async () => {
+    const { component: source } = await mount<SortableList>(
+      <calcite-sortable-list group="letters" id="duplicate-source">
+        <div id="shared-item">
+          <calcite-handle />
+          Source
+        </div>
+      </calcite-sortable-list>,
+    );
+    const { component: destination } = await mount<SortableList>(
+      <calcite-sortable-list group="letters" id="duplicate-destination">
+        <div id="shared-item">
+          <calcite-handle />
+          Destination
+        </div>
+      </calcite-sortable-list>,
+    );
+    const sourceLocator = page.elementLocator(source.el);
+    const destinationLocator = page.elementLocator(destination.el);
+    const draggedItem = sourceLocator.getBySelector("#shared-item").element();
+    const destinationItem = destinationLocator.getBySelector("#shared-item").element();
+    const handle = sourceLocator.getBySelector("#shared-item calcite-handle").element();
+
+    await dragAndDrop(handle, destinationItem, "bottom");
+
+    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(destination.el));
+    expect(Array.from(destination.el.children)).toEqual([destinationItem, draggedItem]);
+  });
+
+  it("restores the source item when its active destination is removed", async () => {
+    const { component: source } = await mount<SortableList>(
+      <calcite-sortable-list group="letters" id="removal-source">
+        <div id="source-item">
+          <calcite-handle />
+          Source
+        </div>
+      </calcite-sortable-list>,
+    );
+    const { component: destination } = await mount<SortableList>(
+      <calcite-sortable-list group="letters" id="removal-destination">
+        <div id="destination-item">
+          <calcite-handle />
+          Destination
+        </div>
+      </calcite-sortable-list>,
+    );
+    const sourceLocator = page.elementLocator(source.el);
+    const destinationLocator = page.elementLocator(destination.el);
+    const draggedItem = sourceLocator.getBySelector("#source-item").element();
+    const handle = sourceLocator.getBySelector("#source-item calcite-handle").element();
+    const target = destinationLocator.getBySelector("#destination-item").element();
+    const sourceOrderChange = vi.fn();
+    const destinationOrderChange = vi.fn();
+    source.el.addEventListener("calciteListOrderChange", sourceOrderChange);
+    destination.el.addEventListener("calciteListOrderChange", destinationOrderChange);
+
+    await dragAndDrop(handle, target, "bottom", {
+      moveSteps: 1,
+      afterFirstMove: () => destination.el.remove(),
+    });
+
+    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(source.el));
+    expect(sourceOrderChange).not.toHaveBeenCalled();
+    expect(destinationOrderChange).not.toHaveBeenCalled();
+  });
+
   it.each([
     { transfer: false, anchorChange: "none" },
     { transfer: true, anchorChange: "none" },
@@ -622,7 +688,7 @@ describe("drag and drop", () => {
     await dragAndDrop(
       sourceLocator.getBySelector("#one calcite-handle").element(),
       populated,
-      "bottom",
+      "center",
     );
     await populatedOrderChange;
 
@@ -633,7 +699,7 @@ describe("drag and drop", () => {
       empty.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
     );
 
-    await dragAndDrop(secondHandle, empty, "bottom");
+    await dragAndDrop(secondHandle, empty, "center");
     await emptyOrderChange;
 
     expect(secondItem.parentElement).toBe(empty);

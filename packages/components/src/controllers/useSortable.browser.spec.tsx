@@ -244,8 +244,8 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
 
   const [firstOptions, secondOptions] = createSortableSpy.mock.calls.map(([options]) => options);
 
-  expect(firstOptions).toMatchObject({ id: "one", index: 0 });
-  expect(secondOptions).toMatchObject({ id: "two", index: 1 });
+  expect(firstOptions).toMatchObject({ id: `${firstOptions.group}:item:one`, index: 0 });
+  expect(secondOptions).toMatchObject({ id: `${secondOptions.group}:item:two`, index: 1 });
   expect(firstOptions.group).toBe(secondOptions.group);
   expect(firstOptions.group).not.toBe("test-group");
   expect(firstOptions.transition).toBeUndefined();

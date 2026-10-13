@@ -1000,16 +1000,16 @@ describe("drag and drop", () => {
       // The sort handle is internal to the list item's shadow root.
       const handle = firstItem.shadowRoot!.querySelector<HTMLElement>("calcite-sort-handle")!;
       const callSequence: string[] = [];
-      let firstValueWhenOrdered = "";
+      let firstItemIdWhenOrdered = "";
 
       el.addEventListener("calciteListBeforeOrderChange", () => callSequence.push("before"));
       el.addEventListener("calciteListOrderChange", () => {
         callSequence.push("order");
-        firstValueWhenOrdered = (items.nth(0).element() as ListItem["el"]).value;
+        firstItemIdWhenOrdered = items.nth(0).element().id;
       });
 
       await dragAndDrop(handle, secondItem);
-      await vi.waitFor(() => expect(firstValueWhenOrdered).toBe("two"));
+      await vi.waitFor(() => expect(firstItemIdWhenOrdered).toBe("two"));
 
       expect(callSequence).toEqual(["before", "order"]);
       expect([
