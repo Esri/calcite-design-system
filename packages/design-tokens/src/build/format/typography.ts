@@ -34,7 +34,8 @@ function outputComment(comment: string, format: Stylesheet): string {
   return format === "scss" ? `// ${comment}` : `/* ${comment} */`;
 }
 
-function getInheritedTypographyValues(
+/** Resolves inherited values recursively, with each token's own properties overriding its ancestors. */
+function getInheritedValues(
   token: FlattenedTransformedToken,
   dictionary: Dictionary,
   extendedTokenReferences: Map<string, TransformedToken>,
@@ -42,7 +43,7 @@ function getInheritedTypographyValues(
 ): Record<string, string> {
   const inheritedToken = selfReferencingTokens.get(token.key) || extendedTokenReferences.get(token.key);
   const inheritedValues = inheritedToken
-    ? getInheritedTypographyValues(
+    ? getInheritedValues(
         inheritedToken as FlattenedTransformedToken,
         dictionary,
         extendedTokenReferences,
@@ -107,7 +108,7 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
     const classGroupStrategy = format === "scss" ? "@mixin " : ".";
     const typographyValues =
       format === "css" && !token.path.includes("hierarchy")
-        ? getInheritedTypographyValues(token, dictionary, extendedTokenReferences, selfReferencingTokens)
+        ? getInheritedValues(token, dictionary, extendedTokenReferences, selfReferencingTokens)
         : typeof originalValue === "object"
           ? originalValue
           : // Use the original token to preserve unresolved references.
