@@ -164,6 +164,24 @@ describe("disabled", () => {
 });
 
 describe("inline edit", () => {
+  it.each([true, "controls-disabled"] as const)(
+    "allows decimal entry when inlineEdit is %s",
+    async (inlineEdit) => {
+      const { el } = await mount<InputNumber>(<calcite-input-number inlineEdit={inlineEdit} />);
+      const input = page.getBySelector("calcite-input-number input");
+
+      await userEvent.click(input);
+      await userEvent.keyboard("1.5");
+
+      await expect.element(input).toHaveValue("1.5");
+      expect(el.value).toBe("");
+
+      await userEvent.keyboard("{Enter}");
+
+      expect(el.value).toBe("1.5");
+    },
+  );
+
   it("clears value on the first clear button click without controls", async () => {
     const { el } = await mount<InputNumber>(
       <calcite-input-number clearable inline-edit="controls-disabled" value="123" />,

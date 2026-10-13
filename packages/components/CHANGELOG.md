@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.95](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.94...@esri/calcite-components@5.2.0-next.95) (2026-10-12)
+
+### Bug Fixes
+
+- **input-number, input:** unable to enter decimals with inline-edit defined ([#15372](https://github.com/Esri/calcite-design-system/issues/15372)), closes [#15344](https://github.com/Esri/calcite-design-system/issues/15344)
+
 ## [5.2.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.93...@esri/calcite-components@5.2.0-next.94) (2026-10-09)
 
 ### Bug Fixes

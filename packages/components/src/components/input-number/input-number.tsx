@@ -913,7 +913,9 @@ export class InputNumber
       return;
     }
 
-    if (this.value === "Infinity" || this.value === "-Infinity") {
+    const value = this.valueForEditing;
+
+    if (value === "Infinity" || value === "-Infinity") {
       event.preventDefault();
       if (event.key === "Backspace" || event.key === "Delete") {
         this.clearInputValue(event);
@@ -974,10 +976,10 @@ export class InputNumber
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
       const inputElement = this.childNumberRef.value;
-      if (!this.value && !inputElement?.value) {
+      if (!value && !inputElement?.value) {
         return;
       }
-      if (this.value && inputElement?.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (value && inputElement?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
       if (
@@ -988,14 +990,10 @@ export class InputNumber
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (
-        this.value &&
-        this.childNumberRef.value &&
-        !/[eE]/.test(this.childNumberRef.value.value)
-      ) {
+      if (value && this.childNumberRef.value && !/[eE]/.test(this.childNumberRef.value.value)) {
         return;
       }
     }

@@ -165,6 +165,24 @@ describe("is focusable", () => {
 });
 
 describe("inline edit", () => {
+  it.each([true, "controls-disabled"] as const)(
+    "allows decimal entry when inlineEdit is %s",
+    async (inlineEdit) => {
+      const { el } = await mount<Input>(<calcite-input inlineEdit={inlineEdit} type="number" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.click(input);
+      await userEvent.keyboard("1.5");
+
+      await expect.element(input).toHaveValue("1.5");
+      expect(el.value).toBe("");
+
+      await userEvent.keyboard("{Enter}");
+
+      expect(el.value).toBe("1.5");
+    },
+  );
+
   it("clears value on first Escape and restores value on second Escape for built-in inline edit when clearable is set", async () => {
     const { el } = await mount<Input>(<calcite-input clearable inline-edit value="John Doe" />);
 
