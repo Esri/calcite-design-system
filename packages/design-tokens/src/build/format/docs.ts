@@ -5,17 +5,15 @@ import type { RegisterFn } from "../../types.ts";
 import { cleanAttributes } from "./utils/index.ts";
 import { isThemeableToken } from "../utils/token-types.ts";
 
-function themeNames(token: TransformedToken): { css: string; scss: string; es6: string } | undefined {
-  const names = (token.attributes as { names?: { css?: string; scss?: string; es6?: string } } | undefined)?.names;
+function themeNames(token: TransformedToken): { name: string } | undefined {
+  const names = (token.attributes as { names?: { css?: string } } | undefined)?.names;
 
-  if (!names?.css || !names.scss || !names.es6) {
+  if (!names?.css) {
     return undefined;
   }
 
   return {
-    css: names.css.replace("--calcite-", "--calcite-theme-"),
-    scss: names.scss.replace("$calcite-", "$calcite-theme-"),
-    es6: names.es6.replace("calcite", "calciteTheme"),
+    name: names.css.replace(/^var\((.*)\)$/, "$1").replace("--calcite-", "--calcite-theme-"),
   };
 }
 
