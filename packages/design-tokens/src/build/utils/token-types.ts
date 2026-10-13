@@ -59,14 +59,13 @@ export function isTypography(token: TransformedToken): boolean {
   return token.path.includes("typography");
 }
 
-interface TokenWithThemeExtension {
+interface TokenWithThemeExtension extends TransformedToken {
   $extensions?: Record<string, unknown>;
   extensions?: Record<string, unknown>;
-  original?: unknown;
 }
 
 export function isThemeableToken(token: TokenWithThemeExtension): boolean {
-  const original = token.original as TokenWithThemeExtension | undefined;
+  const original = token.original;
 
   return !!(
     token.$extensions?.["calcite.theme"] ||
