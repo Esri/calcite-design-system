@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.2...@esri/calcite-design-tokens@4.2.0-next.3) (2026-10-13)
+
+### Features
+
+- **design-tokens:** support `theme` token layer ([#15186](https://github.com/Esri/calcite-design-system/issues/15186)), closes [#14190](https://github.com/Esri/calcite-design-system/issues/14190)
+
 ## [4.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.1...@esri/calcite-design-tokens@4.2.0-next.2) (2026-10-13)
 
 ### Bug Fixes
