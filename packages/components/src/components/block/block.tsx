@@ -490,7 +490,7 @@ export class Block extends LitElement {
       this.sortHandleOpenHandler();
     }
 
-    if (changes.has("expanded") && this.hasUpdated) {
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
       if (this.expanded) {
         this.calciteBlockExpand.emit();
       } else {
