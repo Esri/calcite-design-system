@@ -27,7 +27,7 @@
         "calcite.theme": true
       },
       "$type": "borderRadius",
-      "$value": "{corner-radius.sharp}",
+      "$value": "{core.size.default.none}",
       "$description": "Replaces `--calcite-corner-radius-sharp`"
     },
     "xs": {
@@ -48,7 +48,7 @@
         "calcite.theme": true
       },
       "$type": "borderRadius",
-      "$value": "{corner-radius.round}",
+      "$value": "{core.size.default.4}",
       "$description": "Replaces `--calcite-corner-radius-round`"
     },
     "round": {
