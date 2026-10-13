@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.96](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.95...@esri/calcite-components@5.2.0-next.96) (2026-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.95](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.94...@esri/calcite-components@5.2.0-next.95) (2026-10-12)
+
+### Bug Fixes
+
+- **input-number, input:** unable to enter decimals with inline-edit defined ([#15372](https://github.com/Esri/calcite-design-system/issues/15372)), closes [#15344](https://github.com/Esri/calcite-design-system/issues/15344)
+
+## [5.2.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.93...@esri/calcite-components@5.2.0-next.94) (2026-10-09)
+
+### Bug Fixes
+
+- **shell-panel, action-bar:** fix Action Bar overflow issue, apply proper direction for expand arrow ([#14963](https://github.com/Esri/calcite-design-system/issues/14963)), closes [#13559](https://github.com/Esri/calcite-design-system/issues/13559)
+
+## [5.2.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.92...@esri/calcite-components@5.2.0-next.93) (2026-10-08)
+
+### Bug Fixes
+
+- **date-picker, date-picker-day, date-picker-month:** enable arrow navigation with NVDA ([#15304](https://github.com/Esri/calcite-design-system/issues/15304)), closes [#12653](https://github.com/Esri/calcite-design-system/issues/12653)
+
+## [5.2.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.91...@esri/calcite-components@5.2.0-next.92) (2026-10-08)
+
+### Bug Fixes
+
+- **menu-item:** fix scales and padding ([#15303](https://github.com/Esri/calcite-design-system/issues/15303))
+
 ## [5.2.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.90...@esri/calcite-components@5.2.0-next.91) (2026-10-08)
 
 ### Features

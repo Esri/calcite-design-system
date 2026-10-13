@@ -116,7 +116,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.fixed.sm-plus}",
+      "$value": "{core.size.default.10}",
       "$description": "Replaces `--calcite-size-fixed-sm-plus`"
     },
     "xxxs": {
@@ -136,7 +136,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.fixed.md}",
+      "$value": "{core.size.default.12}",
       "$description": "Replaces `--calcite-size-fixed-md`"
     },
     "xxs": {
@@ -156,7 +156,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.fixed.md-plus}",
+      "$value": "{core.size.default.14}",
       "$description": "Replaces `--calcite-size-fixed-md-plus`"
     },
     "xs": {
@@ -167,7 +167,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.fixed.lg}",
+      "$value": "{core.size.default.16}",
       "$description": "Replaces `--calcite-size-fixed-lg`"
     },
     "sm": {
@@ -178,7 +178,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.fixed.xxl}",
+      "$value": "{core.size.default.24}",
       "$description": "Replaces `--calcite-size-fixed-xxl`"
     },
     "md": {
@@ -189,7 +189,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.fixed.xxxl}",
+      "$value": "{core.size.default.32}",
       "$description": "Replaces `--calcite-size-fixed-xxxl`"
     },
     "lg": {
@@ -229,7 +229,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.xxl}",
+      "$value": "{core.size.default.64}",
       "$description": "Replaces `--calcite-size-xxl`"
     },
     "xxxl": {
@@ -249,7 +249,7 @@
         "calcite.theme": true
       },
       "$type": "dimension",
-      "$value": "{size.xxxl}",
+      "$value": "{core.size.default.96}",
       "$description": "Replaces `--calcite-size-xxxl`"
     }
   }
