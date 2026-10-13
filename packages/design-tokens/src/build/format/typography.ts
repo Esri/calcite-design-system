@@ -110,7 +110,8 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
         ? getInheritedTypographyValues(token, dictionary, extendedTokenReferences, selfReferencingTokens)
         : typeof originalValue === "object"
           ? originalValue
-          : (getReferences(originalValue, dictionary.tokens)[0].original.$value as Record<string, string>);
+          : // Use the original token to preserve unresolved references.
+            (getReferences(originalValue, dictionary.tokens)[0].original.$value as Record<string, string>);
 
     const declarations = Object.entries(typographyValues).map(([key, value]) => {
       return `${kebabCase(key)}: ${getValue(key, value, dictionary)}`;
