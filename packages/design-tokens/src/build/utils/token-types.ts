@@ -59,6 +59,22 @@ export function isTypography(token: TransformedToken): boolean {
   return token.path.includes("typography");
 }
 
+interface TokenWithThemeExtension extends TransformedToken {
+  $extensions?: Record<string, unknown>;
+  extensions?: Record<string, unknown>;
+}
+
+export function isThemeableToken(token: TokenWithThemeExtension): boolean {
+  const original = token.original;
+
+  return !!(
+    token.$extensions?.["calcite.theme"] ||
+    token.extensions?.["calcite.theme"] ||
+    original?.$extensions?.["calcite.theme"] ||
+    original?.extensions?.["calcite.theme"]
+  );
+}
+
 interface IsThemedOptions {
   theme?: "light" | "dark";
 }
