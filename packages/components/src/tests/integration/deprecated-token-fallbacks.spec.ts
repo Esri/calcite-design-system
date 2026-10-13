@@ -12,6 +12,22 @@ const deprecatedTokenMappings = {
   "--calcite-corner-radius-round": "--calcite-theme-corner-radius-sm",
   "--calcite-corner-radius-sharp": "--calcite-theme-corner-radius-none",
   "--calcite-font-weight-normal": "--calcite-theme-font-weight-regular",
+  "--calcite-spacing-none": "--calcite-theme-space-none",
+  "--calcite-spacing-px": "--calcite-theme-space-px",
+  "--calcite-spacing-base": "--calcite-theme-space-base",
+  "--calcite-spacing-xxs": "--calcite-theme-space-2xs",
+  "--calcite-spacing-xs": "--calcite-theme-space-xs",
+  "--calcite-spacing-sm": "--calcite-theme-space-sm",
+  "--calcite-spacing-sm-plus": "--calcite-theme-space-sm-plus",
+  "--calcite-spacing-md": "--calcite-theme-space-md",
+  "--calcite-spacing-md-plus": "--calcite-theme-space-md-plus",
+  "--calcite-spacing-lg": "--calcite-theme-space-lg",
+  "--calcite-spacing-xl": "--calcite-theme-space-xl",
+  "--calcite-spacing-xxl": "--calcite-theme-space-2xl",
+  "--calcite-spacing-xxxl": "--calcite-theme-space-3xl",
+  "--calcite-spacing-fixed-sm": "--calcite-theme-space-sm",
+  "--calcite-spacing-fixed-md": "--calcite-theme-space-md",
+  "--calcite-spacing-fixed-lg": "--calcite-theme-space-md-plus",
 } as const;
 
 type DeprecatedToken = keyof typeof deprecatedTokenMappings;
