@@ -11,6 +11,34 @@ type FallbackTestCase = {
 };
 
 const testCases: Record<string, FallbackTestCase> = {
+  colorBackground: {
+    referenceToken: "--calcite-color-background",
+    referenceValue: "rgb(1, 2, 3)",
+    targetProperty: "background-color",
+    themeToken: "--calcite-theme-color-surface-1",
+    themeValue: "rgb(4, 5, 6)",
+  },
+  colorForeground1: {
+    referenceToken: "--calcite-color-foreground-1",
+    referenceValue: "rgb(1, 2, 3)",
+    targetProperty: "background-color",
+    themeToken: "--calcite-theme-color-surface-2",
+    themeValue: "rgb(4, 5, 6)",
+  },
+  colorForeground2: {
+    referenceToken: "--calcite-color-foreground-2",
+    referenceValue: "rgb(1, 2, 3)",
+    targetProperty: "background-color",
+    themeToken: "--calcite-theme-color-surface-3",
+    themeValue: "rgb(4, 5, 6)",
+  },
+  colorForeground3: {
+    referenceToken: "--calcite-color-foreground-3",
+    referenceValue: "rgb(1, 2, 3)",
+    targetProperty: "background-color",
+    themeToken: "--calcite-theme-color-surface-4",
+    themeValue: "rgb(4, 5, 6)",
+  },
   cornerRadiusRound: {
     referenceToken: "--calcite-corner-radius-round",
     referenceValue: "2px",

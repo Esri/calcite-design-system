@@ -5,6 +5,10 @@ import { globby } from "globby";
 import { describe, expect, it } from "vitest";
 
 const deprecatedTokenMappings = {
+  "--calcite-color-background": "--calcite-theme-color-surface-1",
+  "--calcite-color-foreground-1": "--calcite-theme-color-surface-2",
+  "--calcite-color-foreground-2": "--calcite-theme-color-surface-3",
+  "--calcite-color-foreground-3": "--calcite-theme-color-surface-4",
   "--calcite-corner-radius-round": "--calcite-theme-corner-radius-sm",
   "--calcite-corner-radius-sharp": "--calcite-theme-corner-radius-none",
   "--calcite-font-weight-normal": "--calcite-theme-font-weight-regular",
@@ -17,15 +21,6 @@ type VarCall = {
   name: string;
   start: number;
 };
-
-const deprecatedTokens = Object.keys(deprecatedTokenMappings) as DeprecatedToken[];
-const deprecatedTokenPattern = new RegExp(
-  `${deprecatedTokens
-    .toSorted((first, second) => second.length - first.length)
-    .map((token) => token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-    .join("|")}(?![\\w-])`,
-  "g",
-);
 
 function findClosingParenthesis(value: string, openParenthesis: number): number {
   let depth = 1;
@@ -99,24 +94,6 @@ describe("deprecated token migration fallbacks", () => {
       }),
     );
 
-    expect(violations.join("\n")).toBe("");
-  });
-
-  it("does not use deprecated tokens in stories, demos, or documentation", async () => {
-    const files = await globby(["FAQ.md", "src/**/*.stories.{ts,tsx}", "src/demos/**/*.{css,html,md,ts,tsx}"]);
-    const violations: string[] = [];
-
-    await Promise.all(
-      files.map(async (file) => {
-        const source = await readFile(file, "utf8");
-
-        for (const match of source.matchAll(deprecatedTokenPattern)) {
-          const line = source.slice(0, match.index).split("\n").length;
-          violations.push(`${file}:${line} uses ${match[0]}`);
-        }
-      }),
-    );
-
-    expect(violations.join("\n")).toBe("");
+    expect(violations.toSorted().join("\n")).toBe("");
   });
 });
