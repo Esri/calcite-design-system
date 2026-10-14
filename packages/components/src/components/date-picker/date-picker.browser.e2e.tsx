@@ -240,24 +240,29 @@ describe("value", () => {
       );
       const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
 
+      async function assertCalendarMonths(): Promise<void> {
+        expect(monthSelectMenus).toHaveLength(expectedMonths.length);
+        for (const [index, expectedMonth] of expectedMonths.entries()) {
+          await expect.element(monthSelectMenus.nth(index)).toHaveProperty("value", expectedMonth);
+        }
+      }
+
       const date1 = new Date(2025, 9, 5);
       const date2 = new Date(2025, 9, 7);
 
       el.activeDate = date1;
       el.valueAsDate = [date1, date2];
       await waitForCalendarUpdate(el, component);
+      await assertCalendarMonths();
 
       el.activeDate = undefined;
       el.valueAsDate = [date2, date2];
       await waitForCalendarUpdate(el, component);
+      await assertCalendarMonths();
 
       el.valueAsDate = [date2, date2];
       await waitForCalendarUpdate(el, component);
-
-      expect(monthSelectMenus.elements()).toHaveLength(expectedMonths.length);
-      for (const [index, expectedMonth] of expectedMonths.entries()) {
-        await expect.element(monthSelectMenus.nth(index)).toHaveProperty("value", expectedMonth);
-      }
+      await assertCalendarMonths();
     },
   );
 
