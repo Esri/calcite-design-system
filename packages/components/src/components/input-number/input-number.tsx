@@ -140,31 +140,31 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-input-number-inline-edit-background-color-hover": "*";
     /**
-     * When `inlineEdit` is defined, specifies the background color of the component's `inlineEdit` controls.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls.
      */
     "--calcite-input-number-inline-edit-control-background-color": "*";
     /**
-     * When `inlineEdit` is defined, specifies the background color of the component's `inlineEdit` controls when hovered.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls when hovered.
      */
     "--calcite-input-number-inline-edit-control-background-color-hover": "*";
     /**
-     * When `inlineEdit` is defined, specifies the background color of the component's `inlineEdit` controls when pressed.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls when pressed.
      */
     "--calcite-input-number-inline-edit-control-background-color-press": "*";
     /**
-     * When `inlineEdit` is defined, specifies the corner radius of the component's `inlineEdit` controls.
+     * When `inlineEdit` is defined, specifies the corner radius of the component's editing controls.
      */
     "--calcite-input-number-inline-edit-control-corner-radius": "*";
     /**
-     * When `inlineEdit` is `true`, specifies the loader color of the component's `inlineEdit` confirm control.
+     * When `inlineEdit` is `true`, specifies the loader color of the component's confirm control.
      */
     "--calcite-input-number-inline-edit-control-loader-color": "*";
     /**
-     * When `inlineEdit` is defined, specifies the text color of the component's `inlineEdit` controls.
+     * When `inlineEdit` is defined, specifies the text color of the component's editing controls.
      */
     "--calcite-input-number-inline-edit-control-text-color": "*";
     /**
-     * When `inlineEdit` is defined, specifies the text color of the component's `inlineEdit` controls when pressed or hovered.
+     * When `inlineEdit` is defined, specifies the text color of the component's editing controls when pressed or hovered.
      */
     "--calcite-input-number-inline-edit-control-text-color-press": "*";
   }
