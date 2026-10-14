@@ -6,7 +6,7 @@ import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale } from "../types";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
@@ -15,6 +15,45 @@ import { styles } from "./switch.scss";
 declare global {
   interface DeclareElements {
     "calcite-switch": Switch;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-switch-background-color": "*";
+    /**
+     * Specifies the component's background color when hovered or pressed.
+     */
+    "--calcite-switch-background-color-hover": "*";
+    /**
+     * Specifies the component's border color.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     */
+    "--calcite-switch-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-switch-corner-radius": "*";
+    /**
+     * Specifies the handle's background color.
+     */
+    "--calcite-switch-handle-background-color": "*";
+    /**
+     * Specifies the handle's border color.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     */
+    "--calcite-switch-handle-border-color": "*";
+    /**
+     * Specifies the handle's shadow.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     */
+    "--calcite-switch-handle-shadow": "*";
   }
 }
 
@@ -41,7 +80,7 @@ export class Switch extends LitElement implements LabelableComponent {
 
   private switchRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

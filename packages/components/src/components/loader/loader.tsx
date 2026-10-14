@@ -12,6 +12,53 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
+     */
+    "--calcite-loader-font-size": "*";
+    /**
+     * Specifies the component's width and height.
+     */
+    "--calcite-loader-size": "*";
+    /**
+     * Specifies the width and height of the component when set to inline.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-loader-size` instead.
+     */
+    "--calcite-loader-size-inline": "*";
+    /**
+     * Specifies the the component's padding.
+     */
+    "--calcite-loader-spacing": "*";
+    /**
+     * When `inline`, specifies the component's progress ring color.
+     */
+    "--calcite-loader-progress-color-inline": "*";
+    /**
+     * When not `inline`, specifies the component's `text` margin.
+     */
+    "--calcite-loader-text-spacing": "*";
+    /**
+     * When not `inline` and `text` is provided, specifies the component's `text` font weight.
+     */
+    "--calcite-loader-text-weight": "*";
+    /**
+     * When not `inline` and `text` is provided, specifies the component's `text` color.
+     */
+    "--calcite-loader-text-color": "*";
+    /**
+     * When not `inline`, specifies the component's progress ring color.
+     */
+    "--calcite-loader-progress-color": "*";
+    /**
+     * Specifies the component's track color.
+     */
+    "--calcite-loader-track-color": "*";
+  }
+}
+
 export class Loader extends LitElement {
   // #region Static Members
 

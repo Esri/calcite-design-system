@@ -1,10 +1,6 @@
 /*
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-navigation-accent-color: When `active`, specifies the component's border color.
-* @prop --calcite-navigation-background-color: Specifies the component's background color.
-* @prop --calcite-navigation-logo-heading-text-color: Specifies the component's `heading` text color.
-* @prop --calcite-navigation-logo-text-color: Specifies the component's `description` text color.
 */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -21,7 +17,7 @@
 // --calcite-internal-navigation-logo-padding-inline
 // --calcite-internal-navigation-logo-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply inline-flex;
@@ -66,7 +62,10 @@
 
   background-color: var(
     --calcite-navigation-background-color,
-    var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
+    var(
+      --calcite-internal-navigation-logo-background-color,
+      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+    )
   );
   border-block-end: 2px solid var(--calcite-color-transparent);
 }
@@ -109,11 +108,17 @@
 
 :host([href]:hover),
 :host([href]:focus) {
-  --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-2);
+  --calcite-internal-navigation-logo-background-color: var(
+    --calcite-theme-color-surface-3,
+    var(--calcite-color-foreground-2)
+  );
 }
 
 :host([href]:active) {
-  --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-3);
+  --calcite-internal-navigation-logo-background-color: var(
+    --calcite-theme-color-surface-4,
+    var(--calcite-color-foreground-3)
+  );
 }
 
 :host([active]) .container {
@@ -157,4 +162,4 @@
   line-height: var(--calcite-internal-navigation-logo-description-line-height);
 }
 
-@include includes.base-component();
+@include shared.base-component();

@@ -10,6 +10,7 @@ export const CSS = {
   itemContainer: "item-container",
   itemContainerForward: "item-container--forward",
   itemContainerBackward: "item-container--backward",
+  controlsArea: "controls-area",
   pagination: "pagination",
   paginationItems: "pagination-items",
   paginationItem: "pagination-item",

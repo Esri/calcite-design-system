@@ -1,12 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-flow-background-color: Specifies the component's background color.
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @extend %component-host;
@@ -71,4 +63,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();
