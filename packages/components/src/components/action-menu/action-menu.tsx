@@ -120,7 +120,7 @@ export class ActionMenu extends LitElement {
     this.activeMenuItemIndex =
       key === "ArrowDown" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
     this.updateActions(navigableActions);
-    void this.focusActiveAction();
+    void this.setFocus();
   };
 
   private menuKeyDown = (event: KeyboardEvent): void => {
@@ -301,7 +301,16 @@ export class ActionMenu extends LitElement {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     if (this.open) {
-      return this.focusActiveAction(options);
+      await this.updateComplete;
+
+      if (!this.open) {
+        return;
+      }
+
+      return this.navigableActions[this.activeMenuItemIndex]?.setFocus({
+        preventScroll: true,
+        ...options,
+      });
     }
 
     return this.focusSetter(() => this.menuButtonEl || this.el, options);
@@ -674,19 +683,6 @@ export class ActionMenu extends LitElement {
     actions?.forEach(this.updateAction);
   }
 
-  private async focusActiveAction(options?: FocusOptions): Promise<void> {
-    await this.updateComplete;
-
-    if (!this.open) {
-      return;
-    }
-
-    await this.navigableActions[this.activeMenuItemIndex]?.setFocus({
-      preventScroll: true,
-      ...options,
-    });
-  }
-
   private async handleDefaultSlotChange(): Promise<void> {
     await this.componentOnReady();
     this.syncActionsAndEmitChange();
@@ -742,7 +738,7 @@ export class ActionMenu extends LitElement {
     }
 
     this.updateActions(actions);
-    void this.focusActiveAction();
+    void this.setFocus();
   }
 
   private toggleOpen(value = !this.open): void {
@@ -752,7 +748,7 @@ export class ActionMenu extends LitElement {
   private handlePopoverOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.open = true;
-    void this.focusActiveAction();
+    void this.setFocus();
   }
 
   private handlePopoverClose(event: CustomEvent<void>): void {
