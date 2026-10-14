@@ -25238,7 +25238,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -25254,6 +25253,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "typography",
       "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 1",
@@ -25278,9 +25278,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 2",
@@ -25305,7 +25305,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -25321,6 +25320,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "typography",
       "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 1",
@@ -25345,9 +25345,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 2",
@@ -25372,9 +25372,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 3",
@@ -25399,9 +25399,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 4",
@@ -25426,9 +25426,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 5",
@@ -25453,9 +25453,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body Snug",
@@ -25480,9 +25480,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body",
@@ -25506,9 +25506,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"textCase\\":\\"uppercase\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Overline",
@@ -25532,9 +25532,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Caption",
