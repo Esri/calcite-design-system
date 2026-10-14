@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.100](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.99...@esri/calcite-components@5.2.0-next.100) (2026-10-14)
+
+### Bug Fixes
+
+- **date-picker:** preserve selected month for same-day ranges ([#15291](https://github.com/Esri/calcite-design-system/issues/15291)), closes [#14686](https://github.com/Esri/calcite-design-system/issues/14686)
+
 ## [5.2.0-next.99](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.98...@esri/calcite-components@5.2.0-next.99) (2026-10-14)
 
 ### Bug Fixes
