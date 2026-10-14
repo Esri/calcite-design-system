@@ -220,3 +220,55 @@ export const appearanceAndKindCombinations = (): string => html`
   <calcite-button scale="s" appearance="transparent" kind="inverse">transparent+inverse</calcite-button>
   <calcite-button scale="s" appearance="transparent" kind="neutral">transparent+neutral</calcite-button>
 `;
+
+export const slottedTextComponent = (): string => html`
+  <style>
+    calcite-button {
+      width: 250px;
+    }
+  </style>
+  <p>slotted text component</p>
+  <calcite-button appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
+    <calcite-text>
+      Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+      texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small
+      river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic
+      country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control
+      about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name
+      of Lorem Ipsum decided to leave for the far World of Grammar
+    </calcite-text>
+  </calcite-button>
+  <p>slotted text component with truncate-position="middle"</p>
+  <calcite-button appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
+    <calcite-text truncate-position="middle">
+      Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+      texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small
+      river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic
+      country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control
+      about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name
+      of Lorem Ipsum decided to leave for the far World of Grammar
+    </calcite-text>
+  </calcite-button>
+  <p>slotted text component with truncate-position="end"</p>
+  <calcite-button appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
+    <calcite-text truncate-position="end">
+      Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+      texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small
+      river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic
+      country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control
+      about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name
+      of Lorem Ipsum decided to leave for the far World of Grammar
+    </calcite-text>
+  </calcite-button>
+  <p>slotted text component with max-lines="2"</p>
+  <calcite-button appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
+    <calcite-text max-lines="2">
+      Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+      texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small
+      river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic
+      country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control
+      about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name
+      of Lorem Ipsum decided to leave for the far World of Grammar
+    </calcite-text>
+  </calcite-button>
+`;
