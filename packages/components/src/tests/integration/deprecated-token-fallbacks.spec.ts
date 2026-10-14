@@ -5,6 +5,8 @@ import { globby } from "globby";
 import { describe, expect, it } from "vitest";
 
 const deprecatedTokenMappings = {
+  "--calcite-corner-radius-round": "--calcite-theme-corner-radius-sm",
+  "--calcite-corner-radius-sharp": "--calcite-theme-corner-radius-none",
   "--calcite-font-weight-normal": "--calcite-theme-font-weight-regular",
 } as const;
 
