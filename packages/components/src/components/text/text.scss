@@ -4,6 +4,8 @@
   display: block;
   overflow-wrap: break-word;
   overflow: hidden;
+  // required for text to wrap when slotted inside container with white-space: nowrap
+  white-space: normal;
 }
 
 :host([truncate-position="end"]) {
