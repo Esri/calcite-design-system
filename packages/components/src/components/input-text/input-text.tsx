@@ -78,7 +78,7 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-input-loading-fill-color": "*";
     /**
-     * When `inlineEdit` is defined and `inlineEditing` is `false`, specifies the background color of the component when hovered.
+     * When `inlineEdit` is defined and `inlineEditing` is not set, specifies the component's background color when hovered.
      */
     "--calcite-input-text-inline-edit-background-color-hover": "*";
     /**
