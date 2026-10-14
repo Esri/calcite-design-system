@@ -16,6 +16,7 @@ import {
   dateToISO,
   getDaysDiff,
   getFirstValidDateInMonth,
+  hasSameMonthAndYear,
   HoverRange,
   inRange,
   nextMonth,
@@ -731,9 +732,15 @@ export class DatePicker extends LitElement {
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
       if (sameDate(this.activeStartDate, this.activeEndDate)) {
-        const nextMonthActiveDate = this.activeEndDate ? nextMonth(this.activeEndDate) : undefined;
+        const nextMonthDate = this.activeEndDate ? nextMonth(this.activeEndDate) : undefined;
+        const nextMonthActiveDate = inRange(nextMonthDate, this.minAsDate, this.maxAsDate)
+          ? nextMonthDate
+          : getFirstValidDateInMonth(nextMonthDate, this.minAsDate, this.maxAsDate);
 
-        if (inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)) {
+        if (
+          hasSameMonthAndYear(nextMonthActiveDate, nextMonthDate) &&
+          inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)
+        ) {
           this.activeEndDate = nextMonthActiveDate;
         } else if (this.calendars === 2) {
           const previousMonthActiveDate = getFirstValidDateInMonth(

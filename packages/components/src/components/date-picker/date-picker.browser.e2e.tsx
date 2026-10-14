@@ -266,6 +266,25 @@ describe("value", () => {
     },
   );
 
+  it("shows a partially selectable following month when a same-day range is reassigned", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker calendars={2} max="2025-11-10" range />,
+    );
+    const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+
+    el.value = ["2025-10-20", "2025-10-20"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "October");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "November");
+
+    el.value = ["2025-10-20", "2025-10-20"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "October");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "November");
+  });
+
   it("keeps a same-day range in the maximum month visible with two calendars", async () => {
     const { el, component } = await mount<DatePicker>(
       <calcite-date-picker max="2025-12-18" range />,
