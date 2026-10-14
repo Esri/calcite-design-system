@@ -1113,6 +1113,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
   --calcite-font-size-relative-xs: 0.625rem;
   --calcite-font-size-relative-sm: 0.75rem;
   --calcite-font-size-relative-base: 0.875rem;
@@ -1244,7 +1245,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
-  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
 }
 "
 `;
@@ -1607,6 +1607,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
   --calcite-font-size-relative-xs: 0.625rem;
   --calcite-font-size-relative-sm: 0.75rem;
   --calcite-font-size-relative-base: 0.875rem;
@@ -1738,7 +1739,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
-  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
 }
 "
 `;
@@ -33881,6 +33881,7 @@ $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
+$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 $calcite-font-size-relative-xs: 0.625rem;
 $calcite-font-size-relative-sm: 0.75rem;
 $calcite-font-size-relative-base: 0.875rem;
@@ -34012,7 +34013,6 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
-$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 "
 `;
 
@@ -34738,6 +34738,7 @@ $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
+$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 $calcite-font-size-relative-xs: 0.625rem;
 $calcite-font-size-relative-sm: 0.75rem;
 $calcite-font-size-relative-base: 0.875rem;
@@ -34869,6 +34870,5 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
-$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 "
 `;
