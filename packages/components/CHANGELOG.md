@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.99](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.98...@esri/calcite-components@5.2.0-next.99) (2026-10-14)
+
+### Bug Fixes
+
+- **block:** adjust deprecation message for `expanded` state events ([#15386](https://github.com/Esri/calcite-design-system/issues/15386)), closes [#15167](https://github.com/Esri/calcite-design-system/issues/15167)
+
 ## [5.2.0-next.98](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.97...@esri/calcite-components@5.2.0-next.98) (2026-10-14)
 
 ### Features
