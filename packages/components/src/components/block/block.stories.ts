@@ -195,6 +195,17 @@ export const contentSpacing = (): string => html`
 export const loading = (): string => html`
   <calcite-block expandable expanded loading heading="Layer effects" description="Adjust blur">
     With no status
+    <calcite-block slot="children" expandable expanded heading="Nested Block" description="Child content">
+      Nested default slot content
+      <calcite-block
+        slot="children"
+        heading="Nested child"
+        description="Another level of child content"
+      ></calcite-block>
+    </calcite-block>
+    <calcite-block-group slot="children">
+      <calcite-block heading="Grouped child" description="Block Group child content"></calcite-block>
+    </calcite-block-group>
   </calcite-block>
   <br />
   <calcite-block loading heading="Valid status" description="summary" expandable status="valid">
@@ -202,6 +213,48 @@ export const loading = (): string => html`
   </calcite-block>
   <br />
   <calcite-block heading="Invalid status" description="summary" status="invalid"> With invalid status </calcite-block>
+`;
+
+export const loadingNestedContent = (): string => html`
+  <style>
+    .loading-blocks {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--calcite-spacing-lg);
+    }
+    .loading-block {
+      inline-size: 240px;
+    }
+    .loading-block-content {
+      block-size: 80px;
+    }
+  </style>
+  <div class="loading-blocks">
+    ${(["s", "m", "l"] as const)
+      .map(
+        (scale) => html`
+          <calcite-block
+            class="loading-block"
+            heading="Parent heading wraps onto multiple lines"
+            description="Parent header remains uncovered"
+            expandable
+            expanded
+            loading
+            scale="${scale}"
+          >
+            <div class="loading-block-content">Default slot content</div>
+            <calcite-block heading="Loading child" slot="children" expandable expanded loading scale="${scale}">
+              <div class="loading-block-content">Nested loading content</div>
+              <calcite-block heading="Grandchild" slot="children" scale="${scale}"></calcite-block>
+            </calcite-block>
+            <calcite-block-group slot="children" scale="${scale}">
+              <calcite-block heading="Grouped child" scale="${scale}"></calcite-block>
+            </calcite-block-group>
+          </calcite-block>
+        `,
+      )
+      .join("")}
+  </div>
 `;
 
 export const longWrappingTextInBlockAndBlockSection = (): string => html`
