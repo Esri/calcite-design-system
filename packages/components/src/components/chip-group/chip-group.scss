@@ -1,4 +1,4 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: flex;
@@ -23,5 +23,5 @@
   gap: theme("spacing.3");
 }
 
-@include includes.disabled();
-@include includes.base-component();
+@include shared.disabled();
+@include shared.base-component();

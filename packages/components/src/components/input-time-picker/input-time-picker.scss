@@ -1,37 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-input-time-picker-background-color: Specifies the component's background color.
- * @prop --calcite-input-time-picker-border-color: Specifies the component's border color.
- * @prop --calcite-input-time-picker-icon-color: Specifies the component's icon color.
- * @prop --calcite-input-time-picker-icon-color-hover: Specifies the component's icon color when hovered.
- * @prop --calcite-input-time-picker-shadow: Specifies the component's shadow.
- * @prop --calcite-input-time-picker-corner-radius: Specifies the component's border radius.
-
- * @prop --calcite-input-time-picker-input-background-color: Specifies the component's input background color.
- * @prop --calcite-input-time-picker-input-text-color: Specifies the component's input text color.
- * @prop --calcite-input-time-picker-input-shadow: Specifies the component's input shadow.
- * @prop --calcite-input-time-picker-input-corner-radius: Specifies the component's input border radius.
- * @prop --calcite-input-time-picker-input-border-color: Specifies the component's input border color.
-
- * @prop --calcite-input-time-picker-digit-text-color: Specifies the component's digit text color.
- * @prop --calcite-input-time-picker-digit-icon-color: Specifies the component's digit icon color.
- * @prop --calcite-input-time-picker-digit-border-color-press: Specifies the component's digit border color when pressed.
- * @prop --calcite-input-time-picker-digit-border-color-hover: Specifies the component's digit border color when hovered.
-
- * @prop --calcite-input-time-picker-action-background-color-hover: Specifies the background color of the component's actions when hovered.
- * @prop --calcite-input-time-picker-action-background-color-press: Specifies the background color of the component's actions when active.
- *
- * @prop --calcite-input-time-picker-input-action-background-color: Specifies the background color of the input's `clearable` element.
- * @prop --calcite-input-time-picker-input-action-background-color-hover: Specifies the background color of the input's `clearable` element when hovered.
- * @prop --calcite-input-time-picker-input-action-background-color-press: Specifies the background color of the input's `clearable` element when pressed.
- * @prop --calcite-input-time-picker-input-action-icon-color: Specifies the icon color of the input's `clearable` and toggle elements.
- * @prop --calcite-input-time-picker-input-action-icon-color-hover: Specifies the icon color of the input's `clearable` and toggle elements when hovered.
- * @prop --calcite-input-time-picker-input-action-icon-color-press: Specifies the icon color of the input's `clearable` and toggle elements when pressed.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -40,13 +6,14 @@
 // --calcite-internal-input-time-picker-toggle-inline-end-offset
 // --calcite-internal-input-time-picker-toggle-spacing
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: inline-block;
+  min-inline-size: min-content;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 @function get-trailing-text-input-padding($chevron-spacing) {
   @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
@@ -68,7 +35,10 @@ calcite-time-picker {
     var(--calcite-ui-icon-color, var(--calcite-color-text-3))
   );
   align-items: center;
-  background-color: var(--calcite-input-time-picker-input-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-time-picker-input-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border: 1px solid var(--calcite-input-time-picker-input-border-color, var(--calcite-color-border-input));
   border-radius: var(--calcite-input-time-picker-input-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-input-time-picker-input-shadow, var(--calcite-shadow-none));
@@ -76,9 +46,9 @@ calcite-time-picker {
   display: flex;
   color: var(--calcite-input-time-picker-input-text-color, var(--calcite-color-text-1));
   flex-wrap: nowrap;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   inline-size: 100%;
-  padding-block: var(--calcite-spacing-base);
+  padding-block: var(--calcite-theme-space-base, var(--calcite-spacing-base));
   user-select: none;
 
   &:focus-within {
@@ -87,7 +57,7 @@ calcite-time-picker {
   }
 
   &.read-only {
-    background-color: var(--calcite-color-background);
+    background-color: var(--calcite-theme-color-surface-1, var(--calcite-color-background));
     font-weight: var(--calcite-font-weight-medium);
   }
 }
@@ -138,7 +108,7 @@ calcite-time-picker {
   justify-content: center;
   min-inline-size: max-content;
   &.empty {
-    inline-size: var(--calcite-spacing-xl);
+    inline-size: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
   &:focus,
   &:hover:focus {
@@ -191,9 +161,9 @@ calcite-time-picker {
   .container {
     block-size: 1.5rem;
     font-size: var(--calcite-font-size-sm);
-    gap: var(--calcite-spacing-sm);
-    padding-inline-start: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-spacing-xxs);
+    gap: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    padding-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    padding-inline-end: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   }
   .input-container,
   .placeholder {
@@ -209,9 +179,9 @@ calcite-time-picker {
   .container {
     block-size: 2rem;
     font-size: var(--calcite-font-size);
-    gap: var(--calcite-spacing-md);
-    padding-inline-start: var(--calcite-spacing-md);
-    padding-inline-end: var(--calcite-spacing-sm);
+    gap: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    padding-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
   .input-container,
   .placeholder {
@@ -230,8 +200,8 @@ calcite-time-picker {
   .container {
     block-size: 2.75rem;
     font-size: var(--calcite-font-size-md);
-    gap: var(--calcite-spacing-lg);
-    padding-inline: var(--calcite-spacing-lg);
+    gap: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
+    padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
   .input-container,
   .placeholder {
@@ -258,13 +228,16 @@ calcite-time-picker {
 }
 
 calcite-popover {
-  --calcite-popover-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius-sm));
+  --calcite-popover-corner-radius: var(
+    --calcite-input-time-picker-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
 }
 
-@include includes.form-internal-label();
-@include includes.form-validation-message();
-@include includes.base-component();
-@include includes.clear-button(
+@include shared.form-internal-label();
+@include shared.form-validation-message();
+@include shared.base-component();
+@include shared.clear-button(
   $background-color: "--calcite-input-time-picker-input-action-background-color",
   $background-color-hover: "--calcite-input-time-picker-input-action-background-color-hover",
   $background-color-press: "--calcite-input-time-picker-input-action-background-color-press",

@@ -13,7 +13,6 @@ jobs:
         uses: pnpm/setup@v3
         with:
           cache: true
-          install: true
           require-lockfile: true
       - name: Run updater
         run: |

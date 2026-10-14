@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-typescript-config@0.0.0...@esri/calcite-typescript-config@0.0.1-next.6) (2026-09-29)
+
+**Note:** Version bump only for package @esri/calcite-typescript-config
+
 ## 0.0.1-next.5 (2026-08-11)
 
 **Note:** Version bump only for package @esri/calcite-typescript-config

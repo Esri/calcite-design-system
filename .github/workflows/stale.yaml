@@ -1,0 +1,19 @@
+name: "Handle stale issues and pull requests"
+on:
+  schedule:
+    - cron: "30 1 * * *"
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v10
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-issue-stale: 730
+          days-before-pr-stale: 7
+          days-before-close: -1
+          stale-issue-message: "This issue has been automatically marked as stale because it has not had recent activity. Please leave a comment for further consideration and/or follow-up. cc @Esri/calcite-pes"
+          stale-pr-message: "This PR has been automatically marked as stale because it has not had recent activity. Please close your PR if it is no longer relevant. Thank you for your contributions."

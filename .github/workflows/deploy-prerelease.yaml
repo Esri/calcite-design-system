@@ -26,14 +26,14 @@ jobs:
           cache: true
           install: false
       - name: Configure npm authentication
-        run: pnpm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
+        run: pnpm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy prerelease and storybook
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+          PNPM_CONFIG_PROVENANCE: true
           BRANCH: ${{ github.base_ref || github.ref_name }}
         run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
       - name: notify teams
