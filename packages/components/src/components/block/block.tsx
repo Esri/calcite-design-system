@@ -410,7 +410,7 @@ export class Block extends LitElement {
   /**
    * Fires when the component is closed and animation is complete.
    *
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockCollapse` instead to respond when the component is collapsed.
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockCollapse` instead.
    */
   calciteBlockClose = createEvent({ cancelable: false });
 
@@ -423,7 +423,7 @@ export class Block extends LitElement {
   /**
    * Fires when the component is open and animation is complete.
    *
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockExpand` instead to respond when the component is expanded.
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockExpand` instead.
    */
   calciteBlockOpen = createEvent({ cancelable: false });
 
