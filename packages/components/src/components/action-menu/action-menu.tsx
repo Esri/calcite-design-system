@@ -14,7 +14,6 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { isActivationKey } from "../../utils/key";
 import { Appearance, Scale } from "../types";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
@@ -98,29 +97,41 @@ export class ActionMenu extends LitElement {
 
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { activeMenuItemIndex, navigableActions, open } = this;
+    const { navigableActions } = this;
 
     if (!navigableActions.length) {
       return;
     }
 
-    if (isActivationKey(key)) {
-      event.preventDefault();
+    const placementOrientation = this.placementOrientation;
+    const supportedOpenKeys =
+      placementOrientation === "horizontal"
+        ? HORIZONTAL_MENU_OPEN_KEYS
+        : placementOrientation === "vertical" || !placementOrientation
+          ? VERTICAL_MENU_OPEN_KEYS
+          : undefined;
 
-      const action = navigableActions[activeMenuItemIndex];
+    if (!supportedOpenKeys || !this.isValidKey(key, supportedOpenKeys)) {
+      return;
+    }
+    event.preventDefault();
+    event.preventDefault();
+    this.toggleOpen(true);
+    this.activeMenuItemIndex =
+      key === "ArrowDown" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
+    this.updateActions(navigableActions);
+    void this.focusActiveAction();
+  };
 
-      if (open) {
-        if (action) {
-          action.click();
-        }
-        return;
-      }
+  private menuKeyDown = (event: KeyboardEvent): void => {
+    const { key } = event;
+    const { navigableActions } = this;
 
-      this.toggleOpen(true);
+    if (!navigableActions.length) {
       return;
     }
 
-    if (key === "Tab" && open) {
+    if (key === "Tab") {
       this.focusMenuButtonOnClose = false;
       this.restoreMenuButtonTabIndexOnClose = false;
       this.open = false;
@@ -135,40 +146,14 @@ export class ActionMenu extends LitElement {
     }
 
     if (key === "Escape") {
+      this.focusMenuButtonOnClose = true;
+      this.restoreMenuButtonTabIndexOnClose = true;
       this.toggleOpen(false);
       event.preventDefault();
       return;
     }
 
-    const placementOrientation = !open ? this.placementOrientation : undefined;
-    const supportedOpenKeys = !open
-      ? placementOrientation === "horizontal"
-        ? HORIZONTAL_MENU_OPEN_KEYS
-        : placementOrientation === "vertical" || !placementOrientation
-          ? VERTICAL_MENU_OPEN_KEYS
-          : undefined
-      : undefined;
-
-    if (supportedOpenKeys && this.isValidKey(key, supportedOpenKeys)) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.toggleOpen(true);
-      this.activeMenuItemIndex =
-        key === "ArrowDown" || key === "ArrowRight" ? 0 : navigableActions.length - 1;
-      this.updateActions(navigableActions);
-      void this.focusActiveAction();
-      return;
-    }
-
     this.handleActionNavigation(event, key, navigableActions);
-  };
-
-  private handleHostKeyDown = (event: KeyboardEvent): void => {
-    if (event.composedPath()[0] !== this.el) {
-      return;
-    }
-
-    this.menuButtonKeyDown(event);
   };
 
   private menuId = IDS.menu(this.guid);
@@ -216,8 +201,6 @@ export class ActionMenu extends LitElement {
     if (!action.id) {
       action.id = id;
     }
-
-    action.activeDescendant = index === activeMenuItemIndex;
   };
 
   private focusSetter = useFocusable<this>()(this);
@@ -317,6 +300,10 @@ export class ActionMenu extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
+    if (this.open) {
+      return this.focusActiveAction(options);
+    }
+
     return this.focusSetter(() => this.menuButtonEl || this.el, options);
   }
 
@@ -350,7 +337,6 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
-    this.listen("keydown", this.handleHostKeyDown);
     this.listen("mousedown", this.mouseDownHandler);
   }
 
@@ -688,14 +674,17 @@ export class ActionMenu extends LitElement {
     actions?.forEach(this.updateAction);
   }
 
-  private async focusActiveAction(): Promise<void> {
+  private async focusActiveAction(options?: FocusOptions): Promise<void> {
     await this.updateComplete;
 
     if (!this.open) {
       return;
     }
 
-    await this.navigableActions[this.activeMenuItemIndex]?.setFocus({ preventScroll: true });
+    await this.navigableActions[this.activeMenuItemIndex]?.setFocus({
+      preventScroll: true,
+      ...options,
+    });
   }
 
   private async handleDefaultSlotChange(): Promise<void> {
@@ -808,18 +797,7 @@ export class ActionMenu extends LitElement {
   }
 
   private renderMenuItems(): JsxNode {
-    const {
-      navigableActions,
-      activeMenuItemIndex,
-      menuId,
-      menuButtonEl,
-      label,
-      placement,
-      overlayPositioning,
-      flipPlacements,
-    } = this;
-
-    const activeAction = navigableActions[activeMenuItemIndex];
+    const { menuId, menuButtonEl, label, placement, overlayPositioning, flipPlacements } = this;
 
     return (
       <calcite-popover
@@ -840,13 +818,12 @@ export class ActionMenu extends LitElement {
         triggerDisabled={true}
       >
         <div
-          aria-activedescendant={activeAction?.id}
           aria-labelledby={menuButtonEl?.id}
           ariaOrientation={this.placementOrientation === "vertical" ? "vertical" : undefined}
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
-          onKeyDown={this.menuButtonKeyDown}
+          onKeyDown={this.menuKeyDown}
           role="menu"
           tabIndex={-1}
         >

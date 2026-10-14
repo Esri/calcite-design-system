@@ -980,25 +980,39 @@ export class ActionBar extends LitElement {
     }
 
     const actions = (actionGroup.actions ?? []).filter((action) => this.isNavigableAction(action));
+    const actionMenus = filterDirectChildren<ActionMenu["el"]>(
+      actionGroup,
+      "calcite-action-menu",
+    ).filter((actionMenu) => this.isNavigableActionMenu(actionMenu));
+    const navigationItems = [...actions, ...actionMenus].sort((itemA, itemB) =>
+      itemA.compareDocumentPosition(itemB) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
+    );
 
     const { actionMenu } = actionGroup;
 
-    return actionMenu && this.isNavigableActionMenu(actionMenu)
-      ? [...actions, actionMenu]
-      : actions;
+    if (
+      actionMenu &&
+      this.isNavigableActionMenu(actionMenu) &&
+      !navigationItems.includes(actionMenu)
+    ) {
+      navigationItems.push(actionMenu);
+    }
+
+    return navigationItems;
   }
 
   private isNavigableAction(action: Action["el"]): boolean {
     return (
       !action.disabled &&
-      !action.hasAttribute("hidden") &&
+      !action.hidden &&
+      !action.inert &&
       action.slot !== "menu-actions" &&
       !action.closest("calcite-action-menu")
     );
   }
 
   private isNavigableActionMenu(actionMenu: ActionMenu["el"]): boolean {
-    return !actionMenu.hasAttribute("hidden");
+    return !actionMenu.hidden && !actionMenu.inert;
   }
 
   private syncActions(): void {
@@ -1243,19 +1257,12 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    await actionMenu.setFocus();
-
-    const triggerAction = actionMenu.actions.find(
-      (action) => action.slot === ACTION_MENU_SLOTS.trigger,
+    const menuActions = actionMenu.actions.filter(
+      (action) => action.role === "menuitem" && !action.disabled && !action.hidden,
     );
+    const action = boundary === "first" ? menuActions[0] : menuActions[menuActions.length - 1];
 
-    (triggerAction ?? actionMenu).dispatchEvent(
-      new KeyboardEvent("keydown", {
-        bubbles: true,
-        composed: true,
-        key: boundary === "first" ? "Home" : "End",
-      }),
-    );
+    await action?.setFocus({ preventScroll: true });
   }
 
   private handleFocusIn(event: FocusEvent | MouseEvent): void {
@@ -1278,34 +1285,11 @@ export class ActionBar extends LitElement {
     }
 
     if (focusedItem?.matches("calcite-action-menu") && actionMenu) {
-      if (this.isForwardFocusIn(event)) {
-        const defaultNavigationItem = this.getDefaultNavigationItem();
-
-        if (defaultNavigationItem && defaultNavigationItem !== focusedItem) {
-          this.setNavigationItemTabIndexes(defaultNavigationItem);
-          this.focusItem(defaultNavigationItem);
-          return;
-        }
-      }
-
       this.syncClosedActionMenu(actionMenu);
       return;
     }
 
     this.syncNavigationItemTabIndexes(focusedItem ?? undefined);
-  }
-  private isForwardFocusIn(focusEvent: FocusEvent): boolean {
-    const { relatedTarget } = focusEvent;
-
-    if (!(relatedTarget instanceof Element)) {
-      return false;
-    }
-
-    if (closestElementCrossShadowBoundary(relatedTarget, "calcite-action-bar") === this.el) {
-      return false;
-    }
-
-    return !!(relatedTarget.compareDocumentPosition(this.el) & Node.DOCUMENT_POSITION_FOLLOWING);
   }
 
   private focusNavigationItem(

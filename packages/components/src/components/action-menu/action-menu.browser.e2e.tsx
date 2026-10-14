@@ -312,12 +312,9 @@ describe("accessibility", () => {
     await component.updateComplete;
 
     const action = page.getByRole("menuitem", { name: "Add" });
-    const menu = page.getByRole("menu");
 
     await expect.element(action).toHaveFocus();
     await expect.element(action).toHaveAttribute("tabindex", "0");
-    await expect.element(action).toHaveProperty("activeDescendant", true);
-    await expect.element(menu).toHaveAttribute("aria-activedescendant", "create-action");
   });
 
   it("sets vertical aria orientation on the menu", async () => {
@@ -359,15 +356,12 @@ describe("accessibility", () => {
     const undoAction = page.getByText("Undo").first().element().getRootNode() as ShadowRoot;
     const redoAction = page.getByText("Redo").first().element().getRootNode() as ShadowRoot;
     const saveAction = page.getByText("Save").first().element().getRootNode() as ShadowRoot;
-    const menu = page.getByRole("menu");
 
     await (undoAction.host as Action["el"]).setFocus();
     expect(undoAction.host).toHaveFocus();
     expect(undoAction.host).toHaveAttribute("tabindex", "0");
-    expect((undoAction.host as Action["el"]).activeDescendant).toBe(true);
     expect(redoAction.host).toHaveAttribute("tabindex", "-1");
     expect(saveAction.host).toHaveAttribute("tabindex", "-1");
-    await expect.element(menu).toHaveAttribute("aria-activedescendant", "undo-action");
 
     await userEvent.keyboard("{ArrowDown}");
     await component.updateComplete;
@@ -375,9 +369,7 @@ describe("accessibility", () => {
     expect(undoAction.host).toHaveAttribute("tabindex", "-1");
     expect(redoAction.host).toHaveFocus();
     expect(redoAction.host).toHaveAttribute("tabindex", "0");
-    expect((redoAction.host as Action["el"]).activeDescendant).toBe(true);
     expect(saveAction.host).toHaveAttribute("tabindex", "-1");
-    await expect.element(menu).toHaveAttribute("aria-activedescendant", "redo-action");
 
     await userEvent.keyboard("{ArrowDown}");
     await component.updateComplete;
@@ -386,8 +378,6 @@ describe("accessibility", () => {
     expect(redoAction.host).toHaveAttribute("tabindex", "-1");
     expect(saveAction.host).toHaveFocus();
     expect(saveAction.host).toHaveAttribute("tabindex", "0");
-    expect((saveAction.host as Action["el"]).activeDescendant).toBe(true);
-    await expect.element(menu).toHaveAttribute("aria-activedescendant", "save-action");
   });
 
   it.each([
@@ -560,5 +550,43 @@ describe("accessibility", () => {
     await expect.element(menuAction).toHaveProperty("active", false);
     await expect.element(menuAction).toHaveFocus();
     await expect.element(menuAction).toHaveAttribute("tabindex", "0");
+  });
+
+  it("restores the trigger tab stop after closing with Escape", async () => {
+    const { component } = await mount(
+      <>
+        <calcite-action-menu>
+          <calcite-action
+            data-testid="trigger-action"
+            icon="ellipsis"
+            slot={SLOTS.trigger}
+            text="More"
+          />
+          <calcite-action data-testid="menu-action" icon="plus" text="Add" />
+        </calcite-action-menu>
+        <button data-testid="next-button" type="button">
+          Next
+        </button>
+      </>,
+    );
+
+    const triggerAction = page.getByTestId("trigger-action");
+    const menuAction = page.getByTestId("menu-action");
+    const nextButton = page.getByTestId("next-button");
+
+    await userEvent.click(triggerAction);
+    await component.updateComplete;
+    await expect.element(menuAction).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+    await component.updateComplete;
+
+    await expect.element(triggerAction).toHaveFocus();
+    await expect.element(triggerAction).not.toHaveAttribute("tabindex");
+
+    await userEvent.keyboard("{Tab}");
+
+    await expect.element(nextButton).toHaveFocus();
+    await expect.element(triggerAction).not.toHaveAttribute("tabindex");
   });
 });
