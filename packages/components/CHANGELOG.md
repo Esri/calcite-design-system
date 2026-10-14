@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.98](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.97...@esri/calcite-components@5.2.0-next.98) (2026-10-14)
+
+### Features
+
+- **components:** add theme fallbacks for deprecated color tokens ([#15034](https://github.com/Esri/calcite-design-system/issues/15034)), closes [#14286](https://github.com/Esri/calcite-design-system/issues/14286) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+- **components:** add theme fallbacks for deprecated corner-radius tokens ([#15033](https://github.com/Esri/calcite-design-system/issues/15033)), closes [#12115](https://github.com/Esri/calcite-design-system/issues/12115) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+- **components:** add theme fallbacks for deprecated font weight token ([#15032](https://github.com/Esri/calcite-design-system/issues/15032)), closes [#14288](https://github.com/Esri/calcite-design-system/issues/14288) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+- **components:** add theme fallbacks for deprecated spacing tokens ([#15035](https://github.com/Esri/calcite-design-system/issues/15035)), closes [#14285](https://github.com/Esri/calcite-design-system/issues/14285) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+
+## [5.2.0-next.97](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.96...@esri/calcite-components@5.2.0-next.97) (2026-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.96](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.95...@esri/calcite-components@5.2.0-next.96) (2026-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.95](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.94...@esri/calcite-components@5.2.0-next.95) (2026-10-12)
+
+### Bug Fixes
+
+- **input-number, input:** unable to enter decimals with inline-edit defined ([#15372](https://github.com/Esri/calcite-design-system/issues/15372)), closes [#15344](https://github.com/Esri/calcite-design-system/issues/15344)
+
 ## [5.2.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.93...@esri/calcite-components@5.2.0-next.94) (2026-10-09)
 
 ### Bug Fixes
