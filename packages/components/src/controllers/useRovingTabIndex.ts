@@ -131,6 +131,13 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
    */
   setActiveIndex: (index: number) => void;
   /**
+   * Reconciles the active tab stop after the managed or traversable items change, without moving focus.
+   *
+   * Preserves an eligible active item, then a focused item, then the previous index clamped to the available items.
+   * Returns the resulting active item, or `null` when none is available or the controller is inactive.
+   */
+  reconcile: () => ElementType | null;
+  /**
    * Releases the specified elements, or all managed elements when omitted.
    * Original `tabindex` attributes are restored after the last controller releases an element.
    *
@@ -145,6 +152,8 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
    * @param force - When `true`, restores focus without checking its current location.
    */
   restoreFocus: (force?: boolean) => void;
+  /** Returns focus to the entry control when focus is within managed controls or lost through item unavailability. */
+  restoreFocusIfNeeded: () => void;
   /** Returns focus to the entry control only while one of the managed items is focused. */
   restoreFocusIfWithin: () => void;
 }
@@ -157,7 +166,7 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
  * Elements are released when they stop being managed or the component disconnects.
  * The controller can also manage an entry control's tab stops and restore focus to that control.
  * Forward item `focusin` and `focusout` events to track whether an unavailable item needs focus recovery.
- * Consumers remain responsible for choosing and focusing a replacement item.
+ * Consumers can reconcile the active item after changes and remain responsible for focusing a replacement item.
  *
  * @param options - Callbacks for resolving managed items, traversable items, and the entry control.
  */
@@ -357,6 +366,18 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         const nextActiveElement = index >= 0 ? (traversableElements[index] ?? null) : null;
         rovingTabIndex.update(elements, nextActiveElement);
       },
+      reconcile(): ElementType | null {
+        const traversableElements = getTraversableElements();
+        const previousIndex = activeElement ? traversableElements.indexOf(activeElement) : -1;
+        const preservedIndex =
+          previousIndex >= 0
+            ? previousIndex
+            : traversableElements.findIndex((element) => element.matches(":focus-within"));
+        rovingTabIndex.setActiveIndex(
+          preservedIndex >= 0 ? preservedIndex : Math.min(Math.max(activeIndex, 0), traversableElements.length - 1),
+        );
+        return activeElement;
+      },
       restore,
       restoreFocus(force = false): void {
         const currentlyFocusedElement = entryFocusTarget ? getRootNode(entryFocusTarget).activeElement : null;
@@ -378,6 +399,9 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         } finally {
           isRestoringFocus = false;
         }
+      },
+      restoreFocusIfNeeded(): void {
+        rovingTabIndex.restoreFocus(rovingTabIndex.shouldRecoverFocus);
       },
       restoreFocusIfWithin(): void {
         if (itemElements.some(isFocusedWithin)) {

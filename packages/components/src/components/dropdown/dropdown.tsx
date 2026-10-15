@@ -297,10 +297,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(
-      () => (this.referenceEl instanceof HTMLElement ? this.referenceEl : this.floatingEl),
-      options,
-    );
+    return this.focusSetter(() => {
+      const target = this.referenceEl instanceof HTMLElement ? this.referenceEl : this.floatingEl;
+      return target ? { target, strategy: "focusable" } : undefined;
+    }, options);
   }
 
   //#endregion
@@ -502,9 +502,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.calciteDropdownSelect.emit();
     if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
-      this.rovingTabIndex.restoreFocus();
+      this.rovingTabIndex.restoreFocusIfNeeded();
     } else {
       const index = this.getTraversableItems().indexOf(event.detail.requestedDropdownItem);
+      if (index < 0 || !event.detail.requestedDropdownItem.isConnected) {
+        this.updateItems();
+        return;
+      }
       this.rovingTabIndex.setActiveIndex(index);
       await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem, focusedElement);
     }
@@ -775,13 +779,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
-    const previousIndex = previousActiveItem ? traversableItems.indexOf(previousActiveItem) : -1;
-    this.rovingTabIndex.setActiveIndex(
-      previousIndex >= 0
-        ? previousIndex
-        : Math.min(Math.max(this.rovingTabIndex.activeIndex, 0), traversableItems.length - 1),
-    );
-    const activeItem = this.rovingTabIndex.activeElement;
+    const activeItem = this.rovingTabIndex.reconcile();
     if (previousActiveItem && activeItem && shouldRecoverFocus) {
       void this.scrollActiveItemIntoView(activeItem);
     }
@@ -901,7 +899,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       relatedTarget &&
       (this.el.contains(relatedTarget) ||
         (this.referenceEl != null &&
-          this.referenceEl instanceof HTMLElement &&
+          this.referenceEl instanceof Element &&
           this.referenceEl.contains(relatedTarget)))
     ) {
       return;

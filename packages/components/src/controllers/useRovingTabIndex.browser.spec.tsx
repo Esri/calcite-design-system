@@ -133,6 +133,111 @@ it("maintains one tab stop without changing DOM focus", async () => {
   expect(buttons.map((button) => button.tabIndex)).toEqual([-1, -1, -1]);
 });
 
+it("reconciles an eligible active item without moving focus", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const second = page.getByRole("button", { name: "Second" });
+  const firstElement = first.element() as HTMLButtonElement;
+  const secondElement = second.element() as HTMLButtonElement;
+  controller.update([firstElement, secondElement], firstElement);
+
+  await userEvent.click(first);
+  controller.setActiveIndex(1);
+
+  expect(controller.reconcile()).toBe(secondElement);
+  await expect.element(second).toHaveAttribute("tabindex", "0");
+  await expect.element(first).toHaveFocus();
+});
+
+it("reconciles to a focused survivor when the active item becomes unavailable", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const second = page.getByRole("button", { name: "Second" });
+  const firstElement = first.element() as HTMLButtonElement;
+  const secondElement = second.element() as HTMLButtonElement;
+  controller.update([firstElement, secondElement], firstElement);
+
+  await userEvent.click(first);
+  controller.setActiveIndex(1);
+  component.traversableElements = [firstElement];
+  secondElement.remove();
+
+  expect(controller.reconcile()).toBe(firstElement);
+  await expect.element(first).toHaveAttribute("tabindex", "0");
+  await expect.element(first).toHaveFocus();
+});
+
+it("reconciles to a clamped index and clears the active item when no items remain", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const second = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  const third = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  controller.update([first, second, third], third);
+  component.traversableElements = [first, second];
+
+  expect(controller.reconcile()).toBe(second);
+  expect(controller.activeIndex).toBe(1);
+
+  component.traversableElements = [];
+
+  expect(controller.reconcile()).toBeNull();
+  expect(controller.activeIndex).toBe(-1);
+  expect([first.tabIndex, second.tabIndex, third.tabIndex]).toEqual([-1, -1, -1]);
+});
+
+it("restores entry focus when needed after a focused item is removed", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const entry = page.getByRole("button", { name: "Third" });
+  const firstElement = first.element() as HTMLButtonElement;
+  component.entryElement = entry.element();
+  controller.update([firstElement], firstElement);
+
+  await userEvent.click(first);
+  firstElement.remove();
+  controller.setActiveIndex(-1);
+  controller.restoreFocusIfNeeded();
+
+  await expect.element(entry).toHaveFocus();
+});
+
+it("restores entry focus when needed from a managed item", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const entry = page.getByRole("button", { name: "Third" });
+  const firstElement = first.element() as HTMLButtonElement;
+  component.entryElement = entry.element();
+  controller.update([firstElement], firstElement);
+
+  await userEvent.click(first);
+  controller.restoreFocusIfNeeded();
+
+  await expect.element(entry).toHaveFocus();
+});
+
+it("does not restore entry focus when an outside control is focused after item removal", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const entry = page.getByRole("button", { name: "Second" });
+  const outside = page.getByRole("button", { name: "Third" });
+  const firstElement = first.element() as HTMLButtonElement;
+  component.entryElement = entry.element();
+  controller.update([firstElement], firstElement);
+
+  await userEvent.click(first);
+  firstElement.remove();
+  await userEvent.click(outside);
+  controller.restoreFocusIfNeeded();
+
+  await expect.element(outside).toHaveFocus();
+});
+
 it("restores original attributes when elements are released", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;
