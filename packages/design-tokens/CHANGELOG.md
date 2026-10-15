@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.3...@esri/calcite-design-tokens@4.2.0-next.4) (2026-10-14)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.2...@esri/calcite-design-tokens@4.2.0-next.3) (2026-10-13)
+
+### Features
+
+- **design-tokens:** support `theme` token layer ([#15186](https://github.com/Esri/calcite-design-system/issues/15186)), closes [#14190](https://github.com/Esri/calcite-design-system/issues/14190)
+
+## [4.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.1...@esri/calcite-design-tokens@4.2.0-next.2) (2026-10-13)
+
+### Bug Fixes
+
+- **typography-tokens:** align CSS classes with SCSS mixins ([#15282](https://github.com/Esri/calcite-design-system/issues/15282)), closes [#15230](https://github.com/Esri/calcite-design-system/issues/15230) [#15362](https://github.com/Esri/calcite-design-system/issues/15362)
+
 ## [4.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.0...@esri/calcite-design-tokens@4.2.0-next.1) (2026-09-29)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
