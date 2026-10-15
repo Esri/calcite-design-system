@@ -66,31 +66,30 @@ it("allows toggling its content", async () => {
   const messages = await import("./assets/t9n/messages.json");
 
   const element = await page.find("calcite-block");
-  const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
-  const openSpy = await element.spyOnEvent("calciteBlockOpen");
-  const closeSpy = await element.spyOnEvent("calciteBlockClose");
+  const expandSpy = await element.spyOnEvent("calciteBlockExpand");
+  const collapseSpy = await element.spyOnEvent("calciteBlockCollapse");
 
   const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
   expect(toggle.getAttribute("title")).toBe(messages.expand);
 
-  const openEventSpy = await element.spyOnEvent("calciteBlockOpen");
+  const expandEventSpy = await element.spyOnEvent("calciteBlockExpand");
   await toggle.click();
-  await openEventSpy.next();
+  await expandEventSpy.next();
 
-  expect(toggleSpy).toHaveReceivedEventTimes(1);
-  expect(openSpy).toHaveReceivedEventTimes(1);
+  expect(expandSpy).toHaveReceivedEventTimes(1);
+  expect(collapseSpy).toHaveReceivedEventTimes(0);
   expect(await element.getProperty("expanded")).toBe(true);
   expect(toggle.getAttribute("aria-expanded")).toBe("true");
   expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
-  const closeEventSpy = await element.spyOnEvent("calciteBlockClose");
+  const collapseEventSpy = await element.spyOnEvent("calciteBlockCollapse");
   await toggle.click();
-  await closeEventSpy.next();
+  await collapseEventSpy.next();
 
-  expect(toggleSpy).toHaveReceivedEventTimes(2);
-  expect(closeSpy).toHaveReceivedEventTimes(1);
+  expect(expandSpy).toHaveReceivedEventTimes(1);
+  expect(collapseSpy).toHaveReceivedEventTimes(1);
   expect(await element.getProperty("expanded")).toBe(false);
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
   expect(toggle.getAttribute("title")).toBe(messages.expand);
