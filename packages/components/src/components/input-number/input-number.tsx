@@ -268,8 +268,12 @@ export class InputNumber
       this.restoreInlineEditingValue(value);
     },
     commitValue: () => this.commitInlineEditingValue(),
-    setFocus: () => {
-      void this.setFocus();
+    setFocus: async () => {
+      await this.setFocus();
+      const input = this.childNumberRef.value;
+      if (input && input.selectionStart !== null) {
+        input.setSelectionRange(input.value.length, input.value.length);
+      }
     },
     emitCancel: () => {
       this.calciteInputNumberInlineEditingCancel.emit();

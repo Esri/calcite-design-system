@@ -164,6 +164,20 @@ describe("disabled", () => {
 });
 
 describe("inline edit", () => {
+  it("places the caret at the end when editing is enabled with the edit button", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-edit value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditControlsCSS.enableEditing}`),
+    );
+
+    await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+    await userEvent.keyboard("4");
+
+    await expect.element(input).toHaveValue("1234");
+  });
+
   it("restores the starting value when externally controlled inline editing is cancelled", async () => {
     const { el } = await mount<InputNumber>(
       <calcite-input-number inline-edit inline-editing value="123" />,
