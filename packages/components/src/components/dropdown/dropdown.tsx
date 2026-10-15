@@ -764,19 +764,19 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private async setInitialActiveItem(): Promise<void> {
     const traversableItems = this.getTraversableItems();
     const targetIndex = this.focusLastDropdownItem ? traversableItems.length - 1 : 0;
-    const target: DropdownItem["el"] | undefined = traversableItems[targetIndex];
+    const deferredFocusDirection =
+      !traversableItems.length && this.focusLastDropdownItem ? "last" : undefined;
 
     this.focusLastDropdownItem = false;
 
-    if (!target) {
-      this.rovingTabIndex.setActiveIndex(-1);
-      return;
-    }
-
-    this.rovingTabIndex.setActiveIndex(targetIndex);
+    this.rovingTabIndex.setActiveIndex(traversableItems.length ? targetIndex : -1);
 
     if (this.focusActiveItemOnOpen) {
-      await this.scrollActiveItemIntoView(undefined, this.focusedElementOnOpen);
+      await this.scrollActiveItemIntoView(
+        undefined,
+        this.focusedElementOnOpen,
+        deferredFocusDirection,
+      );
     }
   }
 
@@ -827,6 +827,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private async scrollActiveItemIntoView(
     target: DropdownItem["el"] | undefined,
     focusedElement = this.rovingTabIndex.getDeepActiveElement(),
+    deferredFocusDirection?: "last",
   ): Promise<void> {
     // ensure element is rendered/visible before focus or scrollIntoView
     // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
@@ -843,6 +844,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       !this.rovingTabIndex.isFocusUnchanged(focusedElement)
     ) {
       return;
+    }
+
+    if (deferredFocusDirection) {
+      target = this.rovingTabIndex.navigate(deferredFocusDirection) ?? target;
     }
 
     await target.setFocus({ preventScroll: true });

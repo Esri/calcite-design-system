@@ -830,6 +830,97 @@ describe("hover type", () => {
 });
 
 describe("roving tabindex", () => {
+  it("focuses the only item when a before-open listener reveals it", async () => {
+    const { component } = await mount<Dropdown>(
+      <calcite-dropdown>
+        <button slot="trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item hidden id="item-1">
+            First
+          </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+    const first = page.getBySelector("#item-1");
+    component.el.addEventListener(
+      "calciteDropdownBeforeOpen",
+      () => first.element().removeAttribute("hidden"),
+      { once: true },
+    );
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+
+    await expect.element(first).toHaveFocus();
+    await expect.element(first).toHaveAttribute("tabindex", "0");
+  });
+
+  it("focuses the last item when ArrowUp opens a dropdown whose before-open listener reveals its items", async () => {
+    const { component } = await mount<Dropdown>(
+      <calcite-dropdown>
+        <button slot="trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item hidden id="item-1">
+            First
+          </calcite-dropdown-item>
+          <calcite-dropdown-item hidden id="item-2">
+            Second
+          </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+    const first = page.getBySelector("#item-1");
+    const last = page.getBySelector("#item-2");
+    component.el.addEventListener(
+      "calciteDropdownBeforeOpen",
+      () => {
+        first.element().removeAttribute("hidden");
+        last.element().removeAttribute("hidden");
+      },
+      { once: true },
+    );
+
+    await userEvent.tab();
+    await userEvent.keyboard("{ArrowUp}");
+
+    await expect.element(last).toHaveFocus();
+    await expect.element(last).toHaveAttribute("tabindex", "0");
+    await expect.element(first).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("preserves outside focus when an ArrowUp before-open listener reveals items and moves focus outside", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        {renderDropdown()}
+        <button type="button">Outside</button>
+      </>,
+    );
+    const items = page.getBySelector("calcite-dropdown-item").all();
+    const outside = page.getByRole("button", { name: "Outside" });
+    items.forEach((item) => item.element().setAttribute("hidden", ""));
+    component.el.addEventListener(
+      "calciteDropdownBeforeOpen",
+      () => {
+        items.forEach((item) => item.element().removeAttribute("hidden"));
+        outside.element().focus();
+      },
+      { once: true },
+    );
+
+    await userEvent.tab();
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(page.getBySelector("#item-1")).toHaveAttribute("tabindex", "0");
+    await afterNextFrame();
+    await afterNextFrame();
+    await afterNextFrame();
+
+    await expect.element(outside).toHaveFocus();
+    expect(component.open).toBe(true);
+  });
+
   it("focuses a replacement when a before-open listener removes the initial item", async () => {
     const { component } = await mount<Dropdown>(renderDropdown);
     const first = page.getBySelector("#item-1");
