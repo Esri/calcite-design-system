@@ -136,6 +136,21 @@ it("does not recover after an available item is intentionally blurred", async ()
   expect(controller.shouldRecoverFocus).toBe(false);
 });
 
+it("preserves focus recovery after an item is blurred and refocused in the same task", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  controller.update([first], first);
+
+  first.focus();
+  first.blur();
+  first.focus();
+  await Promise.resolve();
+  first.remove();
+
+  expect(controller.shouldRecoverFocus).toBe(true);
+});
+
 it("maintains one tab stop without changing DOM focus", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;

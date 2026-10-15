@@ -316,6 +316,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
             if (
               focusedItem === previousFocusedItem &&
               previousFocusedItem.isConnected &&
+              !previousFocusedItem.matches(":focus-within") &&
               getTraversableElements().includes(previousFocusedItem)
             ) {
               focusedItem = undefined;

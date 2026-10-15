@@ -1225,16 +1225,23 @@ describe("roving tabindex", () => {
       </calcite-dropdown>,
     );
     const item = page.getByRole("menuitem", { name: "Destination" });
-    const clickSpy = vi.fn((event: MouseEvent) => event.preventDefault());
+    const clickSpy = vi.fn<(event: MouseEvent) => void>();
+    const itemClickSpy = vi.fn();
+    const dropdownClickSpy = vi.fn((event: MouseEvent) => event.preventDefault());
     const selectSpy = vi.fn();
     component.el.addEventListener("calciteDropdownSelect", selectSpy);
 
     await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
     await expect.element(item).toHaveFocus();
     (item.getBySelector("a").element() as HTMLAnchorElement).addEventListener("click", clickSpy);
+    item.element().addEventListener("click", itemClickSpy);
+    component.el.addEventListener("click", dropdownClickSpy);
     (item.element() as DropdownItem["el"]).click();
 
     expect(clickSpy).toHaveBeenCalledTimes(1);
+    expect(itemClickSpy).toHaveBeenCalledTimes(1);
+    expect(dropdownClickSpy).toHaveBeenCalledTimes(1);
+    expect(clickSpy.mock.calls[0][0].defaultPrevented).toBe(true);
     expect(selectSpy).toHaveBeenCalledTimes(1);
     await expect.element(page.getByRole("button", { name: "Open dropdown" })).toHaveFocus();
     expect(component.open).toBe(false);
