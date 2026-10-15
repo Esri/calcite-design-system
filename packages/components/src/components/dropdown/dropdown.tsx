@@ -35,7 +35,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { isDropdownGroup } from "../dropdown-group/resources";
 import { useFocusable } from "../../controllers/useFocusable";
-import { useRovingTabIndex } from "../../controllers/useRovingTabIndex";
+import { RovingTabIndexDirection, useRovingTabIndex } from "../../controllers/useRovingTabIndex";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
@@ -118,6 +118,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private focusLastDropdownItem = false;
 
   private focusActiveItemOnOpen = true;
+
+  private focusedElementOnOpen: Element | null = null;
+
+  private _open = false;
 
   get autoClose(): true {
     return true;
@@ -202,7 +206,16 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   @property({ reflect: true }) offsetSkidding = 0;
 
   /** When `true`, displays and positions the component. */
-  @property({ reflect: true }) open = false;
+  @property({ reflect: true })
+  get open(): boolean {
+    return this._open;
+  }
+  set open(value: boolean) {
+    if (value && !this._open) {
+      this.focusedElementOnOpen = this.rovingTabIndex.getDeepActiveElement();
+    }
+    this._open = value;
+  }
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -417,6 +430,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private openHandler(): void {
     if (this.disabled && this.open) {
+      this.open = false;
       this.rovingTabIndex.setActiveIndex(-1);
       return;
     }
@@ -760,7 +774,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.rovingTabIndex.setActiveIndex(targetIndex);
 
     if (this.focusActiveItemOnOpen) {
-      await this.scrollActiveItemIntoView(target);
+      await this.scrollActiveItemIntoView(target, this.focusedElementOnOpen);
     }
   }
 
@@ -798,34 +812,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
-    this.closeHoverDropdown(event);
+    void this.closeHoverDropdown(event);
   }
 
-  private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
-    const traversableItems = this.getTraversableItems();
-
-    if (!traversableItems.length) {
-      return;
+  private navigateActiveItem(direction: RovingTabIndexDirection): void {
+    const activeItem = this.rovingTabIndex.navigate(direction);
+    if (activeItem) {
+      void this.scrollActiveItemIntoView(activeItem);
     }
-
-    const totalItems = traversableItems.length;
-    let index = this.rovingTabIndex.activeIndex;
-
-    if (index < 0 || index >= totalItems) {
-      index = direction === "previous" || direction === "last" ? totalItems - 1 : 0;
-    } else if (direction === "next") {
-      index = (index + 1) % totalItems;
-    } else if (direction === "previous") {
-      index = (index - 1 + totalItems) % totalItems;
-    } else if (direction === "first") {
-      index = 0;
-    } else if (direction === "last") {
-      index = totalItems - 1;
-    }
-
-    const activeItem = traversableItems[index];
-    this.rovingTabIndex.setActiveIndex(index);
-    void this.scrollActiveItemIntoView(activeItem);
   }
 
   private async scrollActiveItemIntoView(
@@ -890,7 +884,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.open = true;
   }
 
-  private closeHoverDropdown(event: FocusEvent): void {
+  private async closeHoverDropdown(event: FocusEvent): Promise<void> {
     if (!this.open || this.disabled || this.type !== "hover") {
       return;
     }
@@ -901,6 +895,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
         (this.referenceEl instanceof Element && this.referenceEl.contains(relatedTarget)))
     ) {
       return;
+    }
+
+    if (relatedTarget instanceof Element && relatedTarget.shadowRoot) {
+      await nextFrame();
+      if (!this.open || this.rovingTabIndex.hasFocus) {
+        return;
+      }
     }
 
     this.closeCalciteDropdown();

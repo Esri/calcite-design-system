@@ -328,6 +328,51 @@ describe("hover type", () => {
     expect(el.open).toBe(true);
   });
 
+  async function mountShadowRootHoverReference() {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button type="button">Open dropdown</button>
+        <button type="button">Outside</button>
+        <calcite-dropdown type="hover">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>,
+    );
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const outside = page.getByRole("button", { name: "Outside" });
+    const host = document.createElement("div");
+    component.el.after(host);
+    onTestFinished(() => host.remove());
+    host.attachShadow({ mode: "open" }).append(trigger.element(), outside.element());
+    component.referenceElement = trigger.element();
+    await expect.element(trigger).toHaveAttribute("aria-expanded", "false");
+    trigger.element().focus();
+    await expect.element(page.getByRole("menuitemradio", { name: "First" })).toHaveFocus();
+
+    return { component, outside, trigger };
+  }
+
+  it("stays open when focus returns to a hover reference in another shadow root", async () => {
+    const { component, trigger } = await mountShadowRootHoverReference();
+
+    trigger.element().focus();
+    await afterNextFrame();
+
+    expect(getRootNode(trigger.element()).activeElement).toBe(trigger.element());
+    expect(component.open).toBe(true);
+  });
+
+  it("closes when focus moves to another control in the hover reference's shadow root", async () => {
+    const { component, outside } = await mountShadowRootHoverReference();
+
+    outside.element().focus();
+
+    await vi.waitFor(() => expect(component.open).toBe(false));
+    expect(getRootNode(outside.element()).activeElement).toBe(outside.element());
+  });
+
   it("stays open when focus returns to an SVG hover reference", async () => {
     const { component } = await mount<Dropdown>(
       <>
@@ -694,6 +739,70 @@ describe("hover type", () => {
 });
 
 describe("roving tabindex", () => {
+  it("preserves focus moved outside by a bubbling opening click listener", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        {renderDropdown()}
+        <button type="button">Outside</button>
+      </>,
+    );
+    const outside = page.getByRole("button", { name: "Outside" });
+    component.el.addEventListener("click", () => outside.element().focus(), { once: true });
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(component.el).toHaveAttribute("open");
+    await afterNextFrame();
+    await afterNextFrame();
+    await afterNextFrame();
+
+    await expect.element(outside).toHaveFocus();
+    expect(component.open).toBe(true);
+  });
+
+  it("preserves focus moved outside by a bubbling opening keydown listener", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        {renderDropdown()}
+        <button type="button">Outside</button>
+      </>,
+    );
+    const outside = page.getByRole("button", { name: "Outside" });
+    await userEvent.tab();
+    await expect.element(page.getBySelector("calcite-button")).toHaveFocus();
+    component.el.addEventListener("keydown", () => outside.element().focus(), { once: true });
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(component.el).toHaveAttribute("open");
+    await afterNextFrame();
+    await afterNextFrame();
+    await afterNextFrame();
+
+    await expect.element(outside).toHaveFocus();
+    expect(component.open).toBe(true);
+  });
+
+  it("opens with the first trigger click after an open request while disabled", async () => {
+    const { component } = await mount<Dropdown>(
+      <calcite-dropdown disabled>
+        <button slot="trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item>First</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+    component.open = true;
+    await expect.element(component.el).toHaveProperty("open", false);
+
+    component.disabled = false;
+    await expect.element(component.el).not.toHaveAttribute("disabled");
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+
+    await expect.element(page.getByRole("menuitemradio", { name: "First" })).toHaveFocus();
+    expect(component.open).toBe(true);
+  });
+
   it("sets focus on a slotted trigger while open", async () => {
     const { component } = await mount<Dropdown>(
       <>
@@ -937,6 +1046,35 @@ describe("roving tabindex", () => {
     await expect.element(anchor).toHaveAttribute("tabindex", "-1");
     await userEvent.keyboard("{Enter}");
     expect(clickSpy).toHaveBeenCalledTimes(1);
+    await expect.element(page.getByRole("button", { name: "Open dropdown" })).toHaveFocus();
+    expect(component.open).toBe(false);
+  });
+
+  it("activates the link once when its menu item host is clicked directly", async () => {
+    const { component } = await mount<Dropdown>(
+      <calcite-dropdown>
+        <button slot="trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown-group selectionMode="none">
+          <calcite-dropdown-item href="#destination" label="Destination">
+            Go
+          </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+    const item = page.getByRole("menuitem", { name: "Destination" });
+    const clickSpy = vi.fn((event: MouseEvent) => event.preventDefault());
+    const selectSpy = vi.fn();
+    component.el.addEventListener("calciteDropdownSelect", selectSpy);
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(item).toHaveFocus();
+    (item.getBySelector("a").element() as HTMLAnchorElement).addEventListener("click", clickSpy);
+    (item.element() as DropdownItem["el"]).click();
+
+    expect(clickSpy).toHaveBeenCalledTimes(1);
+    expect(selectSpy).toHaveBeenCalledTimes(1);
     await expect.element(page.getByRole("button", { name: "Open dropdown" })).toHaveFocus();
     expect(component.open).toBe(false);
   });

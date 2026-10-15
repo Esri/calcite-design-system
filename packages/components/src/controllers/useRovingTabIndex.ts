@@ -2,6 +2,9 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import { focusable, tabbable } from "tabbable";
 import { getRootNode, tabbableOptions } from "../utils/dom";
 
+/** Navigation directions supported by the roving tab-stop controller. */
+export type RovingTabIndexDirection = "next" | "previous" | "first" | "last";
+
 type FocusableElement = HTMLElement | SVGElement;
 
 const managedTabIndexes = new WeakMap<
@@ -95,6 +98,8 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   readonly activeIndex: number;
   /** Resolves the deepest focused element in the component's root. */
   getDeepActiveElement: () => Element | null;
+  /** Whether focus is within the component or its configured entry element, including their shadow trees. */
+  readonly hasFocus: boolean;
   /** Checks whether focus is still on the element captured before a deferred operation. */
   isFocusUnchanged: (focusedElement: Element | null) => boolean;
   /** Whether the controller is synchronously restoring focus to the entry control. */
@@ -131,6 +136,13 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
    * @param index - Index in the traversable items.
    */
   setActiveIndex: (index: number) => void;
+  /**
+   * Activates the next, previous, first, or last traversable item without moving DOM focus.
+   *
+   * Next and previous wrap at the ends. With no active item, navigation starts at the corresponding end.
+   * Returns the resulting active item, or `null` when none is available or the controller is inactive.
+   */
+  navigate: (direction: RovingTabIndexDirection) => ElementType | null;
   /**
    * Reconciles the active tab stop after the managed or traversable items change, without moving focus.
    *
@@ -233,6 +245,11 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
           focusedElement = focusedElement.shadowRoot.activeElement;
         }
         return focusedElement;
+      },
+      get hasFocus(): boolean {
+        return (
+          component.el.matches(":focus-within") || (options.getEntryElement?.()?.matches(":focus-within") ?? false)
+        );
       },
       isFocusUnchanged(focusedElement): boolean {
         return rovingTabIndex.getDeepActiveElement() === focusedElement;
@@ -346,6 +363,29 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         const traversableElements = options.getTraversableElements?.() ?? elements;
         const nextActiveElement = index >= 0 ? (traversableElements[index] ?? null) : null;
         rovingTabIndex.update(elements, nextActiveElement);
+      },
+      navigate(direction): ElementType | null {
+        const traversableElements = getTraversableElements();
+        const totalElements = traversableElements.length;
+        if (!totalElements) {
+          return null;
+        }
+
+        let index = activeIndex;
+        if (index < 0 || index >= totalElements) {
+          index = direction === "previous" || direction === "last" ? totalElements - 1 : 0;
+        } else if (direction === "next") {
+          index = (index + 1) % totalElements;
+        } else if (direction === "previous") {
+          index = (index - 1 + totalElements) % totalElements;
+        } else if (direction === "first") {
+          index = 0;
+        } else if (direction === "last") {
+          index = totalElements - 1;
+        }
+
+        rovingTabIndex.update(options.getElements?.() ?? itemElements, traversableElements[index]);
+        return activeElement;
       },
       reconcile(): ElementType | null {
         const traversableElements = getTraversableElements();

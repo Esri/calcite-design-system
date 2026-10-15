@@ -216,7 +216,11 @@ export class DropdownItem extends LitElement {
 
   //#region Private Methods
 
-  private onClick(): void {
+  private onClick(event: MouseEvent): void {
+    if (this.href && event.composedPath()[0] === this.el) {
+      void this.activateItem();
+      return;
+    }
     this.emitRequestedItem();
   }
 

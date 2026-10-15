@@ -10,11 +10,14 @@ class Test extends LitElement {
 
   entryElement?: Element;
 
+  inactive = false;
+
   traversableElements?: HTMLElement[];
 
   rovingTabIndex = useRovingTabIndex({
     getEntryElement: () => this.entryElement,
     getTraversableElements: () => this.traversableElements,
+    isActive: () => !this.inactive,
   })(this);
 
   otherRovingTabIndex = useRovingTabIndex({
@@ -131,6 +134,117 @@ it("maintains one tab stop without changing DOM focus", async () => {
 
   controller.update(buttons, null);
   expect(buttons.map((button) => button.tabIndex)).toEqual([-1, -1, -1]);
+});
+
+it("navigates forward and wraps without moving DOM focus", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const second = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  first.focus();
+  controller.update([first, second], null);
+
+  expect(controller.navigate("next")).toBe(first);
+  expect(controller.navigate("next")).toBe(second);
+  expect([first.tabIndex, second.tabIndex]).toEqual([-1, 0]);
+  await expect.element(first).toHaveFocus();
+  expect(controller.navigate("next")).toBe(first);
+});
+
+it("navigates backward from the last item and wraps", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const second = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  controller.update([first, second], null);
+
+  expect(controller.navigate("previous")).toBe(second);
+  expect(controller.navigate("previous")).toBe(first);
+  expect(controller.navigate("previous")).toBe(second);
+});
+
+it("navigates directly to the first and last items", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const second = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  controller.update([first, second], null);
+
+  expect(controller.navigate("last")).toBe(second);
+  expect(controller.navigate("first")).toBe(first);
+});
+
+it("navigates only traversable items and returns null when none remain", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const second = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  const third = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  component.traversableElements = [first, third];
+  controller.update([first, second, third], first);
+
+  expect(controller.navigate("next")).toBe(third);
+  expect(controller.activeIndex).toBe(1);
+  expect(second.tabIndex).toBe(-1);
+
+  component.traversableElements = [];
+  controller.update([], null);
+  expect(controller.navigate("next")).toBeNull();
+});
+
+it("returns null and clears the active tab stop when navigating while inactive", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" });
+  const second = page.getByRole("button", { name: "Second" });
+  const firstElement = first.element() as HTMLButtonElement;
+  const secondElement = second.element() as HTMLButtonElement;
+  controller.update([firstElement, secondElement], firstElement);
+  await userEvent.click(first);
+
+  component.inactive = true;
+
+  expect(controller.navigate("next")).toBeNull();
+  expect(controller.activeElement).toBeNull();
+  expect(controller.activeIndex).toBe(-1);
+  await expect.element(first).toHaveAttribute("tabindex", "-1");
+  await expect.element(second).toHaveAttribute("tabindex", "-1");
+  await expect.element(first).toHaveFocus();
+});
+
+it("reports focus within the component or an external entry element", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const outside = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  const entry = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  component.el.after(entry, outside);
+
+  first.focus();
+  expect(controller.hasFocus).toBe(true);
+  entry.focus();
+  expect(controller.hasFocus).toBe(false);
+  component.entryElement = entry;
+  expect(controller.hasFocus).toBe(true);
+  outside.focus();
+  expect(controller.hasFocus).toBe(false);
+});
+
+it("distinguishes an entry element from another control in the same shadow root", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const outside = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  const entry = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  const host = document.createElement("div");
+  component.el.after(host);
+  onTestFinished(() => host.remove());
+  host.attachShadow({ mode: "open" }).append(entry, outside);
+  component.entryElement = entry;
+
+  entry.focus();
+  expect(controller.hasFocus).toBe(true);
+  outside.focus();
+  expect(controller.hasFocus).toBe(false);
 });
 
 it("reconciles an eligible active item without moving focus", async () => {

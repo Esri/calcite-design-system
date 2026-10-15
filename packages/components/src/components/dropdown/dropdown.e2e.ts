@@ -796,11 +796,15 @@ it("focus is returned to trigger after close", async () => {
   const item1 = await element.find("calcite-dropdown-item[id='item-1']");
   const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
   expect(await dropdownWrapper.isVisible()).toBe(false);
+  const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
   await trigger.click();
   await page.waitForChanges();
+  await openEventSpy.next();
   expect(await dropdownWrapper.isVisible()).toBe(true);
+  const closeEventSpy = await page.spyOnEvent("calciteDropdownClose");
   await item1.click();
   await page.waitForChanges();
+  await closeEventSpy.next();
   expect(await dropdownWrapper.isVisible()).toBe(false);
   expect(await page.evaluate(() => document.activeElement!.id)).toEqual("trigger");
 });
