@@ -152,7 +152,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   onReferenceElementFocusIn = (event: FocusEvent): void => this.openHoverDropdown(event);
 
   onReferenceElementPointerOpen = (): void => {
-    this.focusActiveItemOnOpen = false;
+    if (!this.open) {
+      this.focusActiveItemOnOpen = false;
+    }
   };
 
   private focusSetter = useFocusable<this>()(this);

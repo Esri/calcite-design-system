@@ -585,6 +585,39 @@ describe("hover type", () => {
     await expect.element(trigger).toHaveAttribute("tabindex", "-1");
   });
 
+  it("preserves keyboard navigation when an open menu's external hover reference is hovered", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown referenceElement="external-trigger" type="hover">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+            <calcite-dropdown-item>Second</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const first = page.getByRole("menuitemradio", { name: "First" });
+    const second = page.getByRole("menuitemradio", { name: "Second" });
+    const pointerOpenSpy = vi.spyOn(component, "onReferenceElementPointerOpen");
+    onTestFinished(() => pointerOpenSpy.mockRestore());
+
+    await userEvent.hover(page.getByRole("button", { name: "Outside" }));
+    await userEvent.tab();
+    await expect.element(first).toHaveFocus();
+    await userEvent.hover(trigger);
+    await vi.waitFor(() => expect(pointerOpenSpy).toHaveBeenCalled());
+    await userEvent.keyboard("{ArrowDown}");
+
+    await expect.element(second).toHaveFocus();
+    await expect.element(second).toHaveAttribute("tabindex", "0");
+    await expect.element(first).toHaveAttribute("tabindex", "-1");
+  });
+
   it("enters a pointer-opened menu when its external hover reference receives focus", async () => {
     const { component } = await mount<Dropdown>(
       <>
