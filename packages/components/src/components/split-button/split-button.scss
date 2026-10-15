@@ -3,20 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-split-button-background-color: Specifies the component's background color.
- * @prop --calcite-split-button-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-split-button-background-color-focus: Specifies the component's background color when focused.
- * @prop --calcite-split-button-background-color-press: Specifies the component's background color when active.
- * @prop --calcite-split-button-border-color: Specifies the component's border color.
- * @prop --calcite-split-button-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-split-button-icon-color: Specifies the component's `iconStart` and `iconEnd` color.
- * @prop --calcite-split-button-loader-color: Specifies the component's loader color.
- * @prop --calcite-split-button-text-color: Specifies the component's text color.
- * @prop --calcite-split-button-shadow: Specifies the component's shadow.
- * @prop --calcite-split-button-divider-border-color: Specifies the component's divider border color.
- * @prop --calcite-split-button-divider-color: Specifies the component's divider color.
- * @prop --calcite-split-button-dropdown-width: Specifies the width of the component's dropdown.
- * @prop --calcite-split-button-dropdown-background-color: Specifies the component's dropdown background color.
 **/
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -46,22 +32,34 @@
 
 :host([kind="brand"]) {
   --calcite-internal-split-button-divider-border-color: var(--calcite-color-brand);
-  --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+  --calcite-internal-split-button-divider-color: var(
+    --calcite-theme-color-surface-2,
+    var(--calcite-color-foreground-1)
+  );
 }
 
 :host([kind="danger"]) {
   --calcite-internal-split-button-divider-border-color: var(--calcite-color-status-danger);
-  --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+  --calcite-internal-split-button-divider-color: var(
+    --calcite-theme-color-surface-2,
+    var(--calcite-color-foreground-1)
+  );
 }
 
 :host([kind="neutral"]) {
-  --calcite-internal-split-button-divider-border-color: var(--calcite-color-foreground-3);
+  --calcite-internal-split-button-divider-border-color: var(
+    --calcite-theme-color-surface-4,
+    var(--calcite-color-foreground-3)
+  );
   --calcite-internal-split-button-divider-color: var(--calcite-color-text-1);
 }
 
 :host([kind="inverse"]) {
   --calcite-internal-split-button-divider-border-color: var(--calcite-color-inverse);
-  --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+  --calcite-internal-split-button-divider-color: var(
+    --calcite-theme-color-surface-2,
+    var(--calcite-color-foreground-1)
+  );
 }
 
 :host([appearance="transparent"]) {
@@ -76,7 +74,10 @@
     --calcite-internal-split-button-divider-color: var(--calcite-color-text-1);
   }
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-theme-color-surface-2,
+      var(--calcite-color-foreground-1)
+    );
   }
 }
 
@@ -94,7 +95,10 @@
   &:host([kind="danger"]),
   &:host([kind="neutral"]),
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-divider-border-color: var(--calcite-color-background);
+    --calcite-internal-split-button-divider-border-color: var(
+      --calcite-theme-color-surface-1,
+      var(--calcite-color-background)
+    );
   }
 }
 
@@ -210,7 +214,7 @@ calcite-dropdown {
     @apply pointer-events-none;
   }
   &:host([appearance="outline-fill"]) .divider-container {
-    background-color: var(--calcite-color-background);
+    background-color: var(--calcite-theme-color-surface-1, var(--calcite-color-background));
   }
   &:host([appearance="outline"]) .divider-container {
     background-color: transparent;

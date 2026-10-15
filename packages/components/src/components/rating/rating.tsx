@@ -17,7 +17,7 @@ import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -32,10 +32,53 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the amount of left and right margin spacing between each item.
+     */
+    "--calcite-rating-spacing": "*";
+    /**
+     * Specifies the component's item color when hovered.
+     */
+    "--calcite-rating-color-hover": "*";
+    /**
+     * Specifies the component's item color when active.
+     */
+    "--calcite-rating-color-press": "*";
+    /**
+     * Specifies the component's item color.
+     */
+    "--calcite-rating-color": "*";
+    /**
+     * When `average` is set, specifies the component's item color.
+     */
+    "--calcite-rating-average-color": "*";
+    /**
+     * When `average` is set, specifies the component's `average` text color.
+     */
+    "--calcite-rating-average-text-color": "*";
+    /**
+     * Specifies the component's text color for `count`.
+     */
+    "--calcite-rating-count-text-color": "*";
+  }
+}
+
+interface RatingSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Rating extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: RatingSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -78,7 +121,7 @@ export class Rating extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

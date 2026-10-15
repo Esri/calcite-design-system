@@ -15,24 +15,50 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-tab`s.
- * @slot title-group - A slot for adding a `calcite-tab-nav`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tab-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-tab-border-color": "*";
+  }
+}
+
+interface TabsSlots {
+  /**
+   * A slot for adding `calcite-tab`s.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a `calcite-tab-nav`.
+   */
+  "title-group": Node[];
+}
+
 export class Tabs extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TabsSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   /** Stores an array of ids of `<calcite-tab>`s to match up ARIA attributes. */
   @state() tabs: Tab["el"][] = [];
@@ -45,9 +71,9 @@ export class Tabs extends LitElement {
 
   @state() hasVisibleTitles = true;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, displays the component with a folder style menu. */
   @property({ reflect: true }) bordered = false;
@@ -64,9 +90,9 @@ export class Tabs extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -105,9 +131,10 @@ export class Tabs extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     const nextTitles = [...event.detail] as TabTitle["el"][];
@@ -203,9 +230,9 @@ export class Tabs extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -218,5 +245,5 @@ export class Tabs extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

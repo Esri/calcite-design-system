@@ -1,14 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-autocomplete-background-color: Specifies the component's background color.
- * @prop --calcite-autocomplete-description-text-color: Specifies the text color of the component's `description`.
- * @prop --calcite-autocomplete-heading-text-color: Specifies the text color of the component's `heading`.
- * @prop --calcite-autocomplete-text-color: Specifies the component's text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -53,7 +42,10 @@
     relative
     box-border
     items-center;
-  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-autocomplete-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-3));
   gap: var(--calcite-internal-autocomplete-item-spacing-unit-l);
   padding-inline: var(--calcite-internal-autocomplete-item-spacing-unit-l);
@@ -90,7 +82,10 @@
 }
 
 :host(:hover:not([disabled])) .container {
-  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
+  background-color: var(
+    --calcite-autocomplete-background-color,
+    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+  );
 
   .description {
     color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));

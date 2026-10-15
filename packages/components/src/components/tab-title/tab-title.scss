@@ -1,25 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-tab-text-color: Specifies the component's text color.
- * @prop --calcite-tab-text-color-press: Specifies the component's text color when hovered, pressed, or selected.
- * @prop --calcite-tab-border-color: Specifies the component's border color.
- * @prop --calcite-tab-background-color: Specifies the component's background color.
- * @prop --calcite-tab-background-color-hover: When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
- * @prop --calcite-tab-accent-color-press: When `selected` or active, specifies the component's accent color.
- * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color.
- * @prop --calcite-tab-icon-color-start-press:  When `selected`, hovered, or pressed, specifies the component's `iconStart` color.
- * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color.
- * @prop --calcite-tab-icon-color-end-press: When `selected`, hovered, or pressed, specifies the component's `iconEnd` color.
- * @prop --calcite-tab-close-icon-color: Specifies the component's close element icon color.
- * @prop --calcite-tab-close-icon-color-press: Specifies the component's close element icon color when hovered, focused, and active.
- * @prop --calcite-tab-close-icon-background-color: Specifies the component's close element icon background color.
- * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when pressed.
- * @prop --calcite-tab-close-icon-background-color-hover: Specifies the component's close element icon background color when hovered.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -58,8 +36,8 @@
 }
 
 .scale-s {
-  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-none);
-  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-padding: var(--calcite-theme-space-none, var(--calcite-spacing-none));
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 
   .content {
     @include shared.text-n2h();
@@ -69,8 +47,8 @@
 }
 
 .scale-m {
-  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
-  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-padding: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 
   .content {
     @include shared.text-n1h();
@@ -80,8 +58,8 @@
 }
 
 .scale-l {
-  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
-  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xs);
+  --calcite-internal-tab-title-close-padding: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
 
   .content {
     @include shared.text-0h();
@@ -171,7 +149,7 @@
 
 :host([bordered]:not([selected]):hover:not(:focus)) {
   .selected-indicator {
-    background-color: var(--calcite-color-foreground-2);
+    background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
   }
   .container:not(.container--bottom) .selected-indicator {
     box-shadow: inset 0 1px var(--calcite-color-border-1);
@@ -229,11 +207,11 @@
 
   .calcite-tab-title--icon {
     &.icon-start {
-      margin-inline-end: var(--calcite-spacing-sm);
+      margin-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
 
     &.icon-end {
-      margin-inline-start: var(--calcite-spacing-sm);
+      margin-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
   }
 }
@@ -241,7 +219,7 @@
 // bordered styles
 :host([bordered]) .container {
   border-color: transparent;
-  border-inline-width: var(--calcite-spacing-px);
+  border-inline-width: var(--calcite-theme-space-px, var(--calcite-spacing-px));
   border-inline-style: solid;
 
   &.container--bottom {
@@ -264,7 +242,7 @@
     inset-block-end: unset;
     inset-inline-start: -1px;
     inset-inline-end: 0;
-    inline-size: calc(100% + var(--calcite-spacing-base));
+    inline-size: calc(100% + var(--calcite-theme-space-base, var(--calcite-spacing-base)));
   }
 
   &:host(:not([selected])) {
@@ -293,7 +271,10 @@
   }
 
   &:hover {
-    background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(
+      --calcite-tab-background-color-hover,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
     border-block-end-color: var(--calcite-color-border-1);
   }
 }
@@ -317,7 +298,10 @@
   border-inline-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
 
   &::after {
-    background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+    background-color: var(
+      --calcite-tab-background-color,
+      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+    );
   }
 
   &:hover,
@@ -337,7 +321,7 @@
 // compensate for spacing when no hastext and two icons
 :host([icon-start][icon-end]) {
   .calcite-tab-title--icon:first-child {
-    margin-inline-end: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 
@@ -382,7 +366,8 @@
   --calcite-action-background-color-hover: var(--calcite-tab-close-icon-background-color-hover);
 
   margin: auto;
-  margin-inline: var(--calcite-spacing-sm) var(--calcite-internal-tab-title-close-margin-start);
+  margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+    var(--calcite-internal-tab-title-close-margin-start);
 }
 
 @media (forced-colors: active) {

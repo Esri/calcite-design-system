@@ -1,13 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-tab-background-color: Specifies the component's background color.
- * @prop --calcite-tab-border-color: When `calcite-tabs` is `bordered`, specifies the component's border color.
- * @prop --calcite-tab-text-color: Specifies the component's `iconStart`, `iconEnd`, and text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -79,13 +69,13 @@
 
 :host(:not([bordered])) {
   .scale-l {
-    --calcite-internal-tab-nav-gap: var(--calcite-spacing-xxl);
+    --calcite-internal-tab-nav-gap: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
   }
   .scale-m {
-    --calcite-internal-tab-nav-gap: var(--calcite-spacing-xl);
+    --calcite-internal-tab-nav-gap: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
   .scale-s {
-    --calcite-internal-tab-nav-gap: var(--calcite-spacing-lg);
+    --calcite-internal-tab-nav-gap: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 
   .tab-titles-slot-wrapper {
@@ -95,7 +85,7 @@
 
 :host([layout="center"]:not([bordered])) {
   .tab-titles-slot-wrapper {
-    padding-inline: var(--calcite-spacing-xl);
+    padding-inline: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
 }
 

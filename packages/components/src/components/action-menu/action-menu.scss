@@ -1,12 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-action-menu-items-space: Specifies the space between actions in the menu.
- *
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -17,16 +8,25 @@
 @use "../../styles/shared";
 
 :host([scale="s"]) {
-  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-xxs));
-  --calcite-internal-action-menu-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-action-menu-gap: var(
+    --calcite-action-menu-items-space,
+    var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
+  );
+  --calcite-internal-action-menu-padding: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 :host([scale="m"]) {
-  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm));
-  --calcite-internal-action-menu-padding: var(--calcite-spacing-sm);
+  --calcite-internal-action-menu-gap: var(
+    --calcite-action-menu-items-space,
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+  );
+  --calcite-internal-action-menu-padding: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 :host([scale="l"]) {
-  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm-plus));
-  --calcite-internal-action-menu-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-action-menu-gap: var(
+    --calcite-action-menu-items-space,
+    var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus))
+  );
+  --calcite-internal-action-menu-padding: var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus));
 }
 
 :host {

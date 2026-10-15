@@ -1,14 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-segmented-control-color: Specifies the component's color.
- * @prop --calcite-segmented-control-background-color: Specifies the component's background color.
- * @prop --calcite-segmented-control-shadow: Specifies the component's shadow.
- * @prop --calcite-segmented-control-icon-color: Specifies the icons's color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -70,12 +59,18 @@
 }
 
 :host(:hover) .label {
-  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-2));
+  background-color: var(
+    --calcite-segmented-control-background-color,
+    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+  );
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-1));
 }
 
 :host(:active) .label {
-  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-3));
+  background-color: var(
+    --calcite-segmented-control-background-color,
+    var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+  );
 }
 
 :host([checked]) .label {
@@ -86,7 +81,10 @@
 
 :host([checked]) .label--outline,
 :host([checked]) .label--outline-fill {
-  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-segmented-control-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   box-shadow: var(--calcite-segmented-control-shadow, inset 0 0 0 1px var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-brand));
 }

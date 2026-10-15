@@ -14,29 +14,56 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the vertical space between the component's content in the `default` slot.
+     */
+    "--calcite-tab-content-space-y": "*";
+    /**
+     * Specifies the block padding of the component's content in the `default` slot.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-tab-content-space-y` instead.
+     */
+    "--calcite-tab-content-block-padding": "*";
+  }
+}
+
+interface TabSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 export class Tab extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TabSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = IDS.tabTitleId(guid());
 
   private parentTabsEl: Tabs["el"] | null = null;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() labeledBy?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Specifies the component's size. Inherited from the parent `calcite-tabs`, defaults to `m`.
@@ -59,9 +86,9 @@ export class Tab extends LitElement {
    */
   @property({ reflect: true }) tab?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Returns the index of the component item within the tab array. */
   @method()
@@ -82,9 +109,9 @@ export class Tab extends LitElement {
     this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || undefined;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -108,9 +135,9 @@ export class Tab extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const targetTabsEl = event.composedPath().find(isTabs);
@@ -132,9 +159,9 @@ export class Tab extends LitElement {
     event.stopPropagation();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const id = this.el.id || this.guid;
@@ -156,5 +183,5 @@ export class Tab extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

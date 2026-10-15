@@ -1,27 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-color-picker-background-color: Specifies the component's background color.
- * @prop --calcite-color-picker-border-color: Specifies the component's border color.
- * @prop --calcite-color-picker-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-color-picker-shadow: Specifies the component's shadow.
- * @prop --calcite-color-picker-text-color: Specifies the component's text color.
- * @prop --calcite-color-picker-input-background-color: Specifies the component's input background color.
- * @prop --calcite-color-picker-input-border-color: Specifies the component's input border color.
- * @prop --calcite-color-picker-input-text-color: Specifies the component's input text color.
- * @prop --calcite-color-picker-input-prefix-text-color:  When `hexDisabled` is not `true`, specifies the component's input prefix text color.
- * @prop --calcite-color-picker-input-suffix-text-color:  When `alphaChannel` is `true`, specifies the component's input suffix text color.
- * @prop --calcite-color-picker-tab-border-color: Specifies the component's tab border color.
- * @prop --calcite-color-picker-tab-text-color: Specifies the component's tab text color.
- * @prop --calcite-color-picker-tab-accent-color-press: Specifies the component's tab accent color when selected or active.
- * @prop --calcite-color-picker-swatch-corner-radius: Specifies the component's swatch corner radius.
- * @prop --calcite-color-picker-action-text-color-press: Specifies the component's `savedColors` action text color when pressed.
- * @prop --calcite-color-picker-action-text-color-hover: Specifies the component's `savedColors` action text color when hovered.
- * @prop --calcite-color-picker-action-text-color: Specifies the component's `savedColors` action text color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -34,7 +10,7 @@
   @include shared.text-n2h();
 
   display: inline-block;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   inline-size: var(--calcite-internal-color-picker-min-width);
   min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
@@ -43,17 +19,17 @@
 
 :host([scale="s"]) {
   --calcite-internal-color-picker-min-width: 200px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-sm);
+  --calcite-color-picker-spacing: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 
 :host([scale="m"]) {
   --calcite-internal-color-picker-min-width: 240px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-md);
+  --calcite-color-picker-spacing: var(--calcite-theme-space-md, var(--calcite-spacing-md));
 }
 
 :host([scale="l"]) {
   --calcite-internal-color-picker-min-width: 304px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-lg);
+  --calcite-color-picker-spacing: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
 
   @include shared.text-n1h();
 
@@ -126,7 +102,10 @@ calcite-swatch {
   flex-direction: column;
   block-size: min-content;
   border: 1px solid var(--calcite-color-picker-border-color, var(--calcite-color-border-3));
-  background-color: var(--calcite-color-picker-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-color-picker-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-color-picker-shadow, var(--calcite-shadow-none));
 }
@@ -184,7 +163,7 @@ calcite-swatch {
   flex-direction: column;
   justify-content: space-between;
   margin-inline-start: var(--calcite-color-picker-spacing);
-  gap: var(--calcite-spacing-xxs);
+  gap: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 
 .preview-and-sliders {
