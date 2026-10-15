@@ -3,8 +3,8 @@
 
 // scale variables
 :host([scale="s"]) {
-  --calcite-notice-spacing-token-small: theme("spacing.2");
-  --calcite-notice-spacing-token-large: theme("spacing.3");
+  --calcite-notice-spacing-token-small: var(--calcite-space-sm);
+  --calcite-notice-spacing-token-large: var(--calcite-space-md);
   @include shared.slotted("title", "*", ".container") {
     @apply text-n1-wrap;
   }
@@ -17,8 +17,8 @@
 }
 
 :host([scale="m"]) {
-  --calcite-notice-spacing-token-small: theme("spacing.3");
-  --calcite-notice-spacing-token-large: theme("spacing.4");
+  --calcite-notice-spacing-token-small: var(--calcite-space-md);
+  --calcite-notice-spacing-token-large: var(--calcite-space-lg);
   @include shared.slotted("title", "*", ".container") {
     @apply text-0-wrap;
   }
@@ -31,8 +31,8 @@
 }
 
 :host([scale="l"]) {
-  --calcite-notice-spacing-token-small: theme("spacing.4");
-  --calcite-notice-spacing-token-large: theme("spacing.5");
+  --calcite-notice-spacing-token-small: var(--calcite-space-lg);
+  --calcite-notice-spacing-token-large: var(--calcite-space-xl);
   @include shared.slotted("title", "*", ".container") {
     @apply text-1-wrap;
   }
@@ -43,11 +43,11 @@
     @apply text-0-wrap;
   }
   .notice-close {
-    margin-inline-end: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-space-sm);
   }
   .actions-end {
-    margin-inline-end: var(--calcite-spacing-sm);
-    gap: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-space-sm);
+    gap: var(--calcite-space-sm);
   }
 }
 
@@ -160,7 +160,7 @@
   @include shared.transition-default();
   @apply flex cursor-pointer items-center box-border;
   flex: 0 0 auto;
-  margin-inline-end: var(--calcite-spacing-xs);
+  margin-inline-end: var(--calcite-space-xs);
   --calcite-action-background-color: var(--calcite-notice-close-background-color);
   --calcite-action-background-color-hover: var(
     --calcite-notice-close-background-color-hover,
@@ -174,8 +174,8 @@
 .actions-end {
   @apply flex items-center;
   flex: 0 0 auto;
-  margin-inline-end: var(--calcite-spacing-xs);
-  gap: var(--calcite-spacing-xs);
+  margin-inline-end: var(--calcite-space-xs);
+  gap: var(--calcite-space-xs);
 }
 
 $notice-kinds:

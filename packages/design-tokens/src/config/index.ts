@@ -87,6 +87,7 @@ const config: Config = {
     },
     css: {
       transformGroup: transformers.TransformCalciteGroup,
+      transforms: [transformers.TransformValueSpacingDensity],
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [
@@ -100,7 +101,7 @@ const config: Config = {
         },
         {
           destination: "semantic.css",
-          format: sdFormats.cssVariables,
+          format: formats.FormatSemanticDensity,
           filter: filters.FilterSemanticTokens,
         },
         {

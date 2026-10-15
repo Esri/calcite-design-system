@@ -47,6 +47,10 @@ export function isFontRelated(token: TransformedToken): boolean {
   );
 }
 
+export function isSpacing(token: TransformedToken): boolean {
+  return token.path[0] === "spacing" || token.path[0] === "space";
+}
+
 export function isLetterSpacing(token: TransformedToken): boolean {
   return isDimension(token) && token.path.includes("letter-spacing");
 }

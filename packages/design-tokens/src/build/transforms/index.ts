@@ -14,6 +14,7 @@ import { registerValueCorrectPreprocessValue } from "./value/correct-pretransfor
 import { registerValueCorrectPropName } from "./value/correct-prop-name.ts";
 import { registerValueCorrectPostprocessValue } from "./value/correct-posttransform-value.ts";
 import { registerNameMergeBreakpoints } from "./name/es6-merge-breakpoints.ts";
+import { registerValueSpacingDensity } from "./value/spacing-density.ts";
 
 export function registerTransformers(): void {
   registerValueMergeValues();
@@ -29,6 +30,7 @@ export function registerTransformers(): void {
   registerValueCorrectPreprocessValue();
   registerValueCorrectPostprocessValue();
   registerValueCorrectPropName();
+  registerValueSpacingDensity();
   registerAttributePlatformNames();
   registerAttributeSchema();
   registerTransformCalciteGroup();
@@ -41,6 +43,7 @@ export { TransformValueEnsureType } from "./value/ensure-type.ts";
 export { TransformValueCorrectPreprocessValue } from "./value/correct-pretransform-value.ts";
 export { TransformValueCorrectPostprocessValue } from "./value/correct-posttransform-value.ts";
 export { TransformValueCorrectPropName } from "./value/correct-prop-name.ts";
+export { TransformValueSpacingDensity } from "./value/spacing-density.ts";
 export { TransformNameRemoveTier } from "./name/remove-tier.ts";
 export { TransformNameRemoveDefault } from "./name/remove-default.ts";
 export { TransformNameRemovePrefix } from "./name/remove-prefix.ts";

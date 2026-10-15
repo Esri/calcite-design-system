@@ -7,15 +7,233 @@
     <script src="/src/demos/_assets/head.ts"></script>
   </head>
 
+  <style>
+    .input-spacing {
+      display: flex;
+      flex-direction: column;
+      gap: var(--calcite-space-lg);
+      margin-top: var(--calcite-space-lg);
+    }
+
+    #control-panel {
+      --calcite-dialog-size-x: 400px;
+    }
+
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--calcite-space-lg);
+    }
+  </style>
+
   <body>
     <demo-dom-swapper>
-      <!-- demo snippet start -->
-
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `pnpm snippet` -->
-
-      <!-- demo snippet end -->
+      <calcite-shell data-calcite-density="100%">
+        <calcite-shell-panel slot="panel-start" id="shell-panel-start" width="m" resizable>
+          <calcite-action-bar slot="action-bar" expanded>
+            <calcite-action-group>
+              <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
+              <calcite-action active text="Layers" indicator icon="layers" text-enabled></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Undo" icon="undo" text-enabled></calcite-action>
+              <calcite-action text="Redo" indicator icon="redo" text-enabled></calcite-action>
+              <calcite-action text="Save" disabled icon="save" text-enabled></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group slot="bottom-actions">
+              <calcite-action text="Tips" icon="question" text-enabled></calcite-action>
+              <calcite-action text="Settings" indicator icon="gear" text-enabled></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+          <calcite-panel heading="Layers" id="panel-start" closable>
+            <calcite-block-group drag-enabled>
+              <calcite-block
+                collapsible
+                expanded
+                heading="Symbology"
+                description="Select type, color, and transparency"
+                icon-start="map-pin"
+              >
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+                <div class="input-spacing">
+                  <calcite-input
+                    label-text="Region"
+                    placeholder="Enter your region"
+                    value="Southwest"
+                    clearable
+                  ></calcite-input>
+                  <calcite-slider label-text="Transparency" value="30"></calcite-slider>
+                  <calcite-input-number
+                    label-text="Offset distance"
+                    placeholder="Enter an offset distance"
+                    step="1"
+                    value="5"
+                    suffix-text="mi"
+                    clearable
+                  >
+                  </calcite-input-number>
+                </div>
+              </calcite-block>
+              <calcite-block
+                collapsible
+                expanded
+                heading="Additional Options"
+                description="More settings"
+                icon-start="gear"
+                toggle-display="switch"
+                style="--calcite-block-content-space: 0px"
+              >
+                <calcite-list label="Park features" display-mode="nested">
+                  <calcite-list-item label="Destinations" value="destinations" expanded>
+                    <calcite-list-item
+                      label="Hiking trails"
+                      description="Designated routes for hikers to use."
+                      value="hiking-trails"
+                      closable
+                      expanded
+                    >
+                      <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+                      <calcite-list-item label="Mountain trails" value="mountain-trails" closable> </calcite-list-item>
+                      <calcite-list-item label="River trails" value="river-trails" closable> </calcite-list-item>
+                    </calcite-list-item>
+                    <calcite-list-item
+                      label="Waterfalls"
+                      description="Vertical drops from a river."
+                      closable
+                      value="waterfalls"
+                    >
+                      <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+                    </calcite-list-item>
+                    <calcite-list-item
+                      label="Rivers"
+                      description="Large naturally flowing watercourses."
+                      closable
+                      value="rivers"
+                    >
+                      <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+                    </calcite-list-item>
+                  </calcite-list-item>
+                </calcite-list>
+                <calcite-chip-group
+                  label="demo-group-label"
+                  selection-mode="single-persist"
+                  style="margin: var(--calcite-space-md)"
+                >
+                  <calcite-chip icon="file-csv" closable value="csv" label="CSV"> CSV </calcite-chip>
+                  <calcite-chip icon="file-excel" closable value="excel" label="Excel"> Excel </calcite-chip>
+                  <calcite-chip selected icon="file-kml" closable value="kml" label="KML"> KML </calcite-chip>
+                  <calcite-chip icon="file-text" closable value="text" label="Text"> Text </calcite-chip>
+                  <calcite-chip icon="file-pdf" closable value="pdf" label="PDF"> PDF </calcite-chip>
+                </calcite-chip-group>
+              </calcite-block>
+            </calcite-block-group>
+            <calcite-button slot="footer-start" icon-start="plus" kind="neutral"></calcite-button>
+            <calcite-button slot="footer-end">Button</calcite-button>
+          </calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel heading="Content"></calcite-panel>
+      </calcite-shell>
     </demo-dom-swapper>
+    <calcite-dialog
+      id="control-panel"
+      heading="Controls"
+      open
+      drag-enabled
+      close-disabled
+      escape-disabled
+      focus-trap-disabled
+      placement="top-end"
+      width="s"
+    >
+      <div class="control-panel">
+        <calcite-segmented-control id="scale-control" label-text="Scale" width="full">
+          <calcite-segmented-control-item value="s">S</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="m" checked>M</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="l">L</calcite-segmented-control-item>
+        </calcite-segmented-control>
+        <calcite-switch id="density-mode-switch" label-text-end="Custom density factor"></calcite-switch>
+        <calcite-segmented-control id="density-presets" label-text="Density preset" width="full">
+          <calcite-segmented-control-item value="50%">50%</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="75%">75%</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="100%" checked>100%</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="125%">125%</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="150%">150%</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="175%">175%</calcite-segmented-control-item>
+        </calcite-segmented-control>
+        <calcite-slider
+          id="density-slider"
+          label-text="Density factor: 100%"
+          min="0"
+          max="100"
+          step="1"
+          value="50"
+          hidden
+        ></calcite-slider>
+      </div>
+    </calcite-dialog>
     <demo-options></demo-options>
+
+    <script type="module">
+      const scaleControl = document.getElementById("scale-control");
+      const modeSwitch = document.getElementById("density-mode-switch");
+      const presetControl = document.getElementById("density-presets");
+      const densitySlider = document.getElementById("density-slider");
+
+      function getDemoRoot() {
+        const swapper = document.querySelector("demo-dom-swapper");
+        return swapper.context === "shadow" ? swapper.shadowRoot : swapper;
+      }
+
+      function getShell() {
+        return getDemoRoot().querySelector("calcite-shell");
+      }
+
+      // left half maps to 0.5–1, right half to 1–2
+      function sliderValueToFactor(value) {
+        return value <= 50 ? 0.5 + (value / 50) * 0.5 : 1 + (value - 50) / 50;
+      }
+
+      function applyPreset() {
+        const shell = getShell();
+        shell.style.removeProperty("--calcite-density-factor");
+        shell.setAttribute("data-calcite-density", presetControl.value);
+      }
+
+      function applySliderFactor() {
+        const factor = sliderValueToFactor(densitySlider.value);
+        const shell = getShell();
+        // attribute must stay so spacing tokens re-resolve; "custom" matches no preset rule
+        shell.setAttribute("data-calcite-density", "custom");
+        shell.style.setProperty("--calcite-density-factor", String(factor));
+        densitySlider.labelText = `Density factor: ${Math.round(factor * 100)}%`;
+      }
+
+      scaleControl.addEventListener("calciteSegmentedControlChange", () => {
+        getDemoRoot()
+          .querySelectorAll("*")
+          .forEach((element) => {
+            if (element.tagName.startsWith("CALCITE-") && "scale" in element) {
+              element.scale = scaleControl.value;
+            }
+          });
+      });
+
+      presetControl.addEventListener("calciteSegmentedControlChange", applyPreset);
+
+      densitySlider.addEventListener("calciteSliderInput", applySliderFactor);
+
+      modeSwitch.addEventListener("calciteSwitchChange", () => {
+        const useSlider = modeSwitch.checked;
+        presetControl.hidden = useSlider;
+        densitySlider.hidden = !useSlider;
+        if (useSlider) {
+          applySliderFactor();
+        } else {
+          applyPreset();
+        }
+      });
+    </script>
   </body>
 </html>
