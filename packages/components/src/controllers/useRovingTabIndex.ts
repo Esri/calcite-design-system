@@ -46,33 +46,85 @@ function getTabbableEntryElements(entryElement: Element | undefined): FocusableE
 }
 
 interface RovingTabIndexOptions<ElementType extends HTMLElement> {
-  /** Resolves the current managed items for index-based activation. */
+  /**
+   * Resolves the items whose `tabindex` values are managed.
+   *
+   * Used by `setActiveIndex`; defaults to the most recently supplied items.
+   */
   getElements?: () => ElementType[];
-  /** Resolves the element containing the composite's entry control. */
+  /**
+   * Resolves the element containing the composite's entry control.
+   *
+   * Its tabbable elements are included in roving tab-stop management while an item is active.
+   */
   getEntryElement?: () => Element | undefined;
-  /** Resolves eligible items in navigation order, defaulting to the managed items. */
+  /**
+   * Resolves eligible items in navigation order.
+   *
+   * Used to calculate the active index and resolve an item in `setActiveIndex`; defaults to the managed items.
+   */
   getTraversableElements?: () => readonly ElementType[] | undefined;
-  /** Determines whether managed items can have an active tab stop. */
+  /**
+   * Determines whether an active item can have a tab stop.
+   *
+   * When this returns `false`, `update` clears the active item.
+   */
   isActive?: () => boolean;
 }
 
 interface RovingTabIndex<ElementType extends HTMLElement> {
-  /** The active item, or null when no item is active. */
+  /**
+   * The active item, or `null` when no item is active.
+   *
+   * An item is active only when it is managed, traversable, and the controller is active.
+   */
   readonly activeElement: ElementType | null;
-  /** The active item's index among eligible items, or -1 when none is active. */
+  /** The active item's index among traversable items, or `-1` when none is active. */
   readonly activeIndex: number;
+  /**
+   * Updates the managed items and active item, applying roving `tabindex` values.
+   *
+   * Previously managed elements no longer included are restored to their original `tabindex`.
+   *
+   * @param elements - Items whose `tabindex` values are managed.
+   * @param activeElement - Item to make the active tab stop, or `null` to clear the active item.
+   */
   update: (elements: ElementType[], activeElement: ElementType | null) => void;
-  /** Activates an eligible item by index, clearing the active tab stop for invalid indices. */
+  /**
+   * Activates a traversable item by index.
+   *
+   * An out-of-range or negative index clears the active tab stop.
+   *
+   * @param index - Index in the traversable items.
+   */
   setActiveIndex: (index: number) => void;
-  /** Restores specified elements, or all managed elements when omitted. */
+  /**
+   * Restores original `tabindex` attributes on the specified elements, or all managed elements when omitted.
+   *
+   * @param elements - Elements to restore. When omitted, restores every element currently tracked by the controller.
+   */
   restore: (elements?: readonly Element[]) => void;
-  /** Returns focus to the entry control without changing its tabindex. */
+  /**
+   * Returns focus to the entry control without changing its `tabindex`.
+   *
+   * By default, focus is restored only when it is currently within the managed items or entry control.
+   *
+   * @param force - When `true`, restores focus without checking its current location.
+   */
   restoreFocus: (force?: boolean) => void;
-  /** Returns focus only while one of the managed items is focused. */
+  /** Returns focus to the entry control only while one of the managed items is focused. */
   restoreFocusIfWithin: () => void;
 }
 
-/** Manages a single tab stop and restores attributes when elements are no longer managed. */
+/**
+ * Creates a controller that manages roving tab stops for a composite widget.
+ *
+ * The active item receives `tabindex="0"` and other managed items receive `tabindex="-1"`.
+ * Original `tabindex` attributes are restored when elements stop being managed or the component disconnects.
+ * The controller can also manage an entry control's tab stops and restore focus to that control.
+ *
+ * @param options - Callbacks for resolving managed items, traversable items, and the entry control.
+ */
 export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>(
   options: RovingTabIndexOptions<ElementType> = {},
 ): ReturnType<typeof makeGenericController<RovingTabIndex<ElementType>>> =>

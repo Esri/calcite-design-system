@@ -812,6 +812,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       this.focusedDropdownItem = undefined;
     } else if (!focusRemainsWithinMenu && this.focusedDropdownItem) {
       const focusedItem = this.focusedDropdownItem;
+      // Defer clearing so item updates can detect focus on an item that was just removed or disabled.
       queueMicrotask(() => {
         if (
           this.focusedDropdownItem === focusedItem &&
