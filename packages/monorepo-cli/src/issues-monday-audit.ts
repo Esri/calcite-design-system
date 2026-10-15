@@ -21,6 +21,7 @@ type Report = {
 
 const owner = "Esri";
 const repo = "calcite-design-system";
+const paginationDelayMs = 3000;
 const issueUrl = `https://github.com/${owner}/${repo}/issues/`;
 const description = dedent`
   Audit Monday.com issues against all open repository issues.
@@ -94,7 +95,7 @@ export async function auditMondayIssues(options: AuditOptions): Promise<Report> 
       }
 
       if (report.audited > 0) {
-        await setTimeout(3000);
+        await setTimeout(paginationDelayMs);
       }
 
       const result = await auditMondayItems(issue.number, options);
@@ -120,8 +121,9 @@ export async function auditMondayIssues(options: AuditOptions): Promise<Report> 
 /**
  * Checks Monday.com for items matching the given GitHub issue number in the specified board and column.
  *
- * @returns "found" if exactly one item is found, "missing" if no items are found, or "multiple" if more than one item
- * is found.
+ * @returns "found" if exactly one item is found, "missing" if no items are found, or "multiple" if more than one item is found.
+ *
+ * @see [Monday.com - Items page by column values](https://developer.monday.com/api-reference/reference/items-page-by-column-values#get-items-page-by-column-values)
  */
 async function auditMondayItems(
   issueNumber: number,

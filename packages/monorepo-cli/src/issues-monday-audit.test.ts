@@ -10,11 +10,17 @@ vi.mock("@actions/github", () => ({
   }),
 }));
 vi.mock("@actions/core", () => ({ warning: vi.fn() }));
+// Skip the pagination delay between GitHub/Monday.com requests, no need to wait or avoid rate limiting in mocks.
 vi.mock("node:timers/promises", () => ({ setTimeout: vi.fn() }));
 
 const options = { githubToken: "github", mondayKey: "monday", board: "123", column: "issue-number" };
 
-function mockPages(pages: { number: number; pull_request?: object }[][]): void {
+/**
+ * Mocks the Octokit paginator response for issues.
+ *
+ * Each inner array represents one Octokit page, containing only the issue fields the audit reads.
+ */
+function mockOctokitPages(pages: { number: number; pull_request?: object }[][]): void {
   iterator.mockImplementation(async function* () {
     for (const data of pages) {
       yield { data };
@@ -22,7 +28,12 @@ function mockPages(pages: { number: number; pull_request?: object }[][]): void {
   });
 }
 
-function mondayResponse(items: { id: string }[]): Response {
+/**
+ * Mocks the Monday.com GraphQL response structure for a given set of items.
+ *
+ * @see [Monday.com - Items page by column values](https://developer.monday.com/api-reference/reference/items-page-by-column-values#get-items-page-by-column-values)
+ */
+function mockMondayResponse(items: { id: string }[]): Response {
   return Response.json({ data: { items_page_by_column_values: { items } } });
 }
 
@@ -33,15 +44,17 @@ afterEach(() => {
 
 describe("auditMondayIssues", () => {
   it("checks every page, excludes pull requests, and reports missing and duplicate matches", async () => {
-    mockPages([
+    // GitHub's issues endpoint also returns PRs; #2 must not trigger a Monday.com request.
+    mockOctokitPages([
       [{ number: 1 }, { number: 2, pull_request: {} }],
       [{ number: 3 }, { number: 4 }],
     ]);
+    // Responses correspond to issues #1, #3, and #4: one match, no matches, and duplicate matches.
     const fetch = vi
       .fn()
-      .mockResolvedValueOnce(mondayResponse([{ id: "10" }]))
-      .mockResolvedValueOnce(mondayResponse([]))
-      .mockResolvedValueOnce(mondayResponse([{ id: "11" }, { id: "12" }]));
+      .mockResolvedValueOnce(mockMondayResponse([{ id: "10" }]))
+      .mockResolvedValueOnce(mockMondayResponse([]))
+      .mockResolvedValueOnce(mockMondayResponse([{ id: "11" }, { id: "12" }]));
     vi.stubGlobal("fetch", fetch);
 
     await expect(auditMondayIssues(options)).resolves.toEqual({ audited: 3, found: 1, missing: [3], duplicates: [4] });
@@ -78,7 +91,7 @@ describe("auditMondayIssues", () => {
     { name: "missing data", body: { data: null }, details: "" },
     { name: "non-array items", body: { data: { items_page_by_column_values: { items: {} } } }, details: "" },
   ])("rejects $name", async ({ body, details }) => {
-    mockPages([[{ number: 1 }]]);
+    mockOctokitPages([[{ number: 1 }]]);
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(Response.json(body)));
     await expect(auditMondayIssues(options)).rejects.toThrow(
       `Monday.com API returned errors or an invalid response for issue #1.${details}`,
@@ -86,13 +99,13 @@ describe("auditMondayIssues", () => {
   });
 
   it("rejects HTTP failures", async () => {
-    mockPages([[{ number: 1 }]]);
+    mockOctokitPages([[{ number: 1 }]]);
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("Unavailable", { status: 503 })));
     await expect(auditMondayIssues(options)).rejects.toThrow("HTTP 503");
   });
 
   it("propagates network failures", async () => {
-    mockPages([[{ number: 1 }]]);
+    mockOctokitPages([[{ number: 1 }]]);
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("Network unavailable")));
     await expect(auditMondayIssues(options)).rejects.toThrow("Network unavailable");
   });
@@ -102,7 +115,7 @@ describe("auditMondayIssues", () => {
       yield { data: [{ number: 1 }] };
       throw new Error("GitHub unavailable");
     });
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(mondayResponse([])));
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(mockMondayResponse([])));
     await expect(auditMondayIssues(options)).rejects.toThrow("GitHub unavailable");
   });
 });
