@@ -73,7 +73,7 @@ export class AutocompleteItem extends LitElement {
    *
    * @private
    */
-  @property() active = false;
+  @property() activeDescendant = false;
 
   /** @copyDoc */
   @property() description?: string;
@@ -161,6 +161,12 @@ export class AutocompleteItem extends LitElement {
   //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
+    this.el.ariaDisabled = `${this.disabled}`;
+    this.el.ariaLabel = this.label || this.heading;
+    this.el.ariaSelected = `${this.selected}`;
+    this.el.id = this.guid;
+    this.el.role = "option";
+
     if (
       this.hasUpdated &&
       (changes.has("description") ||
@@ -193,14 +199,14 @@ export class AutocompleteItem extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { active, description, heading, disabled, inputValueMatchPattern } = this;
+    const { activeDescendant, description, heading, disabled, inputValueMatchPattern } = this;
 
     return (
       <this.interactiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerActive]: active && !disabled,
+            [CSS.containerActive]: activeDescendant && !disabled,
             [CSS.scale(this.scale)]: true,
           }}
           onClick={this.handleClick}

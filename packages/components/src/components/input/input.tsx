@@ -13,7 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../types";
+import { Alignment, AriaAttributesCamelCased, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -349,6 +349,24 @@ export class Input
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
+   * Specifies ARIA properties for the component's native input.
+   *
+   * @private
+   */
+  @property() aria?: Partial<
+    Pick<
+      AriaAttributesCamelCased,
+      | "activeDescendantElement"
+      | "autoComplete"
+      | "controlsElements"
+      | "expanded"
+      | "hasPopup"
+      | "label"
+    > &
+      Pick<LuminaJsx.HTMLAttributes, "role">
+  >;
+
+  /**
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
@@ -401,6 +419,13 @@ export class Input
 
   /** @copyDoc */
   @property() labelText?: string;
+
+  /**
+   * Specifies the native input's `id`.
+   *
+   * @private
+   */
+  @property() inputId?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -1377,8 +1402,13 @@ export class Input
         <input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
+          ariaActiveDescendantElement={this.aria?.activeDescendantElement}
+          ariaAutoComplete={this.aria?.autoComplete}
+          ariaControlsElements={this.aria?.controlsElements}
+          ariaExpanded={this.aria?.expanded}
+          ariaHasPopup={this.aria?.hasPopup}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.aria?.label ?? getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
@@ -1389,6 +1419,7 @@ export class Input
           defaultValue={this.defaultValue}
           disabled={this.disabled}
           enterKeyHint={enterKeyHint}
+          id={this.inputId}
           inputMode={inputMode}
           key="localized-input"
           maxLength={this.maxLength}
@@ -1405,6 +1436,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childNumberRef}
           required={this.required}
+          role={this.aria?.role}
           tabIndex={
             this.disabled || (this.hasInlineEditContext && !this.inlineEditingEnabledInContext)
               ? -1
@@ -1420,8 +1452,13 @@ export class Input
         <input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
+          ariaActiveDescendantElement={this.aria?.activeDescendantElement}
+          ariaAutoComplete={this.aria?.autoComplete}
+          ariaControlsElements={this.aria?.controlsElements}
+          ariaExpanded={this.aria?.expanded}
+          ariaHasPopup={this.aria?.hasPopup}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.aria?.label ?? getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
@@ -1432,6 +1469,7 @@ export class Input
           defaultValue={this.defaultValue}
           disabled={this.disabled}
           enterKeyHint={enterKeyHint}
+          id={this.inputId}
           inputMode={inputMode}
           max={this.maxString}
           maxLength={this.maxLength}
@@ -1450,6 +1488,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childRef}
           required={this.required}
+          role={this.aria?.role}
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={

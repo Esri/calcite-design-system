@@ -236,6 +236,8 @@ export class Autocomplete
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
+  private listboxRef = createRef<HTMLUListElement>();
+
   private inputValueMatchPattern?: RegExp;
 
   private focusSetter = useFocusable<this>()(this);
@@ -262,7 +264,7 @@ export class Autocomplete
 
   //#region State Properties
 
-  @state() activeDescendant = "";
+  @state() activeDescendantElement?: HTMLElement;
 
   @state() activeIndex = -1;
 
@@ -706,7 +708,7 @@ export class Autocomplete
   }
 
   private updateItems(): void {
-    let activeDescendant = "";
+    let activeDescendantElement: HTMLElement | undefined;
 
     if (this.value) {
       this.selectedItemsHandler();
@@ -721,13 +723,14 @@ export class Autocomplete
       const isActive = index === this.activeIndex;
 
       if (isActive) {
-        activeDescendant = item.guid;
+        activeDescendantElement =
+          this.listboxRef.value?.querySelector<HTMLElement>(`#${item.guid}-option`) ?? undefined;
       }
 
-      item.active = isActive;
+      item.activeDescendant = isActive;
     });
 
-    this.activeDescendant = activeDescendant;
+    this.activeDescendantElement = activeDescendantElement;
   }
 
   private handleInputFocus(): void {
@@ -883,7 +886,7 @@ export class Autocomplete
   //#region Rendering
 
   override render(): JsxNode {
-    const { disabled, listId, inputId, isOpen } = this;
+    const { disabled, inputId, isOpen } = this;
 
     const autofocus = this.el.autofocus;
     const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
@@ -902,13 +905,16 @@ export class Autocomplete
         <div class={CSS.inputContainer}>
           <calcite-input
             alignment={this.alignment}
-            aria-activedescendant={this.activeDescendant}
-            aria-controls={listId}
-            aria-label={getLabelText(this)}
-            aria-owns={listId}
-            ariaAutoComplete="list"
-            ariaExpanded={isOpen}
-            ariaHasPopup="listbox"
+            aria={{
+              activeDescendantElement: this.activeDescendantElement,
+              autoComplete: "list",
+              controlsElements: this.listboxRef.value ? [this.listboxRef.value] : undefined,
+              expanded: isOpen,
+              hasPopup: "listbox",
+              label: getLabelText(this),
+              role: "combobox",
+            }}
+            aria-activedescendant={this.activeDescendantElement?.id}
             autocomplete={this.autocomplete}
             autofocus={autofocus}
             class={CSS.input}
@@ -918,7 +924,7 @@ export class Autocomplete
             form={this.form}
             icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
-            id={inputId}
+            inputId={inputId}
             inputMode={inputMode}
             label={this.label}
             loading={this.loading}
@@ -937,7 +943,6 @@ export class Autocomplete
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
             required={this.required}
-            role="combobox"
             scale={this.scale}
             status={this.status}
             suffixText={this.suffixText}
@@ -993,10 +998,11 @@ export class Autocomplete
   private renderListBox(): JsxNode {
     return (
       <ul
-        aria-labelledby={this.inputId}
+        ariaLabel={getLabelText(this)}
         ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
+        ref={this.listboxRef}
         role="listbox"
         tabIndex={-1}
       >
@@ -1013,7 +1019,7 @@ export class Autocomplete
           ariaDisabled={item.disabled}
           ariaLabel={item.label}
           ariaSelected={item.selected}
-          id={item.guid}
+          id={`${item.guid}-option`}
           key={item.guid}
           role="option"
           tabIndex="-1"
