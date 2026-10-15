@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.102](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.101...@esri/calcite-components@5.2.0-next.102) (2026-10-15)
+
+### Bug Fixes
+
+- **menu-item:** adjust href arrow ([#15391](https://github.com/Esri/calcite-design-system/issues/15391)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
 ## [5.2.0-next.101](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.100...@esri/calcite-components@5.2.0-next.101) (2026-10-15)
 
 ### Bug Fixes
