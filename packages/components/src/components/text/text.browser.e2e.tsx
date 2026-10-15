@@ -185,7 +185,7 @@ describe("tooltip", () => {
 });
 
 it("should continue observing resizes for middle truncation after reconnecting", async () => {
-  const { el } = await mount<Text>(
+  const { el, container } = await mount<Text>(
     <calcite-text style="width: 100px;" truncatePosition="middle">
       {text}
     </calcite-text>,
@@ -195,10 +195,9 @@ it("should continue observing resizes for middle truncation after reconnecting",
   await expect.element(middleTruncatedTextEl).toHaveTextContent("This i\u2026cated");
   await expect.element(textContainer).toHaveProperty("title", text);
 
-  const parent = el.parentNode!;
   const nextSibling = el.nextSibling;
   el.remove();
-  parent.insertBefore(el, nextSibling);
+  container.insertBefore(el, nextSibling);
 
   el.style.width = "1000px";
   await expect.element(middleTruncatedTextEl).toHaveTextContent(text);

@@ -40,13 +40,9 @@ export class Text extends LitElement {
 
   //#region Private Properties
 
-  private value?: string;
-
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
   private middleTruncatedSpanRef = createRef<HTMLSpanElement>();
-
-  private textContainerEl?: HTMLDivElement;
 
   private mutationObserver = createObserver("mutation", (mutations) => {
     const assignedTextNodes = getAssignedTextNodesFromSlotEl(this.defaultSlotRef.value!);
@@ -64,6 +60,10 @@ export class Text extends LitElement {
   private resizeObserver = createObserver("resize", (): void => {
     this.handleTruncation();
   });
+
+  private textContainerEl?: HTMLDivElement;
+
+  private value?: string;
 
   //#endregion
 
@@ -121,7 +121,12 @@ export class Text extends LitElement {
     this.textContainerEl!.title = "";
   }
 
-  private getTruncatedText(text: string, maxWidth: number, font: string): string {
+  private getTruncatedText(
+    text: string,
+    maxWidth: number,
+    font: string,
+    letterSpacing?: string,
+  ): string {
     let startIndex = 0;
     let endIndex = text.length;
 
@@ -135,7 +140,7 @@ export class Text extends LitElement {
       const mid = Math.ceil((startIndex + endIndex) / 2);
       const optimalText = truncatedString(mid);
 
-      if (getTextWidth(optimalText, font) <= maxWidth) {
+      if (getTextWidth(optimalText, font, letterSpacing) <= maxWidth) {
         startIndex = mid;
       } else {
         endIndex = mid - 1;
@@ -210,19 +215,29 @@ export class Text extends LitElement {
 
   private truncateMiddleText(): void {
     requestAnimationFrame(() => {
-      if (!this.textContainerEl || !this.textContainerEl.clientWidth) {
+      if (
+        !this.textContainerEl ||
+        !this.textContainerEl.clientWidth ||
+        this.maxLines ||
+        this.truncatePosition !== "middle"
+      ) {
         return;
       }
       const clientWidth = this.textContainerEl.clientWidth;
       const computedStyle = getComputedStyle(this.el);
       const font = computedStyle.font || `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
-      const textWidth = getTextWidth(this.value, font);
+      const textWidth = getTextWidth(this.value, font, computedStyle.letterSpacing);
 
       if (textWidth <= clientWidth) {
         this.setMiddleTruncatedText(this.value);
         this.clearTooltipTitle();
       } else {
-        const middleTruncatedText = this.getTruncatedText(this.renderedText, clientWidth, font);
+        const middleTruncatedText = this.getTruncatedText(
+          this.renderedText,
+          clientWidth,
+          font,
+          computedStyle.letterSpacing,
+        );
         this.setMiddleTruncatedText(middleTruncatedText);
         this.setTooltipTitle();
       }
@@ -235,6 +250,7 @@ export class Text extends LitElement {
       this.maxLines?.toString() || null,
     );
   }
+
   private setTextContainerRef(el: HTMLDivElement): void {
     updateRefObserver(this.resizeObserver, this.textContainerEl, el);
     this.textContainerEl = el;
@@ -251,7 +267,11 @@ export class Text extends LitElement {
     return (
       <div class={CSS.textContainer} ref={this.setTextContainerRef}>
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
-        <span class={CSS.middleTruncatedText} ref={this.middleTruncatedSpanRef} />
+        <span
+          aria-hidden="true"
+          class={CSS.middleTruncatedText}
+          ref={this.middleTruncatedSpanRef}
+        />
       </div>
     );
   }

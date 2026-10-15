@@ -114,13 +114,14 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
  * @param text The string of text to measure.
  * @param font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
  */
-export function getTextWidth(text: string | undefined, font: string): number {
+export function getTextWidth(text: string | undefined, font: string, letterSpacing?: string): number {
   if (!text) {
     return 0;
   }
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d")!;
   context.font = font;
+  context.letterSpacing = letterSpacing || "normal";
   return context.measureText(text).width;
 }
 
