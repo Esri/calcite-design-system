@@ -164,6 +164,22 @@ describe("disabled", () => {
 });
 
 describe("inline edit", () => {
+  it("restores the starting value when externally controlled inline editing is cancelled", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-edit inline-editing value="123" />,
+    );
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard("4");
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditControlsCSS.cancelEditing}`),
+    );
+
+    expect(el.value).toBe("123");
+    await expect.element(input).toHaveValue("123");
+  });
+
   it.each([true, "controls-disabled"] as const)(
     "allows decimal entry when inlineEdit is %s",
     async (inlineEdit) => {

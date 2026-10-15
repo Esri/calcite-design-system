@@ -165,6 +165,22 @@ describe("is focusable", () => {
 });
 
 describe("inline edit", () => {
+  it("restores the starting value when externally controlled inline editing is cancelled", async () => {
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit inline-editing value="Starting value" />,
+    );
+    const input = page.getBySelector("calcite-input input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard(" changed");
+    await userEvent.click(
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.cancelEditing}`),
+    );
+
+    expect(el.value).toBe("Starting value");
+    await expect.element(input).toHaveValue("Starting value");
+  });
+
   it.each([true, "controls-disabled"] as const)(
     "allows decimal entry when inlineEdit is %s",
     async (inlineEdit) => {
