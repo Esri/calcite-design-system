@@ -370,6 +370,9 @@ catalogs:
     '@interactjs/types':
       specifier: ^1.10.27
       version: 1.10.28
+    '@lit-labs/virtualizer':
+      specifier: 2.1.1
+      version: 2.1.1
     '@lit/react':
       specifier: ^1.0.8
       version: 1.0.8
@@ -561,6 +564,9 @@ importers:
       '@interactjs/types':
         specifier: catalog:dependency-ranges
         version: 1.10.28
+      '@lit-labs/virtualizer':
+        specifier: catalog:dependency-ranges
+        version: 2.1.1
       '@types/sortablejs':
         specifier: catalog:dependency-ranges
         version: 1.15.9
@@ -2724,6 +2730,9 @@ packages:
 
   '@lit-labs/ssr-dom-shim@1.6.0':
     resolution: {integrity: sha512-VHb0ALPMTlgKjM6yIxxoQNnpKyUKLD04VzeQdsiXkMqkvYlAHxq9glGLmgbb889/1GsohSOAjvQYoiBppXFqrQ==}
+
+  '@lit-labs/virtualizer@2.1.1':
+    resolution: {integrity: sha512-JWxMwnlouLdwpw8spLTuax53WMnSP3xt0dCyxAS7GJr5Otda9MGgR/ghAdfwhSY75TmjbE1T2TqChwoGCw3ggw==}
 
   '@lit/react@1.0.8':
     resolution: {integrity: sha512-p2+YcF+JE67SRX3mMlJ1TKCSTsgyOVdAwd/nxp3NuV1+Cb6MWALbN6nT7Ld4tpmYofcE5kcaSY1YBB9erY+6fw==}
@@ -11133,6 +11142,11 @@ snapshots:
   '@keyv/serialize@1.1.1': {}
 
   '@lit-labs/ssr-dom-shim@1.6.0': {}
+
+  '@lit-labs/virtualizer@2.1.1':
+    dependencies:
+      lit: 3.3.3
+      tslib: 2.8.1
 
   '@lit/react@1.0.8(@types/react@18.3.12)':
     dependencies:
