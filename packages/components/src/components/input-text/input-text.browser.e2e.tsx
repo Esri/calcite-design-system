@@ -145,6 +145,22 @@ describe("is focusable", () => {
 });
 
 describe("inline edit", () => {
+  it("restores the starting value when externally controlled inline editing is cancelled", async () => {
+    const { el } = await mount<InputText>(
+      <calcite-input-text inline-edit inline-editing value="Starting value" />,
+    );
+    const input = page.getBySelector("calcite-input-text input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard(" changed");
+    await userEvent.click(
+      page.getBySelector(`calcite-input-text .${InlineEditControlsCSS.cancelEditing}`),
+    );
+
+    expect(el.value).toBe("Starting value");
+    await expect.element(input).toHaveValue("Starting value");
+  });
+
   it("clears value on the first clear button click without controls", async () => {
     const { el } = await mount<InputText>(
       <calcite-input-text clearable inline-edit="controls-disabled" value="John Doe" />,

@@ -523,6 +523,10 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("inlineEditing") && this.inlineEditing) {
+      this.inlineEditManager.captureValuePriorToEditing();
+    }
+
     if (changes.has("icon")) {
       this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     }
