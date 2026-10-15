@@ -70,6 +70,9 @@ type InternalProps = {
    */
   onReferenceElementKeyDown?: (event: KeyboardEvent) => void;
 
+  /** Called when focus enters the reference of an already-open hover component. */
+  onReferenceElementFocusIn?: (event: FocusEvent) => void;
+
   /** Called when the reference element opens the component through pointer hover. */
   onReferenceElementPointerOpen?: () => void;
 };

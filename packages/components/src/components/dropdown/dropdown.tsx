@@ -149,6 +149,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
+  onReferenceElementFocusIn = (event: FocusEvent): void => this.openHoverDropdown(event);
+
   onReferenceElementPointerOpen = (): void => {
     this.focusActiveItemOnOpen = false;
   };
@@ -774,7 +776,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.rovingTabIndex.setActiveIndex(targetIndex);
 
     if (this.focusActiveItemOnOpen) {
-      await this.scrollActiveItemIntoView(target, this.focusedElementOnOpen);
+      await this.scrollActiveItemIntoView(undefined, this.focusedElementOnOpen);
     }
   }
 
@@ -823,20 +825,18 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private async scrollActiveItemIntoView(
-    target: DropdownItem["el"],
+    target: DropdownItem["el"] | undefined,
     focusedElement = this.rovingTabIndex.getDeepActiveElement(),
   ): Promise<void> {
-    if (!target) {
-      return;
-    }
-
     // ensure element is rendered/visible before focus or scrollIntoView
     // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
     await this.updateComplete;
     await nextFrame();
     await nextFrame();
 
+    target ??= this.rovingTabIndex.activeElement ?? undefined;
     if (
+      !target ||
       !this.open ||
       this.rovingTabIndex.activeElement !== target ||
       !target.isConnected ||
@@ -868,7 +868,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
-    if (event.relatedTarget instanceof Node && this.el.contains(event.relatedTarget)) {
+    if (
+      this.rovingTabIndex.isFocusFromItem(event) ||
+      (event.relatedTarget instanceof Node && this.el.contains(event.relatedTarget))
+    ) {
       return;
     }
 

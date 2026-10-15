@@ -430,6 +430,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
+    components?.forEach((component) => {
+      if (component.open) {
+        component.onReferenceElementFocusIn?.(event);
+      }
+    });
+
     if (pathHasOpenHoverComponent(components, composedPath)) {
       clearHoverTimeout();
       return;

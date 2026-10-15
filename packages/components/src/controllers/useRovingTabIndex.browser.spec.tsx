@@ -75,6 +75,27 @@ it.each([false, true])(
   },
 );
 
+it("distinguishes focus from managed items from later outside focus transitions", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const outside = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  const entry = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  controller.update([first], first);
+  let focusFromItem = false;
+  entry.addEventListener("focusin", (event) => {
+    focusFromItem = controller.isFocusFromItem(event);
+  });
+
+  first.focus();
+  entry.focus();
+  expect(focusFromItem).toBe(true);
+
+  outside.focus();
+  entry.focus();
+  expect(focusFromItem).toBe(false);
+});
+
 it("tracks focused items and preserves recovery eligibility when an item becomes unavailable", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;
@@ -188,8 +209,28 @@ it("navigates only traversable items and returns null when none remain", async (
   expect(second.tabIndex).toBe(-1);
 
   component.traversableElements = [];
-  controller.update([], null);
   expect(controller.navigate("next")).toBeNull();
+  expect(controller.activeElement).toBeNull();
+  expect(controller.activeIndex).toBe(-1);
+  expect([first.tabIndex, second.tabIndex, third.tabIndex]).toEqual([-1, -1, -1]);
+});
+
+it("restores the entry tab stop when navigation has no traversable items", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const entry = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  entry.tabIndex = 0;
+  component.entryElement = entry;
+  component.traversableElements = [first];
+  controller.update([first], first);
+  expect(entry.tabIndex).toBe(-1);
+
+  component.traversableElements = [];
+
+  expect(controller.navigate("next")).toBeNull();
+  expect(first.tabIndex).toBe(-1);
+  expect(entry.tabIndex).toBe(0);
 });
 
 it("returns null and clears the active tab stop when navigating while inactive", async () => {
@@ -366,6 +407,28 @@ it("restores original attributes when elements are released", async () => {
 
   controller.update([], null);
   expect(buttons.map((button) => button.getAttribute("tabindex"))).toEqual([null, "2", "-1"]);
+});
+
+it("restores the focused button inside a focusable non-delegating shadow host", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const entry = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  const host = document.createElement("div");
+  host.tabIndex = 0;
+  component.el.after(host);
+  onTestFinished(() => host.remove());
+  host.attachShadow({ mode: "open" }).append(entry);
+  entry.tabIndex = 0;
+  component.entryElement = host;
+  entry.focus();
+  controller.update([first], first);
+
+  first.focus();
+  controller.setActiveIndex(-1);
+  controller.restoreFocus();
+
+  await expect.element(host).toHaveProperty("shadowRoot.activeElement", entry);
 });
 
 it("manages the entry tab stop and restores focus to the entry control", async () => {
