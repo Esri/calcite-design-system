@@ -290,10 +290,6 @@
   flex: 1;
 }
 
-:host([scale="m"][layout="vertical"]) .text-container {
-  flex: 0 1 auto;
-}
-
 .icon {
   color: var(
     --calcite-menu-text-color,
