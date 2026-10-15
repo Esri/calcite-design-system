@@ -1,7 +1,8 @@
 import { Fragment, h, JsxNode, LitElement, noShadowRoot } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { expect, it } from "vitest";
+import { expect, it, onTestFinished } from "vitest";
 import { page, userEvent } from "vitest/browser";
+import { getRootNode } from "../utils/dom";
 import { useRovingTabIndex } from "./useRovingTabIndex";
 
 class Test extends LitElement {
@@ -20,6 +21,11 @@ class Test extends LitElement {
     getEntryElement: () => this.entryElement,
   })(this);
 
+  loaded(): void {
+    this.listenOn(this.el, "focusin", (event) => this.rovingTabIndex.handleFocusIn(event));
+    this.listenOn(this.el, "focusout", (event) => this.rovingTabIndex.handleFocusOut(event));
+  }
+
   override render(): JsxNode {
     return (
       <>
@@ -36,6 +42,75 @@ class Test extends LitElement {
     );
   }
 }
+
+it.each([false, true])(
+  "allows recovery after focused item removal without stealing outside focus (shadow root: %s)",
+  async (inShadowRoot) => {
+    const { component } = await mount(Test);
+    const controller = component.rovingTabIndex;
+    const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+    const second = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+    const outside = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+    if (inShadowRoot) {
+      const host = document.createElement("div");
+      component.el.after(host);
+      onTestFinished(() => host.remove());
+      host.attachShadow({ mode: "open" }).append(component.el);
+    }
+
+    controller.update([first, second], first);
+    first.focus();
+    first.remove();
+    expect(controller.shouldRecoverFocus).toBe(true);
+
+    outside.focus();
+    expect(controller.shouldRecoverFocus).toBe(false);
+
+    second.focus();
+    second.remove();
+    expect(controller.shouldRecoverFocus).toBe(true);
+  },
+);
+
+it("tracks focused items and preserves recovery eligibility when an item becomes unavailable", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const second = page.getByRole("button", { name: "Second" }).element() as HTMLButtonElement;
+  const entry = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  component.entryElement = entry;
+  component.traversableElements = [first, second];
+  controller.update([first, second], first);
+  expect(controller.shouldRecoverFocus).toBe(false);
+
+  second.focus();
+  expect(controller.activeElement).toBe(second);
+  expect(controller.shouldRecoverFocus).toBe(false);
+
+  component.traversableElements = [first];
+  second.disabled = true;
+  second.blur();
+  await Promise.resolve();
+  expect(controller.shouldRecoverFocus).toBe(true);
+
+  controller.restoreFocus(true);
+  expect(getRootNode(entry).activeElement).toBe(entry);
+  expect(controller.shouldRecoverFocus).toBe(false);
+});
+
+it("does not recover after an available item is intentionally blurred", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  controller.update([first], first);
+
+  first.focus();
+  first.blur();
+  await Promise.resolve();
+  first.remove();
+
+  expect(controller.shouldRecoverFocus).toBe(false);
+});
 
 it("maintains one tab stop without changing DOM focus", async () => {
   const { component } = await mount(Test);

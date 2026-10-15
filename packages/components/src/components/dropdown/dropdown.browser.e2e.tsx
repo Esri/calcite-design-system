@@ -22,6 +22,7 @@ import { CSS } from "./resources";
 import type { Dropdown } from "./dropdown";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import { afterNextFrame } from "../../tests/utils/timing";
+import { getRootNode } from "../../utils/dom";
 
 mockConsole(["warn", "error"]);
 
@@ -490,6 +491,161 @@ describe("hover type", () => {
     expect(component.open).toBe(true);
   });
 
+  it.each([
+    [false, false],
+    [false, true],
+    [true, false],
+    [true, true],
+  ])(
+    "preserves outside focus moved in the same task after item removal (remaining item: %s, shadow root: %s)",
+    async (hasRemainingItem, inShadowRoot) => {
+      const { component } = await mount<Dropdown>(
+        <>
+          <calcite-dropdown>
+            <calcite-button slot="trigger">Open dropdown</calcite-button>
+            <calcite-dropdown-group>
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+              {hasRemainingItem && <calcite-dropdown-item>Second</calcite-dropdown-item>}
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <button type="button">Outside</button>
+        </>,
+      );
+      if (inShadowRoot) {
+        const host = document.createElement("div");
+        component.el.after(host);
+        onTestFinished(() => host.remove());
+        host.attachShadow({ mode: "open" }).append(component.el);
+        await afterNextFrame();
+        await afterNextFrame();
+      }
+      const first = page.getByRole("menuitemradio", { name: "First" });
+      const outside = page.getByRole("button", { name: "Outside" });
+      const rootNode = getRootNode(component.el);
+
+      await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+      await vi.waitFor(() => expect(rootNode.activeElement).toBe(first.element()));
+
+      first.element().remove();
+      outside.element().focus();
+      await afterNextFrame();
+      await afterNextFrame();
+      await afterNextFrame();
+
+      await expect.element(outside).toHaveFocus();
+      expect(component.open).toBe(true);
+    },
+  );
+
+  describe("focus moved to an enclosing shadow host", () => {
+    async function mountDropdownInFocusableShadowHost(hasRemainingItem: boolean) {
+      const { component } = await mount<Dropdown>(
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+            {hasRemainingItem && <calcite-dropdown-item>Second</calcite-dropdown-item>}
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      );
+      const host = document.createElement("div");
+      host.tabIndex = 0;
+      component.el.after(host);
+      onTestFinished(() => host.remove());
+      host.attachShadow({ mode: "open" }).append(component.el);
+      await afterNextFrame();
+      await afterNextFrame();
+      const first = page.getByRole("menuitemradio", { name: "First" });
+
+      await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+      await expect.element(host).toHaveProperty("shadowRoot.activeElement", first.element());
+
+      return { component, first, host };
+    }
+
+    it("does not move focus to a remaining item", async () => {
+      const { component, first, host } = await mountDropdownInFocusableShadowHost(true);
+
+      first.element().remove();
+      host.focus();
+      await afterNextFrame();
+      await afterNextFrame();
+      await afterNextFrame();
+
+      await expect.element(host).toHaveFocus();
+      await expect.element(host).toHaveProperty("shadowRoot.activeElement", null);
+      expect(component.open).toBe(true);
+    });
+
+    it("does not restore focus to the trigger when the last item is removed", async () => {
+      const { component, first, host } = await mountDropdownInFocusableShadowHost(false);
+
+      first.element().remove();
+      host.focus();
+      await afterNextFrame();
+      await afterNextFrame();
+      await afterNextFrame();
+
+      await expect.element(host).toHaveFocus();
+      await expect.element(host).toHaveProperty("shadowRoot.activeElement", null);
+      expect(component.open).toBe(true);
+    });
+  });
+
+  it.each([false, true])(
+    "recovers focus when a hovered dropdown item is disabled (remaining item: %s)",
+    async (hasRemainingItem) => {
+      const { el } = await mount<Dropdown>(
+        <calcite-dropdown type="hover">
+          <calcite-button slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+            {hasRemainingItem && <calcite-dropdown-item>Second</calcite-dropdown-item>}
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      );
+      const trigger = page.getByRole("button", { name: "Open dropdown" });
+      const first = page.getByRole("menuitemradio", { name: "First" });
+
+      trigger.element().focus();
+      await expect.element(first).toHaveFocus();
+      (first.element() as DropdownItem["el"]).disabled = true;
+
+      await expect
+        .element(
+          hasRemainingItem
+            ? page.getByRole("menuitemradio", { name: "Second" })
+            : page.getBySelector('calcite-button[slot="trigger"]'),
+        )
+        .toHaveFocus();
+      expect(el.open).toBe(true);
+    },
+  );
+
+  it.each(["outside", "blur"])(
+    "closes when an available item loses focus via %s",
+    async (focusMove) => {
+      const { component } = await mount<Dropdown>(
+        <>
+          {renderHoverDropdownHTML()}
+          <button type="button">Outside</button>
+        </>,
+      );
+      const first = page.getBySelector("#item-1");
+
+      await userEvent.click(page.getByText("Open dropdown"));
+      await expect.element(first).toHaveFocus();
+
+      if (focusMove === "outside") {
+        page.getByRole("button", { name: "Outside" }).element().focus();
+      } else {
+        first.element().blur();
+      }
+
+      await vi.waitFor(() => expect(component.open).toBe(false));
+    },
+  );
+
   it("closes when focus leaves trigger with Tab", async () => {
     const { el } = await mount<Dropdown>(
       <div>
@@ -852,15 +1008,33 @@ describe("roving tabindex", () => {
     await expect.element(page.getBySelector("#item-1")).toHaveFocus();
   });
 
-  it("moves focus to a remaining item when the active item is removed or disabled", async () => {
-    await mount<Dropdown>(renderDropdown);
-    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
-    await expect.element(page.getBySelector("#item-1")).toHaveFocus();
-    page.getBySelector("#item-1").element().remove();
-    await expect.element(page.getBySelector("#item-2")).toHaveFocus();
-    (page.getBySelector("#item-2").element() as DropdownItem["el"]).disabled = true;
-    await expect.element(page.getBySelector("#item-3")).toHaveFocus();
-  });
+  it.each([false, true])(
+    "moves focus to a remaining item when the active item is removed or disabled (shadow root: %s)",
+    async (inShadowRoot) => {
+      const { el } = await mount<Dropdown>(renderDropdown);
+      if (inShadowRoot) {
+        const host = document.createElement("div");
+        el.after(host);
+        onTestFinished(() => host.remove());
+        host.attachShadow({ mode: "open" }).append(el);
+        await afterNextFrame();
+        await afterNextFrame();
+      }
+      const rootNode = getRootNode(el);
+      await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+      await vi.waitFor(() =>
+        expect(rootNode.activeElement).toBe(page.getBySelector("#item-1").element()),
+      );
+      page.getBySelector("#item-1").element().remove();
+      await vi.waitFor(() =>
+        expect(rootNode.activeElement).toBe(page.getBySelector("#item-2").element()),
+      );
+      (page.getBySelector("#item-2").element() as DropdownItem["el"]).disabled = true;
+      await vi.waitFor(() =>
+        expect(rootNode.activeElement).toBe(page.getBySelector("#item-3").element()),
+      );
+    },
+  );
 
   it("moves the single tab stop from the trigger to the active item and back", async () => {
     await mount<Dropdown>(renderDropdown);

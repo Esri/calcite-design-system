@@ -131,8 +131,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private items: DropdownItem["el"][] = [];
 
-  private focusedDropdownItem?: DropdownItem["el"];
-
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   transitionProp = "opacity" as const;
@@ -766,12 +764,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private syncActiveItemFromTraversableItems(): void {
     const traversableItems = this.getTraversableItems();
     const previousActiveItem = this.rovingTabIndex.activeElement;
+    const shouldRecoverFocus = this.rovingTabIndex.shouldRecoverFocus;
 
     if (!this.open || !traversableItems.length) {
       this.rovingTabIndex.setActiveIndex(-1);
-      if (this.open && previousActiveItem && this.focusedDropdownItem) {
+      if (this.open && previousActiveItem && shouldRecoverFocus) {
         this.rovingTabIndex.restoreFocus(true);
-        this.focusedDropdownItem = undefined;
       }
       return;
     }
@@ -787,7 +785,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       previousActiveItem &&
       previousActiveItem !== activeItem &&
       activeItem &&
-      this.focusedDropdownItem
+      shouldRecoverFocus
     ) {
       void this.scrollActiveItemIntoView(activeItem);
     }
@@ -798,34 +796,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private handleItemFocus(event: FocusEvent): void {
-    const focusedItem = this.getTraversableItems().find((item) =>
-      event.composedPath().includes(item),
-    );
-    if (focusedItem) {
-      this.focusedDropdownItem = focusedItem;
-      this.rovingTabIndex.setActiveIndex(this.getTraversableItems().indexOf(focusedItem));
-    }
+    this.rovingTabIndex.handleFocusIn(event);
   }
 
   private handleItemFocusOut(event: FocusEvent): void {
-    const relatedTarget = event.relatedTarget;
-    const focusRemainsWithinMenu =
-      relatedTarget instanceof Node && this.floatingEl?.contains(relatedTarget);
+    this.rovingTabIndex.handleFocusOut(event);
 
-    if (!focusRemainsWithinMenu && relatedTarget instanceof Element) {
-      this.focusedDropdownItem = undefined;
-    } else if (!focusRemainsWithinMenu && this.focusedDropdownItem) {
-      const focusedItem = this.focusedDropdownItem;
-      // Defer clearing so item updates can detect focus on an item that was just removed or disabled.
-      queueMicrotask(() => {
-        if (
-          this.focusedDropdownItem === focusedItem &&
-          focusedItem.isConnected &&
-          this.getTraversableItems().includes(focusedItem)
-        ) {
-          this.focusedDropdownItem = undefined;
-        }
-      });
+    if (!event.relatedTarget && this.rovingTabIndex.shouldRecoverFocus) {
+      return;
     }
 
     this.closeHoverDropdown(event);
