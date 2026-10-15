@@ -1,11 +1,11 @@
-import { LitElement, h, property, type JsxNode, Fragment } from "@arcgis/lumina";
+import { LitElement, h, property, type JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   slotChangeGetTextContent,
   getTextWidth,
   getAssignedTextNodesFromSlotEl,
 } from "../../utils/dom";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { styles } from "./text.scss";
 import { ELLIPSIS_CHAR, CSS } from "./resources";
 import { PropertyValues } from "lit";
@@ -46,6 +46,8 @@ export class Text extends LitElement {
 
   private middleTruncatedSpanRef = createRef<HTMLSpanElement>();
 
+  private textContainerEl?: HTMLDivElement;
+
   private mutationObserver = createObserver("mutation", (mutations) => {
     const assignedTextNodes = getAssignedTextNodesFromSlotEl(this.defaultSlotRef.value!);
 
@@ -69,6 +71,8 @@ export class Text extends LitElement {
 
   /**
    * Specifies the maximum number of lines to display before truncating the text with an ellipsis.
+   *
+   * @mdn [maxLines](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/line-clamp)
    */
   @property({ type: Number, reflect: true }) maxLines?: number;
 
@@ -83,7 +87,6 @@ export class Text extends LitElement {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.resizeObserver?.observe(this.el);
     this.mutationObserver?.observe(this.el, {
       characterData: true,
       subtree: true,
@@ -91,8 +94,8 @@ export class Text extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("maxLines")) {
-      if (!this.maxLines && this.hasUpdated) {
+    if (changes.has("maxLines") && this.hasUpdated) {
+      if (!this.maxLines) {
         this.clearTooltipTitle();
       }
       this.updateMaxLinesToken();
@@ -115,7 +118,7 @@ export class Text extends LitElement {
   //#region Private Methods
 
   private clearTooltipTitle(): void {
-    this.el.title = "";
+    this.textContainerEl!.title = "";
   }
 
   private getTruncatedText(text: string, maxWidth: number, font: string): string {
@@ -158,6 +161,9 @@ export class Text extends LitElement {
   }
 
   private handleTruncation(): void {
+    if (!this.textContainerEl) {
+      return;
+    }
     const { truncatePosition, maxLines } = this;
     if (this.truncatePosition === "middle" && !this.maxLines) {
       this.truncateMiddleText();
@@ -167,7 +173,10 @@ export class Text extends LitElement {
   }
 
   private hasOverflow(): boolean {
-    return this.el.scrollWidth > this.el.clientWidth || this.el.scrollHeight > this.el.clientHeight;
+    return (
+      this.textContainerEl!.scrollWidth > this.textContainerEl!.clientWidth ||
+      this.textContainerEl!.scrollHeight > this.textContainerEl!.clientHeight
+    );
   }
 
   private syncTooltipState(): void {
@@ -188,7 +197,7 @@ export class Text extends LitElement {
   }
 
   private setTooltipTitle(): void {
-    this.el.title = this.value || "";
+    this.textContainerEl!.title = this.value || "";
   }
 
   private setMiddleTruncatedText(value: string | undefined): void {
@@ -201,10 +210,10 @@ export class Text extends LitElement {
 
   private truncateMiddleText(): void {
     requestAnimationFrame(() => {
-      const clientWidth = this.el.clientWidth;
-      if (!clientWidth) {
+      if (!this.textContainerEl || !this.textContainerEl.clientWidth) {
         return;
       }
+      const clientWidth = this.textContainerEl.clientWidth;
       const computedStyle = getComputedStyle(this.el);
       const font = computedStyle.font || `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
       const textWidth = getTextWidth(this.value, font);
@@ -221,10 +230,15 @@ export class Text extends LitElement {
   }
 
   private updateMaxLinesToken(): void {
-    this.el.style.setProperty(
+    this.textContainerEl?.style.setProperty(
       "--calcite-internal-text-max-lines",
       this.maxLines?.toString() || null,
     );
+  }
+  private setTextContainerRef(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.textContainerEl, el);
+    this.textContainerEl = el;
+    this.updateMaxLinesToken();
   }
 
   //#endregion
@@ -235,10 +249,10 @@ export class Text extends LitElement {
 
   override render(): JsxNode {
     return (
-      <Fragment>
+      <div class={CSS.textContainer} ref={this.setTextContainerRef}>
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         <span class={CSS.middleTruncatedText} ref={this.middleTruncatedSpanRef} />
-      </Fragment>
+      </div>
     );
   }
 

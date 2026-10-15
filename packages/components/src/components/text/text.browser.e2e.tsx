@@ -4,6 +4,7 @@ import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, accessible } from "../../tests/common";
 import { Text } from "./text";
+import { CSS } from "./resources";
 
 const text = "This is a very long text that will be truncated";
 
@@ -59,8 +60,9 @@ it("should be able to switch truncate position", async () => {
 
 describe("tooltip", () => {
   it("should not set title when truncatePosition is undefined", async () => {
-    const { el } = await mount<Text>(<calcite-text style="width: 100px;">{text}</calcite-text>);
-    expect(el.title).toBe("");
+    await mount<Text>(<calcite-text style="width: 100px;">{text}</calcite-text>);
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
+    await expect.element(textContainer).toHaveProperty("title", "");
   });
 
   it("should update title when truncatePosition is end", async () => {
@@ -69,10 +71,11 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    await expect.element(el).toHaveProperty("title", text);
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
+    await expect.element(textContainer).toHaveProperty("title", text);
     el.truncatePosition = undefined;
     await component.updateComplete;
-    await expect.element(el).toHaveProperty("title", "");
+    await expect.element(textContainer).toHaveProperty("title", "");
   });
 
   it("should update title when assigned text changes", async () => {
@@ -81,12 +84,14 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    await expect.element(el).toHaveProperty("title", text);
-
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
+    await expect.element(textContainer).toHaveProperty("title", text);
     const assignedTextNode = getAssignedTextNode(el)!;
     assignedTextNode.textContent = "Updated text that still overflows";
     await component.updateComplete;
-    await expect.element(el).toHaveProperty("title", "Updated text that still overflows");
+    await expect
+      .element(textContainer)
+      .toHaveProperty("title", "Updated text that still overflows");
   });
 
   it("should update title when textContent changes", async () => {
@@ -95,11 +100,13 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    await expect.element(el).toHaveProperty("title", text);
-
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
+    await expect.element(textContainer).toHaveProperty("title", text);
     el.textContent = "Updated textContent that still overflows";
     await component.updateComplete;
-    await expect.element(el).toHaveProperty("title", "Updated textContent that still overflows");
+    await expect
+      .element(textContainer)
+      .toHaveProperty("title", "Updated textContent that still overflows");
   });
 
   it("should update title when truncatePosition is middle", async () => {
@@ -108,10 +115,11 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    await expect.element(el).toHaveProperty("title", text);
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
+    await expect.element(textContainer).toHaveProperty("title", text);
     el.truncatePosition = undefined;
     await component.updateComplete;
-    await expect.element(el).toHaveProperty("title", "");
+    await expect.element(textContainer).toHaveProperty("title", "");
   });
 
   it("should honor middle truncation and update tooltip when the assigned text changes", async () => {
@@ -120,20 +128,21 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
     const middleTruncatedTextEl = page.getBySelector("span");
     const assignedTextNode = getAssignedTextNode(el)!;
     assignedTextNode.textContent = "Updated reactive text that is also long enough to truncate";
     await component.updateComplete;
 
     await expect
-      .element(el)
+      .element(textContainer)
       .toHaveProperty("title", "Updated reactive text that is also long enough to truncate");
     await expect.element(middleTruncatedTextEl).not.toHaveTextContent(text);
     await expect.element(middleTruncatedTextEl).toHaveTextContent(/\u2026/);
 
     assignedTextNode.textContent = "";
     await expect.element(middleTruncatedTextEl).toHaveTextContent("");
-    await expect.element(el).toHaveProperty("title", "");
+    await expect.element(textContainer).toHaveProperty("title", "");
   });
 
   it("should honor middle truncation and update tooltip when textContent changes", async () => {
@@ -142,13 +151,14 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
     const middleTruncatedTextEl = page.getBySelector("span");
-    await expect.element(el).toHaveProperty("title", text);
+    await expect.element(textContainer).toHaveProperty("title", text);
 
     el.textContent = "Updated textContent that is also long enough to truncate";
     await component.updateComplete;
     await expect
-      .element(el)
+      .element(textContainer)
       .toHaveProperty("title", "Updated textContent that is also long enough to truncate");
     await expect.element(middleTruncatedTextEl).not.toHaveTextContent(text);
     await expect.element(middleTruncatedTextEl).toHaveTextContent(/\u2026/);
@@ -160,18 +170,43 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-
-    await expect.element(el).toHaveProperty("title", text);
+    const textContainer = page.getBySelector(`.${CSS.textContainer}`);
+    await expect.element(textContainer).toHaveProperty("title", text);
     el.maxLines = undefined;
     await component.updateComplete;
-    await expect.element(el).toHaveProperty("title", "");
+    await expect.element(textContainer).toHaveProperty("title", "");
     el.maxLines = 3;
     await component.updateComplete;
-    await expect.element(el).toHaveProperty("title", text);
+    await expect.element(textContainer).toHaveProperty("title", text);
     el.maxLines = 4;
     await component.updateComplete;
-    await expect.element(el).toHaveProperty("title", text);
+    await expect.element(textContainer).toHaveProperty("title", text);
   });
+});
+
+it("should continue observing resizes for middle truncation after reconnecting", async () => {
+  const { el } = await mount<Text>(
+    <calcite-text style="width: 100px;" truncatePosition="middle">
+      {text}
+    </calcite-text>,
+  );
+  const textContainer = page.getBySelector(`.${CSS.textContainer}`);
+  const middleTruncatedTextEl = page.getBySelector(`.${CSS.middleTruncatedText}`);
+  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i\u2026cated");
+  await expect.element(textContainer).toHaveProperty("title", text);
+
+  const parent = el.parentNode!;
+  const nextSibling = el.nextSibling;
+  el.remove();
+  parent.insertBefore(el, nextSibling);
+
+  el.style.width = "1000px";
+  await expect.element(middleTruncatedTextEl).toHaveTextContent(text);
+  await expect.element(textContainer).toHaveProperty("title", "");
+
+  el.style.width = "100px";
+  await expect.element(middleTruncatedTextEl).toHaveTextContent("This i\u2026cated");
+  await expect.element(textContainer).toHaveProperty("title", text);
 });
 
 function getAssignedTextNode(el: HTMLElement): CharacterData | undefined {

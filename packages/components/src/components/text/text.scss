@@ -17,6 +17,11 @@
   white-space: nowrap;
 }
 
+.text-container {
+  overflow: inherit;
+  text-overflow: inherit;
+}
+
 :host([truncate-position="middle"]:not([max-lines])) slot {
   display: none;
 }
@@ -29,7 +34,7 @@
 // Vendor-prefixed -webkit-line-clamp property only works in combination with the display property set to -webkit-box
 // or -webkit-inline-box and the -webkit-box-orient property set to vertical.
 // https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/line-clamp
-:host([max-lines]) {
+:host([max-lines]) .text-container {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: var(--calcite-internal-text-max-lines, none);
