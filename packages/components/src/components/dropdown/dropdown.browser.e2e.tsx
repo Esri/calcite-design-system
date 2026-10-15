@@ -899,6 +899,36 @@ describe("roving tabindex", () => {
     expect(page.getBySelector('calcite-dropdown-item[tabindex="0"]').all()).toHaveLength(1);
   });
 
+  it("does not reclaim focus after a selection listener moves focus elsewhere", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const item = page.getByRole("menuitemradio", { name: "First" });
+    const outside = page.getByRole("button", { name: "Outside" });
+    component.el.closeOnSelectDisabled = true;
+    component.el.addEventListener("calciteDropdownSelect", () => outside.element().focus(), {
+      once: true,
+    });
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(item).toHaveFocus();
+    await userEvent.click(item);
+    await afterNextFrame();
+    await afterNextFrame();
+    await afterNextFrame();
+
+    expect(component.open).toBe(true);
+    await expect.element(outside).toHaveFocus();
+  });
+
   it("does not move focus back into the menu after focus leaves during deferred navigation", async () => {
     const { component } = await mount<Dropdown>(
       <>
@@ -927,6 +957,19 @@ describe("roving tabindex", () => {
 
     expect(component.open).toBe(true);
     await expect.element(outside).toHaveFocus();
+  });
+
+  it("recovers focus when the focused item is removed during deferred navigation", async () => {
+    const { component } = await mount<Dropdown>(renderDropdown);
+    const firstItem = page.getBySelector("#item-1");
+    const secondItem = page.getBySelector("#item-2");
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(firstItem).toHaveFocus();
+    component.el.addEventListener("keydown", () => firstItem.element().remove(), { once: true });
+    await userEvent.keyboard("{ArrowDown}");
+
+    await expect.element(secondItem).toHaveFocus();
   });
 
   it("preserves external focus while a shadow-root dropdown is opening", async () => {

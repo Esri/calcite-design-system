@@ -267,6 +267,36 @@ it("returns focus to a non-tabbable entry without changing its tabindex", async 
   await expect.element(entry).toHaveAttribute("tabindex", "-1");
 });
 
+it("restores entry focus when a child control within a managed item is focused", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const item = page.elementLocator(component.el).getBySelector("div").element() as HTMLDivElement;
+  const child = page.getByRole("button", { name: "First" });
+  const entry = page.getByRole("button", { name: "Third" });
+  component.entryElement = entry.element();
+  controller.update([item], item);
+
+  await userEvent.click(child);
+  controller.restoreFocus();
+
+  await expect.element(entry).toHaveFocus();
+});
+
+it("conditionally restores entry focus when a child control within a managed item is focused", async () => {
+  const { component } = await mount(Test);
+  const controller = component.rovingTabIndex;
+  const item = page.elementLocator(component.el).getBySelector("div").element() as HTMLDivElement;
+  const child = page.getByRole("button", { name: "First" });
+  const entry = page.getByRole("button", { name: "Third" });
+  component.entryElement = entry.element();
+  controller.update([item], item);
+
+  await userEvent.click(child);
+  controller.restoreFocusIfWithin();
+
+  await expect.element(entry).toHaveFocus();
+});
+
 it("restores focus conditionally without stealing focus from outside the managed items", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;

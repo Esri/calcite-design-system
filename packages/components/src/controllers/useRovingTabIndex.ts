@@ -92,6 +92,10 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   readonly activeElement: ElementType | null;
   /** The active item's index among traversable items, or `-1` when none is active. */
   readonly activeIndex: number;
+  /** Resolves the deepest focused element in the component's root. */
+  getDeepActiveElement: () => Element | null;
+  /** Checks whether focus is still on the element captured before a deferred operation. */
+  isFocusUnchanged: (focusedElement: Element | null) => boolean;
   /** Whether the controller is synchronously restoring focus to the entry control. */
   readonly isRestoringFocus: boolean;
   /** Whether an unavailable item lost focus without focus intentionally moving to another control. */
@@ -174,6 +178,11 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       return options.getTraversableElements?.() ?? options.getElements?.() ?? itemElements;
     }
 
+    function isFocusedWithin(element: Element): boolean {
+      const activeElement = getRootNode(element).activeElement;
+      return activeElement !== null && element.contains(activeElement);
+    }
+
     function restoreElement(element: Element): void {
       const managedTabIndex = managedTabIndexes.get(element);
       if (!managedTabIndex || !trackedElements.delete(element)) {
@@ -224,6 +233,17 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       get activeIndex(): number {
         return activeIndex;
+      },
+      getDeepActiveElement(): Element | null {
+        const rootNode = getRootNode(component.el);
+        let focusedElement = rootNode.activeElement ?? component.el.ownerDocument.activeElement;
+        while (focusedElement?.shadowRoot?.activeElement) {
+          focusedElement = focusedElement.shadowRoot.activeElement;
+        }
+        return focusedElement;
+      },
+      isFocusUnchanged(focusedElement): boolean {
+        return rovingTabIndex.getDeepActiveElement() === focusedElement;
       },
       get isRestoringFocus(): boolean {
         return isRestoringFocus;
@@ -341,9 +361,11 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       restoreFocus(force = false): void {
         const currentlyFocusedElement = entryFocusTarget ? getRootNode(entryFocusTarget).activeElement : null;
         const focusIsWithinManagedControls =
-          itemElements.some((element) => getRootNode(element).activeElement === element) ||
-          entryTabStops.some((element) => getRootNode(element).activeElement === element) ||
-          (entryFocusTarget !== undefined && currentlyFocusedElement === entryFocusTarget);
+          itemElements.some(isFocusedWithin) ||
+          entryTabStops.some(isFocusedWithin) ||
+          (entryFocusTarget !== undefined &&
+            currentlyFocusedElement !== null &&
+            entryFocusTarget.contains(currentlyFocusedElement));
 
         if ((!force && !focusIsWithinManagedControls) || !entryFocusTarget || !entryFocusTarget.isConnected) {
           return;
@@ -358,7 +380,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         }
       },
       restoreFocusIfWithin(): void {
-        if (itemElements.some((element) => getRootNode(element).activeElement === element)) {
+        if (itemElements.some(isFocusedWithin)) {
           rovingTabIndex.restoreFocus();
         }
       },

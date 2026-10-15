@@ -10,7 +10,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { getRootNode, nextFrame } from "../../utils/dom";
+import { nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -497,6 +497,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private async handleItemSelect(event: CustomEvent<RequestedItem>): Promise<void> {
     this.updateSelectedItems();
     this.syncActiveItemFromTraversableItems();
+    const focusedElement = this.rovingTabIndex.getDeepActiveElement();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
     if (!this.closeOnSelectDisabled) {
@@ -505,7 +506,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     } else {
       const index = this.getTraversableItems().indexOf(event.detail.requestedDropdownItem);
       this.rovingTabIndex.setActiveIndex(index);
-      await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem);
+      await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem, focusedElement);
     }
   }
 
@@ -781,12 +782,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
         : Math.min(Math.max(this.rovingTabIndex.activeIndex, 0), traversableItems.length - 1),
     );
     const activeItem = this.rovingTabIndex.activeElement;
-    if (
-      previousActiveItem &&
-      previousActiveItem !== activeItem &&
-      activeItem &&
-      shouldRecoverFocus
-    ) {
+    if (previousActiveItem && activeItem && shouldRecoverFocus) {
       void this.scrollActiveItemIntoView(activeItem);
     }
   }
@@ -836,20 +832,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     void this.scrollActiveItemIntoView(activeItem);
   }
 
-  private async scrollActiveItemIntoView(target: DropdownItem["el"]): Promise<void> {
+  private async scrollActiveItemIntoView(
+    target: DropdownItem["el"],
+    focusedElement = this.rovingTabIndex.getDeepActiveElement(),
+  ): Promise<void> {
     if (!target) {
       return;
     }
-
-    const rootNode = getRootNode(this.el);
-    const getFocusedElement = (): Element | null => {
-      let focusedElement = rootNode.activeElement ?? this.el.ownerDocument.activeElement;
-      while (focusedElement?.shadowRoot?.activeElement) {
-        focusedElement = focusedElement.shadowRoot.activeElement;
-      }
-      return focusedElement;
-    };
-    const focusedElement = getFocusedElement();
 
     // ensure element is rendered/visible before focus or scrollIntoView
     // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
@@ -861,7 +850,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       !this.open ||
       this.rovingTabIndex.activeElement !== target ||
       !target.isConnected ||
-      getFocusedElement() !== focusedElement
+      !this.rovingTabIndex.isFocusUnchanged(focusedElement)
     ) {
       return;
     }
