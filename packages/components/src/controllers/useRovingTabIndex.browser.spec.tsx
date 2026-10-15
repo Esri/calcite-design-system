@@ -250,27 +250,7 @@ it("restores original attributes when elements are released", async () => {
   controller.update(buttons.slice(1), buttons[1]);
   expect(buttons[0].getAttribute("tabindex")).toBeNull();
 
-  controller.restore();
-  expect(buttons.map((button) => button.getAttribute("tabindex"))).toEqual([null, "2", "-1"]);
-});
-
-it("restores only requested elements without resetting the active tab stop", async () => {
-  const { component } = await mount(Test);
-  const controller = component.rovingTabIndex;
-  const buttons = page
-    .getByRole("button")
-    .all()
-    .map((button) => button.element() as HTMLButtonElement);
-
-  controller.update(buttons, buttons[0]);
-  controller.restore([buttons[1]]);
-  expect(buttons.map((button) => button.getAttribute("tabindex"))).toEqual(["0", "2", "-1"]);
-
-  controller.restore([]);
-  expect(buttons.map((button) => button.getAttribute("tabindex"))).toEqual(["0", "2", "-1"]);
-
-  controller.update(buttons, buttons[2]);
-  controller.restore();
+  controller.update([], null);
   expect(buttons.map((button) => button.getAttribute("tabindex"))).toEqual([null, "2", "-1"]);
 });
 
@@ -315,7 +295,7 @@ it("preserves the focused entry descendant through activation and closure", asyn
   await userEvent.click(first);
   controller.update([itemElement], itemElement);
   await userEvent.click(item);
-  controller.restoreFocusIfWithin();
+  controller.restoreFocusIfNeeded();
   await expect.element(first).toHaveFocus();
 });
 
@@ -329,7 +309,7 @@ it("restores a shared entry tab stop after the last controller disconnects", asy
   component.rovingTabIndex.update([first], first);
   component.otherRovingTabIndex.update([third], third);
 
-  component.rovingTabIndex.restore();
+  component.rovingTabIndex.update([], null);
   await expect.element(entry).toHaveAttribute("tabindex", "-1");
   component.otherRovingTabIndex.update([third], third);
   await expect.element(entry).toHaveAttribute("tabindex", "-1");
@@ -387,7 +367,7 @@ it("restores entry focus when a child control within a managed item is focused",
   await expect.element(entry).toHaveFocus();
 });
 
-it("conditionally restores entry focus when a child control within a managed item is focused", async () => {
+it("restores entry focus when needed while a child control within a managed item is focused", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;
   const item = page.elementLocator(component.el).getBySelector("div").element() as HTMLDivElement;
@@ -397,12 +377,12 @@ it("conditionally restores entry focus when a child control within a managed ite
   controller.update([item], item);
 
   await userEvent.click(child);
-  controller.restoreFocusIfWithin();
+  controller.restoreFocusIfNeeded();
 
   await expect.element(entry).toHaveFocus();
 });
 
-it("restores focus conditionally without stealing focus from outside the managed items", async () => {
+it("restores focus when needed without stealing focus from outside the managed items", async () => {
   const { component } = await mount(Test);
   const controller = component.rovingTabIndex;
   const first = page.getByRole("button", { name: "First" });
@@ -413,12 +393,12 @@ it("restores focus conditionally without stealing focus from outside the managed
 
   controller.update([firstElement], firstElement);
   await userEvent.click(outside);
-  controller.restoreFocusIfWithin();
+  controller.restoreFocusIfNeeded();
   await expect.element(outside).toHaveFocus();
 
   await userEvent.click(first);
   controller.update([firstElement], null);
-  controller.restoreFocusIfWithin();
+  controller.restoreFocusIfNeeded();
   await expect.element(entry).toHaveFocus();
 });
 

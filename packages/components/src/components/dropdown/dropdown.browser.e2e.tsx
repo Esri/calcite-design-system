@@ -877,6 +877,43 @@ describe("roving tabindex", () => {
     expect(page.getBySelector('calcite-dropdown-item[tabindex="0"]').all()).toHaveLength(0);
   });
 
+  it("restores trigger focus when the focused item is removed in the same task as programmatic close", async () => {
+    const { component } = await mount<Dropdown>(renderDropdown);
+    const first = page.getBySelector("#item-1");
+    const closeSpy = vi.fn();
+    component.el.addEventListener("calciteDropdownClose", closeSpy, { once: true });
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(first).toHaveFocus();
+    first.element().remove();
+    component.open = false;
+
+    await vi.waitFor(() => expect(closeSpy).toHaveBeenCalledTimes(1));
+    await expect.element(page.getBySelector('calcite-button[slot="trigger"]')).toHaveFocus();
+  });
+
+  it("preserves outside focus when the focused item is removed in the same task as programmatic close", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        {renderDropdown()}
+        <button type="button">Outside</button>
+      </>,
+    );
+    const first = page.getBySelector("#item-1");
+    const outside = page.getByRole("button", { name: "Outside" });
+    const closeSpy = vi.fn();
+    component.el.addEventListener("calciteDropdownClose", closeSpy, { once: true });
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(first).toHaveFocus();
+    first.element().remove();
+    component.open = false;
+    outside.element().focus();
+
+    await vi.waitFor(() => expect(closeSpy).toHaveBeenCalledTimes(1));
+    await expect.element(outside).toHaveFocus();
+  });
+
   it("exposes and activates a focused link as a menu item", async () => {
     const { component } = await mount<Dropdown>(
       <calcite-dropdown>

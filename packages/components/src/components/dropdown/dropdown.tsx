@@ -605,7 +605,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   onBeforeClose(): void {
-    this.rovingTabIndex.restoreFocusIfWithin();
+    this.rovingTabIndex.restoreFocusIfNeeded();
     this.calciteDropdownBeforeClose.emit();
   }
 

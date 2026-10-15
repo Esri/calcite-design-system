@@ -139,13 +139,6 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
    */
   reconcile: () => ElementType | null;
   /**
-   * Releases the specified elements, or all managed elements when omitted.
-   * Original `tabindex` attributes are restored after the last controller releases an element.
-   *
-   * @param elements - Elements to restore. When omitted, restores every element currently tracked by the controller.
-   */
-  restore: (elements?: readonly Element[]) => void;
-  /**
    * Returns focus to the entry control without changing its `tabindex`.
    *
    * By default, focus is restored only when it is currently within the managed items or entry control.
@@ -155,8 +148,6 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   restoreFocus: (force?: boolean) => void;
   /** Returns focus to the entry control when focus is within managed controls or lost through item unavailability. */
   restoreFocusIfNeeded: () => void;
-  /** Returns focus to the entry control only while one of the managed items is focused. */
-  restoreFocusIfWithin: () => void;
 }
 
 /**
@@ -212,15 +203,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       managedTabIndexes.delete(element);
     }
 
-    function restore(elements?: readonly Element[]): void {
-      if (!elements) {
-        trackedElements.forEach(restoreElement);
-        return;
-      }
-
-      elements.forEach(restoreElement);
-    }
-
     component.listenOn(
       component.el.ownerDocument,
       "focusin",
@@ -234,7 +216,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
 
     controller.onDisconnected(() => {
       focusedItem = undefined;
-      restore();
+      trackedElements.forEach(restoreElement);
     });
 
     const rovingTabIndex: RovingTabIndex<ElementType> = {
@@ -311,16 +293,13 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       update(elements, nextActiveElement): void {
         const entryElement = options.getEntryElement?.();
-        restore(entryTabStops);
+        entryTabStops.forEach(restoreElement);
         const entryFocusCandidates = getFocusableEntryElements(entryElement);
         const nextEntryTabStops = getTabbableEntryElements(entryElement, entryFocusCandidates);
         const managedEntryTabStops =
           nextEntryTabStops.length > 0
             ? nextEntryTabStops
-            : entryTabStops.filter(
-                (element) =>
-                  element.isConnected && (element === entryElement || (entryElement && entryElement.contains(element))),
-              );
+            : entryTabStops.filter((element) => element.isConnected && entryElement?.contains(element));
         itemElements = elements;
         const traversableElements = options.getTraversableElements?.() ?? elements;
         activeIndex =
@@ -380,7 +359,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         );
         return activeElement;
       },
-      restore,
       restoreFocus(force = false): void {
         const focusIsWithinManagedControls =
           itemElements.some(isFocusedWithin) ||
@@ -401,11 +379,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       restoreFocusIfNeeded(): void {
         rovingTabIndex.restoreFocus(rovingTabIndex.shouldRecoverFocus);
-      },
-      restoreFocusIfWithin(): void {
-        if (itemElements.some(isFocusedWithin)) {
-          rovingTabIndex.restoreFocus();
-        }
       },
     };
     return rovingTabIndex;
