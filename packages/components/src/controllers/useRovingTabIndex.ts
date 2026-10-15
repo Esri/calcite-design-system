@@ -4,6 +4,11 @@ import { getRootNode, tabbableOptions } from "../utils/dom";
 
 type FocusableElement = HTMLElement | SVGElement;
 
+const managedTabIndexes = new WeakMap<
+  Element,
+  { attribute: string | null; tabIndex: number; referenceCount: number }
+>();
+
 function isFocusableElement(element: Element): element is FocusableElement {
   return (
     "focus" in element &&
@@ -36,6 +41,12 @@ function getTabbableEntryElements(entryElement: Element | undefined): FocusableE
 
   const tabbableElements = tabbable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(
     isFocusableElement,
+  );
+
+  tabbableElements.push(
+    ...getFocusableEntryElements(entryElement).filter(
+      (element) => (managedTabIndexes.get(element)?.tabIndex ?? -1) >= 0,
+    ),
   );
 
   if (isFocusableElement(entryElement) && entryElement.tabIndex >= 0) {
@@ -81,10 +92,13 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   readonly activeElement: ElementType | null;
   /** The active item's index among traversable items, or `-1` when none is active. */
   readonly activeIndex: number;
+  /** Whether the controller is synchronously restoring focus to the entry control. */
+  readonly isRestoringFocus: boolean;
   /**
    * Updates the managed items and active item, applying roving `tabindex` values.
    *
-   * Previously managed elements no longer included are restored to their original `tabindex`.
+   * Previously managed elements no longer included are released.
+   * Original `tabindex` attributes are restored after the last controller releases an element.
    *
    * @param elements - Items whose `tabindex` values are managed.
    * @param activeElement - Item to make the active tab stop, or `null` to clear the active item.
@@ -99,7 +113,8 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
    */
   setActiveIndex: (index: number) => void;
   /**
-   * Restores original `tabindex` attributes on the specified elements, or all managed elements when omitted.
+   * Releases the specified elements, or all managed elements when omitted.
+   * Original `tabindex` attributes are restored after the last controller releases an element.
    *
    * @param elements - Elements to restore. When omitted, restores every element currently tracked by the controller.
    */
@@ -120,7 +135,8 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
  * Creates a controller that manages roving tab stops for a composite widget.
  *
  * The active item receives `tabindex="0"` and other managed items receive `tabindex="-1"`.
- * Original `tabindex` attributes are restored when elements stop being managed or the component disconnects.
+ * Original `tabindex` attributes are restored when the last controller managing an element releases it.
+ * Elements are released when they stop being managed or the component disconnects.
  * The controller can also manage an entry control's tab stops and restore focus to that control.
  *
  * @param options - Callbacks for resolving managed items, traversable items, and the entry control.
@@ -129,34 +145,40 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
   options: RovingTabIndexOptions<ElementType> = {},
 ): ReturnType<typeof makeGenericController<RovingTabIndex<ElementType>>> =>
   makeGenericController<RovingTabIndex<ElementType>>((_component, controller) => {
-    const originalTabIndexes = new Map<Element, string | null>();
+    const trackedElements = new Set<Element>();
     let itemElements: ElementType[] = [];
     let activeElement: ElementType | null = null;
     let activeIndex = -1;
     let entryTabStops: FocusableElement[] = [];
     let entryFocusTarget: FocusableElement | undefined;
+    let isRestoringFocus = false;
 
-    function restoreElement(element: Element, tabIndex: string | null): void {
-      if (tabIndex === null) {
+    function restoreElement(element: Element): void {
+      const managedTabIndex = managedTabIndexes.get(element);
+      if (!managedTabIndex || !trackedElements.delete(element)) {
+        return;
+      }
+
+      managedTabIndex.referenceCount--;
+      if (managedTabIndex.referenceCount > 0) {
+        return;
+      }
+
+      if (managedTabIndex.attribute === null) {
         element.removeAttribute("tabindex");
       } else {
-        element.setAttribute("tabindex", tabIndex);
+        element.setAttribute("tabindex", managedTabIndex.attribute);
       }
-      originalTabIndexes.delete(element);
+      managedTabIndexes.delete(element);
     }
 
     function restore(elements?: readonly Element[]): void {
       if (!elements) {
-        originalTabIndexes.forEach((tabIndex, element) => restoreElement(element, tabIndex));
+        trackedElements.forEach(restoreElement);
         return;
       }
 
-      elements.forEach((element) => {
-        const tabIndex = originalTabIndexes.get(element);
-        if (tabIndex !== undefined) {
-          restoreElement(element, tabIndex);
-        }
-      });
+      elements.forEach(restoreElement);
     }
 
     controller.onDisconnected(() => restore());
@@ -167,6 +189,9 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       get activeIndex(): number {
         return activeIndex;
+      },
+      get isRestoringFocus(): boolean {
+        return isRestoringFocus;
       },
       update(elements, nextActiveElement): void {
         const entryElement = options.getEntryElement?.();
@@ -195,15 +220,25 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         entryTabStops = managedEntryTabStops;
         const managedElements = activeElement ? [...elements, ...entryTabStops] : elements;
         const currentElements = new Set<Element>(managedElements);
-        originalTabIndexes.forEach((tabIndex, element) => {
+        trackedElements.forEach((element) => {
           if (!currentElements.has(element)) {
-            restoreElement(element, tabIndex);
+            restoreElement(element);
           }
         });
 
         managedElements.forEach((element) => {
-          if (!originalTabIndexes.has(element)) {
-            originalTabIndexes.set(element, element.getAttribute("tabindex"));
+          if (!trackedElements.has(element)) {
+            const managedTabIndex = managedTabIndexes.get(element);
+            if (managedTabIndex) {
+              managedTabIndex.referenceCount++;
+            } else {
+              managedTabIndexes.set(element, {
+                attribute: element.getAttribute("tabindex"),
+                tabIndex: element.tabIndex,
+                referenceCount: 1,
+              });
+            }
+            trackedElements.add(element);
           }
           const tabIndex = element === activeElement ? 0 : -1;
           if (element.getAttribute("tabindex") !== String(tabIndex)) {
@@ -229,7 +264,12 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
           return;
         }
 
-        entryFocusTarget.focus();
+        isRestoringFocus = true;
+        try {
+          entryFocusTarget.focus();
+        } finally {
+          isRestoringFocus = false;
+        }
       },
       restoreFocusIfWithin(): void {
         if (itemElements.some((element) => getRootNode(element).activeElement === element)) {

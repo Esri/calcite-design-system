@@ -420,7 +420,11 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     const components = queryComponents(composedPath, "hover");
 
     if (
-      components?.some((component) => event.relatedTarget instanceof Node && component.el.contains(event.relatedTarget))
+      components?.some(
+        (component) =>
+          component.isRestoringFocus ||
+          (event.relatedTarget instanceof Node && component.el.contains(event.relatedTarget)),
+      )
     ) {
       clearHoverTimeout();
       return;

@@ -41,6 +41,9 @@ type PublicProps = {
 };
 
 type InternalProps = {
+  /** When `true`, suppresses hover activation while focus is restored to the reference element. */
+  isRestoringFocus?: boolean;
+
   /**
    * The resolved reference element used to trigger the component.
    */

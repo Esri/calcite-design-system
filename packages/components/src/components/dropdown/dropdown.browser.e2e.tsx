@@ -1,6 +1,6 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { isDropdownGroup } from "../dropdown-group/resources";
 import {
@@ -349,6 +349,50 @@ describe("hover type", () => {
     await expect.element(trigger).toHaveFocus();
     expect(component.open).toBe(false);
   });
+
+  it.each(["Escape", "selection", "programmatic"])(
+    "keeps a shadow-root dropdown closed after %s restores focus to an external hover reference",
+    async (closingAction) => {
+      const { component } = await mount<Dropdown>(
+        <>
+          <button id="external-trigger" type="button">
+            Open dropdown
+          </button>
+          <calcite-dropdown referenceElement="external-trigger" type="hover">
+            <calcite-dropdown-group>
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </>,
+      );
+      const host = document.createElement("div");
+      document.body.append(host);
+      const shadowRoot = host.attachShadow({ mode: "open" });
+      shadowRoot.append(component.el);
+
+      try {
+        await afterNextFrame();
+        await afterNextFrame();
+        const trigger = page.getByRole("button", { name: "Open dropdown" });
+        const item = page.getByRole("menuitemradio", { name: "First" });
+        await userEvent.click(trigger);
+        await vi.waitFor(() => expect(shadowRoot.activeElement).toBe(item.element()));
+
+        if (closingAction === "programmatic") {
+          component.open = false;
+        } else {
+          await userEvent.keyboard(closingAction === "selection" ? "{Enter}" : "{Escape}");
+        }
+
+        await expect.element(trigger).toHaveFocus();
+        await afterNextFrame();
+        await afterNextFrame();
+        expect(component.open).toBe(false);
+      } finally {
+        host.remove();
+      }
+    },
+  );
 
   it("does not move focus when an external hover reference opens by pointer", async () => {
     const { component } = await mount<Dropdown>(
@@ -699,6 +743,105 @@ describe("roving tabindex", () => {
     expect(page.getBySelector('calcite-dropdown-item[tabindex="0"]').all()).toHaveLength(1);
   });
 
+  it("does not move focus back into the menu after focus leaves during deferred navigation", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown referenceElement="external-trigger">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+            <calcite-dropdown-item>Second</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const first = page.getByRole("menuitemradio", { name: "First" });
+    const outside = page.getByRole("button", { name: "Outside" });
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(first).toHaveFocus();
+    component.el.addEventListener("keydown", () => outside.element().focus(), { once: true });
+    await userEvent.keyboard("{ArrowDown}");
+    await afterNextFrame();
+    await afterNextFrame();
+    await afterNextFrame();
+
+    expect(component.open).toBe(true);
+    await expect.element(outside).toHaveFocus();
+  });
+
+  it("preserves external focus while a shadow-root dropdown is opening", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown referenceElement="external-trigger">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const host = document.createElement("div");
+    component.el.after(host);
+    onTestFinished(() => host.remove());
+    host.attachShadow({ mode: "open" }).append(component.el);
+    const outside = page.getByRole("button", { name: "Outside" });
+    component.el.addEventListener("calciteDropdownBeforeOpen", () => outside.element().focus(), {
+      once: true,
+    });
+    await afterNextFrame();
+    await afterNextFrame();
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await afterNextFrame();
+    await afterNextFrame();
+    await afterNextFrame();
+
+    expect(component.open).toBe(true);
+    await expect.element(outside).toHaveFocus();
+  });
+
+  it("preserves focus changes within an external shadow root while opening", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button type="button">Open dropdown</button>
+        <calcite-dropdown>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const outside = page.getByRole("button", { name: "Outside" });
+    const host = document.createElement("div");
+    component.el.after(host);
+    onTestFinished(() => host.remove());
+    host.attachShadow({ mode: "open" }).append(trigger.element(), outside.element());
+    component.referenceElement = trigger.element();
+    component.el.addEventListener("calciteDropdownBeforeOpen", () => outside.element().focus(), {
+      once: true,
+    });
+    await afterNextFrame();
+    await afterNextFrame();
+
+    await userEvent.click(trigger);
+    await afterNextFrame();
+    await afterNextFrame();
+    await afterNextFrame();
+
+    expect(component.open).toBe(true);
+    await expect.element(host).toHaveFocus();
+    await expect.element(host).toHaveProperty("shadowRoot.activeElement", outside.element());
+  });
+
   it("focuses the first and last items with Home and End", async () => {
     await mount<Dropdown>(renderDropdown);
     await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
@@ -1039,6 +1182,52 @@ describe("referenceElement keydown", () => {
 });
 
 describe("autoClose", () => {
+  it.each([undefined, 0, 2])(
+    "restores a shared reference's original tabindex %s only after both dropdowns close",
+    async (tabIndex) => {
+      const { component: dropdownOne } = await mount<Dropdown>(
+        <>
+          <button id="shared-trigger" tabIndex={tabIndex} type="button">
+            Open dropdowns
+          </button>
+          <calcite-dropdown id="dropdown-1" referenceElement="shared-trigger">
+            <calcite-dropdown-group>
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </>,
+      );
+      const { component: dropdownTwo } = await mount<Dropdown>(
+        <calcite-dropdown id="dropdown-2" referenceElement="shared-trigger">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Second</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      );
+      const trigger = page.getByRole("button", { name: "Open dropdowns" });
+
+      for (const dropdowns of [
+        [dropdownOne, dropdownTwo],
+        [dropdownTwo, dropdownOne],
+      ]) {
+        await userEvent.click(trigger);
+        expect(dropdownOne.open).toBe(true);
+        expect(dropdownTwo.open).toBe(true);
+        await expect.element(trigger).toHaveAttribute("tabindex", "-1");
+
+        dropdowns[0].open = false;
+        await dropdowns[0].updateComplete;
+        await expect.element(trigger).toHaveAttribute("tabindex", "-1");
+
+        dropdowns[1].open = false;
+        await dropdowns[1].updateComplete;
+        expect(trigger.element().getAttribute("tabindex")).toBe(
+          tabIndex === undefined ? null : String(tabIndex),
+        );
+      }
+    },
+  );
+
   it("closes an open dropdown when another reference element dropdown opens", async () => {
     await mount<Dropdown>(
       <>

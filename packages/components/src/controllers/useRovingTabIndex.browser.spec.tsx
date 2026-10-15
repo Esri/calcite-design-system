@@ -16,6 +16,10 @@ class Test extends LitElement {
     getTraversableElements: () => this.traversableElements,
   })(this);
 
+  otherRovingTabIndex = useRovingTabIndex({
+    getEntryElement: () => this.entryElement,
+  })(this);
+
   override render(): JsxNode {
     return (
       <>
@@ -133,6 +137,25 @@ it("preserves the focused entry descendant through activation and closure", asyn
   await userEvent.click(item);
   controller.restoreFocusIfWithin();
   await expect.element(first).toHaveFocus();
+});
+
+it("restores a shared entry tab stop after the last controller disconnects", async () => {
+  const { component, el } = await mount(Test);
+  const first = page.getByRole("button", { name: "First" }).element() as HTMLButtonElement;
+  const entry = page.getByRole("button", { name: "Second" });
+  const entryElement = entry.element();
+  const third = page.getByRole("button", { name: "Third" }).element() as HTMLButtonElement;
+  component.entryElement = entryElement;
+  component.rovingTabIndex.update([first], first);
+  component.otherRovingTabIndex.update([third], third);
+
+  component.rovingTabIndex.restore();
+  await expect.element(entry).toHaveAttribute("tabindex", "-1");
+  component.otherRovingTabIndex.update([third], third);
+  await expect.element(entry).toHaveAttribute("tabindex", "-1");
+
+  el.remove();
+  expect(entryElement.getAttribute("tabindex")).toBe("2");
 });
 
 it("falls back to the first candidate when the preserved target no longer belongs to the entry", async () => {

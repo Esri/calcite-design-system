@@ -10,7 +10,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { nextFrame } from "../../utils/dom";
+import { getRootNode, nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -121,6 +121,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   get autoClose(): true {
     return true;
+  }
+
+  get isRestoringFocus(): boolean {
+    return this.rovingTabIndex.isRestoringFocus;
   }
 
   private groups: DropdownGroup["el"][] = [];
@@ -859,13 +863,28 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
+    const rootNode = getRootNode(this.el);
+    const getFocusedElement = (): Element | null => {
+      let focusedElement = rootNode.activeElement ?? this.el.ownerDocument.activeElement;
+      while (focusedElement?.shadowRoot?.activeElement) {
+        focusedElement = focusedElement.shadowRoot.activeElement;
+      }
+      return focusedElement;
+    };
+    const focusedElement = getFocusedElement();
+
     // ensure element is rendered/visible before focus or scrollIntoView
     // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
     await this.updateComplete;
     await nextFrame();
     await nextFrame();
 
-    if (!this.open || this.rovingTabIndex.activeElement !== target || !target.isConnected) {
+    if (
+      !this.open ||
+      this.rovingTabIndex.activeElement !== target ||
+      !target.isConnected ||
+      getFocusedElement() !== focusedElement
+    ) {
       return;
     }
 
@@ -886,7 +905,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private openHoverDropdown(event: FocusEvent): void {
-    if (this.disabled || this.type !== "hover") {
+    if (this.disabled || this.type !== "hover" || this.isRestoringFocus) {
       return;
     }
 
