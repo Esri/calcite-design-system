@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.101](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.100...@esri/calcite-components@5.2.0-next.101) (2026-10-15)
+
+### Bug Fixes
+
+- **slider:** prevent width collapse in flex containers ([#15388](https://github.com/Esri/calcite-design-system/issues/15388)), closes [#15140](https://github.com/Esri/calcite-design-system/issues/15140)
+
 ## [5.2.0-next.100](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.99...@esri/calcite-components@5.2.0-next.100) (2026-10-14)
 
 ### Bug Fixes
