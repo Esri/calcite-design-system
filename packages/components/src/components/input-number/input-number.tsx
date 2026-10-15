@@ -601,6 +601,10 @@ export class InputNumber
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("inlineEditing") && this.inlineEditing) {
+      this.inlineEditManager.captureValuePriorToEditing();
+    }
+
     if (changes.has("max")) {
       this.maxString = this.max?.toString() || undefined;
     }
