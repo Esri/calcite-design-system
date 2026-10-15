@@ -161,7 +161,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     getElements: () => this.items,
     getEntryElement: () => (this.referenceEl instanceof Element ? this.referenceEl : undefined),
     getTraversableElements: () => this.getTraversableItems(),
-    isActive: () => this.open && !this.disabled,
+    isActive: () => this.open && !this.disabled && this.focusActiveItemOnOpen,
   })(this);
 
   private interactiveContainer = useInteractive(this);
@@ -525,7 +525,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
         this.updateItems();
         return;
       }
-      this.rovingTabIndex.setActiveIndex(index);
+      if (this.rovingTabIndex.isFocusUnchanged(focusedElement)) {
+        this.rovingTabIndex.setActiveIndex(index);
+      }
       await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem, focusedElement);
     }
   }
@@ -804,6 +806,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private handleItemFocus(event: FocusEvent): void {
+    this.focusActiveItemOnOpen = true;
     this.rovingTabIndex.handleFocusIn(event);
   }
 
@@ -883,9 +886,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.focusActiveItemOnOpen = true;
 
     if (this.open) {
-      if (this.rovingTabIndex.activeElement) {
-        void this.scrollActiveItemIntoView(this.rovingTabIndex.activeElement);
+      if (!this.rovingTabIndex.activeElement) {
+        this.rovingTabIndex.setActiveIndex(0);
       }
+      void this.scrollActiveItemIntoView(this.rovingTabIndex.activeElement ?? undefined);
       return;
     }
 

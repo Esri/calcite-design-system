@@ -555,6 +555,36 @@ describe("hover type", () => {
     await expect.element(outside).toHaveFocus();
   });
 
+  it("tabs into a pointer-opened menu through an external reference after the focused control", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown referenceElement="external-trigger" type="hover">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <button type="button">Outside</button>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <button type="button">Next</button>
+      </>,
+    );
+    const outside = page.getByRole("button", { name: "Outside" });
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const first = page.getByRole("menuitemradio", { name: "First" });
+
+    await userEvent.click(outside);
+    await userEvent.hover(trigger);
+    await vi.waitFor(() => expect(component.open).toBe(true));
+    await expect.element(outside).toHaveFocus();
+    await userEvent.tab();
+
+    await expect.element(first).toHaveFocus();
+    await expect.element(first).toHaveAttribute("tabindex", "0");
+    await expect.element(trigger).toHaveAttribute("tabindex", "-1");
+  });
+
   it("enters a pointer-opened menu when its external hover reference receives focus", async () => {
     const { component } = await mount<Dropdown>(
       <>
@@ -1398,6 +1428,28 @@ describe("roving tabindex", () => {
     await expect.element(item).toHaveFocus();
     expect(el.open).toBe(true);
     expect(page.getBySelector('calcite-dropdown-item[tabindex="0"]').all()).toHaveLength(1);
+  });
+
+  it("keeps the active item aligned with focus moved by a selection listener", async () => {
+    const { component } = await mount<Dropdown>(renderDropdown);
+    component.closeOnSelectDisabled = true;
+    const first = page.getBySelector("#item-1");
+    const second = page.getBySelector("#item-2");
+    const selectSpy = vi.fn();
+    second.element().addEventListener("calciteDropdownItemSelect", selectSpy);
+    component.el.addEventListener("calciteDropdownSelect", () => second.element().focus(), {
+      once: true,
+    });
+
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(first).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+
+    await expect.element(second).toHaveFocus();
+    await expect.element(second).toHaveAttribute("tabindex", "0");
+    await expect.element(first).toHaveAttribute("tabindex", "-1");
+    await userEvent.keyboard("{Enter}");
+    expect(selectSpy).toHaveBeenCalledTimes(1);
   });
 
   it("restores trigger focus when a selection listener removes the focused item", async () => {
