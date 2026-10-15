@@ -34,7 +34,10 @@ function getFocusableEntryElements(entryElement: Element | undefined): Focusable
   return [...new Set(focusableElements)];
 }
 
-function getTabbableEntryElements(entryElement: Element | undefined): FocusableElement[] {
+function getTabbableEntryElements(
+  entryElement: Element | undefined,
+  focusableElements: readonly FocusableElement[],
+): FocusableElement[] {
   if (!entryElement) {
     return [];
   }
@@ -44,9 +47,7 @@ function getTabbableEntryElements(entryElement: Element | undefined): FocusableE
   );
 
   tabbableElements.push(
-    ...getFocusableEntryElements(entryElement).filter(
-      (element) => (managedTabIndexes.get(element)?.tabIndex ?? -1) >= 0,
-    ),
+    ...focusableElements.filter((element) => (managedTabIndexes.get(element)?.tabIndex ?? -1) >= 0),
   );
 
   if (isFocusableElement(entryElement) && entryElement.tabIndex >= 0) {
@@ -276,7 +277,8 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       handleFocusIn(event): void {
         const elements = getTraversableElements();
-        const item = elements.find((element) => event.composedPath().includes(element));
+        const path = event.composedPath();
+        const item = elements.find((element) => path.includes(element));
         if (item) {
           focusedItem = item;
           rovingTabIndex.setActiveIndex(elements.indexOf(item));
@@ -310,7 +312,8 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       update(elements, nextActiveElement): void {
         const entryElement = options.getEntryElement?.();
         restore(entryTabStops);
-        const nextEntryTabStops = getTabbableEntryElements(entryElement);
+        const entryFocusCandidates = getFocusableEntryElements(entryElement);
+        const nextEntryTabStops = getTabbableEntryElements(entryElement, entryFocusCandidates);
         const managedEntryTabStops =
           nextEntryTabStops.length > 0
             ? nextEntryTabStops
@@ -325,7 +328,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
             ? traversableElements.indexOf(nextActiveElement)
             : -1;
         activeElement = activeIndex >= 0 ? nextActiveElement : null;
-        const entryFocusCandidates = getFocusableEntryElements(entryElement);
         entryFocusTarget =
           entryFocusCandidates.find((element) => getRootNode(element).activeElement === element) ??
           (entryFocusTarget && entryFocusCandidates.includes(entryFocusTarget)
@@ -380,13 +382,10 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       restore,
       restoreFocus(force = false): void {
-        const currentlyFocusedElement = entryFocusTarget ? getRootNode(entryFocusTarget).activeElement : null;
         const focusIsWithinManagedControls =
           itemElements.some(isFocusedWithin) ||
           entryTabStops.some(isFocusedWithin) ||
-          (entryFocusTarget !== undefined &&
-            currentlyFocusedElement !== null &&
-            entryFocusTarget.contains(currentlyFocusedElement));
+          (entryFocusTarget !== undefined && isFocusedWithin(entryFocusTarget));
 
         if ((!force && !focusIsWithinManagedControls) || !entryFocusTarget || !entryFocusTarget.isConnected) {
           return;

@@ -523,9 +523,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private updateItems(): void {
-    this.items = this.groups
-      .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
-      .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
+    this.items = this.groups.flatMap((group) =>
+      Array.from(group.querySelectorAll("calcite-dropdown-item")),
+    );
 
     this.updateSelectedItems();
     this.syncActiveItemFromTraversableItems();
@@ -642,11 +642,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
+    const path = event.composedPath();
     if (
       this.disabled ||
-      (!event.composedPath().includes(this.floatingEl!) &&
-        (!(this.referenceEl instanceof Element) ||
-          !event.composedPath().includes(this.referenceEl)))
+      (!path.includes(this.floatingEl!) &&
+        (!(this.referenceEl instanceof Element) || !path.includes(this.referenceEl)))
     ) {
       return;
     }
@@ -747,9 +747,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private async setInitialActiveItem(): Promise<void> {
     const traversableItems = this.getTraversableItems();
-    const target: DropdownItem["el"] | undefined = this.focusLastDropdownItem
-      ? traversableItems.at(-1)
-      : traversableItems[0];
+    const targetIndex = this.focusLastDropdownItem ? traversableItems.length - 1 : 0;
+    const target: DropdownItem["el"] | undefined = traversableItems[targetIndex];
 
     this.focusLastDropdownItem = false;
 
@@ -758,7 +757,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
-    const targetIndex = traversableItems.findIndex((item) => item === target);
     this.rovingTabIndex.setActiveIndex(targetIndex);
 
     if (this.focusActiveItemOnOpen) {
@@ -859,13 +857,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private activateActiveItem(): void {
     const traversableItems = this.getTraversableItems();
-    const activeItem = traversableItems[this.rovingTabIndex.activeIndex] || traversableItems[0];
+    const activeIndex = this.rovingTabIndex.activeIndex;
+    const targetIndex = activeIndex >= 0 && activeIndex < traversableItems.length ? activeIndex : 0;
+    const activeItem = traversableItems[targetIndex];
 
     if (!activeItem) {
       return;
     }
 
-    this.rovingTabIndex.setActiveIndex(traversableItems.findIndex((item) => item === activeItem));
+    this.rovingTabIndex.setActiveIndex(targetIndex);
     activeItem.activateItem();
   }
 
@@ -898,9 +898,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     if (
       relatedTarget &&
       (this.el.contains(relatedTarget) ||
-        (this.referenceEl != null &&
-          this.referenceEl instanceof Element &&
-          this.referenceEl.contains(relatedTarget)))
+        (this.referenceEl instanceof Element && this.referenceEl.contains(relatedTarget)))
     ) {
       return;
     }
