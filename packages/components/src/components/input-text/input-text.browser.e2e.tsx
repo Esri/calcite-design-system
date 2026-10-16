@@ -145,6 +145,21 @@ describe("is focusable", () => {
 });
 
 describe("inline edit", () => {
+  it("preserves the caret position when editing is enabled by clicking the input", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text inline-edit value="abc" />);
+    const input = page.getBySelector("calcite-input-text input");
+
+    await userEvent.click(input, {
+      position: { x: 10, y: input.element().clientHeight / 2 },
+    });
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+    await userEvent.keyboard("d");
+
+    await expect.element(input).toHaveValue("adbc");
+  });
+
   it("places the caret at the end when editing is enabled with the edit button", async () => {
     const { el } = await mount<InputText>(
       <calcite-input-text inline-edit value="Starting value" />,

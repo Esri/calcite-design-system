@@ -164,6 +164,21 @@ describe("disabled", () => {
 });
 
 describe("inline edit", () => {
+  it("preserves the caret position when editing is enabled by clicking the input", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-edit value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input, {
+      position: { x: 10, y: input.element().clientHeight / 2 },
+    });
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+    await userEvent.keyboard("4");
+
+    await expect.element(input).toHaveValue("1423");
+  });
+
   it("places the caret at the end when editing is enabled with the edit button", async () => {
     const { el } = await mount<InputNumber>(<calcite-input-number inline-edit value="123" />);
     const input = page.getBySelector("calcite-input-number input");
