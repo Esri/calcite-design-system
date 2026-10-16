@@ -925,8 +925,8 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
     function tearDown(force = false): void {
       setupGeneration++;
 
-      if (!record || (!force && dragActive())) {
-        if (record && dragActive()) {
+      if (!record?.alive || (!force && dragActive())) {
+        if (record?.alive && dragActive()) {
           record.pendingReset.add(sortableComponent);
         }
         return;

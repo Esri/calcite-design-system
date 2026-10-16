@@ -478,3 +478,26 @@ it("reacquires the shared manager after its last peer disconnects", async () => 
 
   await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(6));
 });
+
+it("preserves the replacement manager when an inactive peer disconnects", async () => {
+  const { component: inactive } = await mountDragEnabled();
+  const { component: peer } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+
+  inactive.dragEnabled = false;
+  inactive.sortable.reset();
+  await vi.waitFor(() => expect(destroySortableSpy).toHaveBeenCalledTimes(2));
+
+  peer.remove();
+  expect(destroyManagerSpy).toHaveBeenCalledTimes(1);
+
+  await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(6));
+
+  inactive.remove();
+  await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(8));
+
+  expect(configuredPlugins).toHaveBeenCalledTimes(2);
+  expect(destroyManagerSpy).toHaveBeenCalledTimes(1);
+});
