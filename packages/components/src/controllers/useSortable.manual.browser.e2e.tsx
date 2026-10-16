@@ -677,6 +677,22 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     expect(request).not.toHaveBeenCalled();
   });
 
+  it("does not request a drop after the application removes the dragged item", async () => {
+    const { source, first, handle, request } = await setup({ populateDestination: true });
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    const target = page.getBySelector("#destination-item");
+    await dragAndDrop(handle, target.element(), "top", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+
+    first.remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(request).not.toHaveBeenCalled();
+  });
+
   it("does not request an item-targeted drop when its target is removed", async () => {
     const { source, handle, request } = await setup({
       populateDestination: true,
@@ -853,10 +869,10 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
 it("allows a keyed renderer to apply and subsequently change the requested order", async () => {
   let items = ["one", "two", "three"];
   const request = vi.fn((event: Event) => {
-    const { oldIndex, newIndex } = (event as CustomEvent<{ oldIndex: number; newIndex: number }>)
+    const { dragEl, newIndex } = (event as CustomEvent<{ dragEl: HTMLElement; newIndex: number }>)
       .detail;
     const updated = [...items];
-    const [item] = updated.splice(oldIndex, 1);
+    const [item] = updated.splice(updated.indexOf(dragEl.id), 1);
     updated.splice(newIndex, 0, item);
     items = updated;
   });
@@ -875,6 +891,7 @@ it("allows a keyed renderer to apply and subsequently change the requested order
     </calcite-list>
   `;
   const { component: list, container } = await mount<List>(template);
+  onTestFinished(() => commands.mouseUp());
   const render = () => renderTemplate(template(), container);
   const source = list.el;
   const first = page.getBySelector("#one").element();
@@ -897,4 +914,22 @@ it("allows a keyed renderer to apply and subsequently change the requested order
   expect(items).toEqual(["one", "three"]);
   render();
   expect(Array.from(source.children)).toEqual([first, third]);
+
+  items = ["one", "two", "three"];
+  render();
+  const second = page.getBySelector("#two").element();
+  const secondHandle = page.getBySelector("#two calcite-sort-handle");
+  await expect.element(secondHandle).toBeVisible();
+  await dragAndDrop(secondHandle.element(), third, "bottom", { skipPointerUp: true });
+  await expect
+    .element(page.elementLocator(third))
+    .toHaveAttribute("data-calcite-sort-position", "after");
+
+  items = ["two", "three"];
+  render();
+  await commands.mouseUp();
+  await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(3));
+  expect(items).toEqual(["three", "two"]);
+  render();
+  expect(Array.from(source.children)).toEqual([third, second]);
 });

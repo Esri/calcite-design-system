@@ -807,7 +807,10 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         const { component: fromComponent, item: dragEl, oldIndex } = activeDrag;
         if (fromComponent.sortMode === "manual") {
           setGlobalDragActive(false);
-          if (dropPosition?.item && !getSortableItems(dropPosition.component).includes(dropPosition.item)) {
+          if (
+            !getSortableItems(fromComponent).includes(dragEl) ||
+            (dropPosition?.item && !getSortableItems(dropPosition.component).includes(dropPosition.item))
+          ) {
             canceled = true;
           }
           const toComponent = !canceled && dropPosition ? dropPosition.component : fromComponent;
