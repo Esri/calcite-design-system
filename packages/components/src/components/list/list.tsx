@@ -44,11 +44,18 @@ import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
-import { useSortable } from "../../controllers/useSortable";
+import { useSortable, type SortMode } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ListDisplayMode, ListDragDetail, ListDragStartDetail, ListElement } from "./types";
+import {
+  ListDisplayMode,
+  ListDragDetail,
+  ListDragStartDetail,
+  ListElement,
+  ListOrderRequestDetail,
+} from "./types";
 import { styles } from "./list.scss";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { logger } from "../../utils/logger";
 import { isListItem } from "../list-item/resources";
@@ -106,7 +113,7 @@ export class List extends LitElement {
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
   //#endregion
 
@@ -355,6 +362,14 @@ export class List extends LitElement {
   /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
+  /**
+   * Specifies who manages item order.
+   *
+   * In `"manual"` mode, the application handles `calciteListOrderRequest` and renders the new order.
+   * Items do not reorder during dragging. Transfers require both components to have the same mode.
+   */
+  @property({ reflect: true }) sortMode: SortMode = "automatic";
+
   //#endregion
 
   //#region Public Methods
@@ -431,12 +446,22 @@ export class List extends LitElement {
    * Fires before the component's item order changes.
    *
    * Calling `event.preventDefault()` cancels the proposed reorder, allowing apps to control item order.
-   * Earlier accepted changes in the same drag still emit an order-change event unless the drag is canceled.
+   * In automatic mode, earlier accepted changes in the same drag still emit an order-change event unless the drag is canceled.
+   * In manual mode, fires on drop or a sort-menu action before an order request, rather than during dragging.
    */
   calciteListBeforeOrderChange = createEvent<ListDragDetail>({ cancelable: true });
 
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
+
+  /**
+   * Fires on the source component when a drop or sort-menu action requests an order change in `"manual"` mode.
+   *
+   * The application must update its data and render the new order. No items are moved or cloned by the component.
+   * `newIndex` is the destination index after removing the source item for a move.
+   * Canceled and unchanged operations do not emit this event. `calciteListOrderChange` is not emitted in this mode.
+   */
+  calciteListOrderRequest = createEvent<ListOrderRequestDetail>({ cancelable: false });
 
   //#endregion
 
@@ -511,6 +536,7 @@ export class List extends LitElement {
       changes.has("group") ||
       (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false)) ||
+      (changes.has("sortMode") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
@@ -691,7 +717,7 @@ export class List extends LitElement {
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if (this.parentListEl || event.defaultPrevented) {
+    if ((this.parentListEl && this.sortMode !== "manual") || event.defaultPrevented) {
       return;
     }
 
@@ -700,7 +726,7 @@ export class List extends LitElement {
   }
 
   private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
-    if (this.parentListEl || event.defaultPrevented) {
+    if ((this.parentListEl && this.sortMode !== "manual") || event.defaultPrevented) {
       return;
     }
 
@@ -709,7 +735,7 @@ export class List extends LitElement {
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if (this.parentListEl || event.defaultPrevented) {
+    if ((this.parentListEl && this.sortMode !== "manual") || event.defaultPrevented) {
       return;
     }
 
@@ -823,6 +849,10 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
 
     this.calciteListOrderChange.emit(detail);
+  }
+
+  onOrderRequest(detail: ListOrderRequestDetail): void {
+    this.calciteListOrderRequest.emit(detail);
   }
 
   private setParentList(): void {
@@ -1139,7 +1169,13 @@ export class List extends LitElement {
     oldIndex: number;
     type: "move" | "add";
   }): boolean {
-    if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {
+    if (
+      !fromEl ||
+      !toEl ||
+      toEl === fromEl ||
+      dragEl.contains(toEl) ||
+      fromEl.sortMode !== toEl.sortMode
+    ) {
       return false;
     }
 
@@ -1189,6 +1225,11 @@ export class List extends LitElement {
 
     dragEl.sortHandleOpen = false;
 
+    if (fromEl.sortMode === "manual") {
+      this.onOrderRequest({ ...eventDetail, operation: "clone" });
+      return;
+    }
+
     this.disconnectObserver();
 
     const newEl = dragEl.cloneNode();
@@ -1225,6 +1266,11 @@ export class List extends LitElement {
     }
 
     dragEl.sortHandleOpen = false;
+
+    if (fromEl.sortMode === "manual") {
+      this.onOrderRequest({ ...eventDetail, operation: "move" });
+      return;
+    }
 
     this.disconnectObserver();
 
@@ -1272,7 +1318,16 @@ export class List extends LitElement {
 
     const eventDetail = { dragEl, fromEl: parentEl, toEl: parentEl, newIndex, oldIndex };
 
+    if (parentEl.sortMode === "manual" && newIndex === oldIndex) {
+      return;
+    }
+
     if (this.calciteListBeforeOrderChange.emit(eventDetail).defaultPrevented) {
+      return;
+    }
+
+    if (parentEl.sortMode === "manual") {
+      this.onOrderRequest({ ...eventDetail, operation: "move" });
       return;
     }
 

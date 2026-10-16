@@ -30,6 +30,53 @@ Refer to the [Get started](https://developers.arcgis.com/calcite-design-system/g
 
 Refer to the [Framework integration](https://developers.arcgis.com/calcite-design-system/resources/frameworks/#typescript) resource page for guidance on setting up TypeScript.
 
+## Framework-managed sorting
+
+Set `sort-mode="manual"` on `calcite-list` or `calcite-block-group` when a framework such as React owns the slotted items. The default, `"automatic"`, lets Calcite reorder the DOM.
+
+Manual mode shows a drag preview and destination indicator without moving the application's item elements. A successful drop or sort-menu action emits `calciteListOrderRequest` or `calciteBlockGroupOrderRequest` **on the source component only**. Handle the request by updating application state and rendering the new order with stable keys. Requests are emitted on drop, not continuously during dragging.
+
+For example, with React 19's custom-element event support:
+
+```tsx
+import { useState } from "react";
+
+function SortableItems() {
+  const [items, setItems] = useState([
+    { id: "one", label: "One" },
+    { id: "two", label: "Two" },
+    { id: "three", label: "Three" },
+  ]);
+
+  return (
+    <calcite-list
+      drag-enabled
+      label="Items"
+      sort-mode="manual"
+      oncalciteListOrderRequest={(event) => {
+        const { oldIndex, newIndex } = event.detail;
+        setItems((previous) => {
+          const next = [...previous];
+          const [item] = next.splice(oldIndex, 1);
+          next.splice(newIndex, 0, item);
+          return next;
+        });
+      }}
+    >
+      {items.map((item) => (
+        <calcite-list-item key={item.id} label={item.label} value={item.id} />
+      ))}
+    </calcite-list>
+  );
+}
+```
+
+The request detail contains `dragEl`, `fromEl`, `toEl`, `oldIndex`, `newIndex`, and `operation` (`"move"` or `"clone"`). Indices refer to sortable items, not all child nodes. For moves within one component, `newIndex` is the final index after removing the source item. For cross-component moves, update both collections together. For clones, preserve the source data and insert a copy with a new stable key in the destination. Calcite does not create application items in manual mode.
+
+Both components must use the same `sortMode` for transfers. Existing `canPull`, `canPut`, and cancelable before-order events still apply. In manual mode, before-order events run on drop or a menu action; preventing either source or destination event suppresses the request. Canceled, rejected, and unchanged operations do not emit a request. The application can also decline a request by leaving its state unchanged.
+
+`OrderChange` events retain their automatic-mode meaning and are not emitted for manual requests or application-rendered updates. There is no synchronous rendering requirement: Calcite observes the eventual rendered order. Preserve stable keys and restore focus if the application replaces the focused item.
+
 ## Browser support
 
 <table>

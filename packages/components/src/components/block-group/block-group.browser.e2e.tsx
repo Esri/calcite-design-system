@@ -74,6 +74,10 @@ describe("defaults", () => {
         propertyName: "sortDisabled",
         defaultValue: false,
       },
+      {
+        propertyName: "sortMode",
+        defaultValue: "automatic",
+      },
     ],
   );
 });
@@ -105,6 +109,10 @@ describe("reflects", () => {
       {
         propertyName: "sortDisabled",
         value: true,
+      },
+      {
+        propertyName: "sortMode",
+        value: "manual",
       },
       {
         propertyName: "scale",

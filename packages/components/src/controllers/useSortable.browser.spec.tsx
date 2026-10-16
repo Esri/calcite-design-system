@@ -1,7 +1,7 @@
 import { LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, onTestFinished, vi } from "vitest";
 import { page } from "vitest/browser";
 import { useSortable, type DragDetail } from "./useSortable";
 
@@ -229,7 +229,10 @@ it("disables dnd-kit drop animation and accessibility attributes", async () => {
   await mountDragEnabled();
 
   expect(configuredPlugins).toHaveBeenCalledTimes(1);
-  expect(configureFeedbackPlugin).toHaveBeenCalledWith({ dropAnimation: null });
+  expect(configureFeedbackPlugin).toHaveBeenCalledWith({
+    dropAnimation: null,
+    feedback: expect.any(Function),
+  });
   expect(configuredPlugins.mock.calls[0][0]).toContain(
     configureFeedbackPlugin.mock.results[0].value,
   );
@@ -403,6 +406,39 @@ it("queues a reset while a drag is active and flushes it after the drag ends", a
 
   await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
   expect(destroySortableSpy.mock.calls.length).toBeGreaterThan(0);
+});
+
+it("retries setup when a peer starts dragging while component updates are pending", async () => {
+  const { component } = await mountDragEnabled();
+  const { component: peer } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+
+  const update = Promise.withResolvers<boolean>();
+  const updateComplete = vi
+    .spyOn(component, "updateComplete", "get")
+    .mockReturnValue(update.promise);
+  onTestFinished(() => {
+    update.resolve(true);
+    updateComplete.mockRestore();
+  });
+
+  component.sortable.reset();
+  expect(destroySortableSpy).toHaveBeenCalledTimes(2);
+
+  const dragStartListener = monitorListeners.get("dragstart") as (event: unknown) => void;
+  const dragEndListener = monitorListeners.get("dragend") as (event: unknown) => void;
+  dragStartListener({ operation: { source: getSortableFor(peer, "one") } });
+  expect(peer.onGlobalDragStart).toHaveBeenCalledTimes(1);
+
+  update.resolve(true);
+  await new Promise(requestAnimationFrame);
+  expect(createSortableSpy).toHaveBeenCalledTimes(4);
+
+  updateComplete.mockRestore();
+  dragEndListener({ canceled: false });
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(6));
+  expect(getSortableFor(component, "one")).toBeDefined();
 });
 
 it("destroys and recreates sortables when dragEnabled changes", async () => {

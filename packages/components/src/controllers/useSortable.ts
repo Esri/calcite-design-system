@@ -9,6 +9,7 @@ import {
   PointerActivationConstraints,
   PointerSensor,
   type Draggable,
+  type DragOverEvent,
 } from "@dnd-kit/dom";
 import { Sortable, SortableKeyboardPlugin, isSortable } from "@dnd-kit/dom/sortable";
 import { guid } from "../utils/guid";
@@ -30,6 +31,7 @@ interface ActiveDrag {
 interface DropPosition {
   component: SortableComponent;
   item?: HTMLElement;
+  newIndex: number;
 }
 
 interface SortableManagerRecord {
@@ -50,6 +52,20 @@ interface SortableManagerRecord {
 const managerRecords = new WeakMap<Document, SortableManagerRecord>();
 const componentGroupIds = new WeakMap<SortableComponent, string>();
 const sortableItemIds = new WeakMap<HTMLElement, string>();
+const sortPositionAttribute = "data-calcite-sort-position";
+
+/** Specifies whether Calcite or the application manages sortable item order. */
+export type SortMode = "automatic" | "manual";
+
+/** Describes an order change for the application to render. */
+export type OrderRequestDetail<D extends DragDetail = DragDetail> = D & {
+  /** The source index when the operation started. */
+  oldIndex: number;
+  /** The destination index after removing the source item for a move. */
+  newIndex: number;
+  /** Whether the application should move the item or create a copy in the destination. */
+  operation: "move" | "clone";
+};
 
 function isHandleDisabled(handle?: HTMLElement): boolean {
   return (
@@ -122,6 +138,9 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
   /** When `true`, sorting is disabled. */
   sortDisabled?: boolean;
 
+  /** Specifies whether the component or the application owns item order. */
+  sortMode?: SortMode;
+
   /** Specifies which items inside the element should be draggable. */
   dragSelector?: string;
 
@@ -160,6 +179,9 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
 
   /** Called by any change to the list (add / update / remove). */
   onDragSort: BivariantHandler<D, void>;
+
+  /** Requests an application-managed order change on the source component only. */
+  onOrderRequest?: BivariantHandler<OrderRequestDetail<D>, void>;
 
   /** Returns the sortable items managed by the component. */
   getSortableItems?: () => HTMLElement[];
@@ -233,7 +255,11 @@ function getSortableGroup(component: SortableComponent): string {
 }
 
 function canTransferBetweenComponents(fromComponent: SortableComponent, toComponent: SortableComponent): boolean {
-  return !!fromComponent.group && fromComponent.group === toComponent.group;
+  return (
+    !!fromComponent.group &&
+    fromComponent.group === toComponent.group &&
+    (fromComponent.sortMode ?? "automatic") === (toComponent.sortMode ?? "automatic")
+  );
 }
 
 function getAppendIndex(
@@ -250,14 +276,21 @@ function getDropIndex(
   toComponent: SortableComponent,
   sourceSortable: Sortable | undefined,
   targetSortable: Sortable,
+  pointerPosition?: { x: number; y: number },
 ): number {
   const targetIndex = targetSortable.index;
 
-  if (!sourceSortable || sourceSortable.group === targetSortable.group) {
+  const sameGroup = sourceSortable?.group === targetSortable.group;
+
+  if (toComponent.sortMode !== "manual" && (!sourceSortable || sameGroup)) {
     return targetIndex;
   }
 
-  const position = record.manager.dragOperation.shape?.current.center ?? record.manager.dragOperation.position.current;
+  const position =
+    pointerPosition ??
+    (toComponent.sortMode === "manual"
+      ? record.manager.dragOperation.position.current
+      : (record.manager.dragOperation.shape?.current.center ?? record.manager.dragOperation.position.current));
   const targetShape = targetSortable.droppable.shape;
   const horizontal =
     toComponent.layout === "horizontal" ||
@@ -272,8 +305,14 @@ function getDropIndex(
         ? Math.round(position.x) < Math.round(targetShape.center.x)
         : Math.round(position.x) > Math.round(targetShape.center.x)
       : Math.round(position.y) > Math.round(targetShape.center.y));
+  const insertionIndex = targetIndex + Number(after);
+  return insertionIndex - Number(sameGroup && !!sourceSortable && sourceSortable.index < insertionIndex);
+}
 
-  return targetIndex + Number(after);
+function clearDropPosition(record: SortableManagerRecord): void {
+  const position = record.dropPosition;
+  (position?.item ?? position?.component.el)?.removeAttribute(sortPositionAttribute);
+  record.dropPosition = undefined;
 }
 
 function canAcceptDrop(fromComponent: SortableComponent, toComponent: SortableComponent, detail: DragDetail): boolean {
@@ -357,11 +396,52 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     return record;
   }
 
+  let dragPreview: HTMLElement | undefined;
+  const clearDragPreview = (): void => {
+    if (!dragPreview) {
+      return;
+    }
+    manager.registry.plugins.get(Feedback)!.overlay = undefined;
+    dragPreview.remove();
+    dragPreview = undefined;
+  };
+
   const manager = new DragDropManager({
     plugins: (plugins) =>
       plugins
         .filter((plugin) => plugin !== Accessibility)
-        .map((plugin) => (plugin === Feedback ? Feedback.configure({ dropAnimation: null }) : plugin)),
+        .map((plugin) =>
+          plugin === Feedback
+            ? Feedback.configure({
+                dropAnimation: null,
+                feedback: (source, manager) => {
+                  const data = getSortableItemData(source);
+                  if (data?.component.sortMode !== "manual" || !data.item) {
+                    return "default";
+                  }
+
+                  // Use an overlay so neither the source nor its framework-managed siblings move.
+                  if (!dragPreview) {
+                    dragPreview = cloneSortableItem(data.item);
+                    [dragPreview, ...dragPreview.querySelectorAll("*")].forEach((element) => {
+                      element.removeAttribute("id");
+                      element.removeAttribute("name");
+                      element.removeAttribute("form");
+                      if ("dragEnabled" in element) {
+                        element.dragEnabled = false;
+                      }
+                    });
+                    dragPreview.inert = true;
+                    dragPreview.setAttribute("aria-hidden", "true");
+                    dragPreview.style.pointerEvents = "none";
+                    document.body.append(dragPreview);
+                    manager.registry.plugins.get(Feedback)!.overlay = dragPreview;
+                  }
+                  return "move";
+                },
+              })
+            : plugin,
+        ),
     sensors: (sensors) =>
       sensors
         .filter((sensor) => sensor !== KeyboardSensor)
@@ -394,7 +474,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     alive: true,
     dropCanceled: false,
     pendingReset: new Set(),
-    removeListeners: [],
+    removeListeners: [clearDragPreview],
   };
 
   const flushPendingReset = (): void => {
@@ -431,6 +511,97 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     }
 
     return (target as { sortable?: Sortable }).sortable;
+  };
+
+  const handleDragOver = (
+    event: Pick<DragOverEvent, "operation" | "preventDefault">,
+    pointerPosition?: { x: number; y: number },
+  ): void => {
+    const { source, target } = event.operation;
+    const manual = !!source && getSortableItemData(source)?.component.sortMode === "manual";
+
+    if (manual) {
+      // The optimistic plugin is shared by every sortable in this document.
+      event.preventDefault();
+      clearDropPosition(record);
+    }
+
+    if (!source || !isSortable(source) || !target) {
+      return;
+    }
+
+    const sourceData = getSortableItemData(source);
+    const targetData = "data" in target ? (target.data as SortableItemData) : undefined;
+    const targetSortable = getSortableTarget(target);
+
+    if (
+      !sourceData?.item ||
+      !targetData ||
+      (targetData.item && sourceData.item === targetData.item) ||
+      (targetData.item && !targetSortable)
+    ) {
+      return;
+    }
+
+    const { component: fromComponent, item: dragEl } = sourceData;
+    const { component: toComponent, item: relatedEl } = targetData;
+
+    if (fromComponent !== toComponent && !canTransferBetweenComponents(fromComponent, toComponent)) {
+      event.preventDefault();
+      record.lastOver = undefined;
+      record.dropPosition = undefined;
+      record.dropCanceled = false;
+      return;
+    }
+
+    const newIndex = targetSortable
+      ? getDropIndex(record, toComponent, source.sortable, targetSortable, pointerPosition)
+      : getAppendIndex(record, fromComponent, toComponent);
+    const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, source.initialIndex, newIndex);
+    if (manual && !canAcceptDrop(fromComponent, toComponent, detail)) {
+      return;
+    }
+    const signature = `${getSortableGroup(toComponent)}:${relatedEl ? getSortableItemId(relatedEl) : "container"}:${newIndex}`;
+
+    record.dropPosition = {
+      component: toComponent,
+      item: relatedEl,
+      newIndex,
+    };
+
+    fromComponent.onDragMove?.({ ...detail, relatedEl: relatedEl ?? toComponent.el });
+
+    if (manual) {
+      if (fromComponent !== toComponent || source.initialIndex !== newIndex) {
+        const insertionIndex = newIndex + Number(fromComponent === toComponent && source.initialIndex <= newIndex);
+        (relatedEl ?? toComponent.el).setAttribute(
+          sortPositionAttribute,
+          !relatedEl ? "inside" : insertionIndex > (targetSortable?.index ?? 0) ? "after" : "before",
+        );
+      }
+      return;
+    }
+
+    if (record.lastOver === signature) {
+      if (record.dropCanceled) {
+        event.preventDefault();
+      }
+      return;
+    }
+
+    record.lastOver = signature;
+    record.dropCanceled = false;
+
+    const fromResult = fromComponent.onDragBeforeSort?.(detail);
+    const toResult = toComponent === fromComponent ? undefined : toComponent.onDragBeforeSort?.(detail);
+
+    if (
+      (fromResult instanceof Event && fromResult.defaultPrevented) ||
+      (toResult instanceof Event && toResult.defaultPrevented)
+    ) {
+      event.preventDefault();
+      record.dropCanceled = true;
+    }
   };
 
   record.removeListeners.push(
@@ -471,69 +642,16 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       component.onDragStart(makeDragStartDetail(component.el, item, source.initialIndex));
       setGlobalDragActive(true);
     }),
-    manager.monitor.addEventListener("dragover", (event) => {
-      const { source, target } = event.operation;
-
-      if (!source || !isSortable(source) || !target) {
-        return;
-      }
-
-      const sourceData = getSortableItemData(source);
-      const targetData = "data" in target ? (target.data as SortableItemData) : undefined;
-      const targetSortable = getSortableTarget(target);
-
-      if (
-        !sourceData?.item ||
-        !targetData ||
-        (targetData.item && sourceData.item === targetData.item) ||
-        (targetData.item && !targetSortable)
-      ) {
-        return;
-      }
-
-      const { component: fromComponent, item: dragEl } = sourceData;
-      const { component: toComponent, item: relatedEl } = targetData;
-
-      if (fromComponent !== toComponent && !canTransferBetweenComponents(fromComponent, toComponent)) {
-        event.preventDefault();
-        record.lastOver = undefined;
-        record.dropPosition = undefined;
-        record.dropCanceled = false;
-        return;
-      }
-
-      const newIndex = targetSortable
-        ? getDropIndex(record, toComponent, source.sortable, targetSortable)
-        : getAppendIndex(record, fromComponent, toComponent);
-      const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, source.initialIndex, newIndex);
-      const signature = `${getSortableGroup(toComponent)}:${relatedEl ? getSortableItemId(relatedEl) : "container"}:${newIndex}`;
-
-      record.dropPosition = {
-        component: toComponent,
-        item: relatedEl,
-      };
-
-      fromComponent.onDragMove?.({ ...detail, relatedEl: relatedEl ?? toComponent.el });
-
-      if (record.lastOver === signature) {
-        if (record.dropCanceled) {
-          event.preventDefault();
-        }
-        return;
-      }
-
-      record.lastOver = signature;
-      record.dropCanceled = false;
-
-      const fromResult = fromComponent.onDragBeforeSort?.(detail);
-      const toResult = toComponent === fromComponent ? undefined : toComponent.onDragBeforeSort?.(detail);
-
-      if (
-        (fromResult instanceof Event && fromResult.defaultPrevented) ||
-        (toResult instanceof Event && toResult.defaultPrevented)
-      ) {
-        event.preventDefault();
-        record.dropCanceled = true;
+    manager.monitor.addEventListener("dragover", (event) => handleDragOver(event)),
+    manager.monitor.addEventListener("dragmove", (event) => {
+      if (record.activeDrag?.component.sortMode === "manual") {
+        handleDragOver(
+          { operation: event.operation, preventDefault: () => {} },
+          event.to ?? {
+            x: manager.dragOperation.position.current.x + (event.by?.x ?? 0),
+            y: manager.dragOperation.position.current.y + (event.by?.y ?? 0),
+          },
+        );
       }
     }),
     manager.monitor.addEventListener("dragend", (event) => {
@@ -547,7 +665,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
 
         record.activeDrag = undefined;
         record.lastOver = undefined;
-        record.dropPosition = undefined;
+        clearDropPosition(record);
+        clearDragPreview();
         record.dropCanceled = false;
         setGlobalDragActive(false);
 
@@ -556,6 +675,35 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         }
 
         const { component: fromComponent, item: dragEl, oldIndex } = activeDrag;
+        if (fromComponent.sortMode === "manual") {
+          const toComponent = !canceled && dropPosition ? dropPosition.component : fromComponent;
+          const newIndex = !canceled && dropPosition ? dropPosition.newIndex : oldIndex;
+          const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, oldIndex, newIndex);
+
+          if (
+            !canceled &&
+            dropPosition &&
+            (fromComponent !== toComponent || oldIndex !== detail.newIndex) &&
+            canAcceptDrop(fromComponent, toComponent, detail)
+          ) {
+            const fromResult = fromComponent.onDragBeforeSort?.(detail);
+            const toResult = fromComponent === toComponent ? undefined : toComponent.onDragBeforeSort?.(detail);
+            if (
+              !(fromResult instanceof Event && fromResult.defaultPrevented) &&
+              !(toResult instanceof Event && toResult.defaultPrevented)
+            ) {
+              fromComponent.onOrderRequest?.({
+                ...detail,
+                oldIndex,
+                newIndex,
+                operation:
+                  fromComponent !== toComponent && fromComponent.canPull?.(detail) === "clone" ? "clone" : "move",
+              });
+            }
+          }
+          fromComponent.onDragEnd(detail);
+          return;
+        }
         let toComponent =
           canceled || canceledBeforeOrder
             ? (Array.from(record.components).find((component) => dragEl.parentElement === component.el) ??
@@ -743,10 +891,13 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
         generation !== setupGeneration ||
         !sortableComponent.isConnected ||
         !currentRecord.alive ||
-        record !== currentRecord ||
-        currentRecord.dragging ||
-        currentRecord.activeDrag
+        record !== currentRecord
       ) {
+        return;
+      }
+
+      if (currentRecord.dragging || currentRecord.activeDrag) {
+        currentRecord.pendingReset.add(sortableComponent);
         return;
       }
 

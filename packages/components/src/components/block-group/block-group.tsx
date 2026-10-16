@@ -30,12 +30,14 @@ import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
-import { useSortable } from "../../controllers/useSortable";
+import { useSortable, type SortMode } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resources";
 import { styles } from "./block-group.scss";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { BlockDragDetail } from "./types";
 import type { BlockDragStartDetail } from "./types";
+import type { BlockOrderRequestDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
@@ -64,7 +66,7 @@ export class BlockGroup extends LitElement {
 
   //#region Static Members
 
-  static override styles = [styles, screenReaderStyles];
+  static override styles = [styles, screenReaderStyles, sortableStyles];
 
   //#endregion
 
@@ -154,6 +156,14 @@ export class BlockGroup extends LitElement {
   /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
+  /**
+   * Specifies who manages item order.
+   *
+   * In `"manual"` mode, the application handles `calciteBlockGroupOrderRequest` and renders the new order.
+   * Items do not reorder during dragging. Transfers require both components to have the same mode.
+   */
+  @property({ reflect: true }) sortMode: SortMode = "automatic";
+
   //#endregion
 
   //#region Public Methods
@@ -211,12 +221,22 @@ export class BlockGroup extends LitElement {
    * Fires before the component's item order changes.
    *
    * Calling `event.preventDefault()` cancels the proposed reorder, allowing apps to control item order.
-   * Earlier accepted changes in the same drag still emit an order-change event unless the drag is canceled.
+   * In automatic mode, earlier accepted changes in the same drag still emit an order-change event unless the drag is canceled.
+   * In manual mode, fires on drop or a sort-menu action before an order request, rather than during dragging.
    */
   calciteBlockGroupBeforeOrderChange = createEvent<BlockDragDetail>({ cancelable: true });
 
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
+
+  /**
+   * Fires on the source component when a drop or sort-menu action requests an order change in `"manual"` mode.
+   *
+   * The application must update its data and render the new order. No items are moved or cloned by the component.
+   * `newIndex` is the destination index after removing the source item for a move.
+   * Canceled and unchanged operations do not emit this event. `calciteBlockGroupOrderChange` is not emitted in this mode.
+   */
+  calciteBlockGroupOrderRequest = createEvent<BlockOrderRequestDetail>({ cancelable: false });
 
   //#endregion
 
@@ -267,6 +287,7 @@ export class BlockGroup extends LitElement {
       (changes.has("canPull") && this.hasUpdated) ||
       (changes.has("canPut") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
+      (changes.has("sortMode") && this.hasUpdated) ||
       (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false))
     ) {
       this.updateBlockItemsDebounced();
@@ -364,7 +385,7 @@ export class BlockGroup extends LitElement {
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if (this.parentBlockGroupEl || event.defaultPrevented) {
+    if ((this.parentBlockGroupEl && this.sortMode !== "manual") || event.defaultPrevented) {
       return;
     }
 
@@ -373,7 +394,7 @@ export class BlockGroup extends LitElement {
   }
 
   private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
-    if (this.parentBlockGroupEl || event.defaultPrevented) {
+    if ((this.parentBlockGroupEl && this.sortMode !== "manual") || event.defaultPrevented) {
       return;
     }
 
@@ -382,7 +403,7 @@ export class BlockGroup extends LitElement {
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if (this.parentBlockGroupEl || event.defaultPrevented) {
+    if ((this.parentBlockGroupEl && this.sortMode !== "manual") || event.defaultPrevented) {
       return;
     }
 
@@ -424,6 +445,10 @@ export class BlockGroup extends LitElement {
     this.updateBlockItemsDebounced();
 
     this.calciteBlockGroupOrderChange.emit(detail);
+  }
+
+  onOrderRequest(detail: BlockOrderRequestDetail): void {
+    this.calciteBlockGroupOrderRequest.emit(detail);
   }
 
   private setParentBlockGroup(): void {
@@ -511,7 +536,13 @@ export class BlockGroup extends LitElement {
     oldIndex: number | undefined;
     type: "move" | "add";
   }): boolean {
-    if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {
+    if (
+      !fromEl ||
+      !toEl ||
+      toEl === fromEl ||
+      dragEl.contains(toEl) ||
+      fromEl.sortMode !== toEl.sortMode
+    ) {
       return false;
     }
 
@@ -561,6 +592,11 @@ export class BlockGroup extends LitElement {
 
     dragEl.sortHandleOpen = false;
 
+    if (fromEl.sortMode === "manual") {
+      this.onOrderRequest({ ...eventDetail, operation: "clone" });
+      return;
+    }
+
     this.disconnectObserver();
 
     const newEl = dragEl.cloneNode();
@@ -596,6 +632,11 @@ export class BlockGroup extends LitElement {
     }
 
     dragEl.sortHandleOpen = false;
+
+    if (fromEl.sortMode === "manual") {
+      this.onOrderRequest({ ...eventDetail, operation: "move" });
+      return;
+    }
 
     this.disconnectObserver();
 
@@ -643,7 +684,16 @@ export class BlockGroup extends LitElement {
 
     const eventDetail = { dragEl, fromEl: parentEl, toEl: parentEl, newIndex, oldIndex };
 
+    if (parentEl.sortMode === "manual" && newIndex === oldIndex) {
+      return;
+    }
+
     if (this.calciteBlockGroupBeforeOrderChange.emit(eventDetail).defaultPrevented) {
+      return;
+    }
+
+    if (parentEl.sortMode === "manual") {
+      this.onOrderRequest({ ...eventDetail, operation: "move" });
       return;
     }
 
