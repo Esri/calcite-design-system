@@ -108,7 +108,10 @@ export class BlockGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can be moved from the component. */
+  /**
+   * When provided, the method will be called to determine whether the element can be moved from the component.
+   * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop in automatic sort mode.
+   */
   @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another `calcite-block-group`. */

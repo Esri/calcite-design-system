@@ -23,6 +23,32 @@ import { commands } from "../../tests/utils/commands";
 
 mockConsole();
 
+it("preserves the heading of a copied block at its source", async () => {
+  const { component: source } = await mount<BlockGroup>(
+    <div>
+      <calcite-block-group drag-enabled group="copy-headings" label="Source">
+        <calcite-block heading="Copied heading" id="copy-source" />
+      </calcite-block-group>
+      <calcite-block-group drag-enabled group="copy-headings" label="Destination">
+        <calcite-block heading="Destination heading" id="copy-target" />
+      </calcite-block-group>
+    </div>,
+  );
+  onTestFinished(() => commands.mouseUp());
+  source.canPull = () => "clone";
+  const handle = page.getBySelector("#copy-source calcite-sort-handle");
+  await expect.element(handle).toBeVisible();
+
+  await dragAndDrop(handle.element(), page.getBySelector("#copy-target").element(), "center", {
+    skipPointerUp: true,
+  });
+
+  const placeholder = page.elementLocator(source.el).getBySelector("[data-dnd-placeholder]");
+  await expect.element(placeholder.getByText("Copied heading", { exact: true })).toBeVisible();
+  await userEvent.keyboard("{Escape}");
+  await commands.mouseUp();
+});
+
 describe("accessible", () => {
   accessible(() =>
     mount(

@@ -8,6 +8,7 @@ import { focusElement, getSlotAssignedElements } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { useInteractive } from "../../controllers/useInteractive";
 import { type DragDetail, useSortable } from "../../controllers/useSortable";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { CSS } from "./resources";
 import { styles } from "./sortable-list.scss";
 import type { Handle } from "../handle/handle";
@@ -37,7 +38,7 @@ export class SortableList extends LitElement {
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
   //#endregion
 
@@ -69,7 +70,10 @@ export class SortableList extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can move from the list. */
+  /**
+   * When provided, the method will be called to determine whether the element can move from the list.
+   * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop.
+   */
   @property() canPull?: (detail: DragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */

@@ -445,8 +445,8 @@ it.each([
     const sourceSortable = getSortableFor(source.component, "one")!;
     const targetSortable = getSortableFor(target.component, "one")!;
     const accept = targetSortable.options.accept as (draggable: { data: unknown }) => boolean;
-    dragOperation.shape.current.center.x = position.x;
-    dragOperation.shape.current.center.y = position.y;
+    dragOperation.position.current.x = position.x;
+    dragOperation.position.current.y = position.y;
 
     expect(accept({ data: sourceSortable.data })).toBe(true);
     expect(target.component.canPut).toHaveBeenCalledWith(expect.objectContaining({ newIndex: 1 }));
@@ -592,7 +592,7 @@ it("retries setup when a peer starts dragging while component updates are pendin
   expect(createSortableSpy).toHaveBeenCalledTimes(4);
 
   updateComplete.mockRestore();
-  dragEndListener({ canceled: false });
+  dragEndListener({ canceled: false, operation: { target: getSortableFor(peer, "one") } });
 
   await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(6));
   expect(getSortableFor(component, "one")).toBeDefined();

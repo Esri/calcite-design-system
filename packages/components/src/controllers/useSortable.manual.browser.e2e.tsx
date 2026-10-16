@@ -625,6 +625,7 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
       .element(page.elementLocator(third))
       .toHaveAttribute("data-calcite-sort-position", "after");
 
+    source.style.minBlockSize = `${source.getBoundingClientRect().height}px`;
     first.remove();
     await commands.mouseUp();
     await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
@@ -925,6 +926,7 @@ it("allows a keyed renderer to apply and subsequently change the requested order
     .element(page.elementLocator(third))
     .toHaveAttribute("data-calcite-sort-position", "after");
 
+  source.style.minBlockSize = `${source.getBoundingClientRect().height}px`;
   items = ["two", "three"];
   render();
   await commands.mouseUp();

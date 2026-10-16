@@ -4,7 +4,8 @@
   overflow: hidden;
 }
 
-:host([data-dnd-placeholder])::before {
+:host([data-dnd-placeholder="hidden"])::before,
+:host([data-calcite-sort-position="inside"])::after {
   content: "";
   visibility: visible;
   @apply box-border
@@ -33,6 +34,11 @@
 }
 
 :host([data-calcite-sort-position="inside"]) {
-  outline: 2px solid var(--calcite-color-brand);
-  outline-offset: -2px;
+  position: relative;
+}
+
+:host([data-calcite-sort-position="inside"])::after {
+  inset-block-end: auto;
+  block-size: var(--calcite-internal-sortable-placeholder-height);
+  pointer-events: none;
 }

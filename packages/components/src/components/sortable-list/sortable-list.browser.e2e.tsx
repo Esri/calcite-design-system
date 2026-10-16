@@ -506,15 +506,264 @@ describe("drag and drop", () => {
     expect(clone?.textContent).toBe(draggedItem.textContent);
   });
 
+  it("restores a transferred item when released outside the destination", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    const changed = vi.fn();
+    source.el.addEventListener("calciteListOrderChange", changed);
+    destination.el.addEventListener("calciteListOrderChange", changed);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(destination.el));
+    const bounds = destination.el.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom + 80);
+    await afterNextFrame();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(Array.from(destination.el.children)).toEqual([target]);
+    expect(changed).not.toHaveBeenCalled();
+    expect(ended).toHaveBeenCalledWith(expect.objectContaining({ toEl: source.el, newIndex: 0 }));
+  });
+
+  it("restores a transferred item when the final destination rejects it", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    const { component: rejected } = await mount<SortableList>(
+      <calcite-sortable-list group="capacity" id="rejected">
+        <div id="rejected-target">
+          <calcite-handle />
+          Rejected
+        </div>
+      </calcite-sortable-list>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    const vetoed = vi.fn((event: Event) => event.preventDefault());
+    rejected.el.addEventListener("calciteListBeforeOrderChange", vetoed);
+    const changed = vi.fn();
+    source.el.addEventListener("calciteListOrderChange", changed);
+    destination.el.addEventListener("calciteListOrderChange", changed);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(destination.el));
+    const bounds = page.getBySelector("#rejected-target").element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + 1);
+    await afterNextFrame();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(vetoed).toHaveBeenCalled();
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(Array.from(destination.el.children)).toEqual([target]);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("restores the original order when a reorder is released outside the list", async () => {
+    const { component: source } = await mount<SortableList>(
+      <calcite-sortable-list id="source">
+        <div id="one">
+          <calcite-handle />
+          One
+        </div>
+        <div id="two">
+          <calcite-handle />
+          Two
+        </div>
+      </calcite-sortable-list>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    const first = page.getBySelector("#one").element();
+    const second = page.getBySelector("#two").element();
+    const changed = vi.fn();
+    source.el.addEventListener("calciteListOrderChange", changed);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(page.getBySelector("#one calcite-handle").element(), second, "bottom", {
+      skipPointerUp: true,
+    });
+    await vi.waitFor(() =>
+      expect(
+        Array.from(source.el.children).filter((item) => !item.hasAttribute("data-dnd-placeholder")),
+      ).toEqual([second, first]),
+    );
+    const bounds = source.el.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom + 80);
+    await afterNextFrame();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(changed).not.toHaveBeenCalled();
+    expect(ended).toHaveBeenCalledWith(expect.objectContaining({ toEl: source.el, newIndex: 0 }));
+  });
+
+  it("does not copy when released outside the destination", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const changed = vi.fn();
+    destination.el.addEventListener("calciteListOrderChange", changed);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#destination #two"))
+      .toHaveAttribute("data-calcite-sort-position", "before");
+    const bounds = destination.el.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom + 80);
+    await afterNextFrame();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(Array.from(destination.el.children)).toEqual([target]);
+    expect(changed).not.toHaveBeenCalled();
+    expect(ended).toHaveBeenCalledWith(expect.objectContaining({ toEl: source.el, newIndex: 0 }));
+  });
+
+  it("copies after leaving and returning to the destination", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    const bounds = destination.el.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom + 80);
+    await afterNextFrame();
+    const targetBounds = target.getBoundingClientRect();
+    await commands.mouseMove(targetBounds.left + targetBounds.width / 2, targetBounds.top + 1);
+    await afterNextFrame();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(destination.el.children).toHaveLength(2);
+    expect(destination.el.firstElementChild).not.toBe(draggedItem);
+    expect(destination.el.firstElementChild?.textContent).toBe(draggedItem.textContent);
+    expect(destination.el.lastElementChild).toBe(target);
+  });
+
+  it("resolves a copy drop after the target's preceding sibling is removed", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer({
+      extraTarget: true,
+    });
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const second = page.getBySelector("#destination #three");
+    const secondItem = second.element();
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, secondItem, "top", { skipPointerUp: true });
+    await expect.element(second).toHaveAttribute("data-calcite-sort-position", "before");
+    destination.el.style.minBlockSize = `${destination.el.getBoundingClientRect().height}px`;
+    target.remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    const copiedItem = destination.el.firstElementChild;
+    expect(copiedItem).not.toBe(draggedItem);
+    expect(copiedItem?.textContent).toBe(draggedItem.textContent);
+    expect(destination.el.lastElementChild).toBe(secondItem);
+    expect(ended).toHaveBeenCalledWith(
+      expect.objectContaining({ toEl: destination.el, newIndex: 0 }),
+    );
+  });
+
+  it("cancels a copy drop when its target is removed", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const changed = vi.fn();
+    destination.el.addEventListener("calciteListOrderChange", changed);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#destination #two"))
+      .toHaveAttribute("data-calcite-sort-position", "before");
+    target.remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(destination.el.children).toHaveLength(0);
+    expect(changed).not.toHaveBeenCalled();
+    expect(ended).toHaveBeenCalledWith(expect.objectContaining({ toEl: source.el, newIndex: 0 }));
+  });
+
+  it("appends a copy after items added to an empty destination during the drag", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    target.remove();
+    destination.el.style.minBlockSize = "100px";
+    await afterNextFrame();
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, destination.el, "center", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#destination"))
+      .toHaveAttribute("data-calcite-sort-position", "inside");
+    const addedItem = document.createElement("div");
+    addedItem.textContent = "Added";
+    destination.el.append(addedItem);
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(destination.el.firstElementChild).toBe(addedItem);
+    expect(destination.el.lastElementChild?.textContent).toBe(draggedItem.textContent);
+    expect(ended).toHaveBeenCalledWith(
+      expect.objectContaining({ toEl: destination.el, newIndex: 1 }),
+    );
+  });
+
+  it.each([false, true])(
+    "switches between move and copy destinations (copy first: %s)",
+    async (copyFirst) => {
+      const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+      const { component: finalDestination } = await mount<SortableList>(
+        <calcite-sortable-list group="capacity">
+          <div id="final-target">
+            <calcite-handle />
+            Final target
+          </div>
+        </calcite-sortable-list>,
+      );
+      onTestFinished(() => commands.mouseUp());
+      source.canPull = ({ toEl }) =>
+        (toEl === destination.el ? copyFirst : !copyFirst) ? "clone" : true;
+      const ended = vi.spyOn(source, "onDragEnd");
+      await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+      expect(draggedItem.parentElement).toBe(copyFirst ? source.el : destination.el);
+
+      const bounds = page.getBySelector("#final-target").element().getBoundingClientRect();
+      await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + 1);
+      await afterNextFrame();
+      expect(draggedItem.parentElement).toBe(copyFirst ? finalDestination.el : source.el);
+      await commands.mouseUp();
+      await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+      expect(Array.from(destination.el.children)).toEqual([target]);
+      expect(finalDestination.el.children).toHaveLength(2);
+      expect(draggedItem.parentElement).toBe(copyFirst ? finalDestination.el : source.el);
+    },
+  );
+
   it("preserves an accepted clone while reordering within its destination", async () => {
     const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
     onTestFinished(() => commands.mouseUp());
     source.canPull = ({ fromEl, dragEl }) => (fromEl.contains(dragEl) ? "clone" : true);
     const ended = vi.spyOn(source, "onDragEnd");
     await dragAndDrop(handle, target, "top", { skipPointerUp: true });
-    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(destination.el));
+    expect(draggedItem.parentElement).toBe(source.el);
 
-    await dragAndDrop(handle, target, "bottom");
+    const bounds = target.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
+    await afterNextFrame();
+    await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
 
     expect(Array.from(source.el.children)).toEqual([draggedItem]);
@@ -524,7 +773,7 @@ describe("drag and drop", () => {
     expect(clone?.textContent).toBe(draggedItem.textContent);
   });
 
-  it("preserves an accepted clone when a later proposal is vetoed", async () => {
+  it("does not copy to an earlier destination when the final proposal is vetoed", async () => {
     const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
     const { component: rejected } = await mount<SortableList>(
       <calcite-sortable-list group="capacity" id="rejected">
@@ -539,23 +788,24 @@ describe("drag and drop", () => {
       toEl === rejected.el ? true : fromEl.contains(dragEl) ? "clone" : false;
     const ended = vi.spyOn(source, "onDragEnd");
     await dragAndDrop(handle, target, "top", { skipPointerUp: true });
-    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(destination.el));
+    expect(draggedItem.parentElement).toBe(source.el);
     const vetoed = vi.fn((event: Event) => event.preventDefault());
     rejected.el.addEventListener("calciteListBeforeOrderChange", vetoed);
 
-    await dragAndDrop(
-      handle,
-      page.elementLocator(rejected.el).getBySelector("#three").element(),
-      "top",
-    );
+    const bounds = page
+      .elementLocator(rejected.el)
+      .getBySelector("#three")
+      .element()
+      .getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + 1);
+    await afterNextFrame();
+    await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
 
     expect(vetoed).toHaveBeenCalled();
     expect(Array.from(source.el.children)).toEqual([draggedItem]);
-    expect(destination.el.children).toHaveLength(2);
-    const clone = destination.el.firstElementChild;
-    expect(clone).not.toBe(draggedItem);
-    expect(clone?.textContent).toBe(draggedItem.textContent);
+    expect(Array.from(destination.el.children)).toEqual([target]);
+    expect(ended).toHaveBeenCalledWith(expect.objectContaining({ toEl: source.el, newIndex: 0 }));
   });
 
   it("transfers items with duplicate ids across component lists", async () => {
@@ -719,6 +969,7 @@ describe("drag and drop", () => {
         ).toBe(false),
       );
 
+      source.el.style.minBlockSize = `${source.el.getBoundingClientRect().height}px`;
       await dragAndDrop(handle, target, "bottom");
 
       expect(draggedItem.parentElement).toBe(transfer ? destination.el : source.el);
@@ -885,6 +1136,7 @@ describe("drag and drop", () => {
   });
 
   it("appends drops on populated and empty component containers", async () => {
+    onTestFinished(() => commands.mouseUp());
     const { el: source } = await mount(
       <div>
         <calcite-sortable-list group="letters" id="source">
@@ -932,7 +1184,12 @@ describe("drag and drop", () => {
       empty.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
     );
 
-    await dragAndDrop(secondHandle, empty, "center");
+    await dragAndDrop(secondHandle, empty, "center", { skipPointerUp: true });
+    await expect
+      .element(page.elementLocator(empty))
+      .toHaveAttribute("data-calcite-sort-position", "inside");
+    expect(getComputedStyle(empty, "::after").borderStyle).toBe("dashed");
+    await commands.mouseUp();
     await emptyOrderChange;
 
     expect(secondItem.parentElement).toBe(empty);
