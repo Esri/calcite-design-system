@@ -71,7 +71,7 @@
   );
   border-radius: var(
     --calcite-autocomplete-corner-radius,
-    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-sm))
   );
 }
 
