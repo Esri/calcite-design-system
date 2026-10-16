@@ -127,11 +127,11 @@ catalog:
   "yargs": "18.0.0"
 catalogs:
   dependency-ranges:
-    "@arcgis/api-extractor": ">=5.2.0-next.129 <6.0.0"
-    "@arcgis/eslint-config": ">=5.2.0-next.129 <6.0.0"
-    "@arcgis/lumina": ">=5.2.0-next.129 <6.0.0"
-    "@arcgis/lumina-compiler": ">=5.2.0-next.129 <6.0.0"
-    "@arcgis/toolkit": ">=5.2.0-next.129 <6.0.0"
+    "@arcgis/api-extractor": ">=5.2.0-next.129 <7.0.0"
+    "@arcgis/eslint-config": ">=5.2.0-next.129 <7.0.0"
+    "@arcgis/lumina": ">=5.2.0-next.129 <7.0.0"
+    "@arcgis/lumina-compiler": ">=5.2.0-next.129 <7.0.0"
+    "@arcgis/toolkit": ">=5.2.0-next.129 <7.0.0"
     "@floating-ui/dom": "^1.8.0"
     "@floating-ui/utils": "^0.2.8"
     "@interactjs/types": "^1.10.27"
