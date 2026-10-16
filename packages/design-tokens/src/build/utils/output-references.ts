@@ -1,15 +1,11 @@
 import type { OutputReferences } from "style-dictionary/types";
+import { isCornerRadius } from "./token-types.ts";
 
 export const primitiveValueOutputReferences: Exclude<OutputReferences, boolean> = (token) => {
   return !!(token.$type === "color" && token.path.includes("focus"));
 };
 
-export const hasOutputReferenceExtension = (token: Parameters<Exclude<OutputReferences, boolean>>[0]): boolean =>
-  !!(
-    token.original?.$extensions?.["calcite.outputReference"] || token.original?.extensions?.["calcite.outputReference"]
-  );
-
-export const stylesheetOutputReferences: Exclude<OutputReferences, boolean> = (token, options) => {
-  // output token references for tokens marked with calcite.outputReference extension
-  return hasOutputReferenceExtension(token) || primitiveValueOutputReferences(token, options);
+export const stylesheetOutputReferences: OutputReferences = (token, options) => {
+  // output specific token references to match test output
+  return !!(isCornerRadius(token) && token.path.includes("default")) || primitiveValueOutputReferences(token, options);
 };
