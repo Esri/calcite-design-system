@@ -37,6 +37,10 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-tab-border-color": "*";
     /**
+     * Specifies the gap between `calcite-tab-title`s.
+     */
+    "--calcite-tab-nav-gap": "*";
+    /**
      * Specifies the component's `iconStart`, `iconEnd`, and text color.
      */
     "--calcite-tab-text-color": "*";
