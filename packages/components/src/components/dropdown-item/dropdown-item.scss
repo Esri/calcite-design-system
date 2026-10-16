@@ -62,11 +62,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 
@@ -77,11 +77,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 }
 
@@ -92,11 +92,11 @@
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-lg);
+    padding-inline-end: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-start: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 }
 
@@ -110,12 +110,18 @@
 
 :host(:hover:not([disabled])) {
   .container {
-    background-color: var(--calcite-dropdown-item-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(
+      --calcite-dropdown-item-background-color-hover,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
   }
 }
 
 :host(:active:not([disabled])) .container {
-  background-color: var(--calcite-dropdown-item-background-color-press, var(--calcite-color-foreground-3));
+  background-color: var(
+    --calcite-dropdown-item-background-color-press,
+    var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+  );
 }
 
 :host(:hover:not([disabled])),

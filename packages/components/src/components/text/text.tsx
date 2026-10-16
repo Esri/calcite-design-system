@@ -1,11 +1,11 @@
-import { LitElement, h, property, type JsxNode, Fragment } from "@arcgis/lumina";
+import { LitElement, h, property, type JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   slotChangeGetTextContent,
   getTextWidth,
   getAssignedTextNodesFromSlotEl,
 } from "../../utils/dom";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { styles } from "./text.scss";
 import { ELLIPSIS_CHAR, CSS } from "./resources";
 import { PropertyValues } from "lit";
@@ -40,7 +40,7 @@ export class Text extends LitElement {
 
   //#region Private Properties
 
-  private value?: string;
+  private assistiveTextSpanRef = createRef<HTMLSpanElement>();
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
@@ -63,12 +63,18 @@ export class Text extends LitElement {
     this.handleTruncation();
   });
 
+  private textContainerEl?: HTMLDivElement;
+
+  private value?: string;
+
   //#endregion
 
   //#region Public Properties
 
   /**
    * Specifies the maximum number of lines to display before truncating the text with an ellipsis.
+   *
+   * @mdn [maxLines](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/line-clamp)
    */
   @property({ type: Number, reflect: true }) maxLines?: number;
 
@@ -83,7 +89,6 @@ export class Text extends LitElement {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.resizeObserver?.observe(this.el);
     this.mutationObserver?.observe(this.el, {
       characterData: true,
       subtree: true,
@@ -91,8 +96,8 @@ export class Text extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("maxLines")) {
-      if (!this.maxLines && this.hasUpdated) {
+    if (changes.has("maxLines") && this.hasUpdated) {
+      if (!this.maxLines) {
         this.clearTooltipTitle();
       }
       this.updateMaxLinesToken();
@@ -115,10 +120,15 @@ export class Text extends LitElement {
   //#region Private Methods
 
   private clearTooltipTitle(): void {
-    this.el.title = "";
+    this.textContainerEl!.title = "";
   }
 
-  private getTruncatedText(text: string, maxWidth: number, font: string): string {
+  private getTruncatedText(
+    text: string,
+    maxWidth: number,
+    font: string,
+    letterSpacing?: string,
+  ): string {
     let startIndex = 0;
     let endIndex = text.length;
 
@@ -132,7 +142,7 @@ export class Text extends LitElement {
       const mid = Math.ceil((startIndex + endIndex) / 2);
       const optimalText = truncatedString(mid);
 
-      if (getTextWidth(optimalText, font) <= maxWidth) {
+      if (getTextWidth(optimalText, font, letterSpacing) <= maxWidth) {
         startIndex = mid;
       } else {
         endIndex = mid - 1;
@@ -158,16 +168,23 @@ export class Text extends LitElement {
   }
 
   private handleTruncation(): void {
+    if (!this.textContainerEl) {
+      return;
+    }
     const { truncatePosition, maxLines } = this;
-    if (this.truncatePosition === "middle" && !this.maxLines) {
+    if (this.isTruncatePositionMiddle()) {
       this.truncateMiddleText();
+      this.assistiveTextSpanRef.value!.textContent = this.value || "";
     } else if (truncatePosition === "end" || (maxLines && maxLines >= 1)) {
       this.syncTooltipState();
     }
   }
 
   private hasOverflow(): boolean {
-    return this.el.scrollWidth > this.el.clientWidth || this.el.scrollHeight > this.el.clientHeight;
+    return (
+      this.textContainerEl!.scrollWidth > this.textContainerEl!.clientWidth ||
+      this.textContainerEl!.scrollHeight > this.textContainerEl!.clientHeight
+    );
   }
 
   private syncTooltipState(): void {
@@ -188,7 +205,7 @@ export class Text extends LitElement {
   }
 
   private setTooltipTitle(): void {
-    this.el.title = this.value || "";
+    this.textContainerEl!.title = this.value || "";
   }
 
   private setMiddleTruncatedText(value: string | undefined): void {
@@ -201,19 +218,29 @@ export class Text extends LitElement {
 
   private truncateMiddleText(): void {
     requestAnimationFrame(() => {
-      const clientWidth = this.el.clientWidth;
-      if (!clientWidth) {
+      if (
+        !this.textContainerEl ||
+        !this.textContainerEl.clientWidth ||
+        this.maxLines ||
+        this.truncatePosition !== "middle"
+      ) {
         return;
       }
+      const clientWidth = this.textContainerEl.clientWidth;
       const computedStyle = getComputedStyle(this.el);
       const font = computedStyle.font || `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
-      const textWidth = getTextWidth(this.value, font);
+      const textWidth = getTextWidth(this.value, font, computedStyle.letterSpacing);
 
       if (textWidth <= clientWidth) {
         this.setMiddleTruncatedText(this.value);
         this.clearTooltipTitle();
       } else {
-        const middleTruncatedText = this.getTruncatedText(this.renderedText, clientWidth, font);
+        const middleTruncatedText = this.getTruncatedText(
+          this.renderedText,
+          clientWidth,
+          font,
+          computedStyle.letterSpacing,
+        );
         this.setMiddleTruncatedText(middleTruncatedText);
         this.setTooltipTitle();
       }
@@ -221,10 +248,20 @@ export class Text extends LitElement {
   }
 
   private updateMaxLinesToken(): void {
-    this.el.style.setProperty(
+    this.textContainerEl?.style.setProperty(
       "--calcite-internal-text-max-lines",
       this.maxLines?.toString() || null,
     );
+  }
+
+  private setTextContainerRef(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.textContainerEl, el);
+    this.textContainerEl = el;
+    this.updateMaxLinesToken();
+  }
+
+  private isTruncatePositionMiddle(): boolean {
+    return this.truncatePosition === "middle" && !this.maxLines;
   }
 
   //#endregion
@@ -235,10 +272,17 @@ export class Text extends LitElement {
 
   override render(): JsxNode {
     return (
-      <Fragment>
+      <div class={CSS.textContainer} ref={this.setTextContainerRef}>
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
-        <span class={CSS.middleTruncatedText} ref={this.middleTruncatedSpanRef} />
-      </Fragment>
+        <span
+          aria-hidden="true"
+          class={CSS.middleTruncatedText}
+          ref={this.middleTruncatedSpanRef}
+        />
+        {this.isTruncatePositionMiddle() && (
+          <span ariaLive="polite" class={CSS.assistiveText} ref={this.assistiveTextSpanRef} />
+        )}
+      </div>
     );
   }
 

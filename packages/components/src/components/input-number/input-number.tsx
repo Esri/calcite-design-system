@@ -136,35 +136,35 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-input-suffix-text-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component, its inline edit elements and slotted `calcite-action` wrappers, when hovered.
+     * When `inlineEdit` is defined and `inlineEditing` is not set, specifies the component's background color when hovered.
      */
     "--calcite-input-number-inline-edit-background-color-hover": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls.
      */
     "--calcite-input-number-inline-edit-control-background-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when hovered.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls when hovered.
      */
     "--calcite-input-number-inline-edit-control-background-color-hover": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when pressed.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls when pressed.
      */
     "--calcite-input-number-inline-edit-control-background-color-press": "*";
     /**
-     * When `inline-edit` is enabled, specifies the corner radius of the component's inline edit controls.
+     * When `inlineEdit` is defined, specifies the corner radius of the component's editing controls.
      */
     "--calcite-input-number-inline-edit-control-corner-radius": "*";
     /**
-     * When `inline-edit` is enabled, specifies the loader color of the component's inline edit controls.
+     * When `inlineEdit` is `true`, specifies the loader color of the component's confirm control.
      */
     "--calcite-input-number-inline-edit-control-loader-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls.
+     * When `inlineEdit` is defined, specifies the text color of the component's editing controls.
      */
     "--calcite-input-number-inline-edit-control-text-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls, when pressed or hovered.
+     * When `inlineEdit` is defined, specifies the text color of the component's editing controls when pressed or hovered.
      */
     "--calcite-input-number-inline-edit-control-text-color-press": "*";
   }
@@ -350,15 +350,15 @@ export class InputNumber
    */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component displays its inline editing mode. */
+  /** @copyDoc  */
   @property({ reflect: true }) inlineEditing = false;
 
-  /** Enables built-in inline editing. Set to `"controls-disabled"` to hide save and cancel controls. */
+  /** @copyDoc  */
   @property({ reflect: true, converter: inlineEditConverter }) inlineEdit:
     | boolean
     | "controls-disabled" = false;
 
-  /** Specifies an optional callback to be executed when saving inline editing changes, inline editing controls must be present */
+  /** @copyDoc  */
   @property() inlineEditingBeforeConfirm?: () => Promise<void>;
 
   /** @copyDoc */
@@ -543,19 +543,19 @@ export class InputNumber
 
   //#region Events
 
-  /** Fires each time a new `value` is typed and committed. */
+  /** Fires each time a new `value` is committed. */
   calciteInputNumberChange = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is cancelled. */
+  /** When `inlineEdit` is defined, fires when editing is cancelled. */
   calciteInputNumberInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled or disabled. */
+  /** When `inlineEdit` is defined, fires when `inlineEditing` is enabled or disabled. */
   calciteInputNumberInlineEditingChange = createEvent({ cancelable: false });
 
-  /** Fires after built-in inline editing confirmation completes. */
+  /** When `inlineEdit` is `true`, fires after editing is confirmed. */
   calciteInputNumberInlineEditingConfirm = createEvent({ cancelable: false });
 
-  /** Fires each time a new `value` is typed. */
+  /** When `inlineEdit` is `false`, fires each time a new `value` is typed. */
   calciteInputNumberInput = createEvent();
 
   /** @private */
@@ -601,6 +601,10 @@ export class InputNumber
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("inlineEditing") && this.inlineEditing) {
+      this.inlineEditManager.captureValuePriorToEditing();
+    }
+
     if (changes.has("max")) {
       this.maxString = this.max?.toString() || undefined;
     }
@@ -909,7 +913,9 @@ export class InputNumber
       return;
     }
 
-    if (this.value === "Infinity" || this.value === "-Infinity") {
+    const value = this.valueForEditing;
+
+    if (value === "Infinity" || value === "-Infinity") {
       event.preventDefault();
       if (event.key === "Backspace" || event.key === "Delete") {
         this.clearInputValue(event);
@@ -969,35 +975,28 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (
-        this.value &&
-        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
-      ) {
+      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (
-        this.value &&
-        this.childNumberRef.value &&
-        !/[eE]/.test(this.childNumberRef.value.value)
-      ) {
+      if (value && this.childNumberRef.value && !/[eE]/.test(this.childNumberRef.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
       if (
-        this.value &&
+        value &&
         this.childNumberRef.value &&
         this.childNumberRef.value.value.split("-").length <= 2
       ) {

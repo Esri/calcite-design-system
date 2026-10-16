@@ -16,12 +16,16 @@ export class UseInlineEdit {
   constructor(private options: InlineEditOptions) {}
 
   enable(): void {
-    this.valuePriorToEditing = this.options.getValue();
+    this.captureValuePriorToEditing();
     this.options.setInlineEditing(true);
     requestAnimationFrame(() => {
       this.options.setFocus();
     });
     this.options.emitEnableEditingChange();
+  }
+
+  captureValuePriorToEditing(): void {
+    this.valuePriorToEditing = this.options.getValue();
   }
 
   disable(): void {

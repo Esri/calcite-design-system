@@ -49,9 +49,6 @@ simple.argTypes = {
     options: ["end", "middle"],
     control: { type: "select" },
   },
-  // maxLines: {
-  //   control: { type: "number" },
-  // },
 };
 
 export const truncatePosition = (): string => html`
@@ -71,10 +68,13 @@ export const maxLines = (args: TextStoryArgs): string => html`
   <calcite-text max-lines="${args.maxLines}">
     The Appalachian Mountains are a system of mountains in eastern North America, extending from Canada to Alabama.
   </calcite-text>
-  <p>maxLines="${args.maxLines}" + truncatePosition="middle"</p>
+  <p>maxLines="${args.maxLines}" & truncatePosition="middle"</p>
   <calcite-text max-lines="${args.maxLines}" truncate-position="middle">
     The Appalachian Mountains are a system of mountains in eastern North America, extending from Canada to Alabama.
   </calcite-text>
+  <calcite-notice open appearance="transparent">
+    <div slot="message">Note: truncate-position has no effect on max-lines</div>
+  </calcite-notice>
 `;
 
 maxLines.args = {
