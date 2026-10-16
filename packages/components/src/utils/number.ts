@@ -140,7 +140,7 @@ function getLocalizedIntegerParts(
 }
 
 export function isValidNumber(numberString?: string | null): boolean {
-  return !(!numberString || isNaN(Number(numberString)));
+  return !(!numberString || numberString.endsWith(".") || isNaN(Number(numberString)));
 }
 
 export function parseNumberString(numberString?: string): string {
@@ -215,15 +215,12 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
   }
 
   return numberString
-    .replace(/[eE]*$/g, "")
     .substring(0, firstE)
     .concat(numberString.slice(firstE).replace(/[eE]/g, ""))
     .split(/[eE]/)
     .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
-    .join("e")
-    .replace(/^e/, "1e");
+    .join("e");
 }
-
 /**
  * Converts an exponential notation numberString into decimal notation.
  * BigInt doesn't support exponential notation, so this is required to maintain precision
