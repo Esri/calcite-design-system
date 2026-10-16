@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.104](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.103...@esri/calcite-components@5.2.0-next.104) (2026-10-16)
+
+### Features
+
+- **text:** add text component ([#12803](https://github.com/Esri/calcite-design-system/issues/12803)), closes [#14005](https://github.com/Esri/calcite-design-system/issues/14005)
+
 ## [5.2.0-next.103](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.102...@esri/calcite-components@5.2.0-next.103) (2026-10-15)
 
 ### Features
