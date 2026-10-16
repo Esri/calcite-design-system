@@ -172,17 +172,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kumarGayu">
-      <img src="https://avatars.githubusercontent.com/u/9862218?v=4" width="100;" alt="kumarGayu"/>
-      <br />
-      <sub><b>Kumar Jayaram Gayatri</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/Amretasre002762670">
       <img src="https://avatars.githubusercontent.com/u/113134320?v=4" width="100;" alt="Amretasre002762670"/>
       <br />
       <sub><b>Amretasre Rengarajan</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/kumarGayu">
+      <img src="https://avatars.githubusercontent.com/u/9862218?v=4" width="100;" alt="kumarGayu"/>
+      <br />
+      <sub><b>Kumar Jayaram Gayatri</b></sub>
     </a>
   </td>
   <td align="center">
@@ -274,19 +274,19 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/jrowlingson">
-      <img src="https://avatars.githubusercontent.com/u/3051781?v=4" width="100;" alt="jrowlingson"/>
+    <a href="https://github.com/allieorth">
+      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
       <br />
-      <sub><b>Jack Rowlingson</b></sub>
+      <sub><b>Allie Raney</b></sub>
     </a>
   </td>
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/allieorth">
-      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
+    <a href="https://github.com/jrowlingson">
+      <img src="https://avatars.githubusercontent.com/u/3051781?v=4" width="100;" alt="jrowlingson"/>
       <br />
-      <sub><b>Allie Raney</b></sub>
+      <sub><b>Jack Rowlingson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -484,6 +484,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <img src="https://avatars.githubusercontent.com/u/315764?v=4" width="100;" alt="drewdaemon"/>
       <br />
       <sub><b>Drew Tate</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/kwy404">
+      <img src="https://avatars.githubusercontent.com/u/64209066?v=4" width="100;" alt="kwy404"/>
+      <br />
+      <sub><b>Alexandre Kohler</b></sub>
     </a>
   </td>
 </tr>
