@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Fragment, h } from "@arcgis/lumina";
+import { Fragment, h, type ToEvents } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -988,6 +988,78 @@ describe("drag and drop", () => {
         <calcite-list-item id="two" label="Two" value="two" />
       </calcite-list>,
     );
+
+  const renderNestedList = () => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    return mount<List>(
+      <calcite-list display-mode="nested" drag-enabled group="tree" id="root" label="Root">
+        <calcite-list-item expanded id="parent" label="Parent">
+          <calcite-list
+            display-mode="nested"
+            drag-enabled
+            group="tree"
+            id="children"
+            label="Children"
+          >
+            <calcite-list-item expanded id="child" label="Child">
+              <calcite-list drag-enabled group="tree" id="grandchildren" label="Grandchildren">
+                <calcite-list-item id="grandchild-one" label="Grandchild one" />
+                <calcite-list-item id="grandchild-two" label="Grandchild two" />
+                <calcite-list-item id="grandchild-three" label="Grandchild three" />
+              </calcite-list>
+            </calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item id="root-sibling" label="Root sibling" />
+      </calcite-list>,
+    );
+  };
+
+  it("keeps grandchild reordering inside the nested list", async () => {
+    const { el } = await renderNestedList();
+    const list = page.getBySelector("#grandchildren").element();
+    const firstItem = page.getBySelector("#grandchild-one");
+    const handle = firstItem.getBySelector("calcite-sort-handle");
+    const target = page.getBySelector("#grandchild-three");
+    await expect.element(handle).toBeVisible();
+    await expect.element(target).toBeVisible();
+    const destinations: HTMLElement[] = [];
+    el.addEventListener("calciteListBeforeOrderChange", (event) => {
+      destinations.push((event as ToEvents<List>["calciteListBeforeOrderChange"]).detail.toEl);
+    });
+
+    await dragAndDrop(handle.element(), target.element(), "center", { moveSteps: 20 });
+
+    await vi.waitFor(() => {
+      expect(Array.from(list.children, (item) => item.id)).toEqual([
+        "grandchild-two",
+        "grandchild-three",
+        "grandchild-one",
+      ]);
+    });
+    expect(destinations.length).toBeGreaterThan(0);
+    expect(destinations.every((destination) => destination === list)).toBe(true);
+  });
+
+  it("allows moving a grandchild into an ancestor list", async () => {
+    const { el } = await renderNestedList();
+    const firstItem = page.getBySelector("#grandchild-one");
+    const handle = firstItem.getBySelector("calcite-sort-handle");
+    const target = page.getBySelector("#root-sibling");
+    await expect.element(handle).toBeVisible();
+    await expect.element(target).toBeVisible();
+
+    await dragAndDrop(handle.element(), target.element());
+
+    await vi.waitFor(() => {
+      expect(firstItem.element().parentElement).toBe(el);
+      expect(Array.from(el.children, (item) => item.id)).toEqual([
+        "parent",
+        "root-sibling",
+        "grandchild-one",
+      ]);
+    });
+  });
 
   it("fires before and order-change around the reorder mutation", async () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);

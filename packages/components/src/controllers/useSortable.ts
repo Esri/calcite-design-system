@@ -735,6 +735,32 @@ function getManagerRecord(document: Document): SortableManagerRecord {
   };
 
   record.removeListeners.push(
+    manager.monitor.addEventListener("collision", ({ collisions }) => {
+      let targetIndex = 0;
+      const pointer = manager.dragOperation.position.current;
+      // eslint-disable-next-line @cspell/spellchecker
+      const { droppables: dropTargets } = manager.registry;
+
+      for (let index = 1; index < collisions.length; index++) {
+        const target = dropTargets.get(collisions[targetIndex].id);
+        const candidate = dropTargets.get(collisions[index].id);
+
+        // Ancestor items also contain nested lists, but must not steal their pointer collisions.
+        if (
+          target?.element &&
+          candidate?.element &&
+          target.element.contains(candidate.element) &&
+          candidate.shape?.containsPoint(pointer)
+        ) {
+          targetIndex = index;
+        }
+      }
+
+      if (targetIndex) {
+        const [collision] = collisions.splice(targetIndex, 1);
+        collisions.unshift(collision);
+      }
+    }),
     manager.monitor.addEventListener("dragstart", ({ operation }) => {
       const source = operation.source;
 
