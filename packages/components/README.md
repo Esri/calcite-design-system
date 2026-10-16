@@ -54,10 +54,14 @@ function SortableItems() {
       label="Items"
       sort-mode="manual"
       oncalciteListOrderRequest={(event) => {
-        const { oldIndex, newIndex } = event.detail;
+        const { dragEl, newIndex } = event.detail;
         setItems((previous) => {
+          const sourceIndex = previous.findIndex((item) => item.id === dragEl.value);
+          if (sourceIndex === -1) {
+            return previous;
+          }
           const next = [...previous];
-          const [item] = next.splice(oldIndex, 1);
+          const [item] = next.splice(sourceIndex, 1);
           next.splice(newIndex, 0, item);
           return next;
         });
@@ -71,7 +75,7 @@ function SortableItems() {
 }
 ```
 
-The request detail contains `dragEl`, `fromEl`, `toEl`, `oldIndex`, `newIndex`, and `operation` (`"move"` or `"clone"`). Indices refer to sortable items, not all child nodes. For moves within one component, `newIndex` is the final index after removing the source item. For cross-component moves, update both collections together. For clones, preserve the source data and insert a copy with a new stable key in the destination. Calcite does not create application items in manual mode.
+The request detail contains `dragEl`, `fromEl`, `toEl`, `oldIndex`, `newIndex`, and `operation` (`"move"` or `"clone"`). Indices refer to sortable items, not all child nodes. `oldIndex` is captured when the drag starts, while `newIndex` reflects the destination order when the request is emitted. If items change during dragging, find the source item in current application state using a stable identifier from `dragEl`, rather than using `oldIndex` to remove it. For moves within one component, `newIndex` is the final index after removing the source item. For cross-component moves, update both collections together. For clones, preserve the source data and insert a copy with a new stable key in the destination. Calcite does not create application items in manual mode.
 
 Both components must use the same `sortMode` for transfers. Existing `canPull`, `canPut`, and cancelable before-order events still apply. In manual mode, before-order events run on drop or a menu action; preventing either source or destination event suppresses the request. Canceled, rejected, and unchanged operations do not emit a request. The application can also decline a request by leaving its state unchanged.
 
