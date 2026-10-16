@@ -19,6 +19,7 @@ import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { isActionBar } from "../action-bar/resources";
 import type { Tooltip } from "../tooltip/tooltip";
 import { isTooltip } from "../tooltip/resources";
 import { Popover } from "../popover/popover";
@@ -59,6 +60,7 @@ interface ActionMenuSlots {
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 const HORIZONTAL_MENU_OPEN_KEYS = ["ArrowLeft", "ArrowRight"];
 const VERTICAL_MENU_OPEN_KEYS = ["ArrowUp", "ArrowDown"];
+const MENU_OPEN_KEYS = [...HORIZONTAL_MENU_OPEN_KEYS, ...VERTICAL_MENU_OPEN_KEYS];
 const HORIZONTAL_PLACEMENT_PREFIXES = ["left", "right", "leading", "trailing"];
 const VERTICAL_PLACEMENT_PREFIXES = ["top", "bottom"];
 
@@ -106,6 +108,13 @@ export class ActionMenu extends LitElement {
     const { navigableActions } = this;
 
     if (defaultPrevented || !navigableActions.length) {
+      return;
+    }
+
+    if (
+      this.isValidKey(key, MENU_OPEN_KEYS) &&
+      event.composedPath().some((element) => element instanceof Element && isActionBar(element))
+    ) {
       return;
     }
 

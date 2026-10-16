@@ -525,7 +525,7 @@ export class ActionBar extends LitElement {
       this.handleActionMenuActionsChange,
     );
     this.listen("click", this.handleFocusIn);
-    this.listen("keydown", this.handleKeyDown, { capture: true });
+    this.listen("keydown", this.handleKeyDown);
     this.listen("focusin", this.handleFocusIn);
   }
 
