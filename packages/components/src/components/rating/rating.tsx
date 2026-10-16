@@ -8,6 +8,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -90,6 +91,8 @@ export class Rating extends LitElement implements LabelableComponent {
   //#region Private Properties
 
   defaultValue?: Rating["value"];
+
+  private direction = useDirection();
 
   private emit = false;
 
@@ -311,6 +314,7 @@ export class Rating extends LitElement implements LabelableComponent {
     const inputValue = this.getValueFromLabelEvent(event);
     const key = event.key;
     const numberKey = key == " " ? NaN : Number(key);
+    const isRtl = this.direction === "rtl";
 
     this.emit = true;
     if (isNaN(numberKey)) {
@@ -320,15 +324,18 @@ export class Rating extends LitElement implements LabelableComponent {
           this.value = !this.required && this.value === inputValue ? 0 : inputValue;
           break;
         case "ArrowLeft":
-          this.value = this.getPreviousRatingValue(inputValue);
+        case "ArrowRight": {
+          const isLeft = key === "ArrowLeft";
+          const shouldIncrement = isLeft === isRtl;
+
+          this.value = shouldIncrement
+            ? this.getNextRatingValue(inputValue)
+            : this.getPreviousRatingValue(inputValue);
+
           this.updateFocus();
           event.preventDefault();
           break;
-        case "ArrowRight":
-          this.value = this.getNextRatingValue(inputValue);
-          this.updateFocus();
-          event.preventDefault();
-          break;
+        }
         case "Tab":
           this.hoverValue = undefined;
           break;
