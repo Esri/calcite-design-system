@@ -92,7 +92,7 @@
   box-sizing: border-box;
   background-color: var(
     --calcite-action-background-color,
-    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+    var(--calcite-action-bar-background-color, var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1)))
   );
   border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
@@ -221,8 +221,6 @@
   .button {
     @apply transition-shadow
       ease-in-out;
-
-    background-color: var(--calcite-action-background-color, var(--calcite-color-transparent));
 
     &:hover {
       background-color: var(--calcite-action-background-color-hover, var(--calcite-color-transparent-hover));
