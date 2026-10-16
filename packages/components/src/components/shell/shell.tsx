@@ -477,15 +477,12 @@ export class Shell extends LitElement {
           onSlotChange={this.handlePanelStartChange}
           ref={this.panelStartSlotRef}
         />
-        <div class={CSS.main}>
-          <slot name={SLOTS.panelStart} onSlotChange={this.handlePanelStartChange} />
-          {this.renderContent()}
-          <slot
-            name={SLOTS.panelEnd}
-            onSlotChange={this.handlePanelEndChange}
-            ref={this.panelEndSlotRef}
-          />
-        </div>
+        {this.renderContent()}
+        <slot
+          name={SLOTS.panelEnd}
+          onSlotChange={this.handlePanelEndChange}
+          ref={this.panelEndSlotRef}
+        />
       </div>
     );
   }
