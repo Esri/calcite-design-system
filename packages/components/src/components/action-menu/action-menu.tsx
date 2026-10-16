@@ -236,6 +236,16 @@ export class ActionMenu extends LitElement {
     this.activeMenuItemIndex = this.navigableActions.findIndex((action) => action === event.target);
   };
 
+  private handleActionFocus = (event: FocusEvent): void => {
+    const focusedActionIndex = this.navigableActions.findIndex((action) =>
+      event.composedPath().includes(action),
+    );
+
+    if (focusedActionIndex !== -1) {
+      this.activeMenuItemIndex = focusedActionIndex;
+    }
+  };
+
   //#endregion
 
   //#region State Properties
@@ -328,21 +338,6 @@ export class ActionMenu extends LitElement {
     }
 
     return this.focusSetter(() => this.menuButtonEl || this.el, options);
-  }
-
-  /**
-   * Sets focus on the first or last action in the open menu.
-   *
-   * @private
-   */
-  @method()
-  async setFocusToBoundary(boundary: "first" | "last", options?: FocusOptions): Promise<void> {
-    if (!this.open || !this.navigableActions.length) {
-      return;
-    }
-
-    this.activeMenuItemIndex = boundary === "first" ? 0 : this.navigableActions.length - 1;
-    return this.setFocus(options);
   }
 
   //#endregion
@@ -849,6 +844,7 @@ export class ActionMenu extends LitElement {
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
+          onFocusIn={this.handleActionFocus}
           onKeyDown={this.menuKeyDown}
           role="menu"
           tabIndex={-1}

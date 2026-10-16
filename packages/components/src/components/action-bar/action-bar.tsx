@@ -1282,7 +1282,12 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    await actionMenu.setFocusToBoundary(boundary, { preventScroll: true });
+    const menuActions = actionMenu.actions.filter(
+      (action) => action.role === "menuitem" && !action.disabled && !action.hidden && !action.inert,
+    );
+    const action = boundary === "first" ? menuActions[0] : menuActions[menuActions.length - 1];
+
+    await action?.setFocus({ preventScroll: true });
   }
 
   private handleFocusIn(event: FocusEvent | MouseEvent): void {
