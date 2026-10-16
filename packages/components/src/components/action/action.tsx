@@ -174,12 +174,6 @@ export class Action extends LitElement {
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
 
-  /**
-   * When `true`, the component appears as if it is focused.
-   * @private
-   */
-  @property({ reflect: true }) activeDescendant = false;
-
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment?: Alignment;
 
@@ -452,7 +446,7 @@ export class Action extends LitElement {
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={this.disabled ? undefined : 0}
+          tabIndex={disabled ? undefined : 0}
         >
           {buttonContent}
         </span>
