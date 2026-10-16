@@ -21,7 +21,7 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
   const changeEvent =
     component === "list" ? "calciteListOrderChange" : "calciteBlockGroupOrderChange";
   const endEvent = component === "list" ? "calciteListDragEnd" : "calciteBlockGroupDragEnd";
-  const render = (populateDestination: boolean) =>
+  const render = (populateDestination: boolean, extraDestinationItems: boolean) =>
     component === "list"
       ? mount<List>(
           <div>
@@ -37,8 +37,14 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
               label="Destination"
               sort-mode="manual"
             >
+              {extraDestinationItems ? (
+                <calcite-list-item id="destination-before" label="Before" />
+              ) : null}
               {populateDestination ? (
                 <calcite-list-item id="destination-item" label="Destination item" />
+              ) : null}
+              {extraDestinationItems ? (
+                <calcite-list-item id="destination-after" label="After" />
               ) : null}
             </calcite-list>
             <calcite-list drag-enabled group="manual" id="automatic" label="Automatic">
@@ -66,8 +72,14 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
               label="Destination"
               sort-mode="manual"
             >
+              {extraDestinationItems ? (
+                <calcite-block heading="Before" id="destination-before" />
+              ) : null}
               {populateDestination ? (
                 <calcite-block heading="Destination item" id="destination-item" />
+              ) : null}
+              {extraDestinationItems ? (
+                <calcite-block heading="After" id="destination-after" />
               ) : null}
             </calcite-block-group>
             <calcite-block-group drag-enabled group="manual" id="automatic" label="Automatic">
@@ -76,8 +88,8 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
           </div>,
         );
 
-  async function setup({ populateDestination = false } = {}) {
-    const { component: mounted } = await render(populateDestination);
+  async function setup({ populateDestination = false, extraDestinationItems = false } = {}) {
+    const { component: mounted } = await render(populateDestination, extraDestinationItems);
     const source = mounted.el;
     const destination = page.getBySelector("#destination").element() as
       | List["el"]
@@ -544,6 +556,144 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     expect(request.mock.calls[1][0].detail).toMatchObject({ newIndex: 1, operation: "move" });
     expect(first.parentElement).toBe(source);
     expect(Array.from(destination.children)).toEqual([destinationItem]);
+  });
+
+  it("resolves a before-item drop after an earlier destination item is removed", async () => {
+    const { destination, handle, request } = await setup({
+      populateDestination: true,
+      extraDestinationItems: true,
+    });
+    onTestFinished(() => commands.mouseUp());
+    const target = page.getBySelector("#destination-item");
+    await dragAndDrop(handle, target.element(), "top", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+
+    page.getBySelector("#destination-before").element().remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+
+    expect(request.mock.calls[0][0].detail).toMatchObject({ toEl: destination, newIndex: 0 });
+  });
+
+  it("resolves an after-item drop after a destination item is inserted", async () => {
+    const { destination, handle, request } = await setup({
+      populateDestination: true,
+      extraDestinationItems: true,
+    });
+    onTestFinished(() => commands.mouseUp());
+    const target = page.getBySelector("#destination-item");
+    await dragAndDrop(handle, target.element(), "bottom", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+
+    const added = document.createElement(
+      component === "list" ? "calcite-list-item" : "calcite-block",
+    );
+    added.setAttribute(component === "list" ? "label" : "heading", "Added");
+    destination.insertBefore(added, target.element());
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+
+    expect(request.mock.calls[0][0].detail).toMatchObject({ toEl: destination, newIndex: 3 });
+  });
+
+  it("updates item-targeted placement after destination mutations and further pointer movement", async () => {
+    const { destination, handle, request } = await setup({
+      populateDestination: true,
+      extraDestinationItems: true,
+    });
+    onTestFinished(() => commands.mouseUp());
+    const target = page.getBySelector("#destination-item");
+    await dragAndDrop(handle, target.element(), "bottom", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+
+    page.getBySelector("#destination-before").element().remove();
+    const bounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.x + bounds.width / 2, bounds.y + bounds.height / 4);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+
+    expect(request.mock.calls[0][0].detail).toMatchObject({ toEl: destination, newIndex: 0 });
+  });
+
+  it("requests a move when its live destination equals the drag-start index", async () => {
+    const { source, first, second, third, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const handle = page.getBySelector("#two calcite-sort-handle").element() as SortHandle["el"];
+    await dragAndDrop(handle, third, "bottom", { skipPointerUp: true });
+    await expect
+      .element(page.elementLocator(third))
+      .toHaveAttribute("data-calcite-sort-position", "after");
+
+    first.remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+
+    expect(request.mock.calls[0][0].detail).toMatchObject({
+      dragEl: second,
+      oldIndex: 1,
+      newIndex: 1,
+    });
+    expect(Array.from(source.children)).toEqual([second, third]);
+  });
+
+  it("does not request a live no-op after a source mutation changes its index", async () => {
+    const { source, first, second, third, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    const handle = page.getBySelector("#two calcite-sort-handle").element() as SortHandle["el"];
+    await dragAndDrop(handle, third, "top", { skipPointerUp: true });
+
+    first.remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(request).not.toHaveBeenCalled();
+    expect(Array.from(source.children)).toEqual([second, third]);
+  });
+
+  it("does not request a self-drop after a source mutation displaces the dragged item", async () => {
+    const { source, first, third, handle, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    await dragAndDrop(handle, third, "bottom", { skipPointerUp: true });
+    await expect
+      .element(page.elementLocator(third))
+      .toHaveAttribute("data-calcite-sort-position", "after");
+
+    const added = document.createElement(
+      component === "list" ? "calcite-list-item" : "calcite-block",
+    );
+    added.setAttribute(component === "list" ? "label" : "heading", "Added");
+    added.style.blockSize = `${first.getBoundingClientRect().height}px`;
+    source.insertBefore(added, first);
+    const bounds = first.getBoundingClientRect();
+    await commands.mouseMove(bounds.x + bounds.width / 2, bounds.y + bounds.height / 4);
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(request).not.toHaveBeenCalled();
+  });
+
+  it("does not request an item-targeted drop when its target is removed", async () => {
+    const { source, handle, request } = await setup({
+      populateDestination: true,
+      extraDestinationItems: true,
+    });
+    onTestFinished(() => commands.mouseUp());
+    const target = page.getBySelector("#destination-item");
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    await dragAndDrop(handle, target.element(), "top", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+
+    target.element().remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(request).not.toHaveBeenCalled();
   });
 
   it("requests pointer clones before and after an existing destination item", async () => {

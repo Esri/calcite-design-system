@@ -392,7 +392,7 @@ describe("drag and drop", () => {
     },
   );
 
-  async function renderCallbackTransfer() {
+  async function renderCallbackTransfer({ extraTarget = false } = {}) {
     const { component: source } = await mount<SortableList>(
       <calcite-sortable-list group="capacity" id="source">
         <div id="one">
@@ -407,6 +407,12 @@ describe("drag and drop", () => {
           <calcite-handle />
           Two
         </div>
+        {extraTarget ? (
+          <div id="three">
+            <calcite-handle />
+            Three
+          </div>
+        ) : null}
       </calcite-sortable-list>,
     );
     const sourceLocator = page.elementLocator(source.el);
@@ -451,6 +457,38 @@ describe("drag and drop", () => {
     expect(source.el.children).toHaveLength(0);
     expect(sourceChanged).toHaveBeenCalledTimes(1);
     expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("uses the selected target's clone decision instead of another candidate's move decision", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer({
+      extraTarget: true,
+    });
+    source.canPull = ({ newIndex }) => (newIndex === 0 ? "clone" : true);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top");
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(destination.el.children).toHaveLength(3);
+    const clone = destination.el.firstElementChild;
+    expect(clone).not.toBe(draggedItem);
+    expect(clone?.textContent).toBe(draggedItem.textContent);
+  });
+
+  it("uses the selected target's move decision instead of another candidate's clone decision", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer({
+      extraTarget: true,
+    });
+    source.canPull = ({ newIndex }) => (newIndex === 0 ? true : "clone");
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top");
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(source.el.children).toHaveLength(0);
+    expect(destination.el.firstElementChild).toBe(draggedItem);
+    expect(destination.el.children).toHaveLength(3);
   });
 
   it("preserves an accepted clone when canPull checks source ownership", async () => {

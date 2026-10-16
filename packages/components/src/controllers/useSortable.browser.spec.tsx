@@ -160,12 +160,16 @@ class Test extends LitElement {
   onGlobalDragStart = vi.fn();
   onGlobalDragEnd = vi.fn();
   onDragEnd = vi.fn();
+  onDragMove = vi.fn();
   onDragStart = vi.fn();
   onDragSort = vi.fn();
   canPut?: (detail: DragDetail) => boolean;
+  dragSelector?: string;
+  getSortableItems?: () => HTMLElement[];
 
   @property({ type: Boolean }) dragEnabled = false;
   @property({ type: Boolean }) sortDisabled = false;
+  @property() sortMode: "automatic" | "manual" = "automatic";
   @property() group?: string;
   @property() layout: "horizontal" | "vertical" | "grid" = "vertical";
 }
@@ -256,6 +260,159 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
   const firstHandle = list.getBySelector("#one .handle");
   expect(firstOptions.handle).toBe(list.getBySelector("#one").element());
   await expect.element(firstHandle).toBeInTheDocument();
+});
+
+it("ignores live self-targets when the cached collision points to another item", async () => {
+  const { component } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+  component.sortMode = "manual";
+  const draggedItem = page.elementLocator(component.el).getBySelector("#one").element();
+  const bounds = draggedItem.getBoundingClientRect();
+  dragOperation.position.current.x = bounds.x + bounds.width / 2;
+  dragOperation.position.current.y = bounds.y + bounds.height / 4;
+  const sourceSortable = getSortableFor(component, "one")!;
+  const targetSortable = getSortableFor(component, "two")!;
+  const dragOverListener = monitorListeners.get("dragover") as (event: unknown) => void;
+
+  dragOverListener({
+    operation: {
+      source: { data: sourceSortable.data, sortable: sourceSortable, initialIndex: 0 },
+      target: { data: targetSortable.data, sortable: targetSortable },
+    },
+    preventDefault: vi.fn(),
+  });
+
+  expect(component.onDragMove).not.toHaveBeenCalled();
+});
+
+it("uses the live source index for manual drop indicators", async () => {
+  const { component } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+  component.sortMode = "manual";
+  const items = page.elementLocator(component.el);
+  const draggedItem = items.getBySelector("#two").element();
+  const target = items.getBySelector("#one");
+  component.el.prepend(draggedItem);
+  const draggedBoundsSpy = vi
+    .spyOn(draggedItem, "getBoundingClientRect")
+    .mockReturnValue(new DOMRect(0, 0, 100, 40));
+  onTestFinished(() => draggedBoundsSpy.mockRestore());
+  const targetBoundsSpy = vi
+    .spyOn(target.element(), "getBoundingClientRect")
+    .mockReturnValue(new DOMRect(0, 40, 100, 40));
+  onTestFinished(() => targetBoundsSpy.mockRestore());
+  const bounds = target.element().getBoundingClientRect();
+  const sourceSortable = getSortableFor(component, "two")!;
+  const targetSortable = getSortableFor(component, "one")!;
+  const dragOverListener = monitorListeners.get("dragover") as (event: unknown) => void;
+  const event = {
+    operation: {
+      source: { data: sourceSortable.data, sortable: sourceSortable, initialIndex: 1 },
+      target: { data: targetSortable.data, sortable: targetSortable },
+    },
+    preventDefault: vi.fn(),
+  };
+  dragOperation.position.current.x = bounds.x + bounds.width / 2;
+  dragOperation.position.current.y = bounds.y + (bounds.height * 3) / 4;
+
+  dragOverListener(event);
+  await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+
+  dragOperation.position.current.y = bounds.y + bounds.height / 4;
+  dragOverListener(event);
+  await expect.element(target).not.toHaveAttribute("data-calcite-sort-position");
+});
+
+it("reuses manual acceptance indices across candidates and refreshes them after mutations", async () => {
+  const { component: source } = await mountDragEnabled();
+  source.sortMode = "manual";
+  const { component: target } = await mount(
+    html`<sortable-test drag-enabled group="test-group" sort-mode="manual">
+      ${Array.from(
+        { length: 200 },
+        (_, index) => html`<div id=${`target-${index}`}><button class="handle"></button></div>`,
+      )}
+    </sortable-test>`,
+    { dynamicComponents: [Test] },
+  );
+  mountedComponents.push(target);
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(202));
+  const getItems = vi.fn(() => Array.from(target.el.children) as HTMLElement[]);
+  target.getSortableItems = getItems;
+  const canPut = vi.fn<(detail: DragDetail) => boolean>(() => true);
+  target.canPut = canPut;
+  const sourceSortable = getSortableFor(source, "one")!;
+  const candidates = sortableInstances.slice(2);
+
+  for (const candidate of candidates) {
+    const accept = candidate.options.accept as (draggable: { data: unknown }) => boolean;
+    expect(accept({ data: sourceSortable.data })).toBe(true);
+  }
+
+  expect(getItems).toHaveBeenCalledTimes(1);
+  expect(canPut.mock.calls.map(([detail]) => detail.newIndex)).toEqual(
+    Array.from({ length: 200 }, (_, index) => index),
+  );
+
+  const lastItem = page.elementLocator(target.el).getBySelector("#target-199").element();
+  target.el.prepend(lastItem);
+  const acceptLast = candidates[199].options.accept as (draggable: { data: unknown }) => boolean;
+  expect(acceptLast({ data: sourceSortable.data })).toBe(true);
+  expect(target.canPut).toHaveBeenLastCalledWith(expect.objectContaining({ newIndex: 0 }));
+  expect(getItems).toHaveBeenCalledTimes(2);
+});
+
+it("refreshes manual acceptance indices after selector membership changes", async () => {
+  const { component: source } = await mountDragEnabled();
+  const { component: target } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+  source.sortMode = "manual";
+  target.sortMode = "manual";
+  target.dragSelector = ".included";
+  const targetItems = page.elementLocator(target.el);
+  const first = targetItems.getBySelector("#one").element();
+  const second = targetItems.getBySelector("#two").element();
+  first.classList.add("included");
+  second.classList.add("included");
+  target.canPut = vi.fn(() => true);
+  const sourceSortable = getSortableFor(source, "one")!;
+  const targetSortable = getSortableFor(target, "two")!;
+  const accept = targetSortable.options.accept as (draggable: { data: unknown }) => boolean;
+
+  expect(accept({ data: sourceSortable.data })).toBe(true);
+  expect(target.canPut).toHaveBeenLastCalledWith(expect.objectContaining({ newIndex: 1 }));
+
+  first.classList.remove("included");
+  expect(accept({ data: sourceSortable.data })).toBe(true);
+  expect(target.canPut).toHaveBeenLastCalledWith(expect.objectContaining({ newIndex: 0 }));
+});
+
+it("refreshes manual acceptance indices when a reset is queued during a drag", async () => {
+  const { component: source } = await mountDragEnabled();
+  const { component: target } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+  source.sortMode = "manual";
+  target.sortMode = "manual";
+  const targetItems = page.elementLocator(target.el);
+  const first = targetItems.getBySelector("#one").element() as HTMLDivElement;
+  const second = targetItems.getBySelector("#two").element() as HTMLDivElement;
+  let items = [first, second];
+  target.getSortableItems = () => items;
+  target.canPut = vi.fn(() => true);
+  const sourceSortable = getSortableFor(source, "one")!;
+  const targetSortable = getSortableFor(target, "two")!;
+  const accept = targetSortable.options.accept as (draggable: { data: unknown }) => boolean;
+  const dragStartListener = monitorListeners.get("dragstart") as (event: unknown) => void;
+  dragStartListener({ operation: { source: { data: sourceSortable.data, initialIndex: 0 } } });
+
+  expect(accept({ data: sourceSortable.data })).toBe(true);
+  expect(target.canPut).toHaveBeenLastCalledWith(expect.objectContaining({ newIndex: 1 }));
+
+  items = [second];
+  target.sortable.reset();
+  expect(accept({ data: sourceSortable.data })).toBe(true);
+  expect(target.canPut).toHaveBeenLastCalledWith(expect.objectContaining({ newIndex: 0 }));
+  expect(createSortableSpy).toHaveBeenCalledTimes(4);
 });
 
 it("rejects a destination nested inside the dragged item", async () => {
