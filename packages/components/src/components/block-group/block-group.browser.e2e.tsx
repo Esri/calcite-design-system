@@ -381,7 +381,9 @@ describe("drag and drop", () => {
     });
 
     await handle.setFocus();
-    await userEvent.keyboard("{Enter}{ArrowDown}{Enter}");
+    await userEvent.keyboard("{Enter}");
+    await expect.element(page.elementLocator(handle)).toHaveProperty("open", true);
+    await userEvent.keyboard("{ArrowDown}{Enter}");
     await vi.waitFor(() => expect(firstHeadingWhenOrdered).toBe("two"));
 
     expect(menuReorderCalled).toBe(true);
@@ -416,7 +418,9 @@ describe("drag and drop", () => {
     el.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
 
     await handle.setFocus();
-    await userEvent.keyboard("{Enter}{ArrowDown}{Enter}");
+    await userEvent.keyboard("{Enter}");
+    await expect.element(page.elementLocator(handle)).toHaveProperty("open", true);
+    await userEvent.keyboard("{ArrowDown}{Enter}");
     await beforeOrderChange;
 
     expect(orderCalledTimes).toBe(0);

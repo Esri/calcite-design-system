@@ -321,7 +321,9 @@ function cloneSortableItem(item: HTMLElement): HTMLElement {
 
   sourceElements.forEach((sourceElement, index) => {
     const cloneElement = cloneElements[index];
-    let prototype = Object.getPrototypeOf(sourceElement) as object | null;
+    let prototype = customElements.get(sourceElement.localName)
+      ? (Object.getPrototypeOf(sourceElement) as object | null)
+      : null;
 
     while (prototype && prototype !== HTMLElement.prototype) {
       Object.getOwnPropertyNames(prototype).forEach((propertyName) => {
@@ -338,7 +340,9 @@ function cloneSortableItem(item: HTMLElement): HTMLElement {
     }
 
     if (sourceElement instanceof HTMLInputElement && cloneElement instanceof HTMLInputElement) {
-      cloneElement.value = sourceElement.value;
+      if (sourceElement.type !== "file") {
+        cloneElement.value = sourceElement.value;
+      }
       cloneElement.checked = sourceElement.checked;
     }
   });

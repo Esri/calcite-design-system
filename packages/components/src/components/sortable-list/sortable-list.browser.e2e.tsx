@@ -837,11 +837,15 @@ describe("drag and drop", () => {
     );
   });
 
-  it("fires drag end after clone finalization and both order-change events", async () => {
+  it("fires drag end after cloning native inputs and both order-change events", async () => {
     const { component: source } = await mount<SortableList>(
       <calcite-sortable-list group="letters" id="clone-source">
         <div id="clone-source-item">
           <calcite-handle />
+          <input type="text" />
+          <input type="number" />
+          <input type="checkbox" />
+          <input type="file" />
           Source
         </div>
       </calcite-sortable-list>,
@@ -861,6 +865,13 @@ describe("drag and drop", () => {
     const target = destinationLocator.getBySelector("#destination-item").element();
     const callbackOrder: string[] = [];
     source.canPull = () => "clone";
+    draggedItem.querySelector<HTMLInputElement>('input[type="text"]')!.value = "Updated text";
+    draggedItem.querySelector<HTMLInputElement>('input[type="number"]')!.value = "42";
+    draggedItem.querySelector<HTMLInputElement>('input[type="checkbox"]')!.checked = true;
+    const transfer = new DataTransfer();
+    transfer.items.add(new File(["Contents"], "example.txt", { type: "text/plain" }));
+    draggedItem.querySelector<HTMLInputElement>('input[type="file"]')!.files = transfer.files;
+    (handle as Handle["el"]).label = "Updated handle";
 
     source.el.addEventListener("calciteListOrderChange", () => callbackOrder.push("source-sort"));
     destination.el.addEventListener("calciteListOrderChange", () =>
@@ -879,6 +890,14 @@ describe("drag and drop", () => {
     await vi.waitFor(() => {
       expect(callbackOrder).toEqual(["source-sort", "destination-sort", "drag-end"]);
     });
+    const clone = destination.el.lastElementChild!;
+    expect(clone.querySelector<HTMLInputElement>('input[type="text"]')!.value).toBe("Updated text");
+    expect(clone.querySelector<HTMLInputElement>('input[type="number"]')!.value).toBe("42");
+    expect(clone.querySelector<HTMLInputElement>('input[type="checkbox"]')!.checked).toBe(true);
+    expect(clone.querySelector<HTMLInputElement>('input[type="file"]')!.files![0].name).toBe(
+      "example.txt",
+    );
+    expect(clone.querySelector<Handle["el"]>("calcite-handle")!.label).toBe("Updated handle");
   });
 
   it("fires before and order-change around the reorder mutation", async () => {
