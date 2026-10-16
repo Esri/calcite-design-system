@@ -12,6 +12,7 @@ import customElementDependenciesPlugin from "./build/plugins/custom-element-depe
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
+import { chromaticPlugin } from "@chromatic-com/vitest/plugin";
 
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.BROWSER_TESTS === "true";
@@ -70,7 +71,12 @@ export function createConfig({
       noExternal: nonEsmDependencies,
     },
 
-    plugins: [lumina, customBrowserModeCommandsPlugin(), customElementDependenciesPlugin(lumina)],
+    plugins: [
+      lumina,
+      customBrowserModeCommandsPlugin(),
+      customElementDependenciesPlugin(lumina),
+      chromaticPlugin({ disableAutoSnapshot: true, turboSnap: true }),
+    ],
 
     css: {
       postcss: {

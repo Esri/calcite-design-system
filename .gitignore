@@ -34,3 +34,4 @@ ehthumbs.db
 log.txt
 logs
 node_modules/
+*.vitest/
