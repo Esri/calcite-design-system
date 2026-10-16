@@ -131,6 +131,9 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) form?: string;
 
   /** @copyDoc */
+  @property() label?: string;
+
+  /** @copyDoc */
   @property() labelText?: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
@@ -517,7 +520,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
         <calcite-combobox
           clearDisabled={!this.clearable}
           disabled={this.disabled}
-          label={this.messages.chooseTimeZone}
+          label={this.label || this.messages.chooseTimeZone}
           labelText={this.labelText}
           lang={this.messages._lang}
           maxItems={this.maxItems}
