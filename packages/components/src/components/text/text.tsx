@@ -40,6 +40,8 @@ export class Text extends LitElement {
 
   //#region Private Properties
 
+  private assistiveTextSpanRef = createRef<HTMLSpanElement>();
+
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
   private middleTruncatedSpanRef = createRef<HTMLSpanElement>();
@@ -170,8 +172,9 @@ export class Text extends LitElement {
       return;
     }
     const { truncatePosition, maxLines } = this;
-    if (this.truncatePosition === "middle" && !this.maxLines) {
+    if (this.isTruncatePositionMiddle()) {
       this.truncateMiddleText();
+      this.assistiveTextSpanRef.value!.textContent = this.value || "";
     } else if (truncatePosition === "end" || (maxLines && maxLines >= 1)) {
       this.syncTooltipState();
     }
@@ -257,6 +260,10 @@ export class Text extends LitElement {
     this.updateMaxLinesToken();
   }
 
+  private isTruncatePositionMiddle(): boolean {
+    return this.truncatePosition === "middle" && !this.maxLines;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -272,6 +279,9 @@ export class Text extends LitElement {
           class={CSS.middleTruncatedText}
           ref={this.middleTruncatedSpanRef}
         />
+        {this.isTruncatePositionMiddle() && (
+          <span ariaLive="polite" class={CSS.assistiveText} ref={this.assistiveTextSpanRef} />
+        )}
       </div>
     );
   }
