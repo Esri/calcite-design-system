@@ -371,15 +371,11 @@ describe("drag and drop", () => {
     const { el } = await renderBlockGroup();
     const group = page.getBySelector("#block-group");
     const blocks = page.getBySelector("#block-group > calcite-block:not([data-dnd-placeholder])");
-    const firstBlock = group.getBySelector("#one").element() as Block["el"];
-    await vi.waitFor(() =>
-      expect(
-        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
-      ).not.toBeNull(),
-    );
-    // The sort handle is internal to the block's shadow root.
-    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
-    expect(handle.getAttribute("tabindex")).toBeNull();
+    const handle = group.getBySelector("#one calcite-sort-handle");
+    const trigger = handle.getByRole("button");
+    await expect.element(trigger).toBeVisible();
+    await expect.element(trigger).toBeEnabled();
+    await expect.element(handle).not.toHaveAttribute("tabindex");
     let firstHeadingWhenOrdered = "";
     let menuReorderCalled = false;
 
@@ -388,9 +384,10 @@ describe("drag and drop", () => {
       firstHeadingWhenOrdered = (blocks.nth(0).element() as Block["el"]).heading ?? "";
     });
 
-    await handle.setFocus();
+    await (handle.element() as SortHandle["el"]).setFocus();
+    await expect.element(group.getBySelector("#one")).toHaveFocus();
     await userEvent.keyboard("{Enter}");
-    await expect.element(page.elementLocator(handle)).toHaveProperty("open", true);
+    await expect.element(handle).toHaveProperty("open", true);
     await userEvent.keyboard("{ArrowDown}{Enter}");
     await vi.waitFor(() => expect(firstHeadingWhenOrdered).toBe("two"));
 

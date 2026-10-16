@@ -316,7 +316,13 @@ function clearDropPosition(record: SortableManagerRecord): void {
 }
 
 function canAcceptDrop(fromComponent: SortableComponent, toComponent: SortableComponent, detail: DragDetail): boolean {
-  if (detail.dragEl.contains(toComponent.el)) {
+  if (
+    !fromComponent.dragEnabled ||
+    fromComponent.disabled ||
+    !toComponent.dragEnabled ||
+    toComponent.disabled ||
+    detail.dragEl.contains(toComponent.el)
+  ) {
     return false;
   }
 

@@ -244,6 +244,126 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     expect(source.firstElementChild).toBe(first);
   });
 
+  it("rejects a destination disabled before pointer release", async () => {
+    const { source, destination, first, handle, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    await dragAndDrop(handle, destination, "center", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#destination"))
+      .toHaveAttribute("data-calcite-sort-position", "inside");
+
+    destination.disabled = true;
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(request).not.toHaveBeenCalled();
+    expect(first.parentElement).toBe(source);
+    expect(destination.children).toHaveLength(0);
+  });
+
+  it("registers application items added during a canceled drag", async () => {
+    const { source, first, third, handle, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    await dragAndDrop(handle, third, "bottom", { skipPointerUp: true });
+
+    const addedItem = document.createElement(
+      component === "list" ? "calcite-list-item" : "calcite-block",
+    );
+    addedItem.id = "added";
+    addedItem.setAttribute(component === "list" ? "label" : "heading", "Added");
+    source.append(addedItem);
+    await userEvent.keyboard("{Escape}");
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(request).not.toHaveBeenCalled();
+
+    const addedHandle = page.getBySelector("#added calcite-sort-handle");
+    await expect.element(addedHandle).toBeVisible();
+    await expect.element(addedHandle).toHaveProperty("setPosition", 4);
+    await expect.element(addedHandle).toHaveProperty("setSize", 4);
+    await dragAndDrop(addedHandle.element(), first, "top");
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+    expect(request.mock.calls[0][0].detail).toMatchObject({
+      dragEl: addedItem,
+      fromEl: source,
+      toEl: source,
+      oldIndex: 3,
+      newIndex: 0,
+      operation: "move",
+    });
+  });
+
+  it("rejects a source disabled before pointer release", async () => {
+    const { source, destination, first, handle, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    await dragAndDrop(handle, destination, "center", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#destination"))
+      .toHaveAttribute("data-calcite-sort-position", "inside");
+
+    source.disabled = true;
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(request).not.toHaveBeenCalled();
+    expect(first.parentElement).toBe(source);
+    expect(destination.children).toHaveLength(0);
+  });
+
+  it("rejects a destination with dragging disabled before pointer release", async () => {
+    const { source, destination, first, handle, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    await dragAndDrop(handle, destination, "center", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#destination"))
+      .toHaveAttribute("data-calcite-sort-position", "inside");
+
+    destination.dragEnabled = false;
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(request).not.toHaveBeenCalled();
+    expect(first.parentElement).toBe(source);
+    expect(destination.children).toHaveLength(0);
+  });
+
+  it("registers destination items added during a successful drag", async () => {
+    const { source, destination, first, handle, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    await dragAndDrop(handle, destination, "center", { skipPointerUp: true });
+
+    const addedItem = document.createElement(
+      component === "list" ? "calcite-list-item" : "calcite-block",
+    );
+    addedItem.id = "added-destination";
+    addedItem.setAttribute(component === "list" ? "label" : "heading", "Added destination");
+    destination.append(addedItem);
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+    expect(first.parentElement).toBe(source);
+
+    const addedHandle = page.getBySelector("#added-destination calcite-sort-handle");
+    await expect.element(addedHandle).toBeVisible();
+    await expect.element(addedHandle).toHaveProperty("setPosition", 1);
+    await expect.element(addedHandle).toHaveProperty("setSize", 1);
+    destination.addEventListener(requestEvent, request);
+    await dragAndDrop(addedHandle.element(), first, "top");
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(2));
+    expect(request.mock.calls[1][0].detail).toMatchObject({
+      dragEl: addedItem,
+      fromEl: destination,
+      toEl: source,
+      oldIndex: 0,
+      newIndex: 0,
+      operation: "move",
+    });
+  });
+
   it("requests an upward move using the destination index after source removal", async () => {
     const { source, first, second, third, request } = await setup();
     const handle = page.getBySelector("#three calcite-sort-handle").element();

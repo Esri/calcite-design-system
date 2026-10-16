@@ -420,7 +420,9 @@ export class BlockGroup extends LitElement {
   }
 
   onGlobalDragStart(): void {
-    this.disconnectObserver();
+    if (this.sortMode !== "manual") {
+      this.disconnectObserver();
+    }
   }
 
   onGlobalDragEnd(): void {
