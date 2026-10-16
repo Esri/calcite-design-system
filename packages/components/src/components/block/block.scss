@@ -138,6 +138,7 @@
 }
 
 .header-container {
+  anchor-name: --calcite-internal-block-header;
   display: grid;
   align-items: stretch;
   grid-template: auto / auto 1fr auto auto auto auto;
@@ -279,10 +280,19 @@ calcite-sort-handle {
 }
 
 .container {
+  anchor-scope: --calcite-internal-block-header;
   display: flex;
   flex-direction: column;
   block-size: 100%;
   position: relative;
+}
+
+.loading-scrim {
+  position-anchor: --calcite-internal-block-header;
+  inset: 0;
+  inset-block-start: anchor(end);
+  block-size: auto;
+  inline-size: auto;
 }
 
 .content {
