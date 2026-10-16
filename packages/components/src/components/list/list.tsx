@@ -831,6 +831,9 @@ export class List extends LitElement {
 
   onGlobalDragEnd(): void {
     this.connectObserver();
+    if (this.sortMode !== "manual") {
+      this.updateListItemsDebounced();
+    }
   }
 
   onDragEnd(detail: ListDragDetail): void {

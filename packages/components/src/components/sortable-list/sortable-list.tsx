@@ -165,6 +165,7 @@ export class SortableList extends LitElement {
 
   onGlobalDragEnd(): void {
     this.beginObserving();
+    this.setUpSorting();
   }
 
   onDragEnd(): void {}

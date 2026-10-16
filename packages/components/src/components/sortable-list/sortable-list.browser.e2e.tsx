@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import { dragAndDrop } from "../../tests/utils/browser";
@@ -81,6 +81,73 @@ describe("drag and drop", () => {
     });
 
     await afterNextFrame();
+  });
+
+  async function addPeerItemDuringDrag() {
+    const { component: source } = await mount<SortableList>(
+      <div>
+        <calcite-sortable-list id="source">
+          <div id="one">
+            <calcite-handle />
+            One
+          </div>
+          <div id="two">
+            <calcite-handle />
+            Two
+          </div>
+        </calcite-sortable-list>
+        <calcite-sortable-list id="peer">
+          <div id="peer-one">
+            <calcite-handle />
+            Peer one
+          </div>
+        </calcite-sortable-list>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    const peer = page.getBySelector("#peer").element() as SortableList["el"];
+    const first = page.getBySelector("#peer-one").element();
+    const handle = page.getBySelector("#one calcite-handle");
+    await expect.element(handle).toBeVisible();
+    const ended = vi.spyOn(source, "onDragEnd");
+    await dragAndDrop(handle.element(), page.getBySelector("#two").element(), "bottom", {
+      skipPointerUp: true,
+    });
+    const added = document.createElement("div");
+    added.id = "added";
+    const addedHandle = document.createElement("calcite-handle");
+    added.append(addedHandle, "Added");
+    peer.append(added);
+    return { source, peer, first, added, addedHandle, ended };
+  }
+
+  it("registers unrelated peer items added during a successful drag", async () => {
+    const { source, peer, first, added, addedHandle, ended } = await addPeerItemDuringDrag();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(Array.from(source.el.children, (item) => item.id)).toEqual(["two", "one"]);
+    await expect.element(page.elementLocator(addedHandle)).toBeVisible();
+    await afterNextFrame();
+    const changed = vi.fn();
+    peer.addEventListener("calciteListOrderChange", changed);
+    await dragAndDrop(addedHandle, first, "top");
+    await vi.waitFor(() => expect(changed).toHaveBeenCalledTimes(1));
+    expect(Array.from(peer.children)).toEqual([added, first]);
+  });
+
+  it("registers unrelated peer items added during a canceled drag", async () => {
+    const { source, peer, first, added, addedHandle, ended } = await addPeerItemDuringDrag();
+    await userEvent.keyboard("{Escape}");
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(Array.from(source.el.children, (item) => item.id)).toEqual(["one", "two"]);
+    await expect.element(page.elementLocator(addedHandle)).toBeVisible();
+    await afterNextFrame();
+    const changed = vi.fn();
+    peer.addEventListener("calciteListOrderChange", changed);
+    await dragAndDrop(addedHandle, first, "top");
+    await vi.waitFor(() => expect(changed).toHaveBeenCalledTimes(1));
+    expect(Array.from(peer.children)).toEqual([added, first]);
   });
 
   it("allows dragging from any enabled matching handle", async () => {
@@ -324,6 +391,67 @@ describe("drag and drop", () => {
       expect(destinationOrderSpy).toHaveBeenCalledTimes(transfer ? 1 : 0);
     },
   );
+
+  async function renderCallbackTransfer() {
+    const { component: source } = await mount<SortableList>(
+      <calcite-sortable-list group="capacity" id="source">
+        <div id="one">
+          <calcite-handle />
+          One
+        </div>
+      </calcite-sortable-list>,
+    );
+    const { component: destination } = await mount<SortableList>(
+      <calcite-sortable-list group="capacity" id="destination">
+        <div id="two">
+          <calcite-handle />
+          Two
+        </div>
+      </calcite-sortable-list>,
+    );
+    const sourceLocator = page.elementLocator(source.el);
+    const destinationLocator = page.elementLocator(destination.el);
+    const draggedItem = sourceLocator.getBySelector("#one").element();
+    const handle = sourceLocator.getBySelector("#one calcite-handle").element();
+    const target = destinationLocator.getBySelector("#two").element();
+    return { source, destination, draggedItem, handle, target };
+  }
+
+  it("preserves an accepted transfer when it fills the destination capacity", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    destination.canPut = ({ toEl }) => toEl.children.length < 2;
+    const sourceChanged = vi.fn();
+    const destinationChanged = vi.fn();
+    const ended = vi.spyOn(source, "onDragEnd");
+    source.el.addEventListener("calciteListOrderChange", sourceChanged);
+    destination.el.addEventListener("calciteListOrderChange", destinationChanged);
+
+    await dragAndDrop(handle, target, "top");
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(destination.el.children)).toEqual([draggedItem, target]);
+    expect(source.el.children).toHaveLength(0);
+    expect(sourceChanged).toHaveBeenCalledTimes(1);
+    expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("preserves an accepted transfer when canPull checks source ownership", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    source.canPull = ({ fromEl, dragEl }) => fromEl.contains(dragEl);
+    const sourceChanged = vi.fn();
+    const destinationChanged = vi.fn();
+    const ended = vi.spyOn(source, "onDragEnd");
+    source.el.addEventListener("calciteListOrderChange", sourceChanged);
+    destination.el.addEventListener("calciteListOrderChange", destinationChanged);
+
+    await dragAndDrop(handle, target, "top");
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(destination.el.children)).toEqual([draggedItem, target]);
+    expect(source.el.children).toHaveLength(0);
+    expect(sourceChanged).toHaveBeenCalledTimes(1);
+    expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
 
   it("transfers items with duplicate ids across component lists", async () => {
     const { component: source } = await mount<SortableList>(

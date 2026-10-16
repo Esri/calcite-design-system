@@ -427,6 +427,9 @@ export class BlockGroup extends LitElement {
 
   onGlobalDragEnd(): void {
     this.connectObserver();
+    if (this.sortMode !== "manual") {
+      this.updateBlockItemsDebounced();
+    }
   }
 
   onDragEnd(detail: BlockDragDetail): void {

@@ -262,6 +262,58 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     expect(destination.children).toHaveLength(0);
   });
 
+  async function addAutomaticPeerItemDuringDrag() {
+    const { source, third, handle } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    const ended = vi.fn();
+    source.addEventListener(endEvent, ended);
+    await dragAndDrop(handle, third, "bottom", { skipPointerUp: true });
+    const peer = page.getBySelector("#automatic").element();
+    const first = page.getBySelector("#automatic-item").element();
+    const added = document.createElement(
+      component === "list" ? "calcite-list-item" : "calcite-block",
+    );
+    added.id = "added-peer";
+    added.setAttribute(component === "list" ? "label" : "heading", "Added peer");
+    peer.append(added);
+    return { peer, first, added, ended };
+  }
+
+  async function expectAutomaticPeerItemToBeDraggable({
+    peer,
+    first,
+    added,
+  }: {
+    peer: Element;
+    first: Element;
+    added: Element;
+  }) {
+    const handle = page.getBySelector("#added-peer calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    await expect.element(handle).toHaveProperty("setPosition", 2);
+    await expect.element(handle).toHaveProperty("setSize", 2);
+    const changed = vi.fn();
+    peer.addEventListener(changeEvent, changed);
+    await dragAndDrop(handle.element(), first, "top");
+    await vi.waitFor(() => expect(changed).toHaveBeenCalledTimes(1));
+    expect(Array.from(peer.children)).toEqual([added, first]);
+  }
+
+  it("reconciles automatic peers after a successful manual drag", async () => {
+    const fixture = await addAutomaticPeerItemDuringDrag();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(fixture.ended).toHaveBeenCalledTimes(1));
+    await expectAutomaticPeerItemToBeDraggable(fixture);
+  });
+
+  it("reconciles automatic peers after a canceled manual drag", async () => {
+    const fixture = await addAutomaticPeerItemDuringDrag();
+    await userEvent.keyboard("{Escape}");
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(fixture.ended).toHaveBeenCalledTimes(1));
+    await expectAutomaticPeerItemToBeDraggable(fixture);
+  });
+
   it("registers application items added during a canceled drag", async () => {
     const { source, first, third, handle, request } = await setup();
     onTestFinished(() => commands.mouseUp());

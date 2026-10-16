@@ -1,6 +1,6 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
 import {
   accessible,
@@ -19,6 +19,7 @@ import type { Block } from "../block/block";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { BlockGroup } from "./block-group";
 import { dragAndDrop } from "../../tests/utils/browser";
+import { commands } from "../../tests/utils/commands";
 
 mockConsole();
 
@@ -566,6 +567,75 @@ describe("drag and drop", () => {
     expect(sourceBlock.parentElement).toBe(source);
     expect(destinationBlock.parentElement).toBe(destination);
     expect(orderCalledTimes).toBe(0);
+  });
+
+  async function startAutomaticTransfer() {
+    const { component: source } = await mount<BlockGroup>(
+      <div>
+        <calcite-block-group drag-enabled group="automatic" id="source">
+          <calcite-block heading="One" id="one" />
+          <calcite-block heading="Two" id="two" />
+        </calcite-block-group>
+        <calcite-block-group drag-enabled group="automatic" id="destination" />
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
+    destination.style.minBlockSize = "80px";
+    const first = page.getBySelector("#one").element();
+    const second = page.getBySelector("#two").element();
+    const handle = page.getBySelector("#one calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    const before = vi.fn();
+    const ended = vi.fn();
+    const changed = vi.fn();
+    destination.addEventListener("calciteBlockGroupBeforeOrderChange", before);
+    destination.addEventListener("calciteBlockGroupOrderChange", changed);
+    source.el.addEventListener("calciteBlockGroupOrderChange", changed);
+    source.el.addEventListener("calciteBlockGroupDragEnd", ended);
+    await dragAndDrop(handle.element(), destination, "center", { skipPointerUp: true });
+    await vi.waitFor(() => expect(before).toHaveBeenCalled());
+    return { source, destination, first, second, ended, changed };
+  }
+
+  it("restores an automatic drop when the destination becomes disabled", async () => {
+    const { source, destination, first, second, ended, changed } = await startAutomaticTransfer();
+    destination.disabled = true;
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(destination.children).toHaveLength(0);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("restores an automatic drop when destination dragging is turned off", async () => {
+    const { source, destination, first, second, ended, changed } = await startAutomaticTransfer();
+    destination.dragEnabled = false;
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(destination.children).toHaveLength(0);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("restores an automatic drop when the source becomes disabled", async () => {
+    const { source, destination, first, second, ended, changed } = await startAutomaticTransfer();
+    source.disabled = true;
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(destination.children).toHaveLength(0);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("restores an automatic drop when source dragging is turned off", async () => {
+    const { source, destination, first, second, ended, changed } = await startAutomaticTransfer();
+    source.dragEnabled = false;
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(destination.children).toHaveLength(0);
+    expect(changed).not.toHaveBeenCalled();
   });
 
   it("reorders blocks with pointer drag", async () => {
