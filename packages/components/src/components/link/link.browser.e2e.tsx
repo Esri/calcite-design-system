@@ -13,6 +13,7 @@ import {
   themed,
 } from "../../tests/common";
 import type { Link } from "./link";
+import { CSS } from "./resources";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -168,16 +169,43 @@ describe("theme", () => {
           shadowSelector: "a",
           targetProp: "color",
         },
+        "--calcite-link-text-color-hover": {
+          shadowSelector: "a",
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-link-text-color-press": {
+          shadowSelector: "a",
+          targetProp: "color",
+          state: { press: "calcite-link >>> a" },
+        },
       },
     );
   });
 });
 
 describe("underline", () => {
+  it("matches active text color while hovered and pressed", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    const anchor = el.shadowRoot.querySelector("a")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
+    const { x, y, width, height } = anchor.getBoundingClientRect();
+
+    await commands.mouseMove(x + width / 2, y + height / 2);
+
+    expect(getComputedStyle(text).textDecorationColor).toBe(getComputedStyle(anchor).color);
+
+    await commands.mouseDown();
+
+    expect(getComputedStyle(text).textDecorationColor).toBe(getComputedStyle(anchor).color);
+
+    await commands.mouseUp();
+  });
+
   it("preserves underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
-    const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
     const { x, y, width, height } = anchor.getBoundingClientRect();
     const initialThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
 
