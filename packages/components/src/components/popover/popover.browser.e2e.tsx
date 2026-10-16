@@ -294,6 +294,28 @@ describe("auto-close", () => {
   });
 });
 
+describe("a11y attributes", () => {
+  it("sets host aria-live", async () => {
+    await mount(
+      <div>
+        <calcite-popover id="aria-live-popover" reference-element="ref">
+          Content
+        </calcite-popover>
+        <button id="ref" type="button">
+          Ref
+        </button>
+      </div>,
+    );
+    const popover = page.getBySelector("#aria-live-popover").first().element() as HTMLElement;
+
+    expect(popover.getAttribute("aria-live")).toBe(null);
+
+    popover.ariaLive = "polite";
+
+    expect(popover.getAttribute("aria-live")).toBe("polite");
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(

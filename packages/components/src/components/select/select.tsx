@@ -17,6 +17,7 @@ import { Scale, Status, Width } from "../types";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { IconName } from "../icon/types";
 import type { Option } from "../option/option";
 import { isOption } from "../option/resources";
@@ -103,6 +104,8 @@ export class Select extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
@@ -442,6 +445,7 @@ export class Select extends LitElement implements LabelableComponent {
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
+            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

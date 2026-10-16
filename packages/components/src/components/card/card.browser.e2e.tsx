@@ -105,6 +105,28 @@ describe("a11y attributes", () => {
 
     await expect.element(container).toHaveAttribute("aria-busy", "true");
   });
+
+  it("sets loader aria-live only when host value is valid", async () => {
+    const { el } = await mount(
+      <calcite-card loading>
+        <span slot="heading">Card heading</span>
+      </calcite-card>,
+    );
+    const loaderContainer = page
+      .getBySelector("calcite-card .calcite-card-loader-container")
+      .element() as HTMLElement;
+
+    expect(loaderContainer).toBeDefined();
+    expect(loaderContainer.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect
+      .element(page.elementLocator(loaderContainer))
+      .toHaveAttribute("aria-live", "polite");
+
+    el.ariaLive = "invalid";
+    await expect.element(page.elementLocator(loaderContainer)).not.toHaveAttribute("aria-live");
+  });
 });
 
 describe("theme", () => {

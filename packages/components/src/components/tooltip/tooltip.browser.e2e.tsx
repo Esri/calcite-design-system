@@ -1186,6 +1186,28 @@ describe("warning messages", () => {
   });
 });
 
+describe("a11y attributes", () => {
+  it("sets host aria-live", async () => {
+    await mount(
+      <div>
+        <calcite-tooltip id="aria-live-tooltip" reference-element="ref">
+          Tip
+        </calcite-tooltip>
+        <button id="ref" type="button">
+          Ref
+        </button>
+      </div>,
+    );
+    const tooltip = page.getBySelector("#aria-live-tooltip").first().element() as HTMLElement;
+
+    expect(tooltip.getAttribute("aria-live")).toBe(null);
+
+    tooltip.ariaLive = "polite";
+
+    expect(tooltip.getAttribute("aria-live")).toBe("polite");
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount(<calcite-tooltip>Lorem Ipsum</calcite-tooltip>), {

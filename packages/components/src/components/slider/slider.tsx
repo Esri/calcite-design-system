@@ -16,6 +16,7 @@ import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isActivationKey } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -119,6 +120,8 @@ export class Slider extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   defaultValue?: Slider["value"];
 
@@ -1281,6 +1284,7 @@ export class Slider extends LitElement implements LabelableComponent {
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
+            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

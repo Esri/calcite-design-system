@@ -14,6 +14,7 @@ import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
@@ -88,6 +89,8 @@ export class Rating extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Private Properties
+
+  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   defaultValue?: Rating["value"];
 
@@ -477,6 +480,7 @@ export class Rating extends LitElement implements LabelableComponent {
           </fieldset>
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
+              ariaLive={this.el.ariaLive}
               icon={this.validationIcon}
               id={IDS.validationMessage}
               message={this.validationMessage}

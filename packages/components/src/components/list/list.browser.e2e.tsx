@@ -233,20 +233,6 @@ describe("disabled", () => {
   );
 });
 
-describe("a11y attributes", () => {
-  it("should omit aria-busy when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount<List>(<calcite-list label="Items" />);
-    const table = page.getByRole(`treegrid`);
-
-    await expect.element(table).not.toHaveAttribute("aria-busy");
-
-    el.loading = true;
-    await reRender();
-
-    await expect.element(table).toHaveAttribute("aria-busy", "true");
-  });
-});
-
 describe("sticky group heading", () => {
   it("keeps the first list-item-group heading fixed while the list scrolls", async () => {
     const { el } = await mount(
@@ -956,6 +942,40 @@ describe("nested selection modes", () => {
 
     await waitForNestedPropertiesToSettle();
     assertAllNestedProperties();
+  });
+});
+
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount<List>(<calcite-list label="Items" />);
+    const table = page.getByRole(`treegrid`);
+
+    await expect.element(table).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(table).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("sets assistive text aria-live only when host value is valid", async () => {
+    const { el } = await mount(
+      <calcite-list>
+        <calcite-list-item label="Item 1" value="item-1" />
+      </calcite-list>,
+    );
+    const assistiveText = page
+      .getBySelector(`calcite-list .${CSS.assistiveText}`)
+      .element() as HTMLElement;
+
+    expect(assistiveText).toBeDefined();
+    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+
+    el.ariaLive = "polite";
+    await expect.element(page.elementLocator(assistiveText)).toHaveAttribute("aria-live", "polite");
+
+    el.ariaLive = "invalid";
+    await expect.element(page.elementLocator(assistiveText)).not.toHaveAttribute("aria-live");
   });
 });
 

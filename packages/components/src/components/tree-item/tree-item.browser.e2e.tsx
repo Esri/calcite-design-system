@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, disabled, hidden, renders, slots, accessible, themed } from "../../tests/common";
@@ -102,6 +102,23 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-tree-item"), SLOTS);
+});
+
+describe("a11y attributes", () => {
+  it("sets host aria-live", async () => {
+    await mount(
+      <calcite-tree>
+        <calcite-tree-item id="aria-live-tree-item">Item</calcite-tree-item>
+      </calcite-tree>,
+    );
+    const treeItem = page.getBySelector("#aria-live-tree-item").first().element() as HTMLElement;
+
+    expect(treeItem.getAttribute("aria-live")).toBe(null);
+
+    treeItem.ariaLive = "polite";
+
+    expect(treeItem.getAttribute("aria-live")).toBe("polite");
+  });
 });
 
 describe("themed", () => {
