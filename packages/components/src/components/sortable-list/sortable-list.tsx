@@ -48,8 +48,17 @@ export class SortableList extends LitElement {
 
   items: Element[] = [];
 
-  mutationObserver = createObserver("mutation", () => {
-    this.setUpSorting();
+  private sortableItems: HTMLElement[] = [];
+
+  mutationObserver = createObserver("mutation", (mutations) => {
+    const items = this.getSortableItems();
+    if (
+      mutations.some((mutation) => mutation.type === "childList") ||
+      items.length !== this.sortableItems.length ||
+      items.some((item, index) => item !== this.sortableItems[index])
+    ) {
+      this.setUpSorting();
+    }
   });
 
   private sortable = useSortable<this>()(this);
@@ -177,8 +186,7 @@ export class SortableList extends LitElement {
   }
 
   onDragSort(): void {
-    this.items = Array.from(this.el.children);
-    this.sortable.reset();
+    this.setUpSorting();
     this.calciteListOrderChange.emit();
   }
 
@@ -264,11 +272,12 @@ export class SortableList extends LitElement {
 
   private setUpSorting(): void {
     this.items = Array.from(this.el.children);
+    this.sortableItems = this.getSortableItems();
     this.sortable.reset();
   }
 
   private beginObserving(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { attributes: true, childList: true, subtree: true });
   }
 
   private endObserving(): void {

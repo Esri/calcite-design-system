@@ -46,6 +46,8 @@ interface SortableManagerRecord {
   dropPosition?: DropPosition;
   dropCanceled: boolean;
   pendingReset: Set<SortableComponent>;
+  pendingPullOperations: Map<SortableComponent, "move" | "clone">;
+  acceptedPullOperations: Map<SortableComponent, "move" | "clone">;
   removeListeners: (() => void)[];
 }
 
@@ -266,7 +268,12 @@ function getAppendIndex(
   record: SortableManagerRecord,
   fromComponent: SortableComponent,
   toComponent: SortableComponent,
+  dragEl: HTMLElement,
 ): number {
+  if (toComponent.sortMode === "manual") {
+    return getSortableItems(toComponent).filter((item) => item !== dragEl).length;
+  }
+
   const itemCount = record.sortables.get(toComponent)?.size ?? getSortableItems(toComponent).length;
   return itemCount - Number(fromComponent === toComponent);
 }
@@ -333,7 +340,12 @@ function isDropEnabled(fromComponent: SortableComponent, toComponent: SortableCo
   return canTransferBetweenComponents(fromComponent, toComponent);
 }
 
-function canAcceptDrop(fromComponent: SortableComponent, toComponent: SortableComponent, detail: DragDetail): boolean {
+function canAcceptDrop(
+  fromComponent: SortableComponent,
+  toComponent: SortableComponent,
+  detail: DragDetail,
+  record?: SortableManagerRecord,
+): boolean {
   if (!isDropEnabled(fromComponent, toComponent, detail.dragEl)) {
     return false;
   }
@@ -345,6 +357,10 @@ function canAcceptDrop(fromComponent: SortableComponent, toComponent: SortableCo
   const pullResult = fromComponent.canPull?.(detail);
   const canPut = toComponent.canPut?.(detail) !== false;
   const canPull = pullResult !== false;
+
+  if (canPull && canPut && record?.activeDrag?.item === detail.dragEl && fromComponent.sortMode !== "manual") {
+    record.pendingPullOperations.set(toComponent, pullResult === "clone" ? "clone" : "move");
+  }
 
   return canPull && canPut;
 }
@@ -488,6 +504,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     alive: true,
     dropCanceled: false,
     pendingReset: new Set(),
+    pendingPullOperations: new Map(),
+    acceptedPullOperations: new Map(),
     removeListeners: [clearDragPreview],
   };
 
@@ -515,6 +533,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       return;
     }
 
+    record.pendingPullOperations.clear();
+    record.acceptedPullOperations.clear();
     record.components.forEach((component) => component.onGlobalDragEnd());
     flushPendingReset();
   };
@@ -570,7 +590,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
 
     const newIndex = targetSortable
       ? getDropIndex(record, toComponent, source.sortable, targetSortable, pointerPosition)
-      : getAppendIndex(record, fromComponent, toComponent);
+      : getAppendIndex(record, fromComponent, toComponent, dragEl);
     const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, source.initialIndex, newIndex);
     if (manual && !canAcceptDrop(fromComponent, toComponent, detail)) {
       return;
@@ -615,6 +635,12 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     ) {
       event.preventDefault();
       record.dropCanceled = true;
+      return;
+    }
+
+    const pullOperation = record.pendingPullOperations.get(toComponent);
+    if (pullOperation && (!record.acceptedPullOperations.has(toComponent) || dragEl.parentElement !== toComponent.el)) {
+      record.acceptedPullOperations.set(toComponent, pullOperation);
     }
   };
 
@@ -692,7 +718,12 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         if (fromComponent.sortMode === "manual") {
           setGlobalDragActive(false);
           const toComponent = !canceled && dropPosition ? dropPosition.component : fromComponent;
-          const newIndex = !canceled && dropPosition ? dropPosition.newIndex : oldIndex;
+          const newIndex =
+            !canceled && dropPosition
+              ? dropPosition.item
+                ? dropPosition.newIndex
+                : getAppendIndex(record, fromComponent, toComponent, dragEl)
+              : oldIndex;
           const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, oldIndex, newIndex);
 
           if (
@@ -749,7 +780,11 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, oldIndex, newIndex);
 
         const orderChanged = !canceled && (fromComponent !== toComponent || oldIndex !== newIndex);
-        if (orderChanged && fromComponent !== toComponent && fromComponent.canPull?.(detail) === "clone") {
+        if (
+          orderChanged &&
+          fromComponent !== toComponent &&
+          record.acceptedPullOperations.get(toComponent) === "clone"
+        ) {
           const clone = cloneSortableItem(dragEl);
           const cloneId = guid();
 
@@ -807,10 +842,10 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
         const { component: fromComponent, item: dragEl } = sourceData;
         const sourceSortable = record.sortables.get(fromComponent)?.get(dragEl);
         const oldIndex = sourceSortable?.initialIndex ?? 0;
-        const newIndex = getAppendIndex(record, fromComponent, component);
+        const newIndex = getAppendIndex(record, fromComponent, component, dragEl);
         const detail = makeDragDetail(fromComponent.el, component.el, dragEl, oldIndex, newIndex);
 
-        return canAcceptDrop(fromComponent, component, detail);
+        return canAcceptDrop(fromComponent, component, detail, record);
       },
     },
     record.manager,
@@ -847,7 +882,7 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
           const targetSortable = record.sortables.get(component)?.get(item);
           const newIndex = targetSortable ? getDropIndex(record, component, sourceSortable, targetSortable) : index;
           const detail = makeDragDetail(fromComponent.el, component.el, dragEl, oldIndex, newIndex);
-          return canAcceptDrop(fromComponent, component, detail);
+          return canAcceptDrop(fromComponent, component, detail, record);
         },
       },
       record.manager,

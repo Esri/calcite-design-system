@@ -453,6 +453,73 @@ describe("drag and drop", () => {
     expect(destinationChanged).toHaveBeenCalledTimes(1);
   });
 
+  it("preserves an accepted clone when canPull checks source ownership", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    source.canPull = ({ fromEl, dragEl }) => (fromEl.contains(dragEl) ? "clone" : false);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top");
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(destination.el.children).toHaveLength(2);
+    const clone = destination.el.firstElementChild;
+    expect(clone).not.toBe(draggedItem);
+    expect(clone?.textContent).toBe(draggedItem.textContent);
+  });
+
+  it("preserves an accepted clone while reordering within its destination", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = ({ fromEl, dragEl }) => (fromEl.contains(dragEl) ? "clone" : true);
+    const ended = vi.spyOn(source, "onDragEnd");
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(destination.el));
+
+    await dragAndDrop(handle, target, "bottom");
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(destination.el.children).toHaveLength(2);
+    const clone = destination.el.lastElementChild;
+    expect(clone).not.toBe(draggedItem);
+    expect(clone?.textContent).toBe(draggedItem.textContent);
+  });
+
+  it("preserves an accepted clone when a later proposal is vetoed", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    const { component: rejected } = await mount<SortableList>(
+      <calcite-sortable-list group="capacity" id="rejected">
+        <div id="three">
+          <calcite-handle />
+          Three
+        </div>
+      </calcite-sortable-list>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = ({ fromEl, dragEl, toEl }) =>
+      toEl === rejected.el ? true : fromEl.contains(dragEl) ? "clone" : false;
+    const ended = vi.spyOn(source, "onDragEnd");
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    await vi.waitFor(() => expect(draggedItem.parentElement).toBe(destination.el));
+    const vetoed = vi.fn((event: Event) => event.preventDefault());
+    rejected.el.addEventListener("calciteListBeforeOrderChange", vetoed);
+
+    await dragAndDrop(
+      handle,
+      page.elementLocator(rejected.el).getBySelector("#three").element(),
+      "top",
+    );
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(vetoed).toHaveBeenCalled();
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(destination.el.children).toHaveLength(2);
+    const clone = destination.el.firstElementChild;
+    expect(clone).not.toBe(draggedItem);
+    expect(clone?.textContent).toBe(draggedItem.textContent);
+  });
+
   it("transfers items with duplicate ids across component lists", async () => {
     const { component: source } = await mount<SortableList>(
       <calcite-sortable-list group="letters" id="duplicate-source">
@@ -1195,6 +1262,57 @@ describe("drag and drop", () => {
     expect(firstListOrderChangeCount).toBe(2);
     expect(secondListOrderChangeCount).toBe(1);
     expect(firstListLocator.getBySelector("div").first().element().id).toBe("d");
+  });
+
+  async function renderSelectorMembership() {
+    const { component } = await mount<SortableList>(
+      <calcite-sortable-list drag-selector=".sortable">
+        <div class="sortable" id="one">
+          <calcite-handle />
+          One
+        </div>
+        <div id="two">
+          <calcite-handle />
+          Two
+        </div>
+        <div class="sortable" id="three">
+          <calcite-handle />
+          Three
+        </div>
+      </calcite-sortable-list>,
+    );
+    const list = page.elementLocator(component.el);
+    const first = list.getBySelector("#one").element();
+    const second = list.getBySelector("#two").element();
+    const third = list.getBySelector("#three").element();
+    return { component, list, first, second, third };
+  }
+
+  it("registers an existing item when its class starts matching dragSelector", async () => {
+    const { component, list, first, second, third } = await renderSelectorMembership();
+    second.classList.add("sortable");
+    await afterNextFrame();
+    const changed = vi.fn();
+    component.el.addEventListener("calciteListOrderChange", changed);
+
+    await dragAndDrop(list.getBySelector("#two calcite-handle").element(), first, "top");
+
+    await vi.waitFor(() => expect(changed).toHaveBeenCalledTimes(1));
+    expect(Array.from(component.el.children)).toEqual([second, first, third]);
+  });
+
+  it("unregisters an existing item when its class stops matching dragSelector", async () => {
+    const { component, list, first, second, third } = await renderSelectorMembership();
+    first.classList.remove("sortable");
+    await afterNextFrame();
+    const changed = vi.fn();
+    component.el.addEventListener("calciteListOrderChange", changed);
+
+    await dragAndDrop(list.getBySelector("#one calcite-handle").element(), third, "bottom");
+    await afterNextFrame();
+
+    expect(changed).not.toHaveBeenCalled();
+    expect(Array.from(component.el.children)).toEqual([first, second, third]);
   });
 
   it("only reorders items matching dragSelector", async () => {

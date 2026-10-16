@@ -397,6 +397,10 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     destination.append(addedItem);
     await commands.mouseUp();
     await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+    expect(request.mock.calls[0][0].detail).toMatchObject({
+      toEl: destination,
+      newIndex: 1,
+    });
     expect(first.parentElement).toBe(source);
 
     const addedHandle = page.getBySelector("#added-destination calcite-sort-handle");
@@ -413,6 +417,49 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
       oldIndex: 0,
       newIndex: 0,
       operation: "move",
+    });
+  });
+
+  it("refreshes a manual container append index after a destination item is removed", async () => {
+    const { destination, handle, request } = await setup({ populateDestination: true });
+    onTestFinished(() => commands.mouseUp());
+    destination.style.paddingBlockEnd = "80px";
+    const item = page.getBySelector("#destination-item").element();
+    await dragAndDrop(handle, destination, "bottom", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#destination"))
+      .toHaveAttribute("data-calcite-sort-position", "inside");
+
+    item.remove();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+
+    expect(request.mock.calls[0][0].detail).toMatchObject({
+      toEl: destination,
+      newIndex: 0,
+    });
+  });
+
+  it("excludes the dragged item from a live same-container append index", async () => {
+    const { source, handle, request } = await setup();
+    onTestFinished(() => commands.mouseUp());
+    source.style.paddingBlockEnd = "80px";
+    await dragAndDrop(handle, source, "bottom", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector("#source"))
+      .toHaveAttribute("data-calcite-sort-position", "inside");
+    const added = document.createElement(
+      component === "list" ? "calcite-list-item" : "calcite-block",
+    );
+    added.setAttribute(component === "list" ? "label" : "heading", "Added");
+    source.append(added);
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1));
+
+    expect(request.mock.calls[0][0].detail).toMatchObject({
+      toEl: source,
+      oldIndex: 0,
+      newIndex: 3,
     });
   });
 
