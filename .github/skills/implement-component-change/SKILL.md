@@ -34,6 +34,8 @@ Prefer the repository's current patterns.
 
 If different patterns exist, determine which is newer or more appropriate before choosing one.
 
+Verify platform and accessibility assumptions using the standards resources and technical baseline in `.github/copilot-instructions.md`.
+
 ## 3. Choose the smallest appropriate change
 
 Prefer the simplest implementation that satisfies the requirement and fits existing architecture.
@@ -49,6 +51,8 @@ Avoid:
 
 If the work is becoming substantially larger than the original request, identify separable follow-up work rather than expanding scope automatically.
 
+Reassess added complexity using `AGENTS.md`'s "Prefer focused changes" guidance.
+
 ## 4. Implement
 
 Use explicit TypeScript types.
@@ -59,13 +63,17 @@ Use existing helpers and patterns where appropriate.
 
 Preserve native element behavior and accessibility semantics.
 
+Follow `AGENTS.md`'s "Prefer focused changes" guidance for exception handling and cleanup.
+
 ## 5. Test
 
 Add or update tests for observable behavior.
 
-Follow the browser-mode, locator, migration, determinism, and cleanup guidance in `AGENTS.md`.
+Follow the "Test behavior" guidance in `AGENTS.md`, including deprecated API coverage.
 
 Include regression coverage for bug fixes when practical.
+
+Use `AGENTS.md`'s "Consider performance" guidance to determine whether benchmarking belongs in the test plan.
 
 Avoid testing private implementation details unless they are the only meaningful contract being exercised.
 

@@ -23,7 +23,13 @@ Follow `AGENTS.md` and the repository's contributing, component, testing, and do
 - Keep components minimal and reusable. Do not add application-specific networking, routing, or state management unless an established convention supports it.
 - Give public APIs explicit TypeScript types and JSDoc. Avoid `any`.
 - Avoid browser-specific fixes; use feature detection when platform support varies.
-- When proposing a modern platform pattern based on changing browser support, provide an authoritative reference and wait for approval before applying it.
+
+## Technical baseline
+
+- Supported browsers are documented in `packages/components/README.md#browser-support`.
+- Calcite has three main releases each year, approximately in spring, summer, and fall. Evaluate the last-two-major-browser-versions baseline against the target release window, not each development milestone.
+- During development for a release, a browser API may be used if it will be supported in the last two major versions of each supported browser by that release. For example, an API meeting this baseline by summer may be used during the summer development cycle.
+- Verify browser support and release timing using authoritative references. Call out the target release and support evidence in reviews when useful, especially when support depends on the upcoming release window.
 
 ## Styling and stories
 
@@ -36,7 +42,7 @@ Follow `AGENTS.md` and the repository's contributing, component, testing, and do
 
 ## Testing mechanics
 
-- Follow the test-selection, locator, migration, and determinism guidance in `AGENTS.md`.
+- Follow the test-selection, locator, migration, determinism, cleanup, and deprecated API coverage guidance in `AGENTS.md`.
 - New component browser tests use `*.browser.e2e.tsx`; update legacy `*.e2e.ts` tests when a safe migration is not practical.
 - Reuse helpers from `packages/components/src/tests/common` and `packages/components/src/tests/utils`.
 - Keep tests focused on the changed behavior and avoid unrelated assertions or setup.
@@ -62,6 +68,7 @@ Start the component development server with `pnpm start:components`. Build the f
 ## Pull requests and communication
 
 - Pull requests should originate from a branch in the cloned repository rather than a fork because visual-test workflows require secrets.
+- Write and review PR titles using Conventional Commits and the rules in `CONTRIBUTING.md`. In `type(scope): description` (scope optional), the commit type and description are separate entities: apply descriptive-subject rules to the text after the colon, not the type or scope. This description is the title's subject, not the PR body.
 - Write review comments and PR text in a direct, collaborative, and specific tone.
 - Explain what should change and why without sounding absolute or dismissive.
 - When useful, prefix review comments with:
@@ -81,8 +88,9 @@ Start the component development server with `pnpm start:components`. Build the f
 - [Internationalization]
 - [Styling]
 - [Testing]
-
-Supported browsers are documented in `packages/components/README.md#browser-support`.
+- [W3C standards]
+- [WHATWG standards]
+- [WAI-ARIA Authoring Practices Guide (APG)]
 
 <!-- references -->
 
@@ -92,3 +100,6 @@ Supported browsers are documented in `packages/components/README.md#browser-supp
 [Internationalization]: https://github.com/Esri/calcite-design-system/wiki/Internationalization
 [Styling]: https://github.com/Esri/calcite-design-system/wiki/styling-conventions
 [Testing]: https://github.com/Esri/calcite-design-system/wiki/testing-conventions
+[W3C standards]: https://www.w3.org/TR/
+[WHATWG standards]: https://spec.whatwg.org/
+[WAI-ARIA Authoring Practices Guide (APG)]: https://www.w3.org/WAI/ARIA/apg/

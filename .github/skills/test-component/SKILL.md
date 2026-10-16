@@ -34,6 +34,14 @@ Direct DOM access is acceptable when a test primarily verifies API updates and l
 
 Reuse helpers from `packages/components/src/tests/common` and `packages/components/src/tests/utils`.
 
+## Preserve deprecated API coverage
+
+Apply the deprecated API coverage requirements in `AGENTS.md`'s "Test behavior" section to the affected paths.
+
+## Consider performance coverage
+
+Use `AGENTS.md`'s "Consider performance" guidance to decide whether to include benchmarks, then follow the `evaluate-performance` skill when warranted.
+
 ## Keep tests deterministic
 
 Wait for the behavior or state that matters.
@@ -44,7 +52,7 @@ Do not add optional chaining or guards simply to prevent a test from failing whe
 
 Allow unexpected conditions to fail clearly.
 
-Do not add `try`/`catch`/`finally` around known non-throwing APIs. For cleanup that must run when a test fails, prefer Vitest's `onTestFinished`. Before adding manual cleanup, consider whether the test can use scoped setup or an existing helper instead.
+Choose exception handling and cleanup using `AGENTS.md`'s "Prefer focused changes" guidance.
 
 ## Assert outcomes
 

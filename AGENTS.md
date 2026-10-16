@@ -30,9 +30,11 @@ For larger changes, identify independently useful pieces that can be implemented
 
 Do not introduce generalized abstractions based on a single use case unless there is strong evidence they improve the codebase.
 
+If a solution noticeably adds layers of abstraction, one-off utilities, or complex code, step back and reconsider whether a simpler approach can satisfy the requirement. Keep the codebase understandable and maintainable for both humans and agents.
+
 Do not use optional chaining, defensive guards, casts, or fallback behavior to hide unexpected states. Handle states explicitly when they are genuinely expected; otherwise, allow failures to expose incorrect assumptions.
 
-Do not wrap known non-throwing APIs in `try`/`catch`/`finally`. Use the control flow and cleanup mechanism designed for the task; in Vitest, prefer `onTestFinished` for per-test cleanup that must run after a failure. Consider whether setup can avoid manual cleanup before adding exception handling.
+Do not wrap known non-throwing APIs in `try`/`catch`/`finally` as an extra precaution. Use exception handling intentionally for operations that can throw. Use the control flow and cleanup mechanism designed for the task; in Vitest, prefer `onTestFinished` for per-test cleanup that must run after a failure. Consider whether setup can avoid manual cleanup before adding exception handling.
 
 ### Follow established patterns
 
@@ -77,6 +79,8 @@ Accessibility behavior is part of component correctness, not an optional enhance
 
 When behavior depends on a platform or accessibility specification, verify the relevant specification or authoritative documentation rather than relying only on assumptions.
 
+Use the standards resources and release-window technical baseline in `.github/copilot-instructions.md` during development and review.
+
 ### Test behavior
 
 Tests should primarily verify observable behavior.
@@ -99,7 +103,13 @@ If an existing Node test cannot be safely and reliably migrated under these cons
 
 When fixing a bug, add or update a test that demonstrates the regression whenever practical.
 
+For changes affecting deprecated APIs, retain coverage for the deprecated path as well as its recommended replacement while both remain supported. Where applicable, use parameterized tests such as `it.for` or `it.each` so the same tests run independently for each path.
+
+Do not exercise both paths in a single test in a way that lets one path mask failures in the other.
+
 ### Consider performance
+
+Consider performance during development and test planning according to the nature of the work. Include representative benchmarks when changes could meaningfully affect initialization, rendering, interaction, or scaling; not every change requires a benchmark.
 
 Be cautious when introducing work that scales with:
 

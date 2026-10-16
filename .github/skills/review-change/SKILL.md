@@ -14,6 +14,10 @@ Confirm the diff addresses the stated problem and use case.
 
 Call out behavior that appears unrelated to the request.
 
+## PR title
+
+Verify the title against the PR title guidance in `.github/copilot-instructions.md` and the contribution rules it references.
+
 ## Correctness
 
 Look for:
@@ -24,7 +28,7 @@ Look for:
 - lifecycle issues
 - unexpected fallback behavior
 - unnecessary defensive code
-- exception handling around known non-throwing APIs
+- exception handling inconsistent with `AGENTS.md`'s "Prefer focused changes" guidance
 - incorrect DOM or platform assumptions
 
 ## Architecture
@@ -32,6 +36,14 @@ Look for:
 Check whether the implementation follows current Calcite patterns.
 
 Flag unnecessary abstractions or new patterns when an established approach exists.
+
+Apply `AGENTS.md`'s "Prefer focused changes" guidance when assessing added complexity.
+
+## Technical baseline and standards
+
+Verify browser compatibility against the technical baseline in `.github/copilot-instructions.md`; request target-release support evidence when needed.
+
+Use its standards resources to verify platform and accessibility assumptions.
 
 ## API
 
@@ -49,7 +61,9 @@ Identify important behavior that is untested.
 
 Flag tests that primarily reproduce implementation details.
 
-Flag manual `try`/`catch`/`finally` cleanup when a test-runner cleanup API such as Vitest's `onTestFinished`, scoped setup, or an existing helper is more appropriate.
+Check cleanup against `AGENTS.md`'s "Prefer focused changes" guidance.
+
+Verify affected deprecated APIs satisfy `AGENTS.md`'s "Test behavior" coverage requirements.
 
 ## Performance
 
@@ -57,11 +71,11 @@ Look for new work that scales with component count, item count, or DOM size.
 
 Pay particular attention to global listeners, observers, controllers, repeated selectors, and layout-sensitive operations.
 
-Request measurements when a meaningful performance impact is plausible.
+Assess whether measurements are needed using `AGENTS.md`'s "Consider performance" guidance; use the `evaluate-performance` skill when benchmarking is warranted.
 
 ## Maintainability
 
-Prefer implementations another contributor can understand without reconstructing hidden assumptions.
+Prefer implementations humans and agents can understand and maintain without reconstructing hidden assumptions.
 
 The author should be able to explain the implementation and its tradeoffs independently of generated output.
 
