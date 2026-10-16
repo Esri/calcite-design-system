@@ -143,6 +143,10 @@ export class ActionBar extends LitElement {
 
   private actionsEndGroups: ActionGroup["el"][] = [];
 
+  private automaticallyOverflowedActions: Action["el"][] = [];
+
+  private authoredMenuActions: Action["el"][] = [];
+
   private overflowPassId = 0;
 
   // Suppresses the temporary actions-change event emitted while an overflow pass is mutating a group.
@@ -521,7 +525,7 @@ export class ActionBar extends LitElement {
       this.handleActionMenuActionsChange,
     );
     this.listen("click", this.handleFocusIn);
-    this.listen("keydown", this.handleKeyDown);
+    this.listen("keydown", this.handleKeyDown, { capture: true });
     this.listen("focusin", this.handleFocusIn);
   }
 
@@ -736,6 +740,26 @@ export class ActionBar extends LitElement {
     overflowCount: number;
   }): void {
     const overflowPassId = ++this.overflowPassId;
+    const directActions = actionGroups.flatMap((group) =>
+      group.actions.filter((action) => action.parentElement === group),
+    );
+
+    this.automaticallyOverflowedActions = this.automaticallyOverflowedActions.filter((action) =>
+      directActions.includes(action),
+    );
+    this.authoredMenuActions = this.authoredMenuActions.filter((action) =>
+      directActions.includes(action),
+    );
+
+    directActions.forEach((action) => {
+      if (
+        action.slot === ACTION_GROUP_SLOTS.menuActions &&
+        !this.automaticallyOverflowedActions.includes(action) &&
+        !this.authoredMenuActions.includes(action)
+      ) {
+        this.authoredMenuActions.push(action);
+      }
+    });
 
     const slotStateByGroup = new Map<ActionGroup["el"], string>();
     actionGroups.forEach((group) => {
@@ -748,6 +772,15 @@ export class ActionBar extends LitElement {
       expanded,
       overflowCount,
     });
+
+    this.authoredMenuActions.forEach((action) => {
+      action.slot = ACTION_GROUP_SLOTS.menuActions;
+    });
+    this.automaticallyOverflowedActions = directActions.filter(
+      (action) =>
+        action.slot === ACTION_GROUP_SLOTS.menuActions &&
+        !this.authoredMenuActions.includes(action),
+    );
 
     actionGroups.forEach((group) => {
       const directActions = group.actions.filter((action) => action.parentElement === group);
@@ -908,10 +941,12 @@ export class ActionBar extends LitElement {
 
   private handleActionsEndSlotChange(): void {
     this.syncSlotAndActions(() => this.syncActionsEndSlot());
+    this.syncNavigationItemTabIndexes();
   }
 
   private handleActionsStartSlotChange(): void {
     this.syncSlotAndActions(() => this.syncActionsStartSlot());
+    this.syncNavigationItemTabIndexes();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -933,43 +968,25 @@ export class ActionBar extends LitElement {
   }
 
   private updateNavigationItems(): void {
-    const navigationItems: Array<Action["el"] | ActionMenu["el"]> = [];
-    const internalStartGroup = this.actionsStartGroupRef.value;
-    const internalEndGroup = this.actionsEndGroupRef.value;
+    this.navigationItems = [
+      ...this.getNavigationItems(this.actionsStart),
+      ...this.getNavigationItems(this.defaultSlotItems),
+      ...this.getNavigationItems(this.actionsEnd),
+    ];
+  }
 
-    if (internalStartGroup) {
-      navigationItems.push(...this.getActionGroupNavigationItems(internalStartGroup));
-    }
-
-    this.defaultSlotItems.forEach((child) => {
-      if (isAction(child)) {
-        if (this.isNavigableAction(child)) {
-          navigationItems.push(child);
-        }
-        return;
+  private getNavigationItems(items: ActionBarItem[]): Array<Action["el"] | ActionMenu["el"]> {
+    return items.flatMap((item) => {
+      if (isAction(item)) {
+        return this.isNavigableAction(item) ? [item] : [];
       }
 
-      if (isActionMenu(child)) {
-        const actionMenu = child;
-
-        if (this.isNavigableActionMenu(actionMenu)) {
-          navigationItems.push(actionMenu);
-        }
-        return;
+      if (isActionMenu(item)) {
+        return this.isNavigableActionMenu(item) ? [item] : [];
       }
 
-      if (isActionGroup(child)) {
-        const actionGroup = child;
-
-        navigationItems.push(...this.getActionGroupNavigationItems(actionGroup));
-      }
+      return this.getActionGroupNavigationItems(item);
     });
-
-    if (internalEndGroup) {
-      navigationItems.push(...this.getActionGroupNavigationItems(internalEndGroup));
-    }
-
-    this.navigationItems = navigationItems;
   }
 
   private getActionGroupNavigationItems(
@@ -985,7 +1002,11 @@ export class ActionBar extends LitElement {
       "calcite-action-menu",
     ).filter((actionMenu) => this.isNavigableActionMenu(actionMenu));
     const navigationItems = [...actions, ...actionMenus].sort((itemA, itemB) =>
-      itemA.compareDocumentPosition(itemB) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
+      itemA === itemB
+        ? 0
+        : itemA.compareDocumentPosition(itemB) & Node.DOCUMENT_POSITION_FOLLOWING
+          ? -1
+          : 1,
     );
 
     const { actionMenu } = actionGroup;
@@ -1209,7 +1230,11 @@ export class ActionBar extends LitElement {
         event.preventDefault();
         break;
       case "Tab":
-        this.setNavigationItemTabIndexes(current);
+        if (
+          !event.composedPath().some((element) => isAction(element) && element.role === "menuitem")
+        ) {
+          this.setNavigationItemTabIndexes(current);
+        }
         break;
     }
   }
@@ -1223,8 +1248,8 @@ export class ActionBar extends LitElement {
       return false;
     }
 
-    const menuFirstItemOpenKey = isVertical ? "ArrowRight" : "ArrowUp";
-    const menuLastItemOpenKey = isVertical ? "ArrowLeft" : "ArrowDown";
+    const menuFirstItemOpenKey = isVertical ? "ArrowRight" : "ArrowDown";
+    const menuLastItemOpenKey = isVertical ? "ArrowLeft" : "ArrowUp";
 
     if (event.key !== menuFirstItemOpenKey && event.key !== menuLastItemOpenKey) {
       return false;
@@ -1257,12 +1282,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    const menuActions = actionMenu.actions.filter(
-      (action) => action.role === "menuitem" && !action.disabled && !action.hidden,
-    );
-    const action = boundary === "first" ? menuActions[0] : menuActions[menuActions.length - 1];
-
-    await action?.setFocus({ preventScroll: true });
+    await actionMenu.setFocusToBoundary(boundary, { preventScroll: true });
   }
 
   private handleFocusIn(event: FocusEvent | MouseEvent): void {

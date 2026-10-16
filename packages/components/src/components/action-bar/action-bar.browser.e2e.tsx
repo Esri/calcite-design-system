@@ -775,6 +775,78 @@ describe("overflowing actions", () => {
     expect(overflowedInActionsEndGroup.length).toBeGreaterThan(0);
   });
 
+  it("restores automatic overflow when selection mode changes and preserves explicit menu actions", async () => {
+    const { reRender } = await mount<ActionBar>(
+      <calcite-action-bar expanded style={{ height: "140px" }}>
+        <calcite-action-group data-testid="selection-group">
+          <calcite-action
+            data-testid="explicit-menu-action"
+            icon="star"
+            slot="menu-actions"
+            text="Favorite"
+          />
+          <calcite-action data-testid="feedback-action" icon="speech-bubble-plus" text="Feedback" />
+          <calcite-action data-testid="next-action" icon="plus-square" text="What's next" />
+          <calcite-action data-testid="news-action" icon="banana" text="News" />
+          <calcite-action data-testid="info-action" icon="information" text="Info" />
+          <calcite-action data-testid="settings-action" icon="gear" text="Settings" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const group = page.getByTestId("selection-group").element() as ActionGroup["el"];
+    const explicitMenuAction = page.getByTestId("explicit-menu-action");
+    const overflowCandidates = [
+      page.getByTestId("feedback-action"),
+      page.getByTestId("next-action"),
+      page.getByTestId("news-action"),
+      page.getByTestId("info-action"),
+      page.getByTestId("settings-action"),
+    ];
+    const automaticMenuActionCount = (): number =>
+      overflowCandidates.filter((action) => action.element().slot === "menu-actions").length;
+
+    expect(automaticMenuActionCount()).toBeGreaterThan(0);
+
+    group.selectionMode = "multiple";
+    await reRender();
+
+    await expect.poll(automaticMenuActionCount).toBe(0);
+    await expect.element(explicitMenuAction).toHaveAttribute("slot", "menu-actions");
+    await expect.element(page.getByRole("button", { name: "More" })).toBeVisible();
+  });
+
+  it("keeps explicit menu actions keyboard reachable when overflow is disabled", async () => {
+    const { el, reRender } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled>
+        <calcite-action-group data-testid="overflow-disabled-group">
+          <calcite-action data-testid="visible-action" icon="plus" text="Add" />
+          <calcite-action
+            data-testid="explicit-menu-action"
+            icon="star"
+            slot="menu-actions"
+            text="Favorite"
+          />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const group = page.getByTestId("overflow-disabled-group").element() as ActionGroup["el"];
+    const explicitMenuAction = page.getByTestId("explicit-menu-action");
+
+    group.overflowActionsDisabled = true;
+    await el.overflowActions();
+    await reRender();
+
+    await expect.element(explicitMenuAction).toHaveAttribute("slot", "menu-actions");
+    await expect.element(page.getByRole("button", { name: "More" })).toBeVisible();
+
+    await userEvent.keyboard("{Tab}{End}{ArrowRight}");
+    await expect.element(explicitMenuAction).toHaveFocus();
+  });
+
   it("accounts for wrapped section gaps when expand-toggle-disabled is true", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar expand-toggle-disabled expanded style={{ height: "320px" }}>
@@ -1140,6 +1212,47 @@ describe("per-group overflow-actions-disabled", () => {
     await expect.element(actionMenu).not.toHaveAttribute("tabindex");
   });
 
+  it("includes grouped actions and menus in named-slot navigation", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled layout="horizontal">
+        <calcite-action-group slot={SLOTS.actionsStart}>
+          <calcite-action data-testid="start-action" icon="number-circle1" text="start action" />
+          <calcite-action-menu data-testid="start-menu" label="Start menu">
+            <calcite-action icon="number-circle2" text="start menu action" />
+          </calcite-action-menu>
+        </calcite-action-group>
+        <calcite-action data-testid="default-action" icon="number-circle3" text="default action" />
+        <calcite-action-group slot={SLOTS.actionsEnd}>
+          <calcite-action data-testid="end-action" icon="number-circle4" text="end action" />
+          <calcite-action-menu data-testid="end-menu" label="End menu">
+            <calcite-action icon="number-circle5" text="end menu action" />
+          </calcite-action-menu>
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const navigationItems = [
+      page.getByTestId("start-action"),
+      page.getByTestId("start-menu"),
+      page.getByTestId("default-action"),
+      page.getByTestId("end-action"),
+      page.getByTestId("end-menu"),
+    ];
+
+    await expect.element(navigationItems[0]).not.toHaveAttribute("tabindex");
+
+    for (const item of navigationItems.slice(1)) {
+      await expect.element(item).toHaveAttribute("tabindex", "-1");
+    }
+
+    await userEvent.keyboard("{Tab}");
+
+    for (const item of navigationItems.slice(1)) {
+      await userEvent.keyboard("{ArrowRight}");
+      await expect.element(item).toHaveFocus();
+    }
+  });
+
   it("supports keyboard navigation after focus moves to another action bar", async () => {
     await mount(
       <>
@@ -1240,6 +1353,32 @@ describe("per-group overflow-actions-disabled", () => {
 
     await userEvent.keyboard("{Enter}");
     expect(actionMenu.open).toBe(true);
+  });
+
+  it("reserves primary-axis arrows for navigation from a default-placement action menu", async () => {
+    await mount(
+      <calcite-action-bar expand-disabled>
+        <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
+        <calcite-action-menu data-testid="action-menu" label="more">
+          <calcite-action data-testid="menu-action" icon="number-circle2" text="menu action" />
+        </calcite-action-menu>
+        <calcite-action data-testid="last-action" icon="number-circle3" text="last" />
+      </calcite-action-bar>,
+    );
+
+    const actionMenu = page.getByTestId("action-menu");
+    const lastAction = page.getByTestId("last-action");
+    const menuAction = page.getByTestId("menu-action");
+
+    await userEvent.keyboard("{Tab}{ArrowDown}");
+    await expect.element(actionMenu).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(lastAction).toHaveFocus();
+    await expect.element(actionMenu).not.toHaveAttribute("open");
+
+    await userEvent.keyboard("{ArrowUp}{ArrowRight}");
+    await expect.element(menuAction).toHaveFocus();
   });
 
   it("opens a focused overflow action menu at its last item in a vertical action bar", async () => {

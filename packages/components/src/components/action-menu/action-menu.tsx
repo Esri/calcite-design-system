@@ -95,11 +95,17 @@ export class ActionMenu extends LitElement {
 
   private menuButtonId = IDS.button(this.guid);
 
+  private handleDocumentMouseDown = (event: MouseEvent): void => {
+    if (this.open && !event.composedPath().includes(this.el)) {
+      this.focusMenuButtonOnClose = false;
+    }
+  };
+
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
+    const { defaultPrevented, key } = event;
     const { navigableActions } = this;
 
-    if (!navigableActions.length) {
+    if (defaultPrevented || !navigableActions.length) {
       return;
     }
 
@@ -114,7 +120,6 @@ export class ActionMenu extends LitElement {
     if (!supportedOpenKeys || !this.isValidKey(key, supportedOpenKeys)) {
       return;
     }
-    event.preventDefault();
     event.preventDefault();
     this.toggleOpen(true);
     this.activeMenuItemIndex =
@@ -316,6 +321,21 @@ export class ActionMenu extends LitElement {
     return this.focusSetter(() => this.menuButtonEl || this.el, options);
   }
 
+  /**
+   * Sets focus on the first or last action in the open menu.
+   *
+   * @private
+   */
+  @method()
+  async setFocusToBoundary(boundary: "first" | "last", options?: FocusOptions): Promise<void> {
+    if (!this.open || !this.navigableActions.length) {
+      return;
+    }
+
+    this.activeMenuItemIndex = boundary === "first" ? 0 : this.navigableActions.length - 1;
+    return this.setFocus(options);
+  }
+
   //#endregion
 
   //#region Events
@@ -347,6 +367,7 @@ export class ActionMenu extends LitElement {
   override connectedCallback(): void {
     this.connectMenuButtonEl();
     this.listen("mousedown", this.mouseDownHandler);
+    this.listenOn(document, "mousedown", this.handleDocumentMouseDown);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

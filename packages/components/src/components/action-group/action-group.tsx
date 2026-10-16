@@ -270,6 +270,12 @@ export class ActionGroup extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.get("selectionMode") !== undefined) {
+      void this.updateComplete.then(() => this.calciteInternalActionGroupActionsChange.emit());
+    }
+  }
+
   //#endregion
 
   //#region Private Methods
@@ -453,7 +459,7 @@ export class ActionGroup extends LitElement {
         flipPlacements={
           menuFlipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
         }
-        hidden={!hasMenuActions || this.overflowActionsDisabled}
+        hidden={!hasMenuActions}
         label={messages.more}
         oncalciteActionMenuOpen={this.setMenuOpen}
         open={menuOpen}
