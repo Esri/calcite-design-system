@@ -1,13 +1,12 @@
-:host(.calcite-sortable--chosen),
-:host(.calcite-sortable--drag),
-:host(.calcite-sortable--fallback),
-:host(.calcite-sortable--ghost) {
+:host([data-dnd-dragging]),
+:host([data-dnd-placeholder]) {
   position: relative;
   overflow: hidden;
 }
 
-:host(.calcite-sortable--ghost)::before {
+:host([data-dnd-placeholder])::before {
   content: "";
+  visibility: visible;
   @apply box-border
       border
       border-dashed
@@ -21,6 +20,6 @@
       z-default;
 }
 
-:host(.calcite-sortable--drag) {
+:host([data-dnd-dragging]) {
   @apply shadow-2;
 }
