@@ -366,10 +366,11 @@ export class Panel extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
+   * When `true`, the panel is rendered by `calcite-flow-item`.
+   *
    * @private
    */
-  @property({ reflect: true }) focusTrapEnabled = false;
+  @property() isFlowItem = false;
 
   /**
    * Specifies custom focus trap configuration on the component.
@@ -495,8 +496,8 @@ export class Panel extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (changes.has("focusTrapEnabled") || changes.has("closable") || changes.has("closed")) {
-      if (!this.closed && this.closable && this.focusTrapEnabled) {
+    if (changes.has("closable") || changes.has("closed") || changes.has("isFlowItem")) {
+      if (this.hasDialogBehavior) {
         this.focusTrapController.activate();
       } else {
         this.focusTrapController.deactivate();
@@ -514,7 +515,11 @@ export class Panel extends LitElement {
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
   focusTrapDisabledOverride(): boolean {
-    return !this.focusTrapEnabled || !this.closable || this.closed;
+    return !this.hasDialogBehavior;
+  }
+
+  private get hasDialogBehavior(): boolean {
+    return !this.closed && (this.closable || this.isFlowItem);
   }
 
   private async setClosedState(value: boolean): Promise<void> {
@@ -992,8 +997,8 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed, heading, description, focusTrapEnabled, closable } = this;
-    const hasDialogRole = focusTrapEnabled && closable;
+    const { disabled, loading, closed, heading, description } = this;
+    const hasDialogRole = this.hasDialogBehavior;
 
     const panelNode = (
       <div

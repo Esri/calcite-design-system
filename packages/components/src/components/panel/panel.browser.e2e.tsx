@@ -150,10 +150,6 @@ describe("defaults", () => {
         propertyName: "iconFlipRtl",
         defaultValue: false,
       },
-      {
-        propertyName: "focusTrapEnabled",
-        defaultValue: false,
-      },
     ],
   );
 });
@@ -233,10 +229,6 @@ describe("reflects", () => {
       {
         propertyName: "iconFlipRtl",
         value: "true",
-      },
-      {
-        propertyName: "focusTrapEnabled",
-        value: true,
       },
     ],
   );
@@ -760,15 +752,8 @@ describe("deprecated", () => {
 });
 
 describe("focus trap", () => {
-  it("applies dialog semantics only when focus trap is enabled", async () => {
-    const { component } = await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Panel heading" }))
-      .not.toBeInTheDocument();
-
-    component.el.focusTrapEnabled = true;
-
+  it("applies dialog semantics when closable", async () => {
+    await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
   });
 
@@ -800,10 +785,10 @@ describe("focus trap", () => {
     expect(closeEventCount).toBe(0);
   });
 
-  it("deactivates focus trap and dialog semantics when focusTrapEnabled is set to false", async () => {
+  it("deactivates focus trap and dialog semantics when closable is set to false", async () => {
     const { component } = await mount<Panel>(
       <>
-        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+        <calcite-panel closable heading="Panel heading">
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-panel>
@@ -816,7 +801,7 @@ describe("focus trap", () => {
 
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
 
-    component.el.focusTrapEnabled = false;
+    component.el.closable = false;
 
     await expect
       .element(page.getByRole("dialog", { name: "Panel heading" }))
@@ -836,7 +821,7 @@ describe("focus trap", () => {
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
     const { component } = await mount<Panel>(
       <>
-        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+        <calcite-panel closable heading="Panel heading">
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-panel>
