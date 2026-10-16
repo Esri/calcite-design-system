@@ -250,14 +250,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     commitValue: () => this.commitInlineEditingValue(),
     setFocus: async (source) => {
       await this.setFocus();
-      const input = this.childRef.value;
-      if (
-        source === INLINE_EDIT_ACTIVATION_SOURCE.editButton &&
-        input &&
-        input.selectionStart !== null
-      ) {
-        input.setSelectionRange(input.value.length, input.value.length);
-      }
+      this.inlineEditManager.setCaretPosition(this.childRef.value, source);
     },
     emitCancel: () => {
       this.calciteInputTextInlineEditingCancel.emit();

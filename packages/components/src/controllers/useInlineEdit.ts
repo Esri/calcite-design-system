@@ -31,6 +31,12 @@ export class UseInlineEdit {
     this.options.emitEnableEditingChange();
   }
 
+  setCaretPosition(input: HTMLInputElement | undefined, source: InlineEditActivationSource): void {
+    if (source === INLINE_EDIT_ACTIVATION_SOURCE.editButton && input && input.selectionStart !== null) {
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  }
+
   captureValuePriorToEditing(): void {
     this.valuePriorToEditing = this.options.getValue();
   }

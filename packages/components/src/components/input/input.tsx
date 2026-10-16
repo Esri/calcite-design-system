@@ -283,13 +283,7 @@ export class Input
     setFocus: async (source) => {
       await this.setFocus();
       const input = this.type === "number" ? this.childNumberRef.value : this.childRef.value;
-      if (
-        source === INLINE_EDIT_ACTIVATION_SOURCE.editButton &&
-        input &&
-        input.selectionStart !== null
-      ) {
-        input.setSelectionRange(input.value.length, input.value.length);
-      }
+      this.inlineEditManager.setCaretPosition(input, source);
     },
     emitCancel: () => {
       this.calciteInputInlineEditingCancel.emit();

@@ -274,14 +274,7 @@ export class InputNumber
     commitValue: () => this.commitInlineEditingValue(),
     setFocus: async (source) => {
       await this.setFocus();
-      const input = this.childNumberRef.value;
-      if (
-        source === INLINE_EDIT_ACTIVATION_SOURCE.editButton &&
-        input &&
-        input.selectionStart !== null
-      ) {
-        input.setSelectionRange(input.value.length, input.value.length);
-      }
+      this.inlineEditManager.setCaretPosition(this.childNumberRef.value, source);
     },
     emitCancel: () => {
       this.calciteInputNumberInlineEditingCancel.emit();
