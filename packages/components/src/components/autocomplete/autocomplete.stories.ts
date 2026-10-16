@@ -606,3 +606,25 @@ export const kitchenSink = (): string => kitchenSinkHTML;
 export const kitchenSinkDarkRTL = (): string => `<div dir="rtl">${kitchenSinkHTML}</div>`;
 
 kitchenSinkDarkRTL.parameters = { themes: modesDarkDefault };
+
+export const withHeadingAndDescriptionSlottedText = (): string =>
+  html`<calcite-autocomplete style="width: 125px;" name="fruits" placeholder="Select a fruit">
+    <calcite-autocomplete-item value="1">
+      <calcite-text slot="heading" truncate-position="end">a_great_shapefile_1</calcite-text>
+      <calcite-text slot="description" truncate-position="end">a_great_shapefile_1_description </calcite-text>
+    </calcite-autocomplete-item>
+    <calcite-autocomplete-item value="2">
+      <calcite-text slot="heading" truncate-position="middle">a_great_shapefile_2</calcite-text>
+      <calcite-text slot="description" truncate-position="middle"
+        >a_great_shapefile_2_description
+      </calcite-text></calcite-autocomplete-item
+    >
+    <calcite-autocomplete-item value="3">
+      <calcite-text slot="heading">a_great_shapefile_3</calcite-text>
+      <calcite-text slot="description">a_great_shapefile_3_description </calcite-text></calcite-autocomplete-item
+    >
+    <calcite-autocomplete-item value="4">
+      <calcite-text slot="heading" max-lines="1">a_great_shapefile_4</calcite-text>
+      <calcite-text slot="description" max-lines="1">a_great_shapefile_4_description </calcite-text>
+    </calcite-autocomplete-item>
+  </calcite-autocomplete>`;
