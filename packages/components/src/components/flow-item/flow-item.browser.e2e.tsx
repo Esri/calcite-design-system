@@ -120,10 +120,6 @@ describe("defaults", () => {
         propertyName: "showBackButton",
         defaultValue: false,
       },
-      {
-        propertyName: "focusTrapEnabled",
-        defaultValue: false,
-      },
     ],
   );
 });
@@ -185,10 +181,6 @@ describe("reflects", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
-      },
-      {
-        propertyName: "focusTrapEnabled",
-        value: true,
       },
     ],
   );
@@ -380,43 +372,14 @@ describe("theme", () => {
 });
 
 describe("focus trap", () => {
-  it("passes focusTrapEnabled to the internal panel", async () => {
-    const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable heading="Flow heading" selected />,
-    );
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Flow heading" }))
-      .not.toBeInTheDocument();
-
-    component.el.focusTrapEnabled = true;
-
+  it("applies dialog semantics when not closable", async () => {
+    await mount<FlowItem>(<calcite-flow-item heading="Flow heading" selected />);
     await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
-  });
-
-  it("reflects focusTrapEnabled through internal panel semantics", async () => {
-    const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable heading="Flow heading" selected />,
-    );
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Flow heading" }))
-      .not.toBeInTheDocument();
-
-    component.el.focusTrapEnabled = true;
-
-    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
-
-    component.el.focusTrapEnabled = false;
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Flow heading" }))
-      .not.toBeInTheDocument();
   });
 
   it("supports focus trap behavior through keyboard interaction", async () => {
     const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
+      <calcite-flow-item closable heading="Flow heading" selected>
         <button type="button">inside one</button>
         <button type="button">inside two</button>
       </calcite-flow-item>,
@@ -444,7 +407,7 @@ describe("focus trap", () => {
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
     const { el } = await mount<FlowItem>(
       <>
-        <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
+        <calcite-flow-item closable heading="Flow heading" selected>
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-flow-item>
