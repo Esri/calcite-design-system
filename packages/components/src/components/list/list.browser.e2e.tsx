@@ -982,6 +982,169 @@ describe("themed", () => {
 });
 
 describe("drag and drop", () => {
+  const renderSingleItemCopyDestination = async (fixedHeight = false) => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { component: source } = await mount<List>(
+      <div style="display: flex; gap: 40px">
+        <calcite-list drag-enabled group="copies" id="source" label="Source" style="width: 240px">
+          <calcite-list-item id="source-item" label="Source item" />
+        </calcite-list>
+        <calcite-list
+          drag-enabled
+          group="copies"
+          id="destination"
+          label="Destination"
+          style="width: 240px; min-block-size: 160px"
+        >
+          <calcite-list-item
+            id="destination-item"
+            label="Destination item"
+            style={fixedHeight ? "block-size: 48px; box-sizing: border-box" : undefined}
+          />
+          {fixedHeight && <calcite-list-item id="following-item" label="Following item" />}
+        </calcite-list>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const handle = page.getBySelector("#source-item calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    return {
+      destination: page.getBySelector("#destination"),
+      handle,
+      itemHeight: page.getBySelector("#source-item").element().getBoundingClientRect().height,
+      target: page.getBySelector("#destination-item"),
+    };
+  };
+
+  it("keeps fixed-height copy targets clear of following items", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination(true);
+    const following = page.getBySelector("#following-item");
+
+    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    expect(target.getByRole("row").element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+      following.element().getBoundingClientRect().top,
+    );
+    expect(target.element().getBoundingClientRect().height).toBe(48);
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    expect(gap.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+      target.element().getBoundingClientRect().top,
+    );
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Source item", "Destination item", "Following item"]);
+    await expect.element(gap).not.toBeInTheDocument();
+  });
+
+  it("shows append feedback after the single item instead of covering it", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+
+    await dragAndDrop(handle.element(), destination.element(), "bottom", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const indicator = getComputedStyle(gap.element());
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(indicator.borderStyle).toBe("dashed");
+    expect(indicator.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      target.element().getBoundingClientRect().bottom,
+    );
+    await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Destination item", "Source item"]);
+    await expect.element(target).not.toHaveAttribute("data-calcite-sort-position");
+    await expect.element(gap).not.toBeInTheDocument();
+  });
+
+  it("copies before the single item in a destination", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+
+    await dragAndDrop(handle.element(), target.element(), "bottom", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    const bounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const indicator = getComputedStyle(gap.element());
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(indicator.borderStyle).toBe("dashed");
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+      target.element().getBoundingClientRect().top,
+    );
+    const contentBounds = target.getByRole("row").element().getBoundingClientRect();
+    await commands.mouseMove(contentBounds.left + contentBounds.width / 2, contentBounds.top + 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Source item", "Destination item"]);
+  });
+
+  it("copies after the single item in a destination", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+
+    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    const bounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const indicator = getComputedStyle(gap.element());
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(indicator.borderStyle).toBe("dashed");
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      target.element().getBoundingClientRect().bottom,
+    );
+    const contentBounds = target.getByRole("row").element().getBoundingClientRect();
+    await commands.mouseMove(
+      contentBounds.left + contentBounds.width / 2,
+      contentBounds.bottom - 1,
+    );
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Destination item", "Source item"]);
+  });
+
   it("does not copy when returning over another item in a sort-disabled source", async () => {
     vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const { component: source } = await mount<List>(

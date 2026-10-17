@@ -31,6 +31,8 @@ interface ActiveDrag {
 
 interface DropPosition {
   component: SortableComponent;
+  copyPlaceholder?: HTMLElement;
+  indicatorTarget?: HTMLElement;
   item?: HTMLElement;
   newIndex: number;
   placement?: "before" | "after";
@@ -64,6 +66,7 @@ const managerRecords = new WeakMap<Document, SortableManagerRecord>();
 const componentGroupIds = new WeakMap<SortableComponent, string>();
 const sortableItemIds = new WeakMap<HTMLElement, string>();
 const sortPositionAttribute = "data-calcite-sort-position";
+const copyPlaceholderAttribute = "data-calcite-sort-placeholder";
 const placeholderHeightProperty = "--calcite-internal-sortable-placeholder-height";
 
 /** Specifies whether Calcite or the application manages sortable item order. */
@@ -359,19 +362,26 @@ function getDropIndex(
       ? record.manager.dragOperation.position.current
       : (record.manager.dragOperation.shape?.current.center ?? record.manager.dragOperation.position.current));
   const targetShape = targetSortable.droppable.shape;
+  let center = targetShape?.center;
+  const targetItem = targetSortable.element;
+  if (targetItem instanceof HTMLElement && targetItem.hasAttribute(copyPlaceholderAttribute)) {
+    const bounds = targetItem.getBoundingClientRect();
+    center = {
+      x: bounds.left + bounds.width / 2,
+      y: bounds.top + bounds.height / 2,
+    };
+  }
   const horizontal =
     toComponent.layout === "horizontal" ||
-    (toComponent.layout === "grid" &&
-      !!targetShape &&
-      Math.abs(position.x - targetShape.center.x) > Math.abs(position.y - targetShape.center.y));
+    (toComponent.layout === "grid" && !!center && Math.abs(position.x - center.x) > Math.abs(position.y - center.y));
   const rightToLeft = horizontal && getComputedStyle(toComponent.el).direction === "rtl";
   const after =
-    !!targetShape &&
+    !!center &&
     (horizontal
       ? rightToLeft
-        ? Math.round(position.x) < Math.round(targetShape.center.x)
-        : Math.round(position.x) > Math.round(targetShape.center.x)
-      : Math.round(position.y) > Math.round(targetShape.center.y));
+        ? Math.round(position.x) < Math.round(center.x)
+        : Math.round(position.x) > Math.round(center.x)
+      : Math.round(position.y) > Math.round(center.y));
   const insertionIndex = targetIndex + Number(after);
   return insertionIndex - Number(sameGroup && !!sourceSortable && sourceSortable.index < insertionIndex);
 }
@@ -383,17 +393,46 @@ function clearDropPosition(record: SortableManagerRecord): void {
 }
 
 function clearDropIndicator(position?: DropPosition): void {
-  const target = position?.item ?? position?.component.el;
+  if (position?.copyPlaceholder) {
+    position.copyPlaceholder.remove();
+    position.copyPlaceholder = undefined;
+  }
+  const target = position?.indicatorTarget ?? position?.item ?? position?.component.el;
   target?.removeAttribute(sortPositionAttribute);
+  target?.removeAttribute(copyPlaceholderAttribute);
   target?.style.removeProperty(placeholderHeightProperty);
 }
 
-function showDropIndicator(position: DropPosition, dragEl: HTMLElement): void {
-  const target = position.item ?? position.component.el;
-  if (!position.item) {
+function showDropIndicator(position: DropPosition, dragEl: HTMLElement, clone = false): void {
+  const lastItem =
+    clone && !position.item
+      ? getSortableItems(position.component)
+          .filter((item) => item !== dragEl)
+          .at(-1)
+      : undefined;
+  const target = position.item ?? lastItem ?? position.component.el;
+  position.indicatorTarget = target;
+  const placement = position.placement ?? (lastItem ? "after" : "inside");
+  const copyGap = clone && target !== position.component.el;
+  if (copyGap) {
+    const bounds = dragEl.getBoundingClientRect();
+    const placeholder = target.ownerDocument.createElement("div");
+    placeholder.setAttribute("data-dnd-placeholder", "copy");
+    placeholder.setAttribute("aria-hidden", "true");
+    placeholder.inert = true;
+    placeholder.style.blockSize = `${bounds.height}px`;
+    placeholder.style.inlineSize = `${
+      position.component.layout === "horizontal" || position.component.layout === "grid"
+        ? bounds.width
+        : target.getBoundingClientRect().width
+    }px`;
+    target.insertAdjacentElement(placement === "before" ? "beforebegin" : "afterend", placeholder);
+    position.copyPlaceholder = placeholder;
+  } else if (target === position.component.el) {
     target.style.setProperty(placeholderHeightProperty, `${dragEl.getBoundingClientRect().height}px`);
   }
-  target.setAttribute(sortPositionAttribute, position.placement ?? "inside");
+  target.toggleAttribute(copyPlaceholderAttribute, copyGap);
+  target.setAttribute(sortPositionAttribute, placement);
 }
 
 function isDropEnabled(fromComponent: SortableComponent, toComponent: SortableComponent, dragEl: HTMLElement): boolean {
@@ -429,18 +468,28 @@ function canAcceptDrop(
     return true;
   }
 
-  const pullResult = fromComponent.canPull?.(detail);
-  const canPut = toComponent.canPut?.(detail) !== false;
-  const canPull = pullResult !== false;
+  const placeholder = record?.dropPosition?.copyPlaceholder;
+  const parent = placeholder?.parentElement;
+  const nextSibling = placeholder?.nextSibling ?? null;
+  placeholder?.remove();
+  try {
+    const pullResult = fromComponent.canPull?.(detail);
+    const canPut = toComponent.canPut?.(detail) !== false;
+    const canPull = pullResult !== false;
 
-  if (canPull && canPut && record?.activeDrag?.item === detail.dragEl && fromComponent.sortMode !== "manual") {
-    record.pendingPullOperations.set(dropTarget, {
-      newIndex: detail.newIndex,
-      operation: pullResult === "clone" ? "clone" : "move",
-    });
+    if (canPull && canPut && record?.activeDrag?.item === detail.dragEl && fromComponent.sortMode !== "manual") {
+      record.pendingPullOperations.set(dropTarget, {
+        newIndex: detail.newIndex,
+        operation: pullResult === "clone" ? "clone" : "move",
+      });
+    }
+
+    return canPull && canPut;
+  } finally {
+    if (placeholder && parent) {
+      parent.insertBefore(placeholder, nextSibling?.parentNode === parent ? nextSibling : null);
+    }
   }
-
-  return canPull && canPut;
 }
 
 function getSortableItemData(draggable: { data: unknown }): SortableItemData | undefined {
@@ -659,6 +708,27 @@ function getManagerRecord(document: Document): SortableManagerRecord {
   ): void => {
     const { source, target } = event.operation;
     const manual = !!source && getSortableItemData(source)?.component.sortMode === "manual";
+    const sourceData = source ? getSortableItemData(source) : undefined;
+    const targetData = target && "data" in target ? (target.data as SortableItemData) : undefined;
+    const targetSortable = getSortableTarget(target);
+    const currentPosition = pointerPosition ?? record.manager.dragOperation.position.current;
+    const copyPlaceholder = record.dropPosition?.copyPlaceholder;
+    if (copyPlaceholder) {
+      const bounds = copyPlaceholder.getBoundingClientRect();
+      if (
+        currentPosition.x >= bounds.left &&
+        currentPosition.x <= bounds.right &&
+        currentPosition.y >= bounds.top &&
+        currentPosition.y <= bounds.bottom
+      ) {
+        event.preventDefault();
+        return;
+      }
+    }
+    const automaticDropIndex =
+      !manual && source && isSortable(source) && targetData && targetSortable
+        ? getDropIndex(record, targetData.component, source.sortable, targetSortable, pointerPosition)
+        : undefined;
 
     clearDropIndicator(record.dropPosition);
     if (manual) {
@@ -670,10 +740,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     if (!source || !isSortable(source) || !target) {
       return;
     }
-
-    const sourceData = getSortableItemData(source);
-    const targetData = "data" in target ? (target.data as SortableItemData) : undefined;
-    const targetSortable = getSortableTarget(target);
 
     if (
       sourceData?.item === targetData?.item &&
@@ -695,7 +761,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
 
     const { component: fromComponent, item: dragEl } = sourceData;
     const { component: toComponent } = targetData;
-    const currentPosition = pointerPosition ?? record.manager.dragOperation.position.current;
     const relatedEl = manual
       ? getSortableItems(toComponent).find((item) => {
           const bounds = item.getBoundingClientRect();
@@ -724,7 +789,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       manual && relatedEl
         ? getManualDropIndex(toComponent, dragEl, relatedEl, currentPosition)
         : targetSortable && relatedEl
-          ? getDropIndex(record, toComponent, source.sortable, targetSortable, pointerPosition)
+          ? automaticDropIndex!
           : getAppendIndex(record, fromComponent, toComponent, dragEl);
     const detail = makeDragDetail(fromComponent.el, toComponent.el, dragEl, source.initialIndex, newIndex);
     if (manual && !canAcceptDrop(fromComponent, toComponent, detail)) {
@@ -806,7 +871,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     }
 
     if (!relatedEl || clone) {
-      showDropIndicator(record.dropPosition, dragEl);
+      showDropIndicator(record.dropPosition, dragEl, clone);
     }
     record.acceptedDropPosition = record.dropPosition;
     if (
@@ -894,6 +959,23 @@ function getManagerRecord(document: Document): SortableManagerRecord {
           x: manager.dragOperation.position.current.x + (event.by?.x ?? 0),
           y: manager.dragOperation.position.current.y + (event.by?.y ?? 0),
         };
+        if (clone && record.dropPosition) {
+          const bounds = record.dropPosition.component.el.getBoundingClientRect();
+          if (
+            position.x < bounds.left ||
+            position.x > bounds.right ||
+            position.y < bounds.top ||
+            position.y > bounds.bottom
+          ) {
+            const hadCopyPlaceholder = !!record.dropPosition.copyPlaceholder;
+            clearDropIndicator(record.dropPosition);
+            if (hadCopyPlaceholder) {
+              record.sortables.get(record.dropPosition.component)?.forEach((sortable) => sortable.refreshShape());
+              record.containerTargets.get(record.dropPosition.component)?.refreshShape();
+            }
+            return;
+          }
+        }
         if (!manual && !event.operation.target?.shape?.containsPoint(position)) {
           return;
         }

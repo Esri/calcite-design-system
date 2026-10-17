@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { Sortable } from "@dnd-kit/dom/sortable";
 import { page, userEvent } from "vitest/browser";
 import { dragAndDrop } from "../../tests/utils/browser";
 import { commands } from "../../tests/utils/commands";
@@ -63,6 +64,125 @@ describe("drag and drop", () => {
         </div>
       </calcite-sortable-list>,
     );
+
+  const renderCopyGap = async (layout: "horizontal" | "grid", direction: "ltr" | "rtl" = "ltr") => {
+    const { component: source } = await mount<SortableList>(
+      <div style="display: flex; align-items: flex-start; gap: 40px">
+        <calcite-sortable-list
+          dir={direction}
+          group="gaps"
+          id="gap-source"
+          layout={layout}
+          style="width: 160px"
+        >
+          <div
+            id="gap-copy"
+            style="display: flex; align-items: center; width: 80px; height: 40px; box-sizing: border-box"
+          >
+            <calcite-handle />
+            Copy
+          </div>
+        </calcite-sortable-list>
+        <calcite-sortable-list
+          dir={direction}
+          group="gaps"
+          id="gap-destination"
+          layout={layout}
+          style="width: 240px"
+        >
+          <div
+            id="gap-target"
+            style="display: flex; align-items: center; width: 80px; height: 40px; box-sizing: border-box"
+          >
+            <calcite-handle />
+            Target
+          </div>
+          <div style="width: 80px; height: 40px; box-sizing: border-box">Following</div>
+        </calcite-sortable-list>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const handle = page.getBySelector("#gap-copy calcite-handle");
+    await expect.element(handle).toBeVisible();
+    const destination = page.getBySelector("#gap-destination");
+    return {
+      destination,
+      gap: destination.getBySelector('[data-dnd-placeholder="copy"]'),
+      handle,
+      target: destination.getBySelector("#gap-target"),
+    };
+  };
+
+  it("reserves horizontal copy gaps without resizing fixed-size items", async () => {
+    const { destination, gap, handle, target } = await renderCopyGap("horizontal");
+
+    await dragAndDrop(handle.element(), target.element(), "left", { skipPointerUp: true });
+    await expect.element(gap).toBeVisible();
+    expect(gap.element().getBoundingClientRect().width).toBe(80);
+    expect(gap.element().getBoundingClientRect().right).toBeLessThanOrEqual(
+      target.element().getBoundingClientRect().left,
+    );
+    const bounds = target.element().getBoundingClientRect();
+    expect(bounds.height).toBe(40);
+    await commands.mouseMove(bounds.right - 1, bounds.top + bounds.height / 2);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    expect(gap.element().getBoundingClientRect().left).toBeGreaterThanOrEqual(
+      target.element().getBoundingClientRect().right,
+    );
+    await commands.mouseUp();
+
+    await expect
+      .poll(() => Array.from(destination.element().children, (item) => item.textContent?.trim()))
+      .toEqual(["Target", "Copy", "Following"]);
+    await expect.element(gap).not.toBeInTheDocument();
+  });
+
+  it("reserves RTL copy gaps on the logical insertion side", async () => {
+    const { destination, gap, handle, target } = await renderCopyGap("horizontal", "rtl");
+
+    await dragAndDrop(handle.element(), target.element(), "right", { skipPointerUp: true });
+    await expect.element(gap).toBeVisible();
+    expect(gap.element().getBoundingClientRect().left).toBeGreaterThanOrEqual(
+      target.element().getBoundingClientRect().right,
+    );
+    const bounds = target.element().getBoundingClientRect();
+    expect(bounds.height).toBe(40);
+    await commands.mouseMove(bounds.left + 1, bounds.top + bounds.height / 2);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    expect(gap.element().getBoundingClientRect().right).toBeLessThanOrEqual(
+      target.element().getBoundingClientRect().left,
+    );
+    await commands.mouseUp();
+
+    await expect
+      .poll(() => Array.from(destination.element().children, (item) => item.textContent?.trim()))
+      .toEqual(["Target", "Copy", "Following"]);
+  });
+
+  it("places grid copy gaps in the cell the copy will occupy", async () => {
+    const { destination, gap, handle, target } = await renderCopyGap("grid");
+    const container = destination.getBySelector(".container").element() as HTMLElement;
+    container.style.display = "grid";
+    container.style.gridTemplateColumns = "repeat(2, 80px)";
+
+    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await expect.element(gap).toBeVisible();
+    expect(gap.element().getBoundingClientRect().width).toBe(80);
+    expect(gap.element().getBoundingClientRect().height).toBe(40);
+    expect(gap.element().getBoundingClientRect().right).toBeLessThanOrEqual(
+      target.element().getBoundingClientRect().left,
+    );
+    const bounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    expect(gap.element().previousElementSibling).toBe(target.element());
+    await commands.mouseUp();
+
+    await expect
+      .poll(() => Array.from(destination.element().children, (item) => item.textContent?.trim()))
+      .toEqual(["Target", "Copy", "Following"]);
+  });
 
   it("reorders items with pointer input", async () => {
     const { el } = await renderSortableList();
@@ -441,6 +561,73 @@ describe("drag and drop", () => {
     expect(destinationChanged).toHaveBeenCalledTimes(1);
   });
 
+  it("copies into the last available destination slot", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    destination.canPut = ({ toEl }) => toEl.children.length < 2;
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "bottom", { skipPointerUp: true });
+    await expect
+      .element(page.getBySelector('#destination [data-dnd-placeholder="copy"]'))
+      .toBeVisible();
+    const bounds = target.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
+    await afterNextFrame();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(destination.el.children).toHaveLength(2);
+    expect(destination.el.firstElementChild).toBe(target);
+    expect(destination.el.lastElementChild).not.toBe(draggedItem);
+    expect(destination.el.lastElementChild?.textContent).toBe(draggedItem.textContent);
+  });
+
+  it("does not copy when destination capacity is full", async () => {
+    const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer({
+      extraTarget: true,
+    });
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    destination.canPut = ({ toEl }) => toEl.children.length < 2;
+    const originalItems = Array.from(destination.el.children);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top");
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([draggedItem]);
+    expect(Array.from(destination.el.children)).toEqual(originalItems);
+  });
+
+  it("refreshes copy destination geometry only when removing feedback", async () => {
+    const { source, destination, handle, target } = await renderCallbackTransfer();
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle, target, "top", { skipPointerUp: true });
+    const gap = page.getBySelector('#destination [data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const refreshed = vi.spyOn(Sortable.prototype, "refreshShape");
+    onTestFinished(() => refreshed.mockRestore());
+    const bounds = destination.el.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom + 80);
+    await afterNextFrame();
+    await expect.element(gap).not.toBeInTheDocument();
+    expect(refreshed).toHaveBeenCalled();
+    refreshed.mockClear();
+
+    await commands.mouseMove(bounds.left + bounds.width / 2 + 1, bounds.bottom + 81);
+    await commands.mouseMove(bounds.left + bounds.width / 2 + 2, bounds.bottom + 82);
+    await afterNextFrame();
+    expect(refreshed).not.toHaveBeenCalled();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+  });
+
   it("preserves an accepted transfer when canPull checks source ownership", async () => {
     const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
     source.canPull = ({ fromEl, dragEl }) => fromEl.contains(dragEl);
@@ -636,6 +823,9 @@ describe("drag and drop", () => {
     const targetBounds = target.getBoundingClientRect();
     await commands.mouseMove(targetBounds.left + targetBounds.width / 2, targetBounds.top + 1);
     await afterNextFrame();
+    await expect
+      .element(page.getBySelector("#destination #two"))
+      .toHaveAttribute("data-calcite-sort-position", "before");
     await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
 
@@ -657,6 +847,9 @@ describe("drag and drop", () => {
     const ended = vi.spyOn(source, "onDragEnd");
 
     await dragAndDrop(handle, secondItem, "top", { skipPointerUp: true });
+    const bounds = secondItem.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + 1);
+    await afterNextFrame();
     await expect.element(second).toHaveAttribute("data-calcite-sort-position", "before");
     destination.el.style.minBlockSize = `${destination.el.getBoundingClientRect().height}px`;
     target.remove();
@@ -724,6 +917,8 @@ describe("drag and drop", () => {
     "switches between move and copy destinations (copy first: %s)",
     async (copyFirst) => {
       const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
+      source.el.style.minBlockSize = `${draggedItem.getBoundingClientRect().height}px`;
+      destination.el.style.minBlockSize = `${target.getBoundingClientRect().height * 2}px`;
       const { component: finalDestination } = await mount<SortableList>(
         <calcite-sortable-list group="capacity">
           <div id="final-target">
@@ -1353,6 +1548,7 @@ describe("drag and drop", () => {
     const draggedItem = sourceLocator.getBySelector("#clone-source-item").element();
     const handle = sourceLocator.getBySelector("#clone-source-item calcite-handle").element();
     const target = destinationLocator.getBySelector("#destination-item").element();
+    onTestFinished(() => commands.mouseUp());
     const callbackOrder: string[] = [];
     source.canPull = () => "clone";
     draggedItem.querySelector<HTMLInputElement>('input[type="text"]')!.value = "Updated text";
@@ -1375,7 +1571,11 @@ describe("drag and drop", () => {
       originalDragEnd();
     });
 
-    await dragAndDrop(handle, target, "bottom");
+    await dragAndDrop(handle, target, "bottom", { skipPointerUp: true });
+    const bounds = target.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
+    await afterNextFrame();
+    await commands.mouseUp();
 
     await vi.waitFor(() => {
       expect(callbackOrder).toEqual(["source-sort", "destination-sort", "drag-end"]);
