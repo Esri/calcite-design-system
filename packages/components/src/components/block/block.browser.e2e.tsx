@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 
@@ -193,6 +193,19 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-block"), { display: "flex" });
+});
+
+describe("expanded events", () => {
+  it("emits expand when initially expanded", async () => {
+    const onExpand = vi.fn();
+    await mount(<calcite-block expanded />, {
+      afterConnect: (block) => {
+        block.addEventListener("calciteBlockExpand", onExpand);
+      },
+    });
+
+    expect(onExpand).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("propagates", () => {
