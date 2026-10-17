@@ -26,6 +26,7 @@ esmodule
 createelement
 
 ## events
+dragmove
 formdata
 
 ## frameworks/libs

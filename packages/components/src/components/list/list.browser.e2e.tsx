@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Fragment, h } from "@arcgis/lumina";
+import { afterEach, beforeEach, describe, expect, it, onTestFinished, vi } from "vitest";
+import { Fragment, h, type ToEvents } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -17,7 +17,10 @@ import {
 } from "../../tests/common";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";
+import type { SortHandle } from "../sort-handle/sort-handle";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
+import { dragAndDrop } from "../../tests/utils/browser";
+import { commands } from "../../tests/utils/commands";
 import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import type { List } from "./list";
@@ -152,6 +155,10 @@ describe("defaults", () => {
         propertyName: "sortDisabled",
         defaultValue: false,
       },
+      {
+        propertyName: "sortMode",
+        defaultValue: "automatic",
+      },
     ],
   );
 });
@@ -167,6 +174,10 @@ describe("reflects", () => {
       {
         propertyName: "sortDisabled",
         value: true,
+      },
+      {
+        propertyName: "sortMode",
+        value: "manual",
       },
     ],
   );
@@ -967,5 +978,929 @@ describe("themed", () => {
         targetProp: "backgroundColor",
       },
     });
+  });
+});
+
+describe("drag and drop", () => {
+  const renderSingleItemCopyDestination = async (fixedHeight = false) => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { component: source } = await mount<List>(
+      <div style="display: flex; gap: 40px">
+        <calcite-list drag-enabled group="copies" id="source" label="Source" style="width: 240px">
+          <calcite-list-item id="source-item" label="Source item" />
+        </calcite-list>
+        <calcite-list
+          drag-enabled
+          group="copies"
+          id="destination"
+          label="Destination"
+          style="width: 240px; min-block-size: 160px"
+        >
+          <calcite-list-item
+            id="destination-item"
+            label="Destination item"
+            style={fixedHeight ? "block-size: 48px; box-sizing: border-box" : undefined}
+          />
+          {fixedHeight && <calcite-list-item id="following-item" label="Following item" />}
+        </calcite-list>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const handle = page.getBySelector("#source-item calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    return {
+      destination: page.getBySelector("#destination"),
+      handle,
+      itemHeight: page.getBySelector("#source-item").element().getBoundingClientRect().height,
+      target: page.getBySelector("#destination-item"),
+    };
+  };
+
+  it("keeps fixed-height copy targets clear of following items", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination(true);
+    const following = page.getBySelector("#following-item");
+
+    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    expect(target.getByRole("row").element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+      following.element().getBoundingClientRect().top,
+    );
+    expect(target.element().getBoundingClientRect().height).toBe(48);
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    expect(gap.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+      target.element().getBoundingClientRect().top,
+    );
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Source item", "Destination item", "Following item"]);
+    await expect.element(gap).not.toBeInTheDocument();
+  });
+
+  it("shows append feedback after the single item instead of covering it", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+
+    await dragAndDrop(handle.element(), destination.element(), "bottom", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const indicator = getComputedStyle(gap.element());
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(indicator.borderStyle).toBe("dashed");
+    expect(indicator.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      target.element().getBoundingClientRect().bottom,
+    );
+    await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Destination item", "Source item"]);
+    await expect.element(target).not.toHaveAttribute("data-calcite-sort-position");
+    await expect.element(gap).not.toBeInTheDocument();
+  });
+
+  it("copies before the single item in a destination", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+
+    await dragAndDrop(handle.element(), target.element(), "bottom", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    const bounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const indicator = getComputedStyle(gap.element());
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(indicator.borderStyle).toBe("dashed");
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+      target.element().getBoundingClientRect().top,
+    );
+    const contentBounds = target.getByRole("row").element().getBoundingClientRect();
+    await commands.mouseMove(contentBounds.left + contentBounds.width / 2, contentBounds.top + 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Source item", "Destination item"]);
+  });
+
+  it("copies after the single item in a destination", async () => {
+    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+
+    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
+    const bounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const indicator = getComputedStyle(gap.element());
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(indicator.borderStyle).toBe("dashed");
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      target.element().getBoundingClientRect().bottom,
+    );
+    const contentBounds = target.getByRole("row").element().getBoundingClientRect();
+    await commands.mouseMove(
+      contentBounds.left + contentBounds.width / 2,
+      contentBounds.bottom - 1,
+    );
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector("calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Destination item", "Source item"]);
+  });
+
+  it("does not copy when returning over another item in a sort-disabled source", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { component: source } = await mount<List>(
+      <div style="display: flex; gap: 40px">
+        <calcite-list
+          drag-enabled
+          group="copies"
+          id="source"
+          label="Source"
+          sort-disabled
+          style="width: 240px"
+        >
+          <calcite-list-item id="source-item" label="Source item" />
+          <calcite-list-item id="source-sibling" label="Source sibling" />
+        </calcite-list>
+        <calcite-list
+          drag-enabled
+          group="copies"
+          id="destination"
+          label="Destination"
+          style="width: 240px"
+        >
+          <calcite-list-item id="destination-item" label="Destination item" />
+        </calcite-list>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const handle = page.getBySelector("#source-item calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    const item = page.getBySelector("#source-item").element();
+    const sibling = page.getBySelector("#source-sibling").element();
+    const destination = page.getBySelector("#destination");
+    const target = page.getBySelector("#destination-item");
+    const changed = vi.fn();
+    destination.element().addEventListener("calciteListOrderChange", changed);
+    const ended = vi.spyOn(source, "onDragEnd");
+
+    await dragAndDrop(handle.element(), target.element(), "center", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position");
+    const bounds = sibling.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+    await afterNextFrame();
+    await commands.mouseUp();
+    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+
+    expect(Array.from(source.el.children)).toEqual([item, sibling]);
+    expect(destination.getBySelector("calcite-list-item").elements()).toEqual([target.element()]);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it.each([false, true])("shows empty drop feedback (clone: %s)", async (clone) => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { component: source } = await mount<List>(
+      <div>
+        <calcite-list drag-enabled group="feedback" id="source" label="Source">
+          <calcite-list-item id="source-item" label="Source item" />
+        </calcite-list>
+        <calcite-list drag-enabled group="feedback" id="destination" label="Destination">
+          <div slot="empty-content">Drop here</div>
+        </calcite-list>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    const destination = page.getBySelector("#destination");
+    destination.element().style.minBlockSize = "100px";
+    const handle = page.getBySelector("#source-item calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    if (clone) {
+      source.canPull = () => "clone";
+    }
+
+    await dragAndDrop(handle.element(), destination.element(), "center", { skipPointerUp: true });
+    await expect.element(destination).toHaveAttribute("data-calcite-sort-position", "inside");
+    const dropIndicator = getComputedStyle(destination.element(), "::after");
+    expect(dropIndicator.borderStyle).toBe("dashed");
+    expect(Number.parseFloat(dropIndicator.height)).toBeLessThan(
+      destination.element().getBoundingClientRect().height,
+    );
+    expect(Number.parseFloat(dropIndicator.height)).toBeCloseTo(
+      page
+        .getBySelector("#source-item:not([data-dnd-placeholder])")
+        .element()
+        .getBoundingClientRect().height,
+      0,
+    );
+    expect(
+      page.getBySelector("#source-item:not([data-dnd-placeholder])").element().parentElement,
+    ).toBe(source.el);
+
+    await commands.mouseUp();
+    await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
+    expect(
+      destination
+        .element()
+        .style.getPropertyValue("--calcite-internal-sortable-placeholder-height"),
+    ).toBe("");
+    await expect.element(destination.getBySelector("calcite-list-item")).toBeInTheDocument();
+  });
+
+  it.each(["drop", "cancel", "return"] as const)(
+    "keeps a copied item in its source (%s)",
+    async (action) => {
+      vi.spyOn(console, "warn").mockImplementation(() => undefined);
+      const { component: source } = await mount<List>(
+        <div>
+          <calcite-list drag-enabled group="copies" id="source" label="Source">
+            <calcite-list-item id="source-item" label="Source item" />
+          </calcite-list>
+          <calcite-list drag-enabled group="copies" id="destination" label="Destination">
+            <calcite-list-item id="destination-item" label="Destination item" />
+          </calcite-list>
+        </div>,
+      );
+      onTestFinished(() => commands.mouseUp());
+      source.canPull = () => "clone";
+      const item = page.getBySelector("#source-item").element();
+      const handle = page.getBySelector("#source-item calcite-sort-handle");
+      await expect.element(handle).toBeVisible();
+      const destination = page.getBySelector("#destination");
+      const target = page.getBySelector("#destination-item").element();
+
+      await dragAndDrop(handle.element(), target, "center", { skipPointerUp: true });
+      expect(item.parentElement).toBe(source.el);
+      expect(destination.getBySelector("calcite-list-item").elements()).toHaveLength(1);
+      await expect
+        .element(page.getBySelector("#source > [data-dnd-placeholder]"))
+        .toHaveAttribute("data-dnd-placeholder", "clone");
+      const placeholder = page.getBySelector("#source > [data-dnd-placeholder]").element();
+      expect(getComputedStyle(placeholder).visibility).toBe("visible");
+      expect(getComputedStyle(placeholder, "::before").content).toBe("none");
+      await expect
+        .element(page.elementLocator(placeholder).getByText("Source item", { exact: true }))
+        .toBeVisible();
+      await expect
+        .element(page.elementLocator(item).getByText("Source item", { exact: true }))
+        .toBeVisible();
+
+      if (action === "cancel") {
+        await userEvent.keyboard("{Escape}");
+      } else if (action === "return") {
+        const bounds = placeholder.getBoundingClientRect();
+        await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+        await afterNextFrame();
+      }
+      await commands.mouseUp();
+      await vi.waitFor(() =>
+        expect(destination.getBySelector("calcite-list-item").elements()).toHaveLength(
+          action === "drop" ? 2 : 1,
+        ),
+      );
+      expect(item.parentElement).toBe(source.el);
+      await expect
+        .element(page.getBySelector("[data-calcite-sort-position]"))
+        .not.toBeInTheDocument();
+    },
+  );
+
+  const renderList = () =>
+    mount(
+      <calcite-list drag-enabled id="list" label="Items">
+        <calcite-list-item id="one" label="One" value="one" />
+        <calcite-list-item id="two" label="Two" value="two" />
+      </calcite-list>,
+    );
+
+  const renderNestedList = () => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    return mount<List>(
+      <calcite-list display-mode="nested" drag-enabled group="tree" id="root" label="Root">
+        <calcite-list-item expanded id="parent" label="Parent">
+          <calcite-list
+            display-mode="nested"
+            drag-enabled
+            group="tree"
+            id="children"
+            label="Children"
+          >
+            <calcite-list-item expanded id="child" label="Child">
+              <calcite-list drag-enabled group="tree" id="grandchildren" label="Grandchildren">
+                <calcite-list-item id="grandchild-one" label="Grandchild one" />
+                <calcite-list-item id="grandchild-two" label="Grandchild two" />
+                <calcite-list-item id="grandchild-three" label="Grandchild three" />
+              </calcite-list>
+            </calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item id="root-sibling" label="Root sibling" />
+      </calcite-list>,
+    );
+  };
+
+  it("keeps grandchild reordering inside the nested list", async () => {
+    const { el } = await renderNestedList();
+    const list = page.getBySelector("#grandchildren").element();
+    const firstItem = page.getBySelector("#grandchild-one");
+    const handle = firstItem.getBySelector("calcite-sort-handle");
+    const target = page.getBySelector("#grandchild-three");
+    await expect.element(handle).toBeVisible();
+    await expect.element(target).toBeVisible();
+    const destinations: HTMLElement[] = [];
+    el.addEventListener("calciteListBeforeOrderChange", (event) => {
+      destinations.push((event as ToEvents<List>["calciteListBeforeOrderChange"]).detail.toEl);
+    });
+
+    await dragAndDrop(handle.element(), target.element(), "center", { moveSteps: 20 });
+
+    await vi.waitFor(() => {
+      expect(Array.from(list.children, (item) => item.id)).toEqual([
+        "grandchild-two",
+        "grandchild-three",
+        "grandchild-one",
+      ]);
+    });
+    expect(destinations.length).toBeGreaterThan(0);
+    expect(destinations.every((destination) => destination === list)).toBe(true);
+  });
+
+  it("allows moving a grandchild into an ancestor list", async () => {
+    const { el } = await renderNestedList();
+    const firstItem = page.getBySelector("#grandchild-one");
+    const handle = firstItem.getBySelector("calcite-sort-handle");
+    const target = page.getBySelector("#root-sibling");
+    await expect.element(handle).toBeVisible();
+    await expect.element(target).toBeVisible();
+
+    await dragAndDrop(handle.element(), target.element());
+
+    await vi.waitFor(() => {
+      expect(firstItem.element().parentElement).toBe(el);
+      expect(Array.from(el.children, (item) => item.id)).toEqual([
+        "parent",
+        "root-sibling",
+        "grandchild-one",
+      ]);
+    });
+  });
+
+  it("fires before and order-change around the reorder mutation", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el } = await renderList();
+      const list = page.getBySelector("#list");
+      const firstItem = list.getBySelector("#one").element() as ListItem["el"];
+      const items = list.getBySelector("calcite-list-item:not([data-dnd-placeholder])");
+      const secondItemLocator = page.getBySelector("#two");
+      await expect.element(secondItemLocator).toBeVisible();
+      const secondItem = secondItemLocator.element();
+      await vi.waitFor(() =>
+        expect(
+          firstItem.shadowRoot?.querySelector<HTMLElement>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the list item's shadow root.
+      const handle = firstItem.shadowRoot!.querySelector<HTMLElement>("calcite-sort-handle")!;
+      const callSequence: string[] = [];
+      let firstItemIdWhenOrdered = "";
+
+      el.addEventListener("calciteListBeforeOrderChange", () => callSequence.push("before"));
+      el.addEventListener("calciteListOrderChange", () => {
+        callSequence.push("order");
+        firstItemIdWhenOrdered = items.nth(0).element().id;
+      });
+
+      await dragAndDrop(handle, secondItem);
+      await vi.waitFor(() => expect(firstItemIdWhenOrdered).toBe("two"));
+
+      expect(callSequence).toEqual(["before", "order"]);
+      expect([
+        (items.nth(0).element() as ListItem["el"]).value,
+        (items.nth(1).element() as ListItem["el"]).value,
+      ]).toEqual(["two", "one"]);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("skips reorder handling when the before-order event is canceled", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el } = await renderList();
+      const list = page.getBySelector("#list");
+      const firstItem = list.getBySelector("#one").element() as ListItem["el"];
+      const items = list.getBySelector("calcite-list-item");
+      const secondItemLocator = page.getBySelector("#two");
+      await expect.element(secondItemLocator).toBeVisible();
+      const secondItem = secondItemLocator.element();
+      await vi.waitFor(() =>
+        expect(
+          firstItem.shadowRoot?.querySelector<HTMLElement>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the list item's shadow root.
+      const handle = firstItem.shadowRoot!.querySelector<HTMLElement>("calcite-sort-handle")!;
+      let beforeCalledTimes = 0;
+      let orderCalledTimes = 0;
+
+      el.addEventListener("calciteListBeforeOrderChange", (event) => {
+        beforeCalledTimes++;
+        event.preventDefault();
+      });
+      el.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+
+      await dragAndDrop(handle, secondItem);
+      await vi.waitFor(() => {
+        expect(beforeCalledTimes).toBeGreaterThan(0);
+        expect([
+          (items.nth(0).element() as ListItem["el"]).value,
+          (items.nth(1).element() as ListItem["el"]).value,
+        ]).toEqual(["one", "two"]);
+      });
+
+      expect(orderCalledTimes).toBe(0);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("skips keyboard reorder handling when the before-order event is canceled", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el } = await renderList();
+      const firstItem = page.elementLocator(el).getBySelector("#one").element() as ListItem["el"];
+      await vi.waitFor(() =>
+        expect(
+          firstItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the list item's shadow root.
+      const handle = firstItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      let orderCalledTimes = 0;
+      const beforeOrderChange = new Promise<void>((resolve) => {
+        el.addEventListener(
+          "calciteListBeforeOrderChange",
+          (event) => {
+            event.preventDefault();
+            resolve();
+          },
+          { once: true },
+        );
+      });
+
+      el.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+
+      await handle.setFocus();
+      await userEvent.keyboard("{Enter}{ArrowDown}{Enter}");
+      await beforeOrderChange;
+
+      expect(orderCalledTimes).toBe(0);
+      const items = page.elementLocator(el).getBySelector("calcite-list-item");
+      expect((items.nth(0).element() as ListItem["el"]).value).toBe("one");
+      expect((items.nth(1).element() as ListItem["el"]).value).toBe("two");
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it.each(["touch", "pen"] as const)(
+    "keeps sort-handle clicks available for a %s pointer",
+    async (pointerType) => {
+      const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+      try {
+        const { el } = await renderList();
+        const firstItem = page.elementLocator(el).getBySelector("#one").element() as ListItem["el"];
+        await vi.waitFor(() =>
+          expect(
+            firstItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+          ).not.toBeNull(),
+        );
+        // The sort handle is internal to the list item's shadow root.
+        const handle =
+          firstItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+        let dragStartCount = 0;
+
+        el.addEventListener("calciteListDragStart", () => dragStartCount++);
+
+        await dragAndDrop(handle, handle, "center", { moveSteps: 0, pointerType });
+        expect(dragStartCount).toBe(0);
+
+        await userEvent.click(page.getByRole("button", { name: "One" }));
+        await expect.element(page.getByRole("menuitem").first()).toBeVisible();
+      } finally {
+        warnSpy.mockRestore();
+      }
+    },
+  );
+
+  it("updates sorting when a list item's dragDisabled state changes", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el } = await mount(
+        <calcite-list drag-enabled>
+          <calcite-list-item drag-disabled id="one" label="One" value="one" />
+          <calcite-list-item id="two" label="Two" value="two" />
+        </calcite-list>,
+      );
+      const list = page.elementLocator(el);
+      const firstItem = list.getBySelector("#one").element() as ListItem["el"];
+      const secondItem = list.getBySelector("#two").element() as ListItem["el"];
+      await vi.waitFor(() =>
+        expect(
+          firstItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the list item's shadow root.
+      const handle = firstItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      await vi.waitFor(() => expect(handle.disabled).toBe(true));
+
+      firstItem.dragDisabled = false;
+      await vi.waitFor(() => expect(handle.disabled).toBe(false));
+      const orderChange = new Promise<void>((resolve) =>
+        el.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+      );
+
+      await dragAndDrop(handle, secondItem);
+      await orderChange;
+
+      expect(el.firstElementChild).toBe(secondItem);
+      expect(el.lastElementChild).toBe(firstItem);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("honors cancellation when moving an item from the sort menu", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el: source } = await mount(
+        <div>
+          <calcite-list drag-enabled group="letters" id="source" label="Source">
+            <calcite-list-item id="source-item" label="A" value="a" />
+          </calcite-list>
+          <calcite-list drag-enabled group="letters" id="destination" label="Destination">
+            <calcite-list-item id="destination-item" label="B" value="b" />
+          </calcite-list>
+        </div>,
+      );
+      const sourceLocator = page.elementLocator(source);
+      const destination = page.getBySelector("#destination").element() as List["el"];
+      const sourceItem = sourceLocator.getBySelector("#source-item").element() as ListItem["el"];
+      const destinationItem = page.getBySelector("#destination-item").element() as ListItem["el"];
+      await vi.waitFor(() =>
+        expect(
+          sourceItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the slotted list item's shadow root.
+      const handle = sourceItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      let orderCalledTimes = 0;
+      const beforeOrderChange = new Promise<void>((resolve) =>
+        destination.addEventListener(
+          "calciteListBeforeOrderChange",
+          (event) => {
+            event.preventDefault();
+            resolve();
+          },
+          { once: true },
+        ),
+      );
+
+      source.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+      destination.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+
+      await handle.setFocus();
+      await userEvent.keyboard("{Enter}");
+      const moveAction = page.getByRole("menuitem", { name: "Destination" });
+      await expect.element(moveAction).toBeVisible();
+      await userEvent.keyboard("{ArrowDown}{Enter}");
+      await beforeOrderChange;
+
+      expect(sourceItem.parentElement).toBe(source);
+      expect(destinationItem.parentElement).toBe(destination);
+      expect(orderCalledTimes).toBe(0);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("honors cancellation when adding an item from the sort menu", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el: source } = await mount<List>(
+        <div>
+          <calcite-list drag-enabled group="letters" id="source" label="Source">
+            <calcite-list-item id="source-item" label="A" value="a" />
+          </calcite-list>
+          <calcite-list drag-enabled group="letters" id="destination" label="Destination">
+            <calcite-list-item id="destination-item" label="B" value="b" />
+          </calcite-list>
+        </div>,
+      );
+      const sourceLocator = page.elementLocator(source);
+      const destination = page.getBySelector("#destination").element() as List["el"];
+      const sourceItem = sourceLocator.getBySelector("#source-item").element() as ListItem["el"];
+      const destinationItem = page.getBySelector("#destination-item").element() as ListItem["el"];
+      source.canPull = () => "clone";
+      await vi.waitFor(() =>
+        expect(
+          sourceItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the slotted list item's shadow root.
+      const handle = sourceItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      let orderCalledTimes = 0;
+      const beforeOrderChange = new Promise<void>((resolve) =>
+        source.addEventListener(
+          "calciteListBeforeOrderChange",
+          (event) => {
+            event.preventDefault();
+            resolve();
+          },
+          { once: true },
+        ),
+      );
+
+      source.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+      destination.addEventListener("calciteListOrderChange", () => orderCalledTimes++);
+
+      await handle.setFocus();
+      await userEvent.keyboard("{Enter}");
+      const addAction = page.getByRole("menuitem", { name: "Destination" });
+      await expect.element(addAction).toBeVisible();
+      await userEvent.keyboard("{ArrowDown}{Enter}");
+      await beforeOrderChange;
+
+      expect(sourceItem.parentElement).toBe(source);
+      expect(destinationItem.parentElement).toBe(destination);
+      expect(orderCalledTimes).toBe(0);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("moves items between lists with the same group", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el: firstList } = await mount(
+        <div>
+          <calcite-list drag-enabled group="letters" id="first" label="First">
+            <calcite-list-item id="a" label="A" value="a" />
+            <calcite-list-item id="b" label="B" value="b" />
+          </calcite-list>
+          <calcite-list drag-enabled group="letters" id="second" label="Second">
+            <calcite-list-item id="c" label="C" value="c" />
+            <calcite-list-item id="d" label="D" value="d" />
+          </calcite-list>
+        </div>,
+      );
+
+      const draggedItem = page.getBySelector("#d").element() as ListItem["el"];
+      const targetItemLocator = page.getBySelector("#b");
+      await expect.element(targetItemLocator).toBeVisible();
+      await vi.waitFor(() =>
+        expect(
+          draggedItem.shadowRoot?.querySelector<HTMLElement>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the slotted list item's shadow root.
+      const handle = draggedItem.shadowRoot!.querySelector<HTMLElement>("calcite-sort-handle")!;
+      const targetItem = targetItemLocator.element();
+      const firstItems = page.elementLocator(firstList).getBySelector("calcite-list-item");
+      const secondItems = page.getBySelector("#second > calcite-list-item");
+
+      await dragAndDrop(handle, targetItem, "bottom");
+      await vi.waitFor(() =>
+        expect(
+          [
+            (firstItems.nth(0).element() as ListItem["el"]).value,
+            (firstItems.nth(1).element() as ListItem["el"]).value,
+            (firstItems.nth(2).element() as ListItem["el"]).value,
+          ].sort(),
+        ).toEqual(["a", "b", "d"]),
+      );
+
+      expect((secondItems.nth(0).element() as ListItem["el"]).value).toBe("c");
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("does not move items between lists with different groups", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el: source } = await mount(
+        <div>
+          <calcite-list drag-enabled group="letters" id="source" label="Source">
+            <calcite-list-item id="source-item" label="A" value="a" />
+          </calcite-list>
+          <calcite-list drag-enabled group="numbers" id="destination" label="Destination">
+            <calcite-list-item id="destination-item" label="1" value="1" />
+          </calcite-list>
+        </div>,
+      );
+
+      const sourceLocator = page.elementLocator(source);
+      const sourceItem = sourceLocator.getBySelector("#source-item").element() as ListItem["el"];
+      const destinationItem = page.getBySelector("#destination-item").element() as ListItem["el"];
+      // The sort handle is internal to the slotted list item's shadow root.
+      await vi.waitFor(() =>
+        expect(
+          sourceItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      const handle = sourceItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      const dragEnd = new Promise<void>((resolve) =>
+        source.addEventListener("calciteListDragEnd", () => resolve(), { once: true }),
+      );
+
+      await dragAndDrop(handle, destinationItem);
+      await dragEnd;
+
+      expect(sourceItem.parentElement).toBe(source);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("accepts a pointer drop after the list's final item is transferred out", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      const { el: source } = await mount(
+        <div>
+          <calcite-list drag-enabled group="letters" id="source" label="Source">
+            <calcite-list-item id="source-item" label="Source item" value="source-item" />
+          </calcite-list>
+          <calcite-list drag-enabled group="letters" id="destination" label="Destination">
+            <div
+              id="destination-empty-content"
+              slot="empty-content"
+              style="min-block-size: 160px; inline-size: 200px; display: grid; place-items: center"
+            >
+              Drop an item here
+            </div>
+            <calcite-list-item id="last-item" label="Last item" value="last-item" />
+          </calcite-list>
+        </div>,
+      );
+      const sourceLocator = page.elementLocator(source);
+      const destination = page.getBySelector("#destination").element() as List["el"];
+      const emptyContent = page.getBySelector("#destination-empty-content").element();
+      const sourceItem = sourceLocator.getBySelector("#source-item").element() as ListItem["el"];
+      const lastItem = page.getBySelector("#last-item").element() as ListItem["el"];
+
+      await vi.waitFor(() => {
+        expect(
+          sourceItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull();
+        expect(
+          lastItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+        ).not.toBeNull();
+      });
+
+      // Sort handles are inside list-item shadow roots.
+      const sourceDragHandle =
+        sourceItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      const lastItemDragHandle =
+        lastItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+      const emptied = new Promise<void>((resolve) =>
+        destination.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+      );
+
+      await dragAndDrop(lastItemDragHandle, sourceItem, "bottom");
+      await emptied;
+      expect(lastItem.parentElement).toBe(source);
+      await expect.element(page.getBySelector("#destination-empty-content")).toBeVisible();
+
+      const refilled = new Promise<void>((resolve) =>
+        destination.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
+      );
+      await dragAndDrop(sourceDragHandle, emptyContent, "center");
+      await refilled;
+
+      expect(sourceItem.parentElement).toBe(destination);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("honors canPut and supports canPull cloning between grouped lists", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    try {
+      await mount(
+        <div>
+          <calcite-list drag-enabled group="letters" id="source" label="Source">
+            <calcite-list-item id="source-one" label="One" value="one" />
+            <calcite-list-item id="source-two" label="Two" value="two" />
+          </calcite-list>
+          <calcite-list drag-enabled group="letters" id="destination" label="Destination">
+            <calcite-list-item id="destination-one" label="Three" value="three" />
+          </calcite-list>
+        </div>,
+      );
+      const source = page.getBySelector("#source").element() as List["el"];
+      const destination = page.getBySelector("#destination").element() as List["el"];
+      const sourceItem = page.getBySelector("#source-one").element() as ListItem["el"];
+      const destinationItemLocator = page.getBySelector("#destination-one");
+      await expect.element(destinationItemLocator).toBeVisible();
+      await vi.waitFor(() =>
+        expect(
+          sourceItem.shadowRoot?.querySelector<HTMLElement>("calcite-sort-handle"),
+        ).not.toBeNull(),
+      );
+      // The sort handle is internal to the slotted list item's shadow root.
+      const sourceHandle =
+        sourceItem.shadowRoot!.querySelector<HTMLElement>("calcite-sort-handle")!;
+      const destinationItem = destinationItemLocator.element();
+      const sourceItems = page.getBySelector("#source > calcite-list-item");
+      const destinationItems = page.getBySelector("#destination > calcite-list-item");
+
+      source.canPull = () => "clone";
+      destination.canPut = () => false;
+
+      const waitForListDragEnd = (list: List["el"]): Promise<void> =>
+        new Promise((resolve) => {
+          list.addEventListener("calciteListDragEnd", () => resolve(), { once: true });
+        });
+
+      const rejectedDragEnd = waitForListDragEnd(source);
+      await dragAndDrop(sourceHandle, destinationItem);
+      await rejectedDragEnd;
+      await afterNextFrame();
+
+      const sourceValues = () => [
+        (sourceItems.nth(0).element() as ListItem["el"]).value,
+        (sourceItems.nth(1).element() as ListItem["el"]).value,
+      ];
+      expect(sourceValues().sort()).toEqual(["one", "two"]);
+      expect((destinationItems.nth(0).element() as ListItem["el"]).value).toBe("three");
+
+      destination.canPut = () => true;
+      const cloneDragEnd = waitForListDragEnd(source);
+      await dragAndDrop(sourceHandle, destinationItem);
+      await cloneDragEnd;
+
+      await vi.waitFor(() =>
+        expect(
+          [
+            (destinationItems.nth(0).element() as ListItem["el"]).value,
+            (destinationItems.nth(1).element() as ListItem["el"]).value,
+          ].sort(),
+        ).toEqual(["one", "three"]),
+      );
+      await vi.waitFor(() => expect(sourceValues().sort()).toEqual(["one", "two"]));
+    } finally {
+      warnSpy.mockRestore();
+    }
   });
 });

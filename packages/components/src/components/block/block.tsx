@@ -460,6 +460,12 @@ export class Block extends LitElement {
    */
   calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
+  /** @private */
+  calciteInternalBlockDragDisabledChange = createEvent<{
+    el: Block["el"];
+    parentElement?: BlockGroup["el"];
+  }>({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -482,6 +488,13 @@ export class Block extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("dragDisabled") && this.hasUpdated) {
+      this.calciteInternalBlockDragDisabledChange.emit({
+        el: this.el,
+        parentElement: this.parentBlockGroupElement ?? undefined,
+      });
+    }
+
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
       toggleOpenClose(this);
     }

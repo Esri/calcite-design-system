@@ -34,6 +34,7 @@ interface ListStoryArgs
       | "loading"
       | "scale"
       | "sortDisabled"
+      | "sortMode"
       | "selectionAppearance"
       | "selectionMode"
       | "filterLabel"
@@ -58,6 +59,7 @@ export default {
     label: "My List",
     loading: false,
     sortDisabled: false,
+    sortMode: "automatic",
     scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.defaultValue,
     selectionMode: selectionMode.values[1],
@@ -68,6 +70,10 @@ export default {
     iconEnd: "",
   },
   argTypes: {
+    sortMode: {
+      options: ["automatic", "manual"],
+      control: { type: "select" },
+    },
     selectionMode: {
       options: selectionMode.values.filter(
         (option) => option !== "children" && option !== "multichildren" && option !== "ancestors",
@@ -126,6 +132,7 @@ export const simple = (args: ListStoryArgs): string => html`
     interaction-mode="${args.interactionMode}"
     label="${args.label}"
     scale="${args.scale}"
+    sort-mode="${args.sortMode}"
     selection-appearance="${args.selectionAppearance}"
     selection-mode="${args.selectionMode}"
   >
