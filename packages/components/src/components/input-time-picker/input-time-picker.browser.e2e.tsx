@@ -55,7 +55,6 @@ describe("accessible", () => {
 
   it("with placeholder", async () => {
     await mount(<calcite-input-time-picker placeholder="hello world" />);
-
     await expect.element(page.getByRole("group")).toHaveAccessibleName("hello world");
   });
 });
