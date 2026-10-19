@@ -1224,7 +1224,7 @@ export class List extends LitElement {
 
     const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
 
-    const fromEvent = this.calciteListBeforeOrderChange.emit(eventDetail);
+    const fromEvent = fromEl.emitBeforeOrderChangeEvent(eventDetail);
     const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
 
     if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
@@ -1266,7 +1266,7 @@ export class List extends LitElement {
 
     const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
 
-    const fromEvent = this.calciteListBeforeOrderChange.emit(eventDetail);
+    const fromEvent = fromEl.emitBeforeOrderChangeEvent(eventDetail);
     const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
 
     if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
@@ -1330,7 +1330,7 @@ export class List extends LitElement {
       return;
     }
 
-    if (this.calciteListBeforeOrderChange.emit(eventDetail).defaultPrevented) {
+    if (parentEl.emitBeforeOrderChangeEvent(eventDetail).defaultPrevented) {
       return;
     }
 

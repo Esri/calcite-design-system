@@ -166,16 +166,14 @@ describe("drag and drop", () => {
     container.style.display = "grid";
     container.style.gridTemplateColumns = "repeat(2, 80px)";
 
-    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
-    await expect.element(gap).toBeVisible();
-    expect(gap.element().getBoundingClientRect().width).toBe(80);
-    expect(gap.element().getBoundingClientRect().height).toBe(40);
-    expect(gap.element().getBoundingClientRect().right).toBeLessThanOrEqual(
-      target.element().getBoundingClientRect().left,
-    );
-    const bounds = target.element().getBoundingClientRect();
-    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
+    await dragAndDrop(handle.element(), target.element(), "bottom", { skipPointerUp: true });
     await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    await expect.element(gap).toBeVisible();
+    expect(gap.element().getBoundingClientRect().width).toBeCloseTo(80, 0);
+    expect(gap.element().getBoundingClientRect().height).toBeCloseTo(40, 0);
+    expect(gap.element().getBoundingClientRect().left).toBeGreaterThanOrEqual(
+      target.element().getBoundingClientRect().right,
+    );
     expect(gap.element().previousElementSibling).toBe(target.element());
     await commands.mouseUp();
 

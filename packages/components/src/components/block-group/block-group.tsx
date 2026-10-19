@@ -591,7 +591,7 @@ export class BlockGroup extends LitElement {
 
     const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
 
-    const fromEvent = this.calciteBlockGroupBeforeOrderChange.emit(eventDetail);
+    const fromEvent = fromEl.emitBeforeOrderChangeEvent(eventDetail);
     const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
 
     if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
@@ -632,7 +632,7 @@ export class BlockGroup extends LitElement {
 
     const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
 
-    const fromEvent = this.calciteBlockGroupBeforeOrderChange.emit(eventDetail);
+    const fromEvent = fromEl.emitBeforeOrderChangeEvent(eventDetail);
     const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
 
     if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
@@ -696,7 +696,7 @@ export class BlockGroup extends LitElement {
       return;
     }
 
-    if (this.calciteBlockGroupBeforeOrderChange.emit(eventDetail).defaultPrevented) {
+    if (parentEl.emitBeforeOrderChangeEvent(eventDetail).defaultPrevented) {
       return;
     }
 

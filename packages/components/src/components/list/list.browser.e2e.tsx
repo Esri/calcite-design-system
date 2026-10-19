@@ -1021,7 +1021,10 @@ describe("drag and drop", () => {
     const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination(true);
     const following = page.getBySelector("#following-item");
 
-    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await dragAndDrop(handle.element(), target.element(), "bottom", { skipPointerUp: true });
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    const bounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + 1);
     await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
     expect(target.getByRole("row").element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
       following.element().getBoundingClientRect().top,

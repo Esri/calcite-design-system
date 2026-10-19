@@ -999,11 +999,17 @@ function getManagerRecord(document: Document): SortableManagerRecord {
           position.x > targetBounds.right ||
           position.y < targetBounds.top ||
           position.y > targetBounds.bottom);
+      const acceptedMoveApplied =
+        canceledBeforeOrder &&
+        activeDrag?.component.sortMode === "automatic" &&
+        !!dropPosition &&
+        record.acceptedPullOperations.get(dropPosition.component) !== "clone" &&
+        activeDrag.item.parentElement === dropPosition.component.el;
       let canceled =
         event.canceled ||
         !targetComponent ||
         outsideTarget ||
-        (!!dropPosition && targetComponent !== dropPosition.component);
+        (!acceptedMoveApplied && !!dropPosition && targetComponent !== dropPosition.component);
 
       requestAnimationFrame(async () => {
         await record.manager.renderer.rendering;
