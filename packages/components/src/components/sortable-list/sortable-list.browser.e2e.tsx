@@ -713,7 +713,7 @@ describe("drag and drop", () => {
     expect(ended).toHaveBeenCalledWith(expect.objectContaining({ toEl: source.el, newIndex: 0 }));
   });
 
-  it("restores a transferred item when the final destination rejects it", async () => {
+  it("preserves an accepted transfer when a later destination vetoes the drop", async () => {
     const { source, destination, draggedItem, handle, target } = await renderCallbackTransfer();
     const { component: rejected } = await mount<SortableList>(
       <calcite-sortable-list group="capacity" id="rejected">
@@ -726,9 +726,12 @@ describe("drag and drop", () => {
     onTestFinished(() => commands.mouseUp());
     const vetoed = vi.fn((event: Event) => event.preventDefault());
     rejected.el.addEventListener("calciteListBeforeOrderChange", vetoed);
-    const changed = vi.fn();
-    source.el.addEventListener("calciteListOrderChange", changed);
-    destination.el.addEventListener("calciteListOrderChange", changed);
+    const sourceChanged = vi.fn();
+    const destinationChanged = vi.fn();
+    const rejectedChanged = vi.fn();
+    source.el.addEventListener("calciteListOrderChange", sourceChanged);
+    destination.el.addEventListener("calciteListOrderChange", destinationChanged);
+    rejected.el.addEventListener("calciteListOrderChange", rejectedChanged);
     const ended = vi.spyOn(source, "onDragEnd");
 
     await dragAndDrop(handle, target, "top", { skipPointerUp: true });
@@ -740,9 +743,19 @@ describe("drag and drop", () => {
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
 
     expect(vetoed).toHaveBeenCalled();
-    expect(Array.from(source.el.children)).toEqual([draggedItem]);
-    expect(Array.from(destination.el.children)).toEqual([target]);
-    expect(changed).not.toHaveBeenCalled();
+    expect(source.el.children).toHaveLength(0);
+    expect(Array.from(destination.el.children)).toEqual([draggedItem, target]);
+    expect(rejected.el.children).toHaveLength(1);
+    expect(sourceChanged).toHaveBeenCalledTimes(1);
+    expect(destinationChanged).toHaveBeenCalledTimes(1);
+    expect(rejectedChanged).not.toHaveBeenCalled();
+    expect(ended).toHaveBeenCalledWith({
+      fromEl: source.el,
+      toEl: destination.el,
+      dragEl: draggedItem,
+      oldIndex: 0,
+      newIndex: 0,
+    });
   });
 
   it("restores the original order when a reorder is released outside the list", async () => {

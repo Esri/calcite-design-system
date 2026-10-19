@@ -598,6 +598,37 @@ it("retries setup when a peer starts dragging while component updates are pendin
   expect(getSortableFor(component, "one")).toBeDefined();
 });
 
+it("retries pending setup when the last registered peer disconnects", async () => {
+  const { component } = await mountDragEnabled();
+  const { component: peer } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+
+  const update = Promise.withResolvers<boolean>();
+  const updateComplete = vi
+    .spyOn(component, "updateComplete", "get")
+    .mockReturnValue(update.promise);
+  onTestFinished(() => {
+    update.resolve(true);
+    updateComplete.mockRestore();
+  });
+
+  component.sortable.reset();
+  expect(destroySortableSpy).toHaveBeenCalledTimes(2);
+
+  peer.remove();
+  expect(destroyManagerSpy).toHaveBeenCalledTimes(1);
+  expect(createSortableSpy).toHaveBeenCalledTimes(4);
+
+  updateComplete.mockRestore();
+  update.resolve(true);
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(6));
+  expect(configuredPlugins).toHaveBeenCalledTimes(2);
+  expect(createSortableSpy.mock.calls.slice(-2).map(([options]) => options.data.component)).toEqual(
+    [component, component],
+  );
+});
+
 it("destroys and recreates sortables when dragEnabled changes", async () => {
   const { component } = await mountDragEnabled();
 

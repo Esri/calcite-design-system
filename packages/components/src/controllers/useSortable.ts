@@ -1001,7 +1001,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
           position.y > targetBounds.bottom);
       const acceptedMoveApplied =
         canceledBeforeOrder &&
-        activeDrag?.component.sortMode === "automatic" &&
+        !!activeDrag &&
+        activeDrag.component.sortMode !== "manual" &&
         !!dropPosition &&
         record.acceptedPullOperations.get(dropPosition.component) !== "clone" &&
         activeDrag.item.parentElement === dropPosition.component.el;
@@ -1292,12 +1293,12 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
         items.map((item) => (item as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete),
       );
 
-      if (
-        generation !== setupGeneration ||
-        !sortableComponent.isConnected ||
-        !currentRecord.alive ||
-        record !== currentRecord
-      ) {
+      if (generation !== setupGeneration || !sortableComponent.isConnected || record !== currentRecord) {
+        return;
+      }
+
+      if (!currentRecord.alive) {
+        await setUpSortable();
         return;
       }
 
