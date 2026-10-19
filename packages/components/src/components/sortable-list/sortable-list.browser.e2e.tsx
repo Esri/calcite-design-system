@@ -16,7 +16,11 @@ class ForwardedSortableList extends LitElement {
 
   override render() {
     return (
-      <calcite-sortable-list group="forwarded" id="forwarded-destination">
+      <calcite-sortable-list
+        drag-selector=".forwarded-item"
+        group="forwarded"
+        id="forwarded-destination"
+      >
         <slot />
       </calcite-sortable-list>
     );
@@ -1574,6 +1578,43 @@ describe("drag and drop", () => {
       gap: page.getBySelector('#forwarder > [data-dnd-placeholder="copy"]'),
     };
   }
+
+  it("registers items added to forwarded slot content", async () => {
+    const { source, destination, target } = await renderForwardedCopy();
+    const added = target.element().cloneNode(true) as HTMLElement;
+    added.id = "forwarded-added";
+    destination.element().append(added);
+    const handle = page.getBySelector("#forwarded-added calcite-handle");
+    await expect.element(handle).toBeVisible();
+    await afterNextFrame();
+
+    await dragAndDrop(handle.element(), page.getBySelector("#forwarded-copy").element(), "top");
+
+    await expect
+      .poll(() => Array.from(source.el.children).map((item) => item.id))
+      .toEqual(["forwarded-added", "forwarded-copy"]);
+    expect(destination.getBySelector(".forwarded-item").elements()).toEqual([target.element()]);
+  });
+
+  it("registers forwarded items when their selector membership changes", async () => {
+    const { source, destination, target } = await renderForwardedCopy();
+    const added = target.element().cloneNode(true) as HTMLElement;
+    added.id = "forwarded-added";
+    added.classList.remove("forwarded-item");
+    destination.element().append(added);
+    const handle = page.getBySelector("#forwarded-added calcite-handle");
+    await expect.element(handle).toBeVisible();
+    await afterNextFrame();
+
+    added.classList.add("forwarded-item");
+    await afterNextFrame();
+    await dragAndDrop(handle.element(), page.getBySelector("#forwarded-copy").element(), "top");
+
+    await expect
+      .poll(() => Array.from(source.el.children).map((item) => item.id))
+      .toEqual(["forwarded-added", "forwarded-copy"]);
+    expect(destination.getBySelector(".forwarded-item").elements()).toEqual([target.element()]);
+  });
 
   it("copies before and after items forwarded through a slot", async () => {
     const { source, handle, destination, target, gap } = await renderForwardedCopy();

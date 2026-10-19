@@ -51,6 +51,8 @@ export class SortableList extends LitElement {
 
   private sortableItems: HTMLElement[] = [];
 
+  private observing = false;
+
   mutationObserver = createObserver("mutation", (mutations) => {
     const items = this.getSortableItems();
     if (
@@ -177,8 +179,8 @@ export class SortableList extends LitElement {
   }
 
   onGlobalDragEnd(): void {
-    this.beginObserving();
     this.setUpSorting();
+    this.beginObserving();
   }
 
   onDragEnd(): void {}
@@ -278,13 +280,30 @@ export class SortableList extends LitElement {
     this.items = Array.from(this.el.children);
     this.sortableItems = this.getSortableItems();
     this.sortable.reset();
+    if (this.observing) {
+      this.beginObserving();
+    }
   }
 
   private beginObserving(): void {
-    this.mutationObserver?.observe(this.el, { attributes: true, childList: true, subtree: true });
+    this.mutationObserver?.disconnect();
+    this.observing = true;
+    const parents = new Set<HTMLElement>([this.el]);
+    const slot = this.defaultSlotEl.value;
+    if (slot) {
+      getSlotAssignedElements<HTMLElement>(slot).forEach((item) => {
+        if (item.parentElement) {
+          parents.add(item.parentElement);
+        }
+      });
+    }
+    parents.forEach((parent) =>
+      this.mutationObserver?.observe(parent, { attributes: true, childList: true, subtree: true }),
+    );
   }
 
   private endObserving(): void {
+    this.observing = false;
     this.mutationObserver?.disconnect();
   }
 
@@ -305,7 +324,7 @@ export class SortableList extends LitElement {
             [CSS.containerHorizontal]: horizontal,
           }}
         >
-          <slot ref={this.defaultSlotEl} />
+          <slot onSlotChange={this.setUpSorting} ref={this.defaultSlotEl} />
         </div>
       </this.interactiveContainer>
     );

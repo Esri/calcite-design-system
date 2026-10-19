@@ -161,7 +161,7 @@ class Test extends LitElement {
   onGlobalDragEnd = vi.fn();
   onDragEnd = vi.fn();
   onDragMove = vi.fn();
-  onDragStart = vi.fn();
+  onDragStart = vi.fn<(detail: DragDetail) => void>();
   onDragSort = vi.fn();
   canPut?: (detail: DragDetail) => boolean;
   dragSelector?: string;
@@ -552,6 +552,9 @@ it("does not notify components whose dragging is disabled", async () => {
 
   expect(activeComponent.onGlobalDragStart).toHaveBeenCalledTimes(1);
   expect(inactiveComponent.onGlobalDragStart).not.toHaveBeenCalled();
+  expect(activeComponent.onDragStart).toHaveBeenCalledWith(
+    expect.objectContaining({ newIndex: undefined, oldIndex: 0 }),
+  );
 });
 
 it("queues a reset while a drag is active and flushes it after the drag ends", async () => {

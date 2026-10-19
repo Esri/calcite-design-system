@@ -138,7 +138,7 @@ export interface DragDetail<
 }
 
 export type DragStartDetail<D extends DragDetail = DragDetail> = Omit<D, "newIndex"> & {
-  newIndex: null;
+  newIndex: undefined;
 };
 
 /**
@@ -509,7 +509,7 @@ function makeDragDetail(
 }
 
 function makeDragStartDetail(fromEl: HTMLElement, dragEl: HTMLElement, oldIndex: number): DragStartDetail {
-  return { fromEl, toEl: fromEl, dragEl, oldIndex, newIndex: null };
+  return { fromEl, toEl: fromEl, dragEl, oldIndex, newIndex: undefined };
 }
 
 function cloneSortableItem(item: HTMLElement): HTMLElement {
