@@ -1391,10 +1391,10 @@ describe("drag and drop", () => {
     );
 
     await dragAndDrop(secondHandle, empty, "center", { skipPointerUp: true });
-    await expect
-      .element(page.elementLocator(empty))
-      .toHaveAttribute("data-calcite-sort-position", "inside");
-    expect(getComputedStyle(empty, "::after").borderStyle).toBe("dashed");
+    await vi.waitFor(() => expect(secondItem.parentElement).toBe(empty));
+    const placeholder = page.elementLocator(empty).getBySelector('[data-dnd-placeholder="hidden"]');
+    await expect.element(placeholder).toBeInTheDocument();
+    expect(getComputedStyle(placeholder.element(), "::before").borderStyle).toBe("dashed");
     await commands.mouseUp();
     await emptyOrderChange;
 

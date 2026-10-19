@@ -1,10 +1,14 @@
 :host([data-dnd-dragging]),
-:host([data-dnd-placeholder]) {
+:host([data-dnd-placeholder]),
+::slotted([data-dnd-placeholder]) {
   position: relative;
   overflow: hidden;
 }
 
 :host([data-dnd-placeholder="hidden"])::before,
+::slotted([data-dnd-placeholder="hidden"])::before,
+:host([data-calcite-sort-position="before"])::after,
+:host([data-calcite-sort-position="after"])::after,
 :host([data-calcite-sort-position="inside"])::after {
   content: "";
   visibility: visible;
@@ -31,21 +35,8 @@
   position: relative;
 }
 
-:host([data-calcite-sort-position="before"])::after,
 :host([data-calcite-sort-position="after"])::after {
-  @apply absolute start-0 end-0 z-default;
-  content: "";
-  block-size: var(--calcite-border-width-md);
-  background-color: var(--calcite-color-brand);
-  pointer-events: none;
-}
-
-:host([data-calcite-sort-position="before"])::after {
-  inset-block-start: 0;
-}
-
-:host([data-calcite-sort-position="after"])::after {
-  inset-block-end: 0;
+  inset-block-start: 100%;
 }
 
 :host([data-calcite-sort-placeholder])::after {
@@ -57,6 +48,8 @@
   pointer-events: none;
 }
 
+:host([data-calcite-sort-position="before"])::after,
+:host([data-calcite-sort-position="after"])::after,
 :host([data-calcite-sort-position="inside"])::after {
   inset-block-end: auto;
   block-size: var(--calcite-internal-sortable-placeholder-height);

@@ -1052,6 +1052,88 @@ describe("drag and drop", () => {
     await expect.element(gap).not.toBeInTheDocument();
   });
 
+  it("copies before the first item after copying into a different collection", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { component: source } = await mount<List>(
+      <div style="display: flex; gap: 40px">
+        <calcite-list
+          drag-enabled
+          group="copies"
+          id="catalog"
+          label="Catalog"
+          sort-disabled
+          style="width: 240px; min-block-size: 160px; border: 1px solid"
+        >
+          <div slot="empty-content" style="min-block-size: 144px">
+            No places
+          </div>
+          <calcite-list-item id="map" label="Map" />
+          <calcite-list-item label="Compass" />
+          <calcite-list-item label="Field notebook" />
+        </calcite-list>
+        <calcite-list
+          drag-enabled
+          group="copies"
+          id="first"
+          label="First collection"
+          style="width: 240px; min-block-size: 160px; border: 1px solid"
+        >
+          <div slot="empty-content" style="min-block-size: 144px">
+            No places
+          </div>
+          <calcite-list-item id="camera" label="Camera" />
+        </calcite-list>
+        <calcite-list
+          drag-enabled
+          group="copies"
+          id="second"
+          label="Second collection"
+          style="width: 240px; min-block-size: 160px; border: 1px solid"
+        >
+          <div slot="empty-content" style="min-block-size: 144px">
+            No places
+          </div>
+        </calcite-list>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    source.canPut = () => false;
+    const handle = page.getBySelector("#map calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+
+    await dragAndDrop(handle.element(), page.getBySelector("#second").element(), "center");
+    await expect
+      .poll(() =>
+        page
+          .getBySelector("#second calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Map"]);
+
+    await dragAndDrop(handle.element(), page.getBySelector("#camera").element(), "top", {
+      skipPointerUp: true,
+    });
+    await expect
+      .element(page.getBySelector("#camera"))
+      .toHaveAttribute("data-calcite-sort-position", "before");
+    const gap = page.getBySelector('#first [data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeVisible();
+    const bounds = gap.element().getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+    await commands.mouseUp();
+
+    await expect
+      .poll(() =>
+        page
+          .getBySelector("#first calcite-list-item")
+          .elements()
+          .map((item) => (item as ListItem["el"]).label),
+      )
+      .toEqual(["Map", "Camera"]);
+  });
+
   it("shows append feedback after the single item instead of covering it", async () => {
     const { destination, handle, sourceItem, target } = await renderSingleItemCopyDestination();
 
@@ -1220,7 +1302,141 @@ describe("drag and drop", () => {
     expect(changed).not.toHaveBeenCalled();
   });
 
-  it.each([false, true])("shows empty drop feedback (clone: %s)", async (clone) => {
+  async function dragThroughPopulatedDestinationToEmptyList() {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    await mount(
+      <div>
+        <calcite-list drag-enabled group="feedback" id="source" label="Source">
+          <calcite-list-item id="source-item" label="Source item" />
+        </calcite-list>
+        <calcite-list drag-enabled group="feedback" id="populated" label="Populated">
+          <calcite-list-item id="existing-item" label="Existing item" />
+        </calcite-list>
+        <calcite-list drag-enabled group="feedback" id="empty" label="Empty" />
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    const item = page.getBySelector("#source-item").element();
+    const handle = page.getBySelector("#source-item calcite-sort-handle");
+    const empty = page.getBySelector("#empty").element();
+    empty.style.blockSize = "100px";
+    await expect.element(handle).toBeVisible();
+    await dragAndDrop(handle.element(), page.getBySelector("#existing-item").element(), "bottom", {
+      skipPointerUp: true,
+    });
+    await vi.waitFor(() => expect(item.parentElement?.id).toBe("populated"));
+    expect(item.matches(":popover-open")).toBe(true);
+
+    const bounds = empty.getBoundingClientRect();
+    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+
+    return { item, empty };
+  }
+
+  it("moves feedback from a populated destination to an empty destination", async () => {
+    const { item, empty } = await dragThroughPopulatedDestinationToEmptyList();
+    await vi.waitFor(() => expect(item.parentElement).toBe(empty));
+    expect(item.matches(":popover-open")).toBe(true);
+    expect(empty.style.minBlockSize).toBe("");
+    await expect
+      .element(page.getBySelector("#populated [data-dnd-placeholder]"))
+      .not.toBeInTheDocument();
+    const placeholder = page.getBySelector('#empty [data-dnd-placeholder="hidden"]');
+    await expect.element(placeholder).toBeInTheDocument();
+    expect(getComputedStyle(placeholder.element(), "::before").borderStyle).toBe("dashed");
+    await expect
+      .element(page.getBySelector("#source [data-dnd-placeholder]"))
+      .not.toBeInTheDocument();
+    await commands.mouseUp();
+    expect(item.parentElement).toBe(empty);
+  });
+
+  it("restores the source when a move through populated and empty destinations is canceled", async () => {
+    const { item, empty } = await dragThroughPopulatedDestinationToEmptyList();
+    await vi.waitFor(() => expect(item.parentElement).toBe(empty));
+
+    await userEvent.keyboard("{Escape}");
+
+    await vi.waitFor(() => expect(item.parentElement?.id).toBe("source"));
+    await expect.element(page.getBySelector("[data-dnd-placeholder]")).not.toBeInTheDocument();
+    expect(empty.style.minBlockSize).toBe("");
+  });
+
+  it("hides clone feedback when moving into an empty destination", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { component: source } = await mount<List>(
+      <div>
+        <calcite-list drag-enabled group="feedback" id="source" label="Source">
+          <calcite-list-item id="source-item" label="Source item" />
+        </calcite-list>
+        <calcite-list
+          drag-enabled
+          group="feedback"
+          id="destination"
+          label="Destination"
+          style="min-block-size: 100px"
+        />
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = ({ toEl }) => (toEl === source.el ? "clone" : true);
+    const handle = page.getBySelector("#source-item calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+
+    await dragAndDrop(handle.element(), page.getBySelector("#destination").element(), "center", {
+      skipPointerUp: true,
+    });
+
+    const placeholder = page.getBySelector('#destination [data-dnd-placeholder="hidden"]');
+    await expect.element(placeholder).toBeInTheDocument();
+    expect(getComputedStyle(placeholder.element(), "::before").borderStyle).toBe("dashed");
+    await expect
+      .element(page.getBySelector('#destination [data-dnd-placeholder="clone"]'))
+      .not.toBeInTheDocument();
+    await commands.mouseUp();
+  });
+
+  it("updates empty content after a peer disconnects during a drag and reconnects", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { component: source } = await mount<List>(
+      <div>
+        <calcite-list drag-enabled group="feedback" id="source" label="Source">
+          <calcite-list-item id="source-item" label="Source item" />
+        </calcite-list>
+        <calcite-list drag-enabled group="feedback" id="peer" label="Peer">
+          <calcite-list-item id="peer-item" label="Peer item" />
+          <div id="peer-empty-content" slot="empty-content">
+            No items
+          </div>
+        </calcite-list>
+        <calcite-list
+          drag-enabled
+          group="feedback"
+          id="destination"
+          label="Destination"
+          style="min-block-size: 100px"
+        />
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    const peer = page.getBySelector("#peer").element();
+    const peerItem = page.getBySelector("#peer-item").element();
+    const emptyContent = page.getBySelector("#peer-empty-content");
+    const handle = page.getBySelector("#source-item calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    await dragAndDrop(handle.element(), page.getBySelector("#destination").element(), "center", {
+      skipPointerUp: true,
+    });
+    peer.remove();
+    await commands.mouseUp();
+
+    source.el.parentElement!.append(peer);
+    peerItem.remove();
+
+    await expect.element(emptyContent).toBeVisible();
+  });
+
+  it("shows empty copy feedback while retaining the source item", async () => {
     vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const { component: source } = await mount<List>(
       <div>
@@ -1237,13 +1453,14 @@ describe("drag and drop", () => {
     destination.element().style.minBlockSize = "100px";
     const handle = page.getBySelector("#source-item calcite-sort-handle");
     await expect.element(handle).toBeVisible();
-    if (clone) {
-      source.canPull = () => "clone";
-    }
+    source.canPull = () => "clone";
 
     await dragAndDrop(handle.element(), destination.element(), "center", { skipPointerUp: true });
     await expect.element(destination).toHaveAttribute("data-calcite-sort-position", "inside");
-    const dropIndicator = getComputedStyle(destination.element(), "::after");
+    const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
+    await expect.element(gap).toBeInTheDocument();
+    const dropIndicator = getComputedStyle(gap.element());
+    expect(getComputedStyle(destination.element(), "::after").content).toBe("none");
     expect(dropIndicator.borderStyle).toBe("dashed");
     expect(Number.parseFloat(dropIndicator.height)).toBeLessThan(
       destination.element().getBoundingClientRect().height,
@@ -1258,6 +1475,17 @@ describe("drag and drop", () => {
     expect(
       page.getBySelector("#source-item:not([data-dnd-placeholder])").element().parentElement,
     ).toBe(source.el);
+    expect(
+      getComputedStyle(page.getBySelector("#source > [data-dnd-placeholder]").element(), "::before")
+        .content,
+    ).toBe("none");
+    await expect
+      .element(
+        page
+          .getBySelector("#source > [data-dnd-placeholder]")
+          .getByText("Source item", { exact: true }),
+      )
+      .toBeVisible();
 
     await commands.mouseUp();
     await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
@@ -1998,6 +2226,7 @@ describe("drag and drop", () => {
 
   it("accepts a pointer drop after the list's final item is transferred out", async () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    onTestFinished(() => commands.mouseUp());
 
     try {
       const { el: source } = await mount(
@@ -2046,13 +2275,17 @@ describe("drag and drop", () => {
       expect(lastItem.parentElement).toBe(source);
       await expect.element(page.getBySelector("#destination-empty-content")).toBeVisible();
 
-      const refilled = new Promise<void>((resolve) =>
-        destination.addEventListener("calciteListOrderChange", () => resolve(), { once: true }),
-      );
-      await dragAndDrop(sourceDragHandle, emptyContent, "center");
-      await refilled;
+      const refilled = vi.fn();
+      destination.addEventListener("calciteListOrderChange", refilled, { once: true });
+      await dragAndDrop(sourceDragHandle, emptyContent, "center", { skipPointerUp: true });
+      await expect.element(page.getBySelector("#destination-empty-content")).toBeVisible();
+      expect(destination.style.minBlockSize).toBe("");
+      expect(sourceItem.matches(":popover-open")).toBe(true);
+      await commands.mouseUp();
+      await vi.waitFor(() => expect(refilled).toHaveBeenCalled());
 
       expect(sourceItem.parentElement).toBe(destination);
+      await expect.element(page.getBySelector("#destination-empty-content")).not.toBeVisible();
     } finally {
       warnSpy.mockRestore();
     }

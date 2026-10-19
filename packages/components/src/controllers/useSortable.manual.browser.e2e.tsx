@@ -118,6 +118,17 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
       await expect
         .element(page.elementLocator(third))
         .toHaveAttribute("data-calcite-sort-position", "after");
+      const indicator = getComputedStyle(third, "::after");
+      expect(indicator.borderStyle).toBe("dashed");
+      expect(indicator.borderTopWidth).toBe("1px");
+      expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(
+        first.getBoundingClientRect().height,
+        0,
+      );
+      expect(Number.parseFloat(indicator.inlineSize)).toBeCloseTo(
+        first.getBoundingClientRect().width,
+        0,
+      );
       expect(request).not.toHaveBeenCalled();
       expect(Array.from(source.children)).toEqual([first, second, third]);
       await commands.mouseUp();
@@ -134,6 +145,9 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
       expect(mutations).toEqual([]);
       expect(changed).not.toHaveBeenCalled();
       expect(third.hasAttribute("data-calcite-sort-position")).toBe(false);
+      expect(third.style.getPropertyValue("--calcite-internal-sortable-placeholder-height")).toBe(
+        "",
+      );
       await expect
         .element(page.getBySelector("[inert][aria-hidden='true']"))
         .not.toBeInTheDocument();

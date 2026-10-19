@@ -413,8 +413,7 @@ function showDropIndicator(position: DropPosition, dragEl: HTMLElement, clone = 
   const target = position.item ?? lastItem ?? position.component.el;
   position.indicatorTarget = target;
   const placement = position.placement ?? (lastItem ? "after" : "inside");
-  const copyGap = clone && target !== position.component.el;
-  if (copyGap) {
+  if (clone) {
     const bounds = dragEl.getBoundingClientRect();
     const placeholder = target.ownerDocument.createElement("div");
     placeholder.setAttribute("data-dnd-placeholder", "copy");
@@ -426,12 +425,16 @@ function showDropIndicator(position: DropPosition, dragEl: HTMLElement, clone = 
         ? bounds.width
         : target.getBoundingClientRect().width
     }px`;
-    target.insertAdjacentElement(placement === "before" ? "beforebegin" : "afterend", placeholder);
+    const referenceItem = position.item ?? lastItem;
+    position.component.el.insertBefore(
+      placeholder,
+      (placement === "before" ? referenceItem : referenceItem?.nextSibling) ?? null,
+    );
     position.copyPlaceholder = placeholder;
-  } else if (target === position.component.el) {
+  } else {
     target.style.setProperty(placeholderHeightProperty, `${dragEl.getBoundingClientRect().height}px`);
   }
-  target.toggleAttribute(copyPlaceholderAttribute, copyGap);
+  target.toggleAttribute(copyPlaceholderAttribute, clone);
   target.setAttribute(sortPositionAttribute, placement);
 }
 
@@ -847,30 +850,40 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         return;
       }
     }
-    if (clone && record.activeDrag && (source.group !== source.initialGroup || source.index !== source.initialIndex)) {
-      const previousComponent = Array.from(record.components).find(
-        (component) => getSortableGroup(component) === source.group,
-      );
-      restoreSortableItem(record.activeDrag);
+    const previousComponent = Array.from(record.components).find((component) => component.el === dragEl.parentElement);
+    const restoreSource =
+      clone && record.activeDrag && (source.group !== source.initialGroup || source.index !== source.initialIndex);
+    if (restoreSource) {
+      restoreSortableItem(record.activeDrag!);
       source.sortable.group = source.initialGroup;
-      [fromComponent, previousComponent].forEach((component) => {
-        if (component) {
-          getSortableItems(component).forEach((item, index) => {
-            const sortable = record.sortables.get(component)?.get(item);
-            if (sortable) {
-              sortable.index = index;
-            }
-          });
-        }
-      });
     }
     const placeholder = dragEl.nextElementSibling;
     if (placeholder?.hasAttribute("data-dnd-placeholder")) {
       placeholder.setAttribute("data-dnd-placeholder", clone ? "clone" : "hidden");
       initializeCopyPlaceholder(dragEl);
     }
+    if (!clone && !relatedEl) {
+      toComponent.el.append(source.sortable.element ?? dragEl);
+      source.sortable.group = getSortableGroup(toComponent);
+    }
+    if (restoreSource || (!clone && !relatedEl)) {
+      new Set([fromComponent, previousComponent, toComponent]).forEach((component) => {
+        if (!component) {
+          return;
+        }
+        getSortableItems(component)
+          .filter((item) => restoreSource || item !== dragEl)
+          .forEach((item, index) => {
+            const sortable = item === dragEl ? source.sortable : record.sortables.get(component)?.get(item);
+            if (sortable) {
+              sortable.index = index;
+            }
+          });
+      });
+      source.sortable.index = restoreSource ? source.initialIndex : newIndex;
+    }
 
-    if (!relatedEl || clone) {
+    if (clone) {
       showDropIndicator(record.dropPosition, dragEl, clone);
     }
     record.acceptedDropPosition = record.dropPosition;
@@ -987,11 +1000,22 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       const dropPosition = record.dropCanceled ? record.acceptedDropPosition : record.dropPosition;
       const canceledBeforeOrder = record.dropCanceled;
       const targetData = event.operation.target ? getSortableItemData(event.operation.target) : undefined;
-      const targetComponent =
-        activeDrag && targetData?.item === activeDrag.item
-          ? Array.from(record.components).find((component) => activeDrag.item.parentElement === component.el)
-          : targetData?.component;
       const position = record.manager.dragOperation.position.current;
+      const copyBounds = dropPosition?.copyPlaceholder?.isConnected
+        ? dropPosition.copyPlaceholder.getBoundingClientRect()
+        : undefined;
+      const overCopyPlaceholder =
+        !!copyBounds &&
+        position.x >= copyBounds.left &&
+        position.x <= copyBounds.right &&
+        position.y >= copyBounds.top &&
+        position.y <= copyBounds.bottom;
+      const targetComponent =
+        overCopyPlaceholder && dropPosition
+          ? dropPosition.component
+          : activeDrag && targetData?.item === activeDrag.item
+            ? Array.from(record.components).find((component) => activeDrag.item.parentElement === component.el)
+            : targetData?.component;
       const targetBounds = targetComponent?.el.getBoundingClientRect();
       const outsideTarget =
         !!targetBounds &&
@@ -1097,15 +1121,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
           !!dropPosition &&
           fromComponent !== toComponent &&
           record.acceptedPullOperations.get(toComponent) === "clone";
-        if (
-          !canceled &&
-          !canceledBeforeOrder &&
-          !cloning &&
-          dropPosition?.component === toComponent &&
-          !dropPosition.item
-        ) {
-          toComponent.el.append(dragEl);
-        }
 
         const destinationItems = cloning
           ? getSortableItems(toComponent).filter((item) => item !== dragEl)
