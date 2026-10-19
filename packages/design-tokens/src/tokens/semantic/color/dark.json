@@ -6,60 +6,60 @@
           "category": "color",
           "group": "surface"
         },
-        "$type": "color",
-        "$value": "{color.background.default}",
-        "$description": "Replaces `--calcite-color-background`",
         "$extensions": {
-          "calcite.outputReference": true
-        }
+          "calcite.theme": true
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-210}",
+        "$description": "Replaces `--calcite-color-background`"
       },
       "2": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$type": "color",
-        "$value": "{color.foreground.1}",
-        "$description": "Replaces `--calcite-color-foreground-1`",
         "$extensions": {
-          "calcite.outputReference": true
-        }
+          "calcite.theme": true
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-200}",
+        "$description": "Replaces `--calcite-color-foreground-1`"
       },
       "3": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$type": "color",
-        "$value": "{color.foreground.2}",
-        "$description": "Replaces `--calcite-color-foreground-2`",
         "$extensions": {
-          "calcite.outputReference": true
-        }
+          "calcite.theme": true
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-190}",
+        "$description": "Replaces `--calcite-color-foreground-2`"
       },
       "4": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$type": "color",
-        "$value": "{color.foreground.3}",
-        "$description": "Replaces `--calcite-color-foreground-3`",
         "$extensions": {
-          "calcite.outputReference": true
-        }
+          "calcite.theme": true
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-180}",
+        "$description": "Replaces `--calcite-color-foreground-3`"
       },
       "highlight": {
         "attributes": {
           "category": "color",
           "group": "surface"
         },
-        "$type": "color",
-        "$value": "{color.foreground.current}",
-        "$description": "Replaces `--calcite-color-foreground-current`",
         "$extensions": {
-          "calcite.outputReference": true
-        }
+          "calcite.theme": true
+        },
+        "$type": "color",
+        "$value": "{core.color.medium-saturation.blue.m-bb-090}",
+        "$description": "Replaces `--calcite-color-foreground-current`"
       }
     },
     "background": {
@@ -71,7 +71,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-210}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-1` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-color-surface-1` instead."
       },
       "none": {
         "attributes": {
@@ -93,7 +93,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-200}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-2` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-color-surface-2` instead."
       },
       "2": {
         "attributes": {
@@ -103,7 +103,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-190}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-3` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-color-surface-3` instead."
       },
       "3": {
         "attributes": {
@@ -113,7 +113,7 @@
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-180}",
-        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-4` instead."
+        "$description": "Deprecated in v4.0.0, removal target v6.0.0 - Use `--calcite-color-surface-4` instead."
       },
       "current": {
         "attributes": {
@@ -132,6 +132,9 @@
           "category": "color",
           "group": "text"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.neutral.blk-000}"
       },
@@ -139,6 +142,9 @@
         "attributes": {
           "category": "color",
           "group": "text"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-060}"
@@ -148,6 +154,9 @@
           "category": "color",
           "group": "text"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.neutral.blk-090}"
       },
@@ -155,6 +164,9 @@
         "attributes": {
           "category": "color",
           "group": "text"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-220}"
@@ -164,6 +176,9 @@
           "category": "color",
           "group": "text"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.dark.blue.d-bb-420}"
       },
@@ -171,6 +186,9 @@
         "attributes": {
           "category": "color",
           "group": "text"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{core.color.high-saturation.blue.h-bb-010}"
@@ -182,6 +200,9 @@
           "category": "color",
           "group": "border"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.neutral.blk-160}"
       },
@@ -189,6 +210,9 @@
         "attributes": {
           "category": "color",
           "group": "border"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-170}"
@@ -198,6 +222,9 @@
           "category": "color",
           "group": "border"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.neutral.blk-180}"
       },
@@ -205,6 +232,9 @@
         "attributes": {
           "category": "color",
           "group": "border"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-130}"
@@ -236,6 +266,9 @@
           "category": "color",
           "group": "brand"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.vibrant.blue.v-bb-160}"
       },
@@ -243,6 +276,9 @@
         "attributes": {
           "category": "color",
           "group": "brand"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{core.color.dark.blue.d-bb-410}"
@@ -252,6 +288,9 @@
           "category": "color",
           "group": "brand"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.vibrant.blue.v-bb-110}"
       },
@@ -259,6 +298,9 @@
         "attributes": {
           "category": "color",
           "group": "brand"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "rgba({core.color.dark.blue.d-bb-420}, {core.opacity.40})"
@@ -270,6 +312,9 @@
           "category": "color",
           "group": "inverse"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.neutral.blk-005}"
       },
@@ -278,6 +323,9 @@
           "category": "color",
           "group": "inverse"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "{core.color.neutral.blk-010}"
       },
@@ -285,6 +333,9 @@
         "attributes": {
           "category": "color",
           "group": "inverse"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{core.color.neutral.blk-020}"
@@ -298,6 +349,9 @@
             "group": "status",
             "kind": "info"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.dark.blue.d-bb-420}"
         },
@@ -307,6 +361,9 @@
             "group": "status",
             "kind": "info"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.dark.blue.d-bb-410}"
         },
@@ -315,6 +372,9 @@
             "category": "color",
             "group": "status",
             "kind": "info"
+          },
+          "$extensions": {
+            "calcite.theme": true
           },
           "$type": "color",
           "$value": "{core.color.vibrant.blue.v-bb-110}"
@@ -327,6 +387,9 @@
             "group": "status",
             "kind": "success"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.dark.green.d-gg-420}"
         },
@@ -336,6 +399,9 @@
             "group": "status",
             "kind": "success"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.vibrant.green.v-gg-120}"
         },
@@ -344,6 +410,9 @@
             "category": "color",
             "group": "status",
             "kind": "success"
+          },
+          "$extensions": {
+            "calcite.theme": true
           },
           "$type": "color",
           "$value": "{core.color.vibrant.green.v-gg-110}"
@@ -356,6 +425,9 @@
             "group": "status",
             "kind": "warning"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.high-saturation.orange-yellow.h-oy-060}"
         },
@@ -365,6 +437,9 @@
             "group": "status",
             "kind": "warning"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.high-saturation.orange-yellow.h-oy-050}"
         },
@@ -373,6 +448,9 @@
             "category": "color",
             "group": "status",
             "kind": "warning"
+          },
+          "$extensions": {
+            "calcite.theme": true
           },
           "$type": "color",
           "$value": "{core.color.high-saturation.orange-yellow.h-oy-030}"
@@ -385,6 +463,9 @@
             "group": "status",
             "kind": "danger"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.dark.red.d-rr-420}"
         },
@@ -394,6 +475,9 @@
             "group": "status",
             "kind": "danger"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "{core.color.dark.red.d-rr-410}"
         },
@@ -402,6 +486,9 @@
             "category": "color",
             "group": "status",
             "kind": "danger"
+          },
+          "$extensions": {
+            "calcite.theme": true
           },
           "$type": "color",
           "$value": "{core.color.vibrant.red.v-rr-110}"
@@ -414,6 +501,9 @@
           "category": "color",
           "group": "transparent"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})"
       },
@@ -421,6 +511,9 @@
         "attributes": {
           "category": "color",
           "group": "transparent"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "rgba({core.color.neutral.blk-000}, {core.opacity.12})"
@@ -430,6 +523,9 @@
           "category": "color",
           "group": "transparent"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "rgba({core.color.neutral.blk-000}, {core.opacity.16})"
       },
@@ -438,6 +534,9 @@
           "category": "color",
           "group": "transparent"
         },
+        "$extensions": {
+          "calcite.theme": true
+        },
         "$type": "color",
         "$value": "rgba({core.color.neutral.blk-240}, {core.opacity.85})"
       },
@@ -445,6 +544,9 @@
         "attributes": {
           "category": "color",
           "group": "transparent"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "rgba({core.color.neutral.blk-200}, {core.opacity.80})"
@@ -456,6 +558,9 @@
             "group": "transparent",
             "kind": "inverse"
           },
+          "$extensions": {
+            "calcite.theme": true
+          },
           "$type": "color",
           "$value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
         },
@@ -464,6 +569,9 @@
             "category": "color",
             "group": "transparent",
             "kind": "inverse"
+          },
+          "$extensions": {
+            "calcite.theme": true
           },
           "$type": "color",
           "$value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
@@ -475,6 +583,9 @@
         "attributes": {
           "category": "color",
           "group": "focus"
+        },
+        "$extensions": {
+          "calcite.theme": true
         },
         "$type": "color",
         "$value": "{color.brand.default}"
