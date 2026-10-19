@@ -300,7 +300,6 @@ export class ActionBar extends LitElement {
     if (this.lastOverflowAxisSize?.axis === axis && this.lastOverflowAxisSize.size === size) {
       return;
     }
-
     this.lastOverflowAxisSize = { axis, size };
     this.resize({ width, height });
   };
