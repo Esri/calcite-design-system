@@ -708,7 +708,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
           <div class={CSS.contentContainer}>
             {this.showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
             <div
-              aria-label={getLabelText(this)}
+              aria-label={getLabelText(this) || this.placeholder || ""}
               ariaRequired={this.required}
               class={{
                 [CSS.inputContainer]: true,

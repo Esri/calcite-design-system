@@ -52,6 +52,12 @@ describe("accessible", () => {
   describe("using seconds", () => {
     accessible(() => mount(<calcite-input-time-picker step={1} value="00:00:00" />));
   });
+
+  it("with placeholder", async () => {
+    await mount(<calcite-input-time-picker placeholder="hello world" />);
+
+    await expect.element(page.getByRole("group")).toHaveAccessibleName("hello world");
+  });
 });
 
 it("renders the required combobox ARIA attributes", async () => {

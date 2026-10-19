@@ -3,8 +3,6 @@ import type { Label } from "../components/label/label";
 interface LabelTextComponent {
   label?: string;
   labelEl?: Label["el"];
-  labelText?: string;
-  placeholder?: string;
 }
 
 /**
@@ -13,7 +11,5 @@ interface LabelTextComponent {
  * @param component
  */
 export function getLabelText(component: LabelTextComponent): string {
-  return (
-    component.label || component.labelEl?.textContent?.trim() || component.labelText || component.placeholder || ""
-  );
+  return component.label || component.labelEl?.textContent?.trim() || "";
 }
