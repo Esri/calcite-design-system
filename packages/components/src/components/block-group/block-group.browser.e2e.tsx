@@ -386,6 +386,78 @@ describe("expandMode", () => {
 });
 
 describe("drag and drop", () => {
+  async function renderWrappedBlocks(sortMode: "automatic" | "manual" = "automatic") {
+    const { el } = await mount<BlockGroup>(
+      <calcite-block-group drag-enabled label="Blocks" sort-mode={sortMode}>
+        <div id="wrapper">
+          <calcite-block heading="One" id="one" />
+          <calcite-block heading="Two" id="two" />
+        </div>
+      </calcite-block-group>,
+    );
+    const wrapper = page.getBySelector("#wrapper").element();
+    const first = page.getBySelector("#one").element();
+    const before = vi.fn();
+    const changed = vi.fn();
+    const request = vi.fn();
+    el.addEventListener("calciteBlockGroupBeforeOrderChange", before);
+    el.addEventListener("calciteBlockGroupOrderChange", changed);
+    el.addEventListener("calciteBlockGroupOrderRequest", request);
+
+    async function reorder() {
+      const handle = page.getBySelector("#one calcite-sort-handle");
+      await expect.element(handle).toBeVisible();
+      await (handle.element() as SortHandle["el"]).setFocus();
+      await userEvent.keyboard("{Enter}");
+      await expect.element(handle).toHaveProperty("open", true);
+      await page.getByRole("menuitem", { name: "Move down", exact: true }).click();
+      await vi.waitFor(() => expect(before).toHaveBeenCalledTimes(1));
+    }
+
+    return { el, wrapper, first, before, changed, request, reorder };
+  }
+
+  it("reorders wrapped blocks within their DOM parent from the sort menu", async () => {
+    const { el, wrapper, first, before, changed, reorder } = await renderWrappedBlocks();
+    await reorder();
+
+    expect(Array.from(wrapper.children, (item) => item.id)).toEqual(["two", "one"]);
+    expect(before.mock.calls[0][0].detail).toEqual({
+      dragEl: first,
+      fromEl: el,
+      toEl: el,
+      oldIndex: 0,
+      newIndex: 1,
+    });
+    expect(changed).toHaveBeenCalledTimes(1);
+  });
+
+  it("honors the owning block group's veto for wrapped menu reordering", async () => {
+    const { wrapper, before, changed, reorder } = await renderWrappedBlocks();
+    before.mockImplementation((event: Event) => event.preventDefault());
+    await reorder();
+
+    expect(Array.from(wrapper.children, (item) => item.id)).toEqual(["one", "two"]);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("uses the owning block group's manual mode for wrapped menu reordering", async () => {
+    const { el, wrapper, first, changed, request, reorder } = await renderWrappedBlocks("manual");
+    await reorder();
+
+    expect(Array.from(wrapper.children, (item) => item.id)).toEqual(["one", "two"]);
+    expect(changed).not.toHaveBeenCalled();
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][0].detail).toEqual({
+      dragEl: first,
+      fromEl: el,
+      toEl: el,
+      oldIndex: 0,
+      newIndex: 1,
+      operation: "move",
+    });
+  });
+
   const renderBlockGroup = () =>
     mount(
       <calcite-block-group drag-enabled id="block-group" label="Blocks">

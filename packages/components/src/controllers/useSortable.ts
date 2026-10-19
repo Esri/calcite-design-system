@@ -405,7 +405,7 @@ function clearDropIndicator(position?: DropPosition): void {
 
 function showDropIndicator(position: DropPosition, dragEl: HTMLElement, clone = false): void {
   const lastItem =
-    clone && !position.item
+    (clone || position.component.sortMode === "manual") && !position.item
       ? getSortableItems(position.component)
           .filter((item) => item !== dragEl)
           .at(-1)

@@ -1295,9 +1295,10 @@ export class List extends LitElement {
     const { reorder } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const parentEl = dragEl?.parentElement as List["el"];
+    const parentEl = dragEl?.parentElement;
+    const listEl = dragEl?.closest<List["el"]>(listSelector);
 
-    if (!parentEl) {
+    if (!parentEl || !listEl) {
       return;
     }
 
@@ -1324,17 +1325,17 @@ export class List extends LitElement {
         break;
     }
 
-    const eventDetail = { dragEl, fromEl: parentEl, toEl: parentEl, newIndex, oldIndex };
+    const eventDetail = { dragEl, fromEl: listEl, toEl: listEl, newIndex, oldIndex };
 
-    if (parentEl.sortMode === "manual" && newIndex === oldIndex) {
+    if (listEl.sortMode === "manual" && newIndex === oldIndex) {
       return;
     }
 
-    if (parentEl.emitBeforeOrderChangeEvent(eventDetail).defaultPrevented) {
+    if (listEl.emitBeforeOrderChangeEvent(eventDetail).defaultPrevented) {
       return;
     }
 
-    if (parentEl.sortMode === "manual") {
+    if (listEl.sortMode === "manual") {
       this.onOrderRequest({ ...eventDetail, operation: "move" });
       return;
     }

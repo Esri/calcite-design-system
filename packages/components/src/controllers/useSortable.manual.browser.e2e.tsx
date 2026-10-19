@@ -439,8 +439,8 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     const item = page.getBySelector("#destination-item").element();
     await dragAndDrop(handle, destination, "bottom", { skipPointerUp: true });
     await expect
-      .element(page.getBySelector("#destination"))
-      .toHaveAttribute("data-calcite-sort-position", "inside");
+      .element(page.getBySelector("#destination-item"))
+      .toHaveAttribute("data-calcite-sort-position", "after");
 
     item.remove();
     await commands.mouseUp();
@@ -458,8 +458,8 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     source.style.paddingBlockEnd = "80px";
     await dragAndDrop(handle, source, "bottom", { skipPointerUp: true });
     await expect
-      .element(page.getBySelector("#source"))
-      .toHaveAttribute("data-calcite-sort-position", "inside");
+      .element(page.getBySelector("#three"))
+      .toHaveAttribute("data-calcite-sort-position", "after");
     const added = document.createElement(
       component === "list" ? "calcite-list-item" : "calcite-block",
     );

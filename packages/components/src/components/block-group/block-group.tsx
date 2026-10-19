@@ -661,9 +661,10 @@ export class BlockGroup extends LitElement {
     const { reorder } = event.detail;
 
     const dragEl = event.target as Block["el"];
-    const parentEl = dragEl?.parentElement as BlockGroup["el"];
+    const parentEl = dragEl?.parentElement;
+    const blockGroupEl = dragEl?.closest<BlockGroup["el"]>(blockGroupSelector);
 
-    if (!parentEl) {
+    if (!parentEl || !blockGroupEl) {
       return;
     }
 
@@ -690,17 +691,17 @@ export class BlockGroup extends LitElement {
         break;
     }
 
-    const eventDetail = { dragEl, fromEl: parentEl, toEl: parentEl, newIndex, oldIndex };
+    const eventDetail = { dragEl, fromEl: blockGroupEl, toEl: blockGroupEl, newIndex, oldIndex };
 
-    if (parentEl.sortMode === "manual" && newIndex === oldIndex) {
+    if (blockGroupEl.sortMode === "manual" && newIndex === oldIndex) {
       return;
     }
 
-    if (parentEl.emitBeforeOrderChangeEvent(eventDetail).defaultPrevented) {
+    if (blockGroupEl.emitBeforeOrderChangeEvent(eventDetail).defaultPrevented) {
       return;
     }
 
-    if (parentEl.sortMode === "manual") {
+    if (blockGroupEl.sortMode === "manual") {
       this.onOrderRequest({ ...eventDetail, operation: "move" });
       return;
     }

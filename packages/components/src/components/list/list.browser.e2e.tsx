@@ -1340,6 +1340,80 @@ describe("drag and drop", () => {
     );
   };
 
+  async function renderGroupedItems(sortMode: "automatic" | "manual" = "automatic") {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    onTestFinished(() => warnSpy.mockRestore());
+    const { el } = await mount<List>(
+      <calcite-list drag-enabled label="Items" sort-mode={sortMode}>
+        <calcite-list-item-group heading="Group" id="item-group">
+          <calcite-list-item id="one" label="One" />
+          <calcite-list-item id="two" label="Two" />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+    const group = page.getBySelector("#item-group").element();
+    const first = page.getBySelector("#one").element();
+    const before = vi.fn();
+    const changed = vi.fn();
+    const request = vi.fn();
+    el.addEventListener("calciteListBeforeOrderChange", before);
+    el.addEventListener("calciteListOrderChange", changed);
+    el.addEventListener("calciteListOrderRequest", request);
+
+    async function reorder() {
+      const handle = page.getBySelector("#one calcite-sort-handle");
+      await expect.element(handle).toBeVisible();
+      await (handle.element() as SortHandle["el"]).setFocus();
+      await userEvent.keyboard("{Enter}");
+      await expect.element(handle).toHaveProperty("open", true);
+      await page.getByRole("menuitem", { name: "Move down", exact: true }).click();
+      await vi.waitFor(() => expect(before).toHaveBeenCalledTimes(1));
+    }
+
+    return { el, group, first, before, changed, request, reorder };
+  }
+
+  it("reorders grouped list items within their DOM parent from the sort menu", async () => {
+    const { el, group, first, before, changed, reorder } = await renderGroupedItems();
+    await reorder();
+
+    expect(Array.from(group.children, (item) => item.id)).toEqual(["two", "one"]);
+    expect(before.mock.calls[0][0].detail).toEqual({
+      dragEl: first,
+      fromEl: el,
+      toEl: el,
+      oldIndex: 0,
+      newIndex: 1,
+    });
+    expect(changed).toHaveBeenCalledTimes(1);
+  });
+
+  it("honors the owning list's veto for grouped menu reordering", async () => {
+    const { group, before, changed, reorder } = await renderGroupedItems();
+    before.mockImplementation((event: Event) => event.preventDefault());
+    await reorder();
+
+    expect(Array.from(group.children, (item) => item.id)).toEqual(["one", "two"]);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("uses the owning list's manual mode for grouped menu reordering", async () => {
+    const { el, group, first, changed, request, reorder } = await renderGroupedItems("manual");
+    await reorder();
+
+    expect(Array.from(group.children, (item) => item.id)).toEqual(["one", "two"]);
+    expect(changed).not.toHaveBeenCalled();
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][0].detail).toEqual({
+      dragEl: first,
+      fromEl: el,
+      toEl: el,
+      oldIndex: 0,
+      newIndex: 1,
+      operation: "move",
+    });
+  });
+
   it("keeps grandchild reordering inside the nested list", async () => {
     const { el } = await renderNestedList();
     const list = page.getBySelector("#grandchildren").element();
