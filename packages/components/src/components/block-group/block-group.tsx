@@ -579,9 +579,15 @@ export class BlockGroup extends LitElement {
     const { addTo } = event.detail;
 
     const dragEl = event.target as Block["el"];
-    const fromEl = dragEl?.parentElement as BlockGroup["el"];
+    const parentEl = dragEl?.parentElement;
+    const fromEl = dragEl?.closest<BlockGroup["el"]>(blockGroupSelector);
+
+    if (!parentEl || !fromEl) {
+      return;
+    }
+
     const toEl = addTo.element as BlockGroup["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isBlock);
+    const fromElItems = Array.from(parentEl.children).filter(isBlock);
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
@@ -620,9 +626,15 @@ export class BlockGroup extends LitElement {
     const { moveTo } = event.detail;
 
     const dragEl = event.target as Block["el"];
-    const fromEl = dragEl?.parentElement as BlockGroup["el"];
+    const parentEl = dragEl?.parentElement;
+    const fromEl = dragEl?.closest<BlockGroup["el"]>(blockGroupSelector);
+
+    if (!parentEl || !fromEl) {
+      return;
+    }
+
     const toEl = moveTo.element as BlockGroup["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isBlock);
+    const fromElItems = Array.from(parentEl.children).filter(isBlock);
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 

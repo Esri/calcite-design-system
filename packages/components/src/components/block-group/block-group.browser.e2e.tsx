@@ -458,6 +458,147 @@ describe("drag and drop", () => {
     });
   });
 
+  async function renderWrappedTransfer(sortMode: "automatic" | "manual" = "automatic") {
+    const fixture = await renderWrappedBlocks(sortMode);
+    fixture.el.group = "wrapped-transfers";
+    const { el: destination } = await mount<BlockGroup>(
+      <calcite-block-group
+        drag-enabled
+        group="wrapped-transfers"
+        label="Destination"
+        sort-mode={sortMode}
+      >
+        <calcite-block heading="Destination block" />
+      </calcite-block-group>,
+    );
+    const item = page.getBySelector("#two").element();
+    const destinationBefore = vi.fn();
+    const destinationChanged = vi.fn();
+    destination.addEventListener("calciteBlockGroupBeforeOrderChange", destinationBefore);
+    destination.addEventListener("calciteBlockGroupOrderChange", destinationChanged);
+
+    async function transfer() {
+      const handle = page.getBySelector("#two calcite-sort-handle");
+      await expect.element(handle).toBeVisible();
+      await (handle.element() as SortHandle["el"]).setFocus();
+      await userEvent.keyboard("{Enter}");
+      await page.getByRole("menuitem", { name: "Destination", exact: true }).click();
+    }
+
+    const detail = {
+      dragEl: item,
+      fromEl: fixture.el,
+      toEl: destination,
+      oldIndex: 1,
+      newIndex: 0,
+    };
+    return {
+      ...fixture,
+      destination,
+      item,
+      destinationBefore,
+      destinationChanged,
+      detail,
+      transfer,
+    };
+  }
+
+  it("moves a wrapped block from the menu using its owning group and sibling index", async () => {
+    const { wrapper, destination, item, before, changed, destinationChanged, detail, transfer } =
+      await renderWrappedTransfer();
+    await transfer();
+
+    expect(Array.from(wrapper.children, (child) => child.id)).toEqual(["one"]);
+    expect(destination.firstElementChild).toBe(item);
+    expect(before.mock.calls[0][0].detail).toEqual(detail);
+    expect(changed).toHaveBeenCalledTimes(1);
+    expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("clones a wrapped block from the menu using its owning group and sibling index", async () => {
+    const {
+      el,
+      wrapper,
+      destination,
+      item,
+      before,
+      changed,
+      destinationChanged,
+      detail,
+      transfer,
+    } = await renderWrappedTransfer();
+    el.canPull = () => "clone";
+    await transfer();
+
+    expect(Array.from(wrapper.children, (child) => child.id)).toEqual(["one", "two"]);
+    expect(destination.children).toHaveLength(2);
+    expect(destination.firstElementChild).not.toBe(item);
+    expect(destination.firstElementChild).toHaveProperty("id", "two");
+    expect(before.mock.calls[0][0].detail).toEqual(detail);
+    expect(changed).toHaveBeenCalledTimes(1);
+    expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("honors the owning group's veto when moving a wrapped block from the menu", async () => {
+    const { wrapper, destination, item, before, changed, destinationChanged, transfer } =
+      await renderWrappedTransfer();
+    before.mockImplementation((event: Event) => event.preventDefault());
+    await transfer();
+
+    expect(before).toHaveBeenCalledTimes(1);
+    expect(item.parentElement).toBe(wrapper);
+    expect(destination.children).toHaveLength(1);
+    expect(changed).not.toHaveBeenCalled();
+    expect(destinationChanged).not.toHaveBeenCalled();
+  });
+
+  it("honors the destination veto when cloning a wrapped block from the menu", async () => {
+    const {
+      el,
+      wrapper,
+      destination,
+      item,
+      destinationBefore,
+      changed,
+      destinationChanged,
+      transfer,
+    } = await renderWrappedTransfer();
+    el.canPull = () => "clone";
+    destinationBefore.mockImplementation((event: Event) => event.preventDefault());
+    await transfer();
+
+    expect(destinationBefore).toHaveBeenCalledTimes(1);
+    expect(item.parentElement).toBe(wrapper);
+    expect(destination.children).toHaveLength(1);
+    expect(changed).not.toHaveBeenCalled();
+    expect(destinationChanged).not.toHaveBeenCalled();
+  });
+
+  it("requests a manual wrapped-block menu move without changing its parent", async () => {
+    const { wrapper, destination, item, changed, request, detail, transfer } =
+      await renderWrappedTransfer("manual");
+    await transfer();
+
+    expect(item.parentElement).toBe(wrapper);
+    expect(destination.children).toHaveLength(1);
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][0].detail).toEqual({ ...detail, operation: "move" });
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("requests a manual wrapped-block menu clone without inserting a copy", async () => {
+    const { el, wrapper, destination, item, changed, request, detail, transfer } =
+      await renderWrappedTransfer("manual");
+    el.canPull = () => "clone";
+    await transfer();
+
+    expect(item.parentElement).toBe(wrapper);
+    expect(destination.children).toHaveLength(1);
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][0].detail).toEqual({ ...detail, operation: "clone" });
+    expect(changed).not.toHaveBeenCalled();
+  });
+
   const renderBlockGroup = () =>
     mount(
       <calcite-block-group drag-enabled id="block-group" label="Blocks">
