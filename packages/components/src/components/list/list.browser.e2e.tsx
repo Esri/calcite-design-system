@@ -1835,30 +1835,22 @@ describe("drag and drop", () => {
     "keeps sort-handle clicks available for a %s pointer",
     async (pointerType) => {
       const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+      onTestFinished(() => warnSpy.mockRestore());
+      const { component } = await renderList();
+      const handle = page.getBySelector("#one calcite-sort-handle");
+      await expect.element(handle).toBeVisible();
+      const dragStarted = vi.fn();
+      const clicked = vi.fn();
+      component.el.addEventListener("calciteListDragStart", dragStarted);
+      component.el.addEventListener("click", clicked, { capture: true });
 
-      try {
-        const { el } = await renderList();
-        const firstItem = page.elementLocator(el).getBySelector("#one").element() as ListItem["el"];
-        await vi.waitFor(() =>
-          expect(
-            firstItem.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
-          ).not.toBeNull(),
-        );
-        // The sort handle is internal to the list item's shadow root.
-        const handle =
-          firstItem.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
-        let dragStartCount = 0;
+      await commands.pointerClick(pointerType, "#one calcite-sort-handle");
 
-        el.addEventListener("calciteListDragStart", () => dragStartCount++);
-
-        await dragAndDrop(handle, handle, "center", { moveSteps: 0, pointerType });
-        expect(dragStartCount).toBe(0);
-
-        await userEvent.click(page.getByRole("button", { name: "One" }));
-        await expect.element(page.getByRole("menuitem").first()).toBeVisible();
-      } finally {
-        warnSpy.mockRestore();
-      }
+      await expect.element(page.getByRole("menuitem").first()).toBeVisible();
+      expect(dragStarted).not.toHaveBeenCalled();
+      expect(clicked).toHaveBeenCalledWith(
+        expect.objectContaining({ isTrusted: true, pointerType }),
+      );
     },
   );
 

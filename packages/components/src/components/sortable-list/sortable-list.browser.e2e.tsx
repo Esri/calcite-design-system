@@ -1,4 +1,5 @@
-import { h } from "@arcgis/lumina";
+import { h, LitElement } from "@arcgis/lumina";
+import { html } from "lit";
 import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Sortable } from "@dnd-kit/dom/sortable";
@@ -9,6 +10,18 @@ import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { hidden, renders, disabled, accessible } from "../../tests/common";
 import type { Handle } from "../handle/handle";
 import { SortableList } from "./sortable-list";
+
+class ForwardedSortableList extends LitElement {
+  static tagName = "forwarded-sortable-list";
+
+  override render() {
+    return (
+      <calcite-sortable-list group="forwarded" id="forwarded-destination">
+        <slot />
+      </calcite-sortable-list>
+    );
+  }
+}
 
 describe("accessible", () => {
   accessible(() => mount("calcite-sortable-list"));
@@ -1533,7 +1546,91 @@ describe("drag and drop", () => {
     );
   });
 
-  it("fires drag end after cloning native inputs and both order-change events", async () => {
+  async function renderForwardedCopy() {
+    const { component: source } = await mount<SortableList>(
+      html`<div style="display: flex; gap: 40px">
+        <calcite-sortable-list group="forwarded" id="forwarded-source" style="width: 240px">
+          <div class="forwarded-item" id="forwarded-copy" style="height: 60px">
+            <calcite-handle label="Copy"></calcite-handle>Copy
+          </div>
+        </calcite-sortable-list>
+        <forwarded-sortable-list id="forwarder" style="display: block; width: 240px">
+          <div class="forwarded-item" id="forwarded-target" style="height: 60px">
+            <calcite-handle label="Target"></calcite-handle>Target
+          </div>
+        </forwarded-sortable-list>
+      </div>`,
+      { dynamicComponents: [ForwardedSortableList] },
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+    const handle = page.getBySelector("#forwarded-copy calcite-handle");
+    await expect.element(handle).toBeVisible();
+    return {
+      source,
+      handle,
+      destination: page.getBySelector("#forwarder"),
+      target: page.getBySelector("#forwarded-target"),
+      gap: page.getBySelector('#forwarder > [data-dnd-placeholder="copy"]'),
+    };
+  }
+
+  it("copies before and after items forwarded through a slot", async () => {
+    const { source, handle, destination, target, gap } = await renderForwardedCopy();
+    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await expect.element(gap).toBeVisible();
+    const beforeBounds = gap.element().getBoundingClientRect();
+    await commands.mouseMove(
+      beforeBounds.left + beforeBounds.width / 2,
+      beforeBounds.top + beforeBounds.height / 2,
+    );
+    await commands.mouseUp();
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector(".forwarded-item")
+          .elements()
+          .map((item) => item.textContent?.trim()),
+      )
+      .toEqual(["Copy", "Target"]);
+
+    await dragAndDrop(handle.element(), target.element(), "bottom", { skipPointerUp: true });
+    const targetBounds = target.element().getBoundingClientRect();
+    await commands.mouseMove(targetBounds.left + targetBounds.width / 2, targetBounds.bottom - 1);
+    await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+    await expect.element(gap).toBeVisible();
+    const afterBounds = gap.element().getBoundingClientRect();
+    await commands.mouseMove(
+      afterBounds.left + afterBounds.width / 2,
+      afterBounds.top + afterBounds.height / 2,
+    );
+    await commands.mouseUp();
+    await expect
+      .poll(() =>
+        destination
+          .getBySelector(".forwarded-item")
+          .elements()
+          .map((item) => item.textContent?.trim()),
+      )
+      .toEqual(["Copy", "Target", "Copy"]);
+    expect(source.el.children).toHaveLength(1);
+    await expect.element(gap).not.toBeInTheDocument();
+  });
+
+  it("cleans up a canceled copy into forwarded slot content", async () => {
+    const { source, handle, destination, target, gap } = await renderForwardedCopy();
+    await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
+    await expect.element(gap).toBeVisible();
+
+    await userEvent.keyboard("{Escape}");
+    await commands.mouseUp();
+
+    await expect.element(gap).not.toBeInTheDocument();
+    expect(destination.getBySelector(".forwarded-item").elements()).toEqual([target.element()]);
+    expect(source.el.children).toHaveLength(1);
+  });
+
+  it("fires drag end after cloning native controls and both order-change events", async () => {
     const { component: source } = await mount<SortableList>(
       <calcite-sortable-list group="letters" id="clone-source">
         <div id="clone-source-item">
@@ -1542,6 +1639,18 @@ describe("drag and drop", () => {
           <input type="number" />
           <input type="checkbox" />
           <input type="file" />
+          <select id="single-select">
+            <option value="a">A</option>
+            <option value="b">B</option>
+          </select>
+          <select id="multiple-select" multiple>
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+          </select>
+          <select id="no-selection">
+            <option value="a">A</option>
+          </select>
           Source
         </div>
       </calcite-sortable-list>,
@@ -1554,20 +1663,25 @@ describe("drag and drop", () => {
         </div>
       </calcite-sortable-list>,
     );
-    const sourceLocator = page.elementLocator(source.el);
-    const destinationLocator = page.elementLocator(destination.el);
+    const sourceLocator = page.getBySelector("#clone-source");
+    const destinationLocator = page.getBySelector("#clone-destination");
     const draggedItem = sourceLocator.getBySelector("#clone-source-item").element();
     const handle = sourceLocator.getBySelector("#clone-source-item calcite-handle").element();
     const target = destinationLocator.getBySelector("#destination-item").element();
     onTestFinished(() => commands.mouseUp());
     const callbackOrder: string[] = [];
     source.canPull = () => "clone";
-    draggedItem.querySelector<HTMLInputElement>('input[type="text"]')!.value = "Updated text";
-    draggedItem.querySelector<HTMLInputElement>('input[type="number"]')!.value = "42";
-    draggedItem.querySelector<HTMLInputElement>('input[type="checkbox"]')!.checked = true;
+    await userEvent.fill(sourceLocator.getBySelector('input[type="text"]'), "Updated text");
+    await userEvent.fill(sourceLocator.getBySelector('input[type="number"]'), "42");
+    await userEvent.click(sourceLocator.getBySelector('input[type="checkbox"]'));
+    await userEvent.selectOptions(sourceLocator.getBySelector("#single-select"), "b");
+    await userEvent.selectOptions(sourceLocator.getBySelector("#multiple-select"), ["a", "c"]);
+    (sourceLocator.getBySelector("#no-selection").element() as HTMLSelectElement).selectedIndex =
+      -1;
     const transfer = new DataTransfer();
     transfer.items.add(new File(["Contents"], "example.txt", { type: "text/plain" }));
-    draggedItem.querySelector<HTMLInputElement>('input[type="file"]')!.files = transfer.files;
+    (sourceLocator.getBySelector('input[type="file"]').element() as HTMLInputElement).files =
+      transfer.files;
     (handle as Handle["el"]).label = "Updated handle";
 
     source.el.addEventListener("calciteListOrderChange", () => callbackOrder.push("source-sort"));
@@ -1583,6 +1697,7 @@ describe("drag and drop", () => {
     });
 
     await dragAndDrop(handle, target, "bottom", { skipPointerUp: true });
+    (handle as Handle["el"]).label = "Changed during drag";
     const bounds = target.getBoundingClientRect();
     await commands.mouseMove(bounds.left + bounds.width / 2, bounds.bottom - 1);
     await afterNextFrame();
@@ -1591,14 +1706,25 @@ describe("drag and drop", () => {
     await vi.waitFor(() => {
       expect(callbackOrder).toEqual(["source-sort", "destination-sort", "drag-end"]);
     });
-    const clone = destination.el.lastElementChild!;
-    expect(clone.querySelector<HTMLInputElement>('input[type="text"]')!.value).toBe("Updated text");
-    expect(clone.querySelector<HTMLInputElement>('input[type="number"]')!.value).toBe("42");
-    expect(clone.querySelector<HTMLInputElement>('input[type="checkbox"]')!.checked).toBe(true);
-    expect(clone.querySelector<HTMLInputElement>('input[type="file"]')!.files![0].name).toBe(
-      "example.txt",
-    );
-    expect(clone.querySelector<Handle["el"]>("calcite-handle")!.label).toBe("Updated handle");
+    await expect
+      .element(destinationLocator.getBySelector('input[type="text"]'))
+      .toHaveValue("Updated text");
+    await expect.element(destinationLocator.getBySelector('input[type="number"]')).toHaveValue(42);
+    await expect.element(destinationLocator.getBySelector('input[type="checkbox"]')).toBeChecked();
+    expect(
+      (destinationLocator.getBySelector('input[type="file"]').element() as HTMLInputElement)
+        .files![0].name,
+    ).toBe("example.txt");
+    await expect.element(destinationLocator.getBySelector("#single-select")).toHaveValue("b");
+    await expect
+      .element(destinationLocator.getBySelector("#multiple-select"))
+      .toHaveValue(["a", "c"]);
+    await expect
+      .element(destinationLocator.getBySelector("#no-selection"))
+      .toHaveProperty("selectedIndex", -1);
+    await expect
+      .element(destinationLocator.getBySelector("calcite-handle").last())
+      .toHaveProperty("label", "Changed during drag");
   });
 
   it("fires before and order-change around the reorder mutation", async () => {

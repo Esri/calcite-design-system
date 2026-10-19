@@ -293,6 +293,8 @@ it("uses the live source index for manual drop indicators", async () => {
   const draggedItem = items.getBySelector("#two").element();
   const target = items.getBySelector("#one");
   component.el.prepend(draggedItem);
+  const getItems = vi.fn(() => Array.from(component.el.children) as HTMLElement[]);
+  component.getSortableItems = getItems;
   const draggedBoundsSpy = vi
     .spyOn(draggedItem, "getBoundingClientRect")
     .mockReturnValue(new DOMRect(0, 0, 100, 40));
@@ -317,6 +319,26 @@ it("uses the live source index for manual drop indicators", async () => {
 
   dragOverListener(event);
   await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+
+  const observer = new MutationObserver(() => {});
+  observer.observe(target.element(), { attributes: true });
+  observer.observe(component.el, { childList: true });
+  onTestFinished(() => observer.disconnect());
+  getItems.mockClear();
+  targetBoundsSpy.mockClear();
+  dragOverListener(event);
+  expect(getItems).toHaveBeenCalledTimes(1);
+  expect(targetBoundsSpy).toHaveBeenCalledTimes(1);
+  expect(observer.takeRecords()).toEqual([]);
+
+  draggedBoundsSpy.mockReturnValue(new DOMRect(0, 0, 100, 48));
+  dragOverListener(event);
+  const resizeMutations = observer.takeRecords();
+  expect(
+    target.element().style.getPropertyValue("--calcite-internal-sortable-placeholder-height"),
+  ).toBe("48px");
+  await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
+  expect(resizeMutations.filter((mutation) => mutation.type === "childList")).toEqual([]);
 
   dragOperation.position.current.y = bounds.y + bounds.height / 4;
   dragOverListener(event);
