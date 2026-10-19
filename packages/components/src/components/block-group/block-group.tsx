@@ -130,7 +130,7 @@ export class BlockGroup extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the expand mode of the component, where:
+   * Specifies the expansion mode of the component, where:
    *
    * `"multiple"` allows any number of `calcite-block`s to be expanded,
    *
