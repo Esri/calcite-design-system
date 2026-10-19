@@ -132,11 +132,11 @@ export class BlockGroup extends LitElement {
   /**
    * Specifies the expand mode of the component, where:
    *
-   * `"multiple"` allows any number of Blocks to be expanded,
+   * `"multiple"` allows any number of `calcite-block`s to be expanded,
    *
-   * `"single"` allows only one Block to be expanded, and
+   * `"single"` allows only one `calcite-block` to be expanded, and
    *
-   * `"single-persist"` allows one Block to be expanded and prevents collapsing.
+   * `"single-persist"` allows one `calcite-block` to be expanded and prevents collapsing.
    */
   @property({ reflect: true }) expandMode: Extract<
     "single" | "single-persist" | "multiple",
