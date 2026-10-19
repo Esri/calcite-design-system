@@ -128,6 +128,7 @@ describe("theme", () => {
       },
     });
   });
+
   describe("selectable", () => {
     describe("default", () => {
       themed(

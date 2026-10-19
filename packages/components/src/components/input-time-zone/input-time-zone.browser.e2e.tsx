@@ -41,6 +41,8 @@ describe("defaults", () => {
     () => mount("calcite-input-time-zone"),
     [
       { propertyName: "disabled", defaultValue: false },
+      { propertyName: "label", defaultValue: undefined },
+      { propertyName: "labelText", defaultValue: undefined },
       { propertyName: "maxItems", defaultValue: 0 },
       { propertyName: "messageOverrides", defaultValue: undefined },
       { propertyName: "mode", defaultValue: "offset" },

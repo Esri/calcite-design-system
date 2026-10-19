@@ -25,15 +25,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   --calcite-internal-accordion-item-description-font-size: var(--calcite-font-size--3);
 }
 :host([scale="m"]) {
-  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   --calcite-internal-accordion-item-description-font-size: var(--calcite-font-size--2);
 }
 :host([scale="l"]) {
-  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
   --calcite-internal-accordion-item-description-font-size: var(--calcite-font-size--1);
 }
 
@@ -63,12 +63,12 @@
 .header--solid {
   --calcite-internal-accordion-item-header-background-color-hover: var(
     --calcite-accordion-item-header-background-color-hover,
-    var(--calcite-color-foreground-2)
+    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
   );
 
   --calcite-internal-accordion-item-header-background-color-press: var(
     --calcite-accordion-item-header-background-color-press,
-    var(--calcite-color-foreground-3)
+    var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
   );
 }
 
@@ -291,7 +291,7 @@
         var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-1))
       )
     );
-    font-weight: var(--calcite-font-weight-normal);
+    font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   }
 }
 
