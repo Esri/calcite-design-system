@@ -3,7 +3,7 @@ import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, beforeEach, expect, it, onTestFinished, vi } from "vitest";
 import { page } from "vitest/browser";
-import { useSortable, type DragDetail } from "./useSortable";
+import { useSortable, type DragDetail, type OrderRequestDetail } from "./useSortable";
 
 const {
   createSortableSpy,
@@ -155,14 +155,17 @@ vi.mock("@dnd-kit/dom/sortable", () => {
 class Test extends LitElement {
   static tagName = "sortable-test";
   handleSelector = ".handle";
-  sortable: { reset: () => void } = useSortable<this>()(this);
+  sortable: ReturnType<ReturnType<typeof useSortable>> = useSortable<this>()(this);
 
   onGlobalDragStart = vi.fn();
   onGlobalDragEnd = vi.fn();
   onDragEnd = vi.fn();
   onDragMove = vi.fn();
   onDragStart = vi.fn<(detail: DragDetail) => void>();
+  onDragBeforeSort = vi.fn<(detail: DragDetail) => Event | void>();
   onDragSort = vi.fn();
+  onOrderRequest = vi.fn<(detail: OrderRequestDetail) => void>();
+  canPull?: (detail: DragDetail) => boolean | "clone";
   canPut?: (detail: DragDetail) => boolean;
   dragSelector?: string;
   getSortableItems?: () => HTMLElement[];
@@ -213,6 +216,92 @@ const getSortableFor = (component: Test, itemId: string) =>
     const data = options.data as { component: Test; item: HTMLElement };
     return data.component === component && data.item.id === itemId;
   });
+
+it("commits menu transactions between before-order and order-change callbacks", async () => {
+  const { component: source } = await mountDragEnabled();
+  const { component: destination } = await mountDragEnabled();
+  const dragEl = page.elementLocator(source.el).getBySelector("#two").element() as HTMLElement;
+  const detail = { fromEl: source.el, toEl: destination.el, dragEl, oldIndex: 1, newIndex: 0 };
+  const calls: string[] = [];
+  source.onDragBeforeSort.mockImplementation(() => {
+    calls.push("source-before");
+  });
+  destination.onDragBeforeSort.mockImplementation(() => {
+    calls.push("destination-before");
+  });
+  source.onDragSort.mockImplementation(() => {
+    expect(dragEl.parentElement).toBe(destination.el);
+    calls.push("source-sort");
+  });
+  destination.onDragSort.mockImplementation(() => calls.push("destination-sort"));
+
+  expect(
+    source.sortable.requestOrderChange({
+      detail,
+      operation: "move",
+      apply: () => {
+        calls.push("apply");
+        destination.el.prepend(dragEl);
+      },
+    }),
+  ).toBe(true);
+
+  expect(calls).toEqual([
+    "source-before",
+    "destination-before",
+    "apply",
+    "source-sort",
+    "destination-sort",
+  ]);
+});
+
+it("rejects menu transactions vetoed by the destination", async () => {
+  const { component: source } = await mountDragEnabled();
+  const { component: destination } = await mountDragEnabled();
+  const dragEl = page.elementLocator(source.el).getBySelector("#two").element() as HTMLElement;
+  const veto = new Event("before-order", { cancelable: true });
+  veto.preventDefault();
+  destination.onDragBeforeSort.mockReturnValue(veto);
+  const apply = vi.fn();
+  const onAccepted = vi.fn();
+
+  expect(
+    source.sortable.requestOrderChange({
+      detail: { fromEl: source.el, toEl: destination.el, dragEl, oldIndex: 1, newIndex: 0 },
+      operation: "move",
+      apply,
+      onAccepted,
+    }),
+  ).toBe(false);
+
+  expect(apply).not.toHaveBeenCalled();
+  expect(onAccepted).not.toHaveBeenCalled();
+  expect(source.onDragSort).not.toHaveBeenCalled();
+  expect(destination.onDragSort).not.toHaveBeenCalled();
+  expect(dragEl.parentElement).toBe(source.el);
+});
+
+it("requests manual menu clones on the source without applying DOM changes", async () => {
+  const { component: source } = await mountDragEnabled();
+  const { component: destination } = await mountDragEnabled();
+  source.sortMode = "manual";
+  destination.sortMode = "manual";
+  const canPull = vi.fn<NonNullable<Test["canPull"]>>(() => "clone");
+  source.canPull = canPull;
+  const dragEl = page.elementLocator(source.el).getBySelector("#two").element() as HTMLElement;
+  const detail = { fromEl: source.el, toEl: destination.el, dragEl, oldIndex: 1, newIndex: 0 };
+  const apply = vi.fn();
+
+  expect(source.sortable.requestOrderChange({ detail, operation: "clone", apply })).toBe(true);
+
+  expect(canPull.mock.contexts).toEqual([source.el]);
+  expect(source.onOrderRequest).toHaveBeenCalledExactlyOnceWith({ ...detail, operation: "clone" });
+  expect(destination.onOrderRequest).not.toHaveBeenCalled();
+  expect(source.onDragSort).not.toHaveBeenCalled();
+  expect(destination.onDragSort).not.toHaveBeenCalled();
+  expect(apply).not.toHaveBeenCalled();
+  expect(dragEl.parentElement).toBe(source.el);
+});
 
 it("does not create sortables when dragEnabled is false", async () => {
   const { component } = await mount(Test);

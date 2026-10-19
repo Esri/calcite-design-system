@@ -14,6 +14,7 @@ import {
 import { Sortable, SortableKeyboardPlugin, isSortable } from "@dnd-kit/dom/sortable";
 import { guid } from "../utils/guid";
 import { createObserver } from "../utils/observers";
+import { getSlotAssignedElements } from "../utils/dom";
 import type { BivariantHandler } from "../components/types";
 
 interface SortableItemData {
@@ -38,9 +39,12 @@ interface DropPosition {
   placement?: "before" | "after";
 }
 
-interface ManualItemIndices {
+interface SortableItemState {
   indices?: Map<HTMLElement, number>;
+  items?: HTMLElement[];
   observer: MutationObserver;
+  getSlot?: () => HTMLSlotElement | undefined;
+  reset?: () => void;
 }
 
 interface SortableManagerRecord {
@@ -56,7 +60,7 @@ interface SortableManagerRecord {
   acceptedDropPosition?: DropPosition;
   dropCanceled: boolean;
   pendingReset: Set<SortableComponent>;
-  manualItemIndices: Map<SortableComponent, ManualItemIndices>;
+  itemStates: Map<SortableComponent, SortableItemState>;
   pendingPullOperations: Map<HTMLElement, { newIndex: number | undefined; operation: "move" | "clone" }>;
   acceptedPullOperations: Map<SortableComponent, "move" | "clone">;
   removeListeners: (() => void)[];
@@ -66,6 +70,7 @@ const managerRecords = new WeakMap<Document, SortableManagerRecord>();
 const componentGroupIds = new WeakMap<SortableComponent, string>();
 const sortableItemIds = new WeakMap<HTMLElement, string>();
 const sortableItemProperties = new WeakMap<object, string[]>();
+const sortableComponents = new WeakMap<HTMLElement, SortableComponent>();
 const sortPositionAttribute = "data-calcite-sort-position";
 const copyPlaceholderAttribute = "data-calcite-sort-placeholder";
 const placeholderHeightProperty = "--calcite-internal-sortable-placeholder-height";
@@ -176,10 +181,10 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
   canPut?: BivariantHandler<D, boolean>;
 
   /** Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`. */
-  onGlobalDragStart: () => void;
+  onGlobalDragStart?: () => void;
 
   /** Called when any sortable component drag ends. For internal use only. Any public drag events should emit within `onDragEnd()`. */
-  onGlobalDragEnd: () => void;
+  onGlobalDragEnd?: () => void;
 
   /** Called when a component's dragging ends. */
   onDragEnd: BivariantHandler<D, void>;
@@ -216,7 +221,24 @@ export interface SortableComponentItem {
   dragDisabled: boolean;
 }
 
+interface OrderChangeRequest {
+  detail: DragDetail & { oldIndex: number; newIndex: number };
+  operation: "move" | "clone";
+  onAccepted?: () => void;
+  apply: () => void;
+}
+
+interface SortableOptions {
+  getSlot?: () => HTMLSlotElement | undefined;
+}
+
 interface UseSortable {
+  /** Tests whether a menu move or copy is accepted by both components. */
+  canTransfer: (request: Pick<OrderChangeRequest, "detail" | "operation">) => boolean;
+
+  /** Runs an application-requested reorder or transfer through the order-change events. */
+  requestOrderChange: (request: OrderChangeRequest) => boolean;
+
   /**
    * Resets the Sortable instance.
    *
@@ -292,26 +314,64 @@ function getAppendIndex(
   return itemCount - Number(fromComponent === toComponent);
 }
 
+function invalidateSortableItems(
+  component: SortableComponent,
+  state: SortableItemState,
+  mutations: MutationRecord[],
+): void {
+  state.indices = undefined;
+  if (!state.reset) {
+    return;
+  }
+
+  const items = getSortableItems(component);
+  if (
+    mutations.some((mutation) => mutation.type === "childList") ||
+    items.length !== state.items?.length ||
+    items.some((item, index) => item !== state.items?.[index])
+  ) {
+    state.reset();
+  }
+}
+
+function getSortableItemState(record: SortableManagerRecord, component: SortableComponent): SortableItemState {
+  let state = record.itemStates.get(component);
+  if (!state) {
+    const nextState: SortableItemState = {
+      observer: createObserver("mutation", (mutations) => invalidateSortableItems(component, nextState, mutations))!,
+    };
+    nextState.observer.observe(component.el, { attributes: true, childList: true, subtree: true });
+    record.itemStates.set(component, nextState);
+    state = nextState;
+  }
+  return state;
+}
+
+function observeSortableItems(component: SortableComponent, state: SortableItemState): void {
+  state.observer.disconnect();
+  state.items = getSortableItems(component);
+  const parents = new Set<HTMLElement>([component.el]);
+  const slot = state.getSlot?.();
+  if (slot) {
+    getSlotAssignedElements<HTMLElement>(slot).forEach((item) => {
+      if (item.parentElement) {
+        parents.add(item.parentElement);
+      }
+    });
+  }
+  parents.forEach((parent) => state.observer.observe(parent, { attributes: true, childList: true, subtree: true }));
+}
+
 function getManualItemIndex(
   record: SortableManagerRecord,
   component: SortableComponent,
   dragEl: HTMLElement,
   targetItem: HTMLElement,
 ): number {
-  let snapshot = record.manualItemIndices.get(component);
-  if (!snapshot) {
-    const nextSnapshot: ManualItemIndices = {
-      observer: createObserver("mutation", () => {
-        nextSnapshot.indices = undefined;
-      })!,
-    };
-    nextSnapshot.observer.observe(component.el, { attributes: true, childList: true, subtree: true });
-    record.manualItemIndices.set(component, nextSnapshot);
-    snapshot = nextSnapshot;
-  }
-
-  if (snapshot.observer.takeRecords().length) {
-    snapshot.indices = undefined;
+  const snapshot = getSortableItemState(record, component);
+  const mutations = snapshot.observer.takeRecords();
+  if (mutations.length) {
+    invalidateSortableItems(component, snapshot, mutations);
   }
   snapshot.indices ??= new Map(getSortableItems(component).map((item, index) => [item, index]));
   const targetIndex = snapshot.indices.get(targetItem) ?? -1;
@@ -453,6 +513,37 @@ function isDropEnabled(fromComponent: SortableComponent, toComponent: SortableCo
   }
 
   return canTransferBetweenComponents(fromComponent, toComponent);
+}
+
+function canTransferOrder({ detail, operation }: Pick<OrderChangeRequest, "detail" | "operation">): boolean {
+  const fromComponent = sortableComponents.get(detail.fromEl);
+  const toComponent = sortableComponents.get(detail.toEl);
+  if (
+    !fromComponent ||
+    !toComponent ||
+    fromComponent === toComponent ||
+    detail.dragEl.contains(detail.toEl) ||
+    (fromComponent.sortMode ?? "automatic") !== (toComponent.sortMode ?? "automatic")
+  ) {
+    return false;
+  }
+
+  const canPull = fromComponent.canPull?.call(detail.fromEl, detail) ?? true;
+  const canPut = toComponent.canPut?.call(detail.toEl, detail) ?? true;
+  return (operation === "clone" ? canPull === "clone" : canPull === true) && canPut;
+}
+
+function dispatchBeforeOrderChange(
+  fromComponent: SortableComponent,
+  toComponent: SortableComponent,
+  detail: DragDetail,
+): boolean {
+  const fromResult = fromComponent.onDragBeforeSort?.(detail);
+  const toResult = fromComponent === toComponent ? undefined : toComponent.onDragBeforeSort?.(detail);
+  return (
+    !(fromResult instanceof Event && fromResult.defaultPrevented) &&
+    !(toResult instanceof Event && toResult.defaultPrevented)
+  );
 }
 
 function canAcceptDrop(
@@ -671,7 +762,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     alive: true,
     dropCanceled: false,
     pendingReset: new Set(),
-    manualItemIndices: new Map(),
+    itemStates: new Map(),
     pendingPullOperations: new Map(),
     acceptedPullOperations: new Map(),
     removeListeners: [clearDragPreview],
@@ -697,13 +788,23 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     record.dragging = active;
 
     if (active) {
-      record.components.forEach((component) => component.onGlobalDragStart());
+      record.itemStates.forEach((state, component) => {
+        if (state.reset && component.sortMode !== "manual") {
+          state.observer.disconnect();
+        }
+      });
+      record.components.forEach((component) => component.onGlobalDragStart?.());
       return;
     }
 
     record.pendingPullOperations.clear();
     record.acceptedPullOperations.clear();
-    record.components.forEach((component) => component.onGlobalDragEnd());
+    record.components.forEach((component) => component.onGlobalDragEnd?.());
+    Array.from(record.itemStates).forEach(([component, state]) => {
+      if (component.sortMode !== "manual") {
+        state.reset?.();
+      }
+    });
     flushPendingReset();
   };
 
@@ -880,13 +981,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       record.lastOver = signature;
       record.dropCanceled = false;
 
-      const fromResult = fromComponent.onDragBeforeSort?.(detail);
-      const toResult = toComponent === fromComponent ? undefined : toComponent.onDragBeforeSort?.(detail);
-
-      if (
-        (fromResult instanceof Event && fromResult.defaultPrevented) ||
-        (toResult instanceof Event && toResult.defaultPrevented)
-      ) {
+      if (!dispatchBeforeOrderChange(fromComponent, toComponent, detail)) {
         event.preventDefault();
         record.dropCanceled = true;
         return;
@@ -967,12 +1062,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       (fromComponent !== toComponent || sourceItems.indexOf(dragEl) !== newIndex) &&
       canAcceptDrop(fromComponent, toComponent, detail)
     ) {
-      const fromResult = fromComponent.onDragBeforeSort?.(detail);
-      const toResult = fromComponent === toComponent ? undefined : toComponent.onDragBeforeSort?.(detail);
-      if (
-        !(fromResult instanceof Event && fromResult.defaultPrevented) &&
-        !(toResult instanceof Event && toResult.defaultPrevented)
-      ) {
+      if (dispatchBeforeOrderChange(fromComponent, toComponent, detail)) {
         fromComponent.onOrderRequest?.({
           ...detail,
           oldIndex,
@@ -1216,8 +1306,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
 }
 
 function tearDownSortable(component: SortableComponent, record: SortableManagerRecord): void {
-  record.manualItemIndices.get(component)?.observer.disconnect();
-  record.manualItemIndices.delete(component);
+  record.itemStates.get(component)?.observer.disconnect();
+  record.itemStates.delete(component);
   const sortables = record.sortables.get(component);
 
   sortables?.forEach((sortable) => sortable.destroy());
@@ -1311,9 +1401,9 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
 /**
  * A controller for managing Sortable interactions
  */
-export const useSortable = <T extends SortableComponent>(): ReturnType<
-  typeof makeGenericController<UseSortable, T>
-> => {
+export const useSortable = <T extends SortableComponent>(
+  options: SortableOptions = {},
+): ReturnType<typeof makeGenericController<UseSortable, T>> => {
   return makeGenericController<UseSortable, T>((component, controller) => {
     const sortableComponent = component as T & SortableComponent;
     let record: SortableManagerRecord | undefined;
@@ -1369,6 +1459,12 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
 
       currentRecord.components.add(sortableComponent);
       createSortable(sortableComponent, currentRecord);
+      if (options.getSlot) {
+        const state = getSortableItemState(currentRecord, sortableComponent);
+        state.getSlot = options.getSlot;
+        state.reset = reset;
+        observeSortableItems(sortableComponent, state);
+      }
     }
 
     function tearDown(force = false): void {
@@ -1391,7 +1487,7 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
 
       if (!record.components.size) {
         if (record.activeDrag) {
-          record.activeDrag.component.onGlobalDragEnd();
+          record.activeDrag.component.onGlobalDragEnd?.();
         }
 
         record.alive = false;
@@ -1402,29 +1498,71 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
       }
     }
 
+    function reset(): void {
+      const state = record?.itemStates.get(sortableComponent);
+      if (state) {
+        state.indices = undefined;
+      }
+      if (record?.alive && dragActive()) {
+        record.pendingReset.add(sortableComponent);
+        return;
+      }
+
+      record?.pendingReset.delete(sortableComponent);
+      void setUpSortable();
+    }
+
+    function handleSlotChange(event: Event): void {
+      if (event.target === options.getSlot?.()) {
+        reset();
+      }
+    }
+
     controller.onConnected(() => {
+      if (options.getSlot) {
+        sortableComponent.el.shadowRoot?.addEventListener("slotchange", handleSlotChange);
+      }
+      sortableComponents.set(sortableComponent.el, sortableComponent);
       record = getManagerRecord(sortableComponent.el.ownerDocument);
       void setUpSortable();
     });
 
     controller.onDisconnected(() => {
+      sortableComponent.el.shadowRoot?.removeEventListener("slotchange", handleSlotChange);
+      sortableComponents.delete(sortableComponent.el);
       tearDown(true);
     });
 
     return {
-      reset: () => {
-        const snapshot = record?.manualItemIndices.get(sortableComponent);
-        if (snapshot) {
-          snapshot.indices = undefined;
-        }
-        if (record?.alive && dragActive()) {
-          record.pendingReset.add(sortableComponent);
-          return;
+      canTransfer: canTransferOrder,
+      requestOrderChange: ({ detail, operation, onAccepted, apply }) => {
+        const fromComponent = sortableComponents.get(detail.fromEl);
+        const toComponent = sortableComponents.get(detail.toEl);
+        if (
+          !fromComponent ||
+          !toComponent ||
+          (fromComponent !== toComponent && !canTransferOrder({ detail, operation })) ||
+          (fromComponent.sortMode === "manual" &&
+            fromComponent === toComponent &&
+            detail.oldIndex === detail.newIndex) ||
+          !dispatchBeforeOrderChange(fromComponent, toComponent, detail)
+        ) {
+          return false;
         }
 
-        record?.pendingReset.delete(sortableComponent);
-        void setUpSortable();
+        onAccepted?.();
+        if (fromComponent.sortMode === "manual") {
+          sortableComponent.onOrderRequest?.({ ...detail, operation });
+        } else {
+          apply();
+          sortableComponent.onDragSort(detail);
+          if (fromComponent !== toComponent) {
+            toComponent.onDragSort(detail);
+          }
+        }
+        return true;
       },
+      reset,
     };
   });
 };

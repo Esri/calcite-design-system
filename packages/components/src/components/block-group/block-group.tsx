@@ -90,7 +90,7 @@ export class BlockGroup extends LitElement {
 
   private parentBlockGroupEl?: BlockGroup["el"];
 
-  private sortable = useSortable<this>()(this);
+  private sortable = useSortable<this>({ getSlot: () => this.defaultSlotEl.value })(this);
 
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
@@ -170,26 +170,6 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Public Methods
-
-  /**
-   * Emits the `calciteBlockGroupOrderChange` event.
-   *
-   * @private
-   */
-  @method()
-  emitOrderChangeEvent(detail: BlockDragDetail): void {
-    this.calciteBlockGroupOrderChange.emit(detail);
-  }
-
-  /**
-   * Emits the `calciteBlockGroupBeforeOrderChange` event.
-   *
-   * @private
-   */
-  @method()
-  emitBeforeOrderChangeEvent(detail: BlockDragDetail): Event {
-    return this.calciteBlockGroupBeforeOrderChange.emit(detail);
-  }
 
   /**
    * Sets focus on the component's first focusable element.
@@ -325,24 +305,28 @@ export class BlockGroup extends LitElement {
     items.forEach((item) => {
       if (item.closest(blockGroupSelector) === el) {
         item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
-          this.validateSortMenuItem({
-            type: "move",
-            fromEl,
-            toEl: moveToItem.element as BlockGroup["el"],
-            dragEl: item,
-            newIndex: 0,
-            oldIndex: fromElItems.indexOf(item),
+          this.sortable.canTransfer({
+            operation: "move",
+            detail: {
+              fromEl,
+              toEl: moveToItem.element,
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: fromElItems.indexOf(item),
+            },
           }),
         );
 
         item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
-          this.validateSortMenuItem({
-            type: "add",
-            fromEl,
-            toEl: moveToItem.element as BlockGroup["el"],
-            dragEl: item,
-            newIndex: 0,
-            oldIndex: fromElItems.indexOf(item),
+          this.sortable.canTransfer({
+            operation: "clone",
+            detail: {
+              fromEl,
+              toEl: moveToItem.element,
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: fromElItems.indexOf(item),
+            },
           }),
         );
         item.dragHandle = dragEnabled;
@@ -529,52 +513,6 @@ export class BlockGroup extends LitElement {
     });
   }
 
-  private validateSortMenuItem({
-    fromEl,
-    toEl,
-    dragEl,
-    newIndex,
-    oldIndex,
-    type,
-  }: {
-    fromEl?: BlockGroup["el"];
-    toEl?: BlockGroup["el"];
-    dragEl: Block["el"];
-    newIndex: number | undefined;
-    oldIndex: number | undefined;
-    type: "move" | "add";
-  }): boolean {
-    if (
-      !fromEl ||
-      !toEl ||
-      toEl === fromEl ||
-      dragEl.contains(toEl) ||
-      fromEl.sortMode !== toEl.sortMode
-    ) {
-      return false;
-    }
-
-    const canPull =
-      fromEl.canPull?.({
-        toEl,
-        fromEl,
-        dragEl,
-        newIndex,
-        oldIndex,
-      }) ?? true;
-
-    const canPut =
-      toEl.canPut?.({
-        toEl,
-        fromEl,
-        dragEl,
-        newIndex,
-        oldIndex,
-      }) ?? true;
-
-    return (type === "add" ? canPull === "clone" : canPull === true) && canPut;
-  }
-
   private handleAdd(event: CustomEvent<AddEventDetail>): void {
     const { addTo } = event.detail;
 
@@ -591,35 +529,18 @@ export class BlockGroup extends LitElement {
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateSortMenuItem({ type: "add", fromEl, toEl, dragEl, newIndex, oldIndex })) {
-      return;
-    }
-
     const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
 
-    const fromEvent = fromEl.emitBeforeOrderChangeEvent(eventDetail);
-    const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
-
-    if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
-      return;
-    }
-
-    dragEl.sortHandleOpen = false;
-
-    if (fromEl.sortMode === "manual") {
-      this.onOrderRequest({ ...eventDetail, operation: "clone" });
-      return;
-    }
-
-    this.disconnectObserver();
-
-    const newEl = dragEl.cloneNode();
-    toEl.prepend(newEl);
-    this.updateBlockItemsDebounced();
-    this.connectObserver();
-
-    this.calciteBlockGroupOrderChange.emit(eventDetail);
-    toEl.emitOrderChangeEvent(eventDetail);
+    this.sortable.requestOrderChange({
+      detail: eventDetail,
+      operation: "clone",
+      onAccepted: () => (dragEl.sortHandleOpen = false),
+      apply: () => {
+        this.disconnectObserver();
+        toEl.prepend(dragEl.cloneNode());
+        this.connectObserver();
+      },
+    });
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -638,35 +559,18 @@ export class BlockGroup extends LitElement {
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
-      return;
-    }
-
     const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
 
-    const fromEvent = fromEl.emitBeforeOrderChangeEvent(eventDetail);
-    const toEvent = toEl.emitBeforeOrderChangeEvent(eventDetail);
-
-    if (fromEvent.defaultPrevented || toEvent.defaultPrevented) {
-      return;
-    }
-
-    dragEl.sortHandleOpen = false;
-
-    if (fromEl.sortMode === "manual") {
-      this.onOrderRequest({ ...eventDetail, operation: "move" });
-      return;
-    }
-
-    this.disconnectObserver();
-
-    toEl.prepend(dragEl);
-
-    this.updateBlockItemsDebounced();
-    this.connectObserver();
-
-    this.calciteBlockGroupOrderChange.emit(eventDetail);
-    toEl.emitOrderChangeEvent(eventDetail);
+    this.sortable.requestOrderChange({
+      detail: eventDetail,
+      operation: "move",
+      onAccepted: () => (dragEl.sortHandleOpen = false),
+      apply: () => {
+        this.disconnectObserver();
+        toEl.prepend(dragEl);
+        this.connectObserver();
+      },
+    });
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
@@ -705,32 +609,19 @@ export class BlockGroup extends LitElement {
 
     const eventDetail = { dragEl, fromEl: blockGroupEl, toEl: blockGroupEl, newIndex, oldIndex };
 
-    if (blockGroupEl.sortMode === "manual" && newIndex === oldIndex) {
-      return;
-    }
-
-    if (blockGroupEl.emitBeforeOrderChangeEvent(eventDetail).defaultPrevented) {
-      return;
-    }
-
-    if (blockGroupEl.sortMode === "manual") {
-      this.onOrderRequest({ ...eventDetail, operation: "move" });
-      return;
-    }
-
-    this.disconnectObserver();
-
-    const referenceEl =
-      reorder === "up" || reorder === "top"
-        ? sameParentItems[newIndex]
-        : sameParentItems[newIndex].nextSibling;
-
-    parentEl.insertBefore(dragEl, referenceEl);
-
-    this.updateBlockItemsDebounced();
-    this.connectObserver();
-
-    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    this.sortable.requestOrderChange({
+      detail: eventDetail,
+      operation: "move",
+      apply: () => {
+        this.disconnectObserver();
+        const referenceEl =
+          reorder === "up" || reorder === "top"
+            ? sameParentItems[newIndex]
+            : sameParentItems[newIndex].nextSibling;
+        parentEl.insertBefore(dragEl, referenceEl);
+        this.connectObserver();
+      },
+    });
   }
 
   //#endregion

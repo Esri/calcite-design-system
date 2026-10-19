@@ -1,7 +1,6 @@
 import { LitElement, property, createEvent, h, JsxNode, ToEvents } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { PropertyValues } from "lit";
-import { createObserver } from "../../utils/observers";
 import type { HandleNudge } from "../handle/types";
 import type { Layout } from "../types";
 import { focusElement, getSlotAssignedElements } from "../../utils/dom";
@@ -47,24 +46,7 @@ export class SortableList extends LitElement {
   defaultSlotEl = createRef<HTMLSlotElement>();
   dragEnabled = true;
 
-  items: Element[] = [];
-
-  private sortableItems: HTMLElement[] = [];
-
-  private observing = false;
-
-  mutationObserver = createObserver("mutation", (mutations) => {
-    const items = this.getSortableItems();
-    if (
-      mutations.some((mutation) => mutation.type === "childList") ||
-      items.length !== this.sortableItems.length ||
-      items.some((item, index) => item !== this.sortableItems[index])
-    ) {
-      this.setUpSorting();
-    }
-  });
-
-  private sortable = useSortable<this>()(this);
+  private sortable = useSortable<this>({ getSlot: () => this.defaultSlotEl.value })(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -134,11 +116,6 @@ export class SortableList extends LitElement {
     );
   }
 
-  override connectedCallback(): void {
-    this.setUpSorting();
-    this.beginObserving();
-  }
-
   load(): void {
     logger.deprecated("component", {
       component: this,
@@ -146,10 +123,6 @@ export class SortableList extends LitElement {
       removalVersion: 5,
       suggested: "block-group",
     });
-  }
-
-  override disconnectedCallback(): void {
-    this.endObserving();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -174,15 +147,6 @@ export class SortableList extends LitElement {
     this.sortable.reset();
   }
 
-  onGlobalDragStart(): void {
-    this.endObserving();
-  }
-
-  onGlobalDragEnd(): void {
-    this.setUpSorting();
-    this.beginObserving();
-  }
-
   onDragEnd(): void {}
 
   onDragStart(): void {}
@@ -192,7 +156,6 @@ export class SortableList extends LitElement {
   }
 
   onDragSort(): void {
-    this.setUpSorting();
     this.calciteListOrderChange.emit();
   }
 
@@ -246,65 +209,27 @@ export class SortableList extends LitElement {
     }
 
     const oldIndex = startingIndex;
-    const beforeOrderChange = this.calciteListBeforeOrderChange.emit({
-      fromEl: this.el,
-      toEl: this.el,
-      dragEl: sortItem,
-      oldIndex,
-      newIndex,
-    });
-
-    if (beforeOrderChange.defaultPrevented) {
+    if (
+      !this.sortable.requestOrderChange({
+        detail: { fromEl: this.el, toEl: this.el, dragEl: sortItem, oldIndex, newIndex },
+        operation: "move",
+        apply: () => {
+          if (appendInstead) {
+            sortItem.parentElement!.appendChild(sortItem);
+          } else {
+            sortItem.parentElement!.insertBefore(sortItem, sortableItems[buddyIndex!]);
+          }
+        },
+      })
+    ) {
       return;
     }
 
-    this.endObserving();
-
-    if (appendInstead) {
-      sortItem.parentElement!.appendChild(sortItem);
-    } else {
-      sortItem.parentElement!.insertBefore(sortItem, sortableItems[buddyIndex!]);
-    }
-
-    this.onDragSort();
-
-    this.beginObserving();
     requestAnimationFrame(() => focusElement(handle));
 
     if (handle && "selected" in handle) {
       handle.selected = true;
     }
-  }
-
-  private setUpSorting(): void {
-    this.items = Array.from(this.el.children);
-    this.sortableItems = this.getSortableItems();
-    this.sortable.reset();
-    if (this.observing) {
-      this.beginObserving();
-    }
-  }
-
-  private beginObserving(): void {
-    this.mutationObserver?.disconnect();
-    this.observing = true;
-    const parents = new Set<HTMLElement>([this.el]);
-    const slot = this.defaultSlotEl.value;
-    if (slot) {
-      getSlotAssignedElements<HTMLElement>(slot).forEach((item) => {
-        if (item.parentElement) {
-          parents.add(item.parentElement);
-        }
-      });
-    }
-    parents.forEach((parent) =>
-      this.mutationObserver?.observe(parent, { attributes: true, childList: true, subtree: true }),
-    );
-  }
-
-  private endObserving(): void {
-    this.observing = false;
-    this.mutationObserver?.disconnect();
   }
 
   //#endregion
@@ -324,7 +249,7 @@ export class SortableList extends LitElement {
             [CSS.containerHorizontal]: horizontal,
           }}
         >
-          <slot onSlotChange={this.setUpSorting} ref={this.defaultSlotEl} />
+          <slot ref={this.defaultSlotEl} />
         </div>
       </this.interactiveContainer>
     );
