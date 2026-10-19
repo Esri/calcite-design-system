@@ -1163,40 +1163,26 @@ export class List extends LitElement {
   }
 
   private handleAdd(event: CustomEvent<AddEventDetail>): void {
-    const { addTo } = event.detail;
-
-    const dragEl = event.target as ListItem["el"];
-    const parentEl = dragEl?.parentElement;
-    const fromEl = dragEl?.closest<List["el"]>(listSelector);
-
-    if (!parentEl || !fromEl) {
-      return;
-    }
-
-    const toEl = addTo.element as List["el"];
-    const fromElItems = Array.from(parentEl.children).filter(isListItem);
-    const oldIndex = fromElItems.indexOf(dragEl);
-    const newIndex = 0;
-
-    const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
-
-    this.sortable.requestOrderChange({
-      detail: eventDetail,
-      operation: "clone",
-      onAccepted: () => (dragEl.sortHandleOpen = false),
-      apply: () => {
-        this.disconnectObserver();
-        toEl.prepend(dragEl.cloneNode());
-        expandedAncestors(dragEl);
-        this.connectObserver();
-      },
-    });
+    this.handleTransfer(
+      event.target as ListItem["el"],
+      event.detail.addTo.element as List["el"],
+      "clone",
+    );
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
-    const { moveTo } = event.detail;
+    this.handleTransfer(
+      event.target as ListItem["el"],
+      event.detail.moveTo.element as List["el"],
+      "move",
+    );
+  }
 
-    const dragEl = event.target as ListItem["el"];
+  private handleTransfer(
+    dragEl: ListItem["el"],
+    toEl: List["el"],
+    operation: "move" | "clone",
+  ): void {
     const parentEl = dragEl?.parentElement;
     const fromEl = dragEl?.closest<List["el"]>(listSelector);
 
@@ -1204,7 +1190,6 @@ export class List extends LitElement {
       return;
     }
 
-    const toEl = moveTo.element as List["el"];
     const fromElItems = Array.from(parentEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
@@ -1213,11 +1198,11 @@ export class List extends LitElement {
 
     this.sortable.requestOrderChange({
       detail: eventDetail,
-      operation: "move",
+      operation,
       onAccepted: () => (dragEl.sortHandleOpen = false),
       apply: () => {
         this.disconnectObserver();
-        toEl.prepend(dragEl);
+        toEl.prepend(operation === "clone" ? dragEl.cloneNode() : dragEl);
         expandedAncestors(dragEl);
         this.connectObserver();
       },
