@@ -130,13 +130,13 @@ export class BlockGroup extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the expand mode of the component, where:
    *
-   * `"multiple"` allows any number of selections,
+   * `"multiple"` allows any number of Blocks to be expanded,
    *
-   * `"single"` allows only one selection, and
+   * `"single"` allows only one Block to be expanded, and
    *
-   * `"single-persist"` allows one selection and prevents de-selection.
+   * `"single-persist"` allows one Block to be expanded and prevents collapsing.
    */
   @property({ reflect: true }) expandMode: Extract<
     "single" | "single-persist" | "multiple",
