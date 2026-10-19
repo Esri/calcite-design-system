@@ -664,14 +664,6 @@ export class ActionMenu extends LitElement {
     this.focusMenuButtonOnClose = false;
 
     const actionGroup = action.closest("calcite-action-group");
-    const keepSelectableActionGroupOpen =
-      !!actionGroup?.selectionMode && actionGroup.selectionMode !== "none";
-
-    if (keepSelectableActionGroupOpen) {
-      void this.setFocus();
-      return;
-    }
-
     const isNonSelectableActionBarOverflowAction =
       action.slot === ACTION_GROUP_SLOTS.menuActions &&
       actionGroup?.selectionMode === "none" &&

@@ -747,8 +747,8 @@ export class ActionBar extends LitElement {
     this.automaticallyOverflowedActions = this.automaticallyOverflowedActions.filter((action) =>
       directActions.includes(action),
     );
-    this.authoredMenuActions = this.authoredMenuActions.filter((action) =>
-      directActions.includes(action),
+    this.authoredMenuActions = this.authoredMenuActions.filter(
+      (action) => directActions.includes(action) && action.slot === ACTION_GROUP_SLOTS.menuActions,
     );
 
     directActions.forEach((action) => {
@@ -775,6 +775,7 @@ export class ActionBar extends LitElement {
 
     this.authoredMenuActions.forEach((action) => {
       action.slot = ACTION_GROUP_SLOTS.menuActions;
+      action.textEnabled = true;
     });
     this.automaticallyOverflowedActions = directActions.filter(
       (action) =>
