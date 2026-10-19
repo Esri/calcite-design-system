@@ -1012,13 +1012,13 @@ describe("drag and drop", () => {
     return {
       destination: page.getBySelector("#destination"),
       handle,
-      itemHeight: page.getBySelector("#source-item").element().getBoundingClientRect().height,
+      sourceItem: page.getBySelector("#source-item").element(),
       target: page.getBySelector("#destination-item"),
     };
   };
 
   it("keeps fixed-height copy targets clear of following items", async () => {
-    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination(true);
+    const { destination, handle, sourceItem, target } = await renderSingleItemCopyDestination(true);
     const following = page.getBySelector("#following-item");
 
     await dragAndDrop(handle.element(), target.element(), "bottom", { skipPointerUp: true });
@@ -1032,7 +1032,10 @@ describe("drag and drop", () => {
     expect(target.element().getBoundingClientRect().height).toBe(48);
     const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
     await expect.element(gap).toBeVisible();
-    expect(gap.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(gap.element().getBoundingClientRect().height).toBeCloseTo(
+      sourceItem.getBoundingClientRect().height,
+      0,
+    );
     expect(gap.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
       target.element().getBoundingClientRect().top,
     );
@@ -1050,17 +1053,23 @@ describe("drag and drop", () => {
   });
 
   it("shows append feedback after the single item instead of covering it", async () => {
-    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+    const { destination, handle, sourceItem, target } = await renderSingleItemCopyDestination();
 
     await dragAndDrop(handle.element(), destination.element(), "bottom", { skipPointerUp: true });
     await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
     const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
     await expect.element(gap).toBeVisible();
     const indicator = getComputedStyle(gap.element());
-    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(
+      sourceItem.getBoundingClientRect().height,
+      0,
+    );
     expect(indicator.borderStyle).toBe("dashed");
     expect(indicator.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
-    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(
+      sourceItem.getBoundingClientRect().height,
+      0,
+    );
     expect(gap.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(
       target.element().getBoundingClientRect().bottom,
     );
@@ -1080,7 +1089,7 @@ describe("drag and drop", () => {
   });
 
   it("copies before the single item in a destination", async () => {
-    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+    const { destination, handle, sourceItem, target } = await renderSingleItemCopyDestination();
 
     await dragAndDrop(handle.element(), target.element(), "bottom", { skipPointerUp: true });
     await expect.element(target).toHaveAttribute("data-calcite-sort-position", "after");
@@ -1090,9 +1099,15 @@ describe("drag and drop", () => {
     const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
     await expect.element(gap).toBeVisible();
     const indicator = getComputedStyle(gap.element());
-    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(
+      sourceItem.getBoundingClientRect().height,
+      0,
+    );
     expect(indicator.borderStyle).toBe("dashed");
-    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(
+      sourceItem.getBoundingClientRect().height,
+      0,
+    );
     expect(gap.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
       target.element().getBoundingClientRect().top,
     );
@@ -1113,7 +1128,7 @@ describe("drag and drop", () => {
   });
 
   it("copies after the single item in a destination", async () => {
-    const { destination, handle, itemHeight, target } = await renderSingleItemCopyDestination();
+    const { destination, handle, sourceItem, target } = await renderSingleItemCopyDestination();
 
     await dragAndDrop(handle.element(), target.element(), "top", { skipPointerUp: true });
     await expect.element(target).toHaveAttribute("data-calcite-sort-position", "before");
@@ -1123,9 +1138,15 @@ describe("drag and drop", () => {
     const gap = destination.getBySelector('[data-dnd-placeholder="copy"]');
     await expect.element(gap).toBeVisible();
     const indicator = getComputedStyle(gap.element());
-    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(itemHeight, 0);
+    expect(Number.parseFloat(indicator.blockSize)).toBeCloseTo(
+      sourceItem.getBoundingClientRect().height,
+      0,
+    );
     expect(indicator.borderStyle).toBe("dashed");
-    expect(target.element().getBoundingClientRect().height).toBeCloseTo(itemHeight, 0);
+    expect(target.element().getBoundingClientRect().height).toBeCloseTo(
+      sourceItem.getBoundingClientRect().height,
+      0,
+    );
     expect(gap.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(
       target.element().getBoundingClientRect().bottom,
     );
@@ -1649,6 +1670,133 @@ describe("drag and drop", () => {
     } finally {
       warnSpy.mockRestore();
     }
+  });
+
+  async function renderGroupedTransfer(sortMode: "automatic" | "manual" = "automatic") {
+    const fixture = await renderGroupedItems(sortMode);
+    fixture.el.group = "grouped-transfers";
+    const { el: destination } = await mount<List>(
+      <calcite-list drag-enabled group="grouped-transfers" label="Destination" sort-mode={sortMode}>
+        <calcite-list-item label="Destination item" />
+      </calcite-list>,
+    );
+    const item = page.getBySelector("#two").element();
+    const destinationBefore = vi.fn();
+    const destinationChanged = vi.fn();
+    destination.addEventListener("calciteListBeforeOrderChange", destinationBefore);
+    destination.addEventListener("calciteListOrderChange", destinationChanged);
+
+    async function transfer() {
+      const handle = page.getBySelector("#two calcite-sort-handle");
+      await expect.element(handle).toBeVisible();
+      await (handle.element() as SortHandle["el"]).setFocus();
+      await userEvent.keyboard("{Enter}");
+      await page.getByRole("menuitem", { name: "Destination", exact: true }).click();
+    }
+
+    const detail = {
+      dragEl: item,
+      fromEl: fixture.el,
+      toEl: destination,
+      oldIndex: 1,
+      newIndex: 0,
+    };
+    return {
+      ...fixture,
+      destination,
+      item,
+      destinationBefore,
+      destinationChanged,
+      detail,
+      transfer,
+    };
+  }
+
+  it("moves a grouped item from the menu using its owning list and sibling index", async () => {
+    const { group, destination, item, before, changed, destinationChanged, detail, transfer } =
+      await renderGroupedTransfer();
+    await transfer();
+
+    expect(Array.from(group.children, (child) => child.id)).toEqual(["one"]);
+    expect(destination.firstElementChild).toBe(item);
+    expect(before.mock.calls[0][0].detail).toEqual(detail);
+    expect(changed).toHaveBeenCalledTimes(1);
+    expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("clones a grouped item from the menu using its owning list and sibling index", async () => {
+    const { el, group, destination, item, before, changed, destinationChanged, detail, transfer } =
+      await renderGroupedTransfer();
+    el.canPull = () => "clone";
+    await transfer();
+
+    expect(Array.from(group.children, (child) => child.id)).toEqual(["one", "two"]);
+    expect(destination.children).toHaveLength(2);
+    expect(destination.firstElementChild).not.toBe(item);
+    expect(destination.firstElementChild).toHaveProperty("id", "two");
+    expect(before.mock.calls[0][0].detail).toEqual(detail);
+    expect(changed).toHaveBeenCalledTimes(1);
+    expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("honors the owning list's veto when moving a grouped item from the menu", async () => {
+    const { group, destination, item, before, changed, destinationChanged, transfer } =
+      await renderGroupedTransfer();
+    before.mockImplementation((event: Event) => event.preventDefault());
+    await transfer();
+
+    expect(before).toHaveBeenCalledTimes(1);
+    expect(item.parentElement).toBe(group);
+    expect(destination.children).toHaveLength(1);
+    expect(changed).not.toHaveBeenCalled();
+    expect(destinationChanged).not.toHaveBeenCalled();
+  });
+
+  it("honors the destination veto when cloning a grouped item from the menu", async () => {
+    const {
+      el,
+      group,
+      destination,
+      item,
+      destinationBefore,
+      changed,
+      destinationChanged,
+      transfer,
+    } = await renderGroupedTransfer();
+    el.canPull = () => "clone";
+    destinationBefore.mockImplementation((event: Event) => event.preventDefault());
+    await transfer();
+
+    expect(destinationBefore).toHaveBeenCalledTimes(1);
+    expect(item.parentElement).toBe(group);
+    expect(destination.children).toHaveLength(1);
+    expect(changed).not.toHaveBeenCalled();
+    expect(destinationChanged).not.toHaveBeenCalled();
+  });
+
+  it("requests a manual grouped-item menu move without changing its parent", async () => {
+    const { group, destination, item, changed, request, detail, transfer } =
+      await renderGroupedTransfer("manual");
+    await transfer();
+
+    expect(item.parentElement).toBe(group);
+    expect(destination.children).toHaveLength(1);
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][0].detail).toEqual({ ...detail, operation: "move" });
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("requests a manual grouped-item menu clone without inserting a copy", async () => {
+    const { el, group, destination, item, changed, request, detail, transfer } =
+      await renderGroupedTransfer("manual");
+    el.canPull = () => "clone";
+    await transfer();
+
+    expect(item.parentElement).toBe(group);
+    expect(destination.children).toHaveLength(1);
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][0].detail).toEqual({ ...detail, operation: "clone" });
+    expect(changed).not.toHaveBeenCalled();
   });
 
   it("honors cancellation when moving an item from the sort menu", async () => {

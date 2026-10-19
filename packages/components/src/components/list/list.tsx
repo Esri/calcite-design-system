@@ -1212,9 +1212,15 @@ export class List extends LitElement {
     const { addTo } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const fromEl = dragEl?.parentElement as List["el"];
+    const parentEl = dragEl?.parentElement;
+    const fromEl = dragEl?.closest<List["el"]>(listSelector);
+
+    if (!parentEl || !fromEl) {
+      return;
+    }
+
     const toEl = addTo.element as List["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const fromElItems = Array.from(parentEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
@@ -1254,9 +1260,15 @@ export class List extends LitElement {
     const { moveTo } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const fromEl = dragEl?.parentElement as List["el"];
+    const parentEl = dragEl?.parentElement;
+    const fromEl = dragEl?.closest<List["el"]>(listSelector);
+
+    if (!parentEl || !fromEl) {
+      return;
+    }
+
     const toEl = moveTo.element as List["el"];
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const fromElItems = Array.from(parentEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
