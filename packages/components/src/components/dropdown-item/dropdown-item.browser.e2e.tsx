@@ -55,6 +55,28 @@ describe("disabled", () => {
   });
 });
 
+describe("link activation", () => {
+  it("does not forward a host click canceled by a once-only capture listener", async () => {
+    const { el } = await mount(
+      <calcite-dropdown-item href="#destination">Destination</calcite-dropdown-item>,
+    );
+    const anchorClickSpy = vi.fn((event: Event) => event.preventDefault());
+    page
+      .getBySelector("calcite-dropdown-item a")
+      .element()
+      .addEventListener("click", anchorClickSpy);
+    el.addEventListener("click", (event) => event.preventDefault(), { capture: true, once: true });
+
+    el.click();
+
+    expect(anchorClickSpy).not.toHaveBeenCalled();
+
+    el.click();
+
+    expect(anchorClickSpy).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("a11y attributes", () => {
   it("reflects selection state only for selectable items", async () => {
     await mount(

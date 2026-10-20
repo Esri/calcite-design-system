@@ -218,6 +218,10 @@ export class DropdownItem extends LitElement {
 
   private onClick(event: MouseEvent): void {
     if (this.href && event.composedPath()[0] === this.el) {
+      if (event.defaultPrevented) {
+        return;
+      }
+
       event.stopImmediatePropagation();
       void this.activateItem();
       return;
