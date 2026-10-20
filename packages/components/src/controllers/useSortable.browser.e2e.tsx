@@ -11,6 +11,95 @@ import { mockConsole } from "../tests/utils/logging";
 
 mockConsole();
 
+describe("non-mouse drag activation", () => {
+  async function setup(pointerType: "touch" | "pen") {
+    const { el } = await mount(
+      <calcite-list drag-enabled label="Sortable list">
+        <calcite-list-item id="one" label="One" />
+        <calcite-list-item id="two" label="Two" />
+        <calcite-list-item id="three" label="Three" />
+      </calcite-list>,
+    );
+    const items = Array.from(el.children);
+    const handle = page.getBySelector("#one calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    const bounds = handle.element().getBoundingClientRect();
+    const x = bounds.x + bounds.width / 2;
+    const y = bounds.y + bounds.height / 2;
+    const started = vi.fn();
+    const changed = vi.fn();
+    const ended = vi.fn();
+    el.addEventListener("calciteListDragStart", started);
+    el.addEventListener("calciteListOrderChange", changed);
+    el.addEventListener("calciteListDragEnd", ended);
+    onTestFinished(async () => {
+      vi.useRealTimers();
+      await commands.pointerInput(pointerType, "up", x, y);
+    });
+    return { el, items, x, y, started, changed, ended };
+  }
+
+  async function drop(pointerType: "touch" | "pen", state: Awaited<ReturnType<typeof setup>>) {
+    const target = state.items[2].getBoundingClientRect();
+    const x = target.x + target.width / 2;
+    const y = target.bottom - 2;
+    await commands.pointerInput(pointerType, "move", x, y);
+    await commands.pointerInput(pointerType, "move", x, y);
+    await commands.pointerInput(pointerType, "up", x, y);
+    await vi.waitFor(() => expect(state.ended).toHaveBeenCalledTimes(1));
+    expect(state.changed).toHaveBeenCalledTimes(1);
+    expect(Array.from(state.el.children)).toEqual([state.items[1], state.items[2], state.items[0]]);
+  }
+
+  it("activates touch after the hold delay and commits the drop", async () => {
+    const state = await setup("touch");
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    await commands.pointerInput("touch", "down", state.x, state.y);
+    await vi.advanceTimersByTimeAsync(249);
+    expect(state.started).not.toHaveBeenCalled();
+    await vi.advanceTimersByTimeAsync(1);
+    vi.useRealTimers();
+    await vi.waitFor(() => expect(state.started).toHaveBeenCalledTimes(1));
+    await drop("touch", state);
+  });
+
+  it("cancels touch activation when movement exceeds the delay tolerance", async () => {
+    const state = await setup("touch");
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    await commands.pointerInput("touch", "down", state.x, state.y);
+    await commands.pointerInput("touch", "move", state.x + 15, state.y);
+    await vi.advanceTimersByTimeAsync(300);
+    vi.useRealTimers();
+    await commands.pointerInput("touch", "up", state.x + 15, state.y);
+    expect(state.started).not.toHaveBeenCalled();
+    expect(state.changed).not.toHaveBeenCalled();
+    expect(Array.from(state.el.children)).toEqual(state.items);
+  });
+
+  it("activates pen after the hold delay and commits the drop", async () => {
+    const state = await setup("pen");
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    await commands.pointerInput("pen", "down", state.x, state.y);
+    await vi.advanceTimersByTimeAsync(199);
+    expect(state.started).not.toHaveBeenCalled();
+    await vi.advanceTimersByTimeAsync(1);
+    vi.useRealTimers();
+    await vi.waitFor(() => expect(state.started).toHaveBeenCalledTimes(1));
+    await drop("pen", state);
+  });
+
+  it("activates pen by distance beyond the delay tolerance before the delay expires", async () => {
+    const state = await setup("pen");
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    await commands.pointerInput("pen", "down", state.x, state.y);
+    expect(state.started).not.toHaveBeenCalled();
+    await commands.pointerInput("pen", "move", state.x + 15, state.y);
+    vi.useRealTimers();
+    await vi.waitFor(() => expect(state.started).toHaveBeenCalledTimes(1));
+    await drop("pen", state);
+  });
+});
+
 describe.each(["list", "block-group"] as const)(
   "%s automatic sorting cancellation",
   (component) => {
@@ -68,6 +157,66 @@ describe.each(["list", "block-group"] as const)(
         .element(page.getBySelector("#one calcite-sort-handle"))
         .toHaveProperty("open", true);
     }
+
+    it("cancels and restores an automatic drag when the source switches to manual", async () => {
+      const { source, originalItems, before, changed, handle } = await setupNested();
+      source.removeEventListener(beforeEvent, before);
+      const ended = vi.fn();
+      const requested = vi.fn();
+      source.addEventListener(
+        component === "list" ? "calciteListDragEnd" : "calciteBlockGroupDragEnd",
+        ended,
+      );
+      source.addEventListener(
+        component === "list" ? "calciteListOrderRequest" : "calciteBlockGroupOrderRequest",
+        requested,
+      );
+      onTestFinished(() => commands.mouseUp());
+      await dragAndDrop(handle, originalItems[1], "bottom", { skipPointerUp: true });
+      await expect.poll(() => source.firstElementChild).toBe(originalItems[1]);
+
+      source.sortMode = "manual";
+      await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+      expect(Array.from(source.children)).toEqual(originalItems);
+      expect(changed).not.toHaveBeenCalled();
+      expect(requested).not.toHaveBeenCalled();
+      expect(ended.mock.calls[0][0].detail).toMatchObject({ oldIndex: 0, newIndex: 0 });
+      await commands.mouseUp();
+      expect(ended).toHaveBeenCalledTimes(1);
+    });
+
+    it("cancels a manual drag when the source switches to automatic", async () => {
+      const { source, originalItems, changed, handle } = await setupNested();
+      source.sortMode = "manual";
+      await expect.element(page.getBySelector("#source")).toHaveAttribute("sort-mode", "manual");
+      const ended = vi.fn();
+      const requested = vi.fn();
+      source.addEventListener(
+        component === "list" ? "calciteListDragEnd" : "calciteBlockGroupDragEnd",
+        ended,
+      );
+      source.addEventListener(
+        component === "list" ? "calciteListOrderRequest" : "calciteBlockGroupOrderRequest",
+        requested,
+      );
+      onTestFinished(() => commands.mouseUp());
+      await dragAndDrop(handle, originalItems[1], "bottom", { skipPointerUp: true });
+      await expect
+        .element(page.getBySelector("#two[data-calcite-sort-position]"))
+        .toBeInTheDocument();
+
+      source.sortMode = "automatic";
+      await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+      expect(Array.from(source.children)).toEqual(originalItems);
+      await expect
+        .element(page.getBySelector("[data-calcite-sort-position]"))
+        .not.toBeInTheDocument();
+      expect(page.getBySelector("#one").elements()).toHaveLength(1);
+      expect(changed).not.toHaveBeenCalled();
+      expect(requested).not.toHaveBeenCalled();
+      await commands.mouseUp();
+      expect(ended).toHaveBeenCalledTimes(1);
+    });
 
     it("lets the nested source veto a menu reorder", async () => {
       const { source, originalItems, before, ancestorBefore, changed, handle } =
@@ -164,6 +313,33 @@ describe.each(["list", "block-group"] as const)(
       const bounds = page.getBySelector("#rejected-item").element().getBoundingClientRect();
       await commands.mouseMove(bounds.x + bounds.width / 2, bounds.y + 5);
     }
+
+    it("preserves radio names in permanent copies", async () => {
+      const { source, accepted, first, ended } = await setupTransfer();
+      source.canPull = (): "clone" => "clone";
+      const form = document.createElement("form");
+      form.id = "copy-form";
+      source.before(form);
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "choice";
+      radio.value = "chosen";
+      radio.checked = true;
+      radio.setAttribute("form", form.id);
+      first.append(radio);
+
+      await dragAndDrop(
+        page.elementLocator(first).getBySelector("calcite-sort-handle").element(),
+        page.getBySelector("#accepted-item").element(),
+        "top",
+      );
+      await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
+      const copied = page.elementLocator(accepted).getBySelector("input");
+      await expect.element(copied).toHaveAttribute("name", "choice");
+      const data = new FormData(form);
+      expect(data.get("choice")).toBe("chosen");
+      expect(data.has("Cloned__choice")).toBe(false);
+    });
 
     it("preserves an accepted transfer when a later destination vetoes the move", async () => {
       const {

@@ -25,6 +25,7 @@ interface SortableItemData {
 interface ActiveDrag {
   component: SortableComponent;
   item: HTMLElement;
+  sortMode: SortMode;
   oldIndex: number;
   oldParent: HTMLElement;
   nextSibling: ChildNode | null;
@@ -646,9 +647,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
                   }
 
                   // Use an overlay so neither the source nor its framework-managed siblings move.
-                  // Application authors must handle duplicate IDs and form/radio-group side effects.
-                  // Inert prevents interaction but does not isolate form participation.
                   if (!dragPreview) {
+                    // Native cloning intentionally omits non-reflected properties, runtime state, and non-cloneable shadow roots.
                     dragPreview = data.item.cloneNode(true) as HTMLElement;
                     dragPreview.inert = true;
                     dragPreview.setAttribute("aria-hidden", "true");
@@ -1044,6 +1044,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     const orderChanged = !dropCanceled && (fromComponent !== toComponent || oldIndex !== newIndex);
 
     if (cloning) {
+      // Native cloning intentionally omits non-reflected properties, runtime state, and non-cloneable shadow roots.
       const clone = dragEl.cloneNode(true) as HTMLElement;
       const cloneId = guid();
       if (clone.id) {
@@ -1120,6 +1121,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       record.activeDrag = {
         component,
         item,
+        sortMode: component.sortMode ?? "automatic",
         oldIndex: source.initialIndex,
         oldParent,
         nextSibling: item.nextSibling,
@@ -1219,10 +1221,11 @@ function getManagerRecord(document: Document): SortableManagerRecord {
           return;
         }
 
-        if (activeDrag.component.sortMode === "manual") {
-          finishManualDrop(activeDrag, dropPosition, canceled);
+        const dropCanceled = canceled || activeDrag.sortMode !== (activeDrag.component.sortMode ?? "automatic");
+        if (activeDrag.sortMode === "manual") {
+          finishManualDrop(activeDrag, dropPosition, dropCanceled);
         } else {
-          finishAutomaticDrop(activeDrag, dropPosition, canceled);
+          finishAutomaticDrop(activeDrag, dropPosition, dropCanceled);
         }
       });
     }),
@@ -1432,6 +1435,13 @@ export const useSortable = <T extends SortableComponent>(
       }
       if (record?.alive && dragActive()) {
         record.pendingReset.add(sortableComponent);
+        const activeDrag = record.activeDrag;
+        if (
+          activeDrag?.component === sortableComponent &&
+          activeDrag.sortMode !== (sortableComponent.sortMode ?? "automatic")
+        ) {
+          record.manager.actions.stop({ canceled: true });
+        }
         return;
       }
 

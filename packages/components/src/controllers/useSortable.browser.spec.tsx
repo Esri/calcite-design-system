@@ -679,6 +679,36 @@ it("queues a reset while a drag is active and flushes it after the drag ends", a
   expect(destroySortableSpy.mock.calls.length).toBeGreaterThan(0);
 });
 
+it("restores an automatic reorder when the mode changes after release but before finalization", async () => {
+  const { component } = await mountDragEnabled();
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+  const originalItems = Array.from(component.el.children);
+  const dragStartListener = monitorListeners.get("dragstart") as (event: unknown) => void;
+  const dragEndListener = monitorListeners.get("dragend") as (event: unknown) => void;
+
+  dragStartListener({ operation: { source: getSortableFor(component, "one") } });
+  component.el.append(originalItems[0]);
+  expect(Array.from(component.el.children)).toEqual([originalItems[1], originalItems[0]]);
+  const bounds = component.el.getBoundingClientRect();
+  dragOperation.position.current.x = bounds.left;
+  dragOperation.position.current.y = bounds.top;
+  dragEndListener({ canceled: false, operation: { target: getSortableFor(component, "two") } });
+  expect(component.onDragEnd).not.toHaveBeenCalled();
+  component.sortMode = "manual";
+
+  await vi.waitFor(() => expect(component.onDragEnd).toHaveBeenCalledTimes(1));
+  expect(Array.from(component.el.children)).toEqual(originalItems);
+  expect(component.onDragSort).not.toHaveBeenCalled();
+  expect(component.onOrderRequest).not.toHaveBeenCalled();
+  expect(component.onDragEnd).toHaveBeenCalledWith({
+    fromEl: component.el,
+    toEl: component.el,
+    dragEl: originalItems[0],
+    oldIndex: 0,
+    newIndex: 0,
+  });
+});
+
 it("retries setup when a peer starts dragging while component updates are pending", async () => {
   const { component } = await mountDragEnabled();
   const { component: peer } = await mountDragEnabled();
