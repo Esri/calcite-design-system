@@ -114,13 +114,14 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
  * @param text The string of text to measure.
  * @param font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
  */
-export function getTextWidth(text: string | undefined, font: string): number {
+export function getTextWidth(text: string | undefined, font: string, letterSpacing?: string): number {
   if (!text) {
     return 0;
   }
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d")!;
   context.font = font;
+  context.letterSpacing = letterSpacing || "normal";
   return context.measureText(text).width;
 }
 
@@ -710,4 +711,18 @@ export function getStylePixelValue(value: string): number {
 export function viewportUnitToPixel(value: number, viewportSize: number): number {
   // intentionally dividing last to avoid rounding errors
   return (value * viewportSize) / 100;
+}
+
+/**
+ * This helper retrieves the assigned text nodes from a given slot element.
+ *
+ * @param slotEl - The slot element to retrieve text nodes from.
+ * @returns An array of assigned text nodes.
+ */
+export function getAssignedTextNodesFromSlotEl(slotEl: HTMLSlotElement): CharacterData[] {
+  return (
+    (slotEl.assignedNodes({ flatten: true }).filter((node) => node.nodeType === Node.TEXT_NODE) as
+      | CharacterData[]
+      | undefined) ?? []
+  );
 }

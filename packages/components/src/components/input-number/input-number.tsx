@@ -35,7 +35,11 @@ import { Validation } from "../functional/Validation";
 import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { inlineEditConverter, UseInlineEdit } from "../../controllers/useInlineEdit";
+import {
+  INLINE_EDIT_ACTIVATION_SOURCE,
+  inlineEditConverter,
+  UseInlineEdit,
+} from "../../controllers/useInlineEdit";
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
@@ -268,8 +272,9 @@ export class InputNumber
       this.restoreInlineEditingValue(value);
     },
     commitValue: () => this.commitInlineEditingValue(),
-    setFocus: () => {
-      void this.setFocus();
+    setFocus: async (source) => {
+      await this.setFocus();
+      this.inlineEditManager.setCaretPosition(this.childNumberRef.value, source);
     },
     emitCancel: () => {
       this.calciteInputNumberInlineEditingCancel.emit();
@@ -601,6 +606,10 @@ export class InputNumber
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("inlineEditing") && this.inlineEditing) {
+      this.inlineEditManager.captureValuePriorToEditing();
+    }
+
     if (changes.has("max")) {
       this.maxString = this.max?.toString() || undefined;
     }
@@ -1389,7 +1398,9 @@ export class InputNumber
                 loading={this.inlineEditingLoading}
                 onCancelEditing={this.inlineEditCancelEditingHandler}
                 onConfirmChanges={this.inlineEditConfirmChangesHandler}
-                onEnableEditing={() => this.inlineEditManager.enable()}
+                onEnableEditing={() =>
+                  this.inlineEditManager.enable(INLINE_EDIT_ACTIVATION_SOURCE.editButton)
+                }
                 scale={this.scale}
                 showControls={this.inlineEditing && !this.inlineEditControlsDisabled}
               />

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.105](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.104...@esri/calcite-components@5.2.0-next.105) (2026-10-16)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** when inline-edit is defined, editing places cursor at beginning of existing value ([#15396](https://github.com/Esri/calcite-design-system/issues/15396)), closes [#15346](https://github.com/Esri/calcite-design-system/issues/15346)
+
+## [5.2.0-next.104](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.103...@esri/calcite-components@5.2.0-next.104) (2026-10-16)
+
+### Features
+
+- **text:** add text component ([#12803](https://github.com/Esri/calcite-design-system/issues/12803)), closes [#14005](https://github.com/Esri/calcite-design-system/issues/14005)
+
+## [5.2.0-next.103](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.102...@esri/calcite-components@5.2.0-next.103) (2026-10-15)
+
+### Features
+
+- **input-time-zone:** add label property ([#15390](https://github.com/Esri/calcite-design-system/issues/15390)), closes [#14914](https://github.com/Esri/calcite-design-system/issues/14914)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** when inline-editing is initially set, canceling clears the initial value ([#15392](https://github.com/Esri/calcite-design-system/issues/15392)), closes [#15345](https://github.com/Esri/calcite-design-system/issues/15345)
+
 ## [5.2.0-next.102](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.101...@esri/calcite-components@5.2.0-next.102) (2026-10-15)
 
 ### Bug Fixes
