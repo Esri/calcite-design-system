@@ -212,20 +212,19 @@ export class DropdownItem extends LitElement {
     this.initialize();
   }
 
+  override updated(): void {
+    if (this.href && !this.disabled) {
+      this.el.click = () => {
+        void this.activateItem();
+      };
+    }
+  }
+
   //#endregion
 
   //#region Private Methods
 
-  private onClick(event: MouseEvent): void {
-    if (this.href && event.composedPath()[0] === this.el) {
-      if (event.defaultPrevented) {
-        return;
-      }
-
-      event.stopImmediatePropagation();
-      void this.activateItem();
-      return;
-    }
+  private onClick(): void {
     this.emitRequestedItem();
   }
 

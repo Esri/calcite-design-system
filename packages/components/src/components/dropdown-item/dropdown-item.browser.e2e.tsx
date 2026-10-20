@@ -5,6 +5,7 @@ import { page, userEvent } from "vitest/browser";
 import { defaults, focusable, hidden, renders, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+import type { DropdownItem } from "./dropdown-item";
 
 mockConsole();
 
@@ -56,24 +57,99 @@ describe("disabled", () => {
 });
 
 describe("link activation", () => {
-  it("does not forward a host click canceled by a once-only capture listener", async () => {
-    const { el } = await mount(
-      <calcite-dropdown-item href="#destination">Destination</calcite-dropdown-item>,
+  it("delivers one host activation to item and ancestor capture listeners and navigates", async () => {
+    const { container } = await mount(
+      <div>
+        <calcite-dropdown-item href="about:blank#destination" target="destination">
+          Destination
+        </calcite-dropdown-item>
+        <iframe name="destination" sandbox="allow-same-origin" title="Destination" />
+      </div>,
     );
-    const anchorClickSpy = vi.fn((event: Event) => event.preventDefault());
+    const item = container.querySelector("calcite-dropdown-item")!;
+    const destination = container.querySelector("iframe")!;
+    const itemClickSpy = vi.fn();
+    const ancestorClickSpy = vi.fn();
+    item.addEventListener("click", itemClickSpy, { capture: true });
+    item.parentElement!.addEventListener("click", ancestorClickSpy, { capture: true });
+
+    item.click();
+
+    expect(itemClickSpy).toHaveBeenCalledTimes(1);
+    expect(ancestorClickSpy).toHaveBeenCalledTimes(1);
+    await vi.waitFor(() => expect(destination.contentWindow!.location.hash).toBe("#destination"));
+  });
+
+  it("allows a once-only capture listener to cancel host link activation", async () => {
+    const { container } = await mount(
+      <div>
+        <calcite-dropdown-item href="about:blank#destination" target="destination">
+          Destination
+        </calcite-dropdown-item>
+        <iframe name="destination" sandbox="allow-same-origin" title="Destination" />
+      </div>,
+    );
+    const item = container.querySelector("calcite-dropdown-item")!;
+    const destination = container.querySelector("iframe")!;
+    const anchorClickSpy = vi.fn();
     page
       .getBySelector("calcite-dropdown-item a")
       .element()
       .addEventListener("click", anchorClickSpy);
-    el.addEventListener("click", (event) => event.preventDefault(), { capture: true, once: true });
+    item.addEventListener("click", (event) => event.preventDefault(), {
+      capture: true,
+      once: true,
+    });
 
-    el.click();
-
-    expect(anchorClickSpy).not.toHaveBeenCalled();
-
-    el.click();
+    item.click();
 
     expect(anchorClickSpy).toHaveBeenCalledTimes(1);
+    expect(anchorClickSpy.mock.calls[0][0].defaultPrevented).toBe(true);
+    expect(destination.contentWindow!.location.hash).toBe("");
+
+    item.click();
+
+    expect(anchorClickSpy).toHaveBeenCalledTimes(2);
+    expect(anchorClickSpy.mock.calls[1][0].defaultPrevented).toBe(false);
+    await vi.waitFor(() => expect(destination.contentWindow!.location.hash).toBe("#destination"));
+  });
+
+  it("prevents host link activation while disabled and restores it when enabled", async () => {
+    const { el, reRender } = await mount<DropdownItem>(
+      <calcite-dropdown-item href="#destination">Destination</calcite-dropdown-item>,
+    );
+    const clickSpy = vi.fn((event: Event) => event.preventDefault());
+    el.addEventListener("click", clickSpy);
+
+    el.click();
+    expect(clickSpy).toHaveBeenCalledTimes(1);
+
+    el.disabled = true;
+    await reRender();
+    el.click();
+    expect(clickSpy).toHaveBeenCalledTimes(1);
+
+    el.disabled = false;
+    await reRender();
+    el.click();
+    expect(clickSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("restores native host clicks when href is removed", async () => {
+    const { el, reRender } = await mount<DropdownItem>(
+      <calcite-dropdown-item href="#destination">Destination</calcite-dropdown-item>,
+    );
+    const clickSpy = vi.fn((event: Event) => event.preventDefault());
+    const selectSpy = vi.fn();
+    el.addEventListener("click", clickSpy);
+    el.addEventListener("calciteDropdownItemSelect", selectSpy);
+
+    el.href = undefined;
+    await reRender();
+    el.click();
+
+    expect(clickSpy).toHaveBeenCalledTimes(1);
+    expect(selectSpy).toHaveBeenCalledTimes(1);
   });
 });
 
