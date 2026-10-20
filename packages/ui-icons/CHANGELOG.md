@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.24...@esri/calcite-ui-icons@4.6.0-next.25) (2026-10-14)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.6.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.23...@esri/calcite-ui-icons@4.6.0-next.24) (2026-10-13)
+
+### Bug Fixes
+
+- **typography-tokens:** align CSS classes with SCSS mixins ([#15282](https://github.com/Esri/calcite-design-system/issues/15282)), closes [#15230](https://github.com/Esri/calcite-design-system/issues/15230) [#15362](https://github.com/Esri/calcite-design-system/issues/15362)
+
 ## [4.6.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.22...@esri/calcite-ui-icons@4.6.0-next.23) (2026-10-12)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

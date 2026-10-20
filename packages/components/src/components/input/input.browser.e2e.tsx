@@ -165,6 +165,57 @@ describe("is focusable", () => {
 });
 
 describe("inline edit", () => {
+  it.each(["text", "number"] as const)(
+    "preserves the caret position when editing type %s is enabled by clicking the input",
+    async (type) => {
+      const { el } = await mount<Input>(<calcite-input inline-edit type={type} value="123" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.click(input, {
+        position: { x: 10, y: input.element().clientHeight / 2 },
+      });
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+      await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+      await userEvent.keyboard("4");
+
+      await expect.element(input).toHaveValue("1423");
+    },
+  );
+
+  it.each(["text", "number"] as const)(
+    "places the caret at the end when editing type %s is enabled with the edit button",
+    async (type) => {
+      const { el } = await mount<Input>(<calcite-input inline-edit type={type} value="123" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.click(
+        page.getBySelector(`calcite-input .${InlineEditControlsCSS.enableEditing}`),
+      );
+
+      await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+      await userEvent.keyboard("4");
+
+      await expect.element(input).toHaveValue("1234");
+    },
+  );
+
+  it("restores the starting value when externally controlled inline editing is cancelled", async () => {
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit inline-editing value="Starting value" />,
+    );
+    const input = page.getBySelector("calcite-input input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard(" changed");
+    await userEvent.click(
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.cancelEditing}`),
+    );
+
+    expect(el.value).toBe("Starting value");
+    await expect.element(input).toHaveValue("Starting value");
+  });
+
   it.each([true, "controls-disabled"] as const)(
     "allows decimal entry when inlineEdit is %s",
     async (inlineEdit) => {
