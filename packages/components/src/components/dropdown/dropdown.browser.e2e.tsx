@@ -893,6 +893,22 @@ describe("hover type", () => {
 });
 
 describe("roving tabindex", () => {
+  it("focuses the first eligible item when initially open", async () => {
+    await mount(
+      <calcite-dropdown open>
+        <calcite-button slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item disabled>Disabled</calcite-dropdown-item>
+          <calcite-dropdown-item hidden>Hidden</calcite-dropdown-item>
+          <calcite-dropdown-item>First eligible</calcite-dropdown-item>
+          <calcite-dropdown-item selected>Selected</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>,
+    );
+
+    await expect.element(page.getByText("First eligible")).toHaveFocus();
+  });
+
   it("focuses the only item when a before-open listener reveals it", async () => {
     const { component } = await mount<Dropdown>(
       <calcite-dropdown>

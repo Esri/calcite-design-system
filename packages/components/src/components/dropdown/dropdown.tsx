@@ -617,7 +617,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   onBeforeOpen(): void {
     this.setInitialActiveItem();
     this.calciteDropdownBeforeOpen.emit();
-    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -774,6 +773,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.focusLastDropdownItem = false;
 
     this.rovingTabIndex.setActiveIndex(traversableItems.length ? targetIndex : -1);
+
+    await this.topLayer.show();
 
     if (this.focusActiveItemOnOpen) {
       await this.scrollActiveItemIntoView(
