@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.105](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.104...@esri/calcite-components@5.2.0-next.105) (2026-10-16)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** when inline-edit is defined, editing places cursor at beginning of existing value ([#15396](https://github.com/Esri/calcite-design-system/issues/15396)), closes [#15346](https://github.com/Esri/calcite-design-system/issues/15346)
+
+## [5.2.0-next.104](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.103...@esri/calcite-components@5.2.0-next.104) (2026-10-16)
+
+### Features
+
+- **text:** add text component ([#12803](https://github.com/Esri/calcite-design-system/issues/12803)), closes [#14005](https://github.com/Esri/calcite-design-system/issues/14005)
+
+## [5.2.0-next.103](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.102...@esri/calcite-components@5.2.0-next.103) (2026-10-15)
+
+### Features
+
+- **input-time-zone:** add label property ([#15390](https://github.com/Esri/calcite-design-system/issues/15390)), closes [#14914](https://github.com/Esri/calcite-design-system/issues/14914)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** when inline-editing is initially set, canceling clears the initial value ([#15392](https://github.com/Esri/calcite-design-system/issues/15392)), closes [#15345](https://github.com/Esri/calcite-design-system/issues/15345)
+
+## [5.2.0-next.102](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.101...@esri/calcite-components@5.2.0-next.102) (2026-10-15)
+
+### Bug Fixes
+
+- **menu-item:** adjust href arrow ([#15391](https://github.com/Esri/calcite-design-system/issues/15391)), closes [#12337](https://github.com/Esri/calcite-design-system/issues/12337)
+
+## [5.2.0-next.101](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.100...@esri/calcite-components@5.2.0-next.101) (2026-10-15)
+
+### Bug Fixes
+
+- **slider:** prevent width collapse in flex containers ([#15388](https://github.com/Esri/calcite-design-system/issues/15388)), closes [#15140](https://github.com/Esri/calcite-design-system/issues/15140)
+
+## [5.2.0-next.100](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.99...@esri/calcite-components@5.2.0-next.100) (2026-10-14)
+
+### Bug Fixes
+
+- **date-picker:** preserve selected month for same-day ranges ([#15291](https://github.com/Esri/calcite-design-system/issues/15291)), closes [#14686](https://github.com/Esri/calcite-design-system/issues/14686)
+
+## [5.2.0-next.99](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.98...@esri/calcite-components@5.2.0-next.99) (2026-10-14)
+
+### Bug Fixes
+
+- **block:** adjust deprecation message for `expanded` state events ([#15386](https://github.com/Esri/calcite-design-system/issues/15386)), closes [#15167](https://github.com/Esri/calcite-design-system/issues/15167)
+
+## [5.2.0-next.98](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.97...@esri/calcite-components@5.2.0-next.98) (2026-10-14)
+
+### Features
+
+- **components:** add theme fallbacks for deprecated color tokens ([#15034](https://github.com/Esri/calcite-design-system/issues/15034)), closes [#14286](https://github.com/Esri/calcite-design-system/issues/14286) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+- **components:** add theme fallbacks for deprecated corner-radius tokens ([#15033](https://github.com/Esri/calcite-design-system/issues/15033)), closes [#12115](https://github.com/Esri/calcite-design-system/issues/12115) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+- **components:** add theme fallbacks for deprecated font weight token ([#15032](https://github.com/Esri/calcite-design-system/issues/15032)), closes [#14288](https://github.com/Esri/calcite-design-system/issues/14288) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+- **components:** add theme fallbacks for deprecated spacing tokens ([#15035](https://github.com/Esri/calcite-design-system/issues/15035)), closes [#14285](https://github.com/Esri/calcite-design-system/issues/14285) [#15240](https://github.com/Esri/calcite-design-system/issues/15240)
+
+## [5.2.0-next.97](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.96...@esri/calcite-components@5.2.0-next.97) (2026-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.96](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.95...@esri/calcite-components@5.2.0-next.96) (2026-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.95](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.94...@esri/calcite-components@5.2.0-next.95) (2026-10-12)
+
+### Bug Fixes
+
+- **input-number, input:** unable to enter decimals with inline-edit defined ([#15372](https://github.com/Esri/calcite-design-system/issues/15372)), closes [#15344](https://github.com/Esri/calcite-design-system/issues/15344)
+
+## [5.2.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.93...@esri/calcite-components@5.2.0-next.94) (2026-10-09)
+
+### Bug Fixes
+
+- **shell-panel, action-bar:** fix Action Bar overflow issue, apply proper direction for expand arrow ([#14963](https://github.com/Esri/calcite-design-system/issues/14963)), closes [#13559](https://github.com/Esri/calcite-design-system/issues/13559)
+
 ## [5.2.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.92...@esri/calcite-components@5.2.0-next.93) (2026-10-08)
 
 ### Bug Fixes

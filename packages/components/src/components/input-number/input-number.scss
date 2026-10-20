@@ -45,7 +45,7 @@
 
 // scales
 :host([scale="s"]) {
-  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-fixed-sm));
 
   & input,
   & .prefix,
@@ -54,28 +54,37 @@
     block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & input {
-    padding-inline: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
-  @include input-affix-spacing(var(--calcite-spacing-sm), var(--calcite-spacing-xxs));
+  @include input-affix-spacing(
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm)),
+    var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
     block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & .clear-button {
-    block-size: var(--calcite-spacing-xxl);
+    block-size: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
   }
   &:host([number-button-type="horizontal"]) {
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-2xs,
+      var(--calcite-spacing-xxs)
+    );
   }
   &:host([number-button-type="vertical"]) {
     --calcite-internal-input-number-number-button-item-height: 8px;
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-2xs,
+      var(--calcite-spacing-xxs)
+    );
     --calcite-internal-input-number-number-button-item-vertical-padding: 3px;
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-md);
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-fixed-md));
 
   & input,
   & .prefix,
@@ -84,9 +93,12 @@
     block-size: var(--calcite-input-number-height, 2rem);
   }
   & input {
-    padding-inline: var(--calcite-spacing-md);
+    padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
-  @include input-affix-spacing(var(--calcite-spacing-md), var(--calcite-spacing-xs));
+  @include input-affix-spacing(
+    var(--calcite-theme-space-md, var(--calcite-spacing-md)),
+    var(--calcite-theme-space-xs, var(--calcite-spacing-xs))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
     block-size: var(--calcite-input-number-height, 2rem);
@@ -102,7 +114,10 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+  --calcite-internal-input-number-icon-padding-inline: var(
+    --calcite-theme-space-md-plus,
+    var(--calcite-spacing-fixed-lg)
+  );
 
   & input,
   & .prefix,
@@ -111,19 +126,28 @@
     block-size: var(--calcite-input-number-height, 2.75rem);
   }
   & input {
-    padding-inline: var(--calcite-spacing-lg);
+    padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
-  @include input-affix-spacing(var(--calcite-spacing-lg), var(--calcite-spacing-sm));
+  @include input-affix-spacing(
+    var(--calcite-theme-space-lg, var(--calcite-spacing-lg)),
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+  );
   & .number-button-wrapper,
   & .action-wrapper {
     block-size: var(--calcite-input-number-height, 2.75rem);
   }
   &:host([number-button-type="horizontal"]) {
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-sm-plus,
+      var(--calcite-spacing-sm-plus)
+    );
   }
   &:host([number-button-type="vertical"]) {
     --calcite-internal-input-number-number-button-item-height: 16px;
-    --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
+    --calcite-internal-input-number-number-button-item-horizontal-padding: var(
+      --calcite-theme-space-sm-plus,
+      var(--calcite-spacing-sm-plus)
+    );
     --calcite-internal-input-number-number-button-item-vertical-padding: 5px;
   }
 }
@@ -148,7 +172,10 @@ input {
     text-ellipsis
     w-full;
   outline: none;
-  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-number-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   color: var(--calcite-input-number-text-color, var(--calcite-color-text-1));
   text-align: var(--calcite-internal-input-number-alignment);
   &:placeholder-shown {
@@ -158,7 +185,10 @@ input {
 
 .element-wrapper,
 input {
-  border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
 }
 
 .has-prefix,
@@ -198,24 +228,42 @@ input {
 .has-prefix :is(.prefix:first-child, .loader + .prefix),
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="down"],
 .element-wrapper:has(.icon) :is(.icon:first-child, .loader + .icon) {
-  border-start-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-start-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-start-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
+  border-end-start-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
 }
 
 :host([read-only]) .suffix,
 :host([read-only]) .wrapper:not(.has-suffix) .clear-button,
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="up"] {
-  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
-  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
+  border-start-end-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
   @apply border-t-0;
-  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
-  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
 }
 
 :host(:not([read-only])[number-button-type="horizontal"]) .prefix,
@@ -238,7 +286,10 @@ input:focus {
 
 input[readonly] {
   @apply font-medium;
-  background-color: var(--calcite-input-number-background-color, var(--calcite-color-background));
+  background-color: var(
+    --calcite-input-number-background-color,
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+  );
 }
 input[readonly]:focus {
   color: var(--calcite-input-number-text-color-focus, var(--calcite-color-text-1));
@@ -249,7 +300,10 @@ input[readonly]:focus {
   .icon,
   .clear-button,
   .suffix {
-    background-color: var(--calcite-input-number-background-color, var(--calcite-color-background));
+    background-color: var(
+      --calcite-input-number-background-color,
+      var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+    );
   }
 }
 
@@ -292,7 +346,10 @@ input[readonly]:focus {
   border-style: solid;
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
   border-inline-end-width: var(--calcite-border-width-none);
-  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-number-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   --calcite-icon-color: var(
     --calcite-input-number-icon-color,
     var(--calcite-ui-icon-color, var(--calcite-color-text-3))
@@ -317,7 +374,10 @@ input[readonly]:focus {
   border-style: solid;
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
   border-inline-start-width: var(--calcite-border-width-none);
-  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-number-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 
 .has-suffix,
@@ -373,14 +433,20 @@ input[readonly]:focus {
   order: 0;
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-internal-input-affix-prefix-width, var(--calcite-input-prefix-size, auto));
-  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-number-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
 .suffix {
   order: 5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-internal-input-affix-suffix-width, var(--calcite-input-suffix-size, auto));
-  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-number-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }
 
@@ -468,14 +534,20 @@ input[readonly]:focus {
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
-  border-start-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
   border-block-end-width: var(--calcite-border-width-none);
   padding-block-start: var(--calcite-internal-input-number-number-button-item-vertical-padding);
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
   @apply border-t-0;
-  border-end-end-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(
+    --calcite-input-number-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
   padding-block-end: var(--calcite-internal-input-number-number-button-item-vertical-padding);
 }
 
@@ -491,13 +563,16 @@ input[readonly]:focus {
   border-width: var(--calcite-border-width-sm);
   border-style: solid;
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-input-number-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border-inline-start-width: var(--calcite-border-width-none);
 
   &:hover calcite-action {
     --calcite-action-background-color: var(
       --calcite-input-actions-background-color-hover,
-      var(--calcite-color-foreground-2)
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
     );
     --calcite-action-text-color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
   }
@@ -505,15 +580,15 @@ input[readonly]:focus {
   &:active calcite-action {
     --calcite-action-background-color: var(
       --calcite-input-actions-background-color-press,
-      var(--calcite-color-foreground-3)
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
     );
     --calcite-action-text-color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
   }
 
   calcite-action {
     --calcite-internal-action-height: var(--calcite-internal-input-number-number-button-item-height);
-    --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
-    --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+    --calcite-internal-action-padding-inline: var(--calcite-theme-space-none, var(--calcite-spacing-none));
+    --calcite-internal-action-padding-block: var(--calcite-theme-space-none, var(--calcite-spacing-none));
 
     --calcite-action-background-color: var(--calcite-input-actions-background-color);
     --calcite-action-text-color: var(--calcite-input-actions-icon-color);
@@ -590,7 +665,7 @@ input {
         @include shared.transition-default();
         background-color: var(
           --calcite-input-number-inline-edit-background-color-hover,
-          var(--calcite-color-foreground-2)
+          var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
         );
       }
     }
@@ -602,7 +677,10 @@ input {
   .inline-edit,
   .action-wrapper {
     @include shared.transition-default();
-    background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+    background-color: var(
+      --calcite-input-number-background-color,
+      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+    );
   }
 }
 
