@@ -345,6 +345,7 @@ it("creates one dnd-kit sortable per assigned item with the configured handle", 
   expect(firstOptions.group).toBe(secondOptions.group);
   expect(firstOptions.group).not.toBe("test-group");
   expect(firstOptions.transition).toBeUndefined();
+  expect(secondOptions.transition).toBeUndefined();
   const list = page.elementLocator(component.el);
   const firstHandle = list.getBySelector("#one .handle");
   expect(firstOptions.handle).toBe(list.getBySelector("#one").element());

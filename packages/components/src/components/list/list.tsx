@@ -127,8 +127,6 @@ export class List extends LitElement {
 
   private focusableItems: ListItem["el"][] = [];
 
-  private isSorting = false;
-
   handleSelector = "calcite-sort-handle";
 
   private lastSelectedInfo?: { selectedItem: ListItem["el"]; selected: boolean };
@@ -143,8 +141,6 @@ export class List extends LitElement {
   });
 
   private parentListEl?: List["el"];
-
-  private pendingHasContent?: boolean;
 
   private cancelable = useCancelable<this>()(this);
 
@@ -541,9 +537,6 @@ export class List extends LitElement {
   }
 
   override disconnectedCallback(): void {
-    this.isSorting = false;
-    this.hasContent = this.pendingHasContent ?? this.hasContent;
-    this.pendingHasContent = undefined;
     this.disconnectObserver();
     this.unobserveFilterRow();
   }
@@ -821,15 +814,11 @@ export class List extends LitElement {
 
   onGlobalDragStart(): void {
     if (this.sortMode !== "manual") {
-      this.isSorting = true;
       this.disconnectObserver();
     }
   }
 
   onGlobalDragEnd(): void {
-    this.isSorting = false;
-    this.hasContent = this.pendingHasContent ?? this.hasContent;
-    this.pendingHasContent = undefined;
     this.connectObserver();
     if (this.sortMode !== "manual") {
       this.updateListItemsDebounced();
@@ -868,12 +857,7 @@ export class List extends LitElement {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
-    const hasContent = slotChangeHasContent(event);
-    if (this.isSorting) {
-      this.pendingHasContent = hasContent;
-    } else {
-      this.hasContent = hasContent;
-    }
+    this.hasContent = slotChangeHasContent(event);
     this.sortable.reset();
   }
 

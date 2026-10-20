@@ -931,6 +931,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     }
     if (!clone && !relatedEl) {
       toComponent.el.append(source.sortable.element ?? dragEl);
+      source.sortable.refreshShape();
       source.sortable.group = getSortableGroup(toComponent);
     }
     if (restoreSource || (!clone && !relatedEl)) {
