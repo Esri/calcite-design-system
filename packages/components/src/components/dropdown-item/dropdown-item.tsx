@@ -80,6 +80,8 @@ export class DropdownItem extends LitElement {
 
   private childLinkRef = createRef<HTMLAnchorElement>();
 
+  private hostClickInProgress = false;
+
   /** id of containing group */
   private parentDropdownGroupEl?: DropdownGroup["el"];
 
@@ -215,7 +217,16 @@ export class DropdownItem extends LitElement {
   override updated(): void {
     if (this.href && !this.disabled) {
       this.el.click = () => {
-        void this.activateItem();
+        if (this.hostClickInProgress) {
+          return;
+        }
+
+        this.hostClickInProgress = true;
+        try {
+          void this.activateItem();
+        } finally {
+          this.hostClickInProgress = false;
+        }
       };
     }
   }
@@ -224,7 +235,11 @@ export class DropdownItem extends LitElement {
 
   //#region Private Methods
 
-  private onClick(): void {
+  private onClick(event: MouseEvent): void {
+    if (this.hostClickInProgress && event.defaultPrevented) {
+      return;
+    }
+
     this.emitRequestedItem();
   }
 

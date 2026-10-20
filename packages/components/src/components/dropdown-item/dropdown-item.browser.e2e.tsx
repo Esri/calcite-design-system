@@ -5,6 +5,7 @@ import { page, userEvent } from "vitest/browser";
 import { defaults, focusable, hidden, renders, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+import type { Dropdown } from "../dropdown/dropdown";
 import type { DropdownItem } from "./dropdown-item";
 
 mockConsole();
@@ -58,59 +59,84 @@ describe("disabled", () => {
 
 describe("link activation", () => {
   it("delivers one host activation to item and ancestor capture listeners and navigates", async () => {
-    const { container } = await mount(
-      <div>
+    const { el } = await mount<DropdownItem>(
+      <div data-testid="ancestor">
         <calcite-dropdown-item href="about:blank#destination" target="destination">
           Destination
         </calcite-dropdown-item>
         <iframe name="destination" sandbox="allow-same-origin" title="Destination" />
       </div>,
     );
-    const item = container.querySelector("calcite-dropdown-item")!;
-    const destination = container.querySelector("iframe")!;
+    const destination = page.getBySelector("iframe").element() as HTMLIFrameElement;
     const itemClickSpy = vi.fn();
     const ancestorClickSpy = vi.fn();
-    item.addEventListener("click", itemClickSpy, { capture: true });
-    item.parentElement!.addEventListener("click", ancestorClickSpy, { capture: true });
+    el.addEventListener("click", itemClickSpy, { capture: true });
+    page.getByTestId("ancestor").element().addEventListener("click", ancestorClickSpy, {
+      capture: true,
+    });
 
-    item.click();
+    el.click();
 
     expect(itemClickSpy).toHaveBeenCalledTimes(1);
     expect(ancestorClickSpy).toHaveBeenCalledTimes(1);
     await vi.waitFor(() => expect(destination.contentWindow!.location.hash).toBe("#destination"));
   });
 
-  it("allows a once-only capture listener to cancel host link activation", async () => {
-    const { container } = await mount(
+  it("preserves cancellation when a capture listener reenters host activation", async () => {
+    const { component } = await mount<Dropdown>(
       <div>
-        <calcite-dropdown-item href="about:blank#destination" target="destination">
-          Destination
-        </calcite-dropdown-item>
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item selected>Original selection</calcite-dropdown-item>
+            <calcite-dropdown-item href="about:blank#destination" target="destination">
+              Destination
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
         <iframe name="destination" sandbox="allow-same-origin" title="Destination" />
       </div>,
     );
-    const item = container.querySelector("calcite-dropdown-item")!;
-    const destination = container.querySelector("iframe")!;
+    const item = page.getByRole("menuitem", { name: "Destination", exact: true });
+    const originalSelection = page.getByRole("menuitemradio", { name: "Original selection" });
+    const destination = page.getBySelector("iframe").element() as HTMLIFrameElement;
     const anchorClickSpy = vi.fn();
-    page
-      .getBySelector("calcite-dropdown-item a")
-      .element()
-      .addEventListener("click", anchorClickSpy);
-    item.addEventListener("click", (event) => event.preventDefault(), {
-      capture: true,
-      once: true,
-    });
+    const itemSelectSpy = vi.fn();
+    const dropdownSelectSpy = vi.fn();
 
-    item.click();
+    await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+    await expect.element(originalSelection).toHaveFocus();
+    const itemElement = item.element() as DropdownItem["el"];
+    item.getBySelector("a").element().addEventListener("click", anchorClickSpy);
+    itemElement.addEventListener("calciteDropdownItemSelect", itemSelectSpy);
+    component.el.addEventListener("calciteDropdownSelect", dropdownSelectSpy);
+    itemElement.addEventListener(
+      "click",
+      (event) => {
+        itemElement.click();
+        event.preventDefault();
+      },
+      { capture: true, once: true },
+    );
+
+    itemElement.click();
 
     expect(anchorClickSpy).toHaveBeenCalledTimes(1);
     expect(anchorClickSpy.mock.calls[0][0].defaultPrevented).toBe(true);
     expect(destination.contentWindow!.location.hash).toBe("");
+    expect(itemSelectSpy).not.toHaveBeenCalled();
+    expect(dropdownSelectSpy).not.toHaveBeenCalled();
+    expect(component.selectedItems).toEqual([originalSelection.element()]);
+    expect(component.open).toBe(true);
 
-    item.click();
+    itemElement.click();
 
     expect(anchorClickSpy).toHaveBeenCalledTimes(2);
     expect(anchorClickSpy.mock.calls[1][0].defaultPrevented).toBe(false);
+    expect(itemSelectSpy).toHaveBeenCalledTimes(1);
+    expect(dropdownSelectSpy).toHaveBeenCalledTimes(1);
+    expect(component.selectedItems).toEqual([itemElement]);
+    expect(component.open).toBe(false);
     await vi.waitFor(() => expect(destination.contentWindow!.location.hash).toBe("#destination"));
   });
 
