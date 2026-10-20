@@ -187,13 +187,16 @@ describe("theme", () => {
 
     try {
       const anchor = el.shadowRoot.querySelector("a")!;
+      const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
       const { x, y, width, height } = anchor.getBoundingClientRect();
 
       await commands.mouseMove(x + width / 2, y + height / 2);
       expect(getComputedStyle(anchor).color).toBe("rgb(4, 5, 6)");
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(4, 5, 6)");
 
       await commands.mouseDown();
       expect(getComputedStyle(anchor).color).toBe("rgb(7, 8, 9)");
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(7, 8, 9)");
       await commands.mouseUp();
     } finally {
       style.remove();
@@ -202,6 +205,43 @@ describe("theme", () => {
 });
 
 describe("underline", () => {
+  it("uses the semantic brand underline color when no component text color is set", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    el.id = "link-semantic-underline-test";
+
+    const style = document.createElement("style");
+    style.textContent = `#link-semantic-underline-test { --calcite-theme-color-brand-underline: rgb(10, 20, 30); }`;
+    document.head.append(style);
+
+    try {
+      const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(10, 20, 30)");
+    } finally {
+      style.remove();
+    }
+  });
+
+  it("prefers the component text color over the semantic brand underline color while idle", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    el.id = "link-component-underline-test";
+
+    const style = document.createElement("style");
+    style.textContent = `
+      #link-component-underline-test {
+        --calcite-link-text-color: rgb(40, 50, 60);
+        --calcite-theme-color-brand-underline: rgb(10, 20, 30);
+      }
+    `;
+    document.head.append(style);
+
+    try {
+      const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(40, 50, 60)");
+    } finally {
+      style.remove();
+    }
+  });
+
   it("matches active text color while hovered and pressed", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
