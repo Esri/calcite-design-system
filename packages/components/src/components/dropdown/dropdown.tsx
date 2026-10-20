@@ -435,6 +435,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private openHandler(): void {
     if (this.disabled && this.open) {
       this.open = false;
+      this.focusActiveItemOnOpen = true;
       this.rovingTabIndex.setActiveIndex(-1);
       return;
     }

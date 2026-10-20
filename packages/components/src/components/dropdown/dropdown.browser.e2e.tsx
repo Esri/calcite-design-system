@@ -618,6 +618,42 @@ describe("hover type", () => {
     await expect.element(first).toHaveAttribute("tabindex", "-1");
   });
 
+  it("restores keyboard focus after a disabled external hover open is rejected", async () => {
+    const { component } = await mount<Dropdown>(
+      <>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown disabled referenceElement="external-trigger" type="hover">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>First</calcite-dropdown-item>
+            <calcite-dropdown-item>Second</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>,
+    );
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const first = page.getByRole("menuitemradio", { name: "First" });
+    const second = page.getByRole("menuitemradio", { name: "Second" });
+    const pointerOpenSpy = vi.spyOn(component, "onReferenceElementPointerOpen");
+    onTestFinished(() => pointerOpenSpy.mockRestore());
+
+    await userEvent.hover(trigger);
+    await vi.waitFor(() => expect(pointerOpenSpy).toHaveBeenCalled());
+    await vi.waitFor(() => expect(component.open).toBe(false));
+
+    component.disabled = false;
+    await component.updateComplete;
+    trigger.element().focus();
+
+    await expect.element(first).toHaveFocus();
+    await expect.element(first).toHaveAttribute("tabindex", "0");
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(second).toHaveFocus();
+    await expect.element(second).toHaveAttribute("tabindex", "0");
+    await expect.element(first).toHaveAttribute("tabindex", "-1");
+  });
+
   it("enters a pointer-opened menu when its external hover reference receives focus", async () => {
     const { component } = await mount<Dropdown>(
       <>
