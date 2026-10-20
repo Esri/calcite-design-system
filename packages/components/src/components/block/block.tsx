@@ -396,14 +396,14 @@ export class Block extends LitElement {
   /**
    * Fires when the component is requested to be closed and before the closing transition begins.
    *
-   * @deprecated in v3.1.0, removal target v6.0.0
+   * @deprecated in v3.1.0, removal target v6.0.0 - No direct replacement. Use `calciteBlockCollapse` to respond when the component's `expanded` state changes.
    */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
 
   /**
    * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
    *
-   * @deprecated in v3.1.0, removal target v6.0.0
+   * @deprecated in v3.1.0, removal target v6.0.0 - No direct replacement. Use `calciteBlockExpand` to respond when the component's `expanded` state changes.
    */
   calciteBlockBeforeOpen = createEvent({ cancelable: false });
 

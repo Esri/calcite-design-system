@@ -39,6 +39,8 @@
 
 :host {
   @apply block;
+  inline-size: 100%;
+  min-inline-size: 0;
 
   // remove top padding applied by validation component.
   .validation-container {
