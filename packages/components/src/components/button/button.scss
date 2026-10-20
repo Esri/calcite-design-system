@@ -8,6 +8,7 @@
 // --calcite-internal-button-border-color
 // --calcite-internal-button-content-margin
 // --calcite-internal-button-corner-radius
+// --calcite-internal-button-icon-only-size
 // --calcite-internal-button-loader-color
 // --calcite-internal-button-padding-x
 // --calcite-internal-button-padding-y
@@ -26,9 +27,10 @@
 
   a,
   button {
-    --calcite-internal-button-content-margin: theme("margin.2");
-    --calcite-internal-button-padding-x: 7px;
-    --calcite-internal-button-padding-y: 3px;
+    --calcite-internal-button-content-margin: var(--calcite-space-sm);
+    // spacing minus border keeps the outer size on the spacing scale
+    --calcite-internal-button-padding-x: calc(var(--calcite-space-sm) - var(--calcite-border-width-sm));
+    --calcite-internal-button-padding-y: calc(var(--calcite-space-2xs) - var(--calcite-border-width-sm));
 
     appearance: none;
     box-sizing: border-box;
@@ -153,13 +155,13 @@
 :host([scale="m"]) {
   button,
   a {
-    --calcite-internal-button-content-margin: theme("margin.3");
+    --calcite-internal-button-content-margin: var(--calcite-space-md);
   }
 }
 :host([scale="l"]) {
   button,
   a {
-    --calcite-internal-button-content-margin: theme("margin.4");
+    --calcite-internal-button-content-margin: var(--calcite-space-lg);
   }
 }
 
@@ -495,7 +497,7 @@
 :host([appearance="outline-fill"][split-child="primary"]) a,
 :host([appearance="outline"][split-child="primary"]) a {
   border-inline-end-width: 0;
-  border-inline-start-width: theme("borderWidth.DEFAULT");
+  border-inline-start-width: var(--calcite-border-width-sm);
 }
 
 :host([appearance="outline-fill"][split-child="secondary"]) button,
@@ -503,7 +505,7 @@
 :host([appearance="outline-fill"][split-child="secondary"]) a,
 :host([appearance="outline"][split-child="secondary"]) a {
   border-inline-start-width: 0;
-  border-inline-end-width: theme("borderWidth.DEFAULT");
+  border-inline-end-width: var(--calcite-border-width-sm);
 }
 
 // transparent
@@ -599,80 +601,84 @@
 // accommodate for transparent buttons not having borders
 :host([scale="s"][appearance="transparent"]) button.content--slotted,
 :host([scale="s"][appearance="transparent"]) a.content--slotted {
-  --calcite-internal-button-padding-x: theme("padding.2");
+  --calcite-internal-button-padding-x: var(--calcite-space-sm);
 }
 
 :host([scale="s"]) button,
 :host([scale="s"]) a {
-  --calcite-internal-button-padding-y: 3px;
+  --calcite-internal-button-padding-y: calc(var(--calcite-space-2xs) - var(--calcite-border-width-sm));
 }
 
 :host([scale="m"]) button.content--slotted,
 :host([scale="m"]) a.content--slotted {
-  --calcite-internal-button-padding-x: 11px;
+  --calcite-internal-button-padding-x: calc(var(--calcite-space-md) - var(--calcite-border-width-sm));
 
   @include shared.text-n1h();
 }
 
 :host([scale="m"]) button,
 :host([scale="m"]) a {
-  --calcite-internal-button-padding-y: 7px;
+  --calcite-internal-button-padding-y: calc(var(--calcite-space-sm) - var(--calcite-border-width-sm));
 }
 // accommodate for transparent buttons not having borders
 :host([scale="m"][appearance="transparent"]) button.content--slotted,
 :host([scale="m"][appearance="transparent"]) a.content--slotted {
-  --calcite-internal-button-padding-x: theme("padding.3");
+  --calcite-internal-button-padding-x: var(--calcite-space-md);
 }
 
 :host([scale="l"]) button.content--slotted,
 :host([scale="l"]) a.content--slotted {
-  --calcite-internal-button-padding-x: 15px;
+  --calcite-internal-button-padding-x: calc(var(--calcite-space-lg) - var(--calcite-border-width-sm));
 
   @include shared.text-0h();
 }
 
 :host([scale="l"]) {
   .button-padding {
-    --calcite-internal-button-padding-x: theme("padding.4");
-    --calcite-internal-button-padding-y: 11px;
+    --calcite-internal-button-padding-x: var(--calcite-space-lg);
+    --calcite-internal-button-padding-y: calc(var(--calcite-space-md) - var(--calcite-border-width-sm));
   }
   //shrink the padding if an icon is present to preserve the height
   .button-padding--shrunk {
-    --calcite-internal-button-padding-y: 9px;
+    --calcite-internal-button-padding-y: calc(var(--calcite-space-sm-plus) - var(--calcite-border-width-sm));
   }
 }
 
 // generate fab scales (scenario: 1 icon, ie., should be square)
 :host([scale="s"]) button:not(.content--slotted),
 :host([scale="s"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: theme("padding[0.5]");
-  --calcite-internal-button-padding-y: 3px;
+  // icon size + padding so the square never shrinks below its fixed-size icon
+  --calcite-internal-button-icon-only-size: calc(1rem + 2 * var(--calcite-space-2xs));
+  --calcite-internal-button-padding-x: var(--calcite-space-base);
+  --calcite-internal-button-padding-y: calc(var(--calcite-space-2xs) - var(--calcite-border-width-sm));
 
   @include shared.text-0h();
 
-  inline-size: var(--calcite-space-2xl);
-  min-block-size: theme("height.6");
+  inline-size: var(--calcite-internal-button-icon-only-size);
+  min-block-size: var(--calcite-internal-button-icon-only-size);
 }
 
 :host([scale="m"]) button:not(.content--slotted),
 :host([scale="m"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: theme("padding[0.5]");
-  --calcite-internal-button-padding-y: 7px;
+  --calcite-internal-button-icon-only-size: calc(1rem + 2 * var(--calcite-space-sm));
+  --calcite-internal-button-padding-x: var(--calcite-space-base);
+  --calcite-internal-button-padding-y: calc(var(--calcite-space-sm) - var(--calcite-border-width-sm));
 
   @include shared.text-0h();
 
-  inline-size: var(--calcite-space-3xl);
-  min-block-size: theme("height.8");
+  inline-size: var(--calcite-internal-button-icon-only-size);
+  min-block-size: var(--calcite-internal-button-icon-only-size);
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: theme("padding[0.5]");
-  --calcite-internal-button-padding-y: 9px;
+  --calcite-internal-button-icon-only-size: calc(1.5rem + 2 * var(--calcite-space-sm-plus));
+  --calcite-internal-button-padding-x: var(--calcite-space-base);
+  --calcite-internal-button-padding-y: calc(var(--calcite-space-sm-plus) - var(--calcite-border-width-sm));
 
   @include shared.text-0h();
 
-  inline-size: var(--calcite-space-4xl);
-  min-block-size: theme("height.11");
+  inline-size: var(--calcite-internal-button-icon-only-size);
+  min-block-size: var(--calcite-internal-button-icon-only-size);
 }
 
 :host(:is([scale="s"], [scale="m"], [scale="l"])[width="full"]) {
@@ -687,53 +693,53 @@
 // accommodate for transparent buttons not having borders
 :host([scale="l"][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][appearance="transparent"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-y: theme("padding[2.5]");
+  --calcite-internal-button-padding-y: var(--calcite-space-sm-plus);
 }
 
 // generate fab scales (scenario: 2 icons, ie., should not be square)
 :host([scale="s"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: 23px;
+  --calcite-internal-button-padding-x: calc(var(--calcite-space-2xl) - var(--calcite-border-width-sm));
 
   @include shared.text-0h();
 
-  block-size: var(--calcite-space-2xl);
+  block-size: var(--calcite-internal-button-icon-only-size);
 }
 // accommodate for transparent buttons not having borders
 :host([scale="s"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="s"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: theme("padding.6");
+  --calcite-internal-button-padding-x: var(--calcite-space-2xl);
 }
 :host([scale="m"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="m"][icon-start][icon-end]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: theme("padding.8");
+  --calcite-internal-button-padding-x: var(--calcite-space-3xl);
 
   @include shared.text-0h();
 
-  block-size: var(--calcite-space-3xl);
+  block-size: var(--calcite-internal-button-icon-only-size);
 }
 // accommodate for transparent buttons not having borders
 :host([scale="m"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="m"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: 33px;
+  --calcite-internal-button-padding-x: calc(var(--calcite-space-3xl) + var(--calcite-border-width-sm));
 }
 :host([scale="l"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: 43px;
+  --calcite-internal-button-padding-x: calc(var(--calcite-space-4xl) - var(--calcite-border-width-sm));
 
   @include shared.text-0h();
 
-  block-size: var(--calcite-space-4xl);
+  block-size: var(--calcite-internal-button-icon-only-size);
 
   // add space between when only 2 icons
   .icon--start + .icon--end {
-    margin-inline-start: theme("margin.4");
+    margin-inline-start: var(--calcite-space-lg);
   }
 }
 // accommodate for transparent buttons not having borders
 :host([scale="l"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: theme("padding.11");
+  --calcite-internal-button-padding-x: var(--calcite-space-4xl);
 }
 
 @include shared.base-component();

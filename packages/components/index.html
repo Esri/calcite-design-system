@@ -46,6 +46,7 @@
             </calcite-action-group>
           </calcite-action-bar>
           <calcite-panel heading="Layers" id="panel-start" closable>
+            <calcite-fab slot="fab" kind="inverse"></calcite-fab>
             <calcite-block-group drag-enabled>
               <calcite-block
                 collapsible
@@ -116,24 +117,61 @@
                     </calcite-list-item>
                   </calcite-list-item>
                 </calcite-list>
-                <calcite-chip-group
-                  label="demo-group-label"
-                  selection-mode="single-persist"
-                  style="margin: var(--calcite-space-md)"
-                >
-                  <calcite-chip icon="file-csv" closable value="csv" label="CSV"> CSV </calcite-chip>
-                  <calcite-chip icon="file-excel" closable value="excel" label="Excel"> Excel </calcite-chip>
-                  <calcite-chip selected icon="file-kml" closable value="kml" label="KML"> KML </calcite-chip>
-                  <calcite-chip icon="file-text" closable value="text" label="Text"> Text </calcite-chip>
-                  <calcite-chip icon="file-pdf" closable value="pdf" label="PDF"> PDF </calcite-chip>
-                </calcite-chip-group>
               </calcite-block>
             </calcite-block-group>
             <calcite-button slot="footer-start" icon-start="plus" kind="neutral"></calcite-button>
             <calcite-button slot="footer-end">Button</calcite-button>
           </calcite-panel>
         </calcite-shell-panel>
-        <calcite-panel heading="Content"></calcite-panel>
+        <calcite-panel heading="Content">
+          <calcite-chip-group
+            label="demo-group-label"
+            selection-mode="multiple"
+            style="margin: var(--calcite-space-md)"
+          >
+            <calcite-chip icon="file-csv" closable value="csv" label="CSV" appearance="outline-fill" kind="inverse">
+              CSV
+            </calcite-chip>
+            <calcite-chip
+              icon="file-excel"
+              closable
+              value="excel"
+              label="Excel"
+              appearance="outline-fill"
+              kind="inverse"
+            >
+              Excel
+            </calcite-chip>
+            <calcite-chip
+              selected
+              icon="file-kml"
+              closable
+              value="kml"
+              label="KML"
+              appearance="outline-fill"
+              kind="inverse"
+            >
+              KML
+            </calcite-chip>
+            <calcite-chip icon="file-text" closable value="text" label="Text" appearance="outline-fill" kind="inverse">
+              Text
+            </calcite-chip>
+            <calcite-chip icon="file-pdf" closable value="pdf" label="PDF" appearance="outline-fill" kind="inverse">
+              PDF
+            </calcite-chip>
+          </calcite-chip-group>
+          <calcite-radio-button-group name="plantType" layout="vertical" style="margin: var(--calcite-space-md)">
+            <calcite-radio-button value="trees" label-text="Trees"></calcite-radio-button>
+            <calcite-radio-button value="shrubs" label-text="Shrubs"></calcite-radio-button>
+            <calcite-radio-button value="flowers" label-text="Flowers"></calcite-radio-button>
+            <calcite-radio-button value="groundcover" label-text="Groundcover"></calcite-radio-button>
+            <calcite-radio-button value="bushes" label-text="Bushes"></calcite-radio-button>
+          </calcite-radio-button-group>
+          <calcite-checkbox
+            label-text="I agree to the terms and conditions."
+            style="margin: var(--calcite-space-md)"
+          ></calcite-checkbox>
+        </calcite-panel>
       </calcite-shell>
     </demo-dom-swapper>
     <calcite-dialog
@@ -144,7 +182,7 @@
       close-disabled
       escape-disabled
       focus-trap-disabled
-      placement="top-end"
+      placement="bottom-end"
       width="s"
     >
       <div class="control-panel">
@@ -154,6 +192,7 @@
           <calcite-segmented-control-item value="l">L</calcite-segmented-control-item>
         </calcite-segmented-control>
         <calcite-switch id="density-mode-switch" label-text-end="Custom density factor"></calcite-switch>
+        <calcite-switch id="density-size-switch" label-text-end="Include size tokens"></calcite-switch>
         <calcite-segmented-control id="density-presets" label-text="Density preset" width="full">
           <calcite-segmented-control-item value="50%">50%</calcite-segmented-control-item>
           <calcite-segmented-control-item value="75%">75%</calcite-segmented-control-item>
@@ -180,6 +219,7 @@
       const modeSwitch = document.getElementById("density-mode-switch");
       const presetControl = document.getElementById("density-presets");
       const densitySlider = document.getElementById("density-slider");
+      const sizeSwitch = document.getElementById("density-size-switch");
 
       function getDemoRoot() {
         const swapper = document.querySelector("demo-dom-swapper");
@@ -223,6 +263,10 @@
       presetControl.addEventListener("calciteSegmentedControlChange", applyPreset);
 
       densitySlider.addEventListener("calciteSliderInput", applySliderFactor);
+
+      sizeSwitch.addEventListener("calciteSwitchChange", () => {
+        getShell().style.setProperty("--calcite-density-include-size", sizeSwitch.checked ? "1" : "0");
+      });
 
       modeSwitch.addEventListener("calciteSwitchChange", () => {
         const useSlider = modeSwitch.checked;

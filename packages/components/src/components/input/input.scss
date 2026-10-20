@@ -6,6 +6,7 @@
 // --calcite-internal-action-padding-block
 // --calcite-internal-action-padding-inline
 // --calcite-internal-input-focus-outline-color
+// --calcite-internal-input-height
 // --calcite-internal-input-icon-padding-inline
 // --calcite-internal-input-number-button-item-height
 // --calcite-internal-input-number-button-item-horizontal-padding
@@ -40,93 +41,109 @@
 
 // scales
 :host([scale="s"]) {
+  // matches action/button so controls align at any density
+  --calcite-internal-input-height: calc(1rem + 2 * var(--calcite-space-2xs));
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-sm);
 
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h h-6;
+    @apply text-n2h;
+    block-size: var(--calcite-internal-input-height);
   }
   & input {
     padding-inline: var(--calcite-spacing-sm);
   }
   @include input-affix-spacing(var(--calcite-spacing-sm), var(--calcite-spacing-xxs));
   & input[type="file"] {
-    min-block-size: theme("spacing.6");
+    min-block-size: var(--calcite-internal-input-height);
   }
   & .number-button-wrapper,
   & .action-wrapper {
-    @apply h-6;
+    block-size: var(--calcite-internal-input-height);
   }
   & .clear-button {
-    block-size: var(--calcite-spacing-xxl);
+    block-size: var(--calcite-internal-input-height);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
   }
   &:host([number-button-type="vertical"]) {
-    --calcite-internal-input-number-button-item-height: 8px;
     --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
-    --calcite-internal-input-number-button-item-vertical-padding: 3px;
+    --calcite-internal-input-number-button-item-vertical-padding: calc(
+      var(--calcite-space-2xs) - var(--calcite-border-width-sm)
+    );
   }
 }
 
 :host([scale="m"]) {
+  --calcite-internal-input-height: calc(1rem + 2 * var(--calcite-space-sm));
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-md);
 
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h h-8;
+    @apply text-n1h;
+    block-size: var(--calcite-internal-input-height);
   }
   & input {
     padding-inline: var(--calcite-spacing-md);
   }
   @include input-affix-spacing(var(--calcite-spacing-md), var(--calcite-spacing-xs));
   & input[type="file"] {
-    min-block-size: theme("spacing.8");
+    min-block-size: var(--calcite-internal-input-height);
   }
   & .number-button-wrapper,
   & .action-wrapper {
-    @apply h-8;
+    block-size: var(--calcite-internal-input-height);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-space-sm);
   }
   &:host([number-button-type="vertical"]) {
-    --calcite-internal-input-number-button-item-height: 11px;
     --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-space-sm);
     --calcite-internal-input-number-button-item-vertical-padding: var(--calcite-space-2xs);
   }
 }
 
 :host([scale="l"]) {
+  --calcite-internal-input-height: calc(1.5rem + 2 * var(--calcite-space-sm-plus));
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-lg);
 
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h h-11;
+    @apply text-0h;
+    block-size: var(--calcite-internal-input-height);
   }
   & input {
     padding-inline: var(--calcite-spacing-lg);
   }
   @include input-affix-spacing(var(--calcite-spacing-lg), var(--calcite-spacing-sm));
   & input[type="file"] {
-    min-block-size: theme("spacing.11");
+    min-block-size: var(--calcite-internal-input-height);
   }
   & .number-button-wrapper,
   & .action-wrapper {
-    @apply h-11;
+    block-size: var(--calcite-internal-input-height);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
   }
   &:host([number-button-type="vertical"]) {
-    --calcite-internal-input-number-button-item-height: 16px;
     --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
-    --calcite-internal-input-number-button-item-vertical-padding: 5px;
+    --calcite-internal-input-number-button-item-vertical-padding: calc(
+      var(--calcite-space-xs) - var(--calcite-border-width-sm)
+    );
   }
+}
+
+// each vertical button is half the control height minus its padding and border
+:host([number-button-type="vertical"]) {
+  $height: var(--calcite-internal-input-height);
+  $padding: var(--calcite-internal-input-number-button-item-vertical-padding);
+  $border: var(--calcite-border-width-sm);
+  --calcite-internal-input-number-button-item-height: calc(#{$height} / 2 - #{$padding} - #{$border});
 }
 
 @include shared.disabled();
@@ -573,7 +590,7 @@ input[type="date"]::-webkit-input-placeholder {
 }
 
 :host([type="color"]) input {
-  @apply p-1;
+  padding: var(--calcite-space-2xs);
 }
 
 // file input
@@ -588,15 +605,18 @@ input[type="date"]::-webkit-input-placeholder {
 }
 
 :host([type="file"][scale="s"]) input {
-  @apply py-px px-2;
+  padding-block: var(--calcite-space-px);
+  padding-inline: var(--calcite-space-sm);
 }
 
 :host([type="file"][scale="m"]) input {
-  @apply py-1 px-3;
+  padding-block: var(--calcite-space-2xs);
+  padding-inline: var(--calcite-space-md);
 }
 
 :host([type="file"][scale="l"]) input {
-  @apply py-2 px-4;
+  padding-block: var(--calcite-space-sm);
+  padding-inline: var(--calcite-space-lg);
 }
 
 :host(.no-bottom-border) input {

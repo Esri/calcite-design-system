@@ -1113,23 +1113,23 @@ exports[`CSS > global should match 1`] = `
   --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
   --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm-plus: 10px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
-  --calcite-size-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-fixed-md-plus: 14px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-fixed-lg: 16px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
-  --calcite-size-fixed-xl: 20px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
-  --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+  --calcite-size-fixed-xxs: calc(4px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xs: calc(6px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm: calc(8px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm-plus: calc(10px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
+  --calcite-size-fixed-md: calc(12px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-fixed-md-plus: calc(14px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-fixed-lg: calc(16px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+  --calcite-size-fixed-xl: calc(20px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xxl: calc(24px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
+  --calcite-size-fixed-xxxl: calc(32px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
   --calcite-size-px: 1px;
-  --calcite-size-xxxs: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-xxs: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-lg: 2.75rem;
-  --calcite-size-xl: 3rem;
-  --calcite-size-xxl: 4rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
-  --calcite-size-xxxl: 6rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
+  --calcite-size-xxxs: calc(0.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-xxs: calc(0.875rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-lg: calc(2.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
+  --calcite-size-xl: calc(3rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
+  --calcite-size-xxl: calc(4rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
+  --calcite-size-xxxl: calc(6rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
   --calcite-spacing-fixed-xxs: calc(4px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
   --calcite-spacing-fixed-xs: calc(6px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
   --calcite-spacing-fixed-sm: calc(8px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
@@ -1596,24 +1596,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
   --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
   --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-  --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm: 8px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm-plus: 10px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
-  --calcite-size-fixed-md: 12px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-fixed-md-plus: 14px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-fixed-lg: 16px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
-  --calcite-size-fixed-xl: 20px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxl: 24px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
-  --calcite-size-fixed-xxxl: 32px; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
-  --calcite-size-px: 1px;
-  --calcite-size-xxxs: 0.75rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-xxs: 0.875rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-lg: 2.75rem;
-  --calcite-size-xl: 3rem;
-  --calcite-size-xxl: 4rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
-  --calcite-size-xxxl: 6rem; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
   --calcite-z-index-deep: -999999;
   --calcite-z-index: 1;
   --calcite-z-index-sticky: 300;
@@ -1628,19 +1610,29 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
   --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
   --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
-  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
-  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
-  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
-  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
-  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
-  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
-  --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
-  --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 
 :root,
 [data-calcite-density] {
+  --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xxs: calc(4px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xs: calc(6px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm: calc(8px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm-plus: calc(10px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
+  --calcite-size-fixed-md: calc(12px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-fixed-md-plus: calc(14px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-fixed-lg: calc(16px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+  --calcite-size-fixed-xl: calc(20px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xxl: calc(24px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
+  --calcite-size-fixed-xxxl: calc(32px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+  --calcite-size-px: 1px;
+  --calcite-size-xxxs: calc(0.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-xxs: calc(0.875rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-lg: calc(2.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
+  --calcite-size-xl: calc(3rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
+  --calcite-size-xxl: calc(4rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
+  --calcite-size-xxxl: calc(6rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
   --calcite-spacing-fixed-xxs: calc(4px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
   --calcite-spacing-fixed-xs: calc(6px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
   --calcite-spacing-fixed-sm: calc(8px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
@@ -1663,6 +1655,14 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-spacing-xxl: calc(1.5rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
   --calcite-spacing-xxxl: calc(2rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
   --calcite-space-4xl: calc(2.75rem * var(--calcite-density-factor, 1));
+  --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
+  --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
+  --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
+  --calcite-size-xs: var(--calcite-size-fixed-lg); /** Replaces \`--calcite-size-fixed-lg\` */
+  --calcite-size-sm: var(--calcite-size-fixed-xxl); /** Replaces \`--calcite-size-fixed-xxl\` */
+  --calcite-size-md: var(--calcite-size-fixed-xxxl); /** Replaces \`--calcite-size-fixed-xxxl\` */
+  --calcite-size-2xl: var(--calcite-size-xxl); /** Replaces \`--calcite-size-xxl\` */
+  --calcite-size-3xl: var(--calcite-size-xxxl); /** Replaces \`--calcite-size-xxxl\` */
   --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
   --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
   --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
@@ -1680,6 +1680,7 @@ exports[`CSS > semantic should match 1`] = `
 
 :root {
   --calcite-density-factor: 1;
+  --calcite-density-include-size: 0;
 }
 
 [data-calcite-density="50%"] {

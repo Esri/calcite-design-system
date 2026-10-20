@@ -2,8 +2,8 @@ import type { FormatFn } from "style-dictionary/types";
 import { fileHeader, formattedVariables } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../types.ts";
-import { isSpacing } from "../utils/token-types.ts";
-import { densityFactorVar } from "../transforms/value/spacing-density.ts";
+import { isSize, isSpacing } from "../utils/token-types.ts";
+import { densityFactorVar, densityIncludeSizeVar } from "../transforms/value/spacing-density.ts";
 
 const densityPresets = {
   "50%": 0.5,
@@ -39,11 +39,12 @@ export const formatSemanticDensity: FormatFn = async ({ dictionary, options, fil
     ([preset, factor]) => `[data-calcite-density="${preset}"] {\n  ${densityFactorVar}: ${factor};\n}`,
   );
 
+  const isDensityScaled: typeof isSpacing = (token) => isSpacing(token) || isSize(token);
   const blocks = [
-    `${header}:root {\n${createVariables((token) => !isSpacing(token))}\n}`,
-    // spacing is re-declared on each density scope so var(--calcite-density-factor) re-resolves there
-    `:root,\n[data-calcite-density] {\n${createVariables(isSpacing)}\n}`,
-    `:root {\n  ${densityFactorVar}: 1;\n}`,
+    `${header}:root {\n${createVariables((token) => !isDensityScaled(token))}\n}`,
+    // re-declared on each density scope so var(--calcite-density-factor) re-resolves there
+    `:root,\n[data-calcite-density] {\n${createVariables(isDensityScaled)}\n}`,
+    `:root {\n  ${densityFactorVar}: 1;\n  ${densityIncludeSizeVar}: 0;\n}`,
     ...presets,
   ];
 

@@ -7,6 +7,7 @@
 // --calcite-internal-action-padding-inline
 // --calcite-internal-input-number-alignment
 // --calcite-internal-input-number-focus-outline-color
+// --calcite-internal-input-number-height
 // --calcite-internal-input-number-icon-padding-inline
 // --calcite-internal-input-number-number-button-item-height
 // --calcite-internal-input-number-number-button-item-horizontal-padding
@@ -41,13 +42,15 @@
 
 // scales
 :host([scale="s"]) {
+  // matches action/button so controls align at any density
+  --calcite-internal-input-number-height: var(--calcite-input-number-height, calc(1rem + 2 * var(--calcite-space-2xs)));
   --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-sm);
 
   & input,
   & .prefix,
   & .suffix {
     @apply text-n2h;
-    block-size: var(--calcite-input-number-height, 1.5rem);
+    block-size: var(--calcite-internal-input-number-height);
   }
   & input {
     padding-inline: var(--calcite-spacing-sm);
@@ -55,29 +58,31 @@
   @include input-affix-spacing(var(--calcite-spacing-sm), var(--calcite-spacing-xxs));
   & .number-button-wrapper,
   & .action-wrapper {
-    block-size: var(--calcite-input-number-height, 1.5rem);
+    block-size: var(--calcite-internal-input-number-height);
   }
   & .clear-button {
-    block-size: var(--calcite-spacing-xxl);
+    block-size: var(--calcite-internal-input-number-height);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
   }
   &:host([number-button-type="vertical"]) {
-    --calcite-internal-input-number-number-button-item-height: 8px;
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-xxs);
-    --calcite-internal-input-number-number-button-item-vertical-padding: 3px;
+    --calcite-internal-input-number-number-button-item-vertical-padding: calc(
+      var(--calcite-space-2xs) - var(--calcite-border-width-sm)
+    );
   }
 }
 
 :host([scale="m"]) {
+  --calcite-internal-input-number-height: var(--calcite-input-number-height, calc(1rem + 2 * var(--calcite-space-sm)));
   --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-md);
 
   & input,
   & .prefix,
   & .suffix {
     @apply text-n1h;
-    block-size: var(--calcite-input-number-height, 2rem);
+    block-size: var(--calcite-internal-input-number-height);
   }
   & input {
     padding-inline: var(--calcite-spacing-md);
@@ -85,26 +90,29 @@
   @include input-affix-spacing(var(--calcite-spacing-md), var(--calcite-spacing-xs));
   & .number-button-wrapper,
   & .action-wrapper {
-    block-size: var(--calcite-input-number-height, 2rem);
+    block-size: var(--calcite-internal-input-number-height);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-space-sm);
   }
   &:host([number-button-type="vertical"]) {
-    --calcite-internal-input-number-number-button-item-height: 11px;
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-space-sm);
     --calcite-internal-input-number-number-button-item-vertical-padding: var(--calcite-space-2xs);
   }
 }
 
 :host([scale="l"]) {
+  --calcite-internal-input-number-height: var(
+    --calcite-input-number-height,
+    calc(1.5rem + 2 * var(--calcite-space-sm-plus))
+  );
   --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-lg);
 
   & input,
   & .prefix,
   & .suffix {
     @apply text-0h;
-    block-size: var(--calcite-input-number-height, 2.75rem);
+    block-size: var(--calcite-internal-input-number-height);
   }
   & input {
     padding-inline: var(--calcite-spacing-lg);
@@ -112,16 +120,25 @@
   @include input-affix-spacing(var(--calcite-spacing-lg), var(--calcite-spacing-sm));
   & .number-button-wrapper,
   & .action-wrapper {
-    block-size: var(--calcite-input-number-height, 2.75rem);
+    block-size: var(--calcite-internal-input-number-height);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
   }
   &:host([number-button-type="vertical"]) {
-    --calcite-internal-input-number-number-button-item-height: 16px;
     --calcite-internal-input-number-number-button-item-horizontal-padding: var(--calcite-spacing-sm-plus);
-    --calcite-internal-input-number-number-button-item-vertical-padding: 5px;
+    --calcite-internal-input-number-number-button-item-vertical-padding: calc(
+      var(--calcite-space-xs) - var(--calcite-border-width-sm)
+    );
   }
+}
+
+// each vertical button is half the control height minus its padding and border
+:host([number-button-type="vertical"]) {
+  $height: var(--calcite-internal-input-number-height);
+  $padding: var(--calcite-internal-input-number-number-button-item-vertical-padding);
+  $border: var(--calcite-border-width-sm);
+  --calcite-internal-input-number-number-button-item-height: calc(#{$height} / 2 - #{$padding} - #{$border});
 }
 
 @include shared.disabled();
