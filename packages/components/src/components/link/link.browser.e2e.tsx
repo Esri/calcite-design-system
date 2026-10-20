@@ -172,6 +172,33 @@ describe("theme", () => {
       },
     );
   });
+
+  it("uses host hover and active customizations of the text color token", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    el.id = "link-state-color-test";
+
+    const style = document.createElement("style");
+    style.textContent = `
+      #link-state-color-test { --calcite-link-text-color: rgb(1, 2, 3); }
+      #link-state-color-test:hover { --calcite-link-text-color: rgb(4, 5, 6); }
+      #link-state-color-test:active { --calcite-link-text-color: rgb(7, 8, 9); }
+    `;
+    document.head.append(style);
+
+    try {
+      const anchor = el.shadowRoot.querySelector("a")!;
+      const { x, y, width, height } = anchor.getBoundingClientRect();
+
+      await commands.mouseMove(x + width / 2, y + height / 2);
+      expect(getComputedStyle(anchor).color).toBe("rgb(4, 5, 6)");
+
+      await commands.mouseDown();
+      expect(getComputedStyle(anchor).color).toBe("rgb(7, 8, 9)");
+      await commands.mouseUp();
+    } finally {
+      style.remove();
+    }
+  });
 });
 
 describe("underline", () => {
