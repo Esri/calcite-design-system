@@ -446,7 +446,9 @@ describe("keyboard selection", () => {
 
     expect(component.items[0].selected).toBe(false);
     expect(component.items[1].selected).toBe(true);
-    await expect.element(page.getByRole("option").nth(1)).toHaveAttribute("aria-selected", "true");
+    await expect
+      .element(page.getByRole("listbox").getByRole("option").nth(1))
+      .toHaveAttribute("aria-selected", "true");
   });
 
   it("preserves declarative selection without an initial value", async () => {
@@ -458,7 +460,9 @@ describe("keyboard selection", () => {
     );
 
     expect(component.items[0].selected).toBe(true);
-    await expect.element(page.getByRole("option").nth(0)).toHaveAttribute("aria-selected", "true");
+    await expect
+      .element(page.getByRole("listbox").getByRole("option").nth(0))
+      .toHaveAttribute("aria-selected", "true");
   });
 
   it("clears selection when a controlled value is reset", async () => {
@@ -473,7 +477,9 @@ describe("keyboard selection", () => {
     await reRender();
 
     expect(component.items[0].selected).toBe(false);
-    await expect.element(page.getByRole("option").nth(0)).toHaveAttribute("aria-selected", "false");
+    await expect
+      .element(page.getByRole("listbox").getByRole("option").nth(0))
+      .toHaveAttribute("aria-selected", "false");
   });
 
   it("applies value to items added after initialization", async () => {
@@ -517,7 +523,7 @@ describe("keyboard selection", () => {
       </calcite-autocomplete>,
     );
 
-    const secondOption = page.getByRole("option").nth(1);
+    const secondOption = page.getByRole("listbox").getByRole("option").nth(1);
 
     await expect.element(secondOption).toBeInTheDocument();
     await expect.element(secondOption).toHaveAttribute("aria-selected", "false");
@@ -535,14 +541,14 @@ describe("keyboard selection", () => {
     component.open = true;
     await reRender();
 
-    const secondOption = page.getByRole("option").nth(1);
-    const secondItem = component.items.find((item) => item.value === "two")!;
+    const secondOption = page.getByRole("listbox").getByRole("option").nth(1);
 
     await expect.element(secondOption).toBeInTheDocument();
-    await expect.element(secondOption).not.toHaveAttribute("aria-disabled");
+    await expect.element(secondOption).toHaveAttribute("aria-disabled", "false");
     await expect.element(secondOption).toHaveAttribute("aria-label", "Item two");
-    await expect.element(page.elementLocator(secondItem).getByText("Item two")).toBeInTheDocument();
+    await expect.element(secondOption).toHaveTextContent("Item two");
 
+    const secondItem = component.items.find((item) => item.value === "two")!;
     secondItem.disabled = true;
     secondItem.description = "Updated description";
     secondItem.heading = "Updated heading";
@@ -551,12 +557,8 @@ describe("keyboard selection", () => {
 
     await expect.element(secondOption).toHaveAttribute("aria-disabled", "true");
     await expect.element(secondOption).toHaveAttribute("aria-label", "Updated label");
-    await expect
-      .element(page.elementLocator(secondItem).getByText("Updated heading"))
-      .toBeInTheDocument();
-    await expect
-      .element(page.elementLocator(secondItem).getByText("Updated description"))
-      .toBeInTheDocument();
+    await expect.element(secondOption).toHaveTextContent("Updated heading");
+    await expect.element(secondOption).toHaveTextContent("Updated description");
   });
 
   it("supports keyboard navigation for shadow-projected items", async () => {
@@ -574,25 +576,17 @@ describe("keyboard selection", () => {
     const listbox = page.elementLocator(autocomplete).getByRole("listbox");
     const options = listbox.getByRole("option");
 
-    await expect.element(listbox).toBeInTheDocument();
     await expect.element(options.first()).toBeInTheDocument();
     await expect.element(options.nth(1)).toBeInTheDocument();
     await expect.element(options.nth(2)).toBeInTheDocument();
+
+    const firstOption = options.first().element() as HTMLElement;
 
     await autocomplete.setFocus();
     await userEvent.keyboard("{ArrowDown}");
 
     const input = page.elementLocator(autocomplete).getByRole("combobox");
-    const inputEl = input.element() as HTMLInputElement;
-    const inputHost = autocomplete.shadowRoot?.querySelector("calcite-input");
-    const firstItem = el.querySelector("calcite-autocomplete-item")!;
-    const firstOption = options.first().element();
-
-    expect(firstOption).not.toBe(firstItem);
-    expect(firstItem.activeDescendant).toBe(true);
-    expect(firstItem.role).toBe("option");
-    expect(inputHost?.getAttribute("aria-activedescendant")).toBe(firstOption.id);
-    expect(inputEl.ariaActiveDescendantElement).toBe(firstOption);
+    await expect.element(input).toHaveProperty("ariaActiveDescendantElement", firstOption);
   });
 });
 

@@ -8,7 +8,7 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-autocomplete-item"),
     [
-      { propertyName: "activeDescendant", defaultValue: false },
+      { propertyName: "active", defaultValue: false },
       { propertyName: "description", defaultValue: undefined },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "heading", defaultValue: undefined },
