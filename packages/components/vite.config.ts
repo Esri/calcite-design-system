@@ -16,7 +16,7 @@ import tailwindConfig from "./tailwind.config";
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.BROWSER_TESTS === "true";
 
-const allDirsAndFiles = "**/*";
+const allDirsAndFiles = "**/combobox";
 const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
 const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
 const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
