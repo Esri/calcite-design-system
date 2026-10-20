@@ -57,6 +57,8 @@ export class SortableList extends LitElement {
   /**
    * When provided, the method will be called to determine whether the element can move from the list.
    * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop.
+   * Drag-and-drop copies use native `cloneNode(true)` behavior, preserving attributes and light DOM.
+   * Non-reflected custom element properties and event listeners are not copied.
    */
   @property() canPull?: (detail: DragDetail) => boolean | "clone";
 
@@ -144,6 +146,10 @@ export class SortableList extends LitElement {
 
   private handleInternalHandleDisabledChange(event: CustomEvent<void>): void {
     event.stopPropagation();
+    this.sortable.reset();
+  }
+
+  private handleDefaultSlotChange(): void {
     this.sortable.reset();
   }
 
@@ -249,7 +255,7 @@ export class SortableList extends LitElement {
             [CSS.containerHorizontal]: horizontal,
           }}
         >
-          <slot ref={this.defaultSlotEl} />
+          <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
         </div>
       </this.interactiveContainer>
     );

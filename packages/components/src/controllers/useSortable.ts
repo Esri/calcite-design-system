@@ -69,7 +69,6 @@ interface SortableManagerRecord {
 const managerRecords = new WeakMap<Document, SortableManagerRecord>();
 const componentGroupIds = new WeakMap<SortableComponent, string>();
 const sortableItemIds = new WeakMap<HTMLElement, string>();
-const sortableItemProperties = new WeakMap<object, string[]>();
 const sortableComponents = new WeakMap<HTMLElement, SortableComponent>();
 const sortPositionAttribute = "data-calcite-sort-position";
 const copyPlaceholderAttribute = "data-calcite-sort-placeholder";
@@ -603,56 +602,6 @@ function makeDragStartDetail(fromEl: HTMLElement, dragEl: HTMLElement, oldIndex:
   return { fromEl, toEl: fromEl, dragEl, oldIndex, newIndex: undefined };
 }
 
-function cloneSortableItem(item: HTMLElement): HTMLElement {
-  const clone = item.cloneNode(true) as HTMLElement;
-  copySortableItemState(item, clone);
-  return clone;
-}
-
-function copySortableItemState(item: HTMLElement, clone: HTMLElement): void {
-  const sourceElements = [item, ...item.querySelectorAll<HTMLElement>("*")];
-  const cloneElements = [clone, ...clone.querySelectorAll<HTMLElement>("*")];
-
-  sourceElements.forEach((sourceElement, index) => {
-    const cloneElement = cloneElements[index];
-    let prototype = customElements.get(sourceElement.localName)
-      ? (Object.getPrototypeOf(sourceElement) as object | null)
-      : null;
-
-    while (prototype && prototype !== HTMLElement.prototype) {
-      let properties = sortableItemProperties.get(prototype);
-      if (!properties) {
-        properties = Object.getOwnPropertyNames(prototype).filter((propertyName) => {
-          const descriptor = Object.getOwnPropertyDescriptor(prototype, propertyName);
-          return !!descriptor?.get && !!descriptor.set && propertyName !== "el";
-        });
-        sortableItemProperties.set(prototype, properties);
-      }
-      properties.forEach((propertyName) => {
-        (cloneElement as unknown as Record<string, unknown>)[propertyName] = (
-          sourceElement as unknown as Record<string, unknown>
-        )[propertyName];
-      });
-
-      prototype = Object.getPrototypeOf(prototype) as object | null;
-    }
-
-    if (sourceElement instanceof HTMLInputElement && cloneElement instanceof HTMLInputElement) {
-      if (sourceElement.type !== "file") {
-        cloneElement.value = sourceElement.value;
-      }
-      cloneElement.checked = sourceElement.checked;
-    } else if (sourceElement instanceof HTMLSelectElement && cloneElement instanceof HTMLSelectElement) {
-      Array.from(sourceElement.options).forEach((option, index) => {
-        cloneElement.options[index].selected = option.selected;
-      });
-      if (!sourceElement.multiple) {
-        cloneElement.selectedIndex = sourceElement.selectedIndex;
-      }
-    }
-  });
-}
-
 function getManagerRecord(document: Document): SortableManagerRecord {
   let record = managerRecords.get(document);
 
@@ -661,18 +610,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
   }
 
   let dragPreview: HTMLElement | undefined;
-  const initializedCopyPlaceholders = new WeakSet<Element>();
-  const initializeCopyPlaceholder = (item: HTMLElement): void => {
-    const placeholder = item.nextElementSibling;
-    if (
-      placeholder instanceof HTMLElement &&
-      placeholder.getAttribute("data-dnd-placeholder") === "clone" &&
-      !initializedCopyPlaceholders.has(placeholder)
-    ) {
-      copySortableItemState(item, placeholder);
-      initializedCopyPlaceholders.add(placeholder);
-    }
-  };
   const clearDragPreview = (): void => {
     if (!dragPreview) {
       return;
@@ -709,16 +646,10 @@ function getManagerRecord(document: Document): SortableManagerRecord {
                   }
 
                   // Use an overlay so neither the source nor its framework-managed siblings move.
+                  // Application authors must handle duplicate IDs and form/radio-group side effects.
+                  // Inert prevents interaction but does not isolate form participation.
                   if (!dragPreview) {
-                    dragPreview = cloneSortableItem(data.item);
-                    [dragPreview, ...dragPreview.querySelectorAll("*")].forEach((element) => {
-                      element.removeAttribute("id");
-                      element.removeAttribute("name");
-                      element.removeAttribute("form");
-                      if ("dragEnabled" in element) {
-                        element.dragEnabled = false;
-                      }
-                    });
+                    dragPreview = data.item.cloneNode(true) as HTMLElement;
                     dragPreview.inert = true;
                     dragPreview.setAttribute("aria-hidden", "true");
                     dragPreview.style.pointerEvents = "none";
@@ -997,7 +928,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     const placeholder = dragEl.nextElementSibling;
     if (placeholder?.hasAttribute("data-dnd-placeholder")) {
       placeholder.setAttribute("data-dnd-placeholder", clone ? "clone" : "hidden");
-      initializeCopyPlaceholder(dragEl);
     }
     if (!clone && !relatedEl) {
       toComponent.el.append(source.sortable.element ?? dragEl);
@@ -1114,7 +1044,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     const orderChanged = !dropCanceled && (fromComponent !== toComponent || oldIndex !== newIndex);
 
     if (cloning) {
-      const clone = cloneSortableItem(dragEl);
+      const clone = dragEl.cloneNode(true) as HTMLElement;
       const cloneId = guid();
       if (clone.id) {
         clone.id = cloneId;
@@ -1203,9 +1133,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     }),
     manager.monitor.addEventListener("dragover", (event) => handleDragOver(event)),
     manager.monitor.addEventListener("dragmove", (event) => {
-      if (record.activeDrag) {
-        initializeCopyPlaceholder(record.activeDrag.item);
-      }
       const manual = record.activeDrag?.component.sortMode === "manual";
       const clone = record.dropPosition && record.acceptedPullOperations.get(record.dropPosition.component) === "clone";
       if (manual || clone) {
@@ -1512,23 +1439,13 @@ export const useSortable = <T extends SortableComponent>(
       void setUpSortable();
     }
 
-    function handleSlotChange(event: Event): void {
-      if (event.target === options.getSlot?.()) {
-        reset();
-      }
-    }
-
     controller.onConnected(() => {
-      if (options.getSlot) {
-        sortableComponent.el.shadowRoot?.addEventListener("slotchange", handleSlotChange);
-      }
       sortableComponents.set(sortableComponent.el, sortableComponent);
       record = getManagerRecord(sortableComponent.el.ownerDocument);
       void setUpSortable();
     });
 
     controller.onDisconnected(() => {
-      sortableComponent.el.shadowRoot?.removeEventListener("slotchange", handleSlotChange);
       sortableComponents.delete(sortableComponent.el);
       tearDown(true);
     });

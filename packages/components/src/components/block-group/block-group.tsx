@@ -111,6 +111,8 @@ export class BlockGroup extends LitElement {
   /**
    * When provided, the method will be called to determine whether the element can be moved from the component.
    * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop in automatic sort mode.
+   * Drag-and-drop copies use native `cloneNode(true)` behavior, preserving attributes and light DOM.
+   * Non-reflected custom element properties and event listeners are not copied.
    */
   @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
@@ -462,6 +464,7 @@ export class BlockGroup extends LitElement {
 
     updateBlockChildren(blockChildren);
     this.updateBlockAndGroupScale();
+    this.sortable.reset();
   }
 
   private updateBlockAndGroupScale(): void {

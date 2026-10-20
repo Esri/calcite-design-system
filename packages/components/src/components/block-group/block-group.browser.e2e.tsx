@@ -36,6 +36,7 @@ it("preserves the heading of a copied block at its source", async () => {
   );
   onTestFinished(() => commands.mouseUp());
   source.canPull = () => "clone";
+  page.getBySelector("#copy-source").element().setAttribute("heading", "Copied heading");
   const handle = page.getBySelector("#copy-source calcite-sort-handle");
   await expect.element(handle).toBeVisible();
 

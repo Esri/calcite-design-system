@@ -1007,6 +1007,7 @@ describe("drag and drop", () => {
     );
     onTestFinished(() => commands.mouseUp());
     source.canPull = () => "clone";
+    page.getBySelector("#source-item").element().setAttribute("label", "Source item");
     const handle = page.getBySelector("#source-item calcite-sort-handle");
     await expect.element(handle).toBeVisible();
     return {
@@ -1099,6 +1100,7 @@ describe("drag and drop", () => {
     onTestFinished(() => commands.mouseUp());
     source.canPull = () => "clone";
     source.canPut = () => false;
+    page.getBySelector("#map").element().setAttribute("label", "Map");
     const handle = page.getBySelector("#map calcite-sort-handle");
     await expect.element(handle).toBeVisible();
 
@@ -1449,6 +1451,7 @@ describe("drag and drop", () => {
       </div>,
     );
     onTestFinished(() => commands.mouseUp());
+    page.getBySelector("#source-item").element().setAttribute("label", "Source item");
     const destination = page.getBySelector("#destination");
     destination.element().style.minBlockSize = "100px";
     const handle = page.getBySelector("#source-item calcite-sort-handle");
@@ -1479,13 +1482,11 @@ describe("drag and drop", () => {
       getComputedStyle(page.getBySelector("#source > [data-dnd-placeholder]").element(), "::before")
         .content,
     ).toBe("none");
-    await expect
-      .element(
-        page
-          .getBySelector("#source > [data-dnd-placeholder]")
-          .getByText("Source item", { exact: true }),
-      )
-      .toBeVisible();
+    const placeholderLabel = page
+      .getBySelector("#source > [data-dnd-placeholder]")
+      .getBySelector(".label");
+    await expect.element(placeholderLabel).toBeVisible();
+    await expect.element(placeholderLabel).toHaveTextContent("Source item");
 
     await commands.mouseUp();
     await expect.element(destination).not.toHaveAttribute("data-calcite-sort-position");
@@ -1514,6 +1515,7 @@ describe("drag and drop", () => {
       onTestFinished(() => commands.mouseUp());
       source.canPull = () => "clone";
       const item = page.getBySelector("#source-item").element();
+      item.setAttribute("label", "Source item");
       const handle = page.getBySelector("#source-item calcite-sort-handle");
       await expect.element(handle).toBeVisible();
       const destination = page.getBySelector("#destination");
@@ -1528,12 +1530,12 @@ describe("drag and drop", () => {
       const placeholder = page.getBySelector("#source > [data-dnd-placeholder]").element();
       expect(getComputedStyle(placeholder).visibility).toBe("visible");
       expect(getComputedStyle(placeholder, "::before").content).toBe("none");
-      await expect
-        .element(page.elementLocator(placeholder).getByText("Source item", { exact: true }))
-        .toBeVisible();
-      await expect
-        .element(page.elementLocator(item).getByText("Source item", { exact: true }))
-        .toBeVisible();
+      const placeholderLabel = page.elementLocator(placeholder).getBySelector(".label");
+      const itemLabel = page.elementLocator(item).getBySelector(".label");
+      await expect.element(placeholderLabel).toBeVisible();
+      await expect.element(placeholderLabel).toHaveTextContent("Source item");
+      await expect.element(itemLabel).toBeVisible();
+      await expect.element(itemLabel).toHaveTextContent("Source item");
 
       if (action === "cancel") {
         await userEvent.keyboard("{Escape}");
@@ -2301,6 +2303,7 @@ describe("drag and drop", () => {
       const source = page.getBySelector("#source").element() as List["el"];
       const destination = page.getBySelector("#destination").element() as List["el"];
       const sourceItem = page.getBySelector("#source-one").element() as ListItem["el"];
+      sourceItem.setAttribute("value", "one");
       const destinationItemLocator = page.getBySelector("#destination-one");
       await expect.element(destinationItemLocator).toBeVisible();
       await vi.waitFor(() =>

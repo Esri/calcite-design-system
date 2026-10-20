@@ -173,37 +173,30 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     expect(changed).not.toHaveBeenCalled();
   });
 
-  it("preserves radio selection and form data during a canceled drag", async () => {
+  it("preserves light DOM attributes in the preview and removes it after a canceled drag", async () => {
     const { source, first, third, handle, request } = await setup();
     onTestFinished(() => commands.mouseUp());
-    const form = document.createElement("form");
-    form.id = "preview-form";
-    source.before(form);
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "choice";
-    radio.checked = true;
-    const formRadio = document.createElement("input");
-    formRadio.type = "radio";
-    formRadio.name = "choice";
-    formRadio.checked = true;
-    formRadio.setAttribute("form", form.id);
-    first.append(radio, formRadio);
+    const input = document.createElement("input");
+    input.id = "preview-input";
+    input.name = "choice";
+    input.setAttribute("form", "preview-form");
+    first.append(input);
     const ended = vi.fn();
     source.addEventListener(endEvent, ended);
 
     await dragAndDrop(handle, third, "bottom", { skipPointerUp: true });
-    await expect.element(page.getBySelector("[inert][aria-hidden='true']")).toBeInTheDocument();
-    expect(radio.checked).toBe(true);
-    expect(formRadio.checked).toBe(true);
-    expect(new FormData(form).getAll("choice")).toEqual(["on"]);
+    const preview = page.getBySelector("[inert][aria-hidden='true']");
+    await expect.element(preview).toHaveAttribute("id", first.id);
+    const previewInput = preview.getBySelector("input");
+    await expect.element(previewInput).toHaveAttribute("id", "preview-input");
+    await expect.element(previewInput).toHaveAttribute("name", "choice");
+    await expect.element(previewInput).toHaveAttribute("form", "preview-form");
 
     await userEvent.keyboard("{Escape}");
     await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
-    expect(radio.checked).toBe(true);
-    expect(formRadio.checked).toBe(true);
-    expect(new FormData(form).getAll("choice")).toEqual(["on"]);
+    await expect.element(preview).not.toBeInTheDocument();
+    expect(first.parentElement).toBe(source);
     expect(request).not.toHaveBeenCalled();
   });
 
