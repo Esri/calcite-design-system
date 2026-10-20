@@ -53,8 +53,8 @@ interface SortableManagerRecord {
   components: Set<SortableComponent>;
   sortables: Map<SortableComponent, Map<HTMLElement, Sortable>>;
   containerTargets: Map<SortableComponent, Droppable<SortableItemData>>;
-  dragging: boolean;
-  alive: boolean;
+  isDragging: boolean;
+  isAlive: boolean;
   activeDrag?: ActiveDrag;
   lastOver?: string;
   dropPosition?: DropPosition;
@@ -689,8 +689,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     components: new Set(),
     sortables: new Map(),
     containerTargets: new Map(),
-    dragging: false,
-    alive: true,
+    isDragging: false,
+    isAlive: true,
     dropCanceled: false,
     pendingReset: new Set(),
     itemStates: new Map(),
@@ -712,11 +712,11 @@ function getManagerRecord(document: Document): SortableManagerRecord {
   };
 
   const setGlobalDragActive = (active: boolean): void => {
-    if (record.dragging === active) {
+    if (record.isDragging === active) {
       return;
     }
 
-    record.dragging = active;
+    record.isDragging = active;
 
     if (active) {
       record.itemStates.forEach((state, component) => {
@@ -1341,7 +1341,7 @@ export const useSortable = <T extends SortableComponent>(
     let setupGeneration = 0;
 
     function dragActive(): boolean {
-      return !!sortableComponent.dragEnabled && !!record?.dragging;
+      return !!sortableComponent.dragEnabled && !!record?.isDragging;
     }
 
     async function setUpSortable(): Promise<void> {
@@ -1349,7 +1349,7 @@ export const useSortable = <T extends SortableComponent>(
         return;
       }
 
-      if (!record?.alive) {
+      if (!record?.isAlive) {
         record = getManagerRecord(sortableComponent.el.ownerDocument);
       }
 
@@ -1378,12 +1378,12 @@ export const useSortable = <T extends SortableComponent>(
         return;
       }
 
-      if (!currentRecord.alive) {
+      if (!currentRecord.isAlive) {
         await setUpSortable();
         return;
       }
 
-      if (currentRecord.dragging || currentRecord.activeDrag) {
+      if (currentRecord.isDragging || currentRecord.activeDrag) {
         currentRecord.pendingReset.add(sortableComponent);
         return;
       }
@@ -1401,8 +1401,8 @@ export const useSortable = <T extends SortableComponent>(
     function tearDown(force = false): void {
       setupGeneration++;
 
-      if (!record?.alive || (!force && dragActive())) {
-        if (record?.alive && dragActive()) {
+      if (!record?.isAlive || (!force && dragActive())) {
+        if (record?.isAlive && dragActive()) {
           record.pendingReset.add(sortableComponent);
         }
         return;
@@ -1421,7 +1421,7 @@ export const useSortable = <T extends SortableComponent>(
           record.activeDrag.component.onGlobalDragEnd?.();
         }
 
-        record.alive = false;
+        record.isAlive = false;
         record.removeListeners.forEach((removeListener) => removeListener());
         record.manager.destroy();
         managerRecords.delete(sortableComponent.el.ownerDocument);
@@ -1434,7 +1434,7 @@ export const useSortable = <T extends SortableComponent>(
       if (state) {
         state.indices = undefined;
       }
-      if (record?.alive && dragActive()) {
+      if (record?.isAlive && dragActive()) {
         record.pendingReset.add(sortableComponent);
         const activeDrag = record.activeDrag;
         if (

@@ -112,10 +112,6 @@ export class SortableList extends LitElement {
       "calciteHandleNudge",
       this.calciteHandleNudgeNextHandler,
     );
-    this.listen<ToEvents<Handle>["calciteInternalHandleDisabledChange"]>(
-      "calciteInternalHandleDisabledChange",
-      this.handleInternalHandleDisabledChange,
-    );
   }
 
   load(): void {
@@ -142,11 +138,6 @@ export class SortableList extends LitElement {
 
   private calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
     this.handleNudgeEvent(event);
-  }
-
-  private handleInternalHandleDisabledChange(event: CustomEvent<void>): void {
-    event.stopPropagation();
-    this.sortable.reset();
   }
 
   private handleDefaultSlotChange(): void {

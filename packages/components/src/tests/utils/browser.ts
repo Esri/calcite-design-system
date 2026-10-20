@@ -1,12 +1,10 @@
 import { commands } from "./commands";
 
 type DestinationPosition = "bottom" | "center" | "left" | "right" | "top";
-type PointerType = "mouse" | "pen" | "touch";
 
 export interface DragAndDropOptions {
   afterFirstMove?: () => void | Promise<void>;
   moveSteps?: number;
-  pointerType?: PointerType;
   skipPointerUp?: boolean;
 }
 
@@ -41,48 +39,28 @@ export async function dragAndDrop(
           : destinationRect.top + destinationRect.height / 2,
   };
   const dispatch = async (
-    target: EventTarget,
     type: "pointerdown" | "pointermove" | "pointerup",
     clientX: number,
     clientY: number,
   ): Promise<void> => {
-    if (!options.pointerType || options.pointerType === "mouse") {
-      if (type === "pointerdown") {
-        await commands.mouseMove(clientX, clientY);
-        await commands.mouseDown();
-      } else if (type === "pointermove") {
-        await commands.mouseMove(clientX, clientY);
-      } else {
-        await commands.mouseUp();
-      }
-      return;
+    if (type === "pointerdown") {
+      await commands.mouseMove(clientX, clientY);
+      await commands.mouseDown();
+    } else if (type === "pointermove") {
+      await commands.mouseMove(clientX, clientY);
+    } else {
+      await commands.mouseUp();
     }
-
-    target.dispatchEvent(
-      new PointerEvent(type, {
-        bubbles: true,
-        cancelable: true,
-        composed: true,
-        pointerId: 1,
-        pointerType: options.pointerType,
-        isPrimary: true,
-        button: 0,
-        buttons: type === "pointerup" ? 0 : 1,
-        clientX,
-        clientY,
-      }),
-    );
   };
 
   await nextFrame();
-  await dispatch(handle, "pointerdown", start.clientX, start.clientY);
+  await dispatch("pointerdown", start.clientX, start.clientY);
 
   const moveSteps = options.moveSteps ?? 5;
 
   for (let step = 1; step <= moveSteps; step++) {
     const progress = step / moveSteps;
     await dispatch(
-      document,
       "pointermove",
       start.clientX + (end.clientX - start.clientX) * progress,
       start.clientY + (end.clientY - start.clientY) * progress,
@@ -95,7 +73,7 @@ export async function dragAndDrop(
   }
 
   if (!options.skipPointerUp) {
-    await dispatch(document, "pointerup", end.clientX, end.clientY);
+    await dispatch("pointerup", end.clientX, end.clientY);
   }
 
   await nextFrame();
