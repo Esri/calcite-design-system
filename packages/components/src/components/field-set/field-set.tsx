@@ -8,6 +8,19 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's gap between slotted elements.
+     */
+    "--calcite-field-set-gap": "*";
+    /**
+     * Specifies the legend's text color.
+     */
+    "--calcite-field-set-legend-text-color": "*";
+  }
+}
+
 /**
  * @slot - A slot for adding controls and `calcite-field-group`s.
  * @slot legend - A slot for adding legend content.

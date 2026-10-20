@@ -16,6 +16,23 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `layout` is `"columns"`, specifies the component's number of columns.
+     */
+    "--calcite-field-group-columns": "*";
+    /**
+     * When `layout` is `"columns"`, specifies the component's column gap.
+     */
+    "--calcite-field-group-column-gap": "*";
+    /**
+     * Specifies the gap between the component's slotted elements.
+     */
+    "--calcite-field-group-gap": "*";
+  }
+}
+
 /**
  * @slot - A slot for adding controls, `calcite-field-group`, and `calcite-field-set` components.
  */
