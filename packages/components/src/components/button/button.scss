@@ -648,7 +648,7 @@
 :host([scale="s"]) button:not(.content--slotted),
 :host([scale="s"]) a:not(.content--slotted) {
   // icon size + padding so the square never shrinks below its fixed-size icon
-  --calcite-internal-button-icon-only-size: calc(1rem + 2 * var(--calcite-space-2xs));
+  --calcite-internal-button-icon-only-size: calc(1rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-space-2xs));
   --calcite-internal-button-padding-x: var(--calcite-space-base);
   --calcite-internal-button-padding-y: calc(var(--calcite-space-2xs) - var(--calcite-border-width-sm));
 
@@ -660,7 +660,7 @@
 
 :host([scale="m"]) button:not(.content--slotted),
 :host([scale="m"]) a:not(.content--slotted) {
-  --calcite-internal-button-icon-only-size: calc(1rem + 2 * var(--calcite-space-sm));
+  --calcite-internal-button-icon-only-size: calc(1rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-space-sm));
   --calcite-internal-button-padding-x: var(--calcite-space-base);
   --calcite-internal-button-padding-y: calc(var(--calcite-space-sm) - var(--calcite-border-width-sm));
 
@@ -671,7 +671,9 @@
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
-  --calcite-internal-button-icon-only-size: calc(1.5rem + 2 * var(--calcite-space-sm-plus));
+  --calcite-internal-button-icon-only-size: calc(
+    1.5rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-space-sm-plus)
+  );
   --calcite-internal-button-padding-x: var(--calcite-space-base);
   --calcite-internal-button-padding-y: calc(var(--calcite-space-sm-plus) - var(--calcite-border-width-sm));
 

@@ -87,7 +87,7 @@ const config: Config = {
     },
     css: {
       transformGroup: transformers.TransformCalciteGroup,
-      transforms: [transformers.TransformValueSpacingDensity],
+      transforms: [transformers.TransformValueSpacingDensity, transformers.TransformValueFontScale],
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [

@@ -13,21 +13,27 @@
 
 :host([scale="s"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--2);
-  --calcite-internal-action-line-height: 1rem;
+  --calcite-internal-action-line-height: var(--calcite-font-line-height-sm);
   --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
-  --calcite-internal-action-min-height: calc(1rem + 2 * var(--calcite-internal-action-spacing));
+  --calcite-internal-action-min-height: calc(
+    1rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-internal-action-spacing)
+  );
 }
 :host([scale="m"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--1);
-  --calcite-internal-action-line-height: 1rem;
+  --calcite-internal-action-line-height: var(--calcite-font-line-height-base);
   --calcite-internal-action-spacing: var(--calcite-spacing-sm);
-  --calcite-internal-action-min-height: calc(1rem + 2 * var(--calcite-internal-action-spacing));
+  --calcite-internal-action-min-height: calc(
+    1rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-internal-action-spacing)
+  );
 }
 :host([scale="l"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size-0);
-  --calcite-internal-action-line-height: 1.25rem;
+  --calcite-internal-action-line-height: var(--calcite-font-line-height-md);
   --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
-  --calcite-internal-action-min-height: calc(1.5rem + 2 * var(--calcite-internal-action-spacing));
+  --calcite-internal-action-min-height: calc(
+    1.5rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-internal-action-spacing)
+  );
 }
 
 :host {

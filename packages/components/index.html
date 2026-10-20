@@ -24,11 +24,29 @@
       flex-direction: column;
       gap: var(--calcite-space-lg);
     }
+
+    .control-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--calcite-space-md);
+    }
+
+    .control-section + .control-section {
+      border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+      padding-block-start: var(--calcite-space-lg);
+    }
+
+    .control-section-heading {
+      margin: 0;
+      color: var(--calcite-color-text-2);
+      font-size: var(--calcite-font-size-relative-base);
+      font-weight: var(--calcite-font-weight-semibold);
+    }
   </style>
 
   <body>
     <demo-dom-swapper>
-      <calcite-shell data-calcite-density="100%">
+      <calcite-shell data-calcite-density="100%" data-calcite-font-scale="default">
         <calcite-shell-panel slot="panel-start" id="shell-panel-start" width="m" resizable>
           <calcite-action-bar slot="action-bar" expanded>
             <calcite-action-group>
@@ -186,30 +204,55 @@
       width="s"
     >
       <div class="control-panel">
-        <calcite-segmented-control id="scale-control" label-text="Scale" width="full">
-          <calcite-segmented-control-item value="s">S</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="m" checked>M</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="l">L</calcite-segmented-control-item>
-        </calcite-segmented-control>
-        <calcite-switch id="density-mode-switch" label-text-end="Custom density factor"></calcite-switch>
-        <calcite-switch id="density-size-switch" label-text-end="Include size tokens"></calcite-switch>
-        <calcite-segmented-control id="density-presets" label-text="Density preset" width="full">
-          <calcite-segmented-control-item value="50%">50%</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="75%">75%</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="100%" checked>100%</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="125%">125%</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="150%">150%</calcite-segmented-control-item>
-          <calcite-segmented-control-item value="175%">175%</calcite-segmented-control-item>
-        </calcite-segmented-control>
-        <calcite-slider
-          id="density-slider"
-          label-text="Density factor: 100%"
-          min="0"
-          max="100"
-          step="1"
-          value="50"
-          hidden
-        ></calcite-slider>
+        <section class="control-section" aria-labelledby="scale-heading">
+          <h2 id="scale-heading" class="control-section-heading">Scale</h2>
+          <calcite-segmented-control id="scale-control" label-text="Baseline scale" width="full">
+            <calcite-segmented-control-item value="s">S</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="m" checked>M</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="l">L</calcite-segmented-control-item>
+          </calcite-segmented-control>
+        </section>
+        <section class="control-section" aria-labelledby="density-heading">
+          <h2 id="density-heading" class="control-section-heading">Density</h2>
+          <calcite-switch id="density-mode-switch" label-text-end="Custom density factor"></calcite-switch>
+          <calcite-switch id="density-size-switch" label-text-end="Include size tokens"></calcite-switch>
+          <calcite-segmented-control id="density-presets" label-text="Density preset" width="full">
+            <calcite-segmented-control-item value="50%">50%</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="75%">75%</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="100%" checked>100%</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="125%">125%</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="150%">150%</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="175%">175%</calcite-segmented-control-item>
+          </calcite-segmented-control>
+          <calcite-slider
+            id="density-slider"
+            label-text="Density factor: 100%"
+            min="0"
+            max="100"
+            step="1"
+            value="50"
+            hidden
+          ></calcite-slider>
+        </section>
+        <section class="control-section" aria-labelledby="font-scale-heading">
+          <h2 id="font-scale-heading" class="control-section-heading">Font scale</h2>
+          <calcite-switch id="font-scale-mode-switch" label-text-end="Custom font scale"></calcite-switch>
+          <calcite-segmented-control id="font-scale-presets" label-text="Font scale preset" width="full">
+            <calcite-segmented-control-item value="small">Small</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="default" checked>Default</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="large">Large</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="x-large">X-large</calcite-segmented-control-item>
+          </calcite-segmented-control>
+          <calcite-slider
+            id="font-scale-slider"
+            label-text="Font scale: 100%"
+            min="0"
+            max="100"
+            step="1"
+            value="50"
+            hidden
+          ></calcite-slider>
+        </section>
       </div>
     </calcite-dialog>
     <demo-options></demo-options>
@@ -220,6 +263,9 @@
       const presetControl = document.getElementById("density-presets");
       const densitySlider = document.getElementById("density-slider");
       const sizeSwitch = document.getElementById("density-size-switch");
+      const fontScaleModeSwitch = document.getElementById("font-scale-mode-switch");
+      const fontScalePresetControl = document.getElementById("font-scale-presets");
+      const fontScaleSlider = document.getElementById("font-scale-slider");
 
       function getDemoRoot() {
         const swapper = document.querySelector("demo-dom-swapper");
@@ -250,6 +296,20 @@
         densitySlider.labelText = `Density factor: ${Math.round(factor * 100)}%`;
       }
 
+      function applyFontScalePreset() {
+        const shell = getShell();
+        shell.style.removeProperty("--calcite-font-scale");
+        shell.setAttribute("data-calcite-font-scale", fontScalePresetControl.value);
+      }
+
+      function applyFontScaleSlider() {
+        const factor = sliderValueToFactor(fontScaleSlider.value);
+        const shell = getShell();
+        shell.setAttribute("data-calcite-font-scale", "custom");
+        shell.style.setProperty("--calcite-font-scale", String(factor));
+        fontScaleSlider.labelText = `Font scale: ${Math.round(factor * 100)}%`;
+      }
+
       scaleControl.addEventListener("calciteSegmentedControlChange", () => {
         getDemoRoot()
           .querySelectorAll("*")
@@ -276,6 +336,21 @@
           applySliderFactor();
         } else {
           applyPreset();
+        }
+      });
+
+      fontScalePresetControl.addEventListener("calciteSegmentedControlChange", applyFontScalePreset);
+
+      fontScaleSlider.addEventListener("calciteSliderInput", applyFontScaleSlider);
+
+      fontScaleModeSwitch.addEventListener("calciteSwitchChange", () => {
+        const useSlider = fontScaleModeSwitch.checked;
+        fontScalePresetControl.hidden = useSlider;
+        fontScaleSlider.hidden = !useSlider;
+        if (useSlider) {
+          applyFontScaleSlider();
+        } else {
+          applyFontScalePreset();
         }
       });
     </script>

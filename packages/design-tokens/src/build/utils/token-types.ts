@@ -55,6 +55,12 @@ export function isSpacing(token: TransformedToken): boolean {
   return token.path[0] === "spacing" || token.path[0] === "space";
 }
 
+// unitless relative line-heights already follow font-size
+export function isFontScaled(token: TransformedToken): boolean {
+  const [category, group, variant] = token.path;
+  return category === "font" && (group === "size" || (group === "line-height" && variant !== "relative"));
+}
+
 export function isLetterSpacing(token: TransformedToken): boolean {
   return isDimension(token) && token.path.includes("letter-spacing");
 }

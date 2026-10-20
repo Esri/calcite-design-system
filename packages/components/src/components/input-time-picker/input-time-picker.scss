@@ -164,7 +164,7 @@ calcite-time-picker {
   }
   .input-container,
   .placeholder {
-    line-height: 1rem;
+    line-height: var(--calcite-font-line-height-sm);
   }
 }
 
@@ -182,7 +182,7 @@ calcite-time-picker {
   }
   .input-container,
   .placeholder {
-    line-height: 1.5rem;
+    line-height: var(--calcite-font-line-height-lg);
   }
   .clear-button {
     block-size: var(--calcite-space-3xl);
@@ -202,7 +202,7 @@ calcite-time-picker {
   }
   .input-container,
   .placeholder {
-    line-height: 2.25rem;
+    line-height: calc(2.25rem * var(--calcite-font-scale, 1));
   }
   .clear-button {
     block-size: var(--calcite-space-4xl);

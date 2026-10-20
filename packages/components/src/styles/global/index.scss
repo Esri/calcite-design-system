@@ -20,4 +20,9 @@
   font-family: var(--calcite-font-family);
 }
 
+// re-declare so font-size vars re-resolve var(--calcite-font-scale) per scope
+[data-calcite-font-scale] {
+  @extend %type-vars;
+}
+
 @include shared.animation-reduced-motion();

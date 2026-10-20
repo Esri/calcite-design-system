@@ -1046,35 +1046,35 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
-  --calcite-font-size-xs: 10px;
-  --calcite-font-size-sm: 12px;
-  --calcite-font-size: 14px;
-  --calcite-font-size-md: 16px;
-  --calcite-font-size-lg: 18px;
-  --calcite-font-size-xl: 20px;
-  --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
-  --calcite-font-size-relative-xs: 0.625rem;
-  --calcite-font-size-relative-sm: 0.75rem;
-  --calcite-font-size-relative-base: 0.875rem;
-  --calcite-font-size-relative-md: 1rem;
-  --calcite-font-size-relative-lg: 1.125rem;
-  --calcite-font-size-relative-xl: 1.25rem;
-  --calcite-font-size-relative-2xl: 1.625rem;
-  --calcite-font-size-relative-3xl: 2rem;
-  --calcite-font-size-relative-4xl: 2.5rem;
-  --calcite-font-size-relative-5xl: 3rem;
-  --calcite-font-size-relative-6xl: 3.5rem;
-  --calcite-font-size-relative-7xl: 4rem;
+  --calcite-font-size-xs: calc(10px * var(--calcite-font-scale, 1));
+  --calcite-font-size-sm: calc(12px * var(--calcite-font-scale, 1));
+  --calcite-font-size: calc(14px * var(--calcite-font-scale, 1));
+  --calcite-font-size-md: calc(16px * var(--calcite-font-scale, 1));
+  --calcite-font-size-lg: calc(18px * var(--calcite-font-scale, 1));
+  --calcite-font-size-xl: calc(20px * var(--calcite-font-scale, 1));
+  --calcite-font-size-xxl: calc(24px * var(--calcite-font-scale, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-relative-xs: calc(0.625rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-sm: calc(0.75rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-base: calc(0.875rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-md: calc(1rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-lg: calc(1.125rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-xl: calc(1.25rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-2xl: calc(1.625rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-3xl: calc(2rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-4xl: calc(2.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-5xl: calc(3rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-6xl: calc(3.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-7xl: calc(4rem * var(--calcite-font-scale, 1));
   --calcite-font-style-emphasis: italic; /** used in ratings */
-  --calcite-font-line-height-fixed-sm: 12px;
-  --calcite-font-line-height-fixed-base: 16px;
-  --calcite-font-line-height-fixed-lg: 20px;
-  --calcite-font-line-height-fixed-xl: 24px;
-  --calcite-font-line-height-fixed-2xl: 32px;
-  --calcite-font-line-height-fixed-3xl: 40px;
-  --calcite-font-line-height-fixed-4xl: 48px;
-  --calcite-font-line-height-fixed-5xl: 64px;
-  --calcite-font-line-height-fixed-6xl: 80px;
+  --calcite-font-line-height-fixed-sm: calc(12px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-base: calc(16px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-lg: calc(20px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-xl: calc(24px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-2xl: calc(32px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-3xl: calc(40px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-4xl: calc(48px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-5xl: calc(64px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-6xl: calc(80px * var(--calcite-font-scale, 1));
   --calcite-font-line-height-relative: normal;
   --calcite-font-line-height-relative-base: 1;
   --calcite-font-line-height-relative-tight: 1.25;
@@ -1082,18 +1082,18 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5;
   --calcite-font-line-height-relative-relaxed: 1.625;
   --calcite-font-line-height-relative-loose: 2;
-  --calcite-font-line-height-xs: 0.75rem;
-  --calcite-font-line-height-sm: 1rem;
-  --calcite-font-line-height-base: 1rem;
-  --calcite-font-line-height-md: 1.25rem;
-  --calcite-font-line-height-lg: 1.5rem;
-  --calcite-font-line-height-xl: 1.5rem;
-  --calcite-font-line-height-2xl: 2rem;
-  --calcite-font-line-height-3xl: 2.5rem;
-  --calcite-font-line-height-4xl: 3rem;
-  --calcite-font-line-height-5xl: 4rem;
-  --calcite-font-line-height-6xl: 4rem;
-  --calcite-font-line-height-7xl: 5rem;
+  --calcite-font-line-height-xs: calc(0.75rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-sm: calc(1rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-base: calc(1rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-md: calc(1.25rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-lg: calc(1.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-xl: calc(1.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-2xl: calc(2rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-3xl: calc(2.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-4xl: calc(3rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-5xl: calc(4rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-6xl: calc(4rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-7xl: calc(5rem * var(--calcite-font-scale, 1));
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-normal: 0; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1530,35 +1530,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
-  --calcite-font-size-xs: 10px;
-  --calcite-font-size-sm: 12px;
-  --calcite-font-size: 14px;
-  --calcite-font-size-md: 16px;
-  --calcite-font-size-lg: 18px;
-  --calcite-font-size-xl: 20px;
-  --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
-  --calcite-font-size-relative-xs: 0.625rem;
-  --calcite-font-size-relative-sm: 0.75rem;
-  --calcite-font-size-relative-base: 0.875rem;
-  --calcite-font-size-relative-md: 1rem;
-  --calcite-font-size-relative-lg: 1.125rem;
-  --calcite-font-size-relative-xl: 1.25rem;
-  --calcite-font-size-relative-2xl: 1.625rem;
-  --calcite-font-size-relative-3xl: 2rem;
-  --calcite-font-size-relative-4xl: 2.5rem;
-  --calcite-font-size-relative-5xl: 3rem;
-  --calcite-font-size-relative-6xl: 3.5rem;
-  --calcite-font-size-relative-7xl: 4rem;
   --calcite-font-style-emphasis: italic; /** used in ratings */
-  --calcite-font-line-height-fixed-sm: 12px;
-  --calcite-font-line-height-fixed-base: 16px;
-  --calcite-font-line-height-fixed-lg: 20px;
-  --calcite-font-line-height-fixed-xl: 24px;
-  --calcite-font-line-height-fixed-2xl: 32px;
-  --calcite-font-line-height-fixed-3xl: 40px;
-  --calcite-font-line-height-fixed-4xl: 48px;
-  --calcite-font-line-height-fixed-5xl: 64px;
-  --calcite-font-line-height-fixed-6xl: 80px;
   --calcite-font-line-height-relative: normal;
   --calcite-font-line-height-relative-base: 1;
   --calcite-font-line-height-relative-tight: 1.25;
@@ -1566,18 +1538,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5;
   --calcite-font-line-height-relative-relaxed: 1.625;
   --calcite-font-line-height-relative-loose: 2;
-  --calcite-font-line-height-xs: 0.75rem;
-  --calcite-font-line-height-sm: 1rem;
-  --calcite-font-line-height-base: 1rem;
-  --calcite-font-line-height-md: 1.25rem;
-  --calcite-font-line-height-lg: 1.5rem;
-  --calcite-font-line-height-xl: 1.5rem;
-  --calcite-font-line-height-2xl: 2rem;
-  --calcite-font-line-height-3xl: 2.5rem;
-  --calcite-font-line-height-4xl: 3rem;
-  --calcite-font-line-height-5xl: 4rem;
-  --calcite-font-line-height-6xl: 4rem;
-  --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-normal: 0; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1609,7 +1569,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-corner-radius-none: var(--calcite-corner-radius-sharp); /** Replaces \`--calcite-corner-radius-sharp\` */
   --calcite-corner-radius-sm: var(--calcite-corner-radius-round); /** Replaces \`--calcite-corner-radius-round\` */
   --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
-  --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 
@@ -1678,9 +1637,55 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
 }
 
+:root,
+[data-calcite-font-scale] {
+  --calcite-font-size-xs: calc(10px * var(--calcite-font-scale, 1));
+  --calcite-font-size-sm: calc(12px * var(--calcite-font-scale, 1));
+  --calcite-font-size: calc(14px * var(--calcite-font-scale, 1));
+  --calcite-font-size-md: calc(16px * var(--calcite-font-scale, 1));
+  --calcite-font-size-lg: calc(18px * var(--calcite-font-scale, 1));
+  --calcite-font-size-xl: calc(20px * var(--calcite-font-scale, 1));
+  --calcite-font-size-xxl: calc(24px * var(--calcite-font-scale, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-relative-xs: calc(0.625rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-sm: calc(0.75rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-base: calc(0.875rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-md: calc(1rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-lg: calc(1.125rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-xl: calc(1.25rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-2xl: calc(1.625rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-3xl: calc(2rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-4xl: calc(2.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-5xl: calc(3rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-6xl: calc(3.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-relative-7xl: calc(4rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-sm: calc(12px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-base: calc(16px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-lg: calc(20px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-xl: calc(24px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-2xl: calc(32px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-3xl: calc(40px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-4xl: calc(48px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-5xl: calc(64px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-6xl: calc(80px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-xs: calc(0.75rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-sm: calc(1rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-base: calc(1rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-md: calc(1.25rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-lg: calc(1.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-xl: calc(1.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-2xl: calc(2rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-3xl: calc(2.5rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-4xl: calc(3rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-5xl: calc(4rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-6xl: calc(4rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-7xl: calc(5rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
+}
+
 :root {
   --calcite-density-factor: 1;
   --calcite-density-include-size: 0;
+  --calcite-font-scale: 1;
 }
 
 [data-calcite-density="50%"] {
@@ -1705,6 +1710,22 @@ exports[`CSS > semantic should match 1`] = `
 
 [data-calcite-density="175%"] {
   --calcite-density-factor: 1.75;
+}
+
+[data-calcite-font-scale="small"] {
+  --calcite-font-scale: calc(12 / 14);
+}
+
+[data-calcite-font-scale="default"] {
+  --calcite-font-scale: 1;
+}
+
+[data-calcite-font-scale="large"] {
+  --calcite-font-scale: calc(16 / 14);
+}
+
+[data-calcite-font-scale="x-large"] {
+  --calcite-font-scale: calc(18 / 14);
 }
 "
 `;

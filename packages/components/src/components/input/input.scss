@@ -42,7 +42,7 @@
 // scales
 :host([scale="s"]) {
   // matches action/button so controls align at any density
-  --calcite-internal-input-height: calc(1rem + 2 * var(--calcite-space-2xs));
+  --calcite-internal-input-height: calc(1rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-space-2xs));
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-sm);
 
   & input,
@@ -77,7 +77,7 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-height: calc(1rem + 2 * var(--calcite-space-sm));
+  --calcite-internal-input-height: calc(1rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-space-sm));
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-md);
 
   & input,
@@ -107,7 +107,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-input-height: calc(1.5rem + 2 * var(--calcite-space-sm-plus));
+  --calcite-internal-input-height: calc(1.5rem * var(--calcite-font-scale, 1) + 2 * var(--calcite-space-sm-plus));
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-lg);
 
   & input,

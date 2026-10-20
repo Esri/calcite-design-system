@@ -3,9 +3,9 @@
   @apply text-color-icon inline-flex;
 }
 
-$icon-size-s: 16px;
-$icon-size-m: 24px;
-$icon-size-l: 32px;
+$icon-size-s: calc(16px * var(--calcite-font-scale, 1));
+$icon-size-m: calc(24px * var(--calcite-font-scale, 1));
+$icon-size-l: calc(32px * var(--calcite-font-scale, 1));
 
 :host([scale="s"]) {
   inline-size: $icon-size-s;

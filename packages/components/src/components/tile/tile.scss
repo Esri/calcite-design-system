@@ -94,7 +94,7 @@ calcite-link {
   padding: 0;
   color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
   font-weight: var(--calcite-font-weight-medium);
-  line-height: 1.20313rem;
+  line-height: calc(1.20313rem * var(--calcite-font-scale, 1));
   overflow-wrap: break-word;
 }
 
@@ -155,11 +155,11 @@ calcite-link {
   min-inline-size: 100px;
   .heading {
     font-size: var(--calcite-font-size--2);
-    line-height: 1.03125rem;
+    line-height: calc(1.03125rem * var(--calcite-font-scale, 1));
   }
   .description {
     font-size: var(--calcite-font-size--3);
-    line-height: 0.85938rem;
+    line-height: calc(0.85938rem * var(--calcite-font-scale, 1));
   }
 }
 
@@ -170,11 +170,11 @@ calcite-link {
   min-inline-size: 140px;
   .heading {
     font-size: var(--calcite-font-size--1);
-    line-height: 1.20313rem;
+    line-height: calc(1.20313rem * var(--calcite-font-scale, 1));
   }
   .description {
     font-size: var(--calcite-font-size--2);
-    line-height: 1.03125rem;
+    line-height: calc(1.03125rem * var(--calcite-font-scale, 1));
   }
 }
 
@@ -186,11 +186,11 @@ calcite-link {
 
   .heading {
     font-size: var(--calcite-font-size-0);
-    line-height: 1.375rem;
+    line-height: calc(1.375rem * var(--calcite-font-scale, 1));
   }
   .description {
     font-size: var(--calcite-font-size--1);
-    line-height: 1.20313rem;
+    line-height: calc(1.20313rem * var(--calcite-font-scale, 1));
   }
 }
 
