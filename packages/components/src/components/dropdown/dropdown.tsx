@@ -528,10 +528,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
         this.updateItems();
         return;
       }
-      if (this.rovingTabIndex.isFocusUnchanged(focusedElement)) {
+      if (
+        event.detail.requestedDropdownItem.matches(":focus-within") &&
+        this.rovingTabIndex.isFocusUnchanged(focusedElement)
+      ) {
         this.rovingTabIndex.setActiveIndex(index);
+        await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem, focusedElement);
       }
-      await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem, focusedElement);
     }
   }
 

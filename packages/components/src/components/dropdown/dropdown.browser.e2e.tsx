@@ -1537,6 +1537,38 @@ describe("roving tabindex", () => {
     expect(selectSpy).toHaveBeenCalledTimes(1);
   });
 
+  it.each(["#outside-focus-target", "#item-2"])(
+    "preserves focus moved to %s by an item-level selection listener while staying open",
+    async (targetSelector) => {
+      const { component } = await mount<Dropdown>(
+        <>
+          {renderDropdown()}
+          <button id="outside-focus-target" type="button">
+            Outside
+          </button>
+        </>,
+      );
+      component.closeOnSelectDisabled = true;
+      const first = page.getBySelector("#item-1");
+      const target = page.getBySelector(targetSelector);
+      first
+        .element()
+        .addEventListener("calciteDropdownItemSelect", () => target.element().focus(), {
+          once: true,
+        });
+
+      await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
+      await expect.element(first).toHaveFocus();
+      await userEvent.click(first);
+      await afterNextFrame();
+      await afterNextFrame();
+      await afterNextFrame();
+
+      expect(component.open).toBe(true);
+      await expect.element(target).toHaveFocus();
+    },
+  );
+
   it("restores trigger focus when a selection listener removes the focused item", async () => {
     const { component } = await mount<Dropdown>(renderDropdown);
     const first = page.getBySelector("#item-1");
