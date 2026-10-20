@@ -67,7 +67,7 @@
 }
 
 :host a:visited .link--text {
-  text-decoration-color: var(--calcite-internal-link-theme-underline-color);
+  text-decoration-color: var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-underline-color));
 }
 
 :host a:hover .link--text,
