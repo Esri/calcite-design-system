@@ -49,7 +49,7 @@ jobs:
           release_commit="$(git rev-parse HEAD)"
 
           pnpm publish:latest
-          pnpm util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
+          pnpm util:upload-release-assets "${{toJSON(steps.release.outputs.paths_released)}}"
 
           release_version="$(node -p "require('./packages/components/package.json').version")"
 
