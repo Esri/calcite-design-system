@@ -3,11 +3,7 @@ import { html } from "../../support/formatting";
 
 export const linkTokens = {
   calciteLinkTextColor: "",
-  calciteLinkTextColorHover: "",
-  calciteLinkTextColorPress: "",
   calciteLinkVisitedTextColor: "",
-  calciteLinkVisitedTextColorHover: "",
-  calciteLinkVisitedTextColorPress: "",
 };
 
 export const link = html`
