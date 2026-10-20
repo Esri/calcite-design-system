@@ -5,95 +5,20 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [4.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.0...@esri/calcite-design-tokens@4.2.0) (2026-10-20)
 
-
 ### Features
 
-* **design-tokens:** Support `theme` token layer ([#15186](https://github.com/Esri/calcite-design-system/issues/15186)) ([86ba137](https://github.com/Esri/calcite-design-system/commit/86ba137577d49087b3c1927fc5193cfc0e4436a0))
-* **semantic-tokens:** Update shadow token styles ([#14152](https://github.com/Esri/calcite-design-system/issues/14152)) ([34ec5b8](https://github.com/Esri/calcite-design-system/commit/34ec5b8da3c0f7228e91a6788858c5cec4b8b43b))
-* **tokens:** Provide semantic brand and status hover/press dark-mode colors for improved a11y ([#13916](https://github.com/Esri/calcite-design-system/issues/13916)) ([9eb32b3](https://github.com/Esri/calcite-design-system/commit/9eb32b3c86f92f3df191c45b9741a75b319a071c))
-* **typography-tokens:** Migrate composite typography output to rems and unitless line-heights ([#14877](https://github.com/Esri/calcite-design-system/issues/14877)) ([a489663](https://github.com/Esri/calcite-design-system/commit/a4896632fb76763bdba98db5d02425dd0707cf20))
-
+- **design-tokens:** Support `theme` token layer ([#15186](https://github.com/Esri/calcite-design-system/issues/15186)) ([86ba137](https://github.com/Esri/calcite-design-system/commit/86ba137577d49087b3c1927fc5193cfc0e4436a0))
+- **semantic-tokens:** Update shadow token styles ([#14152](https://github.com/Esri/calcite-design-system/issues/14152)) ([34ec5b8](https://github.com/Esri/calcite-design-system/commit/34ec5b8da3c0f7228e91a6788858c5cec4b8b43b))
+- **tokens:** Provide semantic brand and status hover/press dark-mode colors for improved a11y ([#13916](https://github.com/Esri/calcite-design-system/issues/13916)) ([9eb32b3](https://github.com/Esri/calcite-design-system/commit/9eb32b3c86f92f3df191c45b9741a75b319a071c))
+- **typography-tokens:** Migrate composite typography output to rems and unitless line-heights ([#14877](https://github.com/Esri/calcite-design-system/issues/14877)) ([a489663](https://github.com/Esri/calcite-design-system/commit/a4896632fb76763bdba98db5d02425dd0707cf20))
 
 ### Bug Fixes
 
-* **typography-tokens:** Align CSS classes with SCSS mixins ([#15282](https://github.com/Esri/calcite-design-system/issues/15282)) ([672da8f](https://github.com/Esri/calcite-design-system/commit/672da8f22c7c9faa2df7753c61d8c2800dfa793c))
-
+- **typography-tokens:** Align CSS classes with SCSS mixins ([#15282](https://github.com/Esri/calcite-design-system/issues/15282)) ([672da8f](https://github.com/Esri/calcite-design-system/commit/672da8f22c7c9faa2df7753c61d8c2800dfa793c))
 
 ### Deprecations
 
-* **typography-tokens:** Deprecate `typography.hierarchy` tokens ([#15355](https://github.com/Esri/calcite-design-system/issues/15355)) ([c44cb92](https://github.com/Esri/calcite-design-system/commit/c44cb92f919fd1c12053365b3ee4217114bf3ae6))
-
-## [4.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.3...@esri/calcite-design-tokens@4.2.0-next.4) (2026-10-14)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.2...@esri/calcite-design-tokens@4.2.0-next.3) (2026-10-13)
-
-### Features
-
-- **design-tokens:** support `theme` token layer ([#15186](https://github.com/Esri/calcite-design-system/issues/15186)), closes [#14190](https://github.com/Esri/calcite-design-system/issues/14190)
-
-## [4.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.1...@esri/calcite-design-tokens@4.2.0-next.2) (2026-10-13)
-
-### Bug Fixes
-
-- **typography-tokens:** align CSS classes with SCSS mixins ([#15282](https://github.com/Esri/calcite-design-system/issues/15282)), closes [#15230](https://github.com/Esri/calcite-design-system/issues/15230) [#15362](https://github.com/Esri/calcite-design-system/issues/15362)
-
-## [4.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.0-next.0...@esri/calcite-design-tokens@4.2.0-next.1) (2026-09-29)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.10...@esri/calcite-design-tokens@4.2.0-next.0) (2026-09-22)
-
-### Features
-
-- **typography-tokens:** migrate composite typography output to rems and unitless line-heights ([#14877](https://github.com/Esri/calcite-design-system/issues/14877)), closes [#11902](https://github.com/Esri/calcite-design-system/issues/11902)
-
-## [4.1.1-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.9...@esri/calcite-design-tokens@4.1.1-next.10) (2026-09-17)
-
-### Bug Fixes
-
-- preserve default light theme when not using mode classes ([#15188](https://github.com/Esri/calcite-design-system/issues/15188)), closes [#14579](https://github.com/Esri/calcite-design-system/issues/14579)
-
-## [4.1.1-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.8...@esri/calcite-design-tokens@4.1.1-next.9) (2026-09-16)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.7...@esri/calcite-design-tokens@4.1.1-next.8) (2026-09-10)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.6...@esri/calcite-design-tokens@4.1.1-next.7) (2026-08-18)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.5...@esri/calcite-design-tokens@4.1.1-next.6) (2026-08-11)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.4...@esri/calcite-design-tokens@4.1.1-next.5) (2026-07-30)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.3...@esri/calcite-design-tokens@4.1.1-next.4) (2026-07-17)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.2...@esri/calcite-design-tokens@4.1.1-next.3) (2026-07-13)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.1...@esri/calcite-design-tokens@4.1.1-next.2) (2026-06-23)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.1-next.0...@esri/calcite-design-tokens@4.1.1-next.1) (2026-06-08)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [4.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.0-next.11...@esri/calcite-design-tokens@4.1.1-next.0) (2026-05-28)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
+- **typography-tokens:** Deprecate `typography.hierarchy` tokens ([#15355](https://github.com/Esri/calcite-design-system/issues/15355)) ([c44cb92](https://github.com/Esri/calcite-design-system/commit/c44cb92f919fd1c12053365b3ee4217114bf3ae6))
 
 ## [4.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0...@esri/calcite-design-tokens@4.1.0) (2026-05-28)
 

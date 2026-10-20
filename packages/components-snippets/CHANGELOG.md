@@ -5,28 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-snippets@0.0.1...@esri/calcite-components-snippets@0.1.0) (2026-10-20)
 
-
 ### Features
 
-* Add option to use env var to specify doc repo path ([#14721](https://github.com/Esri/calcite-design-system/issues/14721)) ([393a7d1](https://github.com/Esri/calcite-design-system/commit/393a7d188b61ab6788e8460184541b89c1cbbe8a))
-
-## [0.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-snippets@0.0.1...@esri/calcite-components-snippets@0.1.0-next.3) (2026-09-29)
-
-### Features
-
-- add option to use env var to specify doc repo path ([#14721](https://github.com/Esri/calcite-design-system/issues/14721))
-
-## [0.1.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-snippets@0.0.1...@esri/calcite-components-snippets@0.1.0-next.2) (2026-09-10)
-
-### Features
-
-- add option to use env var to specify doc repo path ([#14721](https://github.com/Esri/calcite-design-system/issues/14721))
-
-## 0.1.0-next.1 (2026-08-11)
-
-### Features
-
-**Note:** Version bump only for package @esri/calcite-components-snippets
+- Add option to use env var to specify doc repo path ([#14721](https://github.com/Esri/calcite-design-system/issues/14721)) ([393a7d1](https://github.com/Esri/calcite-design-system/commit/393a7d188b61ab6788e8460184541b89c1cbbe8a))
 
 ## 0.1.0-next.0 (2026-07-01)
 
