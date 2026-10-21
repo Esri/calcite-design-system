@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.105...@esri/calcite-components@5.2.1-next.0) (2026-10-21)
+
+### Bug Fixes
+
+- **loader:** remove value display from determinate type ([#15379](https://github.com/Esri/calcite-design-system/issues/15379)), closes [#14440](https://github.com/Esri/calcite-design-system/issues/14440)
+
+### Reverts
+
+- remove action-bar-position property from Shell Panel ([#15398](https://github.com/Esri/calcite-design-system/issues/15398)), closes [#13559](https://github.com/Esri/calcite-design-system/issues/13559) [/github.com/Esri/calcite-design-system/issues/13559#issuecomment-6150702527](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/13559/issues/issuecomment-6150702527) [#14963](https://github.com/Esri/calcite-design-system/issues/14963) [#13652](https://github.com/Esri/calcite-design-system/issues/13652)
+
 ## [5.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2...@esri/calcite-components@5.2.0) (2026-10-20)
 
 ### Features

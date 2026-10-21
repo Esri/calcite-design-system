@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-snippets@0.0.1...@esri/calcite-components-snippets@0.2.0-next.0) (2026-10-21)
+
+### Features
+
+- add option to use env var to specify doc repo path ([#14721](https://github.com/Esri/calcite-design-system/issues/14721))
+
 ## [0.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-snippets@0.0.1...@esri/calcite-components-snippets@0.1.0) (2026-10-20)
 
 ### Features

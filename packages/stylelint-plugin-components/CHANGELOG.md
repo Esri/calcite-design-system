@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.0-next.0 (2026-10-21)
+
+### Features
+
+- add custom Stylelint plugin as private package ([#14107](https://github.com/Esri/calcite-design-system/issues/14107)), closes [#13677](https://github.com/Esri/calcite-design-system/issues/13677)
+
 ## [0.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/stylelint-plugin-calcite-components@0.1.0...@esri/stylelint-plugin-calcite-components@0.2.0) (2026-10-20)
 
 ### Features

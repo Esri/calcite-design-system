@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.25...@esri/calcite-ui-icons@4.6.1-next.0) (2026-10-21)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
 ## [4.6.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0...@esri/calcite-ui-icons@4.6.0) (2026-10-20)
 
 ### Features
