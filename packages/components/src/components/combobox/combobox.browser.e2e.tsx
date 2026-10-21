@@ -1606,9 +1606,10 @@ describe("filtering", () => {
         </calcite-combobox>,
       );
       const input = page.getByRole("combobox");
+      const typedValue = "three";
 
       await userEvent.tab();
-      await updateFilter(el, { type: "keyboard", value: "three" });
+      await updateFilter(el, { type: "keyboard", value: typedValue });
 
       const inputEl = input.element();
       const inputBounds = inputEl.getBoundingClientRect();
@@ -1620,12 +1621,12 @@ describe("filtering", () => {
       await commands.mouseMove(outsideX, y);
       await commands.mouseUp();
 
-      await expect.element(input).toHaveValue("three");
+      await expect.element(input).toHaveValue(typedValue);
       await expect.element(el).toHaveFocus();
       expect(el).toHaveProperty("shadowRoot.activeElement", inputEl);
       expect(inputEl).toHaveProperty("selectionStart", 0);
-      expect(inputEl).toHaveProperty("selectionEnd", 5);
-      expect(el).toHaveProperty("filterText", "three");
+      expect(inputEl).toHaveProperty("selectionEnd", typedValue.length);
+      expect(el).toHaveProperty("filterText", typedValue);
       expect(el).toHaveProperty("open", true);
       expect(el).toHaveProperty("value", "");
       expect(changeSpy).not.toHaveBeenCalled();
@@ -1638,7 +1639,7 @@ describe("filtering", () => {
       await expect.element(el).not.toHaveFocus();
       expect(el).toHaveProperty("filterText", "");
       expect(el).toHaveProperty("open", false);
-      expect(el).toHaveProperty("value", allowCustomValues ? "three" : "");
+      expect(el).toHaveProperty("value", allowCustomValues ? typedValue : "");
       expect(changeSpy).toHaveBeenCalledTimes(allowCustomValues ? 1 : 0);
     },
   );
