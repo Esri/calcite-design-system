@@ -21553,5 +21553,33 @@
     "category": "Objects",
     "release": "4.6.0",
     "codepoint": 61957
+  },
+  "spectral-profile": {
+    "alias": [
+      "4.6.1",
+      "charts and graph",
+      "pixel values",
+      "image",
+      "wavelengths",
+      "area",
+      "feature"
+    ],
+    "category": "Charts and Graph",
+    "release": "4.6.1",
+    "codepoint": null
+  },
+  "temporal-profile": {
+    "alias": [
+      "4.6.1",
+      "charts and graph",
+      "points",
+      "datasets",
+      "layers",
+      "visualize",
+      "raster"
+    ],
+    "category": "Charts and Graph",
+    "release": "4.6.1",
+    "codepoint": null
   }
 }
