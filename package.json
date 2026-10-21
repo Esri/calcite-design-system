@@ -42,6 +42,7 @@
     "@eslint/js": "catalog:",
     "@esri/calcite-components-snippets": "workspace:*",
     "@esri/calcite-typescript-config": "workspace:*",
+    "@microsoft/api-extractor": "catalog:",
     "@octokit/webhooks-types": "catalog:",
     "@types/github-script": "github:actions/github-script",
     "@types/node": "catalog:",
@@ -67,6 +68,7 @@
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
+    "unplugin-dts": "catalog:",
     "vite": "catalog:"
   },
   "license": "SEE LICENSE.md",
