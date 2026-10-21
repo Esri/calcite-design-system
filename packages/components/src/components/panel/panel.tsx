@@ -1016,8 +1016,8 @@ export class Panel extends LitElement {
 
     return (
       <this.interactiveContainer disabled={disabled}>
-        {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
+        {loading ? <calcite-scrim loading={loading} /> : null}
       </this.interactiveContainer>
     );
   }
