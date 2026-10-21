@@ -377,9 +377,9 @@ describe("focus trap", () => {
     await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
   });
 
-  it("supports focus trap behavior through keyboard interaction", async () => {
+  it("enables focus trap behavior on its Panel", async () => {
     const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable heading="Flow heading" selected>
+      <calcite-flow-item heading="Flow heading" selected>
         <button type="button">inside one</button>
         <button type="button">inside two</button>
       </calcite-flow-item>,
@@ -387,6 +387,9 @@ describe("focus trap", () => {
 
     const insideOne = page.getByText("inside one", { exact: true });
     const insideTwo = page.getByText("inside two", { exact: true });
+    const panel = component.el.shadowRoot?.querySelector("calcite-panel");
+
+    expect(panel?.focusTrapEnabledByParent).toBe(true);
 
     await expect(component.el.setFocus({ preventScroll: true })).resolves.toBeUndefined();
     await expect.element(component.el).toHaveFocus();

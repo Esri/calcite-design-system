@@ -150,6 +150,10 @@ describe("defaults", () => {
         propertyName: "iconFlipRtl",
         defaultValue: false,
       },
+      {
+        propertyName: "focusTrapEnabledByParent",
+        defaultValue: false,
+      },
     ],
   );
 });
