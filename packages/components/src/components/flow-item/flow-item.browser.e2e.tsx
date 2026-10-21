@@ -372,26 +372,38 @@ describe("theme", () => {
 });
 
 describe("focus trap", () => {
-  it("applies dialog semantics when not closable", async () => {
-    await mount<FlowItem>(<calcite-flow-item heading="Flow heading" selected />);
-    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+  it("does not apply dialog semantics to a non-closable root Flow Item", async () => {
+    await mount(
+      <calcite-flow>
+        <calcite-flow-item heading="Root heading" selected />
+        <calcite-flow-item heading="Nested heading" />
+      </calcite-flow>,
+    );
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Root heading" }))
+      .not.toBeInTheDocument();
   });
 
-  it("enables focus trap behavior on its Panel", async () => {
-    const { component } = await mount<FlowItem>(
-      <calcite-flow-item heading="Flow heading" selected>
-        <button type="button">inside one</button>
-        <button type="button">inside two</button>
-      </calcite-flow-item>,
+  it("enables focus trap behavior on its Panel when Back is shown", async () => {
+    const { component } = await mount(
+      <calcite-flow>
+        <calcite-flow-item heading="Root heading" />
+        <calcite-flow-item heading="Flow heading" selected>
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-flow-item>
+      </calcite-flow>,
     );
 
     const insideOne = page.getByText("inside one", { exact: true });
     const insideTwo = page.getByText("inside two", { exact: true });
-    const panel = component.el.shadowRoot?.querySelector("calcite-panel");
+    const flowItem = component.el.querySelector<FlowItem["el"]>("calcite-flow-item[selected]");
+    const panel = flowItem?.shadowRoot?.querySelector("calcite-panel");
 
     expect(panel?.focusTrapEnabledByParent).toBe(true);
 
-    await expect(component.el.setFocus({ preventScroll: true })).resolves.toBeUndefined();
+    await expect(flowItem?.setFocus({ preventScroll: true })).resolves.toBeUndefined();
     await expect.element(insideOne).toHaveFocus();
 
     await userEvent.tab();
