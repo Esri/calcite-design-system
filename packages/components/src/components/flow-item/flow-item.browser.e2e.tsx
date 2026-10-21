@@ -386,31 +386,45 @@ describe("focus trap", () => {
   });
 
   it("enables focus trap behavior on its Panel when Back is shown", async () => {
-    const { component } = await mount(
-      <calcite-flow>
-        <calcite-flow-item heading="Root heading" />
-        <calcite-flow-item heading="Flow heading" selected>
-          <button type="button">inside one</button>
-          <button type="button">inside two</button>
-        </calcite-flow-item>
-      </calcite-flow>,
+    await mount(
+      <>
+        <calcite-flow>
+          <calcite-flow-item heading="Root heading" id="root-item">
+            <button type="button">root control</button>
+          </calcite-flow-item>
+          <calcite-flow-item heading="Flow heading" id="nested-item" selected>
+            <button type="button">inside one</button>
+            <button type="button">inside two</button>
+          </calcite-flow-item>
+        </calcite-flow>
+        <button type="button">outside control</button>
+      </>,
     );
 
     const insideOne = page.getByText("inside one", { exact: true });
     const insideTwo = page.getByText("inside two", { exact: true });
-    const flowItem = component.el.querySelector<FlowItem["el"]>("calcite-flow-item[selected]");
+    const rootControl = page.getByText("root control", { exact: true });
+    const outsideControl = page.getByText("outside control", { exact: true });
+    const flowItem = page.getBySelector("#nested-item").element() as FlowItem["el"];
     const panel = flowItem?.shadowRoot?.querySelector("calcite-panel");
 
     expect(panel?.focusTrapEnabledByParent).toBe(true);
 
-    await expect(flowItem?.setFocus({ preventScroll: true })).resolves.toBeUndefined();
-    await expect.element(insideOne).toHaveFocus();
-
-    await userEvent.tab();
+    await userEvent.click(insideTwo);
     await expect.element(insideTwo).toHaveFocus();
 
     await userEvent.tab();
+    await expect.element(flowItem).toHaveFocus();
+
+    await userEvent.tab();
     await expect.element(insideOne).toHaveFocus();
+
+    await userEvent.click(page.getByTitle("Back"));
+    await expect.element(flowItem).toHaveProperty("selected", false);
+    await expect.element(rootControl).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(outsideControl).toHaveFocus();
   });
 
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
