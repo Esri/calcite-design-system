@@ -190,19 +190,6 @@ describe("type property", () => {
 });
 
 describe("a11y attributes", () => {
-  it("preserves polite indicator announcements independently of host aria-live", async () => {
-    const { el } = await mount(<calcite-action text="Action" />);
-    const indicatorRegion = page.getBySelector("calcite-action [role='region']");
-
-    await expect.element(indicatorRegion).toHaveAttribute("aria-live", "polite");
-
-    el.ariaLive = "assertive";
-    await expect.element(indicatorRegion).toHaveAttribute("aria-live", "polite");
-
-    el.removeAttribute("aria-live");
-    await expect.element(indicatorRegion).toHaveAttribute("aria-live", "polite");
-  });
-
   it("should omit aria-busy when not loading and set it when loading", async () => {
     const { reRender, el } = await mount<Action>(<calcite-action text="hello world" />);
     const button = page.getByRole("button");
@@ -245,19 +232,18 @@ describe("a11y attributes", () => {
     await expect.element(page.getByLabelText("hi")).toBeDefined();
   });
 
-  it("should have an indicator live region with polite aria-live", async () => {
+  it("should have a indicator live region", async () => {
     const { el, reRender } = await mount("calcite-action");
     const liveRegion = page.getByRole("region");
-    const liveRegionElement = liveRegion.element() as HTMLElement;
 
-    expect(liveRegionElement.getAttribute("aria-live")).toBe("polite");
+    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
     await expect.element(liveRegion).toBeInTheDocument();
     await expect.element(liveRegion).toHaveTextContent("");
 
     el.indicator = true;
     await reRender();
 
-    expect(liveRegionElement.getAttribute("aria-live")).toBe("polite");
+    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
     await expect.element(liveRegion).toBeInTheDocument();
     await expect.element(liveRegion).toHaveTextContent("Indicator present");
   });

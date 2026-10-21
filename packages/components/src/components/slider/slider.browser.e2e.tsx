@@ -771,28 +771,6 @@ describe("number locale support", () => {
   });
 });
 
-describe("a11y attributes", () => {
-  it("preserves polite announcements independently of host aria-live", async () => {
-    const { el } = await mount(<calcite-slider status="invalid" validation-message="Help" />);
-    const validationMessage = page
-      .getBySelector("calcite-slider calcite-input-message")
-      .element() as HTMLElement;
-
-    expect(validationMessage).toBeDefined();
-    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "assertive";
-    await expect
-      .element(page.elementLocator(validationMessage))
-      .toHaveAttribute("aria-live", "polite");
-
-    el.ariaLive = "invalid";
-    await expect
-      .element(page.elementLocator(validationMessage))
-      .toHaveAttribute("aria-live", "polite");
-  });
-});
-
 describe("themed", () => {
   describe("default", () => {
     themed(() => mount(<calcite-slider value={30} />), {

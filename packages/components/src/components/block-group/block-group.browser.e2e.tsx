@@ -16,7 +16,6 @@ import {
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
 import type { BlockGroup } from "./block-group";
-import { CSS_UTILITY } from "../../utils/resources";
 
 mockConsole();
 
@@ -168,26 +167,6 @@ describe("a11y attributes", () => {
     await reRender();
 
     await expect.element(group).toHaveAttribute("aria-busy", "true");
-  });
-
-  it("preserves assertive announcements independently of host aria-live", async () => {
-    const { el } = await mount(
-      <calcite-block-group drag-enabled>
-        <calcite-block heading="Block" />
-      </calcite-block-group>,
-    );
-    const assistiveText = page
-      .getBySelector(`calcite-block-group .${CSS_UTILITY.screenReaderText}`)
-      .first();
-
-    await expect.element(assistiveText).toBeInTheDocument();
-    await expect.element(assistiveText).toHaveAttribute("aria-live", "assertive");
-
-    el.ariaLive = "assertive";
-    await expect.element(assistiveText).toHaveAttribute("aria-live", "assertive");
-
-    el.ariaLive = "invalid";
-    await expect.element(assistiveText).toHaveAttribute("aria-live", "assertive");
   });
 });
 

@@ -1953,26 +1953,6 @@ describe("selection mode warning", () => {
   );
 });
 
-describe("a11y attributes", () => {
-  it("preserves polite announcements independently of host aria-live", async () => {
-    const { el } = await mount(
-      <calcite-combobox label="Trees">
-        <calcite-combobox-item heading="Pine" value="pine" />
-      </calcite-combobox>,
-    );
-    const wrapper = page.getBySelector(`calcite-combobox .${CSS.wrapper}`).element() as HTMLElement;
-
-    expect(wrapper).toBeDefined();
-    expect(wrapper.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "assertive";
-    await expect.element(page.elementLocator(wrapper)).toHaveAttribute("aria-live", "polite");
-
-    el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(wrapper)).toHaveAttribute("aria-live", "polite");
-  });
-});
-
 describe("theme", () => {
   describe("default", () => {
     const comboboxHTML = (

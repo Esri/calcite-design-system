@@ -1275,7 +1275,6 @@ export class List extends LitElement {
       hasFilterActionsEnd,
       effectiveFilterProps,
     } = this;
-
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div

@@ -27,12 +27,10 @@ export const Validation = ({
   icon,
   message,
   ref,
-}: ValidationProps): TemplateResult => {
-  return (
-    <div class={CSS.validationContainer} ref={ref ? ref : validationReference}>
-      <calcite-input-message ariaLive="polite" icon={icon} id={id} scale={scale} status={status}>
-        {message}
-      </calcite-input-message>
-    </div>
-  );
-};
+}: ValidationProps): TemplateResult => (
+  <div class={CSS.validationContainer} ref={ref ? ref : validationReference}>
+    <calcite-input-message ariaLive="polite" icon={icon} id={id} scale={scale} status={status}>
+      {message}
+    </calcite-input-message>
+  </div>
+);

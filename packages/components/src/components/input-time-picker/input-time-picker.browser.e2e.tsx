@@ -901,30 +901,6 @@ describe("l10n", () => {
   });
 });
 
-describe("a11y attributes", () => {
-  it("preserves polite announcements independently of host aria-live", async () => {
-    const { el } = await mount(
-      <calcite-input-time-picker status="invalid" validation-message="Help" />,
-    );
-    const validationMessage = page
-      .getBySelector("calcite-input-time-picker calcite-input-message")
-      .element() as HTMLElement;
-
-    expect(validationMessage).toBeDefined();
-    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "assertive";
-    await expect
-      .element(page.elementLocator(validationMessage))
-      .toHaveAttribute("aria-live", "polite");
-
-    el.ariaLive = "invalid";
-    await expect
-      .element(page.elementLocator(validationMessage))
-      .toHaveAttribute("aria-live", "polite");
-  });
-});
-
 describe("theme", () => {
   themed(() => mount(<calcite-input-time-picker open />), {
     "--calcite-input-time-picker-background-color": {

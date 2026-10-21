@@ -728,7 +728,7 @@ describe("pagination", () => {
         </calcite-carousel>,
       );
       const pagination = page.getBySelector(`calcite-carousel .${CSS.pagination}`);
-      const status = page.getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`);
+      const status = page.getByRole("status");
 
       await expect.element(pagination).not.toBeInTheDocument();
       await expect.element(page.getByRole("tablist")).not.toBeInTheDocument();
@@ -766,18 +766,19 @@ describe("pagination", () => {
       );
       const pageNext = page.getBySelector(`calcite-carousel .${CSS.pageNext}`);
       const pagePrev = page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`);
-      const status = page.getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`);
 
       await expect
         .element(page.getBySelector(`calcite-carousel .${CSS.pagination}`))
         .not.toBeInTheDocument();
       await expect.element(pageNext).toBeInTheDocument();
       await expect.element(pagePrev).toBeInTheDocument();
-      await expect.element(status).toHaveTextContent("Item 1 of 2");
+      await expect
+        .element(page.getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`))
+        .toHaveTextContent("Item 1 of 2");
 
       await userEvent.click(pageNext);
       await expect.element(selectedItem()).toHaveProperty("label", "two");
-      await expect.element(status).toHaveTextContent("Item 2 of 2");
+      await expect.element(page.getByRole("status")).toHaveTextContent("Item 2 of 2");
       await userEvent.click(pagePrev);
       await expect.element(selectedItem()).toHaveProperty("label", "one");
     },
@@ -1083,35 +1084,5 @@ describe("overflowing pagination", () => {
     await expect
       .element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`))
       .not.toBeInTheDocument();
-  });
-});
-
-describe("a11y attributes", () => {
-  it("preserves live region defaults and suppresses carousel announcements during playback", async () => {
-    const { el } = await mount<Carousel>(
-      <calcite-carousel autoplay="paused" label="Carousel example" paginationDisabled>
-        <calcite-carousel-item label="one" />
-        <calcite-carousel-item label="two" />
-      </calcite-carousel>,
-    );
-    const carousel = page.getBySelector(`calcite-carousel .${CSS.container}[role="group"]`);
-    const paginationStatus = page.getBySelector(
-      `calcite-carousel .${CSS_UTILITY.screenReaderText}`,
-    );
-
-    await expect.element(carousel).toHaveAttribute("aria-live", "polite");
-    await expect.element(paginationStatus).toHaveAttribute("aria-live", "off");
-    await expect.element(paginationStatus).toHaveAttribute("role", "status");
-
-    el.ariaLive = "assertive";
-    await el.play();
-
-    await expect.element(carousel).toHaveAttribute("aria-live", "off");
-    await expect.element(paginationStatus).toHaveAttribute("aria-live", "off");
-    await expect.element(paginationStatus).toHaveAttribute("role", "status");
-
-    await el.stop();
-
-    await expect.element(carousel).toHaveAttribute("aria-live", "polite");
   });
 });

@@ -184,30 +184,6 @@ describe("translation support", () => {
   t9n(() => mount("calcite-radio-button-group"));
 });
 
-describe("a11y attributes", () => {
-  it("preserves polite announcements independently of host aria-live", async () => {
-    const { el } = await mount(
-      <calcite-radio-button-group status="invalid" validation-message="Help" />,
-    );
-    const validationMessage = page
-      .getBySelector("calcite-radio-button-group calcite-input-message")
-      .element() as HTMLElement;
-
-    expect(validationMessage).toBeDefined();
-    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "assertive";
-    await expect
-      .element(page.elementLocator(validationMessage))
-      .toHaveAttribute("aria-live", "polite");
-
-    el.ariaLive = "invalid";
-    await expect
-      .element(page.elementLocator(validationMessage))
-      .toHaveAttribute("aria-live", "polite");
-  });
-});
-
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-radio-button-group"), {

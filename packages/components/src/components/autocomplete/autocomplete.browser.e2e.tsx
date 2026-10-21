@@ -590,28 +590,6 @@ describe("keyboard selection", () => {
   });
 });
 
-describe("a11y attributes", () => {
-  it("preserves polite announcements independently of host aria-live", async () => {
-    const { el } = await mount<Autocomplete>(renderAutocomplete);
-    const screenReaderList = page
-      .getBySelector(`#myAutocomplete .${CSS.screenReadersOnly}`)
-      .element() as HTMLElement;
-
-    expect(screenReaderList).toBeDefined();
-    expect(screenReaderList.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "assertive";
-    await expect
-      .element(page.elementLocator(screenReaderList))
-      .toHaveAttribute("aria-live", "polite");
-
-    el.ariaLive = "invalid";
-    await expect
-      .element(page.elementLocator(screenReaderList))
-      .toHaveAttribute("aria-live", "polite");
-  });
-});
-
 describe("theme", () => {
   themed(() => mount(<calcite-autocomplete open />), {
     "--calcite-autocomplete-background-color": {

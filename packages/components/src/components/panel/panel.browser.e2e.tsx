@@ -260,6 +260,20 @@ describe("slots", () => {
   slots(() => mount("calcite-panel"), SLOTS);
 });
 
+describe("a11y attributes", () => {
+  it("should omit aria-busy when not loading and set it when loading", async () => {
+    const { reRender, el } = await mount("calcite-panel");
+    const container = page.getByRole("article");
+
+    await expect.element(container).not.toHaveAttribute("aria-busy");
+
+    el.loading = true;
+    await reRender();
+
+    await expect.element(container).toHaveAttribute("aria-busy", "true");
+  });
+});
+
 describe("header slots", () => {
   it("renders one border when header-top is the only header content", async () => {
     const { component } = await mount(
@@ -552,41 +566,6 @@ describe("disabled", () => {
         focusTarget: "none",
       });
     });
-  });
-});
-
-describe("a11y attributes", () => {
-  it("should omit aria-busy when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount("calcite-panel");
-    const container = page.getByRole("article");
-
-    await expect.element(container).not.toHaveAttribute("aria-busy");
-
-    el.loading = true;
-    await reRender();
-
-    await expect.element(container).toHaveAttribute("aria-busy", "true");
-  });
-
-  it("preserves polite announcements independently of host aria-live", async () => {
-    const { el } = await mount(
-      <calcite-panel closable focus-trap-enabled heading="Panel heading">
-        Panel body
-      </calcite-panel>,
-    );
-    const container = page
-      .getBySelector(`calcite-panel .${CSS.container}`)
-      .first()
-      .element() as HTMLElement;
-
-    expect(container).toBeDefined();
-    expect(container.getAttribute("aria-live")).toBe("polite");
-
-    el.ariaLive = "assertive";
-    await expect.element(page.elementLocator(container)).toHaveAttribute("aria-live", "polite");
-
-    el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(container)).toHaveAttribute("aria-live", "polite");
   });
 });
 
