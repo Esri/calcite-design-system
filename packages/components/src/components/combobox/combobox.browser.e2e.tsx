@@ -1630,6 +1630,7 @@ describe("filtering", () => {
       expect(el).toHaveProperty("value", "");
       expect(changeSpy).not.toHaveBeenCalled();
 
+      await commands.mouseMove(outsideX, y);
       await commands.mouseDown();
       await commands.mouseUp();
 
