@@ -373,6 +373,13 @@ export class Panel extends LitElement {
   @property() focusTrapEnabledByParent = false;
 
   /**
+   * When `true`, disables focus trapping and dialog semantics.
+   *
+   * @internal
+   */
+  @property() focusTrapDisabled = false;
+
+  /**
    * Specifies custom focus trap configuration on the component.
    *
    * - `"allowOutsideClick"` allows outside clicks.
@@ -499,6 +506,7 @@ export class Panel extends LitElement {
     if (
       changes.has("closable") ||
       changes.has("closed") ||
+      changes.has("focusTrapDisabled") ||
       changes.has("focusTrapEnabledByParent")
     ) {
       if (this.hasDialogBehavior) {
@@ -519,11 +527,13 @@ export class Panel extends LitElement {
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
   focusTrapDisabledOverride(): boolean {
-    return !this.hasDialogBehavior;
+    return this.focusTrapDisabled || !this.hasDialogBehavior;
   }
 
   private get hasDialogBehavior(): boolean {
-    return !this.closed && (this.closable || this.focusTrapEnabledByParent);
+    return (
+      !this.focusTrapDisabled && !this.closed && (this.closable || this.focusTrapEnabledByParent)
+    );
   }
 
   private async setClosedState(value: boolean): Promise<void> {

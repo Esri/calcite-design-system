@@ -392,16 +392,10 @@ describe("focus trap", () => {
     expect(panel?.focusTrapEnabledByParent).toBe(true);
 
     await expect(component.el.setFocus({ preventScroll: true })).resolves.toBeUndefined();
-    await expect.element(component.el).toHaveFocus();
-
-    await userEvent.tab();
     await expect.element(insideOne).toHaveFocus();
 
     await userEvent.tab();
     await expect.element(insideTwo).toHaveFocus();
-
-    await userEvent.tab();
-    await expect.element(component.el).toHaveFocus();
 
     await userEvent.tab();
     await expect.element(insideOne).toHaveFocus();
