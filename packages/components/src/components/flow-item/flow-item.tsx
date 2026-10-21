@@ -505,7 +505,6 @@ export class FlowItem extends LitElement {
       iconFlipRtl,
       focusTrapDisabled,
       focusTrapOptions,
-      showBackButton,
       selected,
     } = this;
     return (
@@ -520,7 +519,7 @@ export class FlowItem extends LitElement {
           description={description}
           disabled={disabled}
           focusTrapDisabled={!selected || focusTrapDisabled}
-          focusTrapEnabledByParent={showBackButton}
+          focusTrapEnabledByParent={true}
           focusTrapOptions={focusTrapOptions}
           heading={heading}
           headingLevel={headingLevel}

@@ -400,17 +400,40 @@ describe("focus trap", () => {
     await expect.element(page.getByRole("dialog", { name: "Slotted heading" })).toBeVisible();
   });
 
-  it("does not apply dialog semantics to a non-closable root Flow Item", async () => {
+  it("applies dialog semantics to a selected root Flow Item", async () => {
     await mount(
       <calcite-flow>
         <calcite-flow-item heading="Root heading" selected />
-        <calcite-flow-item heading="Nested heading" />
       </calcite-flow>,
     );
 
-    await expect
-      .element(page.getByRole("dialog", { name: "Root heading" }))
-      .not.toBeInTheDocument();
+    await expect.element(page.getByRole("dialog", { name: "Root heading" })).toBeVisible();
+  });
+
+  it("traps focus in a selected root Flow Item", async () => {
+    await mount(
+      <>
+        <calcite-flow>
+          <calcite-flow-item heading="Root heading" selected>
+            <button type="button">inside one</button>
+            <button type="button">inside two</button>
+          </calcite-flow-item>
+        </calcite-flow>
+        <button type="button">outside control</button>
+      </>,
+    );
+
+    const insideOne = page.getByText("inside one", { exact: true });
+    const insideTwo = page.getByText("inside two", { exact: true });
+
+    await userEvent.click(insideTwo);
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideTwo).toHaveFocus();
   });
 
   it("enables focus trap behavior on its Panel when Back is shown", async () => {
@@ -432,7 +455,6 @@ describe("focus trap", () => {
     const insideOne = page.getByText("inside one", { exact: true });
     const insideTwo = page.getByText("inside two", { exact: true });
     const rootControl = page.getByText("root control", { exact: true });
-    const outsideControl = page.getByText("outside control", { exact: true });
     const flowItem = page.getBySelector("#nested-item").element() as FlowItem["el"];
     const panel = flowItem?.shadowRoot?.querySelector("calcite-panel");
 
@@ -452,7 +474,7 @@ describe("focus trap", () => {
     await expect.element(rootControl).toHaveFocus();
 
     await userEvent.tab();
-    await expect.element(outsideControl).toHaveFocus();
+    await expect.element(rootControl).toHaveFocus();
   });
 
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
