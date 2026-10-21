@@ -763,6 +763,11 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   }
 }
 
+:host([layout="horizontal"][action-bar-position]) .content {
+  // --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, none); // TODO: allow configurable max height?
+  --calcite-internal-shell-panel-max-height: none;
+}
+
 :host([action-bar-position="top"][slot="panel-start"]),
 :host([action-bar-position="bottom"][slot="panel-start"]),
 :host([action-bar-position="top"][slot="panel-end"]),
