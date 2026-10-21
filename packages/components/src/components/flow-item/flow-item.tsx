@@ -513,12 +513,12 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
+          focusTrapEnabledByParent={true}
           focusTrapOptions={focusTrapOptions}
           heading={heading}
           headingLevel={headingLevel}
           icon={icon}
           iconFlipRtl={iconFlipRtl}
-          isFlowItem={true}
           loading={loading}
           menuOpen={menuOpen}
           messageOverrides={messageOverrides}

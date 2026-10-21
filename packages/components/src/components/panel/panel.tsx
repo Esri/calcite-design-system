@@ -366,11 +366,11 @@ export class Panel extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * When `true`, the panel is rendered by `calcite-flow-item`.
+   * When `true`, enables focus trapping and dialog semantics on behalf of a parent component.
    *
-   * @private
+   * @internal
    */
-  @property() isFlowItem = false;
+  @property() focusTrapEnabledByParent = false;
 
   /**
    * Specifies custom focus trap configuration on the component.
@@ -496,7 +496,11 @@ export class Panel extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (changes.has("closable") || changes.has("closed") || changes.has("isFlowItem")) {
+    if (
+      changes.has("closable") ||
+      changes.has("closed") ||
+      changes.has("focusTrapEnabledByParent")
+    ) {
       if (this.hasDialogBehavior) {
         this.focusTrapController.activate();
       } else {
@@ -519,7 +523,7 @@ export class Panel extends LitElement {
   }
 
   private get hasDialogBehavior(): boolean {
-    return !this.closed && (this.closable || this.isFlowItem);
+    return !this.closed && (this.closable || this.focusTrapEnabledByParent);
   }
 
   private async setClosedState(value: boolean): Promise<void> {
