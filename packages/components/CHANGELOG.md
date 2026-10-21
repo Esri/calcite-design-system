@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.1-next.2...@esri/calcite-components@5.2.1-next.3) (2026-10-21)
+
+### Bug Fixes
+
+- **rating:** honor ArrowLeft/ArrowRight physical direction in RTL ([#15316](https://github.com/Esri/calcite-design-system/issues/15316)), closes [#14122](https://github.com/Esri/calcite-design-system/issues/14122) [#14357](https://github.com/Esri/calcite-design-system/issues/14357)
+
 ## [5.2.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.1-next.1...@esri/calcite-components@5.2.1-next.2) (2026-10-21)
 
 **Note:** Version bump only for package @esri/calcite-components
