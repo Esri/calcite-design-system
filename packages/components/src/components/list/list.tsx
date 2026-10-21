@@ -1292,6 +1292,7 @@ export class List extends LitElement {
             </span>
           ) : null}
           {this.renderItemAriaLive()}
+          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div
             ariaBusy={toAriaBoolean(loading, undefined)}
             ariaLabel={label || ""}
@@ -1347,7 +1348,6 @@ export class List extends LitElement {
               onSlotChange={this.handleFilterNoResultsSlotChange}
             />
           </div>
-          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         </div>
       </this.interactiveContainer>
     );
