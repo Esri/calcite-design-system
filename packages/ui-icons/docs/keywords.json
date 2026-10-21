@@ -21557,28 +21557,28 @@
   "spectral-profile": {
     "alias": [
       "4.6.1",
-      "charts and graph",
+      "charts and graphs",
       "pixel values",
       "image",
       "wavelengths",
       "area",
       "feature"
     ],
-    "category": "Charts and Graph",
+    "category": "Charts and Graphs",
     "release": "4.6.1",
     "codepoint": null
   },
   "temporal-profile": {
     "alias": [
       "4.6.1",
-      "charts and graph",
+      "charts and graphs",
       "points",
       "datasets",
       "layers",
       "visualize",
       "raster"
     ],
-    "category": "Charts and Graph",
+    "category": "Charts and Graphs",
     "release": "4.6.1",
     "codepoint": null
   }
