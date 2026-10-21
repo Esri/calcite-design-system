@@ -116,7 +116,7 @@ it("should emit calciteAutocompleteItemSelect", async () => {
   expect(itemChangeSpy).toHaveReceivedEventTimes(2);
 });
 
-it("should set screen reader attribute 'aria-live' to 'polite'", async () => {
+it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
   const page = await newE2EPage();
   await page.setContent(simpleHTML);
 
