@@ -19,6 +19,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/utils/content";
+import type { Panel } from "../panel/panel";
 import type { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
@@ -98,6 +99,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "loading",
+        defaultValue: false,
+      },
+      {
+        propertyName: "focusTrapDisabled",
         defaultValue: false,
       },
       {
@@ -372,6 +377,19 @@ describe("theme", () => {
 });
 
 describe("focus trap", () => {
+  it("allows selected Flow Items to opt out", async () => {
+    const { el } = await mount<FlowItem>(
+      <calcite-flow-item closable focusTrapDisabled heading="Flow heading" selected />,
+    );
+
+    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
+
+    expect(panel.focusTrapDisabled).toBe(true);
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
+  });
+
   it("labels a closable dialog with a forwarded slotted heading", async () => {
     await mount(
       <calcite-flow-item closable selected>

@@ -286,6 +286,9 @@ export class FlowItem extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /** When `true`, disables focus trapping and dialog semantics. */
+  @property() focusTrapDisabled = false;
+
   /**
    * Specifies custom focus trap configuration on the component.
    *
@@ -500,6 +503,7 @@ export class FlowItem extends LitElement {
       beforeClose,
       icon,
       iconFlipRtl,
+      focusTrapDisabled,
       focusTrapOptions,
       showBackButton,
       selected,
@@ -515,7 +519,7 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
-          focusTrapDisabled={!selected}
+          focusTrapDisabled={!selected || focusTrapDisabled}
           focusTrapEnabledByParent={showBackButton}
           focusTrapOptions={focusTrapOptions}
           heading={heading}

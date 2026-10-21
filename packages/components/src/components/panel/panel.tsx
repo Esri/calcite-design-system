@@ -372,11 +372,7 @@ export class Panel extends LitElement {
    */
   @property() focusTrapEnabledByParent = false;
 
-  /**
-   * When `true`, disables focus trapping and dialog semantics.
-   *
-   * @internal
-   */
+  /** When `true`, disables focus trapping and dialog semantics. */
   @property() focusTrapDisabled = false;
 
   /**
