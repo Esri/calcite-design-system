@@ -1,16 +1,16 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  accessible,
   defaults,
   focusable,
   hidden,
+  openClose,
   renders,
+  scalePropagates,
   slots,
   t9n,
-  openClose,
-  accessible,
-  scalePropagates,
   themed,
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
@@ -108,6 +108,20 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-notice"));
+});
+
+it("updates host inertness when toggled", async () => {
+  const { el, reRender } = await mount<Notice>(<calcite-notice />);
+
+  await expect.element(el).toHaveProperty("inert", true);
+
+  el.open = true;
+  await reRender();
+  await expect.element(el).toHaveProperty("inert", false);
+
+  el.open = false;
+  await reRender();
+  await expect.element(el).toHaveProperty("inert", true);
 });
 
 describe("propagates", () => {
