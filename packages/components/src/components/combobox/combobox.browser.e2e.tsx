@@ -1616,22 +1616,21 @@ describe("filtering", () => {
       const outsideX = el.getBoundingClientRect().right + 40;
       const y = inputBounds.y + inputBounds.height / 2;
 
-      await commands.mouseMove(inputBounds.x + 2, y);
+      await commands.mouseMove(inputBounds.x, y);
       await commands.mouseDown();
-      await commands.mouseMove(outsideX, y);
+      await commands.mouseMove(outsideX, y, { steps: 10 });
       await commands.mouseUp();
 
       await expect.element(input).toHaveValue(typedValue);
       await expect.element(el).toHaveFocus();
       expect(el).toHaveProperty("shadowRoot.activeElement", inputEl);
-      expect(inputEl).toHaveProperty("selectionStart", 0);
-      expect(inputEl).toHaveProperty("selectionEnd", typedValue.length);
+      await expect.element(inputEl).toHaveProperty("selectionStart", 0);
+      await expect.element(inputEl).toHaveProperty("selectionEnd", typedValue.length);
       expect(el).toHaveProperty("filterText", typedValue);
       expect(el).toHaveProperty("open", true);
       expect(el).toHaveProperty("value", "");
       expect(changeSpy).not.toHaveBeenCalled();
 
-      await commands.mouseMove(outsideX, y);
       await commands.mouseDown();
       await commands.mouseUp();
 
