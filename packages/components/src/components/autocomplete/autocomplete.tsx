@@ -12,7 +12,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { escapeRegExp } from "es-toolkit/compat";
-import { createRef } from "lit/directives/ref.js";
+import { createRef, Ref } from "lit/directives/ref.js";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -237,6 +237,8 @@ export class Autocomplete
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
   private listboxRef = createRef<HTMLUListElement>();
+
+  private listboxOptionRefs = new Map<string, Ref<HTMLLIElement>>();
 
   private inputValueMatchPattern?: RegExp;
 
@@ -723,11 +725,9 @@ export class Autocomplete
       const isActive = index === this.activeIndex;
 
       if (isActive) {
-        activeDescendantElement =
-          this.listboxRef.value?.querySelector<HTMLElement>(`#${item.guid}-option`) ?? undefined;
+        activeDescendantElement = this.listboxOptionRefs.get(item.guid)?.value;
       }
-
-      item.activeDescendant = isActive;
+      item.active = isActive;
     });
 
     this.activeDescendantElement = activeDescendantElement;
@@ -773,8 +773,25 @@ export class Autocomplete
 
     this.groups = groups;
     this.items = items;
+    const itemIds = new Set(items.map((item) => item.guid));
+    this.listboxOptionRefs.forEach((_optionRef, itemGuid) => {
+      if (!itemIds.has(itemGuid)) {
+        this.listboxOptionRefs.delete(itemGuid);
+      }
+    });
     this.updateItems();
     this.updateGroups();
+  }
+
+  private getListboxOptionRef(item: AutocompleteItem["el"]): Ref<HTMLLIElement> {
+    let optionRef = this.listboxOptionRefs.get(item.guid);
+
+    if (!optionRef) {
+      optionRef = createRef<HTMLLIElement>();
+      this.listboxOptionRefs.set(item.guid, optionRef);
+    }
+
+    return optionRef;
   }
 
   private setReferenceEl(el: Input["el"]): void {
@@ -1021,6 +1038,7 @@ export class Autocomplete
           ariaSelected={item.selected}
           id={`${item.guid}-option`}
           key={item.guid}
+          ref={this.getListboxOptionRef(item)}
           role="option"
           tabIndex="-1"
         >

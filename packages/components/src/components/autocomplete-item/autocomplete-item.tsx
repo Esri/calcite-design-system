@@ -73,7 +73,7 @@ export class AutocompleteItem extends LitElement {
    *
    * @private
    */
-  @property() activeDescendant = false;
+  @property() active = false;
 
   /** @copyDoc */
   @property() description?: string;
@@ -199,14 +199,14 @@ export class AutocompleteItem extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { activeDescendant, description, heading, disabled, inputValueMatchPattern } = this;
+    const { active, description, heading, disabled, inputValueMatchPattern } = this;
 
     return (
       <this.interactiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
-            [CSS.containerActive]: activeDescendant && !disabled,
+            [CSS.containerActive]: active && !disabled,
             [CSS.scale(this.scale)]: true,
           }}
           onClick={this.handleClick}
