@@ -372,6 +372,16 @@ describe("theme", () => {
 });
 
 describe("focus trap", () => {
+  it("labels a closable dialog with a forwarded slotted heading", async () => {
+    await mount(
+      <calcite-flow-item closable selected>
+        <span slot={SLOTS.heading}>Slotted heading</span>
+      </calcite-flow-item>,
+    );
+
+    await expect.element(page.getByRole("dialog", { name: "Slotted heading" })).toBeVisible();
+  });
+
   it("does not apply dialog semantics to a non-closable root Flow Item", async () => {
     await mount(
       <calcite-flow>

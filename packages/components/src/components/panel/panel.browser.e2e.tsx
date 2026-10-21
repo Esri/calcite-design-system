@@ -22,7 +22,7 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/utils/content";
 import type { Panel } from "./panel";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 export const scrollingHeightStyle = "height: 200px;";
 
@@ -100,6 +100,20 @@ describe("accessible", () => {
       </calcite-panel>,
     ),
   );
+
+  it("labels a closable dialog with a slotted heading", async () => {
+    const { component } = await mount(
+      <calcite-panel closable>
+        <span slot={SLOTS.heading}>Slotted heading</span>
+      </calcite-panel>,
+    );
+
+    const dialog = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.container}`)!;
+
+    expect(dialog.getAttribute("aria-label")).toBeNull();
+    expect(dialog.getAttribute("aria-labelledby")).toBe(IDS.heading);
+    await expect.element(page.getByRole("dialog", { name: "Slotted heading" })).toBeVisible();
+  });
 });
 
 describe("defaults", () => {

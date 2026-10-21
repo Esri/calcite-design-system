@@ -710,7 +710,12 @@ export class Panel extends LitElement {
     ) : null;
 
     const headingNode = (
-      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+      <Heading
+        class={CSS.heading}
+        hidden={!showHeaderHeading}
+        id={IDS.heading}
+        level={headingLevel}
+      >
         <slot
           hidden={!hasHeaderHeading}
           name={SLOTS.heading}
@@ -1013,12 +1018,14 @@ export class Panel extends LitElement {
   override render(): JsxNode {
     const { disabled, loading, closed, heading, description } = this;
     const hasDialogRole = this.hasDialogBehavior;
+    const hasDialogHeading = !!heading || this.hasHeaderHeading;
 
     const panelNode = (
       <div
+        aria-labelledby={hasDialogRole && hasDialogHeading ? IDS.heading : undefined}
         ariaBusy={toAriaBoolean(loading, undefined)}
         ariaDescription={hasDialogRole && description ? description : undefined}
-        ariaLabel={hasDialogRole && heading ? heading : undefined}
+        ariaLabel={hasDialogRole && heading && !this.hasHeaderHeading ? heading : undefined}
         ariaLive={hasDialogRole ? "polite" : undefined}
         class={CSS.container}
         hidden={closed}
