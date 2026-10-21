@@ -324,7 +324,7 @@ describe("translation support", () => {
 });
 
 describe("keyboard assistive text", () => {
-  it("renders assistive text when resizable without default aria-live", async () => {
+  it("renders assistive text when resizable with polite aria-live", async () => {
     const messages = await import("./assets/t9n/messages.json");
     const { el } = await mount(
       <calcite-dialog heading="Hello world" open resizable width-scale="m">
@@ -336,10 +336,10 @@ describe("keyboard assistive text", () => {
       .element() as HTMLElement;
 
     expect(assistiveTextElement).toBeDefined();
-    expect(assistiveTextElement?.getAttribute("aria-live")).toBe(null);
+    expect(assistiveTextElement?.getAttribute("aria-live")).toBe("polite");
     expect(assistiveTextElement?.textContent?.trim()).toBe(messages.resizeEnabled);
 
-    el.ariaLive = "polite";
+    el.ariaLive = "assertive";
     await expect
       .element(page.elementLocator(assistiveTextElement))
       .toHaveAttribute("aria-live", "polite");
@@ -347,10 +347,10 @@ describe("keyboard assistive text", () => {
     el.removeAttribute("aria-live");
     await expect
       .element(page.elementLocator(assistiveTextElement))
-      .not.toHaveAttribute("aria-live");
+      .toHaveAttribute("aria-live", "polite");
   });
 
-  it("renders assistive text when dragEnabled without default aria-live", async () => {
+  it("renders assistive text when dragEnabled with polite aria-live", async () => {
     const messages = await import("./assets/t9n/messages.json");
     await mount(
       <calcite-dialog drag-enabled heading="Hello world" open width-scale="m">
@@ -362,11 +362,11 @@ describe("keyboard assistive text", () => {
       .element() as HTMLElement;
 
     expect(assistiveTextElement).toBeDefined();
-    expect(assistiveTextElement?.getAttribute("aria-live")).toBe(null);
+    expect(assistiveTextElement?.getAttribute("aria-live")).toBe("polite");
     expect(assistiveTextElement?.textContent?.trim()).toBe(messages.dragEnabled);
   });
 
-  it("renders combined assistive text when resizable and dragEnabled without default aria-live", async () => {
+  it("renders combined assistive text when resizable and dragEnabled with polite aria-live", async () => {
     const messages = await import("./assets/t9n/messages.json");
     await mount(
       <calcite-dialog drag-enabled heading="Hello world" open resizable width-scale="m">
@@ -378,7 +378,7 @@ describe("keyboard assistive text", () => {
       .element() as HTMLElement;
 
     expect(assistiveTextElement).toBeDefined();
-    expect(assistiveTextElement?.getAttribute("aria-live")).toBe(null);
+    expect(assistiveTextElement?.getAttribute("aria-live")).toBe("polite");
     expect(assistiveTextElement?.textContent).toBe(
       `${messages.dragEnabled} ${messages.resizeEnabled}`,
     );

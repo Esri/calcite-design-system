@@ -7,7 +7,7 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { resolveAriaLive, toAriaBoolean } from "../../utils/aria";
+import { toAriaBoolean } from "../../utils/aria";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
@@ -467,7 +467,6 @@ export class TreeItem extends LitElement {
 
     const hidden = !(this.parentExpanded || this.depth === 1);
     const isExpanded = this.updateAfterInitialRender && this.expanded;
-    const ariaLive = resolveAriaLive(this.el.ariaLive);
     const usesAriaChecked =
       this.selectionMode === "multiple" ||
       this.selectionMode === "multichildren" ||
@@ -505,9 +504,7 @@ export class TreeItem extends LitElement {
     );
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
-    if (ariaLive) {
-      this.el.ariaLive = ariaLive;
-    }
+    this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaSelected = toAriaBoolean(
       usesAriaSelected && this.selected,

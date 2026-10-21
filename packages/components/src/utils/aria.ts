@@ -43,6 +43,8 @@ export type AriaLive = "off" | "polite" | "assertive";
 /**
  * Returns a valid ARIA live region value when supported, otherwise `undefined`.
  */
+const ariaLiveValues: AriaLive[] = ["off", "polite", "assertive"] as const;
+
 export function resolveAriaLive(ariaLive: string | null | undefined): AriaLive | undefined {
-  return ariaLive === "off" || ariaLive === "polite" || ariaLive === "assertive" ? ariaLive : undefined;
+  return ariaLiveValues.find((value) => value === ariaLive);
 }

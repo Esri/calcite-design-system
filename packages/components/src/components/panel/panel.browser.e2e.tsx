@@ -568,7 +568,7 @@ describe("a11y attributes", () => {
     await expect.element(container).toHaveAttribute("aria-busy", "true");
   });
 
-  it("sets internal control aria-live only when host value is valid", async () => {
+  it("preserves polite announcements independently of host aria-live", async () => {
     const { el } = await mount(
       <calcite-panel closable focus-trap-enabled heading="Panel heading">
         Panel body
@@ -580,13 +580,13 @@ describe("a11y attributes", () => {
       .element() as HTMLElement;
 
     expect(container).toBeDefined();
-    expect(container.getAttribute("aria-live")).toBe(null);
+    expect(container.getAttribute("aria-live")).toBe("polite");
 
-    el.ariaLive = "polite";
+    el.ariaLive = "assertive";
     await expect.element(page.elementLocator(container)).toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(container)).not.toHaveAttribute("aria-live");
+    await expect.element(page.elementLocator(container)).toHaveAttribute("aria-live", "polite");
   });
 });
 

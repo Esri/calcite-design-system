@@ -1954,7 +1954,7 @@ describe("selection mode warning", () => {
 });
 
 describe("a11y attributes", () => {
-  it("sets internal control aria-live only when host value is valid", async () => {
+  it("preserves polite announcements independently of host aria-live", async () => {
     const { el } = await mount(
       <calcite-combobox label="Trees">
         <calcite-combobox-item heading="Pine" value="pine" />
@@ -1963,13 +1963,13 @@ describe("a11y attributes", () => {
     const wrapper = page.getBySelector(`calcite-combobox .${CSS.wrapper}`).element() as HTMLElement;
 
     expect(wrapper).toBeDefined();
-    expect(wrapper.getAttribute("aria-live")).toBe(null);
+    expect(wrapper.getAttribute("aria-live")).toBe("polite");
 
-    el.ariaLive = "polite";
+    el.ariaLive = "assertive";
     await expect.element(page.elementLocator(wrapper)).toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(wrapper)).not.toHaveAttribute("aria-live");
+    await expect.element(page.elementLocator(wrapper)).toHaveAttribute("aria-live", "polite");
   });
 });
 

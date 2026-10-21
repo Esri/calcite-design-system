@@ -1,7 +1,5 @@
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode, LuminaJsx, Fragment } from "@arcgis/lumina";
-import { resolveAriaLive } from "../../utils/aria";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -127,8 +125,6 @@ export class Action extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private guid = guid();
 
@@ -355,7 +351,7 @@ export class Action extends LitElement {
     return (
       <div
         aria-labelledby={buttonId}
-        ariaLive={resolveAriaLive(this.el.ariaLive)}
+        ariaLive="polite"
         class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
         role="region"

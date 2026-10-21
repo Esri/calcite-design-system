@@ -113,7 +113,7 @@ describe("a11y attributes", () => {
     );
     const treeItem = page.getBySelector("#aria-live-tree-item").first().element() as HTMLElement;
 
-    expect(treeItem.getAttribute("aria-live")).toBe(null);
+    expect(treeItem.getAttribute("aria-live")).toBe("polite");
 
     treeItem.ariaLive = "polite";
 

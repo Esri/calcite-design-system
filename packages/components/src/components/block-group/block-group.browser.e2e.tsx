@@ -170,7 +170,7 @@ describe("a11y attributes", () => {
     await expect.element(group).toHaveAttribute("aria-busy", "true");
   });
 
-  it("sets assistive text aria-live only when host value is valid", async () => {
+  it("preserves assertive announcements independently of host aria-live", async () => {
     const { el } = await mount(
       <calcite-block-group drag-enabled>
         <calcite-block heading="Block" />
@@ -181,13 +181,13 @@ describe("a11y attributes", () => {
       .first();
 
     await expect.element(assistiveText).toBeInTheDocument();
-    await expect.element(assistiveText).not.toHaveAttribute("aria-live");
+    await expect.element(assistiveText).toHaveAttribute("aria-live", "assertive");
 
-    el.ariaLive = "polite";
-    await expect.element(assistiveText).toHaveAttribute("aria-live", "polite");
+    el.ariaLive = "assertive";
+    await expect.element(assistiveText).toHaveAttribute("aria-live", "assertive");
 
     el.ariaLive = "invalid";
-    await expect.element(assistiveText).not.toHaveAttribute("aria-live");
+    await expect.element(assistiveText).toHaveAttribute("aria-live", "assertive");
   });
 });
 

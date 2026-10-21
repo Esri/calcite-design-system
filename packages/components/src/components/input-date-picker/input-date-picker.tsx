@@ -10,7 +10,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { useFocusTrap } from "../../controllers/useFocusTrap";
 import {
   dateFromISO,
@@ -34,7 +34,6 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import { resolveAriaLive } from "../../utils/aria";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
@@ -278,8 +277,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private commonDateSeparators = [".", "-", "/"];
 
@@ -1418,7 +1415,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
             <div
               ariaHidden={!this.open}
               ariaLabel={messages.chooseDate}
-              ariaLive={resolveAriaLive(this.el.ariaLive)}
+              ariaLive="polite"
               ariaModal={false}
               class={CSS.menu}
               id={this.dialogId}
@@ -1516,7 +1513,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
-            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

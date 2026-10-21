@@ -10,8 +10,6 @@ import {
   JsxNode,
   ToEvents,
 } from "@arcgis/lumina";
-import { resolveAriaLive } from "../../utils/aria";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { createObserver } from "../../utils/observers";
 import {
   MoveEventDetail,
@@ -65,8 +63,6 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   dragSelector = blockSelector;
 
@@ -622,7 +618,7 @@ export class BlockGroup extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.dragEnabled ? (
-            <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS_UTILITY.screenReaderText}>
+            <span ariaLive="assertive" class={CSS_UTILITY.screenReaderText}>
               {this.assistiveText}
             </span>
           ) : null}

@@ -187,7 +187,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["aria-live", "autofocus", "enterkeyhint", "inputmode", "spellcheck"],
+    ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -932,7 +932,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
-            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

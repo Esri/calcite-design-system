@@ -150,22 +150,24 @@ describe("is form associated", () => {
 });
 
 describe("a11y attributes", () => {
-  it("sets validation message aria-live only when host value is valid", async () => {
+  it("preserves polite announcements independently of host aria-live", async () => {
     const { el } = await mount(<calcite-text-area status="invalid" validation-message="Help" />);
     const validationMessage = page
       .getBySelector("calcite-text-area calcite-input-message")
       .element() as HTMLElement;
 
     expect(validationMessage).toBeDefined();
-    expect(validationMessage.getAttribute("aria-live")).toBe(null);
+    expect(validationMessage.getAttribute("aria-live")).toBe("polite");
 
-    el.ariaLive = "polite";
+    el.ariaLive = "assertive";
     await expect
       .element(page.elementLocator(validationMessage))
       .toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(validationMessage)).not.toHaveAttribute("aria-live");
+    await expect
+      .element(page.elementLocator(validationMessage))
+      .toHaveAttribute("aria-live", "polite");
   });
 });
 

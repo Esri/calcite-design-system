@@ -591,22 +591,24 @@ describe("keyboard selection", () => {
 });
 
 describe("a11y attributes", () => {
-  it("sets screen reader list aria-live only when host value is valid", async () => {
+  it("preserves polite announcements independently of host aria-live", async () => {
     const { el } = await mount<Autocomplete>(renderAutocomplete);
     const screenReaderList = page
       .getBySelector(`#myAutocomplete .${CSS.screenReadersOnly}`)
       .element() as HTMLElement;
 
     expect(screenReaderList).toBeDefined();
-    expect(screenReaderList.getAttribute("aria-live")).toBe(null);
+    expect(screenReaderList.getAttribute("aria-live")).toBe("polite");
 
-    el.ariaLive = "polite";
+    el.ariaLive = "assertive";
     await expect
       .element(page.elementLocator(screenReaderList))
       .toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(screenReaderList)).not.toHaveAttribute("aria-live");
+    await expect
+      .element(page.elementLocator(screenReaderList))
+      .toHaveAttribute("aria-live", "polite");
   });
 });
 

@@ -16,8 +16,6 @@ import {
   slotChangeHasAssignedElement,
   slotChangeHasTextContent,
 } from "../../utils/dom";
-import { resolveAriaLive } from "../../utils/aria";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -232,8 +230,6 @@ export class Panel extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private containerRef = createRef<HTMLDivElement>();
 
@@ -1004,7 +1000,7 @@ export class Panel extends LitElement {
         ariaBusy={toAriaBoolean(loading, undefined)}
         ariaDescription={hasDialogRole && description ? description : undefined}
         ariaLabel={hasDialogRole && heading ? heading : undefined}
-        ariaLive={hasDialogRole ? resolveAriaLive(this.el.ariaLive) : undefined}
+        ariaLive={hasDialogRole ? "polite" : undefined}
         class={CSS.container}
         hidden={closed}
         ref={this.containerRef}

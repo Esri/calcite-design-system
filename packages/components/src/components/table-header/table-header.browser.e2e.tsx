@@ -10,7 +10,7 @@ describe("focusable", () => {
 });
 
 describe("a11y attributes", () => {
-  it("sets assistive text aria-live only when host value is valid", async () => {
+  it("preserves off announcements independently of host aria-live", async () => {
     const { el, reRender } = await mount(TableHeader);
     el.selectionCell = true;
     await reRender();
@@ -21,12 +21,12 @@ describe("a11y attributes", () => {
       .element() as HTMLElement;
 
     expect(assistiveText).toBeDefined();
-    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+    expect(assistiveText.getAttribute("aria-live")).toBe("off");
 
-    el.ariaLive = "polite";
-    await expect.element(page.elementLocator(assistiveText)).toHaveAttribute("aria-live", "polite");
+    el.ariaLive = "assertive";
+    await expect.element(page.elementLocator(assistiveText)).toHaveAttribute("aria-live", "off");
 
     el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(assistiveText)).not.toHaveAttribute("aria-live");
+    await expect.element(page.elementLocator(assistiveText)).toHaveAttribute("aria-live", "off");
   });
 });

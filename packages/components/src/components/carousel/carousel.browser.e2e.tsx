@@ -1087,9 +1087,9 @@ describe("overflowing pagination", () => {
 });
 
 describe("a11y attributes", () => {
-  it("updates live regions when the host aria-live attribute changes", async () => {
+  it("preserves live region defaults and suppresses carousel announcements during playback", async () => {
     const { el } = await mount<Carousel>(
-      <calcite-carousel label="Carousel example" paginationDisabled>
+      <calcite-carousel autoplay="paused" label="Carousel example" paginationDisabled>
         <calcite-carousel-item label="one" />
         <calcite-carousel-item label="two" />
       </calcite-carousel>,
@@ -1099,29 +1099,19 @@ describe("a11y attributes", () => {
       `calcite-carousel .${CSS_UTILITY.screenReaderText}`,
     );
 
-    await expect.element(carousel).not.toHaveAttribute("aria-live");
-    await expect.element(paginationStatus).not.toHaveAttribute("aria-live");
-    await expect.element(paginationStatus).not.toHaveAttribute("role", "status");
+    await expect.element(carousel).toHaveAttribute("aria-live", "polite");
+    await expect.element(paginationStatus).toHaveAttribute("aria-live", "off");
+    await expect.element(paginationStatus).toHaveAttribute("role", "status");
 
-    el.setAttribute("aria-live", "polite");
+    el.ariaLive = "assertive";
+    await el.play();
+
+    await expect.element(carousel).toHaveAttribute("aria-live", "off");
+    await expect.element(paginationStatus).toHaveAttribute("aria-live", "off");
+    await expect.element(paginationStatus).toHaveAttribute("role", "status");
+
+    await el.stop();
 
     await expect.element(carousel).toHaveAttribute("aria-live", "polite");
-    await expect.element(paginationStatus).toHaveAttribute("aria-live", "polite");
-    await expect.element(paginationStatus).toHaveAttribute("role", "status");
-
-    el.setAttribute("aria-live", "invalid");
-
-    await expect.element(carousel).not.toHaveAttribute("aria-live");
-    await expect.element(paginationStatus).not.toHaveAttribute("aria-live");
-    await expect.element(paginationStatus).not.toHaveAttribute("role", "status");
-
-    el.setAttribute("aria-live", "polite");
-    await expect.element(paginationStatus).toHaveAttribute("role", "status");
-
-    el.removeAttribute("aria-live");
-
-    await expect.element(carousel).not.toHaveAttribute("aria-live");
-    await expect.element(paginationStatus).not.toHaveAttribute("aria-live");
-    await expect.element(paginationStatus).not.toHaveAttribute("role", "status");
   });
 });

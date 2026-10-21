@@ -308,7 +308,7 @@ describe("a11y attributes", () => {
     );
     const popover = page.getBySelector("#aria-live-popover").first().element() as HTMLElement;
 
-    expect(popover.getAttribute("aria-live")).toBe(null);
+    expect(popover.getAttribute("aria-live")).toBe("polite");
 
     popover.ariaLive = "polite";
 

@@ -204,7 +204,7 @@ export class InputNumber
   private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
-    ["aria-live", "autofocus", "enterkeyhint", "inputmode"],
+    ["autofocus", "enterkeyhint", "inputmode"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -1406,7 +1406,6 @@ export class InputNumber
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
-            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

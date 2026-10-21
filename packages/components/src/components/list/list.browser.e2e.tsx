@@ -958,7 +958,7 @@ describe("a11y attributes", () => {
     await expect.element(table).toHaveAttribute("aria-busy", "true");
   });
 
-  it("sets assistive text aria-live only when host value is valid", async () => {
+  it("preserves polite announcements independently of host aria-live", async () => {
     const { el } = await mount(
       <calcite-list>
         <calcite-list-item label="Item 1" value="item-1" />
@@ -969,13 +969,13 @@ describe("a11y attributes", () => {
       .element() as HTMLElement;
 
     expect(assistiveText).toBeDefined();
-    expect(assistiveText.getAttribute("aria-live")).toBe(null);
+    expect(assistiveText.getAttribute("aria-live")).toBe("polite");
 
-    el.ariaLive = "polite";
+    el.ariaLive = "assertive";
     await expect.element(page.elementLocator(assistiveText)).toHaveAttribute("aria-live", "polite");
 
     el.ariaLive = "invalid";
-    await expect.element(page.elementLocator(assistiveText)).not.toHaveAttribute("aria-live");
+    await expect.element(page.elementLocator(assistiveText)).toHaveAttribute("aria-live", "polite");
   });
 });
 

@@ -10,8 +10,6 @@ import {
   setAttribute,
   state,
 } from "@arcgis/lumina";
-import { resolveAriaLive } from "../../utils/aria";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { Scale } from "../types";
 import {
   StepperItemChangeEventDetail,
@@ -135,8 +133,6 @@ export class StepperItem extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private headerRef = createRef<HTMLDivElement>();
 
@@ -403,7 +399,7 @@ export class StepperItem extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.complete && (
-            <span ariaLive={resolveAriaLive(this.el.ariaLive)} class={CSS.visuallyHidden}>
+            <span ariaLive="polite" class={CSS.visuallyHidden}>
               {this.messages.complete}
             </span>
           )}

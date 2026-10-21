@@ -1,6 +1,5 @@
 import { TemplateResult } from "lit";
 import { h, LuminaJsx } from "@arcgis/lumina";
-import { resolveAriaLive } from "../../utils/aria";
 import { Scale, Status } from "../types";
 import { IconName } from "../icon/types";
 
@@ -8,7 +7,6 @@ interface ValidationProps extends LuminaJsx.CustomAttributes {
   scale: Scale;
   status: Status;
   icon?: IconName | boolean;
-  ariaLive?: string | null;
   id?: string;
   message: string;
   ref?: (el: HTMLDivElement) => void;
@@ -27,19 +25,12 @@ export const Validation = ({
   status,
   id,
   icon,
-  ariaLive,
   message,
   ref,
 }: ValidationProps): TemplateResult => {
   return (
     <div class={CSS.validationContainer} ref={ref ? ref : validationReference}>
-      <calcite-input-message
-        ariaLive={resolveAriaLive(ariaLive)}
-        icon={icon}
-        id={id}
-        scale={scale}
-        status={status}
-      >
+      <calcite-input-message ariaLive="polite" icon={icon} id={id} scale={scale} status={status}>
         {message}
       </calcite-input-message>
     </div>

@@ -13,7 +13,6 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { escapeRegExp } from "es-toolkit/compat";
 import { createRef } from "lit/directives/ref.js";
-import { resolveAriaLive } from "../../utils/aria";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -200,7 +199,7 @@ export class Autocomplete
   private guid = guid();
 
   attributeWatch = useWatchAttributes(
-    ["aria-live", "autofocus", "enterkeyhint", "inputmode"],
+    ["autofocus", "enterkeyhint", "inputmode"],
     this.handleGlobalAttributesChanged,
   );
 
@@ -980,7 +979,6 @@ export class Autocomplete
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
-            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}
@@ -996,7 +994,7 @@ export class Autocomplete
     return (
       <ul
         aria-labelledby={this.inputId}
-        ariaLive={resolveAriaLive(this.el.ariaLive)}
+        ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
         role="listbox"

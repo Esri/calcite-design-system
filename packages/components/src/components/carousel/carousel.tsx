@@ -1,8 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
-import { resolveAriaLive } from "../../utils/aria";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   focusElementInGroup,
   slotChangeGetAssignedElements,
@@ -100,8 +99,6 @@ export class Carousel extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private autoplayHandler = (): void => {
     this.clearIntervals();
@@ -771,11 +768,7 @@ export class Carousel extends LitElement {
     };
 
     return (
-      <div
-        ariaLive={resolveAriaLive(this.el.ariaLive)}
-        class={CSS_UTILITY.screenReaderText}
-        role={resolveAriaLive(this.el.ariaLive) ? "status" : undefined}
-      >
+      <div ariaLive="off" class={CSS_UTILITY.screenReaderText} role="status">
         {messages.paginationStatus
           .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
           .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
@@ -837,7 +830,7 @@ export class Carousel extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaLabel={this.label}
-          ariaLive={resolveAriaLive(this.el.ariaLive)}
+          ariaLive={this.playing ? "off" : "polite"}
           ariaRoleDescription={this.messages.carousel}
           class={{
             [CSS.container]: true,

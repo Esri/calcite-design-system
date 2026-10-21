@@ -10,7 +10,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -165,8 +165,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   /**
    * Made into a prop for testing purposes only
@@ -863,7 +861,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         </calcite-popover>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
-            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}

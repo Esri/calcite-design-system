@@ -14,7 +14,7 @@ import {
   stringOrBoolean,
   ToEvents,
 } from "@arcgis/lumina";
-import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -30,7 +30,6 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import { resolveAriaLive } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { getLabelText } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -149,8 +148,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   //#endregion
 
   //#region Private Properties
-
-  attributeWatch = useWatchAttributes(["aria-live"], () => this.requestUpdate());
 
   private direction = useDirection();
 
@@ -2420,7 +2417,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           />
         )}
         <div
-          ariaLive={resolveAriaLive(this.el.ariaLive)}
+          ariaLive="polite"
           class={{
             [CSS.wrapper]: true,
             [CSS.wrapperSingle]: singleSelectionMode || !this.selectedItems.length,
@@ -2482,7 +2479,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         {this.renderFloatingUIContainer()}
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
-            ariaLive={this.el.ariaLive}
             icon={this.validationIcon}
             id={IDS.validationMessage}
             message={this.validationMessage}
