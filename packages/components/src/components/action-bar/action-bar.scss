@@ -11,16 +11,22 @@
 @use "../../styles/shared";
 
 :host([scale="s"]) {
-  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-action-bar-gap: var(
+    --calcite-action-bar-items-space,
+    var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
+  );
+  --calcite-internal-action-bar-padding: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 :host([scale="m"]) {
-  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm);
+  --calcite-internal-action-bar-gap: var(
+    --calcite-action-bar-items-space,
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+  );
+  --calcite-internal-action-bar-padding: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 :host([scale="l"]) {
   --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
-  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-action-bar-padding: var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus));
 }
 
 :host {
@@ -29,14 +35,19 @@
     self-stretch;
   background: transparent;
 
-  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-spacing-base) + 1px);
+  --calcite-internal-action-group-dividing-border-margin: calc(
+    var(--calcite-theme-space-base, var(--calcite-spacing-base)) + 1px
+  );
 }
 
 .container {
   @apply inline-flex
   flex-col
   flex-auto;
-  background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-action-bar-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   gap: var(--calcite-internal-action-bar-gap);
   padding: var(--calcite-internal-action-bar-padding);
 }
@@ -45,7 +56,10 @@
   .container {
     @apply animate-in
     overflow-hidden;
-    border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-round));
+    border-radius: var(
+      --calcite-action-bar-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
     box-shadow: var(--calcite-action-bar-shadow, var(--calcite-shadow-md));
   }
 }

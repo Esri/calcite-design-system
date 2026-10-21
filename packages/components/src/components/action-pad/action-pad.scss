@@ -8,16 +8,22 @@
 @use "../../styles/shared";
 
 :host([scale="s"]) {
-  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-xxs));
-  --calcite-internal-action-pad-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-action-pad-gap: var(
+    --calcite-action-pad-items-space,
+    var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
+  );
+  --calcite-internal-action-pad-padding: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 :host([scale="m"]) {
-  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-sm));
-  --calcite-internal-action-pad-padding: var(--calcite-spacing-sm);
+  --calcite-internal-action-pad-gap: var(
+    --calcite-action-pad-items-space,
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+  );
+  --calcite-internal-action-pad-padding: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 :host([scale="l"]) {
   --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-space-sm-plus));
-  --calcite-internal-action-pad-padding: var(--calcite-spacing-sm-plus);
+  --calcite-internal-action-pad-padding: var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus));
 }
 
 :host {
@@ -46,7 +52,10 @@
 
   box-shadow: var(--calcite-shadow-md);
   border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2) /* 4px */;
-  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-action-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   gap: var(--calcite-internal-action-pad-gap);
   padding: var(--calcite-internal-action-pad-padding);
 }

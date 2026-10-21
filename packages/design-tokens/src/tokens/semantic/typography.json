@@ -10,11 +10,7 @@
           "fontFamily": "{font.family.default}",
           "fontSize": "{core.size.rem.0-875}",
           "fontWeight": "{core.font.weight.regular}",
-          "lineHeight": "{core.size.relative.115}",
-          "letterSpacing": "{core.size.default.none}",
-          "paragraphSpacing": "{core.size.default.4}",
-          "textCase": "{core.font.text-case.none}",
-          "textDecoration": "{core.font.text-decoration.none}"
+          "lineHeight": "{core.size.relative.115}"
         }
       },
       "light": {
@@ -694,7 +690,8 @@
       "display": {
         "1": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "extensions": {
             "calcite.extends": "{typography.default.default}"
@@ -704,20 +701,24 @@
             "fontSize": "{core.size.rem.1-625}",
             "fontWeight": "{core.font.weight.demi}",
             "lineHeight": "{core.size.relative.137}"
-          }
+          },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         },
         "2": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "$type": "typography",
-          "$value": "{typography.wrap.bold.2}"
+          "$value": "{typography.wrap.bold.2}",
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         }
       },
       "heading": {
         "1": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "extensions": {
             "calcite.extends": "{typography.default.default}"
@@ -727,56 +728,70 @@
             "fontSize": "{core.size.rem.1-625}",
             "fontWeight": "{core.font.weight.medium}",
             "lineHeight": "{core.size.relative.137}"
-          }
+          },
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         },
         "2": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "$type": "typography",
-          "$value": "{typography.wrap.medium.2}"
+          "$value": "{typography.wrap.medium.2}",
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         },
         "3": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "$type": "typography",
-          "$value": "{typography.wrap.medium.1}"
+          "$value": "{typography.wrap.medium.1}",
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         },
         "4": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "$type": "typography",
-          "$value": "{typography.wrap.medium.0}"
+          "$value": "{typography.wrap.medium.0}",
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         },
         "5": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "$type": "typography",
-          "$value": "{typography.wrap.medium.-1}"
+          "$value": "{typography.wrap.medium.-1}",
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         }
       },
       "body": {
         "snug": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "$type": "typography",
-          "$value": "{typography.wrap.regular.-1}"
+          "$value": "{typography.wrap.regular.-1}",
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         },
         "default": {
           "attributes": {
-            "category": "typography"
+            "category": "typography",
+            "docs": "deprecated"
           },
           "$type": "typography",
-          "$value": "{typography.default.default}"
+          "$value": "{typography.default.default}",
+          "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
         }
       },
       "overline": {
         "attributes": {
-          "category": "typography"
+          "category": "typography",
+          "docs": "deprecated"
         },
         "$type": "typography",
         "$value": {
@@ -784,14 +799,17 @@
           "textCase": "{core.font.text-case.uppercase}",
           "fontWeight": "{core.font.weight.demi}",
           "lineHeight": "{core.size.relative.100}"
-        }
+        },
+        "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
       },
       "caption": {
         "attributes": {
-          "category": "typography"
+          "category": "typography",
+          "docs": "deprecated"
         },
         "$type": "typography",
-        "$value": "{typography.wrap.regular.-2}"
+        "$value": "{typography.wrap.regular.-2}",
+        "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed."
       }
     }
   }

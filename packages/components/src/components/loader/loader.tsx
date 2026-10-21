@@ -195,6 +195,7 @@ export class Loader extends LitElement {
 
     const id = el.id || guid();
     const isDeterminate = type !== "indeterminate";
+    const hasValueLabel = type === "determinate-value";
 
     const valueNow = Math.floor(value);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -215,7 +216,7 @@ export class Loader extends LitElement {
         <div class={CSS.rings}>
           {this.renderRing("track")}
           {this.renderRing("progress")}
-          {!inline && isDeterminate && <div class={CSS.percentage}>{this.formatValue()}</div>}
+          {!inline && hasValueLabel && <div class={CSS.percentage}>{this.formatValue()}</div>}
         </div>
         {!inline && text && <div class={CSS.text}>{text}</div>}
       </>

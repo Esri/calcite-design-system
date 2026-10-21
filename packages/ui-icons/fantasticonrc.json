@@ -1415,6 +1415,13 @@
     "column-group": 61952,
     "linked-chart": 61953,
     "add-cell-below": 61954,
-    "add-cell-above": 61955
+    "add-cell-above": 61955,
+    "reference-chip": 61956,
+    "job-dependency": 61957,
+    "dictionary": 61958,
+    "cursor-circle": 61959,
+    "block-height-tall": 61960,
+    "block-height-short": 61961,
+    "block-height-medium": 61962
   }
 }

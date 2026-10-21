@@ -393,13 +393,25 @@ export class Block extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @deprecated in v3.1.0, removal target v6.0.0 - No direct replacement. Use `calciteBlockCollapse` to respond when the component's `expanded` state changes.
+   */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @deprecated in v3.1.0, removal target v6.0.0 - No direct replacement. Use `calciteBlockExpand` to respond when the component's `expanded` state changes.
+   */
   calciteBlockBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockCollapse` instead.
+   */
   calciteBlockClose = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is collapsed. */
@@ -408,7 +420,11 @@ export class Block extends LitElement {
   /** Fires when the component's content area is expanded. */
   calciteBlockExpand = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockExpand` instead.
+   */
   calciteBlockOpen = createEvent({ cancelable: false });
 
   /** Fires when the sort handle is requested to be closed and before the closing transition begins. */

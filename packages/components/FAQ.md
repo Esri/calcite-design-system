@@ -88,11 +88,11 @@ The previous class-based approach also continues to work. The `calcite-mode-ligh
 
 Calcite Components provide CSS variables to override styles. The CSS cannot be altered for a component without the variables due to web component's encapsulation. There are CSS variables for [color](https://developers.arcgis.com/calcite-design-system/foundations/colors/) and [typography](https://developers.arcgis.com/calcite-design-system/foundations/type/). Additionally, some Calcite Components have their own CSS variables to change component-specific styles. These styles can be found in a component's documentation. For example, [here are the css variables](https://developers.arcgis.com/calcite-design-system/components/loader/#component-api-styles) provided for `calcite-loader`.
 
-If we want to swap the foreground and text colors, we can use the variables:
+If we want to swap the surface and text colors, we can use the variables:
 
 ```css
 calcite-notice {
-  --calcite-color-foreground-1: #151515;
+  --calcite-theme-color-surface-2: #151515;
   --calcite-color-text-1: #ffffff;
 }
 ```
