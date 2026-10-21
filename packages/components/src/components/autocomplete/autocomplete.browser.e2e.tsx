@@ -588,6 +588,22 @@ describe("keyboard selection", () => {
     const input = page.elementLocator(autocomplete).getByRole("combobox");
     await expect.element(input).toHaveProperty("ariaActiveDescendantElement", firstOption);
   });
+
+  it("exposes the active listbox option to assistive technology", async () => {
+    const { el } = await mount<Autocomplete>(renderAutocomplete);
+    const listbox = page.getByRole("listbox");
+    const firstOption = listbox.getByRole("option").first();
+    const input = page.getByRole("combobox");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+
+    await expect.element(listbox).toBeInTheDocument();
+    await expect.element(firstOption).toHaveAttribute("role", "option");
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", firstOption.element());
+  });
 });
 
 describe("theme", () => {
