@@ -176,12 +176,18 @@
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
   border-inline-start: var(--calcite-internal-shell-panel-float-all-border-inline-start);
   border-inline-end: var(--calcite-internal-shell-panel-float-all-border-inline-end);
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-shell-panel-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
   overflow: hidden;
 }
 
 .resize-handle {
-  --calcite-internal-shell-panel-resize-handle-background-color: var(--calcite-color-background);
+  --calcite-internal-shell-panel-resize-handle-background-color: var(
+    --calcite-theme-color-surface-1,
+    var(--calcite-color-background)
+  );
   --calcite-internal-shell-panel-resize-handle-focus-outline: none;
   --calcite-internal-shell-panel-resize-handle-icon-color: var(--calcite-color-border-input);
   position: absolute;
@@ -220,7 +226,10 @@
 
   &:active,
   &:hover {
-    --calcite-internal-shell-panel-resize-handle-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-shell-panel-resize-handle-background-color: var(
+      --calcite-theme-color-surface-4,
+      var(--calcite-color-foreground-3)
+    );
     --calcite-internal-shell-panel-resize-handle-icon-color: var(--calcite-color-text-1);
   }
 
@@ -293,7 +302,10 @@
   padding-inline-end: var(--calcite-internal-shell-panel-content-padding-inline-end);
   padding-block-start: var(--calcite-internal-shell-panel-content-padding-block-start);
   padding-block-end: var(--calcite-internal-shell-panel-content-padding-block-end);
-  background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
+  background-color: var(
+    --calcite-shell-panel-background-color,
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+  );
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);
@@ -371,7 +383,10 @@
   block-size: auto;
   overflow: hidden;
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-shell-panel-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
   margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   margin-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
@@ -553,11 +568,11 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   &:host([display-mode^="float"]) {
     --calcite-internal-shell-panel-resize-handle-bar-radius-end-end: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
     --calcite-internal-shell-panel-resize-handle-bar-radius-start-end: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
   }
 
@@ -594,11 +609,11 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   &:host([display-mode^="float"]) {
     --calcite-internal-shell-panel-resize-handle-bar-radius-end-start: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
     --calcite-internal-shell-panel-resize-handle-bar-radius-start-start: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
   }
 
@@ -635,11 +650,11 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   &:host([display-mode^="float"]) {
     --calcite-internal-shell-panel-resize-handle-bar-radius-end-end: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
     --calcite-internal-shell-panel-resize-handle-bar-radius-end-start: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
   }
 }
@@ -657,11 +672,11 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   &:host([display-mode^="float"]) {
     --calcite-internal-shell-panel-resize-handle-bar-radius-start-end: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
     --calcite-internal-shell-panel-resize-handle-bar-radius-start-start: var(
       --calcite-shell-panel-corner-radius,
-      var(--calcite-corner-radius-round)
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
     );
   }
 }
