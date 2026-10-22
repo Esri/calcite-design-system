@@ -1007,6 +1007,7 @@ export class Dialog extends LitElement {
               class={CSS.panel}
               closable={!this.closeDisabled}
               description={description}
+              focusTrapDisabled={true}
               heading={heading}
               headingLevel={this.headingLevel}
               hidden={!this.opened}
