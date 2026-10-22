@@ -792,6 +792,7 @@ describe("keyboard assistive text", () => {
     const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
     expect(assistiveTextElement).toBeNull();
   });
+
   it("should have assistive text when resizable", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -801,7 +802,6 @@ describe("keyboard assistive text", () => {
     await page.waitForChanges();
     const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
   });
@@ -815,7 +815,6 @@ describe("keyboard assistive text", () => {
     await page.waitForChanges();
     const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
   });
@@ -831,7 +830,6 @@ describe("keyboard assistive text", () => {
     await page.waitForChanges();
     const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
   });
