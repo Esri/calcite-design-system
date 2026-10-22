@@ -505,7 +505,6 @@ export class FlowItem extends LitElement {
       iconFlipRtl,
       focusTrapDisabled,
       focusTrapOptions,
-      selected,
     } = this;
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -518,7 +517,7 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
-          focusTrapDisabled={!selected || focusTrapDisabled}
+          focusTrapDisabled={focusTrapDisabled}
           focusTrapEnabledByParent={true}
           focusTrapOptions={focusTrapOptions}
           heading={heading}
