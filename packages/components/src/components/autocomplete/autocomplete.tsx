@@ -1043,7 +1043,6 @@ export class Autocomplete
           ariaDisabled={item.disabled}
           ariaLabel={item.label}
           ariaSelected={item.selected}
-          id={`${item.guid}-option`}
           key={item.guid}
           ref={this.getListboxOptionRef(item)}
           role="option"
