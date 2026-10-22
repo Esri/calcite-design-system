@@ -286,7 +286,11 @@ export class FlowItem extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, disables focus trapping and dialog semantics. */
+  /**
+   * When `true`, disables focus trapping and dialog semantics.
+   *
+   * @since 6.0
+   */
   @property() focusTrapDisabled = false;
 
   /**
