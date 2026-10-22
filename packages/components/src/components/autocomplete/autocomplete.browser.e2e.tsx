@@ -604,6 +604,29 @@ describe("keyboard selection", () => {
       .element(input)
       .toHaveProperty("ariaActiveDescendantElement", firstOption.element());
   });
+
+  it("updates the active descendant when results are replaced", async () => {
+    const { component, el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const input = page.getByRole("combobox");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+
+    const replacementItem = document.createElement("calcite-autocomplete-item");
+    replacementItem.heading = "Replacement item";
+    replacementItem.label = "Replacement item";
+    replacementItem.value = "replacement";
+    el.replaceChildren(replacementItem);
+    await reRender();
+
+    const replacementOption = page.getByRole("listbox").getByRole("option").first();
+
+    await expect.element(replacementOption).toHaveTextContent("Replacement item");
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", replacementOption.element());
+    expect(component.items[0].active).toBe(true);
+  });
 });
 
 describe("theme", () => {

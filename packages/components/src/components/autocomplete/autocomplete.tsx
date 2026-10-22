@@ -586,6 +586,12 @@ export class Autocomplete
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("items")) {
+      this.syncActiveDescendantElement();
+    }
+  }
+
   loaded(): void {
     this.getAllItems();
     connectFloatingUI(this);
@@ -710,8 +716,6 @@ export class Autocomplete
   }
 
   private updateItems(): void {
-    let activeDescendantElement: HTMLElement | undefined;
-
     if (this.value) {
       this.selectedItemsHandler();
     }
@@ -724,13 +728,17 @@ export class Autocomplete
     this.enabledItems.forEach((item, index) => {
       const isActive = index === this.activeIndex;
 
-      if (isActive) {
-        activeDescendantElement = this.listboxOptionRefs.get(item.guid)?.value;
-      }
       item.active = isActive;
     });
 
-    this.activeDescendantElement = activeDescendantElement;
+    this.syncActiveDescendantElement();
+  }
+
+  private syncActiveDescendantElement(): void {
+    const activeItem = this.enabledItems[this.activeIndex];
+    this.activeDescendantElement = activeItem
+      ? this.listboxOptionRefs.get(activeItem.guid)?.value
+      : undefined;
   }
 
   private handleInputFocus(): void {

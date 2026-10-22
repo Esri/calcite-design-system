@@ -164,7 +164,7 @@ export class AutocompleteItem extends LitElement {
     this.el.ariaDisabled = `${this.disabled}`;
     this.el.ariaLabel = this.label || this.heading;
     this.el.ariaSelected = `${this.selected}`;
-    this.el.id = this.guid;
+    this.el.id ||= this.guid;
     this.el.role = "option";
 
     if (
