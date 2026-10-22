@@ -627,6 +627,31 @@ describe("keyboard selection", () => {
       .toHaveProperty("ariaActiveDescendantElement", replacementOption.element());
     expect(component.items[0].active).toBe(true);
   });
+
+  it("updates the active descendant when the active item's text is cleared and restored", async () => {
+    const { component, el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const input = page.getByRole("combobox");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+
+    const activeItem = component.items[0];
+    activeItem.heading = "";
+    activeItem.label = "";
+    await reRender();
+
+    await expect.element(input).toHaveProperty("ariaActiveDescendantElement", null);
+
+    activeItem.heading = "Restored item";
+    await reRender();
+
+    const restoredOption = page.getByRole("listbox").getByRole("option").first();
+
+    await expect.element(restoredOption).toHaveTextContent("Restored item");
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", restoredOption.element());
+  });
 });
 
 describe("theme", () => {

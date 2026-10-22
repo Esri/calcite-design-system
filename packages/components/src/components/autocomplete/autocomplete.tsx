@@ -586,10 +586,8 @@ export class Autocomplete
     }
   }
 
-  override updated(changes: PropertyValues<this>): void {
-    if (changes.has("items")) {
-      this.syncActiveDescendantElement();
-    }
+  override updated(): void {
+    this.syncActiveDescendantElement();
   }
 
   loaded(): void {
@@ -939,7 +937,6 @@ export class Autocomplete
               label: getLabelText(this),
               role: "combobox",
             }}
-            aria-activedescendant={this.activeDescendantElement?.id}
             autocomplete={this.autocomplete}
             autofocus={autofocus}
             class={CSS.input}
