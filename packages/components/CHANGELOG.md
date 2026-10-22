@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.0...@esri/calcite-components@6.0.0-next.1) (2026-10-22)
+
+### Bug Fixes
+
+- **combobox:** avoid closing when text selection ends outside component ([#15403](https://github.com/Esri/calcite-design-system/issues/15403)), closes [#15185](https://github.com/Esri/calcite-design-system/issues/15185)
+
 ## [6.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.1-next.3...@esri/calcite-components@6.0.0-next.0) (2026-10-22)
 
 ### ⚠ BREAKING CHANGES
