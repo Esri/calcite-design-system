@@ -432,13 +432,6 @@ export class Input
   /** @copyDoc */
   @property() labelText?: string;
 
-  /**
-   * Specifies the native input's `id`.
-   *
-   * @private
-   */
-  @property() inputId?: string;
-
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
@@ -1435,7 +1428,6 @@ export class Input
           defaultValue={this.defaultValue}
           disabled={this.disabled}
           enterKeyHint={enterKeyHint}
-          id={this.inputId}
           inputMode={inputMode}
           key="localized-input"
           maxLength={this.maxLength}
@@ -1485,7 +1477,6 @@ export class Input
           defaultValue={this.defaultValue}
           disabled={this.disabled}
           enterKeyHint={enterKeyHint}
-          id={this.inputId}
           inputMode={inputMode}
           max={this.maxString}
           maxLength={this.maxLength}

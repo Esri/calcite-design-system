@@ -215,8 +215,6 @@ export class Autocomplete
     inputType: "text",
   })(this);
 
-  private inputId = IDS.input(this.guid);
-
   labelEl?: Label["el"];
 
   private listId = IDS.list(this.guid);
@@ -909,7 +907,7 @@ export class Autocomplete
   //#region Rendering
 
   override render(): JsxNode {
-    const { disabled, inputId, isOpen } = this;
+    const { disabled, isOpen } = this;
 
     const autofocus = this.el.autofocus;
     const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
@@ -945,7 +943,6 @@ export class Autocomplete
             form={this.form}
             icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
-            inputId={inputId}
             inputMode={inputMode}
             inputRole="combobox"
             label={this.label}
