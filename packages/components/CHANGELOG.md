@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.1-next.3...@esri/calcite-components@6.0.0-next.0) (2026-10-22)
+
+### ⚠ BREAKING CHANGES
+
+- **panel, flow-item, flow, dialog:** Removes the internal `focusTrapEnabled` property. Open
+  closable Panels and all open Flow Items now use `role="dialog"` and trap
+  focus by default with `focusThrapEnabledByParent`. The new
+  `focusTrapDisabled` prevents nested dialog focus traps.
+
+### Features
+
+- **panel, flow-item, flow, dialog:** enable dialog semantics by default ([#15401](https://github.com/Esri/calcite-design-system/issues/15401)), closes [#14714](https://github.com/Esri/calcite-design-system/issues/14714)
+
 ## [5.2.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.1-next.2...@esri/calcite-components@5.2.1-next.3) (2026-10-21)
 
 ### Bug Fixes

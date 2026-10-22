@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.2.1-next.3...@esri/calcite-components-react@6.0.0-next.0) (2026-10-22)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
 ## [5.2.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.2.1-next.2...@esri/calcite-components-react@5.2.1-next.3) (2026-10-21)
 
 **Note:** Version bump only for package @esri/calcite-components-react
