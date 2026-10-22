@@ -1497,6 +1497,26 @@ resizableShellPanelsRTL.parameters = {
   chromatic: { delay: 500 },
 };
 
+export const resizableShellPanelRelativeBoundsRTL = (): string => html`
+  <style>
+    .relative-resize-bounds {
+      --calcite-shell-panel-min-width: 30vw;
+      --calcite-shell-panel-width: 50vw;
+      --calcite-shell-panel-max-width: 70vw;
+    }
+  </style>
+  <div dir="rtl">
+    <calcite-shell>
+      <calcite-panel heading="Main content"></calcite-panel>
+      <calcite-shell-panel class="relative-resize-bounds" resizable slot="panel-end">
+        <calcite-panel heading="Resizable panel">
+          <p>Resize between 30vw and 70vw, then resize the viewport and try again.</p>
+        </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </div>
+`;
+
 export const overlayDisplayMode = (): string =>
   html`<calcite-shell
     style="

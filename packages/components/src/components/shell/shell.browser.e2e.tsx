@@ -1,7 +1,9 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import { hidden, renders, slots, accessible, themed } from "../../tests/common";
+import { commands } from "../../tests/utils/commands";
 import { mockConsole } from "../../tests/utils/logging";
 import type { ShellPanel } from "../shell-panel/shell-panel";
 import { CSS as SHELL_PANEL_CSS } from "../shell-panel/resources";
@@ -36,6 +38,116 @@ describe("slots", () => {
 
 describe("shell provides sizing context", () => {
   mockConsole();
+
+  describe.each(["ltr", "rtl"] as const)("relative resize bounds (%s)", (dir) => {
+    it.each([SLOTS.panelStart, SLOTS.panelEnd])(
+      "allows %s to expand to its configured maximum",
+      async (slot) => {
+        await page.viewport(1000, 800);
+        await mount(
+          <div dir={dir}>
+            <calcite-shell>
+              <div>Main content</div>
+              <calcite-shell-panel
+                resizable
+                slot={slot}
+                style="--calcite-shell-panel-min-width: 30vw; --calcite-shell-panel-width: 50vw; --calcite-shell-panel-max-width: 70vw;"
+              >
+                <p>Panel content</p>
+              </calcite-shell-panel>
+            </calcite-shell>
+          </div>,
+        );
+        const handle = page.getByRole("separator");
+        await expect.element(handle).toHaveAttribute("aria-valuemax", "700");
+
+        const rect = handle.element().getBoundingClientRect();
+        const expandsRight = (slot === SLOTS.panelStart) === (dir === "ltr");
+        await userEvent.hover(handle);
+        await commands.mouseDown();
+        await commands.mouseMove(
+          rect.left + rect.width / 2 + (expandsRight ? 200 : -200),
+          rect.top + rect.height / 2,
+        );
+        await commands.mouseUp();
+
+        await expect.element(handle).toHaveAttribute("aria-valuenow", "700");
+      },
+    );
+
+    it("updates sizing context when inherited direction changes", async () => {
+      await page.viewport(1000, 800);
+      const { container } = await mount(
+        <div dir={dir}>
+          <calcite-shell>
+            <div>Main content</div>
+            <calcite-shell-panel
+              resizable
+              slot={SLOTS.panelEnd}
+              style="--calcite-shell-panel-min-width: 30vw; --calcite-shell-panel-width: 50vw; --calcite-shell-panel-max-width: 70vw;"
+            >
+              <p>Panel content</p>
+            </calcite-shell-panel>
+          </calcite-shell>
+        </div>,
+      );
+      container.querySelector("div")!.dir = dir === "ltr" ? "rtl" : "ltr";
+      const handle = page.getByRole("separator");
+      await expect.element(handle).toHaveAttribute("aria-valuemax", "700");
+      await handle.click();
+      await userEvent.keyboard("{End}");
+      await expect.element(handle).toHaveAttribute("aria-valuenow", "700");
+    });
+
+    it.each([SLOTS.panelEnd, SLOTS.panelBottom])(
+      "updates %s relative bounds after shrinking and growing the viewport",
+      async (slot) => {
+        await page.viewport(1600, 1600);
+        await mount(
+          <div dir={dir}>
+            <calcite-shell>
+              <div>Main content</div>
+              <calcite-shell-panel
+                resizable
+                slot={slot}
+                style="--calcite-shell-panel-min-width: 30vw; --calcite-shell-panel-width: 50vw; --calcite-shell-panel-max-width: 70vw; --calcite-shell-panel-min-height: 30vh; --calcite-shell-panel-height: 50vh; --calcite-shell-panel-max-height: 70vh;"
+              >
+                <p>Panel content</p>
+              </calcite-shell-panel>
+            </calcite-shell>
+          </div>,
+        );
+        const handle = page.getByRole("separator");
+        await handle.click();
+        await userEvent.keyboard("{End}");
+        await expect.element(handle).toHaveAttribute("aria-valuenow", "1120");
+
+        await page.viewport(600, 600);
+        await expect.element(handle).toHaveAttribute("aria-valuemin", "180");
+        await expect.element(handle).toHaveAttribute("aria-valuemax", "420");
+        await expect.element(handle).toHaveAttribute("aria-valuenow", "420");
+
+        const rect = handle.element().getBoundingClientRect();
+        const isBlock = slot === SLOTS.panelBottom;
+        await userEvent.hover(handle);
+        await commands.mouseDown();
+        await commands.mouseMove(
+          rect.left + rect.width / 2 + (isBlock ? 0 : dir === "ltr" ? 400 : -400),
+          rect.top + rect.height / 2 + (isBlock ? 400 : 0),
+        );
+        await commands.mouseUp();
+        await expect.element(handle).toHaveAttribute("aria-valuenow", "180");
+
+        await page.viewport(1000, 1000);
+        await expect.element(handle).toHaveAttribute("aria-valuemin", "300");
+        await expect.element(handle).toHaveAttribute("aria-valuemax", "700");
+        await userEvent.keyboard("{End}");
+        await expect.element(handle).toHaveAttribute("aria-valuenow", "700");
+        await userEvent.keyboard("{Home}");
+        await expect.element(handle).toHaveAttribute("aria-valuenow", "300");
+      },
+    );
+  });
 
   it("updates a resizable panel's max width when a sibling panel is added after mount", async () => {
     const shellWidth = 600;

@@ -264,6 +264,10 @@ export class ShellPanel extends LitElement {
     }
   }
 
+  load(): void {
+    this.listenOn(window, "resize", this.handleWindowResize);
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -315,6 +319,12 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private handleWindowResize(): void {
+    if (this.resizable && !this.collapsed) {
+      this.refreshResize();
+    }
+  }
 
   /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
   private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
