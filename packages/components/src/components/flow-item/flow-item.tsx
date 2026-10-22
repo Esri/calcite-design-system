@@ -289,7 +289,7 @@ export class FlowItem extends LitElement {
   /**
    * When `true`, disables focus trapping and dialog semantics.
    *
-   * @since 5.2.0
+   * @since 6.0
    */
   @property() focusTrapDisabled = false;
 
