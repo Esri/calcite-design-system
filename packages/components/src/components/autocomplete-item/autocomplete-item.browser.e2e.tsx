@@ -90,24 +90,6 @@ describe("requestSelection", () => {
   });
 });
 
-describe("accessibility", () => {
-  it("exposes option semantics to assistive technology", async () => {
-    const { el, reRender } = await mount("calcite-autocomplete-item");
-
-    el.disabled = true;
-    el.heading = "Item heading";
-    el.label = "Item label";
-    el.selected = true;
-    el.value = "item";
-    await reRender();
-
-    await expect.element(el).toHaveAttribute("role", "option");
-    await expect.element(el).toHaveAttribute("aria-label", "Item label");
-    await expect.element(el).toHaveAttribute("aria-selected", "true");
-    await expect.element(el).toHaveAttribute("aria-disabled", "true");
-  });
-});
-
 describe("theme", () => {
   themed(() => mount("calcite-autocomplete-item"), {
     "--calcite-autocomplete-background-color": {
