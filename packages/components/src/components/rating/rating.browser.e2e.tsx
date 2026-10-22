@@ -1,8 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
-
+import { page, userEvent } from "vitest/browser";
 import {
   disabled,
   defaults,
@@ -20,6 +19,7 @@ import {
 } from "../../tests/common";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
+import type { Rating } from "./rating";
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-rating", mountOptions));
@@ -164,4 +164,30 @@ describe("theme", () => {
       },
     });
   });
+});
+
+describe("keyboard interaction", () => {
+  it.each([
+    { dir: "ltr", expectedValue: 4 },
+    { dir: "rtl", expectedValue: 2 },
+  ] as const)(
+    "moves value in the physical arrow key direction when dir is $dir",
+    async ({ dir, expectedValue }) => {
+      const changeHandler = vi.fn();
+      const { el } = await mount<Rating>(
+        <calcite-rating dir={dir} oncalciteRatingChange={changeHandler} value={3} />,
+      );
+
+      await userEvent.tab();
+      await userEvent.keyboard("{ArrowRight}");
+
+      await expect.element(el).toHaveProperty("value", expectedValue);
+      expect(changeHandler).toHaveBeenCalledTimes(1);
+
+      await userEvent.keyboard("{ArrowLeft}");
+
+      await expect.element(el).toHaveProperty("value", 3);
+      expect(changeHandler).toHaveBeenCalledTimes(2);
+    },
+  );
 });

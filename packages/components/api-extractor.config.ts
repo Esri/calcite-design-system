@@ -80,6 +80,17 @@ export const config: ApiExtractorConfig = {
         iconStart: {
           description: "Specifies an icon to display at the start of the component.",
         },
+        inlineEdit: {
+          description: `Enables inline editing. When not editing, the component displays without a border.
+When \`true\`, edits must be saved or cancelled via controls.
+When \`"controls-disabled"\` is specified, edits are saved on blur.`,
+        },
+        inlineEditing: {
+          description: "When `true` and `inlineEdit` is defined, the component is editable.",
+        },
+        inlineEditingBeforeConfirm: {
+          description: "When `inlineEdit` is `true`, specifies a callback to be run when changes are saved.",
+        },
         label(_apiProperty, apiClass) {
           const baseDescription = "Specifies an accessible label for the component.";
           const dragDescription = (component: string): string =>

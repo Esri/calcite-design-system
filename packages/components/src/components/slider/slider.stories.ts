@@ -113,6 +113,27 @@ export const simple = (args: SliderStoryArgs): string => html`
   ></calcite-slider>
 `;
 
+export const WrappedInLabel = (): string => html`
+  <style>
+    calcite-slider {
+      /* revert global/preview-level width – see https://github.com/Esri/calcite-design-system/blob/c0547b81ef742b3590aaf95423c46ec26283039e/packages/components/.storybook/preview-head.html#L12-L15 */
+      width: revert-layer;
+    }
+  </style>
+  <calcite-label>
+    Block
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
+  <calcite-label layout="inline">
+    Inline
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
+  <calcite-label layout="inline-space-between">
+    Inline space between
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
+`;
+
 export const range = (): string => html`
   <calcite-slider
     min="0"
