@@ -777,14 +777,19 @@ export class Autocomplete
 
     this.groups = groups;
     this.items = items;
+    this.removeStaleListboxOptionRefs(items);
+    this.updateItems();
+    this.updateGroups();
+  }
+
+  private removeStaleListboxOptionRefs(items: AutocompleteItem["el"][]): void {
     const itemIds = new Set(items.map((item) => item.guid));
+
     this.listboxOptionRefs.forEach((_optionRef, itemGuid) => {
       if (!itemIds.has(itemGuid)) {
         this.listboxOptionRefs.delete(itemGuid);
       }
     });
-    this.updateItems();
-    this.updateGroups();
   }
 
   private getListboxOptionRef(item: AutocompleteItem["el"]): Ref<HTMLLIElement> {
