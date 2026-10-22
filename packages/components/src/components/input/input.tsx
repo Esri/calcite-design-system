@@ -368,8 +368,7 @@ export class Input
       | "expanded"
       | "hasPopup"
       | "label"
-    > &
-      Pick<LuminaJsx.HTMLAttributes, "role">
+    >
   >;
 
   /**
@@ -379,6 +378,13 @@ export class Input
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete?: AutoFill;
+
+  /**
+   * Specifies the role for the component's native input.
+   *
+   * @private
+   */
+  @property() inputRole?: LuminaJsx.HTMLAttributes["role"];
 
   /** When `true` and the component has a `value`, a clear button is displayed. The clear button shows by default for `"search"`, `"time"`, and `"date"` types. */
   @property({ reflect: true }) clearable = false;
@@ -1446,7 +1452,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childNumberRef}
           required={this.required}
-          role={this.aria?.role}
+          role={this.inputRole}
           tabIndex={
             this.disabled || (this.hasInlineEditContext && !this.inlineEditingEnabledInContext)
               ? -1
@@ -1498,7 +1504,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childRef}
           required={this.required}
-          role={this.aria?.role}
+          role={this.inputRole}
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={

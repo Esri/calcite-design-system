@@ -935,7 +935,6 @@ export class Autocomplete
               expanded: isOpen,
               hasPopup: "listbox",
               label: getLabelText(this),
-              role: "combobox",
             }}
             autocomplete={this.autocomplete}
             autofocus={autofocus}
@@ -948,6 +947,7 @@ export class Autocomplete
             iconFlipRtl={this.iconFlipRtl}
             inputId={inputId}
             inputMode={inputMode}
+            inputRole="combobox"
             label={this.label}
             loading={this.loading}
             maxLength={this.maxLength}
