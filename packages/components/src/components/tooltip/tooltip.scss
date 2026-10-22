@@ -53,7 +53,7 @@
   padding-inline: var(--calcite-internal-tooltip-padding-inline);
   border-radius: var(
     --calcite-tooltip-corner-radius,
-    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-sm))
   );
   color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
   text-align: start;
@@ -70,7 +70,7 @@
   border-color: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
   border-radius: var(
     --calcite-tooltip-corner-radius,
-    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-sm))
   );
 }
 
