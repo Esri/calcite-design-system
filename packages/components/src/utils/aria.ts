@@ -38,13 +38,12 @@ export function toAriaBoolean(value: boolean, ...falseValues: [] | [AriaFalseVal
 }
 
 /** Supported values for ARIA live */
-export type AriaLive = "off" | "polite" | "assertive";
+const ariaLiveValues = ["off", "polite", "assertive"] as const;
+type AriaLive = (typeof ariaLiveValues)[number];
 
 /**
  * Returns a valid ARIA live region value when supported, otherwise `undefined`.
  */
-const ariaLiveValues: AriaLive[] = ["off", "polite", "assertive"] as const;
-
 export function resolveAriaLive(ariaLive: string | null | undefined): AriaLive | undefined {
   return ariaLiveValues.find((value) => value === ariaLive);
 }
