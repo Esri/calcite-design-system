@@ -96,6 +96,23 @@ it("allows toggling its content", async () => {
   expect(toggle.getAttribute("title")).toBe(messages.expand);
 });
 
+it("only labels content by the toggle when the toggle is rendered", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-block heading="heading" expanded><div>content</div></calcite-block>`);
+
+  const element = await page.find("calcite-block");
+  const content = await page.find(`calcite-block >>> #${IDS.content}`);
+
+  expect(await page.find(`calcite-block >>> #${IDS.toggle}`)).toBeNull();
+  expect(content.getAttribute("aria-labelledby")).toBeNull();
+
+  element.setProperty("expandable", true);
+  await page.waitForChanges();
+
+  expect(await page.find(`calcite-block >>> #${IDS.toggle}`)).not.toBeNull();
+  expect(content.getAttribute("aria-labelledby")).toBe(IDS.toggle);
+});
+
 // Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
 it("should map deprecated 'open' prop to 'expanded' prop", async () => {
   const page = await newE2EPage({
