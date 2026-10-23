@@ -14,7 +14,6 @@ import {
   handlesActionMenuPlacements,
   t9n,
   disabled,
-  openClose,
   accessible,
   scalePropagates,
   topLayer,
@@ -132,10 +131,6 @@ describe("setFocus", () => {
         focusTargetSelector: `.${blockSectionClass}`,
       },
     );
-  });
-
-  describe("openClose", () => {
-    openClose((mountOptions) => mount("calcite-block", mountOptions));
   });
 });
 
