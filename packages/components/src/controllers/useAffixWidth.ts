@@ -1,12 +1,13 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
+import type { Ref } from "lit/directives/ref.js";
 
 type AffixWidthComponent = {
   el: HTMLElement;
 };
 
 type AffixWidthRefs = {
-  prefixRef: { value?: HTMLElement };
-  suffixRef: { value?: HTMLElement };
+  prefixRef: Ref<HTMLElement>;
+  suffixRef: Ref<HTMLElement>;
   getTrailingWidth?: (affix: Affix) => number;
 };
 
