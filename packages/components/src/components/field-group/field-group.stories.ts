@@ -1,11 +1,12 @@
-import "./field-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../autocomplete/autocomplete"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../field-set/field-set"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../input-number/input-number"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../input-text/input-text"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./field-group";
+import "../autocomplete/autocomplete";
+import "../field-set/field-set";
+import "../input/input";
+import "../input-number/input-number";
+import "../input-text/input-text";
+import "../label/label";
+import "../button/button";
+import "../text-area/text-area";
 import { html } from "../../../support/formatting";
 
 type FieldGroupStoryArgs = {
@@ -108,6 +109,10 @@ export const complex = (args: FieldGroupStoryArgs): string => {
       <calcite-field-set legend="Legend 1">
         <calcite-field-group layout="columns" columns="2">
           <calcite-input label-text="Label"></calcite-input>
+          <calcite-text-area label-text="Label"></calcite-text-area>
+        </calcite-field-group>
+        <calcite-field-group layout="columns" columns="2">
+          <calcite-text-area label-text="Label"></calcite-text-area>
           <calcite-input label-text="Label"></calcite-input>
         </calcite-field-group>
         <calcite-input label-text="Label"></calcite-input>
@@ -115,6 +120,10 @@ export const complex = (args: FieldGroupStoryArgs): string => {
       <calcite-field-set legend="Legend 2">
         <calcite-field-group layout="columns" columns="2">
           <calcite-input label-text="Label"></calcite-input>
+          <calcite-text-area label-text="Label"></calcite-text-area>
+        </calcite-field-group>
+        <calcite-field-group layout="columns" columns="2">
+          <calcite-text-area label-text="Label"></calcite-text-area>
           <calcite-input label-text="Label"></calcite-input>
         </calcite-field-group>
         <calcite-input label-text="Label"></calcite-input>
