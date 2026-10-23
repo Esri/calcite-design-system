@@ -234,7 +234,7 @@ export class Autocomplete
   referenceEl?: Input["el"];
 
   /** @private */
-  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth | undefined {
+  @property() get affixElementProvider(): UseAffixWidth | undefined {
     return this.referenceEl?.affixElementProvider;
   }
 
