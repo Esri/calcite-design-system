@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.1...@esri/calcite-components@6.0.0-next.2) (2026-10-23)
+
+### Bug Fixes
+
+- **autocomplete:** forward active descendant to input ([#15425](https://github.com/Esri/calcite-design-system/issues/15425)), closes [#12505](https://github.com/Esri/calcite-design-system/issues/12505)
+
 ## [6.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.0...@esri/calcite-components@6.0.0-next.1) (2026-10-22)
 
 ### Bug Fixes
