@@ -20,6 +20,7 @@ import {
   listItemSelector,
   listSelector,
   updateListItemChildren,
+  updateListItemSetInfo,
 } from "../list-item/utils";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -582,6 +583,7 @@ export class List extends LitElement {
     }
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
     this.updateFilteredItems();
+    this.updateNestedListItemSetInfo();
     this.borderItems();
     this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
@@ -873,6 +875,18 @@ export class List extends LitElement {
       el: closestParent,
       filteredItems,
       visibleParents,
+    });
+  }
+
+  /**
+   * Only the root list filters, so nested lists can compute their items' set info before
+   * `filterHidden` is up to date. Refresh it once filtering has been applied.
+   */
+  private updateNestedListItemSetInfo(): void {
+    this.el.querySelectorAll(listSelector).forEach((list) => {
+      if (list.dragEnabled) {
+        updateListItemSetInfo(Array.from(list.children).filter(isListItem));
+      }
     });
   }
 
