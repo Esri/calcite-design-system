@@ -2,16 +2,8 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
+import type { FieldSet } from "./field-set";
 import { CSS } from "./resources";
-
-type UpdatableElement = HTMLElement & {
-  updateComplete?: Promise<unknown>;
-};
-
-type FieldSetElement = UpdatableElement & {
-  legend?: string;
-  shadowRoot: ShadowRoot;
-};
 
 describe("defaults", () => {
   defaults(() => mount("calcite-field-set"), {
@@ -51,7 +43,7 @@ describe("structure", () => {
 
   it("renders and updates a native legend", async () => {
     const { el } = await mount<"calcite-field-set">(<calcite-field-set legend="Initial legend" />);
-    const fieldSet = el as unknown as FieldSetElement;
+    const fieldSet = el as FieldSet["el"];
     const legend = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
 
     expect(legend.tagName).toBe("LEGEND");
