@@ -129,7 +129,6 @@ const globalTokens = {
   calciteColorText3: "#6a6a6a",
   calciteColorTextInverse: "#ffffff",
   calciteColorTextLink: "#00619b",
-  calciteColorTextLinkVisited: "#633b9b",
   calciteColorBrandUnderline: "rgba(0, 97, 155, 0.4)",
   calciteColorBorder1: "#cacaca",
   calciteColorBorder2: "#d4d4d4",
