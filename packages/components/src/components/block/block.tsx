@@ -564,7 +564,6 @@ export class Block extends LitElement {
   }
 
   private onHeaderClick(): void {
-    this.calciteBlockToggle.emit();
     if (this.parentBlockGroupElement) {
       this.calciteInternalBlockChange.emit({
         el: this.el,
@@ -573,6 +572,7 @@ export class Block extends LitElement {
     } else {
       this.expanded = !this.expanded;
     }
+    this.calciteBlockToggle.emit();
   }
 
   private menuActionsSlotChangeHandler(event: Event): void {

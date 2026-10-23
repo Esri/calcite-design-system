@@ -1,7 +1,8 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
+import type { Block } from "./block";
 
 import {
   defaults,
@@ -24,7 +25,6 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";
-import type { Block } from "./block";
 
 mockConsole();
 
@@ -364,6 +364,22 @@ describe("theme", () => {
     });
   });
 
+  describe("toggleDisplay", () => {
+    it("should toggle the expanded state when the toggleDisplay is switch", async () => {
+      const { el } = await mount(
+        <calcite-block expandable heading="heading" toggle-display="switch">
+          <div>content</div>
+        </calcite-block>,
+      );
+      expect(el).toHaveProperty("expanded", false);
+
+      await userEvent.click(el);
+      expect(el).toHaveProperty("expanded", true);
+      const slottedEl = page.getByText("content");
+      await expect.element(slottedEl).toBeVisible();
+    });
+  });
+
   describe("deprecated", () => {
     themed(
       () =>
@@ -435,21 +451,44 @@ describe("theme", () => {
         },
       },
     );
-  });
 
-  describe("toggleDisplay", () => {
-    it("should toggle the expanded state when the toggleDisplay is switch", async () => {
-      const { el } = await mount(
-        <calcite-block expandable heading="heading" toggle-display="switch">
-          <div>content</div>
-        </calcite-block>,
+    it("toggling the expanded in calciteBlockToggle event callback should persist the expanded state", async () => {
+      await mount(
+        <>
+          <calcite-block collapsible expanded heading="Use your credentials" icon-start="circle-f">
+            <calcite-button width="full">Sign in</calcite-button>
+          </calcite-block>
+          <calcite-block collapsible heading="Use your organization URL" icon-start="circle">
+            <calcite-button width="full">Continue</calcite-button>
+          </calcite-block>
+          <calcite-block collapsible heading="Use social authentication" icon-start="circle">
+            <div>Some content</div>
+          </calcite-block>
+        </>,
       );
-      expect(el).toHaveProperty("expanded", false);
+      const blockElements = page.getBySelector("calcite-block").elements() as Block[];
+      blockElements.forEach((block) => {
+        block.addEventListener("calciteBlockToggle", (event) => {
+          blockElements.forEach((block) => {
+            block.expanded = block === event.target;
+            block.iconStart = block === event.target ? "circle-f" : "circle";
+          });
+        });
+      });
+      await userEvent.click(blockElements[0]);
+      expect(blockElements[0]).toHaveProperty("expanded", true);
+      expect(blockElements[1]).toHaveProperty("expanded", false);
+      expect(blockElements[2]).toHaveProperty("expanded", false);
 
-      await userEvent.click(el);
-      expect(el).toHaveProperty("expanded", true);
-      const slottedEl = page.getByText("content");
-      await expect.element(slottedEl).toBeVisible();
+      await userEvent.click(blockElements[1]);
+      expect(blockElements[0]).toHaveProperty("expanded", false);
+      expect(blockElements[1]).toHaveProperty("expanded", true);
+      expect(blockElements[2]).toHaveProperty("expanded", false);
+
+      await userEvent.click(blockElements[2]);
+      expect(blockElements[0]).toHaveProperty("expanded", false);
+      expect(blockElements[1]).toHaveProperty("expanded", false);
+      expect(blockElements[2]).toHaveProperty("expanded", true);
     });
   });
 });
