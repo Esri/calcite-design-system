@@ -701,8 +701,8 @@ describe("theme", () => {
     const suffix = page.getBySelector(`calcite-autocomplete .${CSS.input} .suffix`);
 
     await vi.waitFor(() => {
-      expect(Math.ceil((prefix.element() as HTMLElement).getBoundingClientRect().width)).toBe(42);
-      expect(Math.ceil((suffix.element() as HTMLElement).getBoundingClientRect().width)).toBe(42);
+      expect(getComputedStyle(prefix.element() as HTMLElement).inlineSize).toBe("42px");
+      expect(getComputedStyle(suffix.element() as HTMLElement).inlineSize).toBe("42px");
     });
   });
 });
