@@ -1,9 +1,8 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
+import type { LitElement } from "@arcgis/lumina";
 import type { Ref } from "lit/directives/ref.js";
 
-type AffixWidthComponent = {
-  el: HTMLElement;
-};
+type AffixWidthComponent = LitElement;
 
 type AffixWidthRefs = {
   prefixRef: Ref<HTMLElement>;
