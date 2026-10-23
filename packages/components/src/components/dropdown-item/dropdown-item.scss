@@ -28,6 +28,7 @@
 .container {
   @include item-styling;
   @apply text-start;
+  min-inline-size: 0;
 
   & a {
     outline: none;
@@ -37,6 +38,8 @@
 
 .content {
   @apply flex-auto;
+  overflow-wrap: break-word;
+  min-inline-size: 0;
 }
 
 // item icon

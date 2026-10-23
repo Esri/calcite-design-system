@@ -117,9 +117,13 @@ export class ListItemGroup extends LitElement {
     return (
       <this.interactiveContainer disabled={disabled}>
         <div class={CSS.container} role="row">
-          <div ariaColSpan={MAX_COLUMNS} class={CSS.heading} role="cell">
-            {heading}
-          </div>
+          {heading ? (
+            <div ariaColSpan={MAX_COLUMNS} class={CSS.heading} role="cell">
+              {heading}
+            </div>
+          ) : (
+            <slot name="heading" />
+          )}
         </div>
         <slot onSlotChange={this.handleDefaultSlotChange} />
       </this.interactiveContainer>

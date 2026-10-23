@@ -580,3 +580,25 @@ export const referenceElement = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+
+export const slottedTextComponent = (): string => html`
+  <calcite-dropdown open width="m">
+    <calcite-button slot="trigger">Slotted Text</calcite-button>
+    <calcite-dropdown-group group-title="Options">
+      <calcite-dropdown-item>
+        <calcite-text>Option 1 with a very long text that might need truncation</calcite-text>
+      </calcite-dropdown-item>
+      <calcite-dropdown-item>
+        <calcite-text truncate-position="end">Option 2 with a very long text that might need truncation</calcite-text>
+      </calcite-dropdown-item>
+      <calcite-dropdown-item>
+        <calcite-text truncate-position="middle"
+          >Option 3 with a very long text that might need truncation</calcite-text
+        >
+      </calcite-dropdown-item>
+      <calcite-dropdown-item>
+        <calcite-text max-lines="2">Option 4 with a very long text that might need truncation</calcite-text>
+      </calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
