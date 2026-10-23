@@ -95,7 +95,13 @@
       "matchPackageNames": ["@arcgis/**"],
       "rangeStrategy": "bump",
       "ignoreUnstable": false,
-      "respectLatest": false
+      "respectLatest": false,
+      "minimumReleaseAge": null,
+      "statusCheckWhen": {
+        "configValidation": "never",
+        "mergeConfidence": "never",
+        "minimumReleaseAge": "never"
+      }
     },
     {
       "matchPackageNames": ["*"],

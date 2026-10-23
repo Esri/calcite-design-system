@@ -35,6 +35,7 @@ export const CSS = {
 export const IDS = {
   close: "close",
   collapse: "collapse",
+  heading: "heading",
 };
 
 export const ICONS: Record<string, IconName> = {
