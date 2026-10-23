@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.2...@esri/calcite-components@6.0.0-next.3) (2026-10-23)
+
+### Bug Fixes
+
+- **block:** allow persisting expanded state in calciteBlockToggle callback ([#15429](https://github.com/Esri/calcite-design-system/issues/15429)), closes [#15419](https://github.com/Esri/calcite-design-system/issues/15419)
+
 ## [6.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.1...@esri/calcite-components@6.0.0-next.2) (2026-10-23)
 
 ### Bug Fixes
