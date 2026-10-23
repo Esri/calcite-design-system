@@ -42,6 +42,36 @@
       font-size: var(--calcite-font-size-relative-base);
       font-weight: var(--calcite-font-weight-semibold);
     }
+
+    .height-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: var(--calcite-z-index-tooltip);
+    }
+
+    .height-overlay-box {
+      position: fixed;
+      box-sizing: border-box;
+      outline: var(--calcite-border-width-md) dashed var(--calcite-color-status-danger);
+      outline-offset: calc(var(--calcite-border-width-md) * -1);
+    }
+
+    .height-overlay-label {
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-start: 100%;
+      margin-inline-start: var(--calcite-space-xs);
+      padding: var(--calcite-space-px) var(--calcite-space-xs);
+      transform: translateY(-50%);
+      border-radius: var(--calcite-corner-radius-sm);
+      background-color: var(--calcite-color-status-danger);
+      color: var(--calcite-color-text-inverse);
+      font-size: var(--calcite-font-size-relative-sm);
+      font-weight: var(--calcite-font-weight-semibold);
+      line-height: var(--calcite-font-line-height-sm);
+      white-space: nowrap;
+    }
   </style>
 
   <body>
@@ -253,6 +283,10 @@
             hidden
           ></calcite-slider>
         </section>
+        <section class="control-section" aria-labelledby="inspect-heading">
+          <h2 id="inspect-heading" class="control-section-heading">Inspect</h2>
+          <calcite-switch id="height-overlay-switch" label-text-end="Show component heights"></calcite-switch>
+        </section>
       </div>
     </calcite-dialog>
     <demo-options></demo-options>
@@ -266,6 +300,64 @@
       const fontScaleModeSwitch = document.getElementById("font-scale-mode-switch");
       const fontScalePresetControl = document.getElementById("font-scale-presets");
       const fontScaleSlider = document.getElementById("font-scale-slider");
+      const heightOverlaySwitch = document.getElementById("height-overlay-switch");
+
+      // measure the visible control only (e.g. input field without its label, list row without nested items)
+      const heightTargets = [
+        (root) => root.querySelector('calcite-action[active][text="Layers"]')?.shadowRoot?.querySelector(".button"),
+        (root) => root.querySelector("calcite-input")?.shadowRoot?.querySelector(".wrapper"),
+        (root) => root.querySelector("calcite-list-item")?.shadowRoot?.querySelector(".row"),
+        (root) =>
+          root
+            .querySelectorAll("calcite-block")[1]
+            ?.shadowRoot?.querySelector("calcite-switch")
+            ?.shadowRoot?.querySelector(".track"),
+        (root) => [...root.querySelectorAll("calcite-chip")].at(-1)?.shadowRoot?.querySelector(".container"),
+      ];
+
+      let heightOverlay;
+      let heightOverlayFrame;
+
+      function renderHeightOverlay() {
+        const root = getDemoRoot();
+        heightTargets.forEach((findTarget, index) => {
+          const box = heightOverlay.children[index];
+          const target = findTarget(root);
+          const rect = target?.getBoundingClientRect();
+          box.hidden = !rect || rect.height === 0;
+          if (box.hidden) {
+            return;
+          }
+          Object.assign(box.style, {
+            top: `${rect.top}px`,
+            left: `${rect.left}px`,
+            width: `${rect.width}px`,
+            height: `${rect.height}px`,
+          });
+          box.firstChild.textContent = `${Number(rect.height.toFixed(2))}px`;
+        });
+        heightOverlayFrame = requestAnimationFrame(renderHeightOverlay);
+      }
+
+      function toggleHeightOverlay() {
+        if (!heightOverlaySwitch.checked) {
+          cancelAnimationFrame(heightOverlayFrame);
+          heightOverlay?.remove();
+          return;
+        }
+        heightOverlay = document.createElement("div");
+        heightOverlay.className = "height-overlay";
+        heightTargets.forEach(() => {
+          const box = document.createElement("div");
+          box.className = "height-overlay-box";
+          const label = document.createElement("span");
+          label.className = "height-overlay-label";
+          box.append(label);
+          heightOverlay.append(box);
+        });
+        document.body.append(heightOverlay);
+        renderHeightOverlay();
+      }
 
       function getDemoRoot() {
         const swapper = document.querySelector("demo-dom-swapper");
@@ -340,6 +432,8 @@
       });
 
       fontScalePresetControl.addEventListener("calciteSegmentedControlChange", applyFontScalePreset);
+
+      heightOverlaySwitch.addEventListener("calciteSwitchChange", toggleHeightOverlay);
 
       fontScaleSlider.addEventListener("calciteSliderInput", applyFontScaleSlider);
 
