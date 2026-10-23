@@ -45,6 +45,10 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
+        propertyName: "aria",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "description",
         defaultValue: undefined,
       },
@@ -430,6 +434,23 @@ describe("dialog updateSize public method", () => {
     await component.updateComplete;
     expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${initialInlineSize}px`);
     expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${initialBlockSize}px`);
+  });
+});
+
+describe("a11y attributes", () => {
+  it("does not announce assistive text unless a live region is configured", async () => {
+    await mount(<calcite-dialog drag-enabled />);
+    const assistiveText = page.getBySelector(`calcite-dialog .${CSS.assistiveText}`);
+
+    await expect.element(assistiveText).toBeInTheDocument();
+    await expect.element(assistiveText).not.toHaveAttribute("aria-live");
+  });
+
+  it("uses the configured live region setting", async () => {
+    await mount(<calcite-dialog aria={{ live: "polite" }} drag-enabled />);
+    const assistiveText = page.getBySelector(`calcite-dialog .${CSS.assistiveText}`);
+
+    await expect.element(assistiveText).toHaveAttribute("aria-live", "polite");
   });
 });
 
