@@ -361,13 +361,18 @@ describe("affix width coordination", () => {
       Math.ceil(getAffixElement(input, "suffix")!.getBoundingClientRect().left),
     );
 
-    inputText.prefixText = "the longest prefix";
+    autocomplete.prefixText = "the longest autocomplete prefix";
+    autocomplete.suffixText = "the longest autocomplete suffix";
 
     await vi.waitFor(() => {
-      const prefixWidth = getAffixWidth(inputText, "prefix");
+      const prefixWidth = getAffixWidth(autocomplete, "prefix");
+      const suffixWidth = getAffixWidth(autocomplete, "suffix");
 
       expect(getAffixWidth(input, "prefix")).toBe(prefixWidth);
       expect(getAffixWidth(inputNumber, "prefix")).toBe(prefixWidth);
+      expect(getAffixWidth(inputText, "prefix")).toBe(prefixWidth);
+      expect(getAffixWidth(input, "suffix")).toBe(suffixWidth);
+      expect(getAffixWidth(inputText, "suffix")).toBe(suffixWidth);
     });
   });
 

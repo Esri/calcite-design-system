@@ -517,9 +517,6 @@ export class Autocomplete
   /** Fires each time a new `inputValue` is typed. */
   calciteAutocompleteTextInput = createEvent({ cancelable: false });
 
-  /** @private */
-  calciteInternalInputAffixChange = createEvent({ cancelable: false });
-
   //#endregion
 
   //#region Lifecycle
@@ -882,11 +879,6 @@ export class Autocomplete
     this.calciteAutocompleteTextInput.emit();
   }
 
-  private inputAffixChangeHandler(event: Event): void {
-    event.stopPropagation();
-    this.calciteInternalInputAffixChange.emit();
-  }
-
   private setFloatingEl(el: HTMLDivElement | undefined): void {
     this.floatingEl = el;
     connectFloatingUI(this);
@@ -942,7 +934,6 @@ export class Autocomplete
             name={this.name}
             oncalciteInputChange={this.changeHandler}
             oncalciteInputInput={this.inputHandler}
-            oncalciteInternalInputAffixChange={this.inputAffixChangeHandler}
             oncalciteInternalInputFocus={this.handleInputFocus}
             onClick={this.inputClickHandler}
             onKeyDown={this.keyDownHandler}

@@ -125,7 +125,8 @@ export class FieldGroup extends LitElement {
     return input.affixElementProvider?.getTrailingWidth(affix) ?? 0;
   }
 
-  private handleAffixChange(): void {
+  private handleAffixChange(event: Event): void {
+    event.stopPropagation();
     void this.syncInputsAffixWidths();
   }
 
