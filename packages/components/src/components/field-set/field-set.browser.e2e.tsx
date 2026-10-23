@@ -13,10 +13,6 @@ type FieldSetElement = UpdatableElement & {
   shadowRoot: ShadowRoot;
 };
 
-async function waitForUpdate(element: UpdatableElement): Promise<void> {
-  await element.updateComplete;
-}
-
 describe("defaults", () => {
   defaults(() => mount("calcite-field-set"), {
     legend: undefined,
@@ -62,7 +58,7 @@ describe("structure", () => {
     expect(legend.textContent).toBe("Initial legend");
 
     fieldSet.legend = "Updated legend";
-    await waitForUpdate(fieldSet);
+    await fieldSet.updateComplete;
 
     expect(legend.textContent).toBe("Updated legend");
   });
