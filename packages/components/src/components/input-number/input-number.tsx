@@ -13,6 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
@@ -214,6 +215,23 @@ export class InputNumber
 
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
+  private prefixRef = createRef<HTMLDivElement>();
+  private suffixRef = createRef<HTMLDivElement>();
+  private affixWidth = useAffixWidth<InputNumber>({
+    prefixRef: this.prefixRef,
+    suffixRef: this.suffixRef,
+    getTrailingWidth: (affix) =>
+      affix === "suffix"
+        ? Math.ceil(this.numberButtonWrapperRef.value?.getBoundingClientRect().width ?? 0)
+        : 0,
+  })(this);
+
+  private numberButtonWrapperRef = createRef<HTMLDivElement>();
+
+  /** @private */
+  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
+    return this.affixWidth;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
@@ -568,6 +586,8 @@ export class InputNumber
 
   /** @private */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
+  /** @private */
+  calciteInternalInputAffixChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -632,6 +652,11 @@ export class InputNumber
 
     if (changes.has("readOnly")) {
       this.stopNudging();
+    }
+  }
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
+      this.calciteInternalInputAffixChange.emit();
     }
   }
 
@@ -1302,14 +1327,22 @@ export class InputNumber
     );
 
     const numberButtonsVertical = (
-      <div class={CSS.numberButtonWrapper}>
+      <div class={CSS.numberButtonWrapper} ref={this.numberButtonWrapperRef}>
         {numberButtonsHorizontalUp}
         {numberButtonsHorizontalDown}
       </div>
     );
 
-    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+    const prefixText = (
+      <div class={CSS.prefix} ref={this.prefixRef}>
+        {this.prefixText}
+      </div>
+    );
+    const suffixText = (
+      <div class={CSS.suffix} ref={this.suffixRef}>
+        {this.suffixText}
+      </div>
+    );
 
     const childEl = (
       <input
