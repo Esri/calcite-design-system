@@ -50,6 +50,10 @@ Prefer:
 
 When multiple patterns exist, determine which represents the current direction rather than copying the first example found.
 
+Prefer patterns enforced by types, code, or existing tooling over conventions that require contributors to manually track or remember rules.
+
+Reuse existing utilities for common operations rather than recreating them. Update a relevant helper when appropriate instead of adding a parallel implementation.
+
 ### Design APIs deliberately
 
 Treat public API changes as design decisions rather than implementation details.
@@ -75,6 +79,8 @@ Prefer native HTML, DOM, CSS, ARIA, and browser behavior when they satisfy the r
 
 Do not recreate platform behavior unnecessarily.
 
+Respect component encapsulation. Avoid reaching into shadow roots to access elements when public APIs or user-facing interactions can satisfy the use case.
+
 Accessibility behavior is part of component correctness, not an optional enhancement.
 
 When behavior depends on a platform or accessibility specification, verify the relevant specification or authoritative documentation rather than relying only on assumptions.
@@ -85,11 +91,17 @@ Use the standards resources and release-window technical baseline in `.github/co
 
 Tests should primarily verify observable behavior.
 
-Avoid tests that depend unnecessarily on private implementation details.
+Model how a user interacts with the component and minimize programmatic stepping through state or methods, unless the test specifically covers API or programmatic interaction.
+
+Test internals or implementation details only when necessary coverage cannot be achieved through observable behavior or public APIs.
 
 Use browser-mode tests as the default for component testing. Add new component tests in browser mode.
 
-Prefer locators over direct DOM queries. Direct DOM access is acceptable when a test primarily verifies API updates and locators would add unnecessary overhead to that path.
+Prefer locators over direct DOM queries, especially over manually traversing shadow roots. Direct DOM access is acceptable when a test primarily verifies API updates and locators would add unnecessary overhead to that path.
+
+Add tests purposefully in the appropriate context. Cover visual changes such as layout with screenshot tests, and functionality with E2E or spec tests rather than stories.
+
+Reuse or extend relevant tests and groups when new coverage shares their context. Adjust an existing test's scope when the coverage belongs together instead of duplicating setup or adding a disconnected test.
 
 When working near an existing Node test, migrate it to browser mode if:
 

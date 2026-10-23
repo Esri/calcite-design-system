@@ -10,9 +10,11 @@ argument-hint: "[component, behavior, or test]"
 
 Describe the externally observable behavior before writing the assertion.
 
-Prefer testing what a consumer can observe rather than how the component internally produces the result.
+Apply `AGENTS.md`'s "Test behavior" guidance when choosing user interactions, programmatic API coverage, and any necessary implementation-detail coverage.
 
 ## Choose the appropriate environment
+
+Match coverage to the behavior using `AGENTS.md`'s "Test behavior" guidance before choosing a test environment.
 
 Use browser-mode tests as the default. Add new component tests as `*.browser.e2e.tsx`.
 
@@ -26,13 +28,19 @@ If those conditions cannot be met, update the existing Node test in place.
 
 ## Follow existing test patterns
 
-Inspect nearby current tests before generating new ones.
+Inspect nearby current tests and groups before generating new ones; extend shared context following `AGENTS.md`'s "Test behavior" guidance.
 
-Prefer Vitest locators over direct DOM queries.
+Use Vitest locators for user interactions and assertions, following the locator and shadow-root guidance in `AGENTS.md`.
 
-Direct DOM access is acceptable when a test primarily verifies API updates and locators would add unnecessary overhead.
+### Use the public component surface
 
-Reuse helpers from `packages/components/src/tests/common` and `packages/components/src/tests/utils`.
+Prefer `el` from `mount`'s return object over `component` to exercise the same element and public API consumers use.
+
+Use `component` when you need to use the proxied component. Use it to access members unavailable on `el`, such as public class members not exposed through Lumina decorators; its availability is not a reason to test internals.
+
+### Reuse test utilities
+
+Use helpers from `packages/components/src/tests/common` and `packages/components/src/tests/utils` rather than recreating common operations. For example, use `afterNextFrame` from `src/tests/utils/timing.ts` instead of writing a promise-wrapped `requestAnimationFrame` call when waiting for a frame is appropriate.
 
 ## Preserve deprecated API coverage
 

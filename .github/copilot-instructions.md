@@ -38,7 +38,7 @@ Follow `AGENTS.md` and the repository's contributing, component, testing, and do
 - Do not invent colors, spacing values, or typography scales.
 - Do not change layout, spacing, or interaction behavior unless requested.
 - Use CSS classes in stories instead of repeating inline styles.
-- For behavior with a visual effect, update the relevant story in addition to automated tests. For purely visual changes, prefer story coverage unless interaction testing is needed.
+- For changes with a visual effect, update the relevant story for screenshot coverage. Keep functional assertions in E2E or spec tests rather than stories, following the test-selection guidance in `AGENTS.md`.
 
 ## Testing mechanics
 
