@@ -89,8 +89,7 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
           description: "When `true` and `inlineEdit` is defined, the component is editable.",
         },
         inlineEditingBeforeConfirm: {
-          description:
-            "When `inlineEdit` is `true`, specifies a callback to be run when changes are saved.",
+          description: "When `inlineEdit` is `true`, specifies a callback to be run when changes are saved.",
         },
         label(_apiProperty, apiClass) {
           const baseDescription = "Specifies an accessible label for the component.";
