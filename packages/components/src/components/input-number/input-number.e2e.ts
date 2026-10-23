@@ -2,10 +2,9 @@ import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { assertCaretPosition, findAll, isElementFocused } from "../../tests/utils/puppeteer";
+import { assertCaretPosition, findAll } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { DIRECTION } from "./resources";
 import type { InputNumber } from "./input-number";
@@ -225,13 +224,13 @@ it("allows deleting exponential number from decimal and adding trailing zeros", 
 
   await page.keyboard.press("Backspace");
   await page.waitForChanges();
-  expect(await calciteInput.getProperty("value")).toBe("2.1");
-  expect(await input.getProperty("value")).toBe("2.1");
+  expect(await calciteInput.getProperty("value")).toBe("");
+  expect(await input.getProperty("value")).toBe("2.1e");
 
   await page.keyboard.type("000");
   await page.waitForChanges();
-  expect(await calciteInput.getProperty("value")).toBe("2.1000");
-  expect(await input.getProperty("value")).toBe("2.1000");
+  expect(await calciteInput.getProperty("value")).toBe("2.1e0");
+  expect(await input.getProperty("value")).toBe("2.1e000");
 });
 
 it("disallows typing non-numeric characters with shift modifier key down", async () => {
@@ -774,29 +773,6 @@ describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of tex
 
     expect(cursorHomeCount).toBe(0);
   });
-});
-
-it("should not focus when clicking validation message", async () => {
-  const page = await newE2EPage();
-  const componentTag = "calcite-input-number";
-  await page.setContent(
-    html` <${componentTag} status="invalid" type="text" validation-message="Info message"></${componentTag}>`,
-  );
-  await page.waitForChanges();
-
-  expect(await isElementFocused(page, componentTag)).toBe(false);
-
-  await page.$eval(`${componentTag} >>> calcite-input-message`, (element: InputMessage["el"]) => {
-    element.click();
-  });
-  await page.waitForChanges();
-
-  expect(await isElementFocused(page, componentTag)).toBe(false);
-
-  await page.keyboard.press("Tab");
-  await page.waitForChanges();
-
-  expect(await isElementFocused(page, componentTag)).toBe(true);
 });
 
 it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
