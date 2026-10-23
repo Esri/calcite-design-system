@@ -13,22 +13,16 @@
 //
 // --calcite-internal-link-theme-text-color
 // --calcite-internal-link-theme-underline-color
-// --calcite-internal-link-theme-visited-text-color
 
 @use "../../styles/shared";
 
 // Internal semantic defaults for Link colors.
 //
 // --calcite-internal-link-theme-text-color
-// --calcite-internal-link-theme-visited-text-color
 // --calcite-internal-link-theme-underline-color
 
 :host {
   --calcite-internal-link-theme-text-color: var(--calcite-theme-color-text-link, var(--calcite-color-text-link));
-  --calcite-internal-link-theme-visited-text-color: var(
-    --calcite-theme-color-text-link-visited,
-    var(--calcite-color-text-link-visited)
-  );
   --calcite-internal-link-theme-underline-color: var(
     --calcite-theme-color-brand-underline,
     var(--calcite-color-brand-underline)
@@ -63,7 +57,7 @@
 }
 
 :host a:visited {
-  color: var(--calcite-link-visited-text-color, var(--calcite-internal-link-theme-visited-text-color));
+  color: var(--calcite-link-visited-text-color, revert);
 }
 
 :host a:visited .link--text {
