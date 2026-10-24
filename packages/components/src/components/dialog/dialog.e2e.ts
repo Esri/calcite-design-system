@@ -788,7 +788,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS_UTILITY.screenReaderText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).toBeNull();
   });
 
@@ -799,7 +801,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS_UTILITY.screenReaderText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
@@ -813,7 +817,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS_UTILITY.screenReaderText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
@@ -829,7 +835,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS_UTILITY.screenReaderText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
