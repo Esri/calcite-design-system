@@ -81,7 +81,6 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   if (!localeData) {
     return undefined;
   }
-  const { separator } = localeData;
   const parts = parseDateString(value, localeData);
 
   const { day, month } = parts;
@@ -93,7 +92,7 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   const validDay = day > 0;
   const validMonth = month > -1;
   const validDate = !isNaN(date.getTime());
-  const validLength = value.split(separator).filter((c) => c).length > 2;
+  const validLength = Object.values(datePartsFromLocalizedString(value, localeData)).every(Boolean);
   const validYear = year.toString().length > 0;
 
   if (validDay && validMonth && validDate && validLength && validYear) {
@@ -131,9 +130,9 @@ export function datePartsFromLocalizedString(
   string: string,
   localeData: DateLocaleData,
 ): { day: string; month: string; year: string } {
-  const { separator, unitOrder } = localeData;
+  const { unitOrder } = localeData;
   const order = getOrder(unitOrder);
-  const values = string.split(separator).map((part) => numberStringFormatter.delocalize(part));
+  const values = numberStringFormatter.delocalize(string).match(/\d+/g) ?? [];
   const day = values[order.indexOf("d")];
   const month = values[order.indexOf("m")];
   const year = values[order.indexOf("y")];
