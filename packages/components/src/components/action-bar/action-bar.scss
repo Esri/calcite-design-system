@@ -121,6 +121,9 @@
     );
     border-image-slice: 1;
     border-inline-end-width: var(--calcite-border-width-sm);
+    // groups in the actions-start/end slots are also slotted into a horizontal action-group,
+    // whose `border-inline-end` shorthand resets the border style
+    border-inline-end-style: solid;
     padding-inline-end: var(--calcite-internal-action-bar-padding);
   }
 }
