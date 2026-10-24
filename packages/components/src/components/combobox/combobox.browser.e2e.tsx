@@ -1,5 +1,5 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, test, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/utils/commands";
@@ -25,6 +25,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
+import { logger } from "../../utils/logger";
 import { waitForEvent } from "../../tests/common/utils";
 import type { ComboboxItem } from "../combobox-item/combobox-item";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
@@ -1590,6 +1591,58 @@ describe("filtering", () => {
     await expect.element(items.nth(3)).not.toBeVisible();
   });
 
+  it.each([false, true])(
+    "preserves text selection when dragging outside with allowCustomValues=%s",
+    async (allowCustomValues) => {
+      const changeSpy = vi.fn();
+      const { el } = await mount<Combobox>(
+        <calcite-combobox
+          allowCustomValues={allowCustomValues}
+          oncalciteComboboxChange={changeSpy}
+          style="width: 300px;"
+        >
+          <calcite-combobox-item heading="One" value="one" />
+          <calcite-combobox-item heading="Two" value="two" />
+        </calcite-combobox>,
+      );
+      const input = page.getByRole("combobox");
+      const typedValue = "three";
+
+      await userEvent.tab();
+      await updateFilter(el, { type: "keyboard", value: typedValue });
+
+      const inputEl = input.element();
+      const inputBounds = inputEl.getBoundingClientRect();
+      const outsideX = el.getBoundingClientRect().right + 40;
+      const y = inputBounds.y + inputBounds.height / 2;
+
+      await commands.mouseMove(inputBounds.x, y);
+      await commands.mouseDown();
+      await commands.mouseMove(outsideX, y, { steps: 10 });
+      await commands.mouseUp();
+
+      await expect.element(input).toHaveValue(typedValue);
+      await expect.element(el).toHaveFocus();
+      expect(el).toHaveProperty("shadowRoot.activeElement", inputEl);
+      await expect.element(inputEl).toHaveProperty("selectionStart", 0);
+      await expect.element(inputEl).toHaveProperty("selectionEnd", typedValue.length);
+      expect(el).toHaveProperty("filterText", typedValue);
+      expect(el).toHaveProperty("open", true);
+      expect(el).toHaveProperty("value", "");
+      expect(changeSpy).not.toHaveBeenCalled();
+
+      await commands.mouseDown();
+      await commands.mouseUp();
+
+      await expect.element(input).toHaveValue("");
+      await expect.element(el).not.toHaveFocus();
+      expect(el).toHaveProperty("filterText", "");
+      expect(el).toHaveProperty("open", false);
+      expect(el).toHaveProperty("value", allowCustomValues ? typedValue : "");
+      expect(changeSpy).toHaveBeenCalledTimes(allowCustomValues ? 1 : 0);
+    },
+  );
+
   it("does not clear filter if pointer down/up on an item has a delay in between events", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox clear-disabled placeholder="Select a field" selection-mode="single-persist">
@@ -1886,6 +1939,70 @@ describe("filtering", () => {
 
     expect(visibleItems.elements().map((item) => item.id)).toEqual(["description-match"]);
   });
+});
+
+describe("selection mode warning", () => {
+  const message = `clearDisabled is ignored when selection-mode is set to "single-persist"`;
+
+  beforeEach(() => {
+    vi.spyOn(logger, "warn");
+  });
+
+  afterEach(() => {
+    vi.mocked(logger.warn).mockRestore();
+    vi.unstubAllEnvs();
+  });
+
+  it("warns in development builds when clear-disabled is combined with single-persist", async () => {
+    vi.stubEnv("DEV", true);
+
+    await mount(
+      <calcite-combobox clear-disabled label="Trees" selection-mode="single-persist">
+        <calcite-combobox-item heading="Pine" value="Pine" />
+      </calcite-combobox>,
+    );
+
+    expect(logger.warn).toHaveBeenCalledWith(message);
+  });
+
+  it("does not warn in production builds when clear-disabled is combined with single-persist", async () => {
+    vi.stubEnv("DEV", false);
+
+    await mount(
+      <calcite-combobox clear-disabled label="Trees" selection-mode="single-persist">
+        <calcite-combobox-item heading="Pine" value="Pine" />
+      </calcite-combobox>,
+    );
+
+    expect(logger.warn).not.toHaveBeenCalledWith(message);
+  });
+
+  it("does not warn without clear-disabled", async () => {
+    vi.stubEnv("DEV", true);
+
+    await mount(
+      <calcite-combobox label="Trees" selection-mode="single-persist">
+        <calcite-combobox-item heading="Pine" value="Pine" />
+      </calcite-combobox>,
+    );
+
+    expect(logger.warn).not.toHaveBeenCalledWith(message);
+  });
+
+  it.each(["single", "multiple", "ancestors"] as const)(
+    "does not warn when clear-disabled is combined with %s",
+    async (selectionMode) => {
+      vi.stubEnv("DEV", true);
+
+      await mount(
+        <calcite-combobox clear-disabled label="Trees" selection-mode={selectionMode}>
+          <calcite-combobox-item heading="Pine" value="Pine" />
+        </calcite-combobox>,
+      );
+
+      expect(logger.warn).not.toHaveBeenCalledWith(message);
+    },
+  );
 });
 
 describe("theme", () => {

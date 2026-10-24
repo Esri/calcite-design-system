@@ -2,6 +2,7 @@ import { h } from "@arcgis/lumina";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
+import { commands } from "../../tests/utils/commands";
 import {
   defaults,
   disabled,
@@ -169,5 +170,24 @@ describe("theme", () => {
         },
       },
     );
+  });
+});
+
+describe("underline", () => {
+  it("preserves underline thickness while active", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    const anchor = el.shadowRoot.querySelector("a")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
+    const { x, y, width, height } = anchor.getBoundingClientRect();
+    const initialThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
+
+    await commands.mouseMove(x + width / 2, y + height / 2);
+    await commands.mouseDown();
+
+    const activeThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
+
+    expect(activeThickness).toBe(initialThickness);
+
+    await commands.mouseUp();
   });
 });

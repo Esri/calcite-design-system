@@ -17,7 +17,7 @@ import { Validation } from "../functional/Validation";
 import { useT9n } from "../../controllers/useT9n";
 import { IconName } from "../icon/types";
 import type { RadioButton } from "../radio-button/radio-button";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
@@ -29,11 +29,37 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-radio-button`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the space between slotted components in the component.
+     */
+    "--calcite-radio-button-group-gap": "*";
+    /**
+     * Specifies the margin spacing at the top of the `calcite-input-message`.
+     */
+    "--calcite-radio-button-input-message-spacing": "*";
+  }
+}
+
+interface RadioButtonGroupSlots {
+  /**
+   * A slot for adding `calcite-radio-button`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class RadioButtonGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: RadioButtonGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -51,7 +77,7 @@ export class RadioButtonGroup extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private _disabled = false;
 

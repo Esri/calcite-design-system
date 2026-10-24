@@ -13,6 +13,27 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's color.
+     */
+    "--calcite-segmented-control-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-segmented-control-background-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-segmented-control-shadow": "*";
+    /**
+     * Specifies the icons's color.
+     */
+    "--calcite-segmented-control-icon-color": "*";
+  }
+}
+
 export class SegmentedControlItem extends LitElement {
   // #region Static Members
 

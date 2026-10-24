@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { Locator, page } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
@@ -15,6 +15,7 @@ import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { DatePicker } from "./date-picker";
 import { mockConsole } from "../../tests/utils/logging";
+import type { DatePickerDay } from "../date-picker-day/date-picker-day";
 import type { DatePickerMonth } from "../date-picker-month/date-picker-month";
 
 describe("defaults", () => {
@@ -54,6 +55,29 @@ describe("propagates", () => {
 describe("focusable", () => {
   focusable(() => mount("calcite-date-picker"), {
     shadowFocusTargetSelector: "calcite-date-picker-month",
+  });
+
+  it("moves focus between gridcells with arrow keys", async () => {
+    await mount(<calcite-date-picker value="2025-09-15" />);
+
+    const grid = page.getByRole("grid", { includeHidden: true });
+    const activeDay = grid
+      .getByRole("gridcell", {
+        includeHidden: true,
+        name: "Monday, September 15, 2025",
+      })
+      .element() as DatePickerDay["el"];
+    const nextDay = grid
+      .getByRole("gridcell", {
+        includeHidden: true,
+        name: "Tuesday, September 16, 2025",
+      })
+      .element() as DatePickerDay["el"];
+
+    await activeDay.setFocus();
+    await userEvent.keyboard("{ArrowRight}");
+
+    expect(nextDay.getRootNode()).toHaveProperty("activeElement", nextDay);
   });
 });
 
@@ -116,6 +140,8 @@ describe("activeDate", () => {
 });
 
 describe("value", () => {
+  mockConsole();
+
   const today = new Date();
   const unsetValueCases = [
     { label: "empty string", value: "" },
@@ -192,6 +218,108 @@ describe("value", () => {
     expectDate(getMonth(el)?.activeDate, today);
     expect(el.activeEndDate).toBeUndefined();
     expect(getSelectedDays(el)).toHaveLength(0);
+  });
+
+  it("updates the calendar view when a programmatic range value follows a manual selection", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker active-range="start" range value={["2024-01-01", "2024-01-02"]} />,
+    );
+    const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+    await waitForCalendarUpdate(el, component);
+
+    await userEvent.click(
+      page.getBySelector("calcite-date-picker-day[current-month][id='20240210']"),
+    );
+    await waitForCalendarUpdate(el, component);
+
+    // User selection preserved the view instead of shifting it to February/March.
+    expect(el.value).toEqual(["2024-02-10", ""]);
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "January");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "February");
+
+    await userEvent.click(
+      page.getBySelector("calcite-date-picker-day[current-month][id='20240215']"),
+    );
+    await waitForCalendarUpdate(el, component);
+
+    expect(el.value).toEqual(["2024-02-10", "2024-02-15"]);
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "January");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "February");
+
+    el.value = ["2025-10-15", "2025-11-03"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "October");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "November");
+  });
+
+  it.each([
+    { calendars: 1 as const, expectedMonths: ["October"] },
+    { calendars: 2 as const, expectedMonths: ["October", "November"] },
+  ])(
+    "keeps $calendars calendar(s) on the selected month when a same-day range is reassigned",
+    async ({ calendars, expectedMonths }) => {
+      const { el, component } = await mount<DatePicker>(
+        <calcite-date-picker calendars={calendars} range />,
+      );
+      const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+
+      async function assertCalendarMonths(): Promise<void> {
+        expect(monthSelectMenus).toHaveLength(expectedMonths.length);
+        for (const [index, expectedMonth] of expectedMonths.entries()) {
+          await expect.element(monthSelectMenus.nth(index)).toHaveProperty("value", expectedMonth);
+        }
+      }
+
+      const date1 = new Date(2025, 9, 5);
+      const date2 = new Date(2025, 9, 7);
+
+      el.activeDate = date1;
+      el.valueAsDate = [date1, date2];
+      await waitForCalendarUpdate(el, component);
+      await assertCalendarMonths();
+
+      el.activeDate = undefined;
+      el.valueAsDate = [date2, date2];
+      await waitForCalendarUpdate(el, component);
+      await assertCalendarMonths();
+
+      el.valueAsDate = [date2, date2];
+      await waitForCalendarUpdate(el, component);
+      await assertCalendarMonths();
+    },
+  );
+
+  it("shows a partially selectable following month when a same-day range is reassigned", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker calendars={2} max="2025-11-10" range />,
+    );
+    const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+
+    el.value = ["2025-10-20", "2025-10-20"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "October");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "November");
+
+    el.value = ["2025-10-20", "2025-10-20"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "October");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "November");
+  });
+
+  it("keeps a same-day range in the maximum month visible with two calendars", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker max="2025-12-18" range />,
+    );
+    const monthSelectMenus = page.getByRole("combobox", { name: "Month menu" });
+
+    el.value = ["2025-12-07", "2025-12-07"];
+    await waitForCalendarUpdate(el, component);
+
+    await expect.element(monthSelectMenus.first()).toHaveProperty("value", "November");
+    await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "December");
   });
 
   async function waitForCalendarUpdate(el: DatePicker["el"], component: DatePicker): Promise<void> {

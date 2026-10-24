@@ -16,8 +16,20 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-tile` elements. */
+interface TileGroupSlots {
+  /**
+   * A slot for adding `calcite-tile` elements.
+   */
+  "": Node[];
+}
+
 export class TileGroup extends LitElement implements SelectableGroupComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TileGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;

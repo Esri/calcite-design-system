@@ -25,7 +25,7 @@ import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/types";
 import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
@@ -39,18 +39,87 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-list-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when pressed.
+     */
+    "--calcite-list-background-color-press": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-list-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-list-border-color": "*";
+    /**
+     * Specifies the content color.
+     */
+    "--calcite-list-content-text-color": "*";
+    /**
+     * Specifies the `description` color.
+     */
+    "--calcite-list-description-text-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-list-icon-color": "*";
+    /**
+     * Specifies the `label` color.
+     */
+    "--calcite-list-label-text-color": "*";
+    /**
+     * Specifies the component's selection border color.
+     */
+    "--calcite-list-selection-border-color": "*";
+  }
+}
+
+interface ListItemSlots {
+  /**
+   * A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
+   */
+  "": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements before the content of the component.
+   */
+  "actions-start": Node[];
+  /**
+   * A slot for adding non-actionable elements before the component's `label` and `description`.
+   */
+  "content-start": Node[];
+  /**
+   * A slot for adding non-actionable, centered content in place of the component's `label` and `description`.
+   */
+  content: Node[];
+  /**
+   * A slot for adding non-actionable elements after the component's `label` and `description`.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements after the component's content.
+   */
+  "actions-end": Node[];
+  /**
+   * A slot for adding content below the component's `label` and `description`.
+   */
+  "content-bottom": Node[];
+}
+
 const focusMap = new Map<List["el"], number | undefined>();
 
-/**
- * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
- * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
- * @slot content-start - A slot for adding non-actionable elements before the component's `label` and `description`.
- * @slot content - A slot for adding non-actionable, centered content in place of the component's `label` and `description`.
- * @slot content-end - A slot for adding non-actionable elements after the component's `label` and `description`.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the component's content.
- * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
- */
 export class ListItem extends LitElement implements SortableComponentItem {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ListItemSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = [styles, sortableStyles];
@@ -82,7 +151,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

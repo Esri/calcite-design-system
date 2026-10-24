@@ -80,6 +80,25 @@ export const withImageDisabled = (args: SwatchStoryArgs): string => html`
   </div>
 `;
 
+export const containedInButton = (args: SwatchStoryArgs): string => html`
+  <calcite-button appearance="outline" kind="neutral">
+    with color
+    <calcite-swatch color="#ff00ff" label="${args.label}"></calcite-swatch>
+  </calcite-button>
+  <calcite-button appearance="outline" kind="neutral">
+    with image
+    <calcite-swatch label="${args.label}">
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+      />
+    </calcite-swatch>
+  </calcite-button>
+`;
+
 export const darkModeRTL = (args: SwatchStoryArgs): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-swatch class="calcite-mode-dark" label="${args.label}"></calcite-swatch>

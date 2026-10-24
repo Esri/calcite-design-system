@@ -242,12 +242,33 @@
           "$type": "sizing",
           "$value": "100%"
         },
+        "115": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "115%"
+        },
+        "120": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "120%"
+        },
         "125": {
           "attributes": {
             "category": "size"
           },
           "$type": "sizing",
           "$value": "125%"
+        },
+        "133": {
+          "attributes": {
+            "category": "size"
+          },
+          "$type": "sizing",
+          "$value": "133%"
         },
         "137": {
           "attributes": {

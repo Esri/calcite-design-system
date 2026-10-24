@@ -29,8 +29,7 @@ type InputTextStoryArgs = Pick<
   | "value"
   | "placeholder"
   | "validationIcon"
-  | "inlineEditable"
-  | "inlineEditableControls"
+  | "inlineEdit"
   | "validationMessage"
 >;
 
@@ -56,8 +55,7 @@ export default {
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
-    inlineEditable: false,
-    inlineEditableControls: false,
+    inlineEdit: false,
   },
   argTypes: {
     scale: {
@@ -86,6 +84,10 @@ export default {
       options: ["", ...iconNames],
       control: { type: "select" },
     },
+    inlineEdit: {
+      options: [false, true, "controls-disabled"],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -110,8 +112,8 @@ export const simple = (args: InputTextStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${boolean("inline-editable", args.inlineEditable)}
-      ${boolean("inline-editable-controls", args.inlineEditableControls)}
+      ${boolean("inline-edit", args.inlineEdit === true)}
+      ${optionalAttribute("inline-edit", args.inlineEdit === "controls-disabled" ? args.inlineEdit : "")}
       ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-text>
@@ -240,8 +242,27 @@ export const overlayDoesNotObscureIcon = (): string =>
     <calcite-input-text icon="check-square-f"></calcite-input-text>
     <div class="overlay"></div>`;
 
-export const inlineEditable = (): string => html`
-  <div>
-    <calcite-input-text inline-editable inline-editable-controls value="Editable text"></calcite-input-text>
-  </div>
+export const inlineEdit = (): string =>
+  html`<calcite-input-text inline-edit value="Editable text"></calcite-input-text> `;
+
+export const inlineEditConfirmLoading = (): string => html`
+  <calcite-input-text
+    id="inline-edit-confirm-loading"
+    inline-edit
+    inline-editing
+    value="Editable text"
+  ></calcite-input-text>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-input-text");
+      const input = await document.querySelector("#inline-edit-confirm-loading").componentOnReady();
+      input.inlineEditingBeforeConfirm = () => new Promise(() => {});
+      input.shadowRoot.querySelector(".confirm-changes").click();
+    })();
+  </script>
 `;
+
+inlineEditConfirmLoading.parameters = { chromatic: { delay: 500 } };
+
+export const inlineEditControlsDisabled = (): string =>
+  html`<calcite-input-text inline-edit="controls-disabled" value="Editable text"></calcite-input-text> `;

@@ -5,7 +5,7 @@ import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from
 import { useT9n } from "../../controllers/useT9n";
 import { Scale } from "../types";
 import type { MenuItem } from "../menu-item/menu-item";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
 import { isMenuItem } from "../menu-item/resources";
@@ -40,7 +40,7 @@ export class Menu extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 

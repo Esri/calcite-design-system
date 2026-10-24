@@ -18,7 +18,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
 import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, SLOTS } from "./resources";
@@ -40,10 +40,29 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-input-time-zone-corner-radius": "*";
+  }
+}
+
+interface InputTimeZoneSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputTimeZone extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: InputTimeZoneSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -77,7 +96,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -110,6 +129,9 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   /** @copyDoc */
   @property({ reflect: true }) form?: string;
+
+  /** @copyDoc */
+  @property() label?: string;
 
   /** @copyDoc */
   @property() labelText?: string;
@@ -498,7 +520,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
         <calcite-combobox
           clearDisabled={!this.clearable}
           disabled={this.disabled}
-          label={this.messages.chooseTimeZone}
+          label={this.label || this.messages.chooseTimeZone}
           labelText={this.labelText}
           lang={this.messages._lang}
           maxItems={this.maxItems}

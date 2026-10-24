@@ -1,0 +1,18 @@
+name: Build Storybook
+description: Install dependencies and build Storybook output
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/setup@v3
+      with:
+        cache: true
+
+    - shell: bash
+      env:
+        STORYBOOK_SCREENSHOT_TEST_BUILD: true
+      run: |
+        pnpm --filter @esri/calcite-design-tokens build
+        pnpm --filter @esri/calcite-tailwind-preset build
+        pnpm --filter @esri/calcite-ui-icons build
+        pnpm --filter @esri/calcite-components build-storybook

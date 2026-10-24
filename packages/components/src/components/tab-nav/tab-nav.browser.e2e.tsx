@@ -27,6 +27,24 @@ describe("translation support", () => {
   t9n(() => mount("calcite-tab-nav"));
 });
 
+describe("wheel interactions", () => {
+  it("does not prevent page scrolling when tab titles do not overflow", async () => {
+    await mount(
+      <calcite-tab-nav>
+        <calcite-tab-title selected>Tab title</calcite-tab-title>
+      </calcite-tab-nav>,
+    );
+    const tabTitleContainer = page
+      .getBySelector(`.${CSS.tabTitleSlotWrapper}`)
+      .element() as HTMLDivElement;
+    const event = new WheelEvent("wheel", { bubbles: true, cancelable: true, deltaY: 100 });
+
+    tabTitleContainer.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-tab-nav"), {

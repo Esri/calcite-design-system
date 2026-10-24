@@ -21,18 +21,20 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale, SelectionMode } from "../types";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resources";
 import { styles } from "./block-group.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
 import { toAriaBoolean } from "../../utils/aria";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -40,13 +42,23 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-block` elements.
- */
+interface BlockGroupSlots {
+  /**
+   * A slot for adding `calcite-block` elements.
+   */
+  "": Node[];
+}
+
 export class BlockGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: BlockGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -64,7 +76,7 @@ export class BlockGroup extends LitElement {
 
   private cancelable = useCancelable<this>()(this);
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private parentBlockGroupEl?: BlockGroup["el"];
 
@@ -86,10 +98,10 @@ export class BlockGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can move from the component. */
+  /** When provided, the method will be called to determine whether the element can be moved from the component. */
   @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
-  /** When provided, the method will be called to determine whether the element can be added from another component. */
+  /** When provided, the method will be called to determine whether the element can be added from another `calcite-block-group`. */
   @property() canPut?: (detail: BlockDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -101,7 +113,7 @@ export class BlockGroup extends LitElement {
   /**
    * Specifies the component's group identifier.
    *
-   * To drag elements from one group into another, both groups must have the same group value.
+   * To drag elements from one `calcite-block-group` into another, both must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
@@ -118,13 +130,13 @@ export class BlockGroup extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the expansion mode of the component, where:
    *
-   * `"multiple"` allows any number of selections,
+   * `"multiple"` allows any number of `calcite-block`s to be expanded,
    *
-   * `"single"` allows only one selection, and
+   * `"single"` allows only one `calcite-block` to be expanded, and
    *
-   * `"single-persist"` allows one selection and prevents de-selection.
+   * `"single-persist"` allows one `calcite-block` to be expanded and prevents collapsing.
    */
   @property({ reflect: true }) expandMode: Extract<
     "single" | "single-persist" | "multiple",
@@ -606,7 +618,7 @@ export class BlockGroup extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.dragEnabled ? (
-            <span ariaLive="assertive" class={CSS.assistiveText}>
+            <span ariaLive="assertive" class={CSS_UTILITY.screenReaderText}>
               {this.assistiveText}
             </span>
           ) : null}

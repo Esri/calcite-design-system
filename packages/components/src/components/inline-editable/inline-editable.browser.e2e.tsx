@@ -52,12 +52,9 @@ describe("accessible", () => {
   describe("default", () => {
     accessible(() =>
       mount(
-        <calcite-label>
-          Label
-          <calcite-inline-editable>
-            <calcite-input value="John Doe" />
-          </calcite-inline-editable>
-        </calcite-label>,
+        <calcite-inline-editable>
+          <calcite-input label="test-label" value="John Doe" />
+        </calcite-inline-editable>,
       ),
     );
   });
@@ -65,12 +62,9 @@ describe("accessible", () => {
   describe("editing enabled", () => {
     accessible(() =>
       mount(
-        <calcite-label>
-          Label
-          <calcite-inline-editable editing-enabled>
-            <calcite-input value="John Doe" />
-          </calcite-inline-editable>
-        </calcite-label>,
+        <calcite-inline-editable editing-enabled>
+          <calcite-input label="test-label" value="John Doe" />
+        </calcite-inline-editable>,
       ),
     );
   });
@@ -78,12 +72,9 @@ describe("accessible", () => {
   describe("with controls", () => {
     accessible(() =>
       mount(
-        <calcite-label>
-          Label
-          <calcite-inline-editable controls>
-            <calcite-input value="John Doe" />
-          </calcite-inline-editable>
-        </calcite-label>,
+        <calcite-inline-editable controls>
+          <calcite-input label="test-label" value="John Doe" />
+        </calcite-inline-editable>,
       ),
     );
   });
@@ -91,12 +82,9 @@ describe("accessible", () => {
   describe("with controls + editing enabled", () => {
     accessible(() =>
       mount(
-        <calcite-label>
-          Label
-          <calcite-inline-editable controls editing-enabled>
-            <calcite-input value="John Doe" />
-          </calcite-inline-editable>
-        </calcite-label>,
+        <calcite-inline-editable controls editing-enabled>
+          <calcite-input label="test-label" value="John Doe" />
+        </calcite-inline-editable>,
       ),
     );
   });
@@ -168,7 +156,7 @@ describe("disabled", () => {
 
 describe("wrapped input variants", () => {
   it("activates edit mode when wrapped calcite-input-number is clicked", async () => {
-    const { el } = await mount<"calcite-input-number">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable>
         <calcite-input-number value="123" />
       </calcite-inline-editable>,
@@ -182,7 +170,7 @@ describe("wrapped input variants", () => {
   });
 
   it("routes Tab to confirm changes when wrapped calcite-input-number is editing", async () => {
-    const { el } = await mount<"calcite-input-number">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable controls>
         <calcite-input-number value="123" />
       </calcite-inline-editable>,
@@ -203,7 +191,7 @@ describe("wrapped input variants", () => {
   });
 
   it("routes Tab to confirm changes when wrapped calcite-input-text is editing", async () => {
-    const { el } = await mount<"calcite-input-text">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable controls>
         <calcite-input-text value="abc" />
       </calcite-inline-editable>,
@@ -224,7 +212,7 @@ describe("wrapped input variants", () => {
   });
 
   it("routes second Tab to cancel when wrapped calcite-input-text is editing", async () => {
-    const { el } = await mount<"calcite-input-text">(
+    const { el } = await mount<"calcite-inline-editable">(
       <calcite-inline-editable controls>
         <calcite-input-text value="abc" />
       </calcite-inline-editable>,

@@ -17,7 +17,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, SLOTS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu-item.scss";
@@ -28,8 +28,45 @@ declare global {
   }
 }
 
-/** @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `active`, specifies the component's border color.
+     */
+    "--calcite-menu-item-accent-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-menu-background-color": "*";
+    /**
+     * Specifies the submenu's border color.
+     */
+    "--calcite-menu-item-sub-menu-border-color": "*";
+    /**
+     * Specifies the submenu's border radius.
+     */
+    "--calcite-menu-item-sub-menu-corner-radius": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-menu-text-color": "*";
+  }
+}
+
+interface MenuItemSlots {
+  /**
+   * A slot for adding `calcite-menu-item`s in a submenu.
+   */
+  "submenu-item": Node[];
+}
+
 export class MenuItem extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: MenuItemSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -53,7 +90,7 @@ export class MenuItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
@@ -155,10 +192,13 @@ export class MenuItem extends LitElement {
 
   constructor() {
     super();
-    this.listenOn(window, "click", this.handleClickOut);
     this.listen("focusout", this.handleFocusOut);
     this.listen("blur", this.blurHandler);
     this.listen("focus", this.focusHandler);
+  }
+
+  load(): void {
+    this.listenOn(document, "click", this.handleClickOut);
   }
 
   //#endregion

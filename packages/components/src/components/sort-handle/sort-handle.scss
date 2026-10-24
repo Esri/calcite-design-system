@@ -1,4 +1,4 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex;
@@ -8,6 +8,6 @@
   block-size: 100%;
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
-@include includes.base-component();
+@include shared.base-component();

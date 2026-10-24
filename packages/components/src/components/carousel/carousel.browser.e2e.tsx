@@ -5,6 +5,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { hidden, focusable, renders, t9n, accessible, themed } from "../../tests/common";
 import { breakpoints } from "../../utils/responsive";
+import { CSS_UTILITY } from "../../utils/resources";
 import type { Carousel } from "./carousel";
 import { centerItemsByBreakpoint, CSS, DURATION } from "./resources";
 import { waitForEvent } from "../../tests/common/utils";
@@ -671,6 +672,22 @@ describe("autoplay", () => {
 });
 
 describe("pagination", () => {
+  it.each(["top", "bottom"] as const)(
+    "omits pagination for an empty carousel with pagination positioned at the %s",
+    async (paginationPosition) => {
+      await mount<Carousel>(
+        <calcite-carousel label="Carousel example" paginationPosition={paginationPosition} />,
+      );
+
+      await expect
+        .element(page.getBySelector(`calcite-carousel .${CSS.pagination}`))
+        .not.toBeInTheDocument();
+      await expect
+        .element(page.getBySelector(`calcite-carousel .${CSS.itemContainer}`))
+        .toBeInTheDocument();
+    },
+  );
+
   it("selects the first item by default and pages in either direction", async () => {
     await mount<Carousel>(
       <calcite-carousel label="Carousel example">
@@ -696,23 +713,121 @@ describe("pagination", () => {
     expect(page.getBySelector(`calcite-carousel .${CSS.pagination}`)).toBeInTheDocument();
   });
 
-  it("renders pagination for one item and aria-live information when pagination is disabled", async () => {
-    await mount<Carousel>(
-      <calcite-carousel label="Carousel example" paginationDisabled>
+  it.each(["top", "bottom"] as const)(
+    "omits the pagination wrapper but preserves status when pagination is disabled at the %s",
+    async (paginationPosition) => {
+      const { el, reRender } = await mount<Carousel>(
+        <calcite-carousel
+          arrowType="none"
+          label="Carousel example"
+          paginationDisabled
+          paginationPosition={paginationPosition}
+        >
+          <calcite-carousel-item label="one" />
+          <calcite-carousel-item label="two" />
+        </calcite-carousel>,
+      );
+      const pagination = page.getBySelector(`calcite-carousel .${CSS.pagination}`);
+      const status = page.getByRole("status");
+
+      await expect.element(pagination).not.toBeInTheDocument();
+      await expect.element(page.getByRole("tablist")).not.toBeInTheDocument();
+      await expect.element(status).toHaveTextContent("Item 1 of 2");
+
+      await el.setFocus();
+      await userEvent.keyboard("{ArrowRight}");
+
+      await expect.element(status).toHaveTextContent("Item 2 of 2");
+
+      el.paginationDisabled = false;
+      await reRender();
+
+      await expect.element(pagination).toBeInTheDocument();
+      await expect
+        .element(page.getByRole("tab", { name: "two" }))
+        .toHaveAttribute("aria-selected", "true");
+
+      el.paginationDisabled = true;
+      await reRender();
+
+      await expect.element(pagination).not.toBeInTheDocument();
+      await expect.element(status).toHaveTextContent("Item 2 of 2");
+    },
+  );
+
+  it.each(["inline", "edge"] as const)(
+    "hides pagination items but preserves %s navigation when pagination is disabled",
+    async (arrowType) => {
+      await mount<Carousel>(
+        <calcite-carousel arrowType={arrowType} label="Carousel example" paginationDisabled>
+          <calcite-carousel-item label="one" />
+          <calcite-carousel-item label="two" />
+        </calcite-carousel>,
+      );
+      const pageNext = page.getBySelector(`calcite-carousel .${CSS.pageNext}`);
+      const pagePrev = page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`);
+
+      await expect
+        .element(page.getBySelector(`calcite-carousel .${CSS.pagination}`))
+        .not.toBeInTheDocument();
+      await expect.element(pageNext).toBeInTheDocument();
+      await expect.element(pagePrev).toBeInTheDocument();
+      await expect
+        .element(page.getBySelector(`calcite-carousel .${CSS_UTILITY.screenReaderText}`))
+        .toHaveTextContent("Item 1 of 2");
+
+      await userEvent.click(pageNext);
+      await expect.element(selectedItem()).toHaveProperty("label", "two");
+      await expect.element(page.getByRole("status")).toHaveTextContent("Item 2 of 2");
+      await userEvent.click(pagePrev);
+      await expect.element(selectedItem()).toHaveProperty("label", "one");
+    },
+  );
+
+  it("preserves autoplay controls when pagination is disabled", async () => {
+    const { el } = await mount<Carousel>(
+      <calcite-carousel
+        arrowType="none"
+        autoplay="paused"
+        label="Carousel example"
+        paginationDisabled
+      >
         <calcite-carousel-item label="one" />
         <calcite-carousel-item label="two" />
       </calcite-carousel>,
     );
-    await expect
-      .element(page.getBySelector(`calcite-carousel .${CSS.paginationItems}`))
-      .not.toBeInTheDocument();
-    await expect
-      .element(page.getBySelector(`calcite-carousel .${CSS.paginationAriaLive}`))
-      .toHaveTextContent("Item 1 of 2");
+    const control = page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`);
+
+    await expect.element(page.getByRole("tablist")).not.toBeInTheDocument();
+    await userEvent.click(control);
+    await expect.element(el).toHaveProperty("paused", false);
+    await userEvent.click(control);
+    await expect.element(el).toHaveProperty("paused", true);
   });
 });
 
 describe("DOM updates", () => {
+  it.each(["top", "bottom"] as const)(
+    "renders pagination when the first item is added with pagination at the %s",
+    async (paginationPosition) => {
+      const { el } = await mount<Carousel>(
+        <calcite-carousel label="Carousel example" paginationPosition={paginationPosition} />,
+      );
+      const pagination = page.getBySelector(`calcite-carousel .${CSS.pagination}`);
+
+      await expect.element(pagination).not.toBeInTheDocument();
+
+      const item = document.createElement("calcite-carousel-item");
+      item.label = "one";
+      el.append(item);
+
+      await expect.element(pagination).toBeInTheDocument();
+      await expect
+        .element(page.getByRole("tab", { name: "one" }))
+        .toHaveAttribute("aria-selected", "true");
+    },
+  );
+
   it("updates when items are added", async () => {
     const { el } = await mount<Carousel>(
       <calcite-carousel label="Carousel example">

@@ -2,7 +2,6 @@ import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
 import { IconName } from "../components/icon/types";
 import { guid } from "./guid";
-import { CSS_UTILITY } from "./resources";
 
 /**
  * The default `focus-trap/tabbable` options.
@@ -48,15 +47,16 @@ export type Direction = "ltr" | "rtl";
  * @returns The Calcite mode.
  */
 export function getModeName(el: HTMLElement): "light" | "dark" {
-  const closestElWithMode = closestElementCrossShadowBoundary(
-    el,
-    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}, .${CSS_UTILITY.autoMode}`,
-  );
-  return closestElWithMode?.classList.contains("calcite-mode-dark") ||
-    (closestElWithMode?.classList.contains("calcite-mode-auto") &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ? "dark"
-    : "light";
+  const colorSchemes = window.getComputedStyle(el).colorScheme.split(" ");
+
+  const hasDarkMode = colorSchemes.includes("dark");
+  const hasLightMode = colorSchemes.includes("light");
+
+  if (hasDarkMode !== hasLightMode) {
+    return hasDarkMode ? "dark" : "light";
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 /**
@@ -114,13 +114,14 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
  * @param text The string of text to measure.
  * @param font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
  */
-export function getTextWidth(text: string | undefined, font: string): number {
+export function getTextWidth(text: string | undefined, font: string, letterSpacing?: string): number {
   if (!text) {
     return 0;
   }
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d")!;
   context.font = font;
+  context.letterSpacing = letterSpacing || "normal";
   return context.measureText(text).width;
 }
 
@@ -710,4 +711,18 @@ export function getStylePixelValue(value: string): number {
 export function viewportUnitToPixel(value: number, viewportSize: number): number {
   // intentionally dividing last to avoid rounding errors
   return (value * viewportSize) / 100;
+}
+
+/**
+ * This helper retrieves the assigned text nodes from a given slot element.
+ *
+ * @param slotEl - The slot element to retrieve text nodes from.
+ * @returns An array of assigned text nodes.
+ */
+export function getAssignedTextNodesFromSlotEl(slotEl: HTMLSlotElement): CharacterData[] {
+  return (
+    (slotEl.assignedNodes({ flatten: true }).filter((node) => node.nodeType === Node.TEXT_NODE) as
+      | CharacterData[]
+      | undefined) ?? []
+  );
 }

@@ -6,7 +6,7 @@ import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./pagination.scss";
@@ -14,6 +14,35 @@ import { styles } from "./pagination.scss";
 declare global {
   interface DeclareElements {
     "calcite-pagination": Pagination;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's item color.
+     */
+    "--calcite-pagination-color": "*";
+    /**
+     * Specifies the component's item color when hovered or selected.
+     */
+    "--calcite-pagination-color-hover": "*";
+    /**
+     * Specifies the component's item bottom border color when hovered.
+     */
+    "--calcite-pagination-color-border-hover": "*";
+    /**
+     * Specifies the component's item bottom border color when selected.
+     */
+    "--calcite-pagination-color-border-active": "*";
+    /**
+     * Specifies the component's item background color when active.
+     */
+    "--calcite-pagination-background-color": "*";
+    /**
+     * Specifies the component's chevron item background color when hovered.
+     */
+    "--calcite-pagination-icon-color-background-hover": "*";
   }
 }
 
@@ -59,7 +88,7 @@ export class Pagination extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 

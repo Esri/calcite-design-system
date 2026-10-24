@@ -5,6 +5,7 @@ import "./menu"; // Force Vite to statically trace the file for Chromatic's Turb
 import "../menu-item/menu-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import { modesDarkDefault } from "../../../.storybook/utils";
 
 const { layout } = ATTRIBUTES;
 
@@ -230,32 +231,21 @@ export const allScales = (): string => html`
           <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" />
         </calcite-menu>
 
-        <div class="row-heading">Has children</div>
+        <div class="row-heading">Has children + Is child</div>
         <calcite-menu class="vertical-scale-s" layout="vertical" scale="s">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" open>
             <calcite-menu-item icon-end="diamond" icon-start="diamond" slot="submenu-item" text="Menu item" />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu class="vertical-scale-m" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" open>
             <calcite-menu-item icon-end="diamond" icon-start="diamond" slot="submenu-item" text="Menu item" />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu class="vertical-scale-l" layout="vertical" scale="l">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" open>
             <calcite-menu-item icon-end="diamond" icon-start="diamond" slot="submenu-item" text="Menu item" />
           </calcite-menu-item>
-        </calcite-menu>
-
-        <div class="row-heading">Is child</div>
-        <calcite-menu class="vertical-scale-s" layout="vertical" scale="s">
-          <calcite-menu-item class="is-child" icon-end="diamond" icon-start="diamond" text="Menu item" />
-        </calcite-menu>
-        <calcite-menu class="vertical-scale-m" layout="vertical">
-          <calcite-menu-item class="is-child" icon-end="diamond" icon-start="diamond" text="Menu item" />
-        </calcite-menu>
-        <calcite-menu class="vertical-scale-l" layout="vertical" scale="l">
-          <calcite-menu-item class="is-child" icon-end="diamond" icon-start="diamond" text="Menu item" />
         </calcite-menu>
 
         <div class="row-heading">Has children + href</div>
@@ -422,6 +412,8 @@ export const darkModeRTL = (): string =>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
   </calcite-menu>`;
 
+darkModeRTL.parameters = { themes: modesDarkDefault };
+
 export const verticalComplexUseCase = (): string =>
   html`<calcite-shell-panel width-scale="l">
     <calcite-panel heading="Extreme nested vertical menu">
@@ -490,3 +482,5 @@ export const verticalLayoutInDarkModeRTL = (): string =>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
   </calcite-menu>`;
+
+verticalLayoutInDarkModeRTL.parameters = { themes: modesDarkDefault };
