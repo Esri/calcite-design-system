@@ -285,6 +285,35 @@ describe("selection-mode", () => {
     expect(action1.active).toBe(true);
   });
 
+  it("preserves four-arrow grid navigation for selection-mode none actions", async () => {
+    await mount<"calcite-action-bar">(
+      <calcite-action-bar expand-disabled layout="grid" overflow-actions-disabled>
+        <calcite-action-group selection-mode="none">
+          <calcite-action data-testid="first-action" icon="plus" text="Add" />
+          <calcite-action data-testid="second-action" icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const action1 = page.getByTestId("first-action");
+    const action2 = page.getByTestId("second-action");
+
+    await userEvent.click(action1);
+
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(action2).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowLeft}");
+    await expect.element(action1).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(action2).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(action1).toHaveFocus();
+  });
+
   it("does not use secondary arrow keys within multiple-selection action group", async () => {
     await mount<"calcite-action-bar">(
       <calcite-action-bar expand-disabled layout="horizontal" overflow-actions-disabled>

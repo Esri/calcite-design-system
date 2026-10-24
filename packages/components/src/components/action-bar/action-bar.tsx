@@ -1168,6 +1168,18 @@ export class ActionBar extends LitElement {
       return;
     }
 
+    if (
+      this.layout === "grid" &&
+      ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"].includes(event.key)
+    ) {
+      const direction =
+        event.key === "ArrowDown" || event.key === "ArrowRight" ? "next" : "previous";
+
+      this.focusNavigationItem(direction, current);
+      event.preventDefault();
+      return;
+    }
+
     const isVertical = this.layout !== "horizontal";
 
     const currentGroup = this.getNavigationItemActionGroup(current);
