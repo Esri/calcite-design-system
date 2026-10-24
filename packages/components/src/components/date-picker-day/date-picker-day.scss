@@ -8,30 +8,32 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
-  @apply cursor-pointer flex relative;
+  cursor: pointer;
+  display: flex;
+  position: relative;
   outline: none;
 }
 
 @include shared.disabled();
 
 .day-wrapper {
-  @apply flex
-    flex-col
-    items-center
-    justify-center
-    relative
-    w-full;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  inline-size: 100%;
 }
 
 .day {
   @include shared.transition-default();
-  @apply text-n2h
-    flex
-    items-center
-    justify-center
-    leading-none
-    w-full
-    relative;
+  @include shared.text-n2h();
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  position: relative;
   line-height: var(--calcite-font-line-height-fixed-base);
   block-size: var(--calcite-internal-day-size);
   outline-color: var(--calcite-color-transparent);
@@ -40,21 +42,21 @@
 }
 
 .text {
-  @apply mt-px mb-0;
+  margin-block: var(--calcite-space-px) var(--calcite-space-none);
   margin-inline-start: theme("spacing.0");
 }
 
 :host([scale="s"]) {
   --calcite-internal-day-size: #{core.$calcite-size-32};
   .day {
-    @apply text-n2;
+    font-size: var(--calcite-font-size-relative-sm);
   }
 }
 
 :host([scale="m"]) {
   --calcite-internal-day-size: #{core.$calcite-size-40};
   .day {
-    @apply text-n1;
+    font-size: var(--calcite-font-size-relative-base);
   }
 }
 
@@ -62,7 +64,7 @@
   --calcite-internal-day-size: #{core.$calcite-size-44};
 
   .day {
-    @apply text-0;
+    font-size: var(--calcite-font-size-relative-md);
   }
 }
 
@@ -93,20 +95,22 @@
 }
 
 :host(:focus[selected]) .day {
-  @apply focus-outset z-default;
+  @include shared.focus-outset();
+
+  z-index: var(--calcite-z-index);
   box-shadow: 0 0 0 2px var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
 }
 
 :host(:focus:not([disabled]):not([selected])) .day {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 :host(:hover:not([disabled]):not([selected])) .day {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 :host([selected]) .day {
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   background-color: var(--calcite-date-picker-day-background-color-selected, var(--calcite-color-brand));
   color: var(--calcite-date-picker-day-text-color-selected, var(--calcite-color-text-inverse));
 }
@@ -137,7 +141,7 @@
 
 @media (forced-colors: active) {
   .day {
-    @apply rounded-none;
+    border-radius: var(--calcite-border-width-none);
   }
 
   :host([selected]) {
