@@ -80,6 +80,8 @@ export class DropdownItem extends LitElement {
 
   private childLinkRef = createRef<HTMLAnchorElement>();
 
+  private hostClickInProgress = false;
+
   /** id of containing group */
   private parentDropdownGroupEl?: DropdownGroup["el"];
 
@@ -99,13 +101,6 @@ export class DropdownItem extends LitElement {
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
-
-  /**
-   * When `true`, the component appears as if it is focused.
-   *
-   * @private
-   */
-  @property({ reflect: true }) activeDescendant = false;
 
   /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
@@ -219,11 +214,32 @@ export class DropdownItem extends LitElement {
     this.initialize();
   }
 
+  override updated(): void {
+    if (this.href && !this.disabled) {
+      this.el.click = () => {
+        if (this.hostClickInProgress) {
+          return;
+        }
+
+        this.hostClickInProgress = true;
+        try {
+          void this.activateItem();
+        } finally {
+          this.hostClickInProgress = false;
+        }
+      };
+    }
+  }
+
   //#endregion
 
   //#region Private Methods
 
-  private onClick(): void {
+  private onClick(event: MouseEvent): void {
+    if (this.hostClickInProgress && event.defaultPrevented) {
+      return;
+    }
+
     this.emitRequestedItem();
   }
 
@@ -331,24 +347,26 @@ export class DropdownItem extends LitElement {
     );
 
     const itemRole = href
-      ? null
+      ? "menuitem"
       : selectionMode === "single"
         ? "menuitemradio"
         : selectionMode === "multiple"
           ? "menuitemcheckbox"
           : "menuitem";
 
-    const isSelectable = selectionMode !== "none";
+    const isSelectable = !href && selectionMode !== "none";
     const itemAria = toAriaBoolean(isSelectable && this.selected, isSelectable ? "false" : null);
     const { disabled } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = !href ? (label ?? null) : "";
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = itemRole;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "tabIndex", -1);
+    if (!this.el.hasAttribute("tabindex")) {
+      setAttribute(this.el, "tabIndex", -1);
+    }
 
     return (
       <this.interactiveContainer disabled={disabled}>

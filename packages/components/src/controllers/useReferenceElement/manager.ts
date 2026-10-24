@@ -277,6 +277,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
         clearHoverCloseTimeout();
         closeComponentsIfNotActive(components);
+        components.forEach((component) => component.onReferenceElementPointerOpen?.());
         toggleHoverComponents(components, true);
       },
       activeComponents?.some((component) => component.open) ? HOVER_QUICK_OPEN_DELAY_MS : HOVER_OPEN_DELAY_MS,
@@ -417,6 +418,23 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     const composedPath = event.composedPath();
     const components = queryComponents(composedPath, "hover");
+
+    if (
+      components?.some(
+        (component) =>
+          component.isRestoringFocus ||
+          (event.relatedTarget instanceof Node && component.el.contains(event.relatedTarget)),
+      )
+    ) {
+      clearHoverTimeout();
+      return;
+    }
+
+    components?.forEach((component) => {
+      if (component.open) {
+        component.onReferenceElementFocusIn?.(event);
+      }
+    });
 
     if (pathHasOpenHoverComponent(components, composedPath)) {
       clearHoverTimeout();
