@@ -85,7 +85,7 @@ export interface FormComponent<T = any>
    *
    * Note that this prop should use the `@property` decorator.
    */
-  value: T;
+  value?: T;
 
   /**
    * The initial value for this form component.

@@ -31,6 +31,21 @@ import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
 
+describe("valueAsDate", () => {
+  it.each([0, 1])("supports an unselected range endpoint at index %i", async (index) => {
+    const date = new Date(2025, 11, 5);
+    const valueAsDate = index === 0 ? [undefined, date] : [date, undefined];
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker range valueAsDate={valueAsDate} />,
+    );
+
+    await expect.element(el).toHaveProperty("valueAsDate", valueAsDate);
+    await expect
+      .element(el)
+      .toHaveProperty("value", index === 0 ? ["", "2025-12-05"] : ["2025-12-05", ""]);
+  });
+});
+
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-input-date-picker", mountOptions));
 

@@ -32,7 +32,7 @@ type PublicProps = {
    * The reference element, either as a string id or HTMLElement.
    * Note that this prop should use the `@Prop` decorator.
    */
-  referenceElement: string | ReferenceElement | undefined;
+  referenceElement?: string | ReferenceElement;
   /**
    * If true, disables the trigger interaction for the component.
    * Note that this prop should use the `@Prop` decorator.
