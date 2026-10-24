@@ -850,7 +850,7 @@ export class Block extends LitElement {
         >
           {headerNode}
           <section
-            aria-labelledby={IDS.toggle}
+            aria-labelledby={expandable ? IDS.toggle : undefined}
             class={{
               [CSS.content]: true,
               [CSS.hasSlottedContent]: this.hasContent || loading,
