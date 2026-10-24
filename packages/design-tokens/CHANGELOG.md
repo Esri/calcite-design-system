@@ -12,8 +12,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - **design-tokens:** Support `theme` token layer ([#15186](https://github.com/Esri/calcite-design-system/issues/15186)) ([86ba137](https://github.com/Esri/calcite-design-system/commit/86ba137577d49087b3c1927fc5193cfc0e4436a0))
-- **semantic-tokens:** Update shadow token styles ([#14152](https://github.com/Esri/calcite-design-system/issues/14152)) ([34ec5b8](https://github.com/Esri/calcite-design-system/commit/34ec5b8da3c0f7228e91a6788858c5cec4b8b43b))
-- **tokens:** Provide semantic brand and status hover/press dark-mode colors for improved a11y ([#13916](https://github.com/Esri/calcite-design-system/issues/13916)) ([9eb32b3](https://github.com/Esri/calcite-design-system/commit/9eb32b3c86f92f3df191c45b9741a75b319a071c))
 - **typography-tokens:** Migrate composite typography output to rems and unitless line-heights ([#14877](https://github.com/Esri/calcite-design-system/issues/14877)) ([a489663](https://github.com/Esri/calcite-design-system/commit/a4896632fb76763bdba98db5d02425dd0707cf20))
 
 ### Bug Fixes
