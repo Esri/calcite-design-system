@@ -129,11 +129,11 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
         referenceElement(_apiProperty, apiClass) {
           const interactivityOverrides: Record<string, string> = {
             Dropdown:
-              "When a DOM element is provided, clicking the `referenceElement` toggles the component's `open` state.",
+              "When a DOM element is specified, clicking or pressing the `referenceElement` toggles the component's `open` state.",
             Popover:
-              "When a DOM element is provided and `triggerDisabled` is not `true`, clicking the `referenceElement` toggles the component's `open` state.",
+              "When a DOM element is specified and `triggerDisabled` is not specified, clicking or pressing the `referenceElement` toggles the component's `open` state.",
             Tooltip:
-              "When a DOM element is provided, hovering or focusing the `referenceElement` toggles the component's `open` state.",
+              "When a DOM element is specified, hovering or focusing the `referenceElement` toggles the component's `open` state.",
           };
 
           return {
