@@ -208,27 +208,26 @@ export class AutocompleteItem extends LitElement {
           {this.renderIcon("start")}
           <slot name={SLOTS.contentStart} />
           <div class={CSS.contentCenter}>
-            {heading ? (
-              <div class={CSS.heading}>
-                {highlightText({
+            <div class={CSS.heading}>
+              {heading ? (
+                highlightText({
                   text: heading,
                   pattern: inputValueMatchPattern,
-                })}
-              </div>
-            ) : (
-              <slot name={SLOTS.heading} />
-            )}
-
-            {description ? (
-              <div class={CSS.description}>
-                {highlightText({
+                })
+              ) : (
+                <slot name={SLOTS.heading} />
+              )}
+            </div>
+            <div class={CSS.description}>
+              {description ? (
+                highlightText({
                   text: description,
                   pattern: inputValueMatchPattern,
-                })}
-              </div>
-            ) : (
-              <slot name={SLOTS.description} />
-            )}
+                })
+              ) : (
+                <slot name={SLOTS.description} />
+              )}
+            </div>
           </div>
           <slot name={SLOTS.contentEnd} />
           {this.renderIcon("end")}
