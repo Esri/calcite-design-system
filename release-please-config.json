@@ -67,16 +67,6 @@
         }
       ]
     },
-    "packages/components-react": {
-      "component": "@esri/calcite-components-react",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": "/examples/components/react-18-and-below/package.json",
-          "jsonpath": "$.dependencies['@esri/calcite-components-react']"
-        }
-      ]
-    },
     "packages/design-tokens": {
       "component": "@esri/calcite-design-tokens"
     },
@@ -111,11 +101,6 @@
       "type": "node-workspace",
       "merge": false,
       "updatePeerDependencies": true
-    },
-    {
-      "type": "linked-versions",
-      "groupName": "components",
-      "components": ["@esri/calcite-components", "@esri/calcite-components-react"]
     },
     {
       "type": "sentence-case"
