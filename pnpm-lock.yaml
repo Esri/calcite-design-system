@@ -226,8 +226,8 @@ catalogs:
       specifier: 17.6.0
       version: 17.6.0
     globby:
-      specifier: 16.2.0
-      version: 16.2.0
+      specifier: 16.2.4
+      version: 16.2.4
     happy-dom:
       specifier: 20.12.2
       version: 20.12.2
@@ -472,7 +472,7 @@ importers:
         version: 17.6.0
       globby:
         specifier: 'catalog:'
-        version: 16.2.0
+        version: 16.2.4
       husky:
         specifier: 'catalog:'
         version: 9.1.7
@@ -714,7 +714,7 @@ importers:
         version: 17.6.0
       globby:
         specifier: 'catalog:'
-        version: 16.2.0
+        version: 16.2.4
       happy-dom:
         specifier: 'catalog:'
         version: 20.12.2
@@ -1167,7 +1167,7 @@ importers:
         version: 11.3.6
       globby:
         specifier: 'catalog:'
-        version: 16.2.0
+        version: 16.2.4
       lint-staged:
         specifier: 'catalog:'
         version: 16.4.0
@@ -1248,6 +1248,7 @@ packages:
 
   '@arcgis/api-extractor@6.0.0-next.16':
     resolution: {integrity: sha512-uHGbmFP9bjQgpa9VL9VBBy89rhq1mZyKDfzw96oJBKXwkR5+YmOSEOcHHC7CdAtULK1stM1m/P+XUt4SkWsrEw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     hasBin: true
     peerDependencies:
       typescript: ~6.0.3
@@ -1258,12 +1259,14 @@ packages:
 
   '@arcgis/eslint-config@6.0.0-next.16':
     resolution: {integrity: sha512-hRsimAzaSwOqwyNTj6BBF6oqx3cWBoqOEZSyud/4A1jJRL6jlXpETspZt4GVABg3NB4larEdNd1Bh/pnwlvHPw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       eslint: ^10.6.0
 
   '@arcgis/lumina-compiler@6.0.0-next.16':
     resolution: {integrity: sha512-GeMflc23OmxGSIuGRma52EqGFB82gaGonHVgNq0tJm9cVwSKkc0nYYjbX6w1AtRLADFQC4+rNazDpbmVNZZ27Q==}
     engines: {node: '>=24.11.0'}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@arcgis/lumina': ~6.0.0-next.16
       lit: ^3.3.0
@@ -1279,6 +1282,7 @@ packages:
 
   '@arcgis/lumina@6.0.0-next.16':
     resolution: {integrity: sha512-tS5/Q5+tv+nXa71Iozy3o/0HsMg0cIHcbq/coDZ3qGoT84Nec8Hlx4xkvhNS084PpMqkjZT7s5JCceOJ53W/nQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@lit/context': ^1.1.6
       lit: ^3.3.0
@@ -1288,9 +1292,11 @@ packages:
 
   '@arcgis/node-toolkit@6.0.0-next.16':
     resolution: {integrity: sha512-ngwtRbtr/mHgGjYQBna7zoc21R0eStkWgVlCKbIFaI4zC7TZ2F8aDu02ppMWQQw6QKIAgaEm8jmPMCxW7wftPQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@arcgis/toolkit@6.0.0-next.16':
     resolution: {integrity: sha512-l2LERqf+8r8DiO5BVipLES3XBWc+gRLpYq9d2rYoGPjB+4xb0Qk/ugNxa95cifA1yUptxhtmrNnnRO2a3RwtJA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -6015,6 +6021,10 @@ packages:
 
   globby@16.2.0:
     resolution: {integrity: sha512-QrJia2qDf5BB/V6HYlDTs0I0lBahyjLzpGQg3KT7FnCdTonAyPy2RtY802m2k4ALx6Dp752f82WsOczEVr3l6Q==}
+    engines: {node: '>=20'}
+
+  globby@16.2.4:
+    resolution: {integrity: sha512-c8B/VNLmxRcmqqenRA9t+9IyOjf9+V6lTxPaUJLqOCONdQkWZ0ETYgX0qbtJqPsgCNusT9MZ5Jeidw8Eb9tn2g==}
     engines: {node: '>=20'}
 
   globjoin@0.1.4:
@@ -14826,6 +14836,16 @@ snapshots:
       slash: 5.1.0
       unicorn-magic: 0.4.0
 
+  globby@16.2.4:
+    dependencies:
+      '@sindresorhus/merge-streams': 4.0.0
+      fast-glob: 3.3.3
+      ignore: 7.0.6
+      is-path-inside: 4.0.0
+      micromatch: 4.0.8
+      slash: 5.1.0
+      unicorn-magic: 0.4.0
+
   globjoin@0.1.4: {}
 
   gopd@1.2.0: {}
@@ -18152,7 +18172,7 @@ snapshots:
       fastest-levenshtein: 1.0.16
       file-entry-cache: 11.1.5
       global-modules: 2.0.0
-      globby: 16.2.0
+      globby: 16.2.4
       globjoin: 0.1.4
       html-tags: 5.1.0
       ignore: 7.0.6
