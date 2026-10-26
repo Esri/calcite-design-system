@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.1.3-next.1...@esri/calcite-tailwind-preset@1.2.0-next.0) (2026-10-26)
+
+### Features
+
+- **tailwind:** add theme fallbacks for deprecated tokens ([#15441](https://github.com/Esri/calcite-design-system/issues/15441)), closes [#15437](https://github.com/Esri/calcite-design-system/issues/15437)
+
 ## [1.1.3-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.1.3-next.0...@esri/calcite-tailwind-preset@1.1.3-next.1) (2026-10-23)
 
 **Note:** Version bump only for package @esri/calcite-tailwind-preset
