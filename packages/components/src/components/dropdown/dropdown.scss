@@ -7,7 +7,7 @@
 @use "../../styles/shared";
 
 :host {
-  @apply inline-block;
+  display: inline-block;
 }
 
 .wrapper {
@@ -25,16 +25,22 @@
 }
 
 .content {
-  @apply w-auto
-  overflow-y-auto
-  overflow-x-hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   inline-size: var(--calcite-dropdown-width, var(--calcite-internal-dropdown-width));
-  background-color: var(--calcite-dropdown-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-dropdown-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   max-block-size: var(--calcite-dropdown-max-height, 45vh);
 }
 
 .trigger-container {
-  @apply relative flex flex-auto h-full;
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  block-size: 100%;
+
   @include shared.word-break;
 }
 

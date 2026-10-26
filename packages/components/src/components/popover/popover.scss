@@ -32,7 +32,7 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-popover-close-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-popover-close-spacing: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
 }
 
 :host([scale="m"]) {
@@ -44,7 +44,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-popover-close-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-popover-close-spacing: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 
   .heading {
     @apply text-1-wrap
@@ -58,13 +58,22 @@
     border-solid;
 
   box-shadow: var(--calcite-shadow-md);
-  background-color: var(--calcite-popover-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-popover-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
-  border-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-popover-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
 }
 
 .calcite-floating-ui-arrow {
-  fill: var(--calcite-popover-background-color, var(--calcite-color-foreground-1));
+  fill: var(
+    --calcite-popover-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 
 .calcite-floating-ui-arrow__stroke {

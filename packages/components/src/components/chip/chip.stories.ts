@@ -118,7 +118,7 @@ export const withAvatarAndIcon = (): string => {
 
 export const withClosable = (args: ChipStoryArgs): string => html`
   <div
-    style="display: grid; background-color:var(--calcite-color-surface-highlight); padding: 50px; gap:var(--calcite-spacing-xxs);"
+    style="display: grid; background-color:var(--calcite-color-surface-highlight); padding: 50px; gap:var(--calcite-space-2xs);"
   >
     <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral" label="${args.label}" closable>
       My great chip</calcite-chip

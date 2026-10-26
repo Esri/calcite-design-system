@@ -15,7 +15,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.4");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-md);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   --calcite-internal-stepper-action-inline-size: theme("spacing.8");
   @apply text-n1h;
   margin-inline-end: theme("margin.1");
@@ -28,7 +28,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.4");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.5");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-lg);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
   @apply text-0h;
   margin-inline-end: theme("margin.2");
@@ -41,7 +41,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.5");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.6");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-xl);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
   @apply text-1h;
   margin-inline-end: theme("margin.3");
@@ -74,7 +74,10 @@
     outline-none;
 
   &:active {
-    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-stepper-item-background-color-press,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
 }
 
@@ -101,7 +104,10 @@
   padding-block: var(--calcite-internal-stepper-item-header-padding);
 
   &:active {
-    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-stepper-item-background-color-press,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
 }
 
@@ -125,7 +131,7 @@
     flex-shrink-0
     self-start;
 
-  margin-block-start: var(--calcite-spacing-base);
+  margin-block-start: var(--calcite-theme-space-base, var(--calcite-spacing-base));
   color: var(--calcite-stepper-item-icon-color, var(--calcite-color-border-input));
 }
 
@@ -152,7 +158,7 @@
 }
 
 :host .stepper-item-heading {
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   color: var(--calcite-stepper-item-header-text-color, var(--calcite-color-text-1));
 }
 :host .stepper-item-description {
@@ -160,7 +166,7 @@
 }
 
 :host .stepper-item-number {
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   margin-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
   color: var(--calcite-stepper-item-description-text-color, var(--calcite-color-text-1));
 }
