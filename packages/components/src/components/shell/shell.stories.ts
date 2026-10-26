@@ -61,6 +61,7 @@ type PanelWithActionBarPositionStoryArgs = {
   shellPanelSlot: ShellPanelSlot;
   actionBarPosition: Position;
   displayMode: ShellPanel["displayMode"];
+  panelContent: "text" | "image";
   applyShellBorderColor: boolean;
   includeActionBar: boolean;
   isResizable: boolean;
@@ -343,7 +344,7 @@ const shellSetStyles = `
 
 const shellSampleContentStyles = `
   <style>
-    .panel-content {
+    .text {
       font-weight: bold;
       color: black;
       background-color: white;
@@ -355,19 +356,25 @@ const shellSampleContentStyles = `
       z-index: 1;
     }
 
-    .panel-content > div:nth-child(2) {
+    .text > div:nth-child(2) {
       justify-self: end;
       align-self: start;
     }
 
-    .panel-content > div:nth-child(3) {
+    .text > div:nth-child(3) {
       justify-self: start;
       align-self: end;
     }
 
-    .panel-content > div:nth-child(4) {
+    .text > div:nth-child(4) {
       justify-self: end;
       align-self: end;
+    }
+
+    .panel-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 `;
@@ -428,7 +435,7 @@ const panelHTML = html`
 
 const actionBarPositionPanelHTML = html`
   <calcite-panel>
-    <div class="panel-content">
+    <div class="text">
       <div>ESRI</div>
       <div>ESRI</div>
       <div>ESRI</div>
@@ -3425,6 +3432,15 @@ embeddedSlotsInteractive.decorators = [embeddedSlotsShellDecorator];
 export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPositionStoryArgs): string => {
   const isHorizontal = args.shellPanelSlot === "panel-top" || args.shellPanelSlot === "panel-bottom";
   const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
+  const panelContent =
+    args.panelContent === "image"
+      ? html`<img class="panel-image" alt="Bear" src="${new URL("./bears.jpg", import.meta.url).href}" />`
+      : html`<div class="text">
+          <div>ESRI</div>
+          <div>ESRI</div>
+          <div>ESRI</div>
+          <div>ESRI</div>
+        </div>`;
 
   return html`
     ${shellSampleContentStyles}
@@ -3449,7 +3465,10 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
       >
         ${args.includeActionBar ? actionBarHTML : ""} ${panelHTML}
       </calcite-shell-panel>
-      ${actionBarPositionPanelHTML}
+      <calcite-panel
+        >${panelContent}
+        <div class="media"></div
+      ></calcite-panel>
     </calcite-shell>
   `;
 };
@@ -3458,6 +3477,7 @@ shellPanelWithActionBarPositionProp.args = {
   shellPanelSlot: "panel-start",
   actionBarPosition: "start",
   displayMode: "dock",
+  panelContent: "text",
   applyShellBorderColor: false,
   includeActionBar: true,
   isResizable: true,
@@ -3474,6 +3494,10 @@ shellPanelWithActionBarPositionProp.argTypes = {
   },
   displayMode: {
     options: ["dock", "overlay", "float-content", "float-all"],
+    control: { type: "inline-radio" },
+  },
+  panelContent: {
+    options: ["text", "image"],
     control: { type: "inline-radio" },
   },
   includeActionBar: {
@@ -3511,6 +3535,7 @@ shellPanelWithActionBarPositionProp.parameters = {
       "shellPanelSlot",
       "actionBarPosition",
       "displayMode",
+      "panelContent",
       "applyShellBorderColor",
       "includeActionBar",
       "resizable",
