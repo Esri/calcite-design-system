@@ -7,28 +7,29 @@
 @use "../../styles/shared";
 
 @mixin item-styling {
-  @apply relative
-    flex
-    flex-grow
-    cursor-pointer
-    items-center
-    no-underline;
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  cursor: pointer;
+  align-items: center;
+  text-decoration-line: none;
 
   color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-1));
 }
 
 :host {
-  @apply relative
-    flex
-    flex-grow
-    items-center
-    outline-none;
+  @include shared.outline-none();
+
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
 }
 
 .container {
   @include item-styling;
-  @apply text-start;
   min-inline-size: 0;
+  text-align: start;
 
   & a {
     outline: none;
@@ -37,16 +38,16 @@
 }
 
 .content {
-  @apply flex-auto;
   overflow-wrap: break-word;
   min-inline-size: 0;
+  flex: 1 1 auto;
 }
 
 // item icon
 .icon {
-  @apply relative
-    opacity-0
-    ease-in-out;
+  position: relative;
+  opacity: 0;
+  transition-timing-function: var(--calcite-animation-easing-function);
   transform: scale(0.9);
 }
 
@@ -57,7 +58,10 @@
 
 :host([scale="s"]) {
   .container {
-    @apply text-n2h py-1 px-2;
+    @include shared.text-n2h();
+
+    padding-block: var(--calcite-space-2xs);
+    padding-inline: var(--calcite-space-sm);
   }
 
   .icon,
@@ -72,7 +76,10 @@
 
 :host([scale="m"]) {
   .container {
-    @apply text-n1h py-2 px-3;
+    @include shared.text-n1h();
+
+    padding-block: var(--calcite-space-sm);
+    padding-inline: var(--calcite-space-md);
   }
 
   .icon,
@@ -87,7 +94,10 @@
 
 :host([scale="l"]) {
   .container {
-    @apply text-0h py-2.5 px-4;
+    @include shared.text-0h();
+
+    padding-block: var(--calcite-space-sm-plus);
+    padding-inline: var(--calcite-space-lg);
   }
 
   .icon,
@@ -104,7 +114,9 @@
 :host(:focus),
 :host([active-descendant]) {
   .container {
-    @apply focus-inset no-underline;
+    @include shared.focus-inset();
+
+    text-decoration-line: none;
   }
 }
 
@@ -127,7 +139,7 @@
 :host(:hover:not([disabled])),
 :host(:active:not([disabled])) {
   .container {
-    @apply no-underline;
+    text-decoration-line: none;
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 
@@ -143,7 +155,7 @@
 
 :host([selected]) .container:not(.container--none-selection),
 :host([selected]) .link {
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   --calcite-internal-dropdown-item-text-color: var(
     --calcite-dropdown-item-text-color-press,
     var(--calcite-color-text-1)
@@ -166,7 +178,7 @@
 }
 
 :host([selected]) .icon {
-  @apply opacity-100;
+  opacity: var(--calcite-opacity-full);
 }
 
 @include shared.base-component();

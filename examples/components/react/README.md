@@ -1,6 +1,6 @@
 # React 19+ and TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/react-19-and-above?configPath=examples/components/react-19-and-above)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/react?configPath=examples/components/react)
 
 This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). The example uses [`@esri/calcite-components`](https://www.npmjs.com/package/@esri/calcite-components).
 
