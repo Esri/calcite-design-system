@@ -60,6 +60,7 @@ type ShellPanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom"
 type PanelWithActionBarPositionStoryArgs = {
   shellPanelSlot: ShellPanelSlot;
   actionBarPosition: Position;
+  contentBehind: Shell["contentBehind"];
   displayMode: ShellPanel["displayMode"];
   panelContent: "text" | "image";
   applyShellBorderColor: boolean;
@@ -3445,6 +3446,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
   return html`
     ${shellSampleContentStyles}
     <calcite-shell
+      ${boolean("content-behind", args.contentBehind)}
       style="
         --calcite-shell-panel-height: 400px; 
         --calcite-shell-panel-min-height: 200px; 
@@ -3476,6 +3478,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
 shellPanelWithActionBarPositionProp.args = {
   shellPanelSlot: "panel-start",
   actionBarPosition: "start",
+  contentBehind: false,
   displayMode: "dock",
   panelContent: "text",
   applyShellBorderColor: false,
@@ -3491,6 +3494,9 @@ shellPanelWithActionBarPositionProp.argTypes = {
   actionBarPosition: {
     options: ["start", "end", "top", "bottom"],
     control: { type: "inline-radio" },
+  },
+  contentBehind: {
+    control: { type: "boolean" },
   },
   displayMode: {
     options: ["dock", "overlay", "float-content", "float-all"],
@@ -3534,6 +3540,7 @@ shellPanelWithActionBarPositionProp.parameters = {
     include: [
       "shellPanelSlot",
       "actionBarPosition",
+      "contentBehind",
       "displayMode",
       "panelContent",
       "applyShellBorderColor",
