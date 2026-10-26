@@ -60,6 +60,7 @@ type ShellPanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom"
 type PanelWithActionBarPositionStoryArgs = {
   shellPanelSlot: ShellPanelSlot;
   actionBarPosition: Position;
+  displayMode: ShellPanel["displayMode"];
   applyShellBorderColor: boolean;
   includeActionBar: boolean;
   isResizable: boolean;
@@ -3440,6 +3441,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
         id="shellPanel"
         slot="${args.shellPanelSlot}"
         action-bar-position="${args.actionBarPosition}"
+        display-mode="${args.displayMode}"
         layout="${isHorizontal ? "horizontal" : "vertical"}"
         position="${panelPosition}"
         width="l"
@@ -3455,6 +3457,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
 shellPanelWithActionBarPositionProp.args = {
   shellPanelSlot: "panel-start",
   actionBarPosition: "start",
+  displayMode: "dock",
   applyShellBorderColor: false,
   includeActionBar: true,
   isResizable: true,
@@ -3467,6 +3470,10 @@ shellPanelWithActionBarPositionProp.argTypes = {
   },
   actionBarPosition: {
     options: ["start", "end", "top", "bottom"],
+    control: { type: "inline-radio" },
+  },
+  displayMode: {
+    options: ["dock", "overlay", "float-content", "float-all"],
     control: { type: "inline-radio" },
   },
   includeActionBar: {
@@ -3500,7 +3507,14 @@ shellPanelWithActionBarPositionProp.parameters = {
     cropToViewport: true,
   },
   controls: {
-    include: ["shellPanelSlot", "actionBarPosition", "applyShellBorderColor", "includeActionBar", "resizable"],
+    include: [
+      "shellPanelSlot",
+      "actionBarPosition",
+      "displayMode",
+      "applyShellBorderColor",
+      "includeActionBar",
+      "resizable",
+    ],
     sort: "none",
   },
 };
