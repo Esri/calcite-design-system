@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.5...@esri/calcite-components@6.0.0-next.6) (2026-10-26)
+
+### ⚠ BREAKING CHANGES
+
+- Removes the `calcite-components-react` package as the
+  [React wrappers were deprecated in
+  v5](https://developers.arcgis.com/calcite-design-system/resources/frameworks/#calcite-components-react).
+  Components remain directly consumable in React 19+, without need for the
+  wrapper.
+
+### Code Refactoring
+
+- drop `calcite-components-react` package ([#15438](https://github.com/Esri/calcite-design-system/issues/15438))
+
+## [6.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.4...@esri/calcite-components@6.0.0-next.5) (2026-10-26)
+
+### Bug Fixes
+
+- **input-time-picker:** make placeholder accessible ([#15412](https://github.com/Esri/calcite-design-system/issues/15412)), closes [#14912](https://github.com/Esri/calcite-design-system/issues/14912)
+
 ## [6.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.3...@esri/calcite-components@6.0.0-next.4) (2026-10-26)
 
 **Note:** Version bump only for package @esri/calcite-components
