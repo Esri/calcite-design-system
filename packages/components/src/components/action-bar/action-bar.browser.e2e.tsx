@@ -1030,6 +1030,32 @@ describe("overflow-disabled actions", () => {
   });
 });
 
+describe("group dividers", () => {
+  it("draws dividers after groups in the actions-start and actions-end slots in horizontal layout", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled layout="horizontal" overflow-mode="disabled">
+        <calcite-action-group slot={SLOTS.actionsStart}>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="undo" text="Undo" />
+        </calcite-action-group>
+        <calcite-action-group slot={SLOTS.actionsEnd}>
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group slot={SLOTS.actionsEnd}>
+          <calcite-action icon="gear" text="Settings" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = Array.from(el.querySelectorAll("calcite-action-group"));
+    const dividerWidths = groups.map((group) => getComputedStyle(group).borderInlineEndWidth);
+
+    expect(dividerWidths).toEqual(["1px", "1px", "1px", "0px"]);
+  });
+});
+
 describe("wrap", () => {
   it("wraps items when enabled for horizontal layout", async () => {
     await mount<ActionBar>(
