@@ -378,7 +378,7 @@ catalogs:
       version: 8.2.2
     interactjs:
       specifier: ^1.10.27
-      version: 1.10.27
+      version: 1.10.28
     lit:
       specifier: ^3.3.0
       version: 3.3.3
@@ -572,7 +572,7 @@ importers:
         version: 8.2.2
       interactjs:
         specifier: catalog:dependency-ranges
-        version: 1.10.27
+        version: 1.10.28
       lit:
         specifier: catalog:dependency-ranges
         version: 3.3.3
@@ -1248,6 +1248,7 @@ packages:
 
   '@arcgis/api-extractor@6.0.0-next.16':
     resolution: {integrity: sha512-uHGbmFP9bjQgpa9VL9VBBy89rhq1mZyKDfzw96oJBKXwkR5+YmOSEOcHHC7CdAtULK1stM1m/P+XUt4SkWsrEw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     hasBin: true
     peerDependencies:
       typescript: ~6.0.3
@@ -1258,12 +1259,14 @@ packages:
 
   '@arcgis/eslint-config@6.0.0-next.16':
     resolution: {integrity: sha512-hRsimAzaSwOqwyNTj6BBF6oqx3cWBoqOEZSyud/4A1jJRL6jlXpETspZt4GVABg3NB4larEdNd1Bh/pnwlvHPw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       eslint: ^10.6.0
 
   '@arcgis/lumina-compiler@6.0.0-next.16':
     resolution: {integrity: sha512-GeMflc23OmxGSIuGRma52EqGFB82gaGonHVgNq0tJm9cVwSKkc0nYYjbX6w1AtRLADFQC4+rNazDpbmVNZZ27Q==}
     engines: {node: '>=24.11.0'}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@arcgis/lumina': ~6.0.0-next.16
       lit: ^3.3.0
@@ -1279,6 +1282,7 @@ packages:
 
   '@arcgis/lumina@6.0.0-next.16':
     resolution: {integrity: sha512-tS5/Q5+tv+nXa71Iozy3o/0HsMg0cIHcbq/coDZ3qGoT84Nec8Hlx4xkvhNS084PpMqkjZT7s5JCceOJ53W/nQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@lit/context': ^1.1.6
       lit: ^3.3.0
@@ -1288,9 +1292,11 @@ packages:
 
   '@arcgis/node-toolkit@6.0.0-next.16':
     resolution: {integrity: sha512-ngwtRbtr/mHgGjYQBna7zoc21R0eStkWgVlCKbIFaI4zC7TZ2F8aDu02ppMWQQw6QKIAgaEm8jmPMCxW7wftPQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@arcgis/toolkit@6.0.0-next.16':
     resolution: {integrity: sha512-l2LERqf+8r8DiO5BVipLES3XBWc+gRLpYq9d2rYoGPjB+4xb0Qk/ugNxa95cifA1yUptxhtmrNnnRO2a3RwtJA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -2465,9 +2471,6 @@ packages:
     peerDependenciesMeta:
       '@types/node':
         optional: true
-
-  '@interactjs/types@1.10.27':
-    resolution: {integrity: sha512-BUdv0cvs4H5ODuwft2Xp4eL8Vmi3LcihK42z0Ft/FbVJZoRioBsxH+LlsBdK4tAie7PqlKGy+1oyOncu1nQ6eA==}
 
   '@interactjs/types@1.10.28':
     resolution: {integrity: sha512-vPmu4HWmsg0Fub3BPKGk7DuozkhgVK84TVkziY47v8Uh0A14gph55/vVRaQN4oZov0lGNJNK6Jyddim2qd/4vw==}
@@ -6264,8 +6267,8 @@ packages:
       '@types/node':
         optional: true
 
-  interactjs@1.10.27:
-    resolution: {integrity: sha512-y/8RcCftGAF24gSp76X2JS3XpHiUvDQyhF8i7ujemBz77hwiHDuJzftHx7thY8cxGogwGiPJ+o97kWB6eAXnsA==}
+  interactjs@1.10.28:
+    resolution: {integrity: sha512-QCa4ksTPd2p/FZ4I6hrH6fogjLqru1TxYywRiKYNuLZtrlAxTIYUa/MYsE7PnUgWZJU3SrGVDjiz065BeaXYng==}
 
   ip-address@10.2.0:
     resolution: {integrity: sha512-/+S6j4E9AHvW9SWMSEY9Xfy66O5PWvVEJ08O0y5JGyEKQpojb0K0GKpz/v5HJ/G0vi3D2sjGK78119oXZeE0qA==}
@@ -10842,8 +10845,6 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.10.0
 
-  '@interactjs/types@1.10.27': {}
-
   '@interactjs/types@1.10.28': {}
 
   '@isaacs/cliui@8.0.2':
@@ -15073,9 +15074,9 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.10.0
 
-  interactjs@1.10.27:
+  interactjs@1.10.28:
     dependencies:
-      '@interactjs/types': 1.10.27
+      '@interactjs/types': 1.10.28
 
   ip-address@10.2.0: {}
 
