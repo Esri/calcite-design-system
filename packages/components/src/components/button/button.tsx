@@ -11,11 +11,12 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
+import { resolveAriaLive } from "../../utils/aria";
 import { getLabelText } from "../../utils/label";
 import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../types";
+import { Appearance, AriaAttributesCamelCased, FlipContext, Kind, Scale, Width } from "../types";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
@@ -144,6 +145,9 @@ export class Button extends LitElement {
     "outline" | "outline-fill" | "solid" | "transparent",
     Appearance
   > = "solid";
+
+  /** When specified, overrides the live region setting on the component's internal button or link. */
+  @property() aria?: Partial<Pick<AriaAttributesCamelCased, "live">>;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -353,7 +357,7 @@ export class Button extends LitElement {
               : undefined
           }
           ariaLabel={!this.loading ? getLabelText(this) || undefined : this.messages.loading}
-          ariaLive="polite"
+          ariaLive={resolveAriaLive(this.aria?.live)}
           class={{
             [CSS.buttonPadding]: noStartEndIcons,
             [CSS.buttonPaddingShrunk]: !noStartEndIcons,

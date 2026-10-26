@@ -3,11 +3,12 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { resolveAriaLive } from "../../utils/aria";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
-import { Kind, Scale, Width } from "../types";
+import { AriaAttributesCamelCased, Kind, Scale, Width } from "../types";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -350,6 +351,9 @@ export class Dialog extends LitElement {
 
   /** @copyDoc */
   @property() description?: string;
+
+  /** Specifies ARIA attributes for the dialog's assistive text live region. */
+  @property() aria?: Partial<Pick<AriaAttributesCamelCased, "live">>;
 
   /** When `true`, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
@@ -998,7 +1002,11 @@ export class Dialog extends LitElement {
           ref={this.setTransitionEl}
         >
           {assistiveText ? (
-            <div ariaLive="polite" class={CSS.assistiveText} key="assistive-text">
+            <div
+              ariaLive={resolveAriaLive(this.aria?.live)}
+              class={CSS.assistiveText}
+              key="assistive-text"
+            >
               {assistiveText}
             </div>
           ) : null}

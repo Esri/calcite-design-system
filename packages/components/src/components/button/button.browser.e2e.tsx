@@ -211,6 +211,37 @@ describe("a11y attributes", () => {
 
     await expect.element(page.getByRole("button")).not.toHaveAttribute("aria-label");
   });
+
+  it.each([undefined, "/"])(
+    "configures internal live announcements independently of the host with href %s",
+    async (href) => {
+      const { el } = await mount<Button>(<calcite-button href={href}>Continue</calcite-button>);
+      const control = page.getBySelector("calcite-button button, calcite-button a").element() as
+        | HTMLButtonElement
+        | HTMLAnchorElement;
+
+      expect(control).toBeDefined();
+      expect(control.getAttribute("aria-live")).toBe(null);
+
+      el.aria = { live: "polite" };
+      await expect
+        .element(page.getBySelector("calcite-button button, calcite-button a"))
+        .toHaveAttribute("aria-live", "polite");
+
+      expect(el.getAttribute("aria-live")).toBe(null);
+
+      el.aria = { live: "off" };
+      await expect
+        .element(page.getBySelector("calcite-button button, calcite-button a"))
+        .toHaveAttribute("aria-live", "off");
+
+      el.aria = undefined;
+      el.ariaLive = "assertive";
+      await expect
+        .element(page.getBySelector("calcite-button button, calcite-button a"))
+        .not.toHaveAttribute("aria-live");
+    },
+  );
 });
 
 describe("theme", () => {
