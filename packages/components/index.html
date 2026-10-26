@@ -209,13 +209,18 @@
             </calcite-chip>
           </calcite-chip-group>
           <calcite-radio-button-group name="plantType" layout="vertical" style="margin: var(--calcite-space-md)">
-            <calcite-radio-button value="trees" label-text="Trees"></calcite-radio-button>
+            <calcite-radio-button value="trees" label-text="Trees" checked></calcite-radio-button>
             <calcite-radio-button value="shrubs" label-text="Shrubs"></calcite-radio-button>
             <calcite-radio-button value="flowers" label-text="Flowers"></calcite-radio-button>
             <calcite-radio-button value="groundcover" label-text="Groundcover"></calcite-radio-button>
             <calcite-radio-button value="bushes" label-text="Bushes"></calcite-radio-button>
           </calcite-radio-button-group>
           <calcite-checkbox
+            label-text="I agree to the terms and conditions."
+            style="margin: var(--calcite-space-md)"
+          ></calcite-checkbox>
+          <calcite-checkbox
+            checked
             label-text="I agree to the terms and conditions."
             style="margin: var(--calcite-space-md)"
           ></calcite-checkbox>
@@ -313,6 +318,8 @@
             ?.shadowRoot?.querySelector("calcite-switch")
             ?.shadowRoot?.querySelector(".track"),
         (root) => [...root.querySelectorAll("calcite-chip")].at(-1)?.shadowRoot?.querySelector(".container"),
+        (root) => root.querySelector("calcite-radio-button")?.shadowRoot?.querySelector(".radio"),
+        (root) => root.querySelectorAll("calcite-checkbox")[1]?.shadowRoot?.querySelector(".toggle"),
       ];
 
       let heightOverlay;
