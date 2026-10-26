@@ -55,7 +55,7 @@ version() {
     if [ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]; then
         lerna version --no-push --yes \
             --conventional-commits \
-            --message "chore: release main"
+            --message "chore: release $branch"
     else
         lerna version --no-push --yes \
             --conventional-prerelease \
