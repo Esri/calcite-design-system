@@ -1,41 +1,95 @@
 name: Deploy Prerelease
-concurrency:
-  group: deploy_prerelease
-  cancel-in-progress: true
 on:
-  # `next` versions are automatically released when deployabled commits are pushed to dev
   push:
     branches: [dev]
-  # `rc` versions must be manually released:
-  # https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
   workflow_dispatch:
+    inputs:
+      operation:
+        description: Release the latest branch or resume the pending next/rc release
+        type: choice
+        options: [release, resume]
+        default: release
+permissions:
+  contents: read
 jobs:
-  build:
+  prepare:
     runs-on: ubuntu-22.04
-    permissions:
-      id-token: write
+    concurrency:
+      group: deploy-prerelease-prepare-${{ github.ref_name }}
+      cancel-in-progress: true
+    outputs:
+      mode: ${{ steps.prepare.outputs.mode }}
+      artifact: ${{ steps.prepare.outputs.artifact }}
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          token: ${{ secrets.ADMIN_TOKEN }}
-          ref: ${{ github.base_ref || github.ref_name }}
+          ref: ${{ github.ref_name }}
       - name: Set pnpm + Node
         uses: pnpm/setup@v3
         with:
           cache: true
           install: false
-      - name: Configure npm authentication
-        run: pnpm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+      - name: Prepare immutable candidate
+        id: prepare
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Deploy prerelease and storybook
-        env:
+          BRANCH: ${{ github.ref_name }}
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
-          GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
-          PNPM_CONFIG_PROVENANCE: true
-          BRANCH: ${{ github.base_ref || github.ref_name }}
-        run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
+          OPERATION: ${{ inputs.operation || 'release' }}
+          CANDIDATE_ARTIFACT: prerelease-candidate-${{ github.run_attempt }}
+        run: |
+          node --test .github/scripts/prerelease.test.mjs
+          bash .github/scripts/publishPrerelease.sh
+      - uses: actions/upload-artifact@v4
+        if: steps.prepare.outputs.mode == 'candidate'
+        with:
+          name: ${{ steps.prepare.outputs.artifact }}
+          path: .prerelease/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+  release:
+    needs: prepare
+    if: needs.prepare.outputs.mode == 'candidate' || needs.prepare.outputs.mode == 'resume'
+    runs-on: ubuntu-22.04
+    concurrency:
+      group: deploy-prerelease-release
+      cancel-in-progress: false
+    outputs:
+      commit: ${{ steps.release.outputs.commit }}
+      channel: ${{ steps.release.outputs.channel }}
+      result: ${{ steps.release.outputs.result }}
+    permissions:
+      contents: write
+      id-token: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ADMIN_TOKEN }}
+          ref: ${{ github.ref_name }}
+      - name: Set pnpm + Node
+        uses: pnpm/setup@v3
+        with:
+          install: false
+      - uses: actions/download-artifact@v4
+        if: needs.prepare.outputs.mode == 'candidate'
+        with:
+          name: ${{ needs.prepare.outputs.artifact }}
+          path: .prerelease/
+      - name: Persist and publish, or resume
+        id: release
+        env:
+          BRANCH: ${{ github.ref_name }}
+          OPERATION: ${{ inputs.operation || 'release' }}
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.prerelease/npmrc
+        run: |
+          mkdir -p .prerelease
+          printf '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}\n' > .prerelease/npmrc
+          node .github/scripts/prerelease.mjs release
       - name: notify teams
         uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: ${{ !cancelled() && github.event_name == 'push' }}
@@ -45,3 +99,28 @@ jobs:
           show-on-start: false
           card-layout-exit: complete
           timezone: America/Los_Angeles
+  storybook:
+    needs: release
+    if: ${{ !cancelled() && needs.release.outputs.channel == 'next' && needs.release.outputs.commit != '' }}
+    runs-on: ubuntu-22.04
+    continue-on-error: true
+    concurrency:
+      group: deploy-prerelease-storybook
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.ADMIN_TOKEN }}
+          ref: ${{ needs.release.outputs.commit }}
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
+          install: false
+      - name: Deploy storybook independently
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          pnpm install --frozen-lockfile
+          pnpm build
+          pnpm --filter @esri/calcite-components build-storybook
+          pnpm --filter @esri/calcite-components exec gh-pages --dist docs --branch gh-pages --message "chore: deploy storybook" --no-history

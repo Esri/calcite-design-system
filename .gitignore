@@ -23,6 +23,7 @@ $RECYCLE.BIN/
 ._*
 .env
 .idea/
+.prerelease/
 .sass-cache/
 .turbo
 .versions/
