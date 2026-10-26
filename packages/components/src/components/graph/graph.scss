@@ -16,7 +16,7 @@
 
   .graph-path--highlight {
     fill: var(--calcite-graph-highlight-fill-color, var(--calcite-color-brand));
-    opacity: 0.5;
+    opacity: var(--calcite-opacity-half);
   }
 }
 

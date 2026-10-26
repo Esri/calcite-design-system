@@ -141,7 +141,7 @@
 
 @media (forced-colors: active) {
   .day {
-    border-radius: var(--calcite-border-width-none);
+    border-radius: var(--calcite-corner-radius-none);
   }
 
   :host([selected]) {

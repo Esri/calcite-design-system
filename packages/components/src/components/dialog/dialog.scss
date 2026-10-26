@@ -36,7 +36,7 @@
   color: var(--calcite-color-text-2);
   pointer-events: auto;
   position: fixed;
-  inset: 0;
+  inset: var(--calcite-space-none);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -266,7 +266,7 @@ calcite-panel {
   .dialog {
     pointer-events: auto;
     visibility: visible;
-    opacity: 1;
+    opacity: var(--calcite-opacity-full);
     transition:
       inset-block-start var(--calcite-internal-animation-timing-slow) shared.$easing-function allow-discrete,
       opacity var(--calcite-internal-animation-timing-slow) shared.$easing-function;
@@ -315,10 +315,10 @@ calcite-panel {
     max-inline-size: 100%;
     block-size: 100%;
     inline-size: 100%;
-    border-radius: 0;
+    border-radius: var(--calcite-corner-radius-none);
   }
   .panel {
-    border-radius: 0;
+    border-radius: var(--calcite-corner-radius-none);
   }
 }
 
@@ -326,8 +326,8 @@ calcite-panel {
  * Kinds
  */
 :host([kind]) .panel {
-  border-start-start-radius: 0;
-  border-start-end-radius: 0;
+  border-start-start-radius: var(--calcite-corner-radius-none);
+  border-start-end-radius: var(--calcite-corner-radius-none);
 }
 
 :host([kind]) .dialog {

@@ -9,7 +9,7 @@
   flex: 1 1 auto;
   align-items: stretch;
   overflow: hidden;
-  background-color: transparent;
+  background-color: var(--calcite-color-transparent);
 
   .frame {
     position: relative;

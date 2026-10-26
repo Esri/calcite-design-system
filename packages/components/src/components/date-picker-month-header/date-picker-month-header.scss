@@ -105,7 +105,7 @@
   align-items: center;
   justify-content: flex-start;
   text-align: center;
-  line-height: 1;
+  line-height: var(--calcite-font-line-height-relative-base);
   gap: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   &.range-calendar {
     justify-content: center;

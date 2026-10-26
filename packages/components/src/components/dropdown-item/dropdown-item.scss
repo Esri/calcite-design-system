@@ -175,7 +175,7 @@
 }
 
 :host([selected]) .icon {
-  opacity: 1;
+  opacity: var(--calcite-opacity-full);
 }
 
 @include shared.base-component();
