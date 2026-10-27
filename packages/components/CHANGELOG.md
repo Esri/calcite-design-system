@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.6...@esri/calcite-components@6.0.0-next.7) (2026-10-27)
+
+### ⚠ BREAKING CHANGES
+
+- **block, block-group, list:** Removes deprecated `calciteBlockToggle`,
+  `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and
+  `calciteBlockBeforeClose` events. Use `calciteBlockExpand` and
+  `calciteBlockCollapse` to respond to expanded-state changes. Removes
+  `calciteBlockGroupMoveHalt` and `calciteListMoveHalt` as no longer
+  necessary.
+
+### Code Refactoring
+
+- **block, block-group, list:** remove deprecated events ([#15389](https://github.com/Esri/calcite-design-system/issues/15389)), closes [#15210](https://github.com/Esri/calcite-design-system/issues/15210)
+
 ## [6.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.5...@esri/calcite-components@6.0.0-next.6) (2026-10-26)
 
 ### ⚠ BREAKING CHANGES
