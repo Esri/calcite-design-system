@@ -138,6 +138,30 @@ describe("action bar", () => {
       expect(expandToggle.icon).toBe(expectedIcon);
     },
   );
+
+  it("uses the slotted action bar height for its internal height", async () => {
+    const { el } = await mount(
+      <calcite-shell>
+        <calcite-shell-panel actionBarPosition="top" slot="panel-start">
+          <calcite-action-bar slot="action-bar" style="height: 72px" />
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const shellPanel = getByCssElement<ShellPanel["el"]>(el, "calcite-shell-panel");
+    const actionBar = getByCssElement<ActionBar["el"]>(el, "calcite-action-bar");
+    const getActionBarHeight = (): number =>
+      parseFloat(
+        getComputedStyle(shellPanel).getPropertyValue(
+          "--calcite-internal-shell-panel-action-bar-height",
+        ),
+      );
+
+    await actionBar.manager.component.updateComplete;
+    await expect.poll(getActionBarHeight).toBe(actionBar.getBoundingClientRect().height);
+
+    actionBar.style.height = "84px";
+    await expect.poll(getActionBarHeight).toBe(actionBar.getBoundingClientRect().height);
+  });
 });
 
 describe("renders", () => {

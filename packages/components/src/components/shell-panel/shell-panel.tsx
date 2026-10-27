@@ -137,9 +137,7 @@ export class ShellPanel extends LitElement {
 
   private actionBarContainerEl?: HTMLDivElement;
 
-  private actionBarContainerResizeObserver = createObserver("resize", () =>
-    this.updateActionBarSize(),
-  );
+  private actionBarResizeObserver = createObserver("resize", () => this.updateActionBarSize());
 
   private handleActionBarExpand = (): void => {
     this.isActionBarExpanded = true;
@@ -371,7 +369,10 @@ export class ShellPanel extends LitElement {
     this.cleanUpInteractions();
 
     if (this.actionBarContainerEl) {
-      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
+      this.actionBarResizeObserver?.unobserve(this.actionBarContainerEl);
+    }
+    if (this.actionBar) {
+      this.actionBarResizeObserver?.unobserve(this.actionBar);
     }
   }
 
@@ -661,13 +662,13 @@ export class ShellPanel extends LitElement {
 
   private setActionBarContainerEl(el: HTMLDivElement): void {
     if (this.actionBarContainerEl) {
-      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
+      this.actionBarResizeObserver?.unobserve(this.actionBarContainerEl);
     }
 
     this.actionBarContainerEl = el;
 
     if (el) {
-      this.actionBarContainerResizeObserver?.observe(el);
+      this.actionBarResizeObserver?.observe(el);
       this.updateActionBarSize();
     }
   }
@@ -678,7 +679,7 @@ export class ShellPanel extends LitElement {
     }
     const rect = this.actionBarContainerEl.getBoundingClientRect();
     const width = rect.width;
-    const height = rect.height;
+    const height = this.actionBar?.getBoundingClientRect().height ?? 0;
     this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-width", `${width}px`);
     this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-height", `${height}px`);
   }
@@ -709,9 +710,16 @@ export class ShellPanel extends LitElement {
   private handleActionBarSlotChange(event: Event): void {
     const actionBar = slotChangeGetAssignedElements(event).find(isActionBar);
 
+    if (this.actionBar) {
+      this.actionBarResizeObserver?.unobserve(this.actionBar);
+    }
     this.actionBar = actionBar;
+    if (actionBar) {
+      this.actionBarResizeObserver?.observe(actionBar);
+    }
     this.setActionBarLayout(actionBar);
     this.syncActionBarExpandedState(actionBar);
+    this.updateActionBarSize();
   }
 
   private handleActionBarExpandEvent(event: CustomEvent<void>): void {
