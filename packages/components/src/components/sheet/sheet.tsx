@@ -764,6 +764,7 @@ export class Sheet extends LitElement {
                 class={CSS.panel}
                 closable={!this.closeDisabled}
                 description={this.description}
+                focusTrapDisabled={true}
                 heading={this.heading}
                 headingLevel={this.headingLevel}
                 hidden={!this.opened}

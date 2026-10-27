@@ -87,6 +87,61 @@ describe("renders", () => {
   renders(() => mount(<calcite-shell-panel>content</calcite-shell-panel>), { display: "flex" });
 });
 
+describe("internal panel", () => {
+  it("collapses when closed and can be reopened", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel heading="Tools">
+        <button type="button">Panel content</button>
+      </calcite-shell-panel>,
+    );
+    const content = page.getByText("Panel content", { exact: true });
+    const closeButton = page.getByRole("button", { name: "Close", exact: true });
+
+    await expect.element(content).toBeVisible();
+    await userEvent.click(closeButton);
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    await expect.element(content).not.toBeVisible();
+
+    el.collapsed = false;
+
+    await expect.element(content).toBeVisible();
+    await userEvent.click(closeButton);
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    await expect.element(content).not.toBeVisible();
+  });
+
+  it("omits the close action when closing is disabled", async () => {
+    await mount(
+      <calcite-shell-panel close-disabled heading="Tools">
+        <button type="button">Panel content</button>
+      </calcite-shell-panel>,
+    );
+
+    await expect
+      .element(page.getByRole("button", { name: "Close", exact: true }))
+      .not.toBeInTheDocument();
+    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
+  });
+
+  it("does not trap focus", async () => {
+    await mount(
+      <div>
+        <calcite-shell-panel heading="Tools">
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Outside</button>
+      </div>,
+    );
+
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.tab();
+
+    await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+  });
+});
+
 describe("slots", () => {
   slots(() => mount("calcite-shell-panel"), SLOTS);
 });

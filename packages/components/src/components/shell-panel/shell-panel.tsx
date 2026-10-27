@@ -378,7 +378,7 @@ export class ShellPanel extends LitElement {
 
     event.preventDefault();
     event.stopPropagation();
-    this.collapsed = false;
+    this.collapsed = true;
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -761,6 +761,7 @@ export class ShellPanel extends LitElement {
               class={CSS.panel}
               closable={!this.closeDisabled}
               description={this.description}
+              focusTrapDisabled={true}
               heading={this.heading}
               headingLevel={this.headingLevel}
               icon={this.icon}

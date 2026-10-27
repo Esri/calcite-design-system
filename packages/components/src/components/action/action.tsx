@@ -346,17 +346,17 @@ export class Action extends LitElement {
 
   private renderIndicatorText(): JsxNode {
     const { indicator, messages, buttonId } = this;
-    return indicator ? (
+    return (
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
         class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
-        role="region"
+        role="status"
       >
-        {messages.indicator}
+        {indicator ? messages.indicator : null}
       </div>
-    ) : null;
+    );
   }
 
   private renderIconContainer(): JsxNode {

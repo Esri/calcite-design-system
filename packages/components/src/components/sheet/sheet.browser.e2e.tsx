@@ -605,7 +605,9 @@ describe("sheet updateSize public method", () => {
 });
 
 describe("top layer placement", () => {
-  topLayer(() => mount("calcite-sheet"));
+  topLayer(() => mount("calcite-sheet"), {
+    topLayerTarget: page.getBySelector(`calcite-sheet .${CSS.container}[popover]`),
+  });
 });
 
 describe("themed", () => {

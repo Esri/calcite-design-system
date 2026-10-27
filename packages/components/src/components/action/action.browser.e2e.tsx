@@ -232,20 +232,27 @@ describe("a11y attributes", () => {
     await expect.element(page.getByLabelText("hi")).toBeDefined();
   });
 
-  it("should have a indicator live region", async () => {
-    const { el, reRender } = await mount("calcite-action");
-    const liveRegion = page.getByRole("region");
+  it("preserves the indicator live region when toggling the indicator", async () => {
+    const { el } = await mount<Action>(<calcite-action text="Updates" />);
+    const liveRegion = page.getByRole("status");
+    const liveRegionElement = liveRegion.element();
+    const button = page.getByRole("button");
 
     await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
     await expect.element(liveRegion).toBeInTheDocument();
     await expect.element(liveRegion).toHaveTextContent("");
 
     el.indicator = true;
-    await reRender();
 
-    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
-    await expect.element(liveRegion).toBeInTheDocument();
     await expect.element(liveRegion).toHaveTextContent("Indicator present");
+    await expect.element(button).toHaveProperty("ariaControlsElements", [liveRegionElement]);
+    expect(liveRegion.element()).toBe(liveRegionElement);
+
+    el.indicator = false;
+
+    await expect.element(liveRegion).toHaveTextContent("");
+    await expect.element(button).toHaveProperty("ariaControlsElements", []);
+    expect(liveRegion.element()).toBe(liveRegionElement);
   });
 });
 
