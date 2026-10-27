@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.1-next.0...@esri/calcite-ui-icons@4.7.0-next.0) (2026-10-21)
+
+### Features
+
+- add spectral and temporal profile icons ([#15422](https://github.com/Esri/calcite-design-system/issues/15422))
+
 ## [4.6.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.25...@esri/calcite-ui-icons@4.6.1-next.0) (2026-10-21)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

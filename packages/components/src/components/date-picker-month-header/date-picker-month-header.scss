@@ -14,15 +14,19 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 .header {
-  @apply flex justify-between items-center h-full;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  block-size: 100%;
 }
 
 .chevron-container {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
 }
 
 :host([scale="s"]) {
@@ -65,16 +69,18 @@
 
 .chevron {
   @include shared.transition-default();
-  @apply focus-base
-    box-content
-    flex
-    flex-grow-0
-    cursor-pointer
-    items-center
-    justify-center
-    border-none
-    w-full
-    h-full;
+
+  outline-color: transparent;
+  box-sizing: content-box;
+  display: flex;
+  flex-grow: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-style: none;
+  inline-size: 100%;
+  block-size: 100%;
+
   --calcite-internal-action-padding-block: 0;
   --calcite-action-background-color: var(--calcite-date-picker-header-action-background-color);
   --calcite-action-background-color-hover: var(--calcite-date-picker-header-action-background-color-hover);
@@ -83,34 +89,38 @@
   --calcite-action-text-color-press: var(--calcite-date-picker-header-action-text-color-press);
 
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 
   &[aria-disabled="true"] {
-    @apply pointer-events-none;
+    pointer-events: none;
   }
 }
 
 .month-year-container {
-  @apply w-full h-full
-    flex
-    flex-auto
-    items-center
-    justify-start
-    text-center
-    leading-none;
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  line-height: var(--calcite-font-line-height-relative-base);
   gap: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   &.range-calendar {
-    @apply justify-center;
+    justify-content: center;
   }
 }
 
 .year-container {
-  @apply relative flex h-full;
+  position: relative;
+  display: flex;
+  block-size: 100%;
 }
 
 .suffix {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
 }
 
 .year,
@@ -123,22 +133,22 @@
 }
 
 .year {
-  @apply font-inherit
-  relative
-  focus-base
-  border-none
-  inline-block
-  bg-transparent
-  text-center;
+  font-family: inherit;
+  position: relative;
+  outline-color: transparent;
+  border-style: none;
+  display: inline-block;
+  background-color: transparent;
+  text-align: center;
   inline-size: #{core.$calcite-size-44};
   &:hover {
-    @apply ease-in-out;
+    transition-timing-function: var(--calcite-animation-easing-function);
     transition-property: outline-color;
     outline: 2px solid var(--calcite-color-border-2);
     outline-offset: -2px;
   }
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 }
 
